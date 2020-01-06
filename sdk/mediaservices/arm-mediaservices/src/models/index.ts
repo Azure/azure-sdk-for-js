@@ -959,6 +959,20 @@ export interface ContentKeyPolicyPlayReadyConfiguration {
 }
 
 /**
+ * An interface representing ContentKeyPolicyFairPlayOfflineRentalConfiguration.
+ */
+export interface ContentKeyPolicyFairPlayOfflineRentalConfiguration {
+  /**
+   * Playback duration
+   */
+  playbackDurationSeconds: number;
+  /**
+   * Storage duration
+   */
+  storageDurationSeconds: number;
+}
+
+/**
  * Specifies a configuration for FairPlay licenses.
  */
 export interface ContentKeyPolicyFairPlayConfiguration {
@@ -980,7 +994,7 @@ export interface ContentKeyPolicyFairPlayConfiguration {
    */
   fairPlayPfx: string;
   /**
-   * The rental and lease key type. Possible values include: 'Unknown', 'Undefined',
+   * The rental and lease key type. Possible values include: 'Unknown', 'Undefined', 'DualExpiry',
    * 'PersistentUnlimited', 'PersistentLimited'
    */
   rentalAndLeaseKeyType: ContentKeyPolicyFairPlayRentalAndLeaseKeyType;
@@ -988,6 +1002,10 @@ export interface ContentKeyPolicyFairPlayConfiguration {
    * The rental duration. Must be greater than or equal to 0.
    */
   rentalDuration: number;
+  /**
+   * Offline rental policy
+   */
+  offlineRentalConfiguration?: ContentKeyPolicyFairPlayOfflineRentalConfiguration;
 }
 
 /**
@@ -1190,6 +1208,10 @@ export interface FaceDetectorPreset {
    * values include: 'SourceResolution', 'StandardDefinition'
    */
   resolution?: AnalysisResolution;
+  /**
+   * Dictionary containing key value pairs for parameters not exposed in the preset itself
+   */
+  experimentalOptions?: { [propertyName: string]: string };
 }
 
 /**
@@ -1209,20 +1231,20 @@ export interface AudioAnalyzerPreset {
   odatatype: "#Microsoft.Media.AudioAnalyzerPreset";
   /**
    * The language for the audio payload in the input using the BCP-47 format of 'language
-   * tag-region' (e.g: 'en-US').  The list of supported languages are English ('en-US' and
-   * 'en-GB'), Spanish ('es-ES' and 'es-MX'), French ('fr-FR'), Italian ('it-IT'), Japanese
-   * ('ja-JP'), Portuguese ('pt-BR'), Chinese ('zh-CN'), German ('de-DE'), Arabic ('ar-EG' and
-   * 'ar-SY'), Russian ('ru-RU'), Hindi ('hi-IN'), and Korean ('ko-KR'). If you know the language
-   * of your content, it is recommended that you specify it. If the language isn't specified or set
-   * to null, automatic language detection will choose the first language detected and process with
-   * the selected language for the duration of the file. This language detection feature currently
-   * supports English, Chinese, French, German, Italian, Japanese, Spanish, Russian, and
-   * Portuguese. It does not currently support dynamically switching between languages after the
-   * first language is detected. The automatic detection works best with audio recordings with
-   * clearly discernable speech. If automatic detection fails to find the language, transcription
-   * would fallback to 'en-US'."
+   * tag-region' (e.g: 'en-US').  If you know the language of your content, it is recommended that
+   * you specify it. If the language isn't specified or set to null, automatic language detection
+   * will choose the first language detected and process with the selected language for the
+   * duration of the file. It does not currently support dynamically switching between languages
+   * after the first language is detected. The automatic detection works best with audio recordings
+   * with clearly discernable speech. If automatic detection fails to find the language,
+   * transcription would fallback to 'en-US'." The list of supported languages is available here:
+   * https://go.microsoft.com/fwlink/?linkid=2109463
    */
   audioLanguage?: string;
+  /**
+   * Dictionary containing key value pairs for parameters not exposed in the preset itself
+   */
+  experimentalOptions?: { [propertyName: string]: string };
 }
 
 /**
@@ -2048,8 +2070,8 @@ export interface BuiltInStandardEncoderPreset {
   /**
    * The built-in preset to be used for encoding videos. Possible values include:
    * 'H264SingleBitrateSD', 'H264SingleBitrate720p', 'H264SingleBitrate1080p', 'AdaptiveStreaming',
-   * 'AACGoodQualityAudio', 'ContentAwareEncodingExperimental', 'H264MultipleBitrate1080p',
-   * 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
+   * 'AACGoodQualityAudio', 'ContentAwareEncodingExperimental', 'ContentAwareEncoding',
+   * 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
    */
   presetName: EncoderNamedPreset;
 }
@@ -2087,20 +2109,20 @@ export interface VideoAnalyzerPreset {
   odatatype: "#Microsoft.Media.VideoAnalyzerPreset";
   /**
    * The language for the audio payload in the input using the BCP-47 format of 'language
-   * tag-region' (e.g: 'en-US').  The list of supported languages are English ('en-US' and
-   * 'en-GB'), Spanish ('es-ES' and 'es-MX'), French ('fr-FR'), Italian ('it-IT'), Japanese
-   * ('ja-JP'), Portuguese ('pt-BR'), Chinese ('zh-CN'), German ('de-DE'), Arabic ('ar-EG' and
-   * 'ar-SY'), Russian ('ru-RU'), Hindi ('hi-IN'), and Korean ('ko-KR'). If you know the language
-   * of your content, it is recommended that you specify it. If the language isn't specified or set
-   * to null, automatic language detection will choose the first language detected and process with
-   * the selected language for the duration of the file. This language detection feature currently
-   * supports English, Chinese, French, German, Italian, Japanese, Spanish, Russian, and
-   * Portuguese. It does not currently support dynamically switching between languages after the
-   * first language is detected. The automatic detection works best with audio recordings with
-   * clearly discernable speech. If automatic detection fails to find the language, transcription
-   * would fallback to 'en-US'."
+   * tag-region' (e.g: 'en-US').  If you know the language of your content, it is recommended that
+   * you specify it. If the language isn't specified or set to null, automatic language detection
+   * will choose the first language detected and process with the selected language for the
+   * duration of the file. It does not currently support dynamically switching between languages
+   * after the first language is detected. The automatic detection works best with audio recordings
+   * with clearly discernable speech. If automatic detection fails to find the language,
+   * transcription would fallback to 'en-US'." The list of supported languages is available here:
+   * https://go.microsoft.com/fwlink/?linkid=2109463
    */
   audioLanguage?: string;
+  /**
+   * Dictionary containing key value pairs for parameters not exposed in the preset itself
+   */
+  experimentalOptions?: { [propertyName: string]: string };
   /**
    * Defines the type of insights that you want the service to generate. The allowed values are
    * 'AudioInsightsOnly', 'VideoInsightsOnly', and 'AllInsights'. The default is AllInsights. If
@@ -2521,6 +2543,16 @@ export interface JobOutput {
    * Transform.
    */
   label?: string;
+  /**
+   * The UTC date and time at which this Job Output began processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The UTC date and time at which this Job Output finished processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: Date;
 }
 
 /**
@@ -2562,6 +2594,16 @@ export interface JobOutputAsset {
    * Transform.
    */
   label?: string;
+  /**
+   * The UTC date and time at which this Job Output began processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The UTC date and time at which this Job Output finished processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: Date;
   /**
    * The name of the output Asset.
    */
@@ -2611,6 +2653,16 @@ export interface Job extends ProxyResource {
    * Customer provided key, value pairs that will be returned in Job and JobOutput state events.
    */
   correlationData?: { [propertyName: string]: string };
+  /**
+   * The UTC date and time at which this Job began processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The UTC date and time at which this Job finished processing.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: Date;
 }
 
 /**
@@ -3890,11 +3942,12 @@ export type ContentKeyPolicyRestrictionTokenType = 'Unknown' | 'Swt' | 'Jwt';
 
 /**
  * Defines values for ContentKeyPolicyFairPlayRentalAndLeaseKeyType.
- * Possible values include: 'Unknown', 'Undefined', 'PersistentUnlimited', 'PersistentLimited'
+ * Possible values include: 'Unknown', 'Undefined', 'DualExpiry', 'PersistentUnlimited',
+ * 'PersistentLimited'
  * @readonly
  * @enum {string}
  */
-export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType = 'Unknown' | 'Undefined' | 'PersistentUnlimited' | 'PersistentLimited';
+export type ContentKeyPolicyFairPlayRentalAndLeaseKeyType = 'Unknown' | 'Undefined' | 'DualExpiry' | 'PersistentUnlimited' | 'PersistentLimited';
 
 /**
  * Defines values for AacAudioProfile.
@@ -3972,12 +4025,12 @@ export type H264Complexity = 'Speed' | 'Balanced' | 'Quality';
  * Defines values for EncoderNamedPreset.
  * Possible values include: 'H264SingleBitrateSD', 'H264SingleBitrate720p',
  * 'H264SingleBitrate1080p', 'AdaptiveStreaming', 'AACGoodQualityAudio',
- * 'ContentAwareEncodingExperimental', 'H264MultipleBitrate1080p', 'H264MultipleBitrate720p',
- * 'H264MultipleBitrateSD'
+ * 'ContentAwareEncodingExperimental', 'ContentAwareEncoding', 'H264MultipleBitrate1080p',
+ * 'H264MultipleBitrate720p', 'H264MultipleBitrateSD'
  * @readonly
  * @enum {string}
  */
-export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'ContentAwareEncodingExperimental' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
+export type EncoderNamedPreset = 'H264SingleBitrateSD' | 'H264SingleBitrate720p' | 'H264SingleBitrate1080p' | 'AdaptiveStreaming' | 'AACGoodQualityAudio' | 'ContentAwareEncodingExperimental' | 'ContentAwareEncoding' | 'H264MultipleBitrate1080p' | 'H264MultipleBitrate720p' | 'H264MultipleBitrateSD';
 
 /**
  * Defines values for InsightsType.

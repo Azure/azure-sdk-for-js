@@ -1,7 +1,7 @@
-/*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT Licence.
 
+/*
   This sample demonstrates how to use the EventHubConsumerClient to process events from all partitions
   of a consumer group in an Event Hubs instance, as well as checkpointing along the way.
 
@@ -16,13 +16,14 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { runSample, cleanupAfterWaiting } from './sampleHelpers';
-import {
-  EventHubConsumerClient, CheckpointStore,
-} from "@azure/event-hubs";
+import { EventHubConsumerClient, CheckpointStore } from "@azure/event-hubs";
 
 import { ContainerClient } from "@azure/storage-blob";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
+
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
@@ -33,7 +34,7 @@ const containerName = process.env["STORAGE_CONTAINER_NAME"] || "";
 export async function main() {
   console.log(`Running receiveEventsUsingCheckpointStore sample`);
 
-  // this client will be used by our eventhubs-checkpointstore-blob, which 
+  // this client will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage
   const containerClient = new ContainerClient(storageConnectionString, containerName);
 
@@ -41,42 +42,48 @@ export async function main() {
     await containerClient.create();
   }
 
-  const checkpointStore : CheckpointStore = new BlobCheckpointStore(containerClient);
+  const checkpointStore: CheckpointStore = new BlobCheckpointStore(containerClient);
 
-  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, checkpointStore);
-   
-  const subscription = consumerClient.subscribe({
-      processEvents: async (events, context) => {
-        for (const event of events) {
-          console.log(`Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`);
-        }
-    
-        try {
-          // save a checkpoint for the last event now that we've processed this batch.
-          await context.updateCheckpoint(events[events.length - 1]);
-        } catch (err) {
-          console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
-          throw err;
-        };
-
-        console.log(
-          `Successfully checkpointed event with sequence number: ${events[events.length - 1].sequenceNumber} from partition: '${context.partitionId}'`
-        );
-      },
-      processError: async (err, context) => {
-        console.log(`Error : ${err}`);
-      }
-    }
+  const consumerClient = new EventHubConsumerClient(
+    consumerGroup,
+    connectionString,
+    eventHubName,
+    checkpointStore
   );
 
-  // after 30 seconds, stop processing
-  await cleanupAfterWaiting(async () => {
+  const subscription = consumerClient.subscribe({
+    processEvents: async (events, context) => {
+      for (const event of events) {
+        console.log(
+          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
+        );
+      }
+
+      try {
+        // save a checkpoint for the last event now that we've processed this batch.
+        await context.updateCheckpoint(events[events.length - 1]);
+      } catch (err) {
+        console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
+        throw err;
+      }
+
+      console.log(
+        `Successfully checkpointed event with sequence number: ${events[events.length - 1].sequenceNumber} from partition: '${context.partitionId}'`
+      );
+    },
+    processError: async (err, context) => {
+      console.log(`Error : ${err}`);
+    }
+  });
+
+  // Wait for a bit before cleaning up the sample
+  setTimeout(async () => {
     await subscription.close();
     await consumerClient.close();
-  }, 30);
-
-  console.log(`Exiting receiveEventsUsingCheckpointStore sample`);
+    console.log(`Exiting receiveEventsUsingCheckpointStore sample`);
+  }, 30 * 1000);
 }
 
-runSample(main);
-
+main().catch((error) => {
+  console.error("Error running sample:", error);
+});

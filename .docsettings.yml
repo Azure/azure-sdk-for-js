@@ -17,7 +17,7 @@ omitted_paths:
 language: js
 root_check_enabled: True
 required_readme_sections:
-  - ^Azure (.+ client library for (JS|AMQP operations)|Smoke Test for JS)
+  - ^Azure (.+ client library for (JavaScript|AMQP operations)|Smoke Test for JavaScript)
   - ^Getting started$
   - ^Key concepts$
   - ^Examples$
@@ -83,14 +83,10 @@ known_content_issues:
   - ["sdk/servicebus/service-bus/test/README.md", "#1583"]
   - ["sdk/servicefabric/servicefabric/README.md", "#1583"]
   - ["sdk/storage/README.md", "#1583"]
-  - ["sdk/storage/storage-blob/README.md", "#1583"]
   - ["sdk/storage/storage-blob/test/README.md", "#1583"]
   - ["sdk/storage/storage-datalake/README.md", "#1583"]
-  - ["sdk/storage/storage-file-datalake/README.md", "#1583"]
   - ["sdk/storage/storage-file-datalake/test/README.md", "#1583"]
-  - ["sdk/storage/storage-file-share/README.md", "#1583"]
   - ["sdk/storage/storage-file-share/test/README.md", "#1583"]
-  - ["sdk/storage/storage-queue/README.md", "#1583"]
   - ["sdk/storage/storage-queue/test/README.md", "#1583"]
   - ["sdk/template/template/README.md", "#1583"]
   - ["sdk/test-utils/recorder/README.md", "#1583"]

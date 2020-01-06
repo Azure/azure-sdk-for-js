@@ -688,7 +688,6 @@ export const ReplicationObject: msRest.CompositeMapper = {
         }
       },
       endpointType: {
-        required: true,
         serializedName: "endpointType",
         type: {
           name: "String"
@@ -704,6 +703,12 @@ export const ReplicationObject: msRest.CompositeMapper = {
       remoteVolumeResourceId: {
         required: true,
         serializedName: "remoteVolumeResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      remoteVolumeRegion: {
+        serializedName: "remoteVolumeRegion",
         type: {
           name: "String"
         }
@@ -884,6 +889,52 @@ export const Volume: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VolumePropertiesDataProtection"
+        }
+      },
+      isRestoring: {
+        serializedName: "properties.isRestoring",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ReplicationStatus: msRest.CompositeMapper = {
+  serializedName: "replicationStatus",
+  type: {
+    name: "Composite",
+    className: "ReplicationStatus",
+    modelProperties: {
+      healthy: {
+        serializedName: "healthy",
+        type: {
+          name: "Boolean"
+        }
+      },
+      relationshipStatus: {
+        serializedName: "relationshipStatus",
+        type: {
+          name: "String"
+        }
+      },
+      mirrorState: {
+        serializedName: "mirrorState",
+        type: {
+          name: "String"
+        }
+      },
+      totalProgress: {
+        serializedName: "totalProgress",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1209,6 +1260,22 @@ export const SnapshotPatch: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizeRequest: msRest.CompositeMapper = {
+  serializedName: "authorizeRequest",
+  type: {
+    name: "Composite",
+    className: "AuthorizeRequest",
+    modelProperties: {
+      remoteVolumeResourceId: {
+        serializedName: "remoteVolumeResourceId",
+        type: {
+          name: "String"
         }
       }
     }

@@ -1,4 +1,4 @@
-# Azure TextAnalytics client library for JS
+# Azure TextAnalytics client library for JavaScript
 
 [Azure TextAnalytics](https://azure.microsoft.com/en-us/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
 

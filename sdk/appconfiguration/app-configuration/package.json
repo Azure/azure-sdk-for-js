@@ -42,10 +42,11 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build:samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
     "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
-    "execute:samples": "echo skipped",
+    "execute:samples": "npm run build:samples && echo Skipped.",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint:fix": "eslint -c ../../.eslintrc.json src test samples --ext .ts --fix",
@@ -75,7 +76,7 @@
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/identity": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.5.4",

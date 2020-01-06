@@ -16,3 +16,7 @@ yarn.lock                    merge=binary
 
 # Set the default behavior, in case people don't have core.autocrlf set.
 * text=auto
+
+# Mark recordings as auto generated
+**/recordings/**/*.js linguist-generated=true
+**/recordings/**/*.json linguist-generated=true

@@ -63,10 +63,10 @@ export async function main() {
   console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 
   // Create a blob
-  const content = "hello";
+  const content = "hello, 你好";
   const blobName = "newblob" + new Date().getTime();
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
   console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
