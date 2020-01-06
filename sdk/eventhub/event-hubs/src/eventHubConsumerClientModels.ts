@@ -3,6 +3,7 @@ import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { EventPosition } from "./eventPosition";
 import { TracingOptions } from "./util/operationOptions";
+import { MessagingError } from '@azure/core-amqp';
 
 /**
  * @internal
@@ -81,7 +82,7 @@ export type ProcessEventsHandler = (
 /**
  * Called when errors occur during event receiving.
  */
-export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+export type ProcessErrorHandler = (error: Error | MessagingError, context: PartitionContext) => Promise<void>;
 
 /**
  * Called when we first start processing events from a partition.
