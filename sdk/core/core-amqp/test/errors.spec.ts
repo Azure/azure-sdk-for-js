@@ -157,25 +157,11 @@ describe("Errors", function() {
         "SystemError from node.js  with code: '" + mapping.code + "' to a MessagingError",
         function() {
           const translatedError = <Errors.MessagingError>Errors.translate(mapping as any);
-          if (mapping.code === "ECONNRESET") {
-            translatedError.name.should.equal("MessagingError");
-            translatedError.code!.should.equal("ECONNRESET");
+          translatedError.name.should.equal("MessagingError");
+          translatedError.code!.should.equal(mapping.code);
+          if (["ECONNRESET", "ECONNREFUSED", "EBUSY"].indexOf(mapping.code) !== -1) {
             translatedError.retryable.should.equal(true);
-          } else if (mapping.code === "ECONNREFUSED") {
-            translatedError.name.should.equal("MessagingError");
-            translatedError.code!.should.equal("ECONNREFUSED");
-            translatedError.retryable.should.equal(true);
-          } else if (mapping.code === "EBUSY") {
-            translatedError.name.should.equal("MessagingError");
-            translatedError.code!.should.equal("EBUSY");
-            translatedError.retryable.should.equal(true);
-          } else if (mapping.code === "ENOTFOUND") {
-            translatedError.name.should.equal("MessagingError");
-            translatedError.code!.should.equal("ENOTFOUND");
-            translatedError.retryable.should.equal(false);
-          } else if (mapping.code === "ESOMETHINGRANDOM") {
-            translatedError.name.should.equal("MessagingError");
-            translatedError.code!.should.equal("ESOMETHINGRANDOM");
+          } else {
             translatedError.retryable.should.equal(false);
           }
         }
