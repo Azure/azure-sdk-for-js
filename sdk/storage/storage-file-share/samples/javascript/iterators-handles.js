@@ -163,8 +163,6 @@ async function main() {
   }
 }
 
-module.exports = { main };
-
 main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

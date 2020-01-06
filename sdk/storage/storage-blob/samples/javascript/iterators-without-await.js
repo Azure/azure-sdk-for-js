@@ -55,8 +55,6 @@ async function main() {
   asyncIter.next().then(printBlob);
 }
 
-module.exports = { main };
-
 main().catch((err) => {
   console.log(err.message);
 });

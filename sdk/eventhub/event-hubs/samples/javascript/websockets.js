@@ -53,8 +53,6 @@ async function main() {
   console.log(`Exiting websockets sample`);
 }
 
-module.exports = { main };
-
 main().catch((error) => {
   console.error("Error running sample:", error);
 });
