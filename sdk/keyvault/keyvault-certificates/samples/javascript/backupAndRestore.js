@@ -52,8 +52,6 @@ async function main() {
   console.log("Restored certificate: ", restoredCertificate);
 }
 
-module.exports = { main };
-
 main().catch((err) => {
   console.log("error code: ", err.code);
   console.log("error message: ", err.message);

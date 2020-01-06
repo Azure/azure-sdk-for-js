@@ -46,8 +46,6 @@ async function main() {
   await client.deleteContacts();
 }
 
-module.exports = { main };
-
 main().catch((err) => {
   console.log("error code: ", err.code);
   console.log("error message: ", err.message);

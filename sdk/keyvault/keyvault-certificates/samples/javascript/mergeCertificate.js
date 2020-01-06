@@ -65,8 +65,6 @@ ${base64Csr}
   await client.mergeCertificate("MyCertificate", [Buffer.from(base64Crt)]);
 }
 
-module.exports = { main };
-
 main().catch((err) => {
   console.log("error code: ", err.code);
   console.log("error message: ", err.message);
