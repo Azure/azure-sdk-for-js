@@ -6,22 +6,25 @@ import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from '../util/logging';
-import { CliCredentialClient } from '../client/CliCredentialClient';
-import { TokenCredentialOptions } from "../client/identityClient";
+import { CredentialClient, CliCredentialClient, CliCredentialOptions } from '../client/CliCredentialClient';
 
 /**
  * Provides the user access token and expire time
  * with azure cli command "az account get-access-token" in powershell.  
  */
 export class CliCredential implements TokenCredential {
-  private client: CliCredentialClient;
+  private client: CredentialClient;
   /**
    * Creates an instance of the CliCredential class.
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(cliCredentialClient: CliCredentialClient = new CliCredentialClient()) {
-    this.client = cliCredentialClient;
+  constructor(options?: CliCredentialOptions) {
+    if (options && options.cliCredentialClient) {
+      this.client = options.cliCredentialClient;
+    } else {
+      this.client = new CliCredentialClient();
+    }
   }
 
   /**
@@ -54,7 +57,7 @@ export class CliCredential implements TokenCredential {
               throw new Error("Azure CLI not Installed");
             }
             else if (isLoginError) {
-              throw new Error("Azure not login in")
+              throw new Error("Azure user is not logged in")
             }
             throw new Error(obj.stderr);
           }

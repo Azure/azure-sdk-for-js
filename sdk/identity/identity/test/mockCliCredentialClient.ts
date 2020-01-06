@@ -1,16 +1,22 @@
-import { CliCredentialClient } from "../src/client/CliCredentialClient";
+import { CredentialClient, CliCredentialOptions } from "../src/client/CliCredentialClient";
 
-export interface MockCliCredentialClientOptions {
-  stdout: string;
-  stderr: string;
+interface MockCredentialClient {
+  stdout: string,
+  stderr: string
 }
 
-export class MockCliCredentialClient extends CliCredentialClient {
+export class MockCliCredentialClientOptions implements CliCredentialOptions {
+  cliCredentialClient?: CredentialClient;
+  constructor(mockClient: MockCliCredentialClient) {
+    this.cliCredentialClient = mockClient;
+  }
+}
+
+export class MockCliCredentialClient implements CredentialClient {
   private stdout;
   private stderr;
 
-  constructor(options?: MockCliCredentialClientOptions) {
-    super();
+  constructor(options?: MockCredentialClient) {
     this.stdout = options.stdout;
     this.stderr = options.stderr;
   }
@@ -21,3 +27,4 @@ export class MockCliCredentialClient extends CliCredentialClient {
     })
   }
 }
+

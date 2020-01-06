@@ -1,6 +1,10 @@
 import * as child_process from "child_process";
 
-export class CliCredentialClient {
+export interface CredentialClient {
+  createProcess(commandString: string): Promise<any>;
+}
+
+export class CliCredentialClient implements CredentialClient {
   public createProcess(commandString: string) {
     return new Promise((resolve, reject) => {
       try {
@@ -12,4 +16,8 @@ export class CliCredentialClient {
       }
     });
   }
+}
+
+export interface CliCredentialOptions {
+  cliCredentialClient?: CredentialClient;
 }

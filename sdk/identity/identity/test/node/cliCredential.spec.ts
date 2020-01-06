@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import { MockCliCredentialClient } from "../mockCliCredentialClient"
+import { MockCliCredentialClient, MockCliCredentialClientOptions } from "../mockCliCredentialClient"
 import { CliCredential } from "../../src";
 
 describe("CliCredential", function () {
@@ -11,7 +11,7 @@ describe("CliCredential", function () {
       stdout: "{\"accessToken\": \"token\",\"expiresOn\": \"01/01/1900 00:00:00 +00:00\"}",
       stderr: ""
     });
-    let credential = new CliCredential(null, mockCliCredentialClient);
+    let credential = new CliCredential(new MockCliCredentialClientOptions(mockCliCredentialClient));
     let actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken.token, "token");
   });
@@ -22,7 +22,7 @@ describe("CliCredential", function () {
         stdout: "",
         stderr: "az: command not found"
       });
-      let credential = new CliCredential(null, mockCliCredentialClient);
+      let credential = new CliCredential(new MockCliCredentialClientOptions(mockCliCredentialClient));
 
       try {
         await credential.getToken("https://service/.default");
@@ -36,7 +36,7 @@ describe("CliCredential", function () {
         stdout: "",
         stderr: "'az' is not recognized"
       });
-      let credential = new CliCredential(null, mockCliCredentialClient);
+      let credential = new CliCredential(new MockCliCredentialClientOptions(mockCliCredentialClient));
 
       try {
         await credential.getToken("https://service/.default");
@@ -52,12 +52,12 @@ describe("CliCredential", function () {
       stdout: "",
       stderr: "Please run 'az login' to setup account"
     });
-    let credential = new CliCredential(null, mockCliCredentialClient);
+    let credential = new CliCredential(new MockCliCredentialClientOptions(mockCliCredentialClient));
     try {
       await credential.getToken("https://service/.default");
     }
     catch (error) {
-      assert.equal(error.message, "Azure not login in");
+      assert.equal(error.message, "Azure user is not logged in");
     }
   });
 
@@ -66,7 +66,7 @@ describe("CliCredential", function () {
       stdout: "",
       stderr: "mock other access token error"
     });
-    let credential = new CliCredential(null, mockCliCredentialClient);
+    let credential = new CliCredential(new MockCliCredentialClientOptions(mockCliCredentialClient));
     try {
       await credential.getToken("https://service/.default");
     }
