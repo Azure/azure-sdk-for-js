@@ -55,7 +55,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
 
     // this can happen when multiple consumers are spinning up and load balancing. We'll ignore it for multi-consumers
     // only.
-    if (this.multipleConsumers && error.name === "ReceiverDisconnectedError") {
+    if (this.multipleConsumers && (error as any).code === "ReceiverDisconnectedError") {
       return;
     }
 

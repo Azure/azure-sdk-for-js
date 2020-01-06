@@ -147,7 +147,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, "ServiceCommunicationError");
     }
   });
 
@@ -159,7 +159,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, "ServiceCommunicationError");
     }
   });
 
@@ -172,7 +172,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, "ServiceCommunicationError");
     }
   });
 
@@ -189,7 +189,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, "ServiceCommunicationError");
     }
   });
 });
@@ -217,7 +217,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -229,7 +229,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -242,7 +242,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -259,7 +259,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 });

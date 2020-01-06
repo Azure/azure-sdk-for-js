@@ -655,7 +655,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
           // link and it's session are being closed (and the session being removed from rhea's
           // internal map) can create havoc.
           setTimeout(() => {
-            done(should.equal(error.name, "MessagingEntityNotFoundError"));
+            done(should.equal(error.code, "MessagingEntityNotFoundError"));
           }, 3000);
         };
         receiver = client.createConsumer("some-random-name", "0", earliestEventPosition);
@@ -737,7 +737,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const onError2 = (error: MessagingError | Error) => {
           debug(">>>> ownerLevel Receiver 2", error);
           should.exist(error);
-          should.equal(error.name, "ReceiverDisconnectedError");
+          should.equal((error as any).code, "ReceiverDisconnectedError");
           ownerLevelRcvr2
             .stop()
             .then(() => receiver2.close())
@@ -776,7 +776,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onError = (error: MessagingError | Error) => {
         debug(">>>> ownerLevel Receiver 1", error);
         should.exist(error);
-        should.equal(error.name, "ReceiverDisconnectedError");
+        should.equal((error as any).code, "ReceiverDisconnectedError");
         ownerLevelRcvr1
           .stop()
           .then(() => receiver1.close())
@@ -853,7 +853,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onerr2 = (error: MessagingError | Error) => {
         debug(">>>> non ownerLevel Receiver", error);
         should.exist(error);
-        should.equal(error.name, "ReceiverDisconnectedError");
+        should.equal((error as any).code, "ReceiverDisconnectedError");
         nonownerLevelRcvr
           .stop()
           .then(() => receiver2.close())
@@ -889,7 +889,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
       const onerr3 = (error: MessagingError | Error) => {
         debug(">>>> non ownerLevel Receiver", error);
         should.exist(error);
-        should.equal(error.name, "ReceiverDisconnectedError");
+        should.equal((error as any).code, "ReceiverDisconnectedError");
         nonownerLevelRcvr
           .stop()
           .then(() => receiver1.close())
@@ -1033,7 +1033,7 @@ describe("EventHub Receiver #RunnableInBrowser", function(): void {
         const onerr2 = (err: MessagingError | Error) => {
           debug("@@@@ Error received by receiver rcvr-6");
           debug(err);
-          should.equal(err.name, "QuotaExceededError");
+          should.equal((err as any).code, "QuotaExceededError");
           const promises = [];
           for (const rcvr of rcvHndlrs) {
             promises.push(rcvr.stop());
