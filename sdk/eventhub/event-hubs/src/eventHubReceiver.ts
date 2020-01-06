@@ -280,11 +280,13 @@ export class EventHubReceiver extends LinkEntity {
     const rheaReceiver = this._receiver || context.receiver;
     logger.verbose(
       "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s'. " +
-        "Value for isItselfClosed on the receiver is: '%s'.",
+        "Value for isItselfClosed on the receiver is: '%s' " +
+        "Value for isConnecting on the session is: '%s'.",
       this._context.connectionId,
       this.name,
       this.address,
-      rheaReceiver ? rheaReceiver.isItselfClosed().toString() : undefined
+      rheaReceiver ? rheaReceiver.isItselfClosed().toString() : undefined,
+      this.isConnecting
     );
     if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
@@ -303,11 +305,13 @@ export class EventHubReceiver extends LinkEntity {
     const rheaReceiver = this._receiver || context.receiver;
     logger.verbose(
       "[%s] 'session_close' event occurred on the session of receiver '%s' with address '%s'. " +
-        "Value for isSessionItselfClosed on the session is: '%s'",
+        "Value for isSessionItselfClosed on the session is: '%s' " +
+        "Value for isConnecting on the session is: '%s'.",
       this._context.connectionId,
       this.name,
       this.address,
-      rheaReceiver ? rheaReceiver.isSessionItselfClosed().toString() : undefined
+      rheaReceiver ? rheaReceiver.isSessionItselfClosed().toString() : undefined,
+      this.isConnecting
     );
     if (rheaReceiver && !this.isConnecting) {
       // Call close to clean up timers & other resources
