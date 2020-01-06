@@ -667,7 +667,7 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
   if (isSystemError(err)) {
     // translate
     const condition = (err as any).code;
-    const description = (err as Error).message;
+    const description = err.message;
     const error = new MessagingError(description, err);
     if (err.stack) error.stack = err.stack;
     let errorType = "SystemError";
