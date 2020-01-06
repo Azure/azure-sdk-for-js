@@ -13,7 +13,7 @@ const debug = debugModule("azure:event-hubs:client-spec");
 import { TokenCredential, earliestEventPosition } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { packageJsonInfo } from "../src/util/constants";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
 import { EnvironmentCredential } from "@azure/identity";
 import { EventHubConsumer } from "../src/receiver";
 import { EventHubProducer } from "../src/sender";
@@ -128,7 +128,7 @@ describe("Create EventHubClient using Azure Identity", function(): void {
 
 describe("ServiceCommunicationError for non existent namespace #RunnableInBrowser", function(): void {
   let client: EventHubClient;
-
+  const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError"
   beforeEach(() => {
     client = new EventHubClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
@@ -147,7 +147,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.code, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -159,7 +159,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.code, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -172,7 +172,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.code, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -189,7 +189,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.code, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 });
