@@ -20,6 +20,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [usingAadAuth.js][usingaadauth]                                           | demonstrates how to instantiate EventHubsClient using AAD token credentials obtained from using Service Principal Secrets                                                               |
 | [receiveEvents.js][receiveevents]                                         | demonstrates how to use the EventHubConsumerClient to process events from all partitions of a consumer group in an Event Hubs instance.                                                 |
 
+**Note**: `EventHubConsumerClient` supports checkpointing using the `@azure/eventhubs-checkpointstore-blob` and `@azure/storage-blob` packages. For an example that demonstrates how to use this functionality, see [this link][checkpointing].
+
 ## Prerequisites
 
 The samples are compatible with Node.js >= 8.0.0.
@@ -68,6 +70,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [usingaadauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/javascript/usingAadAuth.js
 [receiveevents]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples/javascript/receiveEvents.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
+[checkpointing]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/receiveEventsUsingCheckpointStore.js
 [azhubacct]: https://docs.microsoft.com/azure/event-hubs/event-hubs-node-get-started-send
 [aziothub]: https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-node-node-module-twin-getstarted
 [freesub]: https://azure.microsoft.com/free/
