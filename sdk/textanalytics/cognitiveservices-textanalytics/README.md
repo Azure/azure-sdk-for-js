@@ -42,7 +42,7 @@ az cognitiveservices account create --kind TextAnalytics --resource-group <your-
 ### 1. Install the `@azure/cognitiveservices-textanalytics` package
 
 ```bash
-npm install --save @azure/cognitiveservices-textanalytics
+npm install @azure/cognitiveservices-textanalytics
 ```
 
 ### 2. Create and authenticate a `TextAnalyticsClient`
@@ -62,11 +62,14 @@ Alternatively, you can get the endpoint and subscription key from the resource i
 Once you have a service key, you can use it as follows:
 
 ```js
-const { TextAnalyticsClient } = require("@azure/cognitiveservices-textanalytics");
+const {
+  TextAnalyticsClient,
+  CognitiveServicesCredential
+} = require("@azure/cognitiveservices-textanalytics");
 
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new CognitiveServicesCredentials("<service key>")
+  new CognitiveServicesCredential("<service key>")
 );
 ```
 
