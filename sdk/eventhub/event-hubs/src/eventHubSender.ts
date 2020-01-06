@@ -20,8 +20,7 @@ import {
   RetryConfig,
   RetryOperationType,
   RetryOptions,
-  Constants,
-  MessagingError
+  Constants
 } from "@azure/core-amqp";
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
