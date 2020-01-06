@@ -13,6 +13,18 @@ jobs:
     pool:
       vmImage: "windows-2019"
     steps:
+      - task: UsePythonVersion@0
+        displayName: "Use Python 3.6"
+        inputs:
+          versionSpec: "3.6"
+
+      - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
+        parameters:
+          TargetFolder: .
+          RootFolder: .
+          BuildSHA: $(Build.SourceVersion)
+          RepoId: "Azure/azure-sdk-for-js"
+
       - pwsh: |
           Invoke-WebRequest -Uri "https://github.com/dotnet/docfx/releases/download/v2.43.2/docfx.zip" `
           -OutFile "docfx.zip" | Wait-Process; Expand-Archive -Path "docfx.zip" -DestinationPath "./docfx/"
@@ -58,11 +70,6 @@ jobs:
           Get-Content "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/main.js" |Out-File "$(Build.SourcesDirectory)/docfx_project/_site/styles/main.js"
           Get-Content "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/docfx.css" |Out-File "$(Build.SourcesDirectory)/docfx_project/_site/styles/docfx.css"
         displayName: Replace site assets
-
-      - task: UsePythonVersion@0
-        displayName: "Use Python 3.6"
-        inputs:
-          versionSpec: "3.6"
 
       - template: eng/pipelines/templates/scripts/mashup-doc-index.yml@azure-sdk-tools
         parameters:
