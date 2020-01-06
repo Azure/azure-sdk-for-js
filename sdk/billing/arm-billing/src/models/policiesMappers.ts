@@ -31,7 +31,6 @@ export {
   ErrorResponse,
   Instruction,
   Invoice,
-  InvoiceListResult,
   InvoiceSection,
   LineOfCredit,
   Participants,

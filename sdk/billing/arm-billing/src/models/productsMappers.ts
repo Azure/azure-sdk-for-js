@@ -31,7 +31,6 @@ export {
   ErrorResponse,
   Instruction,
   Invoice,
-  InvoiceListResult,
   InvoiceSection,
   LineOfCredit,
   Participants,
@@ -39,7 +38,14 @@ export {
   PaymentProperties,
   Policy,
   Product,
+  ProductsListResult,
+  ProductsTransferHeaders,
   Reseller,
   Resource,
-  Transaction
+  Transaction,
+  TransferProductRequestProperties,
+  UpdateAutoRenewOperation,
+  UpdateAutoRenewRequest,
+  ValidateProductTransferEligibilityError,
+  ValidateProductTransferEligibilityResult
 } from "../models/mappers";
