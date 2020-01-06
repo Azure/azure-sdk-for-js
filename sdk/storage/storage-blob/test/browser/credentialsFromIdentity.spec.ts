@@ -34,7 +34,12 @@ describe("Test Credentials from @azure/identity - Browsers Only", () => {
   });
 
   // ChromeHeadless won't work because user needs to authenticate in the UI
-  // In browser, Fails with `AADSTS700054: response_type 'id_token' is not enabled for the application.`
+  // Issue 1 -
+  //    In browser, Fails with `AADSTS700054: response_type 'id_token' is not enabled for the application.`
+  //    Fixed as explained by David here - https://github.com/Azure/azure-sdk-for-js/pull/5287#discussion_r331717709
+  // Issue 2 -
+  //    New error, after providing the email address,
+  //            it fails with `AADSTS500113: No reply address is registered for the application.`
   it.skip("InteractiveBrowserCredential should be able to instantiate BlobServiceClient", async () => {
     await verifyCredential(
       new InteractiveBrowserCredential(env.AZURE_TENANT_ID || "", env.AZURE_CLIENT_ID)
