@@ -119,7 +119,7 @@ export class PartitionPump {
           try {
             // If the exception indicates that the partition was stolen (i.e some other consumer with same ownerlevel
             // started consuming the partition), update the closeReason
-            if (err.name === "ReceiverDisconnectedError") {
+            if (err.code === "ReceiverDisconnectedError") {
               return await this.stop(CloseReason.OwnershipLost);
             }
             // this will close the pump and will break us out of the while loop

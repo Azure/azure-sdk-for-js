@@ -1077,7 +1077,7 @@ describe("Event Processor", function(): void {
         async processError(err: Error, context: PartitionContext) {
           loggerForTest(`processError(${context.partitionId})`);
           didError = true;
-          errorName = err.name;
+          errorName = (err as any).code;
         }
       }
 

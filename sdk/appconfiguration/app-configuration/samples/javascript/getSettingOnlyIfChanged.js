@@ -53,8 +53,6 @@ async function cleanupSampleValues(keys, client) {
   }
 }
 
-module.exports = { main };
-
 main().catch((error) => {
   console.error("Failed to run sample:", error);
 });
