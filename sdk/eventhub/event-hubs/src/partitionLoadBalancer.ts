@@ -28,7 +28,7 @@ export interface PartitionLoadBalancer {
  * This class does no load balancing - it's intended to be used when
  * you want to avoid load balancing and consume a set of partitions (or all
  * available partitions)
- * @intenal
+ * @internal
  * @ignore
  */
 export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
@@ -71,7 +71,7 @@ export class GreedyPartitionLoadBalancer implements PartitionLoadBalancer {
  * partition ownership entry has not be updated for a specified duration of time, the owner of that partition is
  * considered inactive and the partition is available for other EventProcessors to own.
  * @class PartitionLoadBalancer
- * @intenal
+ * @internal
  * @ignore
  */
 export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
