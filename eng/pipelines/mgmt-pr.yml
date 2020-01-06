@@ -66,7 +66,7 @@ jobs:
           command: custom
           customCommand: 'audit'
 
-     - script: |
+      - script: |
           node $(Build.SourcesDirectory)/.scripts/dataplane-list.js $(Build.SourcesDirectory)
         displayName: "Generate dataplane package list"
 

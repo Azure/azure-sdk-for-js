@@ -40,7 +40,7 @@ jobs:
         inputs:
           verbose: false
 
-     - script: |
+      - script: |
           node $(Build.SourcesDirectory)/.scripts/dataplane-list.js $(Build.SourcesDirectory)
         displayName: "Generate dataplane package list"
 
