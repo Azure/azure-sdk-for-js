@@ -102,6 +102,51 @@ const consumerClient = new EventHubConsumerClient(
 
 - This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. This allows you to authenticate using an Azure Active Directory principal. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`. When using Azure Active Directory, your principal must be assigned a role which allows access to Event Hubs, such as the Azure Event Hubs Data Owner role. For more information about using Azure Active Directory authorization with Event Hubs, please refer to [the associated documentation](https://docs.microsoft.com/en-us/azure/event-hubs/authorize-access-azure-active-directory).
 
+### Guidance around retries
+
+The `EventHubConsumerClient` and `EventHubProducerClient` accept `retryOptions`
+that allow you to tune how the SDK handles transient errors.
+Examples of transient errors include temporary network or service issues.
+
+#### Consuming events
+
+When listening for events via the `subscribe` method on `EventHubConsumerClient`,
+the user-provided `processEvents` function is invoked multiple times.
+
+Prior to invoking the user-provided `processEvents`, the SDK will attempt to
+read events from an event hub partition.
+If a transient error (e.g. a temporary network issue) is encountered while the SDK is receiving events,
+it will retry receiving events based on the retry options passed into the `EventHubConsumerClient`.
+If the maximum retry attempts are exhausted, the user-provided `processError` function will be invoked.
+
+You can use the retry settings to control how quickly you are informed about temporary issues such as a
+network connection issue.
+For example, if you need to know when there is a network issue right away you can lower the
+values for `maxRetries` and `retryDelayInMs`.
+This will cause `processError` to be invoked more quickly and gives the user a chance to decide
+how to react to the error.
+
+After `processError` returns, the user-provided `processClose` and `processInitialize` functions will be invoked
+in an attempt to resume reading events from the partition that failed.
+
+**Note:** When resuming, the SDK will read starting immediately after the last event that was checkpointed using
+`updateCheckpoint` for a given partition.
+
+If you wish to stop attempting to read events, you must call `subscription.close()` on the `subscription` returned
+by the `subscribe` method.
+
+#### Producing events
+
+The `sendBatch` method on `EventHubProducerClient` sends a batch of events
+to an event hub.
+
+If a transient error is encountered while the SDK is sending the batch,
+it will retry sending the batch based on the retry options passed into
+the `EventHubProducerClient`.
+
+If the maximum retry attempts are exhaused, the promise returned by `sendBatch`
+will be rejected with the error returned by the last retry attempt.
+
 ### Examples
 
 The following sections provide code snippets that cover some of the common tasks using Azure Event Hubs
