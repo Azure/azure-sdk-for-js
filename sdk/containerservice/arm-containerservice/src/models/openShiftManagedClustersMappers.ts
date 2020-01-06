@@ -29,6 +29,7 @@ export {
   ManagedClusterAADProfile,
   ManagedClusterAccessProfile,
   ManagedClusterAddonProfile,
+  ManagedClusterAddonProfileIdentity,
   ManagedClusterAgentPoolProfile,
   ManagedClusterAgentPoolProfileProperties,
   ManagedClusterAPIServerAccessProfile,
@@ -37,6 +38,7 @@ export {
   ManagedClusterLoadBalancerProfileManagedOutboundIPs,
   ManagedClusterLoadBalancerProfileOutboundIPPrefixes,
   ManagedClusterLoadBalancerProfileOutboundIPs,
+  ManagedClusterPropertiesIdentityProfileValue,
   ManagedClusterServicePrincipalProfile,
   ManagedClusterWindowsProfile,
   NetworkProfile,
@@ -53,5 +55,6 @@ export {
   Resource,
   ResourceReference,
   SubResource,
-  TagsObject
+  TagsObject,
+  UserAssignedIdentity
 } from "../models/mappers";

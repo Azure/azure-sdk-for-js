@@ -326,6 +326,19 @@ export class ManagedClusters {
   }
 
   /**
+   * Rotate certificates of a managed cluster.
+   * @summary Rotate certificates of a managed cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  rotateClusterCertificates(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRotateClusterCertificates(resourceGroupName,resourceName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Creates or updates a managed cluster with the specified configuration for agents and Kubernetes
    * version.
    * @summary Creates or updates a managed cluster.
@@ -431,6 +444,25 @@ export class ManagedClusters {
   }
 
   /**
+   * Rotate certificates of a managed cluster.
+   * @summary Rotate certificates of a managed cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRotateClusterCertificates(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        resourceName,
+        options
+      },
+      beginRotateClusterCertificatesOperationSpec,
+      options);
+  }
+
+  /**
    * Gets a list of managed clusters in the specified subscription. The operation returns properties
    * of each managed cluster.
    * @summary Gets a list of managed clusters in the specified subscription.
@@ -500,7 +532,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -524,7 +556,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName0
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -549,7 +581,7 @@ const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -575,7 +607,7 @@ const getAccessProfileOperationSpec: msRest.OperationSpec = {
     Parameters.roleName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -600,7 +632,7 @@ const listClusterAdminCredentialsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -625,7 +657,7 @@ const listClusterUserCredentialsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -650,7 +682,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -675,7 +707,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -710,7 +742,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -742,7 +774,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -766,7 +798,7 @@ const beginResetServicePrincipalProfileOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -797,7 +829,7 @@ const beginResetAADProfileOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -812,6 +844,30 @@ const beginResetAADProfileOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRotateClusterCertificatesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName0,
+    Parameters.resourceName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
