@@ -622,14 +622,6 @@ const rheaPromiseErrors = [
 ];
 
 /**
- * This utility checks if an error is a retryable error from rhea-promise.
- * @param err
- */
-function isRheaPromiseError(err: Error): boolean {
-  return rheaPromiseErrors.indexOf(err.name) !== -1;
-}
-
-/**
  * Translates the AQMP error received at the protocol layer or a SystemError into a MessagingError.
  * All other errors are returned unaltered.
  *
@@ -637,11 +629,6 @@ function isRheaPromiseError(err: Error): boolean {
  * @returns {MessagingError} MessagingError object.
  */
 export function translate(err: AmqpError | Error): MessagingError | Error {
-  if ((err as MessagingError).name === "MessagingError") {
-    // already translated
-    return err as MessagingError;
-  }
-
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
   if (err instanceof TypeError || err instanceof RangeError) {
@@ -650,11 +637,11 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
 
   if (isAmqpError(err)) {
     // translate
-    const condition = (err as AmqpError).condition;
-    const description = (err as AmqpError).description as string;
+    const condition = err.condition;
+    const description = err.description!;
     const error = new MessagingError(description);
     if ((err as any).stack) error.stack = (err as any).stack;
-    error.info = (err as AmqpError).info;
+    error.info = err.info;
     if (condition) {
       error.code = ConditionErrorNameMapper[condition as keyof typeof ConditionErrorNameMapper];
     }
@@ -672,12 +659,17 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
     return error;
   }
 
+  if (err.name === "MessagingError") {
+    // already translated
+    return err;
+  }
+
   if (isSystemError(err)) {
     // translate
     const condition = (err as any).code;
     const description = (err as Error).message;
     const error = new MessagingError(description, err);
-    if ((err as any).stack) error.stack = (err as any).stack;
+    if (err.stack) error.stack = err.stack;
     let errorType = "SystemError";
     if (condition) {
       const amqpErrorCondition =
@@ -700,8 +692,9 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
     return error;
   }
 
-  // Some errors come from rhea-promise and should be treated as retryable.
-  if (isRheaPromiseError(err)) {
+  // Some errors come from rhea-promise and need to be converted to MessagingError.
+  // A subset of these are also retryable.
+  if (rheaPromiseErrors.indexOf(err.name) !== -1) {
     const error = new MessagingError(err.message, err);
     error.code = err.name;
     if (error.code && retryableErrors.indexOf(error.code) === -1) {
