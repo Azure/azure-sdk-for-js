@@ -145,6 +145,37 @@ export class MeshApplication {
       listOperationSpec,
       callback) as Promise<Models.MeshApplicationListResponse>;
   }
+
+  /**
+   * Gets the upgrade progress information about the Application resource with the given name. The
+   * information include percentage of completion and other upgrade state information of the
+   * Application resource.
+   * @summary Gets the progress of the latest upgrade performed on this application resource.
+   * @param applicationResourceName The identity of the application.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MeshApplicationGetUpgradeProgressResponse>
+   */
+  getUpgradeProgress(applicationResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.MeshApplicationGetUpgradeProgressResponse>;
+  /**
+   * @param applicationResourceName The identity of the application.
+   * @param callback The callback
+   */
+  getUpgradeProgress(applicationResourceName: string, callback: msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>): void;
+  /**
+   * @param applicationResourceName The identity of the application.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getUpgradeProgress(applicationResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>): void;
+  getUpgradeProgress(applicationResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>, callback?: msRest.ServiceCallback<Models.ApplicationResourceUpgradeProgressInfo>): Promise<Models.MeshApplicationGetUpgradeProgressResponse> {
+    return this.client.sendOperationRequest(
+      {
+        applicationResourceName,
+        options
+      },
+      getUpgradeProgressOperationSpec,
+      callback) as Promise<Models.MeshApplicationGetUpgradeProgressResponse>;
+  }
 }
 
 // Operation Specifications
@@ -156,7 +187,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.applicationResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   requestBody: {
     parameterPath: "applicationResourceDescription",
@@ -187,7 +218,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.applicationResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   responses: {
     200: {
@@ -207,7 +238,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.applicationResourceName
   ],
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   responses: {
     200: {},
@@ -224,11 +255,31 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Resources/Applications",
   queryParameters: [
-    Parameters.apiVersion7
+    Parameters.apiVersion8
   ],
   responses: {
     200: {
       bodyMapper: Mappers.PagedApplicationResourceDescriptionList
+    },
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
+const getUpgradeProgressOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "Resources/Applications/{applicationResourceName}/$/GetUpgradeProgress",
+  urlParameters: [
+    Parameters.applicationResourceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationResourceUpgradeProgressInfo
     },
     default: {
       bodyMapper: Mappers.FabricError

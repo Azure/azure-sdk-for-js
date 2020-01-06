@@ -7,6 +7,10 @@
 
 import { BlobServiceClient } from "@azure/storage-blob";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 export async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
@@ -53,7 +57,7 @@ export async function main() {
 
     // Create a new block blob
     console.log("// Create a new block blob...");
-    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+    const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
     console.log(`Uploaded block blob ${blobName} successfully,`);
     console.log(
       `requestId - ${uploadBlobResponse.requestId}, statusCode - ${uploadBlobResponse._response.status}\n`

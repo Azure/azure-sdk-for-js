@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "../log";
+import { logger, logErrorStackTrace } from "../log";
 import { WebSocketImpl } from "rhea-promise";
 import {
   TokenCredential,
@@ -307,8 +307,10 @@ export class EventHubClient {
 
   /**
    * The Service Bus endpoint.
+   * @internal
+   * @ignore
    */
-  private _endpoint: string;
+  public readonly endpoint: string;
 
   /**
    * @property
@@ -401,7 +403,7 @@ export class EventHubClient {
 
     ConnectionConfig.validate(config);
 
-    this._endpoint = config.endpoint;
+    this.endpoint = config.endpoint;
 
     this._clientOptions = options || {};
     this._context = ConnectionContext.create(config, credential, this._clientOptions);
@@ -419,7 +421,7 @@ export class EventHubClient {
     });
 
     span.setAttribute("message_bus.destination", this.eventHubName);
-    span.setAttribute("peer.address", this._endpoint);
+    span.setAttribute("peer.address", this.endpoint);
 
     return span;
   }
@@ -428,7 +430,7 @@ export class EventHubClient {
    * Closes the AMQP connection to the Event Hub instance,
    * returning a promise that will be resolved when disconnection is completed.
    * @returns Promise<void>
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {
@@ -447,13 +449,14 @@ export class EventHubClient {
         await this._context.managementSession!.close();
         await this._context.connection.close();
         this._context.wasConnectionCloseCalled = true;
-        log.client("Closed the amqp connection '%s' on the client.", this._context.connectionId);
+        logger.info("Closed the amqp connection '%s' on the client.", this._context.connectionId);
       }
     } catch (err) {
       err = err instanceof Error ? err : JSON.stringify(err);
-      log.error(
+      logger.warning(
         `An error occurred while closing the connection "${this._context.connectionId}":\n${err}`
       );
+      logErrorStackTrace(err);
       throw err;
     }
   }
@@ -473,7 +476,7 @@ export class EventHubClient {
    * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
    * A simple usage can be `{ "maxRetries": 4 }`.
    *
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
    * @returns EventHubProducer
    */
   createProducer(options?: EventHubProducerOptions): EventHubProducer {
@@ -484,7 +487,7 @@ export class EventHubClient {
       options.retryOptions = this._clientOptions.retryOptions;
     }
     throwErrorIfConnectionClosed(this._context);
-    return new EventHubProducer(this.eventHubName, this._endpoint, this._context, options);
+    return new EventHubProducer(this.eventHubName, this.endpoint, this._context, options);
   }
 
   /**
@@ -501,20 +504,14 @@ export class EventHubClient {
    * @param partitionId The identifier of the Event Hub partition from which events will be received.
    * You can get identifiers for all partitions by using the `getPartitionProperties` method on the `EventHubClient`.
    * @param eventPosition The position within the partition where the consumer should begin reading events.
-   * The easiest way to create an instance of EventPosition is to use the static helpers on it like
-   * - `EventPosition.fromOffset()`
-   * - `EventPosition.fromSequenceNumber()`
-   * - `EventPosition.fromEnqueuedTime()`
-   * - `EventPosition.earliest()`
-   * - `EventPosition.latest()`
    * @param options The set of options to apply when creating the consumer.
    * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
    * consumers to fail if their `ownerLevel` is lower or doesn't exist.
    * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
    * A simple usage can be `{ "maxRetries": 4 }`.
    *
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {TypeError} Thrown if a required parameter is missing.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws TypeError if a required parameter is missing.
    */
   createConsumer(
     consumerGroup: string,
@@ -555,8 +552,8 @@ export class EventHubClient {
    * Provides the Event Hub runtime information.
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resolves with EventHubProperties.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal3.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal3.
    */
   async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
@@ -573,7 +570,8 @@ export class EventHubClient {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      log.error("An error occurred while getting the hub runtime information: %O", err);
+      logger.warning("An error occurred while getting the hub runtime information: %O", err);
+      logErrorStackTrace(err);
       throw err;
     } finally {
       clientSpan.end();
@@ -584,8 +582,8 @@ export class EventHubClient {
    * Provides an array of partitionIds.
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resolves with an Array of strings.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
     throwErrorIfConnectionClosed(this._context);
@@ -606,7 +604,8 @@ export class EventHubClient {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      log.error("An error occurred while getting the partition ids: %O", err);
+      logger.warning("An error occurred while getting the partition ids: %O", err);
+      logErrorStackTrace(err);
       throw err;
     } finally {
       clientSpan.end();
@@ -618,8 +617,8 @@ export class EventHubClient {
    * @param partitionId Partition ID for which partition information is required.
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resoloves with PartitionProperties.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   async getPartitionProperties(
     partitionId: string,
@@ -646,7 +645,8 @@ export class EventHubClient {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      log.error("An error occurred while getting the partition information: %O", err);
+      logger.warning("An error occurred while getting the partition information: %O", err);
+      logErrorStackTrace(err);
       throw err;
     } finally {
       clientSpan.end();

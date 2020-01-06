@@ -3,7 +3,7 @@
 
 import { translate, MessagingError } from "./errors";
 import { delay } from "./util/utils";
-import * as log from "./log";
+import { logger } from "./log";
 import {
   defaultMaxRetries,
   defaultDelayBetweenOperationRetriesInMs,
@@ -179,18 +179,18 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   let success = false;
   const totalNumberOfAttempts = config.retryOptions.maxRetries + 1;
   for (let i = 1; i <= totalNumberOfAttempts; i++) {
-    log.retry("[%s] Attempt number: %d", config.connectionId, config.operationType, i);
+    logger.verbose("[%s] Attempt number: %d", config.connectionId, config.operationType, i);
     try {
       result = await config.operation();
       success = true;
-      log.retry(
+      logger.verbose(
         "[%s] Success for '%s', after attempt number: %d.",
         config.connectionId,
         config.operationType,
         i
       );
       if (result && !isDelivery(result)) {
-        log.retry(
+        logger.verbose(
           "[%s] Success result for '%s': %O",
           config.connectionId,
           config.operationType,
@@ -211,7 +211,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         }
       }
       lastError = err;
-      log.error(
+      logger.verbose(
         "[%s] Error occured for '%s' in attempt number %d: %O",
         config.connectionId,
         config.operationType,
@@ -233,7 +233,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       }
 
       if (lastError && lastError.retryable) {
-        log.error(
+        logger.verbose(
           "[%s] Sleeping for %d milliseconds for '%s'.",
           config.connectionId,
           targetDelayInMs,

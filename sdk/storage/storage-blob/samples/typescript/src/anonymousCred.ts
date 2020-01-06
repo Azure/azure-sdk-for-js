@@ -7,6 +7,10 @@
 
 import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 export async function main() {
   // Enter your storage account name and SAS
   const account = process.env.ACCOUNT_NAME || "";

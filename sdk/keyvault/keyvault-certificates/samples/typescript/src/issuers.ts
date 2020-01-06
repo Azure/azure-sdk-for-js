@@ -22,6 +22,7 @@ export async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
+  const certificateName = "MyCertificate";
   const issuerName = "issuerName";
 
   // Create
@@ -38,7 +39,7 @@ export async function main(): Promise<void> {
   });
 
   // We can create a certificate with that issuer's name.
-  const createPoller = await client.beginCreateCertificate("MyCertificate", {
+  const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName,
     subject: "cn=MyCert"
   });

@@ -2,6 +2,7 @@ import { CloseReason } from "./eventProcessor";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { EventPosition } from "./eventPosition";
+import { TracingOptions } from "./util/operationOptions";
 
 /**
  * @internal
@@ -69,18 +70,6 @@ export interface PartitionContext {
 }
 
 /**
- * A `PartitionContext` with the ability to also provide a default start
- * position if no checkpoint is found.
- */
-export interface InitializationContext extends PartitionContext {
-  /**
-   * Allows for setting the start position of a partition.
-   * Default (if not called) is `EventPosition.earliest()`.
-   */
-  setStartingPosition(startingPosition: EventPosition): void;
-}
-
-/**
  * Event handler called when events are received. The `context` parameter can be
  * used to get partition information as well as to checkpoint.
  */
@@ -97,7 +86,7 @@ export type ProcessErrorHandler = (error: Error, context: PartitionContext) => P
 /**
  * Called when we first start processing events from a partition.
  */
-export type ProcessInitializeHandler = (context: InitializationContext) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
 
 /**
  * Called when we stop processing events from a partition.
@@ -129,7 +118,7 @@ export interface SubscriptionEventHandlers {
 /**
  * Options for subscribe.
  */
-export interface SubscribeOptions {
+export interface SubscribeOptions extends TracingOptions {
   /**
    * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its
@@ -154,6 +143,12 @@ export interface SubscribeOptions {
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
    */
   maxWaitTimeInSeconds?: number;
+  /**
+   * The event position in a partition to start receiving events from if no checkpoint is found.
+   * Pass a map of partition id to position if you would like to use different starting
+   * position for each partition.
+   */
+  startPosition?: EventPosition | { [partitionId: string]: EventPosition };
 }
 
 /**
@@ -163,7 +158,7 @@ export interface Subscription {
   /**
    * Stops the subscription from receiving more messages.
    * @returns Promise<void>
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   close(): Promise<void>;
   /**

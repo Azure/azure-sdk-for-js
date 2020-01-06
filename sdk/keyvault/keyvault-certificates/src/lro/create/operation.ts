@@ -13,6 +13,11 @@ import {
 import { CertificateOperation } from "../../core/models";
 
 /**
+ * The public representation of the CreateCertificatePoller operation state.
+ */
+export type CreateCertificateState = PollOperationState<KeyVaultCertificateWithPolicy>;
+
+/**
  * An interface representing the state of a create certificate's poll operation
  */
 export interface CreateCertificatePollOperationState

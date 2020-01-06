@@ -7,6 +7,9 @@
 
 const { ShareServiceClient, AnonymousCredential } = require("@azure/storage-file-share");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 async function main() {
   // Enter your storage account name and SAS
   const account = process.env.ACCOUNT_NAME || "";

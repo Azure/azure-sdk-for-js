@@ -7,7 +7,7 @@ import {
 } from "../../src/internal/synctokenpolicy";
 import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
-const nock = require("nock");
+import nock from "nock";
 import { getGeneratedClientOptions, packageVersion } from '../../src/appConfigurationClient';
 import { createAppConfigurationClientForTests, assertThrowsRestError } from "../testHelpers";
 import * as chai from "chai";
@@ -104,6 +104,49 @@ describe("http request related tests", () => {
     });
   });
 
+  describe("custom client ID", () => {
+    let client: AppConfigurationClient;
+    let scope: nock.Scope;
+
+    beforeEach(function() {
+      client = createAppConfigurationClientForTests() || this.skip();
+      scope = nock(/.*/);
+    });
+
+    afterEach(() => {
+      assert.ok(scope.isDone());
+      nock.cleanAll();
+    });    
+
+    it("custom client request ID", async () => {
+      scope
+        .matchHeader('x-ms-client-request-id', /this is my custom client request id/)
+        .get(/.*/)
+        .reply(200);
+      
+      const iterator = await client.listConfigurationSettings({
+        requestOptions: {
+          customHeaders: {
+            "x-ms-client-request-id": "this is my custom client request id"
+          }
+        }
+      });
+
+      await iterator.next();
+    });
+
+    it("default client request ID", async () => {
+      scope
+        .matchHeader('x-ms-client-request-id', /^[A-Za-z0-9\-]+$/)
+        .get(/.*/)
+        .reply(200);
+      
+      const iterator = await client.listConfigurationSettings();
+
+      await iterator.next();
+    });
+  });
+
   // these tests are only testing that the requests and responses are
   // properly extracting and sending the sync token header (which is
   // why they appear to not do much of anything meaningful with what
@@ -111,7 +154,7 @@ describe("http request related tests", () => {
   describe("request/reply tests for sync token headers", () => {
     let client: AppConfigurationClient;
     let syncTokens: SyncTokens;
-    let scope: any;
+    let scope: nock.Scope;
 
     beforeEach(function() {
       syncTokens = new SyncTokens();
@@ -127,7 +170,7 @@ describe("http request related tests", () => {
     afterEach(() => {
       assert.ok(scope.isDone());
       nock.cleanAll();
-    });
+    });    
 
     it("policy is setup properly to send sync tokens", async function() {
       syncTokens.addSyncTokenFromHeaderValue(`hello=world;sn=1`);

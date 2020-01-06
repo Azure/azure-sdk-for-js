@@ -21,7 +21,7 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificate6892342";
+  const certificateName = "MyCertificate";
   const issuerName = "issuerName";
 
   // Create
@@ -37,14 +37,8 @@ async function main() {
     ]
   });
 
-  // We can create a certificate with that issuer's name.
-  await client.createCertificate(certificateName, {
-    issuerName,
-    subject: "cn=MyCert"
-  });
-
   // Reading the certificate will give us back the issuer name, but no other information.
-  const createPoller = await client.beginCreateCertificate("MyCertificate", {
+  const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName,
     subject: "cn=MyCert"
   });

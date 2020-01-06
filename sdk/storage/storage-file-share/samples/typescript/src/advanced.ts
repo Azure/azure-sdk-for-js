@@ -6,8 +6,13 @@
 */
 
 import * as fs from "fs";
+
 import { AbortController } from "@azure/abort-controller";
 import { AnonymousCredential, ShareServiceClient, newPipeline } from "@azure/storage-file-share";
+
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
 export async function main() {
   // Fill in following settings before running this sample

@@ -7,6 +7,10 @@
 
 import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 export async function main() {
   // Enter your storage account name, shared key, share name, and directory name.
   // Please ensure your directory is mounted

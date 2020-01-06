@@ -1559,6 +1559,30 @@ export const ContentKeyPolicyPlayReadyConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const ContentKeyPolicyFairPlayOfflineRentalConfiguration: msRest.CompositeMapper = {
+  serializedName: "ContentKeyPolicyFairPlayOfflineRentalConfiguration",
+  type: {
+    name: "Composite",
+    className: "ContentKeyPolicyFairPlayOfflineRentalConfiguration",
+    modelProperties: {
+      playbackDurationSeconds: {
+        required: true,
+        serializedName: "playbackDurationSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      storageDurationSeconds: {
+        required: true,
+        serializedName: "storageDurationSeconds",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ContentKeyPolicyFairPlayConfiguration: msRest.CompositeMapper = {
   serializedName: "#Microsoft.Media.ContentKeyPolicyFairPlayConfiguration",
   type: {
@@ -1601,6 +1625,13 @@ export const ContentKeyPolicyFairPlayConfiguration: msRest.CompositeMapper = {
         serializedName: "rentalDuration",
         type: {
           name: "Number"
+        }
+      },
+      offlineRentalConfiguration: {
+        serializedName: "offlineRentalConfiguration",
+        type: {
+          name: "Composite",
+          className: "ContentKeyPolicyFairPlayOfflineRentalConfiguration"
         }
       }
     }
@@ -1868,6 +1899,17 @@ export const FaceDetectorPreset: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      experimentalOptions: {
+        serializedName: "experimentalOptions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1886,6 +1928,17 @@ export const AudioAnalyzerPreset: msRest.CompositeMapper = {
         serializedName: "audioLanguage",
         type: {
           name: "String"
+        }
+      },
+      experimentalOptions: {
+        serializedName: "experimentalOptions",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -3023,6 +3076,22 @@ export const JobOutput: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      startTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
       odatatype: {
         required: true,
         serializedName: "@odata\\.type",
@@ -3127,6 +3196,22 @@ export const Job: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      startTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "properties.startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "properties.endTime",
+        type: {
+          name: "DateTime"
         }
       }
     }

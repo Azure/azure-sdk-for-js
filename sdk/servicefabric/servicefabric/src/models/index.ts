@@ -1580,6 +1580,18 @@ export interface ApplicationUpgradeDescription {
    * entities.
    */
   applicationHealthPolicy?: ApplicationHealthPolicy;
+  /**
+   * Duration in seconds, to wait before a stateless instance is closed, to allow the active
+   * requests to drain gracefully. This would be effective when the instance is closing during the
+   * application/cluster
+   * upgrade, only for those instances which have a non-zero delay duration configured in the
+   * service description. See InstanceCloseDelayDurationSeconds property in $ref:
+   * "#/definitions/StatelessServiceDescription.yaml" for details.
+   * Note, the default value of InstanceCloseDelayDurationInSeconds is 4294967295, which indicates
+   * that the behavior will entirely depend on the delay configured in the stateless service
+   * description.
+   */
+  instanceCloseDelayDurationInSeconds?: number;
 }
 
 /**
@@ -2291,6 +2303,33 @@ export interface ContainerInstanceEvent {
 }
 
 /**
+ * Information about a configuration parameter override.
+ */
+export interface ConfigParameterOverride {
+  /**
+   * Name of the section for the parameter override.
+   */
+  sectionName: string;
+  /**
+   * Name of the parameter that has been overridden.
+   */
+  parameterName: string;
+  /**
+   * Value of the overridden parameter.
+   */
+  parameterValue: string;
+  /**
+   * The duration until config override is considered as valid.
+   */
+  timeout?: string;
+  /**
+   * A value that indicates whether config override will be removed on upgrade or will still be
+   * considered as valid.
+   */
+  persistAcrossUpgrade?: boolean;
+}
+
+/**
  * Describes the intent or reason for deactivating the node.
  */
 export interface DeactivationIntentDescription {
@@ -2903,6 +2942,12 @@ export interface HealthInformation {
    * This flags the entity as being in Error health state.
    */
   removeWhenExpired?: boolean;
+  /**
+   * A health report ID which identifies the health report and can be used to find more detailed
+   * information about a specific health event at
+   * aka.ms/sfhealthid
+   */
+  healthReportId?: string;
 }
 
 /**
@@ -4113,6 +4158,18 @@ export interface StartClusterUpgradeDescription {
    * of its children entities.
    */
   applicationHealthPolicyMap?: ApplicationHealthPolicies;
+  /**
+   * Duration in seconds, to wait before a stateless instance is closed, to allow the active
+   * requests to drain gracefully. This would be effective when the instance is closing during the
+   * application/cluster
+   * upgrade, only for those instances which have a non-zero delay duration configured in the
+   * service description. See InstanceCloseDelayDurationSeconds property in $ref:
+   * "#/definitions/StatelessServiceDescription.yaml" for details.
+   * Note, the default value of InstanceCloseDelayDurationInSeconds is 4294967295, which indicates
+   * that the behavior will entirely depend on the delay configured in the stateless service
+   * description.
+   */
+  instanceCloseDelayDurationInSeconds?: number;
 }
 
 /**
@@ -4179,6 +4236,18 @@ export interface RollingUpgradeUpdateDescription {
    * interpreted as a number representing the total number of milliseconds.
    */
   upgradeDomainTimeoutInMilliseconds?: string;
+  /**
+   * Duration in seconds, to wait before a stateless instance is closed, to allow the active
+   * requests to drain gracefully. This would be effective when the instance is closing during the
+   * application/cluster
+   * upgrade, only for those instances which have a non-zero delay duration configured in the
+   * service description. See InstanceCloseDelayDurationSeconds property in $ref:
+   * "#/definitions/StatelessServiceDescription.yaml" for details.
+   * Note, the default value of InstanceCloseDelayDurationInSeconds is 4294967295, which indicates
+   * that the behavior will entirely depend on the delay configured in the stateless service
+   * description.
+   */
+  instanceCloseDelayDurationInSeconds?: number;
 }
 
 /**
@@ -5269,6 +5338,26 @@ export interface StatelessServicePartitionInfo {
    * Number of instances of this partition.
    */
   instanceCount?: number;
+  /**
+   * MinInstanceCount is the minimum number of instances that must be up to meet the
+   * EnsureAvailability safety check during operations like upgrade or deactivate node.
+   * The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 *
+   * InstanceCount) ).
+   * Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted
+   * into the number of nodes on which the instances are allowed to be placed according to the
+   * placement constraints on the service.
+   */
+  minInstanceCount?: number;
+  /**
+   * MinInstancePercentage is the minimum percentage of InstanceCount that must be up to meet the
+   * EnsureAvailability safety check during operations like upgrade or deactivate node.
+   * The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 *
+   * InstanceCount) ).
+   * Note, if InstanceCount is set to -1, during MinInstancePercentage computation, -1 is first
+   * converted into the number of nodes on which the instances are allowed to be placed according
+   * to the placement constraints on the service.
+   */
+  minInstancePercentage?: number;
 }
 
 /**
@@ -6037,7 +6126,7 @@ export interface DeployedCodePackageInfo {
   /**
    * Specifies the status of a deployed application or service package on a Service Fabric node.
    * Possible values include: 'Invalid', 'Downloading', 'Activating', 'Active', 'Upgrading',
-   * 'Deactivating'
+   * 'Deactivating', 'RanToCompletion', 'Failed'
    */
   status?: DeploymentStatus;
   /**
@@ -6849,7 +6938,7 @@ export interface DeployedServicePackageInfo {
   /**
    * Specifies the status of a deployed application or service package on a Service Fabric node.
    * Possible values include: 'Invalid', 'Downloading', 'Activating', 'Active', 'Upgrading',
-   * 'Deactivating'
+   * 'Deactivating', 'RanToCompletion', 'Failed'
    */
   status?: DeploymentStatus;
   /**
@@ -7044,7 +7133,8 @@ export interface ServiceDescription {
    */
   servicePlacementPolicies?: ServicePlacementPolicyDescriptionUnion[];
   /**
-   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High'
+   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High',
+   * 'VeryHigh'
    */
   defaultMoveCost?: MoveCost;
   /**
@@ -7116,7 +7206,8 @@ export interface StatefulServiceDescription {
    */
   servicePlacementPolicies?: ServicePlacementPolicyDescriptionUnion[];
   /**
-   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High'
+   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High',
+   * 'VeryHigh'
    */
   defaultMoveCost?: MoveCost;
   /**
@@ -7165,6 +7256,8 @@ export interface StatefulServiceDescription {
    * 2.
    * - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The
    * value is 4.
+   * - ServicePlacementTimeLimit - Indicates the ServicePlacementTimeLimit property is set. The
+   * value is 8.
    */
   flags?: number;
   /**
@@ -7180,6 +7273,10 @@ export interface StatefulServiceDescription {
    * The definition on how long StandBy replicas should be maintained before being removed.
    */
   standByReplicaKeepDurationSeconds?: number;
+  /**
+   * The duration for which replicas can stay InBuild before reporting that build is stuck.
+   */
+  servicePlacementTimeLimitSeconds?: number;
 }
 
 /**
@@ -7231,7 +7328,8 @@ export interface StatelessServiceDescription {
    */
   servicePlacementPolicies?: ServicePlacementPolicyDescriptionUnion[];
   /**
-   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High'
+   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High',
+   * 'VeryHigh'
    */
   defaultMoveCost?: MoveCost;
   /**
@@ -7256,6 +7354,55 @@ export interface StatelessServiceDescription {
    * The instance count.
    */
   instanceCount: number;
+  /**
+   * MinInstanceCount is the minimum number of instances that must be up to meet the
+   * EnsureAvailability safety check during operations like upgrade or deactivate node.
+   * The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 *
+   * InstanceCount) ).
+   * Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted
+   * into the number of nodes on which the instances are allowed to be placed according to the
+   * placement constraints on the service.
+   */
+  minInstanceCount?: number;
+  /**
+   * MinInstancePercentage is the minimum percentage of InstanceCount that must be up to meet the
+   * EnsureAvailability safety check during operations like upgrade or deactivate node.
+   * The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 *
+   * InstanceCount) ).
+   * Note, if InstanceCount is set to -1, during MinInstancePercentage computation, -1 is first
+   * converted into the number of nodes on which the instances are allowed to be placed according
+   * to the placement constraints on the service.
+   */
+  minInstancePercentage?: number;
+  /**
+   * Flags indicating whether other properties are set. Each of the associated properties
+   * corresponds to a flag, specified below, which, if set, indicate that the property is
+   * specified.
+   * This property can be a combination of those flags obtained using bitwise 'OR' operator.
+   * For example, if the provided value is 1 then the flags for InstanceCloseDelayDuration is set.
+   *
+   * - None - Does not indicate any other properties are set. The value is zero.
+   * - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The
+   * value is 1.
+   */
+  flags?: number;
+  /**
+   * Duration in seconds, to wait before a stateless instance is closed, to allow the active
+   * requests to drain gracefully. This would be effective when the instance is closing during the
+   * application/cluster upgrade and disabling node.
+   * The endpoint exposed on this instance is removed prior to starting the delay, which prevents
+   * new connections to this instance.
+   * In addition, clients that have subscribed to service endpoint change
+   * events(https://docs.microsoft.com/en-us/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync),
+   * can do
+   * the following upon receiving the endpoint removal notification:
+   * - Stop sending new requests to this instance.
+   * - Close existing connections after in-flight requests have completed.
+   * - Connect to a different instance of the service partition for future requests.
+   * Note, the default value of InstanceCloseDelayDuration is 0, which indicates that there won't
+   * be any delay or removal of the endpoint prior to closing the instance.
+   */
+  instanceCloseDelayDurationSeconds?: number;
 }
 
 /**
@@ -7816,6 +7963,13 @@ export interface ServiceUpdateDescription {
    * - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
    * - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
    * - ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
+   * - ServicePlacementTimeLimit - Indicates the ServicePlacementTimeLimit property is set. The
+   * value is 2048.
+   * - MinInstanceCount - Indicates the MinInstanceCount property is set. The value is 4096.
+   * - MinInstancePercentage - Indicates the MinInstancePercentage property is set. The value is
+   * 8192.
+   * - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The
+   * value is 16384.
    */
   flags?: string;
   /**
@@ -7838,7 +7992,8 @@ export interface ServiceUpdateDescription {
    */
   servicePlacementPolicies?: ServicePlacementPolicyDescriptionUnion[];
   /**
-   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High'
+   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High',
+   * 'VeryHigh'
    */
   defaultMoveCost?: MoveCost;
   /**
@@ -7881,6 +8036,13 @@ export interface StatefulServiceUpdateDescription {
    * - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
    * - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
    * - ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
+   * - ServicePlacementTimeLimit - Indicates the ServicePlacementTimeLimit property is set. The
+   * value is 2048.
+   * - MinInstanceCount - Indicates the MinInstanceCount property is set. The value is 4096.
+   * - MinInstancePercentage - Indicates the MinInstancePercentage property is set. The value is
+   * 8192.
+   * - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The
+   * value is 16384.
    */
   flags?: string;
   /**
@@ -7903,7 +8065,8 @@ export interface StatefulServiceUpdateDescription {
    */
   servicePlacementPolicies?: ServicePlacementPolicyDescriptionUnion[];
   /**
-   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High'
+   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High',
+   * 'VeryHigh'
    */
   defaultMoveCost?: MoveCost;
   /**
@@ -7931,6 +8094,10 @@ export interface StatefulServiceUpdateDescription {
    * The definition on how long StandBy replicas should be maintained before being removed.
    */
   standByReplicaKeepDurationSeconds?: string;
+  /**
+   * The duration for which replicas can stay InBuild before reporting that build is stuck.
+   */
+  servicePlacementTimeLimitSeconds?: string;
 }
 
 /**
@@ -7967,6 +8134,13 @@ export interface StatelessServiceUpdateDescription {
    * - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
    * - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
    * - ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
+   * - ServicePlacementTimeLimit - Indicates the ServicePlacementTimeLimit property is set. The
+   * value is 2048.
+   * - MinInstanceCount - Indicates the MinInstanceCount property is set. The value is 4096.
+   * - MinInstancePercentage - Indicates the MinInstancePercentage property is set. The value is
+   * 8192.
+   * - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The
+   * value is 16384.
    */
   flags?: string;
   /**
@@ -7989,7 +8163,8 @@ export interface StatelessServiceUpdateDescription {
    */
   servicePlacementPolicies?: ServicePlacementPolicyDescriptionUnion[];
   /**
-   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High'
+   * The move cost for the service. Possible values include: 'Zero', 'Low', 'Medium', 'High',
+   * 'VeryHigh'
    */
   defaultMoveCost?: MoveCost;
   /**
@@ -8000,6 +8175,41 @@ export interface StatelessServiceUpdateDescription {
    * The instance count.
    */
   instanceCount?: number;
+  /**
+   * MinInstanceCount is the minimum number of instances that must be up to meet the
+   * EnsureAvailability safety check during operations like upgrade or deactivate node.
+   * The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 *
+   * InstanceCount) ).
+   * Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted
+   * into the number of nodes on which the instances are allowed to be placed according to the
+   * placement constraints on the service.
+   */
+  minInstanceCount?: number;
+  /**
+   * MinInstancePercentage is the minimum percentage of InstanceCount that must be up to meet the
+   * EnsureAvailability safety check during operations like upgrade or deactivate node.
+   * The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 *
+   * InstanceCount) ).
+   * Note, if InstanceCount is set to -1, during MinInstancePercentage computation, -1 is first
+   * converted into the number of nodes on which the instances are allowed to be placed according
+   * to the placement constraints on the service.
+   */
+  minInstancePercentage?: number;
+  /**
+   * Duration in seconds, to wait before a stateless instance is closed, to allow the active
+   * requests to drain gracefully. This would be effective when the instance is closing during the
+   * application/cluster upgrade and disabling node.
+   * The endpoint exposed on this instance is removed prior to starting the delay, which prevents
+   * new connections to this instance.
+   * In addition, clients that have subscribed to service endpoint change
+   * events(https://docs.microsoft.com/en-us/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync),
+   * can do
+   * the following upon receiving the endpoint removal notification:
+   * - Stop sending new requests to this instance.
+   * - Close existing connections after in-flight requests have completed.
+   * - Connect to a different instance of the service partition for future requests.
+   */
+  instanceCloseDelayDurationSeconds?: string;
 }
 
 /**
@@ -8020,6 +8230,20 @@ export interface FileVersion {
    * created or updated.
    */
   epochConfigurationNumber?: string;
+}
+
+/**
+ * Information about the disk
+ */
+export interface DiskInfo {
+  /**
+   * the disk size in bytes
+   */
+  capacity?: string;
+  /**
+   * the available disk space in bytes
+   */
+  availableSpace?: string;
 }
 
 /**
@@ -8074,6 +8298,21 @@ export interface FolderSizeInfo {
 }
 
 /**
+ * Information about how much space and how many files in the file system the ImageStore is using
+ * in this category
+ */
+export interface UsageInfo {
+  /**
+   * the size of all files in this category
+   */
+  usedSpace?: string;
+  /**
+   * the number of all files in this category
+   */
+  fileCount?: string;
+}
+
+/**
  * Information about the image store content.
  */
 export interface ImageStoreContent {
@@ -8112,6 +8351,39 @@ export interface ImageStoreCopyDescription {
    * constructed. If the property is true and mark file does not exist, the copy is skipped.
    */
   checkMarkFile?: boolean;
+}
+
+/**
+ * Information about the ImageStore's resource usage
+ */
+export interface ImageStoreInfo {
+  /**
+   * disk capacity and available disk space on the node where the ImageStore primary is placed.
+   */
+  diskInfo?: DiskInfo;
+  /**
+   * the ImageStore's file system usage for metadata.
+   */
+  usedByMetadata?: UsageInfo;
+  /**
+   * The ImageStore's file system usage for staging files that are being uploaded.
+   */
+  usedByStaging?: UsageInfo;
+  /**
+   * the ImageStore's file system usage for copied application and cluster packages. [Removing
+   * application and cluster
+   * packages](https://docs.microsoft.com/en-us/rest/api/servicefabric/sfclient-api-deleteimagestorecontent)
+   * will free up this space.
+   */
+  usedByCopy?: UsageInfo;
+  /**
+   * the ImageStore's file system usage for registered and cluster packages. [Unregistering
+   * application](https://docs.microsoft.com/en-us/rest/api/servicefabric/sfclient-api-unprovisionapplicationtype)
+   * and [cluster
+   * packages](https://docs.microsoft.com/en-us/rest/api/servicefabric/sfclient-api-unprovisionapplicationtype)
+   * will free up this space.
+   */
+  usedByRegister?: UsageInfo;
 }
 
 /**
@@ -13606,6 +13878,30 @@ export interface PagedVolumeResourceDescriptionList {
 }
 
 /**
+ * Describes a reference to a service endpoint.
+ */
+export interface EndpointRef {
+  /**
+   * Name of the endpoint.
+   */
+  name?: string;
+}
+
+/**
+ * Describes a network reference in a service.
+ */
+export interface NetworkRef {
+  /**
+   * Name of the network
+   */
+  name?: string;
+  /**
+   * A list of endpoints that are exposed on this network.
+   */
+  endpointRefs?: EndpointRef[];
+}
+
+/**
  * Contains the possible cases for NetworkResourcePropertiesBase.
  */
 export type NetworkResourcePropertiesBaseUnion = NetworkResourcePropertiesBase | NetworkResourcePropertiesUnion;
@@ -13677,30 +13973,6 @@ export interface LocalNetworkResourceProperties {
    * Address space for the local container network.
    */
   networkAddressPrefix?: string;
-}
-
-/**
- * Describes a reference to a service endpoint.
- */
-export interface EndpointRef {
-  /**
-   * Name of the endpoint.
-   */
-  name?: string;
-}
-
-/**
- * Describes a network reference in a service.
- */
-export interface NetworkRef {
-  /**
-   * Name of the network
-   */
-  name?: string;
-  /**
-   * A list of endpoints that are exposed on this network.
-   */
-  endpointRefs?: EndpointRef[];
 }
 
 /**
@@ -13948,8 +14220,14 @@ export interface ImageRegistryCredential {
    */
   username: string;
   /**
+   * The type of the image registry password being given in password. Possible values include:
+   * 'ClearText', 'KeyVaultReference', 'SecretValueReference'. Default value: 'ClearText'.
+   */
+  passwordType?: ImageRegistryPasswordType;
+  /**
    * The password for the private registry. The password is required for create or update
-   * operations, however it is not returned in the get or list operations.
+   * operations, however it is not returned in the get or list operations. Will be processed based
+   * on the type provided.
    */
   password?: string;
 }
@@ -13959,11 +14237,16 @@ export interface ImageRegistryCredential {
  */
 export interface EnvironmentVariable {
   /**
+   * The type of the environment variable being given in value. Possible values include:
+   * 'ClearText', 'KeyVaultReference', 'SecretValueReference'. Default value: 'ClearText'.
+   */
+  type?: EnvironmentVariableType;
+  /**
    * The name of the environment variable.
    */
   name?: string;
   /**
-   * The value of the environment variable.
+   * The value of the environment variable, will be processed based on the type provided.
    */
   value?: string;
 }
@@ -13975,11 +14258,16 @@ export interface EnvironmentVariable {
  */
 export interface Setting {
   /**
+   * The type of the setting being given in value. Possible values include: 'ClearText',
+   * 'KeyVaultReference', 'SecretValueReference'. Default value: 'ClearText'.
+   */
+  type?: SettingType;
+  /**
    * The name of the setting.
    */
   name?: string;
   /**
-   * The value of the setting.
+   * The value of the setting, will be processed based on the type provided.
    */
   value?: string;
 }
@@ -14167,6 +14455,104 @@ export interface ContainerInstanceView {
 }
 
 /**
+ * Exec command to run inside the container.
+ */
+export interface ProbeExec {
+  /**
+   * Comma separated command to run inside the container for example "sh, -c, echo hello world".
+   */
+  command: string;
+}
+
+/**
+ * Http headers.
+ */
+export interface ProbeHttpGetHeaders {
+  /**
+   * The name of the header.
+   */
+  name: string;
+  /**
+   * The value of the header.
+   */
+  value: string;
+}
+
+/**
+ * Http probe for the container.
+ */
+export interface ProbeHttpGet {
+  /**
+   * Port to access for probe.
+   */
+  port: number;
+  /**
+   * Path to access on the HTTP request.
+   */
+  path?: string;
+  /**
+   * Host IP to connect to.
+   */
+  host?: string;
+  /**
+   * Headers to set in the request.
+   */
+  httpHeaders?: ProbeHttpGetHeaders[];
+  /**
+   * Scheme for the http probe. Can be Http or Https. Possible values include: 'http', 'https'
+   */
+  scheme?: Scheme;
+}
+
+/**
+ * Tcp port to probe inside the container.
+ */
+export interface ProbeTcpSocket {
+  /**
+   * Port to access for probe.
+   */
+  port: number;
+}
+
+/**
+ * Probes have a number of fields that you can use to control their behavior.
+ */
+export interface Probe {
+  /**
+   * The initial delay in seconds to start executing probe once code package has started.
+   */
+  initialDelaySeconds?: number;
+  /**
+   * Periodic seconds to execute probe.
+   */
+  periodSeconds?: number;
+  /**
+   * Period after which probe is considered as failed if it hasn't completed successfully.
+   */
+  timeoutSeconds?: number;
+  /**
+   * The count of successful probe executions after which probe is considered success.
+   */
+  successThreshold?: number;
+  /**
+   * The count of failures after which probe is considered failed.
+   */
+  failureThreshold?: number;
+  /**
+   * Exec command to run inside the container.
+   */
+  exec?: ProbeExec;
+  /**
+   * Http probe for the container.
+   */
+  httpGet?: ProbeHttpGet;
+  /**
+   * Tcp port to probe inside the container.
+   */
+  tcpSocket?: ProbeTcpSocket;
+}
+
+/**
  * Describes a container and its runtime properties.
  */
 export interface ContainerCodePackageProperties {
@@ -14236,6 +14622,29 @@ export interface ContainerCodePackageProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly instanceView?: ContainerInstanceView;
+  /**
+   * An array of liveness probes for a code package. It determines when to restart a code package.
+   */
+  livenessProbe?: Probe[];
+  /**
+   * An array of readiness probes for a code package. It determines when to unpublish an endpoint.
+   */
+  readinessProbe?: Probe[];
+}
+
+/**
+ * Contains the possible cases for ExecutionPolicy.
+ */
+export type ExecutionPolicyUnion = ExecutionPolicy | RunToCompletionExecutionPolicy;
+
+/**
+ * The execution policy of the service
+ */
+export interface ExecutionPolicy {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ExecutionPolicy";
 }
 
 /**
@@ -14337,6 +14746,10 @@ export interface ServiceResourceDescription {
    */
   replicaCount?: number;
   /**
+   * The execution policy of the service
+   */
+  executionPolicy?: ExecutionPolicyUnion;
+  /**
    * Auto scaling policies
    */
   autoScalingPolicies?: AutoScalingPolicy[];
@@ -14367,6 +14780,10 @@ export interface ServiceResourceDescription {
    * The service identity list.
    */
   identityRefs?: ServiceIdentity[];
+  /**
+   * Dns name of the service.
+   */
+  dnsName?: string;
 }
 
 /**
@@ -14409,6 +14826,85 @@ export interface DiagnosticsDescription {
    * and code package level.
    */
   defaultSinkRefs?: string[];
+}
+
+/**
+ * Information about how many replicas are completed or pending for a specific service during
+ * upgrade.
+ */
+export interface ServiceUpgradeProgress {
+  /**
+   * Name of the Service resource.
+   */
+  serviceName?: string;
+  /**
+   * The number of replicas that completes the upgrade in the service.
+   */
+  completedReplicaCount?: string;
+  /**
+   * The number of replicas that are waiting to be upgraded in the service.
+   */
+  pendingReplicaCount?: string;
+}
+
+/**
+ * This type describes an application resource upgrade.
+ */
+export interface ApplicationResourceUpgradeProgressInfo {
+  /**
+   * Name of the Application resource.
+   */
+  name?: string;
+  /**
+   * The target application version for the application upgrade.
+   */
+  targetApplicationTypeVersion?: string;
+  /**
+   * The estimated UTC datetime when the upgrade started.
+   */
+  startTimestampUtc?: string;
+  /**
+   * The state of the application resource upgrade. Possible values include: 'Invalid',
+   * 'ProvisioningTarget', 'RollingForward', 'UnprovisioningCurrent', 'CompletedRollforward',
+   * 'RollingBack', 'UnprovisioningTarget', 'CompletedRollback', 'Failed'
+   */
+  upgradeState?: ApplicationResourceUpgradeState;
+  /**
+   * The estimated percent of replicas are completed in the upgrade.
+   */
+  percentCompleted?: string;
+  /**
+   * List of service upgrade progresses.
+   */
+  serviceUpgradeProgress?: ServiceUpgradeProgress[];
+  /**
+   * The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto,
+   * UnmonitoredManual, and Monitored. Possible values include: 'Invalid', 'UnmonitoredAuto',
+   * 'UnmonitoredManual', 'Monitored'. Default value: 'Monitored'.
+   */
+  rollingUpgradeMode?: RollingUpgradeMode;
+  /**
+   * The estimated amount of time that the overall upgrade elapsed. It is first interpreted as a
+   * string representing an ISO 8601 duration. If that fails, then it is interpreted as a number
+   * representing the total number of milliseconds. Default value: 'PT0H2M0S'.
+   */
+  upgradeDuration?: string;
+  /**
+   * Additional detailed information about the status of the pending upgrade.
+   */
+  applicationUpgradeStatusDetails?: string;
+  /**
+   * The maximum amount of time to block processing of an upgrade domain and prevent loss of
+   * availability when there are unexpected issues. When this timeout expires, processing of the
+   * upgrade domain will proceed regardless of availability loss issues. The timeout is reset at
+   * the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive.
+   * (unsigned 32-bit integer). Default value: 42949672925.
+   */
+  upgradeReplicaSetCheckTimeoutInSeconds?: number;
+  /**
+   * The estimated UTC datetime when the upgrade failed and FailureAction was executed.
+   */
+  failureTimestampUtc?: string;
 }
 
 /**
@@ -14544,6 +15040,21 @@ export interface AutoScalingResourceMetric {
 }
 
 /**
+ * The run to completion execution policy
+ */
+export interface RunToCompletionExecutionPolicy {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "runToCompletion";
+  /**
+   * Enumerates the restart policy for RunToCompletionExecutionPolicy. Possible values include:
+   * 'onFailure', 'never'
+   */
+  restart: RestartPolicy;
+}
+
+/**
  * Describes properties of a service resource.
  */
 export interface ServiceProperties {
@@ -14555,6 +15066,10 @@ export interface ServiceProperties {
    * The number of replicas of the service to create. Defaults to 1 if not specified.
    */
   replicaCount?: number;
+  /**
+   * The execution policy of the service
+   */
+  executionPolicy?: ExecutionPolicyUnion;
   /**
    * Auto scaling policies
    */
@@ -14586,6 +15101,10 @@ export interface ServiceProperties {
    * The service identity list.
    */
   identityRefs?: ServiceIdentity[];
+  /**
+   * Dns name of the service.
+   */
+  dnsName?: string;
 }
 
 /**
@@ -15493,6 +16012,46 @@ export interface ServiceFabricClientRemoveNodeStateOptionalParams extends msRest
  * Optional Parameters.
  */
 export interface ServiceFabricClientRestartNodeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The server timeout for performing the operation in seconds. This timeout specifies the time
+   * duration that the client is willing to wait for the requested operation to complete. The
+   * default value for this parameter is 60 seconds. Default value: 60.
+   */
+  timeoutParameter?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ServiceFabricClientRemoveConfigurationOverridesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The server timeout for performing the operation in seconds. This timeout specifies the time
+   * duration that the client is willing to wait for the requested operation to complete. The
+   * default value for this parameter is 60 seconds. Default value: 60.
+   */
+  timeoutParameter?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ServiceFabricClientGetConfigurationOverridesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The server timeout for performing the operation in seconds. This timeout specifies the time
+   * duration that the client is willing to wait for the requested operation to complete. The
+   * default value for this parameter is 60 seconds. Default value: 60.
+   */
+  timeoutParameter?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ServiceFabricClientAddConfigurationParameterOverridesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Force adding configuration overrides on specified nodes.
+   */
+  force?: boolean;
   /**
    * The server timeout for performing the operation in seconds. This timeout specifies the time
    * duration that the client is willing to wait for the requested operation to complete. The
@@ -17733,6 +18292,18 @@ export interface ServiceFabricClientGetImageStoreFolderSizeOptionalParams extend
 /**
  * Optional Parameters.
  */
+export interface ServiceFabricClientGetImageStoreInfoOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The server timeout for performing the operation in seconds. This timeout specifies the time
+   * duration that the client is willing to wait for the requested operation to complete. The
+   * default value for this parameter is 60 seconds. Default value: 60.
+   */
+  timeoutParameter?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface ServiceFabricClientInvokeInfrastructureCommandOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The identity of the infrastructure service. This is the full name of the infrastructure
@@ -19325,11 +19896,11 @@ export type HostIsolationMode = 'None' | 'Process' | 'HyperV';
 /**
  * Defines values for DeploymentStatus.
  * Possible values include: 'Invalid', 'Downloading', 'Activating', 'Active', 'Upgrading',
- * 'Deactivating'
+ * 'Deactivating', 'RanToCompletion', 'Failed'
  * @readonly
  * @enum {string}
  */
-export type DeploymentStatus = 'Invalid' | 'Downloading' | 'Activating' | 'Active' | 'Upgrading' | 'Deactivating';
+export type DeploymentStatus = 'Invalid' | 'Downloading' | 'Activating' | 'Active' | 'Upgrading' | 'Deactivating' | 'RanToCompletion' | 'Failed';
 
 /**
  * Defines values for EntryPointStatus.
@@ -19393,11 +19964,11 @@ export type ServiceCorrelationScheme = 'Invalid' | 'Affinity' | 'AlignedAffinity
 
 /**
  * Defines values for MoveCost.
- * Possible values include: 'Zero', 'Low', 'Medium', 'High'
+ * Possible values include: 'Zero', 'Low', 'Medium', 'High', 'VeryHigh'
  * @readonly
  * @enum {string}
  */
-export type MoveCost = 'Zero' | 'Low' | 'Medium' | 'High';
+export type MoveCost = 'Zero' | 'Low' | 'Medium' | 'High' | 'VeryHigh';
 
 /**
  * Defines values for PartitionScheme.
@@ -19683,11 +20254,11 @@ export type ResourceStatus = 'Unknown' | 'Ready' | 'Upgrading' | 'Creating' | 'D
 
 /**
  * Defines values for SecretKind.
- * Possible values include: 'inlinedValue'
+ * Possible values include: 'inlinedValue', 'keyVaultVersionedReference'
  * @readonly
  * @enum {string}
  */
-export type SecretKind = 'inlinedValue';
+export type SecretKind = 'inlinedValue' | 'keyVaultVersionedReference';
 
 /**
  * Defines values for VolumeProvider.
@@ -19738,6 +20309,56 @@ export type HeaderMatchType = 'exact';
 export type OperatingSystemType = 'Linux' | 'Windows';
 
 /**
+ * Defines values for ImageRegistryPasswordType.
+ * Possible values include: 'ClearText', 'KeyVaultReference', 'SecretValueReference'
+ * @readonly
+ * @enum {string}
+ */
+export type ImageRegistryPasswordType = 'ClearText' | 'KeyVaultReference' | 'SecretValueReference';
+
+/**
+ * Defines values for EnvironmentVariableType.
+ * Possible values include: 'ClearText', 'KeyVaultReference', 'SecretValueReference'
+ * @readonly
+ * @enum {string}
+ */
+export type EnvironmentVariableType = 'ClearText' | 'KeyVaultReference' | 'SecretValueReference';
+
+/**
+ * Defines values for SettingType.
+ * Possible values include: 'ClearText', 'KeyVaultReference', 'SecretValueReference'
+ * @readonly
+ * @enum {string}
+ */
+export type SettingType = 'ClearText' | 'KeyVaultReference' | 'SecretValueReference';
+
+/**
+ * Defines values for Scheme.
+ * Possible values include: 'http', 'https'
+ * @readonly
+ * @enum {string}
+ */
+export type Scheme = 'http' | 'https';
+
+/**
+ * Defines values for ApplicationResourceUpgradeState.
+ * Possible values include: 'Invalid', 'ProvisioningTarget', 'RollingForward',
+ * 'UnprovisioningCurrent', 'CompletedRollforward', 'RollingBack', 'UnprovisioningTarget',
+ * 'CompletedRollback', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type ApplicationResourceUpgradeState = 'Invalid' | 'ProvisioningTarget' | 'RollingForward' | 'UnprovisioningCurrent' | 'CompletedRollforward' | 'RollingBack' | 'UnprovisioningTarget' | 'CompletedRollback' | 'Failed';
+
+/**
+ * Defines values for RollingUpgradeMode.
+ * Possible values include: 'Invalid', 'UnmonitoredAuto', 'UnmonitoredManual', 'Monitored'
+ * @readonly
+ * @enum {string}
+ */
+export type RollingUpgradeMode = 'Invalid' | 'UnmonitoredAuto' | 'UnmonitoredManual' | 'Monitored';
+
+/**
  * Defines values for DiagnosticsSinkKind.
  * Possible values include: 'Invalid', 'AzureInternalMonitoringPipeline'
  * @readonly
@@ -19776,6 +20397,22 @@ export type AutoScalingResourceMetricName = 'cpu' | 'memoryInGB';
  * @enum {string}
  */
 export type AutoScalingTriggerKind = 'AverageLoad';
+
+/**
+ * Defines values for ExecutionPolicyType.
+ * Possible values include: 'runToCompletion'
+ * @readonly
+ * @enum {string}
+ */
+export type ExecutionPolicyType = 'runToCompletion';
+
+/**
+ * Defines values for RestartPolicy.
+ * Possible values include: 'onFailure', 'never'
+ * @readonly
+ * @enum {string}
+ */
+export type RestartPolicy = 'onFailure' | 'never';
 
 /**
  * Defines values for NodeStatusFilter.
@@ -20223,6 +20860,26 @@ export type GetNodeLoadInfoResponse = NodeLoadInfo & {
        * The response body as parsed JSON or XML
        */
       parsedBody: NodeLoadInfo;
+    };
+};
+
+/**
+ * Contains response data for the getConfigurationOverrides operation.
+ */
+export type GetConfigurationOverridesResponse = Array<ConfigParameterOverride> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConfigParameterOverride[];
     };
 };
 
@@ -21507,6 +22164,26 @@ export type GetImageStoreFolderSizeResponse = FolderSizeInfo & {
 };
 
 /**
+ * Contains response data for the getImageStoreInfo operation.
+ */
+export type GetImageStoreInfoResponse = ImageStoreInfo & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageStoreInfo;
+    };
+};
+
+/**
  * Contains response data for the invokeInfrastructureCommand operation.
  */
 export type InvokeInfrastructureCommandResponse = {
@@ -22553,6 +23230,26 @@ export type MeshApplicationListResponse = PagedApplicationResourceDescriptionLis
        * The response body as parsed JSON or XML
        */
       parsedBody: PagedApplicationResourceDescriptionList;
+    };
+};
+
+/**
+ * Contains response data for the getUpgradeProgress operation.
+ */
+export type MeshApplicationGetUpgradeProgressResponse = ApplicationResourceUpgradeProgressInfo & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApplicationResourceUpgradeProgressInfo;
     };
 };
 
