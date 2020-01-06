@@ -109,7 +109,7 @@ An operation result, such as `AnalyzeSentimentResult`, is the result of a Text A
 
 ### Operation Result Collection
 
-An operation result collection, such as `AnalyzeSentimentResultCollection`, is a collection of operation results, where each corresponds to one of the text inputs provided in the input batch. A text input and its result will have the same index the input and result collections. An operation result collection may optionally include information about the input batch and how it was processed.
+An operation result collection, such as `AnalyzeSentimentResultCollection`, is a collection of operation results, where each corresponds to one of the text inputs provided in the input batch. A text input and its result will have the same index in the input and result collections. An operation result collection may optionally include information about the input batch and how it was processed.
 
 ### Operation Overloads
 
