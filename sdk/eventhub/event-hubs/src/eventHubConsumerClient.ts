@@ -23,6 +23,7 @@ import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
 import { PartitionGate } from "./impl/partitionGate";
 import uuid from "uuid/v4";
+import { validateEventPositions } from './eventPosition';
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
@@ -35,14 +36,19 @@ const defaultConsumerClientOptions: Required<Pick<
 };
 
 /**
- * The `EventHubConsumerClient` is the main point of interaction for consuming events in Azure Event Hubs service.
+ * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
  *
  * There are multiple ways to create an `EventHubConsumerClient`
  * - Use the connection string from the SAS policy created for your Event Hub instance.
  * - Use the connection string from the SAS policy created for your Event Hub namespace,
  * and the name of the Event Hub instance
- * - Use the fully qualified domain name of your Event Hub namespace like `<yournamespace>.servicebus.windows.net`,
- * and a credentials object.
+ * - Use the full namespace like `<yournamespace>.servicebus.windows.net`, and a credentials object.
+ * 
+ * Optionally, you can also pass:
+ * - An options bag to configure the retry policy or proxy settings.
+ * - A checkpoint store that is used by the client to read checkpoints to determine the position from where it should
+ * resume receiving events when your application gets restarted. The checkpoint store is also used by the client 
+ * to load balance multiple instances of your application.
  */
 export class EventHubConsumerClient {
   private _eventHubClient: EventHubClient;
@@ -58,34 +64,56 @@ export class EventHubConsumerClient {
   private _checkpointStore: CheckpointStore;
   private _userChoseCheckpointStore: boolean;
 
+    /**
+   * @property
+   * @readonly
+   * The name of the Event Hub instance for which this client is created.
+   */
+  get eventHubName(): string {
+    return this._eventHubClient.eventHubName;
+  }
+
+  /**
+   * @property
+   * @readonly
+   * The fully qualified namespace of the Event Hub instance for which this client is created.
+   * This is likely to be similar to <yournamespace>.servicebus.windows.net.
+   */
+  get fullyQualifiedNamespace(): string {
+    return this._eventHubClient.fullyQualifiedNamespace;
+  }
+
   /**
    * @constructor
+   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
+   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
-   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
+   * @param connectionString - The connection string to use for connecting to the Event Hub instance.
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
    * @param options - A set of options to apply when configuring the client.
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
-   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
+   * - `retryOptions`   : Configures the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
+   * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
   constructor(consumerGroup: string, connectionString: string, options?: EventHubClientOptions); // #1
   /**
    * @constructor
+   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
+   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
-   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
+   * @param connectionString - The connection string to use for connecting to the Event Hub instance.
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
-   * @param checkpointStore An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for a
-   *  production-ready implementation.
+   * @param checkpointStore A checkpoint store that is used by the client to read checkpoints to determine
+   * the position from where it should resume receiving events when your application gets restarted.
+   * It is also used by the client to load balance multiple instances of your application.
    * @param options - A set of options to apply when configuring the client.
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
-   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
+   * - `retryOptions`   : Configures the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
+   * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
   constructor(
     consumerGroup: string,
@@ -95,17 +123,18 @@ export class EventHubConsumerClient {
   ); // #1.1
   /**
    * @constructor
+   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
+   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
-   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
-   * it is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
+   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
+   * It is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
-   * @param eventHubName - The path of the specific Event Hub to connect the client to.
+   * @param eventHubName - The name of the specific Event Hub to connect the client to.
    * @param options - A set of options to apply when configuring the client.
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
+   * - `retryOptions`   : Configures the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
+   * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
   constructor(
     consumerGroup: string,
@@ -115,19 +144,21 @@ export class EventHubConsumerClient {
   ); // #2
   /**
    * @constructor
+   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
+   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
-   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace;
-   * it is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
+   * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
+   * It is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
-   * @param eventHubName - The path of the specific Event Hub to connect the client to.
-   * @param checkpointStore An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for a
-   *  production-ready implementation.
+   * @param eventHubName - The name of the specific Event Hub to connect the client to.
+   * @param checkpointStore A checkpoint store that is used by the client to read checkpoints to determine
+   * the position from where it should resume receiving events when your application gets restarted.
+   * It is also used by the client to load balance multiple instances of your application.
    * @param options - A set of options to apply when configuring the client.
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
+   * - `retryOptions`   : Configures the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
+   * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
   constructor(
     consumerGroup: string,
@@ -138,17 +169,19 @@ export class EventHubConsumerClient {
   ); // #2.1
   /**
    * @constructor
+   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
+   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
-   * @param fullyQualifiedNamespace - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The full namespace which is likely to be similar to
    * <yournamespace>.servicebus.windows.net
-   * @param eventHubName - The path of the specific Event Hub to connect the client to.
-   * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
+   * @param eventHubName - The name of the specific Event Hub to connect the client to.
+   * @param credential - An credential object used by the client to get the token to authenticate the connection
+   * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
    * @param options - A set of options to apply when configuring the client.
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
+   * - `retryOptions`   : Configures the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
+   * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
   constructor(
     consumerGroup: string,
@@ -159,19 +192,22 @@ export class EventHubConsumerClient {
   ); // #3
   /**
    * @constructor
+   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
+   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
-   * @param fullyQualifiedNamespace - The fully qualified host name for the Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The full namespace which is likely to be similar to
    * <yournamespace>.servicebus.windows.net
-   * @param eventHubName - The path of the specific Event Hub to connect the client to.
-   * @param credential - SharedKeyCredential object or your credential that implements the TokenCredential interface.
-   * @param checkpointStore An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for a
-   *  production-ready implementation.
+   * @param eventHubName - The name of the specific Event Hub to connect the client to.
+   * @param credential - An credential object used by the client to get the token to authenticate the connection
+   * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
+   * @param checkpointStore A checkpoint store that is used by the client to read checkpoints to determine
+   * the position from where it should resume receiving events when your application gets restarted.
+   * It is also used by the client to load balance multiple instances of your application.
    * @param options - A set of options to apply when configuring the client.
-   * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
-   * to the service.
-   * - `webSocketOptions`: Options for the websocket implementation used for AMQP.
-   * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
-   * A simple usage can be `{ "maxRetries": 4 }`.
+   * - `retryOptions`   : Configures the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
+   * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
   constructor(
     consumerGroup: string,
@@ -271,30 +307,31 @@ export class EventHubConsumerClient {
    * Closes the AMQP connection to the Event Hub instance,
    * returning a promise that will be resolved when disconnection is completed.
    * @returns Promise<void>
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   close(): Promise<void> {
     return this._eventHubClient.close();
   }
 
   /**
-   * Provides an array of partitionIds.
-   * @param [options] The set of options to apply to the operation call.
-   * @returns A promise that resolves with an Array of strings.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * Provides the id for each partition associated with the Event Hub.
+   * @param options The set of options to apply to the operation call.
+   * @returns A promise that resolves with an Array of strings representing the id for
+   * each partition associated with the Event Hub.
+   * @throws Error if the underlying connection has been closed, create a new EventHubConsumerClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<string[]> {
     return this._eventHubClient.getPartitionIds(options);
   }
 
   /**
-   * Provides information about the specified partition.
-   * @param partitionId Partition ID for which partition information is required.
-   * @param [options] The set of options to apply to the operation call.
-   * @returns A promise that resoloves with PartitionProperties.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * Provides information about the state of the specified partition.
+   * @param partitionId The id of the partition for which information is required.
+   * @param options The set of options to apply to the operation call.
+   * @returns A promise that resolves with information about the state of the partition .
+   * @throws Error if the underlying connection has been closed, create a new EventHubConsumerClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getPartitionProperties(
     partitionId: string,
@@ -305,34 +342,42 @@ export class EventHubConsumerClient {
 
   /**
    * Provides the Event Hub runtime information.
-   * @param [options] The set of options to apply to the operation call.
-   * @returns A promise that resolves with EventHubProperties.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @param options The set of options to apply to the operation call.
+   * @returns A promise that resolves with information about the Event Hub instance.
+   * @throws Error if the underlying connection has been closed, create a new EventHubConsumerClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     return this._eventHubClient.getProperties(options);
   }
 
   /**
-   * Subscribe to all messages from all available partitions.
+   * Subscribe to events from all partitions.
+   * 
+   * If checkpoint store is provided to the `EventHubConsumerClient` and there are multiple
+   * instances of your application, then each instance will subscribe to a subset of the
+   * partitions such that the load is balanced amongst them.
    *
-   * @param handlers Handlers for the lifecycle of the subscription - initialization
+   * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
    *                 per partition, receiving events, handling errors and the closing
    *                 of a subscription per partition.
-   * @param options Options to handle additional events related to partitions (errors,
-   *                opening, closing) as well as batch sizing.
+   * @param options Configures the way events are received.
+   * Most common are `maxBatchSize` and `maxWaitTimeInSeconds` that control the flow of 
+   * events to the handler provided to receive events as well as the start position. For example,
+   * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }
    */
   subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription; // #1
   /**
-   * Subscribe to all messages from a single partition.
+   * Subscribe to events from a single partition.
    *
-   * @param partitionId A partition id to subscribe to.
-   * @param handlers Handlers for the lifecycle of the subscription - initialization
-   *                 per partition, receiving events, handling errors and the closing
-   *                 of a subscription per partition.
-   * @param options Options to handle additional events related to partitions (errors,
-   *                opening, closing) as well as batch sizing.
+   * @param partitionId The id of the partition to subscribe to.
+   * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
+   *                 of the partition, receiving events, handling errors and the closing
+   *                 of a subscription to the partition.
+   * @param options Configures the way events are received.
+   * Most common are `maxBatchSize` and `maxWaitTimeInSeconds` that control the flow of 
+   * events to the handler provided to receive events as well as the start position. For example,
+   * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }
    */
 
   subscribe(
@@ -350,15 +395,23 @@ export class EventHubConsumerClient {
 
     if (isSubscriptionEventHandlers(handlersOrPartitionId1)) {
       // #1: subscribe overload - read from all partitions
+      const options = optionsOrHandlers2 as SubscribeOptions | undefined;
+      if (options && options.startPosition) {
+        validateEventPositions(options.startPosition);
+      }
       ({ targetedPartitionId, eventProcessor } = this.createEventProcessorForAllPartitions(
         handlersOrPartitionId1,
-        optionsOrHandlers2 as SubscribeOptions | undefined
+        options
       ));
     } else if (
       typeof handlersOrPartitionId1 === "string" &&
       isSubscriptionEventHandlers(optionsOrHandlers2)
     ) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
+      const options = possibleOptions3 as SubscribeOptions | undefined;
+      if (options && options.startPosition) {
+        validateEventPositions(options.startPosition);
+      }
       ({ targetedPartitionId, eventProcessor } = this.createEventProcessorForSinglePartition(
         handlersOrPartitionId1,
         optionsOrHandlers2,

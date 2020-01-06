@@ -91,11 +91,13 @@ export abstract class BaseRecorder {
   protected filterSecrets(recording: string): string {
     let updatedRecording = recording;
     for (const k of Object.keys(replaceableVariables)) {
-      const escaped = escapeRegExp(env[k]);
-      updatedRecording = updatedRecording.replace(
-        new RegExp(escaped, "g"),
-        replaceableVariables[k]
-      );
+      if (env[k]) {
+        const escaped = escapeRegExp(env[k]);
+        updatedRecording = updatedRecording.replace(
+          new RegExp(escaped, "g"),
+          replaceableVariables[k]
+        );
+      }
     }
     for (const map of replacements) {
       updatedRecording = map(updatedRecording);

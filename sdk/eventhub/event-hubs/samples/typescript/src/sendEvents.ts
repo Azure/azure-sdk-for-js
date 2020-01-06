@@ -1,7 +1,7 @@
-/*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT Licence.
 
+/*
   This sample demonstrates how the send() function can be used to send events to Event Hubs.
   See https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about to learn about Event Hubs.
 
@@ -9,8 +9,11 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { runSample } from './sampleHelpers';
 import { EventHubProducerClient } from "@azure/event-hubs";
+
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
@@ -30,16 +33,16 @@ export async function main(): Promise<void> {
     // which partition will accept this message.
     //
     // This pattern works well if the consumers of your events do not have any particular
-    // requirements about the ordering of batches against other batches or if you don't care 
+    // requirements about the ordering of batches against other batches or if you don't care
     // which messages are assigned to which partition.
     //
     // If you would like more control you can pass either a `partitionKey` or a `partitionId`
-    // into the createBatch() `options` parameter which will allow you full control over the 
+    // into the createBatch() `options` parameter which will allow you full control over the
     // destination.
     const batchOptions = {
       // The maxSizeInBytes lets you manually control the size of the batch.
       // if this is not set we will get the maximum batch size from Event Hubs.
-      // 
+      //
       // For this sample you can change the batch size to see how different parts
       // of the sample handle batching. In production we recommend using the default
       // and not specifying a maximum size.
@@ -64,7 +67,7 @@ export async function main(): Promise<void> {
         ++i;
         continue;
       }
-      
+
       if (batch.count === 0) {
         // If we can't add it and the batch is empty that means the message we're trying to send
         // is too large, even when it would be the _only_ message in the batch.
@@ -84,10 +87,10 @@ export async function main(): Promise<void> {
       // and create a new one to house the next set of messages
       batch = await producer.createBatch(batchOptions);
     }
-    
+
     // send any remaining messages, if any.
     if (batch.count > 0) {
-      console.log(`Sending remaining ${batch.count} messages as a single batch.`)
+      console.log(`Sending remaining ${batch.count} messages as a single batch.`);
       await producer.sendBatch(batch);
       numEventsSent += batch.count;
     }
@@ -105,4 +108,6 @@ export async function main(): Promise<void> {
   console.log(`Exiting sendEvents sample`);
 }
 
-runSample(main);
+main().catch((error) => {
+  console.error("Error running sample:", error);
+});

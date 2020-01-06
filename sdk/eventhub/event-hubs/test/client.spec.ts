@@ -10,7 +10,7 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { EventPosition, TokenCredential } from "../src";
+import { TokenCredential, earliestEventPosition } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -183,7 +183,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       const receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        EventPosition.earliest()
+        earliestEventPosition
       );
       await receiver.receiveBatch(10, 5);
       throw new Error("Test failure");
@@ -253,7 +253,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       const receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        EventPosition.earliest()
+        earliestEventPosition
       );
       await receiver.receiveBatch(10, 5);
       throw new Error("Test failure");
@@ -352,7 +352,7 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
     receiver = client.createConsumer(
       EventHubClient.defaultConsumerGroupName,
       "0",
-      EventPosition.fromEnqueuedTime(timeNow)
+      { enqueuedOn: timeNow }
     );
     const msgs = await receiver.receiveBatch(1, 10);
     should.equal(msgs.length, 1);
@@ -439,7 +439,7 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
       receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        EventPosition.earliest()
+        earliestEventPosition
       );
     } catch (err) {
       errorNewReceiver = err.message;

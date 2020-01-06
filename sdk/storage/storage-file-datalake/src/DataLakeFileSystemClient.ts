@@ -37,6 +37,7 @@ import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "
 import { createSpan } from "./utils/tracing";
 import { appendToURLPath } from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * A DataLakeFileSystemClient represents a URL to the Azure Storage file system
@@ -102,6 +103,12 @@ export class DataLakeFileSystemClient extends StorageClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
     if (credentialOrPipeline instanceof Pipeline) {
       super(url, credentialOrPipeline);
     } else {
@@ -112,7 +119,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         credential = credentialOrPipeline;
       }
 
-      const pipeline = newPipeline(credential, options);
+      const pipeline = newPipeline(credential, newOptions);
       super(url, pipeline);
     }
 

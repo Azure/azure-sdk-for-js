@@ -91,9 +91,17 @@
     "prebuild": "npm run clean"
   },
   "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "lib/util/constants.ts",
+        "prefix": "coreArmVersion"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/core-http": "^1.0.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.6",
@@ -122,13 +130,5 @@
     "typescript": "~3.6.4",
     "uglify-js": "^3.4.9",
     "yarn": "^1.6.0"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "lib/util/constants.ts",
-        "prefix": "coreArmVersion"
-      }
-    ]
   }
 }

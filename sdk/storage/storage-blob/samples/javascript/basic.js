@@ -61,7 +61,7 @@ async function main() {
   const content = "hello";
   const blobName = "newblob" + new Date().getTime();
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
   console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
