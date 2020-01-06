@@ -23,22 +23,19 @@ describe("Errors", function() {
     it("Does not touch errors that are neither AmqpError nor SystemError", function() {
       const testError = new Error("Test error");
       const translatedError = Errors.translate(testError);
-      translatedError.name.should.equal(testError.name);
-      translatedError.message.should.equal(testError.message);
+      translatedError.should.deep.equal(testError);
     });
 
     it("Does not touch TypeError", function() {
       const testError = new TypeError("This is a wrong type!!");
       const translatedError = Errors.translate(testError);
-      translatedError.name.should.equal(testError.name);
-      translatedError.message.should.equal(testError.message);
+      translatedError.should.deep.equal(testError);
     });
 
     it("Does not touch RangeError", function() {
       const testError = new RangeError("Out of range!!");
       const translatedError = Errors.translate(testError);
-      translatedError.name.should.equal(testError.name);
-      translatedError.message.should.equal(testError.message);
+      translatedError.should.deep.equal(testError);
     });
 
     it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", function() {
