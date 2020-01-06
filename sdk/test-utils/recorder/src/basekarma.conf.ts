@@ -8,27 +8,50 @@ import fs from "fs-extra";
 // - Example - console.log("hello"); -> console.log({ log: "hello" });
 
 /**
- * When jsonRecordingFilterFunction is passed as a filter to `jsonToFileReporter` in karma.conf.js,
+ * When `jsonRecordingFilterFunction` is passed as a filter to `jsonToFileReporter` in karma.conf.js,
  * it captures the recordings(as JSON strings) from the console.logs.
- * @param obj
+ *
+ * More Info -
+ * 1. JSON objects with `writeFile` property are captured and saved as recordings as per the `path` property.
+ * 2. If the captured object doesn't have the `writeFile` property, the object will be logged directly to the console.
+ *
+ * @param {{
+ *   writeFile: boolean;
+ *   path: string;
+ *   content: string;
+ * }} browserRecordingJsonObject
+ * @returns
  */
-export const jsonRecordingFilterFunction = function(obj: any) {
+export const jsonRecordingFilterFunction = function(browserRecordingJsonObject: {
+  writeFile: boolean;
+  path: string;
+  content: string;
+}) {
   if (env.TEST_MODE === "record") {
-    if (obj.writeFile) {
+    if (browserRecordingJsonObject.writeFile) {
       // Create the directories recursively incase they don't exist
       try {
         // Stripping away the filename from the file path and retaining the directory structure
-        fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
+        fs.ensureDirSync(
+          browserRecordingJsonObject.path.substring(
+            0,
+            browserRecordingJsonObject.path.lastIndexOf("/") + 1
+          )
+        );
       } catch (err) {
         if (err.code !== "EEXIST") throw err;
       }
-      fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err: any) => {
-        if (err) {
-          throw err;
+      fs.writeFile(
+        browserRecordingJsonObject.path,
+        JSON.stringify(browserRecordingJsonObject.content, null, " "),
+        (err: any) => {
+          if (err) {
+            throw err;
+          }
         }
-      });
+      );
     } else {
-      console.log(obj);
+      console.log(browserRecordingJsonObject);
     }
     return false;
   }
