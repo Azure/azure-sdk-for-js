@@ -470,7 +470,7 @@ const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message
 export class MessagingError extends Error {
   /**
    * Address to which the network connection failed.
-   * Only available in Node.js.
+   * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
    */
   address?: string;
   /**
@@ -479,7 +479,7 @@ export class MessagingError extends Error {
   code?: string;
   /**
    * System-provided error number.
-   * Only available in Node.js.
+   * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
    */
   errno?: number | string;
   /**
@@ -488,12 +488,12 @@ export class MessagingError extends Error {
   name: string = "MessagingError";
   /**
    * The unavailable network connection port.
-   * Only available in Node.js.
+   * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
    */
   port?: number;
   /**
    * Name of the system call that triggered the error.
-   * Only available in Node.js.
+   * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
    */
   syscall?: string;
   /**
@@ -508,7 +508,7 @@ export class MessagingError extends Error {
   /**
    * @param {string} message The error message that provides more information about the error.
    * @param originalError An error whose properties will be copied to the MessagingError if the
-   * property doesn't already exist.
+   * property matches one found on the Node.js `SystemError`.
    */
   constructor(message: string, originalError?: Error) {
     super(message);
@@ -574,7 +574,7 @@ export enum SystemErrorConditionMapper {
  * Checks whether the provided error is a node.js SystemError.
  * @param err An object that may contain error information.
  */
-export function isSystemError(err: any): boolean {
+export function isSystemError(err: any): err is NetworkSystemError {
   if (!err) {
     return false;
   }
@@ -666,7 +666,7 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
 
   if (isSystemError(err)) {
     // translate
-    const condition = (err as any).code;
+    const condition = err.code;
     const description = err.message;
     const error = new MessagingError(description, err);
     if (err.stack) error.stack = err.stack;
