@@ -4,8 +4,12 @@
 
 - Improved detection of when an established socket is no longer receiving data from the service.
 - Added logging around the network connectivity check.
-- Updated MessagingError translation so that all MessagingErrors have the name `MessagingError`.
-  Now use the `error.code` property to determine the cause of the error when `error.name` is `MessagingError`.
+- Updated the translate() utility function used to convert AmqpError or system errors to MessagingError as below:
+  - Non-messaging errors like TypeError, RangeError or any Node.js system errors not related to network issues
+    are returned as is instead of being converted to a MessagingError.
+  - If a MessagingError is returned by translate(), use code instead of the name property to
+    differentiate between different kinds of messaging errors.
+    The name property henceforth will always be "MessagingError" on this error class.
 
 ## 1.0.0-preview.6 (2019-12-03)
 
