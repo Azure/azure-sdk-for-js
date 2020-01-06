@@ -66,6 +66,10 @@ jobs:
           command: custom
           customCommand: 'audit'
 
+     - script: |
+          node $(Build.SourcesDirectory)/.scripts/dataplane-list.js $(Build.SourcesDirectory)
+        displayName: "Generate dataplane package list"
+
       - task: Npm@1
         displayName: 'npm run check:everything'
         inputs:
