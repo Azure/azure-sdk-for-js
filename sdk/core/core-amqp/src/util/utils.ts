@@ -298,3 +298,19 @@ export function isIotHubConnectionString(connectionString: string): boolean {
   }
   return result;
 }
+
+/**
+ * @ignore
+ * @internal
+ */
+export function isString(s: any): s is string {
+  return typeof s === "string";
+}
+
+/**
+ * @ignore
+ * @internal
+ */
+export function isNumber(n: any): n is number {
+  return typeof n === "number";
+}
