@@ -7,11 +7,11 @@ import { PumpManager, PumpManagerImpl } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { logger, logErrorStackTrace } from "./log";
 import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
-import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { SubscribeOptions } from "./eventHubConsumerClientModels";
 import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 import { EventPosition, latestEventPosition } from "./eventPosition";
+import { delayWithoutThrow } from "./util/delayWithoutThrow";
 
 /**
  * An enum representing the different reasons for an `EventProcessor` to stop processing
@@ -321,6 +321,13 @@ export class EventProcessor {
   }
 
   private async _startPump(partitionId: string) {
+    if (this._pumpManager.isReceivingFromPartition(partitionId)) {
+      logger.verbose(
+        `[${this._id}] There is already an active partitionPump for partition "${partitionId}", skipping pump creation.`
+      );
+      return;
+    }
+
     logger.verbose(
       `[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`
     );
@@ -370,20 +377,18 @@ export class EventProcessor {
   ): Promise<void> {
     while (!abortSignal.aborted) {
       try {
-        if (!this._pumpManager.isReceivingFromPartition(partitionId)) {
-          await this._startPump(partitionId);
-        }
+        await this._startPump(partitionId);
       } catch (err) {
         logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
         logErrorStackTrace(err);
-        await this._handleSubscriptionError(err).catch(() => {}); // swallow errors from user error handler
+        await this._handleSubscriptionError(err);
       } finally {
         // sleep for some time after which we can attempt to create a pump again.
         logger.verbose(
           `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
         );
         // swallow errors from delay since it's fine for delay to exit early
-        await delay(this._loopIntervalInMs, abortSignal).catch(() => {});
+        await delayWithoutThrow(this._loopIntervalInMs, abortSignal);
       }
     }
   }
@@ -461,14 +466,14 @@ export class EventProcessor {
       } catch (err) {
         logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
         logErrorStackTrace(err);
-        await this._handleSubscriptionError(err).catch(() => {}); // swallow errors from user error handler
+        await this._handleSubscriptionError(err);
       } finally {
         // sleep for some time, then continue the loop again.
         logger.verbose(
           `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
         );
         // swallow the error since it's fine to exit early from delay
-        await delay(this._loopIntervalInMs, abortSignal).catch(() => {});
+        await delayWithoutThrow(this._loopIntervalInMs, abortSignal);
       }
     }
   }

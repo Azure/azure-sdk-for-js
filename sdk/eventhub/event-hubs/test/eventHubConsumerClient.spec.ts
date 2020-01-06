@@ -290,6 +290,9 @@ describe("EventHubConsumerClient", () => {
           }
         });
 
+        // Initialize may be called multiple times while the 2nd subscription is running.
+        // We want to make sure it has been called at least twice to verify that subscription1
+        // attempts to recover.
         handlerCalls.initialize.should.be.greaterThan(1);
         handlerCalls.close.should.be.greaterThan(1);
       });
@@ -313,25 +316,25 @@ describe("EventHubConsumerClient", () => {
         const partitionHandlerCalls: {
           [partitionId: string]: {
             initialize: number;
-            processEvents: number;
+            processEvents: boolean;
             close: number;
           };
         } = {};
 
         // keep track of the handlers called on subscription 1
         for (const id of partitionIds) {
-          partitionHandlerCalls[id] = { initialize: 0, processEvents: 0, close: 0 };
+          partitionHandlerCalls[id] = { initialize: 0, processEvents: false, close: 0 };
         }
 
         const subscriptionHandlers1: SubscriptionEventHandlers = {
           async processError() {},
           async processEvents(_, context) {
-            partitionHandlerCalls[context.partitionId].processEvents++;
+            partitionHandlerCalls[context.partitionId].processEvents = true;
           },
           async processClose(_, context) {
             partitionHandlerCalls[context.partitionId].close++;
             // reset processEvents count
-            partitionHandlerCalls[context.partitionId].processEvents = 0;
+            partitionHandlerCalls[context.partitionId].processEvents = false;
           },
           async processInitialize(context) {
             partitionHandlerCalls[context.partitionId].initialize++;
@@ -398,7 +401,7 @@ describe("EventHubConsumerClient", () => {
             // wait until we've seen an additional processEvent for each partition.
             return (
               partitionIds.filter((id) => {
-                return partitionHandlerCalls[id].processEvents > 0;
+                return partitionHandlerCalls[id].processEvents;
               }).length === partitionIds.length
             );
           }
