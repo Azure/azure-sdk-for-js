@@ -58,11 +58,4 @@ export class RecoverDeletedSecretPoller extends Poller<
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
   }
-
-  /**
-   * Could be used to get a publicly safe version of the poller state.
-   */
-  public getOperationState(): RecoverDeletedSecretPollOperationState {
-    return this.operation.state;
-  }
 }

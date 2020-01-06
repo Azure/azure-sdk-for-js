@@ -255,8 +255,11 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   /**
    * A method that will return the state of the operation.
    * TState can be a different type than the underlying operation's TState.
+   * This method can be overridden with a custom implementation that returns specific properties out of this.operation.state.
    */
-  public abstract getOperationState(): TState;
+  public getOperationState(): TState {
+    return this.operation.state;
+  }
 
   /**
    * A method that will return the result value of the operation,

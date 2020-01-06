@@ -16,7 +16,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
         abortSignal?: AbortSignal;
     }): Promise<void>;
     protected abstract delay(): Promise<void>;
-    abstract getOperationState(): TState;
+    getOperationState(): TState;
     getResult(): TResult | undefined;
     isDone(): boolean;
     isStopped(): boolean;
