@@ -7,11 +7,11 @@ import { PumpManager, PumpManagerImpl } from "./pumpManager";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { logger, logErrorStackTrace } from "./log";
 import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
-import { delay } from "@azure/core-amqp";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { SubscribeOptions } from "./eventHubConsumerClientModels";
 import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 import { EventPosition, latestEventPosition } from "./eventPosition";
+import { delayWithoutThrow } from "./util/delayWithoutThrow";
 
 /**
  * An enum representing the different reasons for an `EventProcessor` to stop processing
@@ -321,6 +321,13 @@ export class EventProcessor {
   }
 
   private async _startPump(partitionId: string) {
+    if (this._pumpManager.isReceivingFromPartition(partitionId)) {
+      logger.verbose(
+        `[${this._id}] There is already an active partitionPump for partition "${partitionId}", skipping pump creation.`
+      );
+      return;
+    }
+
     logger.verbose(
       `[${this._id}] [${partitionId}] Calling user-provided PartitionProcessorFactory.`
     );
@@ -364,13 +371,25 @@ export class EventProcessor {
     return getStartPosition(partitionIdToClaim, this._processorOptions.startPosition);
   }
 
-  private async _runLoopWithoutLoadBalancing(partitionId: string): Promise<void> {
-    try {
-      return this._startPump(partitionId);
-    } catch (err) {
-      logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
-      logErrorStackTrace(err);
-      await this._handleSubscriptionError(err);
+  private async _runLoopForSinglePartition(
+    partitionId: string,
+    abortSignal: AbortSignalLike
+  ): Promise<void> {
+    while (!abortSignal.aborted) {
+      try {
+        await this._startPump(partitionId);
+      } catch (err) {
+        logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
+        logErrorStackTrace(err);
+        await this._handleSubscriptionError(err);
+      } finally {
+        // sleep for some time after which we can attempt to create a pump again.
+        logger.verbose(
+          `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
+        );
+        // swallow errors from delay since it's fine for delay to exit early
+        await delayWithoutThrow(this._loopIntervalInMs, abortSignal);
+      }
     }
   }
 
@@ -444,16 +463,17 @@ export class EventProcessor {
             }
           }
         }
-
-        // sleep
-        logger.verbose(
-          `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
-        );
-        await delay(this._loopIntervalInMs, abortSignal);
       } catch (err) {
         logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
         logErrorStackTrace(err);
         await this._handleSubscriptionError(err);
+      } finally {
+        // sleep for some time, then continue the loop again.
+        logger.verbose(
+          `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
+        );
+        // swallow the error since it's fine to exit early from delay
+        await delayWithoutThrow(this._loopIntervalInMs, abortSignal);
       }
     }
   }
@@ -507,7 +527,10 @@ export class EventProcessor {
 
     if (targetWithoutOwnership(this._processingTarget)) {
       logger.verbose(`[${this._id}] Single partition target: ${this._processingTarget}`);
-      this._loopTask = this._runLoopWithoutLoadBalancing(this._processingTarget);
+      this._loopTask = this._runLoopForSinglePartition(
+        this._processingTarget,
+        this._abortController.signal
+      );
     } else {
       logger.verbose(`[${this._id}] Multiple partitions, using load balancer`);
       this._loopTask = this._runLoopWithLoadBalancing(

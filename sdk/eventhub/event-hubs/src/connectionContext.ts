@@ -8,7 +8,6 @@ import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
 import {
   Constants,
-  delay,
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
   EventHubConnectionConfig,
@@ -132,21 +131,23 @@ export namespace ConnectionContext {
     };
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
-      const connectionError =
-        context.connection && context.connection.error ? context.connection.error : undefined;
-      if (connectionError) {
+      logger.verbose(
+        "[%s] 'disconnected' event occurred on the amqp connection.",
+        connectionContext.connection.id
+      );
+
+      if (context.connection && context.connection.error) {
         logger.verbose(
-          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context.connection: %O",
           connectionContext.connection.id,
-          connectionError
+          context.connection && context.connection.error
         );
       }
-      const contextError = context.error;
-      if (contextError) {
+      if (context.error) {
         logger.verbose(
-          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context: %O",
           connectionContext.connection.id,
-          contextError
+          context.error
         );
       }
       const state: Readonly<{
@@ -158,6 +159,11 @@ export namespace ConnectionContext {
         numSenders: Object.keys(connectionContext.senders).length,
         numReceivers: Object.keys(connectionContext.receivers).length
       };
+      logger.verbose(
+        "[%s] Closing all open senders and receivers in the state: %O",
+        connectionContext.connection.id,
+        state
+      );
 
       // Clear internal map maintained by rhea to avoid reconnecting of old links once the
       // connection is back up.
@@ -168,88 +174,53 @@ export namespace ConnectionContext {
       // Close the management session to ensure all the event handlers are released.
       await connectionContext.managementSession!.close();
 
-      // The connection should always be brought back up if the sdk did not call connection.close()
-      // and there was atleast one sender/receiver link on the connection before it went down.
-      logger.verbose("[%s] state: %O", connectionContext.connection.id, state);
-      if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
-        logger.verbose(
-          "[%s] connection.close() was not called from the sdk and there were some " +
-            "sender or receiver links or both. We should reconnect.",
-          connectionContext.connection.id
-        );
-        await delay(Constants.connectionReconnectDelay);
-        // reconnect senders if any
+      // Close all senders and receivers to ensure clean up of timers & other resources.
+      if (state.numSenders || state.numReceivers) {
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
           if (!sender.isConnecting) {
-            logger.verbose(
-              "[%s] calling detached on sender '%s' with address '%s'.",
-              connectionContext.connection.id,
-              sender.name,
-              sender.address
-            );
-            sender.onDetached(connectionError || contextError).catch((err) => {
+            await sender.close().catch((err) => {
               logger.verbose(
-                "[%s] An error occurred while reconnecting the sender '%s' with adress '%s' %O.",
+                "[%s] Error when closing sender [%s] after disconnected event: %O",
                 connectionContext.connection.id,
-                sender.name,
-                sender.address,
+                senderName,
                 err
               );
             });
-          } else {
-            logger.verbose(
-              "[%s] sender '%s' with address '%s' is already reconnecting. Hence not " +
-                "calling detached on the sender.",
-              connectionContext.connection.id,
-              sender.name,
-              sender.address
-            );
           }
         }
-        // reconnect receivers if any
         for (const receiverName of Object.keys(connectionContext.receivers)) {
           const receiver = connectionContext.receivers[receiverName];
           if (!receiver.isConnecting) {
-            logger.verbose(
-              "[%s] calling detached on receiver '%s' with address '%s'.",
-              connectionContext.connection.id,
-              receiver.name,
-              receiver.address
-            );
-            receiver.onDetached(connectionError || contextError).catch((err) => {
+            await receiver.close().catch((err) => {
               logger.verbose(
-                "[%s] An error occurred while reconnecting the receiver '%s' with adress '%s' %O.",
+                "[%s] Error when closing sender [%s] after disconnected event: %O",
                 connectionContext.connection.id,
-                receiver.name,
-                receiver.address,
+                receiverName,
                 err
               );
             });
-          } else {
-            logger.verbose(
-              "[%s] receiver '%s' with address '%s' is already reconnecting. Hence not " +
-                "calling detached on the receiver.",
-              connectionContext.connection.id,
-              receiver.name,
-              receiver.address
-            );
           }
         }
       }
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {
+      logger.verbose(
+        "[%s] 'protocol_error' event occurred on the amqp connection.",
+        connectionContext.connection.id
+      );
+
       if (context.connection && context.connection.error) {
         logger.verbose(
-          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context.connection: %O",
           connectionContext.connection.id,
           context.connection && context.connection.error
         );
       }
       if (context.error) {
         logger.verbose(
-          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context: %O",
           connectionContext.connection.id,
           context.error
         );
@@ -257,16 +228,21 @@ export namespace ConnectionContext {
     };
 
     const error: OnAmqpEvent = async (context: EventContext) => {
+      logger.verbose(
+        "[%s] 'error' event occurred on the amqp connection.",
+        connectionContext.connection.id
+      );
+
       if (context.connection && context.connection.error) {
         logger.verbose(
-          "[%s] Error (context.connection.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context.connection: %O",
           connectionContext.connection.id,
           context.connection && context.connection.error
         );
       }
       if (context.error) {
         logger.verbose(
-          "[%s] Error (context.error) occurred on the amqp connection: %O",
+          "[%s] Accompanying error on the context: %O",
           connectionContext.connection.id,
           context.error
         );

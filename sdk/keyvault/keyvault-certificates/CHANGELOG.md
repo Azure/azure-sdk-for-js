@@ -1,6 +1,8 @@
 # Release History
 
-## 4.0.0-preview.13 (Unreleased)
+## 4.0.0 (2020-01-07)
+
+This release marks the general availability of the `@azure/keyvault-certificates` package.
 
 ## 4.0.0-preview.12 (2019-12-26)
 

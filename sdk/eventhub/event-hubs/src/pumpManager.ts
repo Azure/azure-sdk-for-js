@@ -31,6 +31,14 @@ export interface PumpManager {
   ): Promise<void>;
 
   /**
+   * Indicates whether the pump manager is actively receiving events from a given partition.
+   * @param partitionId The partition to check.
+   * @ignore
+   * @internal
+   */
+  isReceivingFromPartition(partitionId: string): boolean;
+
+  /**
    * Stops all PartitionPumps and removes them from the internal map.
    * @param reason The reason for removing the pump.
    * @ignore
@@ -69,6 +77,17 @@ export class PumpManagerImpl implements PumpManager {
       const pump = this._partitionIdToPumps[id];
       return Boolean(pump && pump.isReceiving);
     });
+  }
+
+  /**
+   * Indicates whether the pump manager is actively receiving events from a given partition.
+   * @param partitionId
+   * @ignore
+   * @internal
+   */
+  public isReceivingFromPartition(partitionId: string): boolean {
+    const pump = this._partitionIdToPumps[partitionId];
+    return Boolean(pump && pump.isReceiving);
   }
 
   /**

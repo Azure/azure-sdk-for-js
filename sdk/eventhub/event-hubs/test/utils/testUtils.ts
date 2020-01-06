@@ -18,26 +18,23 @@ export enum EnvVarKeys {
   AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET"
 }
 
-function getEnvVarValue(name: string, addBrowserSuffix?: boolean): string | undefined {
+function getEnvVarValue(name: string): string | undefined {
   if (isNode) {
     return process.env[name];
   } else {
-    const nameForBrowser = addBrowserSuffix ? name + "_BROWSER" : name;
     // @ts-ignore
-    return window.__env__[nameForBrowser];
+    return window.__env__[name];
   }
 }
 
 export function getEnvVars(): { [key in EnvVarKeys]: any } {
   return {
     [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(
-      EnvVarKeys.EVENTHUB_CONNECTION_STRING,
-      !isNode
+      EnvVarKeys.EVENTHUB_CONNECTION_STRING
     ),
     [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
     [EnvVarKeys.IOTHUB_EH_COMPATIBLE_CONNECTION_STRING]: getEnvVarValue(
-      EnvVarKeys.IOTHUB_EH_COMPATIBLE_CONNECTION_STRING,
-      !isNode
+      EnvVarKeys.IOTHUB_EH_COMPATIBLE_CONNECTION_STRING
     ),
     [EnvVarKeys.AZURE_TENANT_ID]: getEnvVarValue(EnvVarKeys.AZURE_TENANT_ID),
     [EnvVarKeys.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_ID),

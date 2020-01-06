@@ -687,7 +687,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       } catch (err) {
         debug(err);
         should.exist(err);
-        should.equal(err.name, "MessageTooLargeError");
+        should.equal(err.code, "MessageTooLargeError");
         err.message.should.match(
           /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
         );
@@ -835,7 +835,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       } catch (err) {
         debug(err);
         should.exist(err);
-        should.equal(err.name, "MessageTooLargeError");
+        should.equal(err.code, "MessageTooLargeError");
         err.message.should.match(
           /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
         );

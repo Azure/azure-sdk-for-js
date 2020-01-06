@@ -84,8 +84,6 @@ async function main() {
   }, 30 * 1000);
 }
 
-module.exports = { main };
-
 main().catch((error) => {
   console.error("Error running sample:", error);
 });
