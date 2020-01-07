@@ -357,9 +357,26 @@ The Event Hubs library depends on the [rhea-promise](https://github.com/amqp/rhe
 
 ### Enable logs
 
-You can set the following environment variable to get the debug logs when using this library.
+This library depends on the [@azure/logger](https://www.npmjs.com/package/@azure/logger) package
+to support debug logs.
 
-- Getting debug logs from the Event Hubs SDK
+You can set the `AZURE_LOG_LEVEL` environment variable to one of the following values to enable logging to `stderr`:
+
+- verbose
+- info
+- warning
+- error
+
+You can also set the log level programatically by importing the `@azure/logger` package and calling the
+`setLogLevel` function with one of the log level values.
+
+When setting a log level either programatically or via the `AZURE_LOG_LEVEL` environment variable,
+any logs that are written using a log level equal to or less than the one you choose will be emitted.
+
+You can alternatively set the `DEBUG` environment variable to get logs when using this library.
+This can be useful if you also want to emit logs from the dependencies `rhea-promise` and `rhea` as well.
+
+- Getting debug logs from the Event Hubs SDK.
 
 ```bash
 export DEBUG=azure*
@@ -371,21 +388,21 @@ export DEBUG=azure*
 export DEBUG=azure*,rhea*
 ```
 
-- If you are **not interested in viewing the event transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
+- If you are **not interested in viewing the raw event data** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
+export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message
 ```
 
-- If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
+- If you are interested only in **errors** and SDK **warnings**, then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure:event-hubs:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:(event-hubs|core-amqp):(error|warning),rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 ### Logging to a file
 
-- Set the `DEBUG` environment variable as shown above and then run your test script as follows:
+- Enable logging as shown above and then run your test script as follows:
 
   - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
     ```bash
