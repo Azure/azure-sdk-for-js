@@ -134,7 +134,7 @@ by the `subscribe` method.
 
 #### Retries when producing events
 
-The `sendBatch` method on `EventHubProducerClient` sends a batch of events
+The `createBatch` and `sendBatch` methods on `EventHubProducerClient` allow you to create and send a batch of events
 to an event hub.
 
 If a transient error is encountered while the SDK is creating or sending the batch,
