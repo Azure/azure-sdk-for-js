@@ -3591,8 +3591,8 @@ export const MetricAlertAction: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      webhookProperties: {
-        serializedName: "webhookProperties",
+      webHookProperties: {
+        serializedName: "webHookProperties",
         type: {
           name: "Dictionary",
           value: {
