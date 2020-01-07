@@ -73,11 +73,6 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
         // Remove the quotations around the string
         let resource = kv[1].trim().replace(/['"]+/g, '');
 
-        // Ensure that we're about to use a secure connection
-        if (!resource.startsWith("https:")) {
-          throw new Error("The resource address for authorization must use the 'https' protocol.");
-        }
-
         return resource;
       }
     }
@@ -92,6 +87,11 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     webResource: WebResource
   ): Promise<HttpOperationResponse> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();
+
+    // Ensure that we're about to use a secure connection
+    if (!webResource.url.startsWith("https:")) {
+      throw new Error("The resource address for authorization must use the 'https' protocol.");
+    }
 
     let originalBody = webResource.body;
 
