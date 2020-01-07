@@ -31,14 +31,14 @@ npm install @azure/cognitiveservices-textanalytics
 
 ### 2. Create and authenticate a `TextAnalyticsClient`
 
-TextAnalytics uses both AAD and service keys for authentication.
+TextAnalytics uses both AAD and subscription key for authentication.
 
 Creating a client with a service key:
 
 ```js
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new CognitiveServicesCredentials("<service key>")
+  new CognitiveServicesCredential("<subscription key>")
 );
 ```
 
@@ -51,7 +51,7 @@ Content still being written.
 ### Detect the language of an input string
 
 ```js
-const [result] = await client.detectLanguage(["hello world"]);
+const [result] = await client.detectLanguages(["hello world"]);
 console.log(`Primary language detected as ${result.primaryLanguage.name}`);
 ```
 
