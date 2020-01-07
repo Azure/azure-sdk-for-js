@@ -662,7 +662,7 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StorageAccount
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -694,7 +694,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StorageAccount
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -801,7 +801,7 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.StorageAccountListKeysResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -921,7 +921,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

@@ -27,6 +27,7 @@ export {
   EncryptionService,
   EncryptionServices,
   Endpoints,
+  ErrorResponse,
   FileServiceProperties,
   FileShare,
   FileShareItem,

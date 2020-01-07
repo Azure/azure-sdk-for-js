@@ -1887,7 +1887,7 @@ export interface FileShare extends AzureEntityResource {
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
@@ -1907,7 +1907,7 @@ export interface FileShareItem extends AzureEntityResource {
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
@@ -2053,7 +2053,7 @@ export interface FileSharesCreateOptionalParams extends msRest.RequestOptionsBas
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
@@ -2068,7 +2068,7 @@ export interface FileSharesUpdateOptionalParams extends msRest.RequestOptionsBas
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
