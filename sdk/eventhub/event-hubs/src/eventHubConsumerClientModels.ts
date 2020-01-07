@@ -32,7 +32,7 @@ export interface BasicPartitionProperties {
 /**
  * Interface that describes the context passed to each of the functions that are a part
  * of the `SubscriptionEventHandlers`. When implementing any of these functions, use
- * the context object to get a set of basic information about the partition as well as the
+ * the context object to get information about the partition as well as the
  * ability to checkpoint.
  */
 export interface PartitionContext {
@@ -73,7 +73,7 @@ export interface PartitionContext {
 }
 
 /**
- * Signature of the user provided function invoked by `EventHubConsumerClient` as and when a set of events is received.
+ * Signature of the user provided function invoked by `EventHubConsumerClient` when a set of events is received.
  */
 export type ProcessEventsHandler = (
   events: ReceivedEventData[],
@@ -108,7 +108,7 @@ export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContex
  */
 export interface SubscriptionEventHandlers {
   /**
-   * The function invoked by `EventHubConsumerClient` as and when a set of events is received.
+   * The function invoked by `EventHubConsumerClient` when a set of events is received.
    */
   processEvents: ProcessEventsHandler;
   /**
@@ -118,13 +118,13 @@ export interface SubscriptionEventHandlers {
   processError: ProcessErrorHandler;
   /**
    * The function invoked by `EventHubConsumerClient` just before starting to receive events from
-   * a partition. Use this to carry out any set up tasks you would like to have before the client
+   * a partition. Use this to carry out any setup tasks you would like to have before the client
    * starts processing a partition.
    */
   processInitialize?: ProcessInitializeHandler;
   /**
    * The function invoked by `EventHubConsumerClient` just before stopping to receive events from
-   * a partition. Use this to carry out any tear down tasks you would like to have for the partition.
+   * a partition. Use this to carry out any teardown tasks you would like to have for the partition.
    */
   processClose?: ProcessCloseHandler;
 }

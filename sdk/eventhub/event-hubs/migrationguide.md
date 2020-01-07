@@ -30,7 +30,7 @@ point of entry for receiving of any type (from single partition, all partitions,
 Other noteworthy changes:
 - In v5, the `EventHubConsumerClient` class takes the consumer group name as a mandatory argument in its constructor.
 If you havent created any consumer groups explicitly, then use the name of the default consumer group which is `$Default`.
-- For checkpoint store implementation using Azure Storage Blobs, use the 
+- For a checkpoint store implementation using Azure Storage Blobs, use the 
 [@azure/eventhubs-checkpointstore-blob](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob) package.
 
 ### Receiving events 
@@ -42,7 +42,7 @@ If you havent created any consumer groups explicitly, then use the name of the d
 Other noteworthy changes:
 - Use the `options` parameter to the `subscribe()` method to specify starting position to receive events from.
 - The `subscribe()` method allows you to receive events in batches whose size can be configured using the `options` parameter.
-- The user provided function to process events will be invoked only after the previous invocation completes.
+- The user provided `processEvents` function to process events will be invoked only after the previous invocation completes.
 This is different from v2 where the function was invoked for each event without waiting for the previous call to complete.
 
 ### Sending events
