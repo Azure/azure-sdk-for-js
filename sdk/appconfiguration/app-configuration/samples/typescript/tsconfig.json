@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "target": "ES6",
     "moduleResolution": "node",
-
-    "lib": ["esnext.asynciterable"],
 
     "allowSyntheticDefaultImports": true,
 
