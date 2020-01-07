@@ -536,36 +536,6 @@ describe("FileClient", () => {
     }
   });
 
-  it("verify shareName and filePath passed to the client", async () => {
-    const accountName = "myaccount";
-    const newClient = new ShareFileClient(
-      `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName + "/" + fileName
-    );
-    assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
-    assert.equal(
-      newClient.path,
-      dirName + "/" + fileName,
-      "FilePath is not the same as the one provided."
-    );
-    assert.equal(
-      newClient.accountName,
-      accountName,
-      "Account name is not the same as the one provided."
-    );
-  });
-
-  it("verify FileClient name matches file name", async () => {
-    const accountName = "myaccount";
-    const newClient = new ShareFileClient(
-      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}/${fileName}`
-    );
-    assert.equal(
-      newClient.name,
-      fileName,
-      "FileClient name is not the same as the baseName of the provided file URI"
-    );
-  });
-
   it("create with tracing", async () => {
     const tracer = new TestTracer();
     setTracer(tracer);
@@ -604,5 +574,54 @@ describe("FileClient", () => {
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  });
+});
+
+describe("ShareFileClient - Verify Name Properties", () => {
+  const accountName = "myaccount";
+  const dirName = "dir1/dir2";
+  const fileName = "1.txt";
+  const shareName = "shareName";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new ShareFileClient(url);
+    assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
+    assert.equal(
+      newClient.path,
+      dirName + "/" + fileName,
+      "FilePath is not the same as the one provided."
+    );
+    assert.equal(
+      newClient.accountName,
+      accountName,
+      "Account name is not the same as the one provided."
+    );
+    assert.equal(
+      newClient.name,
+      fileName,
+      "FileClient name is not the same as the baseName of the provided file URI"
+    );
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(
+      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}/${fileName}`
+    );
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://192.0.0.10:1900/${accountName}/${shareName}/${dirName}/${fileName}`
+    );
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}/${dirName}/${fileName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${shareName}/${dirName}/${fileName}`);
   });
 });
