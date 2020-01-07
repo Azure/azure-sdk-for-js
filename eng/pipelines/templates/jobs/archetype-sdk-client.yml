@@ -163,6 +163,10 @@ jobs:
           ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/.docsettings.yml
         displayName: "Verify Readmes"
 
+      - template: eng/pipelines/templates/scripts/verify-path-length.yml@azure-sdk-tools
+        parameters:
+          SourceDirectory: $(Build.SourcesDirectory)
+
       - script: |
           npm ci
         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
