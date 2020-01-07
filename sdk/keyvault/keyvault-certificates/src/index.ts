@@ -772,12 +772,12 @@ export class CertificateClient {
    * ```ts
    * let client = new CertificateClient(url, credentials);
    * await client.setContacts([{
-   *   emailAddress: "b@b.com",
+   *   email: "b@b.com",
    *   name: "b",
    *   phone: "222222222222"
    * }]);
-   * const getResponse = await client.getContacts();
-   * console.log(getResponse.contactList!);
+   * const contacts = await client.getContacts();
+   * console.log(contacts);
    * ```
    * @summary Sets the certificate contacts.
    * @param {GetContactsOptions} [options] The optional parameters
@@ -851,7 +851,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * // All in one call
    * for await (const issuerProperties of client.listPropertiesOfIssuers()) {
    *   console.log(issuerProperties);
@@ -897,7 +897,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * ```
    * @summary Sets the specified certificate issuer.
    * @param issuerName The name of the issuer.
@@ -976,7 +976,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * await client.updateIssuer("IssuerName", {
    *   provider: "Provider2"
    * });
@@ -1051,7 +1051,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * const certificateIssuer = await client.getIssuer("IssuerName");
    * console.log(certificateIssuer);
    * ```
@@ -1478,7 +1478,7 @@ export class CertificateClient {
    * const poller = await client.getCertificateOperation("MyCertificate");
    * const pendingCertificate = poller.getResult();
    *
-   * const certificateOperation = poller.getState().certificateOperation;
+   * const certificateOperation = poller.getOperationState().certificateOperation;
    * console.log(certificateOperation);
    * ```
    * @summary Gets a certificate's poller operation
@@ -1557,7 +1557,7 @@ export class CertificateClient {
    *   subject: "cn=MyCert"
    * });
    * const poller = await client.getCertificateOperation("MyCertificate");
-   * const { csr } = poller.getState().certificateOperation!;
+   * const { csr } = poller.getOperationState().certificateOperation!;
    * const base64Csr = Buffer.from(csr!).toString("base64");
    * const wrappedCsr = ["-----BEGIN CERTIFICATE REQUEST-----", base64Csr, "-----END CERTIFICATE REQUEST-----"].join("\n");
    *
