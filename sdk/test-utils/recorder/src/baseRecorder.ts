@@ -9,9 +9,9 @@ import {
   escapeRegExp,
   env,
   TestInfo,
-  isRecordMode,
   parseUrl,
-  isLiveMode
+  isPlaybackMode,
+  isRecordMode
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -20,7 +20,7 @@ let nock: any;
 let replaceableVariables: { [x: string]: string } = {};
 export function setReplaceableVariables(a: { [x: string]: string }): void {
   replaceableVariables = a;
-  if (!isLiveMode() && !isRecordMode()) {
+  if (isPlaybackMode()) {
     // Providing dummy values to avoid the error
     Object.keys(a).map((k) => {
       env[k] = a[k];
@@ -44,7 +44,7 @@ export function skipQueryParams(params: string[]): void {
 }
 
 export function setEnvironmentOnLoad() {
-  if (!isBrowser() && !isLiveMode()) {
+  if (!isBrowser() && (isRecordMode() || isPlaybackMode())) {
     nock = require("nock");
   }
 

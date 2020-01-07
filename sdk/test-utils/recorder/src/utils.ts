@@ -12,12 +12,16 @@ export function isRecordMode() {
   return env.TEST_MODE === "record";
 }
 
-export function isPlaybackMode() {
-  return env.TEST_MODE === "playback";
-}
-
 export function isLiveMode() {
   return env.TEST_MODE === "live";
+}
+
+export function isPlaybackMode() {
+  if (!(isRecordMode() || isLiveMode())) {
+    // Default TEST_MODE=playback
+    env.TEST_MODE = "playback";
+  }
+  return env.TEST_MODE === "playback";
 }
 
 export function escapeRegExp(str: string): string {
