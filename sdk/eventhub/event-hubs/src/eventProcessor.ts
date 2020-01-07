@@ -72,7 +72,7 @@ export interface PartitionOwnership {
  *
  * Users are not meant to implement an `CheckpointStore`.
  * Users are expected to choose existing implementations of this interface, instantiate it, and pass
- * it to the `subscribe()` method of the `EventHubConsumerClient` class.
+ * it to the `EventHubConsumerClient` class constructor when instantiating a client.
  * Users are not expected to use any of the methods on a checkpoint store, these are used internally by
  * the client.
  *
