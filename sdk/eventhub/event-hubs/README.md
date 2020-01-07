@@ -110,12 +110,6 @@ Examples of transient errors include temporary network or service issues.
 
 #### Retries when consuming events
 
-When listening for events via the `subscribe` method on `EventHubConsumerClient`,
-the client reads events from an Event Hub partition and invokes the user-provided
-`processEvents` for every batch of events.
-
-Prior to invoking the user-provided `processEvents`, the SDK will attempt to
-read events from an event hub partition.
 If a transient error (e.g. a temporary network issue) is encountered while the SDK is receiving events,
 it will retry receiving events based on the retry options passed into the `EventHubConsumerClient`.
 If the maximum retry attempts are exhausted, the `processError` function will be invoked.
@@ -124,14 +118,16 @@ You can use the retry settings to control how quickly you are informed about tem
 network connection issue.
 For example, if you need to know when there is a network issue right away you can lower the
 values for `maxRetries` and `retryDelayInMs`.
-This will cause `processError` to be invoked more quickly and gives the user a chance to decide
-how to react to the error.
 
-After `processError` returns, the user-provided `processClose` and `processInitialize` functions will be invoked
-in an attempt to resume reading events from the partition that failed.
+After executing the `processError` function, the client invokes the user-provided `processClose` function.
+This function is also invoked when either you stop the subscription or when the client stops reading
+events from the current partition due to it being picked up by another instance of your application
+as part of load balancing.
 
-**Note:** When resuming, the SDK will read starting immediately after the last event that was checkpointed using
-`updateCheckpoint` for a given partition.
+The `processClose` function provides an opportunity to update checkpoints if needed.
+After executing `processClose`, the client (or in the case of load balancing,
+a client from another instance of you application) will invoke the user-provided
+`processInitialize` function to resume reading events from the last updated checkpoint for the same partition.
 
 If you wish to stop attempting to read events, you must call `close()` on the `subscription` returned
 by the `subscribe` method.
@@ -141,7 +137,7 @@ by the `subscribe` method.
 The `sendBatch` method on `EventHubProducerClient` sends a batch of events
 to an event hub.
 
-If a transient error is encountered while the SDK is sending the batch,
+If a transient error is encountered while the SDK is creating or sending the batch,
 it will retry sending the batch based on the retry options passed into
 the `EventHubProducerClient`.
 
