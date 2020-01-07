@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { SuiteFunction, PendingSuiteFunction, TestFunction, PendingTestFunction } from "mocha";
-import { isNode } from "../lib/util/utils";
+import { isNode } from "../src/util/utils";
 
 export const nodeIt: TestFunction | PendingTestFunction = !isNode ? it.skip : it;
 export const browserIt: TestFunction | PendingTestFunction = isNode ? it.skip : it;

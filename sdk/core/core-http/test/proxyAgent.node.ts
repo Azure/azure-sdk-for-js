@@ -6,8 +6,8 @@ import { should } from "chai";
 import tunnel from "tunnel";
 import https from "https";
 
-import { HttpHeaders } from "../lib/coreHttp";
-import { createProxyAgent, createTunnel } from "../lib/proxyAgent";
+import { HttpHeaders } from "../src/coreHttp";
+import { createProxyAgent, createTunnel } from "../src/proxyAgent";
 
 describe("proxyAgent", () => {
   describe("createProxyAgent", () => {

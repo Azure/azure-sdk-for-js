@@ -7,14 +7,14 @@ import "chai/register-should";
 import { createReadStream } from "fs";
 import * as http from "http";
 
-import { DefaultHttpClient } from "../lib/defaultHttpClient";
-import { RestError } from "../lib/restError";
-import { isNode } from "../lib/util/utils";
-import { WebResource, HttpRequestBody, TransferProgressEvent } from "../lib/webResource";
+import { DefaultHttpClient } from "../src/defaultHttpClient";
+import { RestError } from "../src/restError";
+import { isNode } from "../src/util/utils";
+import { WebResource, HttpRequestBody, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
 import { TestFunction } from "mocha";
 import { PassThrough } from 'stream';
-import { ReportTransform } from '../lib/fetchHttpClient';
+import { ReportTransform } from '../src/fetchHttpClient';
 
 const nodeIt = (isNode ? it : it.skip) as TestFunction;
 

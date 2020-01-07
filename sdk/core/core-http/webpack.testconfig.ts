@@ -29,23 +29,23 @@ const config: webpack.Configuration = {
   plugins: [
     new webpack.NormalModuleReplacementPlugin(
       /(\.).+util\/base64/,
-      path.resolve(__dirname, "./lib/util/base64.browser.ts")
+      path.resolve(__dirname, "./src/util/base64.browser.ts")
     ),
     new webpack.NormalModuleReplacementPlugin(
       /(\.).+util\/xml/,
-      path.resolve(__dirname, "./lib/util/xml.browser.ts")
+      path.resolve(__dirname, "./src/util/xml.browser.ts")
     ),
     new webpack.NormalModuleReplacementPlugin(
       /(\.).+defaultHttpClient/,
-      path.resolve(__dirname, "./lib/defaultHttpClient.browser.ts")
+      path.resolve(__dirname, "./src/defaultHttpClient.browser.ts")
     ),
     new webpack.NormalModuleReplacementPlugin(
       /(\.).+msRestUserAgentPolicy/,
-      path.resolve(__dirname, "./lib/policies/msRestUserAgentPolicy.browser.ts")
+      path.resolve(__dirname, "./src/policies/msRestUserAgentPolicy.browser.ts")
     ),
     new webpack.NormalModuleReplacementPlugin(
       /(\.).+proxyPolicy/,
-      path.resolve(__dirname, "./lib/policies/proxyPolicy.browser.ts")
+      path.resolve(__dirname, "./src/policies/proxyPolicy.browser.ts")
     )
   ],
   module: {

@@ -19,7 +19,7 @@ const banner = `/** @license @azure/core-http
  * @type {import('rollup').RollupFileOptions}
  */
 const nodeConfig = {
-  input: "./es/lib/coreHttp.js",
+  input: "./es/src/coreHttp.js",
   external: [
     "form-data",
     "http",
@@ -60,7 +60,7 @@ const nodeConfig = {
  * @type {import('rollup').RollupFileOptions}
  */
 const browserConfig = {
-  input: "./es/lib/coreHttp.js",
+  input: "./es/src/coreHttp.js",
   external: [],
   output: {
     file: "./dist/coreHttp.browser.js",
