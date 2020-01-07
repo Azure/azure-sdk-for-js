@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/tagsMappers";
+import * as Mappers from "../models/tagsOperationsMappers";
 import * as Parameters from "../models/parameters";
 import { ResourceManagementClientContext } from "../resourceManagementClientContext";
 
-/** Class representing a Tags. */
-export class Tags {
+/** Class representing a TagsOperations. */
+export class TagsOperations {
   private readonly client: ResourceManagementClientContext;
 
   /**
-   * Create a Tags.
+   * Create a TagsOperations.
    * @param {ResourceManagementClientContext} client Reference to the service client.
    */
   constructor(client: ResourceManagementClientContext) {
@@ -175,6 +175,127 @@ export class Tags {
   }
 
   /**
+   * Create or Replace existing tags with passing in tags.
+   * @param scope The resource scope.
+   * @param parameters Parameters for creating multiple tags.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagsResourceCreateResponse>
+   */
+  resourceCreate(scope: string, parameters: Models.TagsResource, options?: msRest.RequestOptionsBase): Promise<Models.TagsResourceCreateResponse>;
+  /**
+   * @param scope The resource scope.
+   * @param parameters Parameters for creating multiple tags.
+   * @param callback The callback
+   */
+  resourceCreate(scope: string, parameters: Models.TagsResource, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  /**
+   * @param scope The resource scope.
+   * @param parameters Parameters for creating multiple tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  resourceCreate(scope: string, parameters: Models.TagsResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  resourceCreate(scope: string, parameters: Models.TagsResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsResourceCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        parameters,
+        options
+      },
+      resourceCreateOperationSpec,
+      callback) as Promise<Models.TagsResourceCreateResponse>;
+  }
+
+  /**
+   * Update multiple tags: if the tagKey exists, update tagValue with the new value; if not, insert
+   * the new record.
+   * @param scope The resource scope.
+   * @param parameters Parameters for updating multiple tags.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagsResourceUpdateResponse>
+   */
+  resourceUpdate(scope: string, parameters: Models.TagPatchRequest, options?: msRest.RequestOptionsBase): Promise<Models.TagsResourceUpdateResponse>;
+  /**
+   * @param scope The resource scope.
+   * @param parameters Parameters for updating multiple tags.
+   * @param callback The callback
+   */
+  resourceUpdate(scope: string, parameters: Models.TagPatchRequest, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  /**
+   * @param scope The resource scope.
+   * @param parameters Parameters for updating multiple tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  resourceUpdate(scope: string, parameters: Models.TagPatchRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  resourceUpdate(scope: string, parameters: Models.TagPatchRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsResourceUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        parameters,
+        options
+      },
+      resourceUpdateOperationSpec,
+      callback) as Promise<Models.TagsResourceUpdateResponse>;
+  }
+
+  /**
+   * Gets all the tags for the resource.
+   * @param scope The resource scope.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagsResourceGetResponse>
+   */
+  resourceGet(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsResourceGetResponse>;
+  /**
+   * @param scope The resource scope.
+   * @param callback The callback
+   */
+  resourceGet(scope: string, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  /**
+   * @param scope The resource scope.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  resourceGet(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  resourceGet(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsResourceGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        options
+      },
+      resourceGetOperationSpec,
+      callback) as Promise<Models.TagsResourceGetResponse>;
+  }
+
+  /**
+   * Deletes all the tags for the resource.
+   * @param scope The resource scope.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  resourceDelete(scope: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param scope The resource scope.
+   * @param callback The callback
+   */
+  resourceDelete(scope: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param scope The resource scope.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  resourceDelete(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  resourceDelete(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        options
+      },
+      resourceDeleteOperationSpec,
+      callback);
+  }
+
+  /**
    * Gets the names and values of all resource tags that are defined in a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -323,6 +444,110 @@ const listOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.TagsListResult
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const resourceCreateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{scope}/providers/Microsoft.Resources/tags/default",
+  urlParameters: [
+    Parameters.scope
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagsResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const resourceUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "{scope}/providers/Microsoft.Resources/tags/default",
+  urlParameters: [
+    Parameters.scope
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagPatchRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagsResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const resourceGetOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "{scope}/providers/Microsoft.Resources/tags/default",
+  urlParameters: [
+    Parameters.scope
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagsResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const resourceDeleteOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "{scope}/providers/Microsoft.Resources/tags/default",
+  urlParameters: [
+    Parameters.scope
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

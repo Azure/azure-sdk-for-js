@@ -122,11 +122,10 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type.
    * @param resourceName The name of the resource to check whether it exists.
-   * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesCheckExistenceResponse>
    */
-  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCheckExistenceResponse>;
+  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCheckExistenceResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the resource to check. The
    * name is case insensitive.
@@ -134,10 +133,9 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type.
    * @param resourceName The name of the resource to check whether it exists.
-   * @param apiVersion The API version to use for the operation.
    * @param callback The callback
    */
-  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, callback: msRest.ServiceCallback<boolean>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the resource to check. The
    * name is case insensitive.
@@ -145,12 +143,11 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type.
    * @param resourceName The name of the resource to check whether it exists.
-   * @param apiVersion The API version to use for the operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceResponse> {
+  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistence(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -158,7 +155,6 @@ export class Resources {
         parentResourcePath,
         resourceType,
         resourceName,
-        apiVersion,
         options
       },
       checkExistenceOperationSpec,
@@ -173,12 +169,11 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type.
    * @param resourceName The name of the resource to delete.
-   * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,resourceProviderNamespace,parentResourcePath,resourceType,resourceName,apiVersion,options)
+  deleteMethod(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,resourceProviderNamespace,parentResourcePath,resourceType,resourceName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
@@ -190,13 +185,12 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type of the resource to create.
    * @param resourceName The name of the resource to create.
-   * @param apiVersion The API version to use for the operation.
    * @param parameters Parameters for creating or updating the resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,resourceProviderNamespace,parentResourcePath,resourceType,resourceName,apiVersion,parameters,options)
+  createOrUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,resourceProviderNamespace,parentResourcePath,resourceType,resourceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ResourcesCreateOrUpdateResponse>;
   }
 
@@ -208,13 +202,12 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type of the resource to update.
    * @param resourceName The name of the resource to update.
-   * @param apiVersion The API version to use for the operation.
    * @param parameters Parameters for updating the resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesUpdateResponse>
    */
-  update(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,resourceProviderNamespace,parentResourcePath,resourceType,resourceName,apiVersion,parameters,options)
+  update(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,resourceProviderNamespace,parentResourcePath,resourceType,resourceName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ResourcesUpdateResponse>;
   }
 
@@ -226,11 +219,10 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type of the resource.
    * @param resourceName The name of the resource to get.
-   * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesGetResponse>
    */
-  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesGetResponse>;
+  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the resource to get. The name
    * is case insensitive.
@@ -238,10 +230,9 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type of the resource.
    * @param resourceName The name of the resource to get.
-   * @param apiVersion The API version to use for the operation.
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, callback: msRest.ServiceCallback<Models.GenericResource>): void;
+  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, callback: msRest.ServiceCallback<Models.GenericResource>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the resource to get. The name
    * is case insensitive.
@@ -249,12 +240,11 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type of the resource.
    * @param resourceName The name of the resource to get.
-   * @param apiVersion The API version to use for the operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenericResource>): void;
-  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenericResource>, callback?: msRest.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetResponse> {
+  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenericResource>): void;
+  get(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenericResource>, callback?: msRest.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -262,7 +252,6 @@ export class Resources {
         parentResourcePath,
         resourceType,
         resourceName,
-        apiVersion,
         options
       },
       getOperationSpec,
@@ -274,33 +263,29 @@ export class Resources {
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesCheckExistenceByIdResponse>
    */
-  checkExistenceById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCheckExistenceByIdResponse>;
+  checkExistenceById(resourceId: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCheckExistenceByIdResponse>;
   /**
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param callback The callback
    */
-  checkExistenceById(resourceId: string, apiVersion: string, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistenceById(resourceId: string, callback: msRest.ServiceCallback<boolean>): void;
   /**
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkExistenceById(resourceId: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  checkExistenceById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceByIdResponse> {
+  checkExistenceById(resourceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
+  checkExistenceById(resourceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.ResourcesCheckExistenceByIdResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
-        apiVersion,
         options
       },
       checkExistenceByIdOperationSpec,
@@ -312,12 +297,11 @@ export class Resources {
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteById(resourceId,apiVersion,options)
+  deleteById(resourceId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteById(resourceId,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
@@ -326,13 +310,12 @@ export class Resources {
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param parameters Create or update resource parameters.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesCreateOrUpdateByIdResponse>
    */
-  createOrUpdateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCreateOrUpdateByIdResponse> {
-    return this.beginCreateOrUpdateById(resourceId,apiVersion,parameters,options)
+  createOrUpdateById(resourceId: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesCreateOrUpdateByIdResponse> {
+    return this.beginCreateOrUpdateById(resourceId,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ResourcesCreateOrUpdateByIdResponse>;
   }
 
@@ -341,13 +324,12 @@ export class Resources {
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param parameters Update resource parameters.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesUpdateByIdResponse>
    */
-  updateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesUpdateByIdResponse> {
-    return this.beginUpdateById(resourceId,apiVersion,parameters,options)
+  updateById(resourceId: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesUpdateByIdResponse> {
+    return this.beginUpdateById(resourceId,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ResourcesUpdateByIdResponse>;
   }
 
@@ -356,33 +338,29 @@ export class Resources {
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourcesGetByIdResponse>
    */
-  getById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesGetByIdResponse>;
+  getById(resourceId: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourcesGetByIdResponse>;
   /**
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param callback The callback
    */
-  getById(resourceId: string, apiVersion: string, callback: msRest.ServiceCallback<Models.GenericResource>): void;
+  getById(resourceId: string, callback: msRest.ServiceCallback<Models.GenericResource>): void;
   /**
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getById(resourceId: string, apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenericResource>): void;
-  getById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenericResource>, callback?: msRest.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetByIdResponse> {
+  getById(resourceId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GenericResource>): void;
+  getById(resourceId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GenericResource>, callback?: msRest.ServiceCallback<Models.GenericResource>): Promise<Models.ResourcesGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         resourceId,
-        apiVersion,
         options
       },
       getByIdOperationSpec,
@@ -444,11 +422,10 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type.
    * @param resourceName The name of the resource to delete.
-   * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -456,7 +433,6 @@ export class Resources {
         parentResourcePath,
         resourceType,
         resourceName,
-        apiVersion,
         options
       },
       beginDeleteMethodOperationSpec,
@@ -471,12 +447,11 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type of the resource to create.
    * @param resourceName The name of the resource to create.
-   * @param apiVersion The API version to use for the operation.
    * @param parameters Parameters for creating or updating the resource.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -484,7 +459,6 @@ export class Resources {
         parentResourcePath,
         resourceType,
         resourceName,
-        apiVersion,
         parameters,
         options
       },
@@ -500,12 +474,11 @@ export class Resources {
    * @param parentResourcePath The parent resource identity.
    * @param resourceType The resource type of the resource to update.
    * @param resourceName The name of the resource to update.
-   * @param apiVersion The API version to use for the operation.
    * @param parameters Parameters for updating the resource.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -513,7 +486,6 @@ export class Resources {
         parentResourcePath,
         resourceType,
         resourceName,
-        apiVersion,
         parameters,
         options
       },
@@ -526,15 +498,13 @@ export class Resources {
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteById(resourceId: string, apiVersion: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteById(resourceId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceId,
-        apiVersion,
         options
       },
       beginDeleteByIdOperationSpec,
@@ -546,16 +516,14 @@ export class Resources {
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param parameters Create or update resource parameters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdateById(resourceId: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceId,
-        apiVersion,
         parameters,
         options
       },
@@ -568,16 +536,14 @@ export class Resources {
    * @param resourceId The fully qualified ID of the resource, including the resource name and
    * resource type. Use the format,
    * /subscriptions/{guid}/resourceGroups/{resource-group-name}/{resource-provider-namespace}/{resource-type}/{resource-name}
-   * @param apiVersion The API version to use for the operation.
    * @param parameters Update resource parameters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdateById(resourceId: string, apiVersion: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdateById(resourceId: string, parameters: Models.GenericResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceId,
-        apiVersion,
         parameters,
         options
       },
