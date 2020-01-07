@@ -3046,7 +3046,7 @@ export const FileShare: msRest.CompositeMapper = {
       shareQuota: {
         serializedName: "properties.shareQuota",
         constraints: {
-          InclusiveMaximum: 100000,
+          InclusiveMaximum: 102400,
           InclusiveMinimum: 1
         },
         type: {
@@ -3085,7 +3085,7 @@ export const FileShareItem: msRest.CompositeMapper = {
       shareQuota: {
         serializedName: "properties.shareQuota",
         constraints: {
-          InclusiveMaximum: 100000,
+          InclusiveMaximum: 102400,
           InclusiveMinimum: 1
         },
         type: {
