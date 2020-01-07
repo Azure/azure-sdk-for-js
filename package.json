@@ -33,7 +33,8 @@
     "latest": "ts-node ./.scripts/latest.ts",
     "local": "ts-node ./.scripts/local.ts",
     "preinstall": "node common/scripts/rush-welcome.js",
-    "prebuild": "node ./.scripts/dataplane-list.js ."
+    "prebuild": "node ./.scripts/dataplane-list.js .",
+    "list": "ts-node ./.scripts/list-dataplane.ts"
   },
   "devDependencies": {
     "@octokit/rest": "^16.26.0",
@@ -52,10 +53,10 @@
     "minimist": "^1.2.0",
     "npm-run-all": "^4.1.5",
     "path": "^0.12.7",
-    "prettier": "^1.16.4",
     "plugin-error": "^1.0.1",
+    "prettier": "^1.16.4",
     "ts-node": "^7.0.1",
-    "typescript": "^3.2.2",
+    "typescript": "^3.7.4",
     "webpack": "^4.26.1",
     "yargs": "^11.0.0"
   },
