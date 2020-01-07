@@ -1,21 +1,15 @@
 # Consuming events
 
-The `EventHubConsumerClient` provides a _push-based_ model for receiving events.
-It exposes a `subscribe` method that lets you specify:
-
-- Whether to read from a specific partition or all partitions.
-- User-provided functions that will be called while your subscription is active.
-- `SubscribeOptions` that let you control how events are received, including batching options.
-
-`subscribe` also returns a `Subscription` object that you can use to stop receiving events or
-to determine if the subscription is actively receiving events.
+The `EventHubConsumerClient` lets you subscribe to events from one or all partitions of an Event Hub.
+You do this by invoking the `subscribe()` method on the client, which returns a `subscription`.
+Calling `close()` on the subscription stops reading of any more events.
 
 Calling `subscribe` immediately starts the subscription.
 Once the subscription starts, the following things happen for **each** partition being read.
 
-1.  The user-provided  `partitionInitialize` function is invoked each time the subscription is
+1.  The user-provided `partitionInitialize` function is invoked each time the subscription is
     about to begin reading from a partition.
-    
+
     The `PartitionContext` passed to this function can be used to determine which partition
     is about to be read from.
     The client will start receiving events for the partition only after completing the execution of this function (if provided).
@@ -31,11 +25,13 @@ async processInitialize(context) {
 2.  The `processEvents` function is invoked with an array of events as they are received.
     The maximum number of events returned in an array, as well as the maximum amount of time to wait for
     events to be received are configurable through the `SubscribeOptions` passed to `subscribe`.
-    
-    A `PartitionContext` is also passed to `processEvents` and can be used to indicate which events have been
-    processed by calling `updateCheckpoint` with an event.
-    Updating a checkpoint is an important step to ensure that the subscription continues reading events where
-    you left off if an error occurs.
+
+    A `PartitionContext` is also passed to `processEvents` that can be used to determine which partition
+    is being read from.
+    The `updateCheckpoint()` method on this context can be used to update checkpoints in the `CheckpointStore`
+    (if one was provided to the client).
+    Use this in frequent intervals to mark events that have been processed so that the client can
+    restart from such checkpoints in the event of a restart or error recovery.
     Example:
 
 ```js
