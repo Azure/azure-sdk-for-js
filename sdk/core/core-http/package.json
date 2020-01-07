@@ -32,6 +32,8 @@
   "files": [
     "dist/**/*.node.js",
     "dist/**/*.node.js.map",
+    "dist/**/*.browser.js",
+    "dist/**/*.browser.js.map",
     "es/src/**/*.js",
     "es/src/**/*.js.map",
     "es/src/**/*.d.ts",
@@ -64,7 +66,7 @@
     "build:scripts": "tsc -p ./.scripts/",
     "build:test": "run-s build build:test-browser",
     "build:tsc": "tsc -p tsconfig.es.json",
-    "build:rollup": "rollup -c rollup.config.ts 2>&1",
+    "build:rollup": "rollup -c rollup.config.js 2>&1",
     "build:minify-browser": "terser -c -m --comments --source-map \"content='./dist/coreHttp.browser.js.map'\" -o ./dist/coreHttp.browser.min.js ./dist/coreHttp.browser.js",
     "build:test-browser": "webpack --config webpack.testconfig.ts",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
