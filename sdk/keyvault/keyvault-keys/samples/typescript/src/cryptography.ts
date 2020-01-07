@@ -1,8 +1,16 @@
-import { KeyClient, CryptographyClient } from "../../src";
-import { DefaultAzureCredential } from "@azure/identity";
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
 import { createHash } from "crypto";
 
-async function main(): Promise<void> {
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+import { DefaultAzureCredential } from "@azure/identity";
+
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
+export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
@@ -50,8 +58,9 @@ async function main(): Promise<void> {
   const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
   console.log("unwrap result: ", unwrapped);
 
-  await client.beginDeleteKey(keyName)
+  await client.beginDeleteKey(keyName);
 }
+
 main().catch((err) => {
   console.log("error code: ", err.code);
   console.log("error message: ", err.message);

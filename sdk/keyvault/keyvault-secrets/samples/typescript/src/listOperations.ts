@@ -1,7 +1,14 @@
-import { SecretClient } from "../../src";
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function main(): Promise<void> {
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
+export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
@@ -12,8 +19,8 @@ async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const bankAccountSecretName = "BankAccountPassword15";
-  const storageAccountSecretName = "StorageAccountPassword15";
+  const bankAccountSecretName = "secretListOperations1";
+  const storageAccountSecretName = "secretListOperations2";
 
   // Create our secrets
   await client.setSecret(bankAccountSecretName, "ABC123");
@@ -39,9 +46,13 @@ async function main(): Promise<void> {
   await client.setSecret(bankAccountSecretName, "ABC567");
 
   // List the versions of BankAccountPassword
-  for await (const secretProperties of client.listPropertiesOfSecretVersions(bankAccountSecretName)) {
-    const secret = await client.getSecret(secretProperties.name);
-    console.log("secret version: ", secret);
+  for await (const secretProperties of client.listPropertiesOfSecretVersions(
+    bankAccountSecretName
+  )) {
+    if (secretProperties.enabled) {
+      const secret = await client.getSecret(secretProperties.name);
+      console.log("secret version: ", secret);
+    }
   }
 
   await client.beginDeleteSecret(bankAccountSecretName);
