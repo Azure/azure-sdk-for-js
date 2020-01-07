@@ -103,7 +103,9 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Integration test libraries"
-        env: ${{parameters.EnvVars}}
+        env: 
+          TEST_MODE: "live"
+          ${{ insert }}: ${{ parameters.EnvVars }}
         condition: ne(variables['TestType'],'sample')
 
       - ${{if ne(parameters.PostIntegrationSteps, '')}}:
@@ -112,7 +114,9 @@ jobs:
       - script: |
           node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples
         displayName: "Execute Samples"
-        env: ${{parameters.EnvVars}}
+        env: 
+          TEST_MODE: "live"
+          ${{ insert }}: ${{ parameters.EnvVars }}
         condition: eq(variables['TestType'],'sample')
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
