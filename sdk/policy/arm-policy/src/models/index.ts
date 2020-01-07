@@ -59,7 +59,7 @@ export interface ErrorResponse {
 }
 
 /**
- * An interface representing ParameterValuesValue.
+ * The value of a parameter.
  */
 export interface ParameterValuesValue {
   /**
@@ -97,7 +97,8 @@ export interface Identity {
    */
   readonly tenantId?: string;
   /**
-   * The identity type. Possible values include: 'SystemAssigned', 'None'
+   * The identity type. This is the only required field when adding a system assigned identity to a
+   * resource. Possible values include: 'SystemAssigned', 'None'
    */
   type?: ResourceIdentityType;
 }
@@ -188,7 +189,7 @@ export interface ParameterDefinitionsValueMetadata {
 }
 
 /**
- * An interface representing ParameterDefinitionsValue.
+ * The definition of a parameter that can be provided to the policy.
  */
 export interface ParameterDefinitionsValue {
   /**
