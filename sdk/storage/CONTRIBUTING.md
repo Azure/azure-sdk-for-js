@@ -18,7 +18,17 @@ The Azure Storage development team uses Visual Studio Code. However, any preferr
 
 ### Configuration
 
-The only step to configure testing is to set the appropriate environment variables. Create environment variables named "ACCOUNT_NAME", "ACCOUNT_KEY" or "ACCOUNT_SAS". The first two will be used for most requests. The "ACCOUNT_SAS" will only be used for tests in browsers.
+The only step to configure testing is to set the appropriate environment variables. Create environment variables named
+
+```bash
+ACCOUNT_NAME
+ACCOUNT_KEY
+ACCOUNT_SAS
+ACCOUNT_TOKEN
+TEST_MODE
+```
+
+The first two will be used for most requests. The "ACCOUNT_SAS" will only be used for tests in browsers.
 
 You can generate a valid account SAS from Azure portal or tools like Azure Storage Explorer. A SAS starts with "?". And if you are using Windows CMD, you may need quotes to escape special characters like following:
 
@@ -26,20 +36,20 @@ You can generate a valid account SAS from Azure portal or tools like Azure Stora
 set "ACCOUNT_SAS=<YOUR_SAS>"
 ```
 
-### Record and playback tests
+#### TEST_MODE
 
 The environment variable **TEST_MODE** controls how tests are running.
 
 - If TEST_MODE = "record",
   - Tests hit the live-service
-  - Nock/Nise are used for recording the request-responses for future use
+  - Nock/Nise are leveraged for recording the request-responses for future use
   - If recordings are already present, forces re-recording
-- Else If TEST_MODE = "playback",
-  - Existing recordings are used
-- Else
+- Else If TEST_MODE = "live",
   - Tests hit the live-service, we don't record the requests/responses
+- Else If TEST_MODE = "playback" (or if the TEST_MODE is neither "record" nor "live"),
+  - Existing recordings are played back as responses to the HTTP requests in the tests
 
-Please refers to [RecordAndPlayback.md](./RecordAndPlayback.md) for more details about record and playback tests.
+Please refer to [@azure/test-utils-recorder](./../test-utils/recorder/GUIDELINES.md) for more details about record and playback tests.
 
 ### Emulator Tests
 
@@ -88,9 +98,10 @@ npm run test:browser
 
 Browser testing is based on Karma, you can change default testing browser by modifying karma.conf.js file.
 
-### Record & Play
+### Record & Playback
 
-By default, above test commands are live testing against real Azure Storage accounts. Before running above tests, set environment value `TEST_MODE` to switch to offline mock test mode or test recording mode.
+By default, above test commands are not tested against real Azure Storage accounts, the existing recorded request/response pairs are leveraged in `playback` mode.
+Before running above tests if needed, set environment value `TEST_MODE` to switch to `live` mode to test against real Azure Storage accounts or `record` mode to record the tests.
 
 Playback mode is for offline mock test, which doesn't require a storage account, it's quick but less coverage:
 
@@ -100,9 +111,9 @@ Record tests for next playback. Recording is necessary after adding or updating 
 
 `export TEST_MODE=record`
 
-Live tests by clearing `TEST_MODE` environment variable:
+Live tests by setting `TEST_MODE` environment variable:
 
-`export TEST_MODE=`
+`export TEST_MODE=live`
 
 ### Testing Features
 
@@ -122,7 +133,7 @@ New env variable for recordings - TEST_MODE [Supposed to be added in the `.env` 
 
   - Existing recordings(present in the `/recordings` folder) are used to verify the tests
 
-- Else,
+- Else If TEST_MODE = "live",
 
   - Tests hit the live-service, we don't record the requests/responses
 
@@ -133,7 +144,7 @@ npm run test
 
 `npm run test` would run the the tests in both node and the browser.
 
-**Link** - [Guidelines for record and playback](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/RecordAndPlayback.md)
+**Link** - [Guidelines for record and playback - `@azure/test-utils-recorder`](./../test-utils/recorder/GUIDELINES.md)
 
 ## Pull Requests
 
