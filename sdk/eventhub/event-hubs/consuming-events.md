@@ -13,11 +13,13 @@ to determine if the subscription is actively receiving events.
 Calling `subscribe` immediately starts the subscription.
 Once the subscription starts, the following things happen for **each** partition being read.
 
-1.  If supplied, the `partitionInitialize` function is invoked each time the subscription is
+1.  The user-provided  `partitionInitialize` function is invoked each time the subscription is
     about to begin reading from a partition.
-    The `PartitionContext` passed to `partitionInitialize` can be used to determine which partition
+    
+    The `PartitionContext` passed to this function can be used to determine which partition
     is about to be read from.
-    Events won't be received for the partition indicated until after this function returns if it was provided.
+    The client will start receiving events for the partition only after completing the execution of this function (if provided).
+    Therefore, you can use this function to carry out any partition specific set up work you need including async tasks.
     Example:
 
 ```js
@@ -29,6 +31,7 @@ async processInitialize(context) {
 2.  The `processEvents` function is invoked with an array of events as they are received.
     The maximum number of events returned in an array, as well as the maximum amount of time to wait for
     events to be received are configurable through the `SubscribeOptions` passed to `subscribe`.
+    
     A `PartitionContext` is also passed to `processEvents` and can be used to indicate which events have been
     processed by calling `updateCheckpoint` with an event.
     Updating a checkpoint is an important step to ensure that the subscription continues reading events where
