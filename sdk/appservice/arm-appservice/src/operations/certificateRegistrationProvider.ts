@@ -27,8 +27,8 @@ export class CertificateRegistrationProvider {
   }
 
   /**
-   * Implements Csm operations Api to exposes the list of available Csm Apis under the resource
-   * provider
+   * Description for Implements Csm operations Api to exposes the list of available Csm Apis under
+   * the resource provider
    * @summary Implements Csm operations Api to exposes the list of available Csm Apis under the
    * resource provider
    * @param [options] The optional parameters
@@ -54,8 +54,8 @@ export class CertificateRegistrationProvider {
   }
 
   /**
-   * Implements Csm operations Api to exposes the list of available Csm Apis under the resource
-   * provider
+   * Description for Implements Csm operations Api to exposes the list of available Csm Apis under
+   * the resource provider
    * @summary Implements Csm operations Api to exposes the list of available Csm Apis under the
    * resource provider
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -91,7 +91,7 @@ const listOperationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.CertificateRegistration/operations",
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
