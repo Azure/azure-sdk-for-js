@@ -14,8 +14,8 @@ import { EventPosition, latestEventPosition } from "./eventPosition";
 import { delayWithoutThrow } from "./util/delayWithoutThrow";
 
 /**
- * An enum representing the different reasons for an `EventProcessor` to stop processing
- * events from a partition in a consumer group of an Event Hub instance.
+ * An enum representing the different reasons for an `EventHubConsumerClient` to stop processing
+ * events from a partition in a consumer group of an Event Hub.
  */
 export enum CloseReason {
   /**
@@ -72,11 +72,9 @@ export interface PartitionOwnership {
  *
  * Users are not meant to implement an `CheckpointStore`.
  * Users are expected to choose existing implementations of this interface, instantiate it, and pass
- * it to the constructor of `EventProcessor`.
- *
- * To get started, you can use the `InMemoryCheckpointStore` which will store the relevant information in memory.
- * But in production, you should choose an implementation of the `CheckpointStore` interface that will
- * store the checkpoints and partition ownerships to a durable store instead.
+ * it to the `EventHubConsumerClient` class constructor when instantiating a client.
+ * Users are not expected to use any of the methods on a checkpoint store, these are used internally by
+ * the client.
  *
  * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  */
