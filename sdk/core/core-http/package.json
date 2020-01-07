@@ -28,7 +28,7 @@
   ],
   "main": "./dist/coreHttp.node.js",
   "module": "./es/src/coreHttp.js",
-  "types": "./es/src/coreHttp.d.ts",
+  "types": "./types/coreHttp.d.ts",
   "files": [
     "dist/**/*.node.js",
     "dist/**/*.node.js.map",
@@ -37,6 +37,7 @@
     "es/src/**/*.d.ts",
     "es/src/**/*.d.ts.map",
     "src/**/*.ts",
+    "types/coreHttp.d.ts",
     "LICENSE",
     "README.md"
   ],
@@ -58,7 +59,7 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "run-p build:lib",
+    "build": "run-s build:lib extract-api:nobuild",
     "build:lib": "run-s build:tsc build:rollup build:minify-browser",
     "build:scripts": "tsc -p ./.scripts/",
     "build:test": "run-s build build:test-browser",
@@ -69,6 +70,8 @@
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf ./es ./dist",
     "execute:samples": "echo skipped",
+    "extract-api": "run-s build:tsc extract-api:nobuild",
+    "extract-api:nobuild": "api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -137,6 +140,7 @@
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@azure/logger-js": "^1.0.2",
+    "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-json": "^4.0.0",
     "@types/chai": "^4.1.6",
     "@types/express": "^4.16.0",
