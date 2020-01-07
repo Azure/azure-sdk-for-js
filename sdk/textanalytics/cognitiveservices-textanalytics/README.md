@@ -79,7 +79,7 @@ Client subscription key authentication is used in most of the examples, but you 
 or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
 ```bash
-npm install --save @azure/identity
+npm install @azure/identity
 ```
 
 You will also need to [register a new AAD application][register_aad_app] and grant access to Text Analytics by assigning the `"Cognitive Services User"` role to your service principal.
