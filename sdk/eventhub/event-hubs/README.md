@@ -141,7 +141,7 @@ If a transient error is encountered while the SDK is creating or sending the bat
 it will retry sending the batch based on the retry options passed into
 the `EventHubProducerClient`.
 
-If the maximum retry attempts are exhaused, the promise returned by `sendBatch`
+If the maximum retry attempts are exhaused, the promise returned by `createBatch` or `sendBatch`
 will be rejected with the error returned by the last retry attempt.
 
 ### Examples
