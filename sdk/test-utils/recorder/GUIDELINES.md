@@ -8,10 +8,10 @@
   - Tests hit the live-service
   - Nock/Nise are leveraged for recording the request-responses for future use
   - If recordings are already present, forces re-recording
-- Else If TEST_MODE = "playback",
-  - Existing recordings are used
-- Else
+- Else If TEST_MODE = "live",
   - Tests hit the live-service, we don't record the requests/responses
+- Else If TEST_MODE = "playback" (or if the TEST_MODE is neither "record" nor "live"),
+  - Existing recordings are played back as responses to the HTTP requests in the tests
 
 Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
@@ -24,7 +24,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 - `recorder = record(this);` initiates recording the HTTP requests and when `recorder.stop();` is called, the recording stops
   and all the HTTP requests recorded in between the two calls are saved as part of the recording in the `"record"` mode.
   In the same way, existing recordings are leveraged and played back in the `"playback"` mode when `recorder = record(this);` is invoked.
-  [Has no effect if the `TEST_MODE` is neither `"record"` nor `"playback"`. Tests hit the live-service, we don't record the requests/responses]
+  [Has no effect if the `TEST_MODE` is `"live"`, tests hit the live-service, we don't record the requests/responses]
 
 - Follow the below template for adding a new test. `before` and `after` sections are optional, `beforeEach` and `afterEach` sections are compulsory.
 
@@ -237,7 +237,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 - We leverage mocha's `.skip()` functionality to skip the test
   `this.skip()` - https://mochajs.org/#inclusive-tests.
 
-- `{recorder.skip(runtime?: "node" | "browser")}` will skip the test in node or browser runtimes based on the `{runtime}` argument. If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes. Has no effect if the `TEST_MODE` is neither `"record"` nor `"playback"`.
+- `{recorder.skip(runtime?: "node" | "browser", reason?: string)}` will skip the test in node or browser runtimes based on the `{runtime}` argument. If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes. Has no effect if the `TEST_MODE` is `"record"` or `"live"`.
 
 ---
 
