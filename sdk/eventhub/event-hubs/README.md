@@ -104,20 +104,21 @@ const consumerClient = new EventHubConsumerClient(
 
 ### Guidance around retries
 
-The `EventHubConsumerClient` and `EventHubProducerClient` accept `retryOptions`
+The `EventHubConsumerClient` and `EventHubProducerClient` accept `options` where you can set the `retryOptions`
 that allow you to tune how the SDK handles transient errors.
 Examples of transient errors include temporary network or service issues.
 
-#### Consuming events
+#### Retries when consuming events
 
 When listening for events via the `subscribe` method on `EventHubConsumerClient`,
-the user-provided `processEvents` function is invoked multiple times.
+the client reads events from an Event Hub partition and invokes the user-provided
+`processEvents` for every batch of events.
 
 Prior to invoking the user-provided `processEvents`, the SDK will attempt to
 read events from an event hub partition.
 If a transient error (e.g. a temporary network issue) is encountered while the SDK is receiving events,
 it will retry receiving events based on the retry options passed into the `EventHubConsumerClient`.
-If the maximum retry attempts are exhausted, the user-provided `processError` function will be invoked.
+If the maximum retry attempts are exhausted, the `processError` function will be invoked.
 
 You can use the retry settings to control how quickly you are informed about temporary issues such as a
 network connection issue.
@@ -132,10 +133,10 @@ in an attempt to resume reading events from the partition that failed.
 **Note:** When resuming, the SDK will read starting immediately after the last event that was checkpointed using
 `updateCheckpoint` for a given partition.
 
-If you wish to stop attempting to read events, you must call `subscription.close()` on the `subscription` returned
+If you wish to stop attempting to read events, you must call `close()` on the `subscription` returned
 by the `subscribe` method.
 
-#### Producing events
+#### Retries when producing events
 
 The `sendBatch` method on `EventHubProducerClient` sends a batch of events
 to an event hub.
