@@ -53,8 +53,8 @@ export class EventHubProducerClient {
 
   /**
    * @constructor
-   * The `EventHubProducerClient` is the main point of interaction for sending events to an
-   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
+   * The `EventHubProducerClient` class is used to send events to an Event Hub.
+   * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param connectionString - The connection string to use for connecting to the Event Hub instance.
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
@@ -67,8 +67,8 @@ export class EventHubProducerClient {
   constructor(connectionString: string, options?: EventHubClientOptions);
   /**
    * @constructor
-   * The `EventHubProducerClient` is the main point of interaction for sending events to an
-   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
+   * The `EventHubProducerClient` class is used to send events to an Event Hub.
+   * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
    * It is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
@@ -82,8 +82,8 @@ export class EventHubProducerClient {
   constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
   /**
    * @constructor
-   * The `EventHubProducerClient` is the main point of interaction for sending events to an
-   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
+   * The `EventHubProducerClient` class is used to send events to an Event Hub.
+   * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param fullyQualifiedNamespace - The full namespace which is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The name of the specific Event Hub to connect the client to.

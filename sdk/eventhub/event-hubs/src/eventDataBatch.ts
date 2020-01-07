@@ -26,8 +26,7 @@ export function isEventDataBatch(eventDataBatch: any): eventDataBatch is EventDa
 }
 
 /**
- * The set of options to configure the behavior of `tryAdd`.
- * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
+ * Options to configure the behavior of the `tryAdd` method on the `EventDataBatch` class.
  */
 export interface TryAddOptions {
   /**
@@ -37,21 +36,18 @@ export interface TryAddOptions {
 }
 
 /**
- * A interface representing a batch of events which can be passed to the `send` method of a `EventProducer` instance.
- * This batch is ensured to be under the maximum message size supported by Azure Event Hubs service.
- *
- * Use `createBatch()` method on the `EventHubProducer` to create an instance of `EventDataBatch`
- * instead of using `new EventDataBatch()`. You can specify an upper limit for the size of the batch
- * via options when calling `createBatch()`.
- *
- * Use the `tryAdd` function on the EventDataBatch to add events to the batch. This method will return
- * `false` after the upper limit is reached, therefore check the result before calling `tryAdd()` again.
+ * A interface representing a batch of events which can be used to send events to Event Hub.
+ * 
+ * To create the batch, use the `createBatch()` method on the `EventHubProducerClient`.
+ * To send the batch, use the `sendBatch()` method on the same client.
+ * To fill the batch, use the `tryAdd()` method on the batch itself.
+ * 
  */
 export interface EventDataBatch {
   /**
-   * The partitionKey set during `EventDataBatch` creation. This value is hashed to
-   * produce a partition assignment when the producer is created without a `partitionId`
-   * If this value is set then partitionId can not be set.
+   * A value that is hashed and used by the Azure Event Hubs service to determine the partition to
+   * which the events are sent. Use the `createBatch()` method on the `EventHubProducerClient` to
+   * set the partitionKey.
    * @readonly
    * @internal
    * @ignore
@@ -59,8 +55,8 @@ export interface EventDataBatch {
   readonly partitionKey?: string;
 
   /**
-   * The partitionId set during `EventDataBatch` creation.
-   * If this value is set then partitionKey can not be set.
+   * Id of the partition to which the batch of events are sent. Use the `createBatch()` method on
+   * the `EventHubProducerClient` to set the partitionId.
    * @readonly
    * @internal
    * @ignore
@@ -68,26 +64,27 @@ export interface EventDataBatch {
   readonly partitionId?: string;
 
   /**
-   * Size of the `EventDataBatch` instance after the events added to it have been
-   * encoded into a single AMQP message.
+   * Size of the batch in bytes after the events added to it have been encoded into a single AMQP
+   * message.
    * @readonly
    */
   readonly sizeInBytes: number;
 
   /**
-   * Number of events in the `EventDataBatch` instance.
+   * Number of events added to the batch.
    * @readonly
    */
   readonly count: number;
 
   /**
-   * The maximum size of the batch, in bytes.
+   * The maximum size of the batch, in bytes. The `tryAdd` function on the batch will return `false`
+   * after the size of the batch reaches this limit.
    * @readonly.
    */
   readonly maxSizeInBytes: number;
 
   /**
-   * Tries to add an event data to the batch if permitted by the batch's size limit.
+   * Adds an event to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
@@ -97,13 +94,10 @@ export interface EventDataBatch {
   tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
 
   /**
-   * Represents the single AMQP message which is the result of encoding all the events
-   * added into the `EventDataBatch` instance.
-   *
+   * The AMQP message containing encoded events that were added to the batch.
+   * Used internally by the `sendBatch()` method on the `EventHubProducerClient`.
    * This is not meant for the user to use directly.
-   *
-   * When the `EventDataBatch` instance is passed to the `send()` method on the `EventHubProducer`,
-   * this single batched AMQP message is what gets sent over the wire to the service.
+   * 
    * @readonly
    * @internal
    * @ignore
@@ -112,6 +106,7 @@ export interface EventDataBatch {
 
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
+   * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
    * @internal
    * @ignore
    */
@@ -119,15 +114,8 @@ export interface EventDataBatch {
 }
 
 /**
- * A class representing a batch of events which can be passed to the `send` method of a `EventProducer` instance.
- * This batch is ensured to be under the maximum message size supported by Azure Event Hubs service.
- *
- * Use `createBatch()` method on the `EventHubProducer` to create an instance of `EventDataBatch`
- * instead of using `new EventDataBatch()`. You can specify an upper limit for the size of the batch
- * via options when calling `createBatch()`.
- *
- * Use the `tryAdd` function on the EventDataBatch to add events to the batch. This method will return
- * `false` after the upper limit is reached, therefore check the result before calling `tryAdd()` again.
+ * An internal class representing a batch of events which can be used to send events to Event Hub.
+ * 
  * @class
  * @internal
  * @ignore
