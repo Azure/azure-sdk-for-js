@@ -96,7 +96,7 @@ export type ProcessErrorHandler = (
 export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
 
 /**
- * Signature of the user provided function invoked by `EventHubConsumerClient` just before stopping to receive
+ * Signature of the user provided function invoked by `EventHubConsumerClient` just after stopping to receive
  * events from a partition.
  */
 export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext) => Promise<void>;
