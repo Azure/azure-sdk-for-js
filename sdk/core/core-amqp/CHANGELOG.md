@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (2019-01-07)
+## 1.0.0 (2019-01-08)
 
 - This release marks the general availability of the `@azure/core-amqp` package.
 - Improved detection of when an established socket is no longer receiving data from the service.
