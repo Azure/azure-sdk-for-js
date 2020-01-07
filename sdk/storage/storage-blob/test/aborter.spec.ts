@@ -8,7 +8,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
-describe.only("Aborter", () => {
+describe("Aborter", () => {
   setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
