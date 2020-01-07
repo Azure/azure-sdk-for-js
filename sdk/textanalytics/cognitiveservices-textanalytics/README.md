@@ -47,7 +47,7 @@ npm install @azure/cognitiveservices-textanalytics
 
 ### 2. Create and authenticate a `TextAnalyticsClient`
 
-TextAnalytics uses both AAD and service keys for authentication.
+TextAnalytics uses both AAD and subscription keys for authentication.
 
 #### Using a Subscription Key
 
@@ -59,7 +59,7 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 
 Alternatively, you can get the endpoint and subscription key from the resource information in the [Azure Portal][azure_portal].
 
-Once you have a service key, you can use it as follows:
+Once you have a subscription key, you can use it as follows:
 
 ```js
 const {
@@ -69,7 +69,7 @@ const {
 
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new CognitiveServicesCredential("<service key>")
+  new CognitiveServicesCredential("<subscription key>")
 );
 ```
 
