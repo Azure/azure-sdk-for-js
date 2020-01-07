@@ -8,7 +8,7 @@ import { BlobStorage } from "./BlobStorage";
 import { CosmosDB } from "./CosmosDB";
 
 function dedent(str: ReadonlyArray<string>) {
-  return str[0].replace(/^\ */gm, '');
+  return str[0].replace(/^\ */gm, "");
 }
 
 function welcomeMessage() {
@@ -26,8 +26,8 @@ async function main() {
     await BlobStorage.Run();
     await EventHubs.Run();
     await CosmosDB.Run();
-  }
-  catch {
+  } catch (ex) {
+    console.error(ex);
     console.error("UNEXPECTED ERROR");
     process.exit(1);
   }

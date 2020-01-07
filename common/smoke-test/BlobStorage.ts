@@ -2,9 +2,13 @@
 // Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 // ------------------------------------
-import { SharedKeyCredential, BlobServiceClient, ContainerClient } from "@azure/storage-blob";
+import {
+  StorageSharedKeyCredential,
+  BlobServiceClient,
+  ContainerClient
+} from "@azure/storage-blob";
 
-const uuidv1 = require('uuid/v1');
+const uuidv1 = require("uuid/v1");
 
 export class BlobStorage {
   private static ContainerClient: ContainerClient;
@@ -19,22 +23,26 @@ export class BlobStorage {
         2) Delete Blob (Clean up the resource)
         `);
 
-    const account = process.env["STORAGE_ACCOUNT_NAME"] || "<YourStorageAccountNAME>";
-    const accountKey = process.env["STORAGE_ACCOUNT_KEY"] || "<YourStorageAccountKEY>";
+    const account =
+      process.env["STORAGE_ACCOUNT_NAME"] || "<YourStorageAccountNAME>";
+    const accountKey =
+      process.env["STORAGE_ACCOUNT_KEY"] || "<YourStorageAccountKEY>";
     const containerName = "mycontainer";
     BlobStorage.blobName = `JSNewBlob-${uuidv1()}.txt`;
 
-    const credential = new SharedKeyCredential(account, accountKey);
+    const credential = new StorageSharedKeyCredential(account, accountKey);
     const serviceClient = new BlobServiceClient(
       `https://${account}.blob.core.windows.net`,
       credential
     );
-    BlobStorage.ContainerClient = serviceClient.getContainerClient(containerName);
+    BlobStorage.ContainerClient = serviceClient.getContainerClient(
+      containerName
+    );
 
     //Ensure that the blob does not already existis
     try {
       await BlobStorage.CleanUp();
-    } catch { }
+    } catch {}
 
     await BlobStorage.UploadBlob();
     await BlobStorage.CleanUp();
@@ -47,7 +55,9 @@ export class BlobStorage {
     console.log("Uploading blob...");
     const content = "This is the content for the sample blob";
 
-    const blobClient = BlobStorage.ContainerClient.getBlobClient(BlobStorage.blobName);
+    const blobClient = BlobStorage.ContainerClient.getBlobClient(
+      BlobStorage.blobName
+    );
     const blockBlobClient = blobClient.getBlockBlobClient();
 
     await blockBlobClient.upload(content, content.length);
@@ -56,12 +66,14 @@ export class BlobStorage {
 
   private static async CleanUp() {
     console.log("Deleting container and blobs (Cleaning up the resource)...");
-    const blobClient = BlobStorage.ContainerClient.getBlobClient(BlobStorage.blobName);
+    const blobClient = BlobStorage.ContainerClient.getBlobClient(
+      BlobStorage.blobName
+    );
     await blobClient.delete();
     console.log("\tdone");
   }
 
   private static dedent(str: ReadonlyArray<string>) {
-    return str[0].replace(/^\ */gm, '');
+    return str[0].replace(/^\ */gm, "");
   }
 }
