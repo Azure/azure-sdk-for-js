@@ -13,8 +13,8 @@
   the `processInitialize()` callback.
   - The `MessagingError` class is updated to have the `code` property instead of `name` to contain the error
   type that the user can use to differentiate errors that can occur during communication with the service.
-  The `name` property of this class will always have the value "MessagingError" and will not change on the error
-  type.
+  The `name` property of this class will always have the value "MessagingError" and will not change based
+  on the error type.
   - System errors around network issues like ENOTFOUND, ECONNREFUSED will retain their `code` value even after
   getting converted to a `MessagingError` object and being passed to the user.
 

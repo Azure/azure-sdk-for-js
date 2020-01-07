@@ -27,17 +27,35 @@ point of entry for receiving of any type (from single partition, all partitions,
 | `EventHubClient.createFromAadTokenCredentials()` | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [usingAadAuth](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/usingAadAuth.ts)
 | `EventProcessorHost.createFromConnectionString()`                           | `new EventHubConsumerClient(..., checkpointStore)`               | [receiveEventsUsingCheckpointStore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEventsUsingCheckpointStore.ts) |
 
+Other noteworthy changes:
+- In v5, the `EventHubConsumerClient` class takes the consumer group name as a mandatory argument in its constructor.
+If you havent created any consumer groups explicitly, then use the name of the default consumer group which is `$Default`.
+- For checkpoint store implementation using Azure Storage Blobs, use the 
+[@azure/eventhubs-checkpointstore-blob](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob) package.
+
 ### Receiving events 
 
 | In v2                                          | Equivalent in v5                                                 | Sample |
 |------------------------------------------------|------------------------------------------------------------------|--------|
 | `EventHubClient.receive()` and `EventHubClient.receiveBatch()`                       | `EventHubConsumerClient.subscribe()`                               | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts) |
 
+Other noteworthy changes:
+- Use the `options` parameter to the `subscribe()` method to specify starting position to receive events from.
+- The `subscribe()` method allows you to receive events in batches whose size can be configured using the `options` parameter.
+- The user provided function to process events will be invoked only after the previous invocation completes.
+This is different from v2 where the function was invoked for each event without waiting for the previous call to complete.
+
 ### Sending events
 
 | In v2                                          | Equivalent in v5                                                 | Sample |
 |------------------------------------------------|------------------------------------------------------------------|--------|
-| `EventHubClient.send()`                          | `EventHubProducerClient.sendBatch()`                               | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
+| `EventHubClient.sendBatch(events)`             | `EventHubProducerClient.sendBatch(eventBatch)`                   | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
+
+Other noteworthy changes:
+- The `send` method on the client is deprecated in favor of the `sendBatch` to encourage sending
+events in batches for better throughput.
+- The `sendBatch` method on the client takes a object of type `EventDataBatch` that should be created
+using the `createBatch` method on the client.
 
 ### Creating EventPosition
 
@@ -48,6 +66,19 @@ point of entry for receiving of any type (from single partition, all partitions,
 | `EventPosition.fromOffset(value)`              | `{ offset: value }`      |
 | `EventPosition.fromSequenceNumber(value)`      | `{ sequenceNumber: value }`|
 | `EventPosition.fromEnqueuedTime(value)`        | `{ enqueuedOn: value }`  |
+
+### Handling errors
+
+- In v2, the `name` property on an error of class `MessagingError` was used to reflect the different
+error types like `InternalServerError`, `ServiceUnavailableError`, `OperationTimeoutError` etc. In v5, 
+the `name` property will always have the value "MessagingError". The new `code` property will contain
+the different error types instead.
+- In v2, network related system errors with `code` ENOTFOUND, ECONNREFUSED were passed to the user after
+getting converted to a `MessagingError` with custom names. In v5, such errors will retain their `code`.
+- In v2, when receiving events, after calling the user-provided error callback, the `receive()` method
+would stop receiving events and the user was expected to call it again.
+In v5, after calling the user-provided error callback, the `subscribe()` method will resume receiving
+events from the last checkpointed position. 
 
 ## Migration samples
 
