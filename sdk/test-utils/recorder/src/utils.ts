@@ -16,6 +16,10 @@ export function isPlaybackMode() {
   return env.TEST_MODE === "playback";
 }
 
+export function isLiveMode() {
+  return env.TEST_MODE === "live";
+}
+
 export function escapeRegExp(str: string): string {
   return encodeURIComponent(str)
     .replace(
@@ -106,13 +110,13 @@ export function delay(milliseconds: number): Promise<void> | null {
  */
 export function parseUrl(url: string): any {
   const [cleanUrl, ...queryParts] = url.split(/[?&]/);
-  const query = queryParts.reduce((query: { [key:string]: any }, part) => {	
+  const query = queryParts.reduce((query: { [key: string]: any }, part) => {
     const [name, value] = part.split(/=/);
-    query[name] = decodeURIComponent(value.replace(/\+/g, ' '));
+    query[name] = decodeURIComponent(value.replace(/\+/g, " "));
     return query;
   }, {});
   return {
     url: cleanUrl,
     query
-  }
+  };
 }
