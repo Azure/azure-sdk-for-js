@@ -23,7 +23,7 @@ import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
