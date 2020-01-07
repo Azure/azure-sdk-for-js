@@ -45,9 +45,9 @@ AppConfigurationClient can authenticate using a [service principal](#authenticat
 ####  Authenticating with a service principal
 
 Authentication via service principal is done by:
-1. Creating a credential using the `@azure/identity` package.
-2. Setting appropriate RBAC rules on your AppConfiguration resource. 
-    More information on App Configuration roles is [here](https://github.com/Azure/AppConfiguration/blob/master/docs/REST/authorization/aad.md).
+* Creating a credential using the `@azure/identity` package.
+* Setting appropriate RBAC rules on your AppConfiguration resource. 
+   More information on App Configuration roles is [here](https://github.com/Azure/AppConfiguration/blob/master/docs/REST/authorization/aad.md).
 
 Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential)
 
