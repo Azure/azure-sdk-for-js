@@ -2,11 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-
-    "lib": [
-      "ESNext.AsyncIterable",
-      "DOM"   // for core-http
-    ],
+    "target": "ES2015",
 
     "allowSyntheticDefaultImports": true,
 
