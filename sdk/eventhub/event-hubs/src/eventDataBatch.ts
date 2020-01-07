@@ -36,7 +36,7 @@ export interface TryAddOptions {
 }
 
 /**
- * A interface representing a batch of events which can be used to send events to Event Hub.
+ * An interface representing a batch of events which can be used to send events to Event Hub.
  * 
  * To create the batch, use the `createBatch()` method on the `EventHubProducerClient`.
  * To send the batch, use the `sendBatch()` method on the same client.
