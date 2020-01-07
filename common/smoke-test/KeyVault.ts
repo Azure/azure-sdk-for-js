@@ -3,12 +3,12 @@
 // Licensed under the MIT License.
 // ------------------------------------
 import { EnvironmentCredential } from "@azure/identity";
-import { SecretsClient } from "@azure/keyvault-secrets";
+import { SecretClient } from "@azure/keyvault-secrets";
 
-const uuidv1 = require('uuid/v1');
+const uuidv1 = require("uuid/v1");
 
 export class KeyVaultSecrets {
-  private static client: SecretsClient;
+  private static client: SecretClient;
   private static secretName: string;
   private static secretValue: string;
 
@@ -30,7 +30,7 @@ export class KeyVaultSecrets {
     const credential = new EnvironmentCredential();
     const url = process.env["AZURE_PROJECT_URL"] || "<YourProjectURL>";
 
-    KeyVaultSecrets.client = new SecretsClient(url, credential);
+    KeyVaultSecrets.client = new SecretClient(url, credential);
 
     KeyVaultSecrets.secretName = `MySecretName-${uuidv1()}`;
     KeyVaultSecrets.secretValue = "MySecretValue";
@@ -57,7 +57,9 @@ export class KeyVaultSecrets {
 
   private static async getSecret() {
     console.log("Getting that secret...");
-    const result = await KeyVaultSecrets.client.getSecret(KeyVaultSecrets.secretName);
+    const result = await KeyVaultSecrets.client.getSecret(
+      KeyVaultSecrets.secretName
+    );
 
     if (
       result.name !== KeyVaultSecrets.secretName ||
@@ -71,11 +73,14 @@ export class KeyVaultSecrets {
 
   private static async deleteSecret() {
     console.log("Deleting that secret...");
-    await KeyVaultSecrets.client.deleteSecret(KeyVaultSecrets.secretName);
+    const poller = await KeyVaultSecrets.client.beginDeleteSecret(
+      KeyVaultSecrets.secretName
+    );
+    await poller.pollUntilDone();
     console.log("\tdone");
   }
 
   private static dedent(str: ReadonlyArray<string>) {
-    return str[0].replace(/^\ */gm, '');
+    return str[0].replace(/^\ */gm, "");
   }
 }

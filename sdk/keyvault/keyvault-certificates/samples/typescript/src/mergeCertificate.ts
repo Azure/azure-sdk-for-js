@@ -1,12 +1,20 @@
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
 import * as fs from "fs";
 import * as childProcess from "child_process";
-import { CertificateClient } from "../../src";
+
+import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
+
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
 // This sample creates a certificate with an Unknown issuer, then signs this certificate using a fake
 // certificate authority and the mergeCertificate API method.
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -18,15 +26,17 @@ async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
+  const certificateName = "MyCertificateMergeCertificateTS";
+
   // Creating a certificate with an Unknown issuer.
-  await client.beginCreateCertificate("MyCertificate", {
+  await client.beginCreateCertificate(certificateName, {
     issuerName: "Unknown",
     certificateTransparency: false,
     subject: "cn=MyCert"
   });
 
   // Retrieving the certificate's signing request
-  const operationPoller = await client.getCertificateOperation("MyCertificate");
+  const operationPoller = await client.getCertificateOperation(certificateName);
   const { csr } = operationPoller.getOperationState().certificateOperation!;
   const base64Csr = Buffer.from(csr!).toString("base64");
   const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
@@ -55,7 +65,7 @@ ${base64Csr}
     .join("");
 
   // Once we have the response in base64 format, we send it to mergeCertificate
-  await client.mergeCertificate("MyCertificate", [Buffer.from(base64Crt)]);
+  await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
 }
 
 main().catch((err) => {
