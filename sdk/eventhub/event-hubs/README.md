@@ -388,7 +388,7 @@ export DEBUG=azure*
 export DEBUG=azure*,rhea*
 ```
 
-- If you are **not interested in viewing the raw event data** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
+- If you are **not interested in viewing the raw event data** (which consumes a large amount of console/disk space) then you can set the `DEBUG` environment variable as follows:
 
 ```bash
 export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message
