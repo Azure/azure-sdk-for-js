@@ -40,7 +40,27 @@ az appconfig create --name <app-configuration-resource-name> --resource-group <r
 
 ### 3. Create and authenticate an `AppConfigurationClient`
 
-App Configuration uses connection strings for authentication.
+AppConfigurationClient can authenticate using a [service principal](#authenticating-with-a-service-principal) or using a [connection string](#authenticating-with-a-connection-string).
+
+####  Authenticating with a service principal
+
+Authentication via service principal uses the `@azure/identity` package.
+
+Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential)
+
+```javascript
+  const azureIdentity= require("@azure/identity");
+  const appConfig = require("@azure/app-configuration");
+  
+  const credential = new azureIdentity.DefaultAzureCredential();
+  const client = new appConfig.AppConfigurationClient(
+      endpoint, // ex: <https://<your appconfig resource>.azconfig.io>
+      credential);
+```
+
+ More information about `@azure/identity` can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md)
+
+#### Authenticating with a connection string
 
 To get the Primary **connection string** for an App Configuration resource you can use this Azure CLI command:
 
