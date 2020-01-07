@@ -1,6 +1,7 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
+const jsonRecordingFilter = require("@azure/test-utils-recorder").jsonRecordingFilterFunction;
 
 module.exports = function(config) {
   config.set({
@@ -70,23 +71,8 @@ module.exports = function(config) {
     },
 
     jsonToFileReporter: {
-      filter: function(obj) {
-        if (obj.writeFile) {
-          const fs = require("fs-extra");
-          try {
-            // Stripping away the filename from the file path and retaining the directory structure
-            fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
-          } catch (err) {
-            if (err.code !== "EEXIST") throw err;
-          }
-          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
-            if (err) {
-              throw err;
-            }
-          });
-        }
-        return false;
-      },
+      // required - to save the recordings of browser tests
+      filter: jsonRecordingFilter,
       outputPath: "."
     },
 

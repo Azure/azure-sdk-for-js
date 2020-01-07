@@ -1,7 +1,14 @@
-import { KeyClient } from "../../src";
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function main(): Promise<void> {
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
+export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
@@ -12,9 +19,9 @@ async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new KeyClient(url, credential);
 
-  const keyName = "MyKeyName";
-  const ecKeyName = "MyECKeyName";
-  const rsaKeyName = "MyRSAKeyName";
+  const keyName = "MyKeyNameCertificates";
+  const ecKeyName = "MyECKeyNameCertificates";
+  const rsaKeyName = "MyRSAKeyNameCertificates";
 
   // You can create keys using the general method
   const result = await client.createKey(keyName, "EC");
