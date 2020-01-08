@@ -65,7 +65,7 @@ describe("NodeJS CRUD Tests", function() {
       assert.equal(replacedUser.id, userAfterReplace.id);
 
       // delete user
-      const { resource: res } = await user.delete();
+      await user.delete();
 
       // read user after deletion
       try {

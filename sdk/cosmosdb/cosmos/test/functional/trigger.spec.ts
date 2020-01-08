@@ -68,7 +68,7 @@ describe("NodeJS CRUD Tests", function() {
 
       // replace trigger
       // prettier-ignore
-      trigger.body = function () { const x = 20; };
+      trigger.body = function () { const x = 20; console.log(x) };
       const { resource: replacedTrigger } = await container.scripts
         .trigger(trigger.id)
         .replace(trigger);
@@ -189,7 +189,7 @@ describe("NodeJS CRUD Tests", function() {
         { postTriggerInclude: "response1", preTriggerInclude: "t1" }
       );
       assert.equal(document4.id, "TESTING POST TRIGGERt1");
-      const { resource: document5, headers } = await container.items.create(
+      const { resource: document5 } = await container.items.create(
         { id: "responseheaders" },
         { preTriggerInclude: "t1" }
       );

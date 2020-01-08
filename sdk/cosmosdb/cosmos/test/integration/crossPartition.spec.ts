@@ -965,10 +965,6 @@ describe("Cross Partition", function() {
         maxItemCount: 2
       };
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
-        return r["id"];
-      });
-
       const queryIterator = container.items.query(query, options);
 
       let firstTime = true;

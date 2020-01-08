@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { ConnectionPolicy, Constants, CosmosClient, RetryOptions } from "../../dist-esm";
-import * as request from "../../dist-esm/request";
+// import assert from "assert";
+// import { ConnectionPolicy, Constants, CosmosClient, RetryOptions } from "../../dist-esm";
+// import * as request from "../../dist-esm/request";
 
 describe("retry policy tests", function() {
-  this.timeout(300000);
-  const collectionDefinition = {
-    id: "sample collection"
-  };
+  // this.timeout(300000);
+  // const collectionDefinition = {
+  //   id: "sample collection"
+  // };
 
-  const documentDefinition = {
-    id: "doc",
-    name: "sample document",
-    key: "value"
-  };
+  // const documentDefinition = {
+  //   id: "doc",
+  //   name: "sample document",
+  //   key: "value"
+  // };
 
   // mocked database account to return the WritableLocations and ReadableLocations
   // set with the default endpoint
@@ -23,7 +23,7 @@ describe("retry policy tests", function() {
   //     callback(undefined, databaseAccount);
   // };
 
-  const retryAfterInMilliseconds = 1000;
+  // const retryAfterInMilliseconds = 1000;
   // // mocked request object stub that calls the callback with 429 throttling error
   // const mockCreateRequestObjectStub = function (connectionPolicy, requestOptions, callback) {
   //     callback({ code: 429, body: "Request rate is too large",
