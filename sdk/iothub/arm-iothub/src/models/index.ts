@@ -513,7 +513,7 @@ export interface RoutingProperties {
   fallbackRoute?: FallbackRouteProperties;
   /**
    * The list of user-provided enrichments that the IoT hub applies to messages to be delivered to
-   * built-in and custom endpoints. See: https://aka.ms/iotmsgenrich
+   * built-in and custom endpoints. See: https://aka.ms/telemetryoneventgrid
    */
   enrichments?: EnrichmentProperties[];
 }
@@ -598,13 +598,20 @@ export interface CloudToDeviceProperties {
 }
 
 /**
- * The device streams properties of iothub.
+ * Public representation of one of the locations where a resource is provisioned.
  */
-export interface IotHubPropertiesDeviceStreams {
+export interface IotHubLocationDescription {
   /**
-   * List of Device Streams Endpoints.
+   * The name of the Azure region
    */
-  streamingEndpoints?: string[];
+  location?: string;
+  /**
+   * The role of the region, can be either primary or secondary. The primary region is where the
+   * IoT hub is currently provisioned. The secondary region is the Azure disaster recovery (DR)
+   * paired region and also the region where the IoT hub can failover to. Possible values include:
+   * 'primary', 'secondary'
+   */
+  role?: IotHubReplicaRoleType;
 }
 
 /**
@@ -662,14 +669,15 @@ export interface IotHubProperties {
    */
   comments?: string;
   /**
-   * The device streams properties of iothub.
-   */
-  deviceStreams?: IotHubPropertiesDeviceStreams;
-  /**
    * The capabilities and features enabled for the IoT hub. Possible values include: 'None',
    * 'DeviceManagement'
    */
   features?: Capabilities;
+  /**
+   * Primary and secondary location for iot hub
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly locations?: IotHubLocationDescription[];
 }
 
 /**
@@ -1516,6 +1524,14 @@ export type RoutingSource = 'Invalid' | 'DeviceMessages' | 'TwinChangeEvents' | 
  * @enum {string}
  */
 export type Capabilities = 'None' | 'DeviceManagement';
+
+/**
+ * Defines values for IotHubReplicaRoleType.
+ * Possible values include: 'primary', 'secondary'
+ * @readonly
+ * @enum {string}
+ */
+export type IotHubReplicaRoleType = 'primary' | 'secondary';
 
 /**
  * Defines values for IotHubSku.
