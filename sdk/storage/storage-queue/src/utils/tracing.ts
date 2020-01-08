@@ -26,8 +26,12 @@ export function createSpan(
   let newOptions = tracingOptions.spanOptions || {};
   if (span.isRecording()) {
     newOptions = {
-      ...tracingOptions,
-      parent: span
+      ...spanOptions,
+      parent: span,
+      attributes: {
+        ...spanOptions.attributes,
+        "az.namespace": "Microsoft.Storage"
+      }
     };
   }
 

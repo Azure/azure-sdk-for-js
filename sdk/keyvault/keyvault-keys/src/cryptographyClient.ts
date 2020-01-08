@@ -768,11 +768,16 @@ export class CryptographyClient {
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
     if (span.isRecording()) {
+      const spanOptions = options.spanOptions || {};
       return {
         ...options,
         spanOptions: {
-          ...options.spanOptions,
-          parent: span
+          ...spanOptions,
+          parent: span,
+          attributes: {
+            ...spanOptions.attributes,
+            "az.namespace": "Microsoft.KeyVault"
+          }
         }
       };
     } else {

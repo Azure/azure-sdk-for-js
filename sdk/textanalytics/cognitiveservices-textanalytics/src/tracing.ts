@@ -33,8 +33,12 @@ export function createSpan<T extends OperationOptions>(
   let newSpanOptions = tracingOptions.spanOptions || {};
   if (span.isRecording()) {
     newSpanOptions = {
-      ...tracingOptions,
-      parent: span
+      ...spanOptions,
+      parent: span,
+      attributes: {
+        ...spanOptions.attributes,
+        "az.namespace": "Microsoft.CognitiveServices"
+      }
     };
   }
 
