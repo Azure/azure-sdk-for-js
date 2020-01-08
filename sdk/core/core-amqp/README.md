@@ -174,30 +174,62 @@ main().catch((err) => console.log(err));
 
 ## Troubleshooting
 
-You can set the following environment variable to get the debug logs.
+The core-amqp library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, and for sending and receiving events over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
-- Getting debug logs from the Event Hub SDK.
+### Enable logs
 
-```bash
-export DEBUG=azure:core-amqp*
+You can set the `AZURE_LOG_LEVEL` environment variable to one of the following values to enable logging to `stderr`:
+
+- verbose
+- info
+- warning
+- error
+
+You can also set the log level programatically by importing the
+[@azure/logger](https://www.npmjs.com/package/@azure/logger) package and calling the
+`setLogLevel` function with one of the log level values.
+
+- Example using setLogLevel.
+
+```js
+const logger = require("@azure/logger");
+logger.setLogLevel("info");
+
+// operations from core-amqp will now emit info, warning, and error logs
 ```
 
-- Getting debug logs from the Event Hub SDK and the protocol level library.
+When setting a log level either programatically or via the `AZURE_LOG_LEVEL` environment variable,
+any logs that are written using a log level equal to or less than the one you choose will be emitted.
+
+You can alternatively set the `DEBUG` environment variable to get logs when using this library.
+This can be useful if you also want to emit logs from the dependencies `rhea-promise` and `rhea` as well.
+
+**Note:** AZURE_LOG_LEVEL, if set, takes precedence over DEBUG.
+Do not specify any `azure` libraries via DEBUG when also specifying
+AZURE_LOG_LEVEL or calling setLogLevel.
+
+- Getting only info level debug logs from the core-amqp library.
 
 ```bash
-export DEBUG=azure:core-amqp*,rhea*
+export DEBUG=azure:core-amqp:info
 ```
 
-- If you are **not interested in viewing the message transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
+- Getting debug logs from the core-amqp and the protocol level library.
 
 ```bash
-export DEBUG=azure:core-amqp*,rhea*,-rhea:raw,-rhea:message,-azure:core-amqp:datatransformer
+export DEBUG=azure:core-amqp:*,rhea*
 ```
 
-- If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
+- If you are **not interested in viewing the raw event data** (which consumes a large amount of console/disk space) then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure-core-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:core-amqp:*,rhea*,-rhea:raw,-rhea:message
+```
+
+- If you are interested only in **errors** and SDK **warnings**, then you can set the `DEBUG` environment variable as follows:
+
+```bash
+export DEBUG=azure:core-amqp:(error|warning),rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 #### Logging to a file
@@ -213,7 +245,7 @@ export DEBUG=azure-core-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rh
     ```
   - Logging statements from your test script and the sdk go to the same file `out.log`.
     ```bash
-      node your-test-script.js &> out.log
+    node your-test-script.js &> out.log
     ```
 
 # Next steps
@@ -235,6 +267,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-amqp%2FREADME.png)
