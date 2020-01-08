@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: "@azure/cognitiveservices-textanalytics"
+package-name: "@azure/ai-textanalytics"
 title: TextAnalyticsClient
 description: TextAnalytics Client
 generate-metadata: false

@@ -61,7 +61,7 @@ export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "browser/azure-cognitiveservices-textanalytics.js",
+      file: "browser/azure-ai-textanalytics.js",
       format: "umd",
       name: "Azure.CognitiveServicesTextAnalytics",
       sourcemap: true,
@@ -117,7 +117,7 @@ export function browserConfig(test = false, production = false) {
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
   } else if (production) {
-    baseConfig.output.file = "browser/azure-cognitiveservices-textanalytics.min.js";
+    baseConfig.output.file = "browser/azure-ai-textanalytics.min.js";
     baseConfig.plugins.push(terser());
   }
 

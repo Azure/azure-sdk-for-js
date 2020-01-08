@@ -16,7 +16,7 @@
   "browser": {
     "./dist/index.js": "./browser/index.js"
   },
-  "types": "./types/textanalytics.d.ts",
+  "types": "./types/ai-textanalytics.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-textanalytics",
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/textanalytics.d.ts",
+    "types/ai-textanalytics.d.ts",
     "src/",
     "README.md"
   ],
