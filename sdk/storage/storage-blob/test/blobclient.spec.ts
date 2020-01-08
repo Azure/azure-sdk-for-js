@@ -547,13 +547,15 @@ describe("BlobClient", () => {
     }
     assert.ok(exceptionCaught);
   });
+});
 
-  it("verify blobName and containerName passed to the client", async () => {
-    const accountName = "myaccount";
-    const blobName = "blob/part/1.txt";
-    const newClient = new BlobClient(
-      `https://${accountName}.blob.core.windows.net/` + containerName + "/" + blobName
-    );
+describe("BlobClient - Verify Name Properties", () => {
+  const accountName = "myaccount";
+  const blobName = "blob/part/1.txt";
+  const containerName = "containername";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new BlobClient(url);
     assert.equal(
       newClient.containerName,
       containerName,
@@ -565,5 +567,25 @@ describe("BlobClient", () => {
       accountName,
       "Account name is not the same as the one provided."
     );
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(
+      `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}`
+    );
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(`https://192.0.0.10:1900/${accountName}/${containerName}/${blobName}`);
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${containerName}/${blobName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${containerName}/${blobName}`);
   });
 });

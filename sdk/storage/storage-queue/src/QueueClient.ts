@@ -1126,9 +1126,9 @@ export class QueueClient extends StorageClient {
 
       if (!queueName) {
         throw new Error("Provided queueName is invalid.");
-      } else {
-        return queueName;
       }
+
+      return queueName;
     } catch (error) {
       throw new Error("Unable to extract queueName with provided information.");
     }

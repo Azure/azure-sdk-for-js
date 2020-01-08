@@ -124,7 +124,7 @@ export function validateEventPositions(
       "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set."
     );
   }
-  
+
   if (offsetPresent || sequenceNumberPresent || enqueuedOnPresent || !keys.length) {
     validateEventPosition(position);
     return;

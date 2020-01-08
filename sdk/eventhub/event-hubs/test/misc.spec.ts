@@ -62,11 +62,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message with %d bytes.", bodysize);
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      partitionId,
-      { offset }
-    );
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+      offset
+    });
     let data = await receiver.receiveBatch(1, 1);
     should.equal(data.length, 0, "Unexpected to receive message before client sends it");
     const sender = client.createProducer({ partitionId });
@@ -102,11 +100,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      partitionId,
-      { offset }
-    );
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+      offset
+    });
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
     debug("Successfully sent the large message.");
@@ -138,11 +134,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      partitionId,
-      { offset }
-    );
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+      offset
+    });
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
     debug("Successfully sent the large message.");
@@ -163,11 +157,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      partitionId,
-      { offset }
-    );
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+      offset
+    });
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
     debug("Successfully sent the large message.");
@@ -199,11 +191,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       await sender.send(d);
       debug("Successfully sent 5 messages batched together.");
 
-      const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroupName,
-        partitionId,
-       { offset }
-      );
+      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+        offset
+      });
       const data = await receiver.receiveBatch(5, 30);
       await receiver.close();
       debug("received message: ", data);
@@ -253,11 +243,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       await sender.send(d);
       debug("Successfully sent 5 messages batched together.");
 
-      const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroupName,
-        partitionId,
-       { offset }
-      );
+      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+        offset
+      });
       const data = await receiver.receiveBatch(5, 30);
       await receiver.close();
       debug("received message: ", data);

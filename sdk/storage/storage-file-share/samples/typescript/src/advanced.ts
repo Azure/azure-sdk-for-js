@@ -12,7 +12,7 @@ import { AnonymousCredential, ShareServiceClient, newPipeline } from "@azure/sto
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Fill in following settings before running this sample
