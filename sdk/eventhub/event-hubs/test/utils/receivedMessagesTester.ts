@@ -1,7 +1,7 @@
 import { CloseReason, ReceivedEventData, EventHubProducerClient } from "../../src/";
 import {
   SubscriptionEventHandlers,
-  PartitionContext  
+  PartitionContext
 } from "../../src/eventHubConsumerClientModels";
 import chai from "chai";
 import { delay } from "@azure/core-amqp";
@@ -43,7 +43,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     for (const event of events) {
       await context.updateCheckpoint(event);
       this.expectedMessageBodies.delete(event.body);
-    }   
+    }
 
     if (this.expectedMessageBodies.size === 0) {
       this.done = true;

@@ -349,11 +349,9 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
     await sender.send({ body: "dummy send to ensure AMQP connection is opened" });
 
     // Ensure receiver link is opened
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      "0",
-      { enqueuedOn: timeNow }
-    );
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", {
+      enqueuedOn: timeNow
+    });
     const msgs = await receiver.receiveBatch(1, 10);
     should.equal(msgs.length, 1);
 
