@@ -12,9 +12,13 @@
 
 import { ServiceBusClient } from "@azure/service-bus";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 // Define connection string and related Service Bus entity names here
-const connectionString = "";
-const queueName = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const queueName = process.env.SERVICE_BUS_QUEUE_NAME || "";
 
 async function main(): Promise<void> {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);

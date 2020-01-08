@@ -19,10 +19,14 @@ import {
   ServiceBusMessage
 } from "@azure/service-bus";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
-const connectionString = "";
-const queueName = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const queueName = process.env.SERVICE_BUS_QUEUE_NAME || "";
 
 const listOfScientists = [
   { lastName: "Einstein", firstName: "Albert" },

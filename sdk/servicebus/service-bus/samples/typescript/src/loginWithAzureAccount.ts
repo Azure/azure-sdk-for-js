@@ -16,11 +16,15 @@
 import { ServiceBusClient } from "@azure/service-bus";
 import { loginWithUsernamePassword } from "@azure/ms-rest-nodeauth";
 
-// Define Service Bus Endpoint here and related entity names here
-const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
 
-const username = "";
-const password = "";
+// Define Service Bus Endpoint here and related entity names here
+const serviceBusEndpoint = process.env.SERVICE_BUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
+
+const username = "<azure username>";
+const password = "<azure password>";
 
 async function main(): Promise<void> {
   const tokenCreds = await loginWithUsernamePassword(username, password, {

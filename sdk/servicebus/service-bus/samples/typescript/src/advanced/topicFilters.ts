@@ -21,12 +21,16 @@ import {
   SubscriptionClient
 } from "@azure/service-bus";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 // Define connection string and related Service Bus entity names here
-const connectionString = "";
-const topicName = "";
-const subscriptionName1 = "";
-const subscriptionName2 = "";
-const subscriptionName3 = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const topicName = process.env.TOPIC_NAME || "";
+const subscriptionName1 = process.env.TOPIC_FILTER_SUBSCRIPTION_1 || "<subscription name>";
+const subscriptionName2 = process.env.TOPIC_FILTER_SUBSCRIPTION_2 || "<subscription name>";
+const subscriptionName3 = process.env.TOPIC_FILTER_SUBSCRIPTION_3 || "<subscription name>";
 
 async function main(): Promise<void> {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);

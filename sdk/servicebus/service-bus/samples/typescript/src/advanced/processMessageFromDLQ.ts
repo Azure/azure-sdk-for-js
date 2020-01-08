@@ -11,9 +11,13 @@
 
 import { ServiceBusMessage, ServiceBusClient, ReceiveMode, QueueClient } from "@azure/service-bus";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 // Define connection string and related Service Bus entity names here
-const connectionString = "";
-const queueName = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const queueName = process.env.SERVICE_BUS_QUEUE_NAME || "";
 
 // If deadlettered messages are from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
 const deadLetterQueueName = QueueClient.getDeadLetterQueuePath(queueName);

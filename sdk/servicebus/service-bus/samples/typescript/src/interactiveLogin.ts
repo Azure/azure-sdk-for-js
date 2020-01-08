@@ -13,8 +13,12 @@
 import { ServiceBusClient } from "@azure/service-bus";
 import { interactiveLogin } from "@azure/ms-rest-nodeauth";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 // Define Service Bus Endpoint here
-const serviceBusEndpoint = ""; // <your-servicebus-namespace>.servicebus.windows.net
+const serviceBusEndpoint = process.env.SERVICE_BUS_ENDPOINT || ""; // <your-servicebus-namespace>.servicebus.windows.net
 
 async function main(): Promise<void> {
   const tokenCreds = await interactiveLogin({
