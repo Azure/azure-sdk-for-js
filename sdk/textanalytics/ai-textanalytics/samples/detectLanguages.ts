@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// NOTE: replace with import { TextAnalyticsClient } from "@azure/cognitiveservices-textanalytics"
+// NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-textanalytics"
 // in a standalone project
 import {
   TextAnalyticsClient,

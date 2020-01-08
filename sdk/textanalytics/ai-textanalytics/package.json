@@ -1,8 +1,8 @@
 {
-  "name": "@azure/cognitiveservices-textanalytics",
+  "name": "@azure/ai-textanalytics",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Text Analytics service.",
-  "version": "5.0.0-preview.1",
+  "version": "1.0.0-preview.1",
   "keywords": [
     "node",
     "azure",
@@ -17,7 +17,7 @@
     "./dist/index.js": "./browser/index.js"
   },
   "types": "./types/textanalytics.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cognitiveservices/cognitiveservices-textanalytics",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-textanalytics",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"

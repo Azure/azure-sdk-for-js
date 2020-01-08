@@ -138,7 +138,7 @@ export class TextAnalyticsClient {
    *
    * Example usage:
    * ```ts
-   * import { TextAnalyticsClient, CognitiveServicesCredential } from "@azure/cognitiveservices-textanalytics";
+   * import { TextAnalyticsClient, CognitiveServicesCredential } from "@azure/ai-textanalytics";
    *
    * const client = new TextAnalyticsClient(
    *    "<service endpoint>",
@@ -159,7 +159,7 @@ export class TextAnalyticsClient {
     this.defaultCountryHint = defaultCountryHint;
     this.defaultLanguage = defaultLanguage;
 
-    const libInfo = `azsdk-js-cognitiveservices-textanalytics/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-ai-textanalytics/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
       pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
         ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
