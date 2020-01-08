@@ -358,6 +358,8 @@ export class EventHubConsumerClient {
    * instances of your application, then each instance will subscribe to a subset of the
    * partitions such that the load is balanced amongst them.
    *
+   * Call close() on the returned object to stop receiving events.
+   *
    * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
    *                 per partition, receiving events, handling errors and the closing
    *                 of a subscription per partition.
@@ -369,7 +371,8 @@ export class EventHubConsumerClient {
   subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription; // #1
   /**
    * Subscribe to events from a single partition.
-   *
+   * Call close() on the returned object to stop receiving events.
+   * 
    * @param partitionId The id of the partition to subscribe to.
    * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
    *                 of the partition, receiving events, handling errors and the closing
