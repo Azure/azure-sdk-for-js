@@ -112,13 +112,7 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
   return result;
 }
 
-const listDataplanePackages = () => {
-  console.log("generate dataplane = "+ generateDataplaneList().toString());
-  return generateDataplaneList();
-}
-
-export const packagesToIgnore = listDataplanePackages();
-console.log(packagesToIgnore);
+export const packagesToIgnore = generateDataplaneList();
 export const folderNamesToIgnore: string[] = ["node_modules"];
 
 export function getPackageFolderPaths(packagesFolderPath: string): string[] | undefined {

@@ -1,11 +1,24 @@
 import * as path from "path";
-const versionUtils = require("../eng/tools/versioning/VersionUtils");
-export function generateDataplaneList(): string[]{
-  console.warn("is this printing even?");
-  console.warn(__dirname);
-  const rootRepo = path.resolve(__dirname, "..");
-  console.warn(rootRepo);
-  var rushPackages = versionUtils.getRushPackageJsons(rootRepo);
-  console.warn(Object.keys(rushPackages));
-  return Object.keys(rushPackages);
+import * as fs from "fs";
+const parse = require("../common/lib/jju/parse").parse;
+
+export function generateDataplaneList(): string[] {
+  //const rootRepo = path.resolve(__dirname, "..");
+  const rushPackages: string[] = getRushPackages();
+  return rushPackages;
 }
+
+//This gets the list of rush packages
+const getRushPackages = () => {
+  const rushPath = path.resolve(path.join(__dirname, "../rush.json"));
+  const baseDir = path.dirname(rushPath);
+  const rushJson = parse(fs.readFileSync(rushPath, "utf8"));
+  const packageData: string[] = [];
+
+  for (const proj of rushJson.projects) {
+    const filePath = path.join(baseDir, proj.projectFolder, "package.json");
+    const packageJson = parse(fs.readFileSync(filePath, "utf8"));
+    packageData.push(packageJson.name);
+  }
+  return packageData;
+};
