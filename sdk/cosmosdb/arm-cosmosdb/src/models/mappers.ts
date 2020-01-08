@@ -386,6 +386,12 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      keyVaultKeyUri: {
+        serializedName: "properties.keyVaultKeyUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1993,6 +1999,12 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      keyVaultKeyUri: {
+        serializedName: "properties.keyVaultKeyUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2104,6 +2116,12 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.disableKeyBasedMetadataWriteAccess",
         type: {
           name: "Boolean"
+        }
+      },
+      keyVaultKeyUri: {
+        serializedName: "properties.keyVaultKeyUri",
+        type: {
+          name: "String"
         }
       }
     }

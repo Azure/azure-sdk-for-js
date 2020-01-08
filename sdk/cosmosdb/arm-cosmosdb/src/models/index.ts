@@ -229,6 +229,10 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
 }
 
 /**
@@ -1162,6 +1166,10 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
 }
 
 /**
@@ -1223,6 +1231,10 @@ export interface DatabaseAccountUpdateParameters {
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
 }
 
 /**
