@@ -118,7 +118,7 @@ export const folderNamesToIgnore: string[] = ["node_modules"];
 export function getPackageFolderPaths(packagesFolderPath: string): string[] | undefined {
   return getChildFolderPaths(packagesFolderPath, {
     recursive: true,
-    condition: async (folderPath: string) => isPackageFolderPath(folderPath, packagesToIgnore),
+    condition: (folderPath: string) => isPackageFolderPath(folderPath, packagesToIgnore),
     folderCondition: (folderPath: string) => !contains(folderNamesToIgnore, getName(folderPath))
   });
 }
