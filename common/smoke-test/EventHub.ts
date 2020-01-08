@@ -72,8 +72,8 @@ export class EventHubs {
     }
 
     await EventHubs.producer.sendBatch(batch);
-    console.log("\tdone");
     await EventHubs.producer.close();
+    console.log("\tdone");
 
     console.log("receiving events...");
     let numEventsReceived = 0;
@@ -104,7 +104,8 @@ export class EventHubs {
         },
         {
           maxBatchSize: events.length,
-          maxWaitTimeInSeconds: 5
+          maxWaitTimeInSeconds: 5,
+          startPosition: { offset: -1 }
         }
       );
     });
