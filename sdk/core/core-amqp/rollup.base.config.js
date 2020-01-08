@@ -4,7 +4,7 @@
 // @ts-check
 
 import nodeResolve from "rollup-plugin-node-resolve";
-import multiEntry from "rollup-plugin-multi-entry";
+import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
@@ -14,7 +14,7 @@ import shim from "rollup-plugin-shim";
 import json from "@rollup/plugin-json";
 
 const pkg = require("./package.json");
-const depNames = Object.keys(pkg.dependencies).concat(Object.keys(pkg.peerDependencies));
+const depNames = Object.keys(pkg.dependencies);
 
 const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";

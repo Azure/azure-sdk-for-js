@@ -1054,7 +1054,7 @@ const listDeploymentsAtManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion1,
     Parameters.top
   ],
   headerParameters: [
@@ -1080,7 +1080,7 @@ const cancelAtManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1104,7 +1104,7 @@ const listForManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.managementGroupId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion1,
     Parameters.top,
     Parameters.filter
   ],
@@ -1131,7 +1131,7 @@ const createOrUpdateAtManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1166,7 +1166,7 @@ const getAtManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1191,7 +1191,7 @@ const deleteAtManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1216,7 +1216,7 @@ const listDeploymentsAtSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion1,
     Parameters.top
   ],
   headerParameters: [
@@ -1241,7 +1241,7 @@ const cancelAtSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1264,7 +1264,7 @@ const listForSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion1,
     Parameters.top,
     Parameters.filter
   ],
@@ -1290,7 +1290,7 @@ const createOrUpdateAtSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1324,7 +1324,7 @@ const getAtSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1348,7 +1348,7 @@ const deleteAtSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1374,7 +1374,7 @@ const listDeploymentsAtResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion1,
     Parameters.top
   ],
   headerParameters: [
@@ -1400,7 +1400,7 @@ const cancelAtResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1424,7 +1424,7 @@ const listForResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion1,
     Parameters.top,
     Parameters.filter
   ],
@@ -1451,7 +1451,7 @@ const createOrUpdateAtResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1486,7 +1486,7 @@ const getAtResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1511,7 +1511,7 @@ const deleteAtResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1536,7 +1536,7 @@ const listDeploymentsAtResourceOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion1,
     Parameters.top
   ],
   headerParameters: [
@@ -1561,7 +1561,7 @@ const cancelAtResourceOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1584,7 +1584,7 @@ const listForResourceOperationSpec: msRest.OperationSpec = {
     Parameters.resourceId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion1,
     Parameters.top,
     Parameters.filter
   ],
@@ -1610,7 +1610,7 @@ const createOrUpdateAtResourceOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1644,7 +1644,7 @@ const getAtResourceOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1668,7 +1668,7 @@ const deleteAtResourceOperationSpec: msRest.OperationSpec = {
     Parameters.remediationName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

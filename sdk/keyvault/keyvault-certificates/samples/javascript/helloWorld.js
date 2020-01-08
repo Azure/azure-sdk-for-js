@@ -1,5 +1,11 @@
-const { CertificateClient } = require("../../dist");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // This sample creates a self-signed certificate, reads it in various ways,
 // updates the tags of the certificate and finally deletes the certificate.
@@ -16,7 +22,7 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificate";
+  const certificateName = "MyCertificateHelloWorldJS";
 
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(certificateName, {

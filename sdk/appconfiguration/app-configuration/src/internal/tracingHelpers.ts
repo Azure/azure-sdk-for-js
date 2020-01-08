@@ -53,10 +53,8 @@ export class Spanner<TClient> {
   private createSpan<T extends Spannable>(options: T, operationName: keyof TClient) {
     const span = getTracer().startSpan(`${this.baseOperationName}.${operationName}`, {
       ...options.spanOptions,
-      kind: SpanKind.CLIENT
+      kind: SpanKind.INTERNAL
     });
-
-    span.setAttribute("component", this.componentName);
 
     let newOptions = options;
 

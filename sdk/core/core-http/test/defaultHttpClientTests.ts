@@ -13,6 +13,8 @@ import { isNode } from "../lib/util/utils";
 import { WebResource, HttpRequestBody, TransferProgressEvent } from "../lib/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
 import { TestFunction } from "mocha";
+import { PassThrough } from 'stream';
+import { ReportTransform } from '../lib/fetchHttpClient';
 
 const nodeIt = (isNode ? it : it.skip) as TestFunction;
 
@@ -370,5 +372,18 @@ describe("defaultHttpClient", function() {
     assert.strictEqual(responseBody, responseContent);
 
     httpMock.teardown();
+  });
+});
+
+describe("ReportTransform", function() {
+  it("should not modify the stream data", function() {
+    const a = new PassThrough();
+    const b = new PassThrough();
+    const callback = () => {};
+    const report = new ReportTransform(callback);
+    a.pipe(report, { end: false }).pipe(b, { end: false });
+    a.write("hello");
+    const transformed = b.read();
+    transformed.toString().should.equal("hello");
   });
 });

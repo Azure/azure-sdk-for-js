@@ -1,5 +1,5 @@
 import nodeResolve from "rollup-plugin-node-resolve";
-import multiEntry from "rollup-plugin-multi-entry";
+import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
@@ -34,14 +34,19 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = ["dist-esm/test/**/*.spec.js", "dist-esm/test/node/*.spec.js"];
+    baseConfig.input = ["dist-esm/test/**/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
     baseConfig.output.file = "test-dist/index.node.js";
 
-    // mark assert as external
+    // mark assert packages we use as external
     baseConfig.external.push("assert");
+
+    baseConfig.external.push(
+      ...Object.keys(pkg.dependencies),
+      ...Object.keys(pkg.devDependencies)
+    );
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also

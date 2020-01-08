@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "./log";
+import { logger, logErrorStackTrace } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConsumerOptions } from "./impl/eventHubClient";
 import {
@@ -188,11 +188,11 @@ export class EventHubConsumer {
    * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
-   * @throws {TypeError} Thrown if a required parameter is missing.
-   * @throws {Error} Thrown if the underlying connection or receiver has been closed.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   * @throws TypeError if a required parameter is missing.
+   * @throws Error if the underlying connection or receiver has been closed.
    * Create a new EventHubConsumer using the EventHubClient createConsumer method.
-   * @throws {Error} Thrown if the receiver is already receiving messages.
+   * @throws Error if the receiver is already receiving messages.
    */
   receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler {
     this._throwIfReceiverOrConnectionClosed();
@@ -220,10 +220,11 @@ export class EventHubConsumer {
         return;
       }
 
-      log.error(
+      logger.warning(
         "[%s] Since the error is not retryable, we let the user know about it by calling the user's error handler.",
         this._context.connectionId
       );
+      logErrorStackTrace(error);
 
       if (error.name === "AbortError") {
         // close this receiver when user triggers a cancellation.
@@ -259,35 +260,6 @@ export class EventHubConsumer {
   }
 
   /**
-   * Returns an async iterable that retrieves events.
-   *
-   * The async iterable cannot indicate that it is done.
-   * When using `for await (let event of consumer.getEventIterator()) {}` to iterate over the events returned
-   * by the async iterable, take care to exit the for loop after receiving the
-   * desired number of messages, or provide an `AbortSignal` to control when to exit the loop.
-   *
-   * @param [options] A set of options to apply to an event iterator.
-   */
-  async *getEventIterator(
-    options: EventIteratorOptions = {}
-  ): AsyncIterableIterator<ReceivedEventData> {
-    const maxMessageCount = 1;
-    const maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
-
-    while (true) {
-      const currentBatch = await this.receiveBatch(
-        maxMessageCount,
-        maxWaitTimeInSeconds,
-        options.abortSignal
-      );
-      if (!currentBatch || !currentBatch.length) {
-        continue;
-      }
-      yield currentBatch[0];
-    }
-  }
-
-  /**
    * Returns a promise that resolves to an array of events received from the service.
    *
    * @param maxMessageCount The maximum number of messages to receive.
@@ -297,11 +269,11 @@ export class EventHubConsumer {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @returns Promise<ReceivedEventData[]>.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
-   * @throws {MessagingError} Thrown if an error is encountered while receiving a message.
-   * @throws {Error} Thrown if the underlying connection or receiver has been closed.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   * @throws MessagingError if an error is encountered while receiving a message.
+   * @throws Error if the underlying connection or receiver has been closed.
    * Create a new EventHubConsumer using the EventHubClient createConsumer method.
-   * @throws {Error} Thrown if the receiver is already receiving messages.
+   * @throws Error if the receiver is already receiving messages.
    */
   async receiveBatch(
     maxMessageCount: number,
@@ -331,7 +303,8 @@ export class EventHubConsumer {
           const desc: string =
             `[${this._context.connectionId}] The request operation on the Receiver "${name}" with ` +
             `address "${address}" has been cancelled by the user.`;
-          log.error(desc);
+          // Cancellation is intentional so logging to 'info'.
+          logger.info(desc);
         };
 
         const rejectOnAbort = async (): Promise<void> => {
@@ -355,7 +328,7 @@ export class EventHubConsumer {
           return resolve(receivedEvents);
         }
 
-        log.batching(
+        logger.verbose(
           "[%s] Receiver '%s', setting the prefetch count to %d.",
           this._context.connectionId,
           this._baseConsumer && this._baseConsumer.name,
@@ -387,7 +360,7 @@ export class EventHubConsumer {
             // resolve the operation's promise after the requested
             // number of events are received.
             if (receivedEvents.length === maxMessageCount) {
-              log.batching(
+              logger.info(
                 "[%s] Batching Receiver '%s', %d messages received within %d seconds.",
                 this._context.connectionId,
                 this._baseConsumer && this._baseConsumer.name,
@@ -414,7 +387,7 @@ export class EventHubConsumer {
 
         const addTimeout = (): void => {
           const msg = "[%s] Setting the wait timer for %d seconds for receiver '%s'.";
-          log.batching(
+          logger.verbose(
             msg,
             this._context.connectionId,
             maxWaitTimeInSeconds,
@@ -424,7 +397,7 @@ export class EventHubConsumer {
           // resolve the operation's promise after the requested
           // max number of seconds have passed.
           timer = setTimeout(() => {
-            log.batching(
+            logger.info(
               "[%s] Batching Receiver '%s', %d messages received when max wait time in seconds %d is over.",
               this._context.connectionId,
               this._baseConsumer && this._baseConsumer.name,
@@ -462,7 +435,7 @@ export class EventHubConsumer {
    * a new EventHubConsumer.
    *
    * @returns
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {
@@ -483,7 +456,8 @@ export class EventHubConsumer {
     if (this.isReceivingMessages) {
       const errorMessage = `The EventHubConsumer for "${this._context.config.entityPath}" is already receiving messages.`;
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logger.warning(`[${this._context.connectionId}] %O`, error);
+      logErrorStackTrace(error);
       throw error;
     }
   }
@@ -495,7 +469,8 @@ export class EventHubConsumer {
         `The EventHubConsumer for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
         `Please create a new EventHubConsumer using the "createConsumer" function on the EventHubClient.`;
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logger.error(`[${this._context.connectionId}] %O`, error);
+      logErrorStackTrace(error);
       throw error;
     }
   }

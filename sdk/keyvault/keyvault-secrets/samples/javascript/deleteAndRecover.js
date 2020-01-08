@@ -1,5 +1,11 @@
-const { SecretClient } = require("../../src");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 function delay(t, value) {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
@@ -16,8 +22,8 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const bankAccountSecretName = "BankAccountPassword1112923";
-  const storageAccountSecretName = "StorageAccountPassword1112923";
+  const bankAccountSecretName = "secretDeleteAndRecoverJS1";
+  const storageAccountSecretName = "secretDeleteAndRecoverJS2";
 
   // Create our secrets
   console.log("Creating our secrets");

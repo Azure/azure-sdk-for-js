@@ -2,33 +2,43 @@
 // Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 // ------------------------------------
-import { EventHubClient, EventPosition } from "@azure/event-hubs";
+import {
+  EventHubProducerClient,
+  EventHubConsumerClient
+} from "@azure/event-hubs";
 
 export class EventHubs {
-  private static client: EventHubClient;
-  private static partitionId: string[];
+  private static producer: EventHubProducerClient;
+  private static consumer: EventHubConsumerClient;
+  private static partitionIds: string[];
 
   static async Run() {
     console.log(EventHubs.dedent`
         ------------------------
-        "Event Hubs"
+        Event Hubs
         ------------------------
         1) Get partitions ID
         2) Send a batch of 3 events
         3) Get a batch of events
         `);
 
-    let eventHubName = "myeventhub";
-    let connectionString = process.env["EVENT_HUBS_CONNECTION_STRING"] || "<YourConnectionString>";
+    let connectionString =
+      process.env["EVENT_HUBS_CONNECTION_STRING"] || "<YourConnectionString>";
 
-    EventHubs.client = new EventHubClient(connectionString, eventHubName);
+    EventHubs.consumer = new EventHubConsumerClient(
+      EventHubConsumerClient.defaultConsumerGroupName,
+      connectionString
+    );
+
+    EventHubs.producer = new EventHubProducerClient(connectionString);
 
     try {
       await EventHubs.getPartitionsIds();
       await EventHubs.SendAndReceiveEvents();
     } finally {
       //At the end the client must be closed.
-      await EventHubs.client.close();
+      await EventHubs.consumer.close();
+      await EventHubs.producer.close();
     }
   }
 
@@ -37,42 +47,70 @@ export class EventHubs {
 
     //In this sample, all the events are gonna be send and received from the first partition of the Event Hub.
     //This can be changed since it is not necessary to specify the partitionID when calling a method of the SDK.
-    EventHubs.partitionId = await EventHubs.client.getPartitionIds();
+    EventHubs.partitionIds = await EventHubs.producer.getPartitionIds();
     console.log("\tdone");
   }
 
   private static async SendAndReceiveEvents() {
-    console.log("creating consumer...");
-
-    const consumer = EventHubs.client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      EventHubs.partitionId[0],
-      EventPosition.fromEnqueuedTime(new Date())
-    );
-
     console.log("sending events...");
     const producerOptions = {
-      partitionId: EventHubs.partitionId[0]
+      partitionId: EventHubs.partitionIds[0]
     };
-    const producer = EventHubs.client.createProducer(producerOptions);
-    await producer.send({ body: "JS Event Test 1" });
-    await producer.send({ body: "JS Event Test 2" });
-    await producer.send({ body: "JS Event Test 3" });
 
-    console.log("receiving events...");
-    let eventsReceived = await consumer.receiveBatch(3, 5);
-    eventsReceived.forEach((event) => {
-      console.log(`Event received: ${event.body}`);
-    });
+    const events = [
+      { body: "JS Event Test 1" },
+      { body: "JS Event Test 2" },
+      { body: "JS Event Test 3" }
+    ];
 
-    if (eventsReceived.length != 3) {
-      throw `Error: expecting 3 events but ${eventsReceived.length} were received.`;
+    const batch = await EventHubs.producer.createBatch(producerOptions);
+
+    for (let event of events) {
+      if (!batch.tryAdd(event)) {
+        throw "Could not add event";
+      }
     }
 
+    await EventHubs.producer.sendBatch(batch);
     console.log("\tdone");
+    await EventHubs.producer.close();
+
+    console.log("receiving events...");
+    let numEventsReceived = 0;
+
+    await new Promise(async (res, rej) => {
+      const subscription = await EventHubs.consumer.subscribe(
+        {
+          processEvents: async (receivedEvents, context) => {
+            numEventsReceived += receivedEvents.length;
+            receivedEvents.forEach(event =>
+              console.log(`Event received: ${event.body}`)
+            );
+
+            // Close subscription and client when expected amount of events
+            // has been received.
+            if (numEventsReceived >= events.length) {
+              await subscription.close();
+              await EventHubs.consumer.close();
+              console.log("\tdone");
+              res();
+            }
+          },
+          processError: async (err, context) => {
+            await subscription.close();
+            await EventHubs.consumer.close();
+            rej(err);
+          }
+        },
+        {
+          maxBatchSize: events.length,
+          maxWaitTimeInSeconds: 5
+        }
+      );
+    });
   }
 
   private static dedent(str: ReadonlyArray<string>) {
-    return str[0].replace(/^\ */gm, '');
+    return str[0].replace(/^\ */gm, "");
   }
 }

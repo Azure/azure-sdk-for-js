@@ -1,8 +1,14 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /* 
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { BlobServiceClient } = require("../.."); // Change to "@azure/storage-blob" in your package
+const { BlobServiceClient } = require("@azure/storage-blob");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
@@ -30,11 +36,6 @@ async function main() {
   console.log("deleted container");
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});

@@ -6,7 +6,8 @@ import {
   TransferProgressEvent,
   TokenCredential,
   isTokenCredential,
-  getDefaultProxySettings
+  getDefaultProxySettings,
+  URLBuilder
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import {
@@ -46,14 +47,12 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DevelopmentConnectionString,
   DEFAULT_BLOCK_BUFFER_SIZE_BYTES
 } from "./utils/constants";
 import {
   setURLParameter,
   extractConnectionStringParts,
-  appendToURLPath,
-  getValueInConnString
+  appendToURLPath
 } from "./utils/utils.common";
 import { readStreamToLocalFile } from "./utils/utils.node";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -137,6 +136,7 @@ import { ETagNone } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -923,7 +923,13 @@ export class BlobClient extends StorageClient {
     blobNameOrOptions?: string | StoragePipelineOptions,
     options?: StoragePipelineOptions
   ) {
-    options = options || {};
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
+
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
@@ -937,8 +943,13 @@ export class BlobClient extends StorageClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      options = blobNameOrOptions as StoragePipelineOptions;
-      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+      // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+      // avoid each client creating its own http client.
+      const newOptions: StoragePipelineOptions = {
+        httpClient: getCachedDefaultHttpClient(),
+        ...(blobNameOrOptions as StoragePipelineOptions)
+      };
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, newOptions);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
@@ -946,7 +957,7 @@ export class BlobClient extends StorageClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string" &&
@@ -969,8 +980,8 @@ export class BlobClient extends StorageClient {
             encodeURIComponent(blobName)
           );
 
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          pipeline = newPipeline(sharedKeyCredential, options);
+          newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, newOptions);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
@@ -982,7 +993,7 @@ export class BlobClient extends StorageClient {
           ) +
           "?" +
           extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), options);
+        pipeline = newPipeline(new AnonymousCredential(), newOptions);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
@@ -1125,7 +1136,7 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        onDownloadProgress: isNode ? undefined : options.onProgress,
+        onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
@@ -1185,10 +1196,12 @@ export class BlobClient extends StorageClient {
           //   }, options: ${JSON.stringify(updatedOptions)}`
           // );
 
-          return (await this.blobContext.download({
-            abortSignal: options.abortSignal,
-            ...updatedOptions
-          })).readableStreamBody!;
+          return (
+            await this.blobContext.download({
+              abortSignal: options.abortSignal,
+              ...updatedOptions
+            })
+          ).readableStreamBody!;
         },
         offset,
         res.contentLength!,
@@ -1913,26 +1926,24 @@ export class BlobClient extends StorageClient {
       // "https://myaccount.blob.core.windows.net/mycontainer/blob";
       // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt?sasString";
       // "https://myaccount.blob.core.windows.net/mycontainer/blob/a.txt";
-      // or an emulator URL that starts with the endpoint `http://127.0.0.1:10000/devstoreaccount1`
+      // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10000/devstoreaccount1/containername/blob`
+      // http://localhost:10001/devstoreaccount1/containername/blob
 
-      let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-      urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+      const parsedUrl = URLBuilder.parse(this.url);
 
-      // http://127.0.0.1:10000/devstoreaccount1
-      const emulatorBlobEndpoint = getValueInConnString(
-        DevelopmentConnectionString,
-        "BlobEndpoint"
-      );
-
-      if (this.url.startsWith(emulatorBlobEndpoint)) {
-        // Emulator URL starts with `http://127.0.0.1:10000/devstoreaccount1`
-        const partsOfUrl = urlWithoutSAS.match(emulatorBlobEndpoint + "/([^/]*)(/(.*))?");
-        containerName = partsOfUrl![1];
-        blobName = partsOfUrl![3];
+      if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+        // "https://myaccount.blob.core.windows.net/containername/blob".
+        // .getPath() -> /containername/blob
+        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+        containerName = pathComponents![1];
+        blobName = pathComponents![3];
       } else {
-        const partsOfUrl = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)(/(.*))?");
-        containerName = partsOfUrl![3];
-        blobName = partsOfUrl![5];
+        // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername/blob
+        // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername/blob
+        // .getPath() -> /devstoreaccount1/containername/blob
+        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)/([^/]*)(/(.*))?");
+        containerName = pathComponents![2];
+        blobName = pathComponents![4];
       }
 
       // decode the encoded blobName, containerName - to get all the special characters that might be present in them
@@ -1947,9 +1958,9 @@ export class BlobClient extends StorageClient {
         throw new Error("Provided blobName is invalid.");
       } else if (!containerName) {
         throw new Error("Provided containerName is invalid.");
-      } else {
-        return { blobName, containerName };
       }
+
+      return { blobName, containerName };
     } catch (error) {
       throw new Error("Unable to extract blobName and containerName with provided information.");
     }
@@ -5509,7 +5520,13 @@ export class ContainerClient extends StorageClient {
   ) {
     let pipeline: Pipeline;
     let url: string;
-    options = options || {};
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
+
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
@@ -5521,7 +5538,7 @@ export class ContainerClient extends StorageClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, newOptions);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
@@ -5529,7 +5546,7 @@ export class ContainerClient extends StorageClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string"
@@ -5545,8 +5562,8 @@ export class ContainerClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          pipeline = newPipeline(sharedKeyCredential, options);
+          newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, newOptions);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
@@ -5555,7 +5572,7 @@ export class ContainerClient extends StorageClient {
           appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)) +
           "?" +
           extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), options);
+        pipeline = newPipeline(new AnonymousCredential(), newOptions);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
@@ -6260,7 +6277,7 @@ export class ContainerClient extends StorageClient {
    *
    * // Gets next marker
    * let marker = response.continuationToken;
-   * 
+   *
    * // Passing next marker as continuationToken
    *
    * iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });
@@ -6377,7 +6394,7 @@ export class ContainerClient extends StorageClient {
   private async *listItemsByHierarchy(
     delimiter: string,
     options: ContainerListBlobsSegmentOptions = {}
-  ): AsyncIterableIterator<{ kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem> {
+  ): AsyncIterableIterator<({ kind: "prefix" } & BlobPrefix) | ({ kind: "blob" } & BlobItem)> {
     let marker: string | undefined;
     for await (const listBlobsHierarchySegmentResponse of this.listHierarchySegments(
       delimiter,
@@ -6481,7 +6498,7 @@ export class ContainerClient extends StorageClient {
     delimiter: string,
     options: ContainerListBlobsOptions = {}
   ): PagedAsyncIterableIterator<
-    { kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem,
+    ({ kind: "prefix" } & BlobPrefix) | ({ kind: "blob" } & BlobItem),
     ContainerListBlobHierarchySegmentResponse
   > {
     const include: ListBlobsIncludeItem[] = [];
@@ -6541,28 +6558,23 @@ export class ContainerClient extends StorageClient {
       //  URL may look like the following
       // "https://myaccount.blob.core.windows.net/mycontainer?sasString";
       // "https://myaccount.blob.core.windows.net/mycontainer";
-      // or an emulator URL that starts with the endpoint `http://127.0.0.1:10000/devstoreaccount1`
+      // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10000/devstoreaccount1/containername`
+      // http://localhost:10001/devstoreaccount1/containername
 
-      let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-      urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+      const parsedUrl = URLBuilder.parse(this.url);
 
-      // http://127.0.0.1:10000/devstoreaccount1
-      const emulatorBlobEndpoint = getValueInConnString(
-        DevelopmentConnectionString,
-        "BlobEndpoint"
-      );
-
-      if (this.url.startsWith(emulatorBlobEndpoint)) {
-        // Emulator URL starts with `http://127.0.0.1:10000/devstoreaccount1`
-
-        const partsOfUrl = urlWithoutSAS.match(emulatorBlobEndpoint + "/([^/]*)");
-        containerName = partsOfUrl![1];
+      if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+        // "https://myaccount.blob.core.windows.net/containername".
+        // .getPath() -> /containername
+        containerName = parsedUrl.getPath()!.split("/")[1];
       } else {
-        const partsOfUrl = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)");
-
-        // decode the encoded containerName - to get all the special characters that might be present in it
-        containerName = partsOfUrl![3];
+        // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername
+        // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername
+        // .getPath() -> /devstoreaccount1/containername
+        containerName = parsedUrl.getPath()!.split("/")[2];
       }
+
+      // decode the encoded containerName - to get all the special characters that might be present in it
       containerName = decodeURIComponent(containerName);
 
       if (!containerName) {

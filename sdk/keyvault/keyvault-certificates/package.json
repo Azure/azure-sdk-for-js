@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-certificates",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.0.0-preview.11",
+  "version": "4.0.0",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
@@ -41,32 +41,46 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
-    "build:samples": "tsc -p tsconfig.samples.json",
+    "build:samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
-    "build": "npm run extract-api && npm run build:samples && npm run build:es6 && npm run build:nodebrowser",
+    "build": "npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist-esm dist-test typings *.tgz *.log",
-    "execute:samples": "echo skipped",
+    "clean": "rimraf dist-esm dist-test typings *.tgz *.log samples/typescript/dist",
+    "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
+    "execute:ts-samples": "node ../../../common/scripts/run-samples.js samples/typescript/dist/samples/typescript/src/",
+    "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"samples/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 2000000 --full-trace dist-test/index.node.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 5000000 --full-trace dist-esm/test/*.test.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json tsconfig.json \"src/**/*.ts\" --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o keyvault-certificates-lintReport.html || exit 0",
     "lint:terminal": "eslint package.json tsconfig.json src test samples --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "cross-env TEST_MODE=playback npm run integration-test:browser",
-    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
+    "test:browser": "npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node",
+    "test": "npm run build:test && npm run unit-test",
+    "unit-test:browser": "cross-env TEST_MODE=playback karma start --single-run",
+    "unit-test:node": "cross-env TEST_MODE=playback mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 2000000 --full-trace dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/core/keyVaultClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/core/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.0.0",
@@ -75,7 +89,7 @@
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
@@ -84,6 +98,7 @@
     "@azure/keyvault-secrets": "^4.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
+    "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-replace": "^2.2.0",
     "@types/chai": "^4.1.6",
     "@types/fs-extra": "^8.0.0",
@@ -101,6 +116,7 @@
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
+    "esm": "^3.2.18",
     "fs-extra": "^8.1.0",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^3.0.0",
@@ -125,7 +141,6 @@
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.0.2",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
@@ -135,17 +150,5 @@
     "typescript": "~3.6.4",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/core/keyVaultClientContext.ts",
-        "prefix": "packageVersion"
-      },
-      {
-        "path": "src/core/utils/constants.ts",
-        "prefix": "SDK_VERSION"
-      }
-    ]
   }
 }

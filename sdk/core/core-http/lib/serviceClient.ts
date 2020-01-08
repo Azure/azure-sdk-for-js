@@ -44,7 +44,7 @@ import { stringifyXML } from "./util/xml";
 import { RequestOptionsBase, RequestPrepareOptions, WebResource } from "./webResource";
 import { OperationResponse } from "./operationResponse";
 import { ServiceCallback, isNode } from "./util/utils";
-import { proxyPolicy, getDefaultProxySettings } from "./policies/proxyPolicy";
+import { proxyPolicy } from "./policies/proxyPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { signingPolicy } from "./policies/signingPolicy";
@@ -618,9 +618,8 @@ function createDefaultRequestPolicyFactories(
 
   factories.push(deserializationPolicy(options.deserializationContentTypes));
 
-  const proxySettings = options.proxySettings || getDefaultProxySettings();
-  if (proxySettings) {
-    factories.push(proxyPolicy(proxySettings));
+  if (isNode) {
+    factories.push(proxyPolicy(options.proxySettings));
   }
 
   factories.push(logPolicy({ logger: logger.info }));
@@ -664,9 +663,8 @@ export function createPipelineFromOptions(
     ...pipelineOptions.redirectOptions
   };
 
-  const proxySettings = pipelineOptions.proxyOptions || getDefaultProxySettings();
-  if (isNode && proxySettings) {
-    requestPolicyFactories.push(proxyPolicy(proxySettings));
+  if (isNode) {
+    requestPolicyFactories.push(proxyPolicy(pipelineOptions.proxyOptions));
   }
 
   const deserializationOptions = {
@@ -679,7 +677,7 @@ export function createPipelineFromOptions(
   };
 
   requestPolicyFactories.push(
-    tracingPolicy(),
+    tracingPolicy({ userAgent: userAgentValue }),
     keepAlivePolicy(keepAliveOptions),
     userAgentPolicy({ value: userAgentValue }),
     generateClientRequestIdPolicy(),

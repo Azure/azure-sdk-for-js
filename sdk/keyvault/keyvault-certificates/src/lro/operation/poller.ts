@@ -2,13 +2,17 @@
 // Licensed under the MIT License.
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
-import { Poller } from "@azure/core-lro";
+import { KVPoller } from "../core-lro-update";
 import {
   CertificateOperationPollOperationState,
-  makeCertificateOperationPollOperation
+  makeCertificateOperationPollOperation,
+  CertificateOperationState
 } from "./operation";
-import { CertificateClientInterface } from "../../certificatesModels";
-import { CertificateOperation } from "../../core/models";
+import {
+  CertificateOperation,
+  CertificateClientInterface,
+  KeyVaultCertificateWithPolicy
+} from "../../certificatesModels";
 
 export interface CertificateOperationPollerOptions {
   client: CertificateClientInterface;
@@ -21,9 +25,9 @@ export interface CertificateOperationPollerOptions {
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
  */
-export class CertificateOperationPoller extends Poller<
+export class CertificateOperationPoller extends KVPoller<
   CertificateOperationPollOperationState,
-  CertificateOperation
+  KeyVaultCertificateWithPolicy
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
@@ -58,5 +62,28 @@ export class CertificateOperationPoller extends Poller<
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
+  }
+
+  /**
+   * Method to get the certificate operation
+   */
+  public getCertificateOperation(): CertificateOperation {
+    return this.operation.state.certificateOperation!;
+  }
+
+  /**
+   * Gets the state of the polling operation
+   */
+  public getOperationState(): CertificateOperationState {
+    const state: CertificateOperationState = this.operation.state;
+    return {
+      isStarted: state.isStarted,
+      isCompleted: state.isCompleted,
+      isCancelled: state.isCancelled,
+      error: state.error,
+      result: state.result,
+      certificateName: state.certificateName,
+      certificateOperation: state.certificateOperation
+    };
   }
 }

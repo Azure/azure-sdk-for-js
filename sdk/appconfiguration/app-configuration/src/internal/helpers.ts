@@ -79,19 +79,6 @@ export function checkAndFormatIfAndIfNoneMatch(
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
 ): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
-  let key;
-
-  if (listConfigOptions.keys) {
-    // TODO: escape commas?
-    key = listConfigOptions.keys.join(",");
-  }
-
-  let label;
-
-  if (listConfigOptions.labels) {
-    label = listConfigOptions.labels.join(",");
-  }
-
   let fieldsToGet: (keyof KeyValue)[] | undefined;
 
   if (listConfigOptions.fields) {
@@ -111,8 +98,8 @@ export function formatWildcards(
   }
 
   return {
-    key,
-    label,
+    key: listConfigOptions.keyFilter,
+    label: listConfigOptions.labelFilter,
     acceptDatetime,
     select: fieldsToGet
   };

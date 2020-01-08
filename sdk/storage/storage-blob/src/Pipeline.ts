@@ -183,10 +183,11 @@ export function newPipeline(
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
 
+  const telemetryPolicy = new TelemetryPolicyFactory(pipelineOptions.userAgentOptions);
   const factories: RequestPolicyFactory[] = [
-    tracingPolicy(),
+    tracingPolicy({ userAgent: telemetryPolicy.telemetryString }),
     keepAlivePolicy(pipelineOptions.keepAliveOptions),
-    new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
+    telemetryPolicy,
     generateClientRequestIdPolicy(),
     new StorageBrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer

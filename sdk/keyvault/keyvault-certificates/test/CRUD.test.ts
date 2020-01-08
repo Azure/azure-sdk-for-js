@@ -362,7 +362,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Read
     getResponse = await client.getIssuer(issuerName);
-    assert.equal(getResponse.issuerProperties.provider, "Test");
+    assert.equal(getResponse.provider, "Test");
 
     // Update
     await client.updateIssuer(issuerName, {
@@ -429,13 +429,13 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Read
     let operationPoller = await client.getCertificateOperation(certificateName);
-    certificateOperation = operationPoller.getResult();
+    certificateOperation = operationPoller.getOperationState().certificateOperation!;
     assert.equal(certificateOperation.status, "inProgress");
     assert.equal(certificateOperation.cancellationRequested, false);
 
     // Cancel
     await operationPoller.cancelOperation();
-    certificateOperation = operationPoller.getResult();
+    certificateOperation = operationPoller.getOperationState().certificateOperation!;
     assert.equal(certificateOperation.cancellationRequested, true);
 
     // Delete

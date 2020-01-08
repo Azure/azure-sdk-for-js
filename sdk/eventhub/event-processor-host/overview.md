@@ -1,4 +1,4 @@
-# General Overview of Microsoft Azure Event Processor Host (@azure/event-processor-host) for JS
+# General Overview of Microsoft Azure Event Processor Host (@azure/event-processor-host) for JavaScript
 
 Event Processor Host is built on top of the Microsoft Azure Event Hubs Client `@azure/event-hubs` for JS and provides a number of features not present in that lower layer:
 

@@ -3,10 +3,10 @@ import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import {
   SubscriptionEventHandlers,
-  InitializationContext,
-  BasicPartitionProperties
+  BasicPartitionProperties,
+  PartitionContext
 } from "./eventHubConsumerClientModels";
-import { EventPosition } from ".";
+import { logger } from "./log";
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
@@ -56,9 +56,8 @@ export interface Checkpoint {
  * - Optionally override the `initialize()` method to implement any set up related tasks you would want to carry out before starting to receive events from the partition
  * - Optionally override the `close()` method to implement any tear down or clean up tasks you would want to carry out.
  */
-export class PartitionProcessor implements InitializationContext {
+export class PartitionProcessor implements PartitionContext {
   private _lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
-  private _defaultPosition?: EventPosition;
 
   constructor(
     private _eventHandlers: SubscriptionEventHandlers,
@@ -126,22 +125,16 @@ export class PartitionProcessor implements InitializationContext {
     return this._context.eventProcessorId;
   }
 
-  public get initialPosition() {
-    return this._defaultPosition;
-  }
-
   /**
    * This method is called when the `EventProcessor` takes ownership of a new partition and before any
    * events are received.
    *
    * @return {Promise<EventPosition>}
    */
-  async initialize(): Promise<EventPosition | undefined> {
+  async initialize(): Promise<void> {
     if (this._eventHandlers.processInitialize) {
       await this._eventHandlers.processInitialize(this);
     }
-
-    return this._defaultPosition;
   }
 
   /**
@@ -176,12 +169,12 @@ export class PartitionProcessor implements InitializationContext {
    */
   async processError(error: Error): Promise<void> {
     if (this._eventHandlers.processError) {
-      await this._eventHandlers.processError(error, this);
+      try {
+        await this._eventHandlers.processError(error, this);
+      } catch (err) {
+        logger.verbose(`Error thrown from user's processError handler : ${err}`);
+      }
     }
-  }
-
-  setStartingPosition(eventPosition: EventPosition) {
-    this._defaultPosition = eventPosition;
   }
 
   /**

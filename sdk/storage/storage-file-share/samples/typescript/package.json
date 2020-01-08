@@ -1,5 +1,5 @@
 {
-  "name": "azure-file-share-samples-ts",
+  "name": "azure-storage-file-share-samples-ts",
   "private": true,
   "version": "0.1.0",
   "description": "Azure Storage File Share client library samples for TypeScript",
@@ -29,8 +29,9 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
-    "@azure/storage-file-share": "latest"
+    "@azure/abort-controller": "latest",
+    "@azure/storage-file-share": "latest",
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "@types/node": "^8.0.0",

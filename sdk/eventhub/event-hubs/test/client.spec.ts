@@ -10,10 +10,10 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { EventPosition, TokenCredential } from "../src";
+import { TokenCredential, earliestEventPosition } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { packageJsonInfo } from "../src/util/constants";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
 import { EnvironmentCredential } from "@azure/identity";
 import { EventHubConsumer } from "../src/receiver";
 import { EventHubProducer } from "../src/sender";
@@ -128,7 +128,7 @@ describe("Create EventHubClient using Azure Identity", function(): void {
 
 describe("ServiceCommunicationError for non existent namespace #RunnableInBrowser", function(): void {
   let client: EventHubClient;
-
+  const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError"
   beforeEach(() => {
     client = new EventHubClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
@@ -147,7 +147,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -159,7 +159,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -172,7 +172,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -183,13 +183,13 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       const receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        EventPosition.earliest()
+        earliestEventPosition
       );
       await receiver.receiveBatch(10, 5);
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 });
@@ -217,7 +217,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -229,7 +229,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -242,7 +242,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -253,13 +253,13 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       const receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        EventPosition.earliest()
+        earliestEventPosition
       );
       await receiver.receiveBatch(10, 5);
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 });
@@ -349,11 +349,9 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
     await sender.send({ body: "dummy send to ensure AMQP connection is opened" });
 
     // Ensure receiver link is opened
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      "0",
-      EventPosition.fromEnqueuedTime(timeNow)
-    );
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", {
+      enqueuedOn: timeNow
+    });
     const msgs = await receiver.receiveBatch(1, 10);
     should.equal(msgs.length, 1);
 
@@ -439,7 +437,7 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
       receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        EventPosition.earliest()
+        earliestEventPosition
       );
     } catch (err) {
       errorNewReceiver = err.message;

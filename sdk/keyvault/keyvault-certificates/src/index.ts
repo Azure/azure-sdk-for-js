@@ -12,6 +12,7 @@ import {
 import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/types";
 import { logger } from "./log";
+import { PollerLike } from "@azure/core-lro";
 
 import {
   KeyVaultCertificate,
@@ -44,8 +45,8 @@ import {
   GetDeletedCertificateOptions,
   CertificateTags,
   ImportCertificateOptions,
-  KeyType,
-  KeyCurveName,
+  CertificateKeyType,
+  CertificateKeyCurveName,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
   ListPropertiesOfIssuersOptions,
@@ -71,7 +72,10 @@ import {
   LifetimeAction,
   RequireAtLeastOne,
   ArrayOneOrMore,
-  SubjectAlternativeNamesAll
+  SubjectAlternativeNamesAll,
+  CertificatePolicyProperties,
+  PolicySubjectProperties,
+  DefaultCertificatePolicy
 } from "./certificatesModels";
 import {
   CertificateBundle,
@@ -132,7 +136,11 @@ import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
 import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { KVPollerLike } from "./lro/core-lro-update";
+import { CertificateOperationState } from "./lro/operation/operation";
+import { DeleteCertificateState } from "./lro/delete/operation";
+import { CreateCertificateState } from "./lro/create/operation";
+import { RecoverDeletedCertificateState } from "./lro/recover/operation";
 
 export {
   ActionType,
@@ -152,19 +160,27 @@ export {
   CertificateOperationError,
   CertificatePolicy,
   CertificatePolicyAction,
+  CertificatePolicyProperties,
+  PolicySubjectProperties,
   CertificateTags,
   CreateCertificateOptions,
   CertificatePollerOptions,
+  PollerLike,
+  KVPollerLike,
+  CreateCertificateState,
+  DeleteCertificateState,
+  RecoverDeletedCertificateState,
+  CertificateOperationState,
   CoreSubjectAlternativeNames,
   RequireAtLeastOne,
   CertificateContactAll,
   CertificateContact,
-  CertificateContacts,
   DeleteCertificateOperationOptions,
   DeleteContactsOptions,
   DeleteIssuerOptions,
   DeletedCertificate,
   DeletionRecoveryLevel,
+  DefaultCertificatePolicy,
   ErrorModel,
   GetContactsOptions,
   GetIssuerOptions,
@@ -179,8 +195,8 @@ export {
   IssuerCredentials,
   IssuerParameters,
   IssuerProperties,
-  KeyType,
-  KeyCurveName,
+  CertificateKeyType,
+  CertificateKeyCurveName,
   KeyUsageType,
   LifetimeAction,
   ListPropertiesOfCertificatesOptions,
@@ -221,7 +237,7 @@ function toCoreAttributes(properties: CertificateProperties): CoreCertificateAtt
 function toCorePolicy(
   id: string | undefined,
   policy: CertificatePolicy,
-  attributes: CertificateAttributes
+  attributes: CertificateAttributes = {}
 ): CoreCertificatePolicy {
   let subjectAlternativeNames: CoreSubjectAlternativeNames = {};
   if (policy.subjectAlternativeNames) {
@@ -270,41 +286,10 @@ function toCorePolicy(
 }
 
 function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
-  let certificatePolicy: CertificatePolicy = {
-    lifetimeActions: policy.lifetimeActions
-      ? policy.lifetimeActions.map((action) => ({
-          action: action.action ? action.action.actionType : undefined,
-          daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
-          lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined
-        }))
-      : undefined,
-    contentType: policy.secretProperties
-      ? (policy.secretProperties.contentType as CertificateContentType)
-      : undefined
-  };
-
-  if (policy.attributes) {
-    certificatePolicy.enabled = policy.attributes.enabled;
-  }
-
-  if (policy.keyProperties) {
-    certificatePolicy.keyType = policy.keyProperties.keyType as KeyType;
-    certificatePolicy.keySize = policy.keyProperties.keySize;
-    certificatePolicy.reuseKey = policy.keyProperties.reuseKey;
-    certificatePolicy.keyCurveName = policy.keyProperties.curve;
-    certificatePolicy.exportable = policy.keyProperties.exportable;
-  }
-
-  if (policy.issuerParameters) {
-    certificatePolicy.issuerName = policy.issuerParameters && policy.issuerParameters.name;
-    certificatePolicy.certificateType = policy.issuerParameters
-      .certificateType as CertificateContentType;
-    certificatePolicy.certificateTransparency = policy.issuerParameters.certificateTransparency;
-  }
+  let subjectAlternativeNames: SubjectAlternativeNames | undefined;
+  const x509Properties: X509CertificateProperties = policy.x509CertificateProperties || {};
 
   if (policy.x509CertificateProperties) {
-    const x509Properties: X509CertificateProperties = policy.x509CertificateProperties || {};
-    let subjectAlternativeNames: SubjectAlternativeNames | undefined;
     if (x509Properties.subjectAlternativeNames) {
       const names = x509Properties.subjectAlternativeNames;
       if (names.emails && names.emails.length) {
@@ -326,14 +311,43 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
         };
       }
     }
-    certificatePolicy = {
-      ...certificatePolicy,
-      enhancedKeyUsage: x509Properties.ekus,
-      keyUsage: x509Properties.keyUsage,
-      validityInMonths: x509Properties.validityInMonths,
-      subject: x509Properties.subject,
-      subjectAlternativeNames
-    };
+  }
+
+  let certificatePolicy: CertificatePolicy = {
+    lifetimeActions: policy.lifetimeActions
+      ? policy.lifetimeActions.map((action) => ({
+          action: action.action ? action.action.actionType : undefined,
+          daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
+          lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined
+        }))
+      : undefined,
+    contentType: policy.secretProperties
+      ? (policy.secretProperties.contentType as CertificateContentType)
+      : undefined,
+    enhancedKeyUsage: x509Properties.ekus,
+    keyUsage: x509Properties.keyUsage,
+    validityInMonths: x509Properties.validityInMonths,
+    subject: x509Properties.subject,
+    subjectAlternativeNames: subjectAlternativeNames!
+  };
+
+  if (policy.attributes) {
+    certificatePolicy.enabled = policy.attributes.enabled;
+  }
+
+  if (policy.keyProperties) {
+    certificatePolicy.keyType = policy.keyProperties.keyType as CertificateKeyType;
+    certificatePolicy.keySize = policy.keyProperties.keySize;
+    certificatePolicy.reuseKey = policy.keyProperties.reuseKey;
+    certificatePolicy.keyCurveName = policy.keyProperties.curve;
+    certificatePolicy.exportable = policy.keyProperties.exportable;
+  }
+
+  if (policy.issuerParameters) {
+    certificatePolicy.issuerName = policy.issuerParameters && policy.issuerParameters.name;
+    certificatePolicy.certificateType = policy.issuerParameters
+      .certificateType as CertificateContentType;
+    certificatePolicy.certificateTransparency = policy.issuerParameters.certificateTransparency;
   }
 
   return certificatePolicy;
@@ -346,18 +360,12 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
   const publicIssuer: CertificateIssuer = {
     id: issuer.id,
     name: parsedId.name,
+    provider: issuer.provider,
     accountId: issuer.credentials && issuer.credentials.accountId,
     password: issuer.credentials && issuer.credentials.password,
-    credentials: issuer.credentials,
     enabled: attributes.enabled,
     createdOn: attributes.created,
     updatedOn: attributes.updated
-  };
-
-  publicIssuer.issuerProperties = {
-    id: publicIssuer.id,
-    name: parsedId.name,
-    provider: issuer.provider
   };
 
   if (issuer.organizationDetails) {
@@ -664,7 +672,7 @@ export class CertificateClient {
   public async beginDeleteCertificate(
     certificateName: string,
     options: BeginDeleteCertificateOptions = {}
-  ): Promise<PollerLike<PollOperationState<DeletedCertificate>, DeletedCertificate>> {
+  ): Promise<PollerLike<DeleteCertificateState, DeletedCertificate>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteCertificatePoller({
       certificateName,
@@ -737,7 +745,7 @@ export class CertificateClient {
     let coreContacts = contacts.map((x) => ({
       emailAddress: x ? x.email : undefined,
       name: x ? x.name : undefined,
-      phone: x ? x.phone : undefined,
+      phone: x ? x.phone : undefined
     }));
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
@@ -764,12 +772,12 @@ export class CertificateClient {
    * ```ts
    * let client = new CertificateClient(url, credentials);
    * await client.setContacts([{
-   *   emailAddress: "b@b.com",
+   *   email: "b@b.com",
    *   name: "b",
    *   phone: "222222222222"
    * }]);
-   * const getResponse = await client.getContacts();
-   * console.log(getResponse.contactList!);
+   * const contacts = await client.getContacts();
+   * console.log(contacts);
    * ```
    * @summary Sets the certificate contacts.
    * @param {GetContactsOptions} [options] The optional parameters
@@ -843,7 +851,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * // All in one call
    * for await (const issuerProperties of client.listPropertiesOfIssuers()) {
    *   console.log(issuerProperties);
@@ -889,7 +897,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * ```
    * @summary Sets the specified certificate issuer.
    * @param issuerName The name of the issuer.
@@ -968,7 +976,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * await client.updateIssuer("IssuerName", {
    *   provider: "Provider2"
    * });
@@ -1043,7 +1051,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * const certificateIssuer = await client.getIssuer("IssuerName");
    * console.log(certificateIssuer);
    * ```
@@ -1145,15 +1153,13 @@ export class CertificateClient {
    */
   public async beginCreateCertificate(
     certificateName: string,
-    certificatePolicy: CertificatePolicy,
+    policy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
-  ): Promise<
-    PollerLike<PollOperationState<KeyVaultCertificateWithPolicy>, KeyVaultCertificateWithPolicy>
-  > {
+  ): Promise<PollerLike<CreateCertificateState, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
       certificateName,
-      certificatePolicy,
+      certificatePolicy: policy,
       createCertificateOptions: options,
       requestOptions,
       client: this.pollerClient,
@@ -1273,7 +1279,7 @@ export class CertificateClient {
    */
   public async importCertificate(
     certificateName: string,
-    certificateValue: Uint8Array,
+    certificateBytes: Uint8Array,
     options: ImportCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -1282,10 +1288,10 @@ export class CertificateClient {
 
     let base64EncodedCertificate: string;
     if (isNode) {
-      base64EncodedCertificate = Buffer.from(certificateValue).toString("base64");
+      base64EncodedCertificate = Buffer.from(certificateBytes).toString("base64");
     } else {
       base64EncodedCertificate = btoa(
-        String.fromCharCode.apply(null, (certificateValue as any) as number[])
+        String.fromCharCode.apply(null, (certificateBytes as any) as number[])
       );
     }
 
@@ -1359,9 +1365,7 @@ export class CertificateClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("updateCertificatePolicy", requestOptions);
 
-    const id = options.id;
-    const certificateAttributes = toCoreAttributes(options);
-    const corePolicy = toCorePolicy(id, policy, certificateAttributes);
+    const corePolicy = toCorePolicy(undefined, policy);
 
     let result: UpdateCertificatePolicyResponse;
     try {
@@ -1388,7 +1392,7 @@ export class CertificateClient {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
-   * await client.updateCertificate("MyCertificate", "", {
+   * await client.updateCertificateProperties("MyCertificate", "", {
    *   tags: {
    *     customTag: "value"
    *   }
@@ -1452,7 +1456,11 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
   }
 
   /**
@@ -1466,10 +1474,11 @@ export class CertificateClient {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
-   * const pendingCertificate = createPoller.getResult();
-   * console.log(pendingCertificate);
+   *
    * const poller = await client.getCertificateOperation("MyCertificate");
-   * const certificateOperation = poller.getResult();
+   * const pendingCertificate = poller.getResult();
+   *
+   * const certificateOperation = poller.getOperationState().certificateOperation;
    * console.log(certificateOperation);
    * ```
    * @summary Gets a certificate's poller operation
@@ -1479,7 +1488,7 @@ export class CertificateClient {
   public async getCertificateOperation(
     certificateName: string,
     options: GetCertificateOperationOptions = {}
-  ): Promise<PollerLike<PollOperationState<CertificateOperation>, CertificateOperation>> {
+  ): Promise<KVPollerLike<CertificateOperationState, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CertificateOperationPoller({
       certificateName,
@@ -1530,7 +1539,11 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
   }
 
   /**
@@ -1544,7 +1557,7 @@ export class CertificateClient {
    *   subject: "cn=MyCert"
    * });
    * const poller = await client.getCertificateOperation("MyCertificate");
-   * const { csr } = poller.getResult();
+   * const { csr } = poller.getOperationState().certificateOperation!;
    * const base64Csr = Buffer.from(csr!).toString("base64");
    * const wrappedCsr = ["-----BEGIN CERTIFICATE REQUEST-----", base64Csr, "-----END CERTIFICATE REQUEST-----"].join("\n");
    *
@@ -1641,7 +1654,7 @@ export class CertificateClient {
    * const poller = await client.beginDeleteCertificate("MyCertificate");
    * await poller.pollUntilDone();
    * // Some time is required before we're able to restore the certificate
-   * await client.restoreCertificateBackup(backup.value!);
+   * await client.restoreCertificateBackup(backup!);
    * ```
    * @summary Restores a certificate from a backup
    * @param backup The back-up certificate to restore from
@@ -1763,7 +1776,8 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * client.getDeletedCertificate("MyDeletedCertificate");
+   * const deletedCertificate = await client.getDeletedCertificate("MyDeletedCertificate");
+   * console.log("Deleted certificate:", deletedCertificate);
    * ```
    * @summary Gets a deleted certificate
    * @param certificateName The name of the certificate
@@ -1858,7 +1872,7 @@ export class CertificateClient {
   public async beginRecoverDeletedCertificate(
     certificateName: string,
     options: BeginRecoverDeletedCertificateOptions = {}
-  ): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>> {
+  ): Promise<PollerLike<RecoverDeletedCertificateState, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new RecoverDeletedCertificatePoller({
       certificateName,
@@ -2021,7 +2035,11 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.getCertificateOperationFromCoreOperation(result._response.parsedBody);
+    return this.getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
   }
 
   private getCertificateFromCertificateBundle(
@@ -2139,10 +2157,13 @@ export class CertificateClient {
   }
 
   private getCertificateOperationFromCoreOperation(
+    certificateName: string,
+    vaultUrl: string,
     operation: CoreCertificateOperation
   ): CertificateOperation {
     return {
       cancellationRequested: operation.cancellationRequested,
+      name: certificateName,
       issuerName: operation.issuerParameters ? operation.issuerParameters.name : undefined,
       certificateTransparency: operation.issuerParameters
         ? operation.issuerParameters.certificateTransparency
@@ -2156,7 +2177,8 @@ export class CertificateClient {
       requestId: operation.requestId,
       status: operation.status,
       statusDetails: operation.statusDetails,
-      target: operation.target
+      target: operation.target,
+      vaultUrl: vaultUrl
     };
   }
 

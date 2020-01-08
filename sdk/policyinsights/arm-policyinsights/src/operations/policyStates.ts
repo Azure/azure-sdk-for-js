@@ -603,37 +603,6 @@ export class PolicyStates {
       summarizeForResourceGroupLevelPolicyAssignmentOperationSpec,
       callback) as Promise<Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse>;
   }
-
-  /**
-   * Gets OData metadata XML document.
-   * @param scope A valid scope, i.e. management group, subscription, resource group, or resource ID.
-   * Scope used has no effect on metadata returned.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.PolicyStatesGetMetadataResponse>
-   */
-  getMetadata(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyStatesGetMetadataResponse>;
-  /**
-   * @param scope A valid scope, i.e. management group, subscription, resource group, or resource ID.
-   * Scope used has no effect on metadata returned.
-   * @param callback The callback
-   */
-  getMetadata(scope: string, callback: msRest.ServiceCallback<string>): void;
-  /**
-   * @param scope A valid scope, i.e. management group, subscription, resource group, or resource ID.
-   * Scope used has no effect on metadata returned.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getMetadata(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<string>): void;
-  getMetadata(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.PolicyStatesGetMetadataResponse> {
-    return this.client.sendOperationRequest(
-      {
-        scope,
-        options
-      },
-      getMetadataOperationSpec,
-      callback) as Promise<Models.PolicyStatesGetMetadataResponse>;
-  }
 }
 
 // Operation Specifications
@@ -647,7 +616,7 @@ const listQueryResultsForManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.managementGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.orderBy,
     Parameters.select,
@@ -679,7 +648,7 @@ const summarizeForManagementGroupOperationSpec: msRest.OperationSpec = {
     Parameters.managementGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.from,
     Parameters.to,
@@ -707,7 +676,7 @@ const listQueryResultsForSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.orderBy,
     Parameters.select,
@@ -738,7 +707,7 @@ const summarizeForSubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.from,
     Parameters.to,
@@ -767,7 +736,7 @@ const listQueryResultsForResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.orderBy,
     Parameters.select,
@@ -799,7 +768,7 @@ const summarizeForResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.from,
     Parameters.to,
@@ -827,7 +796,7 @@ const listQueryResultsForResourceOperationSpec: msRest.OperationSpec = {
     Parameters.resourceId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.orderBy,
     Parameters.select,
@@ -859,7 +828,7 @@ const summarizeForResourceOperationSpec: msRest.OperationSpec = {
     Parameters.resourceId
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.from,
     Parameters.to,
@@ -889,7 +858,7 @@ const listQueryResultsForPolicySetDefinitionOperationSpec: msRest.OperationSpec 
     Parameters.policySetDefinitionName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.orderBy,
     Parameters.select,
@@ -922,7 +891,7 @@ const summarizeForPolicySetDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.policySetDefinitionName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.from,
     Parameters.to,
@@ -952,7 +921,7 @@ const listQueryResultsForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.policyDefinitionName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.orderBy,
     Parameters.select,
@@ -985,7 +954,7 @@ const summarizeForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
     Parameters.policyDefinitionName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.from,
     Parameters.to,
@@ -1015,7 +984,7 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.
     Parameters.policyAssignmentName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.orderBy,
     Parameters.select,
@@ -1048,7 +1017,7 @@ const summarizeForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.Operati
     Parameters.policyAssignmentName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.from,
     Parameters.to,
@@ -1079,7 +1048,7 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: msRest
     Parameters.policyAssignmentName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.orderBy,
     Parameters.select,
@@ -1113,7 +1082,7 @@ const summarizeForResourceGroupLevelPolicyAssignmentOperationSpec: msRest.Operat
     Parameters.policyAssignmentName
   ],
   queryParameters: [
-    Parameters.apiVersion0,
+    Parameters.apiVersion3,
     Parameters.top,
     Parameters.from,
     Parameters.to,
@@ -1125,34 +1094,6 @@ const summarizeForResourceGroupLevelPolicyAssignmentOperationSpec: msRest.Operat
   responses: {
     200: {
       bodyMapper: Mappers.SummarizeResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  serializer
-};
-
-const getMetadataOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "{scope}/providers/Microsoft.PolicyInsights/policyStates/$metadata",
-  urlParameters: [
-    Parameters.scope
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: {
-        serializedName: "parsedResponse",
-        type: {
-          name: "String"
-        }
-      }
     },
     default: {
       bodyMapper: Mappers.QueryFailure

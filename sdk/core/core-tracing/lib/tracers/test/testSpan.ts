@@ -7,7 +7,8 @@ import {
   SpanKind,
   Status,
   SpanContext,
-  CanonicalCode
+  CanonicalCode,
+  Attributes
 } from "@opentelemetry/types";
 import { TestTracer } from "./testTracer";
 
@@ -45,6 +46,11 @@ export class TestSpan extends NoOpSpan {
    */
   readonly parentSpanId?: string;
 
+  /**
+   * Known attributes, if any.
+   */
+  readonly attributes: Attributes;
+
   private _context: SpanContext;
   private readonly _tracer: Tracer;
 
@@ -76,6 +82,7 @@ export class TestSpan extends NoOpSpan {
     };
     this.endCalled = false;
     this._context = context;
+    this.attributes = {};
   }
 
   /**
@@ -115,5 +122,26 @@ export class TestSpan extends NoOpSpan {
    */
   isRecording(): boolean {
     return true;
+  }
+
+  /**
+   * Sets an attribute on the Span
+   * @param key the attribute key
+   * @param value the attribute value
+   */
+  setAttribute(key: string, value: unknown): this {
+    this.attributes[key] = value;
+    return this;
+  }
+
+  /**
+   * Sets attributes on the Span
+   * @param attributes the attributes to add
+   */
+  setAttributes(attributes: Attributes): this {
+    for (const key of Object.keys(attributes)) {
+      this.attributes[key] = attributes[key];
+    }
+    return this;
   }
 }

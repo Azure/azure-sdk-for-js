@@ -8,6 +8,7 @@ import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/identity';
+import { UserAgentOptions } from '@azure/core-http';
 
 // @public
 export interface AddConfigurationSettingOptions extends OperationOptions {
@@ -36,6 +37,7 @@ export class AppConfigurationClient {
 
 // @public
 export interface AppConfigurationClientOptions {
+    userAgentOptions?: UserAgentOptions;
 }
 
 // @public
@@ -128,8 +130,8 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 // @public
 export interface ListSettingsOptions extends OptionalFields {
     acceptDateTime?: Date;
-    keys?: string[];
-    labels?: string[];
+    keyFilter?: string;
+    labelFilter?: string;
 }
 
 // @public

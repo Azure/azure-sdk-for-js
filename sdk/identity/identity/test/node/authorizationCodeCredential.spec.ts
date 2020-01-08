@@ -121,7 +121,7 @@ describe("AuthorizationCodeCredential", function() {
               children: [
                 {
                   children: [],
-                  name: "core-http"
+                  name: "/tenant/oauth2/v2.0/token"
                 }
               ]
             }

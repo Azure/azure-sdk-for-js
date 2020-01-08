@@ -1,4 +1,4 @@
-# Azure Core Paging client library for JS
+# Azure Core Paging client library for JavaScript
 
 This library provides core types for paging async iterable iterators.
 
