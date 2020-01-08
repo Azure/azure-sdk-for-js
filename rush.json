@@ -333,8 +333,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/ai-textanalytics",
-      "projectFolder": "sdk/textanalytics/ai-textanalytics",
+      "packageName": "@azure/ai-text-analytics",
+      "projectFolder": "sdk/textanalytics/ai-text-analytics",
       "versionPolicyName": "client"
     },
     {

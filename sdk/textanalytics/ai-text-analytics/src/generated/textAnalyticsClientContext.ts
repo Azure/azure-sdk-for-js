@@ -10,7 +10,7 @@
 
 import * as coreHttp from "@azure/core-http";
 
-const packageName = "@azure/ai-textanalytics";
+const packageName = "@azure/ai-text-analytics";
 const packageVersion = "1.0.0-preview.1";
 
 export class TextAnalyticsClientContext extends coreHttp.ServiceClient {

@@ -1,6 +1,6 @@
 dependencies:
   '@rush-temp/abort-controller': 'file:projects/abort-controller.tgz'
-  '@rush-temp/ai-textanalytics': 'file:projects/ai-textanalytics.tgz'
+  '@rush-temp/ai-text-analytics': 'file:projects/ai-text-analytics.tgz'
   '@rush-temp/app-configuration': 'file:projects/app-configuration.tgz'
   '@rush-temp/core-amqp': 'file:projects/core-amqp.tgz'
   '@rush-temp/core-arm': 'file:projects/core-arm.tgz'
@@ -9789,7 +9789,7 @@ packages:
       integrity: sha512-n5nNsbANu2/SAUUoS5/+ilHf204pXTNY33+JRujjaaVCCxzVGlCpkggSe5QxaGV2FmtHpMzReK/gh8djNHH0qA==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
-  'file:projects/ai-textanalytics.tgz':
+  'file:projects/ai-text-analytics.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.7
       '@microsoft/api-extractor': 7.7.0
@@ -9833,10 +9833,10 @@ packages:
       tslib: 1.10.0
       typescript: 3.6.4
     dev: false
-    name: '@rush-temp/ai-textanalytics'
+    name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-Bq5qCnJjKvaCM/t9Nj59texz7RZtplwAiTbZLRqncLu28DnO7aPJ3vlvnjy/j5lNKISxLBknxXvqqU1l8gDU9w==
-      tarball: 'file:projects/ai-textanalytics.tgz'
+      integrity: sha512-lxwfQQhZpIsB1nXXeykry8/rUw2q5YLP9Sb2VilQiZOUtdKgEhGPf6qtSHSNSW7FzK+8h20gJ2HvxXeqU+PLLQ==
+      tarball: 'file:projects/ai-text-analytics.tgz'
     version: 0.0.0
   'file:projects/app-configuration.tgz':
     dependencies:
@@ -11281,7 +11281,7 @@ packages:
 registry: ''
 specifiers:
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
-  '@rush-temp/ai-textanalytics': 'file:./projects/ai-textanalytics.tgz'
+  '@rush-temp/ai-text-analytics': 'file:./projects/ai-text-analytics.tgz'
   '@rush-temp/app-configuration': 'file:./projects/app-configuration.tgz'
   '@rush-temp/core-amqp': 'file:./projects/core-amqp.tgz'
   '@rush-temp/core-arm': 'file:./projects/core-arm.tgz'

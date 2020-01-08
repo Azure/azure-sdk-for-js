@@ -38,5 +38,5 @@ stages:
     parameters:
       ServiceDirectory: textanalytics
       Artifacts:
-        - name: azure-ai-textanalytics
+        - name: azure-ai-text-analytics
           safeName: azureaitextanalytics

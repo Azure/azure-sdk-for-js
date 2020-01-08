@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-textanalytics"
+// NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-text-analytics"
 // in a standalone project
 import {
   TextAnalyticsClient,
   CognitiveServicesCredential,
-  AnalyzeSentimentResult,
-  AnalyzeSentimentSuccessResult,
-  AnalyzeSentimentErrorResult
+  RecognizeEntitiesResult,
+  RecognizeEntitiesSuccessResult,
+  RecognizeEntitiesErrorResult
 } from "../src";
 
 export async function run() {
-  console.log(`Running analyzeSentiment sample`);
+  console.log(`Running recognizeEntities sample`);
 
   // You will need to set these environment variables
   const endPoint = process.env["AZ_CONFIG_ENDPOINT"]!;
@@ -22,15 +22,17 @@ export async function run() {
     new CognitiveServicesCredential(subscriptionKey)
   );
 
-  const [result] = await client.analyzeSentiment(["I love living in Seattle!"]);
+  const [result] = await client.recognizeEntities(["I love living in Seattle."]);
 
   if (isSuccess(result)) {
-    console.log(`Sentiment of statement is ${result.sentiment}`);
+    for (const entity of result.entities) {
+      console.log(`Found entity ${entity.text} of type ${entity.type}`);
+    }
   }
 }
 
-function isSuccess(result: AnalyzeSentimentResult): result is AnalyzeSentimentSuccessResult {
-  return !(result as AnalyzeSentimentErrorResult).error;
+function isSuccess(result: RecognizeEntitiesResult): result is RecognizeEntitiesSuccessResult {
+  return !(result as RecognizeEntitiesErrorResult).error;
 }
 
 // If you want to run this sample from a console

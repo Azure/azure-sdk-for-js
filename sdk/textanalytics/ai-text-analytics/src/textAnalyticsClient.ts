@@ -138,7 +138,7 @@ export class TextAnalyticsClient {
    *
    * Example usage:
    * ```ts
-   * import { TextAnalyticsClient, CognitiveServicesCredential } from "@azure/ai-textanalytics";
+   * import { TextAnalyticsClient, CognitiveServicesCredential } from "@azure/ai-text-analytics";
    *
    * const client = new TextAnalyticsClient(
    *    "<service endpoint>",

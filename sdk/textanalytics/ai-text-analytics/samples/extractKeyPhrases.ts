@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-textanalytics"
+// NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-text-analytics"
 // in a standalone project
 import {
   TextAnalyticsClient,
   CognitiveServicesCredential,
-  RecognizeEntitiesResult,
-  RecognizeEntitiesSuccessResult,
-  RecognizeEntitiesErrorResult
+  ExtractKeyPhrasesResult,
+  ExtractKeyPhrasesSuccessResult,
+  ExtractKeyPhrasesErrorResult
 } from "../src";
 
 export async function run() {
-  console.log(`Running recognizePii sample`);
+  console.log(`Running extractKeyPhrases sample`);
 
   // You will need to set these environment variables
   const endPoint = process.env["AZ_CONFIG_ENDPOINT"]!;
@@ -22,17 +22,19 @@ export async function run() {
     new CognitiveServicesCredential(subscriptionKey)
   );
 
-  const [result] = await client.recognizePiiEntities(["My phone number is 555-5555"]);
+  const [result] = await client.extractKeyPhrases([
+    "I love living in Seattle! Seattle is always sunny."
+  ]);
 
   if (isSuccess(result)) {
-    for (const entity of result.entities) {
-      console.log(`Found PII entity ${entity.text} of type ${entity.type}`);
+    for (const phrase of result.keyPhrases) {
+      console.log(`Key phrase: ${phrase}`);
     }
   }
 }
 
-function isSuccess(result: RecognizeEntitiesResult): result is RecognizeEntitiesSuccessResult {
-  return !(result as RecognizeEntitiesErrorResult).error;
+function isSuccess(result: ExtractKeyPhrasesResult): result is ExtractKeyPhrasesSuccessResult {
+  return !(result as ExtractKeyPhrasesErrorResult).error;
 }
 
 // If you want to run this sample from a console
