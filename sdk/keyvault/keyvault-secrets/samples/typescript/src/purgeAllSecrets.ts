@@ -30,7 +30,7 @@ export async function main(): Promise<void> {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }
   }
-  for await (const deletedSecret of client.listDeletedSecret()) {
+  for await (const deletedSecret of client.listDeletedSecrets()) {
     try {
       // This will take a while.
       await client.purgeDeletedSecret(deletedSecret.name);

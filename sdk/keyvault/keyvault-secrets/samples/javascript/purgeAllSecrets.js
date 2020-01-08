@@ -33,7 +33,7 @@ async function main() {
     }
 }
 
-  let listDeletedSecrets = client.listPropertiesOfSecrets();
+  let listDeletedSecrets = client.listDeletedSecrets();
   while (true) {
     let { done, value } = await listDeletedSecrets.next();
     if (done) {
