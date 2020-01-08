@@ -23,14 +23,12 @@ export async function main(): Promise<void> {
   const client = new KeyClient(url, credential);
 
   for await (const properties of client.listPropertiesOfKeys()) {
-    try {
-      await client.flushKey(properties.name);
-    } catch (e) {}
+    const poller = await client.beginDeleteKey(properties.name);
+    await poller.pollUntilDone();
   }
   for await (const deletedKey of client.listDeletedKeys()) {
-    try {
-      await client.purgeKey(deletedKey.name);
-    } catch (e) {}
+    // This will take a while.
+    await client.purgeDeletedKey(deletedKey.name);
   }
 }
 
