@@ -1,7 +1,7 @@
 import { CloseReason, ReceivedEventData, EventHubProducerClient } from "../../src/";
 import {
   SubscriptionEventHandlers,
-  PartitionContext  
+  PartitionContext
 } from "../../src/eventHubConsumerClientModels";
 import chai from "chai";
 import { delay } from "@azure/core-amqp";
@@ -43,7 +43,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     for (const event of events) {
       await context.updateCheckpoint(event);
       this.expectedMessageBodies.delete(event.body);
-    }   
+    }
 
     if (this.expectedMessageBodies.size === 0) {
       this.done = true;
@@ -55,7 +55,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
 
     // this can happen when multiple consumers are spinning up and load balancing. We'll ignore it for multi-consumers
     // only.
-    if (this.multipleConsumers && error.name === "ReceiverDisconnectedError") {
+    if (this.multipleConsumers && (error as any).code === "ReceiverDisconnectedError") {
       return;
     }
 

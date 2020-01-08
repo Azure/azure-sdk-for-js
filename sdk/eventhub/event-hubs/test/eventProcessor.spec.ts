@@ -122,10 +122,7 @@ describe("Event Processor", function(): void {
       });
 
       it("using a single default event position for any partition", async () => {
-        const processor = createEventProcessor(
-          emptyCheckpointStore,
-          { offset: 1009 }
-        );
+        const processor = createEventProcessor(emptyCheckpointStore, { offset: 1009 });
 
         let eventPosition = await processor["_getStartingPosition"]("0");
         eventPosition!.offset!.should.equal(1009);
@@ -280,7 +277,11 @@ describe("Event Processor", function(): void {
           pumpManager.createPumpCalled = true;
         },
 
-        async removeAllPumps() {}
+        async removeAllPumps() {},
+
+        isReceivingFromPartition() {
+          return false;
+        }
       };
 
       const eventProcessor = new EventProcessor(
@@ -355,7 +356,10 @@ describe("Event Processor", function(): void {
           maxWaitTimeInSeconds: 1,
           pumpManager: {
             async createPump() {},
-            async removeAllPumps(): Promise<void> {}
+            async removeAllPumps(): Promise<void> {},
+            isReceivingFromPartition() {
+              return false;
+            }
           }
         }
       );
@@ -706,7 +710,6 @@ describe("Event Processor", function(): void {
     // start it again
     loggerForTest(`Starting processor again`);
     subscriptionEventHandler.clear();
-    partitionLoadBalancer.expireAll();
 
     processor.start();
 
@@ -1077,7 +1080,7 @@ describe("Event Processor", function(): void {
         async processError(err: Error, context: PartitionContext) {
           loggerForTest(`processError(${context.partitionId})`);
           didError = true;
-          errorName = err.name;
+          errorName = (err as any).code;
         }
       }
 

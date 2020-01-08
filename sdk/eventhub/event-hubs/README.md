@@ -70,7 +70,7 @@ const consumerClient = new EventHubConsumerClient(
 );
 ```
 
-- This constructor takes a connection string of the form 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;' and entity name to your Event Hub instance. You can create a consumer group, get the connection string as well as the entity name from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
+- This constructor takes a connection string of the form `Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;` and entity name to your Event Hub instance. You can create a consumer group, get the connection string as well as the entity name from the [Azure portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
 
 ```javascript
 const { EventHubProducerClient, EventHubConsumerClient } = require("@azure/event-hubs");
@@ -82,7 +82,7 @@ const consumerClient = new EventHubConsumerClient(
 );
 ```
 
-- The [connection string from the Azure Portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal) is for the entire Event Hubs namespace and will not contain the path to the desired Event Hub instance which is needed for this constructor overload. In this case, the path can be added manually by adding ";EntityPath=[[ EVENT HUB NAME ]]" to the end of the connection string. For example, ";EntityPath=my-event-hub-name".
+- The [connection string from the Azure Portal](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal) is for the entire Event Hubs namespace and will not contain the path to the desired Event Hub instance which is needed for this constructor overload. In this case, the path can be added manually by adding `;EntityPath=[[ EVENT HUB NAME ]]` to the end of the connection string. For example, `;EntityPath=my-event-hub-name`.
 
 If you have defined a shared access policy directly on the Event Hub itself, then copying the connection string from that Event Hub will result in a connection string that contains the path.
 
@@ -100,7 +100,37 @@ const consumerClient = new EventHubConsumerClient(
 );
 ```
 
-- This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`.
+- This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. This allows you to authenticate using an Azure Active Directory principal. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`. When using Azure Active Directory, your principal must be assigned a role which allows access to Event Hubs, such as the Azure Event Hubs Data Owner role. For more information about using Azure Active Directory authorization with Event Hubs, please refer to [the associated documentation](https://docs.microsoft.com/en-us/azure/event-hubs/authorize-access-azure-active-directory).
+
+### Guidance around retries
+
+The `EventHubConsumerClient` and `EventHubProducerClient` accept `options` where you can set the `retryOptions`
+that allow you to tune how the SDK handles transient errors.
+Examples of transient errors include temporary network or service issues.
+
+#### Retries when consuming events
+
+If a transient error (e.g. a temporary network issue) is encountered while the SDK is receiving events,
+it will retry receiving events based on the retry options passed into the `EventHubConsumerClient`.
+If the maximum retry attempts are exhausted, the `processError` function will be invoked.
+
+You can use the retry settings to control how quickly you are informed about temporary issues such as a
+network connection issue.
+For example, if you need to know when there is a network issue right away you can lower the
+values for `maxRetries` and `retryDelayInMs`.
+
+After executing the `processError` function, the client invokes the user-provided `processClose` function.
+This function is also invoked when either you stop the subscription or when the client stops reading
+events from the current partition due to it being picked up by another instance of your application
+as part of load balancing.
+
+The `processClose` function provides an opportunity to update checkpoints if needed.
+After executing `processClose`, the client (or in the case of load balancing,
+a client from another instance of you application) will invoke the user-provided
+`processInitialize` function to resume reading events from the last updated checkpoint for the same partition.
+
+If you wish to stop attempting to read events, you must call `close()` on the `subscription` returned
+by the `subscribe` method.
 
 ### Examples
 
@@ -357,12 +387,35 @@ The Event Hubs library depends on the [rhea-promise](https://github.com/amqp/rhe
 
 ### Enable logs
 
-You can set the following environment variable to get the debug logs when using this library.
+You can set the `AZURE_LOG_LEVEL` environment variable to one of the following values to enable logging to `stderr`:
 
-- Getting debug logs from the Event Hubs SDK
+- verbose
+- info
+- warning
+- error
+
+You can also set the log level programatically by importing the
+[@azure/logger](https://www.npmjs.com/package/@azure/logger) package and calling the
+`setLogLevel` function with one of the log level values.
+
+When setting a log level either programatically or via the `AZURE_LOG_LEVEL` environment variable,
+any logs that are written using a log level equal to or less than the one you choose will be emitted.
+For example, when you set the log level to `info`, the logs that are written for levels
+`warning` and `error` are also emitted.
+This SDK follows the Azure SDK for TypeScript [guidelines](https://azure.github.io/azure-sdk/typescript_implementation.html#general-logging)
+when determining which level to log to.
+
+You can alternatively set the `DEBUG` environment variable to get logs when using this library.
+This can be useful if you also want to emit logs from the dependencies `rhea-promise` and `rhea` as well.
+
+**Note:** AZURE_LOG_LEVEL, if set, takes precedence over DEBUG.
+Do not specify any `azure` libraries via DEBUG when also specifying
+AZURE_LOG_LEVEL or calling setLogLevel.
+
+- Getting only info level debug logs from the Event Hubs SDK.
 
 ```bash
-export DEBUG=azure*
+export DEBUG=azure:*:info
 ```
 
 - Getting debug logs from the Event Hubs SDK and the protocol level library.
@@ -371,21 +424,21 @@ export DEBUG=azure*
 export DEBUG=azure*,rhea*
 ```
 
-- If you are **not interested in viewing the event transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
+- If you are **not interested in viewing the raw event data** (which consumes a large amount of console/disk space) then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
+export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message
 ```
 
-- If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
+- If you are interested only in **errors** and SDK **warnings**, then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure:event-hubs:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:*:(error|warning),rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 ### Logging to a file
 
-- Set the `DEBUG` environment variable as shown above and then run your test script as follows:
+- Enable logging as shown above and then run your test script as follows:
 
   - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
     ```bash
@@ -398,7 +451,7 @@ export DEBUG=azure:event-hubs:error,azure-amqp-common:error,rhea-promise:error,r
   - Logging statements from your test script and the sdk go to the same file `out.log`.
 
     ```bash
-      node your-test-script.js &> out.log
+    node your-test-script.js &> out.log
     ```
 
 ## Next Steps

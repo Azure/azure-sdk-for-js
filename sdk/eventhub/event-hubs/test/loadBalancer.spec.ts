@@ -22,7 +22,7 @@ describe("PartitionLoadBalancer", () => {
       m.should.be.empty;
     });
 
-    it("don't claim partitions we already own", () => {
+    it("claim partitions we already own", () => {
       const m = new Map<string, PartitionOwnership>();
 
       m.set("1", {
@@ -39,15 +39,15 @@ describe("PartitionLoadBalancer", () => {
         consumerGroup: "",
         fullyQualifiedNamespace: "",
         eventHubName: "",
-        // owned by someone else - we'll steal this 
+        // owned by someone else - we'll steal this
         // partition
         ownerId: "someOtherOwnerId",
         partitionId: ""
-      })
+      });
 
       const lb = new GreedyPartitionLoadBalancer(["1", "2", "3"]);
 
-      lb.loadBalance("ownerId", m, ["1", "2", "3"]).should.deep.eq(["2", "3"]);
+      lb.loadBalance("ownerId", m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
     });
   });
 });

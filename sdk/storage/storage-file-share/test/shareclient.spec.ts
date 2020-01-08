@@ -198,15 +198,37 @@ describe("ShareClient", () => {
     assert.ok(createPermResp.requestId!);
     assert.ok(createPermResp.version!);
   });
+});
 
-  it("verify accountName and shareName passed to the client", async () => {
-    const accountName = "myaccount";
-    const newClient = new ShareClient(`https://${accountName}.file.core.windows.net/` + shareName);
-    assert.equal(newClient.name, shareName, "Queue name is not the same as the one provided.");
+describe("ShareDirectoryClient - Verify Name Properties", () => {
+  const accountName = "myaccount";
+  const shareName = "shareName";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new ShareClient(url);
     assert.equal(
       newClient.accountName,
       accountName,
       "Account name is not the same as the one provided."
     );
+    assert.equal(newClient.name, shareName, "Share name is not the same as the one provided.");
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(`https://${accountName}.file.core.windows.net/${shareName}`);
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(`https://192.0.0.10:1900/${accountName}/${shareName}`);
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${shareName}`);
   });
 });

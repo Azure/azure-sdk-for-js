@@ -9,7 +9,7 @@ import { ShareServiceClient } from "@azure/storage-file-share";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Create File Service Client from Account connection string or SAS connection string

@@ -88,6 +88,8 @@ export class EventHubConsumerClient {
     constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
+    readonly eventHubName: string;
+    readonly fullyQualifiedNamespace: string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
@@ -194,7 +196,7 @@ export interface PartitionProperties {
 export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext) => Promise<void>;
 
 // @public
-export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+export type ProcessErrorHandler = (error: Error | MessagingError, context: PartitionContext) => Promise<void>;
 
 // @public
 export type ProcessEventsHandler = (events: ReceivedEventData[], context: PartitionContext) => Promise<void>;

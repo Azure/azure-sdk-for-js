@@ -1,5 +1,11 @@
-const { CertificateClient } = require("../../dist");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // This sample creates, updates and deletes certificate issuers.
 
@@ -15,8 +21,8 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificate";
-  const issuerName = "issuerName";
+  const certificateName = "MyCertificateIssuersJS";
+  const issuerName = "issuerNameIssuersJS";
 
   // Create
   await client.createIssuer(issuerName, "Test", {
