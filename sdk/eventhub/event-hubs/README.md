@@ -372,7 +372,7 @@ When setting a log level either programatically or via the `AZURE_LOG_LEVEL` env
 any logs that are written using a log level equal to or less than the one you choose will be emitted.
 For example, when you set the log level to `info`, the logs that are written for levels
 `warning` and `error` are also emitted.
-We follow the Azure SDK for TypeScript [guidelines](https://azure.github.io/azure-sdk/typescript_implementation.html#general-logging)
+This SDK follows the Azure SDK for TypeScript [guidelines](https://azure.github.io/azure-sdk/typescript_implementation.html#general-logging)
 when determining which level to log to.
 
 You can alternatively set the `DEBUG` environment variable to get logs when using this library.
