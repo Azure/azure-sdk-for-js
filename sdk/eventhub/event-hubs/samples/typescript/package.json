@@ -31,7 +31,6 @@
   "dependencies": {
     "@azure/core-amqp": "next",
     "@azure/event-hubs": "next",
-    "@azure/eventhubs-checkpointstore-blob": "next",
     "@types/dotenv": "^8.2.0",
     "@types/ws": "^6.0.4",
     "dotenv": "^8.2.0",
