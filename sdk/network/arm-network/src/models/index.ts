@@ -13410,6 +13410,26 @@ export type AzureFirewallsBeginCreateOrUpdateResponse = AzureFirewall & {
 };
 
 /**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type AzureFirewallsBeginUpdateTagsResponse = AzureFirewall & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AzureFirewall;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type AzureFirewallsListNextResponse = AzureFirewallListResult & {
