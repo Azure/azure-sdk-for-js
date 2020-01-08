@@ -750,10 +750,12 @@ export class CryptographyClient {
    */
   private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
     const tracer = getTracer();
-    return tracer.startSpan(
+    const span = tracer.startSpan(
       `CryptographyClient ${methodName}`,
       requestOptions && requestOptions.spanOptions
     );
+    span.setAttribute("az.namespace", "Microsoft.KeyVault");
+    return span;
   }
 
   /**

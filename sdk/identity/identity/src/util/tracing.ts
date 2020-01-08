@@ -27,6 +27,7 @@ export function createSpan(
   };
 
   const span = tracer.startSpan(`Azure.Identity.${operationName}`, tracingOptions.spanOptions);
+  span.setAttribute("az.namespace", "Microsoft.AAD");
 
   let newOptions = options;
   if (span.isRecording()) {

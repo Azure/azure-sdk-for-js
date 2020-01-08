@@ -28,6 +28,8 @@ export function createSpan<T extends OperationOptions>(
     spanOptions
   );
 
+  span.setAttribute("az.namespace", "Microsoft.CognitiveServices");
+
   let newSpanOptions = tracingOptions.spanOptions || {};
   if (span.isRecording()) {
     newSpanOptions = {

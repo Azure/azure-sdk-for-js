@@ -55,6 +55,7 @@ export class Spanner<TClient> {
       ...options.spanOptions,
       kind: SpanKind.INTERNAL
     });
+    span.setAttribute("az.namespace", "Microsoft.AppConfiguration");
 
     let newOptions = options;
 

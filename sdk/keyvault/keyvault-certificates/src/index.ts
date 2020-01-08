@@ -2200,7 +2200,9 @@ export class CertificateClient {
    */
   private createSpan(methodName: string, requestOptions: RequestOptionsBase = {}): Span {
     const tracer = getTracer();
-    return tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+    const span = tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+    span.setAttribute("az.namespace", "Microsoft.KeyVault");
+    return span;
   }
 
   /**
