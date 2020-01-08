@@ -6,7 +6,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export function delay<T>(t: number, value?: T): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));

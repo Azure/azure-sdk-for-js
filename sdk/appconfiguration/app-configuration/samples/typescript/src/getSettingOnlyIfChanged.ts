@@ -9,7 +9,7 @@ import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   console.log("Running get setting only if changed sample");
