@@ -5,12 +5,11 @@ const parse = require("../common/lib/jju/parse").parse;
 export type PackageData = { packageList: string[]; folderList: string[] };
 
 export function generateDataplaneList(): PackageData {
-  //const rootRepo = path.resolve(__dirname, "..");
   const rushPackages = getRushPackages();
   return rushPackages;
 }
 
-//This gets the list of rush packages
+//This gets the list of rush package names and list of rush package folder names
 const getRushPackages = () => {
   const rushPath = path.resolve(path.join(__dirname, "../rush.json"));
   const baseDir = path.dirname(rushPath);
