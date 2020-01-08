@@ -524,6 +524,38 @@ export class Namespaces {
   }
 
   /**
+   * Gets list of NetworkRuleSet for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesListNetworkRuleSetsResponse>
+   */
+  listNetworkRuleSets(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListNetworkRuleSetsResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param callback The callback
+   */
+  listNetworkRuleSets(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.NetworkRuleSetListResult>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNetworkRuleSets(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkRuleSetListResult>): void;
+  listNetworkRuleSets(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSetListResult>, callback?: msRest.ServiceCallback<Models.NetworkRuleSetListResult>): Promise<Models.NamespacesListNetworkRuleSetsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        options
+      },
+      listNetworkRuleSetsOperationSpec,
+      callback) as Promise<Models.NamespacesListNetworkRuleSetsResponse>;
+  }
+
+  /**
    * Creates or updates a namespace. Once created, this namespace's resource manifest is immutable.
    * This operation is idempotent.
    * @param resourceGroupName Name of the resource group within the azure subscription.
@@ -645,6 +677,34 @@ export class Namespaces {
       },
       listAuthorizationRulesNextOperationSpec,
       callback) as Promise<Models.NamespacesListAuthorizationRulesNextResponse>;
+  }
+
+  /**
+   * Gets list of NetworkRuleSet for a Namespace.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesListNetworkRuleSetsNextResponse>
+   */
+  listNetworkRuleSetsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListNetworkRuleSetsNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listNetworkRuleSetsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetworkRuleSetListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNetworkRuleSetsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkRuleSetListResult>): void;
+  listNetworkRuleSetsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSetListResult>, callback?: msRest.ServiceCallback<Models.NetworkRuleSetListResult>): Promise<Models.NamespacesListNetworkRuleSetsNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listNetworkRuleSetsNextOperationSpec,
+      callback) as Promise<Models.NamespacesListNetworkRuleSetsNextResponse>;
   }
 }
 
@@ -1041,6 +1101,31 @@ const getNetworkRuleSetOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listNetworkRuleSetsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkRuleSetListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}",
@@ -1157,6 +1242,27 @@ const listAuthorizationRulesNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationRuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listNetworkRuleSetsNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkRuleSetListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

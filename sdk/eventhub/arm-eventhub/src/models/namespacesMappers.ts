@@ -25,6 +25,7 @@ export {
   MessagingRegions,
   MessagingRegionsProperties,
   NetworkRuleSet,
+  NetworkRuleSetListResult,
   NWRuleSetIpRules,
   NWRuleSetVirtualNetworkRules,
   RegenerateAccessKeyParameters,

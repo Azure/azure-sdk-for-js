@@ -77,6 +77,7 @@ export const eventHubName: msRest.OperationURLParameter = {
     required: true,
     serializedName: "eventHubName",
     constraints: {
+      MaxLength: 50,
       MinLength: 1
     },
     type: {
