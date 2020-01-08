@@ -7,6 +7,18 @@
 - Updated to use the latest version of the `@azure/core-amqp` package.
   This update allows the SDK to detect when a connection has gone idle for 60 seconds and attempt to reconnect.
 
+
+### Breaking changes:
+  - Starting event positions are now passed in the `options` to the `subscribe()` method instead of using 
+  the `processInitialize()` callback.
+  - The `MessagingError` class is updated to have the `code` property instead of `name` to contain the error
+  type that the user can use to differentiate errors that can occur during communication with the service.
+  The `name` property of this class will always have the value "MessagingError" and will not change based
+  on the error type.
+  - System errors around network issues like ENOTFOUND, ECONNREFUSED will retain their `code` value even after
+  getting converted to a `MessagingError` object and being passed to the user.
+
+
 ## 5.0.0-preview.7 (2019-12-03)
 
 - Improves load-balancing capabilities to reduce the frequency that partitions are claimed by other running
@@ -14,7 +26,7 @@
   ([PR #6294](https://github.com/Azure/azure-sdk-for-js/pull/6294))
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
 
-Breaking changes:
+### Breaking changes:
 
 - CheckpointStore and consumer group are now passed to the EventHubConsumerClient
   constructor rather than being passed to subscribe().

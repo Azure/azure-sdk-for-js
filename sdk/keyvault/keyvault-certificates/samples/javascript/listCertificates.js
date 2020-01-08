@@ -1,5 +1,11 @@
-const { CertificateClient } = require("../../dist");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // This sample list previously created certificates in a single chunk and by page,
 // then changes one of them and lists all the versions of that certificate,
@@ -17,8 +23,8 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName1 = "MyCertificate1";
-  const certificateName2 = "MyCertificate2";
+  const certificateName1 = "MyCertificateListCertificatesJS1";
+  const certificateName2 = "MyCertificateListCertificatesJS2";
 
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.beginCreateCertificate(certificateName1, {
@@ -43,7 +49,9 @@ async function main() {
 
   // Listing all the available certificates by pages.
   let pageCount = 0;
-  let listPropertiesOfCertificatesByPage = client.listPropertiesOfCertificates({ includePending: true }).byPage();
+  let listPropertiesOfCertificatesByPage = client
+    .listPropertiesOfCertificates({ includePending: true })
+    .byPage();
   while (true) {
     let { done, value } = await listPropertiesOfCertificatesByPage.next();
     if (done) {
@@ -64,7 +72,10 @@ async function main() {
   console.log("Updated certificate:", updatedCertificate);
 
   // Listing a certificate's versions
-  let listPropertiesOfCertificateVersions = client.listPropertiesOfCertificateVersions(certificateName1, {});
+  let listPropertiesOfCertificateVersions = client.listPropertiesOfCertificateVersions(
+    certificateName1,
+    {}
+  );
   while (true) {
     let { done, value } = await listPropertiesOfCertificateVersions.next();
     if (done) {

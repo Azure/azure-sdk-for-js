@@ -1,9 +1,16 @@
-import { CertificateClient } from "../../src";
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
+
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
 
 // This sample creates, updates and deletes certificate issuers.
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -15,8 +22,8 @@ async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificate";
-  const issuerName = "issuerName";
+  const certificateName = "MyCertificateIssuersTS";
+  const issuerName = "issuerNameIssuersTS";
 
   // Create
   await client.createIssuer(issuerName, "Test", {
@@ -45,7 +52,7 @@ async function main(): Promise<void> {
 
   // We can also list properties for all issuers:
   for await (const issuerProperties of client.listPropertiesOfIssuers()) {
-    console.log("Certificate properties: ", issuerProperties)
+    console.log("Certificate properties: ", issuerProperties);
   }
 
   // We can also delete the issuer.

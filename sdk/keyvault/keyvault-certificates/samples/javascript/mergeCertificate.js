@@ -1,7 +1,14 @@
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
 const fs = require("fs");
 const childProcess = require("child_process");
-const { CertificateClient } = require("../../dist");
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // This sample creates a certificate with an Unknown issuer, then signs this certificate using a fake
 // certificate authority and the mergeCertificate API method.

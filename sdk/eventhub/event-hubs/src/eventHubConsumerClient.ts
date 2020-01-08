@@ -85,8 +85,8 @@ export class EventHubConsumerClient {
 
   /**
    * @constructor
-   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
-   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
+   * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
+   * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hub instance.
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
@@ -100,8 +100,8 @@ export class EventHubConsumerClient {
   constructor(consumerGroup: string, connectionString: string, options?: EventHubClientOptions); // #1
   /**
    * @constructor
-   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
-   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
+   * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
+   * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hub instance.
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
@@ -123,8 +123,8 @@ export class EventHubConsumerClient {
   ); // #1.1
   /**
    * @constructor
-   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
-   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
+   * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
+   * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
    * It is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
@@ -144,8 +144,8 @@ export class EventHubConsumerClient {
   ); // #2
   /**
    * @constructor
-   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
-   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
+   * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
+   * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
    * It is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
@@ -169,8 +169,8 @@ export class EventHubConsumerClient {
   ); // #2.1
   /**
    * @constructor
-   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
-   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
+   * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
+   * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param fullyQualifiedNamespace - The full namespace which is likely to be similar to
    * <yournamespace>.servicebus.windows.net
@@ -192,8 +192,8 @@ export class EventHubConsumerClient {
   ); // #3
   /**
    * @constructor
-   * The `EventHubConsumerClient` is the main point of interaction for consuming events from an
-   * Event Hub instance. Use the `options` parmeter to configure retry policy or proxy settings.
+   * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
+   * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
    * @param fullyQualifiedNamespace - The full namespace which is likely to be similar to
    * <yournamespace>.servicebus.windows.net

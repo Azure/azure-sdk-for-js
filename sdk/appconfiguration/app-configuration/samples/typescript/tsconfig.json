@@ -2,8 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-
-    "lib": ["esnext.asynciterable"],
+    "target": "ES2015",
 
     "allowSyntheticDefaultImports": true,
 
