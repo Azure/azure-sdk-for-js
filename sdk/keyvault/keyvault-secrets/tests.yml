@@ -13,6 +13,11 @@ jobs:
     parameters:
       PackageName: "@azure/keyvault-secrets"
       ResourceServiceDirectory: keyvault
+      Matrix:
+        Linux_Sample10:
+          OSVmImage: "ubuntu-16.04"
+          NodeVersion: "10.x"
+          TestType: "sample"
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
