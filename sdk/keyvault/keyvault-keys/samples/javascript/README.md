@@ -62,7 +62,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [cryptography]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/cryptography.js
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/helloWorld.js
-[purgeAllKeys]: src/helloWorld.js
+[purgeAllKeys]: src/purgeAllKeys.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli

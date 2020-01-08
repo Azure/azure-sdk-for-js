@@ -18,8 +18,9 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const bankAccountSecretName = "secretListOperations1";
-  const storageAccountSecretName = "secretListOperations2";
+  const uniqueString = new Date().getTime();
+  const bankAccountSecretName = `bankSecret${uniqueString}`;
+  const storageAccountSecretName = `storageSecret${uniqueString}`;
 
   // Create our secrets
   await client.setSecret(bankAccountSecretName, "ABC123");
