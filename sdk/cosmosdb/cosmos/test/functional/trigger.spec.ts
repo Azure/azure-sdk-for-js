@@ -68,13 +68,13 @@ describe("NodeJS CRUD Tests", function() {
 
       // replace trigger
       // prettier-ignore
-      trigger.body = function () { const x = 20; console.log(x) };
+      trigger.body = function () { const x = 20; console.log(x); };
       const { resource: replacedTrigger } = await container.scripts
         .trigger(trigger.id)
         .replace(trigger);
 
       assert.equal(replacedTrigger.id, trigger.id);
-      assert.equal(replacedTrigger.body, "function () { const x = 20; }");
+      assert.equal(replacedTrigger.body, "function () { const x = 20; console.log(x); }");
 
       // read trigger
       const { resource: triggerAfterReplace } = await container.scripts

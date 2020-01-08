@@ -62,13 +62,13 @@ describe("NodeJS CRUD Tests", function() {
 
       // replace sproc
       // prettier-ignore
-      sproc.body = function () { const x = 20; console.log(x) };
+      sproc.body = function () { const x = 20; console.log(x); };
       const { resource: replacedSproc } = await container.scripts
         .storedProcedure(sproc.id)
         .replace(sproc);
 
       assert.equal(replacedSproc.id, sproc.id);
-      assert.equal(replacedSproc.body, "function () { const x = 20; }");
+      assert.equal(replacedSproc.body, "function () { const x = 20; console.log(x); }");
 
       // read sproc
       const { resource: sprocAfterReplace } = await container.scripts

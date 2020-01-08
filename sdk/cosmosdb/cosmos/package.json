@@ -64,6 +64,7 @@
     "test-browser": "karma start ./karma.config.js --single-run",
     "test-consumer": "node consumer-test.js 2>&1",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "test:signoff": "mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000 --grep \"#nosignoff\" --invert",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
