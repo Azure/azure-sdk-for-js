@@ -1,6 +1,6 @@
 # Release History
 
-## 12.0.0-preview.7 (Unreleased)
+## 12.0.0-preview.7 (2020.01)
 
 - Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6753](https://github.com/Azure/azure-sdk-for-js/pull/6753)
 - Share a single httpClient among clients. [PR #6657](https://github.com/Azure/azure-sdk-for-js/pull/6657)
