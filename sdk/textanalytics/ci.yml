@@ -38,5 +38,5 @@ stages:
     parameters:
       ServiceDirectory: textanalytics
       Artifacts:
-        - name: azure-cognitiveservices-textanalytics
-          safeName: azurecognitiveservicestextanalytics
+        - name: azure-ai-textanalytics
+          safeName: azureaitextanalytics
