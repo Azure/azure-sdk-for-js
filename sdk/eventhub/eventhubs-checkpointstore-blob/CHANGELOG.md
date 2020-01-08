@@ -1,9 +1,10 @@
 # Release History
 
-## 1.0.0-preview.6 (Unreleased)
+## 1.0.0 (2019-01-08)
 
+- This release marks the general availability of the `@azure/eventhubs-checkpointstore-blob` package.
 - `claimOwnership()` will throw on underlying issues with storage, rather than
-   failing silently.
+  failing silently.
 
 ## 1.0.0-preview.5 (2019-12-03)
 
