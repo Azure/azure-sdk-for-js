@@ -126,7 +126,8 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000"
+        timeout: "600000",
+        retries: 2
       }
     }
   });
