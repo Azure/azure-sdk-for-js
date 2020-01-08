@@ -117,7 +117,7 @@ describe("Item CRUD", function() {
       .read<TestItem>();
     assert.equal(replacedDocument.id, document2.id);
     // delete document
-    const { resource: res } = await container.item(replacedDocument.id, undefined).delete();
+    await container.item(replacedDocument.id, undefined).delete();
 
     // read documents after deletion
     const response = await container.item(replacedDocument.id, undefined).read();

@@ -22,7 +22,7 @@ The Azure Event Hubs client library allows you to send and receive events in you
 
 Install the Azure Event Hubs client library using npm
 
-`npm install @azure/event-hubs@next`
+`npm install @azure/event-hubs`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package.
