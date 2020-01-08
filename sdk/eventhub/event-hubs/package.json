@@ -130,7 +130,7 @@
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
     "karma-remap-coverage": "^0.1.5",
-    "mocha": "^6.2.2",
+    "mocha": "^7.0.0",
     "mocha-junit-reporter": "^1.18.0",
     "mocha-multi": "^1.1.3",
     "nyc": "^14.0.0",
