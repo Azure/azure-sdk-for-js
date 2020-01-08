@@ -23,12 +23,20 @@ export async function main(): Promise<void> {
   const client = new KeyClient(url, credential);
 
   for await (const properties of client.listPropertiesOfKeys()) {
-    const poller = await client.beginDeleteKey(properties.name);
-    await poller.pollUntilDone();
+    try {
+      const poller = await client.beginDeleteKey(properties.name);
+      await poller.pollUntilDone();
+    } catch(e) {
+      // We don't care about the error because this script is intended to just clean up the KeyVault.
+    }
   }
   for await (const deletedKey of client.listDeletedKeys()) {
-    // This will take a while.
-    await client.purgeDeletedKey(deletedKey.name);
+    try {
+      // This will take a while.
+      await client.purgeDeletedKey(deletedKey.name);
+    } catch(e) {
+      // We don't care about the error because this script is intended to just clean up the KeyVault.
+    }
   }
 }
 

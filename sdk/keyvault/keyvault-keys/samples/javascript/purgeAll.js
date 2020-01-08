@@ -25,9 +25,13 @@ async function main() {
       break;
     }
 
-    const poller = await client.beginDeleteKey(properties.name);
-    await poller.pollUntilDone();
-  }
+    try {
+      const poller = await client.beginDeleteKey(properties.name);
+      await poller.pollUntilDone();
+    } catch(e) {
+      // We don't care about the error because this script is intended to just clean up the KeyVault.
+    }
+}
 
   let listDeletedKeys = client.listPropertiesOfKeys();
   while (true) {
@@ -36,8 +40,12 @@ async function main() {
       break;
     }
 
-    // This will take a while.
-    await client.purgeDeletedKey(deletedKey.name);
+    try {
+      // This will take a while.
+      await client.purgeDeletedKey(deletedKey.name);
+    } catch(e) {
+      // We don't care about the error because this script is intended to just clean up the KeyVault.
+    }
   }
 }
 
