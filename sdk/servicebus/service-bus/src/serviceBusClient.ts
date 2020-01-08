@@ -88,7 +88,16 @@ export class ServiceBusClient {
     let credential;
     let connectionString;
 
-    if (!options) options = {};
+    if (!options) {
+      options = {};
+    } else {
+      // host, credential and options based constructor might have been invoked
+      if (credentialOrServiceBusClientOptions == undefined) {
+        throw new Error(
+          "Input parameter token credential must be defined when using this constructor."
+        );
+      }
+    }
 
     if (hostOrConnectionString == undefined || typeof hostOrConnectionString !== "string") {
       throw new Error("Input parameter of host or connection string must be a string.");
@@ -110,9 +119,6 @@ export class ServiceBusClient {
       ConnectionConfig.validate(config);
     } else {
       // host, credential and options based constructor was invoked
-      if (credentialOrServiceBusClientOptions == undefined) {
-        throw new Error("Input parameter token credential must be defined.");
-      }
       credential = credentialOrServiceBusClientOptions as TokenCredential;
 
       if (!hostOrConnectionString.endsWith("/")) {
