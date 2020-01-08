@@ -112,8 +112,9 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
   return result;
 }
 
-const listDataplanePackages = async () => {
-  return await generateDataplaneList();
+const listDataplanePackages = () => {
+  console.log("generate dataplane = "+ generateDataplaneList().toString());
+  return generateDataplaneList();
 }
 
 export const packagesToIgnore = listDataplanePackages();
@@ -123,7 +124,7 @@ export const folderNamesToIgnore: string[] = ["node_modules"];
 export function getPackageFolderPaths(packagesFolderPath: string): string[] | undefined {
   return getChildFolderPaths(packagesFolderPath, {
     recursive: true,
-    condition: async (folderPath: string) => isPackageFolderPath(folderPath, await packagesToIgnore),
+    condition: async (folderPath: string) => isPackageFolderPath(folderPath, packagesToIgnore),
     folderCondition: (folderPath: string) => !contains(folderNamesToIgnore, getName(folderPath))
   });
 }
