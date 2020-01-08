@@ -5,14 +5,12 @@
 ```ts
 
 import { AmqpMessage } from '@azure/core-amqp';
-import { ConnectionConfig } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
-import { SharedKeyCredential } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -153,7 +151,7 @@ export class Sender {
 // @public
 export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
-    constructor(config: ConnectionConfig, credential: SharedKeyCredential | TokenCredential, options?: ServiceBusClientOptions);
+    constructor(host: string, credential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<any>;
     createQueueClient(queueName: string): QueueClient;
     createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient;
