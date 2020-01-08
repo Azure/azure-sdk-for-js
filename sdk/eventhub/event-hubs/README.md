@@ -368,24 +368,12 @@ You can also set the log level programatically by importing the
 [@azure/logger](https://www.npmjs.com/package/@azure/logger) package and calling the
 `setLogLevel` function with one of the log level values.
 
-- Example using setLogLevel.
-
-```js
-const { EventHubClient } = require('@azure/event-hubs');
-
-const logger = require('@azure/logger');
-logger.setLogLevel('info');
-
-// operations will now emit info, warning, and error logs
-const client = new EventHubClient(/* params */);
-client.getPartitionIds()
-  .then(ids => { /* do work */ })
-  .catch(e => { /* do work */ });
-});
-```
-
 When setting a log level either programatically or via the `AZURE_LOG_LEVEL` environment variable,
 any logs that are written using a log level equal to or less than the one you choose will be emitted.
+For example, when you set the log level to `info`, the logs that are written for levels
+`warning` and `error` are also emitted.
+We follow the Azure SDK for TypeScript [guidelines](https://azure.github.io/azure-sdk/typescript_implementation.html#general-logging)
+when determining which level to log to.
 
 You can alternatively set the `DEBUG` environment variable to get logs when using this library.
 This can be useful if you also want to emit logs from the dependencies `rhea-promise` and `rhea` as well.
@@ -415,7 +403,7 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message
 - If you are interested only in **errors** and SDK **warnings**, then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure:(event-hubs|core-amqp):(error|warning),rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:*:(error|warning),rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 ### Logging to a file
