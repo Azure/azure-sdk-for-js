@@ -31,8 +31,10 @@ export async function main(): Promise<void> {
   console.log("Listing secrets by page");
   for await (const page of client.listPropertiesOfSecrets().byPage({ maxPageSize: 2 })) {
     for (const secretProperties of page) {
-      const secret = await client.getSecret(secretProperties.name);
-      console.log("secret: ", secret);
+      if (secretProperties.enabled) {
+        const secret = await client.getSecret(secretProperties.name);
+        console.log("secret: ", secret);
+      }
     }
     console.log("--page--");
   }
@@ -40,8 +42,10 @@ export async function main(): Promise<void> {
   // List the secrets we have, all at once
   console.log("Listing secrets all at once");
   for await (const secretProperties of client.listPropertiesOfSecrets()) {
-    const secret = await client.getSecret(secretProperties.name);
-    console.log("secret: ", secret);
+    if (secretProperties.enabled) {
+      const secret = await client.getSecret(secretProperties.name);
+      console.log("secret: ", secret);
+    }
   }
 
   await client.setSecret(bankAccountSecretName, "ABC567");

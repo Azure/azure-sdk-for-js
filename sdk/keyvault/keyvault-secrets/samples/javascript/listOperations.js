@@ -36,8 +36,10 @@ async function main() {
     }
 
     for (const secretProperties of value) {
-      const secret = await client.getSecret(secretProperties.name);
-      console.log("secret: ", secret);
+      if (secretProperties.enabled) {
+        const secret = await client.getSecret(secretProperties.name);
+        console.log("secret: ", secret);
+      }
     }
     console.log("--page--");
   }
@@ -51,8 +53,10 @@ async function main() {
       break;
     }
 
-    const secret = await client.getSecret(value.name);
-    console.log("secret: ", secret);
+    if (value.enabled) {
+      const secret = await client.getSecret(value.name);
+      console.log("secret: ", secret);
+    }
   }
 
   await client.setSecret(bankAccountSecretName, "ABC567");
