@@ -2,9 +2,11 @@ import * as path from "path";
 import * as fs from "fs";
 const parse = require("../common/lib/jju/parse").parse;
 
-export function generateDataplaneList(): string[] {
+export type PackageData = { packageList: string[]; folderList: string[] };
+
+export function generateDataplaneList(): PackageData {
   //const rootRepo = path.resolve(__dirname, "..");
-  const rushPackages: string[] = getRushPackages();
+  const rushPackages = getRushPackages();
   return rushPackages;
 }
 
@@ -13,12 +15,14 @@ const getRushPackages = () => {
   const rushPath = path.resolve(path.join(__dirname, "../rush.json"));
   const baseDir = path.dirname(rushPath);
   const rushJson = parse(fs.readFileSync(rushPath, "utf8"));
-  const packageData: string[] = [];
+  const packageNames: string[] = [];
+  const packageFolders: string[] = [];
 
   for (const proj of rushJson.projects) {
     const filePath = path.join(baseDir, proj.projectFolder, "package.json");
+    packageFolders.push(path.basename(path.dirname(filePath)));
     const packageJson = parse(fs.readFileSync(filePath, "utf8"));
-    packageData.push(packageJson.name);
+    packageNames.push(packageJson.name);
   }
-  return packageData;
+  return { packageList: packageNames, folderList: packageFolders };
 };

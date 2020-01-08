@@ -112,8 +112,9 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
   return result;
 }
 
-export const packagesToIgnore = generateDataplaneList();
-export const folderNamesToIgnore: string[] = ["node_modules"];
+export const packagesToIgnore = generateDataplaneList().packageList;
+export var folderNamesToIgnore: string[] = generateDataplaneList().folderList;
+folderNamesToIgnore.push("node_modules");
 
 export function getPackageFolderPaths(packagesFolderPath: string): string[] | undefined {
   return getChildFolderPaths(packagesFolderPath, {
