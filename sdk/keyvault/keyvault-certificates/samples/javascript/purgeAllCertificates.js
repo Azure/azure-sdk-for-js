@@ -19,7 +19,7 @@ async function main() {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const client = new KeyClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   let listPropertiesOfCertificates = client.listPropertiesOfCertificates();
   while (true) {
