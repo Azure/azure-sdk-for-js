@@ -190,7 +190,7 @@ Now we need to configure Rollup to take the above code and turn it into a bundle
 ```js
 // rollup.config.js
 import resolve from "@rollup/plugin-node-resolve";
-import cjs from "rollup-plugin-commonjs";
+import cjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import shim from "rollup-plugin-shim";
 
@@ -235,7 +235,7 @@ The above configuration may need to change based on which SDK packages your code
 We also need to install the plugins we referenced in the above file:
 
 ```
-npm install --save-dev rollup-plugin-node-resolve rollup-plugin-commonjs @rollup/plugin-json rollup-plugin-shim
+npm install --save-dev rollup-plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-json rollup-plugin-shim
 ```
 
 Now that we have our config file and necessary plugins installed, we can run rollup:
@@ -288,7 +288,7 @@ Now we need to configure Rollup to take the above code and turn it into a bundle
 ```js
 // rollup.config.js
 import resolve from "@rollup/plugin-node-resolve";
-import cjs from "rollup-plugin-commonjs";
+import cjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import shim from "rollup-plugin-shim";
 import typescript from "rollup-plugin-typescript2";
@@ -335,7 +335,7 @@ The above configuration may need to change based on which SDK packages your code
 We also need to install the plugins we referenced in the above file:
 
 ```
-npm install --save-dev rollup-plugin-node-resolve rollup-plugin-commonjs @rollup/plugin-json rollup-plugin-shim rollup-plugin-typescript2
+npm install --save-dev rollup-plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-json rollup-plugin-shim rollup-plugin-typescript2
 ```
 
 Now that we have our config file and necessary plugins installed, we can run rollup:

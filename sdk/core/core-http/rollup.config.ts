@@ -4,7 +4,7 @@
 /// <reference path=".typings/rollup-plugin-sourcemaps.d.ts" />
 /// <reference path=".typings/rollup-plugin-visualizer.d.ts" />
 
-import commonjs from "rollup-plugin-commonjs";
+import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import sourcemaps from "rollup-plugin-sourcemaps";
