@@ -32,6 +32,7 @@
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
 
 /sdk/test-utils/ @HarshaNalluru
+/sdk/textanalytics/ @xirzec
 
 # API review files
 /sdk/**/review/*api.md @bterlson
