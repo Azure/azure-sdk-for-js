@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
+// purgeAllKeys.js
+// helps remove any existing keys from the KeyVault.
+
 const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 

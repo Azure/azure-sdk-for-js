@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-// purgeAll.ts
-// helps remove any existing resources from the KeyVault.
+// purgeAllKeys.ts
+// helps remove any existing keys from the KeyVault.
 
 import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";

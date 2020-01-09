@@ -12,7 +12,7 @@ urlFragment: keyvault-keys-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                   | **Description**                                                  |
+| **File Name**                  | **Description**                                                 |
 | ------------------------------- | ---------------------------------------------------------------- |
 | [cryptography.js][cryptography] | uses a key to sign/verify, encrypt/decrypt, and wrap/unwrap data |
 | [helloWorld.js][helloworld]     | creates, reads, lists, and deletes keys                          |
@@ -62,7 +62,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [cryptography]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/cryptography.js
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/helloWorld.js
-[purgeAllKeys]: src/purgeAllKeys.js
+[purgeAllKeys]: purgeAllKeys.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-// purgeAllSecrets.ts
-// helps remove any existing resources from the KeyVault.
+// purgeAllCertificates.js
+// helps remove any existing keys from the KeyVault.
 
-import { SecretClient } from "@azure/keyvault-secrets";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CertificateClient } = require("@azure/keyvault-certificates");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export async function main(): Promise<void> {
+async function main() {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
@@ -20,20 +19,33 @@ export async function main(): Promise<void> {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const client = new SecretClient(url, credential);
+  const client = new KeyClient(url, credential);
 
-  for await (const properties of client.listPropertiesOfSecrets()) {
+  let listPropertiesOfCertificates = client.listPropertiesOfCertificates();
+  while (true) {
+    let { done, value } = await listPropertiesOfCertificates.next();
+    if (done) {
+      break;
+    }
+
     try {
-      const poller = await client.beginDeleteSecret(properties.name);
+      const poller = await client.beginDeleteCertificate(properties.name);
       await poller.pollUntilDone();
     } catch(e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }
-  }
-  for await (const deletedSecret of client.listDeletedSecrets()) {
+}
+
+  let listDeletedCertificates = client.listPropertiesOfCertificates();
+  while (true) {
+    let { done, value } = await listDeletedCertificates.next();
+    if (done) {
+      break;
+    }
+
     try {
       // This will take a while.
-      await client.purgeDeletedSecret(deletedSecret.name);
+      await client.purgeDeletedCertificate(deletedCertificate.name);
     } catch(e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }

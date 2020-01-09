@@ -12,7 +12,7 @@ urlFragment: keyvault-secrets-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Secrets in some common scenarios.
 
-| **File Name**                           | **Description**                                                                                                                                                                       |
+| **File Name**                          | **Description**                                                                                                                                                                      |
 | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [backupAndRestore.ts][backupandrestore] | creates a secret, then makes a backup from it, then deletes it and purges it, and finally restores it                                                                                 |
 | [deleteAndRecover.ts][deleteandrecover] | creates a secret, then deletes it, then recovers it (soft-delete is required for this sample to run, see: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) |

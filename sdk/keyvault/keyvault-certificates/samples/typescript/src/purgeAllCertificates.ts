@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-// purgeAllSecrets.ts
+// purgeAllCertificates.ts
 // helps remove any existing resources from the KeyVault.
 
-import { SecretClient } from "@azure/keyvault-secrets";
+import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -20,20 +20,20 @@ export async function main(): Promise<void> {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const client = new SecretClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
-  for await (const properties of client.listPropertiesOfSecrets()) {
+  for await (const properties of client.listPropertiesOfCertificates()) {
     try {
-      const poller = await client.beginDeleteSecret(properties.name);
+      const poller = await client.beginDeleteCertificate(properties.name);
       await poller.pollUntilDone();
     } catch(e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }
   }
-  for await (const deletedSecret of client.listDeletedSecrets()) {
+  for await (const deletedCertificate of client.listDeletedCertificates()) {
     try {
       // This will take a while.
-      await client.purgeDeletedSecret(deletedSecret.name);
+      await client.purgeDeletedCertificate(deletedCertificate.name);
     } catch(e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }

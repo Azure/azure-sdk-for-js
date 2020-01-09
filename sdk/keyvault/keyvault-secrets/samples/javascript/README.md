@@ -12,7 +12,7 @@ urlFragment: keyvault-secrets-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Secrets in some common scenarios.
 
-| **File Name**                           | **Description**                                                                                                                                                                       |
+| **File Name**                          | **Description**                                                                                                                                                                      |
 | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [backupAndRestore.js][backupandrestore] | creates a secret, then makes a backup from it, then deletes it and purges it, and finally restores it                                                                                 |
 | [deleteAndRecover.js][deleteandrecover] | creates a secret, then deletes it, then recovers it (soft-delete is required for this sample to run, see: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) |
@@ -66,7 +66,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/deleteAndRecover.js
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/helloWorld.js
 [listoperations]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/listOperations.js
-[purgeAllSecrets]: src/purgeAllSecrets.js
+[purgeAllSecrets]: purgeAllSecrets.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli
