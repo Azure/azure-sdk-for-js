@@ -34,6 +34,14 @@ jobs:
           workingDir: common/smoke-test/
           displayName: List packages installed from the feed
 
+      # The MacOS image does not have TypeScript installed by default
+      - task: Npm@1
+        inputs:
+          command: custom
+          customCommand: 'install -g typescript'
+          displayName: Install TypeScript
+          condition: and(succeeded(), contains(variables['OSVmImage'], 'MacOS'))
+
       - script: tsc -p ./common/smoke-test/
         displayName: "Compile TS"
 
