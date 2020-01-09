@@ -1,5 +1,4 @@
 import * as path from "path";
-import * as fs from "fs";
 const parse = require("../common/lib/jju/parse").parse;
 
 export type PackageData = { packageList: string[]; folderList: string[] };
@@ -20,8 +19,7 @@ const getRushPackages = () => {
   for (const proj of rushJson.projects) {
     const filePath = path.join(baseDir, proj.projectFolder, "package.json");
     packageFolders.push(path.basename(path.dirname(filePath)));
-    const packageJson = parse(fs.readFileSync(filePath, "utf8"));
-    packageNames.push(packageJson.name);
+    packageNames.push(proj.projectName);
   }
   return { packageList: packageNames, folderList: packageFolders };
 };
