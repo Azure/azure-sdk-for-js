@@ -41,7 +41,7 @@ The environment variable **TEST_MODE** controls how tests are running.
   - If recordings are already present, forces re-recording
 - Else If TEST_MODE = "live",
   - Tests hit the live-service, we don't record the requests/responses
-- Else If TEST_MODE = "playback" (or if the TEST_MODE is neither "record" nor "live"),
+- Else If TEST_MODE = "playback" (or if the TEST_MODE is not set or set to an invalid value),
   - Existing recordings are played back as responses to the HTTP requests in the tests
 
 Please refer to [@azure/test-utils-recorder](./../test-utils/recorder/GUIDELINES.md) for more details about record and playback tests.
