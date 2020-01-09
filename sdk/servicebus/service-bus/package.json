@@ -67,6 +67,7 @@
   "dependencies": {
     "@azure/core-amqp": "1.0.0-preview.3",
     "@azure/ms-rest-nodeauth": "^0.9.2",
+    "@azure/identity": "1.0.0-preview.3",
     "@types/is-buffer": "^2.0.0",
     "@types/long": "^4.0.0",
     "buffer": "^5.2.1",

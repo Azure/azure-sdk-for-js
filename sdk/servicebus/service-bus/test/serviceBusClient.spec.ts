@@ -36,6 +36,14 @@ import { DispositionType } from "../src/serviceBusMessage";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
+import { EnvVarKeys, getEnvVars, isNode } from "../test/utils/envVarUtils";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+
+  import { EnvironmentCredential } from "../test/utils/aadUtils";
+
+
 describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBrowser", function(): void {
   let sbClient: ServiceBusClient;
 
@@ -309,79 +317,95 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-// describe("Test createFromAadTokenCredentials", function(): void {
-//   let sbClient: ServiceBusClient;
-//   let errorWasThrown: boolean = false;
+if (isNode) {
+  describe.only("Test ServiceBusClient creation using Azure Identity", function(): void {
+    let sbClient: ServiceBusClient;
+    let errorWasThrown: boolean = false;
 
-//   const env = getEnvVars();
-//   const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-//     "Endpoint=sb://((.*).servicebus.windows.net)"
-//   ) || "")[1];
+    const env = getEnvVars();
+    const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
+      "Endpoint=sb://((.*).servicebus.windows.net)"
+    ) || "")[1];
 
-//   async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
-//     const testMessages = TestMessage.getSample();
-//     sbClient = ServiceBusClient.createFromAadTokenCredentials(host, tokenCreds);
-//     sbClient.should.be.an.instanceof(ServiceBusClient);
-//     const clients = await getSenderReceiverClients(
-//       sbClient,
-//       TestClientType.UnpartitionedQueue,
-//       TestClientType.UnpartitionedQueue
-//     );
+    function getDefaultTokenCredential() {
+      should.exist(
+        env[EnvVarKeys.AZURE_CLIENT_ID],
+        "define AZURE_CLIENT_ID in your environment before running integration tests."
+      );
+      should.exist(
+        env[EnvVarKeys.AZURE_TENANT_ID],
+        "define AZURE_TENANT_ID in your environment before running integration tests."
+      );
+      should.exist(
+        env[EnvVarKeys.AZURE_CLIENT_SECRET],
+        "define AZURE_CLIENT_SECRET in your environment before running integration tests."
+      );
+      should.exist(
+        env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING],
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+      );
+      return new EnvironmentCredential();
+    }
 
-//     const sender = clients.senderClient.createSender();
-//     const receiver = await clients.receiverClient.createReceiver(ReceiveMode.peekLock);
-//     await sender.send(testMessages);
-//     const msgs = await receiver.receiveMessages(1);
+    async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
+      const testMessages = TestMessage.getSample();
 
-//     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-//     should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-//     should.equal(msgs.length, 1, "Unexpected number of messages");
-//   }
+      if (tokenCreds == undefined) {
+        tokenCreds = getDefaultTokenCredential();
+      }
 
-//   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
-//     await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
-//       errorWasThrown = true;
-//       should.equal(
-//         err.message,
-//         "'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.",
-//         "ErrorMessage is different than expected"
-//       );
-//     });
-//     should.equal(errorWasThrown, true, "Error thrown flag must be true");
-//   });
+      if (host == undefined) {
+        // This is of the form <your-namespace>.servicebus.windows.net
+        host = (env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING].match("Endpoint=sb://(.*)/;") ||
+          "")[1];
+      }
 
-//   it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
-//     void
-//   > {
-//     const env = getEnvVars();
+      const sbClient = new ServiceBusClient(host, tokenCreds);
 
-//     let tokenCreds = await loginWithServicePrincipalSecret(
-//       env.AAD_CLIENT_ID,
-//       env.AAD_CLIENT_SECRET,
-//       env.AAD_TENANT_ID,
-//       {
-//         tokenAudience: aadServiceBusAudience
-//       }
-//     );
-//     sbClient = ServiceBusClient.createFromAadTokenCredentials(123 as any, tokenCreds);
-//     should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
-//   });
+      sbClient.should.be.an.instanceof(ServiceBusClient);
+      const clients = await getSenderReceiverClients(
+        sbClient,
+        TestClientType.UnpartitionedQueue,
+        TestClientType.UnpartitionedQueue
+      );
 
-//   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-//     const env = getEnvVars();
+      const sender = clients.senderClient.createSender();
+      const receiver = await clients.receiverClient.createReceiver(ReceiveMode.peekLock);
+      await sender.send(testMessages);
+      const msgs = await receiver.receiveMessages(1);
 
-//     let tokenCreds = await loginWithServicePrincipalSecret(
-//       env.AAD_CLIENT_ID,
-//       env.AAD_CLIENT_SECRET,
-//       env.AAD_TENANT_ID,
-//       {
-//         tokenAudience: aadServiceBusAudience
-//       }
-//     );
-//     await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
-//     await sbClient.close();
-//   });
-// });
+      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+      should.equal(msgs.length, 1, "Unexpected number of messages");
+    }
+
+    it("throws error for invalid tokenCredentials", async function(): Promise<void> {
+      await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
+        errorWasThrown = true;
+        should.equal(
+          err.message,
+          "'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.",
+          "ErrorMessage is different than expected"
+        );
+      });
+      should.equal(errorWasThrown, true, "Error thrown flag must be true");
+    });
+
+    it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
+      void
+    > {
+      const tokenCreds = getDefaultTokenCredential();
+      sbClient = new ServiceBusClient(123 as any, tokenCreds);
+      should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
+    });
+
+    it("sends a message to the ServiceBus entity", async function(): Promise<void> {
+      const tokenCreds = getDefaultTokenCredential();
+      await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+      await sbClient.close();
+    });
+  });
+}
 
 describe("Errors after close()", function(): void {
   let sbClient: ServiceBusClient;

@@ -3,6 +3,8 @@ import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { SBQueue, SBTopic, SBSubscription } from "@azure/arm-servicebus/esm/models";
 import { EnvVarKeys, getEnvVars } from "./envVarUtils";
 
+export { EnvironmentCredential } from "@azure/identity";
+
 const _loginWithServicePrincipalSecret = msRestNodeAuth.loginWithServicePrincipalSecret;
 
 export const loginWithServicePrincipalSecret = _loginWithServicePrincipalSecret;
@@ -11,9 +13,9 @@ export async function recreateQueue(queueName: string, parameters: SBQueue): Pro
   const env = getEnvVars();
   await msRestNodeAuth
     .loginWithServicePrincipalSecret(
-      env[EnvVarKeys.AAD_CLIENT_ID],
-      env[EnvVarKeys.AAD_CLIENT_SECRET],
-      env[EnvVarKeys.AAD_TENANT_ID]
+      env[EnvVarKeys.AZURE_CLIENT_ID],
+      env[EnvVarKeys.AZURE_CLIENT_SECRET],
+      env[EnvVarKeys.AZURE_TENANT_ID]
     )
     .then(async (creds) => {
       const client = await new ServiceBusManagementClient(
@@ -44,9 +46,9 @@ export async function recreateTopic(topicName: string, parameters: SBTopic): Pro
   const env = getEnvVars();
   await msRestNodeAuth
     .loginWithServicePrincipalSecret(
-      env[EnvVarKeys.AAD_CLIENT_ID],
-      env[EnvVarKeys.AAD_CLIENT_SECRET],
-      env[EnvVarKeys.AAD_TENANT_ID]
+      env[EnvVarKeys.AZURE_CLIENT_ID],
+      env[EnvVarKeys.AZURE_CLIENT_SECRET],
+      env[EnvVarKeys.AZURE_TENANT_ID]
     )
     .then(async (creds) => {
       const client = await new ServiceBusManagementClient(
@@ -81,9 +83,9 @@ export async function recreateSubscription(
   const env = getEnvVars();
   await msRestNodeAuth
     .loginWithServicePrincipalSecret(
-      env[EnvVarKeys.AAD_CLIENT_ID],
-      env[EnvVarKeys.AAD_CLIENT_SECRET],
-      env[EnvVarKeys.AAD_TENANT_ID]
+      env[EnvVarKeys.AZURE_CLIENT_ID],
+      env[EnvVarKeys.AZURE_CLIENT_SECRET],
+      env[EnvVarKeys.AZURE_TENANT_ID]
     )
     .then(async (creds) => {
       const client = await new ServiceBusManagementClient(
