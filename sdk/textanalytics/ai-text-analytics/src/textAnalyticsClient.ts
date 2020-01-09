@@ -15,7 +15,10 @@ import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
 import { TextAnalyticsClient as GeneratedClient } from "./generated/textAnalyticsClient";
 import { logger } from "./logger";
-import { LanguageInput, MultiLanguageInput } from "./generated/models";
+import {
+  LanguageInput as DetectLanguageInput,
+  MultiLanguageInput as TextDocumentInput
+} from "./generated/models";
 import {
   DetectLanguageResultCollection,
   makeDetectLanguageResultCollection
@@ -135,7 +138,7 @@ export class TextAnalyticsClient {
    *
    * Example usage:
    * ```ts
-   * import { TextAnalyticsClient, CognitiveServicesCredential } from "@azure/cognitiveservices-textanalytics";
+   * import { TextAnalyticsClient, CognitiveServicesCredential } from "@azure/ai-text-analytics";
    *
    * const client = new TextAnalyticsClient(
    *    "<service endpoint>",
@@ -156,7 +159,7 @@ export class TextAnalyticsClient {
     this.defaultCountryHint = defaultCountryHint;
     this.defaultLanguage = defaultLanguage;
 
-    const libInfo = `azsdk-js-cognitiveservices-textanalytics/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-ai-textanalytics/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
       pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
         ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -216,20 +219,20 @@ export class TextAnalyticsClient {
    * @param options Optional parameters for the operation.
    */
   public async detectLanguages(
-    inputs: LanguageInput[],
+    inputs: DetectLanguageInput[],
     options?: DetectLanguagesOptions
   ): Promise<DetectLanguageResultCollection>;
   public async detectLanguages(
-    inputs: string[] | LanguageInput[],
+    inputs: string[] | DetectLanguageInput[],
     countryHintOrOptions?: string | DetectLanguagesOptions,
     options?: DetectLanguagesOptions
   ): Promise<DetectLanguageResultCollection> {
     let realOptions: DetectLanguagesOptions;
-    let realInputs: LanguageInput[];
+    let realInputs: DetectLanguageInput[];
 
     if (isStringArray(inputs)) {
       const countryHint = (countryHintOrOptions as string) || this.defaultCountryHint;
-      realInputs = convertToLanguageInput(inputs, countryHint);
+      realInputs = convertToDetectLanguageInput(inputs, countryHint);
       realOptions = options || {};
     } else {
       realInputs = inputs;
@@ -300,20 +303,20 @@ export class TextAnalyticsClient {
    * @param options Optional parameters for the operation.
    */
   public async recognizeEntities(
-    inputs: MultiLanguageInput[],
+    inputs: TextDocumentInput[],
     options?: RecognizeEntitiesOptions
   ): Promise<RecognizeEntitiesResultCollection>;
   public async recognizeEntities(
-    inputs: string[] | MultiLanguageInput[],
+    inputs: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeEntitiesOptions,
     options?: RecognizeEntitiesOptions
   ): Promise<RecognizeEntitiesResultCollection> {
     let realOptions: RecognizeEntitiesOptions;
-    let realInputs: MultiLanguageInput[];
+    let realInputs: TextDocumentInput[];
 
     if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToMultiLanguageInput(inputs, language);
+      realInputs = convertToTextDocumentInput(inputs, language);
       realOptions = options || {};
     } else {
       realInputs = inputs;
@@ -380,20 +383,20 @@ export class TextAnalyticsClient {
    * @param options Optional parameters for the operation.
    */
   public async analyzeSentiment(
-    inputs: MultiLanguageInput[],
+    inputs: TextDocumentInput[],
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultCollection>;
   public async analyzeSentiment(
-    inputs: string[] | MultiLanguageInput[],
+    inputs: string[] | TextDocumentInput[],
     languageOrOptions?: string | AnalyzeSentimentOptions,
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultCollection> {
     let realOptions: AnalyzeSentimentOptions;
-    let realInputs: MultiLanguageInput[];
+    let realInputs: TextDocumentInput[];
 
     if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToMultiLanguageInput(inputs, language);
+      realInputs = convertToTextDocumentInput(inputs, language);
       realOptions = options || {};
     } else {
       realInputs = inputs;
@@ -458,20 +461,20 @@ export class TextAnalyticsClient {
    * @param options Optional parameters for the operation.
    */
   public async extractKeyPhrases(
-    inputs: MultiLanguageInput[],
+    inputs: TextDocumentInput[],
     options?: ExtractKeyPhrasesOptions
   ): Promise<ExtractKeyPhrasesResultCollection>;
   public async extractKeyPhrases(
-    inputs: string[] | MultiLanguageInput[],
+    inputs: string[] | TextDocumentInput[],
     languageOrOptions?: string | ExtractKeyPhrasesOptions,
     options?: ExtractKeyPhrasesOptions
   ): Promise<ExtractKeyPhrasesResultCollection> {
     let realOptions: ExtractKeyPhrasesOptions;
-    let realInputs: MultiLanguageInput[];
+    let realInputs: TextDocumentInput[];
 
     if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToMultiLanguageInput(inputs, language);
+      realInputs = convertToTextDocumentInput(inputs, language);
       realOptions = options || {};
     } else {
       realInputs = inputs;
@@ -540,20 +543,20 @@ export class TextAnalyticsClient {
    * @param options Optional parameters for the operation.
    */
   public async recognizePiiEntities(
-    inputs: MultiLanguageInput[],
+    inputs: TextDocumentInput[],
     options?: RecognizePiiEntitiesOptions
   ): Promise<RecognizeEntitiesResultCollection>;
   public async recognizePiiEntities(
-    inputs: string[] | MultiLanguageInput[],
+    inputs: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizePiiEntitiesOptions,
     options?: RecognizePiiEntitiesOptions
   ): Promise<RecognizeEntitiesResultCollection> {
     let realOptions: RecognizePiiEntitiesOptions;
-    let realInputs: MultiLanguageInput[];
+    let realInputs: TextDocumentInput[];
 
     if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToMultiLanguageInput(inputs, language);
+      realInputs = convertToTextDocumentInput(inputs, language);
       realOptions = options || {};
     } else {
       realInputs = inputs;
@@ -620,20 +623,20 @@ export class TextAnalyticsClient {
    * @param options Optional parameters for the operation.
    */
   public async recognizeLinkedEntities(
-    inputs: MultiLanguageInput[],
+    inputs: TextDocumentInput[],
     options?: RecognizeLinkedEntitiesOptions
   ): Promise<RecognizeLinkedEntitiesResultCollection>;
   public async recognizeLinkedEntities(
-    inputs: string[] | MultiLanguageInput[],
+    inputs: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeLinkedEntitiesOptions,
     options?: RecognizeLinkedEntitiesOptions
   ): Promise<RecognizeLinkedEntitiesResultCollection> {
     let realOptions: RecognizeLinkedEntitiesOptions;
-    let realInputs: MultiLanguageInput[];
+    let realInputs: TextDocumentInput[];
 
     if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToMultiLanguageInput(inputs, language);
+      realInputs = convertToTextDocumentInput(inputs, language);
       realOptions = options || {};
     } else {
       realInputs = inputs;
@@ -676,9 +679,12 @@ function isStringArray(inputs: any[]): inputs is string[] {
   return typeof inputs[0] === "string";
 }
 
-function convertToLanguageInput(inputs: string[], countryHint: string): LanguageInput[] {
+function convertToDetectLanguageInput(
+  inputs: string[],
+  countryHint: string
+): DetectLanguageInput[] {
   return inputs.map(
-    (text: string, index): LanguageInput => {
+    (text: string, index): DetectLanguageInput => {
       return {
         id: String(index),
         countryHint,
@@ -688,9 +694,9 @@ function convertToLanguageInput(inputs: string[], countryHint: string): Language
   );
 }
 
-function convertToMultiLanguageInput(inputs: string[], language: string): MultiLanguageInput[] {
+function convertToTextDocumentInput(inputs: string[], language: string): TextDocumentInput[] {
   return inputs.map(
-    (text: string, index): MultiLanguageInput => {
+    (text: string, index): TextDocumentInput => {
       return {
         id: String(index),
         language,

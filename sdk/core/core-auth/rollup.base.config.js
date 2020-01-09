@@ -1,4 +1,4 @@
-import nodeResolve from "rollup-plugin-node-resolve";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
 import replace from "@rollup/plugin-replace";
@@ -77,7 +77,7 @@ export function browserConfig(test = false) {
         }
       }),
       nodeResolve({
-        mainFields: ['module', 'browser'],
+        mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
       cjs({

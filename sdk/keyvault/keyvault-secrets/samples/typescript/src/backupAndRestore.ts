@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 function writeFile(filename: string, text: Uint8Array): Promise<void> {
   return new Promise((resolve, reject) => {

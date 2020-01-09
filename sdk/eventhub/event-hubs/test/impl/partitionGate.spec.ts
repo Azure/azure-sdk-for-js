@@ -10,15 +10,15 @@ describe("PartitionGate", () => {
     const gate = new PartitionGate();
 
     gate.add("all");
-    
+
     // all supercedes everything else
     should.throw(() => gate.add("all"), /Partition already has a subscriber/);
     should.throw(() => gate.add("0"), /Partition already has a subscriber/);
 
     gate.remove("all");
-    
+
     gate.add("0");
-    gate.add("1");    // and it's okay to add non-conflicting partitions
+    gate.add("1"); // and it's okay to add non-conflicting partitions
 
     should.throw(() => gate.add("all"), /Partition already has a subscriber/);
     should.throw(() => gate.add("0"), /Partition already has a subscriber/);
@@ -26,7 +26,7 @@ describe("PartitionGate", () => {
 
   it("invalid IDs get thrown out", () => {
     const gate = new PartitionGate();
-    
+
     should.throw(() => gate.add("allo"), "Invalid partition number allo");
     should.throw(() => gate.add("woo"), "Invalid partition number woo");
   });

@@ -376,9 +376,6 @@ export function getAccountNameFromUrl(url: string): string {
   try {
     if (parsedUrl.getHost()!.split(".")[1] === "queue") {
       // `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
-      // Slicing off '/' at the end if exists
-      url = url.endsWith("/") ? url.slice(0, -1) : url;
-
       accountName = parsedUrl.getHost()!.split(".")[0];
     } else {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/

@@ -3,11 +3,10 @@
 import replace from "@rollup/plugin-replace";
 import cjs from "rollup-plugin-commonjs";
 import multiEntry from "@rollup/plugin-multi-entry";
-import nodeResolve from "rollup-plugin-node-resolve";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import shim from "rollup-plugin-shim";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import { terser } from "rollup-plugin-terser";
-
 
 // import visualizer from "rollup-plugin-visualizer";
 

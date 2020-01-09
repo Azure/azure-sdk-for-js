@@ -745,23 +745,6 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("verify containerName passed to the client", async () => {
-    const accountName = "myaccount";
-    const newClient = new ContainerClient(
-      `https://${accountName}.blob.core.windows.net/` + containerName
-    );
-    assert.equal(
-      newClient.containerName,
-      containerName,
-      "Container name is not the same as the one provided."
-    );
-    assert.equal(
-      newClient.accountName,
-      accountName,
-      "Account name is not the same as the one provided."
-    );
-  });
-
   it("exists returns true on an existing container", async () => {
     const result = await containerClient.exists();
     assert.ok(result, "exists() should return true for an existing container");
@@ -773,5 +756,42 @@ describe("ContainerClient", () => {
     );
     const result = await newContainerClient.exists();
     assert.ok(result === false, "exists() should return true for an existing container");
+  });
+});
+
+describe("ContainerClient - Verify Name Properties", () => {
+  let containerName = "containerName";
+  let accountName = "myAccount";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new ContainerClient(url);
+    assert.equal(
+      newClient.containerName,
+      containerName,
+      "Container name is not the same as the one provided."
+    );
+    assert.equal(
+      newClient.accountName,
+      accountName,
+      "Account name is not the same as the one provided."
+    );
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(`https://${accountName}.blob.core.windows.net/` + containerName);
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(`https://192.0.0.10:1900/${accountName}/${containerName}`);
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${containerName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${containerName}`);
   });
 });

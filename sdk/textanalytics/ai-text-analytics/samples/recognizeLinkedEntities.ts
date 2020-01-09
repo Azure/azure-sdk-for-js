@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// NOTE: replace with import { TextAnalyticsClient } from "@azure/cognitiveservices-textanalytics"
+// NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-text-analytics"
 // in a standalone project
 import {
   TextAnalyticsClient,
   CognitiveServicesCredential,
-  ExtractKeyPhrasesResult,
-  ExtractKeyPhrasesSuccessResult,
-  ExtractKeyPhrasesErrorResult
+  RecognizeLinkedEntitiesResult,
+  RecognizeLinkedEntitiesErrorResult,
+  RecognizeLinkedEntitiesSuccessResult
 } from "../src";
 
 export async function run() {
-  console.log(`Running extractKeyPhrases sample`);
+  console.log(`Running extractLinkEntities sample`);
 
   // You will need to set these environment variables
   const endPoint = process.env["AZ_CONFIG_ENDPOINT"]!;
@@ -22,19 +22,21 @@ export async function run() {
     new CognitiveServicesCredential(subscriptionKey)
   );
 
-  const [result] = await client.extractKeyPhrases([
-    "I love living in Seattle! Seattle is always sunny."
-  ]);
+  const [result] = await client.recognizeLinkedEntities(["I love living in Seattle."]);
 
   if (isSuccess(result)) {
-    for (const phrase of result.keyPhrases) {
-      console.log(`Key phrase: ${phrase}`);
+    for (const entity of result.entities) {
+      console.log(
+        `Found entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`
+      );
     }
   }
 }
 
-function isSuccess(result: ExtractKeyPhrasesResult): result is ExtractKeyPhrasesSuccessResult {
-  return !(result as ExtractKeyPhrasesErrorResult).error;
+function isSuccess(
+  result: RecognizeLinkedEntitiesResult
+): result is RecognizeLinkedEntitiesSuccessResult {
+  return !(result as RecognizeLinkedEntitiesErrorResult).error;
 }
 
 // If you want to run this sample from a console

@@ -87,7 +87,7 @@ export interface EventHubProducerOptions {
 }
 
 /**
- * The set of options to configure the `send` operation on the `EventHubProducerClient`.
+ * Options to configure the `sendBatch` method on the `EventHubProducerClient`.
  * - `abortSignal`  : A signal used to cancel the send operation.
  */
 export interface SendBatchOptions extends OperationOptions {}
@@ -117,10 +117,9 @@ export interface SendOptions extends SendBatchOptions {
 }
 
 /**
- * The set of options to configure the `createBatch` operation on the `EventProducer`.
+ * Options to configure the `createBatch` method on the `EventHubProducerClient`.
  * - `partitionKey`  : A value that is hashed to produce a partition assignment.
- * Not applicable if the `EventHubProducer` was created using a `partitionId`.
- * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
+ * - `maxSizeInBytes`: The upper limit for the size of batch.
  * - `abortSignal`   : A signal the request to cancel the send operation.
  *
  * Example usage:
@@ -224,40 +223,24 @@ export interface EventHubConsumerOptions {
 export interface EventHubClientOptions {
   /**
    * @property
-   * The data transformer that will be used to encode and decode the sent and received messages respectively.
-   * If not provided then the `DefaultDataTransformer` is used which has the below `encode` & `decode` features
-   * - `encode`:
-   *    - If event body is a Buffer, then the event is sent without any data transformation
-   *    - Else, JSON.stringfy() is run on the body, and then converted to Buffer before sending the event
-   *    - If JSON.stringify() fails at this point, the send operation fails too.
-   * - `decode`
-   *    - The body receivied via the AMQP protocol is always of type Buffer
-   *    - UTF-8 encoding is used to convert Buffer to string, and then JSON.parse() is run on it to get the event body
-   *    - If the JSON.parse() fails at this point, then the originally received Buffer object is returned in the event body.
+   * Options to configure the retry policy for all the operations on the client.
+   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
    */
-  // re-enabling this will be a post-GA discussion.
-  //dataTransformer?: DataTransformer;
+  retryOptions?: RetryOptions;
   /**
    * @property
-   * The user agent that will be appended to the built in user agent string that is passed as a
-   * connection property to the Event Hubs service.
-   */
-  userAgent?: string;
-  /**
-   * @property
-   * Options related to websockets
+   * Options to configure the channelling of the AMQP connection over Web Sockets.
    */
   webSocketOptions?: WebSocketOptions;
   /**
    * @property
-   * The retry options for all the operations on the client/producer/consumer.
-   * This can be overridden by the retry options set on the producer and consumer.
+   * Value that is appended to the built in user agent string that is passed to the Event Hubs service.
    */
-  retryOptions?: RetryOptions;
+  userAgent?: string;
 }
 
 /**
- * Options for the websocket implementation used for AMQP.
+ * Options to configure the channelling of the AMQP connection over Web Sockets.
  */
 export interface WebSocketOptions {
   /**

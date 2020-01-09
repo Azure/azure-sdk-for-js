@@ -113,13 +113,11 @@ describe("Change Feed Iterator", function() {
       assert(headers.etag, "change feed response should have etag header");
       assert.equal(items.length, 0, "change feed response should have no items on it initially");
 
-      const { resource: itemThatWasCreated, headers: createHeaders } = await container.items.create(
-        {
-          id: "item2",
-          prop: 1,
-          key: "0"
-        }
-      );
+      const { resource: itemThatWasCreated } = await container.items.create({
+        id: "item2",
+        prop: 1,
+        key: "0"
+      });
 
       const { result: itemsAfterCreate } = await iterator.fetchNext();
       assert.equal(itemsAfterCreate.length, 1, "should have 1 item from create");

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import nodeResolve from "rollup-plugin-node-resolve";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
 import replace from "@rollup/plugin-replace";

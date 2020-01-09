@@ -6,4 +6,4 @@ import { createClientLogger } from "@azure/logger";
 /**
  * The @azure/logger configuration for this package.
  */
-export const logger = createClientLogger("cognitiveservices-textanalytics");
+export const logger = createClientLogger("ai-text-analytics");

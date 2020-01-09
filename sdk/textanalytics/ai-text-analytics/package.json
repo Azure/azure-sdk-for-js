@@ -1,8 +1,8 @@
 {
-  "name": "@azure/cognitiveservices-textanalytics",
+  "name": "@azure/ai-text-analytics",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Text Analytics service.",
-  "version": "5.0.0-preview.1",
+  "version": "1.0.0-preview.1",
   "keywords": [
     "node",
     "azure",
@@ -16,8 +16,8 @@
   "browser": {
     "./dist/index.js": "./browser/index.js"
   },
-  "types": "./types/textanalytics.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cognitiveservices/cognitiveservices-textanalytics",
+  "types": "./types/ai-text-analytics.d.ts",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
@@ -28,7 +28,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/textanalytics.d.ts",
+    "types/ai-text-analytics.d.ts",
     "src/",
     "README.md"
   ],
@@ -102,7 +102,7 @@
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-node-resolve": "^5.0.2",
+    "@rollup/plugin-node-resolve": "^7.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^3.1.1",

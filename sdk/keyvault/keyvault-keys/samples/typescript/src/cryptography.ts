@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
