@@ -7,25 +7,54 @@ For users new to the JavaScript SDK for Event Hubs, please see the [readme file 
 
 ## General changes
 
-In the interest of simplifying the API surface we've made two distinct
-clients, rather than having a single `EventHubClient`:
-* [EventHubProducerClient](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubproducerclient?view=azure-node-preview)
+EventHubs v5 is a redesign that provides a better out-of-the-box experience 
+for developers across several areas:
+
+### Handling backpressure
+
+Prior to V5, events were delivered as they were received with no ability 
+for the user to control the pace. This could result in flooding of downstream
+dependencies as well as confusion about which events had been consumed in 
+what order, making checkpointing difficult to do correctly.
+
+In V5 the model has been simplified so new events are not delivered until the 
+previous batch has been consumed by your event handler. You can see a sample 
+demonstrating this [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts)
+
+### Specific clients for sending vs receiving
+
+In V5 we've simplified the API surface, making two distinct clients, rather 
+than having a single `EventHubClient`:
+* [EventHubProducerClient](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubproducerclient)
   for sending messages.
-* [EventHubConsumerClient](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubconsumerclient?view=azure-node-preview) 
+* [EventHubConsumerClient](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubconsumerclient) 
   for receiving messages.
 
-We've also merged the functionality from `EventProcessorHost` in the `@azure/event-processor-host` package into 
+We've also merged the functionality from `EventProcessorHost` from the `@azure/event-processor-host` package into 
 `EventHubConsumerClient` in the `@azure/event-hubs` package, allowing `EventHubConsumerClient` to be the single
 point of entry for receiving of any type (from single partition, all partitions, or with load balancing and checkpointing features) within Event Hubs.
 
+### Granular control over retries
+
+Retry logic and tuning has been externalized, allowing for better configuration
+to better suit your network footprint and reliability.
+
+More information about configuring and tuning retries can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs#guidance-around-retries).
+
+### Unified logging and diagnostics
+
+With V5 we've unified the Azure SDK logging to work in a uniform way, making 
+troubleshooting simpler.
+
+Documentation for enabling logging in EventHubs is [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs#enable-logs).
 
 ### Client constructors
 
 | In v2                                          | Equivalent in v5                                                 | Sample |
 |------------------------------------------------|------------------------------------------------------------------|--------|
-| `EventHubClient.createFromConnectionString()`    | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts),  [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
-| `EventHubClient.createFromAadTokenCredentials()` | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [usingAadAuth](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/usingAadAuth.ts)
-| `EventProcessorHost.createFromConnectionString()`                           | `new EventHubConsumerClient(..., checkpointStore)`               | [receiveEventsUsingCheckpointStore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEventsUsingCheckpointStore.ts) |
+| `EventHubClient.createFromConnectionString()`    | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts),  [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/sendEvents.ts) |
+| `EventHubClient.createFromAadTokenCredentials()` | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [usingAadAuth](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/usingAadAuth.ts)
+| `EventProcessorHost.createFromConnectionString()`                           | `new EventHubConsumerClient(..., checkpointStore)`               | [receiveEventsUsingCheckpointStore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/eventhubs-checkpointstore-blob/samples/receiveEventsUsingCheckpointStore.ts) |
 
 Other noteworthy changes:
 - In v5, the `EventHubConsumerClient` class takes the consumer group name as a mandatory argument in its constructor.
@@ -37,7 +66,7 @@ If you havent created any consumer groups explicitly, then use the name of the d
 
 | In v2                                          | Equivalent in v5                                                 | Sample |
 |------------------------------------------------|------------------------------------------------------------------|--------|
-| `EventHubClient.receive()` and `EventHubClient.receiveBatch()`                       | `EventHubConsumerClient.subscribe()`                               | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts) |
+| `EventHubClient.receive()` and `EventHubClient.receiveBatch()`                       | `EventHubConsumerClient.subscribe()`                               | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts) |
 
 Other noteworthy changes:
 - Use the `options` parameter to the `subscribe()` method to specify starting position to receive events from.
@@ -49,7 +78,7 @@ This is different from v2 where the function was invoked for each event without 
 
 | In v2                                          | Equivalent in v5                                                 | Sample |
 |------------------------------------------------|------------------------------------------------------------------|--------|
-| `EventHubClient.sendBatch(events)`             | `EventHubProducerClient.sendBatch(eventBatch)`                   | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts) |
+| `EventHubClient.sendBatch(events)`             | `EventHubProducerClient.sendBatch(eventBatch)`                   | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/sendEvents.ts) |
 
 Other noteworthy changes:
 - The `send` method on the client is deprecated in favor of the `sendBatch` to encourage sending
@@ -120,7 +149,7 @@ const subscription = eventHubConsumerClient.subscribe(
 await subscription.close();
 ```
 
-See [`receiveEvents.ts`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/receiveEvents.ts) 
+See [`receiveEvents.ts`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts) 
 for a sample program demonstrating this.
 
 ### Migrating code from `EventHubClient` to `EventHubProducerClient` for sending events
