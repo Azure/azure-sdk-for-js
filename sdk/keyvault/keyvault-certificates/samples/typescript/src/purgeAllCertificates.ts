@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
 
   for await (const properties of client.listPropertiesOfCertificates()) {
     try {
-      const poller = await client.beginDeleteCertificate(properties.name);
+      const poller = await client.beginDeleteCertificate(properties.name!);
       await poller.pollUntilDone();
     } catch(e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
@@ -33,7 +33,7 @@ export async function main(): Promise<void> {
   for await (const deletedCertificate of client.listDeletedCertificates()) {
     try {
       // This will take a while.
-      await client.purgeDeletedCertificate(deletedCertificate.name);
+      await client.purgeDeletedCertificate(deletedCertificate.name!);
     } catch(e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }
