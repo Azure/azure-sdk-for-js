@@ -547,7 +547,7 @@ export class MessageReceiver extends LinkEntity {
       const receiver = this._receiver || context.receiver!;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
-        const sbError = translate(receiverError);
+        const sbError = translate(receiverError) as MessagingError;
         log.error(
           "[%s] An error occurred for Receiver '%s': %O.",
           connectionId,
@@ -587,7 +587,7 @@ export class MessageReceiver extends LinkEntity {
       const receiver = this._receiver || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        const sbError = translate(sessionError);
+        const sbError = translate(sessionError) as MessagingError;
         log.error(
           "[%s] An error occurred on the session for Receiver '%s': %O.",
           connectionId,
@@ -875,7 +875,7 @@ export class MessageReceiver extends LinkEntity {
       // We should attempt to reopen only when the receiver(sdk) did not initiate the close
       let shouldReopen = false;
       if (receiverError && !wasCloseInitiated) {
-        const translatedError = translate(receiverError);
+        const translatedError = translate(receiverError) as MessagingError;
         if (translatedError.retryable) {
           shouldReopen = true;
           log.error(
