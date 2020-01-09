@@ -1,11 +1,17 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
+import {
+  bodyToString,
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  setupEnvironment
+} from "./utils";
 import { ContainerClient, BlobClient, PageBlobClient, PremiumPageBlobTier } from "../src";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobClient", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
@@ -13,7 +19,7 @@ describe("PageBlobClient", () => {
   let blobClient: BlobClient;
   let pageBlobClient: PageBlobClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -93,6 +99,26 @@ describe("PageBlobClient", () => {
 
     await pageBlobClient.uploadPages("a".repeat(512), 0, 512);
     await pageBlobClient.uploadPages("b".repeat(512), 512, 512);
+
+    const page1 = await pageBlobClient.download(0, 512);
+    const page2 = await pageBlobClient.download(512, 512);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+  });
+
+  it("uploadPages with progress report", async () => {
+    await pageBlobClient.create(1024);
+
+    const result = await blobClient.download(0);
+    assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+    await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
+      onProgress: () => {}
+    });
+    await pageBlobClient.uploadPages("b".repeat(512), 512, 512, {
+      onProgress: () => {}
+    });
 
     const page1 = await pageBlobClient.download(0, 512);
     const page2 = await pageBlobClient.download(512, 512);

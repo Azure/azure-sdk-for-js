@@ -78,30 +78,42 @@ export function checkAndFormatIfAndIfNoneMatch(
  */
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select"> {
-  let key;
-
-  if (listConfigOptions.keys) {
-    // TODO: escape commas?
-    key = listConfigOptions.keys.join(",");
-  }
-
-  let label;
-
-  if (listConfigOptions.labels) {
-    label = listConfigOptions.labels.join(",");
-  }
-
-  let fields: (keyof KeyValue)[] | undefined;
+): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
+  let fieldsToGet: (keyof KeyValue)[] | undefined;
 
   if (listConfigOptions.fields) {
-    fields = listConfigOptions.fields.map((opt) => (opt === "readOnly" ? "locked" : opt));
+    fieldsToGet = listConfigOptions.fields.map((opt) => {
+      if (opt === "isReadOnly") {
+        return "locked";
+      }
+
+      return opt;
+    });
+  }
+
+  let acceptDatetime: string | undefined = undefined;
+
+  if (listConfigOptions.acceptDateTime) {
+    acceptDatetime = listConfigOptions.acceptDateTime.toISOString();
   }
 
   return {
-    key,
-    label,
-    select: fields
+    key: listConfigOptions.keyFilter,
+    label: listConfigOptions.labelFilter,
+    acceptDatetime,
+    select: fieldsToGet
+  };
+}
+
+/**
+ * Handles translating a Date acceptDateTime into a string as needed by the API
+ * @param newOptions A newer style options with acceptDateTime as a date (and with proper casing!)
+ * @internal
+ * @ignore
+ */
+export function formatAcceptDateTime(newOptions: { acceptDateTime?: Date }): { acceptDatetime?: string; }{
+  return {
+    acceptDatetime: newOptions.acceptDateTime && newOptions.acceptDateTime.toISOString()
   };
 }
 
@@ -137,7 +149,7 @@ export function makeConfigurationSettingEmpty(
     "etag",
     "label",
     "lastModified",
-    "readOnly",
+    "isReadOnly",
     "tags",
     "value"
   ];
@@ -154,7 +166,7 @@ export function makeConfigurationSettingEmpty(
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
   const obj: ConfigurationSetting & KeyValue = {
     ...kvp,
-    readOnly: !!kvp.locked
+    isReadOnly: !!kvp.locked
   };
 
   delete obj.locked;

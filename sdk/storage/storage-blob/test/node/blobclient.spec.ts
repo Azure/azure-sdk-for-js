@@ -5,19 +5,25 @@ import * as dotenv from "dotenv";
 import {
   BlobClient,
   newPipeline,
-  SharedKeyCredential,
+  StorageSharedKeyCredential,
   ContainerClient,
   BlockBlobClient,
   generateBlobSASQueryParameters,
   BlobSASPermissions
 } from "../../src";
-import { bodyToString, getBSU, getConnectionStringFromEnvironment } from "../utils";
+import {
+  bodyToString,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  setupEnvironment
+} from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay } from "../utils/recorder";
+import { record, delay } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient Node.js only", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
@@ -219,11 +225,11 @@ describe("BlobClient Node.js only", () => {
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const factories = (containerClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
 
     const sas = generateBlobSASQueryParameters(
       {
-        expiryTime,
+        expiresOn: expiryTime,
         permissions: BlobSASPermissions.parse("racwd"),
         containerName,
         blobName
@@ -276,7 +282,7 @@ describe("BlobClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential);
 
     const metadata = {
@@ -290,7 +296,7 @@ describe("BlobClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -320,7 +326,7 @@ describe("BlobClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlobClient(blobClient.url, pipeline);
 

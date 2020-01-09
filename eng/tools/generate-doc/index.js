@@ -6,18 +6,12 @@ const nunjucks = require("nunjucks");
 const readFile = util.promisify(fs.readFile);
 const readDir = util.promisify(fs.readdir);
 const statFile = util.promisify(fs.stat);
-const pLimit = require('p-limit');
+const pLimit = require("p-limit");
 
 nunjucks.configure("documentation/templateDocGen", { autoescape: true });
 
 /* Traversing the directory */
-const walk = async (dir, checks) => {
-  checks = await walkRecurse(dir, checks, 0);
-  return checks;
-};
-
-const walkRecurse = async (dir, checks, depth) => {
-  if (depth > 0) return checks;
+const getChecks = async (dir, checks) => {
   var list = await readDir(dir);
   for (const fileName of list) {
     const filePath = path.join(dir, fileName);
@@ -40,10 +34,6 @@ const walkRecurse = async (dir, checks, depth) => {
     }
     if (fileName == "typedoc.json") {
       checks.typedocPresent = true;
-    }
-    const stat = await statFile(filePath);
-    if (stat && stat.isDirectory()) {
-      checks = await walkRecurse(filePath, checks, depth + 1);
     }
   }
   return checks;
@@ -127,7 +117,7 @@ const executeTypedoc = async (
           pathToAssets = eachPackagePath + "/assets";
           const packageStat = await statFile(eachPackagePath);
           if (packageStat && packageStat.isDirectory()) {
-            checks = await walk(eachPackagePath, checks);
+            checks = await getChecks(eachPackagePath, checks);
 
             console.log(
               "checks after walk: checks.isPrivate = " +
@@ -184,9 +174,47 @@ const executeTypedoc = async (
                     indexPackageList.push(eachPackage);
                   }
                 } else {
-                  console.log(
-                    "...SKIPPING Since src folder could not be found....."
-                  );
+                  if (
+                    eachPackage === "core-http" ||
+                    eachPackage === "core-tracing"
+                  ) {
+                    if (argv.docGenOutput === "dg") {
+                      docOutputFolder =
+                        "--out ../../../docGen/" +
+                        eachPackage +
+                        "/" +
+                        checks.version +
+                        " ./lib";
+                    }
+
+                    let typedocProcess;
+                    let commandRun = [];
+                    commandRun.push("typedoc");
+                    commandRun.push({
+                      cwd: eachPackagePath,
+                      shell: true
+                    });
+
+                    commandRun.push([
+                      '--theme "../../../eng/tools/generate-doc/theme/default"',
+                      "--excludePrivate",
+                      "--excludeNotExported",
+                      '--exclude "node_modules/**/*"',
+                      "--ignoreCompilerErrors",
+                      "--mode file",
+                      docOutputFolder
+                    ]);
+
+                    commandList.push(commandRun);
+                    if (generateIndexWithTemplate) {
+                      /* Adding package to packageList for the template index generation */
+                      indexPackageList.push(eachPackage);
+                    }
+                  } else {
+                    console.log(
+                      "...SKIPPING Since src folder could not be found....."
+                    );
+                  }
                 }
               } else {
                 //console.log("...SKIPPING Since package is either not sdkType client");
@@ -205,23 +233,33 @@ const executeTypedoc = async (
     }
   } // end-for ServiceFolders
 
-
   var plimitPromises = [];
   const limit = pLimit(20);
   for (const commandRun of commandList) {
-    const promise = limit(()=> new Promise(async (res, rej) => {
+    const promise = limit(
+      () =>
+        new Promise(async (res, rej) => {
+          let typedocProcess = childProcess.spawn(
+            commandRun[0],
+            commandRun[2],
+            commandRun[1]
+          );
+          let stdOut = "";
+          let stdErr = "";
+          typedocProcess.on("close", code => {
+            res({ code, stdOut, stdErr });
+          });
 
-      let typedocProcess = childProcess.spawn(commandRun[0], commandRun[2], commandRun[1]);
-      let stdOut = "";
-      let stdErr = "";
-      typedocProcess.on("close", code => {
-        res({ code, stdOut, stdErr })
-      });
-
-      typedocProcess.stdout.on("data", data => (stdOut = stdOut + data.toString()));
-      typedocProcess.stderr.on("data", data => (stdErr = stdErr + data.toString()));
-
-    }));
+          typedocProcess.stdout.on(
+            "data",
+            data => (stdOut = stdOut + data.toString())
+          );
+          typedocProcess.stderr.on(
+            "data",
+            data => (stdErr = stdErr + data.toString())
+          );
+        })
+    );
     plimitPromises.push(promise);
   }
   try {

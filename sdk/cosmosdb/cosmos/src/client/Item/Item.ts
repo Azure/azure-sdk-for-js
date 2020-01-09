@@ -75,7 +75,9 @@ export class Item {
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      const {
+        resource: partitionKeyDefinition
+      } = await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
     const path = getPathFromLink(this.url);
@@ -137,7 +139,9 @@ export class Item {
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      const {
+        resource: partitionKeyDefinition
+      } = await this.container.readPartitionKeyDefinition();
       this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
@@ -178,7 +182,9 @@ export class Item {
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const { resource: partitionKeyDefinition } = await this.container.getPartitionKeyDefinition();
+      const {
+        resource: partitionKeyDefinition
+      } = await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
 

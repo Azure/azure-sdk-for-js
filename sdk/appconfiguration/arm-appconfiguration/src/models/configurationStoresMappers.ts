@@ -14,6 +14,8 @@ export {
   ConfigurationStoreListResult,
   ConfigurationStoreUpdateParameters,
   ErrorModel,
+  KeyValue,
+  ListKeyValueParameters,
   RegenerateKeyParameters,
   Resource
 } from "../models/mappers";

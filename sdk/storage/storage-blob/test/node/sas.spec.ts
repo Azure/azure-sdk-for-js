@@ -12,14 +12,15 @@ import {
   generateBlobSASQueryParameters,
   PageBlobClient,
   BlobServiceClient,
-  SharedKeyCredential,
+  StorageSharedKeyCredential,
   newPipeline
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getBSU, getTokenBSU } from "../utils";
-import { record } from "../utils/recorder";
+import { getBSU, getTokenBSU, setupEnvironment } from "../utils";
+import { record } from "@azure/test-utils-recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
 
   let recorder: any;
@@ -45,16 +46,16 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
-        startTime: now,
+        startsOn: now,
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
@@ -76,12 +77,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         permissions: AccountSASPermissions.parse("wdlcup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString()
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
@@ -110,12 +111,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         permissions: AccountSASPermissions.parse("rwdlacup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("tqf").toString()
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
@@ -144,7 +145,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
@@ -152,7 +153,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         services: AccountSASServices.parse("btqf").toString(),
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
@@ -189,14 +190,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const containerSAS = generateBlobSASQueryParameters(
       {
         containerName: containerClient.containerName,
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ContainerSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
-        startTime: now,
+        startsOn: now,
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasClient = `${containerClient.url}?${containerSAS}`;
@@ -243,14 +244,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
-        startTime: now,
+        startsOn: now,
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
@@ -298,13 +299,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
-        startTime: now
+        startsOn: now
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasURL = `${blobClient.url}?${blobSAS}`;
@@ -354,14 +355,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
-        startTime: now,
+        startsOn: now,
         snapshotTime: response.snapshot
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasURL = `${blobClient.withSnapshot(response.snapshot!).url}&${blobSAS}`;
@@ -411,14 +412,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
-        startTime: now,
+        startsOn: now,
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
@@ -457,9 +458,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.setAccessPolicy(undefined, [
       {
         accessPolicy: {
-          expiry: tmr,
+          expiresOn: tmr,
           permissions: ContainerSASPermissions.parse("racwdl").toString(),
-          start: now
+          startsOn: now
         },
         id
       }
@@ -470,7 +471,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         containerName,
         identifier: id
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
@@ -502,7 +503,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     // By default, credential is always the last element of pipeline factories
     const factories = (blobServiceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1] as SharedKeyCredential;
+    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const accountName = sharedKeyCredential.accountName;
 
     const containerName = recorder.getUniqueName("container");
@@ -512,11 +513,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const containerSAS = generateBlobSASQueryParameters(
       {
         containerName: containerClient.containerName,
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ContainerSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
-        startTime: now,
+        startsOn: now,
         version: "2019-02-02"
       },
       userDelegationKey,
@@ -558,7 +559,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     // By default, credential is always the last element of pipeline factories
     const factories = (blobServiceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1] as SharedKeyCredential;
+    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const accountName = sharedKeyCredential.accountName;
 
     const containerName = recorder.getUniqueName("container");
@@ -568,7 +569,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const containerSAS = generateBlobSASQueryParameters(
       {
         containerName: containerClient.containerName,
-        expiryTime: tmr,
+        expiresOn: tmr,
         permissions: ContainerSASPermissions.parse("racwdl")
       },
       userDelegationKey,
@@ -610,7 +611,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     // By default, credential is always the last element of pipeline factories
     const factories = (blobServiceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1] as SharedKeyCredential;
+    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const accountName = sharedKeyCredential.accountName;
 
     const containerName = recorder.getUniqueName("container");
@@ -634,11 +635,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
-        startTime: now
+        startsOn: now
       },
       userDelegationKey,
       accountName
@@ -679,7 +680,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     // By default, credential is always the last element of pipeline factories
     const factories = (blobServiceClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1] as SharedKeyCredential;
+    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const accountName = sharedKeyCredential.accountName;
 
     const containerName = recorder.getUniqueName("container");
@@ -705,11 +706,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: BlobSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
-        startTime: now,
+        startsOn: now,
         snapshotTime: response.snapshot
       },
       userDelegationKey,

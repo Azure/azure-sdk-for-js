@@ -1,19 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { NoOpSpan } from "../noop/noOpSpan";
-import { SpanOptions } from "../../interfaces/SpanOptions";
-import { Status, CanonicalCode } from "../../interfaces/status";
-import { SpanContext } from "../../interfaces/span_context";
+import {
+  TimeInput,
+  Tracer,
+  SpanKind,
+  Status,
+  SpanContext,
+  CanonicalCode,
+  Attributes
+} from "@opentelemetry/types";
 import { TestTracer } from "./testTracer";
-import { SpanKind } from "../../interfaces/span_kind";
-import { TimeInput } from "../../interfaces/Time";
-import { Tracer } from "../../interfaces/tracer";
 
 /**
  * A mock span useful for testing.
  */
 export class TestSpan extends NoOpSpan {
-
   /**
    * The Span's current name
    */
@@ -44,6 +46,11 @@ export class TestSpan extends NoOpSpan {
    */
   readonly parentSpanId?: string;
 
+  /**
+   * Known attributes, if any.
+   */
+  readonly attributes: Attributes;
+
   private _context: SpanContext;
   private readonly _tracer: Tracer;
 
@@ -62,7 +69,8 @@ export class TestSpan extends NoOpSpan {
     context: SpanContext,
     kind: SpanKind,
     parentSpanId?: string,
-    startTime: TimeInput = Date.now()) {
+    startTime: TimeInput = Date.now()
+  ) {
     super();
     this._tracer = parentTracer;
     this.name = name;
@@ -74,6 +82,7 @@ export class TestSpan extends NoOpSpan {
     };
     this.endCalled = false;
     this._context = context;
+    this.attributes = {};
   }
 
   /**
@@ -111,7 +120,28 @@ export class TestSpan extends NoOpSpan {
   /**
    * Returns whether this span will be recorded
    */
-  isRecordingEvents(): boolean {
+  isRecording(): boolean {
     return true;
+  }
+
+  /**
+   * Sets an attribute on the Span
+   * @param key the attribute key
+   * @param value the attribute value
+   */
+  setAttribute(key: string, value: unknown): this {
+    this.attributes[key] = value;
+    return this;
+  }
+
+  /**
+   * Sets attributes on the Span
+   * @param attributes the attributes to add
+   */
+  setAttributes(attributes: Attributes): this {
+    for (const key of Object.keys(attributes)) {
+      this.attributes[key] = attributes[key];
+    }
+    return this;
   }
 }

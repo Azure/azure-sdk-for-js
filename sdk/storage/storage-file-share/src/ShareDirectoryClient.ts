@@ -5,7 +5,6 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import {
   DirectoryCreateResponse,
   DirectoryDeleteResponse,
-  DirectoryForceCloseHandlesResponse,
   DirectoryGetPropertiesResponse,
   DirectoryItem,
   DirectoryListFilesAndDirectoriesSegmentResponse,
@@ -15,7 +14,8 @@ import {
   FileCreateResponse,
   FileDeleteResponse,
   FileItem,
-  HandleItem
+  HandleItem,
+  DirectoryForceCloseHandlesHeaders
 } from "./generatedModels";
 import { Directory } from "./generated/src/operations";
 import {
@@ -26,7 +26,8 @@ import {
   fileAttributesToString,
   fileCreationTimeToString,
   fileLastWriteTimeToString,
-  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
+  CloseHandlesInfo
 } from "./models";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { appendToURLPath, getShareNameAndPathFromUrl } from "./utils/utils.common";
@@ -38,10 +39,12 @@ import { Credential } from "./credentials/Credential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
+import { HttpResponse } from "@azure/core-http";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
- * Options to configure Directory - Create operation.
+ * Options to configure {@link ShareDirectoryClient.create} operation.
  *
  * @export
  * @interface DirectoryCreateOptions
@@ -78,7 +81,12 @@ export interface DirectoryProperties
 }
 
 /**
- * Options to configure Directory - List Files and Directories Segment operation.
+ * Options to configure Directory - List Files and Directories Segment operations.
+ *
+ * See:
+ * - {@link ShareDirectoryClient.iterateFilesAndDirectoriesSegments}
+ * - {@link ShareDirectoryClient.listFilesAndDirectoriesItems}
+ * - {@link ShareDirectoryClient.listFilesAndDirectoriesSegment}
  *
  * @interface DirectoryListFilesAndDirectoriesSegmentOptions
  */
@@ -112,7 +120,7 @@ interface DirectoryListFilesAndDirectoriesSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - List Files and Directories operation.
+ * Options to configure {@link ShareDirectoryClient.listFilesAndDirectories} operation.
  *
  * @export
  * @interface DirectoryListFilesAndDirectoriesOptions
@@ -137,7 +145,7 @@ export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - Delete operation.
+ * Options to configure the {@link ShareDirectoryClient.delete} operation.
  *
  * @export
  * @interface DirectoryDeleteOptions
@@ -154,7 +162,7 @@ export interface DirectoryDeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - Get Properties operation.
+ * Options to configure the {@link ShareDirectoryClient.getProperties} operation.
  *
  * @export
  * @interface DirectoryGetPropertiesOptions
@@ -171,7 +179,7 @@ export interface DirectoryGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - Set Metadata operation.
+ * Options to configure the {@link ShareDirectoryClient.setMetadata} operation.
  *
  * @export
  * @interface DirectorySetMetadataOptions
@@ -188,7 +196,13 @@ export interface DirectorySetMetadataOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - List Handles Segment.
+ * Options to configure Directory - List Handles Segment operations.
+ *
+ * See:
+ * - {@link ShareDirectoryClient.listHandlesSegment}
+ * - {@link ShareDirectoryClient.iterateHandleSegments}
+ * - {@link ShareDirectoryClient.listHandleItems}
+ *
  *
  * @export
  * @interface DirectoryListHandlesSegmentOptions
@@ -221,7 +235,7 @@ export interface DirectoryListHandlesSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - List Handles.
+ * Options to configure the {@link ShareDirectoryClient.listHandles} operation.
  *
  * @export
  * @interface DirectoryListHandlesOptions
@@ -246,7 +260,11 @@ export interface DirectoryListHandlesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Directory - Force Close Handles Segment.
+ * Options to configure Directory - Force Close Handles Segment operations.
+ *
+ * See:
+ * - {@link ShareDirectoryClient.forceCloseHandlesSegment}
+ * - {@link ShareDirectoryClient.forceCloseAllHandles}
  *
  * @export
  * @interface DirectoryForceCloseHandlesSegmentOptions
@@ -271,7 +289,48 @@ export interface DirectoryForceCloseHandlesSegmentOptions extends CommonOptions 
 }
 
 /**
- * Options to configure Directory - Force Close Handles.
+ * Additional response header values for close handles request.
+ */
+export interface DirectoryCloseHandlesHeaders {
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * A UTC date/time value generated by the service that indicates the time at which the response
+   * was initiated.
+   */
+  date?: Date;
+  /**
+   * A string describing next handle to be closed. It is returned when more handles need to be
+   * closed to complete the request.
+   */
+  marker?: string;
+}
+
+/**
+ * Response type for {@link ShareDirectoryClient.forceCloseHandle}.
+ */
+export type DirectoryForceCloseHandlesResponse = CloseHandlesInfo &
+  DirectoryCloseHandlesHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DirectoryForceCloseHandlesHeaders;
+    };
+  };
+
+/**
+ * Options to configure {@link ShareDirectoryClient.forceCloseHandle}.
  *
  * @export
  * @interface DirectoryForceCloseHandlesOptions
@@ -302,15 +361,39 @@ export class ShareDirectoryClient extends StorageClient {
    * @memberof ShareDirectoryClient
    */
   private context: Directory;
+
   private _shareName: string;
   private _path: string;
+  private _name: string;
 
+  /**
+   * The share name corresponding to this directory client
+   *
+   * @type {string}
+   * @memberof ShareDirectoryClient
+   */
   public get shareName(): string {
     return this._shareName;
   }
 
+  /**
+   * The full path of the directory
+   *
+   * @type {string}
+   * @memberof ShareDirectoryClient
+   */
   public get path(): string {
     return this._path;
+  }
+
+  /**
+   * The name of the directory
+   *
+   * @type {string}
+   * @memberof ShareDirectoryClient
+   */
+  public get name(): string {
+    return this._name;
   }
 
   /**
@@ -324,7 +407,7 @@ export class ShareDirectoryClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a directory name includes %, directory name must be encoded in the URL.
    *                     Such as a directory named "mydir%", the URL should be "https://myaccount.file.core.windows.net/myshare/mydir%25".
-   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential} [credential] Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareDirectoryClient
@@ -351,20 +434,27 @@ export class ShareDirectoryClient extends StorageClient {
     credentialOrPipeline?: Credential | Pipeline,
     options: StoragePipelineOptions = {}
   ) {
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (credentialOrPipeline instanceof Credential) {
-      pipeline = newPipeline(credentialOrPipeline, options);
+      pipeline = newPipeline(credentialOrPipeline, newOptions);
     } else {
       // The second parameter is undefined. Use anonymous credential.
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     }
 
     super(url, pipeline);
     ({
+      baseName: this._name,
       shareName: this._shareName,
-      filePathOrDirectoryPath: this._path
+      path: this._path
     } = getShareNameAndPathFromUrl(this.url));
     this.context = new Directory(this.storageClientContext);
   }
@@ -378,7 +468,7 @@ export class ShareDirectoryClient extends StorageClient {
    * @memberof ShareDirectoryClient
    */
   public async create(options: DirectoryCreateOptions = {}): Promise<DirectoryCreateResponse> {
-    const { span, spanOptions } = createSpan("ShareDirectoryClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareDirectoryClient-create", options.tracingOptions);
     try {
       if (!options.fileAttributes) {
         options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
@@ -388,7 +478,7 @@ export class ShareDirectoryClient extends StorageClient {
         options.fileAttributes = attributes;
       }
 
-      return this.context.create(
+      return await this.context.create(
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
         fileLastWriteTimeToString(options.lastWriteTime!),
@@ -425,12 +515,12 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectorySetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-setProperties",
-      properties.spanOptions
+      properties.tracingOptions
     );
     try {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
-      return this.context.setProperties(
+      return await this.context.setProperties(
         fileAttributesToString(properties.fileAttributes!),
         fileCreationTimeToString(properties.creationTime!),
         fileLastWriteTimeToString(properties.lastWriteTime!),
@@ -458,6 +548,14 @@ export class ShareDirectoryClient extends StorageClient {
    * @param subDirectoryName A subdirectory name
    * @returns {ShareDirectoryClient} The ShareDirectoryClient object for the given subdirectory name.
    * @memberof ShareDirectoryClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const directoryClient = shareClient.getDirectoryClient("<directory name>");
+   * await directoryClient.create();
+   * console.log("Created directory successfully");
+   * ```
    */
   public getDirectoryClient(subDirectoryName: string): ShareDirectoryClient {
     return new ShareDirectoryClient(
@@ -484,11 +582,14 @@ export class ShareDirectoryClient extends StorageClient {
   }> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-createSubdirectory",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      const directoryCreateResponse = await directoryClient.create({ ...options, spanOptions });
+      const directoryCreateResponse = await directoryClient.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return {
         directoryClient,
         directoryCreateResponse
@@ -520,11 +621,14 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryDeleteResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-deleteSubdirectory",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      return await directoryClient.delete({ ...options, spanOptions });
+      return await directoryClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -553,11 +657,14 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<{ fileClient: ShareFileClient; fileCreateResponse: FileCreateResponse }> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-createFile",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const fileClient = this.getFileClient(fileName);
-      const fileCreateResponse = await fileClient.create(size, { ...options, spanOptions });
+      const fileCreateResponse = await fileClient.create(size, {
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return {
         fileClient,
         fileCreateResponse
@@ -598,11 +705,14 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<FileDeleteResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-deleteFile",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const fileClient = this.getFileClient(fileName);
-      return await fileClient.delete({ ...options, spanOptions });
+      return await fileClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -615,11 +725,25 @@ export class ShareDirectoryClient extends StorageClient {
   }
 
   /**
-   * Creates a ShareFileClient object.
+   * Creates a {@link ShareFileClient} object.
    *
    * @param {string} fileName A file name.
    * @returns {ShareFileClient} A new ShareFileClient object for the given file name.
    * @memberof ShareFileClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const content = "Hello world!"
+   *
+   * const fileClient = directoryClient.getFileClient("<file name>");
+   *
+   * await fileClient.create(content.length);
+   * console.log("Created file successfully!");
+   *
+   * await fileClient.uplaodRange(content, 0, content.length);
+   * console.log("Updated file successfully!")
+   * ```
    */
   public getFileClient(fileName: string): ShareFileClient {
     return new ShareFileClient(
@@ -643,10 +767,10 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-getProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.context.getProperties({
+      return await this.context.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -671,9 +795,9 @@ export class ShareDirectoryClient extends StorageClient {
    * @memberof ShareDirectoryClient
    */
   public async delete(options: DirectoryDeleteOptions = {}): Promise<DirectoryDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareDirectoryClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareDirectoryClient-delete", options.tracingOptions);
     try {
-      return this.context.deleteMethod({
+      return await this.context.deleteMethod({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -703,10 +827,10 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectorySetMetadataResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-setMetadata",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.context.setMetadata({
+      return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
         spanOptions
@@ -723,7 +847,7 @@ export class ShareDirectoryClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for DirectoryListFilesAndDirectoriesSegmentResponses
+   * Returns an AsyncIterableIterator for {@link DirectoryListFilesAndDirectoriesSegmentResponse} objects
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of
@@ -741,6 +865,10 @@ export class ShareDirectoryClient extends StorageClient {
     marker?: string,
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
   ): AsyncIterableIterator<DirectoryListFilesAndDirectoriesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let listFilesAndDirectoriesResponse;
     do {
       listFilesAndDirectoriesResponse = await this.listFilesAndDirectoriesSegment(marker, options);
@@ -759,7 +887,13 @@ export class ShareDirectoryClient extends StorageClient {
    */
   private async *listFilesAndDirectoriesItems(
     options: DirectoryListFilesAndDirectoriesSegmentOptions = {}
-  ): AsyncIterableIterator<{ kind: "file" } & FileItem | { kind: "directory" } & DirectoryItem> {
+  ): AsyncIterableIterator<
+    ({ kind: "file" } & FileItem) | ({ kind: "directory" } & DirectoryItem)
+  > {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let marker: string | undefined;
     for await (const listFilesAndDirectoriesResponse of this.iterateFilesAndDirectoriesSegments(
       marker,
@@ -780,78 +914,85 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the files and directories in pages.
    *
-   * @example
+   * Example using `for await` syntax:
+   *
    * ```js
-   *   let i = 1;
-   *   for await (const entity of directoryClient.listFilesAndDirectories()) {
-   *     if (entity.kind === "directory") {
-   *       console.log(`${i++} - directory\t: ${entity.name}`);
-   *     } else {
-   *       console.log(`${i++} - file\t: ${entity.name}`);
-   *     }
+   * let i = 1;
+   * for await (const entity of directoryClient.listFilesAndDirectories()) {
+   *   if (entity.kind === "directory") {
+   *     console.log(`${i++} - directory\t: ${entity.name}`);
+   *   } else {
+   *     console.log(`${i++} - file\t: ${entity.name}`);
    *   }
+   * }
    * ```
    *
-   * @example
+   * Example using `iter.next()`:
+   *
    * ```js
-   *   // Generator syntax .next()
-   *   let i = 1;
-   *   let iter = await directoryClient.listFilesAndDirectories();
-   *   let entity = await iter.next();
-   *   while (!entity.done) {
-   *     if (entity.value.kind === "directory") {
-   *       console.log(`${i++} - directory\t: ${entity.value.name}`);
-   *     } else {
-   *       console.log(`${i++} - file\t: ${entity.value.name}`);
-   *     }
-   *     entity = await iter.next();
+   * let i = 1;
+   * let iter = await directoryClient.listFilesAndDirectories();
+   * let entity = await iter.next();
+   * while (!entity.done) {
+   *   if (entity.value.kind === "directory") {
+   *     console.log(`${i++} - directory\t: ${entity.value.name}`);
+   *   } else {
+   *     console.log(`${i++} - file\t: ${entity.value.name}`);
    *   }
+   *   entity = await iter.next();
+   * }
    * ```
    *
-   * @example
-   * ```js
-   *   // Example for .byPage()
-   *   // passing optional maxPageSize in the page settings
-   *   let i = 1;
-   *   for await (const response of directoryClient
-   *     .listFilesAndDirectories()
-   *     .byPage({ maxPageSize: 20 })) {
-   *     for (const fileItem of response.segment.fileItems) {
-   *       console.log(`${i++} - file\t: ${fileItem.name}`);
-   *     }
-   *     for (const dirItem of response.segment.directoryItems) {
-   *       console.log(`${i++} - directory\t: ${dirItem.name}`);
-   *     }
-   *   }
-   * ```
+   * Example using `byPage()`:
    *
-   * @example
    * ```js
-   *   // Passing marker as an argument (similar to the previous example)
-   *   let i = 1;
-   *   let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
-   *   let response = (await iterator.next()).value;
-   *   // Prints 3 file and directory names
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of directoryClient
+   *   .listFilesAndDirectories()
+   *   .byPage({ maxPageSize: 20 })) {
    *   for (const fileItem of response.segment.fileItems) {
    *     console.log(`${i++} - file\t: ${fileItem.name}`);
    *   }
    *   for (const dirItem of response.segment.directoryItems) {
    *     console.log(`${i++} - directory\t: ${dirItem.name}`);
    *   }
-   *   // Gets next marker
-   *   let dirMarker = response.continuationToken;
-   *   // Passing next marker as continuationToken
-   *   iterator = directoryClient
-   *     .listFilesAndDirectories()
-   *     .byPage({ continuationToken: dirMarker, maxPageSize: 4 });
-   *   response = (await iterator.next()).value;
-   *   // Prints 10 file and directory names
-   *   for (const fileItem of response.segment.fileItems) {
-   *     console.log(`${i++} - file\t: ${fileItem.name}`);
-   *   }
-   *   for (const dirItem of response.segment.directoryItems) {
-   *     console.log(`${i++} - directory\t: ${dirItem.name}`);
-   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = directoryClient.listFilesAndDirectories().byPage({ maxPageSize: 3 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 3 file and directory names
+   * for (const fileItem of response.segment.fileItems) {
+   *   console.log(`${i++} - file\t: ${fileItem.name}`);
+   * }
+   *
+   * for (const dirItem of response.segment.directoryItems) {
+   *   console.log(`${i++} - directory\t: ${dirItem.name}`);
+   * }
+   *
+   * // Gets next marker
+   * let dirMarker = response.continuationToken;
+   *
+   * // Passing next marker as continuationToken
+   * iterator = directoryClient
+   *   .listFilesAndDirectories()
+   *   .byPage({ continuationToken: dirMarker, maxPageSize: 4 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints 10 file and directory names
+   * for (const fileItem of response.segment.fileItems) {
+   *   console.log(`${i++} - file\t: ${fileItem.name}`);
+   * }
+   *
+   * for (const dirItem of response.segment.directoryItems) {
+   *   console.log(`${i++} - directory\t: ${dirItem.name}`);
+   * }
    * ```
    *
    * @param {DirectoryListFilesAndDirectoriesOptions} [options] Options to list files and directories operation.
@@ -862,9 +1003,13 @@ export class ShareDirectoryClient extends StorageClient {
   public listFilesAndDirectories(
     options: DirectoryListFilesAndDirectoriesOptions = {}
   ): PagedAsyncIterableIterator<
-    { kind: "file" } & FileItem | { kind: "directory" } & DirectoryItem,
+    ({ kind: "file" } & FileItem) | ({ kind: "directory" } & DirectoryItem),
     DirectoryListFilesAndDirectoriesSegmentResponse
   > {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     // AsyncIterableIterator to iterate over files and directories
     const iter = this.listFilesAndDirectoriesItems(options);
     return {
@@ -908,10 +1053,15 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryListFilesAndDirectoriesSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-listFilesAndDirectoriesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
+
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     try {
-      return this.context.listFilesAndDirectoriesSegment({
+      return await this.context.listFilesAndDirectoriesSegment({
         marker,
         ...options,
         spanOptions
@@ -928,7 +1078,7 @@ export class ShareDirectoryClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for DirectoryListHandlesResponse
+   * Returns an AsyncIterableIterator for {@link DirectoryListHandlesResponse}
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of the list to be
@@ -981,65 +1131,70 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the handles in pages.
    *
-   * @example
+   * Example using `for await` syntax:
+   *
    * ```js
-   *   let i = 1;
-   *   let iter = dirClient.listHandles();
-   *   for await (const handle of iter) {
+   * let i = 1;
+   * let iter = dirClient.listHandles();
+   * for await (const handle of iter) {
+   *   console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * let iter = await dirClient.listHandles();
+   * let handleItem = await iter.next();
+   * while (!handleItem.done) {
+   *   console.log(`Handle ${i++}: ${handleItem.value.path}, opened time ${handleItem.value.openTime}, clientIp ${handleItem.value.clientIp}`);
+   *   handleItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of dirClient.listHandles({ recursive: true }).byPage({ maxPageSize: 20 })) {
+   *   if (response.handleList) {
+   *     for (const handle of response.handleList) {
+   *       console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
+   *     }
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = dirClient.listHandles().byPage({ maxPageSize: 2 });
+   * let response = await iterator.next();
+   *
+   * // Prints 2 handles
+   * if (response.value.handleList) {
+   *   for (const handle of response.value.handleList) {
    *     console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
    *   }
-   * ```
+   * }
    *
-   * @example
-   * ```js
-   *   // Generator syntax .next()
-   *   let i = 1;
-   *   iter = await dirClient.listHandles();
-   *   let handleItem = await iter.next();
-   *   while (!handleItem.done) {
-   *     console.log(`Handle ${i++}: ${handleItem.value.path}, opened time ${handleItem.value.openTime}, clientIp ${handleItem.value.clientIp}`);
-   *     handleItem = await iter.next();
-   *   }
-   * ```
+   * // Gets next marker
+   * let marker = response.value.continuationToken;
    *
-   * @example
-   * ```js
-   *   // Example for .byPage()
-   *   // passing optional maxPageSize in the page settings
-   *   let i = 1;
-   *   for await (const response of dirClient.listHandles({ recursive: true }).byPage({ maxPageSize: 20 })) {
-   *     if (response.handleList) {
-   *       for (const handle of response.handleList) {
-   *         console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
-   *       }
-   *     }
-   *   }
-   * ```
+   * // Passing next marker as continuationToken
+   * console.log(`    continuation`);
+   * iterator = dirClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = await iterator.next();
    *
-   * @example
-   * ```js
-   *   // Passing marker as an argument (similar to the previous example)
-   *   let i = 1;
-   *   iterator = dirClient.listHandles().byPage({ maxPageSize: 2 });
-   *   response = await iterator.next();
-   *   // Prints 2 handles
-   *   if (response.value.handleList) {
-   *     for (const handle of response.value.handleList) {
-   *       console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
-   *     }
+   * // Prints 2 more handles assuming you have more than four directory/files opened
+   * if (!response.done && response.value.handleList) {
+   *   for (const handle of response.value.handleList) {
+   *     console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
    *   }
-   *   // Gets next marker
-   *   let marker = response.value.continuationToken;
-   *   // Passing next marker as continuationToken
-   *   console.log(`    continuation`);
-   *   iterator = dirClient.listHandles().byPage({ continuationToken: marker, maxPageSize: 10 });
-   *   response = await iterator.next();
-   *   // Prints 2 more handles assuming you have more than four directory/files opened
-   *   if (!response.done && response.value.handleList) {
-   *     for (const handle of response.value.handleList) {
-   *       console.log(`Handle ${i++}: ${handle.path}, opened time ${handle.openTime}, clientIp ${handle.clientIp}`);
-   *     }
-   *   }
+   * }
    * ```
    *
    * @param {DirectoryListHandlesOptions} [options] Options to list handles operation.
@@ -1096,7 +1251,7 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryListHandlesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-listHandlesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       marker = marker === "" ? undefined : marker;
@@ -1142,15 +1297,18 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryForceCloseHandlesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-forceCloseHandlesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       marker = marker === "" ? undefined : marker;
-      return this.context.forceCloseHandles("*", {
+      const rawResponse = await this.context.forceCloseHandles("*", {
         marker,
         ...options,
         spanOptions
       });
+      const response = rawResponse as DirectoryForceCloseHandlesResponse;
+      response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
+      return response;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1167,15 +1325,15 @@ export class ShareDirectoryClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/force-close-handles
    *
    * @param {DirectoryForceCloseHandlesSegmentOptions} [options={}]
-   * @returns {Promise<number>}
+   * @returns {Promise<CloseHandlesInfo>}
    * @memberof ShareDirectoryClient
    */
   public async forceCloseAllHandles(
     options: DirectoryForceCloseHandlesSegmentOptions = {}
-  ): Promise<number> {
+  ): Promise<CloseHandlesInfo> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-forceCloseAllHandles",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       let handlesClosed = 0;
@@ -1184,13 +1342,13 @@ export class ShareDirectoryClient extends StorageClient {
       do {
         const response: DirectoryForceCloseHandlesResponse = await this.forceCloseHandlesSegment(
           marker,
-          { spanOptions }
+          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
         );
         marker = response.marker;
-        response.numberOfHandlesClosed && (handlesClosed += response.numberOfHandlesClosed);
+        response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
       } while (marker);
 
-      return handlesClosed;
+      return { closedHandlesCount: handlesClosed };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1220,7 +1378,7 @@ export class ShareDirectoryClient extends StorageClient {
   ): Promise<DirectoryForceCloseHandlesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-forceCloseHandle",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       if (handleId === "*") {
@@ -1229,10 +1387,13 @@ export class ShareDirectoryClient extends StorageClient {
         );
       }
 
-      return this.context.forceCloseHandles(handleId, {
+      const rawResponse = await this.context.forceCloseHandles(handleId, {
         abortSignal: options.abortSignal,
         spanOptions
       });
+      const response = rawResponse as DirectoryForceCloseHandlesResponse;
+      response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
+      return response;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

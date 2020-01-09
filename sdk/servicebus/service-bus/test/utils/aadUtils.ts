@@ -1,4 +1,4 @@
-import msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { SBQueue, SBTopic, SBSubscription } from "@azure/arm-servicebus/esm/models";
 import { EnvVarKeys, getEnvVars } from "./envVarUtils";

@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "./ClientContext";
-import { getPathFromLink, ResourceType, StatusCodes, SubStatusCodes } from "./common";
+import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -28,7 +28,7 @@ export class QueryIterator<T> {
   private fetchAllLastResHeaders: CosmosHeaders;
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
-  private isInitialied: boolean;
+  private isInitialized: boolean;
   /**
    * @hidden
    */
@@ -46,7 +46,7 @@ export class QueryIterator<T> {
     this.resourceLink = resourceLink;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
-    this.isInitialied = false;
+    this.isInitialized = false;
   }
 
   /**
@@ -81,7 +81,11 @@ export class QueryIterator<T> {
       } catch (error) {
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
-          response = await this.queryExecutionContext.fetchMore();
+          try {
+            response = await this.queryExecutionContext.fetchMore();
+          } catch (error) {
+            this.handleSplitError(error);
+          }
         } else {
           throw error;
         }
@@ -113,7 +117,13 @@ export class QueryIterator<T> {
   public async fetchAll(): Promise<FeedResponse<T>> {
     this.reset();
     this.fetchAllTempResources = [];
-    return this.toArrayImplementation();
+    let response: FeedResponse<T>;
+    try {
+      response = await this.toArrayImplementation();
+    } catch (error) {
+      this.handleSplitError(error);
+    }
+    return response;
   }
 
   /**
@@ -125,7 +135,7 @@ export class QueryIterator<T> {
    */
   public async fetchNext(): Promise<FeedResponse<T>> {
     this.queryPlanPromise = this.fetchQueryPlan();
-    if (!this.isInitialied) {
+    if (!this.isInitialized) {
       await this.init();
     }
 
@@ -135,7 +145,11 @@ export class QueryIterator<T> {
     } catch (error) {
       if (this.needsQueryPlan(error)) {
         await this.createPipelinedExecutionContext();
-        response = await this.queryExecutionContext.fetchMore();
+        try {
+          response = await this.queryExecutionContext.fetchMore();
+        } catch (error) {
+          this.handleSplitError(error);
+        }
       } else {
         throw error;
       }
@@ -160,7 +174,7 @@ export class QueryIterator<T> {
 
   private async toArrayImplementation(): Promise<FeedResponse<T>> {
     this.queryPlanPromise = this.fetchQueryPlan();
-    if (!this.isInitialied) {
+    if (!this.isInitialized) {
       await this.init();
     }
     while (this.queryExecutionContext.hasMoreResults()) {
@@ -228,16 +242,12 @@ export class QueryIterator<T> {
   }
 
   private needsQueryPlan(error: any): error is ErrorResponse {
-    return (
-      error.code === StatusCodes.BadRequest &&
-      error.substatus &&
-      error.substatus === SubStatusCodes.CrossPartitionQueryNotServable
-    );
+    return error.code === StatusCodes.BadRequest;
   }
 
   private initPromise: Promise<void>;
   private async init() {
-    if (this.isInitialied === true) {
+    if (this.isInitialized === true) {
       return;
     }
     if (this.initPromise === undefined) {
@@ -249,6 +259,19 @@ export class QueryIterator<T> {
     if (this.options.forceQueryPlan === true) {
       await this.createPipelinedExecutionContext();
     }
-    this.isInitialied = true;
+    this.isInitialized = true;
+  }
+
+  private handleSplitError(err: any) {
+    if (err.code === 410) {
+      const error = new Error(
+        "Encountered partition split and could not recover. This request is retryable"
+      ) as any;
+      error.code = 503;
+      error.originalError = err;
+      throw error;
+    } else {
+      throw err;
+    }
   }
 }

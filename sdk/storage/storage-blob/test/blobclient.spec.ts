@@ -2,15 +2,21 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-http";
+import { isNode, URLBuilder } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record, delay } from "./utils/recorder";
+import {
+  bodyToString,
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  setupEnvironment
+} from "./utils";
+import { record, delay } from "@azure/test-utils-recorder";
 import { BlobClient, BlockBlobClient, ContainerClient, BlockBlobTier } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
@@ -40,6 +46,21 @@ describe("BlobClient", () => {
   it("download with with default parameters", async () => {
     const result = await blobClient.download();
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("download with progress report", async () => {
+    recorder.skip(
+      "browser",
+      "record & playback issue: https://github.com/Azure/azure-sdk-for-js/issues/6477"
+    );
+    let downloadedBytes = 0;
+    const result = await blobClient.download(0, undefined, {
+      onProgress: (data) => {
+        downloadedBytes = data.loadedBytes;
+      }
+    });
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+    assert.equal(downloadedBytes, content.length);
   });
 
   it("download should not have aborted error after download finishes", async () => {
@@ -155,12 +176,14 @@ describe("BlobClient", () => {
     await blobSnapshotClient.delete();
     await blobClient.delete();
 
-    const result2 = (await containerClient
-      .listBlobsFlat({
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    const result2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     // Verify that the snapshot is deleted
     assert.equal(result2.segment.blobItems!.length, 0);
@@ -173,12 +196,14 @@ describe("BlobClient", () => {
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
     await blobSnapshotClient.getProperties();
 
-    const result3 = (await containerClient
-      .listBlobsFlat({
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    const result3 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
@@ -212,23 +237,27 @@ describe("BlobClient", () => {
 
     await blobClient.delete();
 
-    const result = (await containerClient
-      .listBlobsFlat({
-        includeDeleted: true
-      })
-      .byPage()
-      .next()).value;
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          includeDeleted: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     assert.ok(result.segment.blobItems![0].deleted);
 
     await blobClient.undelete();
 
-    const result2 = (await containerClient
-      .listBlobsFlat({
-        includeDeleted: true
-      })
-      .byPage()
-      .next()).value;
+    const result2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeDeleted: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
@@ -389,12 +418,15 @@ describe("BlobClient", () => {
   });
 
   it("beginCopyFromURL with rehydrate priority", async () => {
+    recorder.skip("browser");
     const newBlobURL = containerClient.getBlobClient(recorder.getUniqueName("copiedblobrehydrate"));
     const initialTier = BlockBlobTier.Archive;
-    const result = await (await newBlobURL.beginCopyFromURL(blobClient.url, {
-      tier: initialTier,
-      rehydratePriority: "Standard"
-    })).pollUntilDone();
+    const result = await (
+      await newBlobURL.beginCopyFromURL(blobClient.url, {
+        tier: initialTier,
+        rehydratePriority: "Standard"
+      })
+    ).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
 
@@ -426,7 +458,9 @@ describe("BlobClient", () => {
     const rootSpan = tracer.startSpan("root");
 
     const result = await blobClient.download(undefined, undefined, {
-      spanOptions: { parent: rootSpan }
+      tracingOptions: {
+        spanOptions: { parent: rootSpan }
+      }
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
 
@@ -436,6 +470,7 @@ describe("BlobClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
+    const urlPath = URLBuilder.parse(blobClient.url).getPath() || "";
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -445,7 +480,7 @@ describe("BlobClient", () => {
               name: "Azure.Storage.Blob.BlobClient-download",
               children: [
                 {
-                  name: "core-http",
+                  name: urlPath,
                   children: []
                 }
               ]
@@ -512,13 +547,15 @@ describe("BlobClient", () => {
     }
     assert.ok(exceptionCaught);
   });
+});
 
-  it("verify blobName and containerName passed to the client", async () => {
-    const accountName = "myaccount";
-    const blobName = "blob/part/1.txt";
-    const newClient = new BlobClient(
-      `https://${accountName}.blob.core.windows.net/` + containerName + "/" + blobName
-    );
+describe("BlobClient - Verify Name Properties", () => {
+  const accountName = "myaccount";
+  const blobName = "blob/part/1.txt";
+  const containerName = "containername";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new BlobClient(url);
     assert.equal(
       newClient.containerName,
       containerName,
@@ -530,5 +567,25 @@ describe("BlobClient", () => {
       accountName,
       "Account name is not the same as the one provided."
     );
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(
+      `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}`
+    );
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(`https://192.0.0.10:1900/${accountName}/${containerName}/${blobName}`);
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${containerName}/${blobName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${containerName}/${blobName}`);
   });
 });

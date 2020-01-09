@@ -414,8 +414,8 @@ export const PrivateLinkServiceConnectionState: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      actionRequired: {
-        serializedName: "actionRequired",
+      actionsRequired: {
+        serializedName: "actionsRequired",
         type: {
           name: "String"
         }
@@ -10662,6 +10662,12 @@ export const ConnectivityParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ProtocolConfiguration"
+        }
+      },
+      preferredIPVersion: {
+        serializedName: "preferredIPVersion",
+        type: {
+          name: "String"
         }
       }
     }

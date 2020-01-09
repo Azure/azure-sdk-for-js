@@ -8,7 +8,6 @@ export {
   DeleteSnapshotsOptionType,
   DirectoryCreateResponse,
   DirectoryDeleteResponse,
-  DirectoryForceCloseHandlesResponse,
   DirectoryGetPropertiesResponse,
   DirectoryItem,
   DirectoryListFilesAndDirectoriesSegmentResponse,
@@ -21,7 +20,6 @@ export {
   FileDownloadHeaders,
   FileDownloadOptionalParams,
   FileDownloadResponse as FileDownloadResponseModel,
-  FileForceCloseHandlesResponse,
   FileGetPropertiesResponse,
   FileGetRangeListHeaders,
   FileItem,
@@ -52,5 +50,7 @@ export {
   ShareSetMetadataResponse,
   ShareSetQuotaResponse,
   SignedIdentifier as SignedIdentifierModel,
-  SourceModifiedAccessConditions
+  SourceModifiedAccessConditions,
+  FileForceCloseHandlesHeaders,
+  DirectoryForceCloseHandlesHeaders
 } from "./generated/src/models";

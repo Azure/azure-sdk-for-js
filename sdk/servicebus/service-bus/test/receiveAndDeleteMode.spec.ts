@@ -476,26 +476,6 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await testSettlement(DispositionType.complete, true);
   });
 
-  it("Unpartitioned Queue with Sessions: complete() throws error", async function(): Promise<void> {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions,
-      true
-    );
-    await testSettlement(DispositionType.complete, true);
-  });
-
-  it("Unpartitioned Subscription with Sessions: complete() throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions,
-      true
-    );
-    await testSettlement(DispositionType.complete, true);
-  });
-
   it("Partitioned Queue: abandon() throws error", async function(): Promise<void> {
     await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testSettlement(DispositionType.abandon);
@@ -535,26 +515,6 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await beforeEachTest(
       TestClientType.PartitionedTopicWithSessions,
       TestClientType.PartitionedSubscriptionWithSessions,
-      true
-    );
-    await testSettlement(DispositionType.abandon, true);
-  });
-
-  it("Unpartitioned Queue with Sessions: abandon() throws error", async function(): Promise<void> {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions,
-      true
-    );
-    await testSettlement(DispositionType.abandon, true);
-  });
-
-  it("Unpartitioned Subscription with Sessions: abandon() throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testSettlement(DispositionType.abandon, true);
@@ -604,26 +564,6 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await testSettlement(DispositionType.defer, true);
   });
 
-  it("Unpartitioned Queue with Sessions: defer() throws error", async function(): Promise<void> {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions,
-      true
-    );
-    await testSettlement(DispositionType.defer, true);
-  });
-
-  it("Unpartitioned Subscription with Sessions: defer() throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions,
-      true
-    );
-    await testSettlement(DispositionType.defer, true);
-  });
-
   it("Partitioned Queue: deadLetter() throws error", async function(): Promise<void> {
     await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testSettlement(DispositionType.deadletter);
@@ -663,28 +603,6 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     await beforeEachTest(
       TestClientType.PartitionedTopicWithSessions,
       TestClientType.PartitionedSubscriptionWithSessions,
-      true
-    );
-    await testSettlement(DispositionType.deadletter, true);
-  });
-
-  it("Unpartitioned Queue with Sessions: deadLetter() throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions,
-      true
-    );
-    await testSettlement(DispositionType.deadletter, true);
-  });
-
-  it("Unpartitioned Subscription with Sessions: deadLetter() throws error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions,
       true
     );
     await testSettlement(DispositionType.deadletter, true);

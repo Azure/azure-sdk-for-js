@@ -1,8 +1,6 @@
 parameters:
-  RunUnitTests: true
   Artifacts: []
   ServiceDirectory: not-specified
-  DocDirectory: ""
   Matrix:
     Linux_Node8:
       OSVmImage: "ubuntu-16.04"
@@ -48,24 +46,55 @@ jobs:
 
       - template: ../steps/common.yml
 
+      - pwsh: |
+          $folder = "${{parameters.ServiceDirectory}}"
+          if ($folder -eq "*") { $folder = "" }
+          echo "##vso[task.setvariable variable=folder]$folder"
+        displayName: "Set folder variable for readme links"
+
+      - pwsh: |
+          $setDailyDevBuild = "false"
+          if (('$(Build.Reason)' -eq 'Schedule') -and ('$(System.TeamProject)' -eq 'internal')) {
+            $setDailyDevBuild = "true"
+          }
+          echo "##vso[task.setvariable variable=SetDevVersion]$setDailyDevBuild"
+        displayName: "Setup Versioning Properties"
+        condition: eq(variables['SetDevVersion'], '')
+
+      - script: |
+          npm install ./eng/tools/versioning
+          node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
+          node common/scripts/install-run-rush.js update
+        condition: eq(variables['SetDevVersion'],'true')
+        displayName: "Update package versions for dev build"
+
       - script: |
           node common/scripts/install-run-rush.js install
+        condition: ne(variables['SetDevVersion'],'true')
         displayName: "Install dependencies"
 
       - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
         parameters:
-          TargetFolder: $(Build.SourcesDirectory)/sdk/${{parameters.ServiceDirectory}}
+          TargetFolder: $(Build.SourcesDirectory)/sdk/$(folder)
           RootFolder: $(Build.SourcesDirectory)
           BuildSHA: $(Build.SourceVersion)
           RepoId: "Azure/azure-sdk-for-js"
 
+      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose
+          node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max
         displayName: "Build libraries"
 
       - script: |
           node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" --verbose
         displayName: "Pack libraries"
+
+      # Unlink node_modules folders to significantly improve performance of subsequent tasks
+      # which need to walk the directory tree (and are hardcoded to follow symlinks).
+      - script: |
+          node eng/tools/rush-runner.js unlink
+        displayName: "Unlink dependencies"
 
       # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
       # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
@@ -96,9 +125,7 @@ jobs:
         displayName: "Install tool dependencies"
 
       - pwsh: |
-          $docDirectory = "${{parameters.DocDirectory}}"
-          if ($docDirectory -eq "") { $docDirectory = "${{parameters.ServiceDirectory}}" }
-          node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --dgOp "dg" -i "inc" --inc "$docDirectory"
+          node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --dgOp "dg" -i "inc" --inc "${{parameters.ServiceDirectory}}"
         displayName: "Run Typedoc Docs"
 
       - pwsh: |
@@ -123,31 +150,6 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          buildType: "current"
-          artifactName: packages
-          itemPattern: "*.tgz"
-          targetPath: "$(Agent.TempDirectory)/packagesCurrent"
-        displayName: "Download Current Build artifacts"
-
-      - task: DownloadPipelineArtifact@2
-        inputs:
-          buildType: "specific"
-          project: "29ec6040-b234-4e31-b139-33dc4287b756" #guid for public project
-          definition: 614 #system.definitionId for js - client -ci
-          buildVersionToDownload: "latest"
-          branchName: "master"
-          artifactName: packages
-          itemPattern: "*.tgz"
-          targetPath: "$(Agent.TempDirectory)/packagesMaster"
-        displayName: "Download Latest Master (PipelineTask) artifacts"
-
-      - pwsh: |
-          eng/tools/compare-packages.ps1 "$(Agent.TempDirectory)/packagesMaster" "$(Agent.TempDirectory)/packagesCurrent" "$(Build.BuildNumber)" "$(System.ArtifactsDirectory)"
-        displayName: "Diff Generated Packages"
-        errorActionPreference: "continue"
-
       - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
         displayName: "Publish Report Artifacts"
@@ -160,6 +162,10 @@ jobs:
           pip install doc-warden
           ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/.docsettings.yml
         displayName: "Verify Readmes"
+
+      - template: eng/pipelines/templates/scripts/verify-path-length.yml@azure-sdk-tools
+        parameters:
+          SourceDirectory: $(Build.SourcesDirectory)
 
       - script: |
           npm ci
@@ -179,6 +185,23 @@ jobs:
           node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
         displayName: "Lint libraries"
 
+      - script: |
+          node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
+        condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
+        displayName: "Audit libraries"
+
+      - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+        # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
+        # builds should be sufficient.
+        condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
+        displayName: "Component Detection"
+
+      # Unlink node_modules folders to significantly improve performance of subsequent tasks
+      # which need to walk the directory tree (and are hardcoded to follow symlinks).
+      - script: |
+          node eng/tools/rush-runner.js unlink
+        displayName: "Unlink dependencies"
+
       # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
       # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
       - task: CopyFiles@2
@@ -196,59 +219,67 @@ jobs:
           artifactName: reports
           path: $(Build.ArtifactStagingDirectory)
 
-      - script: |
-          node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
-        condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-        displayName: "Audit libraries"
-
-      - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
-        # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
-        # builds should be sufficient.
-        condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
-        displayName: "Component Detection"
-
   # Only run tests if the matrix has entries
-  - ${{ if eq(parameters.RunUnitTests, 'true') }}:
-      - job: "UnitTest"
+  - ${{ if ne(parameters.RunUnitTests, false) }}:
+    - job: "UnitTest"
 
-        strategy:
-          matrix: ${{parameters.Matrix}}
+      strategy:
+        matrix: ${{parameters.Matrix}}
 
-        pool:
-          vmImage: "$(OSVmImage)"
+      pool:
+        vmImage: "$(OSVmImage)"
 
-        variables:
-          - template: ../variables/globals.yml
+      variables:
+        - template: ../variables/globals.yml
 
-        steps:
-          - template: ../steps/common.yml
+      steps:
+        - template: ../steps/common.yml
 
-          - script: |
-              node common/scripts/install-run-rush.js install
-            displayName: "Install dependencies"
+        - script: |
+            node common/scripts/install-run-rush.js install
+          displayName: "Install dependencies"
 
-          - script: |
-              node eng/tools/rush-runner.js build --verbose
-            displayName: "Build libraries"
+        # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+        # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+        - script: |
+            node eng/tools/rush-runner.js build --verbose -p max
+          displayName: "Build libraries"
 
-          - script: |
-              node eng/tools/rush-runner.js build:test --verbose
-            displayName: "Build test assets"
+        # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+        # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+        - script: |
+            node eng/tools/rush-runner.js build:test --verbose -p max
+          displayName: "Build test assets"
 
-          - script: |
-              node eng/tools/rush-runner.js unit-test "${{parameters.ServiceDirectory}}" --verbose
-            displayName: "Test libraries"
+        # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+        # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+        - script: |
+            node eng/tools/rush-runner.js unit-test "${{parameters.ServiceDirectory}}" --verbose -p max
+          displayName: "Test libraries"
 
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFiles: "**/test-results.xml"
-              testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
-            condition: succeededOrFailed()
-            displayName: "Publish NodeJS unit test results"
+        # Unlink node_modules folders to significantly improve performance of subsequent tasks
+        # which need to walk the directory tree (and are hardcoded to follow symlinks).
+        - script: |
+            node eng/tools/rush-runner.js unlink
+          condition: succeededOrFailed()
+          displayName: "Unlink dependencies"
 
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFiles: "**/test-results.browser.xml"
-              testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
-            condition: succeededOrFailed()
-            displayName: "Publish browser unit test results"
+        # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+        # PublishTestResults.searchFolder only supports absolute paths, not relative.
+        - task: PublishTestResults@2
+          inputs:
+            searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+            testResultsFiles: "**/test-results.xml"
+            testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
+          condition: always()
+          displayName: "Publish NodeJS unit test results"
+
+        # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+        # PublishTestResults.searchFolder only supports absolute paths, not relative.
+        - task: PublishTestResults@2
+          inputs:
+            searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+            testResultsFiles: "**/test-results.browser.xml"
+            testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
+          condition: always()
+          displayName: "Publish browser unit test results"

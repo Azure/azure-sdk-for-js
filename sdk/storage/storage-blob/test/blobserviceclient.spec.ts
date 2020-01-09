@@ -6,13 +6,15 @@ import {
   getAlternateBSU,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  getTokenBSU
+  getTokenBSU,
+  setupEnvironment
 } from "./utils";
-import { record, delay } from "./utils/recorder";
+import { record, delay, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("BlobServiceClient", () => {
-  let recorder: any;
+  setupEnvironment();
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -36,6 +38,23 @@ describe("BlobServiceClient", () => {
     assert.ok(result.clientRequestId!.length > 0);
 
     assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(result.containerItems!.length >= 0);
+
+    if (result.containerItems!.length > 0) {
+      const container = result.containerItems![0];
+      assert.ok(container.name.length > 0);
+      assert.ok(container.properties.etag.length > 0);
+      assert.ok(container.properties.lastModified);
+    }
+  });
+
+  it("ListContainers with default parameters - null prefix shouldn't throw error", async () => {
+    const blobServiceClient = getBSU();
+    const result = (await blobServiceClient
+      .listContainers({ prefix: "" })
+      .byPage()
+      .next()).value;
+
     assert.ok(result.containerItems!.length >= 0);
 
     if (result.containerItems!.length > 0) {
@@ -435,9 +454,9 @@ describe("BlobServiceClient", () => {
     assert.notDeepStrictEqual(response.value, undefined);
     assert.notDeepStrictEqual(response.signedVersion, undefined);
     assert.notDeepStrictEqual(response.signedTenantId, undefined);
-    assert.notDeepStrictEqual(response.signedStart, undefined);
+    assert.notDeepStrictEqual(response.signedStartsOn, undefined);
     assert.notDeepStrictEqual(response.signedService, undefined);
     assert.notDeepStrictEqual(response.signedObjectId, undefined);
-    assert.notDeepStrictEqual(response.signedExpiry, undefined);
+    assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
   });
 });

@@ -13,3 +13,4 @@ export * from "./remediations";
 export * from "./policyEvents";
 export * from "./policyStates";
 export * from "./operations";
+export * from "./policyMetadataOperations";

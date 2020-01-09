@@ -12,7 +12,7 @@ import {
 import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
 
 const DefaultScopeSuffix = "/.default";
@@ -35,31 +35,34 @@ export class ManagedIdentityCredential implements TokenCredential {
   private isEndpointUnavailable: boolean | null = null;
 
   /**
-   * Creates an instance of ManagedIdentityCredential with a client ID
-   * 
-   * @param clientId The client (application) ID of an App Registration in the tenant.
+   * Creates an instance of ManagedIdentityCredential with the client ID of a
+   * user-assigned identity.
+   *
+   * @param clientId The client ID of the user-assigned identity.
    * @param options Options for configuring the client which makes the access token request.
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
   /**
    * Creates an instance of ManagedIdentityCredential
-   * 
+   *
    * @param options Options for configuring the client which makes the access token request.
    */
   constructor(options?: TokenCredentialOptions);
   /**
    * @internal
-   * @ignore   
+   * @ignore
    */
-  constructor(clientIdOrOptions: string | TokenCredentialOptions | undefined, options?: TokenCredentialOptions) {
-
+  constructor(
+    clientIdOrOptions: string | TokenCredentialOptions | undefined,
+    options?: TokenCredentialOptions
+  ) {
     if (typeof clientIdOrOptions === "string") {
       // clientId, options constructor
       this.clientId = clientIdOrOptions;
-      this.identityClient = new IdentityClient(options); 
+      this.identityClient = new IdentityClient(options);
     } else {
       // options only constructor
-      this.identityClient = new IdentityClient(clientIdOrOptions); 
+      this.identityClient = new IdentityClient(clientIdOrOptions);
     }
   }
 
@@ -113,7 +116,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     };
 
     if (clientId) {
-      queryParameters.client_id = clientId;
+      queryParameters.clientid = clientId;
     }
 
     return {
@@ -169,14 +172,14 @@ export class ManagedIdentityCredential implements TokenCredential {
       delete request.headers.Metadata;
     }
 
-    request.spanOptions = options.spanOptions;
+    request.spanOptions = options.tracingOptions && options.tracingOptions.spanOptions;
 
     try {
       // Create a request with a timeout since we expect that
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
       const webResource = this.identityClient.createWebResource(request);
-      webResource.timeout = options.timeout || 500;
+      webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 500;
 
       try {
         logger.info(`ManagedIdentityCredential: pinging IMDS endpoint`);
@@ -260,7 +263,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         disableJsonStringifyOnBody: true,
         deserializationMapper: undefined,
         abortSignal: options.abortSignal,
-        spanOptions: options.spanOptions,
+        spanOptions: options.tracingOptions && options.tracingOptions.spanOptions,
         ...authRequestOptions
       });
 
@@ -285,7 +288,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
+   * Authenticates with Azure Active Directory and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.

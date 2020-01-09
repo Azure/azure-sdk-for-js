@@ -9,7 +9,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
 import { ProxySettings } from "./serviceClient";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "@azure/core-tracing";
+import { SpanOptions } from "@opentelemetry/types";
 
 export type HttpMethods =
   | "GET"
@@ -75,6 +75,7 @@ export class WebResource {
   timeout: number;
   proxySettings?: ProxySettings;
   keepAlive?: boolean;
+  requestId: string;
 
   abortSignal?: AbortSignalLike;
 
@@ -118,6 +119,7 @@ export class WebResource {
     this.onDownloadProgress = onDownloadProgress;
     this.proxySettings = proxySettings;
     this.keepAlive = keepAlive;
+    this.requestId = this.headers.get("x-ms-client-request-id") || generateUuid();
   }
 
   /**
@@ -299,7 +301,7 @@ export class WebResource {
     }
     // ensure the request-id is set correctly
     if (!this.headers.get("x-ms-client-request-id") && !options.disableClientRequestId) {
-      this.headers.set("x-ms-client-request-id", generateUuid());
+      this.headers.set("x-ms-client-request-id", this.requestId);
     }
 
     // default

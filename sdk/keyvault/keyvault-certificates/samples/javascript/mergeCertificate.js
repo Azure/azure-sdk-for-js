@@ -1,7 +1,14 @@
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
 const fs = require("fs");
 const childProcess = require("child_process");
-const { CertificatesClient } = require("../../src");
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // This sample creates a certificate with an Unknown issuer, then signs this certificate using a fake
 // certificate authority and the mergeCertificate API method.
@@ -16,17 +23,18 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   // Creating a certificate with an Unknown issuer.
-  await client.createCertificate("MyCertificate", {
+  await client.beginCreateCertificate("MyCertificate", {
     issuerName: "Unknown",
     certificateTransparency: false,
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
   // Retrieving the certificate's signing request
-  const { csr } = await client.getCertificateOperation("MyCertificate");
+  const operationPoller = await client.getCertificateOperation("MyCertificate");
+  const { csr } = operationPoller.getOperationState().certificateOperation;
   const base64Csr = Buffer.from(csr).toString("base64");
   const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}

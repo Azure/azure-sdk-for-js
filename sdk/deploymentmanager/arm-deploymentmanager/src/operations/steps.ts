@@ -122,6 +122,34 @@ export class Steps {
       deleteMethodOperationSpec,
       callback);
   }
+
+  /**
+   * @summary Lists the steps in a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StepsListResponse>
+   */
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.StepsListResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, callback: msRest.ServiceCallback<Models.StepResource[]>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StepResource[]>): void;
+  list(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StepResource[]>, callback?: msRest.ServiceCallback<Models.StepResource[]>): Promise<Models.StepsListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        options
+      },
+      listOperationSpec,
+      callback) as Promise<Models.StepsListResponse>;
+  }
 }
 
 // Operation Specifications
@@ -200,6 +228,41 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/steps",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StepResource"
+            }
+          }
+        }
+      }
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { TokenCredential, isTokenCredential, isNode, HttpResponse, getDefaultProxySettings } from "@azure/core-http";
-import { CanonicalCode } from "@azure/core-tracing";
+import {
+  TokenCredential,
+  isTokenCredential,
+  isNode,
+  HttpResponse,
+  getDefaultProxySettings
+} from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/types";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   ServiceGetUserDelegationKeyHeaders,
@@ -19,23 +25,20 @@ import {
 } from "./generatedModels";
 import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import {
-  ContainerClient,
-  ContainerCreateOptions,
-  ContainerDeleteMethodOptions
-} from "./ContainerClient";
+import { ContainerClient, ContainerCreateOptions, ContainerDeleteMethodOptions } from "./Clients";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageClient, CommonOptions } from "./internal";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
+import { CommonOptions, StorageClient } from "./StorageClient";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
- * Options to configure the Service - Get Properties operation.
+ * Options to configure the {@link BlobServiceClient.getProperties} operation.
  *
  * @export
  * @interface ServiceGetPropertiesOptions
@@ -52,7 +55,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - Set Properties operation.
+ * Options to configure the {@link BlobServiceClient.setProperties} operation.
  *
  * @export
  * @interface ServiceSetPropertiesOptions
@@ -69,7 +72,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - Get Account Info operation.
+ * Options to configure the {@link BlobServiceClient.getAccountInfo} operation.
  *
  * @export
  * @interface ServiceGetAccountInfoOptions
@@ -86,7 +89,7 @@ export interface ServiceGetAccountInfoOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - Get Statistics operation.
+ * Options to configure the {@link BlobServiceClient.getStatistics} operation.
  *
  * @export
  * @interface ServiceGetStatisticsOptions
@@ -120,7 +123,7 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - List Container Segment operation.
+ * Options to configure the {@link BlobServiceClient.listContainerSegment} operation.
  *
  * @interface ServiceListContainersSegmentOptions
  */
@@ -134,12 +137,12 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {number} [maxPageSize] Specifies the maximum number of containers
+   * Specifies the maximum number of containers
    * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
@@ -149,7 +152,7 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
   /**
-   * @member {ListContainersIncludeType} [include] Include this parameter to
+   * Include this parameter to
    * specify that the container's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
@@ -157,7 +160,7 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the Service - List Containers operation.
+ * Options to configure the {@link BlobServiceClient.listContainers} operation.
  *
  * @export
  * @interface ServiceListContainersOptions
@@ -172,17 +175,20 @@ export interface ServiceListContainersOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only containers
+   * Filters the results to return only containers
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {boolean} [includeMetadata] Specifies whether the container's metadata
+   * Specifies whether the container's metadata
    *                                   should be returned as part of the response body.
    */
   includeMetadata?: boolean;
 }
 
+/**
+ * A user delegation key.
+ */
 export interface UserDelegationKey {
   /**
    * The Azure Active Directory object ID in GUID format.
@@ -204,14 +210,14 @@ export interface UserDelegationKey {
    * @type {Date}
    * @memberof UserDelegationKey
    */
-  signedStart: Date;
+  signedStartsOn: Date;
   /**
    * The date-time the key expires.
    *
    * @type {Date}
    * @memberof UserDelegationKey
    */
-  signedExpiry: Date;
+  signedExpiresOn: Date;
   /**
    * Abbreviation of the Azure Storage service that accepts the key.
    *
@@ -235,6 +241,9 @@ export interface UserDelegationKey {
   value: string;
 }
 
+/**
+ * Contains response data for the {@link getUserDelegationKey} operation.
+ */
 export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
   ServiceGetUserDelegationKeyHeaders & {
     /**
@@ -293,7 +302,7 @@ export class BlobServiceClient extends StorageClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
-        const sharedKeyCredential = new SharedKeyCredential(
+        const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
@@ -319,15 +328,38 @@ export class BlobServiceClient extends StorageClient {
    * @param {string} url A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
-   *                                                  or a TokenCredential from @azure/identity. If not specified,
-   *                                                  AnonymousCredential is used.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof BlobServiceClient
+   *
+   * Example using DefaultAzureCredential from `@azure/identity`:
+   *
+   * ```js
+   * const account = "<storage account name>";
+   *
+   * const defaultAzureCredential = new DefaultAzureCredential();
+   *
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   defaultAzureCredential
+   * );
+   * ```
+   *
+   * Example using an account name/key:
+   *
+   * ```js
+   * const account = "<storage account name>"
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   *
+   * const blobServiceClient = new BlobServiceClient(
+   *   `https://${account}.blob.core.windows.net`,
+   *   sharedKeyCredential
+   * );
+   * ```
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     options?: StoragePipelineOptions
   );
   /**
@@ -343,32 +375,49 @@ export class BlobServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
+    credentialOrPipeline?:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
     options?: StoragePipelineOptions
   ) {
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
+
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNode && credentialOrPipeline instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
-      pipeline = newPipeline(credentialOrPipeline, options);
+      pipeline = newPipeline(credentialOrPipeline, newOptions);
     } else {
       // The second parameter is undefined. Use anonymous credential
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
 
   /**
-   * Creates a ContainerClient object
+   * Creates a {@link ContainerClient} object
    *
    * @param {string} containerName A container name
    * @returns {ContainerClient} A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const containerClient = blobServiceClient.getContainerClient("<container name>");
+   * ```
    */
   public getContainerClient(containerName: string): ContainerClient {
     return new ContainerClient(
@@ -394,11 +443,14 @@ export class BlobServiceClient extends StorageClient {
   }> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-createContainer",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const containerClient = this.getContainerClient(containerName);
-      const containerCreateResponse = await containerClient.create({ ...options, spanOptions });
+      const containerCreateResponse = await containerClient.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return {
         containerClient,
         containerCreateResponse
@@ -428,11 +480,14 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ContainerDeleteResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-deleteContainer",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const containerClient = this.getContainerClient(containerName);
-      return await containerClient.delete({ ...options, spanOptions });
+      return await containerClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -458,10 +513,10 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-getProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.serviceContext.getProperties({
+      return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -492,10 +547,10 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-setProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.serviceContext.setProperties(properties, {
+      return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -525,10 +580,10 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceGetStatisticsResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-getStatistics",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.serviceContext.getStatistics({
+      return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -559,10 +614,10 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceGetAccountInfoResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-getAccountInfo",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.serviceContext.getAccountInfo({
+      return await this.serviceContext.getAccountInfo({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -598,10 +653,10 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceListContainersSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-listContainersSegment",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.serviceContext.listContainersSegment({
+      return await this.serviceContext.listContainersSegment({
         abortSignal: options.abortSignal,
         marker,
         ...options,
@@ -672,65 +727,69 @@ export class BlobServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the containers in pages.
    *
-   * @example
+   * Example using `for await` syntax:
+   *
    * ```js
-   *   let i = 1;
-   *   for await (const container of blobServiceClient.listContainers()) {
-   *     console.log(`Container ${i++}: ${container.name}`);
-   *   }
+   * let i = 1;
+   * for await (const container of blobServiceClient.listContainers()) {
+   *   console.log(`Container ${i++}: ${container.name}`);
+   * }
    * ```
    *
-   * @example
+   * Example using `iter.next()`:
+   *
    * ```js
-   *   // Generator syntax .next()
-   *   let i = 1;
-   *   iter = blobServiceClient.listContainers();
-   *   let containerItem = await iter.next();
-   *   while (!containerItem.done) {
-   *     console.log(`Container ${i++}: ${containerItem.value.name}`);
-   *     containerItem = await iter.next();
-   *   }
+   * let i = 1;
+   * const iter = blobServiceClient.listContainers();
+   * let containerItem = await iter.next();
+   * while (!containerItem.done) {
+   *   console.log(`Container ${i++}: ${containerItem.value.name}`);
+   *   containerItem = await iter.next();
+   * }
    * ```
    *
-   * @example
-   * ```js
-   *   // Example for .byPage()
-   *   // passing optional maxPageSize in the page settings
-   *   let i = 1;
-   *   for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
-   *     if (response.containerItems) {
-   *       for (const container of response.containerItems) {
-   *         console.log(`Container ${i++}: ${container.name}`);
-   *       }
-   *     }
-   *   }
-   * ```
+   * Example using `byPage()`:
    *
-   * @example
    * ```js
-   *   // Passing marker as an argument (similar to the previous example)
-   *   let i = 1;
-   *   let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
-   *   let response = (await iterator.next()).value;
-   *   // Prints 2 container names
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of blobServiceClient.listContainers().byPage({ maxPageSize: 20 })) {
    *   if (response.containerItems) {
    *     for (const container of response.containerItems) {
    *       console.log(`Container ${i++}: ${container.name}`);
    *     }
    *   }
-   *   // Gets next marker
-   *   let marker = response.continuationToken;
-   *   // Passing next marker as continuationToken
-   *   iterator = blobServiceClient
-   *     .listContainers()
-   *     .byPage({ continuationToken: marker, maxPageSize: 10 });
-   *   response = (await iterator.next()).value;
-   *   // Prints 10 container names
-   *   if (response.containerItems) {
-   *     for (const container of response.containerItems) {
-   *        console.log(`Container ${i++}: ${container.name}`);
-   *     }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 container names
+   * if (response.containerItems) {
+   *   for (const container of response.containerItems) {
+   *     console.log(`Container ${i++}: ${container.name}`);
    *   }
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   * // Passing next marker as continuationToken
+   * iterator = blobServiceClient
+   *   .listContainers()
+   *   .byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints 10 container names
+   * if (response.containerItems) {
+   *   for (const container of response.containerItems) {
+   *      console.log(`Container ${i++}: ${container.name}`);
+   *   }
+   * }
    * ```
    *
    * @param {ServiceListContainersOptions} [options={}] Options to list containers.
@@ -740,6 +799,9 @@ export class BlobServiceClient extends StorageClient {
   public listContainers(
     options: ServiceListContainersOptions = {}
   ): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
     // AsyncIterableIterator to iterate over containers
     const listSegmentOptions: ServiceListContainersSegmentOptions = {
       ...options,
@@ -780,25 +842,25 @@ export class BlobServiceClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
    *
-   * @param {Date} start      The start time for the user delegation SAS. Must be within 7 days of the current time
-   * @param {Date} expiry     The end time for the user delegation SAS. Must be within 7 days of the current time
+   * @param {Date} startsOn      The start time for the user delegation SAS. Must be within 7 days of the current time
+   * @param {Date} expiresOn     The end time for the user delegation SAS. Must be within 7 days of the current time
    * @returns {Promise<ServiceGetUserDelegationKeyResponse>}
    * @memberof BlobServiceClient
    */
   public async getUserDelegationKey(
-    start: Date,
-    expiry: Date,
+    startsOn: Date,
+    expiresOn: Date,
     options: ServiceGetUserDelegationKeyOptions = {}
   ): Promise<ServiceGetUserDelegationKeyResponse> {
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-getUserDelegationKey",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
       const response = await this.serviceContext.getUserDelegationKey(
         {
-          start: truncatedISO8061Date(start, false),
-          expiry: truncatedISO8061Date(expiry, false)
+          startsOn: truncatedISO8061Date(startsOn, false),
+          expiresOn: truncatedISO8061Date(expiresOn, false)
         },
         {
           abortSignal: options.abortSignal,
@@ -809,8 +871,8 @@ export class BlobServiceClient extends StorageClient {
       const userDelegationKey = {
         signedObjectId: response.signedObjectId,
         signedTenantId: response.signedTenantId,
-        signedStart: new Date(response.signedStart),
-        signedExpiry: new Date(response.signedExpiry),
+        signedStartsOn: new Date(response.signedStartsOn),
+        signedExpiresOn: new Date(response.signedExpiresOn),
         signedService: response.signedService,
         signedVersion: response.signedVersion,
         value: response.value

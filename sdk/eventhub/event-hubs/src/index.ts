@@ -5,42 +5,33 @@
 
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
-export { OnMessage, OnError, LastEnqueuedEventInfo } from "./eventHubReceiver";
-export { ReceiveHandler } from "./receiveHandler";
+export { LastEnqueuedEventProperties } from "./eventHubReceiver";
+export { OperationOptions, TracingOptions } from "./util/operationOptions";
 export {
-  AbortSignalOptions,
-  EventHubClient,
   EventHubClientOptions,
-  EventHubConsumerOptions,
-  EventHubProducerOptions,
-  SendOptions,
-  BatchOptions,
+  SendBatchOptions,
+  CreateBatchOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  GetPropertiesOptions,
-  ParentSpanOptions
-} from "./eventHubClient";
-export { EventPosition } from "./eventPosition";
+  GetEventHubPropertiesOptions,
+  WebSocketOptions
+} from "./impl/eventHubClient";
+export { EventHubConsumerClient } from "./eventHubConsumerClient";
+export { EventHubProducerClient } from "./eventHubProducerClient";
+export {
+  SubscribeOptions,
+  Subscription,
+  SubscriptionEventHandlers,
+  PartitionContext,
+  ProcessErrorHandler,
+  ProcessInitializeHandler,
+  ProcessCloseHandler,
+  ProcessEventsHandler
+} from "./eventHubConsumerClientModels";
+export { EventPosition, latestEventPosition, earliestEventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
-export { EventHubProducer } from "./sender";
-export { EventHubConsumer, EventIteratorOptions } from "./receiver";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
-export {
-  EventProcessor,
-  CloseReason,
-  EventProcessorOptions,
-  PartitionManager,
-  PartitionOwnership
-} from "./eventProcessor";
-export { InMemoryPartitionManager } from "./inMemoryPartitionManager";
-export { PartitionProcessor, Checkpoint } from "./partitionProcessor";
-export { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
-export {
-  MessagingError,
-  DataTransformer,
-  DefaultDataTransformer,
-  RetryOptions,
-  TokenType,
-  TokenCredential,
-  delay
-} from "@azure/core-amqp";
+export { Checkpoint } from "./partitionProcessor";
+export { CloseReason, CheckpointStore, PartitionOwnership } from "./eventProcessor";
+export { MessagingError, RetryOptions, TokenCredential } from "@azure/core-amqp";
+export { logger } from "./log";

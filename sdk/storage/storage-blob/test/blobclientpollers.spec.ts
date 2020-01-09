@@ -5,7 +5,8 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { getBSU } from "./utils";
-import { record } from "./utils/recorder";
+import { record, Recorder, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
+import { setupEnvironment, testPollerProperties } from "./utils/testutils.common";
 import {
   BlobClient,
   BlockBlobClient,
@@ -17,6 +18,7 @@ import {
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient beginCopyFromURL Poller", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
@@ -27,7 +29,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   let destinationContainerName: string;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -50,6 +52,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   });
 
   it("supports automatic polling via pollUntilDone", async () => {
+    recorder.skip("browser");
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.getUniqueName("copiedblob")
     );
@@ -58,7 +61,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const poller: PollerLike<
       PollOperationState<BlobBeginCopyFromURLResponse>,
       BlobBeginCopyFromURLResponse
-    > = await newBlobClient.beginCopyFromURL(blobClient.url);
+    > = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
 
     const result = await poller.pollUntilDone();
     assert.ok(result.copyId);
@@ -71,10 +74,11 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   });
 
   it("supports manual polling via poll", async () => {
+    recorder.skip("browser");
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.getUniqueName("copiedblob")
     );
-    const poller = await newBlobClient.beginCopyFromURL(blobClient.url);
+    const poller = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
     let result: BlobBeginCopyFromURLResponse;
     do {
       await poller.poll();
@@ -93,12 +97,20 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     assert.deepStrictEqual(properties2.copySource, blobClient.url);
   });
 
-  it("supports cancellation of the copy", async () => {
+  it("supports cancellation of the copy", async function() {
+    if (!(isRecordMode() || isPlaybackMode())) {
+      // Depends on the service not returning 'success' as soon as
+      // the copy is initiated. Since this can't be guaranteed in the live tests,
+      // these tests will only run with the unit tests with pre-recorded service responses.
+      this.skip();
+    }
+    recorder.skip("browser");
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.getUniqueName("copiedblob")
     );
     const poller = await newBlobClient.beginCopyFromURL(
-      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md"
+      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+      testPollerProperties
     );
     await poller.cancelOperation();
     try {
@@ -109,7 +121,14 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     }
   });
 
-  it("supports updating on progress events", async () => {
+  it("supports updating on progress events", async function() {
+    if (!(isRecordMode() || isPlaybackMode())) {
+      // Depends on the service not returning 'success' as soon as
+      // the copy is initiated. Since this can't be guaranteed in the live tests,
+      // these tests will only run with the unit tests with pre-recorded service responses.
+      this.skip();
+    }
+    recorder.skip("browser");
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.getUniqueName("copiedblob")
     );
@@ -119,21 +138,23 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       {
         onProgress(_) {
           onProgressCalled = true;
-        }
+        },
+        ...testPollerProperties
       }
     );
-
     await poller.pollUntilDone();
     assert.equal(onProgressCalled, true, "onProgress handler was not called.");
   });
 
   it("supports restoring poller state from another poller", async () => {
+    recorder.skip("browser");
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.getUniqueName("copiedblob")
     );
 
     const poller1 = await newBlobClient.beginCopyFromURL(
-      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md"
+      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+      testPollerProperties
     );
 
     poller1.stopPolling();
@@ -143,7 +164,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const poller2 = await newBlobClient.beginCopyFromURL(
       "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
       {
-        resumeFrom: state
+        resumeFrom: state,
+        ...testPollerProperties
       }
     );
     const result = await poller2.pollUntilDone();

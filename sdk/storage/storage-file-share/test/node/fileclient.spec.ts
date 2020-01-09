@@ -1,19 +1,24 @@
 import * as assert from "assert";
 import { Duplex } from "stream";
-import { bodyToString, getBSU } from "../utils";
+import { bodyToString, getBSU, createRandomLocalFile, setupEnvironment } from "../utils";
 import { Buffer } from "buffer";
 import {
   ShareFileClient,
   newPipeline,
-  SharedKeyCredential,
+  StorageSharedKeyCredential,
   ShareClient,
   ShareDirectoryClient,
   generateFileSASQueryParameters,
   FileSASPermissions
 } from "../../src";
-import { record } from "../utils/recorder";
+
+import * as fs from "fs";
+import * as path from "path";
+import { readStreamToLocalFile } from "../../src/utils/utils.node";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("FileClient Node.js only", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
@@ -23,7 +28,7 @@ describe("FileClient Node.js only", () => {
   let fileClient: ShareFileClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -42,6 +47,27 @@ describe("FileClient Node.js only", () => {
   afterEach(async function() {
     await shareClient.delete();
     recorder.stop();
+  });
+
+  it("uploadData - large Buffer as data", async () => {
+    recorder.skip("node", "Temp File - recorder doesn't support saving the file");
+    await fileClient.create(257 * 1024 * 1024 * 1024);
+    const tempFolderPath = "temp";
+    if (!fs.existsSync(tempFolderPath)) {
+      fs.mkdirSync(tempFolderPath);
+    }
+    const tempFileLarge = await createRandomLocalFile(tempFolderPath, 257, 1024 * 1024);
+    await fileClient.uploadData(fs.readFileSync(tempFileLarge));
+
+    const downloadResponse = await fileClient.download();
+    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+
+    const downloadedData = await fs.readFileSync(downloadedFile);
+    const uploadedData = await fs.readFileSync(tempFileLarge);
+
+    fs.unlinkSync(downloadedFile);
+    assert.ok(downloadedData.equals(uploadedData));
   });
 
   it("upload with buffer and default parameters", async () => {
@@ -91,7 +117,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.setMetadata(metadata);
 
     const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new ShareFileClient(fileClient.url, credential);
 
     const result = await newClient.getProperties();
@@ -112,7 +138,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.setMetadata(metadata);
 
     const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new ShareFileClient(fileClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -137,7 +163,7 @@ describe("FileClient Node.js only", () => {
     await fileClient.setMetadata(metadata);
 
     const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareFileClient(fileClient.url, pipeline);
 
@@ -158,12 +184,12 @@ describe("FileClient Node.js only", () => {
 
     // Get a SAS for fileURL
     const factories = (fileClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
-    const expiryTime = recorder.newDate();
-    expiryTime.setDate(expiryTime.getDate() + 1);
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const expiresOn = recorder.newDate("now");
+    expiresOn.setDate(expiresOn.getDate() + 1);
     const sas = generateFileSASQueryParameters(
       {
-        expiryTime,
+        expiresOn,
         shareName,
         filePath: `${dirName}/${fileName}`,
         permissions: FileSASPermissions.parse("r")

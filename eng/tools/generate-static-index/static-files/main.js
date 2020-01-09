@@ -12,7 +12,7 @@ function httpGetAsync(targetUrl, callback) {
 }
 function populateIndexList(selector, packageName) {
   url =
-    "https://azuresdkdocsdev.blob.core.windows.net/$web?restype=container&comp=list&prefix=" +
+    "https://azuresdkdocs.blob.core.windows.net/$web?restype=container&comp=list&prefix=" +
     SELECTED_LANGUAGE +
     "/" +
     packageName +
@@ -48,7 +48,7 @@ function populateIndexList(selector, packageName) {
 }
 function getPackageUrl(language, package, version) {
   return (
-    "https://azuresdkdocsdev.blob.core.windows.net/$web/" +
+    "https://azuresdkdocs.blob.core.windows.net/$web/" +
     language +
     "/" +
     package +

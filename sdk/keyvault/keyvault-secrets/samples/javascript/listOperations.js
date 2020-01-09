@@ -1,5 +1,11 @@
-const { SecretsClient } = require("../../src");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // DefaultAzureCredential expects the following three environment variables:
@@ -10,10 +16,10 @@ async function main() {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-  const client = new SecretsClient(url, credential);
+  const client = new SecretClient(url, credential);
 
-  const bankAccountSecretName = "BankAccountPassword151231";
-  const storageAccountSecretName = "StorageAccountPassword151231";
+  const bankAccountSecretName = "secretListOperations1";
+  const storageAccountSecretName = "secretListOperations2";
 
   // Create our secrets
   await client.setSecret(bankAccountSecretName, "ABC123");
@@ -59,8 +65,10 @@ async function main() {
       break;
     }
 
-    const secret = await client.getSecret(value.name);
-    console.log("version: ", secret);
+    if (value.enabled) {
+      const secret = await client.getSecret(value.name);
+      console.log("version: ", secret);
+    }
   }
 
   await client.beginDeleteSecret(bankAccountSecretName);

@@ -4,17 +4,27 @@
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
 import { getAccountNameFromUrl, getStorageClientContext } from "./utils/utils.common";
-import { SpanOptions } from "@azure/core-tracing";
+import { SpanOptions } from "@opentelemetry/types";
 
 /**
  * An interface for options common to every remote operation.
  */
 export interface CommonOptions {
+  /**
+   * Options to configure spans created when tracing is enabled.
+   */
+  tracingOptions?: OperationTracingOptions;
+}
+
+export interface OperationTracingOptions {
+  /**
+   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
+   */
   spanOptions?: SpanOptions;
 }
 
 /**
- * A StorageClient represents a based client class for QueueServiceClient, QueueClient and etc.
+ * A StorageClient represents a based client class for {@link QueueServiceClient}, {@link QueueClient} and etc.
  *
  * @export
  * @class StorageClient

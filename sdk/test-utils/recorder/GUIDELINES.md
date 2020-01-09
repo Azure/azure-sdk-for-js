@@ -100,7 +100,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   - In record mode, `new Date()` is returned, and is saved in the recordings by assigning the `label`.
 
   - In playback mode, the date in the recordings associated to the `label` is returned.
-    
+
   - [IMPORTANT] Same label cannot be used more than once for a test. If re-used, the new value will overwrite the existing value and the playback would fail.
 
 - `getUniqueName: (prefix: string, label?: string) => string`
@@ -112,7 +112,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   - In playback mode, the string in the recordings associated to the `label` is returned.
 
   - If the `label`(optional param) is not provided, `prefix` is used as the label.
-  
+
   - [IMPORTANT] Same label cannot be used more than once for a test. If re-used, the new value will overwrite the existing value and the playback would fail.
 
 - Any unique information of the test run that is important for playing back the http request must be saved along with the recordings in the record mode.
@@ -251,9 +251,9 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   plugins: ["karma-json-to-file-reporter", "karma-json-preprocessor"],
   ```
 
-- Import recordings for playback mode
+- Import recordings in playback mode
   ```javascript
-  files: ["recordings/browsers/**/*.json"],
+  files: [<your-existing-files-list>].concat(process.env.TEST_MODE === "playback" ? ["recordings/browsers/**/*.json"] : []),
   ```
 - Preprocessor for converting JSON files into JS variables
   ```javascript
@@ -263,34 +263,22 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   ```javascript
   envPreprocessor: ["TEST_MODE"],
   ```
-- jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs
+- Saving the recordings of browser tests in the `recordings/browsers` folder.
+
+  Import `jsonRecordingFilterFunction` from `"@azure/test-utils-recorder"` as shown below.
+
+  ```javascript
+  const jsonRecordingFilter = require("@azure/test-utils-recorder").jsonRecordingFilterFunction;
+  ```
+
+  jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs
 
   ```javascript
   reporters: ["json-to-file"],
 
   jsonToFileReporter: {
-    filter: function(obj) {
-      if (process.env.TEST_MODE === "record") {
-        if (obj.writeFile) {
-          const fs = require("fs-extra");
-          // Create the directories recursively incase they don't exist
-          try {
-            // Stripping away the filename from the file path and retaining the directory structure
-            fs.ensureDirSync(obj.path.substring(0, obj.path.lastIndexOf("/") + 1));
-          } catch (err) {
-            if (err.code !== "EEXIST") throw err;
-          }
-          fs.writeFile(obj.path, JSON.stringify(obj.content, null, " "), (err) => {
-            if (err) {
-              throw err;
-            }
-          });
-        } else {
-          console.log(obj);
-        }
-        return false;
-      }
-    },
+    // required - to save the recordings of browser tests
+    filter: jsonRecordingFilter,
     outputPath: "."
   },
 

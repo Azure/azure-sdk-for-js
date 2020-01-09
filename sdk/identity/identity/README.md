@@ -1,4 +1,4 @@
-## Azure Identity client library for JS
+## Azure Identity client library for JavaScript
 
 This library simplifies authentication against Azure Active Directory for Azure SDK libraries.
 It provides a set of `TokenCredential` implementations which can be passed into SDK libraries
@@ -12,8 +12,6 @@ to authenticate API requests. It supports token authentication using an Azure Ac
   - if you don't have one, you can sign up for a [free account](https://azure.microsoft.com/free/)
 - Node.js 8 LTS or higher
 
-**NOTE:** The credential implementations in this library are not yet supported in the browser. We will provide browser-supported implementations for some in a future preview release.
-
 ### Install the package
 
 Install Azure Identity with `npm`:
@@ -24,24 +22,25 @@ npm install --save @azure/identity
 
 ## Key concepts
 
+If this is your first time using `@azure/identity` or the Microsoft identity platform (Azure Active Directory), we recommend that you read [Using `@azure/identity` with Microsoft Identity Platform](/documentation/using-azure-identity.md) first. This document will give you a deeper understanding of the platform and how to configure your Azure account correctly.
+
 ### Credentials
 
-Azure Identity offers a variety of credential classes that are accepted by Azure SDK data plane clients. Each client library documents its Azure Identity integration in its README and samples. Azure SDK management plane libraries (those starting with `@azure/arm-*`)
-do not accept these credentials.
+Azure Identity offers a variety of credential classes that are accepted by Azure SDK data plane clients. Each client library documents its Azure Identity integration in its README and samples. Azure SDK management plane libraries (those starting with `@azure/arm-*`) do not accept these credentials.
 
 Credentials differ mostly in configuration:
 
-| credential class                   | identity                              | configuration                                                                                    |
-| ---------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| [`DefaultAzureCredential`][1]      | service principal or managed identity | none for managed identity; [environment variables](#environment-variables) for service principal |
-| [`ManagedIdentityCredential`][2]   | managed identity                      | none                                                                                             |
-| [`EnvironmentCredential`][3]       | service principal                     | [environment variables](#environment-variables)                                                  |
-| [`ClientSecretCredential`][4]      | service principal                     | constructor parameters                                                                           |
-| [`ClientCertificateCredential`][5] | service principal                     | constructor parameters                                                                           |
-| [`DeviceCodeCredential`][6]        | app registration details              | constructor parameters                                                                           |
-| [`AuthorizationCodeCredential`][7] | app registration details              | constructor parameters                                                                           |
-| [`InteractiveBrowserCredential`][8]| app registration details              | constructor parameters                                                                           |
-| [`UsernamePasswordCredential`][9]  | user principal                        | constructor parameters                                                                           |
+| credential class                    | identity                              | configuration                                                                                    |
+| ----------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| [`DefaultAzureCredential`][1]       | service principal or managed identity | none for managed identity; [environment variables](#environment-variables) for service principal |
+| [`ManagedIdentityCredential`][2]    | managed identity                      | none                                                                                             |
+| [`EnvironmentCredential`][3]        | service principal                     | [environment variables](#environment-variables)                                                  |
+| [`ClientSecretCredential`][4]       | service principal                     | constructor parameters                                                                           |
+| [`ClientCertificateCredential`][5]  | service principal                     | constructor parameters                                                                           |
+| [`DeviceCodeCredential`][6]         | app registration details              | constructor parameters                                                                           |
+| [`AuthorizationCodeCredential`][7]  | app registration details              | constructor parameters                                                                           |
+| [`InteractiveBrowserCredential`][8] | app registration details              | constructor parameters                                                                           |
+| [`UsernamePasswordCredential`][9]   | user principal                        | constructor parameters                                                                           |
 
 Credentials can be chained and tried in turn until one succeeds; see [chaining credentials](#chaining-credentials) for details.
 
@@ -55,11 +54,14 @@ Authenticating as a managed identity requires no configuration, but does require
 
 `DefaultAzureCredential` and `EnvironmentCredential` are configured for service principal authentication with these environment variables:
 
-| variable name         | value                                               |
-| --------------------- | --------------------------------------------------- |
-| `AZURE_CLIENT_ID`     | service principal's app id                          |
-| `AZURE_TENANT_ID`     | id of the principal's Azure Active Directory tenant |
-| `AZURE_CLIENT_SECRET` | one of the service principal's client secrets       |
+| variable name                   | value                                                                                 |
+| ------------------------------- | ------------------------------------------------------------------------------------- |
+| `AZURE_CLIENT_ID`               | service principal's app id                                                            |
+| `AZURE_TENANT_ID`               | id of the principal's Azure Active Directory tenant                                   |
+| `AZURE_CLIENT_SECRET`           | one of the service principal's client secrets (implies `ClientSecretCredential`)      |
+| `AZURE_CLIENT_CERTIFICATE_PATH` | one of the service principal's client secrets (implies `ClientCertificateCredential`) |
+| `AZURE_USERNAME`                | the username of a user in the tenant (implies `UsernamePasswordCredential`)           |
+| `AZURE_PASSWORD`                | the password of the user specified in `AZURE_USERNAME`                                |
 
 ## Examples
 
@@ -99,7 +101,7 @@ const credential = new EnvironmentCredential();
 
 ### Using the `AuthorizationCodeCredential`
 
-The `AuthorizationCodeCredential` takes more up-front work to use than the other credential types at this time.  A full sample demonstrating how to use this credential can be found in [`samples/authorizationCodeSample.ts`](samples/authorizationCodeSample.ts).
+The `AuthorizationCodeCredential` takes more up-front work to use than the other credential types at this time. A full sample demonstrating how to use this credential can be found in [`samples/authorizationCodeSample.ts`](samples/authorizationCodeSample.ts).
 
 ### Chaining credentials
 
@@ -127,7 +129,7 @@ Credentials raise `AuthenticationError` when they fail to authenticate. This cla
 
 ### Read the documentation
 
-API documentation for this library can be found on our [documentation site](https://azure.github.io/azure-sdk-for-js/identity/index.html).
+API documentation for this library can be found on our [documentation site](https://docs.microsoft.com/javascript/api/@azure/identity).
 
 ### Provide Feedback
 
@@ -149,12 +151,15 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/)
 or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-[1]: https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html
-[2]: https://azure.github.io/azure-sdk-for-js/identity/classes/managedidentitycredential.html
-[3]: https://azure.github.io/azure-sdk-for-js/identity/classes/environmentcredential.html
-[4]: https://azure.github.io/azure-sdk-for-js/identity/classes/clientsecretcredential.html
-[5]: https://azure.github.io/azure-sdk-for-js/identity/classes/clientcertificatecredential.html
-[6]: https://azure.github.io/azure-sdk-for-js/identity/classes/devicecodecredential.html
-[7]: https://azure.github.io/azure-sdk-for-js/identity/classes/authorizationcodecredential.html
-[8]: https://azure.github.io/azure-sdk-for-js/identity/classes/interactivebrowsercredential.html
-[9]: https://azure.github.io/azure-sdk-for-js/identity/classes/usernamepasswordcredential.html
+[1]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/defaultazurecredential.html
+[2]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/managedidentitycredential.html
+[3]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/environmentcredential.html
+[4]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/clientsecretcredential.html
+[5]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/clientcertificatecredential.html
+[6]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/devicecodecredential.html
+[7]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/authorizationcodecredential.html
+[8]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/interactivebrowsercredential.html
+[9]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/usernamepasswordcredential.html
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

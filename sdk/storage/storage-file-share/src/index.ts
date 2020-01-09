@@ -15,7 +15,7 @@ export * from "./ShareSASPermissions";
 export * from "./ShareClient";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export * from "./credentials/SharedKeyCredential";
+export * from "./credentials/StorageSharedKeyCredential";
 export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
 export {
@@ -23,17 +23,16 @@ export {
   FilePermissionPreserveType,
   TimeNowType,
   TimePreserveType,
-  FileAttributesPreserveType
+  FileAttributesPreserveType,
+  CloseHandlesInfo
 } from "./models";
 export * from "./FileSystemAttributes";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
-export * from "./RetryPolicyFactory";
-export * from "./policies/SharedKeyCredentialPolicy";
-export * from "./TelemetryPolicyFactory";
-export * from "./UniqueRequestIDPolicyFactory";
-export * from "./BrowserPolicyFactory";
+export * from "./StorageRetryPolicyFactory";
+export * from "./policies/StorageSharedKeyCredentialPolicy";
+export * from "./StorageBrowserPolicyFactory";
 export * from "./ShareServiceClient";
 export * from "./SASQueryParameters";
 export { CommonOptions } from "./StorageClient";

@@ -1,5 +1,11 @@
-const { CertificatesClient } = require("../../src");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // This sample creates, updates and deletes a certificate's operation.
 
@@ -13,29 +19,27 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
-  const certificateName = "MyCertificate986632";
+  const client = new CertificateClient(url, credential);
+  const certificateName = "MyCertificateOperationJS";
 
-  let getResponse;
-
-  // Certficates' operations will be pending for some time right after they're created.
-  await client.createCertificate(certificateName, {
+  // Certificates' operations will be pending for some time right after they're created.
+  const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
-  // The pending state of the certificate will be visible.
-  const pendingCertificate = await client.getCertificateWithPolicy(certificateName);
+  const pendingCertificate = createPoller.getResult();
   console.log({ pendingCertificate });
 
   // Reading the certificate's operation (it will be pending)
-  getResponse = await client.getCertificateOperation(certificateName);
-  console.log("Certificate operation:", getResponse);
+  const operationPoller = await client.getCertificateOperation(certificateName);
+  let operation = operationPoller.getResult();
+  console.log("Certificate operation:", operation);
 
   // Cancelling the certificate's operation
-  await client.cancelCertificateOperation(certificateName);
-  getResponse = await client.getCertificateOperation(certificateName);
-  console.log("Cancelled certificate operation:", getResponse);
+  await operationPoller.cancelOperation();
+  operation = operationPoller.getResult();
+  console.log("Cancelled certificate operation:", operation);
 
   // Deleting the certificate's operation
   await client.deleteCertificateOperation(certificateName);
@@ -50,7 +54,7 @@ async function main() {
   console.log(error.message); // Pending certificate not found
 
   // There will be no signs of a pending operation at this point
-  const certificateWithoutOperation = await client.getCertificateWithPolicy(certificateName);
+  const certificateWithoutOperation = await client.getCertificate(certificateName);
   console.log("Certificate without operation:", certificateWithoutOperation);
 }
 

@@ -131,12 +131,12 @@ export class DocumentProducer {
     if (allFetched) {
       this.allFetched = true;
     }
-    if (this.internalExecutionContext.continuation === this.continuationToken) {
+    if (this.internalExecutionContext.continuationToken === this.continuationToken) {
       // nothing changed
       return;
     }
     this.previousContinuationToken = this.continuationToken;
-    this.continuationToken = this.internalExecutionContext.continuation;
+    this.continuationToken = this.internalExecutionContext.continuationToken;
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any) {
@@ -285,15 +285,11 @@ export class DocumentProducer {
     }
 
     // If there are no more bufferd items and there are still items to be fetched then buffer more
-    try {
-      const { result, headers } = await this.bufferMore();
-      mergeHeaders(this.respHeaders, headers);
-      if (result === undefined) {
-        return { result: undefined, headers: this.respHeaders };
-      }
-      return this.current();
-    } catch (err) {
-      throw err;
+    const { result, headers } = await this.bufferMore();
+    mergeHeaders(this.respHeaders, headers);
+    if (result === undefined) {
+      return { result: undefined, headers: this.respHeaders };
     }
+    return this.current();
   }
 }

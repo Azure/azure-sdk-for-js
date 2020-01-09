@@ -7,11 +7,11 @@ import {
   BlobClient,
   BlobStartCopyFromURLOptions,
   BlobBeginCopyFromURLResponse
-} from "../BlobClient";
+} from "../Clients";
 
 /**
- * Defines the operations from a `BlobClient` that are needed for the poller
- * returned by `beginCopyFromURL` to work.
+ * Defines the operations from a {@link BlobClient} that are needed for the poller
+ * returned by {@link BlobClient.beginCopyFromURL} to work.
  */
 export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getProperties"> & {
   startCopyFromURL(
@@ -21,7 +21,7 @@ export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getPro
 };
 
 /**
- * The state used by the poller returned from `beginCopyFromURL`.
+ * The state used by the poller returned from {@link BlobClient.beginCopyFromURL}.
  *
  * This state is passed into the user-specified `onProgress` callback
  * whenever copy progress is detected.
@@ -29,7 +29,7 @@ export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getPro
 export interface BlobBeginCopyFromUrlPollState
   extends PollOperationState<BlobBeginCopyFromURLResponse> {
   /**
-   * The instance of `BlobClient` that was used when calling `beginCopyFromURL`.
+   * The instance of {@link BlobClient} that was used when calling {@link BlobClient.beginCopyFromURL}.
    */
   readonly blobClient: CopyPollerBlobClient;
   /**
@@ -41,11 +41,11 @@ export interface BlobBeginCopyFromUrlPollState
    */
   copyProgress?: string;
   /**
-   * The source URL provided in `beginCopyFromURL`.
+   * The source URL provided in {@link BlobClient.beginCopyFromURL}.
    */
   copySource: string;
   /**
-   * The options that were passed to the initial `beginCopyFromURL` call.
+   * The options that were passed to the initial {@link BlobClient.beginCopyFromURL} call.
    * This is exposed for the poller and should not be modified directly.
    */
   readonly startCopyFromURLOptions?: BlobStartCopyFromURLOptions;
@@ -63,7 +63,8 @@ export interface BlobBeginCopyFromURLPollOperation
 
 /**
  * The set of options used to configure the poller.
- * This is an internal interface populated by `blobClient.beginCopyFromURL`.
+ * This is an internal interface populated by {@link BlobClient.beginCopyFromURL}.
+ *
  * @ignore
  */
 export interface BlobBeginCopyFromUrlPollerOptions {
@@ -76,7 +77,7 @@ export interface BlobBeginCopyFromUrlPollerOptions {
 }
 
 /**
- * This is the poller returned by `beginCopyFromURL`.
+ * This is the poller returned by {@link BlobClient.beginCopyFromURL}.
  * This can not be instantiated directly outside of this package.
  *
  * @ignore

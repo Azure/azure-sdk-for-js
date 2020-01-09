@@ -1,21 +1,23 @@
 import * as assert from "assert";
-import { getBSU } from "./utils";
+import { getBSU, setupEnvironment } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { URLBuilder } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
   let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
-  let recorder: any;
+  let recorder: Recorder;
   let fullDirAttributes = new FileSystemAttributes();
   fullDirAttributes.readonly = true;
   fullDirAttributes.hidden = true;
@@ -207,13 +209,60 @@ describe("DirectoryClient", () => {
     done();
   });
 
+  it("listFilesAndDirectories - empty prefix should not cause an error", async () => {
+    const subDirClients = [];
+
+    for (let i = 0; i < 3; i++) {
+      const subDirClient = dirClient.getDirectoryClient(recorder.getUniqueName(`dir${i}`));
+      await subDirClient.create();
+      subDirClients.push(subDirClient);
+    }
+
+    const subFileClients = [];
+    for (let i = 0; i < 3; i++) {
+      const subFileClient = dirClient.getFileClient(recorder.getUniqueName(`file${i}`));
+      await subFileClient.create(1024);
+      subFileClients.push(subFileClient);
+    }
+
+    const result = (
+      await dirClient
+        .listFilesAndDirectories({ prefix: "" })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(shareClient.url.indexOf(result.shareName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
+    assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
+
+    let i = 0;
+    for (const entry of result.segment.directoryItems) {
+      assert.ok(subDirClients[i++].url.indexOf(entry.name) > 0);
+    }
+
+    i = 0;
+    for (const entry of result.segment.fileItems) {
+      assert.ok(subFileClients[i++].url.indexOf(entry.name) > 0);
+    }
+
+    for (const subFile of subFileClients) {
+      await subFile.delete();
+    }
+    for (const subDir of subDirClients) {
+      await subDir.delete();
+    }
+  });
+
   it("listFilesAndDirectories under root directory", async () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -234,10 +283,12 @@ describe("DirectoryClient", () => {
       subFileClients.push(subFileClient);
     }
 
-    const result = (await rootDirClient
-      .listFilesAndDirectories({ prefix })
-      .byPage()
-      .next()).value;
+    const result = (
+      await rootDirClient
+        .listFilesAndDirectories({ prefix })
+        .byPage()
+        .next()
+    ).value;
 
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(shareClient.url.indexOf(result.shareName));
@@ -269,7 +320,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -293,10 +344,12 @@ describe("DirectoryClient", () => {
     const firstRequestSize = Math.ceil((subDirClients.length + subFileClients.length) / 2);
     const secondRequestSize = subDirClients.length + subFileClients.length - firstRequestSize;
 
-    const firstResult = (await rootDirClient
-      .listFilesAndDirectories({ prefix })
-      .byPage({ maxPageSize: firstRequestSize })
-      .next()).value;
+    const firstResult = (
+      await rootDirClient
+        .listFilesAndDirectories({ prefix })
+        .byPage({ maxPageSize: firstRequestSize })
+        .next()
+    ).value;
 
     assert.deepStrictEqual(
       firstResult.segment.directoryItems.length + firstResult.segment.fileItems.length,
@@ -304,13 +357,15 @@ describe("DirectoryClient", () => {
     );
     assert.notDeepEqual(firstResult.continuationToken, undefined);
 
-    const secondResult = (await rootDirClient
-      .listFilesAndDirectories({ prefix })
-      .byPage({
-        continuationToken: firstResult.continuationToken,
-        maxPageSize: firstRequestSize + secondRequestSize
-      })
-      .next()).value;
+    const secondResult = (
+      await rootDirClient
+        .listFilesAndDirectories({ prefix })
+        .byPage({
+          continuationToken: firstResult.continuationToken,
+          maxPageSize: firstRequestSize + secondRequestSize
+        })
+        .next()
+    ).value;
     assert.deepStrictEqual(
       secondResult.segment.directoryItems.length + secondResult.segment.fileItems.length,
       secondRequestSize
@@ -330,7 +385,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -372,7 +427,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -420,7 +475,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -469,7 +524,7 @@ describe("DirectoryClient", () => {
 
     const prefix = recorder.getUniqueName(
       `pre${recorder
-        .newDate()
+        .newDate("now")
         .getTime()
         .toString()}`
     );
@@ -575,22 +630,25 @@ describe("DirectoryClient", () => {
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
     const spanOptions = { parent: rootSpan };
+    const tracingOptions = { spanOptions };
     const directoryName = recorder.getUniqueName("directory");
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
-      spanOptions
+      tracingOptions
     });
     const fileName = recorder.getUniqueName("file");
     const metadata = { key: "value" };
     const { fileClient } = await subDirClient.createFile(fileName, 256, {
       metadata,
-      spanOptions
+      tracingOptions
     });
-    const result = await fileClient.getProperties({ spanOptions });
+    const result = await fileClient.getProperties({
+      tracingOptions
+    });
     assert.deepEqual(result.metadata, metadata);
 
-    await subDirClient.deleteFile(fileName, { spanOptions });
+    await subDirClient.deleteFile(fileName, { tracingOptions });
     try {
-      await fileClient.getProperties({ spanOptions });
+      await fileClient.getProperties({ tracingOptions });
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
@@ -602,13 +660,16 @@ describe("DirectoryClient", () => {
         "Error does not contain details property"
       );
     }
-    await subDirClient.delete({ spanOptions });
+    await subDirClient.delete({ tracingOptions });
 
     rootSpan.end();
 
     const rootSpans = tracer.getRootSpans();
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+    const subDirPath = URLBuilder.parse(subDirClient.url).getPath() || "";
+    const filePath = URLBuilder.parse(fileClient.url).getPath() || "";
 
     const expectedGraph: SpanGraph = {
       roots: [
@@ -622,7 +683,7 @@ describe("DirectoryClient", () => {
                   name: "Azure.Storage.File.ShareDirectoryClient-create",
                   children: [
                     {
-                      name: "core-http",
+                      name: subDirPath,
                       children: []
                     }
                   ]
@@ -636,7 +697,7 @@ describe("DirectoryClient", () => {
                   name: "Azure.Storage.File.ShareFileClient-create",
                   children: [
                     {
-                      name: "core-http",
+                      name: filePath,
                       children: []
                     }
                   ]
@@ -647,7 +708,7 @@ describe("DirectoryClient", () => {
               name: "Azure.Storage.File.ShareFileClient-getProperties",
               children: [
                 {
-                  name: "core-http",
+                  name: filePath,
                   children: []
                 }
               ]
@@ -659,7 +720,7 @@ describe("DirectoryClient", () => {
                   name: "Azure.Storage.File.ShareFileClient-delete",
                   children: [
                     {
-                      name: "core-http",
+                      name: filePath,
                       children: []
                     }
                   ]
@@ -670,7 +731,7 @@ describe("DirectoryClient", () => {
               name: "Azure.Storage.File.ShareFileClient-getProperties",
               children: [
                 {
-                  name: "core-http",
+                  name: filePath,
                   children: []
                 }
               ]
@@ -679,7 +740,7 @@ describe("DirectoryClient", () => {
               name: "Azure.Storage.File.ShareDirectoryClient-delete",
               children: [
                 {
-                  name: "core-http",
+                  name: subDirPath,
                   children: []
                 }
               ]
@@ -696,10 +757,12 @@ describe("DirectoryClient", () => {
   it("listHandles should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
-    const result = (await dirClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await dirClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
 
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
@@ -715,33 +778,74 @@ describe("DirectoryClient", () => {
   it("forceCloseAllHandles should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles - Has to be tested locally
 
-    assert.equal(await dirClient.forceCloseAllHandles(), 0, "Error in forceCloseAllHandles");
+    assert.deepStrictEqual(
+      await dirClient.forceCloseAllHandles(),
+      { closedHandlesCount: 0 },
+      "Error in forceCloseAllHandles"
+    );
   });
 
   it("forceCloseHandle should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
-    const result = (await dirClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await dirClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);
     }
   });
+});
 
-  it("verify shareName and dirPath passed to the client", async () => {
-    const accountName = "myaccount";
-    const newClient = new ShareDirectoryClient(
-      `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName
-    );
+describe("ShareDirectoryClient - Verify Name Properties", () => {
+  const accountName = "myaccount";
+  const shareName = "shareName";
+  const dirPath = "dir1/dir2";
+  const baseName = "baseName";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new ShareDirectoryClient(url);
     assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
-    assert.equal(newClient.path, dirName, "DirPath is not the same as the one provided.");
+    assert.equal(
+      newClient.path,
+      dirPath + "/" + baseName,
+      "DirPath is not the same as the one provided."
+    );
     assert.equal(
       newClient.accountName,
       accountName,
       "Account name is not the same as the one provided."
     );
+    assert.equal(
+      newClient.name,
+      baseName,
+      "DirectoryClient name is not the same as the baseName of the provided directory URI"
+    );
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(
+      `https://${accountName}.file.core.windows.net/${shareName}/${dirPath}/${baseName}`
+    );
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://192.0.0.10:1900/${accountName}/${shareName}/${dirPath}/${baseName}`
+    );
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}/${dirPath}/${baseName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${shareName}/${dirPath}/${baseName}`);
   });
 });

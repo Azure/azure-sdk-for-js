@@ -98,8 +98,10 @@ describe("AuthorizationCodeCredential", function() {
     );
 
     await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
     });
 
@@ -119,7 +121,7 @@ describe("AuthorizationCodeCredential", function() {
               children: [
                 {
                   children: [],
-                  name: "core-http"
+                  name: "/tenant/oauth2/v2.0/token"
                 }
               ]
             }

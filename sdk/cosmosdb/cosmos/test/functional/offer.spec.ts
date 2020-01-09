@@ -41,7 +41,7 @@ describe("NodeJS CRUD Tests", function() {
             const items = obj.split("=");
             map[items[0]] = items[1];
             return map;
-          }, {})[Constants.Quota.CollectionSize]
+          }, {}).collectionSize
       );
       assert.equal(collectionSize, 10 * mbInBytes, "Collection size is unexpected");
 
@@ -91,7 +91,7 @@ describe("NodeJS CRUD Tests", function() {
     });
 
     it("nativeApi Should do offer replace operations successfully name based", async function() {
-      const container = await getTestContainer("Validate Offer CRUD");
+      await getTestContainer("Validate Offer CRUD");
       const { resources: offers } = await client.offers.readAll().fetchAll();
       assert.equal(offers.length, 1);
       const expectedOffer = offers[0];

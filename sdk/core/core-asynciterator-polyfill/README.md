@@ -1,4 +1,4 @@
-# Azure Async Iterator Polyfill client library for JS
+# Azure Async Iterator Polyfill client library for JavaScript
 
 This library provides a polyfill for [Symbol.asyncIterator](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Symbol/asyncIterator)
 for platforms that do not have support for it by default.
@@ -54,3 +54,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-asynciterator-polyfill%2FREADME.png)

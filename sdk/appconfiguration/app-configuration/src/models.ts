@@ -52,7 +52,7 @@ export interface ConfigurationSetting extends ConfigurationSettingParam {
   /**
    * Whether or not the setting is read-only
    */
-  readOnly: boolean;
+  isReadOnly: boolean;
 
   /**
    * The date when this setting was last modified
@@ -198,10 +198,6 @@ export interface SetConfigurationSettingResponse
  * Headers from getting a ConfigurationSetting.
  */
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
-  /**
-   * A UTC datetime that specifies the last time the resource was modified.
-   */
-  lastModifiedHeader?: string;
 }
 
 /**
@@ -223,7 +219,7 @@ export interface GetConfigurationSettingOptions
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
-  acceptDatetime?: string;
+  acceptDateTime?: Date;
 }
 
 /**
@@ -234,17 +230,46 @@ export interface ListSettingsOptions extends OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */
-  acceptDatetime?: string;
+  acceptDateTime?: Date;
 
   /**
-   * Filters for wildcard matching (using *) against keys. These conditions are logically OR'd against each other.
+   * Filters for keys. There are two types of matching:
+   * 
+   * 1. Exact matching. Up to 5 key names are allowed, separated by commas (',')
+   * 2. Wildcard matching. A single wildcard expression can be specified.
+   * 
+   *    | Value        | Matches                               |
+   *    |--------------|---------------------------------------|
+   *    | omitted or * | Matches any key                       |
+   *    | abc          | Matches a key named abc               |
+   *    | abc*         | Matches key names that start with abc |
+   *    | *abc         | Matches key names that end with abc   |
+   *    | *abc*        | Matches key names that contain abc    |
+   * 
+   * These characters are reserved and must be prefixed with backslash in order 
+   * to be specified: * or \ or ,
    */
-  keys?: string[];
+  keyFilter?: string;
 
   /**
-   * Filters for wildcard matching (using *) against labels. These conditions are logically OR'd against each other.
+   * Filters for labels. There are two types of matching:
+   * 
+   * 1. Exact matching. Up to 5 labels are allowed, separated by commas (',')
+   * 2. Wildcard matching. A single wildcard expression can be specified.
+   * 
+   *    | Value        | Matches                                           |
+   *    |--------------|---------------------------------------------------|
+   *    | omitted or * | Matches any key                                   |
+   *    | %00          | Matches any key without a label                   |
+   *    | prod         | Matches a key with label named prod               |
+   *    | prod*        | Matches key with label names that start with prod |
+   *    | *prod        | Matches key with label names that end with prod   |
+   *    | *prod*       | Matches key with label names that contain prod    |
+   * 
+   * These characters are reserved and must be prefixed with backslash in order 
+   * to be specified: * or \ or ,
    */
-  labels?: string[];
+  labelFilter?: string;
 }
 
 /**
@@ -280,19 +305,6 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
    */
   items: ConfigurationSetting[];
 }
-
-/**
- * Options for clearReadOnly
- */
-export interface ClearReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
-
-/**
- * Response when clearing the read-only status from a value
- */
-export interface ClearReadOnlyResponse
-  extends ConfigurationSetting,
-    SyncTokenHeaderField,
-    HttpResponseField<SyncTokenHeaderField> {}
 
 /**
  * Options for setReadOnly

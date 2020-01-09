@@ -125,6 +125,42 @@ export class ServiceUnits {
   }
 
   /**
+   * @summary Lists the service units under a service in the service topology.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceTopologyName The name of the service topology .
+   * @param serviceName The name of the service resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServiceUnitsListResponse>
+   */
+  list(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceUnitsListResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceTopologyName The name of the service topology .
+   * @param serviceName The name of the service resource.
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, serviceTopologyName: string, serviceName: string, callback: msRest.ServiceCallback<Models.ServiceUnitResource[]>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceTopologyName The name of the service topology .
+   * @param serviceName The name of the service resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServiceUnitResource[]>): void;
+  list(resourceGroupName: string, serviceTopologyName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServiceUnitResource[]>, callback?: msRest.ServiceCallback<Models.ServiceUnitResource[]>): Promise<Models.ServiceUnitsListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceTopologyName,
+        serviceName,
+        options
+      },
+      listOperationSpec,
+      callback) as Promise<Models.ServiceUnitsListResponse>;
+  }
+
+  /**
    * This is an asynchronous operation and can be polled to completion using the operation resource
    * returned by this operation.
    * @summary Creates or updates a service unit under the service in the service topology.
@@ -199,6 +235,43 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeploymentManager/serviceTopologies/{serviceTopologyName}/services/{serviceName}/serviceUnits",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceTopologyName,
+    Parameters.serviceName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServiceUnitResource"
+            }
+          }
+        }
+      }
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

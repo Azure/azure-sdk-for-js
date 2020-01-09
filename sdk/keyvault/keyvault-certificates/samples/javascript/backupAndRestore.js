@@ -1,5 +1,11 @@
-const { CertificatesClient } = require("../../src");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // This sample creates a self-signed certificate, then makes a backup from it,
 // then deletes it and purges it, and finally restores it.
@@ -18,30 +24,30 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificate123129";
+  const certificateName = "MyCertificateBackupAndRestoreJS";
 
   // Creating a self-signed certificate
-  const certificate = await client.createCertificate(certificateName, {
+  const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
-    subjectName: "cn=MyCert"
+    subject: "cn=MyCert"
   });
 
-  console.log("Certificate: ", certificate);
+  const pendingCertificate = createPoller.getResult();
+  console.log("Certificate: ", pendingCertificate);
 
   const backup = await client.backupCertificate(certificateName);
 
-  // It might take less time, or more, depending on your location, internet speed and other factors.
-  await client.deleteCertificate(certificateName);
-  await delay(30000);
+  const deletePoller = await client.beginDeleteCertificate(certificateName);
+  await deletePoller.pollUntilDone();
 
   await client.purgeDeletedCertificate(certificateName);
   await delay(30000);
 
-  await client.restoreCertificate(backup.value);
+  await client.restoreCertificateBackup(backup);
 
-  const restoredCertificate = await client.getCertificateWithPolicy(certificateName);
+  const restoredCertificate = await client.getCertificate(certificateName);
 
   console.log("Restored certificate: ", restoredCertificate);
 }

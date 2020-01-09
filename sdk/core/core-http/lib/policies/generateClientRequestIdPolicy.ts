@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
-import * as utils from "../util/utils";
 import { WebResource } from "../webResource";
 import {
   BaseRequestPolicy,
@@ -32,7 +31,7 @@ export class GenerateClientRequestIdPolicy extends BaseRequestPolicy {
 
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     if (!request.headers.contains(this._requestIdHeaderName)) {
-      request.headers.set(this._requestIdHeaderName, utils.generateUuid());
+      request.headers.set(this._requestIdHeaderName, request.requestId);
     }
     return this._nextPolicy.sendRequest(request);
   }

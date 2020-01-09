@@ -85,8 +85,8 @@ describe("helper methods", () => {
   describe("formatWildcards", () => {
     it("undefined", () => {
       const result = formatWildcards({
-        keys: undefined,
-        labels: undefined
+        keyFilter: undefined,
+        labelFilter: undefined
       });
 
       assert.ok(!result.key);
@@ -95,8 +95,8 @@ describe("helper methods", () => {
 
     it("single values only", () => {
       const result = formatWildcards({
-        keys: ["key1"],
-        labels: ["label1"]
+        keyFilter: "key1",
+        labelFilter: "label1"
       });
 
       assert.equal("key1", result.key);
@@ -105,8 +105,8 @@ describe("helper methods", () => {
 
     it("multiple values", () => {
       const result = formatWildcards({
-        keys: ["key1", "key2"],
-        labels: ["label1", "label2"]
+        keyFilter: "key1,key2",
+        labelFilter: "label1,label2"
       });
 
       assert.equal("key1,key2", result.key);
@@ -115,7 +115,7 @@ describe("helper methods", () => {
 
     it("fields map properly", () => {
       const result = formatWildcards({
-        fields: ["readOnly", "value"]
+        fields: ["isReadOnly", "value"]
       });
 
       assert.deepEqual(["locked", "value"], result.select);
@@ -133,7 +133,7 @@ describe("helper methods", () => {
     const response: ConfigurationSetting & HttpResponseField<any> & HttpResponseFields = {
       key: "mykey",
       statusCode: 204,
-      readOnly: false,
+      isReadOnly: false,
       ...fakeHttp204Response
     };
 
@@ -163,7 +163,7 @@ describe("helper methods", () => {
       {
         // the 'locked' property should not be present in the object since
         // it should be 'renamed' to readOnly
-        readOnly: true,
+        isReadOnly: true,
         key: "hello"
       },
       configurationSetting
@@ -180,7 +180,7 @@ describe("helper methods", () => {
     const actualKeys = Object.keys(configurationSetting).sort();
 
     // _response is explictly set to not enumerate, even in our copied object.
-    assert.deepEqual(["key", "readOnly", "statusCode"], actualKeys);
+    assert.deepEqual(["isReadOnly", "key", "statusCode"], actualKeys);
 
     // now make it enumerable so we can do our comparison
     Object.defineProperty(configurationSetting, "_response", {
@@ -189,8 +189,9 @@ describe("helper methods", () => {
 
     assert.deepEqual(
       {
-        readOnly: true,
+        isReadOnly: true,
         key: "hello",
+
         statusCode: 204,
         _response: fakeHttp204Response._response
       },
@@ -208,7 +209,7 @@ describe("helper methods", () => {
     const actualKeys = Object.keys(configurationSetting).sort();
 
     // _response is explictly set to not enumerate, even in our copied object.
-    assert.deepEqual(["key", "readOnly"], actualKeys);
+    assert.deepEqual(["isReadOnly", "key"], actualKeys);
 
     // now make it enumerable so we can do our comparison
     Object.defineProperty(configurationSetting, "_response", {
@@ -217,7 +218,7 @@ describe("helper methods", () => {
 
     assert.deepEqual(
       {
-        readOnly: true,
+        isReadOnly: true,
         key: "hello",
         _response: fakeHttp204Response._response
       },
@@ -225,20 +226,20 @@ describe("helper methods", () => {
     );
   });
 
-  function getAllConfigurationSettingFields(): (Exclude<keyof ConfigurationSetting, "key">)[] {
+  function getAllConfigurationSettingFields(): Exclude<keyof ConfigurationSetting, "key">[] {
     const configObjectWithAllFieldsRequired: Required<ConfigurationSetting> = {
       contentType: "",
       etag: "",
       key: "",
       label: "",
       lastModified: new Date(),
-      readOnly: true,
+      isReadOnly: true,
       tags: {},
       value: ""
     };
 
     const keys = Object.keys(configObjectWithAllFieldsRequired).filter((key) => key !== "key");
-    return keys as (Exclude<keyof ConfigurationSetting, "key">[]);
+    return keys as Exclude<keyof ConfigurationSetting, "key">[];
   }
 
   const fakeHttp204Response: HttpResponseField<any> = {
@@ -254,6 +255,7 @@ describe("helper methods", () => {
         withCredentials: false,
         headers: new HttpHeaders(),
         timeout: 0,
+        requestId: "",
         clone: function() {
           return this;
         },

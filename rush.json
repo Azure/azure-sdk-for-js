@@ -15,7 +15,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.13.0",
+  "rushVersion": "5.17.2",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -24,7 +24,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "3.8.1",
+  "pnpmVersion": "4.6.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -51,7 +51,7 @@
      * is "fewer-dependencies", which causes PNPM to avoid installing a newer version if an already installed version
      * can be reused; this is more similar to NPM's algorithm.
      */
-    "resolutionStrategy": "fast"
+    "resolutionStrategy": "fewer-dependencies"
   },
   /**
    * Older releases of the NodeJS engine may be missing features required by your system.
@@ -333,6 +333,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/cognitiveservices-textanalytics",
+      "projectFolder": "sdk/textanalytics/cognitiveservices-textanalytics",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp",
       "versionPolicyName": "core"
@@ -359,8 +364,9 @@
     },
     {
       "packageName": "@azure/core-lro",
-      "projectFolder": "sdk/core/core-lro"
-    }, 
+      "projectFolder": "sdk/core/core-lro",
+      "versionPolicyName": "core"
+    },
     {
       "packageName": "@azure/core-paging",
       "projectFolder": "sdk/core/core-paging",
@@ -437,13 +443,13 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/storage-queue",
-      "projectFolder": "sdk/storage/storage-queue",
+      "packageName": "@azure/storage-file-datalake",
+      "projectFolder": "sdk/storage/storage-file-datalake",
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/cognitiveservices-inkrecognizer",
-      "projectFolder": "sdk/cognitiveservices/cognitiveservices-inkrecognizer",
+      "packageName": "@azure/storage-queue",
+      "projectFolder": "sdk/storage/storage-queue",
       "versionPolicyName": "client"
     },
     {

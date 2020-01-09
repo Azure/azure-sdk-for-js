@@ -3,13 +3,15 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { record } from "../utils/recorder";
 import { Readable, ReadableOptions } from "stream";
 import { readStreamToLocalFile } from "../../src/utils/utils.node";
+import { record, Recorder } from "@azure/test-utils-recorder";
+import { setupEnvironment } from "../utils";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers Node.js only", () => {
-  let recorder: any;
+  setupEnvironment();
+  let recorder: Recorder;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
   const accountName = "myaccount";

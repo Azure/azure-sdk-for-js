@@ -4,19 +4,25 @@ import * as dotenv from "dotenv";
 import {
   AppendBlobClient,
   newPipeline,
-  SharedKeyCredential,
+  StorageSharedKeyCredential,
   ContainerClient,
   generateBlobSASQueryParameters,
   BlobSASPermissions
 } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment, bodyToString } from "../utils";
+import {
+  getBSU,
+  getConnectionStringFromEnvironment,
+  bodyToString,
+  setupEnvironment
+} from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record } from "../utils/recorder";
+import { record } from "@azure/test-utils-recorder";
 import { Test_CPK_INFO } from "../utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobClient Node.js only", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
@@ -41,7 +47,7 @@ describe("AppendBlobClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const factories = (appendBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential);
 
     await newClient.create();
@@ -50,7 +56,7 @@ describe("AppendBlobClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (appendBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential, {
       userAgentOptions: { userAgentPrefix: "test/1.0" }
     });
@@ -73,7 +79,7 @@ describe("AppendBlobClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const factories = (appendBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new AppendBlobClient(appendBlobClient.url, pipeline);
 
@@ -121,11 +127,11 @@ describe("AppendBlobClient Node.js only", () => {
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
 
     const sas = generateBlobSASQueryParameters(
       {
-        expiryTime,
+        expiresOn: expiryTime,
         containerName,
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r")
@@ -154,12 +160,12 @@ describe("AppendBlobClient Node.js only", () => {
 
     // Get a SAS for blobURL
     const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const expiryTime = recorder.newDate();
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
-        expiryTime,
+        expiresOn: expiryTime,
         containerName,
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r")

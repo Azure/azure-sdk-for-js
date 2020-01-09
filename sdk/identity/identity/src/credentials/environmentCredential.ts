@@ -5,11 +5,27 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@azure/core-tracing";
+import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
+import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
+
+/**
+ * Contains the list of all supported environment variable names so that an
+ * appropriate error message can be generated when no credentials can be
+ * configured.
+ *
+ * @internal
+ */
+export const AllSupportedEnvironmentVariables = [
+  "AZURE_TENANT_ID",
+  "AZURE_CLIENT_ID",
+  "AZURE_CLIENT_SECRET",
+  "AZURE_CLIENT_CERTIFICATE_PATH",
+  "AZURE_USERNAME",
+  "AZURE_PASSWORD"
+];
 
 /**
  * Enables authentication to Azure Active Directory using client secret
@@ -24,6 +40,7 @@ import { UsernamePasswordCredential } from "./usernamePasswordCredential";
  * documentation of that class for more details.
  */
 export class EnvironmentCredential implements TokenCredential {
+  private _environmentVarsMissing: string[] = [];
   private _credential?: TokenCredential = undefined;
   /**
    * Creates an instance of the EnvironmentCredential class and reads
@@ -34,6 +51,11 @@ export class EnvironmentCredential implements TokenCredential {
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(options?: TokenCredentialOptions) {
+    // Keep track of any missing environment variables for error details
+    this._environmentVarsMissing = AllSupportedEnvironmentVariables.filter(
+      (v) => process.env[v] === undefined
+    );
+
     const tenantId = process.env.AZURE_TENANT_ID,
       clientId = process.env.AZURE_CLIENT_ID,
       clientSecret = process.env.AZURE_CLIENT_SECRET;
@@ -77,7 +99,7 @@ export class EnvironmentCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an {@link AccessToken} if
+   * Authenticates with Azure Active Directory and returns an access token if
    * successful.  If authentication cannot be performed at this time, this method may
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
@@ -86,11 +108,14 @@ export class EnvironmentCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  async getToken(
+    scopes: string | string[],
+    options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan("EnvironmentCredential-getToken", options);
     if (this._credential) {
       try {
-        return this._credential.getToken(scopes, newOptions);
+        return await this._credential.getToken(scopes, newOptions);
       } catch (err) {
         const code =
           err.name === AuthenticationErrorName
@@ -106,8 +131,18 @@ export class EnvironmentCredential implements TokenCredential {
       }
     }
 
+    // If by this point we don't have a credential, throw an exception so that
+    // the user knows the credential was not configured appropriately
     span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
     span.end();
-    return Promise.resolve(null);
+    throw new AuthenticationError(400, {
+      error: "missing_environment_variables",
+      error_description: `EnvironmentCredential cannot return a token because one or more of the following environment variables is missing:
+
+${this._environmentVarsMissing.join("\n")}
+
+To authenticate with a service principal AZURE_TENANT_ID, AZURE_CLIENT_ID, and either AZURE_CLIENT_SECRET or AZURE_CLIENT_CERTIFICATE_PATH must be set.  To authenticate with a user account AZURE_TENANT_ID, AZURE_USERNAME, and AZURE_PASSWORD must be set.
+`
+    });
   }
 }

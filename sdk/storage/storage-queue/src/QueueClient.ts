@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { HttpResponse, TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import { CanonicalCode } from "@azure/core-tracing";
+import {
+  HttpResponse,
+  TokenCredential,
+  isTokenCredential,
+  isNode,
+  getDefaultProxySettings,
+  URLBuilder
+} from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/types";
 import {
   EnqueuedMessage,
   DequeuedMessageItem,
@@ -26,23 +33,22 @@ import {
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Messages, MessageId, Queue } from "./generated/src/operations";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import {
   appendToURLPath,
   extractConnectionStringParts,
   truncatedISO8061Date,
-  getValueInConnString,
   getStorageClientContext
 } from "./utils/utils.common";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
-import { DevelopmentConnectionString } from "./utils/constants";
 import { Metadata } from "./models";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
- * Options to configure Queue - Create operation
+ * Options to configure {@link QueueClient.create} operation
  *
  * @export
  * @interface QueueCreateOptions
@@ -67,7 +73,7 @@ export interface QueueCreateOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue - Get Properties operation
+ * Options to configure {@link QueueClient.getProperties} operation
  *
  * @export
  * @interface QueueGetPropertiesOptions
@@ -84,7 +90,7 @@ export interface QueueGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue - Delete operation
+ * Options to configure {@link QueueClient.delete} operation
  *
  * @export
  * @interface QueueDeleteOptions
@@ -101,7 +107,7 @@ export interface QueueDeleteOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue - Get Access Policy operation
+ * Options to configure {@link QueueClient.getAccessPolicy} operation
  *
  * @export
  * @interface QueueGetAccessPolicyOptions
@@ -118,7 +124,7 @@ export interface QueueGetAccessPolicyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue - Set Access Policy operation
+ * Options to configure {@link QueueClient.setAccessPolicy} operation
  *
  * @export
  * @interface QueueSetAccessPolicyOptions
@@ -135,7 +141,7 @@ export interface QueueSetAccessPolicyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue - Set Metadata operation
+ * Options to configure {@link QueueClient.setMetadata} operation
  *
  * @export
  * @interface QueueSetMetadataOptions
@@ -167,13 +173,13 @@ export interface SignedIdentifier {
    */
   accessPolicy: {
     /**
-     * @member {Date} start the date-time the policy is active.
+     * @member {Date} startsOn the date-time the policy is active.
      */
-    start: Date;
+    startsOn: Date;
     /**
-     * @member {string} expiry the date-time the policy expires.
+     * @member {string} expiresOn the date-time the policy expires.
      */
-    expiry: Date;
+    expiresOn: Date;
     /**
      * @member {string} permission the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
@@ -182,6 +188,9 @@ export interface SignedIdentifier {
   };
 }
 
+/**
+ * Contains response data for the {@link QueueClient.getAccessPolicy} operation.
+ */
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
@@ -205,7 +214,7 @@ export declare type QueueGetAccessPolicyResponse = {
   };
 
 /**
- * Options to configure Messages - Clear operation
+ * Options to configure {@link QueueClient.clearMessages} operation
  *
  * @export
  * @interface QueueClearMessagesOptions
@@ -222,7 +231,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Messages - Send operation
+ * Options to configure {@link QueueClient.sendMessage} operation
  *
  * @export
  * @interface QueueSendMessageOptions
@@ -231,7 +240,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
 
 /**
- * Options to configure Messages - Dequeue operation
+ * Options to configure {@link QueueClient.receiveMessages} operation
  *
  * @export
  * @interface QueueReceiveMessageOptions
@@ -240,7 +249,7 @@ export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, 
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
 
 /**
- * Options to configure Messages - Peek operation
+ * Options to configure {@link QueueClient.peekMessages} operation
  *
  * @export
  * @interface QueuePeekMessagesOptions
@@ -248,6 +257,9 @@ export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParam
  */
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
 
+/**
+ * Contains the response data for the {@link QueueClient.sendMessage} operation.
+ */
 export declare type QueueSendMessageResponse = {
   /**
    * @member {string} messageId The ID of the sent Message.
@@ -294,8 +306,16 @@ export declare type QueueSendMessageResponse = {
     };
   };
 
+/**
+ * The object returned in the `receivedMessageItems` array when calling {@link QueueClient.receiveMessages}.
+ *
+ * See: {@link QueueReceiveMessageResponse}
+ */
 export declare type ReceivedMessageItem = DequeuedMessageItem;
 
+/**
+ * Contains the response data for the {@link QueueClient.receiveMessages} operation.
+ */
 export declare type QueueReceiveMessageResponse = {
   receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
@@ -318,6 +338,9 @@ export declare type QueueReceiveMessageResponse = {
     };
   };
 
+/**
+ * Contains the response data for the {@link QueueClient.peekMessages} operation.
+ */
 export declare type QueuePeekMessagesResponse = {
   peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
@@ -341,7 +364,7 @@ export declare type QueuePeekMessagesResponse = {
   };
 
 /**
- * Options to configure MessageId - Delete operation
+ * Options to configure the {@link QueueClient.deleteMessage} operation
  *
  * @export
  * @interface QueueDeleteMessageOptions
@@ -357,12 +380,23 @@ export interface QueueDeleteMessageOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * Contains response data for the {@link QueueClient.updateMessage} operation.
+ */
 export declare type QueueUpdateMessageResponse = MessageIdUpdateResponse;
+
+/**
+ * Contains response data for the {@link QueueClient.deleteMessage} operation.
+ */
 export declare type QueueDeleteMessageResponse = MessageIdDeleteResponse;
+
+/**
+ * Contains response data for the {@link QueueClient.clearMessages} operation.
+ */
 export declare type QueueClearMessagesResponse = MessagesClearResponse;
 
 /**
- * Options to configure MessageId - Update operation
+ * Options to configure {@link QueueClient.updateMessage} operation
  *
  * @export
  * @interface QueueUpdateMessageOptions
@@ -403,6 +437,10 @@ export class QueueClient extends StorageClient {
   private queueContext: Queue;
   private _name: string;
   private _messagesUrl: string;
+
+  /**
+   * The name of the queue.
+   */
   public get name(): string {
     return this._name;
   }
@@ -417,10 +455,10 @@ export class QueueClient extends StorageClient {
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {string} queueName Queue name.
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
-  constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
+  constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of QueueClient.
    *
@@ -428,16 +466,14 @@ export class QueueClient extends StorageClient {
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
-   *                                                  or a TokenCredential from @azure/identity. If not specified,
-   *                                                  AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: NewPipelineOptions
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of QueueClient.
@@ -454,14 +490,19 @@ export class QueueClient extends StorageClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrQueueName?:
-      | SharedKeyCredential
+      | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
       | Pipeline
       | string,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   ) {
-    options = options || {};
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
@@ -469,44 +510,44 @@ export class QueueClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrQueueName;
     } else if (
-      (isNode && credentialOrPipelineOrQueueName instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipelineOrQueueName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrQueueName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrQueueName)
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
+      pipeline = newPipeline(credentialOrPipelineOrQueueName, newOptions);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
     ) {
-      // (url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions)
+      // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second paramter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     } else if (
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
     ) {
-      // (connectionString: string, containerName: string, queueName: string, options?: NewPipelineOptions)
+      // (connectionString: string, containerName: string, queueName: string, options?: StoragePipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
           const queueName = credentialOrPipelineOrQueueName;
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName,
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, queueName);
-          options.proxy = extractedCreds.proxyUri;
-          pipeline = newPipeline(sharedKeyCredential, options);
+          newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, newOptions);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
         url = appendToURLPath(extractedCreds.url, queueName) + "?" + extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), options);
+        pipeline = newPipeline(new AnonymousCredential(), newOptions);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
@@ -546,11 +587,18 @@ export class QueueClient extends StorageClient {
    * @param {QueueCreateOptions} [options] Options to Queue create operation.
    * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
    * @memberof QueueClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
+   * const createQueueResponse = await queueClient.create();
+   * ```
    */
   public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-create", options.tracingOptions);
     try {
-      return this.queueContext.create({
+      return await this.queueContext.create({
         ...options,
         abortSignal: options.abortSignal,
         spanOptions
@@ -573,11 +621,20 @@ export class QueueClient extends StorageClient {
    * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
    * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
    * @memberof QueueClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const deleteQueueResponse = await queueClient.delete();
+   * console.log(
+   *   "Delete queue successfully, service assigned request Id:", deleteQueueResponse.requestId
+   * );
+   * ```
    */
   public async delete(options: QueueDeleteOptions = {}): Promise<QueueDeleteResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-delete", options.tracingOptions);
     try {
-      return this.queueContext.deleteMethod({
+      return await this.queueContext.deleteMethod({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -597,6 +654,11 @@ export class QueueClient extends StorageClient {
    * queue. Metadata is associated with the queue as name-values pairs.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-metadata
    *
+   * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
+   * they originally contained uppercase characters. This differs from the metadata keys returned by
+   * the `listQueues` method of {@link QueueServiceClient} using the `includeMetadata` option, which
+   * will retain their original casing.
+   *
    * @param {QueueGetPropertiesOptions} [options] Options to Queue get properties operation.
    * @returns {Promise<QueueGetPropertiesResponse>} Response data for the Queue get properties operation.
    * @memberof QueueClient
@@ -604,9 +666,9 @@ export class QueueClient extends StorageClient {
   public async getProperties(
     options: QueueGetPropertiesOptions = {}
   ): Promise<QueueGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-getProperties", options.tracingOptions);
     try {
-      return this.queueContext.getProperties({
+      return await this.queueContext.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -637,9 +699,9 @@ export class QueueClient extends StorageClient {
     metadata?: Metadata,
     options: QueueSetMetadataOptions = {}
   ): Promise<QueueSetMetadataResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-setMetadata", options.tracingOptions);
     try {
-      return this.queueContext.setMetadata({
+      return await this.queueContext.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
         spanOptions
@@ -670,7 +732,7 @@ export class QueueClient extends StorageClient {
   public async getAccessPolicy(
     options: QueueGetAccessPolicyOptions = {}
   ): Promise<QueueGetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-getAccessPolicy", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-getAccessPolicy", options.tracingOptions);
     try {
       const response = await this.queueContext.getAccessPolicy({
         abortSignal: options.abortSignal,
@@ -690,9 +752,9 @@ export class QueueClient extends StorageClient {
       for (const identifier of response) {
         res.signedIdentifiers.push({
           accessPolicy: {
-            expiry: new Date(identifier.accessPolicy.expiry),
+            expiresOn: new Date(identifier.accessPolicy.expiresOn),
             permissions: identifier.accessPolicy.permissions,
-            start: new Date(identifier.accessPolicy.start)
+            startsOn: new Date(identifier.accessPolicy.startsOn)
           },
           id: identifier.id
         });
@@ -723,21 +785,21 @@ export class QueueClient extends StorageClient {
     queueAcl?: SignedIdentifier[],
     options: QueueSetAccessPolicyOptions = {}
   ): Promise<QueueSetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-setAccessPolicy", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-setAccessPolicy", options.tracingOptions);
     try {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of queueAcl || []) {
         acl.push({
           accessPolicy: {
-            expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
+            expiresOn: truncatedISO8061Date(identifier.accessPolicy.expiresOn),
             permissions: identifier.accessPolicy.permissions,
-            start: truncatedISO8061Date(identifier.accessPolicy.start)
+            startsOn: truncatedISO8061Date(identifier.accessPolicy.startsOn)
           },
           id: identifier.id
         });
       }
 
-      return this.queueContext.setAccessPolicy({
+      return await this.queueContext.setAccessPolicy({
         abortSignal: options.abortSignal,
         queueAcl: acl,
         spanOptions
@@ -764,9 +826,9 @@ export class QueueClient extends StorageClient {
   public async clearMessages(
     options: QueueClearMessagesOptions = {}
   ): Promise<QueueClearMessagesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-clearMessages", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-clearMessages", options.tracingOptions);
     try {
-      return this.messagesContext.clear({
+      return await this.messagesContext.clear({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -782,7 +844,7 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * SendMessage adds a new message to the back of a queue. The visibility timeout specifies how long
+   * sendMessage adds a new message to the back of a queue. The visibility timeout specifies how long
    * the message should be invisible to Dequeue and Peek operations.
    * The message content is up to 64KB in size, and must be in a format that can be included in an XML request with UTF-8 encoding.
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
@@ -792,12 +854,22 @@ export class QueueClient extends StorageClient {
    * @param {QueueSendMessageOptions} [options] Options to send messages operation.
    * @returns {Promise<QueueSendMessageResponse>} Response data for the send messages operation.
    * @memberof QueueClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const sendMessageResponse = await queueClient.sendMessage("Hello World!");
+   * console.log(
+   *   "Sent message successfully, service assigned message Id:", sendMessageResponse.messageId,
+   *   "service assigned request Id:", sendMessageResponse.requestId
+   * );
+   * ```
    */
   public async sendMessage(
     messageText: string,
     options: QueueSendMessageOptions = {}
   ): Promise<QueueSendMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-sendMessage", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-sendMessage", options.tracingOptions);
     try {
       const response = await this.messagesContext.enqueue(
         {
@@ -835,17 +907,35 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * Dequeue retrieves one or more messages from the front of the queue.
+   * receiveMessages retrieves one or more messages from the front of the queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
    *
    * @param {QueueReceiveMessageOptions} [options] Options to receive messages operation.
    * @returns {Promise<QueueReceiveMessageResponse>} Response data for the receive messages operation.
    * @memberof QueueClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const response = await queueClient.receiveMessages();
+   * if (response.receivedMessageItems.length == 1) {
+   *   const receivedMessageItem = response.receivedMessageItems[0];
+   *   console.log("Processing & deleting message with content:", receivedMessageItem.messageText);
+   *   const deleteMessageResponse = await queueClient.deleteMessage(
+   *     receivedMessageItem.messageId,
+   *     receivedMessageItem.popReceipt
+   *   );
+   *   console.log(
+   *     "Delete message succesfully, service assigned request Id:",
+   *     deleteMessageResponse.requestId
+   *   );
+   * }
+   * ```
    */
   public async receiveMessages(
     options: QueueReceiveMessageOptions = {}
   ): Promise<QueueReceiveMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-receiveMessages", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-receiveMessages", options.tracingOptions);
     try {
       const response = await this.messagesContext.dequeue({
         abortSignal: options.abortSignal,
@@ -880,17 +970,24 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * Peek retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
+   * peekMessages retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
    *
    * @param {QueuePeekMessagesOptions} [options] Options to peek messages operation.
    * @returns {QueuePeekMessagesResponse>} Response data for the peek messages operation.
    * @memberof QueueClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const peekMessagesResponse = await queueClient.peekMessages();
+   * console.log("The peeked message is:", peekMessagesResponse.peekedMessageItems[0].messageText);
+   * ```
    */
   public async peekMessages(
     options: QueuePeekMessagesOptions = {}
   ): Promise<QueuePeekMessagesResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-peekMessages", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-peekMessages", options.tracingOptions);
     try {
       const response = await this.messagesContext.peek({
         abortSignal: options.abortSignal,
@@ -925,7 +1022,7 @@ export class QueueClient extends StorageClient {
   }
 
   /**
-   * Delete permanently removes the specified message from its queue.
+   * deleteMessage permanently removes the specified message from its queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
    * @param {string} messageId Id of the message.
@@ -939,9 +1036,9 @@ export class QueueClient extends StorageClient {
     popReceipt: string,
     options: QueueDeleteMessageOptions = {}
   ): Promise<QueueDeleteMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.tracingOptions);
     try {
-      return this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
+      return await this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -981,9 +1078,9 @@ export class QueueClient extends StorageClient {
     visibilityTimeout?: number,
     options: QueueUpdateMessageOptions = {}
   ): Promise<QueueUpdateMessageResponse> {
-    const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.spanOptions);
+    const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.tracingOptions);
     try {
-      return this.getMessageIdContext(messageId).update(
+      return await this.getMessageIdContext(messageId).update(
         {
           messageText: message
         },
@@ -1011,29 +1108,27 @@ export class QueueClient extends StorageClient {
       //  URL may look like the following
       // "https://myaccount.queue.core.windows.net/myqueue?sasString".
       // "https://myaccount.queue.core.windows.net/myqueue".
-      // or an emulator URL that starts with the endpoint `http://127.0.0.1:10001/devstoreaccount1`
+      // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10001/devstoreaccount1/myqueue`
+      // http://localhost:10001/devstoreaccount1/queuename
 
-      let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-      urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+      const parsedUrl = URLBuilder.parse(this.url);
 
-      // http://127.0.0.1:10001/devstoreaccount1
-      const emulatorQueueEndpoint = getValueInConnString(
-        DevelopmentConnectionString,
-        "QueueEndpoint"
-      );
-
-      if (this.url.startsWith(emulatorQueueEndpoint)) {
-        // Emulator URL starts with `http://127.0.0.1:10001/devstoreaccount1`
-        queueName = urlWithoutSAS.match(emulatorQueueEndpoint + "/([^/]*)")![1];
+      if (parsedUrl.getHost()!.split(".")[1] === "queue") {
+        // "https://myaccount.queue.core.windows.net/queuename".
+        // .getPath() -> /queuename
+        queueName = parsedUrl.getPath()!.split("/")[1];
       } else {
-        queueName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
+        // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/queuename
+        // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/queuename
+        // .getPath() -> /devstoreaccount1/queuename
+        queueName = parsedUrl.getPath()!.split("/")[2];
       }
 
       if (!queueName) {
         throw new Error("Provided queueName is invalid.");
-      } else {
-        return queueName;
       }
+
+      return queueName;
     } catch (error) {
       throw new Error("Unable to extract queueName with provided information.");
     }

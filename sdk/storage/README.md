@@ -5,13 +5,15 @@ Azure Storage is a Microsoft-managed service providing cloud storage that is hig
 This project provides client libraries in JavaScript that makes it easy to consume Microsoft Azure Storage service.
 
 - [Source Code - Blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
-- [Source Code - File](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share)
+- [Source Code - File Data Lake](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake)
+- [Source Code - File Share](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share)
 - [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/storage)
-- @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.5)
-- @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share/v/12.0.0-preview.5)
-- @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.5)
-- [API Reference documentation](https://azure.github.io/azure-sdk-for-js)
+- @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob)
+- @azure/storage-file-datalake [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-datalake)
+- @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share)
+- @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
+- [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/storage)
 - [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)
 
 ## Key concepts
@@ -24,6 +26,9 @@ This project provides client libraries in JavaScript that makes it easy to consu
   - Create/Read/List/Update/Delete Block Blobs
   - Create/Read/List/Update/Delete Page Blobs
   - Create/Read/List/Update/Delete Append Blobs
+- Data Lake Storage
+  - Create/List/Delete File Systems
+  - Create/Read/List/Update/Delete Paths, Directories and Files
 - File Storage
   - Get/Set File Service Properties
   - Create/List/Delete File Shares
@@ -40,287 +45,24 @@ This project provides client libraries in JavaScript that makes it easy to consu
 
 ### Compatibility
 
-This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (>=8.16.0) and latest versions of Chrome, Firefox and Edge.
-
-#### Compatible with IE11
-
-You need polyfills to make this library work with IE11. The easiest way is to use [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill), or [polyfill service](https://polyfill.io/v2/docs/).
-
-You can also load separate polyfills for missed ES feature(s).
-This library depends on following ES features which need external polyfills loaded.
-
-- `Promise`
-- `String.prototype.startsWith`
-- `String.prototype.endsWith`
-- `String.prototype.repeat`
-- `String.prototype.includes`
-- `Array.prototype.includes`
-- `Object.assign`
-- `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
-- `Symbol`
-
-#### Differences between Node.js and browsers
-
-There are differences between Node.js and browsers runtime. When getting started with this library, pay attention to APIs or classes marked with _"ONLY AVAILABLE IN NODE.JS RUNTIME"_ or _"ONLY AVAILABLE IN BROWSERS"_.
-
-##### Following features, interfaces, classes or functions are only available in Node.js
-
-- Shared Key Authorization based on account name and account key
-  - `SharedKeyCredential`
-- Shared Access Signature(SAS) generation
-  - `generateAccountSASQueryParameters()`
-  - `generateBlobSASQueryParameters()`
-  - `generateFileSASQueryParameters()`
-  - `generateQueueSASQueryParameters()`
-- Parallel uploading and downloading
-  - `BlockBlobClient.uploadFile()`
-  - `BlockBlobClient.uploadStream()`
-  - `BlobClient.downloadToBuffer()`
-  - `BlobClient.downloadToFile()`
-  - `FileClient.uploadFile()`
-  - `FileClient.uploadStream()`
-  - `FileClient.downloadToBuffer()`
-  - `FileClient.downloadToFile()`
-
-##### Following features, interfaces, classes or functions are only available in browsers
-
-- Parallel uploading and downloading
-  - `BlockBlobClient.uploadBrowserData()`
-  - `FileClient.uploadBrowserData()`
-
-## Getting Started
-
-### NPM
-
-The preferred way to install the Azure Storage client libraries for JavaScript is to use the npm package manager. Take "@azure/storage-blob" for example.
-
-Simply type the following into a terminal window:
-
-```bash
-npm install @azure/storage-blob@12.0.0-preview.5
-```
-
-In your TypeScript or JavaScript file, import via following:
-
-```JavaScript
-import * as AzureStorageBlob from "@azure/storage-blob";
-```
-
-Or
-
-```JavaScript
-conss AzureStorageBlob = require("@azure/storage-blob");
-```
-
-### JavaScript Bundle
-
-To use the client libraries with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):
-
-```html
-<script src="https://mydomain/azure-storage-blob.min.js"></script>
-<script src="https://mydomain/azure-storage-file-share.min.js"></script>
-<script src="https://mydomain/azure-storage-queue.min.js"></script>
-```
-
-The JS bundled file is compatible with [UMD](https://github.com/umdjs/umd) standard, if no module system found, following global variable(s) will be exported:
-
-- `azblob`
-- `azfile`
-- `azqueue`
-
-#### Download
-
-Download latest released JS bundles from links in the [GitHub release page](https://github.com/Azure/azure-storage-js/releases).
-
-### CORS
-
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
-
-For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
-
-- Allowed origins: \*
-- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
-- Allowed headers: \*
-- Exposed headers: \*
-- Maximum age (seconds): 86400
+These libraries are compatible with Node.js and browsers, and validated against LTS Node.js versions (>=8.16.0) and latest versions of Chrome, Firefox and Edge.
 
 ## Architecture
 
 The Azure Storage client libraries for JavaScript provides low-level and high-level APIs. Take Blob client library as example:
 
-- ServiceClient, ContainerClient and BlobClient objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
+- `BlobServiceClient`, `ContainerClient` and `BlobClient` objects provide the low-level API functionality and map one-to-one to the [Azure Storage Blob REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api).
 
 - The high-level APIs provide convenience abstractions such as uploading a large stream to a block blob (using multiple PutBlock requests).
 
 ## Examples
 
-## Code Samples
-
-```javascript
-const { BlobServiceClient, newPipeline, SharedKeyCredential } = require("@azure/storage-blob");
-
-async function main() {
-  // Enter your storage account name and shared key
-  const account = "";
-  const accountKey = "";
-
-  // Use SharedKeyCredential with storage account and account key
-  // SharedKeyCredential is only avaiable in Node.js runtime, not in browsers
-  const sharedKeyCredential = new SharedKeyCredential(account, accountKey);
-
-  // You can find more TokenCredential implementations in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library
-  // to use client secrets, certificates, or managed identities for authentication.
-
-  // Use AnonymousCredential when url already includes a SAS signature
-  const anonymousCredential = new AnonymousCredential();
-
-  const blobServiceClient = new BlobServiceClient(
-    // When using AnonymousCredential, following url should include a valid SAS or support public access
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
-  );
-
-  // Create a container
-  const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.getContainerClient(containerName);
-
-  const createContainerResponse = await containerClient.create();
-  console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
-
-  for (let index = 0; index < 7; index++) {
-    // Create a blob
-    const content = "hello";
-    const blobName = "newblob" + new Date().getTime();
-    const blobClient = containerClient.getBlobClient(blobName);
-    const blockBlobClient = blobClient.getBlockBlobClient();
-    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
-    console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
-  }
-
-  // 1. List blobs
-  let i = 1;
-  let iter = await containerClient.listBlobsFlat();
-  for await (const blob of iter) {
-    console.log(`Blob ${i++}: ${blob.name}`);
-  }
-
-  // 2. Same as the previous example
-  i = 1;
-  for await (const blob of containerClient.listBlobsFlat()) {
-    console.log(`Blob ${i++}: ${blob.name}`);
-  }
-
-  // 3. Generator syntax .next()
-  i = 1;
-  iter = containerClient.listBlobsFlat();
-  let blobItem = await iter.next();
-  while (!blobItem.done) {
-    console.log(`Blob ${i++}: ${blobItem.value.name}`);
-    blobItem = await iter.next();
-  }
-
-  ////////////////////////////////////////////////////////
-  ///////////////  Examples for .byPage()  ///////////////
-  ////////////////////////////////////////////////////////
-
-  // 4. list containers by page
-  i = 1;
-  for await (const response of containerClient.listBlobsFlat().byPage()) {
-    for (const blob of response.segment.blobItems) {
-      console.log(`Blob ${i++}: ${blob.name}`);
-    }
-  }
-
-  // 5. Same as the previous example - passing maxPageSize in the page settings
-  i = 1;
-  for await (const response of containerClient.listBlobsFlat().byPage({ maxPageSize: 20 })) {
-    for (const blob of response.segment.blobItems) {
-      console.log(`Blob ${i++}: ${blob.name}`);
-    }
-  }
-
-  // 6. Generator syntax .next()
-  i = 1;
-  let iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 20 });
-  let response = (await iterator.next()).value;
-  do {
-    for (const blob of response.segment.blobItems) {
-      console.log(`Blob ${i++}: ${blob.name}`);
-    }
-    response = (await iterator.next()).value;
-  } while (response);
-
-  // 7. Passing the page marker as an argument (similar to the previous example)
-  i = 1;
-  iterator = containerClient.listBlobsFlat().byPage({ maxPageSize: 2 });
-  response = (await iterator.next()).value;
-  // Prints 2 blob names
-  for (const blob of response.segment.blobItems) {
-    console.log(`Blob ${i++}: ${blob.name}`);
-  }
-  // Passing the continuationToken
-  iterator = containerClient.listBlobsFlat().byPage({ continuationToken: response.continuationToken, maxPageSize: 10 });
-  response = (await iterator.next()).value;
-  // Prints 5 blob names
-  for (const blob of response.segment.blobItems) {
-    console.log(`Blob ${i++}: ${blob.name}`);
-  }
-}
-
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed the sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
-```
-
-## Troubleshooting
-
-It could help diagnozing issues by turning on the console logging. Here's an example logger implementation. First, add a custom logger:
-
-```javascript
-class ConsoleHttpPipelineLogger {
-  constructor(minimumLogLevel) {
-    this.minimumLogLevel = minimumLogLevel;
-  }
-  log(logLevel, message) {
-    const logMessage = `${new Date().toISOString()} ${HttpPipelineLogLevel[logLevel]}: ${message}`;
-    switch (logLevel) {
-      case HttpPipelineLogLevel.ERROR:
-        console.error(logMessage);
-        break;
-      case HttpPipelineLogLevel.WARNING:
-        console.warn(logMessage);
-        break;
-      case HttpPipelineLogLevel.INFO:
-        console.log(logMessage);
-        break;
-    }
-  }
-}
-```
-
-When creating the `QueueServiceClient` instance, pass the logger in the options
-
-```javascript
-const queueServiceClient = new QueueServiceClient(
-  `https://${account}.queue.core.windows.net`,
-  sharedKeyCredential,
-  {
-    logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-  }
-);
-```
-
-## Next steps
-
-More samples
+Please check out examples for each libraries
 
 - [Blob Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples)
 - [Blob Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/test/)
+- [Data Lake Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake/samples)
+- [Data Lake Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake/test)
 - [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples)
 - [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/test)
 - [Queue Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples)
@@ -339,3 +81,5 @@ provided by the bot. You will only need to do this once across all repos using o
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2FREADME.png)

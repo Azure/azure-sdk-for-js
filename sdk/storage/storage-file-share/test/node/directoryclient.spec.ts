@@ -1,18 +1,24 @@
 import * as assert from "assert";
-import { getBSU } from "../utils";
+import { getBSU, setupEnvironment } from "../utils";
 import * as dotenv from "dotenv";
-import { ShareDirectoryClient, newPipeline, SharedKeyCredential, ShareClient } from "../../src";
-import { record } from "../utils/recorder";
+import {
+  ShareDirectoryClient,
+  newPipeline,
+  StorageSharedKeyCredential,
+  ShareClient
+} from "../../src";
+import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient Node.js only", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
   let dirClient: ShareDirectoryClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -33,7 +39,7 @@ describe("DirectoryClient Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const factories = (dirClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new ShareDirectoryClient(dirClient.url, credential);
 
     const result = await newClient.getProperties();
@@ -47,7 +53,7 @@ describe("DirectoryClient Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (dirClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new ShareDirectoryClient(dirClient.url, credential, {
       retryOptions: {
         maxTries: 5
@@ -65,7 +71,7 @@ describe("DirectoryClient Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const factories = (dirClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ShareDirectoryClient(dirClient.url, pipeline);
 

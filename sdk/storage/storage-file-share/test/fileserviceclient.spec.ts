@@ -1,19 +1,20 @@
 import * as assert from "assert";
 
-import { getBSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record, delay } from "./utils/recorder";
+import { getBSU, getSASConnectionStringFromEnvironment, setupEnvironment } from "./utils";
+import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareServiceClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("FileServiceClient", () => {
-  let recorder: any;
+  setupEnvironment();
+  let recorder: Recorder;
 
-  beforeEach(function() {
+  beforeEach(function () {
     recorder = record(this);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     recorder.stop();
   });
 
@@ -22,6 +23,30 @@ describe("FileServiceClient", () => {
 
     const result = (await serviceClient
       .listShares()
+      .byPage()
+      .next()).value;
+
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(result.shareItems!.length >= 0);
+
+    if (result.shareItems!.length > 0) {
+      const share = result.shareItems![0];
+      assert.ok(share.name.length > 0);
+      assert.ok(share.properties.etag.length > 0);
+      assert.ok(share.properties.lastModified);
+    }
+  });
+
+  it("listShares with default parameters - empty prefix should not cause an error", async () => {
+    const serviceClient = getBSU();
+
+    const result = (await serviceClient
+      .listShares({ prefix: "" })
       .byPage()
       .next()).value;
 
@@ -52,15 +77,21 @@ describe("FileServiceClient", () => {
     await shareClient1.create({ metadata: { key: "val" } });
     await shareClient2.create({ metadata: { key: "val" } });
 
-    const result1 = (await serviceClient
+    const iter = serviceClient
       .listShares({
         includeMetadata: true,
         includeSnapshots: true,
         prefix: shareNamePrefix
       })
-      .byPage({ maxPageSize: 1 })
-      .next()).value;
+      .byPage({ maxPageSize: 1 });
 
+    let res = await iter.next();
+    let result1 = res.value;
+    while (!result1.shareItems && !res.done) {
+      res = await iter.next();
+      result1 = res.value;
+    }
+    assert.ok(result1.shareItems);
     assert.ok(result1.continuationToken);
     assert.equal(result1.shareItems!.length, 1);
     assert.ok(result1.shareItems![0].name.startsWith(shareNamePrefix));
@@ -194,7 +225,13 @@ describe("FileServiceClient", () => {
         prefix: shareNamePrefix
       })
       .byPage({ maxPageSize: 2 });
-    let response = (await iter.next()).value;
+    let res = await iter.next();
+    let response = res.value;
+    while (!response.shareItems && !res.done) {
+      res = await iter.next();
+      response = res.value;
+    }
+    assert.ok(response.shareItems);
     // Gets 2 shares
     for (const item of response.shareItems!) {
       assert.ok(item.name.startsWith(shareNamePrefix));

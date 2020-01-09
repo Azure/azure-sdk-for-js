@@ -6,7 +6,7 @@ import { ConnectionContext } from "./connectionContext";
 import { AmqpMessage } from "@azure/core-amqp";
 import { message } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { Span, SpanContext } from "@azure/core-tracing";
+import { Span, SpanContext } from "@opentelemetry/types";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 
@@ -26,8 +26,7 @@ export function isEventDataBatch(eventDataBatch: any): eventDataBatch is EventDa
 }
 
 /**
- * The set of options to configure the behavior of `tryAdd`.
- * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
+ * Options to configure the behavior of the `tryAdd` method on the `EventDataBatch` class.
  */
 export interface TryAddOptions {
   /**
@@ -37,18 +36,92 @@ export interface TryAddOptions {
 }
 
 /**
- * A class representing a batch of events which can be passed to the `send` method of a `EventProducer` instance.
- * This batch is ensured to be under the maximum message size supported by Azure Event Hubs service.
- *
- * Use `createBatch()` method on the `EventHubProducer` to create an instance of `EventDataBatch`
- * instead of using `new EventDataBatch()`. You can specify an upper limit for the size of the batch
- * via options when calling `createBatch()`.
- *
- * Use the `tryAdd` function on the EventDataBatch to add events to the batch. This method will return
- * `false` after the upper limit is reached, therefore check the result before calling `tryAdd()` again.
- * @class
+ * An interface representing a batch of events which can be used to send events to Event Hub.
+ * 
+ * To create the batch, use the `createBatch()` method on the `EventHubProducerClient`.
+ * To send the batch, use the `sendBatch()` method on the same client.
+ * To fill the batch, use the `tryAdd()` method on the batch itself.
+ * 
  */
-export class EventDataBatch {
+export interface EventDataBatch {
+  /**
+   * A value that is hashed and used by the Azure Event Hubs service to determine the partition to
+   * which the events are sent. Use the `createBatch()` method on the `EventHubProducerClient` to
+   * set the partitionKey.
+   * @readonly
+   * @internal
+   * @ignore
+   */
+  readonly partitionKey?: string;
+
+  /**
+   * Id of the partition to which the batch of events are sent. Use the `createBatch()` method on
+   * the `EventHubProducerClient` to set the partitionId.
+   * @readonly
+   * @internal
+   * @ignore
+   */
+  readonly partitionId?: string;
+
+  /**
+   * Size of the batch in bytes after the events added to it have been encoded into a single AMQP
+   * message.
+   * @readonly
+   */
+  readonly sizeInBytes: number;
+
+  /**
+   * Number of events added to the batch.
+   * @readonly
+   */
+  readonly count: number;
+
+  /**
+   * The maximum size of the batch, in bytes. The `tryAdd` function on the batch will return `false`
+   * if the event being added causes the size of the batch to exceed this limit. Use the `createBatch()` method on
+   * the `EventHubProducerClient` to set the maxSizeInBytes.
+   * @readonly.
+   */
+  readonly maxSizeInBytes: number;
+
+  /**
+   * Adds an event to the batch if permitted by the batch's size limit.
+   * **NOTE**: Always remember to check the return value of this method, before calling it again
+   * for the next event.
+   *
+   * @param eventData  An individual event data object.
+   * @returns A boolean value indicating if the event data has been added to the batch or not.
+   */
+  tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
+
+  /**
+   * The AMQP message containing encoded events that were added to the batch.
+   * Used internally by the `sendBatch()` method on the `EventHubProducerClient`.
+   * This is not meant for the user to use directly.
+   * 
+   * @readonly
+   * @internal
+   * @ignore
+   */
+  readonly _message: Buffer | undefined;
+
+  /**
+   * Gets the "message" span contexts that were created when adding events to the batch.
+   * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
+   * @internal
+   * @ignore
+   */
+  readonly _messageSpanContexts: SpanContext[];
+}
+
+/**
+ * An internal class representing a batch of events which can be used to send events to Event Hub.
+ * 
+ * @class
+ * @internal
+ * @ignore
+ */
+export class EventDataBatchImpl implements EventDataBatch {
   /**
    * @property Describes the amqp connection context for the Client.
    */
@@ -62,7 +135,7 @@ export class EventDataBatch {
   /**
    * @property The maximum size allowed for the batch.
    */
-  private readonly _maxSizeInBytes: number;
+  private _maxSizeInBytes: number;
   /**
    * @property Current size of the batch in bytes.
    */
@@ -91,12 +164,25 @@ export class EventDataBatch {
    * @internal
    * @ignore
    */
-  constructor(context: ConnectionContext, maxSizeInBytes: number, partitionKey?: string) {
+  constructor(
+    context: ConnectionContext,
+    maxSizeInBytes: number,
+    partitionKey?: string,
+    private _partitionId?: string
+  ) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
     this._partitionKey = partitionKey;
     this._sizeInBytes = 0;
     this._count = 0;
+  }
+
+  /**
+   * @property The maximum size of the batch, in bytes.
+   * @readonly
+   */
+  get maxSizeInBytes(): number {
+    return this._maxSizeInBytes;
   }
 
   /**
@@ -106,6 +192,15 @@ export class EventDataBatch {
    */
   get partitionKey(): string | undefined {
     return this._partitionKey;
+  }
+
+  /**
+   * The partitionId set during `EventDataBatch` creation.
+   * If this value is set then partitionKey can not be set.
+   * @readonly
+   */
+  get partitionId(): string | undefined {
+    return this._partitionId;
   }
 
   /**
@@ -135,7 +230,7 @@ export class EventDataBatch {
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
    */
-  get batchMessage(): Buffer | undefined {
+  get _message(): Buffer | undefined {
     return this._batchMessage;
   }
 
@@ -147,6 +242,7 @@ export class EventDataBatch {
   get _messageSpanContexts(): SpanContext[] {
     return this._spanContexts;
   }
+
   /**
    * Tries to add an event data to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again

@@ -1,12 +1,18 @@
 import * as assert from "assert";
 
-import { bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record } from "./utils/recorder";
+import {
+  bodyToString,
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  setupEnvironment
+} from "./utils";
+import { record } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { AppendBlobClient, ContainerClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobClient", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
@@ -64,6 +70,19 @@ describe("AppendBlobClient", () => {
 
     const content = "Hello World!";
     await appendBlobClient.appendBlock(content, content.length);
+
+    const downloadResponse = await appendBlobClient.download(0);
+    assert.equal(await bodyToString(downloadResponse, content.length), content);
+    assert.equal(downloadResponse.contentLength!, content.length);
+  });
+
+  it("appendBlock with progress report", async () => {
+    await appendBlobClient.create();
+
+    const content = "Hello World!";
+    await appendBlobClient.appendBlock(content, content.length, {
+      onProgress: () => {}
+    });
 
     const downloadResponse = await appendBlobClient.download(0);
     assert.equal(await bodyToString(downloadResponse, content.length), content);

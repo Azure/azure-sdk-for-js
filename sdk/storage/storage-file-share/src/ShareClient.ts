@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpResponse, isNode } from "@azure/core-http";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   DeleteSnapshotsOptionType,
@@ -42,12 +42,13 @@ import {
 } from "./ShareDirectoryClient";
 import { FileCreateOptions, FileDeleteOptions, ShareFileClient } from "./ShareFileClient";
 import { Credential } from "./credentials/Credential";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
- * Options to configure Share - Create operation.
+ * Options to configure the {@link ShareClient.create} operation.
  *
  * @export
  * @interface ShareCreateOptions
@@ -80,7 +81,7 @@ export interface ShareCreateOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Delete operation.
+ * Options to configure the {@link ShareClient.delete} operation.
  *
  * @export
  * @interface ShareDeleteMethodOptions
@@ -106,7 +107,7 @@ export interface ShareDeleteMethodOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Set Metadata operation.
+ * Options to configure the {@link ShareClient.setMetadata} operation.
  *
  * @export
  * @interface ShareSetMetadataOptions
@@ -123,7 +124,7 @@ export interface ShareSetMetadataOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Set Access Policy operation.
+ * Options to configure the {@link ShareClient.setAccessPolicy} operation.
  *
  * @export
  * @interface ShareSetAccessPolicyOptions
@@ -140,7 +141,7 @@ export interface ShareSetAccessPolicyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Get Access Policy operation.
+ * Options to configure the {@link ShareClient.getAccessPolicy} operation.
  *
  * @export
  * @interface ShareGetAccessPolicyOptions
@@ -157,7 +158,7 @@ export interface ShareGetAccessPolicyOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Get Properties operation.
+ * Options to configure the {@link ShareClient.getProperties} operation.
  *
  * @export
  * @interface ShareGetPropertiesOptions
@@ -174,7 +175,7 @@ export interface ShareGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Set Quota operation.
+ * Options to configure the {@link ShareClient.setQuota} operation.
  *
  * @export
  * @interface ShareSetQuotaOptions
@@ -191,7 +192,7 @@ export interface ShareSetQuotaOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Get Statistics operation.
+ * Options to configure the {@link ShareClient.getStatistics} operation.
  *
  * @export
  * @interface ShareGetStatisticsOptions
@@ -223,13 +224,13 @@ export interface SignedIdentifier {
    */
   accessPolicy: {
     /**
-     * @member {Date} start the date-time the policy is active.
+     * @member {Date} startsOn the date-time the policy is active.
      */
-    start: Date;
+    startsOn: Date;
     /**
-     * @member {string} expiry the date-time the policy expires.
+     * @member {string} expiresOn the date-time the policy expires.
      */
-    expiry: Date;
+    expiresOn: Date;
     /**
      * @member {string} permissions the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
@@ -261,7 +262,7 @@ export declare type ShareGetAccessPolicyResponse = {
   };
 
 /**
- * Options to configure Share - Create Snapshot operation.
+ * Options to configure the {@link ShareClient.createSnapshot} operation.
  *
  * @export
  * @interface ShareCreateSnapshotOptions
@@ -285,7 +286,7 @@ export interface ShareCreateSnapshotOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Share - Create Permission operation.
+ * Options to configure the {@link ShareClient.createPermission} operation.
  *
  * @export
  * @interface ShareCreatePermissionOptions
@@ -301,7 +302,7 @@ export interface ShareCreatePermissionOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 /**
- * Options to configure Share - Get Permission operation.
+ * Options to configure the {@link ShareClient.getPermission} operation.
  *
  * @export
  * @interface ShareGetPermissionOptions
@@ -318,7 +319,7 @@ export interface ShareGetPermissionOptions extends CommonOptions {
 }
 
 /**
- * Response - Share Get Statistics Operation.
+ * Response data for the {@link ShareClient.getStatistics} Operation.
  *
  * @export
  * @interface ShareGetStatisticsResponse
@@ -351,9 +352,17 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   private context: Share;
-  private _shareName: string;
-  public get shareName(): string {
-    return this._shareName;
+
+  private _name: string;
+
+  /**
+   * The name of the share
+   *
+   * @type {string}
+   * @memberof ShareClient
+   */
+  public get name(): string {
+    return this._name;
   }
 
   /**
@@ -363,11 +372,11 @@ export class ShareClient extends StorageClient {
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {string} shareName Share name.
+   * @param {string} name Share name.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient
    */
-  constructor(connectionString: string, shareName: string, options?: StoragePipelineOptions);
+  constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ShareClient.
    *
@@ -375,7 +384,7 @@ export class ShareClient extends StorageClient {
    *                     "https://myaccount.file.core.windows.net/share". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.file.core.windows.net/share?sasString".
-   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential} [credential] Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareClient
@@ -398,6 +407,12 @@ export class ShareClient extends StorageClient {
     credentialOrPipelineOrShareName?: Credential | Pipeline | string,
     options?: StoragePipelineOptions
   ) {
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrShareName instanceof Pipeline) {
@@ -407,7 +422,7 @@ export class ShareClient extends StorageClient {
     } else if (credentialOrPipelineOrShareName instanceof Credential) {
       // (url: string, credential?: Credential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      pipeline = newPipeline(credentialOrPipelineOrShareName, options);
+      pipeline = newPipeline(credentialOrPipelineOrShareName, newOptions);
     } else if (
       !credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName !== "string"
@@ -415,38 +430,38 @@ export class ShareClient extends StorageClient {
       // (url: string, credential?: Credential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     } else if (
       credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName === "string"
     ) {
-      // (connectionString: string, shareName: string, options?: StoragePipelineOptions)
+      // (connectionString: string, name: string, options?: StoragePipelineOptions)
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
-      const shareName = credentialOrPipelineOrShareName;
+      const name = credentialOrPipelineOrShareName;
       if (extractedCreds.kind === "AccountConnString") {
         if (isNode) {
-          const sharedKeyCredential = new SharedKeyCredential(
+          const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey
           );
-          url = appendToURLPath(extractedCreds.url, shareName);
-          pipeline = newPipeline(sharedKeyCredential, options);
+          url = appendToURLPath(extractedCreds.url, name);
+          pipeline = newPipeline(sharedKeyCredential, newOptions);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
-        url = appendToURLPath(extractedCreds.url, shareName) + "?" + extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), options);
+        url = appendToURLPath(extractedCreds.url, name) + "?" + extractedCreds.accountSas;
+        pipeline = newPipeline(new AnonymousCredential(), newOptions);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
         );
       }
     } else {
-      throw new Error("Expecting non-empty strings for shareName parameter");
+      throw new Error("Expecting non-empty strings for name parameter");
     }
     super(url, pipeline);
-    this._shareName = getShareNameAndPathFromUrl(this.url).shareName;
+    this._name = getShareNameAndPathFromUrl(this.url).shareName;
     this.context = new Share(this.storageClientContext);
   }
 
@@ -479,9 +494,9 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-create", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-create", options.tracingOptions);
     try {
-      return this.context.create({
+      return await this.context.create({
         ...options,
         spanOptions
       });
@@ -497,7 +512,7 @@ export class ShareClient extends StorageClient {
   }
 
   /**
-   * Creates a ShareDirectoryClient object.
+   * Creates a {@link ShareDirectoryClient} object.
    *
    * @param directoryName A directory name
    * @returns {ShareDirectoryClient} The ShareDirectoryClient object for the given directory name.
@@ -538,10 +553,13 @@ export class ShareClient extends StorageClient {
     directoryClient: ShareDirectoryClient;
     directoryCreateResponse: DirectoryCreateResponse;
   }> {
-    const { span, spanOptions } = createSpan("ShareClient-createDirectory", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-createDirectory", options.tracingOptions);
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      const directoryCreateResponse = await directoryClient.create({ ...options, spanOptions });
+      const directoryCreateResponse = await directoryClient.create({
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
       return {
         directoryClient,
         directoryCreateResponse
@@ -571,10 +589,13 @@ export class ShareClient extends StorageClient {
     directoryName: string,
     options: DirectoryDeleteOptions = {}
   ): Promise<DirectoryDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-deleteDirectory", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-deleteDirectory", options.tracingOptions);
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
-      return await directoryClient.delete({ ...options, spanOptions });
+      return await directoryClient.delete({
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -602,11 +623,14 @@ export class ShareClient extends StorageClient {
     size: number,
     options: FileCreateOptions = {}
   ): Promise<{ fileClient: ShareFileClient; fileCreateResponse: FileCreateResponse }> {
-    const { span, spanOptions } = createSpan("ShareClient-createFile", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-createFile", options.tracingOptions);
     try {
       const directoryClient = this.rootDirectoryClient;
       const fileClient = directoryClient.getFileClient(fileName);
-      const fileCreateResponse = await fileClient.create(size, { ...options, spanOptions });
+      const fileCreateResponse = await fileClient.create(size, {
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
       return {
         fileClient,
         fileCreateResponse
@@ -628,11 +652,12 @@ export class ShareClient extends StorageClient {
    * account's index and is no longer accessible to clients. The file's data is later
    * removed from the service during garbage collection.
    *
-   * Delete File will fail with status code 409 (Conflict) and error code SharingViolation
+   * Delete File will fail with status code 409 (Conflict) and error code `SharingViolation`
    * if the file is open on an SMB client.
    *
    * Delete File is not supported on a share snapshot, which is a read-only copy of
-   * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+   * a share. An attempt to perform this operation on a share snapshot will fail with 400
+   * (`InvalidQueryParameterValue`)
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
@@ -646,11 +671,14 @@ export class ShareClient extends StorageClient {
     fileName: string,
     options: FileDeleteOptions = {}
   ): Promise<FileDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-deleteFile", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-deleteFile", options.tracingOptions);
     try {
       const directoryClient = this.rootDirectoryClient;
       const fileClient = directoryClient.getFileClient(fileName);
-      return await fileClient.delete({ ...options, spanOptions });
+      return await fileClient.delete({
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -667,15 +695,20 @@ export class ShareClient extends StorageClient {
    * share.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-properties
    *
+   * WARNING: The `metadata` object returned in the response will have its keys in lowercase, even if
+   * they originally contained uppercase characters. This differs from the metadata keys returned by
+   * the `listShares` method of {@link ShareServiceClient} using the `includeMetadata` option, which
+   * will retain their original casing.
+   *
    * @returns {Promise<ShareGetPropertiesResponse>} Response data for the Share Get Properties operation.
    * @memberof ShareClient
    */
   public async getProperties(
     options: ShareGetPropertiesOptions = {}
   ): Promise<ShareGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getProperties", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-getProperties", options.tracingOptions);
     try {
-      return this.context.getProperties({
+      return await this.context.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -700,9 +733,9 @@ export class ShareClient extends StorageClient {
    * @memberof ShareClient
    */
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<ShareDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-delete", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-delete", options.tracingOptions);
     try {
-      return this.context.deleteMethod({
+      return await this.context.deleteMethod({
         ...options,
         spanOptions
       });
@@ -733,9 +766,9 @@ export class ShareClient extends StorageClient {
     metadata?: Metadata,
     options: ShareSetMetadataOptions = {}
   ): Promise<ShareSetMetadataResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setMetadata", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-setMetadata", options.tracingOptions);
     try {
-      return this.context.setMetadata({
+      return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
         spanOptions
@@ -767,7 +800,7 @@ export class ShareClient extends StorageClient {
   public async getAccessPolicy(
     options: ShareGetAccessPolicyOptions = {}
   ): Promise<ShareGetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getAccessPolicy", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-getAccessPolicy", options.tracingOptions);
     try {
       const response = await this.context.getAccessPolicy({
         abortSignal: options.abortSignal,
@@ -787,9 +820,9 @@ export class ShareClient extends StorageClient {
       for (const identifier of response) {
         res.signedIdentifiers.push({
           accessPolicy: {
-            expiry: new Date(identifier.accessPolicy!.expiry!),
+            expiresOn: new Date(identifier.accessPolicy!.expiresOn!),
             permissions: identifier.accessPolicy!.permissions!,
-            start: new Date(identifier.accessPolicy!.start!)
+            startsOn: new Date(identifier.accessPolicy!.startsOn!)
           },
           id: identifier.id
         });
@@ -825,21 +858,21 @@ export class ShareClient extends StorageClient {
     shareAcl?: SignedIdentifier[],
     options: ShareSetAccessPolicyOptions = {}
   ): Promise<ShareSetAccessPolicyResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setAccessPolicy", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-setAccessPolicy", options.tracingOptions);
     try {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of shareAcl || []) {
         acl.push({
           accessPolicy: {
-            expiry: truncatedISO8061Date(identifier.accessPolicy.expiry),
+            expiresOn: truncatedISO8061Date(identifier.accessPolicy.expiresOn),
             permissions: identifier.accessPolicy.permissions,
-            start: truncatedISO8061Date(identifier.accessPolicy.start)
+            startsOn: truncatedISO8061Date(identifier.accessPolicy.startsOn)
           },
           id: identifier.id
         });
       }
 
-      return this.context.setAccessPolicy({
+      return await this.context.setAccessPolicy({
         abortSignal: options.abortSignal,
         shareAcl: acl,
         spanOptions
@@ -865,9 +898,9 @@ export class ShareClient extends StorageClient {
   public async createSnapshot(
     options: ShareCreateSnapshotOptions = {}
   ): Promise<ShareCreateSnapshotResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-createSnapshot", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-createSnapshot", options.tracingOptions);
     try {
-      return this.context.createSnapshot({
+      return await this.context.createSnapshot({
         abortSignal: options.abortSignal,
         ...options,
         spanOptions
@@ -895,14 +928,14 @@ export class ShareClient extends StorageClient {
     quotaInGB: number,
     options: ShareSetQuotaOptions = {}
   ): Promise<ShareSetQuotaResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-setQuota", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-setQuota", options.tracingOptions);
     try {
       if (quotaInGB <= 0 || quotaInGB > 5120) {
         throw new RangeError(
           `Share quota must be greater than 0, and less than or equal to 5Tib (5120GB)`
         );
       }
-      return this.context.setQuota({
+      return await this.context.setQuota({
         abortSignal: options.abortSignal,
         quota: quotaInGB,
         spanOptions
@@ -928,7 +961,7 @@ export class ShareClient extends StorageClient {
   public async getStatistics(
     options: ShareGetStatisticsOptions = {}
   ): Promise<ShareGetStatisticsResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getStatistics", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-getStatistics", options.tracingOptions);
     try {
       const response = await this.context.getStatistics({
         abortSignal: options.abortSignal,
@@ -960,9 +993,12 @@ export class ShareClient extends StorageClient {
     filePermission: string,
     options: ShareCreatePermissionOptions = {}
   ): Promise<ShareCreatePermissionResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-createPermission", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareClient-createPermission",
+      options.tracingOptions
+    );
     try {
-      return this.context.createPermission(
+      return await this.context.createPermission(
         {
           permission: filePermission
         },
@@ -994,9 +1030,9 @@ export class ShareClient extends StorageClient {
     filePermissionKey: string,
     options: ShareGetPermissionOptions = {}
   ): Promise<ShareGetPermissionResponse> {
-    const { span, spanOptions } = createSpan("ShareClient-getPermission", options.spanOptions);
+    const { span, spanOptions } = createSpan("ShareClient-getPermission", options.tracingOptions);
     try {
-      return this.context.getPermission(filePermissionKey, {
+      return await this.context.getPermission(filePermissionKey, {
         aborterSignal: options.abortSignal,
         spanOptions
       });

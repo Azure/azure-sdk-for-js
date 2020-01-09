@@ -17,7 +17,7 @@ import {
   ReqResLink
 } from "rhea-promise";
 import { translate, ConditionStatusMapper } from "./errors";
-import * as log from "./log";
+import { logger, logErrorStackTrace } from "./log";
 
 /**
  * Describes the options that can be specified while sending a request.
@@ -81,9 +81,7 @@ export class RequestResponseLink implements ReqResLink {
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
    */
   sendRequest(request: AmqpMessage, options: SendRequestOptions = {}): Promise<AmqpMessage> {
-    if (!options.timeoutInMs) {
-      options.timeoutInMs = Constants.defaultOperationTimeoutInMs;
-    }
+    const timeoutInMs = options.timeoutInMs || Constants.defaultOperationTimeoutInMs;
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
 
@@ -102,7 +100,8 @@ export class RequestResponseLink implements ReqResLink {
         const desc: string =
           `[${this.connection.id}] The request "${requestName}" ` +
           `to "${address}" has been cancelled by the user.`;
-        log.error(desc);
+        // Cancellation is a user-intended action, so log to info instead of warning.
+        logger.info(desc);
         const error = new AbortError(
           `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
         );
@@ -148,7 +147,7 @@ export class RequestResponseLink implements ReqResLink {
         }
         const info = getCodeDescriptionAndError(context.message!.application_properties);
         const responseCorrelationId = context.message!.correlation_id;
-        log.reqres(
+        logger.verbose(
           "[%s] %s response: ",
           this.connection.id,
           request.to || "$management",
@@ -161,7 +160,7 @@ export class RequestResponseLink implements ReqResLink {
           // do not remove message listener.
           // parallel requests listen on the same receiver, so continue waiting until respose that matches
           // request via correlationId is found.
-          log.error(
+          logger.verbose(
             "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
               "Hence dropping this response and waiting for the next one.",
             this.connection.id,
@@ -177,7 +176,7 @@ export class RequestResponseLink implements ReqResLink {
           if (!timeOver) {
             clearTimeout(waitTimer);
           }
-          log.reqres(
+          logger.verbose(
             "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
             this.connection.id,
             request.message_id,
@@ -192,7 +191,8 @@ export class RequestResponseLink implements ReqResLink {
             description: info.statusDescription
           };
           const error = translate(e);
-          log.error(error);
+          logger.warning(error);
+          logErrorStackTrace(error);
           return reject(error);
         }
       };
@@ -214,10 +214,10 @@ export class RequestResponseLink implements ReqResLink {
         return reject(translate(e));
       };
 
-      waitTimer = setTimeout(actionAfterTimeout, options.timeoutInMs);
+      waitTimer = setTimeout(actionAfterTimeout, timeoutInMs);
       this.receiver.on(ReceiverEvents.message, messageCallback);
 
-      log.reqres(
+      logger.verbose(
         "[%s] %s request sent: %O",
         this.connection.id,
         request.to || "$managment",
@@ -263,7 +263,7 @@ export class RequestResponseLink implements ReqResLink {
     const session = await connection.createSession();
     const sender = await session.createSender(senderOptions);
     const receiver = await session.createReceiver(receiverOptions);
-    log.reqres(
+    logger.verbose(
       "[%s] Successfully created the sender and receiver links on the same session.",
       connection.id
     );

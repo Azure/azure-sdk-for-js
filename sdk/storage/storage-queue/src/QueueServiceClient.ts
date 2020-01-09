@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import { CanonicalCode } from "@azure/core-tracing";
+import {
+  TokenCredential,
+  isTokenCredential,
+  isNode,
+  getDefaultProxySettings} from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/types";
 import {
   ListQueuesIncludeType,
   QueueCreateResponse,
@@ -16,18 +20,19 @@ import {
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Service } from "./generated/src/operations";
-import { newPipeline, NewPipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
- * Options to configure Queue Service - Get Properties operation
+ * Options to configure {@link QueueServiceClient.getProperties} operation
  *
  * @export
  * @interface ServiceGetPropertiesOptions
@@ -44,7 +49,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue Service - Set Properties operation
+ * Options to configure {@link QueueServiceClient.setProperties} operation
  *
  * @export
  * @interface ServiceSetPropertiesOptions
@@ -61,7 +66,7 @@ export interface ServiceSetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue Service - Get Statistics operation
+ * Options to configure {@link QueueServiceClient.getStatistics} operation
  *
  * @export
  * @interface ServiceGetStatisticsOptions
@@ -80,6 +85,11 @@ export interface ServiceGetStatisticsOptions extends CommonOptions {
 /**
  * Options to configure Queue Service - List Queues Segment operation
  *
+ * See:
+ * - {@link QueueServiceClient.listSegments}
+ * - {@link QueueServiceClient.listQueuesSegment}
+ * - {@link QueueServiceClient.listItems}
+ *
  * @interface ServiceListQueuesSegmentOptions
  */
 interface ServiceListQueuesSegmentOptions extends CommonOptions {
@@ -92,12 +102,12 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only queues
+   * Filters the results to return only queues
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {number} [maxPageSize] Specifies the maximum number of queues
+   * Specifies the maximum number of queues
    * to return. If the request does not specify maxPageSize, or specifies a
    * value greater than 5000, the server will return up to 5000 items. Note
    * that if the listing operation crosses a partition boundary, then the
@@ -107,7 +117,7 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    */
   maxPageSize?: number;
   /**
-   * @member {ListQueuesIncludeType} [include] Include this parameter to
+   * Include this parameter to
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
@@ -115,7 +125,7 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure Queue Service - List Queues operation
+ * Options to configure {@link QueueServiceClient.listQueues} operation
  *
  * @export
  * @interface ServiceListQueuesOptions
@@ -130,12 +140,12 @@ export interface ServiceListQueuesOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @member {string} [prefix] Filters the results to return only queues
+   * Filters the results to return only queues
    * whose name begins with the specified prefix.
    */
   prefix?: string;
   /**
-   * @member {boolean} [includeMetadata] Specifies whether the queue's metadata be returned as part of the response
+   * Specifies whether the queue's metadata be returned as part of the response
    * body.
    */
   includeMetadata?: boolean;
@@ -158,30 +168,35 @@ export class QueueServiceClient extends StorageClient {
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @returns {QueueServiceClient} A new QueueServiceClient object from the given connection string.
    * @memberof QueueServiceClient
    */
   public static fromConnectionString(
     connectionString: string,
-    options?: NewPipelineOptions
+    options?: StoragePipelineOptions
   ): QueueServiceClient {
-    options = options || {};
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
-        const sharedKeyCredential = new SharedKeyCredential(
+        const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        options.proxy = extractedCreds.proxyUri;
-        const pipeline = newPipeline(sharedKeyCredential, options);
+        newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+        const pipeline = newPipeline(sharedKeyCredential, newOptions);
         return new QueueServiceClient(extractedCreds.url, pipeline);
       } else {
         throw new Error("Account connection string is only supported in Node.js environment");
       }
     } else if (extractedCreds.kind === "SASConnString") {
-      const pipeline = newPipeline(new AnonymousCredential(), options);
+      const pipeline = newPipeline(new AnonymousCredential(), newOptions);
       return new QueueServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
     } else {
       throw new Error(
@@ -205,16 +220,44 @@ export class QueueServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {SharedKeyCredential | AnonymousCredential | TokenCredential} credential Such as AnonymousCredential, SharedKeyCredential
-   *                                                  or a TokenCredential from @azure/identity. If not specified,
-   *                                                  AnonymousCredential is used.
-   * @param {NewPipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
    * @memberof QueueServiceClient
+   *
+   * Example using DefaultAzureCredential from `@azure/identity`:
+   *
+   * ```js
+   * const account = "<account>";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   credential
+   * }
+   * ```
+   *
+   * Example using an account name/key:
+   *
+   * ```js
+   * const account = "<account>";
+   *
+   * const sharedKeyCredential = new StorageSharedKeyCredential(account, "<account key>");
+   *
+   * const queueServiceClient = new QueueServiceClient(
+   *   `https://${account}.queue.core.windows.net`,
+   *   sharedKeyCredential,
+   *   {
+   *     retryOptions: { maxTries: 4 }, // Retry options
+   *     telemetry: { value: "BasicSample/V11.0.0" } // Customized telemetry string
+   *   }
+   * );
+   * ```
    */
   constructor(
     url: string,
-    credential?: SharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: NewPipelineOptions
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: StoragePipelineOptions
   );
   /**
    * Creates an instance of QueueServiceClient.
@@ -229,31 +272,50 @@ export class QueueServiceClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline);
   constructor(
     url: string,
-    credentialOrPipeline?: SharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
-    options?: NewPipelineOptions
+    credentialOrPipeline?:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
+    options?: StoragePipelineOptions
   ) {
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
+
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNode && credentialOrPipeline instanceof SharedKeyCredential) ||
+      (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {
-      pipeline = newPipeline(credentialOrPipeline, options);
+      pipeline = newPipeline(credentialOrPipeline, newOptions);
     } else {
       // The second paramter is undefined. Use anonymous credential.
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     }
     super(url, pipeline);
     this.serviceContext = new Service(this.storageClientContext);
   }
 
   /**
-   * Creates a QueueClient object.
+   * Creates a {@link QueueClient} object.
+   *
    * @param {string} queueName
    * @returns {QueueClient} a new QueueClient
    * @memberof QueueServiceClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const queueClient = queueServiceClient.getQueueClient("<new queue name>");
+   * const createQueueResponse = await queueClient.create();
+   * ```
    */
   public getQueueClient(queueName: string): QueueClient {
     return new QueueClient(appendToURLPath(this.url, queueName), this.pipeline);
@@ -280,10 +342,15 @@ export class QueueServiceClient extends StorageClient {
   ): Promise<ServiceListQueuesSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-listQueuesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
+
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     try {
-      return this.serviceContext.listQueuesSegment({
+      return await this.serviceContext.listQueuesSegment({
         abortSignal: options.abortSignal,
         marker: marker,
         maxPageSize: options.maxPageSize,
@@ -303,7 +370,7 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for ServiceListQueuesSegmentResponses
+   * Returns an AsyncIterableIterator for {@link ServiceListQueuesSegmentResponse} objects
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of
@@ -321,6 +388,10 @@ export class QueueServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<ServiceListQueuesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let listQueuesResponse;
     do {
       listQueuesResponse = await this.listQueuesSegment(marker, options);
@@ -330,7 +401,7 @@ export class QueueServiceClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for Queue Items
+   * Returns an AsyncIterableIterator for {@link QueueItem} objects
    *
    * @private
    * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
@@ -340,6 +411,10 @@ export class QueueServiceClient extends StorageClient {
   private async *listItems(
     options: ServiceListQueuesSegmentOptions = {}
   ): AsyncIterableIterator<QueueItem> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
       yield* segment.queueItems;
@@ -351,67 +426,73 @@ export class QueueServiceClient extends StorageClient {
    * under the specified account.
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
-   * @example
+   *
+   * Example using `for await` syntax:
+   *
    * ```js
-   *    let i = 1;
-   *    for await (const item of queueServiceClient.listQueues()) {
-   *      console.log(`Queue${i}: ${item.name}`);
-   *      i++;
-   *    }
+   * let i = 1;
+   * for await (const item of queueServiceClient.listQueues()) {
+   *   console.log(`Queue${i}: ${item.name}`);
+   *   i++;
+   * }
    * ```
    *
-   * @example
+   * Example using `iter.next()`:
+   *
    * ```js
-   *    // Generator syntax .next()
-   *    let i = 1;
-   *    let iterator = queueServiceClient.listQueues();
-   *    let item = await iterator.next();
-   *    while (!item.done) {
-   *      console.log(`Queue${i}: ${iterator.value.name}`);
-   *      i++;
-   *      item = await iterator.next();
-   *    }
+   * let i = 1;
+   * let iterator = queueServiceClient.listQueues();
+   * let item = await iterator.next();
+   * while (!item.done) {
+   *   console.log(`Queue${i}: ${iterator.value.name}`);
+   *   i++;
+   *   item = await iterator.next();
+   * }
    * ```
    *
-   * @example
+   * Example using `byPage()`:
+   *
    * ```js
-   *    // Example for .byPage()
-   *    // passing optional maxPageSize in the page settings
-   *    let i = 1;
-   *    for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
-   *      if (item2.queueItems) {
-   *        for (const queueItem of item2.queueItems) {
-   *          console.log(`Queue${i}: ${queueItem.name}`);
-   *          i++;
-   *        }
-   *      }
-   *    }
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const item2 of queueServiceClient.listQueues().byPage({ maxPageSize: 20 })) {
+   *   if (item2.queueItems) {
+   *     for (const queueItem of item2.queueItems) {
+   *       console.log(`Queue${i}: ${queueItem.name}`);
+   *       i++;
+   *     }
+   *   }
+   * }
    * ```
    *
-   * @example
+   * Example using paging with a marker:
+   *
    * ```js
-   *    let i = 1;
-   *    let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
-   *    let item = (await iterator.next()).value;
-   *    // Prints 2 queue names
-   *    if (item.queueItems) {
-   *      for (const queueItem of item.queueItems) {
-   *        console.log(`Queue${i}: ${queueItem.name}`);
-   *        i++;
-   *      }
-   *    }
-   *    // Gets next marker
-   *    let marker = item.continuationToken;
-   *    // Passing next marker as continuationToken
-   *    iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
-   *    item = (await iterator.next()).value;
-   *    // Prints 10 queue names
-   *    if (item.queueItems) {
-   *      for (const queueItem of item.queueItems) {
-   *        console.log(`Queue${i}: ${queueItem.name}`);
-   *        i++;
-   *      }
-   *    }
+   * let i = 1;
+   * let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
+   * let item = (await iterator.next()).value;
+   *
+   * // Prints 2 queue names
+   * if (item.queueItems) {
+   *   for (const queueItem of item.queueItems) {
+   *     console.log(`Queue${i}: ${queueItem.name}`);
+   *     i++;
+   *   }
+   * }
+   * // Gets next marker
+   * let marker = item.continuationToken;
+   *
+   * // Passing next marker as continuationToken
+   * iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * item = (await iterator.next()).value;
+   *
+   * // Prints 10 queue names
+   * if (item.queueItems) {
+   *   for (const queueItem of item.queueItems) {
+   *     console.log(`Queue${i}: ${queueItem.name}`);
+   *     i++;
+   *   }
+   * }
    * ```
    *
    * @param {ServiceListQueuesOptions} [options] Options to list queues operation.
@@ -421,6 +502,10 @@ export class QueueServiceClient extends StorageClient {
   public listQueues(
     options: ServiceListQueuesOptions = {}
   ): PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     const updatedOptions: ServiceListQueuesSegmentOptions = {
       ...options,
       ...(options.includeMetadata ? { include: "metadata" } : {})
@@ -467,10 +552,10 @@ export class QueueServiceClient extends StorageClient {
   ): Promise<ServiceGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-getProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.serviceContext.getProperties({
+      return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -501,10 +586,10 @@ export class QueueServiceClient extends StorageClient {
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-setProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.serviceContext.setProperties(properties, {
+      return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -534,10 +619,10 @@ export class QueueServiceClient extends StorageClient {
   ): Promise<ServiceGetStatisticsResponse> {
     const { span, spanOptions } = createSpan(
       "QueueServiceClient-getStatistics",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.serviceContext.getStatistics({
+      return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -565,7 +650,24 @@ export class QueueServiceClient extends StorageClient {
     queueName: string,
     options: QueueCreateOptions = {}
   ): Promise<QueueCreateResponse> {
-    return this.getQueueClient(queueName).create(options);
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-createQueue",
+      options.tracingOptions
+    );
+    try {
+      return await this.getQueueClient(queueName).create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -581,6 +683,23 @@ export class QueueServiceClient extends StorageClient {
     queueName: string,
     options: QueueDeleteOptions = {}
   ): Promise<QueueDeleteResponse> {
-    return this.getQueueClient(queueName).delete(options);
+    const { span, spanOptions } = createSpan(
+      "QueueServiceClient-deleteQueue",
+      options.tracingOptions
+    );
+    try {
+      return await this.getQueueClient(queueName).delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

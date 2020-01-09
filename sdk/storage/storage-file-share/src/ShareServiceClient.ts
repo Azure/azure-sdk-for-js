@@ -18,16 +18,22 @@ import { StorageClient, CommonOptions } from "./StorageClient";
 import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./ShareClient";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
-import { SharedKeyCredential } from "./credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode } from "@azure/core-http";
-import { CanonicalCode } from "@azure/core-tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 import { createSpan } from "./utils/tracing";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
- * Options to configure List Shares Segment operation.
+ * Options to configure Share - List Shares Segment operations.
+ *
+ * See:
+ * - {@link ShareServiceClient.listSegments}
+ * - {@link ShareServiceClient.listItems}
+ * - {@link ShareServiceClient.listSharesSegment}
  *
  * @interface ServiceListSharesSegmentOptions
  */
@@ -69,7 +75,7 @@ interface ServiceListSharesSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure List Shares operation.
+ * Options to configure the {@link ShareServiceClient.listShares} operation.
  *
  * @export
  * @interface ServiceListSharesOptions
@@ -110,7 +116,7 @@ export interface ServiceListSharesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File Service - Get Properties operation.
+ * Options to configure the {@link ShareServiceClient.getProperties} operation.
  *
  * @export
  * @interface ServiceGetPropertiesOptions
@@ -127,7 +133,7 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 /**
- * Options to configure File Service - Set Properties operation.
+ * Options to configure the {@link ShareServiceClient.setProperties} operation.
  *
  * @export
  * @interface ServiceSetPropertiesOptions
@@ -178,20 +184,26 @@ export class ShareServiceClient extends StorageClient {
     connectionString: string,
     options?: StoragePipelineOptions
   ): ShareServiceClient {
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
-        const sharedKeyCredential = new SharedKeyCredential(
+        const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        const pipeline = newPipeline(sharedKeyCredential, options);
+        const pipeline = newPipeline(sharedKeyCredential, newOptions);
         return new ShareServiceClient(extractedCreds.url, pipeline);
       } else {
         throw new Error("Account connection string is only supported in Node.js environment");
       }
     } else if (extractedCreds.kind === "SASConnString") {
-      const pipeline = newPipeline(new AnonymousCredential(), options);
+      const pipeline = newPipeline(new AnonymousCredential(), newOptions);
       return new ShareServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
     } else {
       throw new Error(
@@ -206,7 +218,7 @@ export class ShareServiceClient extends StorageClient {
    * @param {string} url A URL string pointing to Azure Storage file service, such as
    *                     "https://myaccount.file.core.windows.net". You can Append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.file.core.windows.net?sasString".
-   * @param {Credential} [credential] Such as AnonymousCredential, SharedKeyCredential or TokenCredential.
+   * @param {Credential} [credential] Such as AnonymousCredential or StorageSharedKeyCredential.
    *                                  If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ShareServiceClient
@@ -228,14 +240,21 @@ export class ShareServiceClient extends StorageClient {
     credentialOrPipeline?: Credential | Pipeline,
     options?: StoragePipelineOptions
   ) {
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
+
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (credentialOrPipeline instanceof Credential) {
-      pipeline = newPipeline(credentialOrPipeline, options);
+      pipeline = newPipeline(credentialOrPipeline, newOptions);
     } else {
       // The second parameter is undefined. Use anonymous credential.
-      pipeline = newPipeline(new AnonymousCredential(), options);
+      pipeline = newPipeline(new AnonymousCredential(), newOptions);
     }
 
     super(url, pipeline);
@@ -248,6 +267,14 @@ export class ShareServiceClient extends StorageClient {
    * @param shareName Name of a share.
    * @returns {ShareClient} The ShareClient object for the given share name.
    * @memberof ShareServiceClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const shareClient = serviceClient.getShareClient("<share name>");
+   * await shareClient.create();
+   * console.log("Created share successfully!");
+   * ```
    */
   public getShareClient(shareName: string): ShareClient {
     return new ShareClient(appendToURLPath(this.url, shareName), this.pipeline);
@@ -265,10 +292,16 @@ export class ShareServiceClient extends StorageClient {
     shareName: string,
     options: ShareCreateOptions = {}
   ): Promise<{ shareCreateResponse: ShareCreateResponse; shareClient: ShareClient }> {
-    const { span, spanOptions } = createSpan("ShareServiceClient-createShare", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareServiceClient-createShare",
+      options.tracingOptions
+    );
     try {
       const shareClient = this.getShareClient(shareName);
-      const shareCreateResponse = await shareClient.create({ ...options, spanOptions });
+      const shareCreateResponse = await shareClient.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
       return {
         shareCreateResponse,
         shareClient
@@ -296,10 +329,16 @@ export class ShareServiceClient extends StorageClient {
     shareName: string,
     options: ShareDeleteMethodOptions = {}
   ): Promise<ShareDeleteResponse> {
-    const { span, spanOptions } = createSpan("ShareServiceClient-deleteShare", options.spanOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareServiceClient-deleteShare",
+      options.tracingOptions
+    );
     try {
       const shareClient = this.getShareClient(shareName);
-      return await shareClient.delete({ ...options, spanOptions });
+      return await shareClient.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -325,10 +364,10 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceGetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareServiceClient-getProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.serviceContext.getProperties({
+      return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -359,10 +398,10 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, spanOptions } = createSpan(
       "ShareServiceClient-setProperties",
-      options.spanOptions
+      options.tracingOptions
     );
     try {
-      return this.serviceContext.setProperties(properties, {
+      return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -378,7 +417,7 @@ export class ShareServiceClient extends StorageClient {
   }
 
   /**
-   * Returns an AsyncIterableIterator for ServiceListSharesSegmentResponses
+   * Returns an AsyncIterableIterator for {@link ServiceListSharesSegmentResponse} objects
    *
    * @private
    * @param {string} [marker] A string value that identifies the portion of
@@ -396,6 +435,10 @@ export class ShareServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListSharesSegmentOptions = {}
   ): AsyncIterableIterator<ServiceListSharesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let listSharesSegmentResponse;
     do {
       listSharesSegmentResponse = await this.listSharesSegment(marker, options);
@@ -415,6 +458,10 @@ export class ShareServiceClient extends StorageClient {
   private async *listItems(
     options: ServiceListSharesSegmentOptions = {}
   ): AsyncIterableIterator<ShareItem> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
       yield* segment.shareItems;
@@ -427,63 +474,68 @@ export class ShareServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the shares in pages.
    *
-   * @example
+   * Example using `for await` syntax:
+   *
    * ```js
-   *   let i = 1;
-   *   for await (const share of serviceClient.listShares()) {
+   * let i = 1;
+   * for await (const share of serviceClient.listShares()) {
+   *   console.log(`Share ${i++}: ${share.name}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * let iter = await serviceClient.listShares();
+   * let shareItem = await iter.next();
+   * while (!shareItem.done) {
+   *   console.log(`Share ${i++}: ${shareItem.value.name}`);
+   *   shareItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of serviceClient.listShares().byPage({ maxPageSize: 20 })) {
+   *   if (response.shareItems) {
+   *    for (const share of response.shareItems) {
+   *        console.log(`Share ${i++}: ${share.name}`);
+   *     }
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 share names
+   * if (response.shareItems) {
+   *   for (const share of response.shareItems) {
    *     console.log(`Share ${i++}: ${share.name}`);
    *   }
-   * ```
+   * }
    *
-   * @example
-   * ```js
-   *   // Generator syntax .next()
-   *   let i = 1;
-   *   let iter = await serviceClient.listShares();
-   *   let shareItem = await iter.next();
-   *   while (!shareItem.done) {
-   *     console.log(`Share ${i++}: ${shareItem.value.name}`);
-   *     shareItem = await iter.next();
-   *   }
-   * ```
+   * // Gets next marker
+   * let marker = response.continuationToken;
    *
-   * @example
-   * ```js
-   *   // Example for .byPage()
-   *   // passing optional maxPageSize in the page settings
-   *   let i = 1;
-   *   for await (const response of serviceClient.listShares().byPage({ maxPageSize: 20 })) {
-   *     if (response.shareItems) {
-   *       for (const share of response.shareItems) {
-   *         console.log(`Share ${i++}: ${share.name}`);
-   *       }
-   *     }
-   *   }
-   * ```
+   * // Passing next marker as continuationToken
+   * iterator = serviceClient.listShares().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
    *
-   * @example
-   * ```js
-   *   // Passing marker as an argument (similar to the previous example)
-   *   let i = 1;
-   *   let iterator = serviceClient.listShares().byPage({ maxPageSize: 2 });
-   *   let response = (await iterator.next()).value;
-   *   // Prints 2 share names
-   *   if (response.shareItems) {
-   *     for (const share of response.shareItems) {
-   *       console.log(`Share ${i++}: ${share.name}`);
-   *     }
+   * // Prints 10 share names
+   * if (response.shareItems) {
+   *   for (const share of response.shareItems) {
+   *     console.log(`Share ${i++}: ${share.name}`);
    *   }
-   *   // Gets next marker
-   *   let marker = response.continuationToken;
-   *   // Passing next marker as continuationToken
-   *   iterator = serviceClient.listShares().byPage({ continuationToken: marker, maxPageSize: 10 });
-   *   response = (await iterator.next()).value;
-   *   // Prints 10 share names
-   *   if (response.shareItems) {
-   *     for (const share of response.shareItems) {
-   *       console.log(`Share ${i++}: ${share.name}`);
-   *     }
-   *   }
+   * }
    * ```
    *
    * @param {ServiceListSharesOptions} [options] Options to list shares operation.
@@ -494,6 +546,10 @@ export class ShareServiceClient extends StorageClient {
   public listShares(
     options: ServiceListSharesOptions = {}
   ): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse> {
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     const include: ListSharesIncludeType[] = [];
     if (options.includeMetadata) {
       include.push("metadata");
@@ -554,10 +610,15 @@ export class ShareServiceClient extends StorageClient {
   ): Promise<ServiceListSharesSegmentResponse> {
     const { span, spanOptions } = createSpan(
       "ShareServiceClient-listSharesSegment",
-      options.spanOptions
+      options.tracingOptions
     );
+
+    if (options.prefix === "") {
+      options.prefix = undefined;
+    }
+
     try {
-      return this.serviceContext.listSharesSegment({
+      return await this.serviceContext.listSharesSegment({
         marker,
         ...options,
         spanOptions

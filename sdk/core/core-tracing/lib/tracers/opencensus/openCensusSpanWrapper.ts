@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { Span } from "../../interfaces/span";
-import { SpanContext } from "../../interfaces/span_context";
-import { Attributes } from "../../interfaces/attributes";
-import { Status } from "../../interfaces/status";
+import { SpanContext, Span, SpanOptions, Attributes, Status } from "@opentelemetry/types";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
-import { SpanOptions } from "../../interfaces/SpanOptions";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
 import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan } from "@opencensus/web-types";
 
@@ -56,6 +52,12 @@ export class OpenCensusSpanWrapper implements Span {
         childOf: parent
       });
       this._span.start();
+      if (options.links) {
+        for (const link of options.links) {
+          // Since there is no way to set the link relationship, leave it as Unspecified.
+          this._span.addLink(link.spanContext.traceId, link.spanContext.spanId, 0 /* LinkType.UNSPECIFIED */, link.attributes as OpenCensusAttributes);
+        }
+      }
     } else {
       this._span = tracerOrSpan;
     }
@@ -108,25 +110,8 @@ export class OpenCensusSpanWrapper implements Span {
    * @param name The name of the event
    * @param attributes The associated attributes to add for this event
    */
-  addEvent(name: string, attributes?: Attributes): this {
+  addEvent(_name: string, _attributes?: Attributes): this {
     throw new Error("Method not implemented.");
-  }
-
-  /**
-   * Adds a link to the Span.
-   * @param spanContext the context of the linked span
-   * @param attributes attributes to be added that are associated with the link
-   */
-  addLink(spanContext: SpanContext, attributes?: Attributes): this {
-    // Since there is no way to specify the link relationship,
-    // it is set as Unspecified.
-    this._span.addLink(
-      spanContext.traceId,
-      spanContext.spanId,
-      0 /* LinkType.UNSPECIFIED */,
-      attributes as OpenCensusAttributes
-    );
-    return this;
   }
 
   /**
@@ -150,7 +135,7 @@ export class OpenCensusSpanWrapper implements Span {
   /**
    * Returns whether this span will be recorded
    */
-  isRecordingEvents(): boolean {
+  isRecording(): boolean {
     // NoRecordSpans have an empty traceId
     return !!this._span.traceId;
   }

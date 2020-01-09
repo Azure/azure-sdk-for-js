@@ -1,5 +1,23 @@
 # Release History
 
+## 4.0.3 (Unreleased)
+
+## 4.0.2 (2019-12-04)
+
+- Updated dependencies to their latest available versions.
+- Fixed the support of dotenv while testing.
+- Improved the available documentation, and added a README in the test folder.
+- KeyClient's vaultUrl property is now public, but readonly.
+- Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`.
+
+## 4.0.0 (2019-10-31)
+
+- This release marks the general availability of the `@azure/keyvault-secrets` package.
+- All of the public API methods now have their custom option types.
+- All of the option types can now receive a `requestOptions` parameter to customize the options sent to the HTTP client.
+- Renamed `restoreSecret` to `restoreSecretBackup`.
+- Removed publicly accessible properties that referenced the `pipeline` and the `credential` used during the creation of both the `KeyClient` and the `CryptographyClient`.
+
 ## 4.0.0-preview.9 (2019-10-22)
 
 - `deleteSecret` and `recoverDeletedSecret` are now out of the public API.
@@ -10,7 +28,6 @@
 - All options should match the method's name.
 - All methods that return keyProperties (like the ones that iterate) should contain "propertiesOf" in their names.
 - Flattened all the options bag to extend the `RequestOptionsBase` interface.
-- Renamed `restoreSecret` to `restoreSecretBackup`.
 
 ## 4.0.0-preview.8 (2019-10-09)
 

@@ -1,14 +1,21 @@
 import * as assert from "assert";
 
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { base64encode, bodyToString, getBSU, getSASConnectionStringFromEnvironment } from "./utils";
+import {
+  base64encode,
+  bodyToString,
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  setupEnvironment
+} from "./utils";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { BlockBlobTier } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("BlockBlobClient", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
@@ -16,7 +23,7 @@ describe("BlockBlobClient", () => {
   let blobClient: BlobClient;
   let blockBlobClient: BlockBlobClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -36,6 +43,15 @@ describe("BlockBlobClient", () => {
   it("upload with string body and default parameters", async () => {
     const body: string = recorder.getUniqueName("randomstring");
     await blockBlobClient.upload(body, body.length);
+    const result = await blobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("upload with progress report", async () => {
+    const body: string = recorder.getUniqueName("randomstring");
+    await blockBlobClient.upload(body, body.length, {
+      onProgress: () => {}
+    });
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
@@ -81,6 +97,23 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.uncommittedBlocks![0].size, body.length);
     assert.equal(listResponse.uncommittedBlocks![1].name, base64encode("2"));
     assert.equal(listResponse.uncommittedBlocks![1].size, body.length);
+  });
+
+  it("stageBlock with progress report", async () => {
+    const body = "HelloWorld";
+    await blockBlobClient.stageBlock(base64encode("1"), body, body.length, {
+      onProgress: () => {}
+    });
+    await blockBlobClient.stageBlock(base64encode("2"), body, body.length, {
+      onProgress: () => {}
+    });
+    await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
+    const listResponse = await blockBlobClient.getBlockList("committed");
+    assert.equal(listResponse.committedBlocks!.length, 2);
+    assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.committedBlocks![0].size, body.length);
+    assert.equal(listResponse.committedBlocks![1].name, base64encode("2"));
+    assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
   it("stageBlockFromURL copy source blob as single block", async () => {
@@ -210,6 +243,7 @@ describe("BlockBlobClient", () => {
   });
 
   it("can be created with a sas connection string", async () => {
+    recorder.skip("node", "SAS token is not handled in playback");
     const newClient = new BlockBlobClient(
       getSASConnectionStringFromEnvironment(),
       containerName,

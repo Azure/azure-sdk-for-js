@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -37,7 +37,7 @@ describe("Secret client - restore secrets and recover backups", () => {
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
     await client.setSecret(secretName, "RSA");
-    const deletePoller = await client.beginDeleteSecret(secretName);
+    const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
     assert.equal(
       deletePoller.getResult()!.name,
       secretName,
@@ -52,7 +52,7 @@ describe("Secret client - restore secrets and recover backups", () => {
       "Unexpected secret name in result from getSecret()."
     );
 
-    const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
+    const recoverPoller = await client.beginRecoverDeletedSecret(secretName, testPollerProperties);
     const secretProperties = await recoverPoller.pollUntilDone();
     assert.equal(
       secretProperties.name,
@@ -68,7 +68,10 @@ describe("Secret client - restore secrets and recover backups", () => {
     );
     let error;
     try {
-      const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
+      const recoverPoller = await client.beginRecoverDeletedSecret(
+        secretName,
+        testPollerProperties
+      );
       await recoverPoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
@@ -77,24 +80,25 @@ describe("Secret client - restore secrets and recover backups", () => {
     assert.equal(error.message, `Secret not found: ${secretName}`);
   });
 
-  it("can recover a deleted a secret with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) {
-      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
-    }
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, "RSA");
-    const deletePoller = await client.beginDeleteSecret(secretName);
-    await deletePoller.pollUntilDone();
-    await assertThrowsAbortError(async () => {
-      await client.beginRecoverDeletedSecret(secretName, {
-        requestOptions: {
-          timeout: 1
-        }
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can recover a deleted a secret with requestOptions timeout", async function() {
+      const secretName = testClient.formatName(
+        `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      );
+      await client.setSecret(secretName, "RSA");
+      const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
+      await deletePoller.pollUntilDone();
+      await assertThrowsAbortError(async () => {
+        await client.beginRecoverDeletedSecret(secretName, {
+          requestOptions: {
+            timeout: 1
+          },
+          ...testPollerProperties
+        });
       });
     });
-  });
+  }
 
   it("can backup a secret", async function() {
     const secretName = testClient.formatName(
@@ -157,22 +161,22 @@ describe("Secret client - restore secrets and recover backups", () => {
     );
   });
 
-  it("can timeout deleting a secret", async function() {
-    if (!isNode || isPlayingBack) {
-      recorder.skip(); // On playback mode, the tests happen too fast for the timeout to work
-    }
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, "RSA");
-    const backup = await client.backupSecret(secretName);
-    await testClient.flushSecret(secretName);
-    await assertThrowsAbortError(async () => {
-      await client.restoreSecretBackup(backup as Uint8Array, {
-        requestOptions: {
-          timeout: 1
-        }
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can timeout deleting a secret", async function() {
+      const secretName = testClient.formatName(
+        `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      );
+      await client.setSecret(secretName, "RSA");
+      const backup = await client.backupSecret(secretName);
+      await testClient.flushSecret(secretName);
+      await assertThrowsAbortError(async () => {
+        await client.restoreSecretBackup(backup as Uint8Array, {
+          requestOptions: {
+            timeout: 1
+          }
+        });
       });
     });
-  });
+  }
 });

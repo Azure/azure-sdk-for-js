@@ -10,19 +10,21 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:misc-spec");
 import {
-  EventPosition,
-  EventHubClient,
   EventData,
   EventHubProperties,
-  EventHubConsumer,
-  ReceivedEventData
+  ReceivedEventData,
+  EventHubConsumerClient,
+  Subscription
 } from "../src";
+import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import {
   TRACEPARENT_PROPERTY,
   extractSpanContextFromEventData
 } from "../src/diagnostics/instrumentEventData";
-import { TraceFlags } from "@azure/core-tracing";
+import { TraceFlags } from "@opentelemetry/types";
+import { EventHubConsumer } from "../src/receiver";
+import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
 const env = getEnvVars();
 
 describe("Misc tests #RunnableInBrowser", function(): void {
@@ -60,17 +62,15 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message with %d bytes.", bodysize);
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      partitionId,
-      EventPosition.fromOffset(offset)
-    );
-    let data = await receiver.receiveBatch(5, 10);
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+      offset
+    });
+    let data = await receiver.receiveBatch(1, 1);
     should.equal(data.length, 0, "Unexpected to receive message before client sends it");
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
     debug("Successfully sent the large message.");
-    data = await receiver.receiveBatch(5, 30);
+    data = await receiver.receiveBatch(1, 30);
     debug("Closing the receiver..");
     await receiver.close();
     debug("received message: ", data.length);
@@ -100,15 +100,13 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      partitionId,
-      EventPosition.fromOffset(offset)
-    );
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+      offset
+    });
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
     debug("Successfully sent the large message.");
-    const data = await receiver.receiveBatch(5, 30);
+    const data = await receiver.receiveBatch(1, 30);
     await receiver.close();
     debug("received message: ", data);
     should.exist(data);
@@ -136,15 +134,13 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      partitionId,
-      EventPosition.fromOffset(offset)
-    );
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+      offset
+    });
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
     debug("Successfully sent the large message.");
-    const data = await receiver.receiveBatch(5, 30);
+    const data = await receiver.receiveBatch(1, 30);
     await receiver.close();
     debug("received message: ", data);
     should.exist(data);
@@ -161,15 +157,13 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     const offset = (await client.getPartitionProperties(partitionId)).lastEnqueuedOffset;
     debug(`Partition ${partitionId} has last message with offset ${offset}.`);
     debug("Sending one message %O", obj);
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      partitionId,
-      EventPosition.fromOffset(offset)
-    );
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+      offset
+    });
     const sender = client.createProducer({ partitionId });
     await sender.send([obj]);
     debug("Successfully sent the large message.");
-    const data = await receiver.receiveBatch(5, 30);
+    const data = await receiver.receiveBatch(1, 30);
     await receiver.close();
     debug("received message: ", data);
     should.exist(data);
@@ -197,11 +191,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       await sender.send(d);
       debug("Successfully sent 5 messages batched together.");
 
-      const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroupName,
-        partitionId,
-        EventPosition.fromOffset(offset)
-      );
+      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+        offset
+      });
       const data = await receiver.receiveBatch(5, 30);
       await receiver.close();
       debug("received message: ", data);
@@ -251,11 +243,9 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       await sender.send(d);
       debug("Successfully sent 5 messages batched together.");
 
-      const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroupName,
-        partitionId,
-        EventPosition.fromOffset(offset)
-      );
+      const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
+        offset
+      });
       const data = await receiver.receiveBatch(5, 30);
       await receiver.close();
       debug("received message: ", data);
@@ -274,54 +264,72 @@ describe("Misc tests #RunnableInBrowser", function(): void {
   it("should consistently send messages with partitionkey to a partitionId", async function(): Promise<
     void
   > {
+    const consumerClient = new EventHubConsumerClient(
+      EventHubClient.defaultConsumerGroupName,
+      service.connectionString!,
+      service.path
+    );
+
+    const {
+      subscriptionEventHandler,
+      startPosition
+    } = await SubscriptionHandlerForTests.startingFromHere(consumerClient);
+
     const msgToSendCount = 50;
-    const partitionOffsets: any = {};
-    debug("Discovering end of stream on each partition.");
-    const partitionIds = hubInfo.partitionIds;
-    for (const id of partitionIds) {
-      const pInfo = await client.getPartitionProperties(id);
-      partitionOffsets[id] = pInfo.lastEnqueuedOffset;
-      debug(`Partition ${id} has last message with offset ${pInfo.lastEnqueuedOffset}.`);
-    }
     debug("Sending %d messages.", msgToSendCount);
+
     function getRandomInt(max: number): number {
       return Math.floor(Math.random() * Math.floor(max));
     }
+
+    const senderPromises = [];
+
     for (let i = 0; i < msgToSendCount; i++) {
       const partitionKey = getRandomInt(10);
       const sender = client.createProducer();
-      await sender.send([{ body: "Hello EventHub " + i }], {
-        partitionKey: partitionKey.toString()
-      });
+      senderPromises.push(
+        sender.send([{ body: "Hello EventHub " + i }], {
+          partitionKey: partitionKey.toString()
+        })
+      );
     }
+
+    await Promise.all(senderPromises);
+
     debug("Starting to receive all messages from each partition.");
     const partitionMap: any = {};
-    let totalReceived = 0;
-    for (const id of partitionIds) {
-      const receiver = client.createConsumer(
-        EventHubClient.defaultConsumerGroupName,
-        id,
-        EventPosition.fromOffset(partitionOffsets[id])
+
+    let subscription: Subscription | undefined = undefined;
+
+    try {
+      subscription = consumerClient.subscribe(subscriptionEventHandler, {
+        startPosition
+      });
+      const receivedEvents = await subscriptionEventHandler.waitForFullEvents(
+        hubInfo.partitionIds,
+        msgToSendCount
       );
-      const data = await receiver.receiveBatch(50, 10);
-      await receiver.close();
-      debug(`Received ${data.length} messages from partition ${id}.`);
-      for (const d of data) {
+
+      for (const d of receivedEvents) {
         debug(">>>> _raw_amqp_mesage: ", (d as any)._raw_amqp_mesage);
-        const pk = d.partitionKey as string;
+        const pk = d.event.partitionKey as string;
         debug("pk: ", pk);
-        if (partitionMap[pk] && partitionMap[pk] !== id) {
+
+        if (partitionMap[pk] && partitionMap[pk] !== d.partitionId) {
           debug(
-            `#### Error: Received a message from partition ${id} with partition key ${pk}, whereas the same key was observed on partition ${partitionMap[pk]} before.`
+            `#### Error: Received a message from partition ${d.partitionId} with partition key ${pk}, whereas the same key was observed on partition ${partitionMap[pk]} before.`
           );
-          assert(partitionMap[pk] === id);
+          assert(partitionMap[pk] === d.partitionId);
         }
-        partitionMap[pk] = id;
+        partitionMap[pk] = d.partitionId;
         debug("partitionMap ", partitionMap);
       }
-      totalReceived += data.length;
+    } finally {
+      if (subscription) {
+        await subscription.close();
+      }
+      await consumerClient.close();
     }
-    should.equal(totalReceived, msgToSendCount);
   });
 
   describe("extractSpanContextFromEventData", function() {

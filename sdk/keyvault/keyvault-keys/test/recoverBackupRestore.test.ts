@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack } from "./utils/recorderUtils";
+import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
 import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
@@ -18,7 +18,7 @@ describe("Keys client - restore keys and recover backups", () => {
   let testClient: TestClient;
   let recorder: any;
 
-  before(async function() {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
@@ -26,7 +26,7 @@ describe("Keys client - restore keys and recover backups", () => {
     recorder = authentication.recorder;
   });
 
-  after(async function() {
+  afterEach(async function() {
     recorder.stop();
   });
 
@@ -35,7 +35,7 @@ describe("Keys client - restore keys and recover backups", () => {
   it("can recover a deleted key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    const deletePoller = await client.beginDeleteKey(keyName);
+    const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
     assert.equal(
       deletePoller.getResult()!.name,
       keyName,
@@ -46,7 +46,7 @@ describe("Keys client - restore keys and recover backups", () => {
     const getDeletedResult = await deletePoller.getResult();
     assert.equal(getDeletedResult!.name, keyName, "Unexpected key name in result from getKey().");
 
-    const recoverPoller = await client.beginRecoverDeletedKey(keyName);
+    const recoverPoller = await client.beginRecoverDeletedKey(keyName, testPollerProperties);
     await recoverPoller.pollUntilDone();
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
@@ -57,7 +57,7 @@ describe("Keys client - restore keys and recover backups", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
     try {
-      const recoverPoller = await client.beginRecoverDeletedKey(keyName);
+      const recoverPoller = await client.beginRecoverDeletedKey(keyName, testPollerProperties);
       await recoverPoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
@@ -79,14 +79,14 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("can generate a backup of a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
-      recorder.skip();
-    }
-    await assertThrowsAbortError(async () => {
-      await client.backupKey("doesntmatter", { requestOptions: { timeout: 1 } });
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can generate a backup of a key with requestOptions timeout", async function() {
+      await assertThrowsAbortError(async () => {
+        await client.backupKey("doesntmatter", { requestOptions: { timeout: 1 } });
+      });
     });
-  });
+  }
 
   it("fails to generate a backup of a non-existing key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -111,19 +111,19 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("can restore a key with requestOptions timeout", async function() {
-    if (!isNode || isPlayingBack) { // On playback mode, the tests happen too fast for the timeout to work
-      recorder.skip();
-    }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await client.createKey(keyName, "RSA");
-    const backup = await client.backupKey(keyName);
-    await testClient.flushKey(keyName);
+  if (isNode && !isPlayingBack) {
+    // On playback mode, the tests happen too fast for the timeout to work
+    it("can restore a key with requestOptions timeout", async function() {
+      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      await client.createKey(keyName, "RSA");
+      const backup = await client.backupKey(keyName);
+      await testClient.flushKey(keyName);
 
-    await assertThrowsAbortError(async () => {
-      await client.restoreKeyBackup(backup!, { requestOptions: { timeout: 1 } });
+      await assertThrowsAbortError(async () => {
+        await client.restoreKeyBackup(backup!, { requestOptions: { timeout: 1 } });
+      });
     });
-  });
+  }
 
   it("fails to restore a key with a malformed backup", async function() {
     const backup = new Uint8Array(8693);

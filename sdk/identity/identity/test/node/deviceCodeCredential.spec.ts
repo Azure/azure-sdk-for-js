@@ -136,7 +136,7 @@ describe("DeviceCodeCredential", function() {
       "tenant",
       "client",
       (details) => assert.equal(details.message, deviceCodeResponse.message),
-      { ...mockHttpClient.tokenCredentialOptions, }
+      { ...mockHttpClient.tokenCredentialOptions }
     );
 
     await credential.getToken("scope");
@@ -161,7 +161,17 @@ describe("DeviceCodeCredential", function() {
         { status: 200, parsedBody: deviceCodeResponse },
         { status: 400, parsedBody: pendingResponse },
         { status: 400, parsedBody: pendingResponse },
-        { status: 400, parsedBody: { error: "authorization_declined", error_description: "", correlation_id: "correlation_id", trace_id: "trace_id", error_codes: [ 1, 2, 3], timestamp: "timestamp" } as OAuthErrorResponse }
+        {
+          status: 400,
+          parsedBody: {
+            error: "authorization_declined",
+            error_description: "",
+            correlation_id: "correlation_id",
+            trace_id: "trace_id",
+            error_codes: [1, 2, 3],
+            timestamp: "timestamp"
+          } as OAuthErrorResponse
+        }
       ]
     });
 
@@ -179,7 +189,7 @@ describe("DeviceCodeCredential", function() {
       assert.strictEqual(authError.errorResponse.correlationId, "correlation_id");
       assert.strictEqual(authError.errorResponse.traceId, "trace_id");
       assert.strictEqual(authError.errorResponse.timestamp, "timestamp");
-      assert.deepStrictEqual(authError.errorResponse.errorCodes, [ 1, 2, 3]);
+      assert.deepStrictEqual(authError.errorResponse.errorCodes, [1, 2, 3]);
       return true;
     });
   });
@@ -325,8 +335,10 @@ describe("DeviceCodeCredential", function() {
     );
 
     await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
     });
 
@@ -349,7 +361,7 @@ describe("DeviceCodeCredential", function() {
                   children: [
                     {
                       children: [],
-                      name: "core-http"
+                      name: "/tenant/oauth2/v2.0/devicecode"
                     }
                   ]
                 },
@@ -360,19 +372,19 @@ describe("DeviceCodeCredential", function() {
                     // this test polls 4 times for the authorization code.
                     {
                       children: [],
-                      name: "core-http"
+                      name: "/tenant/oauth2/v2.0/token"
                     },
                     {
                       children: [],
-                      name: "core-http"
+                      name: "/tenant/oauth2/v2.0/token"
                     },
                     {
                       children: [],
-                      name: "core-http"
+                      name: "/tenant/oauth2/v2.0/token"
                     },
                     {
                       children: [],
-                      name: "core-http"
+                      name: "/tenant/oauth2/v2.0/token"
                     }
                   ]
                 }

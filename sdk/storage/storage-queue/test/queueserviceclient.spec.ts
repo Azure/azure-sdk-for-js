@@ -2,11 +2,13 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record, delay } from "./utils/recorder";
+import { record, delay, Recorder } from "@azure/test-utils-recorder";
+import { setupEnvironment } from "./utils/testutils.common";
 dotenv.config({ path: "../.env" });
 
 describe("QueueServiceClient", () => {
-  let recorder: any;
+  setupEnvironment();
+  let recorder: Recorder;
 
   beforeEach(function() {
     recorder = record(this);
@@ -18,10 +20,35 @@ describe("QueueServiceClient", () => {
 
   it("listQueues with default parameters", async () => {
     const queueServiceClient = getQSU();
-    const result = (await queueServiceClient
-      .listQueues()
-      .byPage()
-      .next()).value;
+    const result = (
+      await queueServiceClient
+        .listQueues()
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(typeof result.requestId);
+    assert.ok(result.requestId!.length > 0);
+    assert.ok(result.clientRequestId);
+    assert.ok(typeof result.version);
+    assert.ok(result.version!.length > 0);
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(result.queueItems!.length >= 0);
+
+    if (result.queueItems!.length > 0) {
+      const queue = result.queueItems![0];
+      assert.ok(queue.name.length > 0);
+    }
+  });
+
+  it("listQueues with default parameters - empty prefix should not cause an error", async () => {
+    const queueServiceClient = getQSU();
+    const result = (
+      await queueServiceClient
+        .listQueues({ prefix: "" })
+        .byPage()
+        .next()
+    ).value;
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(result.clientRequestId);
@@ -48,26 +75,30 @@ describe("QueueServiceClient", () => {
     await queueClient1.create({ metadata: { key: "val" } });
     await queueClient2.create({ metadata: { key: "val" } });
 
-    const result1 = (await queueServiceClient
-      .listQueues({
-        includeMetadata: true,
-        prefix: queueNamePrefix
-      })
-      .byPage({ maxPageSize: 1 })
-      .next()).value;
+    const result1 = (
+      await queueServiceClient
+        .listQueues({
+          includeMetadata: true,
+          prefix: queueNamePrefix
+        })
+        .byPage({ maxPageSize: 1 })
+        .next()
+    ).value;
 
     assert.ok(result1.continuationToken);
     assert.equal(result1.queueItems!.length, 1);
     assert.ok(result1.queueItems![0].name.startsWith(queueNamePrefix));
     assert.deepEqual(result1.queueItems![0].metadata!.key, "val");
 
-    const result2 = (await queueServiceClient
-      .listQueues({
-        includeMetadata: true,
-        prefix: queueNamePrefix
-      })
-      .byPage({ continuationToken: result1.continuationToken, maxPageSize: 1 })
-      .next()).value;
+    const result2 = (
+      await queueServiceClient
+        .listQueues({
+          includeMetadata: true,
+          prefix: queueNamePrefix
+        })
+        .byPage({ continuationToken: result1.continuationToken, maxPageSize: 1 })
+        .next()
+    ).value;
 
     assert.ok(!result2.continuationToken);
     assert.equal(result2.queueItems!.length, 1);

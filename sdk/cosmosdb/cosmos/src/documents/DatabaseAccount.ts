@@ -12,30 +12,69 @@ export class DatabaseAccount {
   public readonly writableLocations: Location[] = [];
   /** The list of readable locations for a geo-replicated database account. */
   public readonly readableLocations: Location[] = [];
+  /**
+   * The self-link for Databases in the databaseAccount.
+   * @deprecated Use `databasesLink`
+   */
+  public get DatabasesLink() {
+    return this.databasesLink;
+  }
   /** The self-link for Databases in the databaseAccount. */
-  public readonly DatabasesLink: string;
+  public readonly databasesLink: string;
+  /**
+   * The self-link for Media in the databaseAccount.
+   * @deprecated Use `mediaLink`
+   */
+  public get MediaLink() {
+    return this.mediaLink;
+  }
   /** The self-link for Media in the databaseAccount. */
-  public readonly MediaLink: string;
+  public readonly mediaLink: string;
+  /**
+   * Attachment content (media) storage quota in MBs ( Retrieved from gateway ).
+   * @deprecated use `maxMediaStorageUsageInMB
+   */
+  public get MaxMediaStorageUsageInMB() {
+    return this.maxMediaStorageUsageInMB;
+  }
   /** Attachment content (media) storage quota in MBs ( Retrieved from gateway ). */
-  public readonly MaxMediaStorageUsageInMB: number;
+  public readonly maxMediaStorageUsageInMB: number;
+  /**
+   * Current attachment content (media) usage in MBs (Retrieved from gateway )
+   *
+   * Value is returned from cached information updated periodically and is not guaranteed
+   * to be real time.
+   *
+   * @deprecated use `currentMediaStorageUsageInMB`
+   */
+  public get CurrentMediaStorageUsageInMB() {
+    return this.currentMediaStorageUsageInMB;
+  }
   /**
    * Current attachment content (media) usage in MBs (Retrieved from gateway )
    *
    * Value is returned from cached information updated periodically and is not guaranteed
    * to be real time.
    */
-  public readonly CurrentMediaStorageUsageInMB: number;
+  public readonly currentMediaStorageUsageInMB: number;
+  /**
+   * Gets the UserConsistencyPolicy settings.
+   * @deprecated use `consistencyPolicy`
+   */
+  public get ConsistencyPolicy() {
+    return this.consistencyPolicy;
+  }
   /** Gets the UserConsistencyPolicy settings. */
-  public readonly ConsistencyPolicy: ConsistencyLevel;
+  public readonly consistencyPolicy: ConsistencyLevel;
   public readonly enableMultipleWritableLocations: boolean;
 
   // TODO: body - any
   public constructor(body: { [key: string]: any }, headers: CosmosHeaders) {
-    this.DatabasesLink = "/dbs/";
-    this.MediaLink = "/media/";
-    this.MaxMediaStorageUsageInMB = headers[Constants.HttpHeaders.MaxMediaStorageUsageInMB];
-    this.CurrentMediaStorageUsageInMB = headers[Constants.HttpHeaders.CurrentMediaStorageUsageInMB];
-    this.ConsistencyPolicy = body.UserConsistencyPolicy
+    this.databasesLink = "/dbs/";
+    this.mediaLink = "/media/";
+    this.maxMediaStorageUsageInMB = headers[Constants.HttpHeaders.MaxMediaStorageUsageInMB];
+    this.currentMediaStorageUsageInMB = headers[Constants.HttpHeaders.CurrentMediaStorageUsageInMB];
+    this.consistencyPolicy = body.UserConsistencyPolicy
       ? (body.UserConsistencyPolicy.defaultConsistencyLevel as ConsistencyLevel)
       : ConsistencyLevel.Session;
     if (body[Constants.WritableLocations] && body.id !== "localhost") {
@@ -58,4 +97,5 @@ export class DatabaseAccount {
 export interface Location {
   name: string;
   databaseAccountEndpoint: string;
+  unavailable?: boolean;
 }

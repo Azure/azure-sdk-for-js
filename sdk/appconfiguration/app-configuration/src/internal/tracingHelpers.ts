@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getTracer, Span, SpanOptions, SpanKind, CanonicalCode } from "@azure/core-tracing";
+import { getTracer } from "@azure/core-tracing";
+import { Span, SpanOptions, SpanKind, CanonicalCode } from "@opentelemetry/types";
 
 import { RestError } from "@azure/core-http";
 
@@ -52,14 +53,12 @@ export class Spanner<TClient> {
   private createSpan<T extends Spannable>(options: T, operationName: keyof TClient) {
     const span = getTracer().startSpan(`${this.baseOperationName}.${operationName}`, {
       ...options.spanOptions,
-      kind: SpanKind.CLIENT
+      kind: SpanKind.INTERNAL
     });
-
-    span.setAttribute("component", this.componentName);
 
     let newOptions = options;
 
-    if (span.isRecordingEvents()) {
+    if (span.isRecording()) {
       newOptions = Spanner.addParentToOptions<T>(options, span);
     }
     return { span, newOptions };

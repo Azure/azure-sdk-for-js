@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"undefined":"2019-09-11T02:22:16.624Z"}
+module.exports.testInfo = {"now":"2019-09-11T02:22:16.624Z"}
 
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
   .get('/')

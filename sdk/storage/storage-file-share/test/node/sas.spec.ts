@@ -8,7 +8,7 @@ import {
   ShareServiceClient,
   generateAccountSASQueryParameters,
   SASProtocol,
-  SharedKeyCredential
+  StorageSharedKeyCredential
 } from "../../src";
 import { ShareFileClient } from "../../src/ShareFileClient";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
@@ -16,13 +16,14 @@ import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues
 import { newPipeline } from "../../src/Pipeline";
 import { ShareClient } from "../../src/ShareClient";
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
-import { getBSU } from "../utils";
-import { record } from "../utils/recorder";
+import { getBSU, setupEnvironment } from "../utils";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(function() {
     recorder = record(this);
@@ -33,10 +34,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should work", async () => {
-    const now = recorder.newDate();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = recorder.newDate();
+    const tmr = recorder.newDate("now");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -45,16 +46,16 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
-        startTime: now,
+        startsOn: now,
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
@@ -70,7 +71,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
-    const tmr = recorder.newDate();
+    const tmr = recorder.newDate("now");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -79,12 +80,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         permissions: AccountSASPermissions.parse("wdlcup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString()
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
@@ -104,7 +105,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid service", async () => {
-    const tmr = recorder.newDate();
+    const tmr = recorder.newDate("now");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -113,12 +114,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         permissions: AccountSASPermissions.parse("rwdlacup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btq").toString()
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
@@ -135,7 +136,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should not work with invalid resource type", async () => {
-    const tmr = recorder.newDate();
+    const tmr = recorder.newDate("now");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -144,7 +145,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sas = generateAccountSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacup"),
         protocol: SASProtocol.HttpsAndHttp,
@@ -152,7 +153,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         services: AccountSASServices.parse("btqf").toString(),
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
@@ -169,10 +170,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateFileSASQueryParameters should work for share", async () => {
-    const now = recorder.newDate();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = recorder.newDate();
+    const tmr = recorder.newDate("now");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -185,15 +186,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const shareSAS = generateFileSASQueryParameters(
       {
-        expiryTime: tmr,
+        expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: ShareSASPermissions.parse("rcwdl"),
         protocol: SASProtocol.HttpsAndHttp,
-        shareName: shareClient.shareName,
-        startTime: now,
+        shareName: shareClient.name,
+        startsOn: now,
         version: "2018-03-28"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasURL = `${shareClient.url}?${shareSAS}`;
@@ -209,10 +210,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateFileSASQueryParameters should work for file", async () => {
-    const now = recorder.newDate();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = recorder.newDate();
+    const tmr = recorder.newDate("now");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -242,16 +243,16 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         contentEncoding: "content-encoding-override",
         contentLanguage: "content-language-override",
         contentType: "content-type-override",
-        expiryTime: tmr,
+        expiresOn: tmr,
         filePath: fileClient.path,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: FileSASPermissions.parse("rcwd"),
         protocol: SASProtocol.HttpsAndHttp,
         shareName: fileClient.shareName,
-        startTime: now,
+        startsOn: now,
         version: "2016-05-31"
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasURL = `${fileClient.url}?${fileSAS}`;
@@ -268,10 +269,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateFileSASQueryParameters should work for file with access policy", async () => {
-    const now = recorder.newDate();
+    const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = recorder.newDate();
+    const tmr = recorder.newDate("now");
     tmr.setDate(tmr.getDate() + 1);
 
     // By default, credential is always the last element of pipeline factories
@@ -298,9 +299,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await shareClient.setAccessPolicy([
       {
         accessPolicy: {
-          expiry: tmr,
+          expiresOn: tmr,
           permissions: ShareSASPermissions.parse("rcwdl").toString(),
-          start: now
+          startsOn: now
         },
         id
       }
@@ -311,7 +312,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         identifier: id,
         shareName
       },
-      sharedKeyCredential as SharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential
     );
 
     const sasURL = `${shareClient.url}?${shareSAS}`;

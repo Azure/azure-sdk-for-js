@@ -1,18 +1,19 @@
-import { BlockBlobClient } from "../src/BlockBlobClient";
-import { getBSU } from "./utils/index";
+import { BlockBlobClient } from "../src";
+import { getBSU, setupEnvironment } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
-import { record } from "./utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ContainerClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("Special Naming Tests", () => {
+  setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   before(async function() {
     recorder = record(this);

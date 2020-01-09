@@ -10,21 +10,28 @@ import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
-import { HttpPipelineLogLevel } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { HttpClient as IHttpClient } from '@azure/core-http';
-import { HttpPipelineLogger as IHttpPipelineLogger } from '@azure/core-http';
+import { KeepAliveOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { ProxySettings } from '@azure/core-http';
+import { ProxyOptions } from '@azure/core-http';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
-import { SpanOptions } from '@azure/core-tracing';
+import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-http';
+import { UserAgentOptions } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
+
+// @public
+export interface AccessPolicy {
+    expiresOn: string;
+    permissions: string;
+    startsOn: string;
+}
 
 // @public
 export class AccountSASPermissions {
@@ -61,13 +68,13 @@ export class AccountSASServices {
 
 // @public
 export interface AccountSASSignatureValues {
-    expiryTime: Date;
+    expiresOn: Date;
     ipRange?: SasIPRange;
     permissions: AccountSASPermissions;
     protocol?: SASProtocol;
     resourceTypes: string;
     services: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
 }
 
@@ -85,8 +92,17 @@ export { BaseRequestPolicy }
 
 // @public
 export interface CommonOptions {
-    // (undocumented)
-    spanOptions?: SpanOptions;
+    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
+    tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export interface CorsRule {
+    allowedHeaders: string;
+    allowedMethods: string;
+    allowedOrigins: string;
+    exposedHeaders: string;
+    maxAgeInSeconds: number;
 }
 
 // @public
@@ -126,22 +142,27 @@ export interface EnqueuedMessage {
 }
 
 // @public
-export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
+export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
 // @public
-export function generateQueueSASQueryParameters(queueSASSignatureValues: QueueSASSignatureValues, sharedKeyCredential: SharedKeyCredential): SASQueryParameters;
+export function generateQueueSASQueryParameters(queueSASSignatureValues: QueueSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
+
+// @public
+export interface GeoReplication {
+    lastSyncOn: Date;
+    status: GeoReplicationStatusType;
+}
+
+// @public
+export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
 
 export { HttpHeaders }
 
 export { HttpOperationResponse }
 
-export { HttpPipelineLogLevel }
-
 export { HttpRequestBody }
 
 export { IHttpClient }
-
-export { IHttpPipelineLogger }
 
 // @public
 export type ListQueuesIncludeType = 'metadata';
@@ -165,8 +186,26 @@ export interface ListQueuesSegmentResponse {
 // @public
 export const logger: import("@azure/logger").AzureLogger;
 
-// Warning: (ae-forgotten-export) The symbol "MessageIdDeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface Logging {
+    deleteProperty: boolean;
+    read: boolean;
+    // (undocumented)
+    retentionPolicy: RetentionPolicy;
+    version: string;
+    write: boolean;
+}
+
+// @public
+export interface MessageIdDeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -174,8 +213,18 @@ export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "MessageIdUpdateHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface MessageIdUpdateHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    nextVisibleOn?: Date;
+    popReceipt?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -183,8 +232,16 @@ export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "MessagesClearHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface MessagesClearHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type MessagesClearResponse = MessagesClearHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -245,26 +302,22 @@ export interface MessagesPeekOptionalParams extends coreHttp.RequestOptionsBase 
     timeoutInSeconds?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface Metadata {
-    // (undocumented)
     [propertyName: string]: string;
 }
 
 // @public
-export function newPipeline(credential: SharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: NewPipelineOptions): Pipeline;
+export interface Metrics {
+    enabled: boolean;
+    includeAPIs?: boolean;
+    // (undocumented)
+    retentionPolicy?: RetentionPolicy;
+    version?: string;
+}
 
 // @public
-export interface NewPipelineOptions {
-    httpClient?: IHttpClient;
-    // Warning: (ae-forgotten-export) The symbol "KeepAliveOptions" needs to be exported by the entry point index.d.ts
-    keepAliveOptions?: KeepAliveOptions;
-    logger?: IHttpPipelineLogger;
-    // (undocumented)
-    proxy?: ProxySettings | string;
-    retryOptions?: RetryOptions;
-    telemetry?: TelemetryOptions;
-}
+export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export interface PeekedMessageItem {
@@ -285,8 +338,7 @@ export class Pipeline {
 
 // @public
 export interface PipelineOptions {
-    HttpClient?: IHttpClient;
-    logger?: IHttpPipelineLogger;
+    httpClient?: IHttpClient;
 }
 
 // @public
@@ -294,15 +346,15 @@ export interface QueueClearMessagesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueClearMessagesResponse = MessagesClearResponse;
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
 // 
 // @public
 export class QueueClient extends StorageClient {
-    constructor(connectionString: string, queueName: string, options?: NewPipelineOptions);
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions);
+    constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     clearMessages(options?: QueueClearMessagesOptions): Promise<QueueClearMessagesResponse>;
     create(options?: QueueCreateOptions): Promise<QueueCreateResponse>;
@@ -310,7 +362,6 @@ export class QueueClient extends StorageClient {
     deleteMessage(messageId: string, popReceipt: string, options?: QueueDeleteMessageOptions): Promise<QueueDeleteMessageResponse>;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
-    // (undocumented)
     readonly name: string;
     peekMessages(options?: QueuePeekMessagesOptions): Promise<QueuePeekMessagesResponse>;
     receiveMessages(options?: QueueReceiveMessageOptions): Promise<QueueReceiveMessageResponse>;
@@ -321,13 +372,21 @@ export class QueueClient extends StorageClient {
 }
 
 // @public
+export interface QueueCreateHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface QueueCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     metadata?: Metadata;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueCreateHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueCreateResponse = QueueCreateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -336,11 +395,21 @@ export type QueueCreateResponse = QueueCreateHeaders & {
 };
 
 // @public
+export interface QueueDeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface QueueDeleteMessageOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueDeleteMessageResponse = MessageIdDeleteResponse;
 
 // @public
@@ -348,8 +417,6 @@ export interface QueueDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueDeleteHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueDeleteResponse = QueueDeleteHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -372,7 +439,7 @@ export interface QueueGetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueGetAccessPolicyResponse = {
     signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
@@ -384,12 +451,25 @@ export type QueueGetAccessPolicyResponse = {
 };
 
 // @public
+export interface QueueGetPropertiesHeaders {
+    approximateMessagesCount?: number;
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface QueueGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueGetPropertiesResponse = QueueGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -410,7 +490,7 @@ export interface QueueItem {
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {
 }
 
-// @public (undocumented)
+// @public
 export type QueuePeekMessagesResponse = {
     peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
@@ -425,7 +505,7 @@ export type QueuePeekMessagesResponse = {
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {
 }
 
-// @public (undocumented)
+// @public
 export type QueueReceiveMessageResponse = {
     receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
@@ -448,13 +528,13 @@ export class QueueSASPermissions {
 
 // @public
 export interface QueueSASSignatureValues {
-    expiryTime?: Date;
+    expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
     permissions?: QueueSASPermissions;
     protocol?: SASProtocol;
     queueName: string;
-    startTime?: Date;
+    startsOn?: Date;
     version?: string;
 }
 
@@ -462,7 +542,7 @@ export interface QueueSASSignatureValues {
 export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {
 }
 
-// @public (undocumented)
+// @public
 export type QueueSendMessageResponse = {
     messageId: string;
     popReceipt: string;
@@ -479,11 +559,11 @@ export type QueueSendMessageResponse = {
 
 // @public
 export class QueueServiceClient extends StorageClient {
-    constructor(url: string, credential?: SharedKeyCredential | AnonymousCredential | TokenCredential, options?: NewPipelineOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
     deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
-    static fromConnectionString(connectionString: string, options?: NewPipelineOptions): QueueServiceClient;
+    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): QueueServiceClient;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getQueueClient(queueName: string): QueueClient;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
@@ -493,13 +573,25 @@ export class QueueServiceClient extends StorageClient {
 
 // @public
 export interface QueueServiceProperties {
-    // Warning: (ae-forgotten-export) The symbol "CorsRule" needs to be exported by the entry point index.d.ts
     cors?: CorsRule[];
-    // Warning: (ae-forgotten-export) The symbol "Metrics" needs to be exported by the entry point index.d.ts
     hourMetrics?: Metrics;
     minuteMetrics?: Metrics;
-    // Warning: (ae-forgotten-export) The symbol "Logging" needs to be exported by the entry point index.d.ts
     queueAnalyticsLogging?: Logging;
+}
+
+// @public
+export interface QueueServiceStatistics {
+    geoReplication?: GeoReplication;
+}
+
+// @public
+export interface QueueSetAccessPolicyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
 }
 
 // @public
@@ -507,8 +599,6 @@ export interface QueueSetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueSetAccessPolicyHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -517,12 +607,20 @@ export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
 };
 
 // @public
+export interface QueueSetMetadataHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface QueueSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueSetMetadataHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type QueueSetMetadataResponse = QueueSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -535,10 +633,10 @@ export interface QueueUpdateMessageOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// @public (undocumented)
+// @public
 export type QueueUpdateMessageResponse = MessageIdUpdateResponse;
 
-// @public (undocumented)
+// @public
 export type ReceivedMessageItem = DequeuedMessageItem;
 
 export { RequestPolicy }
@@ -550,26 +648,9 @@ export { RequestPolicyOptions }
 export { RestError }
 
 // @public
-export interface RetryOptions {
-    readonly maxRetryDelayInMs?: number;
-    readonly maxTries?: number;
-    readonly retryDelayInMs?: number;
-    readonly retryPolicyType?: RetryPolicyType;
-    readonly secondaryHost?: string;
-    readonly tryTimeoutInMs?: number;
-}
-
-// @public
-export class RetryPolicyFactory implements RequestPolicyFactory {
-    constructor(retryOptions?: RetryOptions);
-    // Warning: (ae-forgotten-export) The symbol "RetryPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RetryPolicy;
-    }
-
-// @public
-export enum RetryPolicyType {
-    EXPONENTIAL = 0,
-    FIXED = 1
+export interface RetentionPolicy {
+    days?: number;
+    enabled: boolean;
 }
 
 // @public
@@ -586,8 +667,8 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startTime?: Date, expiryTime?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string);
-    readonly expiryTime?: Date;
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string);
+    readonly expiresOn?: Date;
     readonly identifier?: string;
     readonly ipRange: SasIPRange | undefined;
     readonly permissions?: string;
@@ -596,9 +677,18 @@ export class SASQueryParameters {
     readonly resourceTypes?: string;
     readonly services?: string;
     readonly signature: string;
-    readonly startTime?: Date;
+    readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
+}
+
+// @public
+export interface ServiceGetPropertiesHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
 }
 
 // @public
@@ -606,8 +696,6 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceGetPropertiesResponse = QueueServiceProperties & ServiceGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -618,13 +706,20 @@ export type ServiceGetPropertiesResponse = QueueServiceProperties & ServiceGetPr
 };
 
 // @public
+export interface ServiceGetStatisticsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetStatisticsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "QueueServiceStatistics" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "ServiceGetStatisticsHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceGetStatisticsResponse = QueueServiceStatistics & ServiceGetStatisticsHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -641,8 +736,16 @@ export interface ServiceListQueuesOptions extends CommonOptions {
     prefix?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceListQueuesSegmentHeaders" needs to be exported by the entry point index.d.ts
-// 
+// @public
+export interface ServiceListQueuesSegmentHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 export type ServiceListQueuesSegmentResponse = ListQueuesSegmentResponse & ServiceListQueuesSegmentHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -653,12 +756,19 @@ export type ServiceListQueuesSegmentResponse = ListQueuesSegmentResponse & Servi
 };
 
 // @public
+export interface ServiceSetPropertiesHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface ServiceSetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ServiceSetPropertiesHeaders" needs to be exported by the entry point index.d.ts
-// 
 // @public
 export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -667,24 +777,10 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 };
 
 // @public
-export class SharedKeyCredential extends Credential {
-    constructor(accountName: string, accountKey: string);
-    readonly accountName: string;
-    computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): SharedKeyCredentialPolicy;
-}
-
-// @public
-export class SharedKeyCredentialPolicy extends CredentialPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: SharedKeyCredential);
-    protected signRequest(request: WebResource): WebResource;
-}
-
-// @public
 export interface SignedIdentifier {
     accessPolicy: {
-        start: Date;
-        expiry: Date;
+        startsOn: Date;
+        expiresOn: Date;
         permissions: string;
     };
     id: string;
@@ -692,30 +788,75 @@ export interface SignedIdentifier {
 
 // @public
 export interface SignedIdentifierModel {
-    // Warning: (ae-forgotten-export) The symbol "AccessPolicy" needs to be exported by the entry point index.d.ts
     accessPolicy: AccessPolicy;
     id: string;
 }
 
-// @public (undocumented)
-export const StorageOAuthScopes: string | string[];
-
 // @public
-export interface TelemetryOptions {
-    value: string;
+export class StorageBrowserPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
 }
 
 // @public
-export class TelemetryPolicyFactory implements RequestPolicyFactory {
-    constructor(telemetry?: TelemetryOptions);
-    // Warning: (ae-forgotten-export) The symbol "TelemetryPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy;
+export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy;
+}
+
+// @public
+export const StorageOAuthScopes: string | string[];
+
+// @public
+export interface StoragePipelineOptions {
+    httpClient?: IHttpClient;
+    keepAliveOptions?: KeepAliveOptions;
+    proxyOptions?: ProxyOptions;
+    retryOptions?: StorageRetryOptions;
+    userAgentOptions?: UserAgentOptions;
+}
+
+// @public
+export interface StorageRetryOptions {
+    readonly maxRetryDelayInMs?: number;
+    readonly maxTries?: number;
+    readonly retryDelayInMs?: number;
+    readonly retryPolicyType?: StorageRetryPolicyType;
+    readonly secondaryHost?: string;
+    readonly tryTimeoutInMs?: number;
+}
+
+// @public
+export class StorageRetryPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, retryOptions?: StorageRetryOptions);
+    protected attemptSendRequest(request: WebResource, secondaryHas404: boolean, attempt: number): Promise<HttpOperationResponse>;
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected shouldRetry(isPrimaryRetry: boolean, attempt: number, response?: HttpOperationResponse, err?: RestError): boolean;
+}
+
+// @public
+export class StorageRetryPolicyFactory implements RequestPolicyFactory {
+    constructor(retryOptions?: StorageRetryOptions);
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
     }
 
 // @public
-export class UniqueRequestIDPolicyFactory implements RequestPolicyFactory {
-    // Warning: (ae-forgotten-export) The symbol "UniqueRequestIDPolicy" needs to be exported by the entry point index.d.ts
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): UniqueRequestIDPolicy;
+export enum StorageRetryPolicyType {
+    EXPONENTIAL = 0,
+    FIXED = 1
+}
+
+// @public
+export class StorageSharedKeyCredential extends Credential {
+    constructor(accountName: string, accountKey: string);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageSharedKeyCredentialPolicy;
+}
+
+// @public
+export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
+    protected signRequest(request: WebResource): WebResource;
 }
 
 export { WebResource }

@@ -1,11 +1,11 @@
 import * as assert from "assert";
-import { isNode } from "@azure/core-http";
+import { isNode, URLBuilder } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
-import { record, delay } from "./utils/recorder";
+import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
-import { getBSU, bodyToString } from "./utils";
+import { getBSU, bodyToString, setupEnvironment } from "./utils";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
@@ -13,6 +13,7 @@ import { truncatedISO8061Date } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
+  setupEnvironment();
   const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
@@ -23,7 +24,7 @@ describe("FileClient", () => {
   let fileClient: ShareFileClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   let fullFileAttributes = new FileSystemAttributes();
   fullFileAttributes.readonly = true;
@@ -281,6 +282,7 @@ describe("FileClient", () => {
   });
 
   it("startCopyFromURL", async () => {
+    recorder.skip("browser");
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
     const result = await newFileClient.startCopyFromURL(fileClient.url);
@@ -320,6 +322,13 @@ describe("FileClient", () => {
     assert.deepStrictEqual(updatedProperties.contentLength, 1);
   });
 
+  it("uploadData", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadData(isNode ? Buffer.from(content) : new Blob([content]));
+    const response = await fileClient.download();
+    assert.deepStrictEqual(await bodyToString(response), content);
+  });
+
   it("uploadRange", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5);
@@ -356,6 +365,10 @@ describe("FileClient", () => {
   });
 
   it("uploadRange with progress event", async () => {
+    recorder.skip(
+      "browser",
+      "record & playback issue: https://github.com/Azure/azure-sdk-for-js/issues/6476"
+    );
     await fileClient.create(10);
     let progressUpdated = false;
     await fileClient.uploadRange("HelloWorld", 0, 10, {
@@ -363,7 +376,10 @@ describe("FileClient", () => {
         progressUpdated = true;
       }
     });
-    assert.deepStrictEqual(progressUpdated, true);
+    assert.equal(progressUpdated, true);
+
+    const response = await fileClient.download(0);
+    assert.deepStrictEqual(await bodyToString(response), "HelloWorld");
   });
 
   it("clearRange", async () => {
@@ -413,6 +429,15 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
   });
 
+  it("download with progress report", async () => {
+    await fileClient.create(content.length);
+    await fileClient.uploadRange(content, 0, content.length);
+    const result = await fileClient.download(0, undefined, {
+      onProgress: () => {}
+    });
+    assert.deepStrictEqual(await bodyToString(result), content);
+  });
+
   it("download partial content", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("HelloWorld", 0, 10);
@@ -422,6 +447,10 @@ describe("FileClient", () => {
   });
 
   it("download should update progress and abort successfully", async () => {
+    recorder.skip(
+      undefined,
+      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
+    );
     await fileClient.create(128 * 1024 * 1024);
 
     let eventTriggered = false;
@@ -452,7 +481,8 @@ describe("FileClient", () => {
       assert.fail();
       // tslint:disable-next-line:no-empty
     } catch (err) {
-      assert.ok((err.message as string).toLowerCase().includes("aborted"));
+      assert.equal(err.name, "AbortError");
+      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
   });
@@ -460,10 +490,12 @@ describe("FileClient", () => {
   it("listHandles should work", async () => {
     await fileClient.create(10);
 
-    const result = (await fileClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await fileClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       assert.notDeepStrictEqual(handle.handleId, undefined);
@@ -480,7 +512,11 @@ describe("FileClient", () => {
 
     // TODO: Open or create a handle - Has to be tested locally
 
-    assert.equal(await fileClient.forceCloseAllHandles(), 0, "Error in forceCloseAllHandles");
+    assert.deepStrictEqual(
+      await fileClient.forceCloseAllHandles(),
+      { closedHandlesCount: 0 },
+      "Error in forceCloseAllHandles"
+    );
   });
 
   it("forceCloseHandle should work", async () => {
@@ -488,32 +524,16 @@ describe("FileClient", () => {
 
     // TODO: Open or create a handle
 
-    const result = (await fileClient
-      .listHandles()
-      .byPage()
-      .next()).value;
+    const result = (
+      await fileClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);
     }
-  });
-
-  it("verify shareName and filePath passed to the client", async () => {
-    const accountName = "myaccount";
-    const newClient = new ShareFileClient(
-      `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName + "/" + fileName
-    );
-    assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
-    assert.equal(
-      newClient.path,
-      dirName + "/" + fileName,
-      "FilePath is not the same as the one provided."
-    );
-    assert.equal(
-      newClient.accountName,
-      accountName,
-      "Account name is not the same as the one provided."
-    );
   });
 
   it("create with tracing", async () => {
@@ -521,13 +541,17 @@ describe("FileClient", () => {
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
     await fileClient.create(content.length, {
-      spanOptions: { parent: rootSpan }
+      tracingOptions: {
+        spanOptions: { parent: rootSpan }
+      }
     });
     rootSpan.end();
 
     const rootSpans = tracer.getRootSpans();
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+    const urlPath = URLBuilder.parse(fileClient.url).getPath() || "";
 
     const expectedGraph: SpanGraph = {
       roots: [
@@ -538,7 +562,7 @@ describe("FileClient", () => {
               name: "Azure.Storage.File.ShareFileClient-create",
               children: [
                 {
-                  name: "core-http",
+                  name: urlPath,
                   children: []
                 }
               ]
@@ -550,5 +574,54 @@ describe("FileClient", () => {
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  });
+});
+
+describe("ShareFileClient - Verify Name Properties", () => {
+  const accountName = "myaccount";
+  const dirName = "dir1/dir2";
+  const fileName = "1.txt";
+  const shareName = "shareName";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new ShareFileClient(url);
+    assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
+    assert.equal(
+      newClient.path,
+      dirName + "/" + fileName,
+      "FilePath is not the same as the one provided."
+    );
+    assert.equal(
+      newClient.accountName,
+      accountName,
+      "Account name is not the same as the one provided."
+    );
+    assert.equal(
+      newClient.name,
+      fileName,
+      "FileClient name is not the same as the baseName of the provided file URI"
+    );
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(
+      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}/${fileName}`
+    );
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://192.0.0.10:1900/${accountName}/${shareName}/${dirName}/${fileName}`
+    );
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}/${dirName}/${fileName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${shareName}/${dirName}/${fileName}`);
   });
 });

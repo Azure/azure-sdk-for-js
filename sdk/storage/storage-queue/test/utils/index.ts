@@ -1,4 +1,4 @@
-import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { newPipeline } from "../../src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 import {
@@ -9,7 +9,7 @@ import {
   AccountSASServices
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { env } from "./testutils.common";
+import { env } from "@azure/test-utils-recorder";
 
 // Uncomment if need to enable logger when debugging
 // import {HttpPipelineLogLevel} from "../../src"
@@ -40,7 +40,7 @@ export function getGenericQSU(
       );
     }
 
-    const credentials = new SharedKeyCredential(accountName, accountKey);
+    const credentials = new StorageSharedKeyCredential(accountName, accountKey);
     const pipeline = newPipeline(credentials, {
       // Enable logger when debugging
       // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
@@ -82,16 +82,16 @@ export function getSASConnectionStringFromEnvironment(): string {
 
   const sas = generateAccountSASQueryParameters(
     {
-      expiryTime: tmr,
+      expiresOn: tmr,
       ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
       permissions: AccountSASPermissions.parse("rwdlacup"),
       protocol: SASProtocol.HttpsAndHttp,
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
       services: AccountSASServices.parse("btqf").toString(),
-      startTime: now,
+      startsOn: now,
       version: "2016-05-31"
     },
-    sharedKeyCredential as SharedKeyCredential
+    sharedKeyCredential as StorageSharedKeyCredential
   ).toString();
 
   const queueEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;

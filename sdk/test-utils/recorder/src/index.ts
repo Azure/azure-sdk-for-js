@@ -9,3 +9,4 @@ export {
   setEnvironmentOnLoad,
   skipQueryParams
 } from "./baseRecorder";
+export { jsonRecordingFilterFunction } from "./basekarma.conf";

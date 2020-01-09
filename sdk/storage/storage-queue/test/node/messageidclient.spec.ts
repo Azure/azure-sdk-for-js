@@ -1,17 +1,19 @@
 import * as assert from "assert";
 import { newPipeline } from "../../src";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record } from "../utils/recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import { QueueClient } from "../../src/QueueClient";
-import { SharedKeyCredential } from "../../src/credentials/SharedKeyCredential";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
+import { setupEnvironment } from "../utils/testutils.common";
 
 describe("QueueClient messageId methods, Node.js only", () => {
+  setupEnvironment();
   const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
   const messageContent = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this);
@@ -94,7 +96,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   it("can be created with a url and a credential", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
@@ -115,7 +117,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   it("can be created with a url and a credential and an option bag", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);
@@ -140,7 +142,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   it("can be created with a url and a pipeline", async () => {
     const factories = (queueClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as SharedKeyCredential;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
 
     const eResult = await queueClient.sendMessage(messageContent);
     assert.ok(eResult.messageId);

@@ -8,7 +8,6 @@ import { GlobalEndpointManager } from "../globalEndpointManager";
 import { PluginConfig } from "../plugins/Plugin";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { FeedOptions } from "./FeedOptions";
-import { LocationRouting } from "./LocationRouting";
 import { RequestOptions } from "./RequestOptions";
 
 /**
@@ -21,7 +20,6 @@ export interface RequestContext {
   retryCount?: number;
   resourceType?: ResourceType;
   resourceId?: string;
-  locationRouting?: LocationRouting;
   globalEndpointManager: GlobalEndpointManager;
   connectionPolicy: ConnectionPolicy;
   requestAgent: Agent;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient } from "../src";
+import { AppConfigurationClient, AppConfigurationClientOptions } from "../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../src";
 import * as assert from "assert";
@@ -10,16 +10,48 @@ import * as assert from "assert";
 // in the environment
 import * as dotenv from "dotenv";
 import { RestError } from "@azure/core-http";
+import { DefaultAzureCredential, TokenCredential } from '@azure/identity';
+import { InternalAppConfigurationClientOptions } from '../src/appConfigurationClient';
 dotenv.config();
 
-export function getConnectionStringFromEnvironment(): string | undefined {
-  return process.env["AZ_CONFIG_CONNECTION"];
+let connectionStringNotPresentWarning = false;
+let tokenCredentialsNotPresentWarning = false;
+
+export interface CredsAndEndpoint {
+  credential: TokenCredential
+  endpoint: string 
 }
 
-let connectionStringNotPresentWarning = false;
+export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined {
+  const requiredEnvironmentVariables = [
+    "AZ_CONFIG_ENDPOINT",
+    "AZURE_CLIENT_ID",
+    "AZURE_TENANT_ID",
+    "AZURE_CLIENT_SECRET"
+  ];  
 
-export function createAppConfigurationClientForTests(): AppConfigurationClient | undefined {
-  const connectionString = getConnectionStringFromEnvironment();
+  for (const name of requiredEnvironmentVariables) {
+    const value = process.env[name];
+
+    if (value == null) {
+      if (tokenCredentialsNotPresentWarning) {
+        tokenCredentialsNotPresentWarning = true;
+        console.log("Functional tests not running - set client identity variables to activate");
+      }
+  
+      return undefined;
+    }    
+  }
+
+  return {
+    credential: new DefaultAzureCredential(),
+    endpoint: process.env["AZ_CONFIG_ENDPOINT"]!
+  };
+}
+
+
+export function createAppConfigurationClientForTests(options?: InternalAppConfigurationClientOptions): AppConfigurationClient | undefined {
+  const connectionString = process.env["AZ_CONFIG_CONNECTION"];
 
   if (connectionString == null) {
     if (!connectionStringNotPresentWarning) {
@@ -31,17 +63,17 @@ export function createAppConfigurationClientForTests(): AppConfigurationClient |
     return undefined;
   }
 
-  return new AppConfigurationClient(connectionString);
+  return new AppConfigurationClient(connectionString, options);
 }
 
 export async function deleteKeyCompletely(keys: string[], client: AppConfigurationClient) {
   const settingsIterator = await client.listConfigurationSettings({
-    keys: keys
+    keyFilter: keys.join(",")
   });
 
   for await (const setting of settingsIterator) {
-    if (setting.readOnly) {
-      await client.clearReadOnly(setting);
+    if (setting.isReadOnly) {
+      await client.setReadOnly(setting, false);
     }
 
     await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
@@ -52,7 +84,8 @@ export async function toSortedArray(
   pagedIterator: PagedAsyncIterableIterator<
     ConfigurationSetting,
     ListConfigurationSettingPage | ListRevisionsPage
-  >
+    >,
+  compareFn?: (a: ConfigurationSetting, b: ConfigurationSetting) => number
 ): Promise<ConfigurationSetting[]> {
   const settings: ConfigurationSetting[] = [];
 
@@ -69,15 +102,16 @@ export async function toSortedArray(
   // just a sanity-check
   assert.deepEqual(settings, settingsViaPageIterator);
 
-  settings.sort((a, b) =>
-    `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`)
+  settings.sort((a, b) => compareFn
+    ? compareFn(a, b)
+    : `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`)
   );
 
   return settings;
 }
 
 export function assertEqualSettings(
-  expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "readOnly">[],
+  expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "isReadOnly">[],
   actual: ConfigurationSetting[]
 ) {
   actual = actual.map((setting) => {
@@ -85,7 +119,7 @@ export function assertEqualSettings(
       key: setting.key,
       label: setting.label,
       value: setting.value,
-      readOnly: setting.readOnly
+      isReadOnly: setting.isReadOnly
     };
   });
 

@@ -95,8 +95,10 @@ describe("ClientCertificateCredential", function() {
     );
 
     await credential.getToken("scope", {
-      spanOptions: {
-        parent: rootSpan
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan
+        }
       }
     });
 
@@ -116,7 +118,7 @@ describe("ClientCertificateCredential", function() {
               children: [
                 {
                   children: [],
-                  name: "core-http"
+                  name: "/tenantId/oauth2/v2.0/token"
                 }
               ]
             }

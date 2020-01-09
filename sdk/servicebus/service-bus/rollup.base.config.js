@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import nodeResolve from "rollup-plugin-node-resolve";
-import multiEntry from "rollup-plugin-multi-entry";
+import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "rollup-plugin-commonjs";
-import json from "rollup-plugin-json";
-import replace from "rollup-plugin-replace";
+import json from "@rollup/plugin-json";
+import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
@@ -97,7 +97,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
   return baseConfig;
 }
 
-export function browserConfig({ test = false, production = false } = {}) {
+export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     external: [],
@@ -144,7 +144,11 @@ export function browserConfig({ test = false, production = false } = {}) {
         preferBuiltins: false
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"], long: ["ZERO"] }
+        namedExports: {
+          events: ["EventEmitter"],
+          long: ["ZERO"],
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
       }),
 
       // rhea and rhea-promise use the Buffer global which requires
@@ -172,15 +176,6 @@ export function browserConfig({ test = false, production = false } = {}) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (production) {
-    baseConfig.output.file = "browser/service-bus.min.js";
-    baseConfig.plugins.push(
-      terser({
-        output: {
-          preamble: banner
-        }
-      })
-    );
   }
 
   return baseConfig;

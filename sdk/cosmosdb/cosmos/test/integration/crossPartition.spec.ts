@@ -87,7 +87,10 @@ describe("Cross Partition", function() {
         "actual results length doesn't match with expected results length."
       );
       if (expectedOrderIds) {
-        assert.deepStrictEqual(actualResults.map((doc) => doc.id || doc), expectedOrderIds);
+        assert.deepStrictEqual(
+          actualResults.map((doc) => doc.id || doc),
+          expectedOrderIds
+        );
       }
     };
 
@@ -234,7 +237,8 @@ describe("Cross Partition", function() {
           Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
         assert(
           percentDifference <= 0.05,
-          "difference between fetchAll request charge and expected request charge should be less than 5%"
+          `difference between fetchAll request charge and expected request charge should be less than 5%. Got ${percentDifference *
+            100}`
         );
       }
       queryIterator.reset();
@@ -333,7 +337,7 @@ describe("Cross Partition", function() {
       });
     });
 
-    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 1", async function() {
+    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 1 #nosignoff", async function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
@@ -960,10 +964,6 @@ describe("Cross Partition", function() {
       const options = {
         maxItemCount: 2
       };
-
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
-        return r["id"];
-      });
 
       const queryIterator = container.items.query(query, options);
 

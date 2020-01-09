@@ -23,7 +23,7 @@ import { ReadableStreamGetter, RetriableReadableStream } from "./utils/Retriable
  * automatically retry when internal read stream unexpected ends. (This kind of unexpected ends cannot
  * trigger retries defined in pipeline retry policy.)
  *
- * The readableStreamBody stream will retry underlayer, you can just use it as a normal Node.js
+ * The {@link readableStreamBody} stream will retry underlayer, you can just use it as a normal Node.js
  * Readable stream.
  *
  * @export

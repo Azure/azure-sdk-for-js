@@ -10,7 +10,7 @@ const debug = debugModule("azure:event-hubs:hubruntime-spec");
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
-import { EventHubClient } from "../src";
+import { EventHubClient } from "../src/impl/eventHubClient";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 describe("RuntimeInformation #RunnableInBrowser", function(): void {
@@ -43,7 +43,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
   describe("getPartitionIds", function(): void {
     it("returns an array of partition IDs", async function(): Promise<void> {
       client = new EventHubClient(service.connectionString, service.path);
-      const ids = await client.getPartitionIds();
+      const ids = await client.getPartitionIds({});
       ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
     });
 
@@ -67,7 +67,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
           maxRetries: 0
         }
       });
-      const results = await Promise.all([client.getPartitionIds(), client.getPartitionIds()]);
+      const results = await Promise.all([client.getPartitionIds({}), client.getPartitionIds({})]);
 
       for (const result of results) {
         result.should.have.members(arrayOfIncreasingNumbersFromZero(result.length));
@@ -81,7 +81,13 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
 
     const rootSpan = tracer.startSpan("root");
     client = new EventHubClient(service.connectionString, service.path);
-    const ids = await client.getPartitionIds({ parentSpan: rootSpan });
+    const ids = await client.getPartitionIds({
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan
+        }
+      }
+    });
     ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
     rootSpan.end();
 
@@ -98,7 +104,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
               name: "Azure.EventHubs.getPartitionIds",
               children: [
                 {
-                  name: "Azure.EventHubs.getProperties",
+                  name: "Azure.EventHubs.getEventHubProperties",
                   children: []
                 }
               ]
@@ -119,12 +125,12 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       });
       const hubRuntimeInfo = await client.getProperties();
       debug(hubRuntimeInfo);
-      hubRuntimeInfo.path.should.equal(service.path);
+      hubRuntimeInfo.name.should.equal(service.path);
 
       hubRuntimeInfo.partitionIds.should.have.members(
         arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
       );
-      hubRuntimeInfo.createdAt.should.be.instanceof(Date);
+      hubRuntimeInfo.createdOn.should.be.instanceof(Date);
     });
 
     it("can cancel a request for hub runtime information", async function(): Promise<void> {
@@ -149,7 +155,13 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
 
       const rootSpan = tracer.startSpan("root");
       client = new EventHubClient(service.connectionString, service.path);
-      const hubRuntimeInfo = await client.getProperties({ parentSpan: rootSpan });
+      const hubRuntimeInfo = await client.getProperties({
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan
+          }
+        }
+      });
       hubRuntimeInfo.partitionIds.should.have.members(
         arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
       );
@@ -165,7 +177,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
             name: rootSpan.name,
             children: [
               {
-                name: "Azure.EventHubs.getProperties",
+                name: "Azure.EventHubs.getEventHubProperties",
                 children: []
               }
             ]
@@ -186,7 +198,9 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
         throw new Error("Test failure");
       } catch (err) {
         err.name.should.equal("TypeError");
-        err.message.should.equal(`getPartitionProperties called without required argument "partitionId"`);
+        err.message.should.equal(
+          `getPartitionProperties called without required argument "partitionId"`
+        );
       }
     });
 
@@ -198,7 +212,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       debug(partitionRuntimeInfo);
       partitionRuntimeInfo.partitionId.should.equal("0");
       partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
       should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
     });
@@ -211,7 +225,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       debug(partitionRuntimeInfo);
       partitionRuntimeInfo.partitionId.should.equal("0");
       partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
       should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
     });
@@ -254,11 +268,15 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       const rootSpan = tracer.startSpan("root");
       client = new EventHubClient(service.connectionString, service.path);
       const partitionRuntimeInfo = await client.getPartitionProperties("0", {
-        parentSpan: rootSpan
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan
+          }
+        }
       });
       partitionRuntimeInfo.partitionId.should.equal("0");
       partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedTimeUtc.should.be.instanceof(Date);
+      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
       should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
       rootSpan.end();

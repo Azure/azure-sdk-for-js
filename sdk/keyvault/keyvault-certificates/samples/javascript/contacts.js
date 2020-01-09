@@ -1,5 +1,11 @@
-const { CertificatesClient } = require("../../src");
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // This sample creates, updates and deletes certificate contacts.
 
@@ -13,18 +19,18 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificatesClient(url, credential);
+  const client = new CertificateClient(url, credential);
 
   // Contacts are created independently of the certificates.
 
   const contacts = [
     {
-      emailAddress: "a@a.com",
+      email: "a@a.com",
       name: "a",
       phone: "111111111111"
     },
     {
-      emailAddress: "b@b.com",
+      email: "b@b.com",
       name: "b",
       phone: "222222222222"
     }
@@ -32,12 +38,12 @@ async function main() {
 
   let getResponse;
 
-  await client.setCertificateContacts(contacts);
+  await client.setContacts(contacts);
 
-  getResponse = await client.getCertificateContacts();
-  console.log("Contact List:", getResponse.contactList);
+  getResponse = await client.getContacts();
+  console.log("Contact List:", getResponse);
 
-  await client.deleteCertificateContacts();
+  await client.deleteContacts();
 }
 
 main().catch((err) => {
