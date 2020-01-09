@@ -44,7 +44,7 @@ The environment variable **TEST_MODE** controls how tests are running.
 - Else If TEST_MODE = "playback" (or if the TEST_MODE is not set or set to an invalid value),
   - Existing recordings are played back as responses to the HTTP requests in the tests
 
-Please refer to [@azure/test-utils-recorder](./../test-utils/recorder/GUIDELINES.md) for more details about record and playback tests.
+Please refer to the [guidelines on Record and Playback](./../test-utils/recorder/GUIDELINES.md) for more details.
 
 ### Emulator Tests
 
