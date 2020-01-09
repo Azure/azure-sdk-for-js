@@ -5,8 +5,8 @@ import * as assert from "assert";
 import chai from "chai";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -72,7 +72,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can get secret properties with requestOptions timeout", async function() {
       const iter = client.listPropertiesOfSecrets({
@@ -111,7 +111,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can get the deleted secrets with requestOptions timeout", async function() {
       const iter = client.listDeletedSecrets({
@@ -154,7 +154,7 @@ describe("Secret client - list secrets in various ways", () => {
     await testClient.flushSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can get versions of a secret with requestOptions timeout", async function() {
       const iter = client.listPropertiesOfSecretVersions("doesntmatter", {
