@@ -17,11 +17,7 @@ export function isLiveMode() {
 }
 
 export function isPlaybackMode() {
-  if (!(isRecordMode() || isLiveMode())) {
-    // Default TEST_MODE=playback
-    env.TEST_MODE = "playback";
-  }
-  return env.TEST_MODE === "playback";
+  return !isRecordMode() && !isLiveMode();
 }
 
 export function escapeRegExp(str: string): string {
