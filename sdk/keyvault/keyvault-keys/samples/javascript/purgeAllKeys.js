@@ -29,7 +29,7 @@ async function main() {
     }
 
     try {
-      const poller = await client.beginDeleteKey(properties.name);
+      const poller = await client.beginDeleteKey(value.name);
       await poller.pollUntilDone();
     } catch(e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
