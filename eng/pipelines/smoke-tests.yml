@@ -30,7 +30,7 @@ jobs:
       - task: Npm@1
         inputs:
           command: custom
-          customCommand: list --depth=0
+          customCommand: 'list --depth=0'
           workingDir: common/smoke-test/
           displayName: List packages installed from the feed
 
