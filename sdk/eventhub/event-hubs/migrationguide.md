@@ -37,7 +37,7 @@ point of entry for receiving of any type (from single partition, all partitions,
 ### Granular control over retries
 
 Retry logic and tuning has been externalized, allowing for better configuration
-to better suit your network footprint and reliability.
+to better suit your network configuration and reliability.
 
 More information about configuring and tuning retries can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs#guidance-around-retries).
 
