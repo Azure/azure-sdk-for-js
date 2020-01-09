@@ -1,5 +1,6 @@
 {
   "name": "@azure/ai-text-analytics",
+  "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Text Analytics service.",
   "version": "1.0.0-preview.1",
