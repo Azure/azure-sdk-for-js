@@ -1,12 +1,13 @@
 jobs:
   - job: SmokeTest
-    matrix:
-      Linux:
-        OSVmImage: "ubuntu-18.04"
-      Windows:
-        OSVmImage: "windows-2019"
-      Mac:
-        OSVmImage: "macOS-10.14"
+    strategy:
+      matrix:
+        Linux:
+          OSVmImage: "ubuntu-18.04"
+        Windows:
+          OSVmImage: "windows-2019"
+        Mac:
+          OSVmImage: "macOS-10.14"
 
     pool:
       vmImage: $(OSVmImage)
