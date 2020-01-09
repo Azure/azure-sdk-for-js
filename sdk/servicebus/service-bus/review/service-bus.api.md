@@ -53,7 +53,7 @@ export interface CreateQueueResponse extends QueueDetails {
 }
 
 // @public
-export interface CreateRuleResponse extends Rule {
+export interface CreateRuleResponse extends RuleDetails {
     _response: HttpOperationResponse;
 }
 
@@ -108,7 +108,7 @@ export interface GetQueueResponse extends QueueDetails {
 }
 
 // @public
-export interface GetRuleResponse extends Rule {
+export interface GetRuleResponse extends RuleDetails {
     _response: HttpOperationResponse;
 }
 
@@ -136,7 +136,7 @@ export interface ListRequestOptions {
 }
 
 // @public
-export interface ListRulesResponse extends Array<Rule> {
+export interface ListRulesResponse extends Array<RuleDetails> {
     _response: HttpOperationResponse;
 }
 
@@ -283,7 +283,14 @@ export class Receiver {
     }
 
 // @public
-export interface Rule {
+export interface RuleDescription {
+    action?: string;
+    filter?: string | CorrelationFilter;
+    name: string;
+}
+
+// @public
+export interface RuleDetails {
     action?: SqlAction;
     createdOn: string;
     filter?: SqlFilter | CorrelationFilter;
@@ -293,20 +300,13 @@ export interface Rule {
 }
 
 // @public
-export interface RuleDescription {
-    action?: string;
-    filter?: string | CorrelationFilter;
-    name: string;
-}
-
-// @public
 export interface RuleOptions {
     action?: SqlAction;
     filter?: SqlFilter | CorrelationFilter;
 }
 
 // @public
-export interface RuleResponse extends Rule {
+export interface RuleResponse extends RuleDetails {
     _response: HttpOperationResponse;
 }
 
@@ -354,7 +354,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     deleteSubscription(topicName: string, subscriptionName: string): Promise<DeleteSubscriptionResponse>;
     deleteTopic(topicName: string): Promise<DeleteTopicResponse>;
     getQueueDetails(queueName: string): Promise<GetQueueResponse>;
-    getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
+    getRuleDetails(topicName: string, subscriptioName: string, ruleName: string): Promise<GetRuleResponse>;
     getSubscriptionDetails(topicName: string, subscriptionName: string): Promise<GetSubscriptionResponse>;
     getTopicDetails(topicName: string): Promise<GetTopicResponse>;
     listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResponse>;
@@ -620,7 +620,7 @@ export interface UpdateQueueResponse extends QueueDetails {
 }
 
 // @public
-export interface UpdateRuleResponse extends Rule {
+export interface UpdateRuleResponse extends RuleDetails {
     _response: HttpOperationResponse;
 }
 

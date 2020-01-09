@@ -2044,7 +2044,7 @@ async function getEntity(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
-      const ruleResponse = await serviceBusAtomManagementClient.getRule(
+      const ruleResponse = await serviceBusAtomManagementClient.getRuleDetails(
         topicPath,
         subscriptionPath,
         entityPath

@@ -53,7 +53,7 @@ import {
   InternalRuleOptions,
   RuleOptions,
   buildRuleOptions,
-  Rule,
+  RuleDetails,
   buildRule
 } from "./serializers/ruleResourceSerializer";
 import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
@@ -266,7 +266,7 @@ export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
 /**
  * Represents result of create, get, update and delete operations on rule.
  */
-export interface RuleResponse extends Rule {
+export interface RuleResponse extends RuleDetails {
   /**
    * The underlying HTTP response.
    */
@@ -276,7 +276,7 @@ export interface RuleResponse extends Rule {
 /**
  * Create Rule response
  */
-export interface CreateRuleResponse extends Rule {
+export interface CreateRuleResponse extends RuleDetails {
   /**
    * The underlying HTTP response.
    */
@@ -286,7 +286,7 @@ export interface CreateRuleResponse extends Rule {
 /**
  * Get Rule response
  */
-export interface GetRuleResponse extends Rule {
+export interface GetRuleResponse extends RuleDetails {
   /**
    * The underlying HTTP response.
    */
@@ -296,7 +296,7 @@ export interface GetRuleResponse extends Rule {
 /**
  * Update Rule response
  */
-export interface UpdateRuleResponse extends Rule {
+export interface UpdateRuleResponse extends RuleDetails {
   /**
    * The underlying HTTP response.
    */
@@ -316,7 +316,7 @@ export interface DeleteRuleResponse {
 /**
  * Represents result of list operation on rules.
  */
-export interface ListRulesResponse extends Array<Rule> {
+export interface ListRulesResponse extends Array<RuleDetails> {
   /**
    * The underlying HTTP response.
    */
@@ -916,7 +916,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getRule(
+  async getRuleDetails(
     topicName: string,
     subscriptioName: string,
     ruleName: string
@@ -1332,7 +1332,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
 
   private buildListRulesResponse(response: HttpOperationResponse): ListRulesResponse {
     try {
-      const rules: Rule[] = [];
+      const rules: RuleDetails[] = [];
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
