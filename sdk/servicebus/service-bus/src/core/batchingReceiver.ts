@@ -92,7 +92,7 @@ export class BatchingReceiver extends MessageReceiver {
         const sessionError = context.session && context.session.error;
         let error = new MessagingError("An error occurred while receiving messages.");
         if (sessionError) {
-          error = translate(sessionError);
+          error = translate(sessionError) as MessagingError;
           log.error(
             "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
             this._context.namespace.connectionId,
@@ -263,7 +263,7 @@ export class BatchingReceiver extends MessageReceiver {
         const receiverError = context.receiver && context.receiver.error;
         let error = new MessagingError("An error occurred while receiving messages.");
         if (receiverError) {
-          error = translate(receiverError);
+          error = translate(receiverError) as MessagingError;
           log.error(
             "[%s] Receiver '%s' received an error:\n%O",
             this._context.namespace.connectionId,
