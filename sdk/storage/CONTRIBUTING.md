@@ -20,19 +20,16 @@ The Azure Storage development team uses Visual Studio Code. However, any preferr
 
 The only step to configure testing is to set the appropriate environment variables. Create environment variables named
 
-```bash
-ACCOUNT_NAME
-ACCOUNT_KEY
-ACCOUNT_SAS
-ACCOUNT_TOKEN
-TEST_MODE
-```
+| Environment variables     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                               | Required/Not                                                                                      |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| ACCOUNT_NAME              | Name of your storage account.                                                                                                                                                                                                                                                                                                                                                                                                                             | Required                                                                                          |
+| ACCOUNT_KEY               | Can be obtained from the Azure portal. Go to the `Access Keys` tab under the `Settings` section of your storage account in the portal and note down the key.                                                                                                                                                                                                                                                                                              | Required                                                                                          |
+| ACCOUNT_SAS               | Can be obtained from the Azure portal. Go to the `Shared access signature` tab under the `Settings` section of your storage account in the portal. Generate SAS by enabling permissions, setting exiry dates, etc. You can also generate a valid account SAS from tools like Azure Storage Explorer. A SAS starts with "?". And if you are using Windows CMD, you may need quotes to escape special characters like this - `set "ACCOUNT_SAS=<YOUR_SAS>"` | Required to run the browser tests                                                                 |
+| ACCOUNT_TOKEN             | Can you provide some description on how to get this @jiacfan?                                                                                                                                                                                                                                                                                                                                                                                             | Not required (Some of the tests will be skipped if this variable is not defined)                  |
+| STORAGE_CONNECTION_STRING | Can be obtained from the Azure portal. Go to the `Access Keys` tab under the `Settings` section of your storage account in the portal and note down the connection string.                                                                                                                                                                                                                                                                                | Required                                                                                          |
+| TEST_MODE                 | `"record"` or `"live"` or `"playback"`                                                                                                                                                                                                                                                                                                                                                                                                                    | Required. The default mode is `playback`. Explicitly set the TEST_MODE for live and record modes. |
 
-You can generate a valid account SAS from Azure portal or tools like Azure Storage Explorer. A SAS starts with "?". And if you are using Windows CMD, you may need quotes to escape special characters like following:
-
-```bash
-set "ACCOUNT_SAS=<YOUR_SAS>"
-```
+---
 
 #### TEST_MODE
 
