@@ -117,7 +117,7 @@ For each supported operation, `TextAnalyticsClient` provides method overloads to
 ### Detect the language of an input string
 
 ```js
-const [result] = await client.detectLanguage(["hello world"]);
+const [result] = await client.detectLanguages(["hello world"]);
 console.log(`Primary language detected as ${result.primaryLanguage.name}`);
 ```
 
@@ -127,7 +127,7 @@ console.log(`Primary language detected as ${result.primaryLanguage.name}`);
 
 You can set the following environment variable to get the debug logs when using this library.
 
-- Getting debug logs from the Key Vault Secrets SDK
+- Getting debug logs from the Azure TextAnalytics client library
 
 ```bash
 export DEBUG=azure*
