@@ -343,6 +343,17 @@ packages:
       rollup: ^1.20.0
     resolution:
       integrity: sha512-SaVUoaLDg3KnIXC5IBNIspr1APTYDzk05VaYcI6qz+0XX3ZlSCwAkfAhNSOxfd5GAdcm/63Noi4TowOY9MpcDg==
+  /@rollup/plugin-inject/4.0.0_rollup@1.27.14:
+    dependencies:
+      estree-walker: 0.9.0
+      magic-string: 0.25.4
+      rollup: 1.27.14
+      rollup-pluginutils: 2.8.2
+    dev: false
+    peerDependencies:
+      rollup: ^1.20.0
+    resolution:
+      integrity: sha512-qWBNZgTxnbE3aFstAd3xMXk5QlkTI3eEnXCQ2kgtbGBy3iz9Xz5OP27skm2HUFVqdORrn57dDe/VU3AWfv43Qw==
   /@rollup/plugin-json/4.0.1_rollup@1.27.14:
     dependencies:
       rollup: 1.27.14
@@ -3500,6 +3511,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-SqmZANLWS0mnatqbSfRP5g8OXZC12Fgg1IwNtLsyHDzJizORW4khDfjPqJZsemPWBB2uqykUah5YpQ6epsqC/w==
+  /estree-walker/0.9.0:
+    dev: false
+    resolution:
+      integrity: sha512-12U47o7XHUX329+x3FzNVjCx3SHEzMF0nkDv7r/HnBzX/xNTKxajBk6gyygaxrAFtLj39219oMfbtxv4KpaOiA==
   /esutils/2.0.3:
     dev: false
     engines:
@@ -9932,6 +9947,7 @@ packages:
     dependencies:
       '@azure/eslint-plugin-azure-sdk': 2.0.1_385ec898ee617858126f6b0076506dfa
       '@rollup/plugin-commonjs': 11.0.1_rollup@1.27.14
+      '@rollup/plugin-inject': 4.0.0_rollup@1.27.14
       '@rollup/plugin-json': 4.0.1_rollup@1.27.14
       '@rollup/plugin-multi-entry': 3.0.0_rollup@1.27.14
       '@rollup/plugin-node-resolve': 7.0.0_rollup@1.27.14
@@ -9996,7 +10012,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-FbaJ84/Txs4FXxjvRMiK85z+x0GtSFU1uPDbAwORoWE5wiSZXN1jLRAxrorC6ysF6NYBSIJqREexVyuviX3sfQ==
+      integrity: sha512-vWp+CIMzjF0jNlIwxC/JfPLCP32XFzpqaCmZBZUCvF1e9mRAEUSiTNfahtEJlLvpyK9evC3fgjimxud0OtLdfw==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -10388,6 +10404,7 @@ packages:
       '@microsoft/api-extractor': 7.7.0
       '@opentelemetry/types': 0.2.0
       '@rollup/plugin-commonjs': 11.0.1_rollup@1.27.14
+      '@rollup/plugin-inject': 4.0.0_rollup@1.27.14
       '@rollup/plugin-json': 4.0.1_rollup@1.27.14
       '@rollup/plugin-multi-entry': 3.0.0_rollup@1.27.14
       '@rollup/plugin-node-resolve': 7.0.0_rollup@1.27.14
@@ -10461,7 +10478,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-Mt1X/ssFlvjQnwlD8AJUK/nrM4M78egnmyC1ufSqif6yvWI0NXhZWNPK/vkCH3LSlp9dJk0R/YCiZfUw5XO0RQ==
+      integrity: sha512-xptO4amKkVUZ9sn0TShmruu96G5x3/skEuohZngrp2vDZaCMmdDvyHcnysvFZJHE2nZq1xduP1ZMJF1jZv7K6A==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -10529,6 +10546,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.7.0
       '@rollup/plugin-commonjs': 11.0.1_rollup@1.27.14
+      '@rollup/plugin-inject': 4.0.0_rollup@1.27.14
       '@rollup/plugin-json': 4.0.1_rollup@1.27.14
       '@rollup/plugin-multi-entry': 3.0.0_rollup@1.27.14
       '@rollup/plugin-node-resolve': 7.0.0_rollup@1.27.14
@@ -10590,7 +10608,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-Xbsh+JmnbaXabSxASw/83eytzJV2djfxKHfITeZh2ocIZMj/c1tkc5nR3MndJBa7rxVM5cj2dBYlrCTcLw6Yhw==
+      integrity: sha512-zhT0DxjRv3ggh1yhAyWWA1eE40FkRiSvWzqofABkfr05gYPRbosqgQ4iEpt+EhdJUTqadSGbVBgt4kWX9BAgiA==
       tarball: 'file:projects/eventhubs-checkpointstore-blob.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10924,6 +10942,7 @@ packages:
       '@microsoft/api-extractor': 7.7.0
       '@opentelemetry/types': 0.2.0
       '@rollup/plugin-commonjs': 11.0.1_rollup@1.27.14
+      '@rollup/plugin-inject': 4.0.0_rollup@1.27.14
       '@rollup/plugin-json': 4.0.1_rollup@1.27.14
       '@rollup/plugin-multi-entry': 3.0.0_rollup@1.27.14
       '@rollup/plugin-node-resolve': 7.0.0_rollup@1.27.14
@@ -10995,7 +11014,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-2oNY+sEqZ9GLy4ywQX/k9rLgNl/dVbypxcZIkqdQxtQtk5y2+uIzgax+bfgvZEIsnVwve7zWCR3UsFy5kkvCRQ==
+      integrity: sha512-qYFHyZhZFbkoEa5LtGQUItmJQchQnBSjsbhm1GelAYDi1l2wbSZA1oEvGn2bmfKvJKMRMd1nDKtSN8I3iuHL7A==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
