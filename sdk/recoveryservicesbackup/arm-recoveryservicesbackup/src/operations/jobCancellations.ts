@@ -78,7 +78,7 @@ const triggerOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
