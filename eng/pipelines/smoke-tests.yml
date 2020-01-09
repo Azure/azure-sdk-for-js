@@ -18,6 +18,12 @@ jobs:
           workingDir: common/smoke-test/
           displayName: Install packages
 
+      - task: Npm@1
+        inputs:
+          command: list --depth=0
+          workingDir: common/smoke-test/
+          displayName: List packages installed from the feed
+
       - script: tsc -p ./common/smoke-test/
         displayName: "Compile TS"
 
