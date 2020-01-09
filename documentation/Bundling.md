@@ -189,7 +189,7 @@ Now we need to configure Rollup to take the above code and turn it into a bundle
 
 ```js
 // rollup.config.js
-import resolve from "rollup-plugin-node-resolve";
+import resolve from "@rollup/plugin-node-resolve";
 import cjs from "rollup-plugin-commonjs";
 import json from "@rollup/plugin-json";
 import shim from "rollup-plugin-shim";
@@ -287,7 +287,7 @@ Now we need to configure Rollup to take the above code and turn it into a bundle
 
 ```js
 // rollup.config.js
-import resolve from "rollup-plugin-node-resolve";
+import resolve from "@rollup/plugin-node-resolve";
 import cjs from "rollup-plugin-commonjs";
 import json from "@rollup/plugin-json";
 import shim from "rollup-plugin-shim";
