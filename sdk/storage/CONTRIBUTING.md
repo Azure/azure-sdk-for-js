@@ -95,7 +95,7 @@ Browser testing is based on Karma, you can change default testing browser by mod
 
 ### Record & Playback
 
-By default, above test commands are not tested against real Azure Storage accounts, the existing recorded request/response pairs are leveraged in `playback` mode.
+By default, above test commands run the tests in `playback` mode i.e using the existing request/response recordings instead of making the request to Azure Storage accounts.
 Before running above tests if needed, set environment value `TEST_MODE` to switch to `live` mode to test against real Azure Storage accounts or `record` mode to record the tests.
 
 Playback mode is for offline mock test, which doesn't require a storage account, it's quick but less coverage:
