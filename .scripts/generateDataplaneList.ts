@@ -20,7 +20,7 @@ const getRushPackages = () => {
   for (const proj of rushJson.projects) {
     const filePath = path.join(baseDir, proj.projectFolder, "package.json");
     packageFolders.push(path.basename(path.dirname(filePath)));
-    packageNames.push(proj.projectName);
+    packageNames.push(proj.packageName);
   }
   return { packageList: packageNames, folderList: packageFolders };
 };
