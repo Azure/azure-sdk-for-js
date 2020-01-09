@@ -3,7 +3,7 @@
 
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
 import { ContainerClient, Metadata, RestError } from "@azure/storage-blob";
-import * as log from "./log";
+import { logger, logErrorStackTrace } from "./log";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
@@ -71,7 +71,8 @@ export class BlobCheckpointStore implements CheckpointStore {
       }
       return partitionOwnershipArray;
     } catch (err) {
-      log.error(`Error occurred while fetching the list of blobs.`, err);
+      logger.warning(`Error occurred while fetching the list of blobs`, err.message);
+      logErrorStackTrace(err);
       throw new Error(`Error occurred while fetching the list of blobs. \n${err}`);
     }
   }
@@ -102,7 +103,7 @@ export class BlobCheckpointStore implements CheckpointStore {
 
         ownership.etag = updatedBlobResponse.etag;
         partitionOwnershipArray.push(ownership);
-        log.blobCheckpointStore(
+        logger.info(
           `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
           `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
         );
@@ -113,14 +114,17 @@ export class BlobCheckpointStore implements CheckpointStore {
           // etag failures (precondition not met) aren't fatal errors. They happen
           // as multiple consumers attempt to claim the same partition (first one wins)
           // and losers get this error.
-          log.blobCheckpointStore(`[${ownership.ownerId}] Did not claim partition ${ownership.partitionId}. Another processor has already claimed it.`);
+          logger.verbose(
+            `[${ownership.ownerId}] Did not claim partition ${ownership.partitionId}. Another processor has already claimed it.`
+          );
           continue;
         }
 
-        log.error(
+        logger.warning(
           `Error occurred while claiming ownership for partition: ${ownership.partitionId}`,
-          err
+          err.message
         );
+        logErrorStackTrace(err);
 
         throw err;
       }
@@ -206,7 +210,7 @@ export class BlobCheckpointStore implements CheckpointStore {
         undefined
       );
 
-      log.blobCheckpointStore(
+      logger.verbose(
         `Updated checkpoint successfully for partition: ${checkpoint.partitionId}`,
         `LastModifiedTime: ${metadataResponse.lastModified!.toISOString()}, ETag: ${
           metadataResponse.etag
@@ -214,10 +218,11 @@ export class BlobCheckpointStore implements CheckpointStore {
       );
       return;
     } catch (err) {
-      log.error(
+      logger.warning(
         `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}.`,
-        err
+        err.message
       );
+      logErrorStackTrace(err);
       throw new Error(
         `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}, ${err}`
       );
