@@ -126,23 +126,42 @@ subscription.close();
 
 ### Enable logs
 
+You can set the `AZURE_LOG_LEVEL` environment variable to one of the following values to enable logging to `stderr`:
+
+- verbose
+- info
+- warning
+- error
+
+You can also set the log level programatically by importing the
+[@azure/logger](https://www.npmjs.com/package/@azure/logger) package and calling the
+`setLogLevel` function with one of the log level values.
+
+When setting a log level either programatically or via the `AZURE_LOG_LEVEL` environment variable,
+any logs that are written using a log level equal to or less than the one you choose will be emitted.
+For example, when you set the log level to `info`, the logs that are written for levels
+`warning` and `error` are also emitted.
+This SDK follows the Azure SDK for TypeScript [guidelines](https://azure.github.io/azure-sdk/typescript_implementation.html#general-logging)
+when determining which level to log to.
+
+You can alternatively set the `DEBUG` environment variable to get logs when using this library.
+This can be useful if you also want to emit logs from the dependencies `rhea-promise` and `rhea` as well.
+
+**Note:** AZURE_LOG_LEVEL, if set, takes precedence over DEBUG.
+Do not specify any `azure` libraries via DEBUG when also specifying
+AZURE_LOG_LEVEL or calling setLogLevel.
+
 You can set the following environment variable to get the debug logs when using this library.
 
-- Getting debug logs from the Eventhubs Checkpointstore Blob
+- Getting only info level debug logs from the Eventhubs Checkpointstore Blob.
 
 ```bash
-export DEBUG=azure:eventhubs-checkpointstore-blob*
-```
-
-- If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
-
-```bash
-export DEBUG=azure:event-hubs:error,azure:eventhubs-checkpointstore-blob:error
+export DEBUG=azure:eventhubs-checkpointstore-blob:info
 ```
 
 ### Logging to a file
 
-- Set the `DEBUG` environment variable as shown above and then run your test script as follows:
+- Enable logging as shown above and then run your test script as follows:
 
   - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
     ```bash
@@ -155,7 +174,7 @@ export DEBUG=azure:event-hubs:error,azure:eventhubs-checkpointstore-blob:error
   - Logging statements from your test script and the sdk go to the same file `out.log`.
 
     ```bash
-      node your-test-script.js &> out.log
+    node your-test-script.js &> out.log
     ```
 
 ## Next Steps
