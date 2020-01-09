@@ -1,7 +1,7 @@
 jobs:
   - job: SmokeTest
     variables:
-      - template: ../../eng/templates/variables/globals.yml
+      - template: ../../eng/pipelines/templates/variables/globals.yml
 
     pool:
       vmImage: $(OSVmImage)
