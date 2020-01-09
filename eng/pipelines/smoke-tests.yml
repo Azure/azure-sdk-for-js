@@ -1,10 +1,18 @@
 jobs:
   - job: SmokeTest
-    variables:
-      - template: ./templates/variables/globals.yml
+    matrix:
+      Linux:
+        OSVmImage: "ubuntu-18.04"
+      Windows:
+        OSVmImage: "windows-2019"
+      Mac:
+        OSVmImage: "macOS-10.14"
 
     pool:
       vmImage: $(OSVmImage)
+
+    variables:
+      - template: ./templates/variables/globals.yml
 
     steps:
       - task: NodeTool@0
