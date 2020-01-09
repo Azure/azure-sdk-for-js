@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// NOTE: replace with import { TextAnalyticsClient } from "@azure/cognitiveservices-textanalytics"
+// NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-text-analytics"
 // in a standalone project
 import {
   TextAnalyticsClient,
   CognitiveServicesCredential,
-  AnalyzeSentimentResult,
-  AnalyzeSentimentSuccessResult,
-  AnalyzeSentimentErrorResult
+  DetectLanguageResult,
+  DetectLanguageErrorResult,
+  DetectLanguageSuccessResult
 } from "../src";
 
 export async function run() {
-  console.log(`Running analyzeSentiment sample`);
+  console.log(`Running detectLanguages sample`);
 
   // You will need to set these environment variables
   const endPoint = process.env["AZ_CONFIG_ENDPOINT"]!;
@@ -22,15 +22,15 @@ export async function run() {
     new CognitiveServicesCredential(subscriptionKey)
   );
 
-  const [result] = await client.analyzeSentiment(["I love living in Seattle!"]);
+  const [result] = await client.detectLanguages(["hello world"]);
 
   if (isSuccess(result)) {
-    console.log(`Sentiment of statement is ${result.sentiment}`);
+    console.log(`Primary language detected as ${result.primaryLanguage.name}`);
   }
 }
 
-function isSuccess(result: AnalyzeSentimentResult): result is AnalyzeSentimentSuccessResult {
-  return !(result as AnalyzeSentimentErrorResult).error;
+function isSuccess(result: DetectLanguageResult): result is DetectLanguageSuccessResult {
+  return !(result as DetectLanguageErrorResult).error;
 }
 
 // If you want to run this sample from a console

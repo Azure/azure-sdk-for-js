@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// NOTE: replace with import { TextAnalyticsClient } from "@azure/cognitiveservices-textanalytics"
+// NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-text-analytics"
 // in a standalone project
 import {
   TextAnalyticsClient,
   CognitiveServicesCredential,
-  DetectLanguageResult,
-  DetectLanguageErrorResult,
-  DetectLanguageSuccessResult
+  RecognizeEntitiesResult,
+  RecognizeEntitiesSuccessResult,
+  RecognizeEntitiesErrorResult
 } from "../src";
 
 export async function run() {
-  console.log(`Running detectLanguages sample`);
+  console.log(`Running recognizeEntities sample`);
 
   // You will need to set these environment variables
   const endPoint = process.env["AZ_CONFIG_ENDPOINT"]!;
@@ -22,15 +22,17 @@ export async function run() {
     new CognitiveServicesCredential(subscriptionKey)
   );
 
-  const [result] = await client.detectLanguages(["hello world"]);
+  const [result] = await client.recognizeEntities(["I love living in Seattle."]);
 
   if (isSuccess(result)) {
-    console.log(`Primary language detected as ${result.primaryLanguage.name}`);
+    for (const entity of result.entities) {
+      console.log(`Found entity ${entity.text} of type ${entity.type}`);
+    }
   }
 }
 
-function isSuccess(result: DetectLanguageResult): result is DetectLanguageSuccessResult {
-  return !(result as DetectLanguageErrorResult).error;
+function isSuccess(result: RecognizeEntitiesResult): result is RecognizeEntitiesSuccessResult {
+  return !(result as RecognizeEntitiesErrorResult).error;
 }
 
 // If you want to run this sample from a console
