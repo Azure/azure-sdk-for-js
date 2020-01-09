@@ -1,4 +1,5 @@
 import * as path from "path";
+import * as fs from "fs";
 const parse = require("../common/lib/jju/parse").parse;
 
 export type PackageData = { packageList: string[]; folderList: string[] };
