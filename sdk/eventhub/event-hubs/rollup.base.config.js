@@ -9,7 +9,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
-import inject from "rollup-plugin-inject";
+import inject from "@rollup/plugin-inject";
 
 import path from "path";
 

@@ -10,7 +10,7 @@ import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
 import path from "path";
-import inject from "rollup-plugin-inject";
+import inject from "@rollup/plugin-inject";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
