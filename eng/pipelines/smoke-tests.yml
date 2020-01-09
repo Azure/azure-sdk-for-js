@@ -40,7 +40,7 @@ jobs:
           command: custom
           customCommand: 'install -g typescript'
         displayName: Install TypeScript
-        condition: and(succeeded(), contains(variables['OSVmImage'], 'MacOS'))
+        condition: and(succeeded(), contains(variables['OSVmImage'], 'macos'))
 
       - script: tsc -p ./common/smoke-test/
         displayName: "Compile TS"
