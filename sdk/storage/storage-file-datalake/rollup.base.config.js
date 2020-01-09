@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import replace from "@rollup/plugin-replace";
-import cjs from "rollup-plugin-commonjs";
+import cjs from "@rollup/plugin-commonjs";
 import multiEntry from "@rollup/plugin-multi-entry";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import shim from "rollup-plugin-shim";
