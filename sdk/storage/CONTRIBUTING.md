@@ -28,8 +28,6 @@ ACCOUNT_TOKEN
 TEST_MODE
 ```
 
-The first two will be used for most requests. The "ACCOUNT_SAS" will only be used for tests in browsers.
-
 You can generate a valid account SAS from Azure portal or tools like Azure Storage Explorer. A SAS starts with "?". And if you are using Windows CMD, you may need quotes to escape special characters like following:
 
 ```bash
