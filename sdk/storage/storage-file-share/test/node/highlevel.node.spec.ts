@@ -8,6 +8,7 @@ import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadabl
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import { record, Recorder } from "@azure/test-utils-recorder";
+import { delay } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
@@ -436,34 +437,49 @@ describe("Highlevel Node.js only", () => {
 
   it("fileClient.download should download data failed when exceeding max stream retry requests", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
-    await fileClient.uploadFile(tempFileSmall, {
-      rangeSize: 4 * 1024 * 1024,
-      concurrency: 20
-    });
-
-    const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-
-    let retirableReadableStreamOptions: RetriableReadableStreamOptions;
-    let injectedErrors = 0;
-    let expectedError = false;
-
-    try {
-      const downloadResponse = await fileClient.download(0, undefined, {
-        maxRetryRequests: 0,
-        onProgress: () => {
-          if (injectedErrors++ < 1) {
-            retirableReadableStreamOptions.doInjectErrorOnce = true;
-          }
-        }
+    for (let index = 0; index < 1000; index++) {
+      await fileClient.uploadFile(tempFileSmall, {
+        rangeSize: 4 * 1024 * 1024,
+        concurrency: 20
       });
-      retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
-      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
-    } catch (error) {
-      expectedError = true;
-    }
 
-    assert.ok(expectedError);
-    fs.unlinkSync(downloadedFile);
+      const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+
+      let retirableReadableStreamOptions: RetriableReadableStreamOptions;
+      let injectedErrors = 0;
+      let expectedError = false;
+
+      try {
+        const downloadResponse = await fileClient.download(0, undefined, {
+          maxRetryRequests: 0,
+          onProgress: () => {
+            if (injectedErrors++ < 1) {
+              retirableReadableStreamOptions.doInjectErrorOnce = true;
+            }
+          }
+        });
+        retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
+        await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
+      } catch (error) {
+        expectedError = true;
+      }
+
+      assert.ok(expectedError);
+      // fs.unlinkSync(downloadedFile);
+      let unlink_count = 0;
+      let successfully_unlinked = false;
+      do {
+        try {
+          unlink_count++;
+          console.log("iteration - ", index, "unlink_count - ", unlink_count);
+          fs.unlinkSync(downloadedFile);
+          successfully_unlinked = true;
+        } catch (error) {
+          console.log(error.message);
+          await delay(10);
+        }
+      } while (!successfully_unlinked);
+    }
   });
 
   it("fileClient.download should abort after retrys", async () => {
