@@ -29,7 +29,8 @@ jobs:
 
       - task: Npm@1
         inputs:
-          command: list --depth=0
+          command: custom
+          customCommand: list --depth=0
           workingDir: common/smoke-test/
           displayName: List packages installed from the feed
 
