@@ -26,7 +26,7 @@ export function createSpan(
   let newOptions = tracingOptions.spanOptions || {};
   if (span.isRecording()) {
     newOptions = {
-      ...spanOptions,
+      ...tracingOptions.spanOptions,
       parent: span,
       attributes: {
         ...spanOptions.attributes,

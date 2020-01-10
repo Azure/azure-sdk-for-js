@@ -43,7 +43,7 @@ export function createSpan(
       tracingOptions: {
         ...tracingOptions,
         spanOptions: {
-          ...spanOptions,
+          ...tracingOptions.spanOptions,
           parent: span,
           attributes: {
             ...spanOptions.attributes,
