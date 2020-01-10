@@ -23,7 +23,8 @@ import {
   RetryConfig,
   RetryOperationType,
   Constants,
-  delay
+  delay,
+  MessagingError
 } from "@azure/core-amqp";
 import {
   SendableMessageInfo,
@@ -496,7 +497,7 @@ export class MessageSender extends LinkEntity {
       // We should attempt to reopen only when the sender(sdk) did not initiate the close
       let shouldReopen = false;
       if (senderError && !wasCloseInitiated) {
-        const translatedError = translate(senderError);
+        const translatedError = translate(senderError) as MessagingError;
         if (translatedError.retryable) {
           shouldReopen = true;
           log.error(

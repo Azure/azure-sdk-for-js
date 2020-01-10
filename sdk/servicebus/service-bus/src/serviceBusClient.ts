@@ -90,20 +90,25 @@ export class ServiceBusClient {
 
     if (!options) {
       options = {};
-    } else {
-      // host, credential and options based constructor might have been invoked
-      if (credentialOrServiceBusClientOptions == undefined) {
-        throw new Error(
-          "Input parameter token credential must be defined when using this constructor."
-        );
-      }
     }
 
-    if (hostOrConnectionString == undefined || typeof hostOrConnectionString !== "string") {
-      throw new Error("Input parameter of host or connection string must be a string.");
+    if (
+      hostOrConnectionString == undefined ||
+      hostOrConnectionString.toString == undefined ||
+      hostOrConnectionString.toString().trim() == ""
+    ) {
+      throw new Error(
+        "Input parameter of host or connection string must be defined and coercible to string."
+      );
+    }
+    hostOrConnectionString = hostOrConnectionString.toString();
+
+    let isConnectionStringConstructorInvoked = true;
+    if (hostOrConnectionString.indexOf("=") < 0) {
+      isConnectionStringConstructorInvoked = false;
     }
 
-    if (!isTokenCredential(credentialOrServiceBusClientOptions)) {
+    if (isConnectionStringConstructorInvoked) {
       // connectionString and options based constructor was invoked
       connectionString = hostOrConnectionString;
       config = ConnectionConfig.create(connectionString);
@@ -119,6 +124,11 @@ export class ServiceBusClient {
       ConnectionConfig.validate(config);
     } else {
       // host, credential and options based constructor was invoked
+      if (!isTokenCredential(credentialOrServiceBusClientOptions)) {
+        throw new Error(
+          "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload."
+        );
+      }
       credential = credentialOrServiceBusClientOptions as TokenCredential;
 
       if (!hostOrConnectionString.endsWith("/")) {

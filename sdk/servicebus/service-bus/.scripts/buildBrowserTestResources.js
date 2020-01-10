@@ -24,9 +24,9 @@ EnvVarKeys = {
   TOPIC_FILTER_NAME: "TOPIC_FILTER_NAME_BROWSER",
   TOPIC_FILTER_SUBSCRIPTION_NAME: "TOPIC_FILTER_SUBSCRIPTION_NAME_BROWSER",
   TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME: "TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME_BROWSER",
-  AAD_CLIENT_ID: "AAD_CLIENT_ID",
-  AAD_CLIENT_SECRET: "AAD_CLIENT_SECRET",
-  AAD_TENANT_ID: "AAD_TENANT_ID",
+  AZURE_CLIENT_ID: "AZURE_CLIENT_ID",
+  AZURE_CLIENT_SECRET: "AZURE_CLIENT_SECRET",
+  AZURE_TENANT_ID: "AZURE_TENANT_ID",
   RESOURCE_GROUP: "RESOURCE_GROUP",
   AZURE_SUBSCRIPTION_ID: "AZURE_SUBSCRIPTION_ID",
   CLEAN_NAMESPACE: "CLEAN_NAMESPACE"
@@ -35,9 +35,9 @@ EnvVarKeys = {
 const mandatoryEnvVars = [EnvVarKeys.SERVICEBUS_CONNECTION_STRING];
 
 const aadRelatedEnvVars = [
-  EnvVarKeys.AAD_CLIENT_ID,
-  EnvVarKeys.AAD_CLIENT_SECRET,
-  EnvVarKeys.AAD_TENANT_ID,
+  EnvVarKeys.AZURE_CLIENT_ID,
+  EnvVarKeys.AZURE_CLIENT_SECRET,
+  EnvVarKeys.AZURE_TENANT_ID,
   EnvVarKeys.AZURE_SUBSCRIPTION_ID,
   EnvVarKeys.RESOURCE_GROUP
 ];
@@ -155,9 +155,9 @@ async function buildResources() {
   async function recreateQueue(queueName, parameters) {
     await msRestNodeAuth
       .loginWithServicePrincipalSecret(
-        env[EnvVarKeys.AAD_CLIENT_ID],
-        env[EnvVarKeys.AAD_CLIENT_SECRET],
-        env[EnvVarKeys.AAD_TENANT_ID]
+        env[EnvVarKeys.AZURE_CLIENT_ID],
+        env[EnvVarKeys.AZURE_CLIENT_SECRET],
+        env[EnvVarKeys.AZURE_TENANT_ID]
       )
       .then(async (creds) => {
         const client = await new ServiceBusManagementClient(
@@ -187,9 +187,9 @@ async function buildResources() {
   async function recreateTopic(topicName, parameters) {
     await msRestNodeAuth
       .loginWithServicePrincipalSecret(
-        env[EnvVarKeys.AAD_CLIENT_ID],
-        env[EnvVarKeys.AAD_CLIENT_SECRET],
-        env[EnvVarKeys.AAD_TENANT_ID]
+        env[EnvVarKeys.AZURE_CLIENT_ID],
+        env[EnvVarKeys.AZURE_CLIENT_SECRET],
+        env[EnvVarKeys.AZURE_TENANT_ID]
       )
       .then(async (creds) => {
         const client = await new ServiceBusManagementClient(
@@ -219,9 +219,9 @@ async function buildResources() {
   async function recreateSubscription(topicName, subscriptionName, parameters) {
     await msRestNodeAuth
       .loginWithServicePrincipalSecret(
-        env[EnvVarKeys.AAD_CLIENT_ID],
-        env[EnvVarKeys.AAD_CLIENT_SECRET],
-        env[EnvVarKeys.AAD_TENANT_ID]
+        env[EnvVarKeys.AZURE_CLIENT_ID],
+        env[EnvVarKeys.AZURE_CLIENT_SECRET],
+        env[EnvVarKeys.AZURE_TENANT_ID]
       )
       .then(async (creds) => {
         const client = await new ServiceBusManagementClient(
@@ -309,9 +309,9 @@ function getEnvVars() {
     [EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME]:
       process.env[EnvVarKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME] ||
       "topic-filter-default-subscription-browser",
-    [EnvVarKeys.AAD_CLIENT_ID]: process.env[EnvVarKeys.AAD_CLIENT_ID],
-    [EnvVarKeys.AAD_CLIENT_SECRET]: process.env[EnvVarKeys.AAD_CLIENT_SECRET],
-    [EnvVarKeys.AAD_TENANT_ID]: process.env[EnvVarKeys.AAD_TENANT_ID],
+    [EnvVarKeys.AZURE_CLIENT_ID]: process.env[EnvVarKeys.AZURE_CLIENT_ID],
+    [EnvVarKeys.AZURE_CLIENT_SECRET]: process.env[EnvVarKeys.AZURE_CLIENT_SECRET],
+    [EnvVarKeys.AZURE_TENANT_ID]: process.env[EnvVarKeys.AZURE_TENANT_ID],
     [EnvVarKeys.RESOURCE_GROUP]: process.env[EnvVarKeys.RESOURCE_GROUP],
     [EnvVarKeys.AZURE_SUBSCRIPTION_ID]: process.env[EnvVarKeys.AZURE_SUBSCRIPTION_ID],
     [EnvVarKeys.CLEAN_NAMESPACE]: process.env[EnvVarKeys.CLEAN_NAMESPACE] || false

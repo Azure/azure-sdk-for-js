@@ -40,9 +40,7 @@ import { EnvVarKeys, getEnvVars, isNode } from "../test/utils/envVarUtils";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-
-  import { EnvironmentCredential } from "../test/utils/aadUtils";
-
+import { EnvironmentCredential } from "../test/utils/aadUtils";
 
 describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBrowser", function(): void {
   let sbClient: ServiceBusClient;
@@ -74,22 +72,6 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
     const subscriptionClient = sbClient.createSubscriptionClient(1 as any, 2 as any);
     should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
   });
-
-  // it("Missing tokenProvider in createFromTokenProvider", function(): void {
-  //   let caughtError: Error | undefined;
-  //   try {
-  //     sbClient = ServiceBusClient.createFromTokenProvider("somestring", undefined as any);
-  //   } catch (error) {
-  //     caughtError = error;
-  //   }
-  //   should.equal(caughtError && caughtError.name, "TypeError");
-  //   should.equal(caughtError && caughtError.message, `Missing parameter "tokenProvider"`);
-  // });
-
-  // it("Coerces input to string for host in createFromTokenProvider", function(): void {
-  //   sbClient = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
-  //   should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
-  // });
 });
 
 describe("Errors with non existing Namespace #RunInBrowser", function(): void {
@@ -317,80 +299,80 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-if (isNode) {
-  describe.only("Test ServiceBusClient creation using Azure Identity", function(): void {
-    let sbClient: ServiceBusClient;
-    let errorWasThrown: boolean = false;
+describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
+  let sbClient: ServiceBusClient;
+  let errorWasThrown: boolean = false;
 
-    const env = getEnvVars();
-    const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-      "Endpoint=sb://((.*).servicebus.windows.net)"
-    ) || "")[1];
+  const env = getEnvVars();
+  const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
+    "Endpoint=sb://((.*).servicebus.windows.net)"
+  ) || "")[1];
 
-    function getDefaultTokenCredential() {
-      should.exist(
-        env[EnvVarKeys.AZURE_CLIENT_ID],
-        "define AZURE_CLIENT_ID in your environment before running integration tests."
+  /**
+   * Utility to create EnvironmentCredential using `@azure/identity`
+   */
+  function getDefaultTokenCredential() {
+    should.exist(
+      env[EnvVarKeys.AZURE_CLIENT_ID],
+      "define AZURE_CLIENT_ID in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarKeys.AZURE_TENANT_ID],
+      "define AZURE_TENANT_ID in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarKeys.AZURE_CLIENT_SECRET],
+      "define AZURE_CLIENT_SECRET in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING],
+      "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+    );
+    return new EnvironmentCredential();
+  }
+
+  it("throws error for invalid tokenCredentials", async function(): Promise<void> {
+    try {
+      new ServiceBusClient(serviceBusEndpoint, "" as any);
+    } catch (err) {
+      errorWasThrown = true;
+      should.equal(
+        err.message,
+        "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
+        "ErrorMessage is different than expected"
       );
-      should.exist(
-        env[EnvVarKeys.AZURE_TENANT_ID],
-        "define AZURE_TENANT_ID in your environment before running integration tests."
-      );
-      should.exist(
-        env[EnvVarKeys.AZURE_CLIENT_SECRET],
-        "define AZURE_CLIENT_SECRET in your environment before running integration tests."
-      );
-      should.exist(
-        env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
-      );
-      return new EnvironmentCredential();
     }
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
 
-    async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
-      const testMessages = TestMessage.getSample();
-
-      if (tokenCreds == undefined) {
-        tokenCreds = getDefaultTokenCredential();
-      }
-
-      if (host == undefined) {
-        // This is of the form <your-namespace>.servicebus.windows.net
-        host = (env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING].match("Endpoint=sb://(.*)/;") ||
-          "")[1];
-      }
-
-      const sbClient = new ServiceBusClient(host, tokenCreds);
-
-      sbClient.should.be.an.instanceof(ServiceBusClient);
-      const clients = await getSenderReceiverClients(
-        sbClient,
-        TestClientType.UnpartitionedQueue,
-        TestClientType.UnpartitionedQueue
+  it("throws error for undefined tokenCredentials", async function(): Promise<void> {
+    try {
+      new ServiceBusClient(serviceBusEndpoint, undefined);
+    } catch (err) {
+      errorWasThrown = true;
+      should.equal(
+        err.message,
+        "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
+        "ErrorMessage is different than expected"
       );
-
-      const sender = clients.senderClient.createSender();
-      const receiver = await clients.receiverClient.createReceiver(ReceiveMode.peekLock);
-      await sender.send(testMessages);
-      const msgs = await receiver.receiveMessages(1);
-
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-      should.equal(msgs.length, 1, "Unexpected number of messages");
     }
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
 
-    it("throws error for invalid tokenCredentials", async function(): Promise<void> {
-      await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
-        errorWasThrown = true;
-        should.equal(
-          err.message,
-          "'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.",
-          "ErrorMessage is different than expected"
-        );
-      });
-      should.equal(errorWasThrown, true, "Error thrown flag must be true");
-    });
+  it("throws error for undefined host or connectionString", async function(): Promise<void> {
+    try {
+      new ServiceBusClient(undefined as any);
+    } catch (err) {
+      errorWasThrown = true;
+      should.equal(
+        err.message,
+        "Input parameter of host or connection string must be defined and coercible to string."
+      );
+    }
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
+  });
 
+  if (isNode) {
     it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
       void
     > {
@@ -401,11 +383,28 @@ if (isNode) {
 
     it("sends a message to the ServiceBus entity", async function(): Promise<void> {
       const tokenCreds = getDefaultTokenCredential();
-      await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+      const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
+
+      sbClient.should.be.an.instanceof(ServiceBusClient);
+      const clients = await getSenderReceiverClients(
+        sbClient,
+        TestClientType.UnpartitionedQueue,
+        TestClientType.UnpartitionedQueue
+      );
+
+      const sender = clients.senderClient.createSender();
+      const receiver = await clients.receiverClient.createReceiver(ReceiveMode.peekLock);
+      const testMessages = TestMessage.getSample();
+      await sender.send(testMessages);
+      const msgs = await receiver.receiveMessages(1);
+
+      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+      should.equal(msgs.length, 1, "Unexpected number of messages");
       await sbClient.close();
     });
-  });
-}
+  }
+});
 
 describe("Errors after close()", function(): void {
   let sbClient: ServiceBusClient;

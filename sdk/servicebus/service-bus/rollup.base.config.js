@@ -81,9 +81,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
       "fs",
       "path",
       "@azure/arm-servicebus",
-      "@azure/ms-rest-nodeauth",
-      "@azure/identity",
-      "@azure/core-http"
+      "@azure/ms-rest-nodeauth"
     );
 
     baseConfig.onwarn = ignoreKnownWarnings;
@@ -102,7 +100,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
-    external: ["@azure/identity", "@azure/core-http"],
+    external: [],
     output: {
       file: "browser/service-bus.js",
       format: "umd",
