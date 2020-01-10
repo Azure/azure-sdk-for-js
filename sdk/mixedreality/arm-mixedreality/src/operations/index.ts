@@ -9,4 +9,5 @@
  */
 
 export * from "./operations";
+export * from "./remoteRenderingAccounts";
 export * from "./spatialAnchorsAccounts";
