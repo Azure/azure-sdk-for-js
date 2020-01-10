@@ -61,9 +61,9 @@
     "lint:terminal": "eslint package.json tsconfig.json src test samples --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "test:browser": "npm run build:test && npm run unit-test:browser",
-    "test:node": "npm run build:test && npm run unit-test:node",
-    "test": "npm run build:test && npm run unit-test",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 2000000 --full-trace dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
