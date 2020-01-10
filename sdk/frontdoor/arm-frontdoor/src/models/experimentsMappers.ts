@@ -13,13 +13,14 @@ export {
   BackendPoolsSettings,
   BaseResource,
   CacheConfiguration,
-  CloudError,
   CustomHttpsConfiguration,
   CustomRule,
   CustomRuleList,
   Endpoint,
   ErrorResponse,
   Experiment,
+  ExperimentList,
+  ExperimentUpdateModel,
   ForwardingConfiguration,
   FrontDoor,
   FrontendEndpoint,
@@ -49,6 +50,5 @@ export {
   SubResource,
   Timeseries,
   TimeseriesDataPoint,
-  WebApplicationFirewallPolicy,
-  WebApplicationFirewallPolicyList
+  WebApplicationFirewallPolicy
 } from "../models/mappers";

@@ -13,7 +13,6 @@ export {
   BackendPoolsSettings,
   BaseResource,
   CacheConfiguration,
-  CloudError,
   CustomHttpsConfiguration,
   CustomRule,
   CustomRuleList,
@@ -37,6 +36,7 @@ export {
   ManagedRuleOverride,
   ManagedRuleSet,
   ManagedRuleSetDefinition,
+  ManagedRuleSetDefinitionList,
   ManagedRuleSetList,
   MatchCondition,
   PolicySettings,
@@ -49,6 +49,5 @@ export {
   SubResource,
   Timeseries,
   TimeseriesDataPoint,
-  WebApplicationFirewallPolicy,
-  WebApplicationFirewallPolicyList
+  WebApplicationFirewallPolicy
 } from "../models/mappers";
