@@ -6,7 +6,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export function delay<T>(t: number, value?: T): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
@@ -23,8 +23,9 @@ export async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const bankAccountSecretName = "secretDeleteAndRecoverTS1";
-  const storageAccountSecretName = "secretDeleteAndRecoverTS2";
+  const uniqueString = new Date().getTime();
+  const bankAccountSecretName = `bankSecret${uniqueString}`;
+  const storageAccountSecretName = `storageSecret${uniqueString}`;
 
   // Create our secrets
   console.log("Creating our secrets");

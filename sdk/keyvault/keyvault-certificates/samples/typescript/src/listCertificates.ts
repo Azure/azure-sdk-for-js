@@ -6,7 +6,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // This sample list previously created certificates in a single chunk and by page,
 // then changes one of them and lists all the versions of that certificate,
@@ -24,8 +24,9 @@ export async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName1 = "MyCertificateLIstCertificatesTS1";
-  const certificateName2 = "MyCertificateLIstCertificatesTS2";
+  const uniqueString = new Date().getTime();
+  const certificateName1 = `cert1${uniqueString}`;
+  const certificateName2 = `cert2${uniqueString}`;
 
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.beginCreateCertificate(certificateName1, {

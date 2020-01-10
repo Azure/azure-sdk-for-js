@@ -6,7 +6,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // This sample creates, updates and deletes a certificate's operation.
 
@@ -21,7 +21,9 @@ export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
 
   const client = new CertificateClient(url, credential);
-  const certificateName = "MyCertificateOperationsTS";
+
+  const uniqueString = new Date().getTime();
+  const certificateName = `cert${uniqueString}`;
 
   // Certificates' operations will be pending for some time right after they're created.
   const createPoller = await client.beginCreateCertificate(certificateName, {

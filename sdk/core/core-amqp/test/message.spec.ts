@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-import {
-  MessageHeader,
-  AmqpMessageHeader,
-  MessageProperties,
-  AmqpMessageProperties
-} from "../src";
+import { MessageHeader, AmqpMessageHeader, MessageProperties, AmqpMessageProperties } from "../src";
 import * as chai from "chai";
 chai.should();
 
@@ -14,9 +9,7 @@ describe("message", function() {
   describe("header", function() {
     it("should be able to convert empty MessageHeader to AmqpMessageHeader", function(done) {
       const msgHeader: MessageHeader = {};
-      const amqpMsgHeader: AmqpMessageHeader = MessageHeader.toAmqpMessageHeader(
-        msgHeader
-      );
+      const amqpMsgHeader: AmqpMessageHeader = MessageHeader.toAmqpMessageHeader(msgHeader);
       JSON.stringify(amqpMsgHeader).should.equal(JSON.stringify(msgHeader));
       done();
     });
@@ -36,20 +29,14 @@ describe("message", function() {
         priority: 0,
         ttl: 0
       };
-      const amqpMsgHeader: AmqpMessageHeader = MessageHeader.toAmqpMessageHeader(
-        msgHeader
-      );
-      JSON.stringify(amqpMsgHeader).should.equal(
-        JSON.stringify(amqpMsgHeaderExpected)
-      );
+      const amqpMsgHeader: AmqpMessageHeader = MessageHeader.toAmqpMessageHeader(msgHeader);
+      JSON.stringify(amqpMsgHeader).should.equal(JSON.stringify(amqpMsgHeaderExpected));
       done();
     });
 
     it("should be able to convert empty AmqpMessageHeader to MessageHeader", function(done) {
       const amqpMsgHeader: AmqpMessageHeader = {};
-      const msgHeader: MessageHeader = MessageHeader.fromAmqpMessageHeader(
-        amqpMsgHeader
-      );
+      const msgHeader: MessageHeader = MessageHeader.fromAmqpMessageHeader(amqpMsgHeader);
       JSON.stringify(msgHeader).should.equal(JSON.stringify(amqpMsgHeader));
       done();
     });
@@ -69,9 +56,7 @@ describe("message", function() {
         priority: 0,
         ttl: 0
       };
-      const msgHeader: MessageHeader = MessageHeader.fromAmqpMessageHeader(
-        amqpMsgHeader
-      );
+      const msgHeader: MessageHeader = MessageHeader.fromAmqpMessageHeader(amqpMsgHeader);
       JSON.stringify(msgHeader).should.equal(JSON.stringify(msgHeaderExpected));
       done();
     });
@@ -83,9 +68,7 @@ describe("message", function() {
       const amqpMsgProperties: AmqpMessageProperties = MessageProperties.toAmqpMessageProperties(
         msgProperties
       );
-      JSON.stringify(amqpMsgProperties).should.equal(
-        JSON.stringify(msgProperties)
-      );
+      JSON.stringify(amqpMsgProperties).should.equal(JSON.stringify(msgProperties));
       done();
     });
 
@@ -123,9 +106,7 @@ describe("message", function() {
       const amqpMsgProperties: AmqpMessageProperties = MessageProperties.toAmqpMessageProperties(
         msgProperties
       );
-      JSON.stringify(amqpMsgProperties).should.equal(
-        JSON.stringify(amqpMsgPropertiesExpected)
-      );
+      JSON.stringify(amqpMsgProperties).should.equal(JSON.stringify(amqpMsgPropertiesExpected));
       done();
     });
 
@@ -134,9 +115,7 @@ describe("message", function() {
       const msgProperties: MessageProperties = MessageProperties.fromAmqpMessageProperties(
         amqpMsgProperties
       );
-      JSON.stringify(msgProperties).should.equal(
-        JSON.stringify(amqpMsgProperties)
-      );
+      JSON.stringify(msgProperties).should.equal(JSON.stringify(amqpMsgProperties));
       done();
     });
 
@@ -174,9 +153,7 @@ describe("message", function() {
       const msgProperties: AmqpMessageProperties = MessageProperties.fromAmqpMessageProperties(
         amqpMsgProperties
       );
-      JSON.stringify(msgProperties).should.equal(
-        JSON.stringify(msgPropertiesExpected)
-      );
+      JSON.stringify(msgProperties).should.equal(JSON.stringify(msgPropertiesExpected));
       done();
     });
   });

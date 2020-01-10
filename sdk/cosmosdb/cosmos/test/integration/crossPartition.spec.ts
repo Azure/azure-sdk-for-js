@@ -337,7 +337,7 @@ describe("Cross Partition", function() {
       });
     });
 
-    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 1", async function() {
+    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 1 #nosignoff", async function() {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
@@ -964,10 +964,6 @@ describe("Cross Partition", function() {
       const options = {
         maxItemCount: 2
       };
-
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
-        return r["id"];
-      });
 
       const queryIterator = container.items.query(query, options);
 

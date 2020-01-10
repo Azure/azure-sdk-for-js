@@ -31,6 +31,8 @@ import { getParentSpan } from "./util/operationOptions";
  *  - The event data will be evenly distributed among all available partitions.
  *
  * @class
+ * @internal
+ * @ignore
  */
 export class EventHubProducer {
   /**

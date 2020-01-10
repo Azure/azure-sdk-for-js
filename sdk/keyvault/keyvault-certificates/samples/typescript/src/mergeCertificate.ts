@@ -9,7 +9,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // This sample creates a certificate with an Unknown issuer, then signs this certificate using a fake
 // certificate authority and the mergeCertificate API method.
@@ -26,7 +26,8 @@ export async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificateMergeCertificateTS";
+  const uniqueString = new Date().getTime();
+  const certificateName = `cert${uniqueString}`;
 
   // Creating a certificate with an Unknown issuer.
   await client.beginCreateCertificate(certificateName, {

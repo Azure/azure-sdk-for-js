@@ -42,7 +42,6 @@ export class DefaultDataTransformer implements DataTransformer {
    */
   encode(body: any): any {
     let result: any;
-    logger.verbose("[encode] The given message body that needs to be encoded is: ", body);
     if (isBuffer(body)) {
       result = message.data_section(body);
     } else {
@@ -63,7 +62,6 @@ export class DefaultDataTransformer implements DataTransformer {
         throw new Error(msg);
       }
     }
-    logger.verbose("[encode] The encoded message body is: %O.", result);
     return result;
   }
 
@@ -78,7 +76,6 @@ export class DefaultDataTransformer implements DataTransformer {
   decode(body: any): any {
     let processedBody: any = body;
     try {
-      logger.verbose("[decode] Received message body for decoding is: %O", body);
       if (body.content && isBuffer(body.content)) {
         // This indicates that we are getting the AMQP described type. Let us try decoding it.
         processedBody = body.content;
@@ -101,7 +98,6 @@ export class DefaultDataTransformer implements DataTransformer {
         err
       );
     }
-    logger.verbose("[decode] The decoded message body is: %O", processedBody);
     return processedBody;
   }
 }

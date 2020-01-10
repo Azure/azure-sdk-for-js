@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
@@ -23,7 +23,8 @@ export async function main(): Promise<void> {
   // Connection to Azure Key Vault
   const client = new KeyClient(url, credential);
 
-  let keyName = "localWorkKey";
+  const uniqueString = new Date().getTime();
+  const keyName = `key${uniqueString}`;
 
   // Connection to Azure Key Vault Cryptography functionality
   let myWorkKey = await client.createKey(keyName, "RSA");

@@ -6,7 +6,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // This sample creates a self-signed certificate, reads it in various ways,
 // updates the tags of the certificate and finally deletes the certificate.
@@ -23,7 +23,8 @@ export async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificateHelloWorldTS";
+  const uniqueString = new Date().getTime();
+  const certificateName = `cert${uniqueString}`;
 
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(

@@ -31,6 +31,10 @@ export interface OperationOptions extends TracingOptions {
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 export function getParentSpan(
   options: Pick<OperationOptions, "tracingOptions">
 ): Span | SpanContext | undefined {

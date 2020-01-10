@@ -6,7 +6,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // This sample creates, updates and deletes certificate issuers.
 
@@ -22,8 +22,9 @@ export async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificateIssuersTS";
-  const issuerName = "issuerNameIssuersTS";
+  const uniqueString = new Date().getTime();
+  const certificateName = `cert${uniqueString}`;
+  const issuerName = `issuer${uniqueString}`;
 
   // Create
   await client.createIssuer(issuerName, "Test", {

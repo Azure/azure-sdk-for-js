@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 function writeFile(filename: string, text: Uint8Array): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -43,7 +43,8 @@ export async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const secretName = "secretBackupAndRestoreTS";
+  const uniqueString = new Date().getTime();
+  const secretName = `secret${uniqueString}`;
 
   // Create our secret
   await client.setSecret(secretName, "XYZ789");

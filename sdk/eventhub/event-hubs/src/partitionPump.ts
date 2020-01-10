@@ -15,6 +15,10 @@ import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/types";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
 
+/**
+ * @ignore
+ * @internal
+ */
 export class PartitionPump {
   private _eventHubClient: EventHubClient;
   private _partitionProcessor: PartitionProcessor;

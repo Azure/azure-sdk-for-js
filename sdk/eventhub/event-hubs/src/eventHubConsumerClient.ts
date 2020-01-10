@@ -23,7 +23,7 @@ import { isTokenCredential } from "@azure/core-amqp";
 import { PartitionProperties, EventHubProperties } from "./managementClient";
 import { PartitionGate } from "./impl/partitionGate";
 import uuid from "uuid/v4";
-import { validateEventPositions } from './eventPosition';
+import { validateEventPositions } from "./eventPosition";
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
@@ -43,11 +43,11 @@ const defaultConsumerClientOptions: Required<Pick<
  * - Use the connection string from the SAS policy created for your Event Hub namespace,
  * and the name of the Event Hub instance
  * - Use the full namespace like `<yournamespace>.servicebus.windows.net`, and a credentials object.
- * 
+ *
  * Optionally, you can also pass:
  * - An options bag to configure the retry policy or proxy settings.
  * - A checkpoint store that is used by the client to read checkpoints to determine the position from where it should
- * resume receiving events when your application gets restarted. The checkpoint store is also used by the client 
+ * resume receiving events when your application gets restarted. The checkpoint store is also used by the client
  * to load balance multiple instances of your application.
  */
 export class EventHubConsumerClient {
@@ -64,7 +64,7 @@ export class EventHubConsumerClient {
   private _checkpointStore: CheckpointStore;
   private _userChoseCheckpointStore: boolean;
 
-    /**
+  /**
    * @property
    * @readonly
    * The name of the Event Hub instance for which this client is created.
@@ -353,29 +353,32 @@ export class EventHubConsumerClient {
 
   /**
    * Subscribe to events from all partitions.
-   * 
+   *
    * If checkpoint store is provided to the `EventHubConsumerClient` and there are multiple
    * instances of your application, then each instance will subscribe to a subset of the
    * partitions such that the load is balanced amongst them.
+   *
+   * Call close() on the returned object to stop receiving events.
    *
    * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
    *                 per partition, receiving events, handling errors and the closing
    *                 of a subscription per partition.
    * @param options Configures the way events are received.
-   * Most common are `maxBatchSize` and `maxWaitTimeInSeconds` that control the flow of 
+   * Most common are `maxBatchSize` and `maxWaitTimeInSeconds` that control the flow of
    * events to the handler provided to receive events as well as the start position. For example,
    * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }
    */
   subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription; // #1
   /**
    * Subscribe to events from a single partition.
-   *
+   * Call close() on the returned object to stop receiving events.
+   * 
    * @param partitionId The id of the partition to subscribe to.
    * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
    *                 of the partition, receiving events, handling errors and the closing
    *                 of a subscription to the partition.
    * @param options Configures the way events are received.
-   * Most common are `maxBatchSize` and `maxWaitTimeInSeconds` that control the flow of 
+   * Most common are `maxBatchSize` and `maxWaitTimeInSeconds` that control the flow of
    * events to the handler provided to receive events as well as the start position. For example,
    * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }
    */

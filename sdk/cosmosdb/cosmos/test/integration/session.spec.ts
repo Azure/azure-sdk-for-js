@@ -5,7 +5,7 @@ import * as sinon from "sinon";
 import { ClientContext } from "../../dist-esm/ClientContext";
 import { OperationType, ResourceType, trimSlashes } from "../../dist-esm/common";
 import { ConsistencyLevel } from "../../dist-esm/documents";
-import { Constants, CosmosClient, CosmosHeaders } from "../../dist-esm/index";
+import { Constants, CosmosClient } from "../../dist-esm/index";
 import { SessionContainer } from "../../dist-esm/session/sessionContainer";
 import { VectorSessionToken } from "../../dist-esm/session/VectorSessionToken";
 import { endpoint, masterKey } from "../common/_testConfig";
@@ -310,7 +310,7 @@ describe("Session Token", function() {
 
     const containerLink = "dbs/" + database.id + "/colls/" + containerId;
     const increaseLSN = function(oldTokens: Map<string, Map<string, VectorSessionToken>>) {
-      for (const [coll, tokens] of oldTokens.entries()) {
+      for (const [, tokens] of oldTokens.entries()) {
         for (const [pk, token] of tokens.entries()) {
           (token as any).globalLsn = (token as any).globalLsn + 200;
           const newToken = token.merge(token);

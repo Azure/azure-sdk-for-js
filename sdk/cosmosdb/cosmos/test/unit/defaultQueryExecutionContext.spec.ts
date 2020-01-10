@@ -6,7 +6,7 @@ import {
 } from "../../dist-esm/queryExecutionContext";
 import { FeedOptions } from "../../dist-esm";
 import assert from "assert";
-import { sleep, Constants } from "../../dist-esm/common";
+import { sleep } from "../../dist-esm/common";
 
 describe("defaultQueryExecutionContext", function() {
   it("should not buffer items if bufferItems is false", async function() {

@@ -6,7 +6,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
@@ -21,7 +21,8 @@ export async function main(): Promise<void> {
   const client = new SecretClient(url, credential);
 
   // Create a secret
-  const secretName = "secretHelloWorldTS";
+  const uniqueString = new Date().getTime();
+  const secretName = `secret${uniqueString}`;
   const result = await client.setSecret(secretName, "MySecretValue");
   console.log("result: ", result);
 

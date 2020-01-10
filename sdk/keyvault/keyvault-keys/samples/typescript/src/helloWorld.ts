@@ -6,7 +6,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
@@ -19,9 +19,10 @@ export async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new KeyClient(url, credential);
 
-  const keyName = "MyKeyNameCertificates";
-  const ecKeyName = "MyECKeyNameCertificates";
-  const rsaKeyName = "MyRSAKeyNameCertificates";
+  const uniqueString = new Date().getTime();
+  const keyName = `KeyName${uniqueString}`;
+  const ecKeyName = `ECKeyName${uniqueString}`;
+  const rsaKeyName = `RSAKeyName${uniqueString}`;
 
   // You can create keys using the general method
   const result = await client.createKey(keyName, "EC");
