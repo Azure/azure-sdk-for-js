@@ -20,7 +20,7 @@ export function createSpan<T extends OperationOptions>(
   const tracingOptions = operationOptions.tracingOptions || {};
   const spanOptions: SpanOptions = {
     ...tracingOptions.spanOptions,
-    kind: SpanKind.CLIENT
+    kind: SpanKind.INTERNAL
   };
 
   const span = tracer.startSpan(
@@ -28,11 +28,17 @@ export function createSpan<T extends OperationOptions>(
     spanOptions
   );
 
+  span.setAttribute("az.namespace", "Microsoft.CognitiveServices");
+
   let newSpanOptions = tracingOptions.spanOptions || {};
   if (span.isRecording()) {
     newSpanOptions = {
-      ...tracingOptions,
-      parent: span
+      ...tracingOptions.spanOptions,
+      parent: span,
+      attributes: {
+        ...spanOptions.attributes,
+        "az.namespace": "Microsoft.CognitiveServices"
+      }
     };
   }
 
