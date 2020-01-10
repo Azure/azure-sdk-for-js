@@ -8,11 +8,17 @@
 
 export {
   BaseResource,
+  CloudError,
+  ErrorAdditionalInfo,
   ErrorResponse,
   Identity,
+  ParameterDefinitionsValue,
+  ParameterDefinitionsValueMetadata,
+  ParameterValuesValue,
   PolicyAssignment,
   PolicyAssignmentListResult,
   PolicyDefinition,
+  PolicyDefinitionGroup,
   PolicyDefinitionReference,
   PolicySetDefinition,
   PolicySku

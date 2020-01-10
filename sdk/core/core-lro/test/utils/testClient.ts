@@ -1,0 +1,55 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import {
+  ServiceClientCredentials,
+  ServiceClientOptions,
+  TokenCredential,
+  RequestOptionsBase
+} from "@azure/core-http";
+import { TestServiceClient } from "./testServiceClient";
+import { TestPoller } from "./testPoller";
+import { TestNonCancellablePoller } from "./testNonCancellablePoller";
+import { TestOperationState } from "./testOperation";
+
+interface StartLROOptions {
+  intervalInMs?: number;
+  requestOptions?: RequestOptionsBase;
+  baseOperation?: string;
+  onProgress?: (state: TestOperationState) => void;
+}
+
+export class TestClient extends TestServiceClient {
+  constructor(
+    credentials: TokenCredential | ServiceClientCredentials,
+    options?: ServiceClientOptions
+  ) {
+    super(credentials, options);
+  }
+
+  public async startLRO(options: StartLROOptions = {}): Promise<TestPoller> {
+    const poller = new TestPoller(
+      this,
+      options.intervalInMs,
+      options.requestOptions,
+      options.baseOperation,
+      options.onProgress
+    );
+    await poller.poll(); // Initial request
+    return poller;
+  }
+
+  public async startNonCancellableLRO(
+    options: StartLROOptions = {}
+  ): Promise<TestNonCancellablePoller> {
+    const poller = new TestNonCancellablePoller(
+      this,
+      options.intervalInMs,
+      options.requestOptions,
+      options.baseOperation,
+      options.onProgress
+    );
+    await poller.poll(); // Initial request
+    return poller;
+  }
+}

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { EventEmitter } from "events";
 import { Readable } from "stream";
 
@@ -23,7 +26,7 @@ export declare type OutgoingHandler = (buffer: Buffer, offset?: number) => Promi
  * PERFORMANCE IMPROVEMENT TIPS:
  * 1. Input stream highWaterMark is better to set a same value with bufferSize
  *    parameter, which will avoid Buffer.concat() operations.
- * 2. Parallelism should set a smaller value than maxBuffers, which is helpful to
+ * 2. concurrency should set a smaller value than maxBuffers, which is helpful to
  *    reduce the possibility when a outgoing handler waits for the stream data.
  *    in this situation, outgoing handlers are blocked.
  *    Outgoing queue shouldn't be empty.
@@ -79,13 +82,13 @@ export class BufferScheduler {
   private readonly emitter: EventEmitter = new EventEmitter();
 
   /**
-   * Concurrency of executing outgoingHandlers. (0 < parallelism <= maxBuffers)
+   * Concurrency of executing outgoingHandlers. (0 < concurrency <= maxBuffers)
    *
    * @private
    * @type {number}
    * @memberof BufferScheduler
    */
-  private readonly parallelism: number;
+  private readonly concurrency: number;
 
   /**
    * An internal offset marker to track data offset in bytes of next outgoingHandler.
@@ -190,7 +193,7 @@ export class BufferScheduler {
    * @param {OutgoingHandler} outgoingHandler An async function scheduled to be
    *                                          triggered when a buffer fully filled
    *                                          with stream data
-   * @param {number} parallelism Concurrency of executing outgoingHandlers (>0)
+   * @param {number} concurrency Concurrency of executing outgoingHandlers (>0)
    * @param {string} [encoding] [Optional] Encoding of Readable stream when it's a string stream
    * @memberof BufferScheduler
    */
@@ -199,7 +202,7 @@ export class BufferScheduler {
     bufferSize: number,
     maxBuffers: number,
     outgoingHandler: OutgoingHandler,
-    parallelism: number,
+    concurrency: number,
     encoding?: string
   ) {
     if (bufferSize <= 0) {
@@ -210,15 +213,15 @@ export class BufferScheduler {
       throw new RangeError(`maxBuffers must be larger than 0, current is ${maxBuffers}`);
     }
 
-    if (parallelism <= 0) {
-      throw new RangeError(`parallelism must be larger than 0, current is ${parallelism}`);
+    if (concurrency <= 0) {
+      throw new RangeError(`concurrency must be larger than 0, current is ${concurrency}`);
     }
 
     this.bufferSize = bufferSize;
     this.maxBuffers = maxBuffers;
     this.readable = readable;
     this.outgoingHandler = outgoingHandler;
-    this.parallelism = parallelism;
+    this.concurrency = concurrency;
     this.encoding = encoding;
   }
 
@@ -356,7 +359,7 @@ export class BufferScheduler {
 
   /**
    * Try to trigger a outgoing handler for every buffer in outgoing. Stop when
-   * parallelism reaches.
+   * concurrency reaches.
    *
    * @private
    * @memberof BufferScheduler
@@ -364,7 +367,7 @@ export class BufferScheduler {
   private async triggerOutgoingHandlers() {
     let buffer: Buffer | undefined;
     do {
-      if (this.executingOutgoingHandlers >= this.parallelism) {
+      if (this.executingOutgoingHandlers >= this.concurrency) {
         return;
       }
 

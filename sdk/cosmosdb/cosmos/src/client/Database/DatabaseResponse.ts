@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request/ResourceResponse";
 import { Resource } from "../Resource";
@@ -6,7 +8,12 @@ import { DatabaseDefinition } from "./DatabaseDefinition";
 
 /** Response object for Database operations */
 export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Resource> {
-  constructor(resource: DatabaseDefinition & Resource, headers: CosmosHeaders, statusCode: number, database: Database) {
+  constructor(
+    resource: DatabaseDefinition & Resource,
+    headers: CosmosHeaders,
+    statusCode: number,
+    database: Database
+  ) {
     super(resource, headers, statusCode);
     this.database = database;
   }

@@ -8,12 +8,12 @@
  * regenerated.
  */
 
-import * as msRest from "@azure/ms-rest-js";
+import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-storage-queue";
-const packageVersion = "1.0.0";
+const packageVersion = "12.0.2";
 
-export class StorageClientContext extends msRest.ServiceClient {
+export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;
   version: string;
 
@@ -23,7 +23,7 @@ export class StorageClientContext extends msRest.ServiceClient {
    * operation.
    * @param [options] The parameter options
    */
-  constructor(url: string, options?: msRest.ServiceClientOptions) {
+  constructor(url: string, options?: coreHttp.ServiceClientOptions) {
     if (url == undefined) {
       throw new Error("'url' cannot be null.");
     }
@@ -33,7 +33,7 @@ export class StorageClientContext extends msRest.ServiceClient {
     }
 
     if (!options.userAgent) {
-      const defaultUserAgent = msRest.getDefaultUserAgentValue();
+      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 

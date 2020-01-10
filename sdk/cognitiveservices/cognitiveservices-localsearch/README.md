@@ -17,59 +17,49 @@ npm install @azure/cognitiveservices-localsearch
 
 #### nodejs - Authentication, client creation and search local as an example written in TypeScript.
 
-##### Install @azure/ms-rest-nodeauth
+##### Install @azure/ms-rest-azure-js
 
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
+The following sample performs an local business search with the query 'Coffee 98052'. To know more, refer to the [Azure Documentation on Bing Local Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-local-business-search/)
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { LocalSearchClient, LocalSearchModels, LocalSearchMappers } from "@azure/cognitiveservices-localsearch";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import { LocalSearchClient } from "@azure/cognitiveservices-localsearch";
+import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new LocalSearchClient(creds, subscriptionId);
-  const query = "testquery";
-  const acceptLanguage = "testacceptLanguage";
-  const pragma = "testpragma";
-  const userAgent = "testuserAgent";
-  const clientId = "testclientId";
-  const clientIp = "testclientIp";
-  const location = "westus";
-  const countryCode = "testcountryCode";
-  const market = "testmarket";
-  const localCategories = "testlocalCategories";
-  const localCircularView = "testlocalCircularView";
-  const localMapView = "testlocalMapView";
-  const count = "testcount";
-  const first = "testfirst";
-  const responseFormat = ["Json"];
-  const safeSearch = "Off";
-  const setLang = "testsetLang";
-  client.local.search(query, acceptLanguage, pragma, userAgent, clientId, clientIp, location, countryCode, market, localCategories, localCircularView, localMapView, count, first, responseFormat, safeSearch, setLang).then((result) => {
-    console.log("The result is:");
-    console.log(result);
+async function main(): Promise<void> {
+  const localSearchKey = process.env["localSearchKey"] || "<localSearchKey>";
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(
+    localSearchKey
+  );
+  const client = new LocalSearchClient(cognitiveServiceCredentials, {
+    baseUri: "https://api.cognitive.microsoft.com/"
   });
-}).catch((err) => {
-  console.error(err);
-});
+
+  client.local
+    .search("Coffee 98052")
+    .then(result => {
+      console.log("The result is: ");
+      result.places!.value.forEach(place => {
+        console.log(place);
+      });
+    })
+    .catch(err => {
+      console.log("An error occurred:");
+      console.error(err);
+    });
+}
+
+main();
+
 ```
 
 #### browser - Authentication, client creation and search local as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
-
 ##### Sample code
-
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
 ```html
@@ -78,54 +68,42 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
   <head>
     <title>@azure/cognitiveservices-localsearch sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-localsearch/dist/cognitiveservices-localsearch.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
+      const localsearchKey = "<YOUR_LOCAL_SEARCH_KEY>";
+      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+        inHeader: {
+          "Ocp-Apim-Subscription-Key": localsearchKey
         }
-        const client = new Azure.CognitiveservicesLocalsearch.LocalSearchClient(res.creds, subscriptionId);
-        const query = "testquery";
-        const acceptLanguage = "testacceptLanguage";
-        const pragma = "testpragma";
-        const userAgent = "testuserAgent";
-        const clientId = "testclientId";
-        const clientIp = "testclientIp";
-        const location = "westus";
-        const countryCode = "testcountryCode";
-        const market = "testmarket";
-        const localCategories = "testlocalCategories";
-        const localCircularView = "testlocalCircularView";
-        const localMapView = "testlocalMapView";
-        const count = "testcount";
-        const first = "testfirst";
-        const responseFormat = ["Json"];
-        const safeSearch = "Off";
-        const setLang = "testsetLang";
-        client.local.search(query, acceptLanguage, pragma, userAgent, clientId, clientIp, location, countryCode, market, localCategories, localCircularView, localMapView, count, first, responseFormat, safeSearch, setLang).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
+      });
+      const client = new Azure.CognitiveservicesLocalsearch.LocalSearchClient(
+        cognitiveServiceCredentials,
+        {
+          baseUri: "https://api.cognitive.microsoft.com/"
+        }
+      );
+
+      client.local
+        .search("Coffee 98052")
+        .then(result => {
+          console.log("The result is: ");
+          result.places.value.forEach(place => {
+            console.log(place);
+          });
+        })
+        .catch(err => {
           console.log("An error occurred:");
           console.error(err);
         });
-      });
     </script>
   </head>
   <body></body>
 </html>
+
 ```
 
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-localsearch/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitiveservices%2Fcognitiveservices-localsearch%2FREADME.png)

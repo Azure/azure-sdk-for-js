@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { TriggerOperation, TriggerType } from "../../documents";
 
 export interface TriggerDefinition {

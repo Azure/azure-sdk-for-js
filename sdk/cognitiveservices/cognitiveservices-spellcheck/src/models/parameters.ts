@@ -142,7 +142,7 @@ export const market: msRest.OperationQueryParameter = {
     }
   }
 };
-export const mode: msRest.OperationParameter = {
+export const mode: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "mode"
@@ -154,7 +154,7 @@ export const mode: msRest.OperationParameter = {
     }
   }
 };
-export const postContextText: msRest.OperationParameter = {
+export const postContextText: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "postContextText"
@@ -178,7 +178,7 @@ export const pragma: msRest.OperationParameter = {
     }
   }
 };
-export const preContextText: msRest.OperationParameter = {
+export const preContextText: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "preContextText"
@@ -214,7 +214,7 @@ export const setLang: msRest.OperationQueryParameter = {
     }
   }
 };
-export const text: msRest.OperationParameter = {
+export const text: msRest.OperationQueryParameter = {
   parameterPath: "text",
   mapper: {
     required: true,

@@ -1,4 +1,6 @@
-﻿import { logSampleHeader, handleError, finish } from "./Shared/handleError";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { logSampleHeader, handleError, finish } from "./Shared/handleError";
 import { Container, Permission, User, CosmosClient, PermissionMode } from "../dist";
 import { endpoint, key, database as databaseId } from "./Shared/config";
 
@@ -16,10 +18,10 @@ const item3Name = "item3";
 const client = new CosmosClient({ endpoint, key });
 
 async function run() {
-  //--------------------------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------------------------
   // We need a database, two containers, two users, and some permissions for this sample,
   // So let's go ahead and set these up initially
-  //--------------------------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------------------------------
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container: container1 } = await database.containers.createIfNotExists({ id: container1Name });
   const { container: container2 } = await database.containers.createIfNotExists({ id: container2Name });
@@ -134,7 +136,7 @@ async function attemptWriteWithReadPermission(container: Container, user: User, 
   }
 }
 
-//attempts to read from both the containers as the user has read permission
+// attempts to read from both the containers as the user has read permission
 async function attemptReadFromTwoCollections(
   container1: Container,
   container2: Container,

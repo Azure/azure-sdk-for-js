@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { MultiRegionWriteScenario } from "./MultiRegionWriteScenario";
 
 // tslint:disable:no-console

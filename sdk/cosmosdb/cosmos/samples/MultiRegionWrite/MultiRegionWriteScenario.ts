@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ConsistencyLevel, CosmosClient } from "../../dist";
 import config from "./config";
 import { ConflictWorker } from "./ConflictWorker";

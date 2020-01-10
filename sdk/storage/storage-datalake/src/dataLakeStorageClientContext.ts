@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/storage-datalake";
-const packageVersion = "0.1.1";
+const packageVersion = "0.2.0";
 
 export class DataLakeStorageClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -48,7 +48,7 @@ export class DataLakeStorageClientContext extends msRestAzure.AzureServiceClient
     this.dnsSuffix = 'dfs.core.windows.net';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
-    this.baseUri = 'http://{accountName}.{dnsSuffix}';
+    this.baseUri = "https://{accountName}.{dnsSuffix}";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.accountName = accountName;

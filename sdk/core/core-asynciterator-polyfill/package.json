@@ -6,7 +6,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
   "sdk-type": "client",
-  "version": "1.0.0-preview.2",
+  "version": "1.0.1",
   "description": "Polyfill for IE/Node 8 for Symbol.asyncIterator",
   "tags": [
     "microsoft",
@@ -38,6 +38,7 @@
     "build:test": "echo skipped",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\"",
     "clean": "echo skipped",
+    "execute:samples": "echo skipped",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -65,6 +66,6 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "prettier": "^1.16.4",
-    "typescript": "^3.2.2"
+    "typescript": "~3.6.4"
   }
 }

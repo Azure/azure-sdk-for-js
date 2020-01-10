@@ -4,181 +4,165 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
+import { HttpResponse } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { TokenCredential } from '@azure/identity';
+import { UserAgentOptions } from '@azure/core-http';
 
-// @public (undocumented)
-export type AddConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
+// @public
+export interface AddConfigurationSettingOptions extends OperationOptions {
+}
 
-// @public (undocumented)
-export type AddConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
+// @public
+export interface AddConfigurationSettingParam extends ConfigurationSettingParam {
+}
 
-// @public (undocumented)
-export type AddConfigurationSettingsResponse = ModelCreateOrUpdateConfigurationSettingResponse;
+// @public
+export interface AddConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
 
 // @public
 export class AppConfigurationClient {
-    constructor(connectionString: string);
-    constructor(uri: string, credential: TokenCredential);
-    addConfigurationSetting(key: string, configSettings: AddConfigurationSettingConfig, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingsResponse>;
-    deleteConfigurationSetting(key: string, options: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
-    getConfigurationSetting(key: string, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
-    listConfigurationSettings(options?: ListConfigurationSettingsOptions): Promise<ListConfigurationSettingsResponse>;
-    listRevisions(options?: ListRevisionsOptions): Promise<ListRevisionsResponse>;
-    setConfigurationSetting(key: string, configSettings: SetConfigurationSettingConfig, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
-    updateConfigurationSetting(key: string, configSettings: UpdateConfigurationSettingConfig, options?: UpdateConfigurationSettingOptions): Promise<UpdateConfigurationSettingResponse>;
+    constructor(connectionString: string, options?: AppConfigurationClientOptions);
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
+    addConfigurationSetting(configurationSetting: AddConfigurationSettingParam, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
+    deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
+    getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
+    listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage>;
+    listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
+    setConfigurationSetting(configurationSetting: SetConfigurationSettingParam, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
+    setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
+    }
+
+// @public
+export interface AppConfigurationClientOptions {
+    userAgentOptions?: UserAgentOptions;
 }
 
 // @public
-export interface ConfigurationSettingList extends Array<ModelConfigurationSetting> {
-    // (undocumented)
-    items?: ModelConfigurationSetting[];
+export interface ConfigurationSetting extends ConfigurationSettingParam {
+    isReadOnly: boolean;
+    lastModified?: Date;
 }
 
-// @public (undocumented)
-export type DeleteConfigurationSettingOptions = ModelConfigurationClientDeleteConfigurationSettingOptionalParams & ETagOption;
-
-// @public (undocumented)
-export type DeleteConfigurationSettingResponse = ModelDeleteConfigurationSettingResponse;
-
-// @public (undocumented)
-export interface ETagOption {
+// @public
+export interface ConfigurationSettingId {
     etag?: string;
-}
-
-// @public
-export interface GetConfigurationSettingHeaders {
-    lastModifiedHeader: string;
-}
-
-// @public (undocumented)
-export type GetConfigurationSettingOptions = ModelConfigurationClientGetConfigurationSettingOptionalParams;
-
-// @public (undocumented)
-export type GetConfigurationSettingResponse = ModelGetConfigurationSettingResponse;
-
-// @public (undocumented)
-export type ListConfigurationSettingsOptions = ModelConfigurationClientListConfigurationSettingsOptionalParams;
-
-// @public (undocumented)
-export type ListConfigurationSettingsResponse = ModelListConfigurationSettingsResponse;
-
-// @public (undocumented)
-export type ListRevisionsOptions = ModelConfigurationClientListRevisionsOptionalParams;
-
-// @public (undocumented)
-export type ListRevisionsResponse = ModelListRevisionsResponse;
-
-// @public
-export interface ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams extends coreHttp.RequestOptionsBase {
+    key: string;
     label?: string;
 }
 
 // @public
-export interface ModelConfigurationClientDeleteConfigurationSettingOptionalParams extends coreHttp.RequestOptionsBase {
-    // (undocumented)
-    label?: string;
-}
-
-// @public
-export interface ModelConfigurationClientGetConfigurationSettingOptionalParams extends coreHttp.RequestOptionsBase {
-    acceptDateTime?: Date;
-    label?: string;
-}
-
-// @public
-export interface ModelConfigurationClientListConfigurationSettingsOptionalParams extends coreHttp.RequestOptionsBase {
-    acceptDateTime?: Date;
-    fields?: string[];
-    key?: string[];
-    label?: string[];
-}
-
-// @public
-export interface ModelConfigurationClientListRevisionsOptionalParams extends coreHttp.RequestOptionsBase {
-    acceptDateTime?: Date;
-    fields?: string[];
-    key?: string[];
-    label?: string[];
-}
-
-// @public
-export interface ModelConfigurationSetting {
-    // (undocumented)
+export interface ConfigurationSettingParam extends ConfigurationSettingId {
     contentType?: string;
-    readonly etag?: string;
-    // (undocumented)
-    key?: string;
-    // (undocumented)
-    label?: string;
-    readonly lastModified?: Date;
-    readonly locked?: boolean;
-    // (undocumented)
     tags?: {
         [propertyName: string]: string;
     };
-    // (undocumented)
     value?: string;
 }
 
 // @public
-export type ModelCreateOrUpdateConfigurationSettingResponse = ModelConfigurationSetting & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ModelConfigurationSetting;
-    };
-};
+export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
 
 // @public
-export type ModelDeleteConfigurationSettingResponse = ModelConfigurationSetting & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ModelConfigurationSetting;
-    };
-};
+export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedField, OperationOptions {
+}
 
 // @public
-export type ModelGetConfigurationSettingResponse = ModelConfigurationSetting & GetConfigurationSettingHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: GetConfigurationSettingHeaders;
-        bodyAsText: string;
-        parsedBody: ModelConfigurationSetting;
-    };
-};
+export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
+}
 
 // @public
-export type ModelListConfigurationSettingsResponse = ConfigurationSettingList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ConfigurationSettingList;
-    };
-};
+export interface GetConfigurationHeaders extends SyncTokenHeaderField {
+}
 
 // @public
-export type ModelListRevisionsResponse = ConfigurationSettingList & {
-    _response: coreHttp.HttpResponse & {
+export interface GetConfigurationSettingOptions extends OperationOptions, HttpOnlyIfChangedField, OptionalFields {
+    acceptDateTime?: Date;
+}
+
+// @public
+export interface GetConfigurationSettingResponse extends ConfigurationSetting, GetConfigurationHeaders, HttpResponseFields, HttpResponseField<GetConfigurationHeaders> {
+}
+
+// @public
+export interface HttpOnlyIfChangedField {
+    onlyIfChanged?: boolean;
+}
+
+// @public
+export interface HttpOnlyIfUnchangedField {
+    onlyIfUnchanged?: boolean;
+}
+
+// @public
+export interface HttpResponseField<HeadersT> {
+    _response: HttpResponse & {
+        parsedHeaders: HeadersT;
         bodyAsText: string;
-        parsedBody: ConfigurationSettingList;
     };
-};
+}
 
-// @public (undocumented)
-export type SetConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
+// @public
+export interface HttpResponseFields {
+    statusCode: number;
+}
 
-// @public (undocumented)
-export type SetConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
+// @public
+export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField> {
+    items: ConfigurationSetting[];
+}
 
-// @public (undocumented)
-export type SetConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
+// @public
+export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+}
 
-// @public (undocumented)
-export type UpdateConfigurationSettingConfig = Pick<ModelConfigurationSetting, Exclude<keyof ModelConfigurationSetting, "key">>;
+// @public
+export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {
+}
 
-// @public (undocumented)
-export type UpdateConfigurationSettingOptions = ModelConfigurationClientCreateOrUpdateConfigurationSettingOptionalParams;
+// @public
+export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderField> {
+    items: ConfigurationSetting[];
+}
 
-// @public (undocumented)
-export type UpdateConfigurationSettingResponse = ModelCreateOrUpdateConfigurationSettingResponse;
+// @public
+export interface ListSettingsOptions extends OptionalFields {
+    acceptDateTime?: Date;
+    keyFilter?: string;
+    labelFilter?: string;
+}
+
+// @public
+export interface OptionalFields {
+    fields?: (keyof ConfigurationSetting)[];
+}
+
+// @public
+export interface SetConfigurationSettingOptions extends HttpOnlyIfUnchangedField, OperationOptions {
+}
+
+// @public
+export interface SetConfigurationSettingParam extends ConfigurationSettingParam {
+}
+
+// @public
+export interface SetConfigurationSettingResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
+export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationOptions {
+}
+
+// @public
+export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
+export interface SyncTokenHeaderField {
+    syncToken?: string;
+}
 
 
 // (No @packageDocumentation comment for this package)

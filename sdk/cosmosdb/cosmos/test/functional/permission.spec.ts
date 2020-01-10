@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import assert from "assert";
 import { PermissionMode } from "../../dist-esm";
 import { PermissionDefinition } from "../../dist-esm/client";
@@ -66,14 +68,26 @@ describe("NodeJS CRUD Tests", function() {
           undefined,
           isUpsertTest
         );
-        assert.equal(replacedPermission.permissionMode, PermissionMode.All, "permission mode should change");
+        assert.equal(
+          replacedPermission.permissionMode,
+          PermissionMode.All,
+          "permission mode should change"
+        );
         assert.equal(permissionDef.id, replacedPermission.id, "permission id should stay the same");
 
         // to change the id of an existing resourcewe have to use replace
         permissionDef.id = "replaced permission";
         const { resource: replacedPermission2 } = await permission.replace(permissionDef);
-        assert.equal(replacedPermission2.id, "replaced permission", "permission name should change");
-        assert.equal(permissionDef.id, replacedPermission2.id, "permission id should stay the same");
+        assert.equal(
+          replacedPermission2.id,
+          "replaced permission",
+          "permission name should change"
+        );
+        assert.equal(
+          permissionDef.id,
+          replacedPermission2.id,
+          "permission id should stay the same"
+        );
         permission = user.permission(replacedPermission2.id);
 
         // read permission
@@ -127,7 +141,12 @@ describe("NodeJS CRUD Tests", function() {
         };
 
         // create permission
-        const response = await createOrUpsertPermission(user, permissionDefinition, undefined, isUpsertTest);
+        const response = await createOrUpsertPermission(
+          user,
+          permissionDefinition,
+          undefined,
+          isUpsertTest
+        );
         const permissionDef = response.resource;
         let permission = user.permission(permissionDef.id);
         assert.equal(permissionDef.id, permissionDefinition.id, "permission name error");
@@ -162,7 +181,11 @@ describe("NodeJS CRUD Tests", function() {
           undefined,
           isUpsertTest
         );
-        assert.equal(replacedPermission.permissionMode, PermissionMode.All, "permission mode should change");
+        assert.equal(
+          replacedPermission.permissionMode,
+          PermissionMode.All,
+          "permission mode should change"
+        );
         assert.equal(replacedPermission.id, permissionDef.id, "permission id should stay the same");
         assert.equal(
           JSON.stringify(replacedPermission.resourcePartitionKey),

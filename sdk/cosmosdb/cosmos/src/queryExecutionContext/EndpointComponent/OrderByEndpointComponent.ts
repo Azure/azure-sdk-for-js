@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 
@@ -18,19 +20,6 @@ export class OrderByEndpointComponent implements ExecutionContext {
    */
   public async nextItem(): Promise<Response<any>> {
     const { result: item, headers } = await this.executionContext.nextItem();
-    return {
-      result: item !== undefined ? item.payload : undefined,
-      headers
-    };
-  }
-
-  /**
-   * Retrieve the current element on the OrderByEndpointComponent.
-   * @memberof OrderByEndpointComponent
-   * @instance
-   */
-  public async current(): Promise<Response<any>> {
-    const { result: item, headers } = await this.executionContext.current();
     return {
       result: item !== undefined ? item.payload : undefined,
       headers

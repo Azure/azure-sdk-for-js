@@ -1,13 +1,18 @@
-import { AbortSignalLike, isNode, URLBuilder } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import { AbortSignalLike } from "@azure/abort-controller";
+import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
+import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
  *
- * ## URL encode and escape strategy for JSv10 SDKs
+ * ## URL encode and escape strategy for JS SDKs
  *
- * When customers pass a URL string into XXXURL classes constrcutor, the URL string may already be URL encoded or not.
+ * When customers pass a URL string into XxxClient classes constrcutor, the URL string may already be URL encoded or not.
  * But before sending to Azure Storage server, the URL must be encoded. However, it's hard for a SDK to guess whether the URL
- * string has been encoded or not. We have 2 potential strategies, and chose strategy two for the XXXURL constructors.
+ * string has been encoded or not. We have 2 potential strategies, and chose strategy two for the XxxClient constructors.
  *
  * ### Strategy One: Assume the customer URL string is not encoded, and always encode URL string in SDK.
  *
@@ -43,7 +48,7 @@ import { AbortSignalLike, isNode, URLBuilder } from "@azure/ms-rest-js";
  *
  * Another special character is "?", use "%2F" to represent a blob name with "?" in a URL string.
  *
- * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `BlobURL.fromContainerURL(containerURL, blobName)`
+ * ### Strategy for containerName, blobName or other specific XXXName parameters in methods such as `containerClient.getBlobClient(blobName)`
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *
@@ -64,6 +69,136 @@ export function escapeURLPath(url: string): string {
   urlParsed.setPath(path);
 
   return urlParsed.toString();
+}
+
+export interface ConnectionString {
+  kind: "AccountConnString" | "SASConnString";
+  url: string;
+  accountName: string;
+  accountKey?: any;
+  accountSas?: string;
+  proxyUri?: string; // Development Connection String may contain proxyUri
+}
+
+function getProxyUriFromDevConnString(connectionString: string): string {
+  // Development Connection String
+  // https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
+  let proxyUri = "";
+  if (connectionString.search("DevelopmentStorageProxyUri=") !== -1) {
+    // CONNECTION_STRING=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri
+    const matchCredentials = connectionString.split(";");
+    for (const element of matchCredentials) {
+      if (element.trim().startsWith("DevelopmentStorageProxyUri=")) {
+        proxyUri = element.trim().match("DevelopmentStorageProxyUri=(.*)")![1];
+      }
+    }
+  }
+  return proxyUri;
+}
+
+export function getValueInConnString(
+  connectionString: string,
+  argument:
+    | "BlobEndpoint"
+    | "AccountName"
+    | "AccountKey"
+    | "DefaultEndpointsProtocol"
+    | "EndpointSuffix"
+    | "SharedAccessSignature"
+) {
+  const elements = connectionString.split(";");
+  for (const element of elements) {
+    if (element.trim().startsWith(argument)) {
+      return element.trim().match(argument + "=(.*)")![1];
+    }
+  }
+  return "";
+}
+
+/**
+ * Extracts the parts of an Azure Storage account connection string.
+ *
+ * @export
+ * @param {string} connectionString Connection string.
+ * @returns {ConnectionString}  String key value pairs of the storage account's url and credentials.
+ */
+export function extractConnectionStringParts(connectionString: string): ConnectionString {
+  let proxyUri = "";
+
+  if (connectionString.startsWith("UseDevelopmentStorage=true")) {
+    // Development connection string
+    proxyUri = getProxyUriFromDevConnString(connectionString);
+    connectionString = DevelopmentConnectionString;
+  }
+
+  // Matching BlobEndpoint in the Account connection string
+  let blobEndpoint = getValueInConnString(connectionString, "BlobEndpoint");
+  // Slicing off '/' at the end if exists
+  // (The methods that use `extractConnectionStringParts` expect the url to not have `/` at the end)
+  blobEndpoint = blobEndpoint.endsWith("/") ? blobEndpoint.slice(0, -1) : blobEndpoint;
+
+  if (
+    connectionString.search("DefaultEndpointsProtocol=") !== -1 &&
+    connectionString.search("AccountKey=") !== -1
+  ) {
+    // Account connection string
+
+    let defaultEndpointsProtocol = "";
+    let accountName = "";
+    let accountKey = Buffer.from("accountKey", "base64");
+    let endpointSuffix = "";
+
+    // Get account name and key
+    accountName = getValueInConnString(connectionString, "AccountName");
+    accountKey = Buffer.from(getValueInConnString(connectionString, "AccountKey"), "base64");
+
+    if (!blobEndpoint) {
+      // BlobEndpoint is not present in the Account connection string
+      // Can be obtained from `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`
+
+      defaultEndpointsProtocol = getValueInConnString(connectionString, "DefaultEndpointsProtocol");
+      const protocol = defaultEndpointsProtocol!.toLowerCase();
+      if (protocol !== "https" && protocol !== "http") {
+        throw new Error(
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+        );
+      }
+
+      endpointSuffix = getValueInConnString(connectionString, "EndpointSuffix");
+      if (!endpointSuffix) {
+        throw new Error("Invalid EndpointSuffix in the provided Connection String");
+      }
+      blobEndpoint = `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+    }
+
+    if (!accountName) {
+      throw new Error("Invalid AccountName in the provided Connection String");
+    } else if (accountKey.length === 0) {
+      throw new Error("Invalid AccountKey in the provided Connection String");
+    }
+
+    return {
+      kind: "AccountConnString",
+      url: blobEndpoint,
+      accountName,
+      accountKey,
+      proxyUri
+    };
+  } else {
+    // SAS connection string
+
+    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    let accountName = getAccountNameFromUrl(blobEndpoint);
+    if (!blobEndpoint) {
+      throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
+    } else if (!accountSas) {
+      throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
+    } else if (!accountName) {
+      throw new Error("Invalid AccountName in the provided SAS Connection String");
+    }
+
+    return { kind: "SASConnString", url: blobEndpoint, accountName, accountSas };
+  }
 }
 
 /**
@@ -186,7 +321,7 @@ export function getURLPathAndQuery(url: string): string | undefined {
     queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
   }
 
-  return `${pathString}${queryString}`
+  return `${pathString}${queryString}`;
 }
 
 /**
@@ -307,7 +442,7 @@ export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortEr
         clearTimeout(timeout);
       }
       reject(abortError);
-    }
+    };
 
     const resolveHandler = () => {
       if (aborter !== undefined) {
@@ -353,6 +488,29 @@ export function padStart(
   }
 }
 
+export function sanitizeURL(url: string): string {
+  let safeURL: string = url;
+  if (getURLParameter(safeURL, URLConstants.Parameters.SIGNATURE)) {
+    safeURL = setURLParameter(safeURL, URLConstants.Parameters.SIGNATURE, "*****");
+  }
+
+  return safeURL;
+}
+
+export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
+  const headers: HttpHeaders = new HttpHeaders();
+  for (const header of originalHeader.headersArray()) {
+    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION.toLowerCase()) {
+      headers.set(header.name, "*****");
+    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(header.name, sanitizeURL(header.value));
+    } else {
+      headers.set(header.name, header.value);
+    }
+  }
+
+  return headers;
+}
 /**
  * If two strings are equal when compared case insensitive.
  *
@@ -363,4 +521,32 @@ export function padStart(
  */
 export function iEqual(str1: string, str2: string): boolean {
   return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
+}
+
+/**
+ * Extracts account name from the url
+ * @param {string} url url to extract the account name from
+ * @returns {string} with the account name
+ */
+export function getAccountNameFromUrl(url: string): string {
+  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  let accountName;
+  try {
+    if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+      // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+      accountName = parsedUrl.getHost()!.split(".")[0];
+    } else {
+      // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
+      // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
+      // .getPath() -> /devstoreaccount1/
+      accountName = parsedUrl.getPath()!.split("/")[1];
+    }
+
+    if (!accountName) {
+      throw new Error("Provided accountName is invalid.");
+    }
+    return accountName;
+  } catch (error) {
+    throw new Error("Unable to extract accountName with provided information.");
+  }
 }

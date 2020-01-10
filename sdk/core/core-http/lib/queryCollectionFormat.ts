@@ -9,5 +9,5 @@ export enum QueryCollectionFormat {
   Ssv = " ",
   Tsv = "\t",
   Pipes = "|",
-  Multi = "Multi",
+  Multi = "Multi"
 }

@@ -92,9 +92,32 @@ export class ExpressRouteCircuits {
    * @param [options] The optional parameters
    * @returns Promise<Models.ExpressRouteCircuitsUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, circuitName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsUpdateTagsResponse> {
-    return this.beginUpdateTags(resourceGroupName,circuitName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteCircuitsUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, circuitName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteCircuitsUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param circuitName The name of the circuit.
+   * @param parameters Parameters supplied to update express route circuit tags.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, circuitName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.ExpressRouteCircuit>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param circuitName The name of the circuit.
+   * @param parameters Parameters supplied to update express route circuit tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, circuitName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ExpressRouteCircuit>): void;
+  updateTags(resourceGroupName: string, circuitName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ExpressRouteCircuit>, callback?: msRest.ServiceCallback<Models.ExpressRouteCircuit>): Promise<Models.ExpressRouteCircuitsUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        circuitName,
+        parameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.ExpressRouteCircuitsUpdateTagsResponse>;
   }
 
   /**
@@ -301,26 +324,6 @@ export class ExpressRouteCircuits {
   }
 
   /**
-   * Updates an express route circuit tags.
-   * @param resourceGroupName The name of the resource group.
-   * @param circuitName The name of the circuit.
-   * @param parameters Parameters supplied to update express route circuit tags.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginUpdateTags(resourceGroupName: string, circuitName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        circuitName,
-        parameters,
-        options
-      },
-      beginUpdateTagsOperationSpec,
-      options);
-  }
-
-  /**
    * Gets the currently advertised ARP table associated with the express route circuit in a resource
    * group.
    * @param resourceGroupName The name of the resource group.
@@ -462,6 +465,38 @@ const getOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExpressRouteCircuit
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.circuitName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.ExpressRouteCircuit
@@ -622,38 +657,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ExpressRouteCircuit
     },
     201: {
-      bodyMapper: Mappers.ExpressRouteCircuit
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.circuitName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
-  responses: {
-    200: {
       bodyMapper: Mappers.ExpressRouteCircuit
     },
     default: {

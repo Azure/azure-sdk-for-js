@@ -11,14 +11,14 @@ jobs:
     pool:
       vmImage: windows-2019
     steps:
-      - powershell: |
+      - pwsh: |
           $localEtag = ""
           try {
             $localEtag = Get-Content "$env:ProgramFiles\Azure Cosmos DB Emulator\etag.txt"
           } 
           catch {}
           Write-Host "Local emulator etag $localEtag"
-          $headResponse = Invoke-WebRequest 'https://aka.ms/cosmosdb-emulator' -Method 'HEAD'
+          $headResponse = Invoke-WebRequest -MaximumRetryCount 10 'https://aka.ms/cosmosdb-emulator' -Method 'HEAD'
           Write-Host $headResponse.headers
           $remoteEtag = $headResponse.headers.ETag
           Write-Host "Remote emulator etag $remoteEtag"

@@ -136,6 +136,7 @@ export class ServiceBusClient {
    * Creates a QueueClient for an existing Service Bus Queue.
    * @param {string} queueName The queue name.
    * @returns QueueClient.
+   * @throws Error if the underlying connection is closed.
    */
   createQueueClient(queueName: string): QueueClient {
     const client = new QueueClient(queueName, this._context);
@@ -147,6 +148,8 @@ export class ServiceBusClient {
    * Creates a TopicClient for an existing Service Bus Topic.
    * @param {string} topicName The topic name.
    * @returns TopicClient.
+   * @throws
+   * @throws Error if the underlying connection is closed.
    */
   createTopicClient(topicName: string): TopicClient {
     const client = new TopicClient(topicName, this._context);
@@ -159,6 +162,7 @@ export class ServiceBusClient {
    * @param {string} topicName The topic name.
    * @param {string} subscriptionName The subscription name.
    * @returns SubscriptionClient.
+   * @throws Error if the underlying connection is closed.
    */
   createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient {
     const client = new SubscriptionClient(topicName, subscriptionName, this._context);

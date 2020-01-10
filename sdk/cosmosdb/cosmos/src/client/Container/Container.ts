@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import {
   createDocumentCollectionUri,
@@ -99,7 +101,7 @@ export class Container {
    * @param id The id of the {@link Item}.
    * @param partitionKey The partition key of the {@link Item}
    * @example Replace an item
-   * const {body: replacedItem} = await container.item("<item id>").replace({id: "<item id>", title: "Updated post", authorID: 5});
+   * const {body: replacedItem} = await container.item("<item id>", "<partition key>").replace({id: "<item id>", title: "Updated post", authorID: 5});
    */
   public item(id: string, partitionKey: any): Item {
     return new Item(this, id, partitionKey, this.clientContext);
@@ -131,7 +133,10 @@ export class Container {
   }
 
   /** Replace the container's definition */
-  public async replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse> {
+  public async replace(
+    body: ContainerDefinition,
+    options?: RequestOptions
+  ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
       throw err;
@@ -166,12 +171,23 @@ export class Container {
 
   /**
    * Gets the partition key definition first by looking into the cache otherwise by reading the collection.
-   * @ignore
+   * @deprecated This method has been renamed to readPartitionKeyDefinition.
    * @param {string} collectionLink   - Link to the collection whose partition key needs to be extracted.
    * @param {function} callback       - \
    * The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers
    */
   public async getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
+    return this.readPartitionKeyDefinition();
+  }
+
+  /**
+   * Gets the partition key definition first by looking into the cache otherwise by reading the collection.
+   * @ignore
+   * @param {string} collectionLink   - Link to the collection whose partition key needs to be extracted.
+   * @param {function} callback       - \
+   * The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers
+   */
+  public async readPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>> {
     // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
     // $ISSUE-felixfan-2016-03-17: Refresh partitionKeyDefinitionCache when necessary
     if (this.url in this.clientContext.partitionKeyDefinitionCache) {
@@ -190,9 +206,16 @@ export class Container {
     );
   }
 
-  public async getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>> {
+  public async getQueryPlan(
+    query: string | SqlQuerySpec
+  ): Promise<Response<PartitionedQueryExecutionInfo>> {
     const path = getPathFromLink(this.url);
-    return this.clientContext.getQueryPlan(path + "/docs", ResourceType.item, getIdFromLink(this.url), query);
+    return this.clientContext.getQueryPlan(
+      path + "/docs",
+      ResourceType.item,
+      getIdFromLink(this.url),
+      query
+    );
   }
 
   public readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange> {

@@ -1,4 +1,6 @@
-﻿import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 import { CosmosClient, IndexKind, DataType } from "../dist";
 import { endpoint, key, database as databaseId, container as containerId } from "./Shared/config";
 
@@ -54,11 +56,11 @@ async function run() {
 
   const indexingPolicySpec = { automatic: false };
 
-  //Index transform is an async operation that is performed on a Container
-  //You can contiue to use the container while this is happening, but depending
-  //on the transform and your queries you may get inconsistent results as the index is updated
-  //In this case it will be almost instant because we only have one item
-  //but this can take some time on larger containers
+  // Index transform is an async operation that is performed on a Container
+  // You can contiue to use the container while this is happening, but depending
+  // on the transform and your queries you may get inconsistent results as the index is updated
+  // In this case it will be almost instant because we only have one item
+  // but this can take some time on larger containers
   await container.replace({
     id: containerId,
     partitionKey: containerDef.partitionKey,
@@ -113,16 +115,16 @@ async function run() {
 
   console.log("Container '" + containerDef.id + "' updated with new index policy");
 
-  //create an item
+  // create an item
   console.log("Creating item");
   await container.items.create({ id: "item3", stringField: "a string value" });
   console.log("Item created");
 
   console.log("Querying for item where stringField > 'a', should return results");
-  //notice how we're switching to queryIterator.executeNext instead of calling .fetchAll() as before
-  //reason being, fetchAll will issue multiple requests to the server until it has fetched all results
-  //here we can control this using executeNext.
-  //now we can get the headers for each request which includes the charge, continuation tokens etc.
+  // notice how we're switching to queryIterator.executeNext instead of calling .fetchAll() as before
+  // reason being, fetchAll will issue multiple requests to the server until it has fetched all results
+  // here we can control this using executeNext.
+  // now we can get the headers for each request which includes the charge, continuation tokens etc.
   const queryIterator = container.items.query(
     {
       query: "SELECT * FROM root r WHERE r.stringField > @value",
@@ -144,8 +146,8 @@ async function run() {
     id: containerId,
     partitionKey: containerDef.partitionKey,
     indexingPolicy: {
-      //the special "/" must always be included somewhere. in this case we're including root
-      //and then excluding specific paths
+      // the special "/" must always be included somewhere. in this case we're including root
+      // and then excluding specific paths
       includedPaths: [
         {
           path: "/",
@@ -167,7 +169,7 @@ async function run() {
   });
 
   console.log("Container '" + containerDef.id + "' updated with excludedPaths");
-  //create an item
+  // create an item
   console.log("Creating item");
   const { item: item4 } = await container.items.create({
     id: "item4",
@@ -180,8 +182,8 @@ async function run() {
 
   console.log("Item created");
   try {
-    //expecting an exception on this query due to the fact that it includes paths that
-    //have been excluded. If you want to force a scan, then enableScanInQuery
+    // expecting an exception on this query due to the fact that it includes paths that
+    // have been excluded. If you want to force a scan, then enableScanInQuery
     console.log("Querying for item where metaData = 'meta', should throw an exception");
     const result = await container.items
       .query({
@@ -204,7 +206,7 @@ async function run() {
     }
   }
 
-  //You can still read the item by its id
+  // You can still read the item by its id
   console.log("Can still item.read() using '" + item4.id + "'");
   await item.read();
   await finish();

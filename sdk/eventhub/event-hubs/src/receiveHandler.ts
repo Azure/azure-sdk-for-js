@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { EventHubReceiver } from "./eventHubReceiver";
-import * as log from "./log";
+import { logger, logErrorStackTrace } from "./log";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers.
@@ -54,19 +54,20 @@ export class ReceiveHandler {
   /**
    * Stops the underlying EventHubReceiver from receiving more messages.
    * @returns Promise<void>
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   async stop(): Promise<void> {
     if (this._receiver) {
       try {
         await this._receiver.close();
       } catch (err) {
-        log.error(
+        logger.warning(
           "An error occurred while stopping the receiver '%s' with address '%s': %O",
           this._receiver.name,
           this._receiver.address,
           err
         );
+        logErrorStackTrace(err);
       }
     }
   }

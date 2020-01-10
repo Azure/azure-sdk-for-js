@@ -82,6 +82,18 @@ export const apiVersion10: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2017-12-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion11: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
     defaultValue: '2018-11-27-preview',
     type: {
       name: "String"
@@ -106,7 +118,7 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-03-01',
+    defaultValue: '2019-06-01',
     type: {
       name: "String"
     }
@@ -154,7 +166,7 @@ export const apiVersion7: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-03-01',
+    defaultValue: '2019-03-01',
     type: {
       name: "String"
     }
@@ -166,7 +178,7 @@ export const apiVersion8: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-04-16',
+    defaultValue: '2018-03-01',
     type: {
       name: "String"
     }
@@ -178,7 +190,7 @@ export const apiVersion9: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2017-12-01-preview',
+    defaultValue: '2018-04-16',
     type: {
       name: "String"
     }
@@ -194,7 +206,17 @@ export const autoscaleSettingName: msRest.OperationURLParameter = {
     }
   }
 };
-export const filter: msRest.OperationQueryParameter = {
+export const filter0: msRest.OperationQueryParameter = {
+  parameterPath: "filter",
+  mapper: {
+    required: true,
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const filter1: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "filter"

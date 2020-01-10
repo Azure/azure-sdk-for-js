@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys";
 export { StatusCodes } from "./common";
 export { extractPartitionKey } from "./extractPartitionKey";
@@ -35,3 +37,4 @@ export { CosmosClient } from "./CosmosClient";
 export { CosmosClientOptions } from "./CosmosClientOptions";
 export * from "./client";
 export { Next, Plugin, PluginConfig, PluginOn } from "./plugins/Plugin";
+export { TokenProvider, RequestInfo } from "./auth";

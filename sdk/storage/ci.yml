@@ -40,7 +40,9 @@ stages:
       Artifacts:
         - name: azure-storage-blob
           safeName: azurestorageblob
-        - name: azure-storage-file
-          safeName: azurestoragefile
+        - name: azure-storage-file-share
+          safeName: azurestoragefileshare
+        - name: azure-storage-file-datalake
+          safeName: azurestoragefiledatalake
         - name: azure-storage-queue
           safeName: azurestoragequeue

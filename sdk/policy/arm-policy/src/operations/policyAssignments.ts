@@ -583,7 +583,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -614,7 +614,7 @@ const createOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicyAssignment
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -638,7 +638,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicyAssignment
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -663,7 +663,7 @@ const listForResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicyAssignmentListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -692,7 +692,7 @@ const listForResourceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicyAssignmentListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -716,7 +716,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicyAssignmentListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -740,7 +740,7 @@ const deleteByIdOperationSpec: msRest.OperationSpec = {
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -770,7 +770,7 @@ const createByIdOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicyAssignment
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -793,7 +793,7 @@ const getByIdOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicyAssignment
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -814,7 +814,7 @@ const listForResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicyAssignmentListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -835,7 +835,7 @@ const listForResourceNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicyAssignmentListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -856,7 +856,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PolicyAssignmentListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

@@ -1,5 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 // tslint:disable:no-console
-
 import { v4 as guid } from "uuid";
 import { CosmosClient, Item, ItemDefinition, Items, OperationType, Resource, StatusCodes } from "../../dist";
 import logger from "./logger";

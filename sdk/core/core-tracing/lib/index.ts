@@ -1,29 +1,21 @@
-export { TracerProxy } from "./tracerProxy";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
-// Utils
-export { SupportedPlugins } from "./utils/supportedPlugins";
+export { getTracer, setTracer } from "./tracerProxy";
 
-// Plugins
-export { NoOpSpanPlugin } from "./plugins/noop/noOpSpanPlugin";
-export { NoOpTracePlugin } from "./plugins/noop/noOpTracePlugin";
-export { OpenCensusSpanPlugin } from "./plugins/opencensus/openCensusSpanPlugin";
-export { OpenCensusTracePlugin } from "./plugins/opencensus/openCensusTracePlugin";
+// Tracers and wrappers
+export { NoOpSpan } from "./tracers/noop/noOpSpan";
+export { NoOpTracer } from "./tracers/noop/noOpTracer";
+export { OpenCensusSpanWrapper } from "./tracers/opencensus/openCensusSpanWrapper";
+export { OpenCensusTracerWrapper } from "./tracers/opencensus/openCensusTracerWrapper";
+export { TestTracer, SpanGraph, SpanGraphNode } from "./tracers/test/testTracer";
+export { TestSpan } from "./tracers/test/testSpan";
 
-// Implementations
-export { SpanNoOpImpl } from "./implementations/noop/spanNoOpImpl";
-export { TracerNoOpImpl } from "./implementations/noop/tracerNoOpImpl";
+// Utilities
+export {
+  extractSpanContextFromTraceParentHeader,
+  getTraceParentHeader
+} from "./utils/traceParentHeader";
 
-// Interfaces
-export { Attributes } from "./interfaces/attributes";
-export { Event } from "./interfaces/Event";
-export { Link } from "./interfaces/link";
-export { Sampler } from "./interfaces/Sampler";
-export { SpanContext } from "./interfaces/span_context";
-export { SpanKind } from "./interfaces/span_kind";
-export { Span } from "./interfaces/span";
-export { SpanOptions } from "./interfaces/SpanOptions";
-export { Status, CanonicalCode } from "./interfaces/status";
-export { TimedEvent } from "./interfaces/TimedEvent";
-export { TraceOptions } from "./interfaces/trace_options";
-export { TraceState } from "./interfaces/trace_state";
-export { Tracer } from "./interfaces/tracer";
+// OpenCensus Interfaces
+export { Tracer as OpenCensusTracer, Span as OpenCensusSpan } from "@opencensus/web-types";

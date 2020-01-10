@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AbortError } from "@azure/abort-controller";
 import { HttpClient } from "./httpClient";
 import { HttpHeaders } from "./httpHeaders";
 import { WebResource, TransferProgressEvent } from "./webResource";
@@ -20,6 +21,10 @@ export class XhrHttpClient implements HttpClient {
 
     const abortSignal = request.abortSignal;
     if (abortSignal) {
+      if (abortSignal.aborted) {
+        return Promise.reject(new AbortError("The operation was aborted."));
+      }
+
       const listener = () => {
         xhr.abort();
       };
@@ -97,31 +102,41 @@ export class XhrHttpClient implements HttpClient {
         rejectOnTerminalEvent(request, xhr, reject);
       });
     } else {
-      return new Promise(function (resolve, reject) {
-        xhr.addEventListener("load", () => resolve({
-          request,
-          status: xhr.status,
-          headers: parseHeaders(xhr),
-          bodyAsText: xhr.responseText
-        }));
+      return new Promise(function(resolve, reject) {
+        xhr.addEventListener("load", () =>
+          resolve({
+            request,
+            status: xhr.status,
+            headers: parseHeaders(xhr),
+            bodyAsText: xhr.responseText
+          })
+        );
         rejectOnTerminalEvent(request, xhr, reject);
       });
     }
   }
 }
 
-function addProgressListener(xhr: XMLHttpRequestEventTarget, listener?: (progress: TransferProgressEvent) => void) {
+function addProgressListener(
+  xhr: XMLHttpRequestEventTarget,
+  listener?: (progress: TransferProgressEvent) => void
+) {
   if (listener) {
-    xhr.addEventListener("progress", rawEvent => listener({
-      loadedBytes: rawEvent.loaded
-    }));
+    xhr.addEventListener("progress", (rawEvent) =>
+      listener({
+        loadedBytes: rawEvent.loaded
+      })
+    );
   }
 }
 
 // exported locally for testing
 export function parseHeaders(xhr: XMLHttpRequest) {
   const responseHeaders = new HttpHeaders();
-  const headerLines = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/);
+  const headerLines = xhr
+    .getAllResponseHeaders()
+    .trim()
+    .split(/[\r\n]+/);
   for (const line of headerLines) {
     const index = line.indexOf(":");
     const headerName = line.slice(0, index);
@@ -131,8 +146,30 @@ export function parseHeaders(xhr: XMLHttpRequest) {
   return responseHeaders;
 }
 
-function rejectOnTerminalEvent(request: WebResource, xhr: XMLHttpRequest, reject: (err: any) => void) {
-  xhr.addEventListener("error", () => reject(new RestError(`Failed to send request to ${request.url}`, RestError.REQUEST_SEND_ERROR, undefined, request)));
-  xhr.addEventListener("abort", () => reject(new RestError("The request was aborted", RestError.REQUEST_ABORTED_ERROR, undefined, request)));
-  xhr.addEventListener("timeout", () => reject(new RestError(`timeout of ${xhr.timeout}ms exceeded`, RestError.REQUEST_SEND_ERROR, undefined, request)));
+function rejectOnTerminalEvent(
+  request: WebResource,
+  xhr: XMLHttpRequest,
+  reject: (err: any) => void
+) {
+  xhr.addEventListener("error", () =>
+    reject(
+      new RestError(
+        `Failed to send request to ${request.url}`,
+        RestError.REQUEST_SEND_ERROR,
+        undefined,
+        request
+      )
+    )
+  );
+  xhr.addEventListener("abort", () => reject(new AbortError("The operation was aborted.")));
+  xhr.addEventListener("timeout", () =>
+    reject(
+      new RestError(
+        `timeout of ${xhr.timeout}ms exceeded`,
+        RestError.REQUEST_SEND_ERROR,
+        undefined,
+        request
+      )
+    )
+  );
 }

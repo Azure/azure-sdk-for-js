@@ -6,6 +6,7 @@ export { env, delay, isPlaybackMode, isRecordMode } from "./utils";
 export {
   setReplaceableVariables,
   setReplacements,
-  setEnviromentOnLoad,
+  setEnvironmentOnLoad,
   skipQueryParams
 } from "./baseRecorder";
+export { jsonRecordingFilterFunction } from "./basekarma.conf";

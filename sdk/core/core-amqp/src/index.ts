@@ -61,3 +61,4 @@ export {
   AsyncLock,
   isNode
 } from "./util/utils";
+export { logger } from "./log";

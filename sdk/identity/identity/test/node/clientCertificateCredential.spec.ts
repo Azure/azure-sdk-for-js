@@ -7,6 +7,7 @@ import path from "path";
 import assert from "assert";
 import { ClientCertificateCredential } from "../../src";
 import { MockAuthHttpClient } from "../authTestUtils";
+import { setTracer, TestTracer, SpanGraph } from "@azure/core-tracing";
 
 describe("ClientCertificateCredential", function() {
   it("loads a PEM-formatted certificate from a file", () => {
@@ -34,7 +35,7 @@ describe("ClientCertificateCredential", function() {
     });
   });
 
-  it("sends a correctly formated token request", async () => {
+  it("sends a correctly formatted token request", async () => {
     const tenantId = "tenantId";
     const clientId = "clientId";
     const mockHttpClient = new MockAuthHttpClient();
@@ -43,7 +44,7 @@ describe("ClientCertificateCredential", function() {
       tenantId,
       clientId,
       path.resolve(__dirname, "../test/azure-identity-test.crt"),
-      mockHttpClient.identityClientOptions
+      mockHttpClient.tokenCredentialOptions
     );
 
     await credential.getToken("scope");
@@ -75,5 +76,58 @@ describe("ClientCertificateCredential", function() {
         "Audience does not have the correct authority or tenantId"
       );
     }
+  });
+
+  it("sends a correctly formatted token request while tracing", async () => {
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    const tenantId = "tenantId";
+    const clientId = "clientId";
+    const mockHttpClient = new MockAuthHttpClient();
+
+    const rootSpan = tracer.startSpan("root");
+
+    const credential = new ClientCertificateCredential(
+      tenantId,
+      clientId,
+      path.resolve(__dirname, "../test/azure-identity-test.crt"),
+      mockHttpClient.tokenCredentialOptions
+    );
+
+    await credential.getToken("scope", {
+      tracingOptions: {
+        spanOptions: {
+          parent: rootSpan
+        }
+      }
+    });
+
+    rootSpan.end();
+
+    const rootSpans = tracer.getRootSpans();
+    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+    const expectedGraph: SpanGraph = {
+      roots: [
+        {
+          name: rootSpan.name,
+          children: [
+            {
+              name: "Azure.Identity.ClientCertificateCredential-getToken",
+              children: [
+                {
+                  children: [],
+                  name: "/tenantId/oauth2/v2.0/token"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });

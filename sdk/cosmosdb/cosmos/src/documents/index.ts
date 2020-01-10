@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export * from "./ConnectionMode";
 export * from "./ConnectionPolicy";
 export * from "./ConsistencyLevel";

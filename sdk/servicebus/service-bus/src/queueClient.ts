@@ -17,7 +17,6 @@ import {
 } from "./util/errors";
 import { generate_uuid } from "rhea-promise";
 import { ClientEntityContext } from "./clientEntityContext";
-import { getAssociatedReceiverName } from "../src/util/utils";
 
 /**
  * Describes the client that allows interacting with a Service Bus Queue.
@@ -52,6 +51,7 @@ export class QueueClient implements Client {
    * @internal
    * @param queueName The Queue name.
    * @param context The connection context to create the QueueClient.
+   * @throws Error if the underlying connection is closed.
    */
   constructor(queueName: string, context: ConnectionContext) {
     throwErrorIfConnectionClosed(context);
@@ -91,7 +91,8 @@ export class QueueClient implements Client {
   /**
    * Creates a Sender to be used for sending messages, scheduling messages to be sent at a later time
    * and cancelling such scheduled messages.
-   * - Throws error if an open sender already exists for this QueueClient.
+   * @throws Error if the QueueClient or the underlying connection is closed.
+   * @throws Error if an open sender already exists on the QueueClient.
    */
   createSender(): Sender {
     throwErrorIfClientOrConnectionClosed(
@@ -111,10 +112,6 @@ export class QueueClient implements Client {
 
   /**
    * Creates a Receiver for receiving messages from a Queue which does not have sessions enabled.
-   * - Throws error if an open receiver already exists for this QueueClient.
-   * - Throws `InvalidOperationError` if the Queue has sessions enabled (in which case, use the
-   * overload of this method which takes `sessionOptions` argument)
-   *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are:
    * - `ReceiveMode.peekLock`: Once a message is received in this mode, the receiver has a lock on
@@ -125,15 +122,17 @@ export class QueueClient implements Client {
    *
    * @returns Receiver A receiver to receive messages from a Queue which does not have
    * sessions enabled.
+   * @throws Error if the QueueClient or the underlying connection is closed.
+   * @throws Error if an open receiver already exists on the QueueClient.
+   * @throws MessagingError with name `InvalidOperationError` if the Queue has sessions enabled
+   * (in which case, use the overload of this method which takes
+   * `sessionOptions` argument)
    */
   public createReceiver(receiveMode: ReceiveMode): Receiver;
+  
   /**
    * Creates a Receiver for receiving messages from a session enabled Queue. When no sessionId is
    * given, a random session among the available sessions is used.
-   * - Throws error if an open receiver already exists for given sessionId.
-   * - Throws `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
-   * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
-   * the session (in which case try again after some time)
    *
    * @param receiveMode An enum indicating the mode in which messages should be received. Possible
    * values are:
@@ -146,23 +145,17 @@ export class QueueClient implements Client {
    * the session receiver.
    *
    * @returns SessionReceiver A receiver to receive from a session in the Queue.
+   * @throws Error if the QueueClient or the underlying connection is closed.
+   * @throws Error if an open receiver already exists on the QueueClient for given sessionId.
+   * @throws MessagingError with name `SessionCannotBeLockedError` if the Queue does not have sessions enabled (in which
+   * case do not pass the `sessionOptions` argument) or if Service Bus is not able to get a lock on
+   * the session (in which case try again after some time)
    */
   public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions: SessionReceiverOptions
   ): SessionReceiver;
-  /**
-   * Create a Receiver for receiving messages from a Queue.
-   *
-   * @param receiveMode An enum indicating the mode in which messages should be received. Possible
-   * values are `ReceiveMode.peekLock` and `ReceiveMode.receiveAndDelete`
-   * @param sessionOptions Applicable only for Queues that have sessions enabled. Use these options
-   * to provide sessionId and duration for which automatic lock renewal for should be done for the
-   * receiver.
-   *
-   * @returns Receiver|SessionReceiver A receiver to receive from a session in the Queue if
-   * `sessionOptions` were provided. Else, a receiver to receive messages from the Queue.
-   */
+
   public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions?: SessionReceiverOptions
@@ -196,7 +189,9 @@ export class QueueClient implements Client {
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`. The lock on it cannot be renewed.
    *
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
-   * @returns Promise<ReceivedSBMessage[]>
+   * @returns Promise<ReceivedMessageInfo[]>
+   * @throws Error if the QueueClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error while peeking for messages.
    */
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     throwErrorIfClientOrConnectionClosed(
@@ -205,10 +200,7 @@ export class QueueClient implements Client {
       this._context.isClosed
     );
 
-    return this._context.managementClient!.peek(
-      maxMessageCount,
-      getAssociatedReceiverName(this._context)
-    );
+    return this._context.managementClient!.peek(maxMessageCount);
   }
 
   /**
@@ -219,7 +211,9 @@ export class QueueClient implements Client {
    *
    * @param fromSequenceNumber The sequence number from where to read the message.
    * @param [maxMessageCount] The maximum number of messages to peek. Default value `1`.
-   * @returns Promise<ReceivedSBMessage[]>
+   * @returns Promise<ReceivedMessageInfo[]>
+   * @throws Error if the QueueClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error while peeking for messages.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
@@ -233,9 +227,7 @@ export class QueueClient implements Client {
 
     return this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
-      maxMessageCount,
-      undefined,
-      getAssociatedReceiverName(this._context)
+      maxMessageCount
     );
   }
 

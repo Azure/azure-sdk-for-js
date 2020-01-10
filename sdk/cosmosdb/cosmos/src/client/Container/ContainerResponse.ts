@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request/ResourceResponse";
 import { Resource } from "../Resource";

@@ -10,19 +10,16 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import {
-  EventHubClient,
-  EventPosition,
-  TokenCredential,
-  EventHubProducer,
-  EventHubConsumer
-} from "../src";
+import { TokenCredential, earliestEventPosition } from "../src";
+import { EventHubClient } from "../src/impl/eventHubClient";
 import { packageJsonInfo } from "../src/util/constants";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
 import { EnvironmentCredential } from "@azure/identity";
+import { EventHubConsumer } from "../src/receiver";
+import { EventHubProducer } from "../src/sender";
 const env = getEnvVars();
 
-describe("Create EventHubClient #RunnableInBrowser", function(): void {
+describe("Create EventHubClient using connection string #RunnableInBrowser", function(): void {
   it("throws when it cannot find the Event Hub name", function(): void {
     const connectionString = "Endpoint=sb://abc";
     const test = function(): EventHubClient {
@@ -57,6 +54,13 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
     should.equal(client.eventHubName, "my-event-hub-name");
   });
 
+  it("Verify fullyQualifiedNamespace creating an EventHubClient using a connection string", function(): void {
+    const client = new EventHubClient(
+      "Endpoint=sb://test.servicebus.windows.net/;SharedAccessKeyName=a;SharedAccessKey=b;EntityPath=my-event-hub-name"
+    );
+    should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
+  });
+
   it("creates an EventHubClient from a connection string and an Event Hub name", function(): void {
     const client = new EventHubClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c",
@@ -75,11 +79,13 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
         };
       }
     };
-    const client = new EventHubClient("abc","my-event-hub-name", dummyCredential);
+    const client = new EventHubClient("abc", "my-event-hub-name", dummyCredential);
     client.should.be.an.instanceof(EventHubClient);
     should.equal(client.eventHubName, "my-event-hub-name");
   });
+});
 
+describe("Create EventHubClient using Azure Identity", function(): void {
   it("creates an EventHubClient from an Azure.Identity credential", async function(): Promise<
     void
   > {
@@ -108,14 +114,21 @@ describe("Create EventHubClient #RunnableInBrowser", function(): void {
 
     // Extra check involving actual call to the service to ensure this works
     const hubInfo = await client.getProperties();
-    should.equal(hubInfo.path, client.eventHubName);
+    should.equal(hubInfo.name, client.eventHubName);
     await client.close();
+  });
+
+  it("Verify fullyQualifiedNamespace when creating an EventHubClient from an Azure.Identity credential", function(): void {
+    const endpoint = "test.servicebus.windows.net";
+    const credential = new EnvironmentCredential();
+    const client = new EventHubClient(endpoint, "my-event-hub-name", credential);
+    should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
   });
 });
 
-describe("ServiceCommunicationError for non existent namespace", function(): void {
+describe("ServiceCommunicationError for non existent namespace #RunnableInBrowser", function(): void {
   let client: EventHubClient;
-
+  const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError"
   beforeEach(() => {
     client = new EventHubClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
@@ -134,7 +147,7 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -146,7 +159,7 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -159,7 +172,7 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -170,18 +183,18 @@ describe("ServiceCommunicationError for non existent namespace", function(): voi
       const receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        EventPosition.earliest()
+        earliestEventPosition
       );
       await receiver.receiveBatch(10, 5);
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 });
 
-describe("MessagingEntityNotFoundError for non existent eventhub", function(): void {
+describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrowser", function(): void {
   let client: EventHubClient;
 
   beforeEach(() => {
@@ -204,7 +217,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -216,7 +229,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -229,7 +242,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -240,13 +253,13 @@ describe("MessagingEntityNotFoundError for non existent eventhub", function(): v
       const receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        EventPosition.earliest()
+        earliestEventPosition
       );
       await receiver.receiveBatch(10, 5);
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 });
@@ -306,7 +319,7 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
   });
 });
 
-describe("Errors after close()", function(): void {
+describe("Errors after close() #RunnableInBrowser", function(): void {
   let client: EventHubClient;
   let sender: EventHubProducer;
   let receiver: EventHubConsumer;
@@ -336,11 +349,9 @@ describe("Errors after close()", function(): void {
     await sender.send({ body: "dummy send to ensure AMQP connection is opened" });
 
     // Ensure receiver link is opened
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      "0",
-      EventPosition.fromEnqueuedTime(timeNow)
-    );
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", {
+      enqueuedOn: timeNow
+    });
     const msgs = await receiver.receiveBatch(1, 10);
     should.equal(msgs.length, 1);
 
@@ -392,7 +403,10 @@ describe("Errors after close()", function(): void {
 
     let errorReceiveStream: string = "";
     try {
-      receiver.receive(() => Promise.resolve(), (e) => console.log(e));
+      receiver.receive(
+        () => Promise.resolve(),
+        (e) => console.log(e)
+      );
     } catch (err) {
       errorReceiveStream = err.message;
     }
@@ -423,7 +437,7 @@ describe("Errors after close()", function(): void {
       receiver = client.createConsumer(
         EventHubClient.defaultConsumerGroupName,
         "0",
-        EventPosition.earliest()
+        earliestEventPosition
       );
     } catch (err) {
       errorNewReceiver = err.message;
@@ -436,7 +450,7 @@ describe("Errors after close()", function(): void {
 
     let errorGetPartitionIds: string = "";
     try {
-      await client.getPartitionIds();
+      await client.getPartitionIds({});
     } catch (err) {
       errorGetPartitionIds = err.message;
     }

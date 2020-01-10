@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TracerProxy, TraceOptions } from "@azure/core-tracing";
+import { getTracer, getTraceParentHeader } from "@azure/core-tracing";
+import { SpanOptions, SpanKind } from "@opentelemetry/types";
 import {
   RequestPolicyFactory,
   RequestPolicy,
@@ -10,18 +11,30 @@ import {
 } from "./requestPolicy";
 import { WebResource } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { URLBuilder } from "../url";
 
-export function tracingPolicy(): RequestPolicyFactory {
+export interface TracingPolicyOptions {
+  userAgent?: string;
+}
+
+export function tracingPolicy(tracingOptions: TracingPolicyOptions = {}): RequestPolicyFactory {
   return {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
-      return new TracingPolicy(nextPolicy, options);
+      return new TracingPolicy(nextPolicy, options, tracingOptions);
     }
   };
 }
 
 export class TracingPolicy extends BaseRequestPolicy {
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
+  private userAgent?: string;
+
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    tracingOptions: TracingPolicyOptions
+  ) {
     super(nextPolicy, options);
+    this.userAgent = tracingOptions.userAgent;
   }
 
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -30,19 +43,29 @@ export class TracingPolicy extends BaseRequestPolicy {
     }
 
     // create a new span
-    const tracer = TracerProxy.getTracer();
-    const span = tracer.startSpan("core-http", request.spanOptions);
+    const tracer = getTracer();
+    const spanOptions: SpanOptions = {
+      ...request.spanOptions,
+      kind: SpanKind.CLIENT
+    };
+    const path = URLBuilder.parse(request.url).getPath() || "/";
+    const span = tracer.startSpan(path, spanOptions);
+    span.setAttributes({
+      "http.method": request.method,
+      "http.url": request.url,
+      requestId: request.requestId
+    });
 
-    span.start();
+    if (this.userAgent) {
+      span.setAttribute("http.user_agent", this.userAgent);
+    }
 
     try {
       // set headers
       const spanContext = span.context();
-      if (spanContext.spanId && spanContext.traceId) {
-        request.headers.set(
-          "traceparent",
-          `${spanContext.traceId}-${spanContext.spanId}-${spanContext.traceOptions || TraceOptions.UNSAMPLED}`
-        );
+      const traceParentHeader = getTraceParentHeader(spanContext);
+      if (traceParentHeader) {
+        request.headers.set("traceparent", traceParentHeader);
         const traceState = spanContext.traceState && spanContext.traceState.serialize();
         // if tracestate is set, traceparent MUST be set, so only set tracestate after traceparent
         if (traceState) {
@@ -51,6 +74,11 @@ export class TracingPolicy extends BaseRequestPolicy {
       }
 
       const response = await this._nextPolicy.sendRequest(request);
+      span.setAttribute("http.status_code", response.status);
+      const serviceRequestId = response.headers.get("x-ms-request-id");
+      if (serviceRequestId) {
+        span.setAttribute("serviceRequestId", serviceRequestId);
+      }
       span.end();
       return response;
     } catch (err) {

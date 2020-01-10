@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /**
  * Enum for udf type values.
  * Specifies the types of user defined functions.

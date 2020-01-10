@@ -4,63 +4,14 @@
 import { translate, Constants, ErrorNameConditionMapper } from "@azure/core-amqp";
 
 /**
- * Describes the options that can be set while creating an EventPosition.
- * @internal
- * @ignore
- * @interface EventPositionOptions
- */
-export interface EventPositionOptions {
-  /**
-   * @property The offset of the event at the position. It can be undefined
-   * if the position is just created from a sequence number or an enqueued time.
-   */
-  offset?: number | "@latest";
-  /**
-   * @property Indicates if the current event at the specified offset is
-   * included or not. It is only applicable if offset is set. Default value: false.
-   */
-  isInclusive?: boolean;
-  /**
-   * @property The enqueued time of the event at the position. It can be undefined
-   * if the position is just created from a sequence number or an offset.
-   */
-  enqueuedTime?: Date | number;
-
-  /**
-   * @property The sequence number of the event at the position. It can be undefined
-   * if the position is just created from an enqueued time or an offset.
-   */
-  sequenceNumber?: number;
-}
-
-/**
- * Represents the position of an event in an Event Hub partition, typically used in the creation of
- * an `EventHubConsumer` to specify the position in the partition to begin receiving events from.
+ * Represents the position of an event in an Event Hub partition, typically used when calling the `subscribe()`
+ * method on an `EventHubConsumerClient` to specify the position in the partition to begin receiving events from.
  *
- * Make use of the below static helpers to create an instance of `EventPosition`
- * - `fromOffset()`
- * - `fromSequenceNumber()`
- * - `fromEnqueuedTime()`
- * - `earliest()`
- * - `latest()`
- * @class
+ * To get an EventPosition representing the start or end of the stream, use the constants
+ * `earliestEventPosition` and `latestEventPosition` respectively.
+ *
  */
-export class EventPosition {
-  /**
-   * @property The token that represents the beginning event in the stream of a partition: `-1`.
-   * @static
-   * @readonly
-   * @ignore
-   */
-  private static readonly startOfStream: number = -1;
-
-  /**
-   * @property The token that represents the last event in the stream of a partition: `"@latest"`.
-   * @static
-   * @readonly
-   * @ignore
-   */
-  private static readonly endOfStream = "@latest";
+export interface EventPosition {
   /**
    * @property The offset of the event identified by this position.
    * Expected to be undefined if the position is just created from a sequence number or an enqueued time.
@@ -76,113 +27,19 @@ export class EventPosition {
    * This information is only relevent if the event position was identified by an offset or sequence number.
    * Default value: `false`.
    */
-  isInclusive: boolean = false;
+  isInclusive?: boolean;
   /**
-   * @property The enqueued time of the event identified by this position.
+   * @property The enqueued time in UTC of the event identified by this position.
+   * When provided as a number this value is the number of milliseconds since the Unix Epoch.
    * Expected to be undefined if the position is just created from a sequence number or an offset.
    */
-  enqueuedTime?: Date | number;
+  enqueuedOn?: Date | number;
 
   /**
-   * @property The sequence number of the event identified by this poistion.
+   * @property The sequence number of the event identified by this position.
    * Expected to be undefined if the position is just created from an offset or enqueued time.
    */
   sequenceNumber?: number;
-
-  /**
-   * Instead of constructing an event position using `new Event Position()`, make use of the below static helpers
-   * - `fromOffset()`
-   * - `fromSequenceNumber()`
-   * - `fromEnqueuedTime()`
-   * - `earliest()`
-   * - `latest()`
-   *
-   * @constructor
-   * @internal
-   * @ignore
-   * @param options
-   */
-  constructor(options?: EventPositionOptions) {
-    if (options) {
-      this.offset = options.offset;
-      this.enqueuedTime = options.enqueuedTime;
-      this.sequenceNumber = options.sequenceNumber;
-      this.isInclusive = options.isInclusive || false;
-    }
-  }
-
-  /**
-   * Gets an instance of `EventPosition` corresponding to the event in the partition at the provided offset.
-   *
-   * @param offset The offset of an event with respect to its relative position in the partition.
-   * @param isInclusive If true, the specified event is included;
-   * otherwise the next event is returned.
-   * Default: `false`.
-   * @returns EventPosition
-   */
-  static fromOffset(offset: number, isInclusive?: boolean): EventPosition {
-    if (typeof offset !== "number" && typeof offset !== "string") {
-      throw new Error(`Invalid offset "${offset}" provided to "fromOffset" method.`);
-    }
-    return new EventPosition({ offset: offset, isInclusive: isInclusive });
-  }
-
-  /**
-   * Gets an instance of `EventPosition` corresponding to the event in the partition having a specified sequence number associated with it.
-   *
-   * @param sequenceNumber The sequence number assigned to an event when it was enqueued in the partition.
-   * @param isInclusive If true, event with the `sequenceNumber` is included;
-   * otherwise the next event in sequence will be received.
-   * Default `false`.
-   * @returns EventPosition
-   */
-  static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition {
-    if (sequenceNumber == undefined) {
-      throw new Error('Missing parameter "sequenceNumber"');
-    }
-    if (typeof sequenceNumber !== "number") {
-      throw new Error('The parameter "sequenceNumber" should be of type "number"');
-    }
-    return new EventPosition({ sequenceNumber: sequenceNumber, isInclusive: isInclusive });
-  }
-
-  /**
-   * Gets an instance of `EventPosition` corresponding to a specific date and time within the partition to begin seeking an event;
-   * the event enqueued after the requested `enqueuedTime` will become the current position.
-   *
-   * @param enqueuedTime The date and time, in UTC, from which the next available event should be chosen.
-   * @returns EventPosition
-   */
-  static fromEnqueuedTime(enqueuedTime: Date | number): EventPosition {
-    if (typeof enqueuedTime !== "number" && !(enqueuedTime instanceof Date)) {
-      throw new Error(
-        `Invalid enqueuedTime "${enqueuedTime}" provided to "fromEnqueuedTime" method.`
-      );
-    }
-    return new EventPosition({ enqueuedTime: enqueuedTime });
-  }
-
-  /**
-   * Gets an instance of `EventPosition` corresponding to the location of the the first event present in the partition.
-   * Use this position to begin receiving from the first event that was enqueued in the partition
-   * which has not expired due to the retention policy.
-   * @returns EventPosition
-   */
-
-  static earliest(): EventPosition {
-    return EventPosition.fromOffset(EventPosition.startOfStream);
-  }
-
-  /**
-   * Gets an instance of `EventPosition` corresponding to the end of the partition, where no more events are currently enqueued.
-   * Use this position to begin receiving from the next event to be enqueued in the partion after an ``EventHubConsumer``
-   * is created with this position.
-   * @returns EventPosition
-   */
-
-  static latest(): EventPosition {
-    return new EventPosition({ offset: EventPosition.endOfStream });
-  }
 }
 
 /**
@@ -202,11 +59,11 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
     result = eventPosition.isInclusive
       ? `${Constants.sequenceNumberAnnotation} >= '${eventPosition.sequenceNumber}'`
       : `${Constants.sequenceNumberAnnotation} > '${eventPosition.sequenceNumber}'`;
-  } else if (eventPosition.enqueuedTime != undefined) {
+  } else if (eventPosition.enqueuedOn != undefined) {
     const time =
-      eventPosition.enqueuedTime instanceof Date
-        ? eventPosition.enqueuedTime.getTime()
-        : eventPosition.enqueuedTime;
+      eventPosition.enqueuedOn instanceof Date
+        ? eventPosition.enqueuedOn.getTime()
+        : eventPosition.enqueuedOn;
     result = `${Constants.enqueuedTimeAnnotation} > '${time}'`;
   }
 
@@ -217,4 +74,91 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
     });
   }
   return result;
+}
+
+export function isLatestPosition(eventPosition: EventPosition): boolean {
+  if (eventPosition.offset === "@latest") {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Gets the `EventPosition` corresponding to the location of the the first event present in the partition.
+ * Pass this position to the `EventHubConsumerClient.subscribe()` method to begin receiving events from the
+ * first event in the partition which has not expired due to the retention policy.
+ */
+export const earliestEventPosition: EventPosition = {
+  offset: -1
+};
+
+/**
+ * Gets the `EventPosition` corresponding to the end of the partition.
+ * Pass this position to the `EventHubConsumerClient.subscribe()` method to begin receiving events from the
+ * event that is enqueued right after the method call.
+ * @returns EventPosition
+ */
+export const latestEventPosition: EventPosition = {
+  offset: "@latest"
+};
+
+/**
+ * @ignore
+ * @internal
+ */
+export function validateEventPositions(
+  position: EventPosition | { [partitionId: string]: EventPosition }
+) {
+  if (position == undefined) {
+    return;
+  }
+
+  const offsetPresent = position.offset != undefined;
+  const sequenceNumberPresent = position.sequenceNumber != undefined;
+  const enqueuedOnPresent = position.enqueuedOn != undefined;
+  const keys = Object.keys(position);
+
+  if (!keys.length) {
+    throw new TypeError(
+      "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set."
+    );
+  }
+
+  if (offsetPresent || sequenceNumberPresent || enqueuedOnPresent || !keys.length) {
+    validateEventPosition(position);
+    return;
+  }
+
+  const positions = position as { [partitionId: string]: EventPosition };
+  for (let i = 0; i < keys.length; i++) {
+    if (Object.prototype.hasOwnProperty.call(positions, keys[i])) {
+      validateEventPosition(positions[keys[i]]);
+    }
+  }
+}
+
+function validateEventPosition(position: EventPosition) {
+  if (position == undefined) {
+    return;
+  }
+  const offsetPresent = position.offset != undefined;
+  const sequenceNumberPresent = position.sequenceNumber != undefined;
+  const enqueuedOnPresent = position.enqueuedOn != undefined;
+
+  if (
+    (offsetPresent && sequenceNumberPresent) ||
+    (offsetPresent && enqueuedOnPresent) ||
+    (enqueuedOnPresent && sequenceNumberPresent)
+  ) {
+    throw new TypeError(
+      "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties."
+    );
+  }
+
+  if (!offsetPresent && !enqueuedOnPresent && !sequenceNumberPresent) {
+    throw new TypeError(
+      "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set."
+    );
+  }
 }

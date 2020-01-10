@@ -14,6 +14,7 @@ const debug = debugModule("azure:eph:eph-spec");
 import { EventHubClient, EventData, EventPosition, delay, Dictionary } from "@azure/event-hubs";
 import dotenv from "dotenv";
 import { PartitionContext, OnReceivedMessage, EventProcessorHost, OnReceivedError } from "../src";
+import { packageInfo } from "../src/util/constants";
 dotenv.config();
 
 describe("EPH", function(): void {
@@ -48,9 +49,11 @@ describe("EPH", function(): void {
         }
       );
       const context = host["_context"];
-      const uaPrefix = "azsdk-js-azureeventprocessorhost/2.1.0 ";
+      const uaPrefix = `azsdk-js-azureeventprocessorhost/${packageInfo.version} `;
       context.userAgent.should.include(uaPrefix);
-      context.userAgent.should.include(`NODE-VERSION ${process.version}; ${os.type()} ${os.release()}`);
+      context.userAgent.should.include(
+        `NODE-VERSION ${process.version}; ${os.type()} ${os.release()}`
+      );
       const ehc: EventHubClient = context.getEventHubClient();
       const properties = ehc["_context"].connection.options.properties;
       properties["user-agent"].should.include(uaPrefix);
@@ -71,7 +74,7 @@ describe("EPH", function(): void {
         }
       );
       const context = host["_context"];
-      const uaPrefix = "azsdk-js-azureeventprocessorhost/2.1.0 ";
+      const uaPrefix = `azsdk-js-azureeventprocessorhost/${packageInfo.version} `;
       context.userAgent.should.startWith(uaPrefix);
       context.userAgent.should.endWith(customua);
       const ehc: EventHubClient = context.getEventHubClient();
@@ -128,7 +131,7 @@ describe("EPH", function(): void {
             }
           }
         };
-        const onError: OnReceivedError = err => {
+        const onError: OnReceivedError = (err) => {
           debug("An error occurred while receiving the message: %O", err);
           throw err;
         };
@@ -150,7 +153,7 @@ describe("EPH", function(): void {
         .then(() => {
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });
@@ -160,7 +163,7 @@ describe("EPH", function(): void {
       const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
       ehc
         .getPartitionIds()
-        .then(ids => {
+        .then((ids) => {
           debug(">>> Received partition ids: ", ids);
           host = EventProcessorHost.createFromConnectionString(
             EventProcessorHost.createHostName(),
@@ -184,9 +187,11 @@ describe("EPH", function(): void {
                     .checkpoint()
                     .then(() => {
                       debug(">>>> Checkpoint succesful...");
-                      return context["_context"].blobReferenceByPartition[context.partitionId].getContent();
+                      return context["_context"].blobReferenceByPartition[
+                        context.partitionId
+                      ].getContent();
                     })
-                    .then(content => {
+                    .then((content) => {
                       debug(">>>> Seen expected message. New lease contents: %s", content);
                       const parsed = JSON.parse(content);
                       parsed.offset.should.eql(data.offset);
@@ -201,22 +206,22 @@ describe("EPH", function(): void {
                       debug(">>>> closed the sender and the eph...");
                       return done();
                     })
-                    .catch(err => {
+                    .catch((err) => {
                       done(err);
                     });
                 }
               };
-              const onError: OnReceivedError = err => {
+              const onError: OnReceivedError = (err) => {
                 debug("An error occurred while receiving the message: %O", err);
                 done(err);
               };
               return host.start(onMessage, onError);
             })
-            .catch(err => {
+            .catch((err) => {
               done(err);
             });
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });
@@ -227,7 +232,10 @@ describe("EPH", function(): void {
         const ehc = EventHubClient.createFromConnectionString(ehConnString!, hubName!);
         const leasecontainerName = EventProcessorHost.createHostName("tc");
         debug(">>>>> Lease container name: %s", leasecontainerName);
-        async function sendAcrossAllPartitions(ehc: EventHubClient, ids: string[]): Promise<Dictionary<EventData>> {
+        async function sendAcrossAllPartitions(
+          ehc: EventHubClient,
+          ids: string[]
+        ): Promise<Dictionary<EventData>> {
           const result: Promise<any>[] = [];
           const idMessage: Dictionary<EventData> = {};
           for (const id of ids) {
@@ -274,7 +282,7 @@ describe("EPH", function(): void {
             throw new Error(msg);
           }
         };
-        const onError: OnReceivedError = err => {
+        const onError: OnReceivedError = (err) => {
           debug("An error occurred while receiving the message: %O", err);
           throw err;
         };
@@ -293,7 +301,10 @@ describe("EPH", function(): void {
         debug(">>>>> Sending the second set of test messages...");
         const secondSend = await sendAcrossAllPartitions(ehc, ids);
         let count2 = 0;
-        const onMessage2: OnReceivedMessage = async (context: PartitionContext, data: EventData) => {
+        const onMessage2: OnReceivedMessage = async (
+          context: PartitionContext,
+          data: EventData
+        ) => {
           const partitionId = context.partitionId;
           debug(">>>>> Rx message from '%s': '%s'", partitionId, data);
           if (data.properties!.message_id === secondSend[partitionId].properties!.message_id) {
@@ -308,7 +319,7 @@ describe("EPH", function(): void {
             throw new Error(msg);
           }
         };
-        const onError2: OnReceivedError = err => {
+        const onError2: OnReceivedError = (err) => {
           debug("An error occurred while receiving the message: %O", err);
           throw err;
         };
@@ -330,7 +341,7 @@ describe("EPH", function(): void {
         .then(() => {
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });
@@ -413,7 +424,7 @@ describe("EPH", function(): void {
         .then(() => {
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });
@@ -441,7 +452,7 @@ describe("EPH", function(): void {
         .then(() => {
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });
@@ -472,7 +483,7 @@ describe("EPH", function(): void {
         .then(() => {
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });
@@ -502,7 +513,7 @@ describe("EPH", function(): void {
         .then(() => {
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });
@@ -522,14 +533,16 @@ describe("EPH", function(): void {
         try {
           await host.getPartitionInformation(false as any);
         } catch (err) {
-          err.message.should.equal("'partitionId' is a required parameter and must be of type: 'string' | 'number'.");
+          err.message.should.equal(
+            "'partitionId' is a required parameter and must be of type: 'string' | 'number'."
+          );
         }
       };
       test()
         .then(() => {
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });
@@ -560,7 +573,7 @@ describe("EPH", function(): void {
         .then(() => {
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });
@@ -591,7 +604,7 @@ describe("EPH", function(): void {
         .then(() => {
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });
@@ -600,7 +613,8 @@ describe("EPH", function(): void {
   describe("options", function(): void {
     it("should throw an error if the event hub name is neither provided in the connection string and nor in the options object", function(done: Mocha.Done): void {
       try {
-        const ehc = "Endpoint=sb://foo.bar.baz.net/;SharedAccessKeyName=somekey;SharedAccessKey=somesecret";
+        const ehc =
+          "Endpoint=sb://foo.bar.baz.net/;SharedAccessKeyName=somekey;SharedAccessKey=somesecret";
         EventProcessorHost.createFromConnectionString(
           EventProcessorHost.createHostName(),
           storageConnString!,
@@ -640,7 +654,7 @@ describe("EPH", function(): void {
         .then(() => {
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });
@@ -667,7 +681,7 @@ describe("EPH", function(): void {
         .then(() => {
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           done(err);
         });
     });

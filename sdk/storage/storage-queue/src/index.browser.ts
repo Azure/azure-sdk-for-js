@@ -1,24 +1,21 @@
-import { RestError } from "@azure/ms-rest-js";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
-import * as Models from "./generated/lib/models";
+import { RestError } from "@azure/core-http";
 
-export * from "./Aborter";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
-export * from "./credentials/TokenCredential";
-export { IIPRange } from "./IIPRange";
-export * from "./MessageIdURL";
-export * from "./MessagesURL";
+export { SasIPRange } from "./SasIPRange";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
-export * from "./RetryPolicyFactory";
-export * from "./LoggingPolicyFactory";
-export * from "./TelemetryPolicyFactory";
-export * from "./policies/TokenCredentialPolicy";
-export * from "./QueueURL";
+export * from "./StorageBrowserPolicyFactory";
+export * from "./StorageRetryPolicyFactory";
+export { Metadata } from "./models";
+export * from "./QueueClient";
 export * from "./QueueSASPermissions";
-export * from "./UniqueRequestIDPolicyFactory";
-export * from "./ServiceURL";
-export * from "./StorageURL";
-export { Models, RestError };
+export * from "./QueueServiceClient";
+export { CommonOptions } from "./StorageClient";
+export * from "./generatedModels";
+export { RestError };
+export { logger } from "./log";

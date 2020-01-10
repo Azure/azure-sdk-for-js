@@ -1,5 +1,5 @@
 #Pipeline variables:
-# $(additionalArgs) eg : -i "exc" --exc arm-advisor arm-apimanagement OR  -i "inc" --inc arm-advisor arm-apimanagement
+# $(additionalArgs) eg : -i "exc" --exc advisor apimanagement OR  -i "inc" --inc advisor apimanagement storage OR -i "inc" --inc eventhub --clientOnly
 
 trigger:
   - master
@@ -34,20 +34,13 @@ jobs:
         displayName: "Install typedoc"
 
       - script: |
-          npm install nunjucks
-        displayName: "Install nunjucks"
-
-      - script: |
-          npm install fs-extra
-        displayName: "Install fs-extra"
-
-      - script: |
-          npm install yargs
-        displayName: "Install yargs"
+          npm install
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
+        displayName: "Install tool dependencies"
 
       - pwsh: |
           cd $(Build.SourcesDirectory)
-          node .\common\scripts\generate-doc.js --dgOp "dg" $(additionalArgs)
+          node .\eng\tools\generate-doc\index.js --dgOp "dg" $(additionalArgs)
           Copy-Item -Path $(Build.SourcesDirectory)/docGen/* -Destination $(Build.ArtifactStagingDirectory) -Recurse -Force
         displayName: "Generate Typedoc Docs"
 

@@ -10,16 +10,6 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const acceptLanguage: coreHttp.OperationParameter = {
-  parameterPath: "acceptLanguage",
-  mapper: {
-    serializedName: "accept-language",
-    defaultValue: 'en-US',
-    type: {
-      name: "String"
-    }
-  }
-};
 export const apiVersion: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -64,10 +54,7 @@ export const certificateVersion: coreHttp.OperationURLParameter = {
   }
 };
 export const includePending: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "includePending"
-  ],
+  parameterPath: ["options", "includePending"],
   mapper: {
     serializedName: "includePending",
     type: {
@@ -119,10 +106,7 @@ export const keyVersion: coreHttp.OperationURLParameter = {
   }
 };
 export const maxresults: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "maxresults"
-  ],
+  parameterPath: ["options", "maxresults"],
   mapper: {
     serializedName: "maxresults",
     constraints: {
@@ -133,17 +117,6 @@ export const maxresults: coreHttp.OperationQueryParameter = {
       name: "Number"
     }
   }
-};
-export const nextPageLink: coreHttp.OperationURLParameter = {
-  parameterPath: "nextPageLink",
-  mapper: {
-    required: true,
-    serializedName: "nextLink",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 export const sasDefinitionName: coreHttp.OperationURLParameter = {
   parameterPath: "sasDefinitionName",
@@ -219,7 +192,7 @@ export const vaultBaseUrl: coreHttp.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "vaultBaseUrl",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }

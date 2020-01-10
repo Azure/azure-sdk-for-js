@@ -1,14 +1,17 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { CosmosClientOptions } from "../CosmosClientOptions";
-import { Constants, OperationType, ResourceType } from "./constants";
+import { OperationType, ResourceType } from "./constants";
 
-/** @ignore */
-const Regexes = Constants.RegularExpressions;
+const trimLeftSlashes = new RegExp("^[/]+");
+const trimRightSlashes = new RegExp("[/]+$");
+const illegalResourceIdCharacters = new RegExp("[/\\\\?#]");
 
 /** @hidden */
 export function jsonStringifyAndEscapeNonASCII(arg: any) {
   // TODO: better way for this? Not sure.
   // escapes non-ASCII characters as \uXXXX
-  return JSON.stringify(arg).replace(/[\u0080-\uFFFF]/g, m => {
+  return JSON.stringify(arg).replace(/[\u0080-\uFFFF]/g, (m) => {
     return "\\u" + ("0000" + m.charCodeAt(0).toString(16)).slice(-4);
   });
 }
@@ -79,7 +82,7 @@ export function isReadRequest(operationType: OperationType): boolean {
  * @ignore
  */
 export function sleep(time: number): Promise<void> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve();
     }, time);
@@ -100,9 +103,7 @@ export function getContainerLink(link: string) {
  * @ignore
  */
 export function trimSlashes(source: string) {
-  return source
-    .replace(Constants.RegularExpressions.TrimLeftSlashes, "")
-    .replace(Constants.RegularExpressions.TrimRightSlashes, "");
+  return source.replace(trimLeftSlashes, "").replace(trimRightSlashes, "");
 }
 
 /**
@@ -239,7 +240,7 @@ export function trimSlashFromLeftAndRight(inputString: string) {
     throw new Error("invalid input: input is not string");
   }
 
-  return inputString.replace(Regexes.TrimLeftSlashes, "").replace(Regexes.TrimRightSlashes, "");
+  return inputString.replace(trimLeftSlashes, "").replace(trimRightSlashes, "");
 }
 
 /**
@@ -257,7 +258,7 @@ export function validateResourceId(resourceId: string) {
   }
 
   // if resource id contains illegal characters throw an error
-  if (Regexes.IllegalResourceIdCharacters.test(resourceId)) {
+  if (illegalResourceIdCharacters.test(resourceId)) {
     throw new Error("Illegal characters ['/', '\\', '?', '#'] cannot be used in resourceId");
   }
 
@@ -319,4 +320,5 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
  */
 // https://github.com/iliakan/detect-node/blob/master/index.js
 export const isNode: boolean =
-  Object.prototype.toString.call(typeof process !== "undefined" ? process : 0) === "[object process]";
+  Object.prototype.toString.call(typeof process !== "undefined" ? process : 0) ===
+  "[object process]";

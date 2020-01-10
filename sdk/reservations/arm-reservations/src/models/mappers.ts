@@ -103,6 +103,22 @@ export const Catalog: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      billingPlans: {
+        serializedName: "billingPlans",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Sequence",
+              element: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
       terms: {
         readOnly: true,
         serializedName: "terms",
@@ -157,6 +173,28 @@ export const Catalog: msRest.CompositeMapper = {
   }
 };
 
+export const Price: msRest.CompositeMapper = {
+  serializedName: "Price",
+  type: {
+    name: "Composite",
+    className: "Price",
+    modelProperties: {
+      currencyCode: {
+        serializedName: "currencyCode",
+        type: {
+          name: "String"
+        }
+      },
+      amount: {
+        serializedName: "amount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ExtendedStatusInfo: msRest.CompositeMapper = {
   serializedName: "ExtendedStatusInfo",
   type: {
@@ -173,6 +211,102 @@ export const ExtendedStatusInfo: msRest.CompositeMapper = {
         serializedName: "message",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PaymentDetail: msRest.CompositeMapper = {
+  serializedName: "PaymentDetail",
+  type: {
+    name: "Composite",
+    className: "PaymentDetail",
+    modelProperties: {
+      dueDate: {
+        serializedName: "dueDate",
+        type: {
+          name: "Date"
+        }
+      },
+      paymentDate: {
+        serializedName: "paymentDate",
+        type: {
+          name: "Date"
+        }
+      },
+      pricingCurrencyTotal: {
+        serializedName: "pricingCurrencyTotal",
+        type: {
+          name: "Composite",
+          className: "Price"
+        }
+      },
+      billingCurrencyTotal: {
+        serializedName: "billingCurrencyTotal",
+        type: {
+          name: "Composite",
+          className: "Price"
+        }
+      },
+      billingAccount: {
+        serializedName: "billingAccount",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      extendedStatusInfo: {
+        serializedName: "extendedStatusInfo",
+        type: {
+          name: "Composite",
+          className: "ExtendedStatusInfo"
+        }
+      }
+    }
+  }
+};
+
+export const ReservationOrderBillingPlanInformation: msRest.CompositeMapper = {
+  serializedName: "ReservationOrderBillingPlanInformation",
+  type: {
+    name: "Composite",
+    className: "ReservationOrderBillingPlanInformation",
+    modelProperties: {
+      pricingCurrencyTotal: {
+        serializedName: "pricingCurrencyTotal",
+        type: {
+          name: "Composite",
+          className: "Price"
+        }
+      },
+      startDate: {
+        serializedName: "startDate",
+        type: {
+          name: "Date"
+        }
+      },
+      nextPaymentDueDate: {
+        serializedName: "nextPaymentDueDate",
+        type: {
+          name: "Date"
+        }
+      },
+      transactions: {
+        serializedName: "transactions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PaymentDetail"
+            }
+          }
         }
       }
     }
@@ -282,6 +416,12 @@ export const PurchaseRequest: msRest.CompositeMapper = {
       },
       term: {
         serializedName: "properties.term",
+        type: {
+          name: "String"
+        }
+      },
+      billingPlan: {
+        serializedName: "properties.billingPlan",
         type: {
           name: "String"
         }
@@ -492,6 +632,12 @@ export const ReservationProperties: msRest.CompositeMapper = {
           className: "ExtendedStatusInfo"
         }
       },
+      billingPlan: {
+        serializedName: "billingPlan",
+        type: {
+          name: "String"
+        }
+      },
       splitProperties: {
         serializedName: "splitProperties",
         type: {
@@ -673,6 +819,19 @@ export const ReservationOrderResponse: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      billingPlan: {
+        serializedName: "properties.billingPlan",
+        type: {
+          name: "String"
+        }
+      },
+      planInformation: {
+        serializedName: "properties.planInformation",
+        type: {
+          name: "Composite",
+          className: "ReservationOrderBillingPlanInformation"
+        }
+      },
       reservations: {
         serializedName: "properties.reservations",
         type: {
@@ -782,6 +941,18 @@ export const CalculatePriceResponseProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CalculatePriceResponsePropertiesPricingCurrencyTotal"
+        }
+      },
+      paymentSchedule: {
+        serializedName: "paymentSchedule",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PaymentDetail"
+            }
+          }
         }
       }
     }
