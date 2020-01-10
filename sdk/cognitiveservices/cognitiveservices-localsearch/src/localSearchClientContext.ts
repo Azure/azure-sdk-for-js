@@ -38,13 +38,7 @@ export class LocalSearchClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    // This is a manual patch to mitigate a bug in autorest.typescript
-    // https://github.com/Azure/autorest.typescript/issues/545
-    //
-    // If you are regenerating this package, and you have seen a diff that removes
-    // this comment or changes the following line. Please check to see if the bug
-    // above has been fixed. If not, please keep this change.
-    this.baseUri = options.baseUri || "https://api.cognitive.microsoft.com/bing";
+    this.baseUri = options.baseUri || this.baseUri || "https://api.cognitive.microsoft.com/bing";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
   }
