@@ -68,6 +68,23 @@ export const RenamedSubscriptionId: msRest.CompositeMapper = {
   }
 };
 
+export const EnabledSubscriptionId: msRest.CompositeMapper = {
+  serializedName: "EnabledSubscriptionId",
+  type: {
+    name: "Composite",
+    className: "EnabledSubscriptionId",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SubscriptionName: msRest.CompositeMapper = {
   serializedName: "SubscriptionName",
   type: {
@@ -251,6 +268,42 @@ export const ModernSubscriptionCreationParameters: msRest.CompositeMapper = {
               name: "Object"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ModernCspSubscriptionCreationParameters: msRest.CompositeMapper = {
+  serializedName: "ModernCspSubscriptionCreationParameters",
+  type: {
+    name: "Composite",
+    className: "ModernCspSubscriptionCreationParameters",
+    modelProperties: {
+      displayName: {
+        required: true,
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      skuId: {
+        required: true,
+        serializedName: "skuId",
+        type: {
+          name: "String"
+        }
+      },
+      resellerId: {
+        serializedName: "resellerId",
+        type: {
+          name: "String"
+        }
+      },
+      serviceProviderId: {
+        serializedName: "serviceProviderId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -550,6 +603,28 @@ export const SubscriptionFactoryCreateSubscriptionHeaders: msRest.CompositeMappe
   type: {
     name: "Composite",
     className: "SubscriptionFactoryCreateSubscriptionHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionFactoryCreateCspSubscriptionHeaders: msRest.CompositeMapper = {
+  serializedName: "subscriptionfactory-createcspsubscription-headers",
+  type: {
+    name: "Composite",
+    className: "SubscriptionFactoryCreateCspSubscriptionHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

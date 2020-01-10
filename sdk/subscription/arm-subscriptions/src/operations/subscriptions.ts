@@ -87,6 +87,34 @@ export class Subscriptions {
   }
 
   /**
+   * The operation to enable a subscription
+   * @param subscriptionId Subscription Id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsEnableResponse>
+   */
+  enable(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsEnableResponse>;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param callback The callback
+   */
+  enable(subscriptionId: string, callback: msRest.ServiceCallback<Models.EnabledSubscriptionId>): void;
+  /**
+   * @param subscriptionId Subscription Id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  enable(subscriptionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnabledSubscriptionId>): void;
+  enable(subscriptionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnabledSubscriptionId>, callback?: msRest.ServiceCallback<Models.EnabledSubscriptionId>): Promise<Models.SubscriptionsEnableResponse> {
+    return this.client.sendOperationRequest(
+      {
+        subscriptionId,
+        options
+      },
+      enableOperationSpec,
+      callback) as Promise<Models.SubscriptionsEnableResponse>;
+  }
+
+  /**
    * This operation provides all the locations that are available for resource providers; however,
    * each resource provider may support a subset of this list.
    * @summary Gets all available geo-locations.
@@ -244,6 +272,29 @@ const renameOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.RenamedSubscriptionId
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const enableOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Subscription/enable",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EnabledSubscriptionId
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

@@ -9,9 +9,11 @@
 export {
   AdPrincipal,
   ErrorResponse,
+  ModernCspSubscriptionCreationParameters,
   ModernSubscriptionCreationParameters,
   SubscriptionCreationParameters,
   SubscriptionCreationResult,
+  SubscriptionFactoryCreateCspSubscriptionHeaders,
   SubscriptionFactoryCreateSubscriptionHeaders,
   SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders
 } from "../models/mappers";
