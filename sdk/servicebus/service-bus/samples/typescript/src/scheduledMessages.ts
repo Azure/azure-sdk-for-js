@@ -24,7 +24,7 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const queueName = process.env.SERVICE_BUS_QUEUE_NAME || "";
+const queueName = process.env.QUEUE_NAME || "";
 
 const listOfScientists = [
   { lastName: "Einstein", firstName: "Albert" },
@@ -39,7 +39,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-async function main(): Promise<void> {
+export async function main() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   try {
     await sendScheduledMessages(sbClient);
@@ -51,7 +51,7 @@ async function main(): Promise<void> {
 }
 
 // Scheduling messages to be sent after 10 seconds from now
-async function sendScheduledMessages(sbClient: ServiceBusClient): Promise<void> {
+async function sendScheduledMessages(sbClient: ServiceBusClient) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const queueClient = sbClient.createQueueClient(queueName);
   const sender = queueClient.createSender();
@@ -71,7 +71,7 @@ async function sendScheduledMessages(sbClient: ServiceBusClient): Promise<void> 
   await sender.scheduleMessages(scheduledEnqueueTimeUtc, messages);
 }
 
-async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
+async function receiveMessages(sbClient: ServiceBusClient) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const queueClient = sbClient.createQueueClient(queueName);
 

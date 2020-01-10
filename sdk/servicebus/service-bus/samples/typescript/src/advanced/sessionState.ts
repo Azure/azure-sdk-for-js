@@ -27,10 +27,10 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const queueName = process.env.SERVICE_BUS_QUEUE_NAME || "";
+const queueName = process.env.QUEUE_NAME || "";
 const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
-async function main(): Promise<void> {
+export async function main() {
   try {
     await runScenario();
   } finally {
@@ -38,7 +38,7 @@ async function main(): Promise<void> {
   }
 }
 
-async function runScenario(): Promise<void> {
+async function runScenario() {
   // User activity data for Alice and Bob
   const shoppingEventsDataAlice = [
     { event_name: "Add Item", event_details: "Milk" },
@@ -78,7 +78,7 @@ async function runScenario(): Promise<void> {
   await getSessionState("bob");
 }
 
-async function getSessionState(sessionId: string): Promise<void> {
+async function getSessionState(sessionId: string) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const queueClient = sbClient.createQueueClient(userEventsQueueName);
 
@@ -98,7 +98,7 @@ async function getSessionState(sessionId: string): Promise<void> {
   await queueClient.close();
 }
 
-async function sendMessagesForSession(shoppingEvents: any[], sessionId: string): Promise<void> {
+async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const queueClient = sbClient.createQueueClient(userEventsQueueName);
   const sender = queueClient.createSender();
@@ -114,7 +114,7 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string):
   await queueClient.close();
 }
 
-async function processMessageFromSession(sessionId: string): Promise<void> {
+async function processMessageFromSession(sessionId: string) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const queueClient = sbClient.createQueueClient(userEventsQueueName);
 

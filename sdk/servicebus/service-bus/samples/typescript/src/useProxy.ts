@@ -17,9 +17,9 @@ dotenv.config();
 
 // Define connection string for your Service Bus instance here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const queueName = process.env.SERVICE_BUS_QUEUE_NAME || "";
+const queueName = process.env.QUEUE_NAME || "";
 
-async function main(): Promise<void> {
+export async function main() {
   if (!process.env.HTTP_PROXY_URL) {
     console.error("Error: Proxy information not provided, but it is required to run this sample. Exiting.");
     return;

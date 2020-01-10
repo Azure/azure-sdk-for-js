@@ -32,7 +32,7 @@ const subscriptionName1 = process.env.TOPIC_FILTER_SUBSCRIPTION_1 || "<subscript
 const subscriptionName2 = process.env.TOPIC_FILTER_SUBSCRIPTION_2 || "<subscription name>";
 const subscriptionName3 = process.env.TOPIC_FILTER_SUBSCRIPTION_3 || "<subscription name>";
 
-async function main(): Promise<void> {
+export async function main() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   try {
     await addRules(sbClient);
@@ -46,7 +46,7 @@ async function main(): Promise<void> {
 }
 
 // Adds Rules on subscriptions to route messages from a topic to different subscriptions
-async function addRules(sbClient: ServiceBusClient): Promise<void> {
+async function addRules(sbClient: ServiceBusClient) {
   const subscription1Client = sbClient.createSubscriptionClient(topicName, subscriptionName1);
   const subscription2Client = sbClient.createSubscriptionClient(topicName, subscriptionName2);
   const subscription3Client = sbClient.createSubscriptionClient(topicName, subscriptionName3);
@@ -63,7 +63,7 @@ async function addRules(sbClient: ServiceBusClient): Promise<void> {
 }
 
 // Sends 100 messages with a user property called "priority" whose value is between 1 and 4
-async function sendMessages(sbClient: ServiceBusClient): Promise<void> {
+async function sendMessages(sbClient: ServiceBusClient) {
   const sender = sbClient.createTopicClient(topicName).createSender();
   for (let index = 0; index < 10; index++) {
     const priority = Math.ceil(Math.random() * 4);
@@ -78,7 +78,7 @@ async function sendMessages(sbClient: ServiceBusClient): Promise<void> {
 }
 
 // Prints messages from the 3 subscriptions
-async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
+async function receiveMessages(sbClient: ServiceBusClient) {
   const subscription1 = sbClient
     .createSubscriptionClient(topicName, subscriptionName1)
     .createReceiver(ReceiveMode.peekLock);
@@ -114,7 +114,7 @@ async function receiveMessages(sbClient: ServiceBusClient): Promise<void> {
   await subscription3.close();
 }
 
-async function removeAllRules(client: SubscriptionClient): Promise<void> {
+async function removeAllRules(client: SubscriptionClient) {
   const rules = await client.getRules();
   for (let i = 0; i < rules.length; i++) {
     await client.removeRule(rules[i].name);

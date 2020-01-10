@@ -26,7 +26,7 @@ dotenv.config();
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const queueName = process.env.SERVICE_BUS_QUEUE_NAME || "";
+const queueName = process.env.QUEUE_NAME || "";
 
 const listOfScientists = [
   { lastName: "Einstein", firstName: "Albert" },
@@ -41,7 +41,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-async function main(): Promise<void> {
+export async function main() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   try {
@@ -68,7 +68,7 @@ async function sendMessage(
   sbClient: ServiceBusClient,
   scientist: any,
   sessionId: string
-): Promise<void> {
+) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = sbClient.createQueueClient(queueName);
   const sender = client.createSender();
@@ -85,7 +85,7 @@ async function sendMessage(
   await client.close();
 }
 
-async function receiveMessages(ns: ServiceBusClient, sessionId: string): Promise<void> {
+async function receiveMessages(ns: ServiceBusClient, sessionId: string) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const queueClient = ns.createQueueClient(queueName);
   const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: sessionId });

@@ -17,10 +17,10 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const queueName = process.env.SERVICE_BUS_QUEUE_NAME || "";
+const queueName = process.env.QUEUE_NAME || "";
 const sbClient: ServiceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
 
-async function main(): Promise<void> {
+export async function main() {
   try {
     // Sending a message to ensure that there is atleast one message in the main queue
     await sendMessage();
@@ -31,7 +31,7 @@ async function main(): Promise<void> {
   }
 }
 
-async function sendMessage(): Promise<void> {
+async function sendMessage() {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const queueClient = sbClient.createQueueClient(queueName);
   const sender = queueClient.createSender();
@@ -45,7 +45,7 @@ async function sendMessage(): Promise<void> {
   await queueClient.close();
 }
 
-async function receiveMessage(): Promise<void> {
+async function receiveMessage() {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const queueClient = sbClient.createQueueClient(queueName);
   const receiver = queueClient.createReceiver(ReceiveMode.peekLock);

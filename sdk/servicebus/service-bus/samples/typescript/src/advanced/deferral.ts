@@ -19,15 +19,15 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const queueName = process.env.SERVICE_BUS_QUEUE_NAME || "";
+const queueName = process.env.QUEUE_NAME || "";
 
-async function main(): Promise<void> {
+export async function main() {
   await sendMessages();
   await receiveMessage();
 }
 
 // Shuffle and send messages
-async function sendMessages(): Promise<void> {
+async function sendMessages() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const queueClient = sbClient.createQueueClient(queueName);
@@ -67,7 +67,7 @@ async function sendMessages(): Promise<void> {
   await sbClient.close();
 }
 
-async function receiveMessage(): Promise<void> {
+async function receiveMessage() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`

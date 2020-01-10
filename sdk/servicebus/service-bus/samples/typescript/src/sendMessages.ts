@@ -17,7 +17,7 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const queueName = process.env.SERVICE_BUS_QUEUE_NAME || "";
+const queueName = process.env.QUEUE_NAME || "";
 
 const listOfScientists = [
   { name: "Einstein", firstName: "Albert" },
@@ -32,7 +32,7 @@ const listOfScientists = [
   { name: "Kopernikus", firstName: "Nikolaus" }
 ];
 
-async function main(): Promise<void> {
+export async function main() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`

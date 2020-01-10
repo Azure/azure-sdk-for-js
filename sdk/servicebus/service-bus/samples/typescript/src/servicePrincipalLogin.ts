@@ -33,7 +33,7 @@ const clientId = process.env.AZURE_TENANT_ID || "";
 const clientSecret = process.env.AZURE_CLIENT_SECRET || "";
 const tenantId = process.env.AZURE_CLIENT_ID || "";
 
-async function main(): Promise<void> {
+export async function main() {
   const tokenCreds = await loginWithServicePrincipalSecret(clientId, clientSecret, tenantId, {
     tokenAudience: "https://servicebus.azure.net/"
   });

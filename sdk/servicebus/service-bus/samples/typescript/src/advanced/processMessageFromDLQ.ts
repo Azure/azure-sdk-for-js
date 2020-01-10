@@ -17,13 +17,13 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const queueName = process.env.SERVICE_BUS_QUEUE_NAME || "";
+const queueName = process.env.QUEUE_NAME || "";
 
 // If deadlettered messages are from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
 const deadLetterQueueName = QueueClient.getDeadLetterQueuePath(queueName);
 const sbClient: ServiceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
 
-async function main(): Promise<void> {
+export async function main() {
   try {
     await processDeadletterMessageQueue();
   } finally {
@@ -31,7 +31,7 @@ async function main(): Promise<void> {
   }
 }
 
-async function processDeadletterMessageQueue(): Promise<void> {
+async function processDeadletterMessageQueue() {
   const queueClient = sbClient.createQueueClient(deadLetterQueueName);
   const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
@@ -53,7 +53,7 @@ async function processDeadletterMessageQueue(): Promise<void> {
 }
 
 // Send repaired message back to the current queue / topic
-async function fixAndResendMessage(oldMessage: ServiceBusMessage): Promise<void> {
+async function fixAndResendMessage(oldMessage: ServiceBusMessage) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const queueClient = sbClient.createQueueClient(queueName);
   const sender = queueClient.createSender();

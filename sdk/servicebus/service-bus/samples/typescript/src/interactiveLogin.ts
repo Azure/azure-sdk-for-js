@@ -20,7 +20,7 @@ dotenv.config();
 // Define Service Bus Endpoint here
 const serviceBusEndpoint = process.env.SERVICE_BUS_ENDPOINT || ""; // <your-servicebus-namespace>.servicebus.windows.net
 
-async function main(): Promise<void> {
+export async function main() {
   const tokenCreds = await interactiveLogin({
     tokenAudience: "https://servicebus.azure.net/"
   });
