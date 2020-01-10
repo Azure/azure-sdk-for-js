@@ -26,22 +26,6 @@ import { EventPosition } from "./eventPosition";
 import "@azure/core-asynciterator-polyfill";
 
 /**
- * Options to pass when creating an async iteratable using the `getEventIterator()` method on the
- * `EventHubConsumer`.
- */
-export interface EventIteratorOptions {
-  /**
-   * Number of events to fetch at a time in the background
-   */
-  // prefetchCount?: number;
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the `EventIterator` to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-}
-
-/**
  * A consumer is responsible for reading `EventData` from a specific Event Hub partition
  * in the context of a specific consumer group.
  * To create a consumer use the `createConsumer()` method on your `EventHubClient`.
@@ -59,6 +43,8 @@ export interface EventIteratorOptions {
  * The consumer can be used to receive messages in a batch using `receiveBatch()` or by registering handlers
  * by using `receive()` or via an async iterable got by using `getEventIterator()`
  * @class
+ * @ignore
+ * @internal
  */
 export class EventHubConsumer {
   private _baseConsumer?: EventHubReceiver;

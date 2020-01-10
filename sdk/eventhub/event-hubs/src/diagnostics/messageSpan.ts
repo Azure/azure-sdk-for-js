@@ -4,6 +4,10 @@
 import { getTracer } from "@azure/core-tracing";
 import { Span, SpanContext, SpanKind } from "@opentelemetry/types";
 
+/**
+ * @internal
+ * @ignore
+ */
 export function createMessageSpan(parentSpan?: Span | SpanContext): Span {
   const tracer = getTracer();
   const span = tracer.startSpan("Azure.EventHubs.message", {

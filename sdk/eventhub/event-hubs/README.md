@@ -245,7 +245,7 @@ async function main() {
     "eventHubName"
   );
 
-  const subscription = consumer.subscribe({
+  const subscription = client.subscribe({
     processEvents: (events, context) => {
       // event processing code goes here
     },
@@ -333,7 +333,7 @@ async function main() {
   );
   const partitionIds = await client.getPartitionIds();
 
-  const subscription = consumer.subscribe(partitionIds[0], {
+  const subscription = client.subscribe(partitionIds[0], {
     processEvents: (events, context) => {
       // event processing code goes here
     },

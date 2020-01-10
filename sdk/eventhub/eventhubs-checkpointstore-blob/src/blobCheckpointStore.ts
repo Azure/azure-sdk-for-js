@@ -280,6 +280,10 @@ type CheckpointMetadata = {
   [k in "sequencenumber" | "offset"]: string | undefined;
 };
 
+/**
+ * @ignore
+ * @internal
+ */
 export function parseIntOrThrow(
   blobName: string,
   fieldName: string,

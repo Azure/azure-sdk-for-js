@@ -1,5 +1,5 @@
 import resolve from "@rollup/plugin-node-resolve";
-import cjs from "rollup-plugin-commonjs";
+import cjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import shim from "rollup-plugin-shim";
 

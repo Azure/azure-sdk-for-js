@@ -69,6 +69,8 @@ export interface GetPartitionIdsOptions extends OperationOptions {}
  * - `partitionId`  : The string identifier of the partition that the producer can be bound to.
  * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
  * A simple usage can be `{ "maxRetries": 4 }`.
+ * @ignore
+ * @internal
  */
 export interface EventHubProducerOptions {
   /**
@@ -105,6 +107,7 @@ export interface SendBatchOptions extends OperationOptions {}
  * ```
  *
  * @internal
+ * @ignore
  */
 export interface SendOptions extends SendBatchOptions {
   /**
@@ -166,6 +169,8 @@ export interface CreateBatchOptions extends OperationOptions {
  *     trackLastEnqueuedEventProperties: false
  * }
  * ```
+ * @internal
+ * @ignore
  */
 export interface EventHubConsumerOptions {
   /**
