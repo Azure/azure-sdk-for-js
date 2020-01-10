@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
+// purgeAllSecrets.js
+// helps remove any existing resources from the KeyVault.
+
 const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -16,28 +19,37 @@ async function main() {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
-
   const client = new SecretClient(url, credential);
 
-  // Create a secret
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
-  const result = await client.setSecret(secretName, "MySecretValue");
-  console.log("result: ", result);
+  let listPropertiesOfSecrets = client.listPropertiesOfSecrets();
+  while (true) {
+    let { done, value } = await listPropertiesOfSecrets.next();
+    if (done) {
+      break;
+    }
 
-  // Read the secret we created
-  const secret = await client.getSecret(secretName);
-  console.log("secret: ", secret);
+    try {
+      const poller = await client.beginDeleteSecret(value.name);
+      await poller.pollUntilDone();
+    } catch(e) {
+      // We don't care about the error because this script is intended to just clean up the KeyVault.
+    }
+}
 
-  // Update the secret with different attributes
-  const updatedSecret = await client.updateSecretProperties(secretName, result.properties.version, {
-    enabled: false
-  });
-  console.log("updated secret: ", updatedSecret);
+  let listDeletedSecrets = client.listDeletedSecrets();
+  while (true) {
+    let { done, value } = await listDeletedSecrets.next();
+    if (done) {
+      break;
+    }
 
-  // Delete the secret
-  // If we don't want to purge the secret later, we don't need to wait until this finishes
-  await client.beginDeleteSecret(secretName);
+    try {
+      // This will take a while.
+      await client.purgeDeletedSecret(deletedSecret.name);
+    } catch(e) {
+      // We don't care about the error because this script is intended to just clean up the KeyVault.
+    }
+  }
 }
 
 main().catch((err) => {

@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
+// purgeAllKeys.js
+// helps remove any existing keys from the KeyVault.
+
 const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -18,26 +21,6 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new KeyClient(url, credential);
 
-  const uniqueString = new Date().getTime();
-  const keyName = `KeyName${uniqueString}`;
-  const ecKeyName = `ECKeyName${uniqueString}`;
-  const rsaKeyName = `RSAKeyName${uniqueString}`;
-
-  // You can create keys using the general method
-  const result = await client.createKey(keyName, "EC");
-  console.log("key: ", result);
-
-  // Or using specialized key creation methods
-  const ecResult = await client.createEcKey(ecKeyName, { curve: "P-256" });
-  const rsaResult = await client.createRsaKey(rsaKeyName, { keySize: 2048 });
-  console.log("Elliptic curve key: ", ecResult);
-  console.log("RSA Key: ", rsaResult);
-
-  // Get a specific key
-  const key = await client.getKey(keyName);
-  console.log("key: ", key);
-
-  // Or list the keys we have
   let listPropertiesOfKeys = client.listPropertiesOfKeys();
   while (true) {
     let { done, value } = await listPropertiesOfKeys.next();
@@ -45,19 +28,28 @@ async function main() {
       break;
     }
 
-    const key = await client.getKey(value.name);
-    console.log("key: ", key);
+    try {
+      const poller = await client.beginDeleteKey(value.name);
+      await poller.pollUntilDone();
+    } catch(e) {
+      // We don't care about the error because this script is intended to just clean up the KeyVault.
+    }
+}
+
+  let listDeletedKeys = client.listPropertiesOfKeys();
+  while (true) {
+    let { done, value } = await listDeletedKeys.next();
+    if (done) {
+      break;
+    }
+
+    try {
+      // This will take a while.
+      await client.purgeDeletedKey(deletedKey.name);
+    } catch(e) {
+      // We don't care about the error because this script is intended to just clean up the KeyVault.
+    }
   }
-
-  // Update the key
-  const updatedKey = await client.updateKeyProperties(keyName, result.properties.version, {
-    enabled: false
-  });
-  console.log("updated key: ", updatedKey);
-
-  await client.beginDeleteKey(keyName);
-  await client.beginDeleteKey(ecKeyName);
-  await client.beginDeleteKey(rsaKeyName);
 }
 
 main().catch((err) => {

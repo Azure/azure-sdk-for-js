@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-import { SecretClient } from "@azure/keyvault-secrets";
+// purgeAllKeys.ts
+// helps remove any existing keys from the KeyVault.
+
+import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -17,32 +20,24 @@ export async function main(): Promise<void> {
 
   const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
   const url = `https://${vaultName}.vault.azure.net`;
+  const client = new KeyClient(url, credential);
 
-  const client = new SecretClient(url, credential);
-
-  // Create a secret
-  const uniqueString = new Date().getTime();
-  const secretName = `secret${uniqueString}`;
-  const result = await client.setSecret(secretName, "MySecretValue");
-  console.log("result: ", result);
-
-  // Read the secret we created
-  const secret = await client.getSecret(secretName);
-  console.log("secret: ", secret);
-
-  // Update the secret with different attributes
-  const updatedSecret = await client.updateSecretProperties(
-    secretName,
-    result.properties.version!,
-    {
-      enabled: false
+  for await (const properties of client.listPropertiesOfKeys()) {
+    try {
+      const poller = await client.beginDeleteKey(properties.name);
+      await poller.pollUntilDone();
+    } catch(e) {
+      // We don't care about the error because this script is intended to just clean up the KeyVault.
     }
-  );
-  console.log("updated secret: ", updatedSecret);
-
-  // Delete the secret
-  // If we don't want to purge the secret later, we don't need to wait until this finishes
-  await client.beginDeleteSecret(secretName);
+  }
+  for await (const deletedKey of client.listDeletedKeys()) {
+    try {
+      // This will take a while.
+      await client.purgeDeletedKey(deletedKey.name);
+    } catch(e) {
+      // We don't care about the error because this script is intended to just clean up the KeyVault.
+    }
+  }
 }
 
 main().catch((err) => {
