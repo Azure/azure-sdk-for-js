@@ -238,7 +238,7 @@ jobs:
         # which need to walk the directory tree (and are hardcoded to follow symlinks).
         - script: |
             node eng/tools/rush-runner.js unlink
-          condition: succeededOrFailed()
+          condition: always()
           displayName: "Unlink dependencies"
 
         # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
