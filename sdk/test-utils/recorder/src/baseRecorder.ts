@@ -133,10 +133,51 @@ export class NockRecorder extends BaseRecorder {
      * [A diiferent strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
      */
     let path = require("path");
-    this.uniqueTestInfo = require(path.resolve(
-      filePath,
-      "../../recordings/" + this.filepath
-    )).testInfo;
+
+    /**
+     * Finding the `recordings` folder -
+     *
+     * While running the tests, `filePath` can vary depending on location of the test files, examples below
+     *
+     * 1. If roll-up generated bundle files are being leveraged to run the tests
+     *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\dist-test\index.node.js`
+     * 2. If ts complied dist-esm files are being used to run the tests
+     *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\dist-esm\test\utils.spec.js`
+     *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\dist-esm\test\node\utils.spec.js`
+     * 3. If `.spec.ts` test files are being used directly
+     *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\test\utils.spec.ts`
+     *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\test\node\utils.spec.ts`
+     *
+     * In the above example, no matter where the test files are,
+     *    the recordings are located at `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\recordings\`.
+     * In order to playback the tests, exact location of the recordings is to be found,
+     *    this is done by checking the parent(s) folders until the `recordings` folder is found.
+     */
+
+    // Stripping away the file name
+    let recordingsFolderPath = path.resolve(filePath, "..");
+    try {
+      // While loop to find the `recordings` folder
+      while (!fs.existsSync(path.resolve(recordingsFolderPath, "recordings/"))) {
+        if (fs.existsSync(path.resolve(recordingsFolderPath, "package.json"))) {
+          // package.json of the SDK is found but not the `recordings` folder
+          // which is supposed to be present at the same level as package.json
+          throw new Error(`'recordings' folder is not found at ${recordingsFolderPath}`);
+        }
+        recordingsFolderPath = path.resolve(recordingsFolderPath, "..");
+      }
+      recordingsFolderPath = path.resolve(recordingsFolderPath, "recordings/");
+    } catch (error) {
+      throw new Error(`Unable to locate the 'recordings' folder\n ${error}`);
+    }
+
+    // Check if the test recording exists
+    if (fs.existsSync(path.resolve(recordingsFolderPath, this.filepath))) {
+      // Get testInfo from the recording
+      this.uniqueTestInfo = require(path.resolve(recordingsFolderPath, this.filepath)).testInfo;
+    } else {
+      throw new Error(`Recording (${this.filepath}) is not found at ${recordingsFolderPath}`);
+    }
   }
 
   public stop(): void {
