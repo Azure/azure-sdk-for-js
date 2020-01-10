@@ -37,7 +37,13 @@ export class LogAnalyticsClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = options.baseUri || this.baseUri || "https://api.loganalytics.io";
+    // This is a manual patch to mitigate a bug in autorest.typescript
+    // https://github.com/Azure/autorest.typescript/issues/545
+    //
+    // If you are regenerating this package, and you have seen a diff that removes
+    // this comment or changes the following line. Please check to see if the bug
+    // above has been fixed. If not, please keep this change.
+    this.baseUri = options.baseUri || "https://api.loganalytics.io";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
 
