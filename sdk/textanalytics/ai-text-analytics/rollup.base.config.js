@@ -1,7 +1,7 @@
 import path from "path";
-import nodeResolve from "rollup-plugin-node-resolve";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
-import cjs from "rollup-plugin-commonjs";
+import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
@@ -61,7 +61,7 @@ export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "browser/azure-cognitiveservices-textanalytics.js",
+      file: "browser/azure-ai-text-analytics.js",
       format: "umd",
       name: "Azure.CognitiveServicesTextAnalytics",
       sourcemap: true,
@@ -117,7 +117,7 @@ export function browserConfig(test = false, production = false) {
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
   } else if (production) {
-    baseConfig.output.file = "browser/azure-cognitiveservices-textanalytics.min.js";
+    baseConfig.output.file = "browser/azure-ai-text-analytics.min.js";
     baseConfig.plugins.push(terser());
   }
 

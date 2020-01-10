@@ -16,11 +16,11 @@ Use the client library to:
 - Automatically extract key phrases to quickly identify the main points.
 - Identify and categorize entities in your text as people, places, organizations, date/time, quantities, percentages, currencies, and more.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/cognitiveservices-textanalytics/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/cognitiveservices-textanalytics) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cognitiveservices-textanalytics) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/ai-text-analytics) |
+[API reference documentation](https://aka.ms/azsdk-js-textanalytics-ref-docs) |
 [Product documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/cognitiveservices-textanalytics/samples)
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples)
 
 ## Getting started
 
@@ -39,10 +39,10 @@ If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resour
 az cognitiveservices account create --kind TextAnalytics --resource-group <your-resource-group-name> --name <your-resource-name>
 ```
 
-### 1. Install the `@azure/cognitiveservices-textanalytics` package
+### 1. Install the `@azure/ai-text-analytics` package
 
 ```bash
-npm install @azure/cognitiveservices-textanalytics
+npm install @azure/ai-text-analytics
 ```
 
 ### 2. Create and authenticate a `TextAnalyticsClient`
@@ -62,10 +62,7 @@ Alternatively, you can get the endpoint and subscription key from the resource i
 Once you have a subscription key, you can use it as follows:
 
 ```js
-const {
-  TextAnalyticsClient,
-  CognitiveServicesCredential
-} = require("@azure/cognitiveservices-textanalytics");
+const { TextAnalyticsClient, CognitiveServicesCredential } = require("@azure/ai-text-analytics");
 
 const client = new TextAnalyticsClient(
   "<endpoint>",
@@ -87,7 +84,7 @@ You will also need to [register a new AAD application][register_aad_app] and gra
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 ```js
-const { TextAnalyticsClient } = require("@azure/cognitiveservices-textanalytics");
+const { TextAnalyticsClient } = require("@azure/ai-text-analytics");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential());
@@ -120,7 +117,7 @@ For each supported operation, `TextAnalyticsClient` provides method overloads to
 ### Detect the language of an input string
 
 ```js
-const [result] = await client.detectLanguage(["hello world"]);
+const [result] = await client.detectLanguages(["hello world"]);
 console.log(`Primary language detected as ${result.primaryLanguage.name}`);
 ```
 
@@ -130,7 +127,7 @@ console.log(`Primary language detected as ${result.primaryLanguage.name}`);
 
 You can set the following environment variable to get the debug logs when using this library.
 
-- Getting debug logs from the Key Vault Secrets SDK
+- Getting debug logs from the Azure TextAnalytics client library
 
 ```bash
 export DEBUG=azure*
@@ -139,7 +136,7 @@ export DEBUG=azure*
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/cognitiveservices-textanalytics/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
@@ -162,7 +159,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftextanalytics%2Fcognitiveservices-textanalytics%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftextanalytics%2Fai-text-analytics%2FREADME.png)
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
