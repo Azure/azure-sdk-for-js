@@ -75,7 +75,7 @@ export {
   SubscriptionOptions
 } from "./serializers/subscriptionResourceSerializer";
 export {
-  Rule,
+  RuleDetails,
   RuleOptions,
   SqlFilter,
   SqlParameter,

@@ -117,8 +117,6 @@ Populate the following variables along with the above mentioned environment vari
 AAD_CLIENT_ID=""
 AAD_CLIENT_SECRET=""
 AAD_TENANT_ID=""
-RESOURCE_GROUP=""
-AZURE_SUBSCRIPTION_ID=""
 ```
 
 **Note:**
