@@ -6,7 +6,7 @@ import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
