@@ -25,6 +25,7 @@ export {
   EventSubscriptionUpdateParameters,
   EventType,
   HybridConnectionEventSubscriptionDestination,
+  InboundIpRule,
   InputSchemaMapping,
   JsonField,
   JsonFieldWithDefault,

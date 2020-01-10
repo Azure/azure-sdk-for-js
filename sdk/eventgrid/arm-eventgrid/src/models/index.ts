@@ -29,11 +29,26 @@ export interface InputSchemaMapping {
 }
 
 /**
+ * An interface representing InboundIpRule.
+ */
+export interface InboundIpRule {
+  /**
+   * IP Address in CIDR notation e.g., 10.0.0.0/8.
+   */
+  ipMask?: string;
+  /**
+   * Action to perform based on the match or no match of the IpMask. Possible values include:
+   * 'Allow'
+   */
+  action?: IpActionType;
+}
+
+/**
  * Definition of a Resource
  */
 export interface Resource extends BaseResource {
   /**
-   * Fully qualified identifier of the resource
+   * Fully qualified identifier of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
@@ -116,21 +131,21 @@ export interface JsonInputSchemaMapping {
 }
 
 /**
- * Definition of a Tracked Resource
+ * Definition of a Tracked Resource.
  */
 export interface TrackedResource extends Resource {
   /**
-   * Location of the resource
+   * Location of the resource.
    */
   location: string;
   /**
-   * Tags of the resource
+   * Tags of the resource.
    */
   tags?: { [propertyName: string]: string };
 }
 
 /**
- * EventGrid Domain
+ * EventGrid Domain.
  */
 export interface Domain extends TrackedResource {
   /**
@@ -156,9 +171,18 @@ export interface Domain extends TrackedResource {
   inputSchemaMapping?: InputSchemaMappingUnion;
   /**
    * Metric resource id for the domain.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly metricResourceId?: string;
+  metricResourceId?: string;
+  /**
+   * This determines if IP filtering rules ought to be evaluated or not. By default it will not
+   * evaluate and will allow traffic from all IPs.
+   */
+  allowTrafficFromAllIPs?: boolean;
+  /**
+   * This determines the IP filtering rules that ought be applied when events are received on this
+   * domain.
+   */
+  inboundIpRules?: InboundIpRule[];
 }
 
 /**
@@ -172,7 +196,7 @@ export interface DomainUpdateParameters {
 }
 
 /**
- * Shared access keys of the Domain
+ * Shared access keys of the Domain.
  */
 export interface DomainSharedAccessKeys {
   /**
@@ -186,17 +210,17 @@ export interface DomainSharedAccessKeys {
 }
 
 /**
- * Domain regenerate share access key request
+ * Domain regenerate share access key request.
  */
 export interface DomainRegenerateKeyRequest {
   /**
-   * Key name to regenerate key1 or key2
+   * Key name to regenerate key1 or key2.
    */
   keyName: string;
 }
 
 /**
- * Domain Topic
+ * Domain Topic.
  */
 export interface DomainTopic extends Resource {
   /**
@@ -244,7 +268,7 @@ export interface AdvancedFilter {
 }
 
 /**
- * Filter for the Event Subscription
+ * Filter for the Event Subscription.
  */
 export interface EventSubscriptionFilter {
   /**
@@ -275,7 +299,7 @@ export interface EventSubscriptionFilter {
 }
 
 /**
- * Information about the retry policy for an event subscription
+ * Information about the retry policy for an event subscription.
  */
 export interface RetryPolicy {
   /**
@@ -541,7 +565,7 @@ export interface StringContainsAdvancedFilter {
 }
 
 /**
- * Information about the webhook destination for an event subscription
+ * Information about the webhook destination for an event subscription.
  */
 export interface WebHookEventSubscriptionDestination {
   /**
@@ -578,7 +602,7 @@ export interface WebHookEventSubscriptionDestination {
 }
 
 /**
- * Information about the event hub destination for an event subscription
+ * Information about the event hub destination for an event subscription.
  */
 export interface EventHubEventSubscriptionDestination {
   /**
@@ -628,7 +652,7 @@ export interface HybridConnectionEventSubscriptionDestination {
 }
 
 /**
- * Information about the service bus destination for an event subscription
+ * Information about the service bus destination for an event subscription.
  */
 export interface ServiceBusQueueEventSubscriptionDestination {
   /**
@@ -729,7 +753,7 @@ export interface EventSubscription extends Resource {
 }
 
 /**
- * Properties of the Event Subscription update
+ * Properties of the Event Subscription update.
  */
 export interface EventSubscriptionUpdateParameters {
   /**
@@ -848,9 +872,18 @@ export interface Topic extends TrackedResource {
   inputSchemaMapping?: InputSchemaMappingUnion;
   /**
    * Metric resource id for the topic.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly metricResourceId?: string;
+  metricResourceId?: string;
+  /**
+   * This determines if IP filtering rules ought to be evaluated or not. By default it will not
+   * evaluate and will allow traffic from all IPs.
+   */
+  allowTrafficFromAllIPs?: boolean;
+  /**
+   * This determines the IP filtering rules that ought to be applied when events are received on
+   * this topic.
+   */
+  inboundIpRules?: InboundIpRule[];
 }
 
 /**
@@ -858,7 +891,7 @@ export interface Topic extends TrackedResource {
  */
 export interface TopicUpdateParameters {
   /**
-   * Tags of the resource
+   * Tags of the resource.
    */
   tags?: { [propertyName: string]: string };
 }
@@ -938,6 +971,10 @@ export interface TopicTypeInfo extends Resource {
    * List of locations supported by this topic type.
    */
   supportedLocations?: string[];
+  /**
+   * Source resource format.
+   */
+  sourceResourceFormat?: string;
 }
 
 /**
@@ -1349,6 +1386,14 @@ export type DomainProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Su
  * @enum {string}
  */
 export type InputSchema = 'EventGridSchema' | 'CustomEventSchema' | 'CloudEventSchemaV1_0';
+
+/**
+ * Defines values for IpActionType.
+ * Possible values include: 'Allow'
+ * @readonly
+ * @enum {string}
+ */
+export type IpActionType = 'Allow';
 
 /**
  * Defines values for DomainTopicProvisioningState.
