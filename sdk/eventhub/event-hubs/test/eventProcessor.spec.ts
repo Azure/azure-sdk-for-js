@@ -1236,7 +1236,7 @@ describe("Event Processor", function(): void {
       partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
     });
 
-    it.only("should ensure that all the processors maintain a steady-state when all partitions are being processed", async function(): Promise<
+    it("should ensure that all the processors maintain a steady-state when all partitions are being processed", async function(): Promise<
       void
     > {
       const partitionIds = await client.getPartitionIds({});
