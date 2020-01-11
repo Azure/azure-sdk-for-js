@@ -1236,12 +1236,14 @@ describe("Event Processor", function(): void {
       partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
     });
 
-    it("should ensure that all the processors maintain a steady-state when all partitions are being processed", async function(): Promise<
+    it.only("should ensure that all the processors maintain a steady-state when all partitions are being processed", async function(): Promise<
       void
     > {
       const partitionIds = await client.getPartitionIds({});
       const checkpointStore = new InMemoryCheckpointStore();
       const claimedPartitionsMap = {} as { [eventProcessorId: string]: Set<string> };
+
+      const partitionOwnershipHistory : string[] = [];
 
       let allPartitionsClaimed = false;
       let thrashAfterSettling = false;
@@ -1249,6 +1251,9 @@ describe("Event Processor", function(): void {
         async processInitialize(context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
+
+          partitionOwnershipHistory.push(`${eventProcessorId}: init ${partitionId}`);
+
           loggerForTest(`[${eventProcessorId}] Claimed partition ${partitionId}`);
           if (allPartitionsClaimed) {
             thrashAfterSettling = true;
@@ -1264,8 +1269,12 @@ describe("Event Processor", function(): void {
         async processClose(reason, context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
+          
           const claimedPartitions = claimedPartitionsMap[eventProcessorId];
           claimedPartitions.delete(partitionId);
+
+          partitionOwnershipHistory.push(`${eventProcessorId}: close ${partitionId}`);
+
           loggerForTest(
             `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
               context.partitionId
@@ -1311,20 +1320,25 @@ describe("Event Processor", function(): void {
 
       // loop until all partitions are claimed
       try {
-        let lastLoopUntilError = "";
+        let lastLoopError: Record<string, any> = {};
 
         await loopUntil({
           name: "partitionOwnership",
           maxTimes: 30,
           timeBetweenRunsMs: 10000,
-          errorMessageFn: () => lastLoopUntilError,
+
+          errorMessageFn: () => JSON.stringify(lastLoopError, undefined, '  '),
           until: async () => {
             // Ensure the partition ownerships are balanced.
             const eventProcessorIds = Object.keys(claimedPartitionsMap);
 
             // There are 2 processors, so we should see 2 entries.
             if (eventProcessorIds.length !== 2) {
-              lastLoopUntilError = `Not all event processors have shown up. eventProcessorIds: ${eventProcessorIds}`;
+              lastLoopError = {
+                reason: 'Not all event processors have shown up',
+                eventProcessorIds,
+                partitionOwnershipHistory
+              };              
               return false;
             }
 
@@ -1333,7 +1347,12 @@ describe("Event Processor", function(): void {
 
             // The delta between number of partitions each processor owns can't be more than 1.
             if (Math.abs(aProcessorPartitions.size - bProcessorPartitions.size) > 1) {
-              lastLoopUntilError = `Delta between partitions is greater than 1 (a: ${Array.from(aProcessorPartitions)}, b: ${Array.from(bProcessorPartitions)})`;
+              lastLoopError = {
+                reason: "Delta between partitions is greater than 1",
+                a: Array.from(aProcessorPartitions),
+                b: Array.from(bProcessorPartitions),
+                partitionOwnershipHistory
+              };
               return false;
             }
 
@@ -1341,7 +1360,13 @@ describe("Event Processor", function(): void {
             const allPartitionsClaimed = aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
 
             if (!allPartitionsClaimed) {
-              lastLoopUntilError = `All partitions not claimed. Expected ${partitionIds} but we only have (a: ${Array.from(aProcessorPartitions)}, b: ${Array.from(bProcessorPartitions)})`;
+              lastLoopError = {
+                reason: "All partitions not claimed",
+                partitionIds,
+                a: Array.from(aProcessorPartitions),
+                b: Array.from(bProcessorPartitions),
+                partitionOwnershipHistory
+              };
             }
             
             return allPartitionsClaimed;
