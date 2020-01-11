@@ -153,7 +153,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     );
 
     const poller1 = await newBlobClient.beginCopyFromURL(
-      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+      blobClient.url,
       testPollerProperties
     );
 
@@ -162,7 +162,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     const state = poller1.toString();
 
     const poller2 = await newBlobClient.beginCopyFromURL(
-      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+      blobClient.url,
       {
         resumeFrom: state,
         ...testPollerProperties
