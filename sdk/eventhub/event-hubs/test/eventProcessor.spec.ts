@@ -1311,28 +1311,40 @@ describe("Event Processor", function(): void {
 
       // loop until all partitions are claimed
       try {
+        let lastLoopUntilError = "";
+
         await loopUntil({
           name: "partitionOwnership",
           maxTimes: 30,
           timeBetweenRunsMs: 10000,
+          errorMessageFn: () => lastLoopUntilError,
           until: async () => {
             // Ensure the partition ownerships are balanced.
             const eventProcessorIds = Object.keys(claimedPartitionsMap);
 
             // There are 2 processors, so we should see 2 entries.
             if (eventProcessorIds.length !== 2) {
+              lastLoopUntilError = `Not all event processors have shown up. eventProcessorIds: ${eventProcessorIds}`;
               return false;
             }
 
             const aProcessorPartitions = claimedPartitionsMap[eventProcessorIds[0]];
             const bProcessorPartitions = claimedPartitionsMap[eventProcessorIds[1]];
+
             // The delta between number of partitions each processor owns can't be more than 1.
             if (Math.abs(aProcessorPartitions.size - bProcessorPartitions.size) > 1) {
+              lastLoopUntilError = `Delta between partitions is greater than 1 (a: ${Array.from(aProcessorPartitions)}, b: ${Array.from(bProcessorPartitions)})`;
               return false;
             }
 
             // All partitions must be claimed.
-            return aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
+            const allPartitionsClaimed = aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
+
+            if (!allPartitionsClaimed) {
+              lastLoopUntilError = `All partitions not claimed. Expected ${partitionIds} but we only have (a: ${Array.from(aProcessorPartitions)}, b: ${Array.from(bProcessorPartitions)})`;
+            }
+            
+            return allPartitionsClaimed;
           }
         });
       } catch (err) {
