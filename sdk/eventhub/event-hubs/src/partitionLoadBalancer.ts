@@ -203,7 +203,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     partitionsToAdd: string[]
   ): string[] {
     const params = {
-      partitionOwnershipMap,
+      partitionOwnershipMap: [...partitionOwnershipMap.entries()],
       partitionsToAdd
     };
 
