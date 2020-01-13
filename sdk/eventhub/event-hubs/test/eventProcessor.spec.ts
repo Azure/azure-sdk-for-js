@@ -1243,7 +1243,7 @@ describe("Event Processor", function(): void {
       const checkpointStore = new InMemoryCheckpointStore();
       const claimedPartitionsMap = {} as { [eventProcessorId: string]: Set<string> };
 
-      const partitionOwnershipHistory : string[] = [];
+      const partitionOwnershipHistory: string[] = [];
 
       let allPartitionsClaimed = false;
       let thrashAfterSettling = false;
@@ -1269,7 +1269,7 @@ describe("Event Processor", function(): void {
         async processClose(reason, context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
-          
+
           const claimedPartitions = claimedPartitionsMap[eventProcessorId];
           claimedPartitions.delete(partitionId);
 
@@ -1327,7 +1327,7 @@ describe("Event Processor", function(): void {
           maxTimes: 30,
           timeBetweenRunsMs: 10000,
 
-          errorMessageFn: () => JSON.stringify(lastLoopError, undefined, '  '),
+          errorMessageFn: () => JSON.stringify(lastLoopError, undefined, "  "),
           until: async () => {
             // Ensure the partition ownerships are balanced.
             const eventProcessorIds = Object.keys(claimedPartitionsMap);
@@ -1335,10 +1335,10 @@ describe("Event Processor", function(): void {
             // There are 2 processors, so we should see 2 entries.
             if (eventProcessorIds.length !== 2) {
               lastLoopError = {
-                reason: 'Not all event processors have shown up',
+                reason: "Not all event processors have shown up",
                 eventProcessorIds,
                 partitionOwnershipHistory
-              };              
+              };
               return false;
             }
 
@@ -1357,7 +1357,8 @@ describe("Event Processor", function(): void {
             }
 
             // All partitions must be claimed.
-            const allPartitionsClaimed = aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
+            const allPartitionsClaimed =
+              aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
 
             if (!allPartitionsClaimed) {
               lastLoopError = {
@@ -1368,7 +1369,7 @@ describe("Event Processor", function(): void {
                 partitionOwnershipHistory
               };
             }
-            
+
             return allPartitionsClaimed;
           }
         });
