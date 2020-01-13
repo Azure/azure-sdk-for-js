@@ -1236,171 +1236,178 @@ describe("Event Processor", function(): void {
       partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
     });
 
-    it.only("should ensure that all the processors maintain a steady-state when all partitions are being processed", async function(): Promise<
+    it("should ensure that all the processors maintain a steady-state when all partitions are being processed", async function(): Promise<
       void
     > {
-      const partitionIds = await client.getPartitionIds({});
-      const checkpointStore = new InMemoryCheckpointStore();
-      const claimedPartitionsMap = {} as { [eventProcessorId: string]: Set<string> };
+      try {
+        process.env["HACK_FOR_LOAD_BALANCING"] = "hello";
 
-      const partitionOwnershipHistory: string[] = [];
+        const partitionIds = await client.getPartitionIds({});
+        const checkpointStore = new InMemoryCheckpointStore();
+        const claimedPartitionsMap = {} as { [eventProcessorId: string]: Set<string> };
 
-      let allPartitionsClaimed = false;
-      let thrashAfterSettling = false;
-      const handlers: SubscriptionEventHandlers = {
-        async processInitialize(context) {
-          const eventProcessorId: string = (context as any).eventProcessorId;
-          const partitionId = context.partitionId;
+        const partitionOwnershipHistory: string[] = [];
 
-          partitionOwnershipHistory.push(`${eventProcessorId}: init ${partitionId}`);
+        let allPartitionsClaimed = false;
+        let thrashAfterSettling = false;
+        const handlers: SubscriptionEventHandlers = {
+          async processInitialize(context) {
+            const eventProcessorId: string = (context as any).eventProcessorId;
+            const partitionId = context.partitionId;
 
-          loggerForTest(`[${eventProcessorId}] Claimed partition ${partitionId}`);
-          if (allPartitionsClaimed) {
-            thrashAfterSettling = true;
-            return;
-          }
+            partitionOwnershipHistory.push(`${eventProcessorId}: init ${partitionId}`);
 
-          const claimedPartitions = claimedPartitionsMap[eventProcessorId] || new Set();
-          claimedPartitions.add(partitionId);
-          claimedPartitionsMap[eventProcessorId] = claimedPartitions;
-        },
-        async processEvents() {},
-        async processError() {},
-        async processClose(reason, context) {
-          const eventProcessorId: string = (context as any).eventProcessorId;
-          const partitionId = context.partitionId;
+            loggerForTest(`[${eventProcessorId}] Claimed partition ${partitionId}`);
+            if (allPartitionsClaimed) {
+              thrashAfterSettling = true;
+              return;
+            }
 
-          const claimedPartitions = claimedPartitionsMap[eventProcessorId];
-          claimedPartitions.delete(partitionId);
+            const claimedPartitions = claimedPartitionsMap[eventProcessorId] || new Set();
+            claimedPartitions.add(partitionId);
+            claimedPartitionsMap[eventProcessorId] = claimedPartitions;
+          },
+          async processEvents() {},
+          async processError() {},
+          async processClose(reason, context) {
+            const eventProcessorId: string = (context as any).eventProcessorId;
+            const partitionId = context.partitionId;
 
-          partitionOwnershipHistory.push(`${eventProcessorId}: close ${partitionId}`);
+            const claimedPartitions = claimedPartitionsMap[eventProcessorId];
+            claimedPartitions.delete(partitionId);
 
-          loggerForTest(
-            `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
-              context.partitionId
-            }`
-          );
-          if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
+            partitionOwnershipHistory.push(`${eventProcessorId}: close ${partitionId}`);
+
             loggerForTest(
-              `[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`
+              `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
+                context.partitionId
+              }`
             );
-            thrashAfterSettling = true;
+            if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
+              loggerForTest(
+                `[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`
+              );
+              thrashAfterSettling = true;
+            }
           }
-        }
-      };
+        };
 
-      const eventProcessorOptions: FullEventProcessorOptions = {
-        maxBatchSize: 1,
-        maxWaitTimeInSeconds: 5,
-        loopIntervalInMs: 1000,
-        inactiveTimeLimitInMs: 3000,
-        ownerLevel: 0,
-        // For this test we don't want to actually checkpoint, just test ownership.
-        startPosition: latestEventPosition
-      };
+        const eventProcessorOptions: FullEventProcessorOptions = {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 5,
+          loopIntervalInMs: 1000,
+          inactiveTimeLimitInMs: 3000,
+          ownerLevel: 0,
+          // For this test we don't want to actually checkpoint, just test ownership.
+          startPosition: latestEventPosition
+        };
 
-      const processor1 = new EventProcessor(
-        EventHubClient.defaultConsumerGroupName,
-        client,
-        handlers,
-        checkpointStore,
-        eventProcessorOptions
-      );
-
-      const processor2 = new EventProcessor(
-        EventHubClient.defaultConsumerGroupName,
-        client,
-        handlers,
-        checkpointStore,
-        eventProcessorOptions
-      );
-
-      processor1.start();
-      processor2.start();
-
-      // loop until all partitions are claimed
-      try {
-        let lastLoopError: Record<string, any> = {};
-
-        await loopUntil({
-          name: "partitionOwnership",
-          maxTimes: 30,
-          timeBetweenRunsMs: 10000,
-
-          errorMessageFn: () => JSON.stringify(lastLoopError, undefined, "  "),
-          until: async () => {
-            // Ensure the partition ownerships are balanced.
-            const eventProcessorIds = Object.keys(claimedPartitionsMap);
-
-            // There are 2 processors, so we should see 2 entries.
-            if (eventProcessorIds.length !== 2) {
-              lastLoopError = {
-                reason: "Not all event processors have shown up",
-                eventProcessorIds,
-                partitionOwnershipHistory
-              };
-              return false;
-            }
-
-            const aProcessorPartitions = claimedPartitionsMap[eventProcessorIds[0]];
-            const bProcessorPartitions = claimedPartitionsMap[eventProcessorIds[1]];
-
-            // The delta between number of partitions each processor owns can't be more than 1.
-            if (Math.abs(aProcessorPartitions.size - bProcessorPartitions.size) > 1) {
-              lastLoopError = {
-                reason: "Delta between partitions is greater than 1",
-                a: Array.from(aProcessorPartitions),
-                b: Array.from(bProcessorPartitions),
-                partitionOwnershipHistory
-              };
-              return false;
-            }
-
-            // All partitions must be claimed.
-            const allPartitionsClaimed =
-              aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
-
-            if (!allPartitionsClaimed) {
-              lastLoopError = {
-                reason: "All partitions not claimed",
-                partitionIds,
-                a: Array.from(aProcessorPartitions),
-                b: Array.from(bProcessorPartitions),
-                partitionOwnershipHistory
-              };
-            }
-
-            return allPartitionsClaimed;
-          }
-        });
-      } catch (err) {
-        // close processors
-        await Promise.all([processor1.stop(), processor2.stop()]);
-        throw err;
-      }
-
-      console.log(`Partition history: ${partitionOwnershipHistory}`);
-
-      loggerForTest(`All partitions have been claimed.`);
-      allPartitionsClaimed = true;
-
-      try {
-        // loop for some time to see if thrashing occurs
-        await loopUntil({
-          name: "partitionThrash",
-          maxTimes: 4,
-          timeBetweenRunsMs: 1000,
-          until: async () => thrashAfterSettling
-        });
-      } catch (err) {
-        // swallow error, check trashAfterSettling for the condition in finally
-      } finally {
-        await Promise.all([processor1.stop(), processor2.stop()]);
-        should.equal(
-          thrashAfterSettling,
-          false,
-          "Detected PartitionOwnership thrashing after load-balancing has settled."
+        const processor1 = new EventProcessor(
+          EventHubClient.defaultConsumerGroupName,
+          client,
+          handlers,
+          checkpointStore,
+          eventProcessorOptions
         );
+
+        const processor2 = new EventProcessor(
+          EventHubClient.defaultConsumerGroupName,
+          client,
+          handlers,
+          checkpointStore,
+          eventProcessorOptions
+        );
+
+        processor1.start();
+        processor2.start();
+
+        // loop until all partitions are claimed
+        try {
+          let lastLoopError: Record<string, any> = {};
+
+          await loopUntil({
+            name: "partitionOwnership",
+            maxTimes: 30,
+            timeBetweenRunsMs: 10000,
+
+            errorMessageFn: () => JSON.stringify(lastLoopError, undefined, "  "),
+            until: async () => {
+              // Ensure the partition ownerships are balanced.
+              const eventProcessorIds = Object.keys(claimedPartitionsMap);
+
+              // There are 2 processors, so we should see 2 entries.
+              if (eventProcessorIds.length !== 2) {
+                lastLoopError = {
+                  reason: "Not all event processors have shown up",
+                  eventProcessorIds,
+                  partitionOwnershipHistory
+                };
+                return false;
+              }
+
+              const aProcessorPartitions = claimedPartitionsMap[eventProcessorIds[0]];
+              const bProcessorPartitions = claimedPartitionsMap[eventProcessorIds[1]];
+
+              // The delta between number of partitions each processor owns can't be more than 1.
+              if (Math.abs(aProcessorPartitions.size - bProcessorPartitions.size) > 1) {
+                lastLoopError = {
+                  reason: "Delta between partitions is greater than 1",
+                  a: Array.from(aProcessorPartitions),
+                  b: Array.from(bProcessorPartitions),
+                  partitionOwnershipHistory
+                };
+                return false;
+              }
+
+              // All partitions must be claimed.
+              const allPartitionsClaimed =
+                aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
+
+              if (!allPartitionsClaimed) {
+                lastLoopError = {
+                  reason: "All partitions not claimed",
+                  partitionIds,
+                  a: Array.from(aProcessorPartitions),
+                  b: Array.from(bProcessorPartitions),
+                  partitionOwnershipHistory
+                };
+              }
+
+              return allPartitionsClaimed;
+            }
+          });
+        } catch (err) {
+          // close processors
+          await Promise.all([processor1.stop(), processor2.stop()]);
+          throw err;
+        }
+
+        console.log(`Partition history: ${partitionOwnershipHistory}`);
+
+        loggerForTest(`All partitions have been claimed.`);
+        allPartitionsClaimed = true;
+
+        try {
+          // loop for some time to see if thrashing occurs
+          await loopUntil({
+            name: "partitionThrash",
+            maxTimes: 4,
+            timeBetweenRunsMs: 1000,
+            until: async () => thrashAfterSettling
+          });
+        } catch (err) {
+          // swallow error, check trashAfterSettling for the condition in finally
+        } finally {
+          await Promise.all([processor1.stop(), processor2.stop()]);
+          should.equal(
+            thrashAfterSettling,
+            false,
+            "Detected PartitionOwnership thrashing after load-balancing has settled."
+          );
+        }
+      } catch (err) {
+        process.env["HACK_FOR_LOAD_BALANCING"] = "";
+        throw err;
       }
     });
   });

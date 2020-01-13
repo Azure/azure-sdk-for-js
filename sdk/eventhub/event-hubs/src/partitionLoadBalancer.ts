@@ -203,12 +203,11 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     partitionsToAdd: string[]
   ): string[] {
     const params = {
-      ourOwnerId,
       partitionOwnershipMap,
       partitionsToAdd
     };
 
-    console.log(`loadBalance(${JSON.stringify(params, undefined, '  ')})`);
+    const inputParams = `[${ourOwnerId}] ---> loadBalance(${JSON.stringify(params)})`;
 
     //  Remove all partitions ownership that have not been modified within the configured period of time. This means that the previous
     //  event processor that owned the partition is probably down and the partition is now eligible to be
@@ -223,7 +222,11 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
       // If the active partition ownership map is empty, this is the first time an event processor is
       // running or all Event Processors are down for this Event Hub, consumer group combination. All
       // partitions in this Event Hub are available to claim. Choose a random partition to claim ownership.
-      return [partitionsToAdd[Math.floor(Math.random() * partitionsToAdd.length)]];
+      const firstTimePartitions = [partitionsToAdd[Math.floor(Math.random() * partitionsToAdd.length)]];
+      if (process.env["HACK_FOR_LOAD_BALANCING"]) {
+        console.log(`${inputParams} (no active ownerships) ${firstTimePartitions}`);
+      }
+      return firstTimePartitions;
     }
 
     // Create a map of owner id and a list of partitions it owns
@@ -269,6 +272,9 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
       )
     ) {
       logger.info(`[${ourOwnerId}] Load is balanced.`);
+      if (process.env["HACK_FOR_LOAD_BALANCING"]) {
+        console.log(`${inputParams} (load is balanced) ${partitionsToClaim}`);
+      }
       // If the partitions are evenly distributed among all active event processors, no change required.
       return partitionsToClaim;
     }
@@ -287,6 +293,9 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
         } partitions and shouldn't own more.`
       );
       // This event processor already has enough partitions and shouldn't own more yet
+      if (process.env["HACK_FOR_LOAD_BALANCING"]) {
+        console.log(`${inputParams} (should not get more) ${partitionsToClaim}`);
+      }
       return partitionsToClaim;
     }
     logger.info(
@@ -309,18 +318,24 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
         unOwnedPartitionIds.push(partitionId);
       }
     }
+
+    let stole = false;
+
     if (unOwnedPartitionIds.length === 0) {
       logger.info(
         `[${ourOwnerId}] No unclaimed partitions, stealing from another event processor.`
       );
       partitionsToClaim.push(this._findPartitionToSteal(ourOwnerId, ownerPartitionMap));
     } else {
+      stole = false;
       partitionsToClaim.push(
         unOwnedPartitionIds[Math.floor(Math.random() * unOwnedPartitionIds.length)]
       );
     }
 
-    console.log(`loadBalance(${ourOwnerId}) = ${partitionsToClaim}`);
+    if (process.env["HACK_FOR_LOAD_BALANCING"]) {
+      console.log(`${inputParams} (claim as usual: stole = ${stole}) ${partitionsToClaim}`);
+    }
     return partitionsToClaim;
   }
 }
