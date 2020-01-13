@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+import { EventEmitter } from "events";
+
 
 // In browser, during webpack or browserify bundling, this module will be replaced by 'events'
 // https://github.com/Gozala/events
-import { EventEmitter } from "events";
-
 /**
  * Operation is an async function to be executed and managed by Batch.
  */
@@ -132,6 +132,10 @@ export class Batch {
    * @memberof Batch
    */
   public async do(): Promise<void> {
+    if (this.operations.length === 0) {
+      return Promise.resolve();
+    }
+
     this.parallelExecute();
 
     return new Promise<void>((resolve, reject) => {
