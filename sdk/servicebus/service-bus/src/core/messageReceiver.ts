@@ -474,11 +474,11 @@ export class MessageReceiver extends LinkEntity {
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
         this._clearMessageLockRenewTimer(bMessage.messageId as string);
-        const error = translate(err);
+        const error = translate(err) as MessagingError;
         // Nothing much to do if user's message handler throws. Let us try abandoning the message.
         if (
           !bMessage.delivery.remote_settled &&
-          error.name !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
+          error.code !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
           this.receiveMode === ReceiveMode.peekLock &&
           this.isOpen() // only try to abandon the messages if the connection is still open
         ) {

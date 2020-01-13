@@ -328,7 +328,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 
   let errorWasThrown: boolean = false;
   await msgs[0].complete().catch((err) => {
-    should.equal(err.name, "SessionLockLostError", "ErrorName is different than expected");
+    should.equal(err.code, "SessionLockLostError", "ErrorName is different than expected");
     errorWasThrown = true;
   });
 
@@ -461,7 +461,7 @@ async function testAutoLockRenewalConfigBehavior(
       }
     },
     (err: MessagingError | Error) => {
-      if (err.name === "SessionLockLostError") {
+      if (err.code === "SessionLockLostError") {
         sessionLockLostErrorThrown = true;
       } else {
         onError(err);
@@ -482,7 +482,7 @@ async function testAutoLockRenewalConfigBehavior(
 
   let errorWasThrown: boolean = false;
   await messagesReceived[0].complete().catch((err) => {
-    should.equal(err.name, "SessionLockLostError", "ErrorName is different than expected");
+    should.equal(err.code, "SessionLockLostError", "ErrorName is different than expected");
     errorWasThrown = true;
   });
 

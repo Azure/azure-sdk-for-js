@@ -14,7 +14,8 @@ import {
   SessionReceiver,
   SubscriptionClient,
   TopicClient,
-  ServiceBusMessage
+  ServiceBusMessage,
+  MessagingError
 } from "../src";
 import {
   getClientClosedErrorMsg,
@@ -98,7 +99,11 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
   });
 
   const testError = (err: Error): void => {
-    should.equal(err.name, "ServiceCommunicationError", "ErrorName is different than expected");
+    should.equal(
+      (err as MessagingError).code,
+      "ServiceCommunicationError",
+      "ErrorName is different than expected"
+    );
     errorWasThrown = true;
   };
 
@@ -198,7 +203,11 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 
   const testError = (err: Error, entityPath: string): void => {
-    should.equal(err.name, "MessagingEntityNotFoundError", "ErrorName is different than expected");
+    should.equal(
+      (err as MessagingError).code,
+      "MessagingEntityNotFoundError",
+      "ErrorName is different than expected"
+    );
     should.equal(
       err.message.startsWith(
         `The messaging entity '${sbClient.name}${entityPath}' could not be found.`

@@ -7,7 +7,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { getProcessorCount } from "../util/utils";
 import * as log from "../log";
 import { Semaphore } from "../util/semaphore";
-import { delay, ConditionErrorNameMapper, Constants } from "@azure/core-amqp";
+import { delay, ConditionErrorNameMapper, Constants, MessagingError } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -151,7 +151,10 @@ export class SessionManager {
             error
           );
           await closeMessageSession(messageSession);
-          if (error.name !== ConditionErrorNameMapper["com.microsoft:message-wait-timeout"]) {
+          if (
+            (error as MessagingError).code !==
+            ConditionErrorNameMapper["com.microsoft:message-wait-timeout"]
+          ) {
             // notify the user about the error.
             onError(error);
           }
@@ -178,9 +181,9 @@ export class SessionManager {
         // the Promise is rejected. The "microsoft.timeout" error occurs when timeout happens on
         // the server side and ServiceBus sends a detach frame due to which the Promise is rejected.
         if (
-          err.name === "OperationTimeoutError" ||
-          err.name === ConditionErrorNameMapper["com.microsoft:timeout"] ||
-          err.name === ConditionErrorNameMapper["com.microsoft:session-cannot-be-locked"]
+          err.code === "OperationTimeoutError" ||
+          err.code === ConditionErrorNameMapper["com.microsoft:timeout"] ||
+          err.code === ConditionErrorNameMapper["com.microsoft:session-cannot-be-locked"]
         ) {
           // No point in delaying if cancel has been requested.
           if (!this._isCancelRequested) {
