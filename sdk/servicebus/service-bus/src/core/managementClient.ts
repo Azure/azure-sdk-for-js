@@ -544,6 +544,7 @@ export class ManagementClient extends LinkEntity {
       if (!item.messageId) item.messageId = generate_uuid();
       item.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
       const amqpMessage = toAmqpMessage(item);
+      amqpMessage.body = this._context.namespace.dataTransformer.encode(amqpMessage.body);
 
       try {
         const entry: any = {
