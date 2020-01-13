@@ -530,7 +530,9 @@ export function getEntityNames(): { [key in EntityNameKeys]: any } {
     [EntityNameKeys.QUEUE_NAME_NO_PARTITION]: "unpartitioned-queue",
     [EntityNameKeys.QUEUE_NAME_SESSION]: "partitioned-queue-sessions",
     [EntityNameKeys.QUEUE_NAME_NO_PARTITION_SESSION]: "unpartitioned-queue-sessions",
-    [EntityNameKeys.TOPIC_NAME]: "partitioned-topic",
+    // The name has been updated to use a different one
+    // For more details see https://github.com/Azure/azure-sdk-for-js/issues/6682
+    [EntityNameKeys.TOPIC_NAME]: "new-partitioned-topic",
     [EntityNameKeys.TOPIC_NAME_NO_PARTITION]: "unpartitioned-topic",
     [EntityNameKeys.TOPIC_NAME_SESSION]: "partitioned-topic-sessions",
     [EntityNameKeys.TOPIC_NAME_NO_PARTITION_SESSION]: "unpartitioned-topic-sessions",
