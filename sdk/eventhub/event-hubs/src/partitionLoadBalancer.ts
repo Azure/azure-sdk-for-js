@@ -202,6 +202,14 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     partitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionsToAdd: string[]
   ): string[] {
+    const params = {
+      ourOwnerId,
+      partitionOwnershipMap,
+      partitionsToAdd
+    };
+
+    console.log(`loadBalance(${JSON.stringify(params, undefined, '  ')})`);
+
     //  Remove all partitions ownership that have not been modified within the configured period of time. This means that the previous
     //  event processor that owned the partition is probably down and the partition is now eligible to be
     //  claimed by other event processors.
@@ -312,6 +320,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
       );
     }
 
+    console.log(`loadBalance(${ourOwnerId}) = ${partitionsToClaim}`);
     return partitionsToClaim;
   }
 }

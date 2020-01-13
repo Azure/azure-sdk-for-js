@@ -1236,7 +1236,7 @@ describe("Event Processor", function(): void {
       partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
     });
 
-    it("should ensure that all the processors maintain a steady-state when all partitions are being processed", async function(): Promise<
+    it.only("should ensure that all the processors maintain a steady-state when all partitions are being processed", async function(): Promise<
       void
     > {
       const partitionIds = await client.getPartitionIds({});
@@ -1378,6 +1378,8 @@ describe("Event Processor", function(): void {
         await Promise.all([processor1.stop(), processor2.stop()]);
         throw err;
       }
+
+      console.log(`Partition history: ${partitionOwnershipHistory}`);
 
       loggerForTest(`All partitions have been claimed.`);
       allPartitionsClaimed = true;
