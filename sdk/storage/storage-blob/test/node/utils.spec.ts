@@ -200,8 +200,8 @@ describe("Utility Helpers Node.js only", () => {
 
     it("writes a readable stream into a file", async () => {
       const numBytes = 100;
-      const shouldNotEmitError = false;
-      const readStream = new TestReadableStream(numBytes, shouldNotEmitError);
+      const emittingErrorInMiddle = false;
+      const readStream = new TestReadableStream(numBytes, emittingErrorInMiddle);
       await readStreamToLocalFile(readStream, validFilePath);
 
       const file = fs.readFileSync(validFilePath);
@@ -231,8 +231,8 @@ describe("Utility Helpers Node.js only", () => {
 
     it("rejects when the filepath is a directory", async () => {
       const numBytes = 100;
-      const shouldNotEmitError = false;
-      const readStream = new TestReadableStream(numBytes, shouldNotEmitError);
+      const emittingErrorInMiddle = false;
+      const readStream = new TestReadableStream(numBytes, emittingErrorInMiddle);
 
       try {
         await readStreamToLocalFile(readStream, __dirname);
