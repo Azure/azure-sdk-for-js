@@ -34,6 +34,28 @@ export const InputSchemaMapping: msRest.CompositeMapper = {
   }
 };
 
+export const InboundIpRule: msRest.CompositeMapper = {
+  serializedName: "InboundIpRule",
+  type: {
+    name: "Composite",
+    className: "InboundIpRule",
+    modelProperties: {
+      ipMask: {
+        serializedName: "ipMask",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -223,10 +245,27 @@ export const Domain: msRest.CompositeMapper = {
         }
       },
       metricResourceId: {
-        readOnly: true,
         serializedName: "properties.metricResourceId",
         type: {
           name: "String"
+        }
+      },
+      allowTrafficFromAllIPs: {
+        serializedName: "properties.allowTrafficFromAllIPs",
+        type: {
+          name: "Boolean"
+        }
+      },
+      inboundIpRules: {
+        serializedName: "properties.inboundIpRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundIpRule"
+            }
+          }
         }
       }
     }
@@ -1184,10 +1223,27 @@ export const Topic: msRest.CompositeMapper = {
         }
       },
       metricResourceId: {
-        readOnly: true,
         serializedName: "properties.metricResourceId",
         type: {
           name: "String"
+        }
+      },
+      allowTrafficFromAllIPs: {
+        serializedName: "properties.allowTrafficFromAllIPs",
+        type: {
+          name: "Boolean"
+        }
+      },
+      inboundIpRules: {
+        serializedName: "properties.inboundIpRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundIpRule"
+            }
+          }
         }
       }
     }
@@ -1335,6 +1391,12 @@ export const TopicTypeInfo: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      sourceResourceFormat: {
+        serializedName: "properties.sourceResourceFormat",
+        type: {
+          name: "String"
         }
       }
     }

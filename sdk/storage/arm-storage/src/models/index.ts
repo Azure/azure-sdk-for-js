@@ -270,6 +270,12 @@ export interface EncryptionService {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly lastEnabledTime?: Date;
+  /**
+   * Encryption key type to be used for the encryption service. 'Account' key type implies that an
+   * account-scoped encryption key will be used. 'Service' key type implies that a default service
+   * key is used. Possible values include: 'Service', 'Account'
+   */
+  keyType?: KeyType;
 }
 
 /**
@@ -286,14 +292,12 @@ export interface EncryptionServices {
   file?: EncryptionService;
   /**
    * The encryption function of the table storage service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly table?: EncryptionService;
+  table?: EncryptionService;
   /**
    * The encryption function of the queue storage service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly queue?: EncryptionService;
+  queue?: EncryptionService;
 }
 
 /**
@@ -1887,7 +1891,7 @@ export interface FileShare extends AzureEntityResource {
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
@@ -1907,7 +1911,7 @@ export interface FileShareItem extends AzureEntityResource {
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
@@ -2053,7 +2057,7 @@ export interface FileSharesCreateOptionalParams extends msRest.RequestOptionsBas
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
@@ -2068,7 +2072,7 @@ export interface FileSharesUpdateOptionalParams extends msRest.RequestOptionsBas
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
@@ -2258,6 +2262,14 @@ export type Kind = 'Storage' | 'StorageV2' | 'BlobStorage' | 'FileStorage' | 'Bl
  * @enum {string}
  */
 export type Reason = 'AccountNameInvalid' | 'AlreadyExists';
+
+/**
+ * Defines values for KeyType.
+ * Possible values include: 'Service', 'Account'
+ * @readonly
+ * @enum {string}
+ */
+export type KeyType = 'Service' | 'Account';
 
 /**
  * Defines values for KeySource.

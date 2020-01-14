@@ -4,12 +4,7 @@ import assert from "assert";
 import { CosmosClient } from "../../dist-esm";
 import { Container } from "../../dist-esm/client";
 import { endpoint, masterKey } from "../common/_testConfig";
-import {
-  bulkInsertItems,
-  getTestContainer,
-  getTestDatabase,
-  removeAllDatabases
-} from "../common/TestHelpers";
+import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 

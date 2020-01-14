@@ -849,89 +849,6 @@ exports['Cross partition GROUP BY with SUM 1'] = [
   }
 ]
 
-exports['Cross partition GROUP BY with single aggregate 1'] = [
-  {
-    "name": "Abby",
-    "min_age": 14.75
-  },
-  {
-    "name": "Adam",
-    "min_age": 14
-  },
-  {
-    "name": "Alex",
-    "min_age": 13.25
-  },
-  {
-    "name": "Bill",
-    "min_age": 13.25
-  },
-  {
-    "name": "Carl",
-    "min_age": 17
-  },
-  {
-    "name": "Dave",
-    "min_age": 15
-  },
-  {
-    "name": "Ella",
-    "min_age": 16.5
-  },
-  {
-    "name": "Eric",
-    "min_age": 15
-  },
-  {
-    "name": "Fred",
-    "min_age": 15.5
-  },
-  {
-    "name": "Gary",
-    "min_age": 15.5
-  },
-  {
-    "name": "John",
-    "min_age": 14
-  },
-  {
-    "name": "Lisa",
-    "min_age": 13.5
-  },
-  {
-    "name": "Lori",
-    "min_age": 14
-  },
-  {
-    "name": "Lucy",
-    "min_age": 13.2
-  },
-  {
-    "name": "Mady",
-    "min_age": 15.666666666666666
-  },
-  {
-    "name": "Mary",
-    "min_age": 16.833333333333332
-  },
-  {
-    "name": "Mike",
-    "min_age": 15
-  },
-  {
-    "name": "Rose",
-    "min_age": 14
-  },
-  {
-    "name": "Ryan",
-    "min_age": 11.5
-  },
-  {
-    "name": "Zara",
-    "min_age": 13
-  }
-]
-
 exports['Cross partition GROUP BY with multiple aggregates 1'] = [
   {
     "name": "Abby",
@@ -1053,20 +970,6 @@ exports['Cross partition GROUP BY with multiple aggregates 1'] = [
     "min_age": 11,
     "max_age": 17
   }
-]
-
-exports['Cross partition GROUP BY with VALUE aggregate 1'] = [
-  14.277777777777779,
-  14.444444444444445,
-  14.533333333333333,
-  14.846153846153847
-]
-
-exports['Cross partition GROUP BY with VALUE 1'] = [
-  "A",
-  "B",
-  "C",
-  "D"
 ]
 
 exports['Cross partition GROUP BY with VALUE and aggregate 1'] = [

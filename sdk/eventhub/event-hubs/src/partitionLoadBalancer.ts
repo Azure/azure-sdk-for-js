@@ -7,6 +7,8 @@ import { logger } from "./log";
 /**
  * Implements a load balancing algorithm for determining which consumers
  * own which partitions.
+ * @ignore
+ * @internal
  */
 export interface PartitionLoadBalancer {
   /**

@@ -996,7 +996,9 @@ export class SecretClient {
    */
   private createSpan(methodName: string, requestOptions: RequestOptionsBase = {}): Span {
     const tracer = getTracer();
-    return tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+    const span = tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+    span.setAttribute("az.namespace", "Microsoft.KeyVault");
+    return span;
   }
 
   /**
@@ -1009,11 +1011,16 @@ export class SecretClient {
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
     if (span.isRecording()) {
+      const spanOptions = options.spanOptions || {};
       return {
         ...options,
         spanOptions: {
-          ...options.spanOptions,
-          parent: span
+          ...spanOptions,
+          parent: span,
+          attributes: {
+            ...spanOptions.attributes,
+            "az.namespace": "Microsoft.KeyVault"
+          }
         }
       };
     } else {

@@ -31,6 +31,8 @@ import { getParentSpan } from "./util/operationOptions";
  *  - The event data will be evenly distributed among all available partitions.
  *
  * @class
+ * @internal
+ * @ignore
  */
 export class EventHubProducer {
   /**
@@ -258,6 +260,7 @@ export class EventHubProducer {
       links
     });
 
+    span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this._eventHubName);
     span.setAttribute("peer.address", this._endpoint);
 

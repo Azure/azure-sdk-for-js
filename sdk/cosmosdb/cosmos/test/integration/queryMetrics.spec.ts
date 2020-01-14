@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Constants } from "../../dist-esm/common";
 import {
   ClientSideMetrics,
   QueryMetrics,

@@ -182,9 +182,8 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
             2
           ]
         ];
-        const collectionUniqueId = "";
         try {
-          const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
+          createCompleteRoutingMap(partitionRangeWithInfo);
           assert.fail("must throw exception");
         } catch (e) {
           assert.equal(e.message, "Ranges overlap");

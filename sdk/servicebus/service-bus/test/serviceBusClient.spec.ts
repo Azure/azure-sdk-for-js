@@ -32,11 +32,13 @@ import {
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { DispositionType } from "../src/serviceBusMessage";
+// import { getEnvVars, isNode } from "./utils/envVarUtils";
+// import { getTokenCredentialsFromAAD } from "./utils/aadUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-import { EnvVarKeys, getEnvVars, isNode } from "../test/utils/envVarUtils";
+import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -313,19 +315,19 @@ describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
    */
   function getDefaultTokenCredential() {
     should.exist(
-      env[EnvVarKeys.AZURE_CLIENT_ID],
+      env[EnvVarNames.AZURE_CLIENT_ID],
       "define AZURE_CLIENT_ID in your environment before running integration tests."
     );
     should.exist(
-      env[EnvVarKeys.AZURE_TENANT_ID],
+      env[EnvVarNames.AZURE_TENANT_ID],
       "define AZURE_TENANT_ID in your environment before running integration tests."
     );
     should.exist(
-      env[EnvVarKeys.AZURE_CLIENT_SECRET],
+      env[EnvVarNames.AZURE_CLIENT_SECRET],
       "define AZURE_CLIENT_SECRET in your environment before running integration tests."
     );
     should.exist(
-      env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING],
+      env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
     );
     return new EnvironmentCredential();
