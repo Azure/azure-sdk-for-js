@@ -19,8 +19,8 @@
     "containerName": "container",
     "iotName": "[concat('iot', parameters('baseName'))]",
     "authorizationName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
-    "eventHubName": "eventhub",
-    "eventHubNameFull": "[concat(parameters('baseName'), '/eventhub')]",
+    "eventHubName": "livetesteventhub",
+    "eventHubNameFull": "[format('{0}/{1}', parameters('baseName'), variables('eventHubName'))]",
     "location": "[resourceGroup().location]"
   },
   "resources": [

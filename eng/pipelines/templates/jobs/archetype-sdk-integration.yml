@@ -74,6 +74,7 @@ jobs:
               -ProvisionerApplicationId $(provisioner-aad-id)
               -ProvisionerApplicationSecret $(provisioner-aad-secret)
               -DeleteAfterHours 24
+              -CI
               -Location westus2
               -Force
               -Verbose
@@ -103,7 +104,7 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Integration test libraries"
-        env: 
+        env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
         condition: ne(variables['TestType'],'sample')
@@ -114,7 +115,7 @@ jobs:
       - script: |
           node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples
         displayName: "Execute Samples"
-        env: 
+        env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
         condition: eq(variables['TestType'],'sample')
@@ -122,15 +123,15 @@ jobs:
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
           - pwsh: >-
               eng/Remove-TestResources.ps1
-              -BaseName $(BaseName)
-              -ServiceDirectory ${{ parameters.ResourceServiceDirectory }}
-              -TenantId $(aad-azure-sdk-test-tenant-id)
+              -ResourceGroupName "${env:AZURE_RESOURCEGROUP_NAME}"
+              -TenantId $(provisioner-aad-tenant)
               -ProvisionerApplicationId $(provisioner-aad-id)
               -ProvisionerApplicationSecret $(provisioner-aad-secret)
               -Force
               -Verbose
-            displayName: Remove Test Resources
-            condition: always()
+            displayName: "Clean up test resources"
+            condition: ne(variables['AZURE_RESOURCEGROUP_NAME'], '')
+            continueOnError: true
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
