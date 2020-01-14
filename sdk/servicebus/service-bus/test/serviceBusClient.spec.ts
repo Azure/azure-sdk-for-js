@@ -156,7 +156,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving batch data via a queueClient from a non existing namespace", async function(): Promise<
+  it("throws error when receiving batch data via a queueClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = sbClient.createQueueClient("some-name");
@@ -166,7 +166,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving batch data via a subscriptionClient from a non existing namespace", async function(): Promise<
+  it("throws error when receiving batch data via a subscriptionClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
@@ -176,7 +176,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving streaming data via a queueClient from a non existing namespace", async function(): Promise<
+  it("throws error when receiving streaming data via a queueClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = sbClient.createQueueClient("some-name");
@@ -287,7 +287,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving streaming data from a non existing queue #RunInBrowser", async function(): Promise<
+  it("throws error when receiving streaming data from a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
     const client = sbClient.createQueueClient("some-name");
@@ -302,7 +302,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving streaming data from a non existing subscription", async function(): Promise<
+  it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
     void
   > {
     const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
