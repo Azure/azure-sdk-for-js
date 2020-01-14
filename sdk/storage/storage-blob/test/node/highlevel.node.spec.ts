@@ -9,7 +9,7 @@ import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadabl
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
 import { readStreamToLocalFile } from "../../src/utils/utils.node";
-import { setLogLevel } from "@azure/logger";
+import { setLogLevel, getLogLevel, AzureLogLevel } from "@azure/logger";
 
 // tslint:disable:no-empty
 describe.only("Highlevel", () => {
@@ -28,6 +28,8 @@ describe.only("Highlevel", () => {
 
   let recorder: Recorder;
 
+  let oldLogLevel: AzureLogLevel | undefined;
+
   beforeEach(async function() {
     recorder = record(this);
     containerName = recorder.getUniqueName("container");
@@ -39,22 +41,14 @@ describe.only("Highlevel", () => {
   });
 
   afterEach(async function() {
-    if (this.currentTest!.title === "uploadStream should success") {
-      console.log("That's what I want to diagnose");
-      setLogLevel("info");
-      try {
-        await containerClient.delete();
-        recorder.stop();
-      } finally {
-        setLogLevel(undefined);
-      }
-      return;
-    }
     await containerClient.delete();
     recorder.stop();
   });
 
   before(async function() {
+    console.log("enabling info level logging");
+    oldLogLevel = getLogLevel();
+    setLogLevel("info");
     recorder = record(this);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
@@ -71,7 +65,8 @@ describe.only("Highlevel", () => {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
     recorder.stop();
-    setLogLevel(undefined);
+    console.log("restoring log level");
+    setLogLevel(oldLogLevel);
   });
 
   it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
