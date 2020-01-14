@@ -7,8 +7,12 @@ import { PollOperationState, PollOperation } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
 import { TestWebResource } from "./testWebResource";
 
+export interface PublicTestOperationState extends PollOperationState<string> {
+  previousResponse?: HttpOperationResponse;  
+}
+
 export interface TestOperationState extends PollOperationState<string> {
-  client: TestServiceClient;
+  client?: TestServiceClient;
   requestOptions?: RequestOptionsBase;
   initialResponse?: HttpOperationResponse;
   previousResponse?: HttpOperationResponse;
@@ -31,16 +35,16 @@ async function update(
   const doFinalResponse = previousResponse && previousResponse.parsedBody.doFinalResponse;
 
   if (!initialResponse) {
-    response = await client.sendInitialRequest(new TestWebResource(abortSignal));
+    response = await client!.sendInitialRequest(new TestWebResource(abortSignal));
     this.state.initialResponse = response;
     this.state.isStarted = true;
   } else if (doFinalResponse) {
-    response = await client.sendFinalRequest(new TestWebResource(abortSignal));
+    response = await client!.sendFinalRequest(new TestWebResource(abortSignal));
     this.state.isCompleted = true;
     this.state.result = "Done";
     this.state.previousResponse = response;
   } else {
-    response = await client.sendRequest(new TestWebResource(abortSignal));
+    response = await client!.sendRequest(new TestWebResource(abortSignal));
     this.state.previousResponse = response;
   }
 

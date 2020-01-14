@@ -3,6 +3,10 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 
+/**
+ * PollOperationState contains an opinionated list of the smallest set of properties needed
+ * to define any long running operation poller.
+ */
 export interface PollOperationState<TResult> {
   isStarted?: boolean;
   isCompleted?: boolean;

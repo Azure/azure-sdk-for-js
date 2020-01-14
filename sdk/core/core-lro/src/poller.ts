@@ -4,10 +4,25 @@
 import { PollOperation, PollOperationState } from "./pollOperation";
 import { AbortSignalLike } from "@azure/abort-controller";
 
+/**
+ * CancelOnProgress is used as the return value of a Poller's onProgress method.
+ * When a user invokes onProgress, they're required to pass in a function that will be
+ * called as a callback with the new data received each time the poll operation is updated.
+ * onProgress returns a function that will prevent any further update to reach the original callback.
+ */
 export type CancelOnProgress = () => void;
 
+/**
+ * PollProgressCallback<TState> is the type of the callback functions sent to onProgress.
+ * These functions will receive a TState that is defined by your implementation of
+ * the Poller class.
+ */
 export type PollProgressCallback<TState> = (state: TState) => void;
 
+/**
+ * When a poller is manually stopped through the `stopPolling` method,
+ * the poller will be rejected with an instance of the PollerStoppedError.
+ */
 export class PollerStoppedError extends Error {
   constructor(message: string) {
     super(message);
@@ -16,6 +31,10 @@ export class PollerStoppedError extends Error {
   }
 }
 
+/**
+ * When a poller is cancelled through the `cancelOperation` method,
+ * the poller will be rejected with an instance of the PollerCancelledError.
+ */
 export class PollerCancelledError extends Error {
   constructor(message: string) {
     super(message);
@@ -25,12 +44,12 @@ export class PollerCancelledError extends Error {
 }
 
 /**
- * Abstract representation of a poller, intended to expose just the minimal that the user needs to work with.
+ * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
  */
 export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
   /**
-   * Defines under what conditions to reach out to the underlying service.
-   * It should call the operation's update method.
+   * Returns a promise that will resolve once a single polling request finishes.
+   * It does this by calling the update method of the Poller's operation.
    */
   poll(options?: { abortSignal?: AbortSignal }): Promise<void>;
   /**
@@ -38,7 +57,10 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
    */
   pollUntilDone(): Promise<TResult>;
   /**
-   * Reports updates.
+   * Invokes the provided callback after each polling is completed,
+   * sending the current state of the poller's operation.
+   * 
+   * It returns a method that can be used to stop receiving updates on the given callback function.
    */
   onProgress(callback: (state: TState) => void): CancelOnProgress;
   /**
@@ -46,7 +68,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
    */
   isDone(): boolean;
   /**
-   * Stops the poller from continuing to poll.
+   * Stops the poller. After this, no manual or automated requests can be sent.
    */
   stopPolling(): void;
   /**
@@ -59,9 +81,9 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
   cancelOperation(options?: { abortSignal?: AbortSignal }): Promise<void>;
   /**
    * Returns the state of the operation.
-   * TState can be a different type than the underlying operation's TState.
+   * The TState defined in PollerLike can be a subset of the TState defined in
+   * the Poller implementation.
    */
-
   getOperationState(): TState;
   /**
    * Returns the result value of the operation,
@@ -71,7 +93,8 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
    */
   getResult(): TResult | undefined;
   /**
-   * Returns a serialized version of the poller.
+   * Returns a serialized version of the poller's operation
+   * by invoking the operation's toString method.
    */
   toString(): string;
 }
@@ -79,6 +102,57 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
 /**
  * A class that represents the definition of a program that polls through consecutive requests
  * until it reaches a state of completion.
+ * 
+ * A poller can be executed manually, by polling request by request, until its operation is completed, by calling to the `poll()` method repeatedly.
+ * It also provides a way to wait until the operation completes, by calling `pollUntilDone()` and waiting until the operation finishes.
+ * Pollers can also request the cancellation of the ongoing process to whom is providing the underlying long running operation.
+ * 
+ *     const poller = new MyPoller();
+ *     
+ *     // Polling just once:
+ *     await poller.poll();
+ * 
+ *     // We can try to cancel the request here, by calling:
+ *     //
+ *     //     await poller.cancelOperation();
+ *     //
+ *     
+ *     // Getting the final result:
+ *     const result = await poller.pollUntilDone();
+ * 
+ * The Poller is defined by two types, a type representing the state of the poller, which
+ * must include a basic set of properties from PollOperationState<TResult>,
+ * and a return type defined by TResult, which can be anything.
+ * 
+ * The poller implements the PollerLike interface, which allows poller implementations to avoid having
+ * to export the Poller's class directly, and instead only export the already instantiated poller with the PollerLike type.
+ *
+ *     class Client {
+ *       public async makePoller: PollerLike<MyPollerState, MyPollerResult> {
+ *         const poller = new MyPoller({});
+ *         // It might be preferred to return the poller after the first request is made,
+ *         // so that some information can be obtained right away.
+ *         await poller.poll();
+ *         return poller;
+ *       }
+ *     }
+ *
+ *     const poller: PollerLike<MyPollerState, MyPollerResult> = myClient.makePoller();
+ * 
+ * A poller can be created through its constructor, then it can be polled until it's completed.
+ * At any point in time, the state of the poller can be obtained without delay through the getOperationState method.
+ * At any point int time, the intermediate forms of the result type can be requested without delay.
+ * Once the underlying operation is marked as completed, the poller will stop and the final value will be returned.
+ * 
+ *     const poller = myClient.makePoller();
+ *     const state: MyPollerState = poller.getOperationState();
+ *     
+ *     // The intermediate result can be obtained at any time.
+ *     const result: MyPollerResult | undefined = poller.getResult();
+ *     
+ *     // The final result can only be obtained after the poller finishes.
+ *     const result: MyPollerResult = await poller.pollUntilDone();
+ * 
  */
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
   implements PollerLike<TState, TResult> {
@@ -89,8 +163,51 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   private cancelPromise?: Promise<void>;
   private promise: Promise<TResult>;
   private pollProgressCallbacks: PollProgressCallback<TState>[] = [];
+
+  /**
+   * The poller's operation is available in full to any of the methods of the Poller class
+   * and any class extending the Poller class.
+   */
   protected operation: PollOperation<TState, TResult>;
 
+  /**
+   * A poller needs to be initialized by passing in at least the basic properties of the PollOperation<TState, TResult>.
+   * 
+   * When writing an implementation of a Poller, this implementation needs to deal with the initialization
+   * of any custom state beyond the basic definition of the poller. The basic poller assumes that the poller's
+   * operation has already been defined, at least its basic properties. The code below shows how to approach
+   * the definition of the constructor of a new custom poller.
+   * 
+   *     export class MyPoller extends Poller<MyOperationState, string> {
+   *       constructor({
+   *         // Anything you might need outside of the basics
+   *       }) {
+   *         let state: MyOperationState = {
+   *           privateProperty: private,
+   *           publicProperty: public,
+   *         };
+   *         
+   *         const operation = {
+   *           state,
+   *           update,
+   *           cancel,
+   *           toString
+   *         }
+   *         
+   *         // Sending the operation to the parent's constructor.
+   *         super(operation);
+   *         
+   *         // You can assign more local properties here.
+   *       }
+   *     }
+   * 
+   * Inside of this constructor, a new promise is created. This will be used to
+   * tell the user when the poller finishes (see `pollUntilDone()`). The promise's
+   * resolve and reject methods are also used internally to control when to resolve
+   * or reject anyone waiting for the poller to finish.
+   * 
+   * @param operation Must contain the basic properties of PollOperation<State, TResult>.
+   */
   constructor(operation: PollOperation<TState, TResult>) {
     this.operation = operation;
     this.promise = new Promise(
@@ -109,11 +226,28 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
-   * Determines how much to wait between pollings.
+   * Defines how much to wait between each poll request.
+   * This has to be implemented by your custom poller.
+   * 
+   * @azure/core-http has a simple implementation of a delay function that waits as many milliseconds as specified.
+   * This can be used as follows:
+   * 
+   *     import { delay } from "@azure/core-http";
+   *     
+   *     export class MyPoller extends Poller<MyOperationState, string> {
+   *       // The other necessary definitions.
+   *       
+   *       async delay(): Promise<void> {
+   *         const milliseconds = 1000;
+   *         return delay(milliseconds);
+   *       }
+   *     }
    */
   protected abstract async delay(): Promise<void>;
 
   /**
+   * @internal
+   * @ignore
    * Starts a loop that will break only if the poller is done
    * or if the poller is stopped.
    */
@@ -128,8 +262,15 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
+   * @internal
+   * @ignore
    * pollOnce does one polling, by calling to the update method of the underlying
    * poll operation to make any relevant change effective.
+   * 
+   * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
+   * This will be received from the PollOperationState's RequestOptions, if the property exists as part of that object.
+   * 
+   * @param options Optional properties passed to the operation's update method.
    */
   private async pollOnce(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     const state: PollOperationState<TResult> = this.operation.state;
@@ -153,7 +294,14 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
+   * @internal
+   * @ignore
    * fireProgress calls the functions passed in via onProgress the method of the poller.
+   * 
+   * It loops over all of the callbacks received from onProgress, and executes them, sending them
+   * the current operation state.
+   * 
+   * @param state The current operation state.
    */
   private fireProgress(state: TState): void {
     for (const callback of this.pollProgressCallbacks) {
@@ -162,6 +310,8 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
+   * @internal
+   * @ignore
    * Invokes the underlying operation's cancel method, and rejects the
    * pollUntilDone promise.
    */
@@ -173,8 +323,13 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
-   * Reaches out to the underlying service.
-   * It should call the operation's update method.
+   * Returns a promise that will resolve once a single polling request finishes.
+   * It does this by calling the update method of the Poller's operation.
+   * 
+   * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
+   * This will be received from the PollOperationState's RequestOptions, if the property exists as part of that object.
+   * 
+   * @param options Optional properties passed to the operation's update method.
    */
   public poll(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
     if (!this.pollOncePromise) {
@@ -198,7 +353,10 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
-   * Reports updates.
+   * Invokes the provided callback after each polling is completed,
+   * sending the current state of the poller's operation.
+   * 
+   * It returns a method that can be used to stop receiving updates on the given callback function.
    */
   public onProgress(callback: (state: TState) => void): CancelOnProgress {
     this.pollProgressCallbacks.push(callback);
@@ -230,13 +388,19 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   /**
    * Returns true if the poller is stopped.
    */
-
   public isStopped(): boolean {
     return this.stopped;
   }
 
   /**
-   * Tries to cancel the underlying operation.
+   * Attempts to cancel the underlying operation.
+   * 
+   * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
+   * This will be received from the PollOperationState's RequestOptions, if the property exists as part of that object.
+   * 
+   * If it's called again before it finishes, it will throw an error.
+   * 
+   * @param options Optional properties passed to the operation's update method.
    */
   public cancelOperation(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
     if (!this.stopped) {
@@ -252,8 +416,48 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
 
   /**
    * Returns the state of the operation.
-   * TState can be a different type than the underlying operation's TState.
-   * This method can be overridden with a custom implementation that returns specific properties out of this.operation.state.
+   *
+   * Even though TState will be the same type inside any of the methods of any extension of the Poller class,
+   * implementations of the pollers can customize what's shared with the public by writing their own
+   * version of the `getOperationState` method, and by defining two types, one representing the internal state of the poller
+   * and a public type representing a safe to share subset of the properties of the internal state.
+   * Their definition of getOperationState can then return their public type.
+   * 
+   * Example:
+   * 
+   *     // Let's say we have our poller's operation state defined as:
+   *     interface MyOperationState extends PollOperationState<ResultType> {
+   *       privateProperty?: string;
+   *       publicProperty?: string;
+   *     }
+   *     
+   *     // To allow us to have a true separation of public and private state, we have to define another interface:
+   *     interface PublicState extends PollOperationState<ResultType> {
+   *       publicProperty?: string;
+   *     }
+   * 
+   *     // Then, we define our Poller as follows:
+   *     export class MyPoller extends Poller<MyOperationState, ResultType> {
+   *       // ... More content is needed here ...
+   * 
+   *       public getOperationState(): PublicState {
+   *         const state: PublicState = this.operation.state;
+   *         return {
+   *           // Properties from PollOperationState<TResult>
+   *           isStarted: state.isStarted,
+   *           isCompleted: state.isCompleted,
+   *           isCancelled: state.isCancelled,
+   *           error: state.error,
+   *           result: state.result,
+   *        
+   *           // The only other property needed by PublicState.
+   *           publicProperty: state.publicProperty
+   *         }
+   *       }
+   * 
+   * You can see this in the tests of this repository, go to:
+   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-lro/test/utils/testPoller.ts
+   * and look for the getOperationState implementation.
    */
   public getOperationState(): TState {
     return this.operation.state;
@@ -271,7 +475,8 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   }
 
   /**
-   * Returns a serialized version of the poller.
+   * Returns a serialized version of the poller's operation
+   * by invoking the operation's toString method.
    */
   public toString(): string {
     return this.operation.toString();
