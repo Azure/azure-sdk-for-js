@@ -1,4 +1,4 @@
-import nodeResolve from "rollup-plugin-node-resolve";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import visualizer from "rollup-plugin-visualizer";
 import sourcemaps from "rollup-plugin-sourcemaps";
 

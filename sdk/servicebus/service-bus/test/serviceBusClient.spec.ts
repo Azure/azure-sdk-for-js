@@ -32,6 +32,8 @@ import {
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { DispositionType } from "../src/serviceBusMessage";
+// import { getEnvVars, isNode } from "./utils/envVarUtils";
+// import { getTokenCredentialsFromAAD } from "./utils/aadUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -338,6 +340,24 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
 //     should.equal(msgs.length, 1, "Unexpected number of messages");
 //   }
 
+//   it("throws error when using `CreateFromAadTokenCredentials` in browser #RunInBrowser", async function(): Promise<
+//     void
+//   > {
+//     // We use the `!isNode` check here to ensure this test is run only in browser only
+//     // as by default all tests run in Node
+//     if (!isNode) {
+//       const credentials: any = {};
+//       await testCreateFromAadTokenCredentials(serviceBusEndpoint, credentials).catch((err) => {
+//         errorWasThrown = true;
+//         should.equal(
+//           err.message,
+//           "`createFromAadTokenCredentials` cannot be used to create ServiceBusClient as AAD support is not present in browser."
+//         );
+//       });
+//       should.equal(errorWasThrown, true, "Error thrown flag must be true");
+//     }
+//   });
+
 //   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
 //     await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
 //       errorWasThrown = true;
@@ -353,31 +373,13 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
 //   it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
 //     void
 //   > {
-//     const env = getEnvVars();
-
-//     let tokenCreds = await loginWithServicePrincipalSecret(
-//       env.AAD_CLIENT_ID,
-//       env.AAD_CLIENT_SECRET,
-//       env.AAD_TENANT_ID,
-//       {
-//         tokenAudience: aadServiceBusAudience
-//       }
-//     );
+//     const tokenCreds = await getTokenCredentialsFromAAD();
 //     sbClient = ServiceBusClient.createFromAadTokenCredentials(123 as any, tokenCreds);
 //     should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
 //   });
 
 //   it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-//     const env = getEnvVars();
-
-//     let tokenCreds = await loginWithServicePrincipalSecret(
-//       env.AAD_CLIENT_ID,
-//       env.AAD_CLIENT_SECRET,
-//       env.AAD_TENANT_ID,
-//       {
-//         tokenAudience: aadServiceBusAudience
-//       }
-//     );
+//     const tokenCreds = await getTokenCredentialsFromAAD();
 //     await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
 //     await sbClient.close();
 //   });

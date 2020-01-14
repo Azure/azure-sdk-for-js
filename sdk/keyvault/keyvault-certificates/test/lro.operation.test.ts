@@ -17,7 +17,7 @@ describe("Certificates client - LRO - certificate operation", () => {
   
   beforeEach(async function() {
     const authentication = await authenticate(this);
-    certificateSuffix = authentication.certificateSuffix;
+    certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;

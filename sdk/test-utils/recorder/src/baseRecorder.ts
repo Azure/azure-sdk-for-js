@@ -354,7 +354,11 @@ export class NiseRecorder extends BaseRecorder {
             const response = self.recordings[i].response;
 
             // We are dealing with async requests so we're responding to them asynchronously
-            setTimeout(() => req.respond(status, responseHeaders, response));
+            setTimeout(() => {
+              if (!req.aborted) {
+                req.respond(status, responseHeaders, response);
+              }
+            });
             self.recordings.splice(i, 1);
             recordingFound = true;
           }

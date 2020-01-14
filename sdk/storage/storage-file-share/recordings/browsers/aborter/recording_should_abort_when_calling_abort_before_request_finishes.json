@@ -1,8 +1,20 @@
 {
- "recordings": [],
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share157844351746804139",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 0,
+   "response": "",
+   "responseHeaders": {}
+  }
+ ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "share": "share157376826104606452"
+   "share": "share157844351746804139"
   },
   "newDate": {}
  }

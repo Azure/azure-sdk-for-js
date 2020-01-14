@@ -39,7 +39,6 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient) {
       return;
     }
 
-    const count = 0;
     await Promise.all(
       databases.map<Promise<Response<DatabaseDefinition>>>(async (database: DatabaseDefinition) =>
         client.database(database.id).delete()

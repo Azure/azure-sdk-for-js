@@ -71,13 +71,11 @@ describe("User Defined Function", function() {
     assert.equal(replacedUdf.id, udfAfterReplace.id);
 
     // delete udf
-    const { resource: res } = await container.scripts.userDefinedFunction(replacedUdf.id).delete();
+    await container.scripts.userDefinedFunction(replacedUdf.id).delete();
 
     // read udfs after deletion
     try {
-      const { resource: badudf } = await container.scripts
-        .userDefinedFunction(replacedUdf.id)
-        .read();
+      await container.scripts.userDefinedFunction(replacedUdf.id).read();
       assert.fail("Must fail to read after delete");
     } catch (err) {
       const notFoundErrorCode = 404;

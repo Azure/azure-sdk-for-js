@@ -76,6 +76,10 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
   return result;
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 export function isLatestPosition(eventPosition: EventPosition): boolean {
   if (eventPosition.offset === "@latest") {
     return true;

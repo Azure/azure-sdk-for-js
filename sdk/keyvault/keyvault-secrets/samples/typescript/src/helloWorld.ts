@@ -21,7 +21,8 @@ export async function main(): Promise<void> {
   const client = new SecretClient(url, credential);
 
   // Create a secret
-  const secretName = "secretHelloWorldTS";
+  const uniqueString = new Date().getTime();
+  const secretName = `secret${uniqueString}`;
   const result = await client.setSecret(secretName, "MySecretValue");
   console.log("result: ", result);
 
