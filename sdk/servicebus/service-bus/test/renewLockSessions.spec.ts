@@ -461,7 +461,7 @@ async function testAutoLockRenewalConfigBehavior(
       }
     },
     (err: MessagingError | Error) => {
-      if (err.code === "SessionLockLostError") {
+      if ((err as MessagingError).code === "SessionLockLostError") {
         sessionLockLostErrorThrown = true;
       } else {
         onError(err);
