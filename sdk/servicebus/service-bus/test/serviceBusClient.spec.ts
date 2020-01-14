@@ -333,28 +333,28 @@ describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
 
   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
     try {
-      new ServiceBusClient([] as any, serviceBusEndpoint);
+      new ServiceBusClient(serviceBusEndpoint, [] as any);
     } catch (err) {
       errorWasThrown = true;
       should.equal(
         err.message,
-        "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
+        "Connection string malformed: each part of the connection string must have an `=` assignment.",
+        // "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
         "ErrorMessage is different than expected"
       );
     }
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error for undefined tokenCredentials / connectionString", async function(): Promise<
-    void
-  > {
+  it("throws error for undefined tokenCredentials", async function(): Promise<void> {
     try {
-      new ServiceBusClient(undefined as any, serviceBusEndpoint);
+      new ServiceBusClient(serviceBusEndpoint, undefined as any);
     } catch (err) {
       errorWasThrown = true;
       should.equal(
         err.message,
-        "Input parameter 'connectionString' or 'credentials' must be defined.",
+        "Connection string malformed: each part of the connection string must have an `=` assignment.",
+        // "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
         "ErrorMessage is different than expected"
       );
     }
@@ -366,13 +366,13 @@ describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
       void
     > {
       const tokenCreds = getDefaultTokenCredential();
-      sbClient = new ServiceBusClient(tokenCreds, 123 as any);
+      sbClient = new ServiceBusClient(123 as any, tokenCreds);
       should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
     });
 
     it("sends a message to the ServiceBus entity", async function(): Promise<void> {
       const tokenCreds = getDefaultTokenCredential();
-      const sbClient = new ServiceBusClient(tokenCreds, serviceBusEndpoint);
+      const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
 
       sbClient.should.be.an.instanceof(ServiceBusClient);
       const clients = await getSenderReceiverClients(

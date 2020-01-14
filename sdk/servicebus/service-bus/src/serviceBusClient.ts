@@ -72,37 +72,27 @@ export class ServiceBusClient {
    * Instantiates a ServiceBusClient to interact with a Service Bus Namespace.
    *
    * @constructor
-   * @param credential - credential that implements the TokenCredential interface.
    * @param host - The host name for the Service Bus namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
+   * @param credential - credential that implements the TokenCredential interface.
    * @param options - Options to control ways to interact with the Service Bus
    * Namespace.
    */
-  constructor(credential: TokenCredential, host: string, options?: ServiceBusClientOptions);
+  constructor(host: string, credential: TokenCredential, options?: ServiceBusClientOptions);
 
   constructor(
-    connectionStringOrCredential: string | TokenCredential,
-    hostOrServiceBusClientOptions?: string | ServiceBusClientOptions,
+    hostOrConnectionString: string,
+    credentialOrServiceBusClientOptions?: TokenCredential | ServiceBusClientOptions,
     options?: ServiceBusClientOptions
   ) {
     let config;
     let credential;
-    let connectionString;
 
-    if (connectionStringOrCredential == undefined) {
-      throw new Error("Input parameter 'connectionString' or 'credentials' must be defined.");
-    }
-
-    if (!options) {
-      options = {};
-    }
-
-    if (typeof connectionStringOrCredential == "string") {
+    if (!isTokenCredential(credentialOrServiceBusClientOptions)) {
       // connectionString and options based constructor was invoked
-      connectionString = connectionStringOrCredential;
-      config = ConnectionConfig.create(connectionString);
+      config = ConnectionConfig.create(hostOrConnectionString);
 
-      options = hostOrServiceBusClientOptions as ServiceBusClientOptions;
+      options = credentialOrServiceBusClientOptions as ServiceBusClientOptions;
       config.webSocket = options && options.webSocket;
       config.webSocketEndpointPath = "$servicebus/websocket";
       config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
@@ -112,21 +102,19 @@ export class ServiceBusClient {
 
       ConnectionConfig.validate(config);
     } else {
-      // credential, host and options based constructor was invoked
-      if (!isTokenCredential(connectionStringOrCredential)) {
-        throw new Error(
-          "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload."
-        );
-      }
-      credential = connectionStringOrCredential as TokenCredential;
+      // host, credential and options based constructor was invoked
+      credential = credentialOrServiceBusClientOptions as TokenCredential;
 
-      hostOrServiceBusClientOptions = String(hostOrServiceBusClientOptions);
-
-      if (!hostOrServiceBusClientOptions.endsWith("/")) {
-        hostOrServiceBusClientOptions += "/";
+      hostOrConnectionString = String(hostOrConnectionString);
+      if (!hostOrConnectionString.endsWith("/")) {
+        hostOrConnectionString += "/";
       }
-      connectionString = `Endpoint=sb://${hostOrServiceBusClientOptions};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
+      const connectionString = `Endpoint=sb://${hostOrConnectionString};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
       config = ConnectionConfig.create(connectionString);
+    }
+
+    if (!options) {
+      options = {};
     }
 
     this.name = config.endpoint;

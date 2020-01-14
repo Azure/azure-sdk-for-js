@@ -30,7 +30,7 @@ import {
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import { AccessToken, parseConnectionString, TokenCredential } from "@azure/core-amqp";
-import { getEnvVars,  EnvVarNames } from "./utils/envVarUtils";
+import { getEnvVars, EnvVarNames } from "./utils/envVarUtils";
 import { EnvironmentCredential } from "./utils/aadUtils";
 
 const should = chai.should();
@@ -910,7 +910,7 @@ describe("Streaming - Failed init should not cache recevier", function(): void {
       SharedAccessKey: string;
     } = parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
     const tokenProvider = new TestTokenCredential();
-    sbClient = new ServiceBusClient(tokenProvider, connectionObject.Endpoint.substr(5));
+    sbClient = new ServiceBusClient(connectionObject.Endpoint.substr(5), tokenProvider);
     clients = await getSenderReceiverClients(
       sbClient,
       TestClientType.UnpartitionedQueue,
