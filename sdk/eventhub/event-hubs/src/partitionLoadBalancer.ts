@@ -117,65 +117,60 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     return maxList[Math.floor(Math.random() * maxList.length)].partitionId;
   }
 
-  /*
-   * This method is called after determining that the load is not balanced. This method will evaluate
-   * if the current event processor should own more partitions. Specifically, this method returns true if the
-   * current event processor owns less than the minimum number of partitions or if it owns the minimum number
-   * and no other event processor owns lesser number of partitions than this event processor.
-   */
+  
   private _shouldOwnMorePartitions(
-    ourOwnerId: string,
-    minPartitionsPerEventProcessor: number,
-    partitionIds: string[],
-    ownerPartitionMap: Map<string, PartitionOwnership[]>
+    minRequired: number,
+    numEventProcessorsWithAdditionalPartition: number,
+    numPartitionsOwnedByUs: number,
+    processorCounts: ProcessorCounts
   ): boolean {
-    const numPartitionsOwnedByUs = ownerPartitionMap.get(ourOwnerId)!.length;
+    let maxPartitionsPerProcessor = minRequired;
 
-    if (numPartitionsOwnedByUs < minPartitionsPerEventProcessor) {
-      return true;
+    if (
+      numEventProcessorsWithAdditionalPartition > 0 &&
+      processorCounts.haveExtraPartition < numEventProcessorsWithAdditionalPartition
+    ) {
+      maxPartitionsPerProcessor = minRequired + 1;
     }
 
-    let sumOfPartitionsOwnedByAnyProcessor = 0;
-
-    for (const ownershipList of ownerPartitionMap.values()) {
-      sumOfPartitionsOwnedByAnyProcessor =
-        sumOfPartitionsOwnedByAnyProcessor + ownershipList.length;
-    }
-
-    const thereAreUnownedPartitions = sumOfPartitionsOwnedByAnyProcessor < partitionIds.length;
-
-    if (thereAreUnownedPartitions && numPartitionsOwnedByUs < minPartitionsPerEventProcessor) {
-      return true;
-    }
-
-    return false;
+    return numPartitionsOwnedByUs >= maxPartitionsPerProcessor;
   }
 
-  /*
-   * When the load is balanced, all active event processors own at least minPartitionsPerEventProcessor
-   * and only numberOfEventProcessorsWithAdditionalPartition event processors will own 1 additional
-   * partition.
-   */
   private _isLoadBalanced(
-    minPartitionsPerEventProcessor: number,
-    numberOfEventProcessorsWithAdditionalPartition: number,
-    ownerPartitionMap: Map<string, PartitionOwnership[]>
+    requiredCountWithAdditionalPartition: number,
+    totalPartitions: number,
+    processorCounts: ProcessorCounts
   ): boolean {
-    let count = 0;
+    return (
+      processorCounts.haveExtraPartition === requiredCountWithAdditionalPartition &&
+      processorCounts.haveRequiredPartitions + processorCounts.haveExtraPartition === totalPartitions
+    );
+  }
+
+  private _getProcessorCounts(
+    numRequired: number,
+    ownerPartitionMap: Map<string, PartitionOwnership[]>
+  ): ProcessorCounts {
+    const counts: ProcessorCounts = {
+      haveRequiredPartitions: 0,
+      haveExtraPartition: 0
+    };
+
     for (const ownershipList of ownerPartitionMap.values()) {
       const numberOfPartitions = ownershipList.length;
-      if (
-        numberOfPartitions < minPartitionsPerEventProcessor ||
-        numberOfPartitions > minPartitionsPerEventProcessor + 1
-      ) {
-        return false;
+
+      if (numberOfPartitions === numRequired) {
+        counts.haveRequiredPartitions++;
       }
-      if (numberOfPartitions === minPartitionsPerEventProcessor + 1) {
-        count++;
+
+      if (numberOfPartitions === numRequired + 1) {
+        counts.haveExtraPartition++;
       }
     }
-    return count === numberOfEventProcessorsWithAdditionalPartition;
+
+    return counts;
   }
+
 
   /*
    * This method will create a new map of partition id and PartitionOwnership containing only those partitions
@@ -252,22 +247,25 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     );
     // If the number of partitions in Event Hub is not evenly divisible by number of active event processors,
     // a few Event Processors may own 1 additional partition than the minimum when the load is balanced. Calculate
-    // the number of event processors that can own additional partition.
+    // the number of event processors that can own an additional partition.
     const numberOfEventProcessorsWithAdditionalPartition =
       partitionsToAdd.length % ownerPartitionMap.size;
-
-    const possibleExtraPartition = numberOfEventProcessorsWithAdditionalPartition !== 0 ? 1 : 0;
 
     logger.verbose(
       `[${ourOwnerId}] Expected minimum number of partitions per event processor: ${minPartitionsPerEventProcessor}, 
       expected number of event processors with additional partition: ${numberOfEventProcessorsWithAdditionalPartition}.`
     );
 
+    const processorCounts = this._getProcessorCounts(
+      minPartitionsPerEventProcessor,
+      ownerPartitionMap
+    );
+
     if (
       this._isLoadBalanced(
-        minPartitionsPerEventProcessor,
         numberOfEventProcessorsWithAdditionalPartition,
-        ownerPartitionMap
+        partitionsToAdd.length,
+        processorCounts
       )
     ) {
       logger.info(`[${ourOwnerId}] Load is balanced.`);
@@ -277,10 +275,10 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
 
     if (
       !this._shouldOwnMorePartitions(
-        ourOwnerId,
-        minPartitionsPerEventProcessor + possibleExtraPartition,
-        partitionsToAdd,
-        ownerPartitionMap
+        minPartitionsPerEventProcessor,
+        numberOfEventProcessorsWithAdditionalPartition,
+        ownerPartitionMap.get(ourOwnerId)!.length,
+        processorCounts
       )
     ) {
       logger.verbose(
@@ -325,4 +323,9 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
 
     return partitionsToClaim;
   }
+}
+
+interface ProcessorCounts {
+  haveExtraPartition: number;
+  haveRequiredPartitions: number;
 }

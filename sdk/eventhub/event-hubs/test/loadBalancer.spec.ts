@@ -172,6 +172,24 @@ describe("PartitionLoadBalancer", () => {
       );
     });
 
+    it("avoid thrash", () => {
+      // this is a case where we shouldn't steal - we have
+      // the minimum number of partitions and stealing at this
+      // point will just keep thrashing both processors.
+      const partitionsToOwn = lb.loadBalance(
+        "b",
+        createOwnershipMap({
+          "0": "a",
+          "1": "b",
+          "2": "a"
+        }),
+        ["0", "1", "2"]
+      );
+
+      partitionsToOwn.sort();
+      partitionsToOwn.should.deep.equal(["1"], "should not re-steal when things are balanced");
+    });
+
     it("general cases", () => {
       const allPartitions = ["0", "1", "2", "3"];
 
@@ -205,7 +223,7 @@ describe("PartitionLoadBalancer", () => {
       partitionsToOwn.sort();
       partitionsToOwn.should.be.deep.equal(["0", "1"], "b grabbed the last available partition");
 
-      // we're at equilibrium - processors now only grab the partitions that they own
+      // we're balanced - processors now only grab the partitions that they own
       partitionsToOwn = lb.loadBalance(
         "b",
         createOwnershipMap({
@@ -219,7 +237,7 @@ describe("PartitionLoadBalancer", () => {
       partitionsToOwn.sort();
       partitionsToOwn.should.be.deep.equal(
         ["0", "2"],
-        "equilibrium: b only grabbed it's already owned partitions"
+        "balanced: b only grabbed it's already owned partitions"
       );
     });
 
