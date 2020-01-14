@@ -140,6 +140,7 @@ export interface CheckpointStore {
  * }
  * ```
  * @internal
+ * @ignore
  */
 export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends // for our internal classes (these are optional for external users)
   extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
@@ -210,6 +211,8 @@ export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWait
  * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  *
  * @class EventProcessor
+ * @internal
+ * @ignore
  */
 export class EventProcessor {
   private _consumerGroup: string;

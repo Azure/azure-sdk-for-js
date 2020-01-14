@@ -17,7 +17,7 @@
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples instead.
 */
 
-import { EventHubConsumerClient } from "@azure/event-hubs";
+import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -32,19 +32,22 @@ export async function main() {
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
 
-  const subscription = consumerClient.subscribe({
-    // The callback where you add your code to process incoming events
-    processEvents: async (events, context) => {
-      for (const event of events) {
-        console.log(
-          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
-        );
+  const subscription = consumerClient.subscribe(
+    {
+      // The callback where you add your code to process incoming events
+      processEvents: async (events, context) => {
+        for (const event of events) {
+          console.log(
+            `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
+          );
+        }
+      },
+      processError: async (err, context) => {
+        console.log(`Error : ${err}`);
       }
     },
-    processError: async (err, context) => {
-      console.log(`Error : ${err}`);
-    }
-  });
+    { startPosition: earliestEventPosition }
+  );
 
   // Wait for a bit before cleaning up the sample
   setTimeout(async () => {

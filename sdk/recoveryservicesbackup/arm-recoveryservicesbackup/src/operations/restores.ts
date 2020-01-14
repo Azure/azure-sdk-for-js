@@ -99,7 +99,7 @@ const triggerOperationSpec: msRest.OperationSpec = {
     Parameters.recoveryPointId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

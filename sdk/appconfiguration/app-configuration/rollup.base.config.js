@@ -1,6 +1,6 @@
-import nodeResolve from "rollup-plugin-node-resolve";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
-import cjs from "rollup-plugin-commonjs";
+import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
@@ -43,10 +43,7 @@ export function nodeConfig(test = false) {
     // mark assert packages we use as external
     baseConfig.external.push("assert");
 
-    baseConfig.external.push(
-      ...Object.keys(pkg.dependencies),
-      ...Object.keys(pkg.devDependencies)
-    );
+    baseConfig.external.push(...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies));
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also

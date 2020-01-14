@@ -43,7 +43,8 @@ export async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const secretName = "secretBackupAndRestoreTS";
+  const uniqueString = new Date().getTime();
+  const secretName = `secret${uniqueString}`;
 
   // Create our secret
   await client.setSecret(secretName, "XYZ789");

@@ -28,8 +28,8 @@ export class EventSubscriptions {
   }
 
   /**
-   * Get properties of an event subscription
-   * @summary Get an event subscription
+   * Get properties of an event subscription.
+   * @summary Get an event subscription.
    * @param scope The scope of the event subscription. The scope can be a subscription, or a resource
    * group, or a top level resource belonging to a resource provider namespace, or an EventGrid
    * topic. For example, use '/subscriptions/{subscriptionId}/' for a subscription,
@@ -38,7 +38,7 @@ export class EventSubscriptions {
    * for a resource, and
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
    * for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription
+   * @param eventSubscriptionName Name of the event subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsGetResponse>
    */
@@ -52,7 +52,7 @@ export class EventSubscriptions {
    * for a resource, and
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
    * for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription
+   * @param eventSubscriptionName Name of the event subscription.
    * @param callback The callback
    */
   get(scope: string, eventSubscriptionName: string, callback: msRest.ServiceCallback<Models.EventSubscription>): void;
@@ -65,7 +65,7 @@ export class EventSubscriptions {
    * for a resource, and
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
    * for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription
+   * @param eventSubscriptionName Name of the event subscription.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -84,7 +84,7 @@ export class EventSubscriptions {
   /**
    * Asynchronously creates a new event subscription or updates an existing event subscription based
    * on the specified scope.
-   * @summary Create or update an event subscription
+   * @summary Create or update an event subscription.
    * @param scope The identifier of the resource to which the event subscription needs to be created
    * or updated. The scope can be a subscription, or a resource group, or a top level resource
    * belonging to a resource provider namespace, or an EventGrid topic. For example, use
@@ -97,7 +97,7 @@ export class EventSubscriptions {
    * @param eventSubscriptionName Name of the event subscription. Event subscription names must be
    * between 3 and 64 characters in length and should use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
-   * information
+   * information.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsCreateOrUpdateResponse>
    */
@@ -107,8 +107,8 @@ export class EventSubscriptions {
   }
 
   /**
-   * Delete an existing event subscription
-   * @summary Delete an event subscription
+   * Delete an existing event subscription.
+   * @summary Delete an event subscription.
    * @param scope The scope of the event subscription. The scope can be a subscription, or a resource
    * group, or a top level resource belonging to a resource provider namespace, or an EventGrid
    * topic. For example, use '/subscriptions/{subscriptionId}/' for a subscription,
@@ -117,7 +117,7 @@ export class EventSubscriptions {
    * for a resource, and
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
    * for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription
+   * @param eventSubscriptionName Name of the event subscription.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -128,7 +128,7 @@ export class EventSubscriptions {
 
   /**
    * Asynchronously updates an existing event subscription.
-   * @summary Update an event subscription
+   * @summary Update an event subscription.
    * @param scope The scope of existing event subscription. The scope can be a subscription, or a
    * resource group, or a top level resource belonging to a resource provider namespace, or an
    * EventGrid topic. For example, use '/subscriptions/{subscriptionId}/' for a subscription,
@@ -137,8 +137,8 @@ export class EventSubscriptions {
    * for a resource, and
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
    * for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription to be updated
-   * @param eventSubscriptionUpdateParameters Updated event subscription information
+   * @param eventSubscriptionName Name of the event subscription to be updated.
+   * @param eventSubscriptionUpdateParameters Updated event subscription information.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsUpdateResponse>
    */
@@ -148,8 +148,8 @@ export class EventSubscriptions {
   }
 
   /**
-   * Get the full endpoint URL for an event subscription
-   * @summary Get full URL of an event subscription
+   * Get the full endpoint URL for an event subscription.
+   * @summary Get full URL of an event subscription.
    * @param scope The scope of the event subscription. The scope can be a subscription, or a resource
    * group, or a top level resource belonging to a resource provider namespace, or an EventGrid
    * topic. For example, use '/subscriptions/{subscriptionId}/' for a subscription,
@@ -158,7 +158,7 @@ export class EventSubscriptions {
    * for a resource, and
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
    * for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription
+   * @param eventSubscriptionName Name of the event subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsGetFullUrlResponse>
    */
@@ -172,7 +172,7 @@ export class EventSubscriptions {
    * for a resource, and
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
    * for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription
+   * @param eventSubscriptionName Name of the event subscription.
    * @param callback The callback
    */
   getFullUrl(scope: string, eventSubscriptionName: string, callback: msRest.ServiceCallback<Models.EventSubscriptionFullUrl>): void;
@@ -185,7 +185,7 @@ export class EventSubscriptions {
    * for a resource, and
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
    * for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription
+   * @param eventSubscriptionName Name of the event subscription.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -202,8 +202,8 @@ export class EventSubscriptions {
   }
 
   /**
-   * List all aggregated global event subscriptions under a specific Azure subscription
-   * @summary Get an aggregated list of all global event subscriptions under an Azure subscription
+   * List all aggregated global event subscriptions under a specific Azure subscription.
+   * @summary Get an aggregated list of all global event subscriptions under an Azure subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalBySubscriptionResponse>
    */
@@ -228,19 +228,19 @@ export class EventSubscriptions {
 
   /**
    * List all global event subscriptions under an Azure subscription for a topic type.
-   * @summary List all global event subscriptions for a topic type
-   * @param topicTypeName Name of the topic type
+   * @summary List all global event subscriptions for a topic type.
+   * @param topicTypeName Name of the topic type.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse>
    */
   listGlobalBySubscriptionForTopicType(topicTypeName: string, options?: Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams): Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse>;
   /**
-   * @param topicTypeName Name of the topic type
+   * @param topicTypeName Name of the topic type.
    * @param callback The callback
    */
   listGlobalBySubscriptionForTopicType(topicTypeName: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
   /**
-   * @param topicTypeName Name of the topic type
+   * @param topicTypeName Name of the topic type.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -256,8 +256,8 @@ export class EventSubscriptions {
   }
 
   /**
-   * List all global event subscriptions under a specific Azure subscription and resource group
-   * @summary List all global event subscriptions under an Azure subscription and resource group
+   * List all global event subscriptions under a specific Azure subscription and resource group.
+   * @summary List all global event subscriptions under an Azure subscription and resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalByResourceGroupResponse>
@@ -286,22 +286,22 @@ export class EventSubscriptions {
 
   /**
    * List all global event subscriptions under a resource group for a specific topic type.
-   * @summary List all global event subscriptions under a resource group for a topic type
+   * @summary List all global event subscriptions under a resource group for a topic type.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicTypeName Name of the topic type
+   * @param topicTypeName Name of the topic type.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse>
    */
   listGlobalByResourceGroupForTopicType(resourceGroupName: string, topicTypeName: string, options?: Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams): Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicTypeName Name of the topic type
+   * @param topicTypeName Name of the topic type.
    * @param callback The callback
    */
   listGlobalByResourceGroupForTopicType(resourceGroupName: string, topicTypeName: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param topicTypeName Name of the topic type
+   * @param topicTypeName Name of the topic type.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -318,20 +318,20 @@ export class EventSubscriptions {
   }
 
   /**
-   * List all event subscriptions from the given location under a specific Azure subscription
-   * @summary List all regional event subscriptions under an Azure subscription
-   * @param location Name of the location
+   * List all event subscriptions from the given location under a specific Azure subscription.
+   * @summary List all regional event subscriptions under an Azure subscription.
+   * @param location Name of the location.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalBySubscriptionResponse>
    */
   listRegionalBySubscription(location: string, options?: Models.EventSubscriptionsListRegionalBySubscriptionOptionalParams): Promise<Models.EventSubscriptionsListRegionalBySubscriptionResponse>;
   /**
-   * @param location Name of the location
+   * @param location Name of the location.
    * @param callback The callback
    */
   listRegionalBySubscription(location: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
   /**
-   * @param location Name of the location
+   * @param location Name of the location.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -348,23 +348,23 @@ export class EventSubscriptions {
 
   /**
    * List all event subscriptions from the given location under a specific Azure subscription and
-   * resource group
-   * @summary List all regional event subscriptions under an Azure subscription and resource group
+   * resource group.
+   * @summary List all regional event subscriptions under an Azure subscription and resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param location Name of the location
+   * @param location Name of the location.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalByResourceGroupResponse>
    */
   listRegionalByResourceGroup(resourceGroupName: string, location: string, options?: Models.EventSubscriptionsListRegionalByResourceGroupOptionalParams): Promise<Models.EventSubscriptionsListRegionalByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param location Name of the location
+   * @param location Name of the location.
    * @param callback The callback
    */
   listRegionalByResourceGroup(resourceGroupName: string, location: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param location Name of the location
+   * @param location Name of the location.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -383,22 +383,22 @@ export class EventSubscriptions {
   /**
    * List all event subscriptions from the given location under a specific Azure subscription and
    * topic type.
-   * @summary List all regional event subscriptions under an Azure subscription for a topic type
-   * @param location Name of the location
-   * @param topicTypeName Name of the topic type
+   * @summary List all regional event subscriptions under an Azure subscription for a topic type.
+   * @param location Name of the location.
+   * @param topicTypeName Name of the topic type.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse>
    */
   listRegionalBySubscriptionForTopicType(location: string, topicTypeName: string, options?: Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams): Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse>;
   /**
-   * @param location Name of the location
-   * @param topicTypeName Name of the topic type
+   * @param location Name of the location.
+   * @param topicTypeName Name of the topic type.
    * @param callback The callback
    */
   listRegionalBySubscriptionForTopicType(location: string, topicTypeName: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
   /**
-   * @param location Name of the location
-   * @param topicTypeName Name of the topic type
+   * @param location Name of the location.
+   * @param topicTypeName Name of the topic type.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -416,27 +416,27 @@ export class EventSubscriptions {
 
   /**
    * List all event subscriptions from the given location under a specific Azure subscription and
-   * resource group and topic type
+   * resource group and topic type.
    * @summary List all regional event subscriptions under an Azure subscription and resource group
-   * for a topic type
+   * for a topic type.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param location Name of the location
-   * @param topicTypeName Name of the topic type
+   * @param location Name of the location.
+   * @param topicTypeName Name of the topic type.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse>
    */
   listRegionalByResourceGroupForTopicType(resourceGroupName: string, location: string, topicTypeName: string, options?: Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams): Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param location Name of the location
-   * @param topicTypeName Name of the topic type
+   * @param location Name of the location.
+   * @param topicTypeName Name of the topic type.
    * @param callback The callback
    */
   listRegionalByResourceGroupForTopicType(resourceGroupName: string, location: string, topicTypeName: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param location Name of the location
-   * @param topicTypeName Name of the topic type
+   * @param location Name of the location.
+   * @param topicTypeName Name of the topic type.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -454,29 +454,29 @@ export class EventSubscriptions {
   }
 
   /**
-   * List all event subscriptions that have been created for a specific topic
-   * @summary List all event subscriptions for a specific topic
+   * List all event subscriptions that have been created for a specific topic.
+   * @summary List all event subscriptions for a specific topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param providerNamespace Namespace of the provider of the topic
-   * @param resourceTypeName Name of the resource type
-   * @param resourceName Name of the resource
+   * @param providerNamespace Namespace of the provider of the topic.
+   * @param resourceTypeName Name of the resource type.
+   * @param resourceName Name of the resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListByResourceResponse>
    */
   listByResource(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, options?: Models.EventSubscriptionsListByResourceOptionalParams): Promise<Models.EventSubscriptionsListByResourceResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param providerNamespace Namespace of the provider of the topic
-   * @param resourceTypeName Name of the resource type
-   * @param resourceName Name of the resource
+   * @param providerNamespace Namespace of the provider of the topic.
+   * @param resourceTypeName Name of the resource type.
+   * @param resourceName Name of the resource.
    * @param callback The callback
    */
   listByResource(resourceGroupName: string, providerNamespace: string, resourceTypeName: string, resourceName: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param providerNamespace Namespace of the provider of the topic
-   * @param resourceTypeName Name of the resource type
-   * @param resourceName Name of the resource
+   * @param providerNamespace Namespace of the provider of the topic.
+   * @param resourceTypeName Name of the resource type.
+   * @param resourceName Name of the resource.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -495,26 +495,26 @@ export class EventSubscriptions {
   }
 
   /**
-   * List all event subscriptions that have been created for a specific domain topic
-   * @summary List all event subscriptions for a specific domain topic
+   * List all event subscriptions that have been created for a specific domain topic.
+   * @summary List all event subscriptions for a specific domain topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the top level domain
-   * @param topicName Name of the domain topic
+   * @param domainName Name of the top level domain.
+   * @param topicName Name of the domain topic.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListByDomainTopicResponse>
    */
   listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, options?: Models.EventSubscriptionsListByDomainTopicOptionalParams): Promise<Models.EventSubscriptionsListByDomainTopicResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the top level domain
-   * @param topicName Name of the domain topic
+   * @param domainName Name of the top level domain.
+   * @param topicName Name of the domain topic.
    * @param callback The callback
    */
   listByDomainTopic(resourceGroupName: string, domainName: string, topicName: string, callback: msRest.ServiceCallback<Models.EventSubscriptionsListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the top level domain
-   * @param topicName Name of the domain topic
+   * @param domainName Name of the top level domain.
+   * @param topicName Name of the domain topic.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -534,7 +534,7 @@ export class EventSubscriptions {
   /**
    * Asynchronously creates a new event subscription or updates an existing event subscription based
    * on the specified scope.
-   * @summary Create or update an event subscription
+   * @summary Create or update an event subscription.
    * @param scope The identifier of the resource to which the event subscription needs to be created
    * or updated. The scope can be a subscription, or a resource group, or a top level resource
    * belonging to a resource provider namespace, or an EventGrid topic. For example, use
@@ -547,7 +547,7 @@ export class EventSubscriptions {
    * @param eventSubscriptionName Name of the event subscription. Event subscription names must be
    * between 3 and 64 characters in length and should use alphanumeric letters only.
    * @param eventSubscriptionInfo Event subscription properties containing the destination and filter
-   * information
+   * information.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -564,8 +564,8 @@ export class EventSubscriptions {
   }
 
   /**
-   * Delete an existing event subscription
-   * @summary Delete an event subscription
+   * Delete an existing event subscription.
+   * @summary Delete an event subscription.
    * @param scope The scope of the event subscription. The scope can be a subscription, or a resource
    * group, or a top level resource belonging to a resource provider namespace, or an EventGrid
    * topic. For example, use '/subscriptions/{subscriptionId}/' for a subscription,
@@ -574,7 +574,7 @@ export class EventSubscriptions {
    * for a resource, and
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
    * for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription
+   * @param eventSubscriptionName Name of the event subscription.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -591,7 +591,7 @@ export class EventSubscriptions {
 
   /**
    * Asynchronously updates an existing event subscription.
-   * @summary Update an event subscription
+   * @summary Update an event subscription.
    * @param scope The scope of existing event subscription. The scope can be a subscription, or a
    * resource group, or a top level resource belonging to a resource provider namespace, or an
    * EventGrid topic. For example, use '/subscriptions/{subscriptionId}/' for a subscription,
@@ -600,8 +600,8 @@ export class EventSubscriptions {
    * for a resource, and
    * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
    * for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription to be updated
-   * @param eventSubscriptionUpdateParameters Updated event subscription information
+   * @param eventSubscriptionName Name of the event subscription to be updated.
+   * @param eventSubscriptionUpdateParameters Updated event subscription information.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -618,8 +618,8 @@ export class EventSubscriptions {
   }
 
   /**
-   * List all aggregated global event subscriptions under a specific Azure subscription
-   * @summary Get an aggregated list of all global event subscriptions under an Azure subscription
+   * List all aggregated global event subscriptions under a specific Azure subscription.
+   * @summary Get an aggregated list of all global event subscriptions under an Azure subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalBySubscriptionNextResponse>
@@ -648,7 +648,7 @@ export class EventSubscriptions {
 
   /**
    * List all global event subscriptions under an Azure subscription for a topic type.
-   * @summary List all global event subscriptions for a topic type
+   * @summary List all global event subscriptions for a topic type.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse>
@@ -676,8 +676,8 @@ export class EventSubscriptions {
   }
 
   /**
-   * List all global event subscriptions under a specific Azure subscription and resource group
-   * @summary List all global event subscriptions under an Azure subscription and resource group
+   * List all global event subscriptions under a specific Azure subscription and resource group.
+   * @summary List all global event subscriptions under an Azure subscription and resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalByResourceGroupNextResponse>
@@ -706,7 +706,7 @@ export class EventSubscriptions {
 
   /**
    * List all global event subscriptions under a resource group for a specific topic type.
-   * @summary List all global event subscriptions under a resource group for a topic type
+   * @summary List all global event subscriptions under a resource group for a topic type.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse>
@@ -734,8 +734,8 @@ export class EventSubscriptions {
   }
 
   /**
-   * List all event subscriptions from the given location under a specific Azure subscription
-   * @summary List all regional event subscriptions under an Azure subscription
+   * List all event subscriptions from the given location under a specific Azure subscription.
+   * @summary List all regional event subscriptions under an Azure subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalBySubscriptionNextResponse>
@@ -764,8 +764,8 @@ export class EventSubscriptions {
 
   /**
    * List all event subscriptions from the given location under a specific Azure subscription and
-   * resource group
-   * @summary List all regional event subscriptions under an Azure subscription and resource group
+   * resource group.
+   * @summary List all regional event subscriptions under an Azure subscription and resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalByResourceGroupNextResponse>
@@ -795,7 +795,7 @@ export class EventSubscriptions {
   /**
    * List all event subscriptions from the given location under a specific Azure subscription and
    * topic type.
-   * @summary List all regional event subscriptions under an Azure subscription for a topic type
+   * @summary List all regional event subscriptions under an Azure subscription for a topic type.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse>
@@ -824,9 +824,9 @@ export class EventSubscriptions {
 
   /**
    * List all event subscriptions from the given location under a specific Azure subscription and
-   * resource group and topic type
+   * resource group and topic type.
    * @summary List all regional event subscriptions under an Azure subscription and resource group
-   * for a topic type
+   * for a topic type.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse>
@@ -854,8 +854,8 @@ export class EventSubscriptions {
   }
 
   /**
-   * List all event subscriptions that have been created for a specific topic
-   * @summary List all event subscriptions for a specific topic
+   * List all event subscriptions that have been created for a specific topic.
+   * @summary List all event subscriptions for a specific topic.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListByResourceNextResponse>
@@ -883,8 +883,8 @@ export class EventSubscriptions {
   }
 
   /**
-   * List all event subscriptions that have been created for a specific domain topic
-   * @summary List all event subscriptions for a specific domain topic
+   * List all event subscriptions that have been created for a specific domain topic.
+   * @summary List all event subscriptions for a specific domain topic.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.EventSubscriptionsListByDomainTopicNextResponse>

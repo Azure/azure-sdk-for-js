@@ -27,10 +27,6 @@ describe("Aborter", () => {
   });
 
   it("Should abort after aborter timeout", async () => {
-    recorder.skip(
-      "browser",
-      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
-    );
     try {
       await shareClient.create({ abortSignal: AbortController.timeout(1) });
       assert.fail();
@@ -46,10 +42,6 @@ describe("Aborter", () => {
   });
 
   it("Should abort when calling abort() before request finishes", async () => {
-    recorder.skip(
-      "browser",
-      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
-    );
     const aborter = new AbortController();
     const response = shareClient.create({ abortSignal: aborter.signal });
     aborter.abort();
@@ -69,10 +61,6 @@ describe("Aborter", () => {
   });
 
   it("Should abort after parent aborter calls abort()", async () => {
-    recorder.skip(
-      "browser",
-      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
-    );
     try {
       const aborter = new AbortController();
       const childAborter = new AbortController(aborter.signal, AbortController.timeout(100));
