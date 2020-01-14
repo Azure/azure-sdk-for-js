@@ -153,6 +153,7 @@ export namespace ClientEntityContext {
           `The session lock has expired on the session with id ${sessionId}.`
         );
         error.code = "SessionLockLostError";
+        error.retryable = false;
         log.error(
           "[%s] Failed to find receiver '%s' as the session with id '%s' is expired",
           entityContext.namespace.connectionId,
