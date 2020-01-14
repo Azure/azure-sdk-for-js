@@ -100,7 +100,7 @@ export class BatchingReceiver extends MessageReceiver {
             error
           );
         } else {
-          error = new Error("An error occurred while receiving messages.");
+          error = new MessagingError("An error occurred while receiving messages.");
         }
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);
@@ -273,7 +273,7 @@ export class BatchingReceiver extends MessageReceiver {
             error
           );
         } else {
-          error = new Error("An error occurred while receiving messages.");
+          error = new MessagingError("An error occurred while receiving messages.");
         }
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);
