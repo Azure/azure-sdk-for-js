@@ -256,7 +256,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     const numberOfEventProcessorsWithAdditionalPartition =
       partitionsToAdd.length % ownerPartitionMap.size;
 
-    const possibleExtraPartition = numberOfEventProcessorsWithAdditionalPartition != 0 ? 1 : 0;
+    const possibleExtraPartition = numberOfEventProcessorsWithAdditionalPartition !== 0 ? 1 : 0;
 
     logger.verbose(
       `[${ourOwnerId}] Expected minimum number of partitions per event processor: ${minPartitionsPerEventProcessor}, 
