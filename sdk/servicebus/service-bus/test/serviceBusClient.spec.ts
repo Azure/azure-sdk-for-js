@@ -33,6 +33,7 @@ import {
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { DispositionType } from "../src/serviceBusMessage";
+import { isNode } from "./utils/envVarUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -99,10 +100,11 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
   });
 
   const testError = (err: Error): void => {
+    const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
     should.equal(
       (err as MessagingError).code,
-      "ServiceCommunicationError",
-      "ErrorName is different than expected"
+      expectedErrCode,
+      "Error code is different than expected"
     );
     errorWasThrown = true;
   };
@@ -206,7 +208,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     should.equal(
       (err as MessagingError).code,
       "MessagingEntityNotFoundError",
-      "ErrorName is different than expected"
+      "Error code is different than expected"
     );
     should.equal(
       err.message.startsWith(
