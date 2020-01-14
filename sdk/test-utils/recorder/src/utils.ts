@@ -149,26 +149,26 @@ export function findRecordingsFolderPath(filePath: string): string {
   let path = require("path");
 
   // Stripping away the file name
-  let recordingsFolderPath = path.resolve(filePath, "..");
-  // File/folder path of a closest child of `recordingsFolderPath` in the folder hierarchy of `filePath`
-  let closestChildPath = filePath;
+  let currentPath = path.resolve(filePath, "..");
+  // File/folder path of a closest child of `currentPath` in the folder hierarchy of `filePath`
+  let lastPath = filePath;
   try {
     // While loop to find the `recordings` folder
-    while (!fs.existsSync(path.resolve(recordingsFolderPath, "recordings/"))) {
-      if (fs.existsSync(path.resolve(recordingsFolderPath, "package.json"))) {
+    while (!fs.existsSync(path.resolve(currentPath, "recordings/"))) {
+      if (fs.existsSync(path.resolve(currentPath, "package.json"))) {
         // package.json of the SDK is found but not the `recordings` folder
         // which is supposed to be present at the same level as package.json
-        throw new Error(`'recordings' folder is not found at ${recordingsFolderPath}`);
-      } else if (closestChildPath === recordingsFolderPath) {
+        throw new Error(`'recordings' folder is not found at ${currentPath}`);
+      } else if (lastPath === currentPath) {
         throw new Error(
-          `'recordings' folder is not found at ${recordingsFolderPath} (reached the root directory)`
+          `'recordings' folder is not found at ${currentPath} (reached the root directory)`
         );
       } else {
-        closestChildPath = recordingsFolderPath;
-        recordingsFolderPath = path.resolve(recordingsFolderPath, "..");
+        lastPath = currentPath;
+        currentPath = path.resolve(currentPath, "..");
       }
     }
-    return path.resolve(recordingsFolderPath, "recordings/");
+    return path.resolve(currentPath, "recordings/");
   } catch (error) {
     throw new Error(
       `Unable to locate the 'recordings' folder anywhere in the hierarchy of the file path ${filePath}\n ${error}`
