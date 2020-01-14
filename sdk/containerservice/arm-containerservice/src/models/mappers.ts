@@ -1285,6 +1285,28 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
           name: "String"
         }
       },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      nodeLabels: {
+        serializedName: "nodeLabels",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       nodeTaints: {
         serializedName: "nodeTaints",
         type: {
@@ -1438,6 +1460,28 @@ export const AgentPool: msRest.CompositeMapper = {
         defaultValue: 'Delete',
         type: {
           name: "String"
+        }
+      },
+      tags: {
+        serializedName: "properties.tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      nodeLabels: {
+        serializedName: "properties.nodeLabels",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       nodeTaints: {
@@ -1603,6 +1647,28 @@ export const ManagedClusterLoadBalancerProfile: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      allocatedOutboundPorts: {
+        serializedName: "allocatedOutboundPorts",
+        defaultValue: 0,
+        constraints: {
+          InclusiveMaximum: 64000,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      idleTimeoutInMinutes: {
+        serializedName: "idleTimeoutInMinutes",
+        defaultValue: 30,
+        constraints: {
+          InclusiveMaximum: 120,
+          InclusiveMinimum: 4
+        },
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -1667,6 +1733,13 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      outboundType: {
+        serializedName: "outboundType",
+        defaultValue: 'loadBalancer',
+        type: {
+          name: "String"
+        }
+      },
       loadBalancerSku: {
         serializedName: "loadBalancerSku",
         type: {
@@ -1680,6 +1753,45 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
           className: "ManagedClusterLoadBalancerProfile"
         }
       }
+    }
+  }
+};
+
+export const UserAssignedIdentity: msRest.CompositeMapper = {
+  serializedName: "UserAssignedIdentity",
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      },
+      objectId: {
+        serializedName: "objectId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAddonProfileIdentity: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterAddonProfile_identity",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAddonProfileIdentity",
+    modelProperties: {
+      ...UserAssignedIdentity.type.modelProperties
     }
   }
 };
@@ -1706,6 +1818,14 @@ export const ManagedClusterAddonProfile: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      identity: {
+        readOnly: true,
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterAddonProfileIdentity"
         }
       }
     }
@@ -1771,6 +1891,17 @@ export const ManagedClusterAPIServerAccessProfile: msRest.CompositeMapper = {
           name: "Boolean"
         }
       }
+    }
+  }
+};
+
+export const ManagedClusterPropertiesIdentityProfileValue: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterProperties_identityProfileValue",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterPropertiesIdentityProfileValue",
+    modelProperties: {
+      ...UserAssignedIdentity.type.modelProperties
     }
   }
 };
@@ -1845,6 +1976,13 @@ export const ManagedCluster: msRest.CompositeMapper = {
       fqdn: {
         readOnly: true,
         serializedName: "properties.fqdn",
+        type: {
+          name: "String"
+        }
+      },
+      privateFQDN: {
+        readOnly: true,
+        serializedName: "properties.privateFQDN",
         type: {
           name: "String"
         }
@@ -1931,6 +2069,24 @@ export const ManagedCluster: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterAPIServerAccessProfile"
+        }
+      },
+      diskEncryptionSetID: {
+        serializedName: "properties.diskEncryptionSetID",
+        type: {
+          name: "String"
+        }
+      },
+      identityProfile: {
+        serializedName: "properties.identityProfile",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ManagedClusterPropertiesIdentityProfileValue"
+            }
+          }
         }
       },
       identity: {
