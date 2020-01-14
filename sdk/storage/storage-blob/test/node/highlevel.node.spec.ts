@@ -576,6 +576,7 @@ describe("Highlevel", () => {
   });
 
   it("downloadToFile should fail when saving to directory", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileSmall);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
