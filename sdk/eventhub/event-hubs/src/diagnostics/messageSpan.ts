@@ -14,6 +14,7 @@ export function createMessageSpan(parentSpan?: Span | SpanContext): Span {
     kind: SpanKind.PRODUCER,
     parent: parentSpan
   });
+  span.setAttribute("az.namespace", "Microsoft.EventHub");
 
   return span;
 }
