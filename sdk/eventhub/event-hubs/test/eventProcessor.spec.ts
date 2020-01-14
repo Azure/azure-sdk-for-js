@@ -1243,12 +1243,17 @@ describe("Event Processor", function(): void {
       const checkpointStore = new InMemoryCheckpointStore();
       const claimedPartitionsMap = {} as { [eventProcessorId: string]: Set<string> };
 
+      const partitionOwnershipHistory: string[] = [];
+
       let allPartitionsClaimed = false;
       let thrashAfterSettling = false;
       const handlers: SubscriptionEventHandlers = {
         async processInitialize(context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
+
+          partitionOwnershipHistory.push(`${eventProcessorId}: init ${partitionId}`);
+
           loggerForTest(`[${eventProcessorId}] Claimed partition ${partitionId}`);
           if (allPartitionsClaimed) {
             thrashAfterSettling = true;
@@ -1311,28 +1316,57 @@ describe("Event Processor", function(): void {
 
       // loop until all partitions are claimed
       try {
+        let lastLoopError: Record<string, any> = {};
+
         await loopUntil({
           name: "partitionOwnership",
           maxTimes: 30,
           timeBetweenRunsMs: 10000,
+
+          errorMessageFn: () => JSON.stringify(lastLoopError, undefined, "  "),
           until: async () => {
             // Ensure the partition ownerships are balanced.
             const eventProcessorIds = Object.keys(claimedPartitionsMap);
 
             // There are 2 processors, so we should see 2 entries.
             if (eventProcessorIds.length !== 2) {
+              lastLoopError = {
+                reason: "Not all event processors have shown up",
+                eventProcessorIds,
+                partitionOwnershipHistory
+              };
               return false;
             }
 
             const aProcessorPartitions = claimedPartitionsMap[eventProcessorIds[0]];
             const bProcessorPartitions = claimedPartitionsMap[eventProcessorIds[1]];
+
             // The delta between number of partitions each processor owns can't be more than 1.
             if (Math.abs(aProcessorPartitions.size - bProcessorPartitions.size) > 1) {
+              lastLoopError = {
+                reason: "Delta between partitions is greater than 1",
+                a: Array.from(aProcessorPartitions),
+                b: Array.from(bProcessorPartitions),
+                partitionOwnershipHistory
+              };
               return false;
             }
 
             // All partitions must be claimed.
-            return aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
+            const allPartitionsClaimed =
+              aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
+
+            if (!allPartitionsClaimed) {
+              lastLoopError = {
+                reason: "All partitions not claimed",
+                partitionIds,
+                a: Array.from(aProcessorPartitions),
+                b: Array.from(bProcessorPartitions),
+                partitionOwnershipHistory
+              };
+            }
+
+            return allPartitionsClaimed;
           }
         });
       } catch (err) {

@@ -129,18 +129,26 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     partitionIds: string[],
     ownerPartitionMap: Map<string, PartitionOwnership[]>
   ): boolean {
-    const numberOfPartitionsOwned = ownerPartitionMap.get(ourOwnerId)!.length;
+    const numPartitionsOwnedByUs = ownerPartitionMap.get(ourOwnerId)!.length;
+
+    if (numPartitionsOwnedByUs < minPartitionsPerEventProcessor) {
+      return true;
+    }
 
     let sumOfPartitionsOwnedByAnyProcessor = 0;
+
     for (const ownershipList of ownerPartitionMap.values()) {
       sumOfPartitionsOwnedByAnyProcessor =
         sumOfPartitionsOwnedByAnyProcessor + ownershipList.length;
     }
-    return (
-      numberOfPartitionsOwned < minPartitionsPerEventProcessor ||
-      (sumOfPartitionsOwnedByAnyProcessor < partitionIds.length &&
-        numberOfPartitionsOwned < minPartitionsPerEventProcessor + 1)
-    );
+
+    const thereAreUnownedPartitions = sumOfPartitionsOwnedByAnyProcessor < partitionIds.length;
+
+    if (thereAreUnownedPartitions && numPartitionsOwnedByUs < minPartitionsPerEventProcessor) {
+      return true;
+    }
+
+    return false;
   }
 
   /*
@@ -248,6 +256,8 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     const numberOfEventProcessorsWithAdditionalPartition =
       partitionsToAdd.length % ownerPartitionMap.size;
 
+    const possibleExtraPartition = numberOfEventProcessorsWithAdditionalPartition != 0 ? 1 : 0;
+
     logger.verbose(
       `[${ourOwnerId}] Expected minimum number of partitions per event processor: ${minPartitionsPerEventProcessor}, 
       expected number of event processors with additional partition: ${numberOfEventProcessorsWithAdditionalPartition}.`
@@ -268,7 +278,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     if (
       !this._shouldOwnMorePartitions(
         ourOwnerId,
-        minPartitionsPerEventProcessor,
+        minPartitionsPerEventProcessor + possibleExtraPartition,
         partitionsToAdd,
         ownerPartitionMap
       )
@@ -296,6 +306,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     //  Find a partition to steal from another event processor. Pick the event processor that owns the highest
     //  number of partitions.
     const unOwnedPartitionIds = [];
+
     for (const partitionId of partitionsToAdd) {
       if (!activePartitionOwnershipMap.has(partitionId)) {
         unOwnedPartitionIds.push(partitionId);
