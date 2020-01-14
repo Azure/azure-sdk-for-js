@@ -99,7 +99,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     return sbClient.close();
   });
 
-  const testError = (err: Error): void => {
+  const testError = (err: Error | MessagingError): void => {
     const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
     should.equal(
       (err as MessagingError).code,
@@ -204,7 +204,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     return sbClient.close();
   });
 
-  const testError = (err: Error, entityPath: string): void => {
+  const testError = (err: Error | MessagingError, entityPath: string): void => {
     should.equal(
       (err as MessagingError).code,
       "MessagingEntityNotFoundError",
