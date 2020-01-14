@@ -151,7 +151,7 @@ export class Sender {
 // @public
 export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
-    constructor(host: string, credential: TokenCredential, options?: ServiceBusClientOptions);
+    constructor(credential: TokenCredential, host: string, options?: ServiceBusClientOptions);
     close(): Promise<any>;
     createQueueClient(queueName: string): QueueClient;
     createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient;

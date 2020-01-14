@@ -333,7 +333,7 @@ describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
 
   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
     try {
-      new ServiceBusClient(serviceBusEndpoint, "" as any);
+      new ServiceBusClient([] as any, serviceBusEndpoint);
     } catch (err) {
       errorWasThrown = true;
       should.equal(
@@ -345,45 +345,34 @@ describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error for undefined tokenCredentials", async function(): Promise<void> {
+  it("throws error for undefined tokenCredentials / connectionString", async function(): Promise<
+    void
+  > {
     try {
-      new ServiceBusClient(serviceBusEndpoint, undefined);
+      new ServiceBusClient(undefined as any, serviceBusEndpoint);
     } catch (err) {
       errorWasThrown = true;
       should.equal(
         err.message,
-        "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
+        "Input parameter 'connectionString' or 'credentials' must be defined.",
         "ErrorMessage is different than expected"
-      );
-    }
-    should.equal(errorWasThrown, true, "Error thrown flag must be true");
-  });
-
-  it("throws error for undefined host or connectionString", async function(): Promise<void> {
-    try {
-      new ServiceBusClient(undefined as any);
-    } catch (err) {
-      errorWasThrown = true;
-      should.equal(
-        err.message,
-        "Input parameter of host or connection string must be defined and coercible to string."
       );
     }
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
   if (isNode) {
-    it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
+    it("Coerces input to string for host in credential based constructor", async function(): Promise<
       void
     > {
       const tokenCreds = getDefaultTokenCredential();
-      sbClient = new ServiceBusClient(123 as any, tokenCreds);
+      sbClient = new ServiceBusClient(tokenCreds, 123 as any);
       should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
     });
 
     it("sends a message to the ServiceBus entity", async function(): Promise<void> {
       const tokenCreds = getDefaultTokenCredential();
-      const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
+      const sbClient = new ServiceBusClient(tokenCreds, serviceBusEndpoint);
 
       sbClient.should.be.an.instanceof(ServiceBusClient);
       const clients = await getSenderReceiverClients(
