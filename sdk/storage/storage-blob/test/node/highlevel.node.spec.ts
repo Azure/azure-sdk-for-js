@@ -9,9 +9,10 @@ import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadabl
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
 import { readStreamToLocalFile } from "../../src/utils/utils.node";
+import { setLogLevel } from "@azure/logger";
 
 // tslint:disable:no-empty
-describe("Highlevel", () => {
+describe.only("Highlevel", () => {
   setupEnvironment();
   const blobServiceClient = getBSU();
   let containerName: string;
@@ -38,6 +39,17 @@ describe("Highlevel", () => {
   });
 
   afterEach(async function() {
+    if (this.currentTest!.title === "uploadStream should success") {
+      console.log("That's what I want to diagnose");
+      setLogLevel("info");
+      try {
+        await containerClient.delete();
+        recorder.stop();
+      } finally {
+        setLogLevel(undefined);
+      }
+      return;
+    }
     await containerClient.delete();
     recorder.stop();
   });
@@ -59,6 +71,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
     recorder.stop();
+    setLogLevel(undefined);
   });
 
   it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
