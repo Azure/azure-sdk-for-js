@@ -1134,7 +1134,7 @@ describe("Event Processor", function(): void {
       processorByName[`processor-2`].start();
 
       await loopUntil({
-        name: "Processors have reached equilibium",
+        name: "Processors are balanced",
         maxTimes: 60,
         timeBetweenRunsMs: 1000,
         until: async () => {
