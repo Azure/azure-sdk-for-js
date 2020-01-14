@@ -32,8 +32,6 @@ import {
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { DispositionType } from "../src/serviceBusMessage";
-// import { getEnvVars, isNode } from "./utils/envVarUtils";
-// import { getTokenCredentialsFromAAD } from "./utils/aadUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
