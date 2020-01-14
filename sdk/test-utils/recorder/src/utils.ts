@@ -150,6 +150,8 @@ export function findRecordingsFolderPath(filePath: string): string {
 
   // Stripping away the file name
   let recordingsFolderPath = path.resolve(filePath, "..");
+  // File/folder path of a closest child of `recordingsFolderPath` in the folder hierarchy of `filePath`
+  let closestChildPath = filePath;
   try {
     // While loop to find the `recordings` folder
     while (!fs.existsSync(path.resolve(recordingsFolderPath, "recordings/"))) {
@@ -157,11 +159,19 @@ export function findRecordingsFolderPath(filePath: string): string {
         // package.json of the SDK is found but not the `recordings` folder
         // which is supposed to be present at the same level as package.json
         throw new Error(`'recordings' folder is not found at ${recordingsFolderPath}`);
+      } else if (closestChildPath === recordingsFolderPath) {
+        throw new Error(
+          `'recordings' folder is not found at ${recordingsFolderPath} (reached the root directory)`
+        );
+      } else {
+        closestChildPath = recordingsFolderPath;
+        recordingsFolderPath = path.resolve(recordingsFolderPath, "..");
       }
-      recordingsFolderPath = path.resolve(recordingsFolderPath, "..");
     }
     return path.resolve(recordingsFolderPath, "recordings/");
   } catch (error) {
-    throw new Error(`Unable to locate the 'recordings' folder\n ${error}`);
+    throw new Error(
+      `Unable to locate the 'recordings' folder anywhere in the hierarchy of the file path ${filePath}\n ${error}`
+    );
   }
 }
