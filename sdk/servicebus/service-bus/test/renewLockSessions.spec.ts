@@ -23,7 +23,8 @@ import {
   getSenderReceiverClients,
   TestClientType,
   TestMessage,
-  getServiceBusClient
+  getServiceBusClient,
+  isMessagingError
 } from "./utils/testUtils";
 
 let sbClient: ServiceBusClient;
@@ -461,7 +462,7 @@ async function testAutoLockRenewalConfigBehavior(
       }
     },
     (err: MessagingError | Error) => {
-      if ((err as MessagingError).code === "SessionLockLostError") {
+      if (isMessagingError(err) && err.code === "SessionLockLostError") {
         sessionLockLostErrorThrown = true;
       } else {
         onError(err);

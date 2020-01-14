@@ -10,7 +10,8 @@ import {
   SubscriptionClient,
   delay,
   ReceiveMode,
-  ServiceBusMessage
+  ServiceBusMessage,
+  MessagingError
 } from "../../src";
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
@@ -555,4 +556,12 @@ export function getEntityNames(): { [key in EntityNameKeys]: any } {
     [EntityNameKeys.MANAGEMENT_NEW_ENTITY_1]: "management-new-entity-1",
     [EntityNameKeys.MANAGEMENT_NEW_ENTITY_2]: "management-new-entity-2"
   };
+}
+
+/**
+ * Utility to check if given error is instance of `MessagingError`
+ * @param err
+ */
+export function isMessagingError(err: any): err is MessagingError {
+  return err.name === "MessagingError";
 }

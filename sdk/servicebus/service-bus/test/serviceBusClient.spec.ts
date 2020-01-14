@@ -29,7 +29,8 @@ import {
   getSenderReceiverClients,
   purge,
   TestMessage,
-  getServiceBusClient
+  getServiceBusClient,
+  isMessagingError
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { DispositionType } from "../src/serviceBusMessage";
@@ -101,12 +102,12 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
 
   const testError = (err: Error | MessagingError): void => {
     const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
-    should.equal(
-      (err as MessagingError).code,
-      expectedErrCode,
-      "Error code is different than expected"
-    );
-    errorWasThrown = true;
+    if (!isMessagingError(err)) {
+      should.equal(true, false, "Error expected to be instance of MessagingError");
+    } else {
+      should.equal(err.code, expectedErrCode, "Error code is different than expected");
+      errorWasThrown = true;
+    }
   };
 
   it("throws error when sending data via a queueClient to a non existing namespace", async function(): Promise<
@@ -205,18 +206,22 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 
   const testError = (err: Error | MessagingError, entityPath: string): void => {
-    should.equal(
-      (err as MessagingError).code,
-      "MessagingEntityNotFoundError",
-      "Error code is different than expected"
-    );
-    should.equal(
-      err.message.startsWith(
-        `The messaging entity '${sbClient.name}${entityPath}' could not be found.`
-      ),
-      true
-    );
-    errorWasThrown = true;
+    if (!isMessagingError(err)) {
+      should.equal(true, false, "Error expected to be instance of MessagingError");
+    } else {
+      should.equal(
+        err.code,
+        "MessagingEntityNotFoundError",
+        "Error code is different than expected"
+      );
+      should.equal(
+        err.message.startsWith(
+          `The messaging entity '${sbClient.name}${entityPath}' could not be found.`
+        ),
+        true
+      );
+      errorWasThrown = true;
+    }
   };
 
   it("throws error when sending data to a non existing queue #RunInBrowser", async function(): Promise<
