@@ -4,7 +4,9 @@
 
 - getOperationState() now returns TState.
 - PollerLike's TState now extends PollOperationState.
-- Since getOperationState() can be overwritten, this is now used to separate between public and private state.
+- Since getOperationState() can be overwritten,
+  it can return a subset of the Poller's TState,
+  which can exist as a separate type, to effectively separate between public and private state.
 
 ## 1.0.0 (2019-10-29)
 
