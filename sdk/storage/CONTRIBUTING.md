@@ -18,11 +18,20 @@ The Azure Storage development team uses Visual Studio Code. However, any preferr
 
 ### Configuration
 
-The only step to configure testing is to set the appropriate environment variables. Create environment variables named
+The only step to configure testing is to set the appropriate environment variables. Create environment variables as per below.
 
 #### TEST_MODE
 
-TEST_MODE can be `"record"` or `"live"` or `"playback"` (The default mode is `playback`. Explicitly set the TEST_MODE for live and record modes.)
+TEST_MODE can be `"record"` or `"live"` or `"playback"`
+
+- `record` - to test against the service while recording the HTTP requests and responses
+- `playback` - to test against the saved recordings without hitting the live service
+- `live` - to test against the service directly without recording
+
+The default TEST_MODE is `playback`.
+Explicitly set the TEST_MODE for `live` and `record` modes.
+
+Example - `export TEST_MODE=record` or `set TEST_MODE=record`
 
 - If the TEST_MODE is `"record"` or `"live"`, please follow the the table below and set the environment variables accordingly. No need to set them for `playback`.
 
@@ -35,7 +44,7 @@ TEST_MODE can be `"record"` or `"live"` or `"playback"` (The default mode is `pl
   | STORAGE_CONNECTION_STRING | Can be obtained from the Azure portal. Go to the `Access Keys` tab under the `Settings` section of your storage account in the portal and note down the connection string.                                                                                                                                                                                                                                                                                | Required                                                                         |
   |                           |                                                                                                                                                                                                                                                                                                                                                                                                                                                           |                                                                                  |
 
-The environment variable **TEST_MODE** controls how tests are running.
+The environment variable **TEST_MODE** controls how the tests are running.
 
 - If TEST_MODE = "record",
   - Tests hit the live-service
