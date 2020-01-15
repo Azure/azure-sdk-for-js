@@ -123,6 +123,7 @@ export function record(testContext: Mocha.Context): Recorder {
         }
       }
     },
+
     getUniqueName: function(prefix: string, label?: string): string {
       let name: string;
       if (!label) {
@@ -130,7 +131,15 @@ export function record(testContext: Mocha.Context): Recorder {
       }
       if (isRecordMode()) {
         name = getUniqueName(prefix);
-        recorder.uniqueTestInfo["uniqueName"][label] = name;
+        if (recorder.uniqueTestInfo["uniqueName"][label]) {
+          throw new Error(
+            `getUniqueName: function(prefix: string, label?: string),
+            Label "${label}" is already taken,
+            please provide a different prefix OR give a new label while keeping the same prefix "${prefix}".`
+          );
+        } else {
+          recorder.uniqueTestInfo["uniqueName"][label] = name;
+        }
       } else if (isPlaybackMode()) {
         if (recorder.uniqueTestInfo["uniqueName"]) {
           name = recorder.uniqueTestInfo["uniqueName"][label];
@@ -146,7 +155,14 @@ export function record(testContext: Mocha.Context): Recorder {
       let date: Date;
       if (isRecordMode()) {
         date = new Date();
-        recorder.uniqueTestInfo["newDate"][label] = date.toISOString();
+        if (recorder.uniqueTestInfo["newDate"][label]) {
+          throw new Error(
+            `newDate: function(label: string),
+            Label "${label}" is already taken, please provide a new label.`
+          );
+        } else {
+          recorder.uniqueTestInfo["newDate"][label] = date.toISOString();
+        }
       } else if (isPlaybackMode()) {
         if (recorder.uniqueTestInfo["newDate"]) {
           date = new Date(recorder.uniqueTestInfo["newDate"][label]);

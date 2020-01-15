@@ -7,6 +7,9 @@
 
 const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-share");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
@@ -38,8 +41,6 @@ async function main() {
   await shareClient.delete();
   console.log(`deleted share ${shareName}`);
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

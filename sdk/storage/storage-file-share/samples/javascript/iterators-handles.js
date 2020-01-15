@@ -7,6 +7,9 @@
 
 const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-share");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 async function main() {
   // Enter your storage account name, shared key, share name, and directory name.
   // Please ensure your directory is mounted
@@ -159,8 +162,6 @@ async function main() {
     }
   }
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

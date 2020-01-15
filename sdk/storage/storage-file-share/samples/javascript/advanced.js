@@ -6,12 +6,16 @@
 */
 
 const fs = require("fs");
+
 const { AbortController } = require("@azure/abort-controller");
 const {
   AnonymousCredential,
   ShareServiceClient,
   newPipeline
 } = require("@azure/storage-file-share");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
@@ -101,8 +105,6 @@ async function main() {
   await shareClient.delete();
   console.log("deleted share");
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

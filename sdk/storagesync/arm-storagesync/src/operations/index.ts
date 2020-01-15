@@ -15,3 +15,4 @@ export * from "./cloudEndpoints";
 export * from "./serverEndpoints";
 export * from "./registeredServers";
 export * from "./workflows";
+export * from "./operationStatusOperations";

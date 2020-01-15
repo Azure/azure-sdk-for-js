@@ -24,20 +24,64 @@ export class PollerCancelledError extends Error {
   }
 }
 
-export interface PollerLike<TState, TResult> {
+/**
+ * Abstract representation of a poller, intended to expose just the minimal that the user needs to work with.
+ */
+export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
+  /**
+   * Defines under what conditions to reach out to the underlying service.
+   * It should call the operation's update method.
+   */
   poll(options?: { abortSignal?: AbortSignal }): Promise<void>;
+  /**
+   * Returns a promise that will resolve once the underlying operation is completed.
+   */
   pollUntilDone(): Promise<TResult>;
+  /**
+   * Reports updates.
+   */
   onProgress(callback: (state: TState) => void): CancelOnProgress;
+  /**
+   * Returns true if the poller has finished polling.
+   */
   isDone(): boolean;
+  /**
+   * Stops the poller from continuing to poll.
+   */
   stopPolling(): void;
+  /**
+   * Returns true if the poller is stopped.
+   */
   isStopped(): boolean;
+  /**
+   * Attempts to cancel the underlying operation.
+   */
   cancelOperation(options?: { abortSignal?: AbortSignal }): Promise<void>;
-  getOperationState(): PollOperationState<TResult>;
+  /**
+   * Returns the state of the operation.
+   * TState can be a different type than the underlying operation's TState.
+   */
+
+  getOperationState(): TState;
+  /**
+   * Returns the result value of the operation,
+   * regardless of the state of the poller.
+   * It can return undefined or an incomplete form of the final TResult value
+   * depending on the implementation.
+   */
   getResult(): TResult | undefined;
+  /**
+   * Returns a serialized version of the poller.
+   */
   toString(): string;
 }
 
-export abstract class Poller<TState, TResult> implements PollerLike<TState, TResult> {
+/**
+ * A class that represents the definition of a program that polls through consecutive requests
+ * until it reaches a state of completion.
+ */
+export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
+  implements PollerLike<TState, TResult> {
   private stopped: boolean = true;
   private resolve?: (value?: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
@@ -64,8 +108,15 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
     this.promise.catch(() => {});
   }
 
+  /**
+   * Determines how much to wait between pollings.
+   */
   protected abstract async delay(): Promise<void>;
 
+  /**
+   * Starts a loop that will break only if the poller is done
+   * or if the poller is stopped.
+   */
   private async startPolling(): Promise<void> {
     if (this.stopped) {
       this.stopped = false;
@@ -76,8 +127,12 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
     }
   }
 
+  /**
+   * pollOnce does one polling, by calling to the update method of the underlying
+   * poll operation to make any relevant change effective.
+   */
   private async pollOnce(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
-    const state = this.getOperationState();
+    const state: PollOperationState<TResult> = this.operation.state;
     try {
       if (!this.isDone()) {
         this.operation = await this.operation.update({
@@ -97,12 +152,19 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
     }
   }
 
+  /**
+   * fireProgress calls the functions passed in via onProgress the method of the poller.
+   */
   private fireProgress(state: TState): void {
     for (const callback of this.pollProgressCallbacks) {
       callback(state);
     }
   }
 
+  /**
+   * Invokes the underlying operation's cancel method, and rejects the
+   * pollUntilDone promise.
+   */
   private async cancelOnce(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
     this.operation = await this.operation.cancel(options);
     if (this.reject) {
@@ -110,6 +172,10 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
     }
   }
 
+  /**
+   * Reaches out to the underlying service.
+   * It should call the operation's update method.
+   */
   public poll(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
     if (!this.pollOncePromise) {
       this.pollOncePromise = this.pollOnce(options);
@@ -121,6 +187,9 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
     return this.pollOncePromise;
   }
 
+  /**
+   * Returns a promise that will resolve once the underlying operation is completed.
+   */
   public async pollUntilDone(): Promise<TResult> {
     if (this.stopped) {
       this.startPolling().catch(this.reject);
@@ -128,6 +197,9 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
     return this.promise;
   }
 
+  /**
+   * Reports updates.
+   */
   public onProgress(callback: (state: TState) => void): CancelOnProgress {
     this.pollProgressCallbacks.push(callback);
     return (): void => {
@@ -135,11 +207,17 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
     };
   }
 
+  /**
+   * Returns true if the poller has finished polling.
+   */
   public isDone(): boolean {
-    const state = this.getOperationState();
+    const state: PollOperationState<TResult> = this.operation.state;
     return Boolean(state.isCompleted || state.isCancelled || state.error);
   }
 
+  /**
+   * Stops the poller from continuing to poll.
+   */
   public stopPolling(): void {
     if (!this.stopped) {
       this.stopped = true;
@@ -149,10 +227,17 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
     }
   }
 
+  /**
+   * Returns true if the poller is stopped.
+   */
+
   public isStopped(): boolean {
     return this.stopped;
   }
 
+  /**
+   * Tries to cancel the underlying operation.
+   */
   public cancelOperation(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
     if (!this.stopped) {
       this.stopped = true;
@@ -165,15 +250,29 @@ export abstract class Poller<TState, TResult> implements PollerLike<TState, TRes
     return this.cancelPromise;
   }
 
-  public getOperationState(): PollOperationState<TResult> {
+  /**
+   * Returns the state of the operation.
+   * TState can be a different type than the underlying operation's TState.
+   * This method can be overridden with a custom implementation that returns specific properties out of this.operation.state.
+   */
+  public getOperationState(): TState {
     return this.operation.state;
   }
 
+  /**
+   * Returns the result value of the operation,
+   * regardless of the state of the poller.
+   * It can return undefined or an incomplete form of the final TResult value
+   * depending on the implementation.
+   */
   public getResult(): TResult | undefined {
-    const state = this.getOperationState();
+    const state: PollOperationState<TResult> = this.operation.state;
     return state.result;
   }
 
+  /**
+   * Returns a serialized version of the poller.
+   */
   public toString(): string {
     return this.operation.toString();
   }

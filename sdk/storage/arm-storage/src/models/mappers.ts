@@ -435,6 +435,12 @@ export const EncryptionService: msRest.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      keyType: {
+        serializedName: "keyType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -461,7 +467,6 @@ export const EncryptionServices: msRest.CompositeMapper = {
         }
       },
       table: {
-        readOnly: true,
         serializedName: "table",
         type: {
           name: "Composite",
@@ -469,7 +474,6 @@ export const EncryptionServices: msRest.CompositeMapper = {
         }
       },
       queue: {
-        readOnly: true,
         serializedName: "queue",
         type: {
           name: "Composite",
@@ -3046,7 +3050,7 @@ export const FileShare: msRest.CompositeMapper = {
       shareQuota: {
         serializedName: "properties.shareQuota",
         constraints: {
-          InclusiveMaximum: 100000,
+          InclusiveMaximum: 102400,
           InclusiveMinimum: 1
         },
         type: {
@@ -3085,7 +3089,7 @@ export const FileShareItem: msRest.CompositeMapper = {
       shareQuota: {
         serializedName: "properties.shareQuota",
         constraints: {
-          InclusiveMaximum: 100000,
+          InclusiveMaximum: 102400,
           InclusiveMinimum: 1
         },
         type: {

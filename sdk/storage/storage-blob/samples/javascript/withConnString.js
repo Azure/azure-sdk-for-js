@@ -7,6 +7,9 @@
 
 const { BlobServiceClient } = require("@azure/storage-blob");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
@@ -32,8 +35,6 @@ async function main() {
 
   console.log("deleted container");
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

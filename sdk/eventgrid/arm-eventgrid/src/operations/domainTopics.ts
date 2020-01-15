@@ -28,26 +28,26 @@ export class DomainTopics {
   }
 
   /**
-   * Get properties of a domain topic
-   * @summary Get a domain topic
+   * Get properties of a domain topic.
+   * @summary Get a domain topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param domainTopicName Name of the topic
+   * @param domainName Name of the domain.
+   * @param domainTopicName Name of the topic.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainTopicsGetResponse>
    */
   get(resourceGroupName: string, domainName: string, domainTopicName: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainTopicsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param domainTopicName Name of the topic
+   * @param domainName Name of the domain.
+   * @param domainTopicName Name of the topic.
    * @param callback The callback
    */
   get(resourceGroupName: string, domainName: string, domainTopicName: string, callback: msRest.ServiceCallback<Models.DomainTopic>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param domainTopicName Name of the topic
+   * @param domainName Name of the domain.
+   * @param domainTopicName Name of the topic.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -66,10 +66,10 @@ export class DomainTopics {
 
   /**
    * Asynchronously creates or updates a new domain topic with the specified parameters.
-   * @summary Create or update a domain topic
+   * @summary Create or update a domain topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param domainTopicName Name of the domain topic
+   * @param domainName Name of the domain.
+   * @param domainTopicName Name of the domain topic.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainTopicsCreateOrUpdateResponse>
    */
@@ -79,11 +79,11 @@ export class DomainTopics {
   }
 
   /**
-   * Delete existing domain topic
-   * @summary Delete a domain topic
+   * Delete existing domain topic.
+   * @summary Delete a domain topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param domainTopicName Name of the domain topic
+   * @param domainName Name of the domain.
+   * @param domainTopicName Name of the domain topic.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -127,10 +127,10 @@ export class DomainTopics {
 
   /**
    * Asynchronously creates or updates a new domain topic with the specified parameters.
-   * @summary Create or update a domain topic
+   * @summary Create or update a domain topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param domainTopicName Name of the domain topic
+   * @param domainName Name of the domain.
+   * @param domainTopicName Name of the domain topic.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -147,11 +147,11 @@ export class DomainTopics {
   }
 
   /**
-   * Delete existing domain topic
-   * @summary Delete a domain topic
+   * Delete existing domain topic.
+   * @summary Delete a domain topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the domain
-   * @param domainTopicName Name of the domain topic
+   * @param domainName Name of the domain.
+   * @param domainTopicName Name of the domain topic.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

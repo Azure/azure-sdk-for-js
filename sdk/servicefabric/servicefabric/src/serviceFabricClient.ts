@@ -1090,6 +1090,97 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   }
 
   /**
+   * This api allows removing all existing configuration overrides on specified node.
+   * @summary Removes configuration overrides on the specified node.
+   * @param nodeName The name of the node.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  removeConfigurationOverrides(nodeName: string, options?: Models.ServiceFabricClientRemoveConfigurationOverridesOptionalParams): Promise<msRest.RestResponse>;
+  /**
+   * @param nodeName The name of the node.
+   * @param callback The callback
+   */
+  removeConfigurationOverrides(nodeName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param nodeName The name of the node.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  removeConfigurationOverrides(nodeName: string, options: Models.ServiceFabricClientRemoveConfigurationOverridesOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  removeConfigurationOverrides(nodeName: string, options?: Models.ServiceFabricClientRemoveConfigurationOverridesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.sendOperationRequest(
+      {
+        nodeName,
+        options
+      },
+      removeConfigurationOverridesOperationSpec,
+      callback);
+  }
+
+  /**
+   * This api allows getting all existing configuration overrides on the specified node.
+   * @summary Gets the list of configuration overrides on the specified node.
+   * @param nodeName The name of the node.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetConfigurationOverridesResponse>
+   */
+  getConfigurationOverrides(nodeName: string, options?: Models.ServiceFabricClientGetConfigurationOverridesOptionalParams): Promise<Models.GetConfigurationOverridesResponse>;
+  /**
+   * @param nodeName The name of the node.
+   * @param callback The callback
+   */
+  getConfigurationOverrides(nodeName: string, callback: msRest.ServiceCallback<Models.ConfigParameterOverride[]>): void;
+  /**
+   * @param nodeName The name of the node.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getConfigurationOverrides(nodeName: string, options: Models.ServiceFabricClientGetConfigurationOverridesOptionalParams, callback: msRest.ServiceCallback<Models.ConfigParameterOverride[]>): void;
+  getConfigurationOverrides(nodeName: string, options?: Models.ServiceFabricClientGetConfigurationOverridesOptionalParams | msRest.ServiceCallback<Models.ConfigParameterOverride[]>, callback?: msRest.ServiceCallback<Models.ConfigParameterOverride[]>): Promise<Models.GetConfigurationOverridesResponse> {
+    return this.sendOperationRequest(
+      {
+        nodeName,
+        options
+      },
+      getConfigurationOverridesOperationSpec,
+      callback) as Promise<Models.GetConfigurationOverridesResponse>;
+  }
+
+  /**
+   * This api allows adding all existing configuration overrides on the specified node.
+   * @summary Adds the list of configuration overrides on the specified node.
+   * @param nodeName The name of the node.
+   * @param configParameterOverrideList Description for adding list of configuration overrides.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  addConfigurationParameterOverrides(nodeName: string, configParameterOverrideList: Models.ConfigParameterOverride[], options?: Models.ServiceFabricClientAddConfigurationParameterOverridesOptionalParams): Promise<msRest.RestResponse>;
+  /**
+   * @param nodeName The name of the node.
+   * @param configParameterOverrideList Description for adding list of configuration overrides.
+   * @param callback The callback
+   */
+  addConfigurationParameterOverrides(nodeName: string, configParameterOverrideList: Models.ConfigParameterOverride[], callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param nodeName The name of the node.
+   * @param configParameterOverrideList Description for adding list of configuration overrides.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  addConfigurationParameterOverrides(nodeName: string, configParameterOverrideList: Models.ConfigParameterOverride[], options: Models.ServiceFabricClientAddConfigurationParameterOverridesOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  addConfigurationParameterOverrides(nodeName: string, configParameterOverrideList: Models.ConfigParameterOverride[], options?: Models.ServiceFabricClientAddConfigurationParameterOverridesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.sendOperationRequest(
+      {
+        nodeName,
+        configParameterOverrideList,
+        options
+      },
+      addConfigurationParameterOverridesOperationSpec,
+      callback);
+  }
+
+  /**
    * Returns the information about the application types that are provisioned or in the process of
    * being provisioned in the Service Fabric cluster. Each version of an application type is returned
    * as one application type. The response includes the name, version, status, and other details
@@ -5378,6 +5469,32 @@ class ServiceFabricClient extends ServiceFabricClientContext {
   }
 
   /**
+   * Returns information about the primary ImageStore replica, such as disk capacity and available
+   * disk space at the node it is on, and several categories of the ImageStore's file system usage.
+   * @summary Gets the overall ImageStore information
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetImageStoreInfoResponse>
+   */
+  getImageStoreInfo(options?: Models.ServiceFabricClientGetImageStoreInfoOptionalParams): Promise<Models.GetImageStoreInfoResponse>;
+  /**
+   * @param callback The callback
+   */
+  getImageStoreInfo(callback: msRest.ServiceCallback<Models.ImageStoreInfo>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getImageStoreInfo(options: Models.ServiceFabricClientGetImageStoreInfoOptionalParams, callback: msRest.ServiceCallback<Models.ImageStoreInfo>): void;
+  getImageStoreInfo(options?: Models.ServiceFabricClientGetImageStoreInfoOptionalParams | msRest.ServiceCallback<Models.ImageStoreInfo>, callback?: msRest.ServiceCallback<Models.ImageStoreInfo>): Promise<Models.GetImageStoreInfoResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      getImageStoreInfoOperationSpec,
+      callback) as Promise<Models.GetImageStoreInfoResponse>;
+  }
+
+  /**
    * For clusters that have one or more instances of the Infrastructure Service configured,
    * this API provides a way to send infrastructure-specific commands to a particular
    * instance of the Infrastructure Service.
@@ -8647,6 +8764,93 @@ const restartNodeOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const removeConfigurationOverridesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "Nodes/{nodeName}/$/RemoveConfigurationOverrides",
+  urlParameters: [
+    Parameters.nodeName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion3,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
+const getConfigurationOverridesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "Nodes/{nodeName}/$/GetConfigurationOverrides",
+  urlParameters: [
+    Parameters.nodeName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion3,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConfigParameterOverride"
+            }
+          }
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
+const addConfigurationParameterOverridesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "Nodes/{nodeName}/$/AddConfigurationParameterOverrides",
+  urlParameters: [
+    Parameters.nodeName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion3,
+    Parameters.force0,
+    Parameters.timeout
+  ],
+  requestBody: {
+    parameterPath: "configParameterOverrideList",
+    mapper: {
+      required: true,
+      serializedName: "ConfigParameterOverrideList",
+      type: {
+        name: "Sequence",
+        element: {
+          type: {
+            name: "Composite",
+            className: "ConfigParameterOverride"
+          }
+        }
+      }
+    }
+  },
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
 const getApplicationTypeInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "ApplicationTypes",
@@ -8698,7 +8902,7 @@ const provisionApplicationTypeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "ApplicationTypes/$/Provision",
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.timeout
   ],
   requestBody: {
@@ -8964,7 +9168,7 @@ const getApplicationInfoListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Applications",
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion5,
     Parameters.applicationDefinitionKindFilter,
     Parameters.applicationTypeName1,
     Parameters.excludeApplicationParameters,
@@ -9215,7 +9419,7 @@ const getDeployedApplicationInfoListOperationSpec: msRest.OperationSpec = {
     Parameters.nodeName0
   ],
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion5,
     Parameters.timeout,
     Parameters.includeHealthState,
     Parameters.continuationToken,
@@ -9240,7 +9444,7 @@ const getDeployedApplicationInfoOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion4,
+    Parameters.apiVersion5,
     Parameters.timeout,
     Parameters.includeHealthState
   ],
@@ -9942,7 +10146,7 @@ const movePrimaryReplicaOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId1
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion6,
     Parameters.nodeName1,
     Parameters.ignoreConstraints,
     Parameters.timeout
@@ -9963,7 +10167,7 @@ const moveSecondaryReplicaOperationSpec: msRest.OperationSpec = {
     Parameters.partitionId1
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion6,
     Parameters.currentNodeName,
     Parameters.newNodeName,
     Parameters.ignoreConstraints,
@@ -10650,7 +10854,7 @@ const getContainerLogsDeployedOnNodeOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.serviceManifestName0,
     Parameters.codePackageName1,
     Parameters.tail,
@@ -10676,7 +10880,7 @@ const invokeContainerApiOperationSpec: msRest.OperationSpec = {
     Parameters.applicationId
   ],
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.serviceManifestName0,
     Parameters.codePackageName1,
     Parameters.codePackageInstanceId,
@@ -10704,7 +10908,7 @@ const createComposeDeploymentOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "ComposeDeployments/$/Create",
   queryParameters: [
-    Parameters.apiVersion6,
+    Parameters.apiVersion7,
     Parameters.timeout
   ],
   requestBody: {
@@ -10730,7 +10934,7 @@ const getComposeDeploymentStatusOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion6,
+    Parameters.apiVersion7,
     Parameters.timeout
   ],
   responses: {
@@ -10748,7 +10952,7 @@ const getComposeDeploymentStatusListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "ComposeDeployments",
   queryParameters: [
-    Parameters.apiVersion6,
+    Parameters.apiVersion7,
     Parameters.continuationToken,
     Parameters.maxResults,
     Parameters.timeout
@@ -10771,7 +10975,7 @@ const getComposeDeploymentUpgradeProgressOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion6,
+    Parameters.apiVersion7,
     Parameters.timeout
   ],
   responses: {
@@ -10792,7 +10996,7 @@ const removeComposeDeploymentOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion6,
+    Parameters.apiVersion7,
     Parameters.timeout
   ],
   responses: {
@@ -10811,7 +11015,7 @@ const startComposeDeploymentUpgradeOperationSpec: msRest.OperationSpec = {
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion6,
+    Parameters.apiVersion7,
     Parameters.timeout
   ],
   requestBody: {
@@ -10837,7 +11041,7 @@ const startRollbackComposeDeploymentUpgradeOperationSpec: msRest.OperationSpec =
     Parameters.deploymentName
   ],
   queryParameters: [
-    Parameters.apiVersion7,
+    Parameters.apiVersion8,
     Parameters.timeout
   ],
   responses: {
@@ -10853,7 +11057,7 @@ const getChaosOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Tools/Chaos",
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.timeout
   ],
   responses: {
@@ -10910,7 +11114,7 @@ const getChaosEventsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Tools/Chaos/Events",
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.continuationToken,
     Parameters.startTimeUtc0,
     Parameters.endTimeUtc0,
@@ -10932,7 +11136,7 @@ const getChaosScheduleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "Tools/Chaos/Schedule",
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.timeout
   ],
   responses: {
@@ -10950,7 +11154,7 @@ const postChaosScheduleOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "Tools/Chaos/Schedule",
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.timeout
   ],
   requestBody: {
@@ -10995,7 +11199,7 @@ const getImageStoreContentOperationSpec: msRest.OperationSpec = {
     Parameters.contentPath
   ],
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.timeout
   ],
   responses: {
@@ -11170,7 +11374,7 @@ const getImageStoreRootFolderSizeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "ImageStore/$/FolderSize",
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion6,
     Parameters.timeout
   ],
   responses: {
@@ -11191,12 +11395,30 @@ const getImageStoreFolderSizeOperationSpec: msRest.OperationSpec = {
     Parameters.contentPath
   ],
   queryParameters: [
-    Parameters.apiVersion5,
+    Parameters.apiVersion6,
     Parameters.timeout
   ],
   responses: {
     200: {
       bodyMapper: Mappers.FolderSizeInfo
+    },
+    default: {
+      bodyMapper: Mappers.FabricError
+    }
+  },
+  serializer
+};
+
+const getImageStoreInfoOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "ImageStore/$/Info",
+  queryParameters: [
+    Parameters.apiVersion6,
+    Parameters.timeout
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageStoreInfo
     },
     default: {
       bodyMapper: Mappers.FabricError
@@ -11473,7 +11695,7 @@ const cancelOperationOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion0,
     Parameters.operationId,
-    Parameters.force,
+    Parameters.force1,
     Parameters.timeout
   ],
   responses: {
@@ -12397,7 +12619,7 @@ const getContainersEventListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "EventsStore/Containers/Events",
   queryParameters: [
-    Parameters.apiVersion8,
+    Parameters.apiVersion9,
     Parameters.timeout,
     Parameters.startTimeUtc1,
     Parameters.endTimeUtc1,

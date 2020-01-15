@@ -7,6 +7,10 @@
 
 import { QueueServiceClient } from "@azure/storage-queue";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 export async function main() {
   // Create Queue Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`

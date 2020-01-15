@@ -22,6 +22,10 @@ import {
   RequestPolicyOptions
 } from "@azure/storage-blob";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
   prefix: string;

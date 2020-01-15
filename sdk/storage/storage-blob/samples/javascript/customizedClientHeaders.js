@@ -19,6 +19,9 @@ const {
   BaseRequestPolicy
 } = require("@azure/storage-blob");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
   // Constructor to accept parameters
@@ -82,8 +85,6 @@ async function main() {
   // Check customized client request ID
   console.log(response._response.request.headers.get("x-ms-client-request-id"));
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

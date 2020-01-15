@@ -7,6 +7,9 @@
 
 const { BlobServiceClient } = require("@azure/storage-blob");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
@@ -53,7 +56,7 @@ async function main() {
 
     // Create a new block blob
     console.log("// Create a new block blob...");
-    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+    const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
     console.log(`Uploaded block blob ${blobName} successfully,`);
     console.log(
       `requestId - ${uploadBlobResponse.requestId}, statusCode - ${uploadBlobResponse._response.status}\n`
@@ -147,8 +150,6 @@ async function streamToString(readableStream) {
     readableStream.on("error", reject);
   });
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

@@ -1,4 +1,4 @@
-import { SubscriptionEventHandlers, ReceivedEventData, PartitionContext, InitializationContext, CloseReason } from "../../src";
+import { SubscriptionEventHandlers, ReceivedEventData, PartitionContext } from "../../src";
 
 export class FakeSubscriptionEventHandlers implements SubscriptionEventHandlers {
   public events: Map<string, ReceivedEventData[]> = new Map();
@@ -19,13 +19,5 @@ export class FakeSubscriptionEventHandlers implements SubscriptionEventHandlers 
 
   async processError(err: Error, context: PartitionContext) {
     this.errors.push(err);
-  }
-
-  async processInitialize(context: InitializationContext) {
-
-  }
-
-  async processClose(closeReason: CloseReason, context: PartitionContext) {
-
   }
 }

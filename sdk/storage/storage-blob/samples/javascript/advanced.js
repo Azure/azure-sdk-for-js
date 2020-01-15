@@ -6,8 +6,12 @@
 */
 
 const fs = require("fs");
+
 const { AbortController } = require("@azure/abort-controller");
 const { AnonymousCredential, BlobServiceClient, newPipeline } = require("@azure/storage-blob");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
@@ -50,8 +54,7 @@ async function main() {
 
   // Create a blob
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = containerClient.getBlobClient(blobName);
-  const blockBlobClient = blobClient.getBlockBlobClient();
+  const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
   // Parallel uploading with BlockBlobClient.uploadFile() in Node.js runtime
   // BlockBlobClient.uploadFile() is only available in Node.js
@@ -129,8 +132,6 @@ async function main() {
   await containerClient.delete();
   console.log("deleted container");
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

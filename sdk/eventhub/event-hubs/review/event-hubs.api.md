@@ -45,6 +45,9 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
+export const earliestEventPosition: EventPosition;
+
+// @public
 export interface EventData {
     body: any;
     properties?: {
@@ -85,6 +88,8 @@ export class EventHubConsumerClient {
     constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
+    readonly eventHubName: string;
+    readonly fullyQualifiedNamespace: string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
@@ -115,21 +120,12 @@ export interface EventHubProperties {
 }
 
 // @public
-export class EventPosition {
-    // Warning: (ae-forgotten-export) The symbol "EventPositionOptions" needs to be exported by the entry point index.d.ts
-    //
-    // @internal
-    constructor(options?: EventPositionOptions);
-    static earliest(): EventPosition;
+export interface EventPosition {
     enqueuedOn?: Date | number;
-    static fromEnqueuedTime(enqueuedOn: Date | number): EventPosition;
-    static fromOffset(offset: number): EventPosition;
-    static fromSequenceNumber(sequenceNumber: number, isInclusive?: boolean): EventPosition;
-    isInclusive: boolean;
-    static latest(): EventPosition;
+    isInclusive?: boolean;
     offset?: number | "@latest";
     sequenceNumber?: number;
-    }
+}
 
 // @public
 export interface GetEventHubPropertiesOptions extends OperationOptions {
@@ -144,11 +140,6 @@ export interface GetPartitionPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface InitializationContext extends PartitionContext {
-    setStartingPosition(startingPosition: EventPosition): void;
-}
-
-// @public
 export interface LastEnqueuedEventProperties {
     enqueuedOn?: Date;
     offset?: string;
@@ -156,14 +147,17 @@ export interface LastEnqueuedEventProperties {
     sequenceNumber?: number;
 }
 
+// @public
+export const latestEventPosition: EventPosition;
+
+// @public
+export const logger: import("@azure/logger").AzureLogger;
+
 export { MessagingError }
 
 // @public
-export interface OperationOptions {
+export interface OperationOptions extends TracingOptions {
     abortSignal?: AbortSignalLike;
-    tracingOptions?: {
-        spanOptions?: SpanOptions;
-    };
 }
 
 // @public
@@ -202,13 +196,13 @@ export interface PartitionProperties {
 export type ProcessCloseHandler = (reason: CloseReason, context: PartitionContext) => Promise<void>;
 
 // @public
-export type ProcessErrorHandler = (error: Error, context: PartitionContext) => Promise<void>;
+export type ProcessErrorHandler = (error: Error | MessagingError, context: PartitionContext) => Promise<void>;
 
 // @public
 export type ProcessEventsHandler = (events: ReceivedEventData[], context: PartitionContext) => Promise<void>;
 
 // @public
-export type ProcessInitializeHandler = (context: InitializationContext) => Promise<void>;
+export type ProcessInitializeHandler = (context: PartitionContext) => Promise<void>;
 
 // @public
 export interface ReceivedEventData {
@@ -232,10 +226,13 @@ export interface SendBatchOptions extends OperationOptions {
 }
 
 // @public
-export interface SubscribeOptions {
+export interface SubscribeOptions extends TracingOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
+    startPosition?: EventPosition | {
+        [partitionId: string]: EventPosition;
+    };
     trackLastEnqueuedEventProperties?: boolean;
 }
 
@@ -254,6 +251,13 @@ export interface SubscriptionEventHandlers {
 }
 
 export { TokenCredential }
+
+// @public
+export interface TracingOptions {
+    tracingOptions?: {
+        spanOptions?: SpanOptions;
+    };
+}
 
 // @public
 export interface TryAddOptions {

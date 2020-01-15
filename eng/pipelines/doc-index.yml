@@ -13,56 +13,27 @@ jobs:
     pool:
       vmImage: "windows-2019"
     steps:
-      - pwsh: |
-          Invoke-WebRequest -Uri "https://github.com/dotnet/docfx/releases/download/v2.43.2/docfx.zip" `
-          -OutFile "docfx.zip" | Wait-Process; Expand-Archive -Path "docfx.zip" -DestinationPath "./docfx/"
-        workingDirectory: $(Build.BinariesDirectory)
-        displayName: Download and Extract DocFX
-
-      - pwsh: |
-          $(Build.BinariesDirectory)/docfx/docfx.exe init -q
-        displayName: Provision DocFX Directory
-        workingDirectory: $(Build.SourcesDirectory)
-
-      - pwsh: |
-          mkdir "templates"
-        displayName: Create Template Directory
-        workingDirectory: $(Build.SourcesDirectory)/docfx_project/
-
-      - pwsh: |
-          Copy-Item "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/docfx.json" -Destination "$(Build.SourcesDirectory)/docfx_project/" -Force
-        displayName: Copy over docfx.json
-
-      - script: |
-          npm install
-        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-static-index
-        displayName: "Install tool dependencies"
-
-      - pwsh: |
-          node $(Build.SourcesDirectory)/eng/tools/generate-static-index/index.js
-        displayName: "Generate Index Toc"
-
-      - pwsh: |
-          New-Item -Path "$(Build.SourcesDirectory)/docfx_project" -Name "toc.yml" -Force
-          Add-Content -Path "$(Build.SourcesDirectory)/docfx_project/toc.yml" -Value "- name: Azure SDK for JavaScript APIs`r`n  href: api/`r`n  homepage: api/index.md"
-          Copy-Item "$(Build.SourcesDirectory)/README.md" -Destination "$(Build.SourcesDirectory)/docfx_project/api/index.md" -Force
-        displayName: Update toc.yml and index
-
-      - pwsh: |
-          $(Build.BinariesDirectory)/docfx/docfx.exe build
-        displayName: Build Doc Content
-        workingDirectory: $(Build.SourcesDirectory)/docfx_project/
-
-      - pwsh: |
-          Copy-Item "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/assets/*" -Destination "$(Build.SourcesDirectory)/docfx_project/_site/" -Force
-          Get-Content "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/main.js" |Out-File "$(Build.SourcesDirectory)/docfx_project/_site/styles/main.js"
-          Get-Content "$(Build.SourcesDirectory)/eng/tools/generate-static-index/static-files/docfx.css" |Out-File "$(Build.SourcesDirectory)/docfx_project/_site/styles/docfx.css"
-        displayName: Replace site assets
-
       - task: UsePythonVersion@0
         displayName: "Use Python 3.6"
         inputs:
           versionSpec: "3.6"
+
+      - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
+        parameters:
+          TargetFolder: .
+          RootFolder: .
+          BuildSHA: $(Build.SourceVersion)
+          RepoId: "Azure/azure-sdk-for-js"
+
+      - pwsh: |
+          Invoke-WebRequest -Uri "https://github.com/dotnet/docfx/releases/download/v2.43.2/docfx.zip" `
+          -OutFile "docfx.zip" | Wait-Process; Expand-Archive -Path "docfx.zip" -DestinationPath "./docfx/"
+        workingDirectory: $(Build.SourcesDirectory)
+        displayName: Download and Extract DocFX
+
+      - pwsh: |
+          $(Build.SourcesDirectory)/eng/tools/generate-static-index/Generate-DocIndex.ps1 -RepoRoot $(Build.SourcesDirectory) -verbose
+        displayName: 'Generate Doc Index'
 
       - template: eng/pipelines/templates/scripts/mashup-doc-index.yml@azure-sdk-tools
         parameters:

@@ -22,6 +22,7 @@ import { createSpan } from "./utils/tracing";
 import { toFileSystemPagedAsyncIterableIterator } from "./transforms";
 import { ServiceGetUserDelegationKeyOptions, ServiceGetUserDelegationKeyResponse } from "./models";
 import { CanonicalCode } from "@opentelemetry/types";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
@@ -81,6 +82,13 @@ export class DataLakeServiceClient extends StorageClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    const newOptions: StoragePipelineOptions = {
+      httpClient: getCachedDefaultHttpClient(),
+      ...options
+    };
+
     if (credentialOrPipeline instanceof Pipeline) {
       super(url, credentialOrPipeline);
     } else {
@@ -91,7 +99,7 @@ export class DataLakeServiceClient extends StorageClient {
         credential = credentialOrPipeline;
       }
 
-      const pipeline = newPipeline(credential, options);
+      const pipeline = newPipeline(credential, newOptions);
       super(url, pipeline);
     }
 
