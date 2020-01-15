@@ -6,7 +6,7 @@
 
 - If TEST_MODE = "record",
   - Tests hit the live-service
-  - Nock/Nise are leveraged for recording the request-responses for future use
+  - [Nock](https://www.npmjs.com/package/nock)/[Nise](https://www.npmjs.com/package/nise) are leveraged for recording the request-responses for future use
   - If recordings are already present, forces re-recording
 - Else If TEST_MODE = "live",
   - Tests hit the live-service, we don't record the requests/responses
