@@ -13,7 +13,7 @@
     "variables": {
         "configurationApiVersion": "2019-02-01-preview",
         "accountName": "[parameters('baseName')]",
-        "endpoint": "concat('https://', parameters('baseName'), '.azconfig.io')"
+        "endpoint": "[concat('https://', parameters('baseName'), '.azconfig.io')]"
     },
     "resources": [
         {
