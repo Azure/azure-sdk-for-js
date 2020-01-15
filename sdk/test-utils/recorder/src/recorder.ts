@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { getUniqueName, isBrowser, isRecordMode, isPlaybackMode, isLiveMode } from "./utils";
+import { getUniqueName, isBrowser, isRecordMode, isPlaybackMode } from "./utils";
 import { NiseRecorder, NockRecorder, BaseRecorder, setEnvironmentOnLoad } from "./baseRecorder";
 
 /**
@@ -84,13 +84,11 @@ export function record(testContext: Mocha.Context): Recorder {
     // If TEST_MODE=record, invokes the recorder, hits the live-service,
     // saves the recording after the test finishes.
     recorder.record();
-  } else if (isLiveMode()) {
-    // Do nothing
-    // If TEST_MODE=live, hits the live-service and no recordings are generated.
   } else if (isPlaybackMode()) {
-    // If TEST_MODE=playback, invokes the recorder, play the exisiting recording.
+    // If TEST_MODE=playback, invokes the recorder, play the exisiting test recording.
     recorder.playback(testContext.currentTest!.file!);
   }
+  // If TEST_MODE=live, hits the live-service and no recordings are generated.
 
   return {
     stop: function() {
