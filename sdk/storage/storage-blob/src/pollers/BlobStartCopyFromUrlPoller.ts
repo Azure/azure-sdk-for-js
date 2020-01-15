@@ -52,6 +52,12 @@ export interface BlobBeginCopyFromUrlPollState
   readonly startCopyFromURLOptions?: BlobStartCopyFromURLOptions;
 }
 
+export type BlobBeginCopyFromURLPossibleRawResponse =
+  | BlobStartCopyFromURLResponse
+  | BlobGetPropertiesResponse
+  | BlobAbortCopyFromURLResponse
+  | undefined;
+
 /**
  * The PollOperation responsible for:
  *  - performing the initial startCopyFromURL
@@ -63,10 +69,7 @@ export interface BlobBeginCopyFromURLPollOperation
   extends PollOperation<
     BlobBeginCopyFromUrlPollState,
     BlobBeginCopyFromURLResponse,
-    | BlobStartCopyFromURLResponse
-    | BlobGetPropertiesResponse
-    | BlobAbortCopyFromURLResponse
-    | undefined
+    BlobBeginCopyFromURLPossibleRawResponse
   > {}
 
 /**
@@ -93,10 +96,7 @@ export interface BlobBeginCopyFromUrlPollerOptions {
 export class BlobBeginCopyFromUrlPoller extends Poller<
   BlobBeginCopyFromUrlPollState,
   BlobBeginCopyFromURLResponse,
-  | BlobStartCopyFromURLResponse
-  | BlobGetPropertiesResponse
-  | BlobAbortCopyFromURLResponse
-  | undefined
+  BlobBeginCopyFromURLPossibleRawResponse
 > {
   public intervalInMs: number;
 
@@ -183,7 +183,7 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
 ): Promise<BlobBeginCopyFromURLPollOperation> {
   const state = this.state;
   const { blobClient, copySource, startCopyFromURLOptions } = state;
-  let result: BlobStartCopyFromURLResponse | BlobGetPropertiesResponse | undefined = undefined;
+  let result: BlobStartCopyFromURLResponse | BlobGetPropertiesResponse | undefined;
 
   if (!state.isStarted) {
     state.isStarted = true;

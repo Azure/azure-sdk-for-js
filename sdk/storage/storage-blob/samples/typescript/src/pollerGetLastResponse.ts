@@ -5,9 +5,9 @@
  Setup: Enter your storage account name, SAS and a path pointing to local file in main()
 */
 
-const { ContainerClient, StorageSharedKeyCredential } = require("../../dist"); // TODO: require("@azure/storage-blob")
-const { AbortController } = require("@azure/abort-controller");
-const { delay } = require("@azure/core-http");
+import { ContainerClient, StorageSharedKeyCredential } from "../../../src"; // TODO: from "@azure/storage-blob";
+import { AbortController } from "@azure/abort-controller";
+import { delay } from "@azure/core-http";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -45,15 +45,15 @@ async function main() {
   const aborter = new AbortController();
   const copyPoller = await blobClient.beginCopyFromURL(sourceUrl, {
     abortSignal: aborter.signal,
-    intervalInMs: 1000,
+    intervalInMs: 2500,
     onProgress(state) {
       if (state.copyProgress) {
         const parts = state.copyProgress.split("/");
         const ratio = Number.parseFloat(parts[0]) / Number.parseInt(parts[1]);
         console.log(`Copy progress: ${ratio * 100} %`);
         if (ratio > 0.1) {
-          // For demostration purpose, cancel the poll operation when meeting certain condition.
-          // We should see the BlobAbortCopyFromURLResponse from getLastResponse() call below.
+          // For demostration purpose, cancel the poll operation. We should see the BlobAbortCopyFromURLResponse from
+          // getLastResponse() call below.
           copyPoller.cancelOperation();
         }
       }
