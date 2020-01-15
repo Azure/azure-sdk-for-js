@@ -372,8 +372,9 @@ export interface ServiceBusAtomManagementClientOptions {
 
 // @public
 export class ServiceBusClient {
+    constructor(connectionString: string, options?: ServiceBusClientOptions);
+    constructor(host: string, credential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<any>;
-    static createFromConnectionString(connectionString: string, options?: ServiceBusClientOptions): ServiceBusClient;
     createQueueClient(queueName: string): QueueClient;
     createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient;
     createTopicClient(topicName: string): TopicClient;

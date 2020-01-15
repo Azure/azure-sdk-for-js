@@ -42,7 +42,7 @@ async function RunTest(
   maxInflight: number,
   messages: number
 ): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = new ServiceBusClient(connectionString);
 
   const client = ns.createQueueClient(entityPath);
   const sender = client.createSender();
