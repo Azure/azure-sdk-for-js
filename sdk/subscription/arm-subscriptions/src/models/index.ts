@@ -48,6 +48,17 @@ export interface RenamedSubscriptionId {
 }
 
 /**
+ * The ID of the subscriptions that is being enabled
+ */
+export interface EnabledSubscriptionId {
+  /**
+   * The ID of the subscriptions that is being enabled
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+}
+
+/**
  * The new name of the subscription.
  */
 export interface SubscriptionName {
@@ -160,6 +171,30 @@ export interface ModernSubscriptionCreationParameters {
    * Additional, untyped parameters to support custom subscription creation scenarios.
    */
   additionalParameters?: { [propertyName: string]: any };
+}
+
+/**
+ * The parameters required to create a new CSP subscription.
+ */
+export interface ModernCspSubscriptionCreationParameters {
+  /**
+   * The friendly name of the subscription.
+   */
+  displayName: string;
+  /**
+   * The SKU ID of the Azure plan. Azure plan determines the pricing and service-level agreement of
+   * the subscription.  Use 001 for Microsoft Azure Plan and 002 for Microsoft Azure Plan for
+   * DevTest.
+   */
+  skuId: string;
+  /**
+   * Reseller ID, basically MPN Id.
+   */
+  resellerId?: string;
+  /**
+   * Service provider ID, basically MPN Id.
+   */
+  serviceProviderId?: string;
 }
 
 /**
@@ -369,6 +404,21 @@ export interface SubscriptionFactoryCreateSubscriptionHeaders {
 }
 
 /**
+ * Defines headers for CreateCspSubscription operation.
+ */
+export interface SubscriptionFactoryCreateCspSubscriptionHeaders {
+  /**
+   * GET this URL to retrieve the status of the asynchronous operation.
+   */
+  location: string;
+  /**
+   * The amount of delay to use while the status of the operation is checked. The value is
+   * expressed in seconds.
+   */
+  retryAfter: number;
+}
+
+/**
  * Defines headers for CreateSubscriptionInEnrollmentAccount operation.
  */
 export interface SubscriptionFactoryCreateSubscriptionInEnrollmentAccountHeaders {
@@ -476,6 +526,26 @@ export type SubscriptionsRenameResponse = RenamedSubscriptionId & {
        * The response body as parsed JSON or XML
        */
       parsedBody: RenamedSubscriptionId;
+    };
+};
+
+/**
+ * Contains response data for the enable operation.
+ */
+export type SubscriptionsEnableResponse = EnabledSubscriptionId & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EnabledSubscriptionId;
     };
 };
 
@@ -596,6 +666,31 @@ export type SubscriptionFactoryCreateSubscriptionResponse = SubscriptionCreation
        * The parsed HTTP response headers.
        */
       parsedHeaders: SubscriptionFactoryCreateSubscriptionHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SubscriptionCreationResult;
+    };
+};
+
+/**
+ * Contains response data for the createCspSubscription operation.
+ */
+export type SubscriptionFactoryCreateCspSubscriptionResponse = SubscriptionCreationResult & SubscriptionFactoryCreateCspSubscriptionHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SubscriptionFactoryCreateCspSubscriptionHeaders;
 
       /**
        * The response body as text (string format)

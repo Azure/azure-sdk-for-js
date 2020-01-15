@@ -78,6 +78,26 @@ export const billingAccountName: msRest.OperationURLParameter = {
     }
   }
 };
+export const billingProfileName: msRest.OperationURLParameter = {
+  parameterPath: "billingProfileName",
+  mapper: {
+    required: true,
+    serializedName: "billingProfileName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const customerName: msRest.OperationURLParameter = {
+  parameterPath: "customerName",
+  mapper: {
+    required: true,
+    serializedName: "customerName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const enrollmentAccountName: msRest.OperationURLParameter = {
   parameterPath: "enrollmentAccountName",
   mapper: {
