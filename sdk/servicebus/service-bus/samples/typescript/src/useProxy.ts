@@ -9,7 +9,7 @@
 import { ServiceBusClient } from "@azure/service-bus";
 import WebSocket from "ws";
 import url from "url";
-import httpsProxyAgent from "https-proxy-agent";
+import HttpsProxyAgent from "https-proxy-agent";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -17,20 +17,18 @@ dotenv.config();
 
 // Define connection string for your Service Bus instance here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const queueName = process.env.QUEUE_NAME || "";
 
 export async function main() {
-  if (!process.env.HTTP_PROXY_URL) {
-    console.error("Error: Proxy information not provided, but it is required to run this sample. Exiting.");
+  const proxyInfo = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
+  if (!proxyInfo) {
+    console.error(
+      "Error: Proxy information not provided, but it is required to run this sample. Exiting."
+    );
     return;
   }
-  
-  // Get relevant proxy url, username and password needed to create an instance of httpsProxyAgent
-  const urlParts = url.parse(process.env.HTTP_PROXY_URL);
-  urlParts.auth = process.env.HTTP_PROXY_AUTH; // Skip this if proxy server does not need authentication.
-  
+
   // Create an instance of the `HttpsProxyAgent` class with the proxy server information
-  const proxyAgent = new httpsProxyAgent(urlParts);
+  const proxyAgent = new HttpsProxyAgent(proxyInfo);
 
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString, {
     webSocket: WebSocket,
