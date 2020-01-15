@@ -206,6 +206,29 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * resolve and reject methods are also used internally to control when to resolve
    * or reject anyone waiting for the poller to finish.
    * 
+   * The constructor of a custom implementation of a poller is where any serialized version of
+   * a previous poller's operation should be deserialized into the operation sent to the
+   * base constructor. For example:
+   * 
+   *     export class MyPoller extends Poller<MyOperationState, string> {
+   *       constructor(
+   *         baseOperation: string | undefined
+   *       ) {
+   *         let state: MyOperationState = {};
+   *         if (baseOperation) {
+   *           state = {
+   *             ...JSON.parse(baseOperation).state,
+   *             ...state
+   *           };
+   *         }
+   *         const operation = {
+   *           state,
+   *           // ...
+   *         }
+   *         super(operation);
+   *       }
+   *     }
+   * 
    * @param operation Must contain the basic properties of PollOperation<State, TResult>.
    */
   constructor(operation: PollOperation<TState, TResult>) {
@@ -268,7 +291,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * poll operation to make any relevant change effective.
    * 
    * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
-   * This will be received from the PollOperationState's RequestOptions, if the property exists as part of that object.
    * 
    * @param options Optional properties passed to the operation's update method.
    */
@@ -327,7 +349,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * It does this by calling the update method of the Poller's operation.
    * 
    * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
-   * This will be received from the PollOperationState's RequestOptions, if the property exists as part of that object.
    * 
    * @param options Optional properties passed to the operation's update method.
    */
@@ -396,7 +417,6 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * Attempts to cancel the underlying operation.
    * 
    * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
-   * This will be received from the PollOperationState's RequestOptions, if the property exists as part of that object.
    * 
    * If it's called again before it finishes, it will throw an error.
    * 

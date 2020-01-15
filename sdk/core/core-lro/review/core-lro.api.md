@@ -58,34 +58,25 @@ export class PollerStoppedError extends Error {
     constructor(message: string);
 }
 
-// @public (undocumented)
+// @public
 export interface PollOperation<TState, TResult> {
-    // (undocumented)
     cancel(options?: {
         abortSignal?: AbortSignal;
     }): Promise<PollOperation<TState, TResult>>;
-    // (undocumented)
     state: TState;
-    // (undocumented)
     toString(): string;
-    // (undocumented)
     update(options?: {
         abortSignal?: AbortSignalLike;
         fireProgress?: (state: TState) => void;
     }): Promise<PollOperation<TState, TResult>>;
 }
 
-// @public (undocumented)
+// @public
 export interface PollOperationState<TResult> {
-    // (undocumented)
     error?: Error;
-    // (undocumented)
     isCancelled?: boolean;
-    // (undocumented)
     isCompleted?: boolean;
-    // (undocumented)
     isStarted?: boolean;
-    // (undocumented)
     result?: TResult;
 }
 
