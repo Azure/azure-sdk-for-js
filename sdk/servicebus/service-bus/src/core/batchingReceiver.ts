@@ -90,7 +90,7 @@ export class BatchingReceiver extends MessageReceiver {
         receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
 
         const sessionError = context.session && context.session.error;
-        let error = new MessagingError("An error occurred while receiving messages.");
+        let error: Error | MessagingError;
         if (sessionError) {
           error = translate(sessionError) as MessagingError;
           log.error(
@@ -99,6 +99,8 @@ export class BatchingReceiver extends MessageReceiver {
             this.name,
             error
           );
+        } else {
+          error = new MessagingError("An error occurred while receiving messages.");
         }
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);
@@ -261,7 +263,7 @@ export class BatchingReceiver extends MessageReceiver {
         receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
 
         const receiverError = context.receiver && context.receiver.error;
-        let error = new MessagingError("An error occurred while receiving messages.");
+        let error: Error | MessagingError;
         if (receiverError) {
           error = translate(receiverError) as MessagingError;
           log.error(
@@ -270,6 +272,8 @@ export class BatchingReceiver extends MessageReceiver {
             this.name,
             error
           );
+        } else {
+          error = new MessagingError("An error occurred while receiving messages.");
         }
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);

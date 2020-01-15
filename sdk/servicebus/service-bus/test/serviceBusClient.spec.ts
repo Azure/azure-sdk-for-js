@@ -14,7 +14,8 @@ import {
   SessionReceiver,
   SubscriptionClient,
   TopicClient,
-  ServiceBusMessage
+  ServiceBusMessage,
+  MessagingError
 } from "../src";
 import {
   getClientClosedErrorMsg,
@@ -28,7 +29,8 @@ import {
   getSenderReceiverClients,
   purge,
   TestMessage,
-  getServiceBusClient
+  getServiceBusClient,
+  isMessagingError
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { DispositionType } from "../src/serviceBusMessage";
@@ -87,9 +89,14 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     return sbClient.close();
   });
 
-  const testError = (err: Error): void => {
-    should.equal(err.name, "ServiceCommunicationError", "ErrorName is different than expected");
-    errorWasThrown = true;
+  const testError = (err: Error | MessagingError): void => {
+    const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
+    if (!isMessagingError(err)) {
+      should.equal(true, false, "Error expected to be instance of MessagingError");
+    } else {
+      should.equal(err.code, expectedErrCode, "Error code is different than expected");
+      errorWasThrown = true;
+    }
   };
 
   it("throws error when sending data via a queueClient to a non existing namespace", async function(): Promise<
@@ -139,7 +146,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving batch data via a queueClient from a non existing namespace", async function(): Promise<
+  it("throws error when receiving batch data via a queueClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = sbClient.createQueueClient("some-name");
@@ -149,7 +156,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving batch data via a subscriptionClient from a non existing namespace", async function(): Promise<
+  it("throws error when receiving batch data via a subscriptionClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
@@ -159,7 +166,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving streaming data via a queueClient from a non existing namespace", async function(): Promise<
+  it("throws error when receiving streaming data via a queueClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = sbClient.createQueueClient("some-name");
@@ -187,15 +194,23 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     return sbClient.close();
   });
 
-  const testError = (err: Error, entityPath: string): void => {
-    should.equal(err.name, "MessagingEntityNotFoundError", "ErrorName is different than expected");
-    should.equal(
-      err.message.startsWith(
-        `The messaging entity '${sbClient.name}${entityPath}' could not be found.`
-      ),
-      true
-    );
-    errorWasThrown = true;
+  const testError = (err: Error | MessagingError, entityPath: string): void => {
+    if (!isMessagingError(err)) {
+      should.equal(true, false, "Error expected to be instance of MessagingError");
+    } else {
+      should.equal(
+        err.code,
+        "MessagingEntityNotFoundError",
+        "Error code is different than expected"
+      );
+      should.equal(
+        err.message.startsWith(
+          `The messaging entity '${sbClient.name}${entityPath}' could not be found.`
+        ),
+        true
+      );
+      errorWasThrown = true;
+    }
   };
 
   it("throws error when sending data to a non existing queue #RunInBrowser", async function(): Promise<
@@ -266,7 +281,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving streaming data from a non existing queue #RunInBrowser", async function(): Promise<
+  it("throws error when receiving streaming data from a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
     const client = sbClient.createQueueClient("some-name");
@@ -281,7 +296,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving streaming data from a non existing subscription", async function(): Promise<
+  it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
     void
   > {
     const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");

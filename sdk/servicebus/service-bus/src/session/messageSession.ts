@@ -549,8 +549,8 @@ export class MessageSession extends LinkEntity {
       const connectionId = this._context.namespace.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
-        const sbError = translate(receiverError);
-        if (sbError.name === "SessionLockLostError") {
+        const sbError = translate(receiverError) as MessagingError;
+        if (sbError.code === "SessionLockLostError") {
           this._context.expiredMessageSessions[this.sessionId!] = true;
           sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
@@ -585,8 +585,8 @@ export class MessageSession extends LinkEntity {
       const receiver = this._receiver || context.receiver!;
       let isClosedDueToExpiry = false;
       if (receiverError) {
-        const sbError = translate(receiverError);
-        if (sbError.name === "SessionLockLostError") {
+        const sbError = translate(receiverError) as MessagingError;
+        if (sbError.code === "SessionLockLostError") {
           isClosedDueToExpiry = true;
         }
         log.error(

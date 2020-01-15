@@ -20,7 +20,8 @@ import {
   RequestResponseLink,
   ConditionErrorNameMapper,
   AmqpMessage,
-  SendRequestOptions
+  SendRequestOptions,
+  MessagingError
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
@@ -446,14 +447,14 @@ export class ManagementClient extends LinkEntity {
         }
       }
     } catch (err) {
-      const error = translate(err);
+      const error = translate(err) as MessagingError;
       log.error(
         "An error occurred while sending the request to peek messages to " +
           "$management endpoint: %O",
         error
       );
       // statusCode == 404 then do not throw
-      if (error.name !== ConditionErrorNameMapper["com.microsoft:message-not-found"]) {
+      if (error.code !== ConditionErrorNameMapper["com.microsoft:message-not-found"]) {
         throw error;
       }
     }
