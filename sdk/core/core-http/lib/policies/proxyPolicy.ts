@@ -14,26 +14,54 @@ import { Constants } from "../util/constants";
 import { URLBuilder } from "../url";
 
 function loadEnvironmentProxyValue(): string | undefined {
+  let httpProxy = null;
+  let httpsProxy = null;
+  let allProxy = null;
+  let noProxy = null;
+
   if (!process) {
     return undefined;
   }
 
   if (process.env[Constants.HTTPS_PROXY]) {
-    return process.env[Constants.HTTPS_PROXY];
+    httpsProxy = process.env[Constants.HTTPS_PROXY];
   } else if (process.env[Constants.HTTPS_PROXY.toLowerCase()]) {
-    return process.env[Constants.HTTPS_PROXY.toLowerCase()];
+    httpsProxy = process.env[Constants.HTTPS_PROXY.toLowerCase()];
   } else if (process.env[Constants.HTTP_PROXY]) {
-    return process.env[Constants.HTTP_PROXY];
+    httpProxy = process.env[Constants.HTTP_PROXY];
   } else if (process.env[Constants.HTTP_PROXY.toLowerCase()]) {
-    return process.env[Constants.HTTP_PROXY.toLowerCase()];
-  } else if (process.env[Constants.NO_PROXY]) {
-    return process.env[Constants.NO_PROXY];
-  } else if (process.env[Constants.NO_PROXY.toLowerCase()]) {
-    return process.env[Constants.NO_PROXY.toLowerCase()];
-  } else if (process.env[Constants.ALL_PROXY]) {
-    return process.env[Constants.ALL_PROXY];
-  } else if (process.env[Constants.ALL_PROXY.toLowerCase()]) {
-    return process.env[Constants.ALL_PROXY.toLowerCase()];
+    httpProxy = process.env[Constants.HTTP_PROXY.toLowerCase()];
+  }
+
+  if (httpProxy == null || httpsProxy == null) {
+    if (process.env[Constants.ALL_PROXY]) {
+      allProxy = process.env[Constants.ALL_PROXY];
+    } else if (process.env[Constants.ALL_PROXY.toLowerCase()]) {
+      allProxy = process.env[Constants.ALL_PROXY.toLowerCase()];
+    }
+
+    if (httpProxy == null) {
+      httpProxy = allProxy;
+    } else {
+      httpsProxy = allProxy;
+    }
+  }
+
+  if (httpProxy == null && httpsProxy == null) {
+    if (process.env[Constants.NO_PROXY]) {
+      noProxy = process.env[Constants.NO_PROXY];
+    } else if (process.env[Constants.NO_PROXY.toLowerCase()]) {
+      noProxy = process.env[Constants.NO_PROXY.toLowerCase()];
+    }
+    if (noProxy) {
+      return noProxy;
+    }
+  }
+
+  if (httpsProxy) {
+    return httpsProxy;
+  } else if (httpProxy) {
+    return httpProxy;
   }
 
   return undefined;

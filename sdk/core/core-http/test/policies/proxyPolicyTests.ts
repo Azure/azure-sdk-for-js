@@ -11,7 +11,7 @@ import { proxyPolicy, ProxyPolicy, getDefaultProxySettings } from "../../lib/pol
 import { Constants } from "../../lib/coreHttp";
 import { nodeDescribe, browserDescribe } from "../msAssert";
 
-describe("ProxyPolicy", function() {
+describe("ProxyPolicy", function () {
   const proxySettings: ProxySettings = {
     host: "https://example.com",
     port: 3030,
@@ -30,8 +30,8 @@ describe("ProxyPolicy", function() {
 
   const emptyPolicyOptions = new RequestPolicyOptions();
 
-  nodeDescribe("for Node.js", function() {
-    it("factory passes correct proxy settings", function(done) {
+  nodeDescribe("for Node.js", function () {
+    it("factory passes correct proxy settings", function (done) {
       const factory = proxyPolicy(proxySettings);
       const policy = factory.create(emptyRequestPolicy, emptyPolicyOptions) as ProxyPolicy;
 
@@ -39,7 +39,7 @@ describe("ProxyPolicy", function() {
       done();
     });
 
-    it("sets correct proxy settings through constructor", function(done) {
+    it("sets correct proxy settings through constructor", function (done) {
       const policy = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
       policy.proxySettings.should.be.deep.equal(proxySettings);
       done();
@@ -79,7 +79,7 @@ describe("getDefaultProxySettings", () => {
   const proxyUrl = "https://proxy.microsoft.com";
   const defaultPort = 80;
 
-  nodeDescribe("for Node.js", function() {
+  nodeDescribe("for Node.js", function () {
     it("should return settings with passed address", () => {
       const proxySettings: ProxySettings = getDefaultProxySettings(proxyUrl)!;
       proxySettings.host.should.equal(proxyUrl);
@@ -105,9 +105,13 @@ describe("getDefaultProxySettings", () => {
         delete process.env[Constants.HTTPS_PROXY];
         delete process.env[Constants.HTTP_PROXY.toLowerCase()];
         delete process.env[Constants.HTTPS_PROXY.toLowerCase()];
+        delete process.env[Constants.ALL_PROXY.toLowerCase()];
+        delete process.env[Constants.ALL_PROXY.toLowerCase()];
+        delete process.env[Constants.NO_PROXY.toLowerCase()];
+        delete process.env[Constants.NO_PROXY.toLowerCase()];
       });
 
-      it("should return undefined when no proxy passed and environment variable is not set", () => {
+      it("should return undefined when no proxy passed and environment variable is not set ", () => {
         const proxySettings: ProxySettings | undefined = getDefaultProxySettings();
         should().not.exist(proxySettings);
       });
@@ -119,6 +123,40 @@ describe("getDefaultProxySettings", () => {
 
         proxySettings.host.should.equal(proxyUrl);
         proxySettings.port.should.equal(defaultPort);
+      });
+
+      describe("should load setting from NO_PROXY(no_proxy) environmental variable passed and not set HTTPS proxy and HTTP proxy ", () => {
+        [
+          { name: "lower case", func: (envVar: string) => envVar.toLowerCase() },
+          { name: "upper case", func: (envVar: string) => envVar.toUpperCase() }
+        ].forEach((testCase) => {
+          it(`with ${testCase.name}`, () => {
+            const noProxy = "https://proxy.azure.com";
+            process.env[testCase.func(Constants.NO_PROXY)] = noProxy;
+
+            const proxySettings: ProxySettings = getDefaultProxySettings()!;
+            proxySettings.host.should.equal(noProxy);
+            proxySettings.port.should.equal(defaultPort);
+          });
+        });
+      });
+
+      describe("should load setting from ALL_PROXY(all_proxy) environmental variable when no proxy passed and one of HTTPS proxy and HTTP proxy is not set ", () => {
+        [
+          { name: "lower case", func: (envVar: string) => envVar.toLowerCase() },
+          { name: "upper case", func: (envVar: string) => envVar.toUpperCase() }
+        ].forEach((testCase) => {
+          it(`with ${testCase.name}`, () => {
+            const allProxy = "https://proxy.azure.com";
+            const httpProxy = "http://proxy.microsoft.com";
+            process.env[testCase.func(Constants.HTTP_PROXY)] = httpProxy;
+            process.env[testCase.func(Constants.ALL_PROXY)] = allProxy;
+
+            const proxySettings: ProxySettings = getDefaultProxySettings()!;
+            proxySettings.host.should.equal(allProxy);
+            proxySettings.port.should.equal(defaultPort);
+          });
+        });
       });
 
       describe("should prefer HTTPS proxy over HTTP proxy", () => {
@@ -150,8 +188,8 @@ describe("getDefaultProxySettings", () => {
         });
       });
 
-      ["HTTP_PROXY", "HTTPS_PROXY", "http_proxy", "https_proxy"].forEach((envVariableName) => {
-        it(`should should load setting from "${envVariableName}" environmental variable`, () => {
+      ["HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY", "http_proxy", "https_proxy", "all_proxy", "no_proxy"].forEach((envVariableName) => {
+        it(`should load setting from "${envVariableName}" environmental variable`, () => {
           process.env[envVariableName] = proxyUrl;
           const proxySettings: ProxySettings = getDefaultProxySettings()!;
 
