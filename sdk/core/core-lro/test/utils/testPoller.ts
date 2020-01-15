@@ -71,6 +71,6 @@ export class TestPoller extends Poller<TestOperationState, string> {
       // The only other property needed by PublicTestOperationState.
       // The other properties from TestOperationState will be hidden from the user.
       previousResponse: state.previousResponse
-    }
+    };
   }
 }

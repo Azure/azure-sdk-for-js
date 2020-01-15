@@ -6,11 +6,11 @@ import { AbortSignalLike } from "@azure/abort-controller";
 /**
  * PollOperationState contains an opinionated list of the smallest set of properties needed
  * to define any long running operation poller.
- * 
+ *
  * While the Poller class works as the local control mechanism to start triggering, wait for,
  * and potentially cancel a long running operation, the PollOperationState documents the status
  * of the remote long running operation.
- * 
+ *
  * It should be updated at least when the operation starts, when it's finished, and when it's cancelled.
  * Though, implementations can have any other number of properties that can be updated by other reasons.
  */
@@ -40,7 +40,7 @@ export interface PollOperationState<TResult> {
 /**
  * PollOperation is an interface that defines how to update the local reference of the state of the remote
  * long running operation, just as well as how to request the cancellation of the same operation.
- * 
+ *
  * It also has a method to serialize the operation so that it can be stored and resumed at any time.
  */
 export interface PollOperation<TState, TResult> {
@@ -53,11 +53,11 @@ export interface PollOperation<TState, TResult> {
 
   /**
    * Defines how to request the remote service for updates on the status of the long running operation.
-   * 
+   *
    * It optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
    * Also optionally receives a "fireProgress" function, which, if called, is responsible for triggering the
    * poller's onProgress callbacks.
-   * 
+   *
    * @param options Optional properties passed to the operation's update method.
    */
   update(options?: {
@@ -67,11 +67,11 @@ export interface PollOperation<TState, TResult> {
 
   /**
    * Attempts to cancel the underlying operation.
-   * 
+   *
    * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
-   * 
+   *
    * It returns a promise that should be resolved with an updated version of the poller's operation.
-   * 
+   *
    * @param options Optional properties passed to the operation's update method.
    */
   cancel(options?: { abortSignal?: AbortSignal }): Promise<PollOperation<TState, TResult>>;

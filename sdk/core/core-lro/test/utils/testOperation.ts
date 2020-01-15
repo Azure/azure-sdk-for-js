@@ -8,7 +8,7 @@ import { TestServiceClient } from "./testServiceClient";
 import { TestWebResource } from "./testWebResource";
 
 export interface PublicTestOperationState extends PollOperationState<string> {
-  previousResponse?: HttpOperationResponse;  
+  previousResponse?: HttpOperationResponse;
 }
 
 export interface TestOperationState extends PollOperationState<string> {
