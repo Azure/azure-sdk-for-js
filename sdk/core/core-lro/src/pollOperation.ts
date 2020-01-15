@@ -70,7 +70,7 @@ export interface PollOperation<TState, TResult> {
    * 
    * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
    * 
-   * It returns a promise that resolves in an updated version of the poller's operation.
+   * It returns a promise that should be resolved with an updated version of the poller's operation.
    * 
    * @param options Optional properties passed to the operation's update method.
    */

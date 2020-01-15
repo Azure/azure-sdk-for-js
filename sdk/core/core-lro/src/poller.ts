@@ -103,7 +103,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
  * A class that represents the definition of a program that polls through consecutive requests
  * until it reaches a state of completion.
  * 
- * A poller can be executed manually, by polling request by request, until its operation is completed, by calling to the `poll()` method repeatedly.
+ * A poller can be executed manually, by polling request by request by calling to the `poll()` method repeatedly, until its operation is completed.
  * It also provides a way to wait until the operation completes, by calling `pollUntilDone()` and waiting until the operation finishes.
  * Pollers can also request the cancellation of the ongoing process to whom is providing the underlying long running operation.
  * 
@@ -121,14 +121,14 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
  *     const result = await poller.pollUntilDone();
  * 
  * The Poller is defined by two types, a type representing the state of the poller, which
- * must include a basic set of properties from PollOperationState<TResult>,
- * and a return type defined by TResult, which can be anything.
+ * must include a basic set of properties from `PollOperationState<TResult>`,
+ * and a return type defined by `TResult`, which can be anything.
  * 
- * The poller implements the PollerLike interface, which allows poller implementations to avoid having
+ * The Poller class implements the `PollerLike` interface, which allows poller implementations to avoid having
  * to export the Poller's class directly, and instead only export the already instantiated poller with the PollerLike type.
  *
  *     class Client {
- *       public async makePoller: PollerLike<MyPollerState, MyPollerResult> {
+ *       public async makePoller: PollerLike<MyOperationState, MyResult> {
  *         const poller = new MyPoller({});
  *         // It might be preferred to return the poller after the first request is made,
  *         // so that some information can be obtained right away.
@@ -137,21 +137,21 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
  *       }
  *     }
  *
- *     const poller: PollerLike<MyPollerState, MyPollerResult> = myClient.makePoller();
+ *     const poller: PollerLike<MyOperationState, MyResult> = myClient.makePoller();
  * 
  * A poller can be created through its constructor, then it can be polled until it's completed.
  * At any point in time, the state of the poller can be obtained without delay through the getOperationState method.
- * At any point int time, the intermediate forms of the result type can be requested without delay.
+ * At any point in time, the intermediate forms of the result type can be requested without delay.
  * Once the underlying operation is marked as completed, the poller will stop and the final value will be returned.
  * 
  *     const poller = myClient.makePoller();
- *     const state: MyPollerState = poller.getOperationState();
+ *     const state: MyOperationState = poller.getOperationState();
  *     
  *     // The intermediate result can be obtained at any time.
- *     const result: MyPollerResult | undefined = poller.getResult();
+ *     const result: MyResult | undefined = poller.getResult();
  *     
  *     // The final result can only be obtained after the poller finishes.
- *     const result: MyPollerResult = await poller.pollUntilDone();
+ *     const result: MyResult = await poller.pollUntilDone();
  * 
  */
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
