@@ -19,3 +19,40 @@ jobs:
         #AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
         #AZURE_TENANT_ID: $(AZURE_TENANT_ID)
         #AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+      Matrix:
+        Linux_Node10:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+          NodeVersion: "10.x"
+        Windows_Node10:
+          OSVmImage: "windows-2019"
+          TestType: "node"
+          NodeVersion: "10.x"
+        macOS_Node10:
+          OSVmImage: "macOS-10.13"
+          TestType: "node"
+          NodeVersion: "10.x"
+        Linux_Node12:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+          NodeVersion: "12.x"
+        Windows_Node12:
+          OSVmImage: "windows-2019"
+          TestType: "node"
+          NodeVersion: "12.x"
+        macOS_Node12:
+          OSVmImage: "macOS-10.13"
+          TestType: "node"
+          NodeVersion: "12.x"
+        Linux_Node8:
+          OSVmImage: "ubuntu-16.04"
+          TestType: "node"
+          NodeVersion: "8.x"
+        Windows_Node8:
+          OSVmImage: "windows-2019"
+          TestType: "node"
+          NodeVersion: "8.x"
+        macOS_Node8:
+          OSVmImage: "macOS-10.13"
+          TestType: "node"
+          NodeVersion: "8.x"
