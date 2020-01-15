@@ -31,7 +31,7 @@ import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import { AccessToken, parseConnectionString, TokenCredential } from "@azure/core-amqp";
 import { getEnvVars, EnvVarNames } from "./utils/envVarUtils";
-import { EnvironmentCredential } from "./utils/aadUtils";
+import { EnvironmentCredential } from "@azure/identity";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

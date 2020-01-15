@@ -40,7 +40,7 @@ import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { EnvironmentCredential } from "../test/utils/aadUtils";
+import { EnvironmentCredential } from "@azure/identity";
 
 describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBrowser", function(): void {
   let sbClient: ServiceBusClient;
