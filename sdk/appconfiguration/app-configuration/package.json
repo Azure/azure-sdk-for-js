@@ -56,7 +56,10 @@
     "test": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "npm run test",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "npm run test",
+    "integration-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
   "autoPublish": false,
