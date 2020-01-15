@@ -161,17 +161,6 @@ describe("QueueClient", () => {
     }
   });
 
-  it("verify accountName and queueName passed to the client", async () => {
-    const accountName = "myaccount";
-    const newClient = new QueueClient(`https://${accountName}.queue.core.windows.net/` + queueName);
-    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
-    assert.equal(
-      newClient.accountName,
-      accountName,
-      "Account name is not the same as the one provided."
-    );
-  });
-
   it("getProperties with tracing", async () => {
     const tracer = new TestTracer();
     setTracer(tracer);
@@ -206,5 +195,52 @@ describe("QueueClient", () => {
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  });
+});
+
+describe("QueueClient - Verify Name Properties", () => {
+  let queueName = "queueName";
+  let accountName = "myAccount";
+
+  function verifyNameProperties(url: string, accountName: string, queueName: string) {
+    const newClient = new QueueClient(url);
+    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
+    assert.equal(
+      newClient.accountName,
+      accountName,
+      "Account name is not the same as the one provided."
+    );
+  }
+
+  it("verify accountName and queueName passed to the client - Endpoint from the portal", async () => {
+    verifyNameProperties(
+      `https://${accountName}.queue.core.windows.net/` + queueName,
+      accountName,
+      queueName
+    );
+  });
+
+  it("verify accountName and queueName passed to the client - IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://192.0.0.10:1900/${accountName}/${queueName}`,
+      accountName,
+      queueName
+    );
+  });
+
+  it("verify accountName and queueName passed to the client - IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${queueName}`,
+      accountName,
+      queueName
+    );
+  });
+
+  it("verify accountName and queueName passed to the client - Endpoint without dots", async () => {
+    verifyNameProperties(
+      `https://localhost:80/${accountName}/${queueName}`,
+      accountName,
+      queueName
+    );
   });
 });

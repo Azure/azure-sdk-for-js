@@ -42,8 +42,6 @@ async function main() {
   console.log(`deleted share ${shareName}`);
 }
 
-module.exports = { main };
-
 main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { MessageHeader as AmqpMessageHeader } from "rhea-promise";
-import * as log from "./log";
+import { logger } from "./log";
 
 /**
  * Describes the defined set of standard header properties of the message.
@@ -60,7 +60,7 @@ export namespace MessageHeader {
     if (props.ttl != undefined) {
       amqpHeader.ttl = props.ttl;
     }
-    log.msgHeader("To AmqpMessageHeader: %O", amqpHeader);
+    logger.verbose("To AmqpMessageHeader: %O", amqpHeader);
     return amqpHeader;
   }
 
@@ -87,7 +87,7 @@ export namespace MessageHeader {
     if (props.ttl != undefined) {
       msgHeader.ttl = props.ttl;
     }
-    log.msgHeader("From AmqpMessageHeader: %O", msgHeader);
+    logger.verbose("From AmqpMessageHeader: %O", msgHeader);
     return msgHeader;
   }
 }

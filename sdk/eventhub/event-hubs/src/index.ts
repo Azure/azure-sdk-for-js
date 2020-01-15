@@ -19,7 +19,6 @@ export {
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {
-  InitializationContext,
   SubscribeOptions,
   Subscription,
   SubscriptionEventHandlers,
@@ -29,9 +28,10 @@ export {
   ProcessCloseHandler,
   ProcessEventsHandler
 } from "./eventHubConsumerClientModels";
-export { EventPosition } from "./eventPosition";
+export { EventPosition, latestEventPosition, earliestEventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export { Checkpoint } from "./partitionProcessor";
 export { CloseReason, CheckpointStore, PartitionOwnership } from "./eventProcessor";
 export { MessagingError, RetryOptions, TokenCredential } from "@azure/core-amqp";
+export { logger } from "./log";

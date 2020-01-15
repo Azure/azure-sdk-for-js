@@ -11,7 +11,7 @@ import {
   IndexingPolicy,
   IndexKind
 } from "../../dist-esm/documents";
-import { getTestDatabase, removeAllDatabases, getTestContainer } from "../common/TestHelpers";
+import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("Containers", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -343,7 +343,7 @@ describe("Containers", function() {
       database: Database,
       definition: ContainerDefinition
     ) {
-      const { container: createdcontainer, headers } = await database.containers.create(definition);
+      const { container: createdcontainer } = await database.containers.create(definition);
       const response = await database
         .container(createdcontainer.id)
         .read({ populateQuotaInfo: true });

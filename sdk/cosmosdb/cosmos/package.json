@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.5.2",
+  "version": "3.5.3",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -64,6 +64,7 @@
     "test-browser": "karma start ./karma.config.js --single-run",
     "test-consumer": "node consumer-test.js 2>&1",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "test:signoff": "mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000 --grep \"#nosignoff\" --invert",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
@@ -82,13 +83,14 @@
     "os-name": "^3.1.0",
     "priorityqueuejs": "^1.0.0",
     "semaphore": "^1.0.5",
-    "tslib": "^1.9.3",
+    "tslib": "^1.10.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-json": "^4.0.0",
+    "@rollup/plugin-multi-entry": "^3.0.0",
     "@types/fast-json-stable-stringify": "^2.0.0",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
@@ -129,7 +131,6 @@
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-local-resolve": "^1.0.7",
-    "rollup-plugin-multi-entry": "^2.1.0",
     "sinon": "^7.1.0",
     "snap-shot-it": "^7.9.1",
     "source-map-support": "^0.5.9",

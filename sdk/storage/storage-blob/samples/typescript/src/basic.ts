@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* 
+/*
  Setup: Enter your storage account name and shared key in main()
 */
 
@@ -13,7 +13,7 @@ import {
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Enter your storage account name and shared key
@@ -63,11 +63,10 @@ export async function main() {
   console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
 
   // Create a blob
-  const content = "hello";
+  const content = "hello, 你好";
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = containerClient.getBlobClient(blobName);
-  const blockBlobClient = blobClient.getBlockBlobClient();
-  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+  const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
   console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // List blobs
@@ -79,7 +78,7 @@ export async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.blobBody
-  const downloadBlockBlobResponse: BlobDownloadResponseModel = await blobClient.download(0);
+  const downloadBlockBlobResponse: BlobDownloadResponseModel = await blockBlobClient.download(0);
   console.log(
     "Downloaded blob content",
     await streamToString(downloadBlockBlobResponse.readableStreamBody!)

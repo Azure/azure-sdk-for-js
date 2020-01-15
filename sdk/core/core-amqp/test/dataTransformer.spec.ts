@@ -38,10 +38,7 @@ describe("DataTransformer", function() {
   const undefinedBody: undefined = undefined;
   const emptyStringBody: string = "";
   const bufferbody: Buffer = Buffer.from("zzz", "utf8");
-  const hexBufferBody: Buffer = Buffer.from(
-    "7468697320697320612074c3a97374",
-    "hex"
-  );
+  const hexBufferBody: Buffer = Buffer.from("7468697320697320612074c3a97374", "hex");
   const transformer = new DefaultDataTransformer();
 
   it("should correctly encode/decode a string message body", function(done) {

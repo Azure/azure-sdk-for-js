@@ -49,13 +49,14 @@ async function main() {
 
   // Create a file
   const content = "Hello World!";
+  const contentByteLength = Buffer.byteLength(content);
   const fileName = "newfile" + new Date().getTime();
   const fileClient = directoryClient.getFileClient(fileName);
-  await fileClient.create(content.length);
+  await fileClient.create(contentByteLength);
   console.log(`Create file ${fileName} successfully`);
 
   // Upload file range
-  await fileClient.uploadRange(content, 0, content.length);
+  await fileClient.uploadRange(content, 0, contentByteLength);
   console.log(`Upload file range "${content}" to ${fileName} successfully`);
 
   // List directories and files
@@ -74,7 +75,7 @@ async function main() {
   // In browsers, get downloaded data by accessing downloadFileResponse.contentAsBlob
   const downloadFileResponse = await fileClient.download(0);
   console.log(
-    `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody)}`
+    `Downloaded file content: ${await streamToString(downloadFileResponse.readableStreamBody)}`
   );
 
   // Delete share
@@ -95,8 +96,6 @@ async function streamToString(readableStream) {
     readableStream.on("error", reject);
   });
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

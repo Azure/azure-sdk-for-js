@@ -24,7 +24,7 @@ import {
 } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import * as log from "./log";
+import { logger, logErrorStackTrace } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./impl/eventHubClient";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
 /**
@@ -165,7 +165,7 @@ export class ManagementClient extends LinkEntity {
       createdOn: new Date(info.created_at),
       partitionIds: info.partition_ids
     };
-    log.mgmt("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
+    logger.verbose("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
     return runtimeInfo;
   }
 
@@ -219,7 +219,7 @@ export class ManagementClient extends LinkEntity {
       partitionId: info.partition,
       isEmpty: info.is_partition_empty
     };
-    log.mgmt("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
+    logger.verbose("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
     return partitionInfo;
   }
 
@@ -236,11 +236,12 @@ export class ManagementClient extends LinkEntity {
         this._mgmtReqResLink = undefined;
         clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
         await mgmtLink!.close();
-        log.mgmt("Successfully closed the management session.");
+        logger.info("Successfully closed the management session.");
       }
     } catch (err) {
       const msg = `An error occurred while closing the management session: ${err}`;
-      log.error(msg);
+      logger.warning(msg);
+      logErrorStackTrace(err);
       throw new Error(msg);
     }
   }
@@ -256,7 +257,7 @@ export class ManagementClient extends LinkEntity {
           onSessionError: (context: EventContext) => {
             const id = context.connection.options.id;
             const ehError = translate(context.session!.error!);
-            log.error(
+            logger.verbose(
               "[%s] An error occurred on the session for request/response links for " +
                 "$management: %O",
               id,
@@ -265,7 +266,7 @@ export class ManagementClient extends LinkEntity {
           }
         };
         const sropt: SenderOptions = { target: { address: this.address } };
-        log.mgmt(
+        logger.verbose(
           "[%s] Creating sender/receiver links on a session for $management endpoint with " +
             "srOpts: %o, receiverOpts: %O.",
           this._context.connectionId,
@@ -280,14 +281,18 @@ export class ManagementClient extends LinkEntity {
         this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.sender!.error!);
-          log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
+          logger.verbose("[%s] An error occurred on the $management sender link.. %O", id, ehError);
         });
         this._mgmtReqResLink.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.receiver!.error!);
-          log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
+          logger.verbose(
+            "[%s] An error occurred on the $management receiver link.. %O",
+            id,
+            ehError
+          );
         });
-        log.mgmt(
+        logger.verbose(
           "[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
           this._context.connectionId,
           this._mgmtReqResLink.sender.name,
@@ -297,11 +302,12 @@ export class ManagementClient extends LinkEntity {
       }
     } catch (err) {
       err = translate(err);
-      log.error(
+      logger.warning(
         "[%s] An error occured while establishing the $management links: %O",
         this._context.connectionId,
         err
       );
+      logErrorStackTrace(err);
       throw err;
     }
   }
@@ -336,7 +342,8 @@ export class ManagementClient extends LinkEntity {
             const desc: string =
               `[${this._context.connectionId}] The request "${requestName}" ` +
               `to has been cancelled by the user.`;
-            log.error(desc);
+            // Cancellation is user-intended behavior, so log to info instead of warning.
+            logger.info(desc);
             const error = new AbortError(
               `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
             );
@@ -351,7 +358,7 @@ export class ManagementClient extends LinkEntity {
           }
 
           if (!this._isMgmtRequestResponseLinkOpen()) {
-            log.mgmt(
+            logger.verbose(
               "[%s] Acquiring lock to get the management req res link.",
               this._context.connectionId
             );
@@ -408,13 +415,14 @@ export class ManagementClient extends LinkEntity {
               this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
                 ? "address"
                 : this._mgmtReqResLink!.sender.address;
-            log.error(
+            logger.warning(
               "[%s] An error occurred during send on management request-response link with address " +
                 "'%s': %O",
               this._context.connectionId,
               address,
               err
             );
+            logErrorStackTrace(err);
             reject(err);
           }
         });
@@ -429,7 +437,8 @@ export class ManagementClient extends LinkEntity {
       return (await retry<Message>(config)).body;
     } catch (err) {
       err = translate(err);
-      log.error("An error occurred while making the request to $management endpoint: %O", err);
+      logger.warning("An error occurred while making the request to $management endpoint: %O", err);
+      logErrorStackTrace(err);
       throw err;
     }
   }

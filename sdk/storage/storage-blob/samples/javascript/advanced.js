@@ -54,8 +54,7 @@ async function main() {
 
   // Create a blob
   const blobName = "newblob" + new Date().getTime();
-  const blobClient = containerClient.getBlobClient(blobName);
-  const blockBlobClient = blobClient.getBlockBlobClient();
+  const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
   // Parallel uploading with BlockBlobClient.uploadFile() in Node.js runtime
   // BlockBlobClient.uploadFile() is only available in Node.js
@@ -133,8 +132,6 @@ async function main() {
   await containerClient.delete();
   console.log("deleted container");
 }
-
-module.exports = { main };
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);

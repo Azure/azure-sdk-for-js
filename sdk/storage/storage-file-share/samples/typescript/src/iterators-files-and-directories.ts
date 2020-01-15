@@ -9,7 +9,7 @@ import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-f
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Enter your storage account name and shared key
@@ -48,7 +48,7 @@ export async function main() {
     console.log(`Create sub directory ${directoryName + "-sub-" + i} successfully`);
 
     const fileClient = directoryClient.getFileClient(fileName + "-sub-" + i);
-    await fileClient.create(content.length);
+    await fileClient.create(Buffer.byteLength(content));
     console.log(`Create file ${fileName + "-sub-" + i} successfully`);
   }
 

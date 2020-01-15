@@ -5,7 +5,7 @@ import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
 import { EventHubProducerOptions, SendOptions, CreateBatchOptions } from "./impl/eventHubClient";
 import { ConnectionContext } from "./connectionContext";
-import * as log from "./log";
+import { logger, logErrorStackTrace } from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { EventDataBatch, isEventDataBatch, EventDataBatchImpl } from "./eventDataBatch";
 import { getTracer } from "@azure/core-tracing";
@@ -31,6 +31,8 @@ import { getParentSpan } from "./util/operationOptions";
  *  - The event data will be evenly distributed among all available partitions.
  *
  * @class
+ * @internal
+ * @ignore
  */
 export class EventHubProducer {
   /**
@@ -105,11 +107,12 @@ export class EventHubProducer {
       const error = new Error(
         "Creating a batch with partition key is not supported when using producers that were created using a partition id."
       );
-      log.error(
+      logger.warning(
         "[%s] Creating a batch with partition key is not supported when using producers that were created using a partition id. %O",
         this._context.connectionId,
         error
       );
+      logErrorStackTrace(error);
       throw error;
     }
 
@@ -122,9 +125,10 @@ export class EventHubProducer {
         const error = new Error(
           `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
         );
-        log.error(
+        logger.warning(
           `[${this._context.connectionId}] Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
         );
+        logErrorStackTrace(error);
         throw error;
       }
       maxMessageSize = options.maxSizeInBytes;
@@ -149,12 +153,12 @@ export class EventHubProducer {
    * - `abortSignal`  : A signal the request to cancel the send operation.
    *
    * @returns Promise<void>
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
-   * @throws {MessagingError} Thrown if an error is encountered while sending a message.
-   * @throws {TypeError} Thrown if a required parameter is missing.
-   * @throws {Error} Thrown if the underlying connection or sender has been closed.
-   * @throws {Error} Thrown if a partitionKey is provided when the producer was created with a partitionId.
-   * @throws {Error} Thrown if batch was created with partitionKey different than the one provided in the options.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   * @throws MessagingError if an error is encountered while sending a message.
+   * @throws TypeError if a required parameter is missing.
+   * @throws Error if the underlying connection or sender has been closed.
+   * @throws Error if a partitionKey is provided when the producer was created with a partitionId.
+   * @throws Error if batch was created with partitionKey different than the one provided in the options.
    * Create a new producer using the EventHubClient createProducer method.
    */
   async send(
@@ -164,11 +168,11 @@ export class EventHubProducer {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "send", "eventData", eventData);
     if (Array.isArray(eventData) && eventData.length === 0) {
-      log.error(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
+      logger.info(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
       return;
     }
     if (isEventDataBatch(eventData) && eventData.count === 0) {
-      log.error(`[${this._context.connectionId}] Empty batch was passsed. No events to send.`);
+      logger.info(`[${this._context.connectionId}] Empty batch was passsed. No events to send.`);
       return;
     }
     if (!Array.isArray(eventData) && !isEventDataBatch(eventData)) {
@@ -219,7 +223,7 @@ export class EventHubProducer {
    * Use the `createProducer` function on the EventHubClient to instantiate a new EventHubProducer.
    *
    * @returns
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {
@@ -229,12 +233,13 @@ export class EventHubProducer {
       }
       this._isClosed = true;
     } catch (err) {
-      log.error(
+      logger.warning(
         "[%s] An error occurred while closing the Sender for %s: %O",
         this._context.connectionId,
         this._context.config.entityPath,
         err
       );
+      logErrorStackTrace(err);
       throw err;
     }
   }
@@ -255,6 +260,7 @@ export class EventHubProducer {
       links
     });
 
+    span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this._eventHubName);
     span.setAttribute("peer.address", this._endpoint);
 
@@ -268,7 +274,8 @@ export class EventHubProducer {
         `The EventHubProducer for "${this._context.config.entityPath}" has been closed and can no longer be used. ` +
         `Please create a new EventHubProducer using the "createProducer" function on the EventHubClient.`;
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logger.warning(`[${this._context.connectionId}] %O`, error);
+      logErrorStackTrace(error);
       throw error;
     }
   }

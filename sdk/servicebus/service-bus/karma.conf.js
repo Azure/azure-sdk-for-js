@@ -48,28 +48,10 @@ module.exports = function(config) {
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
-      "SERVICEBUS_CONNECTION_STRING",
-      "QUEUE_NAME_BROWSER",
-      "QUEUE_NAME_NO_PARTITION_BROWSER",
-      "QUEUE_NAME_SESSION_BROWSER",
-      "QUEUE_NAME_NO_PARTITION_SESSION_BROWSER",
-      "TOPIC_NAME_BROWSER",
-      "TOPIC_NAME_NO_PARTITION_BROWSER",
-      "TOPIC_NAME_SESSION_BROWSER",
-      "TOPIC_NAME_NO_PARTITION_SESSION_BROWSER",
-      "SUBSCRIPTION_NAME_BROWSER",
-      "SUBSCRIPTION_NAME_NO_PARTITION_BROWSER",
-      "SUBSCRIPTION_NAME_SESSION_BROWSER",
-      "SUBSCRIPTION_NAME_NO_PARTITION_SESSION_BROWSER",
-      "TOPIC_FILTER_NAME_BROWSER",
-      "TOPIC_FILTER_SUBSCRIPTION_NAME_BROWSER",
-      "TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME_BROWSER",
+      "SERVICEBUS_CONNECTION_STRING_BROWSER",
       "AAD_CLIENT_ID",
       "AAD_CLIENT_SECRET",
-      "AAD_TENANT_ID",
-      "RESOURCE_GROUP",
-      "AZURE_SUBSCRIPTION_ID",
-      "CLEAN_NAMESPACE"
+      "AAD_TENANT_ID"
     ],
 
     // test results reporter to use

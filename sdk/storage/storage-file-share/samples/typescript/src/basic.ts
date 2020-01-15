@@ -9,7 +9,7 @@ import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-f
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Enter your storage account name and shared key
@@ -49,14 +49,16 @@ export async function main() {
   console.log(`Create directory ${directoryName} successfully`);
 
   // Create a file
-  const content = "Hello World!";
+  const content = "Hello World!你好";
+  // Get its length in bytes.
+  const contentByteLength = Buffer.byteLength(content);
   const fileName = "newfile" + new Date().getTime();
   const fileClient = directoryClient.getFileClient(fileName);
-  await fileClient.create(content.length);
+  await fileClient.create(contentByteLength);
   console.log(`Create file ${fileName} successfully`);
 
   // Upload file range
-  await fileClient.uploadRange(content, 0, content.length);
+  await fileClient.uploadRange(content, 0, contentByteLength);
   console.log(`Upload file range "${content}" to ${fileName} successfully`);
 
   // List directories and files
@@ -75,7 +77,7 @@ export async function main() {
   // In browsers, get downloaded data by accessing downloadFileResponse.contentAsBlob
   const downloadFileResponse = await fileClient.download(0);
   console.log(
-    `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody!)}`
+    `Downloaded file content: ${await streamToString(downloadFileResponse.readableStreamBody!)}`
   );
 
   // Delete share

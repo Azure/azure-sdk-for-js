@@ -69,7 +69,7 @@ export class InMemoryCheckpointStore implements CheckpointStore {
           etag: generate_uuid(),
           lastModifiedTimeInMs: date.getTime()
         };
-        
+
         this._partitionOwnershipMap.set(newOwnership.partitionId, newOwnership);
         claimedOwnerships.push(newOwnership);
       }

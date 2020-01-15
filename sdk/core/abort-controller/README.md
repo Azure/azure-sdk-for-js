@@ -1,4 +1,4 @@
-# Azure Abort Controller library for JS
+# Azure Abort Controller library for JavaScript
 
 The `@azure/abort-controller` package provides `AbortController` and `AbortSignal` classes. These classes are compatible
 with the [AbortController](https://developer.mozilla.org/docs/Web/API/AbortController) built into modern browsers
