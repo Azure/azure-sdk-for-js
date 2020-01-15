@@ -11,7 +11,7 @@ import { proxyPolicy, ProxyPolicy, getDefaultProxySettings } from "../../lib/pol
 import { Constants } from "../../lib/coreHttp";
 import { nodeDescribe, browserDescribe } from "../msAssert";
 
-describe("ProxyPolicy", function () {
+describe("ProxyPolicy", function() {
   const proxySettings: ProxySettings = {
     host: "https://example.com",
     port: 3030,
@@ -30,8 +30,8 @@ describe("ProxyPolicy", function () {
 
   const emptyPolicyOptions = new RequestPolicyOptions();
 
-  nodeDescribe("for Node.js", function () {
-    it("factory passes correct proxy settings", function (done) {
+  nodeDescribe("for Node.js", function() {
+    it("factory passes correct proxy settings", function(done) {
       const factory = proxyPolicy(proxySettings);
       const policy = factory.create(emptyRequestPolicy, emptyPolicyOptions) as ProxyPolicy;
 
@@ -39,7 +39,7 @@ describe("ProxyPolicy", function () {
       done();
     });
 
-    it("sets correct proxy settings through constructor", function (done) {
+    it("sets correct proxy settings through constructor", function(done) {
       const policy = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
       policy.proxySettings.should.be.deep.equal(proxySettings);
       done();
@@ -79,7 +79,7 @@ describe("getDefaultProxySettings", () => {
   const proxyUrl = "https://proxy.microsoft.com";
   const defaultPort = 80;
 
-  nodeDescribe("for Node.js", function () {
+  nodeDescribe("for Node.js", function() {
     it("should return settings with passed address", () => {
       const proxySettings: ProxySettings = getDefaultProxySettings(proxyUrl)!;
       proxySettings.host.should.equal(proxyUrl);
@@ -188,7 +188,16 @@ describe("getDefaultProxySettings", () => {
         });
       });
 
-      ["HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY", "http_proxy", "https_proxy", "all_proxy", "no_proxy"].forEach((envVariableName) => {
+      [
+        "HTTP_PROXY",
+        "HTTPS_PROXY",
+        "ALL_PROXY",
+        "NO_PROXY",
+        "http_proxy",
+        "https_proxy",
+        "all_proxy",
+        "no_proxy"
+      ].forEach((envVariableName) => {
         it(`should load setting from "${envVariableName}" environmental variable`, () => {
           process.env[envVariableName] = proxyUrl;
           const proxySettings: ProxySettings = getDefaultProxySettings()!;
