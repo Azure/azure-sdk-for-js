@@ -2,9 +2,9 @@
 
 Azure's Core LRO is a JavaScript library that provides an API that aims to
 allow the azure-sdk-for-js public libraries to implement fully featured pollers
-to manage long running operations with the Azure services.
+to manage Long Running Operations (LROs) with the Azure services.
 
-core-lro is made following our guidelines, here: https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
+@azure/core-lro is made following our guidelines here: https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro)
 
@@ -12,19 +12,7 @@ core-lro is made following our guidelines, here: https://azure.github.io/azure-s
 
 ### Install the package
 
-Since this package is intended to be consumed by developers of the azure-sdk-for-js repository,
-you'll need to manually add the following entry to your package.json's dependencies:
-
-```json
-{
-  // ...
-  "dependencies": {
-    // ...
-    "@azure/core-lro": "1.0.0-preview.1",
-    // ...
-  }
-}
-```
+To install this package locally, use `npm install --save @azure/core-lro`.
 
 ### Configure TypeScript
 
@@ -34,31 +22,30 @@ TypeScript users need to have Node type definitions installed:
 npm install @types/node
 ```
 
-You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your
-tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`,
-`allowSyntheticDefaultImports` is enabled by default. See [TypeScript's
-compiler options
-handbook](https://www.typescriptlang.org/docs/handbook/compiler-options.html)
+They will also need to enable `compilerOptions.allowSyntheticDefaultImports` in their
+`tsconfig.json`. Note that if you have enabled `compilerOptions.esModuleInterop`,
+`allowSyntheticDefaultImports` is enabled by default.
+See [TypeScript's compiler options handbook](https://www.typescriptlang.org/docs/handbook/compiler-options.html)
 for more information.
 
 ## Key concepts
 
+@azure/core-lro makes a distinction between the Long Running Operation and its Poller.
+
 - Whenever we talk about an **operation**, we mean the static representation of a Long Running Operation.
-  Any operation will have a definition of a state, which has a defined set of
-  properties plus any property the implementations would like to add. Any
-  operation will have three basic functionalities:
-    1. An update() method that will generate a new operation that might or might
-      not include changes to its state.
-    2. A cancel() method, which will tell the service that the operation is no longer needed.
-    3. A toString() method, that will output a serialized version of the operation.
-- A **Poller** is an object who's main function is to interact with an operation until one of three things happen:
-    1. The poller is stopped.
-    2. The operation finishes, either by succeeding or failing.
-    3. The operation is cancelled.
+  Any operation will have a definition of a **state**, which has an opinionated default set of properties.
+  The definition of the operation will also have functions that will define how to request new information
+  about the pending operetion, how to request its cancelation, and how to serialize it.
+- A **Poller** is an object who's main function is to interact with an operation until the poller is manually stopped,
+  the operation finishes (either by succeeding or failing) or if a manual request to cancel the operation has succeeded.  
+  Some characteristics of the pollers are:
+    - Pollers show the status of the polling behavior.
+    - Pollers can trigger manual pollings or automated pollings.
+    - Pollers can deserialize and resume from a deserialized operation.
+    - Pollers also specify how much of the operation's state is going to be available to the public.
 - A **PollerLike** is any structure similar to the definition of a Poller.
-  This is used to allow implementations of Long Running Operation Pollers to
-  have internal, private classes, while also having a public shape of the
-  exposed, previously instantiated poller.
+  This is used to allow implementations of LRO Pollers to have internal, private classes,
+  while also having a public shape of the exposed, previously instantiated poller.
 
 ## Examples
 
@@ -69,24 +56,32 @@ https://github.com/Azure/azure-sdk-for-js/search?q="from+%40azure%5C%2Fcore-lro"
 
 ### Implementing an operation
 
-The operation of the Long Running Operation defines how to update, cancel and serialize the information
-related to the remote pending task. To implement this for your library or application,
+To work with a Long Running Operation, we need to define how to update, cancel
+and serialize the information related to the remote pending task.
+To implement this class for your library or application,
 you'll need to import the definitions of a poll operation and its state.
 
-A **PollOperation** is an interface that defines how to update the local reference of the state
-of the remote long running operation, just as well as how to request the cancellation of the same operation.
-The same operation structure has a method to serialize its information, so that polling can be resumed at any time
-from a previously serialized operation (more at [Serializing an operation](#serializing-an-operation)).
+```typescript
+import { PollOperationState, PollOperation } from "@azure/core-lro";
+```
 
-The state of the operation is defined by **PollOperationState**, plus any other property.
-The basic state provided contains an opinionated list of the smallest set of properties needed
-to define any long running operation poller. The state should be updated at in three opportunities:
+A `PollOperation` is an interface that defines how to update the local reference of the state
+of the remote long running operation, just as well as how to request the cancellation of the same operation.
+Besides updating and cancelling, it also defines how to serialize its information,
+so that polling can be resumed at any time from a previously serialized operation
+(more at [Serializing an operation](#serializing-an-operation)).
+
+`PollOperationState` provides a basic state for the poll operation.
+It contains an opinionated list of the smallest set of properties needed
+to keep track of a long running operation, and it's intended to be extended
+with any custom property that your program might need.
+The state can be updated any time, but it should be updated at least in three opportunities:
 when the operation starts, when it's finished, and when it's cancelled.
 
 To be able to create your custom operations, you'll need to extend the
-PollOperation class with both your operation's state and the final result
-value. For this example, we'll think on the final result value to be a string,
-but it can be any type.
+`PollOperation` class with both your operation's state and the final result
+value. For this example, we'll think on the final result value to be `MyResult`,
+which can be any type.
 
 ```typescript
 import { PollOperationState, PollOperation } from "@azure/core-lro";
@@ -109,7 +104,7 @@ function makeOperation(
   state: MyOperationState,
 ): MyOperation {
   return {
-    // We recommend you to create copies of the given state,
+    // We recommend creating copies of the given state,
     // just to make sure that no references are left or manipulated by mistake.
     state: {
       ...state,
@@ -121,19 +116,19 @@ function makeOperation(
 }
 ```
 
-Keep in mind that you'll need to have implemented these three functions: `update`, `cancel` and `toString`
-on order to successfully create an operation.
+To properly define an operation, you will need to have implemented these three functions: `update`, `cancel` and `toString`.
+A guide on how to write them follows.
 
 #### Your operation's update method
 
 The `update` method defines how to request the remote service for updates on the status of the long running operation.
 
-It optionally receives an object with an abortSignal property, from [@azure/abort-controller](../abort-controller)'s AbortSignalLike.
+It optionally receives an object with an `abortSignal` property, from [@azure/abort-controller](../abort-controller)'s `AbortSignalLike`.
 
-A more advanced use allows passing in a "fireProgress" function, which, if called, is responsible for triggering the
-poller's onProgress callbacks.
+A more advanced use allows passing in a `fireProgress` function, which, if called, is responsible for triggering the
+poller's `onProgress` callbacks.
 
-An example of how to write an update method for your operation follows:
+Here is an example of how to write an update method for your operation:
 
 ```typescript
 async function update(
@@ -168,7 +163,7 @@ async function update(
 The operation's `cancel` method should attempt to cancel the pending operation, if it's allowed by the remote service.
 Otherwise, it should throw.
 
-It only optionally receives an object with an abortSignal property, from [@azure/abort-controller](../abort-controller)'s AbortSignalLike.
+It only optionally receives an object with an `abortSignal` property, from [@azure/abort-controller](../abort-controller)'s `AbortSignalLike`.
 
 It returns a promise that should be resolved with an updated version of the poller's operation.
 
@@ -177,7 +172,7 @@ async function cancel(
   this: MyOperation,
   options: { abortSignal?: AbortSignal } = {}
 ): Promise<MyOperation> {
-  // Reach out to your service to trigger the cancellation of the operation
+  // ... Reach out to your service to trigger the cancellation of the operation ...
 
   return makeOperation(
     {
@@ -212,15 +207,15 @@ function toString(this: MyOperation): string {
 @azure/core-lro's `Poller` is a class that represents the definition of a program that polls
 through consecutive requests until it reaches a state of completion.
 
-A poller can be executed manually, by polling request by request by calling to the `poll()` method repeatedly, until its operation is completed.
-It also provides a way to wait until the operation completes, by calling `pollUntilDone()` and waiting until the operation finishes.
-Pollers can also request the cancellation of the ongoing process to whom is providing the underlying long running operation.
+A poller can be executed manually, by polling request by request by calling to the `poll()` method repeatedly,
+until its operation is completed.
+It also provides a way to wait until the operation finishes, by calling `pollUntilDone()`, which returns a promise.
+Pollers can also request the cancellation of the ongoing process (internally using `PollOperation`'s `cancel()` method).
 
-The Poller is defined by two types, a type representing the state of the poller, which
-must include a basic set of properties from `PollOperationState<TResult>` (as mentioned in [Implementing an operation](#implementing-an-operation)),
-and a return type defined by `TResult`, which can be anything.
+The Poller needs two types to be defined, a type representing the state of the poller, which
+must include a basic set of properties from `PollOperationState<TResult>` (as mentioned in [Implementing an operation](#implementing-an-operation)), and a return type defined by `TResult`, which can be anything.
 
-To implement a poller, you must pull in the definitions of your operation and extend core-lro's poller, as follows:
+To implement a poller, you must pull in the definitions of your operation and extend @azure/core-lro's `Poller` class, as follows:
 
 ```typescript
 import { Poller } from "@azure/core-lro";
@@ -256,7 +251,7 @@ export class MyPoller extends Poller<MyOperationState, MyResult> {
 }
 ```
 
-Your poller can then be used as follows:
+Once defined, you'll be able to use your poller as shown below:
 
 ```ts
 const poller = new MyPoller();
@@ -273,7 +268,7 @@ await poller.poll();
 const result = await poller.pollUntilDone();
 ```
 
-The Poller class implements the `PollerLike` interface, which allows poller implementations to avoid having
+The Poller class implements the `PollerLike` interface, which allows poller implementations that avoid having
 to export the Poller's class directly, and instead only export the already instantiated poller with the `PollerLike` type.
 
 An example of the definition of a client that returns an instantiated poller can be seen below:
@@ -326,7 +321,7 @@ function toString(this: TestOperation): string {
 }
 ```
 
-Then, a custom implementation of a poller can deserialize it by receiving this string and converting it back to JSON, like in the following example:
+A custom implementation of a poller can deserialize it by receiving this string and converting it back to JSON, like in the following example:
 
 ```ts
 export class MyPoller extends Poller<MyOperationState, string> {
@@ -347,20 +342,6 @@ export class MyPoller extends Poller<MyOperationState, string> {
     super(operation);
   }
 }
-```
-
-### Using your poller
-
-Here's one simple example of your poller in action. More examples can be found in the test folder near this README.
-
-```typescript
-const poller = new MyPoller();
-
-// Waiting until the operation completes
-const result = await poller.pollUntilDone();
-const state = poller.getOperationState();
-
-console.log(state.completed);
 ```
 
 ## Troubleshooting
