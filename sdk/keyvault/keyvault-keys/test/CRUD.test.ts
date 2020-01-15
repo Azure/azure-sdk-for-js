@@ -39,23 +39,19 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
-  // If this test is not skipped in the browser's playback, no other test will be played back.
-  // This is a bug related to the browser features of the recorder.
-  if (isNode && !isPlayingBack) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can abort creating a key", async function() {
-      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-      const controller = new AbortController();
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can abort creating a key", async function() {
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const controller = new AbortController();
 
-      await assertThrowsAbortError(async () => {
-        const resultPromise = client.createKey(keyName, "RSA", {
-          abortSignal: controller.signal
-        });
-        controller.abort();
-        await resultPromise;
+    await assertThrowsAbortError(async () => {
+      const resultPromise = client.createKey(keyName, "RSA", {
+        abortSignal: controller.signal
       });
+      controller.abort();
+      await resultPromise;
     });
-  }
+  });
 
   if (isNode && !isPlayingBack) {
     // On playback mode, the tests happen too fast for the timeout to work
