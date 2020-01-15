@@ -93,8 +93,8 @@ export abstract class BaseRecorder {
    * */
   protected filterSecrets(recording: string): string {
     let updatedRecording = recording;
-    if (env[k]) {
-      for (const k of Object.keys(replaceableVariables)) {
+    for (const k of Object.keys(replaceableVariables)) {
+      if (env[k]) {
         const escaped = escapeRegExp(env[k]);
         updatedRecording = updatedRecording.replace(
           new RegExp(escaped, "g"),
