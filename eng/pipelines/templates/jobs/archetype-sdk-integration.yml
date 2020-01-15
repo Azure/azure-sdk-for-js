@@ -58,14 +58,8 @@ jobs:
               Install-Module -Name Az -AllowClobber -Scope CurrentUser -Force
             displayName: Install Az Module
 
-          - pwsh: |
-              $baseName = "t" + [guid]::NewGuid().ToString('n').Substring(0,16)
-              Write-Host "##vso[task.setvariable variable=BaseName;]$baseName"
-            displayName: Generate $(BaseName)
-
           - pwsh: >-
               eng/New-TestResources.ps1
-              -BaseName $(BaseName)
               -ServiceDirectory ${{ parameters.ResourceServiceDirectory }}
               -TestApplicationId $(aad-azure-sdk-test-client-id)
               -TestApplicationSecret $(aad-azure-sdk-test-client-secret)
