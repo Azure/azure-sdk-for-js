@@ -111,7 +111,7 @@ describe("getDefaultProxySettings", () => {
         delete process.env[Constants.NO_PROXY.toLowerCase()];
       });
 
-      it("should return undefined when no proxy passed and environment variable is not set ", () => {
+      it("should return undefined when no proxy passed and environment variable is not set", () => {
         const proxySettings: ProxySettings | undefined = getDefaultProxySettings();
         should().not.exist(proxySettings);
       });
