@@ -34,6 +34,8 @@ export {
   Sku,
   SubResource,
   TagCount,
+  Tags,
+  TagsResource,
   TagValue,
   TemplateLink
 } from "../models/mappers";

@@ -172,6 +172,20 @@ export interface Deployment {
 }
 
 /**
+ * Deployment operation parameters.
+ */
+export interface ScopedDeployment {
+  /**
+   * The location to store the deployment data.
+   */
+  location: string;
+  /**
+   * The deployment properties.
+   */
+  properties: DeploymentProperties;
+}
+
+/**
  * The deployment export result.
  */
 export interface DeploymentExportResult {
@@ -1111,6 +1125,37 @@ export interface WhatIfOperationResult {
 }
 
 /**
+ * key and value pairs for tags
+ */
+export interface Tags {
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Tag Request for Patch operation.
+ */
+export interface TagPatchRequest {
+  /**
+   * The operation type for the patch api. Possible values include: 'Replace', 'Merge', 'Delete'
+   */
+  operation?: OperationEnum;
+  /**
+   * tags object passing in the request.
+   */
+  properties?: Tags;
+}
+
+/**
+ * Tags for the resource.
+ */
+export interface TagsResource extends Resource {
+  /**
+   * tags property.
+   */
+  properties: Tags;
+}
+
+/**
  * Optional Parameters.
  */
 export interface DeploymentsListAtScopeOptionalParams extends msRest.RequestOptionsBase {
@@ -1253,8 +1298,9 @@ export interface ResourcesListByResourceGroupOptionalParams extends msRest.Reque
    * and resourceGroup.<br><br>For example, to get all resources with 'demo' anywhere in the name,
    * use: $filter=substringof('demo', name)<br><br>You can link more than one substringof together
    * by adding and/or operators.<br><br>You can filter by tag names and values. For example, to
-   * filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq
-   * 'Value1'<br><br>You can use some properties together when filtering. The combinations you can
+   * filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'. When
+   * you filter by a tag name and value, the tags for each resource are not returned in the
+   * results.<br><br>You can use some properties together when filtering. The combinations you can
    * use are: substringof and/or resourceType, plan and plan/publisher and plan/name, identity and
    * identity/principalId.
    */
@@ -1284,8 +1330,9 @@ export interface ResourcesListOptionalParams extends msRest.RequestOptionsBase {
    * and resourceGroup.<br><br>For example, to get all resources with 'demo' anywhere in the name,
    * use: $filter=substringof('demo', name)<br><br>You can link more than one substringof together
    * by adding and/or operators.<br><br>You can filter by tag names and values. For example, to
-   * filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq
-   * 'Value1'<br><br>You can use some properties together when filtering. The combinations you can
+   * filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'. When
+   * you filter by a tag name and value, the tags for each resource are not returned in the
+   * results.<br><br>You can use some properties together when filtering. The combinations you can
    * use are: substringof and/or resourceType, plan and plan/publisher and plan/name, identity and
    * identity/principalId.
    */
@@ -1541,6 +1588,14 @@ export type PropertyChangeType = 'Create' | 'Delete' | 'Modify' | 'Array';
  * @enum {string}
  */
 export type ChangeType = 'Create' | 'Delete' | 'Ignore' | 'Deploy' | 'NoChange' | 'Modify';
+
+/**
+ * Defines values for OperationEnum.
+ * Possible values include: 'Replace', 'Merge', 'Delete'
+ * @readonly
+ * @enum {string}
+ */
+export type OperationEnum = 'Replace' | 'Merge' | 'Delete';
 
 /**
  * Contains response data for the list operation.
@@ -3093,6 +3148,26 @@ export type ResourceGroupsListResponse = ResourceGroupListResult & {
 };
 
 /**
+ * Contains response data for the beginExportTemplate operation.
+ */
+export type ResourceGroupsBeginExportTemplateResponse = ResourceGroupExportResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceGroupExportResult;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type ResourceGroupsListNextResponse = ResourceGroupListResult & {
@@ -3169,6 +3244,66 @@ export type TagsListResponse = TagsListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: TagsListResult;
+    };
+};
+
+/**
+ * Contains response data for the resourceCreate operation.
+ */
+export type TagsResourceCreateResponse = TagsResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagsResource;
+    };
+};
+
+/**
+ * Contains response data for the resourceUpdate operation.
+ */
+export type TagsResourceUpdateResponse = TagsResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagsResource;
+    };
+};
+
+/**
+ * Contains response data for the resourceGet operation.
+ */
+export type TagsResourceGetResponse = TagsResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagsResource;
     };
 };
 
