@@ -4,10 +4,11 @@
 
 ```ts
 
-import { ApiKeyCredentials } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
+import { ServiceClientCredentials } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
+import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AnalyzeSentimentErrorResult extends TextAnalyticsErrorResult {
@@ -34,9 +35,11 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 }
 
 // @public
-export class CognitiveServicesCredential extends ApiKeyCredentials {
+export class CognitiveServicesCredential implements ServiceClientCredentials {
     constructor(subscriptionKey: string);
-}
+    setSubscriptionKey(subscriptionKey: string): void;
+    signRequest(webResource: WebResource): Promise<WebResource>;
+    }
 
 // @public
 export interface DetectedLanguage {
@@ -235,6 +238,7 @@ export class TextAnalyticsClient {
     recognizeLinkedEntities(inputs: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
     recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    setSubscriptionKey(subscriptionKey: string): void;
 }
 
 // @public

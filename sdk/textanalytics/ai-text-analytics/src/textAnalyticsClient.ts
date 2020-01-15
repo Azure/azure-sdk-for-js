@@ -9,7 +9,8 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  OperationOptions
+  OperationOptions,
+  RequestPolicyFactory
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
@@ -134,6 +135,13 @@ export class TextAnalyticsClient {
   private readonly client: GeneratedClient;
 
   /**
+   * @internal
+   * @ignore
+   * A reference to the CognitiveServicesCredential used to authenticate, if provided
+   */
+  private cognitiveServicesCredential: CognitiveServicesCredential | undefined;
+
+  /**
    * Creates an instance of TextAnalyticsClient.
    *
    * Example usage:
@@ -170,9 +178,13 @@ export class TextAnalyticsClient {
       };
     }
 
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
-      : signingPolicy(credential);
+    let authPolicy: RequestPolicyFactory;
+    if (isTokenCredential(credential)) {
+      authPolicy = bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE);
+    } else {
+      authPolicy = signingPolicy(credential);
+      this.cognitiveServicesCredential = credential;
+    }
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
@@ -186,6 +198,21 @@ export class TextAnalyticsClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
+  }
+
+  /**
+   * Updates the Subscription Key used for authentication when using a CognitiveServicesCredential.
+   * Use this method to roll credentials without having to create a new TextAnalyticsClient.
+   * @param subscriptionKey The Cognitive Services subscription key for authentication.
+   */
+  public setSubscriptionKey(subscriptionKey: string): void {
+    if (!this.cognitiveServicesCredential) {
+      throw new Error(
+        "This TextAnalyticsClient is not using a CognitiveServicesCredential to authenticate."
+      );
+    }
+
+    this.cognitiveServicesCredential.setSubscriptionKey(subscriptionKey);
   }
 
   /**
