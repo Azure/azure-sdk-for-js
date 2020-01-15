@@ -26,7 +26,8 @@ export async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificateMergeCertificateTS";
+  const uniqueString = new Date().getTime();
+  const certificateName = `cert${uniqueString}`;
 
   // Creating a certificate with an Unknown issuer.
   await client.beginCreateCertificate(certificateName, {

@@ -191,7 +191,7 @@ export function createProcessingSpan(
   });
 
   span.setAttributes({
-    component: "eventhubs",
+    "az.namespace": "Microsoft.EventHub",
     "message_bus.destination": eventHubProperties.eventHubName,
     "peer.address": eventHubProperties.endpoint
   });

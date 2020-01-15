@@ -23,6 +23,7 @@ export {
   EventType,
   EventTypesListResult,
   HybridConnectionEventSubscriptionDestination,
+  InboundIpRule,
   InputSchemaMapping,
   JsonField,
   JsonFieldWithDefault,

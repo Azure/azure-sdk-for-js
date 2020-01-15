@@ -53,28 +53,20 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  // If this test is not skipped in the browser's playback, no other test will be played back.
-  // This is a bug related to the browser features of the recorder.
-  if (isNode && !isPlaybackMode()) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can abort creating a certificate", async function() {
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-      const controller = new AbortController();
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can abort creating a certificate", async function() {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    const controller = new AbortController();
 
-      await assertThrowsAbortError(async () => {
-        const poller = await client.beginCreateCertificate(
-          certificateName,
-          basicCertificatePolicy,
-          {
-            ...testPollerProperties,
-            abortSignal: controller.signal
-          }
-        );
-        controller.abort();
-        await poller.pollUntilDone();
+    await assertThrowsAbortError(async () => {
+      const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
+        ...testPollerProperties,
+        abortSignal: controller.signal
       });
+      controller.abort();
+      await poller.pollUntilDone();
     });
-  }
+  });
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work

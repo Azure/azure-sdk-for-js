@@ -17,7 +17,7 @@ describe("Keys client - import keys", () => {
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
-    suffix = authentication.suffix;
+    suffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
