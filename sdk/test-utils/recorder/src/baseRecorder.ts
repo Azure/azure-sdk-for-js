@@ -94,13 +94,12 @@ export abstract class BaseRecorder {
   protected filterSecrets(recording: string): string {
     let updatedRecording = recording;
     for (const k of Object.keys(replaceableVariables)) {
-      if (env[k]) {
-        const escaped = escapeRegExp(env[k]);
-        updatedRecording = updatedRecording.replace(
-          new RegExp(escaped, "g"),
-          replaceableVariables[k]
-        );
-      }
+      const escaped = escapeRegExp(env[k]);
+      updatedRecording = updatedRecording.replace(
+        new RegExp(escaped, "g"),
+        encodeURIComponent(replaceableVariables[k])
+      );
+      updatedRecording = updatedRecording.replace(new RegExp(env[k], "g"), replaceableVariables[k]);
     }
     for (const map of replacements) {
       updatedRecording = map(updatedRecording);
