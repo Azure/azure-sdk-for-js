@@ -2,26 +2,26 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "baseName": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().name]",
-      "metadata": {
-        "description": "The base resource name."
-      }
+    "namespace_service_bus_node": {
+      "defaultValue": "arm-azure-sdk-test",
+      "type": "string"
+    },
+    "namespace_service_bus_browser": {
+      "defaultValue": "arm-azure-sdk-test-browser",
+      "type": "string"
     }
   },
   "variables": {
-    "apiVersion": "2017-04-01",
-    "authorizationApiVersion": "[variables('apiVersion')]",
-    "busName": "[parameters('baseName')]",
-    "authorizationName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
-    "location": "[resourceGroup().location]"
+    "authorizationApiVersion": "2017-04-01",
+    "location": "[resourceGroup().location]",
+    "authorizationRuleNameNode": "[concat(parameters('namespace_service_bus_node'), '/RootManageSharedAccessKey')]",
+    "authorizationRuleNameBrowser": "[concat(parameters('namespace_service_bus_browser'), '/RootManageSharedAccessKey')]"
   },
   "resources": [
     {
       "type": "Microsoft.ServiceBus/namespaces",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[variables('busName')]",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[parameters('namespace_service_bus_node')]",
       "location": "[variables('location')]",
       "sku": {
         "name": "Standard",
@@ -33,702 +33,50 @@
     },
     {
       "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[variables('authorizationName')]",
+      "apiVersion": "2015-08-01",
+      "name": "[variables('authorizationRuleNameNode')]",
       "location": "[variables('location')]",
-      "dependsOn": ["[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"],
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespace_service_bus_node'))]"
+      ],
       "properties": {
         "rights": ["Listen", "Manage", "Send"]
       }
     },
     {
-      "type": "Microsoft.ServiceBus/namespaces/queues",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-queue')]",
+      "type": "Microsoft.ServiceBus/namespaces",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[parameters('namespace_service_bus_browser')]",
       "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
+      "sku": {
+        "name": "Standard",
+        "tier": "Standard"
+      },
       "properties": {
-        "lockDuration": "PT30S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "requiresSession": false,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "enableBatchedOperations": true,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": true,
-        "enableExpress": false
+        "zoneRedundant": false
       }
     },
     {
-      "type": "Microsoft.ServiceBus/namespaces/queues",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-queue-sessions')]",
+      "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
+      "apiVersion": "2015-08-01",
+      "name": "[variables('authorizationRuleNameBrowser')]",
       "location": "[variables('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespace_service_bus_browser'))]"
       ],
       "properties": {
-        "lockDuration": "PT30S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "requiresSession": true,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "enableBatchedOperations": true,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": true,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/queues",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-sessions-queue')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "requiresSession": true,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "enableBatchedOperations": true,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": true,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/queues",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-queue')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "requiresSession": false,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "enableBatchedOperations": true,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": false,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/queues",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-queue-browser')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "requiresSession": false,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "enableBatchedOperations": true,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": false,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/queues",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-queue-sessions')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "requiresSession": true,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "enableBatchedOperations": true,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": false,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/queues",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-queue-sessions-browser')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "requiresSession": true,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "enableBatchedOperations": true,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": false,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/queues",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-sessions-queue')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "requiresSession": true,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "enableBatchedOperations": true,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": false,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/alwaysbeexistingtopic1')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P1D",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "duplicateDetectionHistoryTimeWindow": "PT2M",
-        "enableBatchedOperations": true,
-        "status": "Active",
-        "supportOrdering": true,
-        "autoDeleteOnIdle": "PT2H",
-        "enablePartitioning": false,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/alwaysbeexistingtopic2')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P2D",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": true,
-        "duplicateDetectionHistoryTimeWindow": "PT1M",
-        "enableBatchedOperations": false,
-        "status": "Active",
-        "supportOrdering": false,
-        "autoDeleteOnIdle": "PT1H",
-        "enablePartitioning": true,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-sessions-topic')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "enableBatchedOperations": true,
-        "status": "Active",
-        "supportOrdering": false,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": true,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-topic')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "enableBatchedOperations": true,
-        "status": "Active",
-        "supportOrdering": false,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": true,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-topic-browser')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "enableBatchedOperations": true,
-        "status": "Active",
-        "supportOrdering": false,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": true,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-topic-sessions')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "enableBatchedOperations": true,
-        "status": "Active",
-        "supportOrdering": false,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": true,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-topic-sessions-browser')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "enableBatchedOperations": true,
-        "status": "Active",
-        "supportOrdering": false,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": true,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/performance-test-topic')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "enableBatchedOperations": true,
-        "status": "Active",
-        "supportOrdering": false,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": true,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-topic')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "enableBatchedOperations": true,
-        "status": "Active",
-        "supportOrdering": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": false,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-topic-browser')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "enableBatchedOperations": true,
-        "status": "Active",
-        "supportOrdering": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": false,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-topic-sessions')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "enableBatchedOperations": true,
-        "status": "Active",
-        "supportOrdering": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": false,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-topic-sessions-browser')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "maxSizeInMegabytes": 4096,
-        "requiresDuplicateDetection": false,
-        "duplicateDetectionHistoryTimeWindow": "PT10M",
-        "enableBatchedOperations": true,
-        "status": "Active",
-        "supportOrdering": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
-        "enablePartitioning": false,
-        "enableExpress": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/alwaysbeexistingtopic1/alwaysBeExistingSubscription1')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'alwaysbeexistingtopic1')]",
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT3M",
-        "requiresSession": false,
-        "defaultMessageTimeToLive": "P1D",
-        "deadLetteringOnMessageExpiration": false,
-        "deadLetteringOnFilterEvaluationExceptions": true,
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "enableBatchedOperations": true,
-        "autoDeleteOnIdle": "PT2H"
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/alwaysbeexistingtopic1/alwaysBeExistingSubscription2')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'alwaysbeexistingtopic1')]",
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT5M",
-        "requiresSession": true,
-        "defaultMessageTimeToLive": "P2D",
-        "deadLetteringOnMessageExpiration": true,
-        "deadLetteringOnFilterEvaluationExceptions": false,
-        "maxDeliveryCount": 20,
-        "status": "Active",
-        "enableBatchedOperations": false,
-        "autoDeleteOnIdle": "PT1H"
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-sessions-topic/partitioned-sessions-subscription')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'partitioned-sessions-topic')]",
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "requiresSession": true,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "deadLetteringOnFilterEvaluationExceptions": true,
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "enableBatchedOperations": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-topic-sessions/partitioned-topic-sessions-subscription')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'partitioned-topic-sessions')]",
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "requiresSession": true,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "deadLetteringOnFilterEvaluationExceptions": true,
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "enableBatchedOperations": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-topic-sessions-browser/partitioned-topic-sessions-subscription-browser')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'partitioned-topic-sessions-browser')]",
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "requiresSession": true,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "deadLetteringOnFilterEvaluationExceptions": true,
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "enableBatchedOperations": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/partitioned-topic-browser/partitioned-topic-subscription-browser')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'partitioned-topic-browser')]",
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "requiresSession": false,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "deadLetteringOnFilterEvaluationExceptions": true,
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "enableBatchedOperations": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/performance-test-topic/performance-test-2')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'performance-test-topic')]",
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "requiresSession": false,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "deadLetteringOnFilterEvaluationExceptions": true,
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "enableBatchedOperations": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-topic-sessions/unpartitioned-topic-sessions-subscription')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'unpartitioned-topic-sessions')]",
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "requiresSession": true,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "deadLetteringOnFilterEvaluationExceptions": true,
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "enableBatchedOperations": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-topic-sessions-browser/unpartitioned-topic-sessions-subscription-browser')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'unpartitioned-topic-sessions-browser')]",
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "requiresSession": true,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "deadLetteringOnFilterEvaluationExceptions": true,
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "enableBatchedOperations": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-topic/unpartitioned-topic-subscription')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'unpartitioned-topic')]",
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "requiresSession": false,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "deadLetteringOnFilterEvaluationExceptions": true,
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "enableBatchedOperations": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
-      "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('busName'), '/unpartitioned-topic-browser/unpartitioned-topic-subscription-browser')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces/topics', variables('busName'), 'unpartitioned-topic-browser')]",
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('busName'))]"
-      ],
-      "properties": {
-        "lockDuration": "PT30S",
-        "requiresSession": false,
-        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
-        "deadLetteringOnMessageExpiration": false,
-        "deadLetteringOnFilterEvaluationExceptions": true,
-        "maxDeliveryCount": 10,
-        "status": "Active",
-        "enableBatchedOperations": true,
-        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
+        "rights": ["Listen", "Manage", "Send"]
       }
     }
   ],
   "outputs": {
     "SERVICEBUS_CONNECTION_STRING": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('busName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
+      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('namespace_service_bus_node'), 'RootManageSharedAccessKey'), variables('authorizationApiVersion')).primaryConnectionString]"
     },
-    "AZURE_SUBSCRIPTION_ID": {
+    "SERVICEBUS_CONNECTION_STRING_BROWSER": {
       "type": "string",
-      "value": "[subscription().subscriptionId]"
-    },
-    "RESOURCE_GROUP": {
-      "type": "string",
-      "value": "[resourceGroup().name]"
+      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('namespace_service_bus_browser'), 'RootManageSharedAccessKey'), variables('authorizationApiVersion')).primaryConnectionString]"
     }
   }
 }
