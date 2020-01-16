@@ -52,7 +52,6 @@
       "name": "[guid(concat('dataOwnerRoleId', parameters('baseName')))]",
       "dependsOn": ["[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"],
       "properties": {
-        "scope": "[resourceGroup().id]",
         "roleDefinitionId": "[variables('serviceBusDataOwnerRoleId')]",
         "principalId": "[parameters('testApplicationOid')]"
       }
