@@ -23,4 +23,5 @@ jobs:
         ACCOUNT_SAS: $(STORAGE_ACCOUNT_SAS)
         STORAGE_CONNECTION_STRING: $(STORAGE_CONNECTION_STRING)
       PackageName: ${{ parameters.PackageName }}
+      ResourceServiceDirectory: ${{ parameters.ResourceServiceDirectory }}
       Matrix: ${{ parameters.Matrix }}
