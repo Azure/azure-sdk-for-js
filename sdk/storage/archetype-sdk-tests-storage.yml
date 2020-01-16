@@ -22,6 +22,13 @@ parameters:
 jobs:
   - template: ../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
-      EnvVars: ${{ parameters.EnvVars }}
+      EnvVars:
+        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        ACCOUNT_NAME: $(STORAGE_ACCOUNT_NAME)
+        ACCOUNT_KEY: $(STORAGE_ACCOUNT_KEY)
+        ACCOUNT_SAS: $(STORAGE_ACCOUNT_SAS)
+        STORAGE_CONNECTION_STRING: $(STORAGE_CONNECTION_STRING)
       PackageName: ${{ parameters.PackageName }}
       Matrix: ${{ parameters.Matrix }}
