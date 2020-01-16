@@ -36,7 +36,7 @@ describe("Aborter", () => {
     }
   });
 
-  it("Should not abort after calling abort()", async () => {
+  it.only("Should not abort after calling abort()", async () => {
     await containerClient.create({ abortSignal: AbortSignal.none });
   });
 
