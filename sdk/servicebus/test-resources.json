@@ -1,20 +1,25 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {},
+  "parameters": {
+    "baseName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]",
+      "metadata": {
+        "description": "The base resource name."
+      }
+    }
+  },
   "variables": {
-    "namespace_service_bus_browser": "arm-azure-sdk-test-browser",
-    "namespace_service_bus_node": "arm-azure-sdk-test",
-    "authorizationApiVersion": "2017-04-01",
+    "apiVersion": "2017-04-01",
     "location": "[resourceGroup().location]",
-    "authorizationRuleNameNode": "[concat(variables('namespace_service_bus_node'), '/RootManageSharedAccessKey')]",
-    "authorizationRuleNameBrowser": "[concat(variables('namespace_service_bus_browser'), '/RootManageSharedAccessKey')]"
+    "authorizationRuleName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]"
   },
   "resources": [
     {
       "type": "Microsoft.ServiceBus/namespaces",
       "apiVersion": "2018-01-01-preview",
-      "name": "[variables('namespace_service_bus_node')]",
+      "name": "[parameters('baseName')]",
       "location": "[variables('location')]",
       "sku": {
         "name": "Standard",
@@ -27,35 +32,10 @@
     {
       "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
       "apiVersion": "2015-08-01",
-      "name": "[variables('authorizationRuleNameNode')]",
+      "name": "[variables('authorizationRuleName')]",
       "location": "[variables('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('namespace_service_bus_node'))]"
-      ],
-      "properties": {
-        "rights": ["Listen", "Manage", "Send"]
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces",
-      "apiVersion": "2018-01-01-preview",
-      "name": "[variables('namespace_service_bus_browser')]",
-      "location": "[variables('location')]",
-      "sku": {
-        "name": "Standard",
-        "tier": "Standard"
-      },
-      "properties": {
-        "zoneRedundant": false
-      }
-    },
-    {
-      "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
-      "apiVersion": "2015-08-01",
-      "name": "[variables('authorizationRuleNameBrowser')]",
-      "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', variables('namespace_service_bus_browser'))]"
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"
       ],
       "properties": {
         "rights": ["Listen", "Manage", "Send"]
@@ -65,11 +45,7 @@
   "outputs": {
     "SERVICEBUS_CONNECTION_STRING": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('namespace_service_bus_node'), 'RootManageSharedAccessKey'), variables('authorizationApiVersion')).primaryConnectionString]"
-    },
-    "SERVICEBUS_CONNECTION_STRING_BROWSER": {
-      "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('namespace_service_bus_browser'), 'RootManageSharedAccessKey'), variables('authorizationApiVersion')).primaryConnectionString]"
+      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('baseName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
     }
   }
 }

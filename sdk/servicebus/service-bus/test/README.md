@@ -4,8 +4,6 @@
 - The tests expect a Service Bus namespace to exist.
   For Node environment, the connection string for the service bus should be in the environment variable `SERVICEBUS_CONNECTION_STRING`.
 
-  For browser environment, the connection string for the service bus should be in the environment variable `SERVICEBUS_CONNECTION_STRING_BROWSER`.
-
   Note that the tests will recreate entities to get a clean start before running each test.
 
   See `testUtils.ts` file for information on names used for the entities against which the tests are run.
@@ -14,7 +12,6 @@
     Following is a sample .env file template:
     ```
     SERVICEBUS_CONNECTION_STRING=
-    SERVICEBUS_CONNECTION_STRING_BROWSER=
 
     ```
 
