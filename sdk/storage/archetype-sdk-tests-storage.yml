@@ -10,10 +10,6 @@ parameters:
     ACCOUNT_SAS: $(STORAGE_ACCOUNT_SAS)
     STORAGE_CONNECTION_STRING: $(STORAGE_CONNECTION_STRING)
   Matrix:
-    Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
-      NodeVersion: "10.x"
-      TestType: "node"
     Linux_Sample10:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "10.x"
