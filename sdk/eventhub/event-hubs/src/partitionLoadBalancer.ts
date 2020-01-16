@@ -116,10 +116,10 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     );
     return maxList[Math.floor(Math.random() * maxList.length)].partitionId;
   }
-  
+
   /**
    * Whether we should attempt to claim more partitions for this particular processor.
-   * 
+   *
    * @param minRequired The minimum required number of partitions.
    * @param numEventProcessorsWithAdditionalPartition The current number of processors that have an additional partition.
    * @param numPartitionsOwnedByUs The number of partitions we currently own.
@@ -135,7 +135,11 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
 
     if (
       numEventProcessorsWithAdditionalPartition > 0 &&
-      processorCounts.haveAdditionalPartition < numEventProcessorsWithAdditionalPartition
+      // eventually the `haveTooManyPartitions` will get decay into `haveAdditionalPartition`
+      // processors as partitions are balanced to consumers that aren't at par. We can
+      // consider them to be `haveAdditionalPartition` processors for our purposes.
+      processorCounts.haveAdditionalPartition + processorCounts.haveTooManyPartitions <
+        numEventProcessorsWithAdditionalPartition
     ) {
       // overall we don't have enough processors that are taking on an additional partition
       // so we should attempt to.
@@ -149,7 +153,7 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
    * Validates that we are currently in a balanced state - all processors own the
    * minimum required number of partitions (and additional partitions, if the # of partitions
    * is not evenly divisible by the # of processors).
-   * 
+   *
    * @param requiredNumberOfEventProcessorsWithAdditionalPartition The # of processors that process an additional partition, in addition to the required minimum.
    * @param totalExpectedProcessors The total # of processors we expect.
    * @param processorCounts Processors, grouped by criteria.
@@ -160,22 +164,24 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
     processorCounts: ProcessorCounts
   ): boolean {
     return (
-      processorCounts.haveAdditionalPartition === requiredNumberOfEventProcessorsWithAdditionalPartition &&
-      (processorCounts.haveRequiredPartitions + processorCounts.haveAdditionalPartition) === totalExpectedProcessors
+      processorCounts.haveAdditionalPartition ===
+        requiredNumberOfEventProcessorsWithAdditionalPartition &&
+      processorCounts.haveRequiredPartitions + processorCounts.haveAdditionalPartition ===
+        totalExpectedProcessors
     );
   }
 
   /**
    * Counts the processors and tallying them by type.
-   * 
-   * To be in balance we need to make sure that each processor is only consuming 
+   *
+   * To be in balance we need to make sure that each processor is only consuming
    * their fair share.
-   * 
+   *
    * When the partitions are divvied up we will sometimes end up with some processors
-   * that will have 1 more partition than others. This can happen if the number of 
+   * that will have 1 more partition than others. This can happen if the number of
    * partitions is not evenly divisible by the number of processors.
-   * 
-   * So this function largely exists to support _isLoadBalanced() and 
+   *
+   * So this function largely exists to support _isLoadBalanced() and
    * _shouldOwnMorePartitions(), both of which depend on knowing if our current list
    * of processors is actually in the proper state.
    *
@@ -188,31 +194,36 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
   ): ProcessorCounts {
     const counts: ProcessorCounts = {
       haveRequiredPartitions: 0,
-      haveAdditionalPartition: 0
+      haveAdditionalPartition: 0,
+      haveTooManyPartitions: 0
     };
 
     for (const ownershipList of ownerPartitionMap.values()) {
       const numberOfPartitions = ownershipList.length;
 
-      // there are basically two kinds of "correct" partition counts
+      // there are basically three kinds of partition counts
       // for a processor:
 
-      // a. Has _exactly_ the required number of partitions
+      // 1. Has _exactly_ the required number of partitions
       if (numberOfPartitions === numPartitionsRequired) {
         counts.haveRequiredPartitions++;
       }
 
-      // b. Has the required number plus one extra (correct in cases)
-      // where the # of partitions is not evenly divisible by the 
+      // 2. Has the required number plus one extra (correct in cases)
+      // where the # of partitions is not evenly divisible by the
       // number of processors.
       if (numberOfPartitions === numPartitionsRequired + 1) {
         counts.haveAdditionalPartition++;
+      }
+
+      // 3. has more than the possible # of partitions required
+      if (numberOfPartitions > numPartitionsRequired + 1) {
+        counts.haveTooManyPartitions++;
       }
     }
 
     return counts;
   }
-
 
   /*
    * This method will create a new map of partition id and PartitionOwnership containing only those partitions
@@ -372,9 +383,9 @@ export class FairPartitionLoadBalancer implements PartitionLoadBalancer {
  */
 interface ProcessorCounts {
   /**
-   * The # of processors that only own the required # of 
+   * The # of processors that only own the required # of
    * partitions.
-   */  
+   */
   haveRequiredPartitions: number;
   /**
    * The # of processors that currently own the required #
@@ -383,4 +394,10 @@ interface ProcessorCounts {
    * processors).
    */
   haveAdditionalPartition: number;
+  /**
+   * Processors which have more than the required or even required + 1
+   * number of partitions. These will eventually be downsized by other
+   * processors as they acquire their required number of partitions.
+   */
+  haveTooManyPartitions: number;
 }

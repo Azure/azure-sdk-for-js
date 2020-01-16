@@ -172,6 +172,52 @@ describe("PartitionLoadBalancer", () => {
       );
     });
 
+    it("don't steal when you can just wait", () => {
+      // @chradek's case: let's say we have this partition layout:
+      // AAAABBBCCD
+      //
+      // Before, we'd let 'C' steal from 'A' - we see that we don't have enough
+      // +1 processors(exact match) and so 'C' attempts to become one. This can
+      // lead to some unnecessary thrash as 'A' loses partitions to a processor
+      // that has technically already met it's quota.
+      //
+      // Instead, we treat 'A' is a +1-ish specifically for when we ('C')
+      // are checking if we want to grab more partitions.
+      //
+      // This allows 'A' to just naturally decline as _actual_ processors grab
+      // their minimum required partitions rather than forcing it and possibly
+      // having a partition have to juggle between partitions as they try to
+      // meet the minimum.
+      const partitions = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+
+      const lb = new FairPartitionLoadBalancer(1000 * 60);
+
+      // we'll do 4 consumers
+      const initialOwnershipMap = createOwnershipMap({
+        "0": "a",
+        "1": "a",
+        "2": "a",
+        "3": "a",
+
+        "4": "b",
+        "5": "b",
+        "6": "b",
+
+        "7": "c",
+        "8": "c",
+
+        "9": "d"
+      });
+
+      const requestedPartitions = lb.loadBalance("c", initialOwnershipMap, partitions);
+      requestedPartitions.sort();
+
+      requestedPartitions.should.deep.equal(
+        ["7", "8"],
+        "c will not steal one partition since it sees that, eventually, 'a' will lose its partitions and become a +1 processor on it's own"
+      );
+    });
+
     it("avoid thrash", () => {
       // this is a case where we shouldn't steal - we have
       // the minimum number of partitions and stealing at this
