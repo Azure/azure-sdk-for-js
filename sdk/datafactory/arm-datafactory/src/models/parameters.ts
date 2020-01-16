@@ -30,6 +30,21 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const dataFlowName: msRest.OperationURLParameter = {
+  parameterPath: "dataFlowName",
+  mapper: {
+    required: true,
+    serializedName: "dataFlowName",
+    constraints: {
+      MaxLength: 260,
+      MinLength: 1,
+      Pattern: /^[A-Za-z0-9_][^<>*#.%&:\\+?\/]*$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const datasetName: msRest.OperationURLParameter = {
   parameterPath: "datasetName",
   mapper: {
@@ -96,6 +111,18 @@ export const integrationRuntimeName: msRest.OperationURLParameter = {
     },
     type: {
       name: "String"
+    }
+  }
+};
+export const isRecovery: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "isRecovery"
+  ],
+  mapper: {
+    serializedName: "isRecovery",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -224,6 +251,18 @@ export const runId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "runId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const startActivityName: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "startActivityName"
+  ],
+  mapper: {
+    serializedName: "startActivityName",
     type: {
       name: "String"
     }
