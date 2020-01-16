@@ -9,7 +9,7 @@ import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadabl
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
 import { readStreamToLocalFile } from "../../src/utils/utils.node";
-import { setLogLevel, getLogLevel, AzureLogLevel } from "@azure/logger";
+import { setLogLevel, getLogLevel } from "@azure/logger";
 
 const iterations = process.env.STRESS_ITERATIONS || 10;
 
