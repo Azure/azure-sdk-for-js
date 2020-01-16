@@ -9,36 +9,25 @@ import { AbortSignalLike } from '@azure/abort-controller';
 // @public (undocumented)
 export type CancelOnProgress = () => void;
 
-// @public (undocumented)
-export abstract class Poller<TState, TResult> implements PollerLike<TState, TResult> {
+// @public
+export abstract class Poller<TState extends PollOperationState<TResult>, TResult> implements PollerLike<TState, TResult> {
     constructor(operation: PollOperation<TState, TResult>);
-    // (undocumented)
     cancelOperation(options?: {
         abortSignal?: AbortSignal;
     }): Promise<void>;
-    // (undocumented)
     protected abstract delay(): Promise<void>;
-    // (undocumented)
-    getOperationState(): PollOperationState<TResult>;
-    // (undocumented)
+    getOperationState(): TState;
     getResult(): TResult | undefined;
-    // (undocumented)
     isDone(): boolean;
-    // (undocumented)
     isStopped(): boolean;
-    // (undocumented)
     onProgress(callback: (state: TState) => void): CancelOnProgress;
     // (undocumented)
     protected operation: PollOperation<TState, TResult>;
-    // (undocumented)
     poll(options?: {
         abortSignal?: AbortSignal;
     }): Promise<void>;
-    // (undocumented)
     pollUntilDone(): Promise<TResult>;
-    // (undocumented)
     stopPolling(): void;
-    // (undocumented)
     toString(): string;
 }
 
@@ -47,31 +36,21 @@ export class PollerCancelledError extends Error {
     constructor(message: string);
 }
 
-// @public (undocumented)
-export interface PollerLike<TState, TResult> {
-    // (undocumented)
+// @public
+export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
     cancelOperation(options?: {
         abortSignal?: AbortSignal;
     }): Promise<void>;
-    // (undocumented)
-    getOperationState(): PollOperationState<TResult>;
-    // (undocumented)
+    getOperationState(): TState;
     getResult(): TResult | undefined;
-    // (undocumented)
     isDone(): boolean;
-    // (undocumented)
     isStopped(): boolean;
-    // (undocumented)
     onProgress(callback: (state: TState) => void): CancelOnProgress;
-    // (undocumented)
     poll(options?: {
         abortSignal?: AbortSignal;
     }): Promise<void>;
-    // (undocumented)
     pollUntilDone(): Promise<TResult>;
-    // (undocumented)
     stopPolling(): void;
-    // (undocumented)
     toString(): string;
 }
 

@@ -26,7 +26,7 @@ import {
   getServiceBusClient
 } from "./utils/testUtils";
 import { SasTokenProvider, TokenInfo, parseConnectionString } from "@azure/amqp-common";
-import { getEnvVars, EnvVarKeys } from "./utils/envVarUtils";
+import { getEnvVars, EnvVarNames } from "./utils/envVarUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 const should = chai.should();
@@ -912,7 +912,7 @@ describe("Streaming - Failed init should not cache recevier", function(): void {
       Endpoint: string;
       SharedAccessKeyName: string;
       SharedAccessKey: string;
-    } = parseConnectionString(env[EnvVarKeys.SERVICEBUS_CONNECTION_STRING]);
+    } = parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
     const tokenProvider = new TestTokenProvider(connectionObject);
     sbClient = ServiceBusClient.createFromTokenProvider(
       connectionObject.Endpoint.substr(5),

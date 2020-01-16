@@ -46,6 +46,23 @@ export class GalleryApplications {
   }
 
   /**
+   * Update a gallery Application Definition.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Application Gallery in which the Application
+   * Definition is to be updated.
+   * @param galleryApplicationName The name of the gallery Application Definition to be updated. The
+   * allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
+   * middle. The maximum length is 80 characters.
+   * @param galleryApplication Parameters supplied to the update gallery Application operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GalleryApplicationsUpdateResponse>
+   */
+  update(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: Models.GalleryApplicationUpdate, options?: msRest.RequestOptionsBase): Promise<Models.GalleryApplicationsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,galleryName,galleryApplicationName,galleryApplication,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GalleryApplicationsUpdateResponse>;
+  }
+
+  /**
    * Retrieves information about a gallery Application Definition.
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Application Gallery from which the Application
@@ -156,6 +173,31 @@ export class GalleryApplications {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Update a gallery Application Definition.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Application Gallery in which the Application
+   * Definition is to be updated.
+   * @param galleryApplicationName The name of the gallery Application Definition to be updated. The
+   * allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
+   * middle. The maximum length is 80 characters.
+   * @param galleryApplication Parameters supplied to the update gallery Application operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplication: Models.GalleryApplicationUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        galleryName,
+        galleryApplicationName,
+        galleryApplication,
+        options
+      },
+      beginUpdateOperationSpec,
       options);
   }
 
@@ -292,6 +334,39 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.GalleryApplication
     },
     202: {
+      bodyMapper: Mappers.GalleryApplication
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.galleryApplicationName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "galleryApplication",
+    mapper: {
+      ...Mappers.GalleryApplicationUpdate,
+      required: true
+    }
+  },
+  responses: {
+    200: {
       bodyMapper: Mappers.GalleryApplication
     },
     default: {

@@ -1,5 +1,10 @@
 # Release History
 
+## 5.0.1 (TBD)
+
+- Fixed a potential issue with deadlock where greedy consumers could
+  starve out other consumers, preventing us from properly balancing.
+
 ## 5.0.0 (2020-01-09)
 
 - This release marks the general availability of the `@azure/event-hubs` package.

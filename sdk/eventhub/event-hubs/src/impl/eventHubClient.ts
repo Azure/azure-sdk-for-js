@@ -408,6 +408,7 @@ export class EventHubClient {
       parent: parentSpan
     });
 
+    span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this.eventHubName);
     span.setAttribute("peer.address", this.endpoint);
 
