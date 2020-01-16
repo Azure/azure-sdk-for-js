@@ -22,6 +22,7 @@
     "./dist/index.js": "./browser/service-bus.js",
     "./dist-esm/test/utils/aadUtils.js": "./dist-esm/test/utils/aadUtils.browser.js",
     "./dist-esm/src/util/crypto.js": "./dist-esm/src/util/crypto.browser.js",
+    "./dist-esm/src/util/parseUrl.js": "./dist-esm/src/util/parseUrl.browser.js",
     "buffer": "buffer",
     "stream": "stream-browserify"
   },
@@ -53,7 +54,7 @@
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "node .scripts/buildBrowserTestResources.js && karma start --single-run",
+    "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 120000 --full-trace dist-esm/test/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o service-bus-lintReport.html || exit 0",
@@ -93,7 +94,6 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@azure/arm-servicebus": "^3.2.0",
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-json": "^4.0.0",
@@ -143,9 +143,9 @@
     "puppeteer": "^2.0.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
-    "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-inject": "^3.0.0",
-    "rollup-plugin-node-resolve": "^5.0.2",
+    "@rollup/plugin-commonjs": "^11.0.1",
+    "@rollup/plugin-inject": "^4.0.0",
+    "@rollup/plugin-node-resolve": "^7.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",

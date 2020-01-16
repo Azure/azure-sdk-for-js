@@ -60,16 +60,22 @@ export interface LastEnqueuedEventProperties {
 
 /**
  * Describes the message handler signature.
+ * @internal
+ * @ignore
  */
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
 /**
  * Describes the error handler signature.
+ * @internal
+ * @ignore
  */
 export type OnError = (error: MessagingError | Error) => void;
 
 /**
  * Describes the abort handler signature.
+ * @internal
+ * @ignore
  */
 export type OnAbort = () => void;
 

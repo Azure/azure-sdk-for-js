@@ -20,7 +20,7 @@ import { CorrelationFilter } from "../core/managementClient";
 /**
  * @ignore
  * Builds the rule options object from the user provided options.
- * Handles the differences in casing for the property names, 
+ * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
  * @param name
  * @param ruleOptions
@@ -32,11 +32,11 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
 
 /**
  * @ignore
- * Builds the rule object from the raw json object gotten after deserializing the 
+ * Builds the rule object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawRule
  */
-export function buildRule(rawRule: any): Rule {
+export function buildRule(rawRule: any): RuleDetails {
   return {
     ruleName: getString(rawRule["RuleName"], "ruleName"),
     topicName: getString(rawRule["TopicName"], "topicName"),
@@ -103,14 +103,15 @@ function getRuleActionOrUndefined(value: any): SqlAction | undefined {
  */
 export interface RuleOptions {
   /**
-   * Defines the expression that the rule evaluates. The expression string is 
-   * interpreted as a SQL92 expression which must evaluate to True or False. 
-   * Only one between a correlation and a sql expression can be defined.
+   * Defines the filter expression that the rule evaluates. For `SqlFilter` input,
+   * the expression string is interpreted as a SQL92 expression which must
+   * evaluate to True or False. Only one between a `CorrelationFilter` or
+   * a `SqlFilter` can be defined.
    */
   filter?: SqlFilter | CorrelationFilter;
 
   /**
-   * The SQL like expression that can be executed on the message should the 
+   * The SQL like expression that can be executed on the message should the
    * associated filter apply.
    */
   action?: SqlAction;
@@ -130,21 +131,22 @@ export interface InternalRuleOptions extends RuleOptions {
 /**
  * Represents all attributes of a rule entity
  */
-export interface Rule {
+export interface RuleDetails {
   /**
    * Name of the rule
    */
   ruleName: string;
 
   /**
-   * Defines the expression that the rule evaluates. The expression string is 
-   * interpreted as a SQL92 expression which must evaluate to True or False. 
-   * Only one between a correlation and a sql expression can be defined.
+   * Defines the filter expression that the rule evaluates. For `SqlFilter` input,
+   * the expression string is interpreted as a SQL92 expression which must
+   * evaluate to True or False. Only one between a `CorrelationFilter` or
+   * a `SqlFilter` can be defined.
    */
   filter?: SqlFilter | CorrelationFilter;
 
   /**
-   * The SQL like expression that can be executed on the message should the 
+   * The SQL like expression that can be executed on the message should the
    * associated filter apply.
    */
   action?: SqlAction;
@@ -185,7 +187,7 @@ export interface SqlFilter {
   sqlParameters?: SqlParameter[];
 
   /**
-   * This property is reserved for future use. An integer value showing the 
+   * This property is reserved for future use. An integer value showing the
    * compatibility level, currently hard-coded to 20.
    */
   compatibilityLevel?: number;
@@ -332,7 +334,7 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
 }
 
 /**
- * Helper utility to build an instance of parsed SQL parameteras `Parameter` 
+ * Helper utility to build an instance of parsed SQL parameteras `Parameter`
  * from given input
  * @param value
  */
@@ -392,7 +394,7 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
 }
 
 /**
- * Helper utility to build an instance of raw SQL parameter as `RawSqlParameter` 
+ * Helper utility to build an instance of raw SQL parameter as `RawSqlParameter`
  * from given `SqlParameter` input,
  * @param parameter parsed SQL parameter instance
  */

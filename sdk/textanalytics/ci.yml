@@ -15,7 +15,6 @@ trigger:
   branches:
     include:
       - master
-      - feature/*
       - release/*
       - hotfix/*
   paths:
@@ -38,5 +37,5 @@ stages:
     parameters:
       ServiceDirectory: textanalytics
       Artifacts:
-        - name: azure-cognitiveservices-textanalytics
-          safeName: azurecognitiveservicestextanalytics
+        - name: azure-ai-text-analytics
+          safeName: azureaitextanalytics
