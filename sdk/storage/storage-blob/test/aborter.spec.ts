@@ -3,7 +3,7 @@ import * as assert from "assert";
 import { AbortController, AbortSignal } from "@azure/abort-controller";
 import { ContainerClient } from "../src";
 import { getBSU, setupEnvironment } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder, env } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
@@ -37,6 +37,7 @@ describe("Aborter", () => {
   });
 
   it.only("Should not abort after calling abort()", async () => {
+    console.log(env.ACCOUNT_NAME);
     await containerClient.create({ abortSignal: AbortSignal.none });
   });
 
