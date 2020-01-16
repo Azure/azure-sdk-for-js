@@ -109,10 +109,13 @@ export class Sender {
    * Schedules given message to appear on Service Bus Queue/Subscription at a later time.
    *
    * Recently, a bug has been surfaced with the `scheduleMessage()` method.
-   * More reference and details about the bug - https://github.com/Azure/azure-sdk-for-js/issues/6816#issuecomment-574461068
+   *
+   * More reference and details on the bug - https://github.com/Azure/azure-sdk-for-js/issues/6816#issuecomment-574461068
+   *
    * You are affected with the bug in case you are depending on version < 2.0.0 of `@azure/service-bus`.
    *
    * Version 2.0.0 is not released yet and the fix for this bug will be shipped along with the release.
+   *
    * Until then, please make use of the following workaround in order to leverage `scheduleMessage` functionality.
    *
    * Workaround
@@ -160,13 +163,13 @@ export class Sender {
    *
    * Recently, a bug has been surfaced with the `scheduleMessages()` method.
    *
-   * More reference and details about the bug - https://github.com/Azure/azure-sdk-for-js/issues/6816#issuecomment-574461068
+   * More reference and details on the bug - https://github.com/Azure/azure-sdk-for-js/issues/6816#issuecomment-574461068
    *
    * You are affected with the bug in case you are depending on version < 2.0.0 of `@azure/service-bus`.
    *
    * Version 2.0.0 is not released yet and the fix for this bug will be shipped along with the release.
    *
-   * Until then, please make use of the following workaround in order to leverage `scheduleMessage` functionality.
+   * Until then, please make use of the following workaround in order to leverage `scheduleMessages` functionality.
    *
    * Workaround
    *  1. Import DefaultDataTransformer from "@azure/amqp-common" library.
