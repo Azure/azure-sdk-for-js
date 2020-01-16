@@ -77,20 +77,20 @@ npx cross-env SERVICE_BUS_ENDPOINT="<endpoint>" SERVICE_BUS_CONNECTION_STRING="<
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[interactivelogin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/interactiveLogin.ts
-[scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/scheduledMessages.ts
-[receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/receiveMessagesStreaming.ts
-[session]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/session.ts
-[browsemessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/browseMessages.ts
-[useproxy]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/useProxy.ts
-[receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/receiveMessagesLoop.ts
-[advanced-movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/advanced/movingMessagesToDLQ.ts
-[advanced-deferral]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/advanced/deferral.ts
-[advanced-processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/advanced/processMessageFromDLQ.ts
-[advanced-sessionstate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/advanced/sessionState.ts
-[advanced-topicfilters]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/advanced/topicFilters.ts
-[sendmessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/sendMessages.ts
-[serviceprincipallogin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/servicePrincipalLogin.ts
+[interactivelogin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/interactiveLogin.ts
+[scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/scheduledMessages.ts
+[receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/receiveMessagesStreaming.ts
+[session]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/session.ts
+[browsemessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/browseMessages.ts
+[useproxy]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/useProxy.ts
+[receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/receiveMessagesLoop.ts
+[advanced-movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/movingMessagesToDLQ.ts
+[advanced-deferral]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/deferral.ts
+[advanced-processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/processMessageFromDLQ.ts
+[advanced-sessionstate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/sessionState.ts
+[advanced-topicfilters]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/topicFilters.ts
+[sendmessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/sendMessages.ts
+[serviceprincipallogin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/servicePrincipalLogin.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
 [azsvcbus]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-create-namespace-portal
 [freesub]: https://azure.microsoft.com/free/
