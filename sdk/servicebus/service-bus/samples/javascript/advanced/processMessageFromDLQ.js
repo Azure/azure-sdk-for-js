@@ -1,19 +1,22 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  This sample demonstrates retrieving a message from a dead letter queue, editing it and
-  sending it back to the main queue.
+This sample demonstrates retrieving a message from a dead letter queue, editing it and
+sending it back to the main queue.
 
-  Prior to running this sample, run the sample in movingMessagesToDLQ.js file to move a message
-  to the Dead Letter Queue
+Prior to running this sample, run the sample in movingMessagesToDLQ.ts file to move a message
+to the Dead Letter Queue
 */
 
 const { ServiceBusClient, ReceiveMode, QueueClient } = require("@azure/service-bus");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // Define connection string and related Service Bus entity names here
-const connectionString = "";
-const queueName = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const queueName = process.env.QUEUE_NAME || "";
 
 // If deadlettered messages are from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
 const deadLetterQueueName = QueueClient.getDeadLetterQueuePath(queueName);

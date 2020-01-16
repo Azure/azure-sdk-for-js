@@ -1,29 +1,32 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
-  
-  This sample demonstrates usage of SessionState.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  We take for example the context of an online shopping app and see how we can use Session State
-  to implement the maintaining of shopping cart information completely on server side i.e.,
-  remembering the users' shopped items even if they leave the site and return later.
+This sample demonstrates usage of SessionState.
 
-  The scenario in sample walks through user activity of two customers Alice and Bob.
-  Alice adds 3 items to the shopping cart and checks out, whereas Bob adds 3 items and leaves without
-  checking out to likely return later.
-  The session state keeps track of the cart items accordingly.
+We take for example the context of an online shopping app and see how we can use Session State
+to implement the maintaining of shopping cart information completely on server side i.e.,
+remembering the users' shopped items even if they leave the site and return later.
 
-  Setup: To run this sample, you would need session enabled Queue/Subscription.
+The scenario in sample walks through user activity of two customers Alice and Bob.
+Alice adds 3 items to the shopping cart and checks out, whereas Bob adds 3 items and leaves without
+checking out to likely return later.
+The session state keeps track of the cart items accordingly.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state
-  to learn about session state.
+Setup: To run this sample, you would need session enabled Queue/Subscription.
+
+See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state
+to learn about session state.
 */
 
 const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // Define connection string and related Service Bus entity names here
-const connectionString = "";
-const userEventsQueueName = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const queueName = process.env.QUEUE_NAME || "";
 const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main() {
@@ -37,16 +40,37 @@ async function main() {
 async function runScenario() {
   // User activity data for Alice and Bob
   const shoppingEventsDataAlice = [
-    { event_name: "Add Item", event_details: "Milk" },
-    { event_name: "Add Item", event_details: "Bread" },
-    { event_name: "Add Item", event_details: "Eggs" },
-    { event_name: "Checkout", event_details: "Success" }
+    {
+      event_name: "Add Item",
+      event_details: "Milk"
+    },
+    {
+      event_name: "Add Item",
+      event_details: "Bread"
+    },
+    {
+      event_name: "Add Item",
+      event_details: "Eggs"
+    },
+    {
+      event_name: "Checkout",
+      event_details: "Success"
+    }
   ];
 
   const shoppingEventsDataBob = [
-    { event_name: "Add Item", event_details: "Pencil" },
-    { event_name: "Add Item", event_details: "Paper" },
-    { event_name: "Add Item", event_details: "Stapler" }
+    {
+      event_name: "Add Item",
+      event_details: "Pencil"
+    },
+    {
+      event_name: "Add Item",
+      event_details: "Paper"
+    },
+    {
+      event_name: "Add Item",
+      event_details: "Stapler"
+    }
   ];
 
   // Simulating user events
@@ -138,9 +162,7 @@ async function processMessageFromSession(sessionId) {
     }
 
     console.log(
-      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${
-        messages[0].body.event_details
-      }'`
+      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`
     );
     await messages[0].complete();
   } else {

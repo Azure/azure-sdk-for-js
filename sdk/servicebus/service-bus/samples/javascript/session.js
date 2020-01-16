@@ -1,34 +1,67 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
-  
-  This sample demonstrates how to send/receive messages to/from session enabled queues/subscriptions
-  in Service Bus.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  Setup: To run this sample, you would need session enabled Queue/Subscription.
+This sample demonstrates how to send/receive messages to/from session enabled queues/subscriptions
+in Service Bus.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions to learn about
-  sessions in Service Bus.
+Setup: To run this sample, you would need session enabled Queue/Subscription.
+
+See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions to learn about
+sessions in Service Bus.
 */
 
-const { ServiceBusClient, ReceiveMode, delay } = require("@azure/service-bus");
+const { delay, ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
-const connectionString = "";
-const queueName = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const queueName = process.env.QUEUE_NAME || "";
 
 const listOfScientists = [
-  { lastName: "Einstein", firstName: "Albert" },
-  { lastName: "Heisenberg", firstName: "Werner" },
-  { lastName: "Curie", firstName: "Marie" },
-  { lastName: "Hawking", firstName: "Steven" },
-  { lastName: "Newton", firstName: "Isaac" },
-  { lastName: "Bohr", firstName: "Niels" },
-  { lastName: "Faraday", firstName: "Michael" },
-  { lastName: "Galilei", firstName: "Galileo" },
-  { lastName: "Kepler", firstName: "Johannes" },
-  { lastName: "Kopernikus", firstName: "Nikolaus" }
+  {
+    lastName: "Einstein",
+    firstName: "Albert"
+  },
+  {
+    lastName: "Heisenberg",
+    firstName: "Werner"
+  },
+  {
+    lastName: "Curie",
+    firstName: "Marie"
+  },
+  {
+    lastName: "Hawking",
+    firstName: "Steven"
+  },
+  {
+    lastName: "Newton",
+    firstName: "Isaac"
+  },
+  {
+    lastName: "Bohr",
+    firstName: "Niels"
+  },
+  {
+    lastName: "Faraday",
+    firstName: "Michael"
+  },
+  {
+    lastName: "Galilei",
+    firstName: "Galileo"
+  },
+  {
+    lastName: "Kepler",
+    firstName: "Johannes"
+  },
+  {
+    lastName: "Kopernikus",
+    firstName: "Nikolaus"
+  }
 ];
 
 async function main() {
@@ -56,8 +89,8 @@ async function main() {
 
 async function sendMessage(sbClient, scientist, sessionId) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
-  const sender = queueClient.createSender();
+  const client = sbClient.createQueueClient(queueName);
+  const sender = client.createSender();
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -68,13 +101,15 @@ async function sendMessage(sbClient, scientist, sessionId) {
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
   await sender.send(message);
 
-  await queueClient.close();
+  await client.close();
 }
 
-async function receiveMessages(sbClient, sessionId) {
+async function receiveMessages(ns, sessionId) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
-  const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: sessionId });
+  const queueClient = ns.createQueueClient(queueName);
+  const receiver = queueClient.createReceiver(ReceiveMode.peekLock, {
+    sessionId: sessionId
+  });
 
   const onMessage = async (brokeredMessage) => {
     console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);

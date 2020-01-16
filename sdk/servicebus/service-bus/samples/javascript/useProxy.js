@@ -1,27 +1,33 @@
 /*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
-  
+
   This sample demonstrates how to create a ServiceBusClient meant to be used in an environment
   where outgoing network requests have to go through a proxy server
 */
 
 const { ServiceBusClient } = require("@azure/service-bus");
 const WebSocket = require("ws");
-const url = require("url");
-const httpsProxyAgent = require("https-proxy-agent");
+const HttpsProxyAgent = require("https-proxy-agent");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // Define connection string for your Service Bus instance here
-const connectionString = "";
-
-// Get relevant proxy url, username and password needed to create an instance of httpsProxyAgent
-const urlParts = url.parse("http://localhost:3128");
-urlParts.auth = "username:password"; // Skip this if proxy server does not need authentication.
-
-// Create an instance of the `HttpsProxyAgent` class with the proxy server information
-const proxyAgent = new httpsProxyAgent(urlParts);
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
 
 async function main() {
+  const proxyInfo = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
+  if (!proxyInfo) {
+    console.error(
+      "Error: Proxy information not provided, but it is required to run this sample. Exiting."
+    );
+    return;
+  }
+
+  // Create an instance of the `HttpsProxyAgent` class with the proxy server information
+  const proxyAgent = new HttpsProxyAgent(proxyInfo);
+
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString, {
     webSocket: WebSocket,
     webSocketConstructorOptions: { agent: proxyAgent }

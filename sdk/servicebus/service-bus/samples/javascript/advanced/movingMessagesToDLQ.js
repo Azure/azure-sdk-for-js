@@ -1,19 +1,22 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
-  the DLQ. For other implicit ways when Service Bus messages get moved to DLQ, refer to -
-  https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
+This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
+the DLQ. For other implicit ways when Service Bus messages get moved to DLQ, refer to -
+https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
 
-  Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
+Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
 */
 
 const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // Define connection string and related Service Bus entity names here
-const connectionString = "";
-const queueName = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const queueName = process.env.QUEUE_NAME || "";
 const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 async function main() {
@@ -33,7 +36,10 @@ async function sendMessage() {
   const sender = queueClient.createSender();
 
   const message = {
-    body: { name: "Creamy Chicken Pasta", type: "Dinner" },
+    body: {
+      name: "Creamy Chicken Pasta",
+      type: "Dinner"
+    },
     contentType: "application/json",
     label: "Recipe"
   };

@@ -1,31 +1,64 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
-  
-  This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
-  appear on a Service Bus Queue/Subscription at a later time.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sequencing#scheduled-messages
-  to learn about scheduling messages.
+This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
+appear on a Service Bus Queue/Subscription at a later time.
+
+See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sequencing#scheduled-messages
+to learn about scheduling messages.
 */
 
-const { ServiceBusClient, ReceiveMode, delay } = require("@azure/service-bus");
+const { delay, ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = "";
-const queueName = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const queueName = process.env.QUEUE_NAME || "";
 
 const listOfScientists = [
-  { lastName: "Einstein", firstName: "Albert" },
-  { lastName: "Heisenberg", firstName: "Werner" },
-  { lastName: "Curie", firstName: "Marie" },
-  { lastName: "Hawking", firstName: "Steven" },
-  { lastName: "Newton", firstName: "Isaac" },
-  { lastName: "Bohr", firstName: "Niels" },
-  { lastName: "Faraday", firstName: "Michael" },
-  { lastName: "Galilei", firstName: "Galileo" },
-  { lastName: "Kepler", firstName: "Johannes" },
-  { lastName: "Kopernikus", firstName: "Nikolaus" }
+  {
+    lastName: "Einstein",
+    firstName: "Albert"
+  },
+  {
+    lastName: "Heisenberg",
+    firstName: "Werner"
+  },
+  {
+    lastName: "Curie",
+    firstName: "Marie"
+  },
+  {
+    lastName: "Hawking",
+    firstName: "Steven"
+  },
+  {
+    lastName: "Newton",
+    firstName: "Isaac"
+  },
+  {
+    lastName: "Bohr",
+    firstName: "Niels"
+  },
+  {
+    lastName: "Faraday",
+    firstName: "Michael"
+  },
+  {
+    lastName: "Galilei",
+    firstName: "Galileo"
+  },
+  {
+    lastName: "Kepler",
+    firstName: "Johannes"
+  },
+  {
+    lastName: "Kopernikus",
+    firstName: "Nikolaus"
+  }
 ];
 
 async function main() {
@@ -62,13 +95,12 @@ async function sendScheduledMessages(sbClient) {
 
 async function receiveMessages(sbClient) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const queueClient = ns.createQueueClient(queueName);
+  const queueClient = sbClient.createQueueClient(queueName);
 
   let numOfMessagesReceived = 0;
   const onMessageHandler = async (brokeredMessage) => {
     numOfMessagesReceived++;
     console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
-
     await brokeredMessage.complete();
   };
   const onErrorHandler = (err) => {

@@ -1,27 +1,30 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
-  
-  This sample illustrates how to use topic subscriptions and filters for splitting
-  up a message stream into multiple streams based on message properties.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  In this sample, we will send messages with property "priority" of 1 and 2 to two separate subscriptions,
-  and the rest of the messages to the third subscription.
+This sample illustrates how to use topic subscriptions and filters for splitting
+up a message stream into multiple streams based on message properties.
 
-  Setup: To run this sample, you would need a Topic with 3 subscriptions.
+In this sample, we will send messages with property "priority" of 1 and 2 to two separate subscriptions,
+and the rest of the messages to the third subscription.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/topic-filters to learn aboout
-  Topic filters and actions.
+Setup: To run this sample, you would need a Topic with 3 subscriptions.
+
+See https://docs.microsoft.com/en-us/azure/service-bus-messaging/topic-filters to learn aboout
+Topic filters and actions.
 */
 
 const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // Define connection string and related Service Bus entity names here
-const connectionString = "";
-const topicName = "";
-const subscriptionName1 = "";
-const subscriptionName2 = "";
-const subscriptionName3 = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const topicName = process.env.TOPIC_NAME || "";
+const subscriptionName1 = process.env.TOPIC_FILTER_SUBSCRIPTION_1 || "<subscription name>";
+const subscriptionName2 = process.env.TOPIC_FILTER_SUBSCRIPTION_2 || "<subscription name>";
+const subscriptionName3 = process.env.TOPIC_FILTER_SUBSCRIPTION_3 || "<subscription name>";
 
 async function main() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
@@ -60,7 +63,9 @@ async function sendMessages(sbClient) {
     const priority = Math.ceil(Math.random() * 4);
     const message = {
       body: `Message#${index} with priority ${priority}`,
-      userProperties: { priority: priority }
+      userProperties: {
+        priority: priority
+      }
     };
 
     console.log(` Sending message ${index} - ${message.body}`);

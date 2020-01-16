@@ -1,21 +1,24 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
-  
-  This sample demonstrates how the defer() function can be used to defer a message for later processing.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  In this sample, we have an application that gets cooking instructions out of order. It uses
-  message deferral to defer the instruction that is out of order, and then processes it in order.
+This sample demonstrates how the defer() function can be used to defer a message for later processing.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-deferral to learn about
-  message deferral.
+In this sample, we have an application that gets cooking instructions out of order. It uses
+message deferral to defer the instruction that is out of order, and then processes it in order.
+
+See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-deferral to learn about
+message deferral.
 */
 
 const { ServiceBusClient, ReceiveMode, delay } = require("@azure/service-bus");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // Define connection string and related Service Bus entity names here
-const connectionString = "";
-const queueName = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const queueName = process.env.QUEUE_NAME || "";
 
 async function main() {
   await sendMessages();
@@ -30,11 +33,26 @@ async function sendMessages() {
   const sender = queueClient.createSender();
 
   const data = [
-    { step: 1, title: "Shop" },
-    { step: 2, title: "Unpack" },
-    { step: 3, title: "Prepare" },
-    { step: 4, title: "Cook" },
-    { step: 5, title: "Eat" }
+    {
+      step: 1,
+      title: "Shop"
+    },
+    {
+      step: 2,
+      title: "Unpack"
+    },
+    {
+      step: 3,
+      title: "Prepare"
+    },
+    {
+      step: 4,
+      title: "Cook"
+    },
+    {
+      step: 5,
+      title: "Eat"
+    }
   ];
   const promises = new Array();
   for (let index = 0; index < data.length; index++) {
@@ -49,8 +67,10 @@ async function sendMessages() {
         try {
           await sender.send(message);
           console.log("Sent message step:", data[index].step);
+          return;
         } catch (err) {
           console.log("Error while sending message", err);
+          return;
         }
       })
     );
@@ -103,7 +123,9 @@ async function receiveMessage() {
     };
 
     let receiver = queueClient.createReceiver(ReceiveMode.peekLock);
-    receiver.registerMessageHandler(onMessage, onError, { autoComplete: false }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
+    receiver.registerMessageHandler(onMessage, onError, {
+      autoComplete: false
+    }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);

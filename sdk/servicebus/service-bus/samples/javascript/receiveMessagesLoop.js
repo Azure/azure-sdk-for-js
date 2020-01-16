@@ -1,18 +1,21 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
-  
-  This sample demonstrates how the receiveMessages() function can be used to receive Service Bus
-  messages in a loop.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
+This sample demonstrates how the receiveMessages() function can be used to receive Service Bus
+messages in a loop.
+
+Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
 const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // Define connection string and related Service Bus entity names here
-const connectionString = "";
-const queueName = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const queueName = process.env.QUEUE_NAME || "";
 
 async function main() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
@@ -21,7 +24,7 @@ async function main() {
   const queueClient = sbClient.createQueueClient(queueName);
 
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
-  // the sample in sessions.js file
+  // the sample in sessions.ts file
   const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
   try {

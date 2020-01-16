@@ -1,20 +1,23 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
-  
-  This sample demonstrates how the peek() function can be used to browse a Service Bus message.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-browsing to learn
-  about message browsing.
+This sample demonstrates how the peek() function can be used to browse a Service Bus message.
 
-  Setup: Please run "sendMessages.js" sample before running this to populate the queue/topic
+See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-browsing to learn
+about message browsing.
+
+Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
 const { ServiceBusClient } = require("@azure/service-bus");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 // Define connection string and related Service Bus entity names here
-const connectionString = "";
-const queueName = "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const queueName = process.env.QUEUE_NAME || "";
 
 async function main() {
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
