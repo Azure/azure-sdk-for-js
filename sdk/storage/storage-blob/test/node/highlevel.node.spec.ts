@@ -31,7 +31,7 @@ for (let i = 1; i <= iterations; i++) {
 
     let recorder: Recorder;
 
-    let oldLogLevel: AzureLogLevel | undefined;
+    const oldLogLevel = getLogLevel();
 
     beforeEach(async function() {
       recorder = record(this);
@@ -50,7 +50,6 @@ for (let i = 1; i <= iterations; i++) {
 
     before(async function() {
       console.log("enabling info level logging");
-      oldLogLevel = getLogLevel();
       setLogLevel("info");
       recorder = record(this);
       if (!fs.existsSync(tempFolderPath)) {
