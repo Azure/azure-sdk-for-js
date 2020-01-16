@@ -8,25 +8,11 @@ import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { logger, logErrorStackTrace } from "./log";
 import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
-import { SubscribeOptions } from "./eventHubConsumerClientModels";
 import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 import { EventPosition, latestEventPosition } from "./eventPosition";
 import { delayWithoutThrow } from "./util/delayWithoutThrow";
-
-/**
- * An enum representing the different reasons for an `EventHubConsumerClient` to stop processing
- * events from a partition in a consumer group of an Event Hub.
- */
-export enum CloseReason {
-  /**
-   * Ownership of the partition was lost or transitioned to a new processor instance.
-   */
-  OwnershipLost = "OwnershipLost",
-  /**
-   * The EventProcessor was shutdown.
-   */
-  Shutdown = "Shutdown"
-}
+import { CommonEventProcessorOptions } from "./impl/models.private";
+import { CloseReason } from "./models.public";
 
 /**
  * An interface representing the details on which instance of a `EventProcessor` owns processing
@@ -142,38 +128,7 @@ export interface CheckpointStore {
  * @internal
  * @ignore
  */
-export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends // for our internal classes (these are optional for external users)
-  extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
-    Pick<
-      SubscribeOptions,
-      Exclude<
-        keyof SubscribeOptions,
-        // (made required above)
-        "maxBatchSize" | "maxWaitTimeInSeconds"
-      >
-    > {
-  /**
-   * A load balancer to use to find targets or a specific partition to target.
-   */
-  processingTarget?: PartitionLoadBalancer | string;
-  /**
-   * The amount of time to wait between each attempt at claiming partitions.
-   */
-  loopIntervalInMs?: number;
-
-  /**
-   * The maximum amount of time since a PartitionOwnership was updated
-   * to use to determine if a partition is no longer claimed.
-   * Setting this value to 0 will cause the default value to be used.
-   */
-  inactiveTimeLimitInMs?: number;
-  /**
-   * An optional ownerId to use rather than using an internally generated ID
-   * This allows you to logically group a series of processors together (for instance
-   * like we do with EventHubConsumerClient)
-   */
-  ownerId?: string;
-
+export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
   /**
    * An optional pump manager to use, rather than instantiating one internally
    * @internal

@@ -15,7 +15,7 @@ import {
   SharedKeyCredential
 } from "@azure/core-amqp";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
-import { EventHubClientOptions } from "./impl/eventHubClient";
+import { EventHubClientOptions } from "./models.public";
 import { Dictionary, OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
 /**
