@@ -24,8 +24,7 @@ dotenv.config();
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 const env = getEnvVars();
 
-import { EntityNameKeys, getEntityNames } from "./utils/testUtils";
-const entityNames = getEntityNames();
+import { EntityNames } from "./utils/testUtils";
 
 import { parseConnectionString } from "@azure/amqp-common";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./utils/managementUtils";
@@ -45,18 +44,18 @@ enum EntityType {
   RULE = "Rule"
 }
 
-const managementQueue1 = entityNames[EntityNameKeys.MANAGEMENT_QUEUE_1];
-const managementTopic1 = entityNames[EntityNameKeys.MANAGEMENT_TOPIC_1];
-const managementSubscription1 = entityNames[EntityNameKeys.MANAGEMENT_SUBSCRIPTION_1];
-const managementRule1 = entityNames[EntityNameKeys.MANAGEMENT_RULE_1];
+const managementQueue1 = EntityNames.MANAGEMENT_QUEUE_1;
+const managementTopic1 = EntityNames.MANAGEMENT_TOPIC_1;
+const managementSubscription1 = EntityNames.MANAGEMENT_SUBSCRIPTION_1;
+const managementRule1 = EntityNames.MANAGEMENT_RULE_1;
 
-const managementQueue2 = entityNames[EntityNameKeys.MANAGEMENT_QUEUE_2];
-const managementTopic2 = entityNames[EntityNameKeys.MANAGEMENT_TOPIC_2];
-const managementSubscription2 = entityNames[EntityNameKeys.MANAGEMENT_SUBSCRIPTION_2];
-const managementRule2 = entityNames[EntityNameKeys.MANAGEMENT_RULE_2];
+const managementQueue2 = EntityNames.MANAGEMENT_QUEUE_2;
+const managementTopic2 = EntityNames.MANAGEMENT_TOPIC_2;
+const managementSubscription2 = EntityNames.MANAGEMENT_SUBSCRIPTION_2;
+const managementRule2 = EntityNames.MANAGEMENT_RULE_2;
 
-const newManagementEntity1 = entityNames[EntityNameKeys.MANAGEMENT_NEW_ENTITY_1];
-const newManagementEntity2 = entityNames[EntityNameKeys.MANAGEMENT_NEW_ENTITY_2];
+const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
+const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
