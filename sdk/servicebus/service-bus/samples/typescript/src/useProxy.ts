@@ -8,7 +8,6 @@
 
 import { ServiceBusClient } from "@azure/service-bus";
 import WebSocket from "ws";
-import url from "url";
 import HttpsProxyAgent from "https-proxy-agent";
 
 // Load the .env file if it exists
