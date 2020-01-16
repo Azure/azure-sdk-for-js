@@ -401,7 +401,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it.only("submitBatch should work with multiple types of credentials for subrequests", async function() {
+  it("submitBatch should work with multiple types of credentials for subrequests", async function() {
     recorder.skip(
       undefined,
       "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
