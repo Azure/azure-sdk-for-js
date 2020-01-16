@@ -2,7 +2,7 @@
 
 - Run `npm i` to install all the dependencies of this project. This is a one time task.
 - The tests expect a Service Bus namespace to exist.
-  For Node environment, the connection string for the service bus should be in the environment variable `SERVICEBUS_CONNECTION_STRING`.
+  The connection string for the service bus should be in the environment variable `SERVICEBUS_CONNECTION_STRING`. 
 
   Note that the tests will recreate entities to get a clean start before running each test.
 
