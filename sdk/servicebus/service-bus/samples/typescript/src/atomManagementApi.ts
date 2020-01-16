@@ -17,7 +17,7 @@ import {
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 
-async function main() {
+export async function main() {
   const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(
     connectionString
   );
