@@ -8,12 +8,19 @@
       "metadata": {
         "description": "The base resource name."
       }
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The client OID to grant access to test resources."
+      }
     }
   },
   "variables": {
     "apiVersion": "2017-04-01",
     "location": "[resourceGroup().location]",
-    "authorizationRuleName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]"
+    "authorizationRuleName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
+    "serviceBusDataOwnerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/090c5cfd-751d-490a-894a-3ce6f1109419')]"
   },
   "resources": [
     {
@@ -34,11 +41,20 @@
       "apiVersion": "2015-08-01",
       "name": "[variables('authorizationRuleName')]",
       "location": "[variables('location')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"
-      ],
+      "dependsOn": ["[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"],
       "properties": {
         "rights": ["Listen", "Manage", "Send"]
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2014-10-01-preview",
+      "name": "[guid(concat('dataOwnerRoleId', parameters('baseName')))]",
+      "dependsOn": ["[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"],
+      "properties": {
+        "scope": "Subscription",
+        "roleDefinitionId": "[variables('serviceBusDataOwnerRoleId')]",
+        "principalId": "[parameters('testApplicationOid')]"
       }
     }
   ],
