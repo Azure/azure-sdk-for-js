@@ -18,7 +18,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define Service Bus Endpoint here
-const serviceBusEndpoint = process.env.SERVICE_BUS_ENDPOINT || ""; // <your-servicebus-namespace>.servicebus.windows.net
+const serviceBusEndpoint =
+  process.env.SERVICE_BUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
 
 export async function main() {
   const tokenCreds = await interactiveLogin({

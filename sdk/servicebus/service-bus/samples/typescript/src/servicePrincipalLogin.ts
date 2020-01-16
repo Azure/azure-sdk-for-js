@@ -26,7 +26,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define Service Bus Endpoint here and related entity names here
-const serviceBusEndpoint = "<your-servicebus-namespace>.servicebus.windows.net";
+const serviceBusEndpoint =
+  process.env.SERVICE_BUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
 
 // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
 const clientId = process.env.AZURE_TENANT_ID || "";
