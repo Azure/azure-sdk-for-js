@@ -39,11 +39,9 @@ export function getEnvVars(): { [key in EnvVarNames]: any } {
     return envVars;
   }
 
-  let serviceBusConnectionStringEnvVarName: string = EnvVarNames.SERVICEBUS_CONNECTION_STRING.valueOf();
-
   // Throw error if required environment variables are missing.
   [
-    serviceBusConnectionStringEnvVarName,
+    EnvVarNames.SERVICEBUS_CONNECTION_STRING,
     EnvVarNames.AAD_CLIENT_ID,
     EnvVarNames.AAD_CLIENT_SECRET,
     EnvVarNames.AAD_TENANT_ID
@@ -55,7 +53,7 @@ export function getEnvVars(): { [key in EnvVarNames]: any } {
 
   envVars = {
     [EnvVarNames.SERVICEBUS_CONNECTION_STRING]: getEnvVarValue(
-      serviceBusConnectionStringEnvVarName
+      EnvVarNames.SERVICEBUS_CONNECTION_STRING
     ),
     [EnvVarNames.AAD_CLIENT_ID]: getEnvVarValue(EnvVarNames.AAD_CLIENT_ID),
     [EnvVarNames.AAD_CLIENT_SECRET]: getEnvVarValue(EnvVarNames.AAD_CLIENT_SECRET),
