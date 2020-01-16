@@ -176,7 +176,7 @@ export class Sender {
    *      NPM Link - https://www.npmjs.com/package/@azure/amqp-common
    *    - In typescript, `import { DefaultDataTransformer } from "@azure/amqp-common";`
    *    - In javascript, `const { DefaultDataTransformer } = require("@azure/amqp-common");`
-   *  2. Update the message body before calling the scheduleMessage() method to send the message as follows
+   *  2. Update the message body before calling the scheduleMessages() method to send the message as follows
    *    - Instantiate the data transformer used by the sdk:
    *      `const dt = new DefaultDataTransformer();`
    *    - When you need to schedule the message, encode the message body before sending:
