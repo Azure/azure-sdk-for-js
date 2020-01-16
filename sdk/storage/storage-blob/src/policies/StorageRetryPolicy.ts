@@ -299,7 +299,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    */
   // tslint:disable-next-line:variable-name
   private logf(_level: HttpPipelineLogLevel, _message: string) {
-    // this.log(_level, _message);
+    console.log(`${_level}: ${_message}`);
   }
 
   /**
