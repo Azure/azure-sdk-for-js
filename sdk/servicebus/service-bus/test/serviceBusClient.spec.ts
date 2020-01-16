@@ -311,7 +311,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-describe("Test createFromAadTokenCredentials", function(): void {
+describe.only("Test createFromAadTokenCredentials", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean = false;
 
@@ -585,10 +585,7 @@ describe("Errors after close()", function(): void {
 
     let errorReceiveStream: string = "";
     try {
-      receiver.registerMessageHandler(
-        () => Promise.resolve(),
-        (e) => console.log(e)
-      );
+      receiver.registerMessageHandler(() => Promise.resolve(), (e) => console.log(e));
     } catch (err) {
       errorReceiveStream = err.message;
     }
