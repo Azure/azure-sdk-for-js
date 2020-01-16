@@ -7,8 +7,9 @@ For users new to the JavaScript SDK for Event Hubs, please see the [readme file 
 
 ## General changes
 
-EventHubs v5 is a redesign that provides a better out-of-the-box experience 
-for developers across several areas:
+EventHubs v5 is a redesign that aligns with the new Azure SDK [guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html#design-principles)
+for providing a better out-of-the-box experience for JavaScript developers 
+across several areas:
 
 ### Handling backpressure
 
@@ -67,6 +68,7 @@ If you havent created any consumer groups explicitly, then use the name of the d
 | In v2                                          | Equivalent in v5                                                 | Sample |
 |------------------------------------------------|------------------------------------------------------------------|--------|
 | `EventHubClient.receive()` and `EventHubClient.receiveBatch()`                       | `EventHubConsumerClient.subscribe()`                               | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts) |
+| Consumer group was optional | Consumer group is mandatory | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts) |
 
 Other noteworthy changes:
 - Use the `options` parameter to the `subscribe()` method to specify starting position to receive events from.
