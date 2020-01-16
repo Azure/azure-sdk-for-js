@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/propertyMappers";
+import * as Mappers from "../models/namedValueMappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClientContext } from "../apiManagementClientContext";
 
-/** Class representing a Property. */
-export class Property {
+/** Class representing a NamedValue. */
+export class NamedValue {
   private readonly client: ApiManagementClientContext;
 
   /**
-   * Create a Property.
+   * Create a NamedValue.
    * @param {ApiManagementClientContext} client Reference to the service client.
    */
   constructor(client: ApiManagementClientContext) {
@@ -27,27 +27,27 @@ export class Property {
   }
 
   /**
-   * Lists a collection of properties defined within a service instance.
+   * Lists a collection of NamedValues defined within a service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PropertyListByServiceResponse>
+   * @returns Promise<Models.NamedValueListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.PropertyListByServiceOptionalParams): Promise<Models.PropertyListByServiceResponse>;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.NamedValueListByServiceOptionalParams): Promise<Models.NamedValueListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.PropertyCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.NamedValueCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.PropertyListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.PropertyCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.PropertyListByServiceOptionalParams | msRest.ServiceCallback<Models.PropertyCollection>, callback?: msRest.ServiceCallback<Models.PropertyCollection>): Promise<Models.PropertyListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: Models.NamedValueListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.NamedValueCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.NamedValueListByServiceOptionalParams | msRest.ServiceCallback<Models.NamedValueCollection>, callback?: msRest.ServiceCallback<Models.NamedValueCollection>): Promise<Models.NamedValueListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,204 +55,204 @@ export class Property {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.PropertyListByServiceResponse>;
+      callback) as Promise<Models.NamedValueListByServiceResponse>;
   }
 
   /**
-   * Gets the entity state (Etag) version of the property specified by its identifier.
+   * Gets the entity state (Etag) version of the NamedValue specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PropertyGetEntityTagResponse>
+   * @returns Promise<Models.NamedValueGetEntityTagResponse>
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, propId: string, options?: msRest.RequestOptionsBase): Promise<Models.PropertyGetEntityTagResponse>;
+  getEntityTag(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase): Promise<Models.NamedValueGetEntityTagResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, propId: string, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, namedValueId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEntityTag(resourceGroupName: string, serviceName: string, propId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  getEntityTag(resourceGroupName: string, serviceName: string, propId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.PropertyGetEntityTagResponse> {
+  getEntityTag(resourceGroupName: string, serviceName: string, namedValueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  getEntityTag(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.NamedValueGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        propId,
+        namedValueId,
         options
       },
       getEntityTagOperationSpec,
-      callback) as Promise<Models.PropertyGetEntityTagResponse>;
+      callback) as Promise<Models.NamedValueGetEntityTagResponse>;
   }
 
   /**
-   * Gets the details of the property specified by its identifier.
+   * Gets the details of the NamedValue specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PropertyGetResponse>
+   * @returns Promise<Models.NamedValueGetResponse>
    */
-  get(resourceGroupName: string, serviceName: string, propId: string, options?: msRest.RequestOptionsBase): Promise<Models.PropertyGetResponse>;
+  get(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase): Promise<Models.NamedValueGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, propId: string, callback: msRest.ServiceCallback<Models.PropertyContract>): void;
+  get(resourceGroupName: string, serviceName: string, namedValueId: string, callback: msRest.ServiceCallback<Models.NamedValueContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serviceName: string, propId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PropertyContract>): void;
-  get(resourceGroupName: string, serviceName: string, propId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PropertyContract>, callback?: msRest.ServiceCallback<Models.PropertyContract>): Promise<Models.PropertyGetResponse> {
+  get(resourceGroupName: string, serviceName: string, namedValueId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NamedValueContract>): void;
+  get(resourceGroupName: string, serviceName: string, namedValueId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NamedValueContract>, callback?: msRest.ServiceCallback<Models.NamedValueContract>): Promise<Models.NamedValueGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        propId,
+        namedValueId,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PropertyGetResponse>;
+      callback) as Promise<Models.NamedValueGetResponse>;
   }
 
   /**
-   * Creates or updates a property.
+   * Creates or updates a NamedValue.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param parameters Create parameters.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PropertyCreateOrUpdateResponse>
+   * @returns Promise<Models.NamedValueCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyContract, options?: Models.PropertyCreateOrUpdateOptionalParams): Promise<Models.PropertyCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueContract, options?: Models.NamedValueCreateOrUpdateOptionalParams): Promise<Models.NamedValueCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param parameters Create parameters.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyContract, callback: msRest.ServiceCallback<Models.PropertyContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueContract, callback: msRest.ServiceCallback<Models.NamedValueContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param parameters Create parameters.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyContract, options: Models.PropertyCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.PropertyContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyContract, options?: Models.PropertyCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.PropertyContract>, callback?: msRest.ServiceCallback<Models.PropertyContract>): Promise<Models.PropertyCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueContract, options: Models.NamedValueCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.NamedValueContract>): void;
+  createOrUpdate(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueContract, options?: Models.NamedValueCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.NamedValueContract>, callback?: msRest.ServiceCallback<Models.NamedValueContract>): Promise<Models.NamedValueCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        propId,
+        namedValueId,
         parameters,
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.PropertyCreateOrUpdateResponse>;
+      callback) as Promise<Models.NamedValueCreateOrUpdateResponse>;
   }
 
   /**
-   * Updates the specific property.
+   * Updates the specific NamedValue.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param parameters Update parameters.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.NamedValueUpdateResponse>
    */
-  update(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  update(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<Models.NamedValueUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param parameters Update parameters.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueUpdateParameters, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param parameters Update parameters.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  update(resourceGroupName: string, serviceName: string, propId: string, parameters: Models.PropertyUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  update(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueUpdateParameters, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, serviceName: string, namedValueId: string, parameters: Models.NamedValueUpdateParameters, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.NamedValueUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        propId,
+        namedValueId,
         parameters,
         ifMatch,
         options
       },
       updateOperationSpec,
-      callback);
+      callback) as Promise<Models.NamedValueUpdateResponse>;
   }
 
   /**
-   * Deletes specific property from the API Management service instance.
+   * Deletes specific NamedValue from the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, propId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, serviceName: string, namedValueId: string, ifMatch: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, propId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, namedValueId: string, ifMatch: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param propId Identifier of the property.
+   * @param namedValueId Identifier of the NamedValue.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    * response of the GET request or it should be * for unconditional update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, serviceName: string, propId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, serviceName: string, propId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, serviceName: string, namedValueId: string, ifMatch: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, serviceName: string, namedValueId: string, ifMatch: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        propId,
+        namedValueId,
         ifMatch,
         options
       },
@@ -261,31 +261,31 @@ export class Property {
   }
 
   /**
-   * Lists a collection of properties defined within a service instance.
+   * Lists a collection of NamedValues defined within a service instance.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PropertyListByServiceNextResponse>
+   * @returns Promise<Models.NamedValueListByServiceNextResponse>
    */
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PropertyListByServiceNextResponse>;
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NamedValueListByServiceNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PropertyCollection>): void;
+  listByServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NamedValueCollection>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PropertyCollection>): void;
-  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PropertyCollection>, callback?: msRest.ServiceCallback<Models.PropertyCollection>): Promise<Models.PropertyListByServiceNextResponse> {
+  listByServiceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NamedValueCollection>): void;
+  listByServiceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NamedValueCollection>, callback?: msRest.ServiceCallback<Models.NamedValueCollection>): Promise<Models.NamedValueListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByServiceNextOperationSpec,
-      callback) as Promise<Models.PropertyListByServiceNextResponse>;
+      callback) as Promise<Models.NamedValueListByServiceNextResponse>;
   }
 }
 
@@ -293,7 +293,7 @@ export class Property {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -310,7 +310,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PropertyCollection
+      bodyMapper: Mappers.NamedValueCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -321,11 +321,11 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
 
 const getEntityTagOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.propId,
+    Parameters.namedValueId,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -336,7 +336,7 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      headersMapper: Mappers.PropertyGetEntityTagHeaders
+      headersMapper: Mappers.NamedValueGetEntityTagHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -347,11 +347,11 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.propId,
+    Parameters.namedValueId,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -362,8 +362,8 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PropertyContract,
-      headersMapper: Mappers.PropertyGetHeaders
+      bodyMapper: Mappers.NamedValueContract,
+      headersMapper: Mappers.NamedValueGetHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -374,11 +374,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.propId,
+    Parameters.namedValueId,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -391,18 +391,21 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.PropertyContract,
+      ...Mappers.NamedValueContract,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.PropertyContract,
-      headersMapper: Mappers.PropertyCreateOrUpdateHeaders
+      bodyMapper: Mappers.NamedValueContract,
+      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.PropertyContract,
-      headersMapper: Mappers.PropertyCreateOrUpdateHeaders
+      bodyMapper: Mappers.NamedValueContract,
+      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders
+    },
+    202: {
+      headersMapper: Mappers.NamedValueCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -413,11 +416,11 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.propId,
+    Parameters.namedValueId,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -430,12 +433,17 @@ const updateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.PropertyUpdateParameters,
+      ...Mappers.NamedValueUpdateParameters,
       required: true
     }
   },
   responses: {
-    204: {},
+    202: {
+      headersMapper: Mappers.NamedValueUpdateHeaders
+    },
+    204: {
+      headersMapper: Mappers.NamedValueUpdateHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -445,11 +453,11 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/properties/{propId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/namedValues/{namedValueId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.propId,
+    Parameters.namedValueId,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -481,7 +489,7 @@ const listByServiceNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PropertyCollection
+      bodyMapper: Mappers.NamedValueCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
