@@ -4,9 +4,9 @@
 import * as assert from "assert";
 import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
+import { testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -63,7 +63,7 @@ describe("Keys client - list keys in various ways", () => {
     await testClient.flushKey(keyName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can get the versions of a key with requestOptions timeout", async function() {
       const iter = client.listPropertiesOfKeyVersions("doesntmatter", {
@@ -144,7 +144,7 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can get several inserted keys with requestOptions timeout", async function() {
       const iter = client.listPropertiesOfKeys({ requestOptions: { timeout: 1 } });
@@ -208,7 +208,7 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("list deleted keys with requestOptions timeout", async function() {
       const iter = client.listDeletedKeys({ requestOptions: { timeout: 1 } });

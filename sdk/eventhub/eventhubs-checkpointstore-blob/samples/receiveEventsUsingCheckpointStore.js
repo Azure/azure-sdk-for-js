@@ -64,7 +64,7 @@ async function main() {
       console.log(
         `Successfully checkpointed event with sequence number: ${
           events[events.length - 1].sequenceNumber
-        } from partition: 'partitionContext.partitionId'`
+        } from partition: ${context.partitionId}`
       );
     },
     processError: async (err, context) => {

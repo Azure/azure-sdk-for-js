@@ -4,8 +4,8 @@
 import * as assert from "assert";
 import { CertificateClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { env } from "@azure/test-utils-recorder";
-import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
+import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
@@ -59,35 +59,27 @@ describe("Certificates client - create, read, update and delete", () => {
     const controller = new AbortController();
 
     await assertThrowsAbortError(async () => {
-      const poller = await client.beginCreateCertificate(
-        certificateName,
-        basicCertificatePolicy,
-        {
-          ...testPollerProperties,
-          abortSignal: controller.signal
-        }
-      );
+      const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
+        ...testPollerProperties,
+        abortSignal: controller.signal
+      });
       controller.abort();
       await poller.pollUntilDone();
     });
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can create a certificate with requestOptions timeout", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
       await assertThrowsAbortError(async () => {
-        await client.beginCreateCertificate(
-          certificateName,
-          basicCertificatePolicy,
-          {
-            ...testPollerProperties,
-            requestOptions: {
-              timeout: 1
-            }
+        await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
+          ...testPollerProperties,
+          requestOptions: {
+            timeout: 1
           }
-        );
+        });
       });
     });
   }
@@ -135,7 +127,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can update certificate with requestOptions timeout", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -174,7 +166,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can get a certificate with requestOptions timeout", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -250,7 +242,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.purgeCertificate(certificateName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can delete a certificate with requestOptions timeout", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -335,10 +327,7 @@ describe("Certificates client - create, read, update and delete", () => {
         }
       ]
     });
-    assert.equal(
-      createResponse.administratorContacts![0].email,
-      "admin@microsoft.com"
-    );
+    assert.equal(createResponse.administratorContacts![0].email, "admin@microsoft.com");
 
     // Creating a certificate with that issuer
     await client.beginCreateCertificate(
@@ -372,10 +361,7 @@ describe("Certificates client - create, read, update and delete", () => {
       ]
     });
     getResponse = await client.getIssuer(issuerName);
-    assert.equal(
-      getResponse.administratorContacts![0].email,
-      "admin@microsoft.com"
-    );
+    assert.equal(getResponse.administratorContacts![0].email, "admin@microsoft.com");
 
     // Delete
     await client.deleteIssuer(issuerName);
@@ -466,8 +452,14 @@ describe("Certificates client - create, read, update and delete", () => {
     await client.setContacts(contacts);
 
     let getResponse = await client.getContacts();
-    assert.equal( (getResponse && getResponse[0] && getResponse[0].name) ? getResponse[0].name : undefined, "a");
-    assert.equal( (getResponse && getResponse[1] && getResponse[1].name) ? getResponse[1].name : undefined, "b");
+    assert.equal(
+      getResponse && getResponse[0] && getResponse[0].name ? getResponse[0].name : undefined,
+      "a"
+    );
+    assert.equal(
+      getResponse && getResponse[1] && getResponse[1].name ? getResponse[1].name : undefined,
+      "b"
+    );
 
     await client.deleteContacts();
 

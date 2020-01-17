@@ -87,7 +87,7 @@ for (let i = 1; i <= iterations; i++) {
 
       fs.unlinkSync(downloadedFile);
       assert.ok(downloadedData.equals(uploadedData));
-    });
+    }).timeout(10 * 60 * 1000);
 
     it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
       recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -215,7 +215,7 @@ for (let i = 1; i <= iterations; i++) {
       assert.ok(uploadedBuffer.equals(downloadedBuffer));
 
       fs.unlinkSync(downloadFilePath);
-    });
+    }).timeout(10 * 60 * 1000);
 
     it("uploadStream should success for tiny buffers", async () => {
       recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -263,7 +263,7 @@ for (let i = 1; i <= iterations; i++) {
         }
       });
       assert.ok(eventTriggered);
-    });
+    }).timeout(10 * 60 * 1000);
 
     it("downloadToBuffer should success - without passing the buffer", async () => {
       recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -278,7 +278,7 @@ for (let i = 1; i <= iterations; i++) {
 
       const localFileContent = fs.readFileSync(tempFileLarge);
       assert.ok(localFileContent.equals(buf));
-    });
+    }).timeout(10 * 60 * 1000);
 
     it("downloadToBuffer should throw error if the count(size provided in bytes) is too large", async () => {
       let error;
@@ -307,7 +307,7 @@ for (let i = 1; i <= iterations; i++) {
 
       const localFileContent = fs.readFileSync(tempFileLarge);
       assert.ok(localFileContent.equals(buf));
-    });
+    }).timeout(10 * 60 * 1000);
 
     it("downloadBlobToBuffer should success when downloading a range inside blob", async () => {
       await blockBlobClient.upload("aaaabbbb", 8);
@@ -359,7 +359,7 @@ for (let i = 1; i <= iterations; i++) {
       } catch (err) {
         assert.equal(err.name, "AbortError");
       }
-    });
+    }).timeout(10 * 60 * 1000);
 
     it("downloadToBuffer should update progress event", async () => {
       recorder.skip("node", "Temp file - recorder doesn't support saving the file");

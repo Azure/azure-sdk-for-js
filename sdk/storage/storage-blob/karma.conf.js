@@ -1,7 +1,7 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
-const jsonRecordingFilter = require("@azure/test-utils-recorder").jsonRecordingFilterFunction;
+const { jsonRecordingFilter, isPlaybackMode } = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -33,7 +33,7 @@ module.exports = function(config) {
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys
       "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always",
       "dist-test/index.browser.js"
-    ].concat(process.env.TEST_MODE === "playback" ? ["recordings/browsers/**/*.json"] : []),
+    ].concat(isPlaybackMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -126,8 +126,7 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000",
-        retries: 2
+        timeout: "600000"
       }
     }
   });

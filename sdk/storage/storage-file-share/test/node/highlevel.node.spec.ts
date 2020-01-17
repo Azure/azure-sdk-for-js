@@ -76,7 +76,7 @@ describe("Highlevel Node.js only", () => {
 
     fs.unlinkSync(downloadedFile);
     assert.ok(downloadedData.equals(uploadedData));
-  });
+  }).timeout(10 * 60 * 1000);
 
   it("uploadFile should success for small data", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -187,7 +187,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(uploadedBuffer.equals(downloadedBuffer));
 
     fs.unlinkSync(downloadFilePath);
-  });
+  }).timeout(10 * 60 * 1000);
 
   it("uploadStream should abort", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -216,7 +216,7 @@ describe("Highlevel Node.js only", () => {
       }
     });
     assert.ok(eventTriggered);
-  });
+  }).timeout(10 * 60 * 1000);
 
   it("downloadToBuffer should success", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -231,7 +231,7 @@ describe("Highlevel Node.js only", () => {
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));
-  });
+  }).timeout(10 * 60 * 1000);
 
   it("downloadToBuffer should succeed - without passing the buffer", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -245,7 +245,7 @@ describe("Highlevel Node.js only", () => {
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));
-  });
+  }).timeout(10 * 60 * 1000);
 
   it("downloadToBuffer should throw an error if the count (size in bytes) is too large", async () => {
     let error;
@@ -317,7 +317,7 @@ describe("Highlevel Node.js only", () => {
     } catch (err) {
       assert.equal(err.name, "AbortError");
     }
-  });
+  }).timeout(10 * 60 * 1000);
 
   it("downloadToBuffer should update progress event", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
