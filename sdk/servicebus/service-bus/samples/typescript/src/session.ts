@@ -64,11 +64,7 @@ export async function main() {
   }
 }
 
-async function sendMessage(
-  sbClient: ServiceBusClient,
-  scientist: any,
-  sessionId: string
-) {
+async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId: string) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
   const client = sbClient.createQueueClient(queueName);
   const sender = client.createSender();
