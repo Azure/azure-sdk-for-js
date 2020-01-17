@@ -58,37 +58,18 @@
         "cors": {
           "corsRules": [
             {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
               "allowedOrigins": ["*"],
-              "allowedMethods": ["DELETE", "GET", "HEAD", "MERGE", "POST", "OPTIONS", "PUT"],
+              "allowedMethods": [
+                "DELETE",
+                "GET",
+                "HEAD",
+                "MERGE",
+                "POST",
+                "OPTIONS",
+                "PUT",
+                "PATCH"
+              ],
               "maxAgeInSeconds": 86400,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
               "exposedHeaders": ["*"],
               "allowedHeaders": ["*"]
             }
@@ -130,37 +111,18 @@
         "cors": {
           "corsRules": [
             {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
               "allowedOrigins": ["*"],
-              "allowedMethods": ["DELETE", "GET", "HEAD", "MERGE", "POST", "OPTIONS", "PUT"],
+              "allowedMethods": [
+                "DELETE",
+                "GET",
+                "HEAD",
+                "MERGE",
+                "POST",
+                "OPTIONS",
+                "PUT",
+                "PATCH"
+              ],
               "maxAgeInSeconds": 86400,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
-            },
-            {
-              "allowedOrigins": ["example.com"],
-              "allowedMethods": ["GET"],
-              "maxAgeInSeconds": 8888,
               "exposedHeaders": ["*"],
               "allowedHeaders": ["*"]
             }
