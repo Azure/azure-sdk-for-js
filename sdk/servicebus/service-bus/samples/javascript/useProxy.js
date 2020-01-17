@@ -1,9 +1,9 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  This sample demonstrates how to create a ServiceBusClient meant to be used in an environment
-  where outgoing network requests have to go through a proxy server
+This sample demonstrates how to create a ServiceBusClient meant to be used in an environment
+where outgoing network requests have to go through a proxy server
 */
 
 const { ServiceBusClient } = require("@azure/service-bus");
@@ -14,7 +14,7 @@ const HttpsProxyAgent = require("https-proxy-agent");
 require("dotenv").config();
 
 // Define connection string for your Service Bus instance here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 
 async function main() {
   const proxyInfo = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
@@ -30,13 +30,15 @@ async function main() {
 
   const sbClient = ServiceBusClient.createFromConnectionString(connectionString, {
     webSocket: WebSocket,
-    webSocketConstructorOptions: { agent: proxyAgent }
+    webSocketConstructorOptions: {
+      agent: proxyAgent
+    }
   });
 
   /*
-   Refer to other samples, and place your code here
-   to create queue clients, and to send/receive messages
-  */
+Refer to other samples, and place your code here
+to create queue clients, and to send/receive messages
+*/
   await sbClient.close();
 }
 
