@@ -12,18 +12,18 @@ import {
   isPlaybackMode,
   isRecordMode,
   findRecordingsFolderPath,
-  applyReplacementDictionary,
+  applyReplacementMap,
   applyReplacementFunctions,
   ReplacementFunctions,
-  ReplacementDictionary
+  ReplacementMap
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
 let nock: any;
 
-let replaceableVariables: ReplacementDictionary = {};
-export function setReplaceableVariables(replacements: ReplacementDictionary): void {
-  replaceableVariables = replacements;
+let replaceableVariables: ReplacementMap;
+export function setReplaceableVariables(replacements: { [x: string]: string }): void {
+  replaceableVariables = new Map(Object.entries(replacements));
   if (isPlaybackMode()) {
     // Providing dummy values to avoid the error
     Object.keys(replacements).map((k) => {
@@ -95,7 +95,7 @@ export abstract class BaseRecorder {
    * Additional layer of security to avoid unintended/accidental occurrences of secrets in the recordings
    */
   protected filterSecrets(recording: string): string {
-    const result = applyReplacementDictionary(env, replaceableVariables, recording);
+    const result = applyReplacementMap(env, replaceableVariables, recording);
     return applyReplacementFunctions(replacements, result);
   }
 

@@ -55,26 +55,26 @@ function replaceAll(string: string, pattern: string, replacement: string) {
   return string.replace(new RegExp(escapeRegExp(pattern), "g"), replacement);
 }
 
-export type ReplacementDictionary = { [x: string]: string };
+export type ReplacementMap = Map<string, string>;
 
 /**
- * Looks for the environment variables based on the keys of the given dictionary,
- * then replaces the values found with each value from the same dictionary.
- * @param replacements A dictionary of string keys and string values.
+ * Looks for the environment variables based on the keys of the given map,
+ * then replaces the values found with each value from the same map.
+ * @param replacements A map of string keys and string values.
  * @param content The content that has the text to be replaced.
  */
-export function applyReplacementDictionary(
+export function applyReplacementMap(
   env: NodeJS.ProcessEnv,
-  replacements: ReplacementDictionary,
+  replacements: ReplacementMap,
   content: string
 ): string {
   let updated = content;
-  for (const k of Object.keys(replacements)) {
-    if (env[k]) {
-      updated = replaceAll(updated, encodeRFC3986(env[k]!), encodeRFC3986(replacements[k]));
-      updated = replaceAll(updated, env[k]!, replacements[k]);
+  replacements.forEach((replacement: string, key: string) => {
+    if (env[key]) {
+      updated = replaceAll(updated, encodeRFC3986(env[key]!), encodeRFC3986(replacement));
+      updated = replaceAll(updated, env[key]!, replacement);
     }
-  }
+  });
   return updated;
 }
 

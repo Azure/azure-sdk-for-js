@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import {
-  applyReplacementDictionary,
-  ReplacementDictionary,
+  applyReplacementMap,
+  ReplacementMap,
   ReplacementFunctions,
   applyReplacementFunctions,
   encodeRFC3986
@@ -42,64 +42,60 @@ describe("utils", () => {
     });
   });
 
-  describe("applyReplacementDictionary", () => {
+  describe("applyReplacementMap", () => {
     it("should filter URI encoded secrets", () => {
-      const env: ReplacementDictionary = {
+      const env: NodeJS.ProcessEnv = {
         SECRET: "(SECRET)"
       };
 
-      const replaceableVariables: ReplacementDictionary = {
-        SECRET: "HIDDEN_SECRET"
-      };
+      const replaceableVariables: ReplacementMap = new Map();
+      replaceableVariables.set("SECRET", "HIDDEN_SECRET");
 
       const recording = "azure.com/url/%28SECRET%29";
-      const appliedDictionary = applyReplacementDictionary(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
 
-      expect(appliedDictionary).to.equal("azure.com/url/HIDDEN_SECRET");
+      expect(appliedMap).to.equal("azure.com/url/HIDDEN_SECRET");
     });
 
     it("should filter raw secrets", () => {
-      const env: ReplacementDictionary = {
+      const env: NodeJS.ProcessEnv = {
         ENDPOINT: "azure.com/url/"
       };
 
-      const replaceableVariables: ReplacementDictionary = {
-        ENDPOINT: "default.com/path/"
-      };
+      const replaceableVariables: ReplacementMap = new Map();
+      replaceableVariables.set("ENDPOINT", "default.com/path/");
 
       const recording = "azure.com/url/%28SECRET%29";
-      const appliedDictionary = applyReplacementDictionary(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
 
-      expect(appliedDictionary).to.equal("default.com/path/%28SECRET%29");
+      expect(appliedMap).to.equal("default.com/path/%28SECRET%29");
     });
 
     it("should filter both, raw and URI encoded secrets", () => {
-      const env: ReplacementDictionary = {
+      const env: NodeJS.ProcessEnv = {
         SECRET: "(SECRET)",
-        ENDPOINT: "azure.com"
+        ENDPOINT: "azure.com/url/"
       };
 
-      const replaceableVariables: ReplacementDictionary = {
-        SECRET: "HIDDEN_SECRET",
-        ENDPOINT: "default.com"
-      };
+      const replaceableVariables: ReplacementMap = new Map();
+      replaceableVariables.set("SECRET", "HIDDEN_SECRET");
+      replaceableVariables.set("ENDPOINT", "default.com/path/");
 
       const recording = "azure.com/url/%28SECRET%29";
-      const appliedDictionary = applyReplacementDictionary(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
 
-      expect(appliedDictionary).to.equal("default.com/url/HIDDEN_SECRET");
+      expect(appliedMap).to.equal("default.com/path/HIDDEN_SECRET");
     });
 
     it("should work with recordings of several lines", () => {
-      const env: ReplacementDictionary = {
+      const env: NodeJS.ProcessEnv = {
         SECRET: "(SECRET)",
-        ENDPOINT: "azure.com"
+        ENDPOINT: "azure.com/url/"
       };
 
-      const replaceableVariables: ReplacementDictionary = {
-        SECRET: "HIDDEN_SECRET",
-        ENDPOINT: "default.com"
-      };
+      const replaceableVariables: ReplacementMap = new Map();
+      replaceableVariables.set("SECRET", "HIDDEN_SECRET");
+      replaceableVariables.set("ENDPOINT", "default.com/path/");
 
       const recording = `
 All the combinations:
@@ -108,14 +104,14 @@ ultramarine.com/url/%28SECRET%29
 azure.com/url/PUBLIC
 ultramarine.com/url/PUBLIC
 `;
-      const appliedDictionary = applyReplacementDictionary(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
 
-      expect(appliedDictionary).to.equal(
+      expect(appliedMap).to.equal(
         `
 All the combinations:
-default.com/url/HIDDEN_SECRET
+default.com/path/HIDDEN_SECRET
 ultramarine.com/url/HIDDEN_SECRET
-default.com/url/PUBLIC
+default.com/path/PUBLIC
 ultramarine.com/url/PUBLIC
 `
       );
