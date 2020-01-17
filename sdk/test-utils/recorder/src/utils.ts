@@ -21,18 +21,63 @@ export function isPlaybackMode() {
   return !isRecordMode() && !isLiveMode();
 }
 
-export function escapeRegExp(str: string): string {
-  return encodeURIComponent(str)
-    .replace(
-      /[!'()*]/g,
-      (x) =>
-        `%${x
-          .charCodeAt(0)
-          .toString(16)
-          .toUpperCase()}`
-    ) // RFC 3986.
-    .replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); // All the RegExp sensitive characters.
+/**
+ * Encodes a string as a URI component, but also taking in consideration the RFC 3986 specification.
+ * JavaScript's encodeURIComponent method doesn't take in consideration the characters: !, ', (, ), *
+ * @param str The string that needs to be encoded.
+ */
+export function encodeRFC3986(str: string): string {
+  return encodeURIComponent(str).replace(
+    /[!'()*]/g,
+    (x) =>
+      `%${x
+        .charCodeAt(0)
+        .toString(16)
+        .toUpperCase()}`
+  )
 }
+
+/**
+ * Escapes all of the valid RegExp characters of a string.
+ * @param str The string that needs to be escaped.
+ */
+export function escapeRegExp(str: string): string {
+  return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
+/**
+ * Looks for the environment variables based on the keys of the given dictionary,
+ * then replaces the values found with each value from the same dictionary. 
+ * @param replacements A dictionary of string keys and string values.
+ * @param content The content that has the text to be replaced.
+ */
+export function applyReplacementDictionary(env: { [x: string]: string }, replacements: { [x: string]: string }, content: string): string {
+  let updated = content;
+  for (const k of Object.keys(replacements)) {
+    if (env[k]) {
+      updated = updated.replace(
+        new RegExp(escapeRegExp(encodeRFC3986(env[k])), "g"),
+        encodeRFC3986(replacements[k])
+      );
+      updated = updated.replace(new RegExp(escapeRegExp(env[k]), "g"), replacements[k]);
+    }
+  }
+  return updated;
+};
+
+/**
+ * Passes the given content as the parameter to the first function of the array,
+ * then reduces the remaining functions of the array with the result of the previous function.
+ * @param replacements 
+ * @param content 
+ */
+export function applyReplacementFunctions(replacements: any[], content: string): string {
+  let updated = content;
+  for (const map of replacements) {
+    updated = map(updated);
+  }
+  return updated;
+};
 
 /**
  * @returns {Promise<string>}

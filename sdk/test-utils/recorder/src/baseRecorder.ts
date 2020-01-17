@@ -6,19 +6,20 @@ import nise from "nise";
 import {
   isBrowser,
   blobToString,
-  escapeRegExp,
   env,
   TestInfo,
   parseUrl,
   isPlaybackMode,
   isRecordMode,
-  findRecordingsFolderPath
+  findRecordingsFolderPath,
+  applyReplacementDictionary,
+  applyReplacementFunctions
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
 let nock: any;
 
-let replaceableVariables: { [x: string]: string } = {};
+let replaceableVariables: { [x: string]: string };
 export function setReplaceableVariables(a: { [x: string]: string }): void {
   replaceableVariables = a;
   if (isPlaybackMode()) {
@@ -90,23 +91,10 @@ export abstract class BaseRecorder {
 
   /**
    * Additional layer of security to avoid unintended/accidental occurrences of secrets in the recordings
-   * */
+   */
   protected filterSecrets(recording: string): string {
-    let updatedRecording = recording;
-    for (const k of Object.keys(replaceableVariables)) {
-      if (env[k]) {
-        const escaped = escapeRegExp(env[k]);
-        updatedRecording = updatedRecording.replace(
-          new RegExp(escaped, "g"),
-          replaceableVariables[k]
-        );
-      }
-    }
-    for (const map of replacements) {
-      updatedRecording = map(updatedRecording);
-    }
-
-    return updatedRecording;
+    let result = applyReplacementDictionary(env, replaceableVariables, recording);
+    return applyReplacementFunctions(replacements, result);
   }
 
   public abstract record(): void;
