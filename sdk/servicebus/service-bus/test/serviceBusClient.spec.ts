@@ -585,10 +585,7 @@ describe("Errors after close()", function(): void {
 
     let errorReceiveStream: string = "";
     try {
-      receiver.registerMessageHandler(
-        () => Promise.resolve(),
-        (e) => console.log(e)
-      );
+      receiver.registerMessageHandler(() => Promise.resolve(), (e) => console.log(e));
     } catch (err) {
       errorReceiveStream = err.message;
     }
