@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { applyReplacementDictionary } from '../src/utils';
+import { applyReplacementDictionary } from "../src/utils";
 
 describe("utils", () => {
   describe("applyReplacementDictionary", () => {
@@ -22,14 +22,14 @@ describe("utils", () => {
       const env: { [x: string]: string } = {
         ENDPOINT: "azure.com/url/"
       };
-  
+
       const replaceableVariables: { [x: string]: string } = {
         ENDPOINT: "default.com/path/"
       };
-  
+
       const recording = "azure.com/url/%28SECRET%29";
       const appliedDictionary = applyReplacementDictionary(env, replaceableVariables, recording);
-  
+
       assert.equal(appliedDictionary, "default.com/path/%28SECRET%29");
     });
 

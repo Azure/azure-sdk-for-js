@@ -34,7 +34,7 @@ export function encodeRFC3986(str: string): string {
         .charCodeAt(0)
         .toString(16)
         .toUpperCase()}`
-  )
+  );
 }
 
 /**
@@ -47,11 +47,15 @@ export function escapeRegExp(str: string): string {
 
 /**
  * Looks for the environment variables based on the keys of the given dictionary,
- * then replaces the values found with each value from the same dictionary. 
+ * then replaces the values found with each value from the same dictionary.
  * @param replacements A dictionary of string keys and string values.
  * @param content The content that has the text to be replaced.
  */
-export function applyReplacementDictionary(env: { [x: string]: string }, replacements: { [x: string]: string }, content: string): string {
+export function applyReplacementDictionary(
+  env: { [x: string]: string },
+  replacements: { [x: string]: string },
+  content: string
+): string {
   let updated = content;
   for (const k of Object.keys(replacements)) {
     if (env[k]) {
@@ -63,21 +67,24 @@ export function applyReplacementDictionary(env: { [x: string]: string }, replace
     }
   }
   return updated;
-};
+}
 
 /**
  * Passes the given content as the parameter to the first function of the array,
  * then reduces the remaining functions of the array with the result of the previous function.
- * @param replacements 
- * @param content 
+ * @param replacements An array of replacement functions.
+ * @param content The input used to apply the replacements.
  */
-export function applyReplacementFunctions(replacements: any[], content: string): string {
+export function applyReplacementFunctions(
+  replacements: { (content: string): string }[],
+  content: string
+): string {
   let updated = content;
   for (const map of replacements) {
     updated = map(updated);
   }
   return updated;
-};
+}
 
 /**
  * @returns {Promise<string>}
