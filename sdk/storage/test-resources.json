@@ -8,6 +8,12 @@
       "metadata": {
         "description": "The base resource name."
       }
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The client OID to grant access to test resources."
+      }
     }
   },
   "variables": {
@@ -24,9 +30,19 @@
       "signedResourceTypes": "sco",
       "keyToSign": "key2",
       "signedExpiry": "2022-01-01T23:59:00Z"
-    }
+    },
+    "blobDataContributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe')]"
   },
   "resources": [
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "name": "[guid(concat('blobDataContributorRoleId', variables('accountName')))]",
+      "dependsOn": ["[variables('accountName')]"],
+      "properties": {
+        "roleDefinitionId": "[variables('blobDataContributorRoleId')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "[variables('storageApiVersion')]",
