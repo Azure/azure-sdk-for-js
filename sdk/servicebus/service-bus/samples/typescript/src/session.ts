@@ -25,8 +25,8 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const queueName = process.env.QUEUE_NAME || "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const listOfScientists = [
   { lastName: "Einstein", firstName: "Albert" },

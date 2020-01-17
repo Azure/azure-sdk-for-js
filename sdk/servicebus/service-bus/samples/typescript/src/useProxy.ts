@@ -15,7 +15,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string for your Service Bus instance here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 
 export async function main() {
   const proxyInfo = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;

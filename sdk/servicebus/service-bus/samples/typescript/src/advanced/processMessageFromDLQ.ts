@@ -16,8 +16,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const queueName = process.env.QUEUE_NAME || "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 // If deadlettered messages are from Subscription, use `TopicClient.getDeadLetterTopicPath` instead
 const deadLetterQueueName = QueueClient.getDeadLetterQueuePath(queueName);

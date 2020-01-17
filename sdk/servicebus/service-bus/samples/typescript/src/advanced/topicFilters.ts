@@ -26,8 +26,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "";
-const topicName = process.env.TOPIC_NAME || "";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const topicName = process.env.TOPIC_NAME || "<topic name>";
 const subscriptionName1 = process.env.TOPIC_FILTER_SUBSCRIPTION_1 || "<subscription name>";
 const subscriptionName2 = process.env.TOPIC_FILTER_SUBSCRIPTION_2 || "<subscription name>";
 const subscriptionName3 = process.env.TOPIC_FILTER_SUBSCRIPTION_3 || "<subscription name>";

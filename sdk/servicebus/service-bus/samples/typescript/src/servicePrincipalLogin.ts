@@ -30,9 +30,9 @@ const serviceBusEndpoint =
   process.env.SERVICE_BUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
 
 // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
-const clientId = process.env.AZURE_TENANT_ID || "";
-const clientSecret = process.env.AZURE_CLIENT_SECRET || "";
-const tenantId = process.env.AZURE_CLIENT_ID || "";
+const clientId = process.env.AZURE_TENANT_ID || "<azure tenant id>";
+const clientSecret = process.env.AZURE_CLIENT_SECRET || "<azure client secret>";
+const tenantId = process.env.AZURE_CLIENT_ID || "<azure client id>";
 
 export async function main() {
   const tokenCreds = await loginWithServicePrincipalSecret(clientId, clientSecret, tenantId, {
