@@ -41,8 +41,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "cross-env TEST_MODE=playback karma start --single-run",
-    "unit-test:node": "cross-env TEST_MODE=playback mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace -t 120000  dist-test/index.node.js",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace -t 120000 dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
