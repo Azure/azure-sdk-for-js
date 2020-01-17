@@ -13,24 +13,26 @@ import {
   isRecordMode,
   findRecordingsFolderPath,
   applyReplacementDictionary,
-  applyReplacementFunctions
+  applyReplacementFunctions,
+  ReplacementFunctions,
+  ReplacementDictionary
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
 let nock: any;
 
-let replaceableVariables: { [x: string]: string };
-export function setReplaceableVariables(a: { [x: string]: string }): void {
-  replaceableVariables = a;
+let replaceableVariables: ReplacementDictionary = {};
+export function setReplaceableVariables(replacements: ReplacementDictionary): void {
+  replaceableVariables = replacements;
   if (isPlaybackMode()) {
     // Providing dummy values to avoid the error
-    Object.keys(a).map((k) => {
-      env[k] = a[k];
+    Object.keys(replacements).map((k) => {
+      env[k] = replacements[k];
     });
   }
 }
 
-let replacements: any[] = [];
+let replacements: ReplacementFunctions = [];
 export function setReplacements(maps: any): void {
   replacements = maps;
 }

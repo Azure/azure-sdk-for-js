@@ -45,6 +45,8 @@ export function escapeRegExp(str: string): string {
   return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
 
+export type ReplacementDictionary = { [x: string]: string };
+
 /**
  * Looks for the environment variables based on the keys of the given dictionary,
  * then replaces the values found with each value from the same dictionary.
@@ -53,7 +55,7 @@ export function escapeRegExp(str: string): string {
  */
 export function applyReplacementDictionary(
   env: { [x: string]: string },
-  replacements: { [x: string]: string },
+  replacements: ReplacementDictionary,
   content: string
 ): string {
   let updated = content;
@@ -69,6 +71,8 @@ export function applyReplacementDictionary(
   return updated;
 }
 
+export type ReplacementFunctions = { (content: string): string }[];
+
 /**
  * Passes the given content as the parameter to the first function of the array,
  * then reduces the remaining functions of the array with the result of the previous function.
@@ -76,7 +80,7 @@ export function applyReplacementDictionary(
  * @param content The input used to apply the replacements.
  */
 export function applyReplacementFunctions(
-  replacements: { (content: string): string }[],
+  replacements: ReplacementFunctions,
   content: string
 ): string {
   let updated = content;
