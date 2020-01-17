@@ -344,7 +344,7 @@ export interface BlobChangeLeaseOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class BlobClient extends StorageClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
@@ -352,7 +352,7 @@ export class BlobClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     abortCopyFromURL(copyId: string, options?: BlobAbortCopyFromURLOptions): Promise<BlobAbortCopyFromURLResponse>;
     beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
-    readonly containerName: string;
+    get containerName(): string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
@@ -365,7 +365,7 @@ export class BlobClient extends StorageClient {
     getBlockBlobClient(): BlockBlobClient;
     getPageBlobClient(): PageBlobClient;
     getProperties(options?: BlobGetPropertiesOptions): Promise<BlobGetPropertiesResponse>;
-    readonly name: string;
+    get name(): string;
     setAccessTier(tier: BlockBlobTier | PremiumPageBlobTier | string, options?: BlobSetTierOptions): Promise<BlobSetTierResponse>;
     setHTTPHeaders(blobHTTPHeaders?: BlobHTTPHeaders, options?: BlobSetHTTPHeadersOptions): Promise<BlobSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: BlobSetMetadataOptions): Promise<BlobSetMetadataResponse>;
@@ -645,10 +645,10 @@ export class BlobLeaseClient {
     acquireLease(duration: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     breakLease(breakPeriod: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
-    readonly leaseId: string;
+    get leaseId(): string;
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     renewLease(options?: LeaseOperationOptions): Promise<Lease>;
-    readonly url: string;
+    get url(): string;
     }
 
 // @public
@@ -1210,7 +1210,7 @@ export class ContainerClient extends StorageClient {
     constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    readonly containerName: string;
+    get containerName(): string;
     create(options?: ContainerCreateOptions): Promise<ContainerCreateResponse>;
     delete(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
     deleteBlob(blobName: string, options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
@@ -1222,11 +1222,11 @@ export class ContainerClient extends StorageClient {
     getBlockBlobClient(blobName: string): BlockBlobClient;
     getPageBlobClient(blobName: string): PageBlobClient;
     getProperties(options?: ContainerGetPropertiesOptions): Promise<ContainerGetPropertiesResponse>;
-    listBlobsByHierarchy(delimiter: string, options?: ContainerListBlobsOptions): PagedAsyncIterableIterator<{
+    listBlobsByHierarchy(delimiter: string, options?: ContainerListBlobsOptions): PagedAsyncIterableIterator<({
         kind: "prefix";
-    } & BlobPrefix | {
+    } & BlobPrefix) | ({
         kind: "blob";
-    } & BlobItem, ContainerListBlobHierarchySegmentResponse>;
+    } & BlobItem), ContainerListBlobHierarchySegmentResponse>;
     listBlobsFlat(options?: ContainerListBlobsOptions): PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse>;
     setAccessPolicy(access?: PublicAccessType, containerAcl?: SignedIdentifier[], options?: ContainerSetAccessPolicyOptions): Promise<ContainerSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: ContainerSetMetadataOptions): Promise<ContainerSetMetadataResponse>;
@@ -2096,7 +2096,7 @@ export class SASQueryParameters {
     readonly contentType?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
-    readonly ipRange: SasIPRange | undefined;
+    get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;

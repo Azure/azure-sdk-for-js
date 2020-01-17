@@ -272,12 +272,12 @@ export enum ReceiveMode {
 export class Receiver {
     close(): Promise<void>;
     getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
-    readonly isClosed: boolean;
+    get isClosed(): boolean;
     isReceivingMessages(): boolean;
     receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
     receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
     receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
-    readonly receiveMode: ReceiveMode;
+    get receiveMode(): ReceiveMode;
     registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void;
     renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;
     }
@@ -335,7 +335,7 @@ export class Sender {
     cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
     cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
     close(): Promise<void>;
-    readonly isClosed: boolean;
+    get isClosed(): boolean;
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
     send(message: SendableMessageInfo): Promise<void>;
@@ -414,7 +414,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     readonly enqueuedSequenceNumber?: number;
     readonly enqueuedTimeUtc?: Date;
     readonly expiresAtUtc?: Date;
-    readonly isSettled: boolean;
+    get isSettled(): boolean;
     label?: string;
     lockedUntilUtc?: Date;
     readonly lockToken?: string;
@@ -444,18 +444,18 @@ export class SessionReceiver {
     close(): Promise<void>;
     getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
     getState(): Promise<any>;
-    readonly isClosed: boolean;
+    get isClosed(): boolean;
     isReceivingMessages(): boolean;
     peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
     peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
     receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
     receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
     receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
-    readonly receiveMode: ReceiveMode;
+    get receiveMode(): ReceiveMode;
     registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void;
     renewSessionLock(): Promise<Date>;
-    readonly sessionId: string | undefined;
-    readonly sessionLockedUntilUtc: Date | undefined;
+    get sessionId(): string | undefined;
+    get sessionLockedUntilUtc(): Date | undefined;
     setState(state: any): Promise<void>;
     }
 
