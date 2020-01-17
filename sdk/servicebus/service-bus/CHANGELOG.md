@@ -2,7 +2,7 @@
 
 ## 1.1.3 (#Unreleased)
 
-- Workaround for a bug[#6816](https://github.com/Azure/azure-sdk-for-js/issues/6816) affecting `scheduleMessage()` and `scheduleMessages()` methods has been added in the docs - [PR 6983](https://github.com/Azure/azure-sdk-for-js/pull/6983))
+- Workaround for the [bug 6816](https://github.com/Azure/azure-sdk-for-js/issues/6816) affecting messages sent using the `scheduleMessage()` and `scheduleMessages()` methods has been added to the docs - [PR 6983](https://github.com/Azure/azure-sdk-for-js/pull/6983))
 
 ## 1.1.2 (2019-12-12)
 
