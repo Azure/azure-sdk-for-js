@@ -95,7 +95,7 @@ export abstract class BaseRecorder {
    * Additional layer of security to avoid unintended/accidental occurrences of secrets in the recordings
    */
   protected filterSecrets(recording: string): string {
-    let result = applyReplacementDictionary(env, replaceableVariables, recording);
+    const result = applyReplacementDictionary(env, replaceableVariables, recording);
     return applyReplacementFunctions(replacements, result);
   }
 

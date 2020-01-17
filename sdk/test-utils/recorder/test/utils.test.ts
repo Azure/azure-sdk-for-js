@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import { expect } from "chai";
 import {
   applyReplacementDictionary,
   ReplacementDictionary,
@@ -15,11 +15,11 @@ describe("utils", () => {
     it("Should encode the reserved characters", () => {
       const genDelims = [":", "/", "?", "#", "[", "]", "@"];
       const encodedGenDelims = genDelims.map(encodeRFC3986);
-      assert.deepEqual(encodedGenDelims, ["%3A", "%2F", "%3F", "%23", "%5B", "%5D", "%40"]);
+      expect(encodedGenDelims).to.deep.equal(["%3A", "%2F", "%3F", "%23", "%5B", "%5D", "%40"]);
 
       const subDelims = ["!", "$", "&", "'", "(", ")", "*", "+", ",", ";", "="];
       const encodedSubDelims = subDelims.map(encodeRFC3986);
-      assert.deepEqual(encodedSubDelims, [
+      expect(encodedSubDelims).to.deep.equal([
         "%21",
         "%24",
         "%26",
@@ -38,7 +38,7 @@ describe("utils", () => {
       const unreservedCharacters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.~";
       const result = encodeRFC3986(unreservedCharacters);
-      assert.deepEqual(result, unreservedCharacters);
+      expect(result).to.deep.equal(unreservedCharacters);
     });
   });
 
@@ -55,7 +55,7 @@ describe("utils", () => {
       const recording = "azure.com/url/%28SECRET%29";
       const appliedDictionary = applyReplacementDictionary(env, replaceableVariables, recording);
 
-      assert.equal(appliedDictionary, "azure.com/url/HIDDEN_SECRET");
+      expect(appliedDictionary).to.equal("azure.com/url/HIDDEN_SECRET");
     });
 
     it("should filter raw secrets", () => {
@@ -70,7 +70,7 @@ describe("utils", () => {
       const recording = "azure.com/url/%28SECRET%29";
       const appliedDictionary = applyReplacementDictionary(env, replaceableVariables, recording);
 
-      assert.equal(appliedDictionary, "default.com/path/%28SECRET%29");
+      expect(appliedDictionary).to.equal("default.com/path/%28SECRET%29");
     });
 
     it("should filter both, raw and URI encoded secrets", () => {
@@ -87,7 +87,7 @@ describe("utils", () => {
       const recording = "azure.com/url/%28SECRET%29";
       const appliedDictionary = applyReplacementDictionary(env, replaceableVariables, recording);
 
-      assert.equal(appliedDictionary, "default.com/url/HIDDEN_SECRET");
+      expect(appliedDictionary).to.equal("default.com/url/HIDDEN_SECRET");
     });
 
     it("should work with recordings of several lines", () => {
@@ -110,8 +110,7 @@ ultramarine.com/url/PUBLIC
 `;
       const appliedDictionary = applyReplacementDictionary(env, replaceableVariables, recording);
 
-      assert.equal(
-        appliedDictionary,
+      expect(appliedDictionary).to.equal(
         `
 All the combinations:
 default.com/url/HIDDEN_SECRET
@@ -132,7 +131,7 @@ ultramarine.com/url/PUBLIC
       ];
       const recording = "Banana Split";
       const appliedFunctions = applyReplacementFunctions(replacements, recording);
-      assert.equal(appliedFunctions, "Bonobo's Split");
+      expect(appliedFunctions).to.equal("Bonobo's Split");
     });
 
     it("should apply several replacement functions", () => {
@@ -146,7 +145,7 @@ ultramarine.com/url/PUBLIC
       ];
       const recording = "Banana Split";
       const appliedFunctions = applyReplacementFunctions(replacements, recording);
-      assert.equal(appliedFunctions, "Bonobo's Flex");
+      expect(appliedFunctions).to.equal("Bonobo's Flex");
     });
 
     it("should work with recordings of several lines", () => {
@@ -166,8 +165,7 @@ azure.com/url/PUBLIC
 ultramarine.com/url/PUBLIC
 `;
       const appliedFunctions = applyReplacementFunctions(replacements, recording);
-      assert.equal(
-        appliedFunctions,
+      expect(appliedFunctions).to.equal(
         `
 All the combinations:
 default.com/url/HIDDEN_SECRET

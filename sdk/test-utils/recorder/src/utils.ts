@@ -45,6 +45,16 @@ export function escapeRegExp(str: string): string {
   return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
 
+/**
+ * Replaces all occurrences of a pattern in a string with a given replacement.
+ * @param string Target of the replacements.
+ * @param pattern String used to match and find what to replace.
+ * @param replacement Replacement of the matched string.
+ */
+function replaceAll(string: string, pattern: string, replacement: string) {
+  return string.replace(new RegExp(escapeRegExp(pattern), "g"), replacement);
+}
+
 export type ReplacementDictionary = { [x: string]: string };
 
 /**
@@ -54,18 +64,15 @@ export type ReplacementDictionary = { [x: string]: string };
  * @param content The content that has the text to be replaced.
  */
 export function applyReplacementDictionary(
-  env: { [x: string]: string },
+  env: NodeJS.ProcessEnv,
   replacements: ReplacementDictionary,
   content: string
 ): string {
   let updated = content;
   for (const k of Object.keys(replacements)) {
     if (env[k]) {
-      updated = updated.replace(
-        new RegExp(escapeRegExp(encodeRFC3986(env[k])), "g"),
-        encodeRFC3986(replacements[k])
-      );
-      updated = updated.replace(new RegExp(escapeRegExp(env[k]), "g"), replacements[k]);
+      updated = replaceAll(updated, encodeRFC3986(env[k]!), encodeRFC3986(replacements[k]));
+      updated = replaceAll(updated, env[k]!, replacements[k]);
     }
   }
   return updated;
