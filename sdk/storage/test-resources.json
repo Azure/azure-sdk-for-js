@@ -35,6 +35,7 @@
   "resources": [
     {
       "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "[variables('authorizationApiVersion')]",
       "name": "[guid(concat('blobDataContributorRoleId', variables('accountName')))]",
       "dependsOn": ["[variables('accountName')]"],
       "properties": {
