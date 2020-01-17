@@ -7,7 +7,7 @@ For users new to the JavaScript SDK for Event Hubs, please see the [readme file 
 
 ## General changes
 
-EventHubs v5 is a redesign that aligns with the new Azure SDK [guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html#design-principles)
+Version 5 of the `@azure/event-hubs` package is a result of our efforts to create a client library that is user friendly and idiomatic to the JavaScript ecosystem. Apart from redesigns resulting from following the new [Azure SDK Design Guidelines for Typescript](https://azure.github.io/azure-sdk/typescript_introduction.html#design-principles), the latest version provides the below improvements:
 for providing a better out-of-the-box experience for JavaScript developers 
 across several areas:
 
