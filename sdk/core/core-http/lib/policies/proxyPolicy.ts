@@ -13,6 +13,15 @@ import { WebResource } from "../webResource";
 import { Constants } from "../util/constants";
 import { URLBuilder } from "../url";
 
+function environmentProxyValue(name: string): string | undefined {
+  if (process.env[name]) {
+    return process.env[name];
+  } else if (process.env[name.toLowerCase()]) {
+    return process.env[name.toLowerCase()];
+  }
+  return undefined;
+}
+
 function loadEnvironmentProxyValue(): string | undefined {
   let httpProxy = null;
   let httpsProxy = null;
@@ -23,37 +32,22 @@ function loadEnvironmentProxyValue(): string | undefined {
     return undefined;
   }
 
-  if (process.env[Constants.HTTPS_PROXY]) {
-    httpsProxy = process.env[Constants.HTTPS_PROXY];
-  } else if (process.env[Constants.HTTPS_PROXY.toLowerCase()]) {
-    httpsProxy = process.env[Constants.HTTPS_PROXY.toLowerCase()];
-  } else if (process.env[Constants.HTTP_PROXY]) {
-    httpProxy = process.env[Constants.HTTP_PROXY];
-  } else if (process.env[Constants.HTTP_PROXY.toLowerCase()]) {
-    httpProxy = process.env[Constants.HTTP_PROXY.toLowerCase()];
-  }
+  httpsProxy = environmentProxyValue(Constants.HTTPS_PROXY);
+  httpProxy = environmentProxyValue(Constants.HTTP_PROXY);
 
-  if (httpProxy == null || httpsProxy == null) {
-    if (process.env[Constants.ALL_PROXY]) {
-      allProxy = process.env[Constants.ALL_PROXY];
-    } else if (process.env[Constants.ALL_PROXY.toLowerCase()]) {
-      allProxy = process.env[Constants.ALL_PROXY.toLowerCase()];
-    }
+  if (httpProxy == undefined || httpsProxy == undefined) {
+    allProxy = environmentProxyValue(Constants.ALL_PROXY);
 
-    if (httpProxy == null) {
+    if (httpProxy == undefined) {
       httpProxy = allProxy;
     } else {
       httpsProxy = allProxy;
     }
   }
 
-  if (httpProxy == null && httpsProxy == null) {
-    if (process.env[Constants.NO_PROXY]) {
-      noProxy = process.env[Constants.NO_PROXY];
-    } else if (process.env[Constants.NO_PROXY.toLowerCase()]) {
-      noProxy = process.env[Constants.NO_PROXY.toLowerCase()];
-    }
-    if (noProxy) {
+  if (httpProxy == undefined && httpsProxy == undefined) {
+    noProxy = environmentProxyValue(Constants.NO_PROXY);
+    if (noProxy != undefined) {
       return noProxy;
     }
   }
