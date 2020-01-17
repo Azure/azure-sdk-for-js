@@ -104,7 +104,6 @@
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
-    "downlevel-dts": "~0.1.0",
     "events": "^3.0.0",
     "tslib": "^1.10.0"
   },
