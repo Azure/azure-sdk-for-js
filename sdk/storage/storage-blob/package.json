@@ -15,7 +15,14 @@
     "os": false,
     "process": false
   },
-  "types": "./typings/src/index.d.ts",
+  "types": "./typings/latest/src/index.d.ts",
+  "typesVersions": {
+    "<3.7": {
+      "*": [
+        "./typings/ts3.4/src/*"
+      ]
+    }
+  },
   "engine": {
     "node": ">=8.0.0"
   },
@@ -27,6 +34,7 @@
     "build:samples": "npm run clean && npm run build:es6 && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run build:prep-samples",
     "build:prep-samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
+    "build:types": "downlevel-dts typings/latest typings/3.4",
     "build": "npm run build:es6 && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
@@ -57,7 +65,7 @@
     "dist-esm/src/",
     "LICENSE",
     "src/",
-    "typings/src",
+    "typings/latest/src",
     "tsconfig.json"
   ],
   "repository": {
@@ -96,6 +104,7 @@
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
+    "downlevel-dts": "~0.1.0",
     "events": "^3.0.0",
     "tslib": "^1.10.0"
   },
@@ -114,6 +123,7 @@
     "assert": "^1.4.1",
     "cross-env": "^6.0.3",
     "dotenv": "^8.2.0",
+    "downlevel-dts": "~0.2.0",
     "es6-promise": "^4.2.5",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
