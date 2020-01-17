@@ -21,7 +21,6 @@ export {
   Experiment,
   ForwardingConfiguration,
   FrontDoor,
-  FrontDoorListResult,
   FrontendEndpoint,
   FrontendEndpointLink,
   FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink,
@@ -43,6 +42,8 @@ export {
   PolicySettings,
   PreconfiguredEndpoint,
   Profile,
+  ProfileList,
+  ProfileUpdateModel,
   RedirectConfiguration,
   Resource,
   RouteConfiguration,
@@ -54,7 +55,5 @@ export {
   SubResource,
   Timeseries,
   TimeseriesDataPoint,
-  ValidateCustomDomainInput,
-  ValidateCustomDomainOutput,
   WebApplicationFirewallPolicy
 } from "../models/mappers";
