@@ -41,7 +41,7 @@ async function main() {
     console.log(`Queue #${i + 1} - ${listQueuesResult[i].queueName}`);
   }
 
-  await serviceBusAtomManagementClient.deleteQueue("ranotherTestQueue");
+  await serviceBusAtomManagementClient.deleteQueue("anotherTestQueue");
   console.log("Deleted queue: anotherTestQueue");
 
   const listQueuesAgainResult = await serviceBusAtomManagementClient.listQueues();
