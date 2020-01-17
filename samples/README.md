@@ -11,9 +11,9 @@ The Azure SDK repository is organized in the following folder structure, with th
   - `/<service>` (e.g. storage)
     - `/<package>` (e.g. `@azure/storage-blob`)
       - **`README.md`** (package READMEs contain "hello world" code snippets)
-      - **`/samples`** (package-specific samples)
-        - **`/typescript`** (samples in TypeScript)
-        - **`/javascript`** (samples in JavaScript using CommonJS)
+      - **`/samples`**
+        - **`/typescript`** (package-specific samples in TypeScript)
+        - **`/javascript`** (package-specific samples in JavaScript using CommonJS)
       - `/src`
       - `/tests`
 
