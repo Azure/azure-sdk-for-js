@@ -10,7 +10,7 @@ The Azure SDK repository is organized in the following folder structure, with th
 - `/sdk` (folder containing sources for all SDK packages)
   - `/<service>` (e.g. storage)
     - `/<package>` (e.g. `@azure/storage-blob`)
-      - **`README.md`** (package READMEs contain "hello world" samples)
+      - **`README.md`** (package READMEs contain "hello world" code snippets)
       - **`/samples`** (package-specific samples)
         - **`/typescript`** (samples in TypeScript)
         - **`/javascript`** (samples in JavaScript using CommonJS)
@@ -25,4 +25,3 @@ Each package folder contains a subfolder called `samples` with additional code s
 
 ## Sample Applications
 Sometimes we want to illustrate how several APIs or even packages work together in a context of a more complete program. For these cases, we created sample applications that you can look at, download, compile, and execute. These application samples are located in other repositories and, like the package-specific samples, may be viewed on [https://docs.microsoft.com/samples/](https://docs.microsoft.com/samples/).
-
