@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "./util/operationOptions";
+import { OperationOptions } from "../util/operationOptions";
 import { RetryOptions } from "@azure/core-amqp";
 import { WebSocketImpl } from "rhea-promise";
 

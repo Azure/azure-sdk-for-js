@@ -7,7 +7,7 @@ import {
   GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions
-} from "./models.public";
+} from "./models/public";
 import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
 import { EventProcessor, CheckpointStore, FullEventProcessorOptions } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { logger, logErrorStackTrace } from "./log";
-import { CommonEventProcessorOptions } from "./impl/models.private";
-import { CloseReason } from "./models.public";
+import { CommonEventProcessorOptions } from "./models/private";
+import { CloseReason } from "./models/public";
 import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";

@@ -3,8 +3,8 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventHubProducerOptions } from "../src/impl/models.private";
-import { SendOptions, CreateBatchOptions } from "../src/models.public";
+import { EventHubProducerOptions } from "../src/models/private";
+import { SendOptions, CreateBatchOptions } from "../src/models/public";
 import { ConnectionContext } from "./connectionContext";
 import { logger, logErrorStackTrace } from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";

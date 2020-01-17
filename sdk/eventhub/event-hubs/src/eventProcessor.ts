@@ -11,8 +11,8 @@ import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 import { EventPosition, latestEventPosition } from "./eventPosition";
 import { delayWithoutThrow } from "./util/delayWithoutThrow";
-import { CommonEventProcessorOptions } from "./impl/models.private";
-import { CloseReason } from "./models.public";
+import { CommonEventProcessorOptions } from "./models/private";
+import { CloseReason } from "./models/public";
 
 /**
  * An interface representing the details on which instance of a `EventProcessor` owns processing

@@ -9,7 +9,7 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
 import { EventData, EventHubProducerClient, EventHubConsumerClient } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
-import { SendOptions } from "../src/models.public";
+import { SendOptions } from "../src/models/public";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";

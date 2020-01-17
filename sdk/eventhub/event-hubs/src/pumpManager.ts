@@ -3,8 +3,8 @@
 
 import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
-import { CommonEventProcessorOptions } from "./impl/models.private";
-import { CloseReason } from "./models.public";
+import { CommonEventProcessorOptions } from "./models/private";
+import { CloseReason } from "./models/public";
 import { PartitionProcessor } from "./partitionProcessor";
 import { PartitionPump } from "./partitionPump";
 import { logger, logErrorStackTrace } from "./log";

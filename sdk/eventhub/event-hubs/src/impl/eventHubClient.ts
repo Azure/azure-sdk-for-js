@@ -23,13 +23,13 @@ import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "
 import { getTracer } from "@azure/core-tracing";
 import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/types";
 import { getParentSpan } from "../util/operationOptions";
-import { OperationNames, EventHubProducerOptions } from "./models.private";
+import { OperationNames, EventHubProducerOptions } from "../models/private";
 import {
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
-  GetPartitionPropertiesOptions
-} from "../models.public";
-import { EventHubClientOptions } from "../models.public";
+  GetPartitionPropertiesOptions,
+  EventHubClientOptions
+} from "../models/public";
 
 /**
  * The set of options to configure the behavior of an `EventHubConsumer`.

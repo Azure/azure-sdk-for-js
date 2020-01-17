@@ -15,7 +15,7 @@ export {
   GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions,
   WebSocketOptions
-} from "./models.public";
+} from "./models/public";
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {
@@ -33,6 +33,6 @@ export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export { Checkpoint } from "./partitionProcessor";
 export { CheckpointStore, PartitionOwnership } from "./eventProcessor";
-export { CloseReason } from "./models.public";
+export { CloseReason } from "./models/public";
 export { MessagingError, RetryOptions, TokenCredential } from "@azure/core-amqp";
 export { logger } from "./log";

@@ -1,4 +1,4 @@
-import { CloseReason } from "./models.public";
+import { CloseReason } from "./models/public";
 import { ReceivedEventData } from "./eventData";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { EventPosition } from "./eventPosition";

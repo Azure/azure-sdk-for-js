@@ -13,7 +13,7 @@ import {
   GetPartitionPropertiesOptions,
   EventHubClientOptions,
   CreateBatchOptions
-} from "./models.public";
+} from "./models/public";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.
