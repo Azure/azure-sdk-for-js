@@ -47,7 +47,8 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DEFAULT_BLOCK_BUFFER_SIZE_BYTES
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+  RetryableKeyName
 } from "./utils/constants";
 import {
   setURLParameter,
@@ -3116,15 +3117,25 @@ export class BlockBlobClient extends BlobClient {
    * ```
    */
   public async upload(
-    body: HttpRequestBody,
+    body: HttpRequestBody | NodeJS.ReadableStream,
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<BlockBlobUploadResponse> {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("BlockBlobClient-upload", options.tracingOptions);
     try {
+      let newBody: HttpRequestBody;
+      if (typeof (body as any).pipe === "function") {
+        let factory = function(): NodeJS.ReadableStream {
+          return body as NodeJS.ReadableStream;
+        };
+        Object.defineProperty(factory, RetryableKeyName, { value: false });
+        newBody = factory;
+      } else {
+        newBody = body as HttpRequestBody;
+      }
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blockBlobContext.upload(body, contentLength, {
+      return await this.blockBlobContext.upload(newBody, contentLength, {
         abortSignal: options.abortSignal,
         blobHTTPHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,

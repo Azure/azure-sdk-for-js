@@ -344,7 +344,7 @@ export interface BlobChangeLeaseOptions extends CommonOptions {
 }
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class BlobClient extends StorageClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
@@ -966,7 +966,7 @@ export class BlockBlobClient extends BlobClient {
     getBlockList(listType: BlockListType, options?: BlockBlobGetBlockListOptions): Promise<BlockBlobGetBlockListResponse>;
     stageBlock(blockId: string, body: HttpRequestBody, contentLength: number, options?: BlockBlobStageBlockOptions): Promise<BlockBlobStageBlockResponse>;
     stageBlockFromURL(blockId: string, sourceURL: string, offset?: number, count?: number, options?: BlockBlobStageBlockFromURLOptions): Promise<BlockBlobStageBlockFromURLResponse>;
-    upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
+    upload(body: HttpRequestBody | NodeJS.ReadableStream, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
     uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadFile(filePath: string, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadStream(stream: Readable, bufferSize?: number, maxConcurrency?: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
@@ -1222,11 +1222,11 @@ export class ContainerClient extends StorageClient {
     getBlockBlobClient(blobName: string): BlockBlobClient;
     getPageBlobClient(blobName: string): PageBlobClient;
     getProperties(options?: ContainerGetPropertiesOptions): Promise<ContainerGetPropertiesResponse>;
-    listBlobsByHierarchy(delimiter: string, options?: ContainerListBlobsOptions): PagedAsyncIterableIterator<{
+    listBlobsByHierarchy(delimiter: string, options?: ContainerListBlobsOptions): PagedAsyncIterableIterator<({
         kind: "prefix";
-    } & BlobPrefix | {
+    } & BlobPrefix) | ({
         kind: "blob";
-    } & BlobItem, ContainerListBlobHierarchySegmentResponse>;
+    } & BlobItem), ContainerListBlobHierarchySegmentResponse>;
     listBlobsFlat(options?: ContainerListBlobsOptions): PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse>;
     setAccessPolicy(access?: PublicAccessType, containerAcl?: SignedIdentifier[], options?: ContainerSetAccessPolicyOptions): Promise<ContainerSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: ContainerSetMetadataOptions): Promise<ContainerSetMetadataResponse>;

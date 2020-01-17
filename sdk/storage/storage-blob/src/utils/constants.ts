@@ -201,3 +201,5 @@ export const StorageBlobLoggingAllowedQueryParameters = [
   "skv",
   "snapshot"
 ];
+
+export const RetryableKeyName = "retryable";

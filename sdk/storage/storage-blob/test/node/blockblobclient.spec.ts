@@ -11,11 +11,14 @@ import {
   newPipeline,
   StorageSharedKeyCredential,
   BlobClient,
-  ContainerClient
+  ContainerClient,
+  Pipeline
 } from "../../src";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential, RestError } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record } from "@azure/test-utils-recorder";
+import { PassThrough } from "stream";
+import { InjectorPolicyFactory } from "../utils/InjectorPolicyFactory";
 
 describe("BlockBlobClient Node.js only", () => {
   setupEnvironment();
@@ -61,6 +64,15 @@ describe("BlockBlobClient Node.js only", () => {
     });
 
     assert.deepStrictEqual(downloadedBody, body);
+  });
+
+  it.only("upload with NodeJS.ReadableStream", async () => {
+    const stream = new PassThrough();
+    const body: string = recorder.getUniqueName("randomstring");
+    stream.end(body);
+    await blockBlobClient.upload(stream, body.length);
+    const result = await blobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
   it("upload with Chinese string body and default parameters", async () => {
@@ -149,5 +161,29 @@ describe("BlockBlobClient Node.js only", () => {
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it.only("Retry Policy should failed when passing Stream to upload", async () => {
+    let injectCounter = 0;
+    const injector = new InjectorPolicyFactory(() => {
+      if (injectCounter === 0) {
+        injectCounter++;
+        return new RestError("Server Internal Error", "ServerInternalError", 500);
+      }
+    });
+    const factories = (blockBlobClient as any).pipeline.factories.slice(); // clone factories array
+    factories.push(injector);
+    const pipeline = new Pipeline(factories);
+    const injectClient = new BlockBlobClient(blockBlobClient.url, pipeline);
+
+    try {
+      const stream = new PassThrough();
+      const body: string = recorder.getUniqueName("randomstring");
+      stream.end(Buffer.from(body));
+      await injectClient.upload(stream, body.length);
+      assert.fail();
+    } catch (err) {
+      assert.ok(err.message === "The request body does not support retry!");
+    }
   });
 });

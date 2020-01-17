@@ -16,7 +16,7 @@ import {
 } from "@azure/core-http";
 
 import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
-import { URLConstants } from "../utils/constants";
+import { URLConstants, RetryableKeyName } from "../utils/constants";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
 
 /**
@@ -160,6 +160,14 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
     secondaryHas404: boolean,
     attempt: number
   ): Promise<HttpOperationResponse> {
+    if (typeof request.body === "function" && attempt > 1) {
+      const descriptor = Object.getOwnPropertyDescriptor(request.body, RetryableKeyName);
+      if (!!descriptor && descriptor.value === false) {
+        this.logf(HttpPipelineLogLevel.ERROR, "The request body does not support retry!");
+        throw new Error("The request body does not support retry!");
+      }
+    }
+
     const newRequest: WebResource = request.clone();
 
     const isPrimaryRetry =
