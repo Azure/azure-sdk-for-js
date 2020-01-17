@@ -26,9 +26,9 @@ export function setReplaceableVariables(replacements: { [x: string]: string }): 
   replaceableVariables = new Map(Object.entries(replacements));
   if (isPlaybackMode()) {
     // Providing dummy values to avoid the error
-    Object.keys(replacements).map((k) => {
-      env[k] = replacements[k];
-    });
+    for (const key of Object.keys(replacements)) {
+      env[key] = replacements[key];
+    }
   }
 }
 
