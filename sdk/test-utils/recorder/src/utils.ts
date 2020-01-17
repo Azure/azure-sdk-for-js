@@ -13,8 +13,12 @@ export function isRecordMode() {
   return env.TEST_MODE === "record";
 }
 
+export function isLiveMode() {
+  return env.TEST_MODE === "live";
+}
+
 export function isPlaybackMode() {
-  return env.TEST_MODE === "playback";
+  return !isRecordMode() && !isLiveMode();
 }
 
 export function escapeRegExp(str: string): string {

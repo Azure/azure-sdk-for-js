@@ -80,12 +80,15 @@ export function record(testContext: Mocha.Context): Recorder {
     recorder = new NockRecorder(testHierarchy, testTitle);
   }
 
-  // If neither recording nor playback is enabled, requests hit the live-service and no recordings are generated
   if (isRecordMode()) {
+    // If TEST_MODE=record, invokes the recorder, hits the live-service,
+    // saves the recording after the test finishes.
     recorder.record();
   } else if (isPlaybackMode()) {
+    // If TEST_MODE=playback, invokes the recorder, play the exisiting test recording.
     recorder.playback(testContext.currentTest!.file!);
   }
+  // If TEST_MODE=live, hits the live-service and no recordings are generated.
 
   return {
     stop: function() {
