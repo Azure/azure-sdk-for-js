@@ -24,8 +24,8 @@
     "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]",
     "endpointSuffix": "core.windows.net",
     "accountSasProperties": {
-      "signedServices": "b",
-      "signedPermission": "rl",
+      "signedServices": "bfqt",
+      "signedPermission": "rwdlacup",
       "signedResourceTypes": "sco",
       "keyToSign": "key2",
       "signedExpiry": "2022-01-01T23:59:00Z"
