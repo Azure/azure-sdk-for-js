@@ -1,5 +1,10 @@
 # Release History
 
+## 1.1.3
+
+- Fixes issue where the promise returned by `receiveMessages` would sometimes fail to settle when the underlying connection
+  was disconnected while receiving messages.
+
 ## 1.1.2 (2019-12-12)
 
 - Updates `@azure/amqp-common` to version 1.0.0-preview.9.
