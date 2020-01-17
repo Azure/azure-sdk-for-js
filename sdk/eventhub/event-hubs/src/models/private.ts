@@ -30,8 +30,16 @@ export interface EventHubProducerOptions {
   retryOptions?: RetryOptions;
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 export type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties";
 
+/**
+ * @internal
+ * @ignore
+ */
 export interface CommonEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends // for our internal classes (these are optional for external users)
   extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
     Pick<
