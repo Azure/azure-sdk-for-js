@@ -4,7 +4,6 @@
   "parameters": {
     "baseName": {
       "type": "string",
-      "defaultValue": "[resourceGroup().name]",
       "metadata": {
         "description": "The base resource name."
       }
@@ -20,7 +19,7 @@
     "storageApiVersion": "2019-04-01",
     "location": "[resourceGroup().location]",
     "accountName": "[parameters('baseName')]",
-    "datalakeAccountName": "[concat('datalake', parameters('baseName'))]",
+    "datalakeAccountName": "[concat('d', parameters('baseName'))]",
     "accountNameTidy": "[toLower(trim(variables('accountName')))]",
     "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]",
     "endpointSuffix": "core.windows.net",
@@ -202,7 +201,7 @@
     },
     "STORAGE_ACCOUNT_SAS": {
       "type": "string",
-      "value": "[concat('BlobEndpoint=',variables('blobEndPoint'),';SharedAccessSignature=', listAccountSas(variables('accountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
+      "value": "[concat('?', listAccountSas(variables('accountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
     },
     "STORAGE_CONNECTION_STRING": {
       "type": "string",
