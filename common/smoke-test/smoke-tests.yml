@@ -13,7 +13,7 @@ jobs:
       vmImage: $(OSVmImage)
 
     variables:
-      - template: ./templates/variables/globals.yml
+      - template: ../../eng/pipelines/templates/variables/globals.yml
 
     steps:
       - task: NodeTool@0
@@ -30,7 +30,7 @@ jobs:
       - task: Npm@1
         inputs:
           command: custom
-          customCommand: 'list --depth=0'
+          customCommand: "list --depth=0"
           workingDir: common/smoke-test/
         displayName: List packages installed from the feed
 
@@ -38,7 +38,7 @@ jobs:
       - task: Npm@1
         inputs:
           command: custom
-          customCommand: 'install -g typescript'
+          customCommand: "install -g typescript"
         displayName: Install TypeScript
         condition: and(succeeded(), contains(variables['OSVmImage'], 'macos'))
 
