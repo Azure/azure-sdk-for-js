@@ -30,6 +30,7 @@
       "keyToSign": "key2",
       "signedExpiry": "2022-01-01T23:59:00Z"
     },
+    "authorizationApiVersion": "2017-05-01",
     "blobDataContributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe')]"
   },
   "resources": [
