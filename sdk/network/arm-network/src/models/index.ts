@@ -67,11 +67,11 @@ export interface ApplicationGatewayOnDemandProbe {
    */
   match?: ApplicationGatewayProbeHealthResponseMatch;
   /**
-   * Reference of backend pool of application gateway to which probe request will be sent.
+   * Reference to backend pool of application gateway to which probe request will be sent.
    */
   backendAddressPool?: SubResource;
   /**
-   * Reference of backend http setting of application gateway to be used for test probe.
+   * Reference to backend http setting of application gateway to be used for test probe.
    */
   backendHttpSettings?: SubResource;
 }
@@ -81,7 +81,7 @@ export interface ApplicationGatewayOnDemandProbe {
  */
 export interface NetworkInterfaceTapConfiguration extends SubResource {
   /**
-   * The reference of the Virtual Network Tap resource.
+   * The reference to the Virtual Network Tap resource.
    */
   virtualNetworkTap?: VirtualNetworkTap;
   /**
@@ -394,12 +394,12 @@ export interface NetworkInterfaceDnsSettings {
  */
 export interface NetworkInterface extends Resource {
   /**
-   * The reference of a virtual machine.
+   * The reference to a virtual machine.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly virtualMachine?: SubResource;
   /**
-   * The reference of the NetworkSecurityGroup resource.
+   * The reference to the NetworkSecurityGroup resource.
    */
   networkSecurityGroup?: NetworkSecurityGroup;
   /**
@@ -700,6 +700,10 @@ export interface DdosSettings {
    * the ability to be customized. Possible values include: 'Basic', 'Standard'
    */
   protectionCoverage?: DdosSettingsProtectionCoverage;
+  /**
+   * Enables DDoS protection on the public IP.
+   */
+  protectedIP?: boolean;
 }
 
 /**
@@ -796,11 +800,11 @@ export interface IPConfiguration extends SubResource {
    */
   privateIPAllocationMethod?: IPAllocationMethod;
   /**
-   * The reference of the subnet resource.
+   * The reference to the subnet resource.
    */
   subnet?: Subnet;
   /**
-   * The reference of the public IP resource.
+   * The reference to the public IP resource.
    */
   publicIPAddress?: PublicIPAddress;
   /**
@@ -826,7 +830,7 @@ export interface IPConfiguration extends SubResource {
  */
 export interface IPConfigurationProfile extends SubResource {
   /**
-   * The reference of the subnet resource to create a container network interface ip configuration.
+   * The reference to the subnet resource to create a container network interface ip configuration.
    */
   subnet?: Subnet;
   /**
@@ -938,7 +942,7 @@ export interface Delegation extends SubResource {
    */
   serviceName?: string;
   /**
-   * Describes the actions permitted to the service upon delegation.
+   * The actions permitted to the service upon delegation.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly actions?: string[];
@@ -973,11 +977,11 @@ export interface Subnet extends SubResource {
    */
   addressPrefixes?: string[];
   /**
-   * The reference of the NetworkSecurityGroup resource.
+   * The reference to the NetworkSecurityGroup resource.
    */
   networkSecurityGroup?: NetworkSecurityGroup;
   /**
-   * The reference of the RouteTable resource.
+   * The reference to the RouteTable resource.
    */
   routeTable?: RouteTable;
   /**
@@ -1091,15 +1095,15 @@ export interface FrontendIPConfiguration extends SubResource {
    */
   privateIPAddressVersion?: IPVersion;
   /**
-   * The reference of the subnet resource.
+   * The reference to the subnet resource.
    */
   subnet?: Subnet;
   /**
-   * The reference of the Public IP resource.
+   * The reference to the Public IP resource.
    */
   publicIPAddress?: PublicIPAddress;
   /**
-   * The reference of the Public IP Prefix resource.
+   * The reference to the Public IP Prefix resource.
    */
   publicIPPrefix?: SubResource;
   /**
@@ -1315,11 +1319,11 @@ export interface NetworkInterfaceIPConfiguration extends SubResource {
    */
   virtualNetworkTaps?: VirtualNetworkTap[];
   /**
-   * The reference of ApplicationGatewayBackendAddressPool resource.
+   * The reference to ApplicationGatewayBackendAddressPool resource.
    */
   applicationGatewayBackendAddressPools?: ApplicationGatewayBackendAddressPool[];
   /**
-   * The reference of LoadBalancerBackendAddressPool resource.
+   * The reference to LoadBalancerBackendAddressPool resource.
    */
   loadBalancerBackendAddressPools?: BackendAddressPool[];
   /**
@@ -1533,7 +1537,7 @@ export interface ApplicationGatewayBackendHealthServer {
    */
   address?: string;
   /**
-   * Reference of IP configuration of backend server.
+   * Reference to IP configuration of backend server.
    */
   ipConfiguration?: NetworkInterfaceIPConfiguration;
   /**
@@ -1552,7 +1556,7 @@ export interface ApplicationGatewayBackendHealthServer {
  */
 export interface ApplicationGatewayBackendHealthHttpSettings {
   /**
-   * Reference of an ApplicationGatewayBackendHttpSettings resource.
+   * Reference to an ApplicationGatewayBackendHttpSettings resource.
    */
   backendHttpSettings?: ApplicationGatewayBackendHttpSettings;
   /**
@@ -1566,7 +1570,7 @@ export interface ApplicationGatewayBackendHealthHttpSettings {
  */
 export interface ApplicationGatewayBackendHealthOnDemand {
   /**
-   * Reference of an ApplicationGatewayBackendAddressPool resource.
+   * Reference to an ApplicationGatewayBackendAddressPool resource.
    */
   backendAddressPool?: ApplicationGatewayBackendAddressPool;
   /**
@@ -1580,7 +1584,7 @@ export interface ApplicationGatewayBackendHealthOnDemand {
  */
 export interface ApplicationGatewayBackendHealthPool {
   /**
-   * Reference of an ApplicationGatewayBackendAddressPool resource.
+   * Reference to an ApplicationGatewayBackendAddressPool resource.
    */
   backendAddressPool?: ApplicationGatewayBackendAddressPool;
   /**
@@ -1653,7 +1657,7 @@ export interface ApplicationGatewaySslPolicy {
  */
 export interface ApplicationGatewayIPConfiguration extends SubResource {
   /**
-   * Reference of the subnet resource. A subnet from where application gateway gets its private
+   * Reference to the subnet resource. A subnet from where application gateway gets its private
    * address.
    */
   subnet?: SubResource;
@@ -1802,11 +1806,11 @@ export interface ApplicationGatewayFrontendIPConfiguration extends SubResource {
    */
   privateIPAllocationMethod?: IPAllocationMethod;
   /**
-   * Reference of the subnet resource.
+   * Reference to the subnet resource.
    */
   subnet?: SubResource;
   /**
-   * Reference of the PublicIP resource.
+   * Reference to the PublicIP resource.
    */
   publicIPAddress?: SubResource;
   /**
@@ -2159,6 +2163,27 @@ export interface ApplicationGatewayHeaderConfiguration {
 }
 
 /**
+ * Url configuration of the Actions set in Application Gateway.
+ */
+export interface ApplicationGatewayUrlConfiguration {
+  /**
+   * Url path which user has provided for url rewrite. Null means no path will be updated. Default
+   * value is null.
+   */
+  modifiedPath?: string;
+  /**
+   * Query string which user has provided for url rewrite. Null means no query string will be
+   * updated. Default value is null.
+   */
+  modifiedQueryString?: string;
+  /**
+   * If set as true, it will re-evaluate the url path map provided in path based request routing
+   * rules using modified path. Default value is false.
+   */
+  reroute?: boolean;
+}
+
+/**
  * Set of actions in the Rewrite Rule in Application Gateway.
  */
 export interface ApplicationGatewayRewriteRuleActionSet {
@@ -2170,6 +2195,10 @@ export interface ApplicationGatewayRewriteRuleActionSet {
    * Response Header Actions in the Action Set.
    */
   responseHeaderConfigurations?: ApplicationGatewayHeaderConfiguration[];
+  /**
+   * Url Configuration Action in the Action Set.
+   */
+  urlConfiguration?: ApplicationGatewayUrlConfiguration;
 }
 
 /**
@@ -2559,7 +2588,7 @@ export interface ApplicationGateway extends Resource {
    */
   webApplicationFirewallConfiguration?: ApplicationGatewayWebApplicationFirewallConfiguration;
   /**
-   * Reference of the FirewallPolicy resource.
+   * Reference to the FirewallPolicy resource.
    */
   firewallPolicy?: SubResource;
   /**
@@ -2787,7 +2816,7 @@ export interface AvailableDelegation {
    */
   serviceName?: string;
   /**
-   * Describes the actions permitted to the service upon delegation.
+   * The actions permitted to the service upon delegation.
    */
   actions?: string[];
 }
@@ -2824,11 +2853,12 @@ export interface AzureFirewallIPConfiguration extends SubResource {
    */
   readonly privateIPAddress?: string;
   /**
-   * Reference of the subnet resource. This resource must be named 'AzureFirewallSubnet'.
+   * Reference to the subnet resource. This resource must be named 'AzureFirewallSubnet' or
+   * 'AzureFirewallManagementSubnet'.
    */
   subnet?: SubResource;
   /**
-   * Reference of the PublicIP resource. This field is a mandatory input if subnet is not null.
+   * Reference to the PublicIP resource. This field is a mandatory input if subnet is not null.
    */
   publicIPAddress?: SubResource;
   /**
@@ -2847,6 +2877,11 @@ export interface AzureFirewallIPConfiguration extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * Type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -2857,6 +2892,22 @@ export interface AzureFirewallPublicIPAddress {
    * Public IP Address value.
    */
   address?: string;
+}
+
+/**
+ * IpGroups associated with azure firewall.
+ */
+export interface AzureFirewallIpGroups {
+  /**
+   * Resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The iteration number.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly changeNumber?: string;
 }
 
 /**
@@ -3167,6 +3218,10 @@ export interface AzureFirewall extends Resource {
    */
   ipConfigurations?: AzureFirewallIPConfiguration[];
   /**
+   * IP configuration of the Azure Firewall used for management traffic.
+   */
+  managementIpConfiguration?: AzureFirewallIPConfiguration;
+  /**
    * The provisioning state of the Azure firewall resource. Possible values include: 'Succeeded',
    * 'Updating', 'Deleting', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -3189,6 +3244,11 @@ export interface AzureFirewall extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly hubIpAddresses?: HubIPAddresses;
+  /**
+   * IpGroups associated with AzureFirewall.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ipGroups?: AzureFirewallIpGroups[];
   /**
    * The Azure Firewall Resource SKU.
    */
@@ -3235,11 +3295,11 @@ export interface AzureFirewallFqdnTag extends Resource {
  */
 export interface BastionHostIPConfiguration extends SubResource {
   /**
-   * Reference of the subnet resource.
+   * Reference to the subnet resource.
    */
   subnet: SubResource;
   /**
-   * Reference of the PublicIP resource.
+   * Reference to the PublicIP resource.
    */
   publicIPAddress: SubResource;
   /**
@@ -3440,14 +3500,12 @@ export interface EndpointServiceResult extends SubResource {
 export interface ExpressRouteCircuitAuthorization extends SubResource {
   /**
    * The authorization key.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly authorizationKey?: string;
+  authorizationKey?: string;
   /**
    * The authorization use status. Possible values include: 'Available', 'InUse'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly authorizationUseStatus?: AuthorizationUseStatus;
+  authorizationUseStatus?: AuthorizationUseStatus;
   /**
    * The provisioning state of the authorization resource. Possible values include: 'Succeeded',
    * 'Updating', 'Deleting', 'Failed'
@@ -3476,7 +3534,7 @@ export interface ExpressRouteCircuitAuthorization extends SubResource {
  */
 export interface ExpressRouteCircuitPeeringConfig {
   /**
-   * The reference of AdvertisedPublicPrefixes.
+   * The reference to AdvertisedPublicPrefixes.
    */
   advertisedPublicPrefixes?: string[];
   /**
@@ -3520,7 +3578,7 @@ export interface Ipv6ExpressRouteCircuitPeeringConfig {
    */
   microsoftPeeringConfig?: ExpressRouteCircuitPeeringConfig;
   /**
-   * The reference of the RouteFilter resource.
+   * The reference to the RouteFilter resource.
    */
   routeFilter?: SubResource;
   /**
@@ -3586,9 +3644,8 @@ export interface ExpressRouteCircuitConnection extends SubResource {
   /**
    * Express Route Circuit connection state. Possible values include: 'Connected', 'Connecting',
    * 'Disconnected'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly circuitConnectionStatus?: CircuitConnectionStatus;
+  circuitConnectionStatus?: CircuitConnectionStatus;
   /**
    * The provisioning state of the express route circuit connection resource. Possible values
    * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
@@ -3679,9 +3736,8 @@ export interface ExpressRouteCircuitPeering extends SubResource {
   state?: ExpressRoutePeeringState;
   /**
    * The Azure ASN.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly azureASN?: number;
+  azureASN?: number;
   /**
    * The peer ASN.
    */
@@ -3696,14 +3752,12 @@ export interface ExpressRouteCircuitPeering extends SubResource {
   secondaryPeerAddressPrefix?: string;
   /**
    * The primary port.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly primaryAzurePort?: string;
+  primaryAzurePort?: string;
   /**
    * The secondary port.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly secondaryAzurePort?: string;
+  secondaryAzurePort?: string;
   /**
    * The shared key.
    */
@@ -3736,7 +3790,7 @@ export interface ExpressRouteCircuitPeering extends SubResource {
    */
   readonly lastModifiedBy?: string;
   /**
-   * The reference of the RouteFilter resource.
+   * The reference to the RouteFilter resource.
    */
   routeFilter?: SubResource;
   /**
@@ -3749,9 +3803,8 @@ export interface ExpressRouteCircuitPeering extends SubResource {
   expressRouteConnection?: ExpressRouteConnectionId;
   /**
    * The list of circuit connections associated with Azure Private Peering for this circuit.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly connections?: ExpressRouteCircuitConnection[];
+  connections?: ExpressRouteCircuitConnection[];
   /**
    * The list of peered circuit connections associated with Azure Private Peering for this circuit.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -3824,15 +3877,13 @@ export interface ExpressRouteCircuit extends Resource {
   allowClassicOperations?: boolean;
   /**
    * The CircuitProvisioningState state of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly circuitProvisioningState?: string;
+  circuitProvisioningState?: string;
   /**
    * The ServiceProviderProvisioningState state of the resource. Possible values include:
    * 'NotProvisioned', 'Provisioning', 'Provisioned', 'Deprovisioning'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly serviceProviderProvisioningState?: ServiceProviderProvisioningState;
+  serviceProviderProvisioningState?: ServiceProviderProvisioningState;
   /**
    * The list of authorizations.
    */
@@ -3843,9 +3894,8 @@ export interface ExpressRouteCircuit extends Resource {
   peerings?: ExpressRouteCircuitPeering[];
   /**
    * The ServiceKey.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly serviceKey?: string;
+  serviceKey?: string;
   /**
    * The ServiceProviderNotes.
    */
@@ -3880,9 +3930,8 @@ export interface ExpressRouteCircuit extends Resource {
   gatewayManagerEtag?: string;
   /**
    * Flag denoting Global reach status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly globalReachEnabled?: boolean;
+  globalReachEnabled?: boolean;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -4882,7 +4931,7 @@ export interface LoadBalancingRule extends SubResource {
    */
   backendAddressPool?: SubResource;
   /**
-   * The reference of the load balancer probe used by the load balancing rule.
+   * The reference to the load balancer probe used by the load balancing rule.
    */
   probe?: SubResource;
   /**
@@ -5620,11 +5669,11 @@ export interface TopologyParameters {
    */
   targetResourceGroupName?: string;
   /**
-   * The reference of the Virtual Network resource.
+   * The reference to the Virtual Network resource.
    */
   targetVirtualNetwork?: SubResource;
   /**
-   * The reference of the Subnet resource.
+   * The reference to the Subnet resource.
    */
   targetSubnet?: SubResource;
 }
@@ -5882,7 +5931,7 @@ export interface SecurityGroupViewResult {
 }
 
 /**
- * Describes the storage location for a packet capture session.
+ * The storage location for a packet capture session.
  */
 export interface PacketCaptureStorageLocation {
   /**
@@ -5961,7 +6010,7 @@ export interface PacketCaptureParameters {
    */
   timeLimitInSeconds?: number;
   /**
-   * Describes the storage location for a packet capture session.
+   * The storage location for a packet capture session.
    */
   storageLocation: PacketCaptureStorageLocation;
   /**
@@ -5991,7 +6040,7 @@ export interface PacketCapture {
    */
   timeLimitInSeconds?: number;
   /**
-   * Describes the storage location for a packet capture session.
+   * The storage location for a packet capture session.
    */
   storageLocation: PacketCaptureStorageLocation;
   /**
@@ -6036,7 +6085,7 @@ export interface PacketCaptureResult {
    */
   timeLimitInSeconds?: number;
   /**
-   * Describes the storage location for a packet capture session.
+   * The storage location for a packet capture session.
    */
   storageLocation: PacketCaptureStorageLocation;
   /**
@@ -6209,23 +6258,13 @@ export interface FlowLogFormatParameters {
 }
 
 /**
- * Parameters that define a resource to query flow log and traffic analytics (optional) status.
- */
-export interface FlowLogStatusParameters {
-  /**
-   * The target resource where getting the flow log and traffic analytics (optional) status.
-   */
-  targetResourceId: string;
-}
-
-/**
  * Parameters that define the configuration of traffic analytics.
  */
 export interface TrafficAnalyticsConfigurationProperties {
   /**
    * Flag to enable/disable traffic analytics.
    */
-  enabled: boolean;
+  enabled?: boolean;
   /**
    * The resource guid of the attached workspace.
    */
@@ -6251,7 +6290,63 @@ export interface TrafficAnalyticsProperties {
   /**
    * Parameters that define the configuration of traffic analytics.
    */
-  networkWatcherFlowAnalyticsConfiguration: TrafficAnalyticsConfigurationProperties;
+  networkWatcherFlowAnalyticsConfiguration?: TrafficAnalyticsConfigurationProperties;
+}
+
+/**
+ * A flow log resource.
+ */
+export interface FlowLog extends Resource {
+  /**
+   * ID of network security group to which flow log will be applied.
+   */
+  targetResourceId: string;
+  /**
+   * Guid of network security group to which flow log will be applied.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly targetResourceGuid?: string;
+  /**
+   * ID of the storage account which is used to store the flow log.
+   */
+  storageId: string;
+  /**
+   * Flag to enable/disable flow logging.
+   */
+  enabled?: boolean;
+  /**
+   * Parameters that define the retention policy for flow log.
+   */
+  retentionPolicy?: RetentionPolicyParameters;
+  /**
+   * Parameters that define the flow log format.
+   */
+  format?: FlowLogFormatParameters;
+  /**
+   * Parameters that define the configuration of traffic analytics.
+   */
+  flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
+  /**
+   * The provisioning state of the flow log. Possible values include: 'Succeeded', 'Updating',
+   * 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * Parameters that define a resource to query flow log and traffic analytics (optional) status.
+ */
+export interface FlowLogStatusParameters {
+  /**
+   * The target resource where getting the flow log and traffic analytics (optional) status.
+   */
+  targetResourceId: string;
 }
 
 /**
@@ -6317,7 +6412,7 @@ export interface ConnectivityDestination {
 }
 
 /**
- * Describes the HTTP header.
+ * The HTTP header.
  */
 export interface HTTPHeader {
   /**
@@ -6363,11 +6458,11 @@ export interface ProtocolConfiguration {
  */
 export interface ConnectivityParameters {
   /**
-   * Describes the source of the connection.
+   * The source of the connection.
    */
   source: ConnectivitySource;
   /**
-   * Describes the destination of connection.
+   * The destination of connection.
    */
   destination: ConnectivityDestination;
   /**
@@ -6851,17 +6946,228 @@ export interface ConnectionMonitorDestination {
 }
 
 /**
+ * Describes the connection monitor endpoint filter item.
+ */
+export interface ConnectionMonitorEndpointFilterItem {
+  /**
+   * The type of item included in the filter. Currently only 'AgentAddress' is supported. Possible
+   * values include: 'AgentAddress'
+   */
+  type?: ConnectionMonitorEndpointFilterItemType;
+  /**
+   * The address of the filter item.
+   */
+  address?: string;
+}
+
+/**
+ * Describes the connection monitor endpoint filter.
+ */
+export interface ConnectionMonitorEndpointFilter {
+  /**
+   * The behavior of the endpoint filter. Currently only 'Include' is supported. Possible values
+   * include: 'Include'
+   */
+  type?: ConnectionMonitorEndpointFilterType;
+  /**
+   * List of items in the filter.
+   */
+  items?: ConnectionMonitorEndpointFilterItem[];
+}
+
+/**
+ * Describes the connection monitor endpoint.
+ */
+export interface ConnectionMonitorEndpoint {
+  /**
+   * The name of the connection monitor endpoint.
+   */
+  name: string;
+  /**
+   * Resource ID of the connection monitor endpoint.
+   */
+  resourceId?: string;
+  /**
+   * Address of the connection monitor endpoint (IP or domain name).
+   */
+  address?: string;
+  /**
+   * Filter for sub-items within the endpoint.
+   */
+  filter?: ConnectionMonitorEndpointFilter;
+}
+
+/**
+ * Describes the HTTP configuration.
+ */
+export interface ConnectionMonitorHttpConfiguration {
+  /**
+   * The port to connect to.
+   */
+  port?: number;
+  /**
+   * The HTTP method to use. Possible values include: 'Get', 'Post'
+   */
+  method?: HTTPConfigurationMethod;
+  /**
+   * The path component of the URI. For instance, "/dir1/dir2".
+   */
+  path?: string;
+  /**
+   * The HTTP headers to transmit with the request.
+   */
+  requestHeaders?: HTTPHeader[];
+  /**
+   * HTTP status codes to consider successful. For instance, "2xx,301-304,418".
+   */
+  validStatusCodeRanges?: string[];
+  /**
+   * Value indicating whether HTTPS is preferred over HTTP in cases where the choice is not
+   * explicit.
+   */
+  preferHTTPS?: boolean;
+}
+
+/**
+ * Describes the TCP configuration.
+ */
+export interface ConnectionMonitorTcpConfiguration {
+  /**
+   * The port to connect to.
+   */
+  port?: number;
+  /**
+   * Value indicating whether path evaluation with trace route should be disabled.
+   */
+  disableTraceRoute?: boolean;
+}
+
+/**
+ * Describes the ICMP configuration.
+ */
+export interface ConnectionMonitorIcmpConfiguration {
+  /**
+   * Value indicating whether path evaluation with trace route should be disabled.
+   */
+  disableTraceRoute?: boolean;
+}
+
+/**
+ * Describes the threshold for declaring a test successful.
+ */
+export interface ConnectionMonitorSuccessThreshold {
+  /**
+   * The maximum percentage of failed checks permitted for a test to evaluate as successful.
+   */
+  checksFailedPercent?: number;
+  /**
+   * The maximum round-trip time in milliseconds permitted for a test to evaluate as successful.
+   */
+  roundTripTimeMs?: number;
+}
+
+/**
+ * Describes a connection monitor test configuration.
+ */
+export interface ConnectionMonitorTestConfiguration {
+  /**
+   * The name of the connection monitor test configuration.
+   */
+  name: string;
+  /**
+   * The frequency of test evaluation, in seconds.
+   */
+  testFrequencySec?: number;
+  /**
+   * The protocol to use in test evaluation. Possible values include: 'Tcp', 'Http', 'Icmp'
+   */
+  protocol: ConnectionMonitorTestConfigurationProtocol;
+  /**
+   * The preferred IP version to use in test evaluation. The connection monitor may choose to use a
+   * different version depending on other parameters. Possible values include: 'IPv4', 'IPv6'
+   */
+  preferredIPVersion?: PreferredIPVersion;
+  /**
+   * The parameters used to perform test evaluation over HTTP.
+   */
+  httpConfiguration?: ConnectionMonitorHttpConfiguration;
+  /**
+   * The parameters used to perform test evaluation over TCP.
+   */
+  tcpConfiguration?: ConnectionMonitorTcpConfiguration;
+  /**
+   * The parameters used to perform test evaluation over ICMP.
+   */
+  icmpConfiguration?: ConnectionMonitorIcmpConfiguration;
+  /**
+   * The threshold for declaring a test successful.
+   */
+  successThreshold?: ConnectionMonitorSuccessThreshold;
+}
+
+/**
+ * Describes the connection monitor test group.
+ */
+export interface ConnectionMonitorTestGroup {
+  /**
+   * The name of the connection monitor test group.
+   */
+  name: string;
+  /**
+   * Value indicating whether test group is disabled.
+   */
+  disable?: boolean;
+  /**
+   * List of test configuration names.
+   */
+  testConfigurations: string[];
+  /**
+   * List of source endpoint names.
+   */
+  sources: string[];
+  /**
+   * List of destination endpoint names.
+   */
+  destinations: string[];
+}
+
+/**
+ * Describes the settings for producing output into a log analytics workspace.
+ */
+export interface ConnectionMonitorWorkspaceSettings {
+  /**
+   * Log analytics workspace resource ID.
+   */
+  workspaceResourceId?: string;
+}
+
+/**
+ * Describes a connection monitor output destination.
+ */
+export interface ConnectionMonitorOutput {
+  /**
+   * Connection monitor output destination type. Currently, only "Workspace" is supported. Possible
+   * values include: 'Workspace'
+   */
+  type?: OutputType;
+  /**
+   * Describes the settings for producing output into a log analytics workspace.
+   */
+  workspaceSettings?: ConnectionMonitorWorkspaceSettings;
+}
+
+/**
  * Parameters that define the operation to create a connection monitor.
  */
 export interface ConnectionMonitorParameters {
   /**
    * Describes the source of connection monitor.
    */
-  source: ConnectionMonitorSource;
+  source?: ConnectionMonitorSource;
   /**
    * Describes the destination of connection monitor.
    */
-  destination: ConnectionMonitorDestination;
+  destination?: ConnectionMonitorDestination;
   /**
    * Determines if the connection monitor will start automatically once created. Default value:
    * true.
@@ -6871,6 +7177,26 @@ export interface ConnectionMonitorParameters {
    * Monitoring interval in seconds. Default value: 60.
    */
   monitoringIntervalInSeconds?: number;
+  /**
+   * List of connection monitor endpoints.
+   */
+  endpoints?: ConnectionMonitorEndpoint[];
+  /**
+   * List of connection monitor test configurations.
+   */
+  testConfigurations?: ConnectionMonitorTestConfiguration[];
+  /**
+   * List of connection monitor test groups.
+   */
+  testGroups?: ConnectionMonitorTestGroup[];
+  /**
+   * List of connection monitor outputs.
+   */
+  outputs?: ConnectionMonitorOutput[];
+  /**
+   * Optional notes to be associated with the connection monitor.
+   */
+  notes?: string;
 }
 
 /**
@@ -6888,11 +7214,11 @@ export interface ConnectionMonitor {
   /**
    * Describes the source of connection monitor.
    */
-  source: ConnectionMonitorSource;
+  source?: ConnectionMonitorSource;
   /**
    * Describes the destination of connection monitor.
    */
-  destination: ConnectionMonitorDestination;
+  destination?: ConnectionMonitorDestination;
   /**
    * Determines if the connection monitor will start automatically once created. Default value:
    * true.
@@ -6902,6 +7228,26 @@ export interface ConnectionMonitor {
    * Monitoring interval in seconds. Default value: 60.
    */
   monitoringIntervalInSeconds?: number;
+  /**
+   * List of connection monitor endpoints.
+   */
+  endpoints?: ConnectionMonitorEndpoint[];
+  /**
+   * List of connection monitor test configurations.
+   */
+  testConfigurations?: ConnectionMonitorTestConfiguration[];
+  /**
+   * List of connection monitor test groups.
+   */
+  testGroups?: ConnectionMonitorTestGroup[];
+  /**
+   * List of connection monitor outputs.
+   */
+  outputs?: ConnectionMonitorOutput[];
+  /**
+   * Optional notes to be associated with the connection monitor.
+   */
+  notes?: string;
 }
 
 /**
@@ -6967,10 +7313,10 @@ export interface ConnectionMonitorResult extends BaseResource {
    */
   readonly id?: string;
   /**
-   * A unique read-only string that changes whenever the resource is updated. Default value: 'A
-   * unique read-only string that changes whenever the resource is updated.'.
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  etag?: string;
+  readonly etag?: string;
   /**
    * Connection monitor type.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -6987,11 +7333,11 @@ export interface ConnectionMonitorResult extends BaseResource {
   /**
    * Describes the source of connection monitor.
    */
-  source: ConnectionMonitorSource;
+  source?: ConnectionMonitorSource;
   /**
    * Describes the destination of connection monitor.
    */
-  destination: ConnectionMonitorDestination;
+  destination?: ConnectionMonitorDestination;
   /**
    * Determines if the connection monitor will start automatically once created. Default value:
    * true.
@@ -7002,18 +7348,47 @@ export interface ConnectionMonitorResult extends BaseResource {
    */
   monitoringIntervalInSeconds?: number;
   /**
+   * List of connection monitor endpoints.
+   */
+  endpoints?: ConnectionMonitorEndpoint[];
+  /**
+   * List of connection monitor test configurations.
+   */
+  testConfigurations?: ConnectionMonitorTestConfiguration[];
+  /**
+   * List of connection monitor test groups.
+   */
+  testGroups?: ConnectionMonitorTestGroup[];
+  /**
+   * List of connection monitor outputs.
+   */
+  outputs?: ConnectionMonitorOutput[];
+  /**
+   * Optional notes to be associated with the connection monitor.
+   */
+  notes?: string;
+  /**
    * The provisioning state of the connection monitor. Possible values include: 'Succeeded',
    * 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  provisioningState?: ProvisioningState;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The date and time when the connection monitor was started.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  startTime?: Date;
+  readonly startTime?: Date;
   /**
    * The monitoring status of the connection monitor.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  monitoringStatus?: string;
+  readonly monitoringStatus?: string;
+  /**
+   * Type of connection monitor. Possible values include: 'MultiEndpoint',
+   * 'SingleSourceDestination'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly connectionMonitorType?: ConnectionMonitorType;
 }
 
 /**
@@ -7785,7 +8160,7 @@ export interface UsageName {
 }
 
 /**
- * Describes network resource usage.
+ * The network resource usage.
  */
 export interface Usage {
   /**
@@ -7844,13 +8219,13 @@ export interface VirtualNetworkPeering extends SubResource {
    */
   useRemoteGateways?: boolean;
   /**
-   * The reference of the remote virtual network. The remote virtual network can be in the same or
+   * The reference to the remote virtual network. The remote virtual network can be in the same or
    * different region (preview). See here to register for the preview and learn more
    * (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
    */
   remoteVirtualNetwork?: SubResource;
   /**
-   * The reference of the remote virtual network address space.
+   * The reference to the remote virtual network address space.
    */
   remoteAddressSpace?: AddressSpace;
   /**
@@ -8109,11 +8484,11 @@ export interface VirtualNetworkGatewayIPConfiguration extends SubResource {
    */
   privateIPAllocationMethod?: IPAllocationMethod;
   /**
-   * The reference of the subnet resource.
+   * The reference to the subnet resource.
    */
   subnet?: SubResource;
   /**
-   * The reference of the public IP resource.
+   * The reference to the public IP resource.
    */
   publicIPAddress?: SubResource;
   /**
@@ -8260,7 +8635,7 @@ export interface IpsecPolicy {
  */
 export interface VpnClientConfiguration {
   /**
-   * The reference of the address space resource which represents Address space for P2S VpnClient.
+   * The reference to the address space resource which represents Address space for P2S VpnClient.
    */
   vpnClientAddressPool?: AddressSpace;
   /**
@@ -8441,17 +8816,17 @@ export interface VirtualNetworkGateway extends Resource {
    */
   activeActive?: boolean;
   /**
-   * The reference of the LocalNetworkGateway resource which represents local network site having
+   * The reference to the LocalNetworkGateway resource which represents local network site having
    * default routes. Assign Null value in case of removing existing default site setting.
    */
   gatewayDefaultSite?: SubResource;
   /**
-   * The reference of the VirtualNetworkGatewaySku resource which represents the SKU selected for
+   * The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for
    * Virtual network gateway.
    */
   sku?: VirtualNetworkGatewaySku;
   /**
-   * The reference of the VpnClientConfiguration resource which represents the P2S VpnClient
+   * The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
    * configurations.
    */
   vpnClientConfiguration?: VpnClientConfiguration;
@@ -8460,7 +8835,7 @@ export interface VirtualNetworkGateway extends Resource {
    */
   bgpSettings?: BgpSettings;
   /**
-   * The reference of the address space resource which represents the custom routes address space
+   * The reference to the address space resource which represents the custom routes address space
    * specified by the customer for virtual network gateway and VpnClient.
    */
   customRoutes?: AddressSpace;
@@ -9004,6 +9379,16 @@ export interface VpnPacketCaptureStartParameters {
    * Start Packet capture parameters.
    */
   filterData?: string;
+}
+
+/**
+ * List of p2s vpn connections to be disconnected.
+ */
+export interface P2SVpnConnectionRequest {
+  /**
+   * List of p2s vpn connection Ids.
+   */
+  vpnConnectionIds?: string[];
 }
 
 /**
@@ -9767,7 +10152,7 @@ export interface AadAuthenticationParameters {
  */
 export interface P2SConnectionConfiguration extends SubResource {
   /**
-   * The reference of the address space resource which represents Address space for P2S VpnClient.
+   * The reference to the address space resource which represents Address space for P2S VpnClient.
    */
   vpnClientAddressPool?: AddressSpace;
   /**
@@ -9996,13 +10381,11 @@ export interface P2SVpnConnectionHealth {
  */
 export interface PolicySettings {
   /**
-   * Describes if the policy is in enabled state or disabled state. Possible values include:
-   * 'Disabled', 'Enabled'
+   * The state of the policy. Possible values include: 'Disabled', 'Enabled'
    */
   state?: WebApplicationFirewallEnabledState;
   /**
-   * Describes if it is in detection mode or prevention mode at policy level. Possible values
-   * include: 'Prevention', 'Detection'
+   * The mode of the policy. Possible values include: 'Prevention', 'Detection'
    */
   mode?: WebApplicationFirewallMode;
   /**
@@ -10029,7 +10412,7 @@ export interface MatchVariable {
    */
   variableName: WebApplicationFirewallMatchVariable;
   /**
-   * Describes field of the matchVariable collection.
+   * The selector of match variable.
    */
   selector?: string;
 }
@@ -10043,13 +10426,13 @@ export interface MatchCondition {
    */
   matchVariables: MatchVariable[];
   /**
-   * Describes operator to be matched. Possible values include: 'IPMatch', 'Equal', 'Contains',
+   * The operator to be matched. Possible values include: 'IPMatch', 'Equal', 'Contains',
    * 'LessThan', 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith',
    * 'Regex', 'GeoMatch'
    */
   operator: WebApplicationFirewallOperator;
   /**
-   * Describes if this is negate condition or not.
+   * Whether this is negate condition or not.
    */
   negationConditon?: boolean;
   /**
@@ -10077,12 +10460,12 @@ export interface WebApplicationFirewallCustomRule {
    */
   readonly etag?: string;
   /**
-   * Describes priority of the rule. Rules with a lower value will be evaluated before rules with a
-   * higher value.
+   * Priority of the rule. Rules with a lower value will be evaluated before rules with a higher
+   * value.
    */
   priority: number;
   /**
-   * Describes type of rule. Possible values include: 'MatchRule', 'Invalid'
+   * The rule type. Possible values include: 'MatchRule', 'Invalid'
    */
   ruleType: WebApplicationFirewallRuleType;
   /**
@@ -10126,8 +10509,8 @@ export interface ManagedRuleOverride {
    */
   ruleId: string;
   /**
-   * Describes the state of the managed rule. Defaults to Disabled if not specified. Possible
-   * values include: 'Disabled'
+   * The state of the managed rule. Defaults to Disabled if not specified. Possible values include:
+   * 'Disabled'
    */
   state?: ManagedRuleEnabledState;
 }
@@ -10137,7 +10520,7 @@ export interface ManagedRuleOverride {
  */
 export interface ManagedRuleGroupOverride {
   /**
-   * Describes the managed rule group to override.
+   * The managed rule group to override.
    */
   ruleGroupName: string;
   /**
@@ -10170,11 +10553,11 @@ export interface ManagedRuleSet {
  */
 export interface ManagedRulesDefinition {
   /**
-   * Describes the Exclusions that are applied on the policy.
+   * The Exclusions that are applied on the policy.
    */
   exclusions?: OwaspCrsExclusionEntry[];
   /**
-   * Describes the ruleSets that are associated with the policy.
+   * The managed rule sets that are associated with the policy.
    */
   managedRuleSets: ManagedRuleSet[];
 }
@@ -10184,11 +10567,11 @@ export interface ManagedRulesDefinition {
  */
 export interface WebApplicationFirewallPolicy extends Resource {
   /**
-   * Describes policySettings for policy.
+   * The PolicySettings for policy.
    */
   policySettings?: PolicySettings;
   /**
-   * Describes custom rules inside the policy.
+   * The custom rules inside the policy.
    */
   customRules?: WebApplicationFirewallCustomRule[];
   /**
@@ -11107,6 +11490,19 @@ export interface PacketCaptureListResult extends Array<PacketCaptureResult> {
  * @extends Array<ConnectionMonitorResult>
  */
 export interface ConnectionMonitorListResult extends Array<ConnectionMonitorResult> {
+}
+
+/**
+ * @interface
+ * List of flow logs.
+ * @extends Array<FlowLog>
+ */
+export interface FlowLogListResult extends Array<FlowLog> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -12240,6 +12636,54 @@ export type ConnectionStatus = 'Unknown' | 'Connected' | 'Disconnected' | 'Degra
 export type VerbosityLevel = 'Normal' | 'Minimum' | 'Full';
 
 /**
+ * Defines values for ConnectionMonitorEndpointFilterType.
+ * Possible values include: 'Include'
+ * @readonly
+ * @enum {string}
+ */
+export type ConnectionMonitorEndpointFilterType = 'Include';
+
+/**
+ * Defines values for ConnectionMonitorEndpointFilterItemType.
+ * Possible values include: 'AgentAddress'
+ * @readonly
+ * @enum {string}
+ */
+export type ConnectionMonitorEndpointFilterItemType = 'AgentAddress';
+
+/**
+ * Defines values for ConnectionMonitorTestConfigurationProtocol.
+ * Possible values include: 'Tcp', 'Http', 'Icmp'
+ * @readonly
+ * @enum {string}
+ */
+export type ConnectionMonitorTestConfigurationProtocol = 'Tcp' | 'Http' | 'Icmp';
+
+/**
+ * Defines values for PreferredIPVersion.
+ * Possible values include: 'IPv4', 'IPv6'
+ * @readonly
+ * @enum {string}
+ */
+export type PreferredIPVersion = 'IPv4' | 'IPv6';
+
+/**
+ * Defines values for HTTPConfigurationMethod.
+ * Possible values include: 'Get', 'Post'
+ * @readonly
+ * @enum {string}
+ */
+export type HTTPConfigurationMethod = 'Get' | 'Post';
+
+/**
+ * Defines values for OutputType.
+ * Possible values include: 'Workspace'
+ * @readonly
+ * @enum {string}
+ */
+export type OutputType = 'Workspace';
+
+/**
  * Defines values for ConnectionState.
  * Possible values include: 'Reachable', 'Unreachable', 'Unknown'
  * @readonly
@@ -12254,6 +12698,14 @@ export type ConnectionState = 'Reachable' | 'Unreachable' | 'Unknown';
  * @enum {string}
  */
 export type EvaluationState = 'NotStarted' | 'InProgress' | 'Completed';
+
+/**
+ * Defines values for ConnectionMonitorType.
+ * Possible values include: 'MultiEndpoint', 'SingleSourceDestination'
+ * @readonly
+ * @enum {string}
+ */
+export type ConnectionMonitorType = 'MultiEndpoint' | 'SingleSourceDestination';
 
 /**
  * Defines values for ConnectionMonitorSourceStatus.
@@ -18587,6 +19039,106 @@ export type ConnectionMonitorsBeginQueryResponse = ConnectionMonitorQueryResult 
        * The response body as parsed JSON or XML
        */
       parsedBody: ConnectionMonitorQueryResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type FlowLogsCreateOrUpdateResponse = FlowLog & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FlowLog;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type FlowLogsGetResponse = FlowLog & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FlowLog;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type FlowLogsListResponse = FlowLogListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FlowLogListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type FlowLogsBeginCreateOrUpdateResponse = FlowLog & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FlowLog;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type FlowLogsListNextResponse = FlowLogListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FlowLogListResult;
     };
 };
 

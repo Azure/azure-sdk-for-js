@@ -55,6 +55,7 @@ export * from "./defaultSecurityRules";
 export * from "./networkWatchers";
 export * from "./packetCaptures";
 export * from "./connectionMonitors";
+export * from "./flowLogs";
 export * from "./operations";
 export * from "./privateEndpoints";
 export * from "./availablePrivateEndpointTypes";

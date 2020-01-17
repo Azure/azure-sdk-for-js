@@ -66,6 +66,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   networkWatchers: operations.NetworkWatchers;
   packetCaptures: operations.PacketCaptures;
   connectionMonitors: operations.ConnectionMonitors;
+  flowLogs: operations.FlowLogs;
   operations: operations.Operations;
   privateEndpoints: operations.PrivateEndpoints;
   availablePrivateEndpointTypes: operations.AvailablePrivateEndpointTypes;
@@ -164,6 +165,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.networkWatchers = new operations.NetworkWatchers(this);
     this.packetCaptures = new operations.PacketCaptures(this);
     this.connectionMonitors = new operations.ConnectionMonitors(this);
+    this.flowLogs = new operations.FlowLogs(this);
     this.operations = new operations.Operations(this);
     this.privateEndpoints = new operations.PrivateEndpoints(this);
     this.availablePrivateEndpointTypes = new operations.AvailablePrivateEndpointTypes(this);
