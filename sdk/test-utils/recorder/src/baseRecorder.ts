@@ -9,9 +9,9 @@ import {
   escapeRegExp,
   env,
   TestInfo,
+  parseUrl,
   isPlaybackMode,
   isRecordMode,
-  parseUrl,
   findRecordingsFolderPath
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
@@ -45,7 +45,7 @@ export function skipQueryParams(params: string[]): void {
 }
 
 export function setEnvironmentOnLoad() {
-  if (!isBrowser() && (isRecordMode || isPlaybackMode)) {
+  if (!isBrowser() && (isRecordMode() || isPlaybackMode())) {
     nock = require("nock");
   }
 

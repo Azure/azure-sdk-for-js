@@ -10,8 +10,8 @@ import { CryptographyClient, KeyVaultKey, KeyClient } from "../src";
 import { convertJWKtoPEM } from "../src/cryptographyClient";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { isRecording } from "./utils/recorderUtils";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
+import { isRecordMode } from "@azure/test-utils-recorder";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   let client: KeyClient;
@@ -42,7 +42,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
   // The tests follow
 
-  if (isRecording) {
+  if (isRecordMode()) {
     it("encrypt & decrypt with RSA1_5", async function() {
       const text = this.test!.title;
       const encryptResult = await cryptoClient.encrypt("RSA1_5", stringToUint8Array(text));
@@ -96,7 +96,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
   }
 
-  if (isRecording) {
+  if (isRecordMode()) {
     it("wrap and unwrap with rsa1_5", async function() {
       const text = "arepa";
       const wrapped = await cryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));

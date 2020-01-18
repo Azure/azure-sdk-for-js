@@ -1,10 +1,19 @@
 jobs:
   - job: SmokeTest
-    variables:
-      - template: ./templates/variables/globals.yml
+    strategy:
+      matrix:
+        Linux:
+          OSVmImage: "ubuntu-18.04"
+        Windows:
+          OSVmImage: "windows-2019"
+        Mac:
+          OSVmImage: "macOS-10.14"
 
     pool:
       vmImage: $(OSVmImage)
+
+    variables:
+      - template: ../../eng/pipelines/templates/variables/globals.yml
 
     steps:
       - task: NodeTool@0
@@ -16,7 +25,22 @@ jobs:
         inputs:
           command: install
           workingDir: common/smoke-test/
-          displayName: Install packages
+        displayName: Install packages
+
+      - task: Npm@1
+        inputs:
+          command: custom
+          customCommand: "list --depth=0"
+          workingDir: common/smoke-test/
+        displayName: List packages installed from the feed
+
+      # The MacOS image does not have TypeScript installed by default
+      - task: Npm@1
+        inputs:
+          command: custom
+          customCommand: "install -g typescript"
+        displayName: Install TypeScript
+        condition: and(succeeded(), contains(variables['OSVmImage'], 'macos'))
 
       - script: tsc -p ./common/smoke-test/
         displayName: "Compile TS"

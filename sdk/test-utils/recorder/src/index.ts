@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 export { record, Recorder } from "./recorder";
-export { env, delay, isPlaybackMode, isRecordMode } from "./utils";
+export { env, delay, isPlaybackMode, isRecordMode, isLiveMode } from "./utils";
 export {
   setReplaceableVariables,
   setReplacements,
