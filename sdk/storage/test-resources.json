@@ -38,7 +38,9 @@
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "[variables('authorizationApiVersion')]",
       "name": "[guid(concat('blobDataContributorRoleId', variables('accountName')))]",
-      "dependsOn": ["[variables('accountName')]"],
+      "dependsOn": [
+        "[variables('accountName')]"
+      ],
       "properties": {
         "roleDefinitionId": "[variables('blobDataContributorRoleId')]",
         "principalId": "[parameters('testApplicationOid')]"
@@ -58,7 +60,9 @@
         "cors": {
           "corsRules": [
             {
-              "allowedOrigins": ["*"],
+              "allowedOrigins": [
+                "*"
+              ],
               "allowedMethods": [
                 "DELETE",
                 "GET",
@@ -70,15 +74,21 @@
                 "PATCH"
               ],
               "maxAgeInSeconds": 86400,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
+              "exposedHeaders": [
+                "*"
+              ],
+              "allowedHeaders": [
+                "*"
+              ]
             }
           ]
         },
         "networkAcls": {
           "bypass": "AzureServices",
-          "virtualNetworkRules": [],
-          "ipRules": [],
+          "virtualNetworkRules": [
+          ],
+          "ipRules": [
+          ],
           "defaultAction": "Allow"
         },
         "supportsHttpsTrafficOnly": true,
@@ -111,7 +121,9 @@
         "cors": {
           "corsRules": [
             {
-              "allowedOrigins": ["*"],
+              "allowedOrigins": [
+                "*"
+              ],
               "allowedMethods": [
                 "DELETE",
                 "GET",
@@ -123,15 +135,21 @@
                 "PATCH"
               ],
               "maxAgeInSeconds": 86400,
-              "exposedHeaders": ["*"],
-              "allowedHeaders": ["*"]
+              "exposedHeaders": [
+                "*"
+              ],
+              "allowedHeaders": [
+                "*"
+              ]
             }
           ]
         },
         "networkAcls": {
           "bypass": "AzureServices",
-          "virtualNetworkRules": [],
-          "ipRules": [],
+          "virtualNetworkRules": [
+          ],
+          "ipRules": [
+          ],
           "defaultAction": "Allow"
         },
         "supportsHttpsTrafficOnly": true,
