@@ -57,32 +57,6 @@
       },
       "kind": "StorageV2",
       "properties": {
-        "cors": {
-          "corsRules": [
-            {
-              "allowedOrigins": [
-                "*"
-              ],
-              "allowedMethods": [
-                "DELETE",
-                "GET",
-                "HEAD",
-                "MERGE",
-                "POST",
-                "OPTIONS",
-                "PUT",
-                "PATCH"
-              ],
-              "maxAgeInSeconds": 86400,
-              "exposedHeaders": [
-                "*"
-              ],
-              "allowedHeaders": [
-                "*"
-              ]
-            }
-          ]
-        },
         "networkAcls": {
           "bypass": "AzureServices",
           "virtualNetworkRules": [
@@ -104,7 +78,47 @@
           "keySource": "Microsoft.Storage"
         },
         "accessTier": "Hot"
-      }
+      },
+      "resources": [
+        {
+          "name": "default",
+          "type": "blobServices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "dependsOn": [
+            "[variables('accountName')]"
+          ],
+          "properties": {
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": [
+                    "*"
+                  ],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT",
+                    "PATCH"
+                  ],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": [
+                    "*"
+                  ],
+                  "allowedHeaders": [
+                    "*"
+                  ]
+                }
+              ]
+            }
+          },
+          "resources": [
+          ]
+        }
+      ]
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
