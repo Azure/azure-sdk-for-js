@@ -106,28 +106,18 @@ export class Sender {
   }
 
   /**
-   * Schedules given message to appear on Service Bus Queue/Subscription at a later time.
+   * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
    *
-   * Recently, a bug has been surfaced with the `scheduleMessage()` method.
-   *
-   * More reference and details on the bug - https://github.com/Azure/azure-sdk-for-js/issues/6816#issuecomment-574461068
-   *
-   * You are affected with the bug in case you are depending on version < 2.0.0 of `@azure/service-bus`.
-   *
-   * Version 2.0.0 is not released yet and the fix for this bug will be shipped along with the release.
-   *
-   * Until then, please make use of the following workaround in order to leverage `scheduleMessage` functionality.
-   *
-   * Workaround
-   *  1. Import DefaultDataTransformer from "@azure/amqp-common" library.
-   *      NPM Link - https://www.npmjs.com/package/@azure/amqp-common
-   *    - In typescript, `import { DefaultDataTransformer } from "@azure/amqp-common";`
-   *    - In javascript, `const { DefaultDataTransformer } = require("@azure/amqp-common");`
-   *  2. Update the message body before calling the scheduleMessage() method to send the message as follows
-   *    - Instantiate the data transformer used by the sdk:
-   *      `const dt = new DefaultDataTransformer();`
-   *    - When you need to schedule the message, encode the message body before sending:
-   *      `message.body = dt.encode(message.body);`
+   * Please note that you need to explicitly encode the message body if you intend to receive the message using a tool or library other than this library.
+   * For example:
+   *  1. Import DefaultDataTransformer and instantiate.
+   *      ```js
+   *        const dt = new DefaultDataTransformer();
+   *      ```
+   *  2. Use the `encode` method on the transformer to encode the message body before calling the scheduleMessage() method
+   *      ```js
+   *        message.body = dt.encode(message.body);
+   *      ```
    *
    * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be enqueued.
    * @param message - The message that needs to be scheduled.
@@ -161,26 +151,16 @@ export class Sender {
   /**
    * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
    *
-   * Recently, a bug has been surfaced with the `scheduleMessages()` method.
-   *
-   * More reference and details on the bug - https://github.com/Azure/azure-sdk-for-js/issues/6816#issuecomment-574461068
-   *
-   * You are affected with the bug in case you are depending on version < 2.0.0 of `@azure/service-bus`.
-   *
-   * Version 2.0.0 is not released yet and the fix for this bug will be shipped along with the release.
-   *
-   * Until then, please make use of the following workaround in order to leverage `scheduleMessages` functionality.
-   *
-   * Workaround
-   *  1. Import DefaultDataTransformer from "@azure/amqp-common" library.
-   *      NPM Link - https://www.npmjs.com/package/@azure/amqp-common
-   *    - In typescript, `import { DefaultDataTransformer } from "@azure/amqp-common";`
-   *    - In javascript, `const { DefaultDataTransformer } = require("@azure/amqp-common");`
-   *  2. Update the message body before calling the scheduleMessages() method to send the message as follows
-   *    - Instantiate the data transformer used by the sdk:
-   *      `const dt = new DefaultDataTransformer();`
-   *    - When you need to schedule the message, encode the message body before sending:
-   *      `message.body = dt.encode(message.body);`
+   * Please note that you need to explicitly encode the message body if you intend to receive the message using a tool or library other than this library.
+   * For example:
+   *  1. Import DefaultDataTransformer and instantiate.
+   *      ```js
+   *        const dt = new DefaultDataTransformer();
+   *      ```
+   *  2. Use the `encode` method on the transformer to encode the message body before calling the scheduleMessage() method
+   *      ```js
+   *        message.body = dt.encode(message.body);
+   *      ```
    *
    * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
    * @param messages - Array of Messages that need to be scheduled.
