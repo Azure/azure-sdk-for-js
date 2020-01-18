@@ -117,6 +117,80 @@
           },
           "resources": [
           ]
+        },
+        {
+          "name": "default",
+          "type": "fileServices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "dependsOn": [
+            "[variables('accountName')]"
+          ],
+          "properties": {
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": [
+                    "*"
+                  ],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT"
+                  ],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": [
+                    "*"
+                  ],
+                  "allowedHeaders": [
+                    "*"
+                  ]
+                }
+              ]
+            }
+          },
+          "resources": [
+          ]
+        },
+        {
+          "name": "default",
+          "type": "queueServices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "dependsOn": [
+            "[variables('accountName')]"
+          ],
+          "properties": {
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": [
+                    "*"
+                  ],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT"
+                  ],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": [
+                    "*"
+                  ],
+                  "allowedHeaders": [
+                    "*"
+                  ]
+                }
+              ]
+            }
+          },
+          "resources": [
+          ]
         }
       ]
     },
