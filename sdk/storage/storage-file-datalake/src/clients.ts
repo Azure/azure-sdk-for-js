@@ -55,7 +55,6 @@ import {
 } from "./transforms";
 import { createSpan } from "./utils/tracing";
 import { appendToURLPath, setURLPath } from "./utils/utils.common";
-import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -120,12 +119,6 @@ export class DataLakePathClient extends StorageClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
     if (credentialOrPipeline instanceof Pipeline) {
       super(url, credentialOrPipeline);
     } else {
@@ -136,7 +129,7 @@ export class DataLakePathClient extends StorageClient {
         credential = credentialOrPipeline;
       }
 
-      const pipeline = newPipeline(credential, newOptions);
+      const pipeline = newPipeline(credential, options);
       super(url, pipeline);
     }
 

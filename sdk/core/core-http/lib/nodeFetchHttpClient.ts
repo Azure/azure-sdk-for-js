@@ -68,8 +68,10 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     } else if (httpRequest.keepAlive) {
       let agent = getCachedAgent(isHttps, this.keepAliveAgents);
       if (agent) {
+        console.log("core-http: using cached keepAlive agent");
         return agent;
       }
+      console.log("core-http: creating new keepAlive agent");
 
       const agentOptions: http.AgentOptions | https.AgentOptions = {
         keepAlive: httpRequest.keepAlive,

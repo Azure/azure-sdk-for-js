@@ -33,6 +33,7 @@ import {
   StorageFileLoggingAllowedHeaderNames,
   StorageFileLoggingAllowedQueryParameters
 } from "./utils/constants";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -198,7 +199,12 @@ export function newPipeline(
   }
   factories.push(credential);
 
-  return new Pipeline(factories, {
-    httpClient: pipelineOptions.httpClient
-  });
+  // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+  // avoid each client creating its own http client.
+  const newOptions = {
+    ...pipelineOptions,
+    httpClient: pipelineOptions.httpClient || getCachedDefaultHttpClient()
+  };
+
+  return new Pipeline(factories, newOptions);
 }

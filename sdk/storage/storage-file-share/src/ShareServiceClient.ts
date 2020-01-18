@@ -25,7 +25,6 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import { createSpan } from "./utils/tracing";
-import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure Share - List Shares Segment operations.
@@ -184,12 +183,6 @@ export class ShareServiceClient extends StorageClient {
     connectionString: string,
     options?: StoragePipelineOptions
   ): ShareServiceClient {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
@@ -197,13 +190,13 @@ export class ShareServiceClient extends StorageClient {
           extractedCreds.accountName!,
           extractedCreds.accountKey
         );
-        const pipeline = newPipeline(sharedKeyCredential, newOptions);
+        const pipeline = newPipeline(sharedKeyCredential, options);
         return new ShareServiceClient(extractedCreds.url, pipeline);
       } else {
         throw new Error("Account connection string is only supported in Node.js environment");
       }
     } else if (extractedCreds.kind === "SASConnString") {
-      const pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      const pipeline = newPipeline(new AnonymousCredential(), options);
       return new ShareServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
     } else {
       throw new Error(
@@ -240,21 +233,14 @@ export class ShareServiceClient extends StorageClient {
     credentialOrPipeline?: Credential | Pipeline,
     options?: StoragePipelineOptions
   ) {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
-
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (credentialOrPipeline instanceof Credential) {
-      pipeline = newPipeline(credentialOrPipeline, newOptions);
+      pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential.
-      pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     }
 
     super(url, pipeline);
