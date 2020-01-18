@@ -36,6 +36,7 @@ import {
   StorageDataLakeLoggingAllowedQueryParameters,
   StorageOAuthScopes
 } from "./utils/constants";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
@@ -211,7 +212,12 @@ export function newPipeline(
       : credential
   );
 
-  return new Pipeline(factories, {
-    httpClient: pipelineOptions.httpClient
-  });
+  // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+  // avoid each client creating its own http client.
+  const newOptions = {
+    ...pipelineOptions,
+    httpClient: pipelineOptions.httpClient || getCachedDefaultHttpClient()
+  };
+
+  return new Pipeline(factories, newOptions);
 }

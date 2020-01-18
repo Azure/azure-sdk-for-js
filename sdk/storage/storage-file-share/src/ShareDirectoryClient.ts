@@ -41,7 +41,6 @@ import { FileSystemAttributes } from "./FileSystemAttributes";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 import { HttpResponse } from "@azure/core-http";
-import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure {@link ShareDirectoryClient.create} operation.
@@ -434,20 +433,14 @@ export class ShareDirectoryClient extends StorageClient {
     credentialOrPipeline?: Credential | Pipeline,
     options: StoragePipelineOptions = {}
   ) {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
       pipeline = credentialOrPipeline;
     } else if (credentialOrPipeline instanceof Credential) {
-      pipeline = newPipeline(credentialOrPipeline, newOptions);
+      pipeline = newPipeline(credentialOrPipeline, options);
     } else {
       // The second parameter is undefined. Use anonymous credential.
-      pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     }
 
     super(url, pipeline);
