@@ -129,7 +129,7 @@ export class QueueClient implements Client {
    * `sessionOptions` argument)
    */
   public createReceiver(receiveMode: ReceiveMode): Receiver;
-  
+
   /**
    * Creates a Receiver for receiving messages from a session enabled Queue. When no sessionId is
    * given, a random session among the available sessions is used.

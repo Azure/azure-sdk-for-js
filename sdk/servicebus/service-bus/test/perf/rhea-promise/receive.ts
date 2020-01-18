@@ -91,13 +91,13 @@ async function RunTest(
     }
   };
 
-  const manuallyManageCredit = (maxConcurrentCalls > 0);
+  const manuallyManageCredit = maxConcurrentCalls > 0;
   if (manuallyManageCredit) {
     receiverOptions.credit_window = 0;
   }
 
   const receiver = await connection.createReceiver(receiverOptions);
-  
+
   if (manuallyManageCredit) {
     receiver.addCredit(maxConcurrentCalls);
   }
