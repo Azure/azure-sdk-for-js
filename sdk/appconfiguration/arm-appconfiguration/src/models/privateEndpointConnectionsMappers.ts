@@ -7,21 +7,15 @@
  */
 
 export {
-  ApiKey,
-  ApiKeyListResult,
   BaseResource,
   ConfigurationStore,
-  ConfigurationStoreListResult,
-  ConfigurationStoreUpdateParameters,
   EncryptionProperties,
   ErrorModel,
-  KeyValue,
   KeyVaultProperties,
-  ListKeyValueParameters,
   PrivateEndpoint,
   PrivateEndpointConnection,
+  PrivateEndpointConnectionListResult,
   PrivateLinkServiceConnectionState,
-  RegenerateKeyParameters,
   Resource,
   ResourceIdentity,
   Sku,
