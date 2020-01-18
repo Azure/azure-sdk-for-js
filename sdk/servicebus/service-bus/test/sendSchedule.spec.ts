@@ -815,3 +815,27 @@ describe("SendableMessageInfo validations #RunInBrowser", function(): void {
     });
   });
 });
+
+describe("Large number of sends #RunInBrowser", function(): void {
+  afterEach(async () => {
+    await afterEachTest();
+  });
+
+  it("should be sent successfully in parallel, even when exceeding max event listener count of 1000", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedQueue);
+
+    const senderCount = 1200;
+    try {
+      const sender = senderClient.createSender();
+      const promises = [];
+      for (let i = 0; i < senderCount; i++) {
+        promises.push(sender.send({ body: { messageId: i } }));
+      }
+      await Promise.all(promises);
+    } catch (err) {
+      throw err;
+    }
+  });
+});

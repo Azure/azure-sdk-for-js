@@ -1,10 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { defaultLock, TokenType, AccessToken, Constants, SharedKeyCredential } from "@azure/core-amqp";
+import {
+  defaultLock,
+  TokenType,
+  AccessToken,
+  Constants,
+  SharedKeyCredential
+} from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";
-import { Sender, Receiver } from "rhea-promise";
+import { AwaitableSender, Sender, Receiver } from "rhea-promise";
 import { getUniqueName } from "../util/utils";
 
 /**
@@ -131,7 +137,9 @@ export class LinkEntity {
       // renew sas token in every 45 minutess
       this._tokenTimeout = (3600 - 900) * 1000;
     } else {
-      const aadToken = await this._context.namespace.tokenCredential.getToken(Constants.aadServiceBusScope);
+      const aadToken = await this._context.namespace.tokenCredential.getToken(
+        Constants.aadServiceBusScope
+      );
       if (!aadToken) {
         throw new Error(`Failed to get token from the provided "TokenCredential" object`);
       }
@@ -161,7 +169,11 @@ export class LinkEntity {
       throw new Error("Token cannot be null");
     }
     await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
-      return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
+      return this._context.namespace.cbsSession.negotiateClaim(
+        this.audience,
+        tokenObject,
+        tokenType
+      );
     });
     log.link(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
@@ -213,10 +225,10 @@ export class LinkEntity {
    * Closes the Sender|Receiver link and it's underlying session and also removes it from the
    * internal map.
    *
-   * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be closed and
+   * @param {AwaitableSender | Receiver} [link] The Sender or Receiver link that needs to be closed and
    * removed.
    */
-  protected async _closeLink(link?: Sender | Receiver): Promise<void> {
+  protected async _closeLink(link?: AwaitableSender | Sender | Receiver): Promise<void> {
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     if (link) {
       try {
