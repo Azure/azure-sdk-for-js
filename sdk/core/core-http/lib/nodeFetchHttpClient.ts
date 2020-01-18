@@ -72,7 +72,8 @@ export class NodeFetchHttpClient extends FetchHttpClient {
       }
 
       const agentOptions: http.AgentOptions | https.AgentOptions = {
-        keepAlive: httpRequest.keepAlive
+        keepAlive: httpRequest.keepAlive,
+        maxSockets: 50
       };
 
       if (isHttps) {
