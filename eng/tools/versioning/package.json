@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "dependencies": {
+    "cross-spawn": "^7.0.1",
     "semver": "^6.3.0",
     "yargs": "^14.2.0"
   }
