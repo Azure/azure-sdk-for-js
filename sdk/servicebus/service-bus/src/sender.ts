@@ -106,7 +106,7 @@ export class Sender {
   }
 
   /**
-   * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
+   * Schedules given message to appear on Service Bus Queue/Subscription at a later time.
    *
    * Please note that you need to explicitly encode the message body if you intend to receive the message using a tool or library other than this library.
    * For example:
