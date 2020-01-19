@@ -27,11 +27,11 @@ export class AdminKeys {
   }
 
   /**
-   * Gets the primary and secondary admin API keys for the specified Azure Search service.
+   * Gets the primary and secondary admin API keys for the specified Azure Cognitive Search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.AdminKeysGetResponse>
    */
@@ -39,16 +39,16 @@ export class AdminKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param callback The callback
    */
   get(resourceGroupName: string, searchServiceName: string, callback: msRest.ServiceCallback<Models.AdminKeyResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -69,8 +69,8 @@ export class AdminKeys {
    * time.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param keyKind Specifies which key to regenerate. Valid values include 'primary' and
    * 'secondary'. Possible values include: 'primary', 'secondary'
    * @param [options] The optional parameters
@@ -80,8 +80,8 @@ export class AdminKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param keyKind Specifies which key to regenerate. Valid values include 'primary' and
    * 'secondary'. Possible values include: 'primary', 'secondary'
    * @param callback The callback
@@ -90,8 +90,8 @@ export class AdminKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param keyKind Specifies which key to regenerate. Valid values include 'primary' and
    * 'secondary'. Possible values include: 'primary', 'secondary'
    * @param options The optional parameters
