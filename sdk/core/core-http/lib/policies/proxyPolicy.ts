@@ -26,14 +26,6 @@ function loadEnvironmentProxyValue(): string | undefined {
     return process.env[Constants.HTTP_PROXY];
   } else if (process.env[Constants.HTTP_PROXY.toLowerCase()]) {
     return process.env[Constants.HTTP_PROXY.toLowerCase()];
-  } else if (process.env[Constants.NO_PROXY]) {
-    return process.env[Constants.NO_PROXY];
-  } else if (process.env[Constants.NO_PROXY.toLowerCase()]) {
-    return process.env[Constants.NO_PROXY.toLowerCase()];
-  } else if (process.env[Constants.ALL_PROXY]) {
-    return process.env[Constants.ALL_PROXY];
-  } else if (process.env[Constants.ALL_PROXY.toLowerCase()]) {
-    return process.env[Constants.ALL_PROXY.toLowerCase()];
   }
 
   return undefined;

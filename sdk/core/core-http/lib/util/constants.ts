@@ -41,22 +41,6 @@ export const Constants = {
    */
   HTTPS_PROXY: "HTTPS_PROXY",
 
-  /**
-   * Specifies NO Proxy.
-   *
-   * @const
-   * @type {string}
-   */
-  NO_PROXY: "NO_PROXY",
-
-   /**
-   * Specifies ALL Proxy.
-   *
-   * @const
-   * @type {string}
-   */
-  ALL_PROXY: "ALL_PROXY",
-
   HttpConstants: {
     /**
      * Http Verbs
