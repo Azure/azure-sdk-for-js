@@ -8,26 +8,26 @@ import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
 import {
   CredentialClient,
-  CliCredentialClient,
-  CliCredentialOptions
-} from "../client/CliCredentialClient";
+  AzureCliCredentialClient,
+  AzureCliCredentialOptions
+} from "../client/AzureCliCredentialClient";
 
 /**
  * Provides the user access token and expire time
  * with azure cli command "az account get-access-token" in powershell.
  */
-export class CliCredential implements TokenCredential {
+export class AzureCliCredential implements TokenCredential {
   private client: CredentialClient;
   /**
-   * Creates an instance of the CliCredential class.
+   * Creates an instance of the AzureCliCredential class.
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(options?: CliCredentialOptions) {
-    if (options && options.cliCredentialClient) {
-      this.client = options.cliCredentialClient;
+  constructor(options?: AzureCliCredentialOptions) {
+    if (options && options.azureCliCredentialClient) {
+      this.client = options.azureCliCredentialClient;
     } else {
-      this.client = new CliCredentialClient();
+      this.client = new AzureCliCredentialClient();
     }
   }
 
@@ -45,7 +45,7 @@ export class CliCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span } = createSpan("CliCredential-getToken", options);
+    const { span } = createSpan("AzureCliCredential-getToken", options);
 
     return new Promise((resolve, reject) => {
       let scope: string;
@@ -54,9 +54,9 @@ export class CliCredential implements TokenCredential {
       const resource = scope.replace(/\/.default$/, "");
       let responseData = "";
 
-      const { span } = createSpan("CliCredential-getToken", options);
+      const { span } = createSpan("AzureCliCredential-getToken", options);
       this.client
-        .createProcess(`az account get-access-token --output json --resource ${resource}`)
+        .getAzureCliAccessToken(resource)
         .then((obj: any) => {
           if (obj.stderr) {
             let isLoginError = obj.stderr.match("Please run 'az login' to setup account");

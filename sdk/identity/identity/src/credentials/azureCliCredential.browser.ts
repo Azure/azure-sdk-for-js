@@ -6,11 +6,9 @@
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { TokenCredentialOptions } from "../client/identityClient";
 
-const BrowserNotSupportedError = new Error(
-  "CliCredential is not supported in the browser."
-);
+const BrowserNotSupportedError = new Error("AzureCliCredential is not supported in the browser.");
 
-export class CliCredential implements TokenCredential {
+export class AzureCliCredential implements TokenCredential {
   constructor(options?: TokenCredentialOptions) {
     throw BrowserNotSupportedError;
   }

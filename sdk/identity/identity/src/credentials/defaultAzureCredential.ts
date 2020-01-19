@@ -5,7 +5,7 @@ import { TokenCredentialOptions } from "../client/identityClient";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
-import { CliCredential } from "./cliCredential";
+import { AzureCliCredential } from "./azureCliCredential";
 
 /**
  * Provides a default {@link ChainedTokenCredential} configuration for
@@ -28,7 +28,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     super(
       new EnvironmentCredential(tokenCredentialOptions),
       new ManagedIdentityCredential(tokenCredentialOptions),
-      new CliCredential()
+      new AzureCliCredential()
     );
   }
 }
