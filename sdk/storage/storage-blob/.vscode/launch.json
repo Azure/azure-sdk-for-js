@@ -15,9 +15,9 @@
       "type": "node",
       "request": "launch",
       "name": "Debug Typescript Samples",
-      "program": "${workspaceFolder}/samples/typescript/basic.ts",
-      "preLaunchTask": "npm: build:ts-samples",
-      "outFiles": ["${workspaceFolder}/dist-esm/samples/typescript/*.js"]
+      "program": "${workspaceFolder}/samples/typescript/src/basic.ts",
+      "preLaunchTask": "npm: build:samples",
+      "outFiles": ["${workspaceFolder}/samples/typescript/dist/samples/typescript/src/*.js"]
     },
     {
       "type": "node",
