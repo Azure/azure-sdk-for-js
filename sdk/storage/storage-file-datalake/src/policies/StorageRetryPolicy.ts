@@ -241,6 +241,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       "ENOENT",
       "ENOTFOUND",
       "TIMEOUT",
+      "EPIPE",
       "REQUEST_SEND_ERROR" // For default xhr based http client provided in ms-rest-js
     ];
     if (err) {
