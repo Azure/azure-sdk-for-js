@@ -1,4 +1,4 @@
-import { isRecordMode } from "./utils";
+import { isRecordMode } from "./utils.common";
 import fs from "fs-extra";
 
 // - jsonToFileReporter filters the JSON strings in console.logs.
