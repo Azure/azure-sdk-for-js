@@ -10,6 +10,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
+import { AuthFileCredential } from "./authFileCredential";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -95,6 +96,11 @@ export class EnvironmentCredential implements TokenCredential {
         password,
         options
       );
+    }
+
+    const sdkAuthLocation = process.env.SdkAuthLocation;
+    if (sdkAuthLocation) {
+      this._credential = new AuthFileCredential(sdkAuthLocation);
     }
   }
 
