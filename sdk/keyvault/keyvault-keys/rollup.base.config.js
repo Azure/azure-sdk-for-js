@@ -8,7 +8,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
-import json from '@rollup/plugin-json';
+import json from "@rollup/plugin-json";
 
 /**
  * @type {import('rollup').RollupFileOptions}
