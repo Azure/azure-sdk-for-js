@@ -164,7 +164,9 @@ describe("FileClient Node.js only", () => {
 
     const factories = (fileClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const pipeline = newPipeline(credential);
+    const pipeline = newPipeline(credential, {
+      keepAliveOptions: { enable: false }
+    });
     const newClient = new ShareFileClient(fileClient.url, pipeline);
 
     const result = await newClient.getProperties();

@@ -60,7 +60,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${queueServiceClient.url}?${sas}`;
     const queueServiceClientwithSAS = new QueueServiceClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     await queueServiceClientwithSAS.getProperties();
@@ -87,7 +89,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${queueServiceClient.url}?${sas}`;
     const queueServiceClientwithSAS = new QueueServiceClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     let error;
@@ -121,7 +125,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${queueServiceClient.url}?${sas}`;
     const queueServiceClientwithSAS = new QueueServiceClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     let error;
@@ -158,7 +164,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${queueServiceClient.url}?${sas}`;
     const queueServiceClientwithSAS = new QueueServiceClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     let error;
@@ -200,7 +208,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${queueClient.url}?${queueSAS}`;
-    const queueClientwithSAS = new QueueClient(sasURL, newPipeline(new AnonymousCredential()));
+    const queueClientwithSAS = new QueueClient(
+      sasURL,
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
+    );
 
     await queueClientwithSAS.getProperties();
     await queueClient.delete();
@@ -239,7 +252,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURLForMessages = `${queueClient.url}?${queueSAS}`;
     const queuesClientWithSAS = new QueueClient(
       sasURLForMessages,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
     const enqueueResult = await queuesClientWithSAS.sendMessage(messageContent);
 

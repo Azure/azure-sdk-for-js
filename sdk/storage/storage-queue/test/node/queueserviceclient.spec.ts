@@ -56,7 +56,9 @@ describe("QueueServiceClient Node.js only", () => {
     const queueServiceClient = getQSU();
     const factories = (queueServiceClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const pipeline = newPipeline(credential);
+    const pipeline = newPipeline(credential, {
+      keepAliveOptions: { enable: false }
+    });
     const newClient = new QueueServiceClient(queueServiceClient.url, pipeline);
 
     const result = await newClient.getProperties();

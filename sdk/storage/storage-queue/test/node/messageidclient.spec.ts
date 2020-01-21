@@ -148,7 +148,9 @@ describe("QueueClient messageId methods, Node.js only", () => {
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
-    const pipeline = newPipeline(credential);
+    const pipeline = newPipeline(credential, {
+      keepAliveOptions: { enable: false }
+    });
     const newClient = new QueueClient(queueClient.url, pipeline);
     await newClient.updateMessage(
       eResult.messageId,

@@ -61,7 +61,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     await serviceClientWithSAS.getAccountInfo();
@@ -88,7 +90,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     let error;
@@ -122,7 +126,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     let error;
@@ -159,7 +165,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     let error;
@@ -203,13 +211,17 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${containerClient.url}?${containerSAS}`;
     const containerClientwithSAS = new ContainerClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
-    (await containerClientwithSAS
-      .listBlobsFlat()
-      .byPage()
-      .next()).value;
+    (
+      await containerClientwithSAS
+        .listBlobsFlat()
+        .byPage()
+        .next()
+    ).value;
     await containerClient.delete();
   });
 
@@ -255,7 +267,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
-    const blobClientwithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    const blobClientwithSAS = new PageBlobClient(
+      sasClient,
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
+    );
 
     const properties = await blobClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -309,7 +326,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${blobClient.url}?${blobSAS}`;
-    const blobClientwithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    const blobClientwithSAS = new PageBlobClient(
+      sasURL,
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
+    );
 
     const properties = await blobClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -366,7 +388,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${blobClient.withSnapshot(response.snapshot!).url}&${blobSAS}`;
-    const blobClientwithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    const blobClientwithSAS = new PageBlobClient(
+      sasURL,
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
+    );
 
     const properties = await blobClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -423,7 +450,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
-    const blobClientwithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    const blobClientwithSAS = new PageBlobClient(
+      sasClient,
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
+    );
 
     const properties = await blobClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -475,7 +507,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
-    const blobClientwithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    const blobClientwithSAS = new PageBlobClient(
+      sasClient,
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
+    );
 
     await blobClientwithSAS.getProperties();
     await containerClient.delete();
@@ -530,10 +567,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (await containerClientwithSAS
-      .listBlobsFlat()
-      .byPage()
-      .next()).value;
+    (
+      await containerClientwithSAS
+        .listBlobsFlat()
+        .byPage()
+        .next()
+    ).value;
     await containerClient.delete();
   });
 
@@ -582,10 +621,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (await containerClientwithSAS
-      .listBlobsFlat()
-      .byPage()
-      .next()).value;
+    (
+      await containerClientwithSAS
+        .listBlobsFlat()
+        .byPage()
+        .next()
+    ).value;
     await containerClient.delete();
   });
 
@@ -646,7 +687,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
-    const blobClientwithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    const blobClientwithSAS = new PageBlobClient(
+      sasClient,
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
+    );
 
     const properties = await blobClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -718,7 +764,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${blobClient.withSnapshot(response.snapshot!).url}&${blobSAS}`;
-    const blobClientwithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    const blobClientwithSAS = new PageBlobClient(
+      sasURL,
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
+    );
 
     const properties = await blobClientwithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");

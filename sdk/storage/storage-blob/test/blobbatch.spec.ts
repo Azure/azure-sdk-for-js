@@ -533,7 +533,9 @@ describe("BlobBatch", () => {
 
     const invalidCredServiceClient = new BlobServiceClient(
       blobServiceClient.url,
-      newPipeline(new SimpleTokenCredential("invalidtoken"))
+      newPipeline(new SimpleTokenCredential("invalidtoken"), {
+        keepAliveOptions: { enable: false }
+      })
     ).getBlobBatchClient();
 
     let exceptionCaught = false;

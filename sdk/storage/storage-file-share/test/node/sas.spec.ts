@@ -61,13 +61,17 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new ShareServiceClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
-    (await serviceClientWithSAS
-      .listShares()
-      .byPage()
-      .next()).value;
+    (
+      await serviceClientWithSAS
+        .listShares()
+        .byPage()
+        .next()
+    ).value;
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -91,7 +95,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new ShareServiceClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     let error;
@@ -201,10 +207,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const shareClientwithSAS = new ShareClient(sasURL);
 
     const dirURLwithSAS = shareClientwithSAS.getDirectoryClient("");
-    (await dirURLwithSAS
-      .listFilesAndDirectories()
-      .byPage()
-      .next()).value;
+    (
+      await dirURLwithSAS
+        .listFilesAndDirectories()
+        .byPage()
+        .next()
+    ).value;
 
     await shareClient.delete();
   });
@@ -316,13 +324,20 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const sasURL = `${shareClient.url}?${shareSAS}`;
-    const shareClientwithSAS = new ShareClient(sasURL, newPipeline(new AnonymousCredential()));
+    const shareClientwithSAS = new ShareClient(
+      sasURL,
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
+    );
 
     const dirClientwithSAS = shareClientwithSAS.getDirectoryClient("");
-    (await dirClientwithSAS
-      .listFilesAndDirectories()
-      .byPage()
-      .next()).value;
+    (
+      await dirClientwithSAS
+        .listFilesAndDirectories()
+        .byPage()
+        .next()
+    ).value;
     await shareClient.delete();
   });
 });

@@ -13,11 +13,15 @@ import {
   generateAccountSASQueryParameters,
   generateDataLakeSASQueryParameters,
   newPipeline,
-  StorageSharedKeyCredential,
+  StorageSharedKeyCredential
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getDataLakeServiceClient, getTokenDataLakeServiceClient, setupEnvironment } from "../utils";
+import {
+  getDataLakeServiceClient,
+  getTokenDataLakeServiceClient,
+  setupEnvironment
+} from "../utils";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   setupEnvironment();
@@ -61,7 +65,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new DataLakeServiceClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     await serviceClientWithSAS.listFileSystems().next();
@@ -88,7 +94,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new DataLakeServiceClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     let error;
@@ -122,7 +130,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new DataLakeServiceClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     let error;
@@ -159,7 +169,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new DataLakeServiceClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     let error;
@@ -203,7 +215,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${fileSystemClient.url}?${containerSAS}`;
     const fileSystemClientwithSAS = new DataLakeFileSystemClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     (
@@ -259,7 +273,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     const properties = await fileClientWithSAS.getProperties();
@@ -316,7 +332,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     const properties = await fileClientWithSAS.getProperties();
@@ -376,7 +394,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     const properties = await fileClientWithSAS.getProperties();
@@ -431,7 +451,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     await fileClientWithSAS.getProperties();
@@ -484,7 +506,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${fileSystemClient.url}?${containerSAS}`;
     const fileSystemClientwithSAS = new DataLakeFileSystemClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     (
@@ -538,7 +562,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${fileSystemClient.url}?${containerSAS}`;
     const fileSystemClientwithSAS = new DataLakeFileSystemClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     (
@@ -609,7 +635,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential(), {
+        keepAliveOptions: { enable: false }
+      })
     );
 
     const properties = await fileClientWithSAS.getProperties();

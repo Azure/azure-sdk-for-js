@@ -2,7 +2,12 @@ import { TokenCredential } from "@azure/core-http";
 import { record } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 
-import { DataLakeFileSystemClient, FileSystemSASPermissions, newPipeline, StorageSharedKeyCredential } from "../../src";
+import {
+  DataLakeFileSystemClient,
+  FileSystemSASPermissions,
+  newPipeline,
+  StorageSharedKeyCredential
+} from "../../src";
 import { PublicAccessType } from "../../src/models";
 import { getDataLakeServiceClient, setupEnvironment } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -127,7 +132,9 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   it("can be created with a url and a pipeline", async () => {
     const factories = (fileSystemClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const pipeline = newPipeline(credential);
+    const pipeline = newPipeline(credential, {
+      keepAliveOptions: { enable: false }
+    });
     const newClient = new DataLakeFileSystemClient(fileSystemClient.url, pipeline);
 
     const result = await newClient.getProperties();

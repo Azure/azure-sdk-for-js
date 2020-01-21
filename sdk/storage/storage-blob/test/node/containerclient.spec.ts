@@ -132,7 +132,9 @@ describe("ContainerClient Node.js only", () => {
   it("can be created with a url and a pipeline", async () => {
     const factories = (containerClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const pipeline = newPipeline(credential);
+    const pipeline = newPipeline(credential, {
+      keepAliveOptions: { enable: false }
+    });
     const newClient = new ContainerClient(containerClient.url, pipeline);
 
     const result = await newClient.getProperties();

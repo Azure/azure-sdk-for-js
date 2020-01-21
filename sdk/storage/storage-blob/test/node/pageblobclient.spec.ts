@@ -1,6 +1,11 @@
 import * as assert from "assert";
 
-import { getBSU, getConnectionStringFromEnvironment, bodyToString, setupEnvironment } from "../utils";
+import {
+  getBSU,
+  getConnectionStringFromEnvironment,
+  bodyToString,
+  setupEnvironment
+} from "../utils";
 import {
   newPipeline,
   PageBlobClient,
@@ -85,13 +90,15 @@ describe("PageBlobClient Node.js only", () => {
 
     await waitForCopy();
 
-    let listBlobResponse = (await containerClient
-      .listBlobsFlat({
-        includeCopy: true,
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    let listBlobResponse = (
+      await containerClient
+        .listBlobsFlat({
+          includeCopy: true,
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     assert.equal(listBlobResponse.segment.blobItems.length, 4);
 
@@ -103,13 +110,15 @@ describe("PageBlobClient Node.js only", () => {
 
     await waitForCopy();
 
-    listBlobResponse = (await containerClient
-      .listBlobsFlat({
-        includeCopy: true,
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    listBlobResponse = (
+      await containerClient
+        .listBlobsFlat({
+          includeCopy: true,
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     assert.equal(listBlobResponse.segment.blobItems.length, 6);
 
@@ -193,7 +202,9 @@ describe("PageBlobClient Node.js only", () => {
   it("can be created with a url and a pipeline", async () => {
     const factories = (pageBlobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const pipeline = newPipeline(credential);
+    const pipeline = newPipeline(credential, {
+      keepAliveOptions: { enable: false }
+    });
     const newClient = new PageBlobClient(pageBlobClient.url, pipeline);
 
     await newClient.create(512);
