@@ -64,38 +64,44 @@ const updateDependencySection = async (rushPackages, dependencySection, parentPa
       console.log(`dep's version = ${packageVersion}`); //1.0.0
 
       if (semver.satisfies(packageVersion, depVersionRange)) {
-        let npmProcess = new Promise((resolve, reject) => {
-          let proc = spawn('npm', ['view', packageName, 'versions', '--json'], { stdout: 'inherit' });
-          let processOutput = "";
-          proc.stdout.on('data', async (data) => {
-            processOutput += data.toString();
-          })
-          proc.on('close', (code) => {
-            console.log('Process exit code: ' + code);
-            if (code !== 0) {
-              reject();
-              return;
-            }
-            result.data = JSON.parse(processOutput);
-            result.package = packageName;
-            result.version = depVersionRange;
-            result.parent = parentPackage;
-            const maxVersion = semver.maxSatisfying(result["data"], result["version"]);
-            const minVersion = semver.minSatisfying(result["data"], result["version"]);
-            console.log("maxVersion=" + maxVersion);
-            console.log("minVersion=" + minVersion);
-            if (depLevel == "min") {
-              console.log(`setting dependency in ${parentPackage} for ${packageName} from ${dependencySection[depName]} to ${minVersion}`)
-              dependencySection[depName] = minVersion;
-            }
-            else if (depLevel == "max") {
-              console.log(`setting dependency in ${parentPackage} for ${packageName} from ${dependencySection[depName]} to ${maxVersion}`)
-              dependencySection[depName] = maxVersion;
-            }
-            resolve();
+        try {
+          let npmProcess = new Promise((resolve, reject) => {
+            let proc = spawn('npm', ['view', packageName, 'versions', '--json'], { stdout: 'inherit' });
+            let processOutput = "";
+            proc.stdout.on('data', async (data) => {
+              processOutput += data.toString();
+            })
+            proc.on('close', (code) => {
+              console.log('Process exit code: ' + code);
+              if (code !== 0) {
+                reject();
+                return;
+              }
+              result.data = JSON.parse(processOutput);
+              result.package = packageName;
+              result.version = depVersionRange;
+              result.parent = parentPackage;
+              const maxVersion = semver.maxSatisfying(result["data"], result["version"]);
+              const minVersion = semver.minSatisfying(result["data"], result["version"]);
+              console.log("maxVersion=" + maxVersion);
+              console.log("minVersion=" + minVersion);
+              if (depLevel == "min") {
+                console.log(`setting dependency in ${parentPackage} for ${packageName} from ${dependencySection[depName]} to ${minVersion}`)
+                dependencySection[depName] = minVersion;
+              }
+              else if (depLevel == "max") {
+                console.log(`setting dependency in ${parentPackage} for ${packageName} from ${dependencySection[depName]} to ${maxVersion}`)
+                dependencySection[depName] = maxVersion;
+              }
+              resolve();
+            });
           });
-        });
-        await npmProcess;
+          await npmProcess;
+        }
+        catch (error) {
+          console.error(error);
+        }
+
       }
     }
   }
@@ -120,7 +126,7 @@ async function main() {
   let targetPackages = [];
 
   for (const package of Object.keys(rushPackages)) {
-    if (["client", "core"].includes(rushPackages[package].versionPolicy)) {
+    if (["client", "core", "utility"].includes(rushPackages[package].versionPolicy)) {
       targetPackages.push(package);
     }
   }
