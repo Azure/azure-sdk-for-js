@@ -675,6 +675,129 @@ export const VolumePropertiesExportPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const MountTarget: msRest.CompositeMapper = {
+  serializedName: "mountTarget",
+  type: {
+    name: "Composite",
+    className: "MountTarget",
+    modelProperties: {
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      mountTargetId: {
+        readOnly: true,
+        serializedName: "properties.mountTargetId",
+        constraints: {
+          MaxLength: 36,
+          MinLength: 36,
+          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      fileSystemId: {
+        required: true,
+        serializedName: "properties.fileSystemId",
+        constraints: {
+          MaxLength: 36,
+          MinLength: 36,
+          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      ipAddress: {
+        readOnly: true,
+        serializedName: "properties.ipAddress",
+        type: {
+          name: "String"
+        }
+      },
+      subnet: {
+        serializedName: "properties.subnet",
+        type: {
+          name: "String"
+        }
+      },
+      startIp: {
+        serializedName: "properties.startIp",
+        type: {
+          name: "String"
+        }
+      },
+      endIp: {
+        serializedName: "properties.endIp",
+        type: {
+          name: "String"
+        }
+      },
+      gateway: {
+        serializedName: "properties.gateway",
+        type: {
+          name: "String"
+        }
+      },
+      netmask: {
+        serializedName: "properties.netmask",
+        type: {
+          name: "String"
+        }
+      },
+      smbServerFqdn: {
+        serializedName: "properties.smbServerFqdn",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ReplicationObject: msRest.CompositeMapper = {
   serializedName: "replicationObject",
   type: {
@@ -875,7 +998,13 @@ export const Volume: msRest.CompositeMapper = {
       mountTargets: {
         serializedName: "properties.mountTargets",
         type: {
-          name: "Object"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MountTargetList"
+            }
+          }
         }
       },
       volumeType: {
@@ -1030,129 +1159,6 @@ export const VolumePatch: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VolumePatchPropertiesExportPolicy"
-        }
-      }
-    }
-  }
-};
-
-export const MountTarget: msRest.CompositeMapper = {
-  serializedName: "mountTarget",
-  type: {
-    name: "Composite",
-    className: "MountTarget",
-    modelProperties: {
-      location: {
-        required: true,
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      mountTargetId: {
-        readOnly: true,
-        serializedName: "properties.mountTargetId",
-        constraints: {
-          MaxLength: 36,
-          MinLength: 36,
-          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
-        },
-        type: {
-          name: "String"
-        }
-      },
-      fileSystemId: {
-        required: true,
-        serializedName: "properties.fileSystemId",
-        constraints: {
-          MaxLength: 36,
-          MinLength: 36,
-          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
-        },
-        type: {
-          name: "String"
-        }
-      },
-      ipAddress: {
-        readOnly: true,
-        serializedName: "properties.ipAddress",
-        type: {
-          name: "String"
-        }
-      },
-      subnet: {
-        serializedName: "properties.subnet",
-        type: {
-          name: "String"
-        }
-      },
-      startIp: {
-        serializedName: "properties.startIp",
-        type: {
-          name: "String"
-        }
-      },
-      endIp: {
-        serializedName: "properties.endIp",
-        type: {
-          name: "String"
-        }
-      },
-      gateway: {
-        serializedName: "properties.gateway",
-        type: {
-          name: "String"
-        }
-      },
-      netmask: {
-        serializedName: "properties.netmask",
-        type: {
-          name: "String"
-        }
-      },
-      smbServerFqdn: {
-        serializedName: "properties.smbServerFqdn",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
         }
       }
     }
