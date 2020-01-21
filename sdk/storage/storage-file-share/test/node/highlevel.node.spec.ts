@@ -6,7 +6,7 @@ import { AbortController } from "@azure/abort-controller";
 import { createRandomLocalFile, getBSU, setupEnvironment } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
-import { readStreamToLocalFile } from "../../src/utils/utils.node";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
@@ -70,7 +70,7 @@ describe("Highlevel Node.js only", () => {
 
     const downloadResponse = await fileClient.download(0);
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileLarge);
@@ -88,7 +88,7 @@ describe("Highlevel Node.js only", () => {
 
     const downloadResponse = await fileClient.download(0);
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -181,7 +181,7 @@ describe("Highlevel Node.js only", () => {
     const downloadResponse = await fileClient.download(0);
 
     const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
@@ -364,7 +364,7 @@ describe("Highlevel Node.js only", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -394,7 +394,7 @@ describe("Highlevel Node.js only", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -426,7 +426,7 @@ describe("Highlevel Node.js only", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -458,7 +458,7 @@ describe("Highlevel Node.js only", () => {
         }
       });
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
-      await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
     } catch (error) {
       expectedError = true;
     }
@@ -495,7 +495,7 @@ describe("Highlevel Node.js only", () => {
         }
       });
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
-      await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
     } catch (error) {
       assert.equal(error.name, "AbortError", "Unexpected error caught: " + error);
     }

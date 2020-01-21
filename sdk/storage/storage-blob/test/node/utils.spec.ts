@@ -1,6 +1,10 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
+import * as fs from "fs";
+import * as path from "path";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { Readable, ReadableOptions } from "stream";
+import { readStreamToLocalFile } from "../../src/utils/utils.node";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { setupEnvironment } from "../utils";
 dotenv.config({ path: "../.env" });
@@ -160,5 +164,82 @@ describe("Utility Helpers Node.js only", () => {
         AccountKey=${accountKey};
         EndpointSuffix=${endpointSuffix};`
     );
+  });
+
+  describe("readStreamToLocalFile", () => {
+    class TestReadableStream extends Readable {
+      private numBytesSent = 0;
+      constructor(
+        private sizeInBytes: number,
+        private errorInMiddle: boolean = false,
+        options?: ReadableOptions
+      ) {
+        super(options);
+      }
+
+      _read() {
+        // check if we're at least halfway through with this change, then throw.
+        if (this.errorInMiddle && this.numBytesSent / this.sizeInBytes >= 0.5) {
+          this.destroy(new Error("Expected error."));
+        } else if (this.numBytesSent === this.sizeInBytes) {
+          this.push(null);
+        } else {
+          this.numBytesSent++;
+          this.push(Buffer.from("1"));
+        }
+      }
+    }
+
+    const validFilePath = path.join(__dirname, "read_stream_to_local_file_test.txt");
+
+    afterEach("remove temporary file", () => {
+      if (fs.existsSync(validFilePath)) {
+        fs.unlinkSync(validFilePath);
+      }
+    });
+
+    it("writes a readable stream into a file", async () => {
+      const numBytes = 100;
+      const emittingErrorInMiddle = false;
+      const readStream = new TestReadableStream(numBytes, emittingErrorInMiddle);
+      await readStreamToLocalFile(readStream, validFilePath);
+
+      const file = fs.readFileSync(validFilePath);
+      assert.equal(
+        file.length,
+        numBytes,
+        "Local file from readStreamToLocalFile is not the expected length."
+      );
+    });
+
+    it("rejects when the readStream emits an error", async () => {
+      const numBytes = 100;
+      const shouldEmitError = true;
+      const readStream = new TestReadableStream(numBytes, shouldEmitError);
+
+      try {
+        await readStreamToLocalFile(readStream, validFilePath);
+        throw new Error("Test failure");
+      } catch (err) {
+        assert.equal(
+          err.message,
+          "Expected error.",
+          "readStreamToLocalFile should have rejected on readStream error"
+        );
+      }
+    });
+
+    it("rejects when the filepath is a directory", async () => {
+      const numBytes = 100;
+      const emittingErrorInMiddle = false;
+      const readStream = new TestReadableStream(numBytes, emittingErrorInMiddle);
+
+      try {
+        await readStreamToLocalFile(readStream, __dirname);
+        throw new Error("Test failure");
+      } catch (err) {
+        assert.notEqual(err.message, "Test failure");
+      }
+    });
   });
 });
