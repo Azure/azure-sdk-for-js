@@ -1,24 +1,27 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-text-analytics"
-// in a standalone project
+/**
+ * detects entites in a piece of text and prints them along with the entity type
+ */
+
 import {
   TextAnalyticsClient,
   CognitiveServicesCredential,
   RecognizeEntitiesResult,
   RecognizeEntitiesSuccessResult,
   RecognizeEntitiesErrorResult
-} from "../src";
+} from "@azure/ai-text-analytics";
 
-export async function run() {
+export async function main() {
   console.log(`Running recognizeEntities sample`);
 
-  // You will need to set these environment variables
-  const endPoint = process.env["AZ_CONFIG_ENDPOINT"]!;
-  const subscriptionKey = process.env["AZ_CONFIG_SUBSCRIPTION_KEY"]!;
+  // You will need to set these environment variables or edit the following values
+  const endpoint = process.env["COGNITIVE_SERVICES_ENDPOINT"] || "<cognitive services endpoint>";
+  const subscriptionKey = process.env["SUBSCRIPTION_KEY"] || "<subscription key>";
+
   const client = new TextAnalyticsClient(
-    endPoint,
+    endpoint,
     new CognitiveServicesCredential(subscriptionKey)
   );
 
@@ -35,8 +38,7 @@ function isSuccess(result: RecognizeEntitiesResult): result is RecognizeEntities
   return !(result as RecognizeEntitiesErrorResult).error;
 }
 
-// If you want to run this sample from a console
-// uncomment these lines so run() will get called
-// run().catch((err) => {
-//   console.log(`ERROR: ${err}`);
-// });
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+
