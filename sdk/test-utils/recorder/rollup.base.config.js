@@ -5,6 +5,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
+import shim from "rollup-plugin-shim";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -12,7 +13,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["fs-extra"];
+  const externalNodeBuiltins = ["fs-extra", "path"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -73,6 +74,14 @@ export function browserConfig(test = false) {
           // any code guarded by if (isNode) { ... }
           "if (isBrowser())": "if (true)"
         }
+      }),
+      // fs is not used by the browser bundle, so just shim it
+      shim({
+        fs: `
+          export function stat() { }
+          export function createReadStream() { }
+          export function createWriteStream() { }
+        `
       }),
       nodeResolve({
         mainFields: ["module", "browser"],
