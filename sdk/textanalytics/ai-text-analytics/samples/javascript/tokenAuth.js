@@ -8,7 +8,7 @@
 const { TextAnalyticsClient } = require("@azure/ai-text-analytics");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-export async function main() {
+async function main() {
   console.log(`Running detectLanguages sample`);
 
   // DefaultAzureCredential expects the following three environment variables:

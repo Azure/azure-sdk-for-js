@@ -7,7 +7,7 @@
 
 const { TextAnalyticsClient, CognitiveServicesCredential } = require("@azure/ai-text-analytics");
 
-export async function main() {
+async function main() {
   console.log(`Running recognizePii sample`);
 
   // You will need to set these environment variables or edit the following values
