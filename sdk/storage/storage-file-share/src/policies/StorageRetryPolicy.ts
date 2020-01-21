@@ -18,6 +18,7 @@ import { AbortError } from "@azure/abort-controller";
 import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
 import { delay, setURLParameter } from "../utils/utils.common";
+import { logger } from "../log";
 
 /**
  * A factory method used to generated a RetryPolicy factory.
@@ -287,9 +288,17 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    * @param {string} message
    * @memberof StorageRetryPolicy
    */
-  // tslint:disable-next-line:variable-name
-  private logf(_level: HttpPipelineLogLevel, _message: string) {
-    // this.log(_level, _message);
+  private logf(level: HttpPipelineLogLevel, message: string) {
+    switch (level) {
+      case HttpPipelineLogLevel.ERROR:
+        logger.error(message);
+        break;
+      case HttpPipelineLogLevel.WARNING:
+        logger.warning(message);
+        break;
+      case HttpPipelineLogLevel.INFO:
+        logger.info(message);
+    }
   }
 
   /**
