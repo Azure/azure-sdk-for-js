@@ -8,6 +8,9 @@
 const { TextAnalyticsClient } = require("@azure/ai-text-analytics");
 const { DefaultAzureCredential } = require("@azure/identity");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 async function main() {
   console.log(`Running detectLanguages sample`);
 

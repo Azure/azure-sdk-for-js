@@ -7,6 +7,9 @@
 
 const { TextAnalyticsClient, CognitiveServicesCredential } = require("@azure/ai-text-analytics");
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 async function main() {
   console.log(`Running extractKeyPhrases sample`);
 

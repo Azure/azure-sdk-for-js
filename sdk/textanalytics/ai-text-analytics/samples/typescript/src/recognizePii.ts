@@ -13,6 +13,10 @@ import {
   RecognizeEntitiesErrorResult
 } from "@azure/ai-text-analytics";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 export async function main() {
   console.log(`Running recognizePii sample`);
 
