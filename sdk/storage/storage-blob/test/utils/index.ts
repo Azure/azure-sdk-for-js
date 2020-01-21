@@ -51,12 +51,8 @@ export function getGenericBSU(
   } else {
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
 
-    const pipeline = newPipeline(credential, {
-      // Enable logger when debugging
-      // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-    });
     const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
-    return new BlobServiceClient(blobPrimaryURL, pipeline);
+    return new BlobServiceClient(blobPrimaryURL, credential);
   }
 }
 
