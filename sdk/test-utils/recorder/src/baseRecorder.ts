@@ -2,7 +2,9 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import fs from "fs-extra";
+import path from "path";
 import nise from "nise";
+import nock from "nock";
 import {
   isBrowser,
   blobToString,
@@ -15,8 +17,6 @@ import {
   findRecordingsFolderPath
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
-
-let nock: any;
 
 let replaceableVariables: { [x: string]: string } = {};
 export function setReplaceableVariables(a: { [x: string]: string }): void {
@@ -45,10 +45,6 @@ export function skipQueryParams(params: string[]): void {
 }
 
 export function setEnvironmentOnLoad() {
-  if (!isBrowser() && (isRecordMode() || isPlaybackMode())) {
-    nock = require("nock");
-  }
-
   if (isBrowser() && isRecordMode()) {
     customConsoleLog();
   }
@@ -136,13 +132,10 @@ export class NockRecorder extends BaseRecorder {
     /**
      * `@azure/test-utils-recorder` package is used for both the browser and node tests
      *
-     * During the playback mode,
-     *  `path` module is leveraged to import the node test recordings and `path` module can't be imported in the browser.
-     *  So, instead of `import`-ing the `path` library, `require` is being used and this code path is never executed in the browser.
+     * During the playback mode, `path` module is leveraged to import the node test recordings.
+     * A diiferent strategy is in place to import recordings for browser tests by leveraging `karma` plugins.
      *
-     * [A diiferent strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
      */
-    let path = require("path");
     // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
     const recordingsFolderPath = findRecordingsFolderPath(filePath);
     const recordingPath = path.resolve(recordingsFolderPath, this.relativeTestRecordingFilePath);

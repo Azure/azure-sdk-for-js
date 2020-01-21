@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import fs from "fs-extra";
+import path from "path";
 export interface TestInfo {
   uniqueName: { [x: string]: string };
   newDate: { [x: string]: string };
@@ -150,8 +151,6 @@ export function parseUrl(url: string): any {
  * @returns {string} location of the `recordings` folder
  */
 export function findRecordingsFolderPath(filePath: string): string {
-  let path = require("path");
-
   // Stripping away the file name
   let currentPath = path.resolve(filePath, "..");
   // File/folder path of a closest child of `currentPath` in the folder hierarchy of `filePath`
