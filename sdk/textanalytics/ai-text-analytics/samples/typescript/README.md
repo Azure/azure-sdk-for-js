@@ -8,7 +8,7 @@ products:
 urlFragment: ai-text-analytics-typescript
 ---
 
-# Azure Cognitive Services Text Analytics client library samples for TypeScript
+# Azure Text Analytics client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Cognitive Services Text Analytics in some common scenarios.
 

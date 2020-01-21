@@ -8,7 +8,7 @@ products:
 urlFragment: ai-text-analytics-javascript
 ---
 
-# Azure Cognitive Services Text Analytics client library samples for JavaScript
+# Azure Text Analytics client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Cognitive Services Text Analytics in some common scenarios.
 
