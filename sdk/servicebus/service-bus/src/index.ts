@@ -9,6 +9,7 @@ export {
   TokenInfo,
   TokenType,
   TokenProvider,
+  DefaultDataTransformer,
   DataTransformer,
   delay,
   MessagingError
