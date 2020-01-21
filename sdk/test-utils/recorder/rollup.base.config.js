@@ -14,7 +14,7 @@ const browserInput = "dist-esm/src/index.browser.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["fs-extra"];
+  const externalNodeBuiltins = [];
   const baseConfig = {
     input: nodeInput,
     external: depNames.concat(externalNodeBuiltins),

@@ -5,7 +5,10 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "dist/index.js": "./browser/azure-test-utils-recorder.js"
+    "dist/index.js": "./browser/azure-test-utils-recorder.js",
+    "fs": false,
+    "os": false,
+    "process": false
   },
   "types": "./typings/src/index.d.ts",
   "scripts": {
@@ -58,6 +61,12 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
+    "fs-extra": "^8.1.0",
+    "nise": "^1.4.10",
+    "nock": "^11.7.0",
+    "tslib": "^1.10.0"
+  },
+  "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
@@ -66,19 +75,13 @@
     "@types/mocha": "^5.2.5",
     "@types/nise": "^1.4.0",
     "cross-env": "^6.0.3",
-    "fs-extra": "^8.1.0",
-    "nise": "^1.4.10",
-    "nock": "^11.7.0",
+    "prettier": "^1.16.4",
+    "typescript": "~3.6.4",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-visualizer": "^3.1.1",
-    "tslib": "^1.10.0"
-  },
-  "devDependencies": {
-    "prettier": "^1.16.4",
-    "typescript": "~3.6.4"
+    "rollup-plugin-visualizer": "^3.1.1"
   }
 }
