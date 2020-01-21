@@ -5,16 +5,18 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
+import shim from "rollup-plugin-shim";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
-const input = "dist-esm/src/index.js";
+const nodeInput = "dist-esm/src/index.js";
+const browserInput = "dist-esm/src/index.browser.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["fs-extra"];
   const baseConfig = {
-    input: input,
+    input: nodeInput,
     external: depNames.concat(externalNodeBuiltins),
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
@@ -54,7 +56,7 @@ export function nodeConfig(test = false) {
 
 export function browserConfig(test = false) {
   const baseConfig = {
-    input: input,
+    input: browserInput,
     external: ["fs-extra", "nock", "path"],
     output: {
       file: "browser/azure-test-utils-recorder.js",
@@ -73,6 +75,14 @@ export function browserConfig(test = false) {
           // any code guarded by if (isNode) { ... }
           "if (!isBrowser())": "if (false)"
         }
+      }),
+      // fs is not used by the browser bundle, so just shim it
+      shim({
+        fs: `
+          export function stat() { }
+          export function createReadStream() { }
+          export function createWriteStream() { }
+        `
       }),
       nodeResolve({
         mainFields: ["module", "browser"],
