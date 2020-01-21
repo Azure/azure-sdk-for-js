@@ -4,7 +4,6 @@
 import fs from "fs-extra";
 import path from "path";
 import nise from "nise";
-import nock from "nock";
 import {
   isBrowser,
   blobToString,
@@ -123,9 +122,13 @@ export class NockRecorder extends BaseRecorder {
   }
 
   public record(): void {
-    nock.recorder.rec({
-      dont_print: true
-    });
+    if (!isBrowser()) {
+      import("nock").then((nock) => {
+        nock.recorder.rec({
+          dont_print: true
+        });
+      });
+    }
   }
 
   public playback(filePath: string): void {
@@ -149,54 +152,58 @@ export class NockRecorder extends BaseRecorder {
   }
 
   public stop(): void {
-    // Importing "nock" library in the recording and appending the testInfo part in the recording
-    const importNockStatement =
-      "let nock = require('nock');\n" +
-      "\n" +
-      "module.exports.testInfo = " +
-      JSON.stringify(this.uniqueTestInfo) +
-      "\n";
+    if (!isBrowser()) {
+      import("nock").then((nock) => {
+        // Importing "nock" library in the recording and appending the testInfo part in the recording
+        const importNockStatement =
+          "let nock = require('nock');\n" +
+          "\n" +
+          "module.exports.testInfo = " +
+          JSON.stringify(this.uniqueTestInfo) +
+          "\n";
 
-    const fixtures = nock.recorder.play();
+        const fixtures = nock.recorder.play();
 
-    // Create the directories recursively incase they don't exist
-    try {
-      // Stripping away the filename from the filepath and retaining the directory structure
-      fs.ensureDirSync(
-        "./recordings/" +
-          this.relativeTestRecordingFilePath.substring(
-            0,
-            this.relativeTestRecordingFilePath.lastIndexOf("/") + 1
-          )
-      );
-    } catch (err) {
-      if (err.code !== "EEXIST") throw err;
+        // Create the directories recursively incase they don't exist
+        try {
+          // Stripping away the filename from the filepath and retaining the directory structure
+          fs.ensureDirSync(
+            "./recordings/" +
+              this.relativeTestRecordingFilePath.substring(
+                0,
+                this.relativeTestRecordingFilePath.lastIndexOf("/") + 1
+              )
+          );
+        } catch (err) {
+          if (err.code !== "EEXIST") throw err;
+        }
+
+        const file = fs.createWriteStream("./recordings/" + this.relativeTestRecordingFilePath, {
+          flags: "w"
+        });
+
+        // Some tests expect errors to happen and, if a writing error is thrown in one of these tests, it may be captured in a catch block by accident,
+        // resulting in unexpected behavior. For this reason we're printing it to the console as well
+        file.on("error", (err: any) => {
+          console.log(err);
+          throw err;
+        });
+
+        file.write(importNockStatement);
+
+        // Saving the recording to the file
+        for (const fixture of fixtures) {
+          // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
+          const updatedFixture = fixture.toString().replace(/\.query\(.*\)/, ".query(true)");
+          file.write(this.filterSecrets(updatedFixture) + "\n");
+        }
+
+        file.end();
+
+        nock.recorder.clear();
+        nock.restore();
+      });
     }
-
-    const file = fs.createWriteStream("./recordings/" + this.relativeTestRecordingFilePath, {
-      flags: "w"
-    });
-
-    // Some tests expect errors to happen and, if a writing error is thrown in one of these tests, it may be captured in a catch block by accident,
-    // resulting in unexpected behavior. For this reason we're printing it to the console as well
-    file.on("error", (err: any) => {
-      console.log(err);
-      throw err;
-    });
-
-    file.write(importNockStatement);
-
-    // Saving the recording to the file
-    for (const fixture of fixtures) {
-      // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
-      const updatedFixture = fixture.toString().replace(/\.query\(.*\)/, ".query(true)");
-      file.write(this.filterSecrets(updatedFixture) + "\n");
-    }
-
-    file.end();
-
-    nock.recorder.clear();
-    nock.restore();
   }
 }
 
