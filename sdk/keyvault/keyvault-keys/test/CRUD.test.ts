@@ -53,20 +53,19 @@ describe("Keys client - create, read, update and delete operations", () => {
     });
   });
 
-  if (isNode && !isPlaybackMode()) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can create a key with requestOptions timeout", async function() {
-      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-
-      await assertThrowsAbortError(async () => {
-        await client.createKey(keyName, "RSA", {
-          requestOptions: {
-            timeout: 1
-          }
-        });
+  // On playback mode, the tests happen too fast for the timeout to work
+  it.only("can create a key with requestOptions timeout", async function() {
+    recorder.skip("browser", "Browser recordings are not supported for timeout tests.");
+    // if (!isNode && isPlaybackMode()) this.skip(); // recorder.skip won't skip this test during playback
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    await assertThrowsAbortError(async () => {
+      await client.createKey(keyName, "RSA", {
+        requestOptions: {
+          timeout: 1
+        }
       });
     });
-  }
+  });
 
   it("cannot create a key with an empty name", async function() {
     const keyName = "";
