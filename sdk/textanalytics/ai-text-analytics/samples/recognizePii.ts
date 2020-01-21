@@ -24,15 +24,11 @@ export async function run() {
 
   const [result] = await client.recognizePiiEntities(["My phone number is 555-5555"]);
 
-  if (isSuccess(result)) {
+  if (result.isSuccess) {
     for (const entity of result.entities) {
       console.log(`Found PII entity ${entity.text} of type ${entity.type}`);
     }
   }
-}
-
-function isSuccess(result: RecognizeEntitiesResult): result is RecognizeEntitiesSuccessResult {
-  return !(result as RecognizeEntitiesErrorResult).error;
 }
 
 // If you want to run this sample from a console

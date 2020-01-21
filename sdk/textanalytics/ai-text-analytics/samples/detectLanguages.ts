@@ -3,13 +3,7 @@
 
 // NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-text-analytics"
 // in a standalone project
-import {
-  TextAnalyticsClient,
-  CognitiveServicesCredential,
-  DetectLanguageResult,
-  DetectLanguageErrorResult,
-  DetectLanguageSuccessResult
-} from "../src";
+import { TextAnalyticsClient, CognitiveServicesCredential } from "../src";
 
 export async function run() {
   console.log(`Running detectLanguages sample`);
@@ -24,13 +18,9 @@ export async function run() {
 
   const [result] = await client.detectLanguages(["hello world"]);
 
-  if (isSuccess(result)) {
+  if (result.isSuccess) {
     console.log(`Primary language detected as ${result.primaryLanguage.name}`);
   }
-}
-
-function isSuccess(result: DetectLanguageResult): result is DetectLanguageSuccessResult {
-  return !(result as DetectLanguageErrorResult).error;
 }
 
 // If you want to run this sample from a console

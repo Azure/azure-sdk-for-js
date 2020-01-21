@@ -3,13 +3,7 @@
 
 // NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-text-analytics"
 // in a standalone project
-import {
-  TextAnalyticsClient,
-  CognitiveServicesCredential,
-  AnalyzeSentimentResult,
-  AnalyzeSentimentSuccessResult,
-  AnalyzeSentimentErrorResult
-} from "../src";
+import { TextAnalyticsClient, CognitiveServicesCredential } from "../src";
 
 export async function run() {
   console.log(`Running analyzeSentiment sample`);
@@ -24,13 +18,9 @@ export async function run() {
 
   const [result] = await client.analyzeSentiment(["I love living in Seattle!"]);
 
-  if (isSuccess(result)) {
+  if (result.isSuccess) {
     console.log(`Sentiment of statement is ${result.sentiment}`);
   }
-}
-
-function isSuccess(result: AnalyzeSentimentResult): result is AnalyzeSentimentSuccessResult {
-  return !(result as AnalyzeSentimentErrorResult).error;
 }
 
 // If you want to run this sample from a console

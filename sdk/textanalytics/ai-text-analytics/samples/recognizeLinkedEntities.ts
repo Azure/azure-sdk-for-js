@@ -24,19 +24,13 @@ export async function run() {
 
   const [result] = await client.recognizeLinkedEntities(["I love living in Seattle."]);
 
-  if (isSuccess(result)) {
+  if (result.isSuccess) {
     for (const entity of result.entities) {
       console.log(
         `Found entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`
       );
     }
   }
-}
-
-function isSuccess(
-  result: RecognizeLinkedEntitiesResult
-): result is RecognizeLinkedEntitiesSuccessResult {
-  return !(result as RecognizeLinkedEntitiesErrorResult).error;
 }
 
 // If you want to run this sample from a console

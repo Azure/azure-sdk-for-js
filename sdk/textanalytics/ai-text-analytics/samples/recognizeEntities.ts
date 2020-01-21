@@ -3,13 +3,7 @@
 
 // NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-text-analytics"
 // in a standalone project
-import {
-  TextAnalyticsClient,
-  CognitiveServicesCredential,
-  RecognizeEntitiesResult,
-  RecognizeEntitiesSuccessResult,
-  RecognizeEntitiesErrorResult
-} from "../src";
+import { TextAnalyticsClient, CognitiveServicesCredential } from "../src";
 
 export async function run() {
   console.log(`Running recognizeEntities sample`);
@@ -24,15 +18,11 @@ export async function run() {
 
   const [result] = await client.recognizeEntities(["I love living in Seattle."]);
 
-  if (isSuccess(result)) {
+  if (result.isSuccess) {
     for (const entity of result.entities) {
       console.log(`Found entity ${entity.text} of type ${entity.type}`);
     }
   }
-}
-
-function isSuccess(result: RecognizeEntitiesResult): result is RecognizeEntitiesSuccessResult {
-  return !(result as RecognizeEntitiesErrorResult).error;
 }
 
 // If you want to run this sample from a console

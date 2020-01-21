@@ -256,6 +256,7 @@ export interface TextAnalyticsError {
 export interface TextAnalyticsErrorResult {
     readonly error: TextAnalyticsError;
     readonly id: string;
+    isSuccess: false;
 }
 
 // @public
@@ -270,6 +271,7 @@ export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErro
 // @public
 export interface TextAnalyticsSuccessResult {
     readonly id: string;
+    isSuccess: true;
     readonly statistics?: TextDocumentStatistics;
 }
 

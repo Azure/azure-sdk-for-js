@@ -3,13 +3,7 @@
 
 // NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-text-analytics"
 // in a standalone project
-import {
-  TextAnalyticsClient,
-  CognitiveServicesCredential,
-  ExtractKeyPhrasesResult,
-  ExtractKeyPhrasesSuccessResult,
-  ExtractKeyPhrasesErrorResult
-} from "../src";
+import { TextAnalyticsClient, CognitiveServicesCredential } from "../src";
 
 export async function run() {
   console.log(`Running extractKeyPhrases sample`);
@@ -26,15 +20,11 @@ export async function run() {
     "I love living in Seattle! Seattle is always sunny."
   ]);
 
-  if (isSuccess(result)) {
+  if (result.isSuccess) {
     for (const phrase of result.keyPhrases) {
       console.log(`Key phrase: ${phrase}`);
     }
   }
-}
-
-function isSuccess(result: ExtractKeyPhrasesResult): result is ExtractKeyPhrasesSuccessResult {
-  return !(result as ExtractKeyPhrasesErrorResult).error;
 }
 
 // If you want to run this sample from a console
