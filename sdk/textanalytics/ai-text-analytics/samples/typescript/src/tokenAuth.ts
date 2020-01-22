@@ -28,7 +28,7 @@ export async function main() {
   const credential = new DefaultAzureCredential();
 
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["COGNITIVE_SERVICES_ENDPOINT"] || "<cognitive services endpoint>";
+  const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 
   const client = new TextAnalyticsClient(endpoint, credential);
 

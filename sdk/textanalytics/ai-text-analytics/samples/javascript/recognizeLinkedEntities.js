@@ -14,7 +14,7 @@ async function main() {
   console.log(`Running extractLinkEntities sample`);
 
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["COGNITIVE_SERVICES_ENDPOINT"] || "<cognitive services endpoint>";
+  const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
   const subscriptionKey = process.env["SUBSCRIPTION_KEY"] || "<subscription key>";
 
   const client = new TextAnalyticsClient(

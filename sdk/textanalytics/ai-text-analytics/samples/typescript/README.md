@@ -57,13 +57,13 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/basic.js
+node dist/recognizePii.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dist/basic.js
+npx cross-env ENDPOINT="<endpoint>" SUBSCRIPTION_KEY="<subscription key>" node dist/recognizePii.js
 ```
 
 ## Next Steps
