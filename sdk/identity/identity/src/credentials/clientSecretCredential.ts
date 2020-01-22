@@ -70,7 +70,7 @@ export class ClientSecretCredential implements TokenCredential {
           grant_type: "client_credentials",
           client_id: this.clientId,
           client_secret: this.clientSecret,
-          scope: (typeof scopes === "string" ? scopes : scopes.join(" ")).replace(/\/.default$/, "")
+          scope: typeof scopes === "string" ? scopes : scopes.join(" ")
         }),
         headers: {
           Accept: "application/json",

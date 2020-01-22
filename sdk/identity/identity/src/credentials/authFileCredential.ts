@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/types";
-import { ClientSecretCredential } from "./clientSecretCredential";
+import { ClientCertificateCredential } from "./clientCertificateCredential";
 import * as fs from "fs";
 
 /**
@@ -23,18 +22,33 @@ import * as fs from "fs";
  */
 export class AuthFileCredential implements TokenCredential {
   private credential?: TokenCredential = undefined;
-  private identityClient: IdentityClient;
-  private filePath;
   /**
    * Creates an instance of the authFileCredential class.
    *
    * @param filePath The path to the SDK Auth file.
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(filePath: string);
-  constructor(filePath: string, options?: TokenCredentialOptions) {
-    this.filePath = filePath;
-    this.identityClient = new IdentityClient(options);
+  constructor(filePath: string) {
+    let authData = JSON.parse(fs.readFileSync(filePath).toString());
+    if (this.credential == null && typeof authData == "object") {
+      let clientId = authData["clientId"];
+      let certificatePath = authData["certificatePath"];
+      let tenantId = authData["tenantId"];
+      let activeDirectoryEndpointUrl = authData["activeDirectoryEndpointUrl"];
+
+      if (
+        clientId == undefined ||
+        certificatePath == undefined ||
+        tenantId == undefined ||
+        activeDirectoryEndpointUrl == undefined
+      ) {
+        throw new Error("there was a problem building the credential.");
+      }
+
+      new ClientCertificateCredential(tenantId, clientId, certificatePath, {
+        authorityHost: activeDirectoryEndpointUrl
+      });
+    }
   }
 
   /**
@@ -50,7 +64,6 @@ export class AuthFileCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    await this.ensureCredential();
     const { span, options: newOptions } = createSpan("authFileCredential-getToken", options);
     if (this.credential) {
       try {
@@ -74,39 +87,5 @@ export class AuthFileCredential implements TokenCredential {
     // the user knows the credential was not configured appropriately
     span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
     span.end();
-  }
-
-  async ensureCredential() {
-    try {
-      if (this.credential == null) {
-        this.credential = await this.BuildCredentialForCredentialsFile(
-          JSON.parse(fs.readFileSync(this.filePath).toString())
-        );
-      }
-    } catch (err) {
-      throw new Error("Error parsing SDK Auth File");
-    }
-  }
-
-  async BuildCredentialForCredentialsFile(authData: Array<any>) {
-    let clientId = authData["clientId"];
-    let clientSecret = authData["clientSecret"];
-    let tenantId = authData["tenantId"];
-    let activeDirectoryEndpointUrl = authData["activeDirectoryEndpointUrl"];
-
-    if (
-      clientId == null ||
-      clientSecret == null ||
-      tenantId == null ||
-      activeDirectoryEndpointUrl == null
-    ) {
-      throw new Error(
-        "Malformed Azure SDK Auth file. The file should contain 'clientId', 'clientSecret', 'tenentId' and 'activeDirectoryEndpointUrl' values."
-      );
-    }
-
-    return new ClientSecretCredential(tenantId, clientId, clientSecret, {
-      authorityHost: activeDirectoryEndpointUrl
-    });
   }
 }
