@@ -28,7 +28,9 @@ import {
   BlobStartCopyFromURLResponse,
   BlobAbortCopyFromURLResponse,
   BlobCopyFromURLResponse,
-  BlobSetTierResponse
+  BlobSetTierResponse,
+  ContainerCpkScopeInfo,
+  CpkScopeInfo,
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
@@ -179,7 +181,7 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
  * @export
  * @interface BlobBeginCopyFromURLResponse
  */
-export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {}
+export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse { }
 
 /**
  * Options to configure the {@link BlobClient.download} operation.
@@ -442,6 +444,13 @@ export interface BlobSetMetadataOptions extends CommonOptions {
    * @memberof BlobSetMetadataOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof BlobSetMetadataOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -600,6 +609,13 @@ export interface BlobCreateSnapshotOptions extends CommonOptions {
    * @memberof BlobCreateSnapshotOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof BlobCreateSnapshotOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -1432,6 +1448,7 @@ export class BlobClient extends StorageClient {
         metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        cpkScopeInfo: options.cpkScopeInfo,
         spanOptions
       });
     } catch (e) {
@@ -1477,6 +1494,7 @@ export class BlobClient extends StorageClient {
         metadata: options.metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        cpkScopeInfo: options.cpkScopeInfo,
         spanOptions
       });
     } catch (e) {
@@ -2062,6 +2080,13 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    * @memberof AppendBlobCreateOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof AppendBlobCreateOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -2120,6 +2145,13 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
    * @memberof AppendBlobAppendBlockOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof AppendBlobAppendBlockOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -2180,6 +2212,13 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof AppendBlobAppendBlockFromURLOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -2387,6 +2426,7 @@ export class AppendBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        cpkScopeInfo: options.cpkScopeInfo,
         spanOptions
       });
     } catch (e) {
@@ -2432,6 +2472,7 @@ export class AppendBlobClient extends BlobClient {
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
+        cpkScopeInfo: options.cpkScopeInfo,
         spanOptions
       });
     } catch (e) {
@@ -2491,6 +2532,7 @@ export class AppendBlobClient extends BlobClient {
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
         cpkInfo: options.customerProvidedKey,
+        cpkScopeInfo: options.cpkScopeInfo,
         spanOptions
       });
     } catch (e) {
@@ -2555,6 +2597,13 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    * @memberof BlockBlobUploadOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof BlockBlobUploadOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -2623,6 +2672,13 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * @memberof BlockBlobStageBlockOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof BlockBlobStageBlockOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -2684,6 +2740,13 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * @memberof BlockBlobStageBlockFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -2729,6 +2792,13 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
    * @memberof BlockBlobCommitBlockListOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -2811,6 +2881,14 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * @memberof BlockBlobUploadStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof BlockBlobUploadStreamOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 /**
  * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
@@ -2886,6 +2964,14 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * @memberof BlockBlobParallelUploadOptions
    */
   concurrency?: number;
+
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof BlockBlobParallelUploadOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -3133,6 +3219,7 @@ export class BlockBlobClient extends BlobClient {
         modifiedAccessConditions: options.conditions,
         onUploadProgress: options.onProgress,
         cpkInfo: options.customerProvidedKey,
+        cpkScopeInfo: options.cpkScopeInfo,
         tier: toAccessTier(options.tier),
         spanOptions
       });
@@ -3175,6 +3262,7 @@ export class BlockBlobClient extends BlobClient {
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
+        cpkScopeInfo: options.cpkScopeInfo,
         spanOptions
       });
     } catch (e) {
@@ -3230,6 +3318,7 @@ export class BlockBlobClient extends BlobClient {
         sourceContentCrc64: options.sourceContentCrc64,
         sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         cpkInfo: options.customerProvidedKey,
+        cpkScopeInfo: options.cpkScopeInfo,
         spanOptions
       });
     } catch (e) {
@@ -3276,6 +3365,7 @@ export class BlockBlobClient extends BlobClient {
           metadata: options.metadata,
           modifiedAccessConditions: options.conditions,
           cpkInfo: options.customerProvidedKey,
+          cpkScopeInfo: options.cpkScopeInfo,
           tier: toAccessTier(options.tier),
           spanOptions
         }
@@ -3459,7 +3549,7 @@ export class BlockBlobClient extends BlobClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The buffer's size is too big or the BlockSize is too small;` +
-            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
@@ -3479,6 +3569,7 @@ export class BlockBlobClient extends BlobClient {
             await this.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
+              cpkScopeInfo: options.cpkScopeInfo,
               tracingOptions: { ...options!.tracingOptions, spanOptions }
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -3603,6 +3694,7 @@ export class BlockBlobClient extends BlobClient {
 
           await this.stageBlock(blockID, buffer, buffer.length, {
             conditions: options.conditions,
+            cpkScopeInfo: options.cpkScopeInfo,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
@@ -3715,7 +3807,7 @@ export class BlockBlobClient extends BlobClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The buffer's size is too big or the BlockSize is too small;` +
-            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
@@ -3739,6 +3831,7 @@ export class BlockBlobClient extends BlobClient {
               {
                 abortSignal: options.abortSignal,
                 conditions: options.conditions,
+                cpkScopeInfo: options.cpkScopeInfo,
                 tracingOptions: { ...options!.tracingOptions, spanOptions }
               }
             );
@@ -3820,6 +3913,13 @@ export interface PageBlobCreateOptions extends CommonOptions {
    */
   customerProvidedKey?: CpkInfo;
   /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof PageBlobCreateOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
+  /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    *
@@ -3885,6 +3985,13 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
    * @memberof PageBlobUploadPagesOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof PageBlobUploadPagesOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -3916,6 +4023,13 @@ export interface PageBlobClearPagesOptions extends CommonOptions {
    * @memberof PageBlobClearPagesOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof PageBlobClearPagesOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -3995,6 +4109,13 @@ export interface PageBlobResizeOptions extends CommonOptions {
    * @memberof PageBlobResizeOptions
    */
   conditions?: BlobRequestConditions;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof PageBlobResizeOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -4103,6 +4224,13 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * @memberof PageBlobUploadPagesFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Encryption scope info.
+   *
+   * @type {CpkScopeInfo}
+   * @memberof PageBlobUploadPagesFromURLOptions
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -4307,6 +4435,7 @@ export class PageBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        cpkScopeInfo: options.cpkScopeInfo,
         tier: toAccessTier(options.tier),
         spanOptions
       });
@@ -4352,6 +4481,7 @@ export class PageBlobClient extends BlobClient {
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
+        cpkScopeInfo: options.cpkScopeInfo,
         spanOptions
       });
     } catch (e) {
@@ -4412,6 +4542,7 @@ export class PageBlobClient extends BlobClient {
             sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
           },
           cpkInfo: options.customerProvidedKey,
+          cpkScopeInfo: options.cpkScopeInfo,
           spanOptions
         }
       );
@@ -4451,6 +4582,7 @@ export class PageBlobClient extends BlobClient {
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        cpkScopeInfo: options.cpkScopeInfo,
         spanOptions
       });
     } catch (e) {
@@ -4569,6 +4701,7 @@ export class PageBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
+        cpkScopeInfo: options.cpkScopeInfo,
         spanOptions
       });
     } catch (e) {
@@ -5019,6 +5152,13 @@ export interface ContainerCreateOptions extends CommonOptions {
    * @memberof ContainerCreateOptions
    */
   access?: PublicAccessType;
+  /**
+   * Container encryption scope info.
+   * 
+   * @type {ContainerCpkScopeInfo}
+   * @memberof ContainerCreateOptions
+   */
+  containerCpkScopeInfo?: ContainerCpkScopeInfo;
 }
 
 /**
@@ -5174,24 +5314,24 @@ export interface SignedIdentifier {
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifierModel[];
 } & ContainerGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ContainerGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifierModel[];
-    };
+    parsedHeaders: ContainerGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SignedIdentifierModel[];
   };
+};
 
 /**
  * Options to configure {@link ContainerClient.setAccessPolicy} operation.
