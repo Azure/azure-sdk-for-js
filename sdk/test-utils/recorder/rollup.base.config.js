@@ -26,7 +26,7 @@ export function nodeConfig(test = false) {
         values: {
           // replace dynamic checks with if (true) since this is for node only.
           // Allows rollup's dead code elimination to be more aggressive.
-          "if (isBrowser())": "if (false)"
+          "if (!isBrowser())": "if (true)"
         }
       }),
       nodeResolve({ preferBuiltins: true }),
@@ -56,7 +56,7 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
-    external: ["fs-extra", "nock", "path"],
+    external: ["fs-extra", "path"],
     output: {
       file: "browser/azure-test-utils-recorder.js",
       format: "umd",
@@ -65,6 +65,7 @@ export function browserConfig(test = false) {
     },
     preserveSymlinks: false,
     plugins: [
+      multiEntry(),
       sourcemaps(),
       replace({
         delimiters: ["", ""],
@@ -72,7 +73,7 @@ export function browserConfig(test = false) {
           // replace dynamic checks with if (false) since this is for
           // browser only. Rollup's dead code elimination will remove
           // any code guarded by if (isNode) { ... }
-          "if (isBrowser())": "if (true)"
+          "if (!isBrowser())": "if (false)"
         }
       }),
       // fs is not used by the browser bundle, so just shim it
@@ -81,6 +82,9 @@ export function browserConfig(test = false) {
           export function stat() { }
           export function createReadStream() { }
           export function createWriteStream() { }
+        `,
+        nock: `
+          export default null
         `
       }),
       nodeResolve({

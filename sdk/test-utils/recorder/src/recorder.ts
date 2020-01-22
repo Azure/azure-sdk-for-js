@@ -74,10 +74,10 @@ export function record(testContext: Mocha.Context): Recorder {
 
   setEnvironmentOnLoad();
 
-  if (isBrowser()) {
-    recorder = new NiseRecorder(testHierarchy, testTitle);
-  } else {
+  if (!isBrowser()) {
     recorder = new NockRecorder(testHierarchy, testTitle);
+  } else {
+    recorder = new NiseRecorder(testHierarchy, testTitle);
   }
 
   if (isRecordMode()) {
