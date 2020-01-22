@@ -35,13 +35,6 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 }
 
 // @public
-export class CognitiveServicesCredential implements ServiceClientCredentials {
-    constructor(subscriptionKey: string);
-    setSubscriptionKey(subscriptionKey: string): void;
-    signRequest(webResource: WebResource): Promise<WebResource>;
-    }
-
-// @public
 export interface DetectedLanguage {
     iso6391Name: string;
     name: string;
@@ -221,8 +214,15 @@ export interface SentimentConfidenceScorePerLabel {
 }
 
 // @public
+export class SubscriptionKeyCredential implements ServiceClientCredentials {
+    constructor(subscriptionKey: string);
+    signRequest(webResource: WebResource): Promise<WebResource>;
+    updateKey(subscriptionKey: string): void;
+}
+
+// @public
 export class TextAnalyticsClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveServicesCredential, options?: TextAnalyticsClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | SubscriptionKeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(inputs: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     analyzeSentiment(inputs: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     defaultCountryHint: string;
@@ -239,7 +239,7 @@ export class TextAnalyticsClient {
     recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     setSubscriptionKey(subscriptionKey: string): void;
-}
+    }
 
 // @public
 export interface TextAnalyticsClientOptions extends PipelineOptions {

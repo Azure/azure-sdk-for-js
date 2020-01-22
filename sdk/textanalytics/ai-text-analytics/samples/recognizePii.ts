@@ -5,7 +5,7 @@
 // in a standalone project
 import {
   TextAnalyticsClient,
-  CognitiveServicesCredential,
+  SubscriptionKeyCredential,
   RecognizeEntitiesResult,
   RecognizeEntitiesSuccessResult,
   RecognizeEntitiesErrorResult
@@ -17,10 +17,7 @@ export async function run() {
   // You will need to set these environment variables
   const endPoint = process.env["AZ_CONFIG_ENDPOINT"]!;
   const subscriptionKey = process.env["AZ_CONFIG_SUBSCRIPTION_KEY"]!;
-  const client = new TextAnalyticsClient(
-    endPoint,
-    new CognitiveServicesCredential(subscriptionKey)
-  );
+  const client = new TextAnalyticsClient(endPoint, new SubscriptionKeyCredential(subscriptionKey));
 
   const [result] = await client.recognizePiiEntities(["My phone number is 555-5555"]);
 

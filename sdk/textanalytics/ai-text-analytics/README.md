@@ -62,11 +62,11 @@ Alternatively, you can get the endpoint and subscription key from the resource i
 Once you have a subscription key, you can use it as follows:
 
 ```js
-const { TextAnalyticsClient, CognitiveServicesCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, SubscriptionKeyCredential } = require("@azure/ai-text-analytics");
 
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new CognitiveServicesCredential("<subscription key>")
+  new SubscriptionKeyCredential("<subscription key>")
 );
 ```
 
