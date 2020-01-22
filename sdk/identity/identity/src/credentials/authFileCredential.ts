@@ -45,7 +45,7 @@ export class AuthFileCredential implements TokenCredential {
         throw new Error("there was a problem building the credential.");
       }
 
-      new ClientCertificateCredential(tenantId, clientId, certificatePath, {
+      this.credential = new ClientCertificateCredential(tenantId, clientId, certificatePath, {
         authorityHost: activeDirectoryEndpointUrl
       });
     }
