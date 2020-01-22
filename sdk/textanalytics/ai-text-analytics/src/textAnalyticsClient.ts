@@ -205,7 +205,7 @@ export class TextAnalyticsClient {
    * Use this method to roll credentials without having to create a new TextAnalyticsClient.
    * @param subscriptionKey The Cognitive Services subscription key for authentication.
    */
-  public setSubscriptionKey(subscriptionKey: string): void {
+  public updateSubscriptionKey(subscriptionKey: string): void {
     if (!this.subscriptionKeyCredential) {
       throw new Error(
         "This TextAnalyticsClient is not using a SubscriptionKeyCredential to authenticate."

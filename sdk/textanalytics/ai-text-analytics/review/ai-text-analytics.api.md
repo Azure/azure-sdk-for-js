@@ -238,8 +238,8 @@ export class TextAnalyticsClient {
     recognizeLinkedEntities(inputs: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
     recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
-    setSubscriptionKey(subscriptionKey: string): void;
-    }
+    updateSubscriptionKey(subscriptionKey: string): void;
+}
 
 // @public
 export interface TextAnalyticsClientOptions extends PipelineOptions {
