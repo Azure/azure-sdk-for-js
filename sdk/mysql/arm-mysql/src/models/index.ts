@@ -82,7 +82,7 @@ export interface ServerPropertiesForCreate {
    */
   createMode: "ServerPropertiesForCreate";
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -105,7 +105,7 @@ export interface ServerPropertiesForDefaultCreate {
    */
   createMode: "Default";
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -137,7 +137,7 @@ export interface ServerPropertiesForRestore {
    */
   createMode: "PointInTimeRestore";
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -169,7 +169,7 @@ export interface ServerPropertiesForGeoRestore {
    */
   createMode: "GeoRestore";
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -196,7 +196,7 @@ export interface ServerPropertiesForReplica {
    */
   createMode: "Replica";
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -255,7 +255,7 @@ export interface Server extends TrackedResource {
    */
   administratorLogin?: string;
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -333,7 +333,7 @@ export interface ServerUpdateParameters {
    */
   administratorLoginPassword?: string;
   /**
-   * The version of a server. Possible values include: '5.6', '5.7'
+   * The version of a server. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -715,11 +715,11 @@ export interface PerformanceTierListResult extends Array<PerformanceTierProperti
 
 /**
  * Defines values for ServerVersion.
- * Possible values include: '5.6', '5.7'
+ * Possible values include: '5.6', '5.7', '8.0'
  * @readonly
  * @enum {string}
  */
-export type ServerVersion = '5.6' | '5.7';
+export type ServerVersion = '5.6' | '5.7' | '8.0';
 
 /**
  * Defines values for SslEnforcementEnum.
