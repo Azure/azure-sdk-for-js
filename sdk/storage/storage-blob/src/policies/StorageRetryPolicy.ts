@@ -113,11 +113,11 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       retryDelayInMs:
         retryOptions.retryDelayInMs && retryOptions.retryDelayInMs >= 0
           ? Math.min(
-              retryOptions.retryDelayInMs,
-              retryOptions.maxRetryDelayInMs
-                ? retryOptions.maxRetryDelayInMs
-                : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs!
-            )
+            retryOptions.retryDelayInMs,
+            retryOptions.maxRetryDelayInMs
+              ? retryOptions.maxRetryDelayInMs
+              : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs!
+          )
           : DEFAULT_RETRY_OPTIONS.retryDelayInMs,
 
       maxRetryDelayInMs:
@@ -243,6 +243,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       "ENOENT",
       "ENOTFOUND",
       "TIMEOUT",
+      "EPIPE",
       "REQUEST_SEND_ERROR" // For default xhr based http client provided in ms-rest-js
     ];
     if (err) {

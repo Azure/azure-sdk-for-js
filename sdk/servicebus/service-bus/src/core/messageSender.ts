@@ -23,7 +23,7 @@ import {
   RetryConfig,
   RetryOperationType,
   Constants,
-  randomNumberFromInterval, 
+  randomNumberFromInterval,
   delay
 } from "@azure/amqp-common";
 import {
@@ -269,7 +269,7 @@ export class MessageSender extends LinkEntity {
             this._context.namespace.connectionId,
             this.name
           );
-          
+
           await delay(1000);
 
           log.sender(

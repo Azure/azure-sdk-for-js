@@ -55,6 +55,17 @@ export const filter1: msRest.OperationQueryParameter = {
     }
   }
 };
+export const filter2: msRest.OperationQueryParameter = {
+  parameterPath: "filter",
+  mapper: {
+    required: true,
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
 export const managementGroupId: msRest.OperationURLParameter = {
   parameterPath: "managementGroupId",
   mapper: {

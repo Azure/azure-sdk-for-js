@@ -245,6 +245,7 @@ export const Domain: msRest.CompositeMapper = {
         }
       },
       metricResourceId: {
+        readOnly: true,
         serializedName: "properties.metricResourceId",
         type: {
           name: "String"
@@ -285,6 +286,24 @@ export const DomainUpdateParameters: msRest.CompositeMapper = {
           value: {
             type: {
               name: "String"
+            }
+          }
+        }
+      },
+      allowTrafficFromAllIPs: {
+        serializedName: "allowTrafficFromAllIPs",
+        type: {
+          name: "Boolean"
+        }
+      },
+      inboundIpRules: {
+        serializedName: "inboundIpRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundIpRule"
             }
           }
         }
@@ -1223,6 +1242,7 @@ export const Topic: msRest.CompositeMapper = {
         }
       },
       metricResourceId: {
+        readOnly: true,
         serializedName: "properties.metricResourceId",
         type: {
           name: "String"
@@ -1263,6 +1283,24 @@ export const TopicUpdateParameters: msRest.CompositeMapper = {
           value: {
             type: {
               name: "String"
+            }
+          }
+        }
+      },
+      allowTrafficFromAllIPs: {
+        serializedName: "allowTrafficFromAllIPs",
+        type: {
+          name: "Boolean"
+        }
+      },
+      inboundIpRules: {
+        serializedName: "inboundIpRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundIpRule"
             }
           }
         }

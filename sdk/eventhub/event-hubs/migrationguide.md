@@ -1,4 +1,4 @@
-# Migration Guide (EventHubs v2 to v5)
+# Guide to migrate from @azure/event-hubs v2 to v5
 
 This document is intended for users that are familiar with V2 of the JavaScript SDK for Event Hubs library (`@azure/event-hubs@2.x.x` & `@azure/event-processor-host@2.x.x`) and wish 
 to migrate their application to V5 of the same library.
@@ -7,8 +7,12 @@ For users new to the JavaScript SDK for Event Hubs, please see the [readme file 
 
 ## General changes
 
-EventHubs v5 is a redesign that provides a better out-of-the-box experience 
-for developers across several areas:
+Version 5 of the `@azure/event-hubs` package is a result of our efforts to
+create a client library that is user-friendly and idiomatic to the JavaScript
+ecosystem.
+
+Apart from redesigns resulting from the new [Azure SDK Design Guidelines for Typescript](https://azure.github.io/azure-sdk/typescript_introduction.html#design-principles),
+the latest version improves on several areas from V2:
 
 ### Handling backpressure
 

@@ -4,8 +4,8 @@
 import * as assert from "assert";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
@@ -46,7 +46,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   // If this test is not skipped in the browser's playback, no other test will be played back.
   // This is a bug related to the browser features of the recorder.
   it("can abort adding a secret", async function() {
-    if (!isNode && isPlayingBack) {
+    if (!isNode && isPlaybackMode()) {
       recorder.skip();
     }
     const secretName = testClient.formatName(
@@ -61,7 +61,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     });
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can timeout adding a secret", async function() {
       const secretName = testClient.formatName(
@@ -141,7 +141,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     await testClient.flushSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can timeout updating a secret", async function() {
       const secretName = testClient.formatName(
@@ -194,7 +194,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     await testClient.flushSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can timeout getting a secret", async function() {
       const secretName = testClient.formatName(
@@ -297,7 +297,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     await testClient.purgeSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can timeout deleting a secret", async function() {
       const secretName = testClient.formatName(

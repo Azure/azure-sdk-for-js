@@ -14,7 +14,7 @@ import {
 
 import * as fs from "fs";
 import * as path from "path";
-import { readStreamToLocalFile } from "../../src/utils/utils.node";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("FileClient Node.js only", () => {
@@ -61,7 +61,7 @@ describe("FileClient Node.js only", () => {
 
     const downloadResponse = await fileClient.download();
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileLarge);

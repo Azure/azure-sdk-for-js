@@ -4,8 +4,8 @@
 import * as assert from "assert";
 import { SecretClient, DeletedSecret } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
@@ -86,7 +86,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
     await testClient.purgeSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can attempt to delete a secret with requestOptions timeout", async function() {
       const secretName = testClient.formatName(
