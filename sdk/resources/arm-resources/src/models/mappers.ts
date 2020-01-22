@@ -251,6 +251,31 @@ export const Deployment: msRest.CompositeMapper = {
   }
 };
 
+export const ScopedDeployment: msRest.CompositeMapper = {
+  serializedName: "ScopedDeployment",
+  type: {
+    name: "Composite",
+    className: "ScopedDeployment",
+    modelProperties: {
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DeploymentProperties"
+        }
+      }
+    }
+  }
+};
+
 export const DeploymentExportResult: msRest.CompositeMapper = {
   serializedName: "DeploymentExportResult",
   type: {
@@ -1843,6 +1868,69 @@ export const WhatIfOperationResult: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ErrorResponse"
+        }
+      }
+    }
+  }
+};
+
+export const Tags: msRest.CompositeMapper = {
+  serializedName: "Tags",
+  type: {
+    name: "Composite",
+    className: "Tags",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TagPatchRequest: msRest.CompositeMapper = {
+  serializedName: "TagPatchRequest",
+  type: {
+    name: "Composite",
+    className: "TagPatchRequest",
+    modelProperties: {
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "Tags"
+        }
+      }
+    }
+  }
+};
+
+export const TagsResource: msRest.CompositeMapper = {
+  serializedName: "TagsResource",
+  type: {
+    name: "Composite",
+    className: "TagsResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "Tags"
         }
       }
     }
