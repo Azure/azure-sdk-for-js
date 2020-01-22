@@ -1,4 +1,5 @@
 variables:
+  DocWardenVersion: '0.4.2'
   NodeVersion: "10.x"
   OSVmImage: "ubuntu-16.04"
   Agent.Source.Git.ShallowFetchDepth: 20
