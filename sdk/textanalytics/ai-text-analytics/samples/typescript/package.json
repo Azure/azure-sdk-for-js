@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics",
   "sideEffects": false,
   "dependencies": {
     "@azure/ai-text-analytics": "latest",

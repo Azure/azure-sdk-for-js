@@ -45,13 +45,13 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/recognizePii.js
+node recognizePii.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" SUBSCRIPTION_KEY="<subscription key>" node dist/recognizePii.js
+npx cross-env ENDPOINT="<endpoint>" SUBSCRIPTION_KEY="<subscription key>" node recognizePii.js
 ```
 
 ## Next Steps
