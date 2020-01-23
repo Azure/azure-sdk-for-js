@@ -126,7 +126,7 @@ async function main() {
   let targetPackages = [];
 
   for (const package of Object.keys(rushPackages)) {
-    if (["client", "core", "utility"].includes(rushPackages[package].versionPolicy)) {
+    if (["client", "core"].includes(rushPackages[package].versionPolicy)) {
       targetPackages.push(package);
     }
   }
