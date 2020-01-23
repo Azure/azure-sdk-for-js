@@ -7,18 +7,32 @@
  */
 
 export {
+  AqiSettings,
+  AutoQuotaIncreaseDetail,
   BaseResource,
+  CurrentQuotaLimit,
+  CurrentQuotaLimitBase,
+  CurrentQuotaLimitBaseName,
+  EmailAction,
   ErrorModel,
   ExtendedErrorInfo,
   ExtendedStatusInfo,
   MergeRequest,
+  OnFailure,
+  OnFailureEmailActions,
+  OnFailurePhoneActions,
   Patch,
   PatchPropertiesRenewProperties,
   PaymentDetail,
+  PhoneAction,
   Price,
   Properties,
   PurchaseRequest,
   PurchaseRequestPropertiesReservedResourceProperties,
+  QuotaRequestDetails,
+  QuotaRequestOneResourceSubmitResponse,
+  QuotaRequestProperties,
+  QuotaRequestSubmitResponse,
   RenewPropertiesResponse,
   RenewPropertiesResponseBillingCurrencyTotal,
   RenewPropertiesResponsePricingCurrencyTotal,
@@ -32,5 +46,8 @@ export {
   ScopeProperties,
   SkuName,
   SplitRequest,
-  SubscriptionScopeProperties
+  SubRequest,
+  SubRequestName,
+  SubscriptionScopeProperties,
+  SupportRequestAction
 } from "../models/mappers";

@@ -13,20 +13,30 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-reservations";
-const packageVersion = "4.0.0";
+const packageVersion = "5.0.0";
 
 export class AzureReservationAPIContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
-  apiVersion?: string;
+  resourceName: string;
+  id: string;
 
   /**
    * Initializes a new instance of the AzureReservationAPI class.
    * @param credentials Credentials needed for the client to connect to Azure.
+   * @param resourceName The Resource name for the specific resource provider, such as SKU name for
+   * Microsoft.Compute, pool for Microsoft.Batch.
+   * @param id Quota Request id.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.AzureReservationAPIOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, resourceName: string, id: string, options?: Models.AzureReservationAPIOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
+    }
+    if (resourceName == undefined) {
+      throw new Error('\'resourceName\' cannot be null.');
+    }
+    if (id == undefined) {
+      throw new Error('\'id\' cannot be null.');
     }
 
     if (!options) {
@@ -39,12 +49,13 @@ export class AzureReservationAPIContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '2019-04-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
+    this.resourceName = resourceName;
+    this.id = id;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;

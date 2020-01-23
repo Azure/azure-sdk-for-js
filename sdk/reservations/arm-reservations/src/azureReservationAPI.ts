@@ -18,6 +18,11 @@ import { AzureReservationAPIContext } from "./azureReservationAPIContext";
 
 class AzureReservationAPI extends AzureReservationAPIContext {
   // Operation groups
+  quota: operations.Quota;
+  quotaRequest: operations.QuotaRequest;
+  quotas: operations.Quotas;
+  quotaRequests: operations.QuotaRequests;
+  autoQuotaIncrease: operations.AutoQuotaIncrease;
   reservation: operations.Reservation;
   reservationOrder: operations.ReservationOrder;
   operation: operations.Operation;
@@ -25,10 +30,18 @@ class AzureReservationAPI extends AzureReservationAPIContext {
   /**
    * Initializes a new instance of the AzureReservationAPI class.
    * @param credentials Credentials needed for the client to connect to Azure.
+   * @param resourceName The Resource name for the specific resource provider, such as SKU name for
+   * Microsoft.Compute, pool for Microsoft.Batch.
+   * @param id Quota Request id.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.AzureReservationAPIOptions) {
-    super(credentials, options);
+  constructor(credentials: msRest.ServiceClientCredentials, resourceName: string, id: string, options?: Models.AzureReservationAPIOptions) {
+    super(credentials, resourceName, id, options);
+    this.quota = new operations.Quota(this);
+    this.quotaRequest = new operations.QuotaRequest(this);
+    this.quotas = new operations.Quotas(this);
+    this.quotaRequests = new operations.QuotaRequests(this);
+    this.autoQuotaIncrease = new operations.AutoQuotaIncrease(this);
     this.reservation = new operations.Reservation(this);
     this.reservationOrder = new operations.ReservationOrder(this);
     this.operation = new operations.Operation(this);
@@ -107,9 +120,9 @@ const getCatalogOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.reservedResourceType,
-    Parameters.location
+    Parameters.location1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -143,7 +156,7 @@ const getAppliedReservationListOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
