@@ -3,6 +3,7 @@
 Developers like to learn by looking at code, and so the Azure SDK comes with many samples in the form of short code snippets, sample applications, and how-to guides. This document describes where to find all these resources.
 
 ## Structure of the Repository
+
 The Azure SDK repository is organized in the following folder structure, with the main sample locations highlighted using **bold** font.
 
 - `/samples` (this folder)
@@ -18,10 +19,12 @@ The Azure SDK repository is organized in the following folder structure, with th
       - `/src`
       - `/tests`
 
-##  Getting Started Samples
+## Getting Started Samples
+
 Each package folder contains a package-specific `README.md` file. Most of these `README` files contain samples illustrating basic usage of the the APIs contained in the package. For example, you can find the Getting Started samples for the `@azure/storage-blob` package [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob#examples).
 
 ## Package Samples and How-To Guides
+
 Each package folder contains a subfolder called `samples` with additional code samples in the `typescript` and `javascript` subfolder. Corresponding files (i.e. `samples/typescript/src/helloWorld.ts` and `samples/javascript/helloWorld.js`) in the TypeScript and JavaScript directories are functionally equivalent. These samples may be viewed in GitHub or browsed on [the Sample Browser at docs.microsoft.com/samples](https://docs.microsoft.com/samples/browse/?products=azure&languages=typescript%2Cjavascript) by selecting the product and language combination that you wish to view samples for.
 
 ## Global Samples
@@ -37,5 +40,8 @@ Samples that apply to every package or to no package in particular are located i
 
 (The `rollup` and `webpack` directories also have `js` and `ts` subdirectories for JavaScript and TypeScript respectively.)
 
+For more information on package bundling, see [`/documentation/Bundling.md`](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+
 ## Sample Applications
+
 Sometimes we want to illustrate how several APIs or even packages work together in a context of a more complete program. For these cases, we created sample applications. These application samples are located in other repositories and, like the package-specific samples, may be viewed on [https://docs.microsoft.com/samples/](https://docs.microsoft.com/samples/).
