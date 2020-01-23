@@ -1,17 +1,24 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// NOTE: replace with import { TextAnalyticsClient } from "@azure/ai-text-analytics"
-// in a standalone project
+/**
+ * uses Azure Active Directory (RBAC) to authenticate to the Cognitive Services endpoint
+ */
+
 import {
   TextAnalyticsClient,
   DetectLanguageResult,
   DetectLanguageErrorResult,
   DetectLanguageSuccessResult
-} from "../src";
+} from "@azure/ai-text-analytics";
+
 import { DefaultAzureCredential } from "@azure/identity";
 
-export async function run() {
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
+export async function main() {
   console.log(`Running detectLanguages sample`);
 
   // DefaultAzureCredential expects the following three environment variables:
@@ -20,10 +27,10 @@ export async function run() {
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
 
-  // You will need to set this environment variable too
-  const endPoint = process.env["AZ_CONFIG_ENDPOINT"]!;
+  // You will need to set these environment variables or edit the following values
+  const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 
-  const client = new TextAnalyticsClient(endPoint, credential);
+  const client = new TextAnalyticsClient(endpoint, credential);
 
   const [result] = await client.detectLanguages(["hello world"]);
 
@@ -36,8 +43,6 @@ function isSuccess(result: DetectLanguageResult): result is DetectLanguageSucces
   return !(result as DetectLanguageErrorResult).error;
 }
 
-// If you want to run this sample from a console
-// uncomment these lines so run() will get called
-// run().catch((err) => {
-//   console.log(`ERROR: ${err}`);
-// });
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
