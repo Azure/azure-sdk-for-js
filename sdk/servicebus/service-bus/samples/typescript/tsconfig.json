@@ -4,8 +4,6 @@
     "target": "ES2015",
     "moduleResolution": "node",
 
-    "lib": ["DOM", "DOM.Iterable", "ES6", "ScriptHost", "ES2018.AsyncIterable"],
-
     "allowSyntheticDefaultImports": true,
 
     "outDir": "dist",
