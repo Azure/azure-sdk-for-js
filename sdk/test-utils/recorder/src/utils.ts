@@ -7,6 +7,43 @@ export interface TestInfo {
   newDate: { [x: string]: string };
 }
 
+/**
+ * Interface to setup environment necessary for the test run.
+ *
+ * @export
+ * @interface RecorderEnvironmentSetup
+ */
+export interface RecorderEnvironmentSetup {
+  /**
+   * Used in record and playback modes
+   *  1. The key-value pairs will be used as the environment variables in playback mode.
+   *  2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
+   *
+   * @type {{ [ENV_VAR: string]: string }}
+   * @memberof RecorderEnvironmentSetup
+   */
+  replaceableVariables: { [ENV_VAR: string]: string };
+  /**
+   *  Used in record mode
+   *   Array of callback functions provided to customize the generated recordings in record mode
+   *
+   *  Example with one callback function -
+   *      `sig` param of SAS Token is being filtered here from the recordings..
+   *      [ (recording: string): string => recording.replace(new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"), "aaaaa") ]
+   *
+   * @memberof RecorderEnvironmentSetup
+   */
+  replaceInRecordings: Array<(recording: string) => string>;
+  /**
+   * Used in record and playback modes
+   *  Array of query parameters provided will be filtered from the requests
+   *
+   * @type {Array<string>}
+   * @memberof RecorderEnvironmentSetup
+   */
+  queryParametersToSkip: Array<string>;
+}
+
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
 export function isRecordMode() {
