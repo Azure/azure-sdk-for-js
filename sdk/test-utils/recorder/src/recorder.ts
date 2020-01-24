@@ -6,7 +6,8 @@ import {
   isBrowser,
   isRecordMode,
   isPlaybackMode,
-  RecorderEnvironmentSetup
+  RecorderEnvironmentSetup,
+  env
 } from "./utils";
 import { NiseRecorder, NockRecorder, BaseRecorder, setEnvironmentOnLoad } from "./baseRecorder";
 
@@ -60,7 +61,7 @@ export interface Recorder {
  */
 export function record(
   testContext: Mocha.Context,
-  environmentSetup: RecorderEnvironmentSetup
+  recorderEnvironmentSetup: RecorderEnvironmentSetup
 ): Recorder {
   let recorder: BaseRecorder;
   let testHierarchy: string;
@@ -81,7 +82,7 @@ export function record(
     testTitle = testContext.test!.title;
   }
 
-  setEnvironmentOnLoad(environmentSetup);
+  setEnvironmentOnLoad();
 
   if (isBrowser()) {
     recorder = new NiseRecorder(testHierarchy, testTitle);
@@ -91,11 +92,16 @@ export function record(
 
   if (isRecordMode()) {
     // If TEST_MODE=record, invokes the recorder, hits the live-service,
-    // saves the recording after the test finishes.
-    recorder.record();
+    // expects that the appropriate environment variables are present
+    recorder.record(recorderEnvironmentSetup);
   } else if (isPlaybackMode()) {
-    // If TEST_MODE=playback, invokes the recorder, play the exisiting test recording.
-    recorder.playback(testContext.currentTest!.file!);
+    // If TEST_MODE=playback,
+    //  1. sets up the ENV variables
+    //  2. invokes the recorder, play the exisiting test recording.
+    Object.keys(recorderEnvironmentSetup.replaceableVariables).map((key) => {
+      env[key] = recorderEnvironmentSetup.replaceableVariables[key];
+    });
+    recorder.playback(recorderEnvironmentSetup, testContext.currentTest!.file!);
   }
   // If TEST_MODE=live, hits the live-service and no recordings are generated.
 
@@ -135,7 +141,6 @@ export function record(
         }
       }
     },
-
     getUniqueName: function(prefix: string, label?: string): string {
       let name: string;
       if (!label) {
