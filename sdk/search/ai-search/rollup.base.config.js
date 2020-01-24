@@ -1,3 +1,4 @@
+import path from "path";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
@@ -84,6 +85,7 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
+          chai: ["assert"],
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
@@ -96,6 +98,18 @@ export function browserConfig(test = false) {
     baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
+
+    baseConfig.onwarn = (warning) => {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+      ) {
+        // Chai contains circular references, but they are not fatal and can be ignored.
+        return;
+      }
+
+      console.error(`(!) ${warning.message}`);
+    };
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
