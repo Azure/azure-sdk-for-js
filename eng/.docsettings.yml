@@ -14,6 +14,7 @@ omitted_paths:
   - "sdk/**/samples/**"
   - "sdk/**/swagger/**"
   - common/**
+  - samples/**
 language: js
 root_check_enabled: True
 required_readme_sections:
