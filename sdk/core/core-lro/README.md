@@ -168,7 +168,7 @@ It returns a promise that should be resolved with an updated version of the poll
 ```typescript
 async function cancel(
   this: MyOperation,
-  options: { abortSignal?: AbortSignal } = {}
+  options: { abortSignal?: AbortSignalLike } = {}
 ): Promise<MyOperation> {
   // ... Reach out to your service to trigger the cancellation of the operation ...
 
