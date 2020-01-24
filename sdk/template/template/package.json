@@ -60,7 +60,7 @@
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/template/template",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "1.0.3",
+    "@azure/core-http": "^1.0.3",
     "@opentelemetry/types": "^0.2.0",
     "events": "^3.0.0",
     "tslib": "^1.10.0"
