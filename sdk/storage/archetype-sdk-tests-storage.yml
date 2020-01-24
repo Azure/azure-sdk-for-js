@@ -1,5 +1,10 @@
 parameters:
   PackageName: ""
+  EnvVars:
+    ACCOUNT_NAME: $(js-storage-test-account-name)
+    ACCOUNT_KEY: $(js-storage-test-account-key)
+    ACCOUNT_SAS: $(js-storage-test-account-sas)
+    STORAGE_CONNECTION_STRING: $(js-storage-test-connection-string)
   ResourceServiceDirectory: storage
   Matrix:
     Linux_Node8:
@@ -53,19 +58,10 @@ parameters:
     Linux_Sample10:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "10.x"
-      TestType: "sample"
 
 jobs:
   - template: ../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
-      EnvVars:
-        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-        ACCOUNT_NAME: $(STORAGE_ACCOUNT_NAME)
-        ACCOUNT_KEY: $(STORAGE_ACCOUNT_KEY)
-        ACCOUNT_SAS: $(STORAGE_ACCOUNT_SAS)
-        STORAGE_CONNECTION_STRING: $(STORAGE_CONNECTION_STRING)
+      EnvVars: ${{ parameters.EnvVars }}
       PackageName: ${{ parameters.PackageName }}
-      ResourceServiceDirectory: ${{ parameters.ResourceServiceDirectory }}
       Matrix: ${{ parameters.Matrix }}
