@@ -1,5 +1,9 @@
 # Release History
 
+## 12.0.2 (Unreleased)
+
+- Bug fix - Storage errors now have proper messages. ([PR #7107](https://github.com/Azure/azure-sdk-for-js/pull/7107))
+
 ## 12.0.1 (2020.01)
 
 - Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6755](https://github.com/Azure/azure-sdk-for-js/pull/6755)
