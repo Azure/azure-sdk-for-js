@@ -109,7 +109,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       recorder.getUniqueName("copiedblob")
     );
     const poller = await newBlobClient.beginCopyFromURL(
-      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+      "https://azure.github.io/azure-sdk-for-js/index.html",
       testPollerProperties
     );
     await poller.cancelOperation();
@@ -134,7 +134,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     );
     let onProgressCalled = false;
     const poller = await newBlobClient.beginCopyFromURL(
-      "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/README.md",
+      "https://azure.github.io/azure-sdk-for-js/index.html",
       {
         onProgress(_) {
           onProgressCalled = true;
