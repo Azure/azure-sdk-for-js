@@ -1,7 +1,6 @@
 import chai from "chai";
 import glob from "glob";
 import fs from "fs";
-import path from "path";
 
 function globAsync(pattern: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
@@ -19,6 +18,7 @@ function globAsync(pattern: string): Promise<string[]> {
 // we now have the below tests to ensure such updates dont get checked in.
 describe("Ensure typescript samples use published package", function(): void {
   function testSamples(files: string[], regex: RegExp): void {
+    console.log("I have", files.length, "files");
     const failingFiles = files.filter((file) => {
       const fileContents = fs.readFileSync(file, { encoding: "utf-8" });
       return !regex.test(fileContents);
@@ -31,13 +31,13 @@ describe("Ensure typescript samples use published package", function(): void {
   }
 
   it("Ensure TypeScript samples use published package", async () => {
-    const pattern = path.join(__dirname, "../../samples/typescript/src") + path.sep + "**/*.ts";
+    const pattern = "samples/typescript/src/**/*.ts";
     const files = await globAsync(pattern);
     testSamples(files, new RegExp('from\\s"@azure/service-bus"'));
   });
 
   it("Ensure JavaScript samples use published package", async () => {
-    const pattern = path.join(__dirname, "../../samples/javascript") + path.sep + "**/*.js";
+    const pattern = "samples/javascript/**/*.js";
     const files = await globAsync(pattern);
     testSamples(files, new RegExp('=\\srequire\\("@azure/service-bus"\\)'));
   });
