@@ -1,5 +1,6 @@
 dependencies:
   '@rush-temp/abort-controller': 'file:projects/abort-controller.tgz'
+  '@rush-temp/ai-search': 'file:projects/ai-search.tgz'
   '@rush-temp/ai-text-analytics': 'file:projects/ai-text-analytics.tgz'
   '@rush-temp/app-configuration': 'file:projects/app-configuration.tgz'
   '@rush-temp/core-amqp': 'file:projects/core-amqp.tgz'
@@ -9779,6 +9780,58 @@ packages:
       integrity: sha512-4ncKNkIEa65mZiVS8JE0YkjNIJxGZs18qcuKQmQalRaljDgO4vFFXQkcXJLBY0QgF4EcN3Oln4cpvtqRcIghFQ==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
+  'file:projects/ai-search.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.7.2
+      '@opentelemetry/types': 0.2.0
+      '@rollup/plugin-commonjs': 11.0.1_rollup@1.29.0
+      '@rollup/plugin-json': 4.0.1_rollup@1.29.0
+      '@rollup/plugin-multi-entry': 3.0.0_rollup@1.29.0
+      '@rollup/plugin-node-resolve': 7.0.0_rollup@1.29.0
+      '@rollup/plugin-replace': 2.3.0_rollup@1.29.0
+      '@types/chai': 4.2.7
+      '@types/mocha': 5.2.7
+      '@types/node': 8.10.59
+      '@typescript-eslint/eslint-plugin': 2.16.0_c31061c3a4c51030ad09922138088b55
+      '@typescript-eslint/parser': 2.16.0_eslint@6.8.0+typescript@3.6.4
+      chai: 4.2.0
+      cross-env: 6.0.3
+      eslint: 6.8.0
+      eslint-config-prettier: 6.9.0_eslint@6.8.0
+      eslint-plugin-no-null: 1.0.2_eslint@6.8.0
+      eslint-plugin-no-only-tests: 2.4.0
+      eslint-plugin-promise: 4.2.1
+      events: 3.1.0
+      inherits: 2.0.4
+      karma: 4.4.1
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.1
+      karma-edge-launcher: 0.4.2_karma@4.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@4.4.1
+      karma-junit-reporter: 2.0.1_karma@4.4.1
+      karma-mocha: 1.3.0
+      karma-mocha-reporter: 2.2.5_karma@4.4.1
+      karma-remap-coverage: 0.1.5_karma-coverage@2.0.1
+      mocha: 6.2.2
+      mocha-junit-reporter: 1.23.2_mocha@6.2.2
+      mocha-multi: 1.1.3_mocha@6.2.2
+      prettier: 1.19.1
+      rimraf: 3.0.0
+      rollup: 1.29.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.29.0
+      rollup-plugin-terser: 5.2.0_rollup@1.29.0
+      rollup-plugin-visualizer: 3.3.1_rollup@1.29.0
+      tslib: 1.10.0
+      typescript: 3.6.4
+      util: 0.12.1
+    dev: false
+    name: '@rush-temp/ai-search'
+    resolution:
+      integrity: sha512-1SYCBWz0Jjt9HL/D+f8tdhr2wRy7Aimda79V8zBHEcYn5j4OQ1IhaAJ68425RdoLgHkKhettUnYfUub1H1f2+A==
+      tarball: 'file:projects/ai-search.tgz'
+    version: 0.0.0
   'file:projects/ai-text-analytics.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.7
@@ -9796,6 +9849,7 @@ packages:
       '@typescript-eslint/parser': 2.16.0_eslint@6.8.0+typescript@3.6.4
       chai: 4.2.0
       cross-env: 6.0.3
+      dotenv: 8.2.0
       eslint: 6.8.0
       eslint-config-prettier: 6.9.0_eslint@6.8.0
       eslint-plugin-no-null: 1.0.2_eslint@6.8.0
@@ -9827,7 +9881,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-RBTenmr1IMgJ2CFqqVvI0B8L3o9ak7IIXJVbBDKcagID1zdRX9HRPl/mJ129P0DA65GrIH9OOVqL1GLx1+PcPA==
+      integrity: sha512-p1bAicJ3veOdJYtunNQJ+z/GcA82+TvfnQZp15O36YgzVMnIUS83Doa8SaHSWVrp14pUX3d+3rSkj16XVBh0Lg==
       tarball: 'file:projects/ai-text-analytics.tgz'
     version: 0.0.0
   'file:projects/app-configuration.tgz':
@@ -11243,8 +11297,10 @@ packages:
       integrity: sha512-g8YrQTDA4IXHMgGiVqT+qbOUqRiLSUi6d4iefxs8T9YIlVrfc1ugL9dDj82ePjXhrBNKzdVGnfr+2s9QsYbiAQ==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
+  '@rush-temp/ai-search': 'file:./projects/ai-search.tgz'
   '@rush-temp/ai-text-analytics': 'file:./projects/ai-text-analytics.tgz'
   '@rush-temp/app-configuration': 'file:./projects/app-configuration.tgz'
   '@rush-temp/core-amqp': 'file:./projects/core-amqp.tgz'
