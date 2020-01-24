@@ -33,7 +33,10 @@ export {
   SubResource,
   TagCount,
   TagDetails,
+  TagPatchRequest,
+  Tags,
   TagsListResult,
+  TagsResource,
   TagValue,
   TemplateLink
 } from "../models/mappers";
