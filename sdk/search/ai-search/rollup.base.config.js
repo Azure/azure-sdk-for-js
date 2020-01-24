@@ -8,6 +8,7 @@ import viz from "rollup-plugin-visualizer";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
+const devDepNames = Object.keys(pkg.devDependencies);
 const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
@@ -41,7 +42,8 @@ export function nodeConfig(test = false) {
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
 
-    baseConfig.external.push();
+    // mark devdeps as external
+    baseConfig.external.push(...devDepNames);
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
@@ -82,7 +84,6 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          events: ["EventEmitter"],
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
