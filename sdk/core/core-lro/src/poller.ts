@@ -109,19 +109,19 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
  *
  * ```ts
  * const poller = new MyPoller();
- * 
+ *
  * // Polling just once:
  * await poller.poll();
- * 
+ *
  * // We can try to cancel the request here, by calling:
  * //
  * //     await poller.cancelOperation();
  * //
- * 
+ *
  * // Getting the final result:
  * const result = await poller.pollUntilDone();
  * ```
- * 
+ *
  * The Poller is defined by two types, a type representing the state of the poller, which
  * must include a basic set of properties from `PollOperationState<TResult>`,
  * and a return type defined by `TResult`, which can be anything.
@@ -139,10 +139,10 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
  *     return poller;
  *   }
  * }
- * 
+ *
  * const poller: PollerLike<MyOperationState, MyResult> = myClient.makePoller();
  * ```
- * 
+ *
  * A poller can be created through its constructor, then it can be polled until it's completed.
  * At any point in time, the state of the poller can be obtained without delay through the getOperationState method.
  * At any point in time, the intermediate forms of the result type can be requested without delay.
@@ -151,14 +151,14 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
  * ```ts
  * const poller = myClient.makePoller();
  * const state: MyOperationState = poller.getOperationState();
- * 
+ *
  * // The intermediate result can be obtained at any time.
  * const result: MyResult | undefined = poller.getResult();
- * 
+ *
  * // The final result can only be obtained after the poller finishes.
  * const result: MyResult = await poller.pollUntilDone();
  * ```
- * 
+ *
  */
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
   implements PollerLike<TState, TResult> {
@@ -193,22 +193,22 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    *       privateProperty: private,
    *       publicProperty: public,
    *     };
-   * 
+   *
    *     const operation = {
    *       state,
    *       update,
    *       cancel,
    *       toString
    *     }
-   * 
+   *
    *     // Sending the operation to the parent's constructor.
    *     super(operation);
-   * 
+   *
    *     // You can assign more local properties here.
    *   }
    * }
    * ```
-   * 
+   *
    * Inside of this constructor, a new promise is created. This will be used to
    * tell the user when the poller finishes (see `pollUntilDone()`). The promise's
    * resolve and reject methods are also used internally to control when to resolve
@@ -267,17 +267,17 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    *
    * ```ts
    * import { delay } from "@azure/core-http";
-   * 
+   *
    * export class MyPoller extends Poller<MyOperationState, string> {
    *   // The other necessary definitions.
-   * 
+   *
    *   async delay(): Promise<void> {
    *     const milliseconds = 1000;
    *     return delay(milliseconds);
    *   }
    * }
    * ```
-   * 
+   *
    */
   protected abstract async delay(): Promise<void>;
 
@@ -464,16 +464,16 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    *   privateProperty?: string;
    *   publicProperty?: string;
    * }
-   * 
+   *
    * // To allow us to have a true separation of public and private state, we have to define another interface:
    * interface PublicState extends PollOperationState<ResultType> {
    *   publicProperty?: string;
    * }
-   * 
+   *
    * // Then, we define our Poller as follows:
    * export class MyPoller extends Poller<MyOperationState, ResultType> {
    *   // ... More content is needed here ...
-   * 
+   *
    *   public getOperationState(): PublicState {
    *     const state: PublicState = this.operation.state;
    *     return {
@@ -483,7 +483,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    *       isCancelled: state.isCancelled,
    *       error: state.error,
    *       result: state.result,
-   * 
+   *
    *       // The only other property needed by PublicState.
    *       publicProperty: state.publicProperty
    *     }
