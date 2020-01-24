@@ -17,7 +17,6 @@ export {
   NetAppAccountPatch,
   ReplicationObject,
   Snapshot,
-  SnapshotPatch,
   SnapshotsList,
   Volume,
   VolumePatch,

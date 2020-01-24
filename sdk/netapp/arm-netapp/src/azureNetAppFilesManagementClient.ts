@@ -22,7 +22,6 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
   accounts: operations.Accounts;
   pools: operations.Pools;
   volumes: operations.Volumes;
-  mountTargets: operations.MountTargets;
   snapshots: operations.Snapshots;
 
   /**
@@ -39,7 +38,6 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
     this.accounts = new operations.Accounts(this);
     this.pools = new operations.Pools(this);
     this.volumes = new operations.Volumes(this);
-    this.mountTargets = new operations.MountTargets(this);
     this.snapshots = new operations.Snapshots(this);
   }
 }

@@ -35,7 +35,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "api-version",
-    defaultValue: '2019-10-01',
+    defaultValue: '2019-11-01',
     type: {
       name: "String"
     }
@@ -56,6 +56,11 @@ export const poolName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "poolName",
+    constraints: {
+      MaxLength: 64,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}$/
+    },
     type: {
       name: "String"
     }
@@ -101,6 +106,11 @@ export const volumeName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "volumeName",
+    constraints: {
+      MaxLength: 64,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z][a-zA-Z0-9\-_]{0,63}$/
+    },
     type: {
       name: "String"
     }

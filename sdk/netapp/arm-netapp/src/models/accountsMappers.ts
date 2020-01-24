@@ -18,7 +18,6 @@ export {
   NetAppAccountPatch,
   ReplicationObject,
   Snapshot,
-  SnapshotPatch,
   Volume,
   VolumePatch,
   VolumePatchPropertiesExportPolicy,
