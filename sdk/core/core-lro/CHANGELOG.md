@@ -2,11 +2,8 @@
 
 ## 1.0.1 (Unreleased)
 
-- getOperationState() now returns TState.
-- PollerLike's TState now extends PollOperationState.
-- Since getOperationState() can be overwritten,
-  it can return a subset of the Poller's TState,
-  which can exist as a separate type, to effectively separate between public and private state.
+- `getOperationState()` now returns `TState`.
+- `TState` of `PollerLike` can be a subset of `TState` of `Poller`,
 
 ## 1.0.0 (2019-10-29)
 

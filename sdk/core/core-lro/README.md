@@ -40,12 +40,10 @@ for more information.
   the operation finishes (either by succeeding or failing) or if a manual request to cancel the operation has succeeded.  
   Some characteristics of the pollers are:
     - Pollers show the status of the polling behavior.
-    - Pollers can trigger manual pollings or automated pollings.
-    - Pollers can deserialize and resume from a deserialized operation.
+    - Pollers support manual as well as automatic polling.
+    - Pollers are serializable and can resume from a serialized operation.
     - Pollers also specify how much of the operation's state is going to be available to the public.
-- A **PollerLike** is any structure similar to the definition of a Poller.
-  This is used to allow implementations of LRO Pollers to have internal, private classes,
-  while also having a public shape of the exposed, previously instantiated poller.
+- A **PollerLike** is the public interface of a Poller, which allows for different implementations to be used.
 
 ## Examples
 
@@ -72,7 +70,7 @@ so that polling can be resumed at any time from a previously serialized operatio
 (more at [Serializing an operation](#serializing-an-operation)).
 
 `PollOperationState` provides a basic state for the poll operation.
-It contains an opinionated list of the smallest set of properties needed
+It contains the minimal set of properties needed
 to keep track of a long running operation, and it's intended to be extended
 with any custom property that your program might need.
 The state can be updated any time, but it should be updated at least in three opportunities:

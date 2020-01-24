@@ -13,7 +13,7 @@ export type CancelOnProgress = () => void;
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult> implements PollerLike<TState, TResult> {
     constructor(operation: PollOperation<TState, TResult>);
     cancelOperation(options?: {
-        abortSignal?: AbortSignal;
+        abortSignal?: AbortSignalLike;
     }): Promise<void>;
     protected abstract delay(): Promise<void>;
     getOperationState(): TState;
@@ -23,7 +23,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
     onProgress(callback: (state: TState) => void): CancelOnProgress;
     protected operation: PollOperation<TState, TResult>;
     poll(options?: {
-        abortSignal?: AbortSignal;
+        abortSignal?: AbortSignalLike;
     }): Promise<void>;
     pollUntilDone(): Promise<TResult>;
     stopPolling(): void;
@@ -38,7 +38,7 @@ export class PollerCancelledError extends Error {
 // @public
 export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
     cancelOperation(options?: {
-        abortSignal?: AbortSignal;
+        abortSignal?: AbortSignalLike;
     }): Promise<void>;
     getOperationState(): TState;
     getResult(): TResult | undefined;
@@ -46,7 +46,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
     isStopped(): boolean;
     onProgress(callback: (state: TState) => void): CancelOnProgress;
     poll(options?: {
-        abortSignal?: AbortSignal;
+        abortSignal?: AbortSignalLike;
     }): Promise<void>;
     pollUntilDone(): Promise<TResult>;
     stopPolling(): void;
@@ -61,7 +61,7 @@ export class PollerStoppedError extends Error {
 // @public
 export interface PollOperation<TState, TResult> {
     cancel(options?: {
-        abortSignal?: AbortSignal;
+        abortSignal?: AbortSignalLike;
     }): Promise<PollOperation<TState, TResult>>;
     state: TState;
     toString(): string;

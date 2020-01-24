@@ -74,11 +74,11 @@ export interface PollOperation<TState, TResult> {
    *
    * @param options Optional properties passed to the operation's update method.
    */
-  cancel(options?: { abortSignal?: AbortSignal }): Promise<PollOperation<TState, TResult>>;
+  cancel(options?: { abortSignal?: AbortSignalLike }): Promise<PollOperation<TState, TResult>>;
 
   /**
    * Serializes the operation.
-   * Useful when a poller wants to be resumed from a previously serialized state.
+   * Useful when wanting to create a poller that monitors an existing operation.
    */
   toString(): string;
 }

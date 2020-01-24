@@ -31,6 +31,14 @@ async function update(
   const { client, requestOptions, initialResponse, previousResponse } = this.state;
   const abortSignal = options.abortSignal || (requestOptions && requestOptions.abortSignal);
 
+  if (!client) {
+    // The client property is assigned to the operation state during the instantiation of the `TestPoller`.
+    // So the client should always exist.
+    // Though `PublicTestOperationState` doesn't have the client property,
+    // so we have to make it optional in `TestOperationState`.
+    throw new Error("The client property should exist");
+  }
+
   let response: HttpOperationResponse;
   const doFinalResponse = previousResponse && previousResponse.parsedBody.doFinalResponse;
 
