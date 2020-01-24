@@ -100,7 +100,7 @@
     ]
   },
   "dependencies": {
-    "@azure/core-http": "^1.0.3",
+    "@azure/core-http": "^1.0.0",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
