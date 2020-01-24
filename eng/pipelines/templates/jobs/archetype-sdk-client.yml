@@ -153,7 +153,7 @@ jobs:
       - script: |
           pip install setuptools wheel
           pip install doc-warden==$(DocWardenVersion)
-          ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/.docsettings.yml
+          ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
         displayName: "Verify Readmes"
 
       - template: eng/pipelines/templates/scripts/verify-path-length.yml@azure-sdk-tools
