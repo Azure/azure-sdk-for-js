@@ -128,7 +128,7 @@ describe("AppendBlobClient", () => {
     }
   });
 
-  it("appendBlock with invalid CRC64 should fail", async () => {
+  it.only("appendBlock with invalid CRC64 should fail", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -146,6 +146,17 @@ describe("AppendBlobClient", () => {
         err.details.errorCode,
         "Crc64Mismatch",
         "Error does not contain details property"
+      );
+      assert.equal(
+        err.code,
+        "Crc64Mismatch",
+        "Error does not have the expected code 'Crc64Mismatch'"
+      );
+      assert.ok(
+        err.message.startsWith(
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+        ),
+        `Error does not have the expected message, actual message: ${err.message}`
       );
     }
 

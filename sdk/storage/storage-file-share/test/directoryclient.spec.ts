@@ -625,7 +625,7 @@ describe("DirectoryClient", () => {
     await subDirClient.delete();
   });
 
-  it("createFile and deleteFile with tracing", async () => {
+  it.only("createFile and deleteFile with tracing", async () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
@@ -658,6 +658,15 @@ describe("DirectoryClient", () => {
         error.details.errorCode,
         "ResourceNotFound",
         "Error does not contain details property"
+      );
+      assert.equal(
+        error.code,
+        "ResourceNotFound",
+        "Error does not have the expected code, actual code: " + error.code
+      );
+      assert.ok(
+        error.message.startsWith("ResourceNotFound"),
+        `Error does not have the expected message. actual message: ${error.message}`
       );
     }
     await subDirClient.delete({ tracingOptions });

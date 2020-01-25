@@ -343,7 +343,7 @@ describe("QueueServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("can create and delete a queue", async () => {
+  it.only("can create and delete a queue", async () => {
     const queueServiceClient = getQSU();
     const queueName = recorder.getUniqueName("queue");
 
@@ -370,6 +370,10 @@ describe("QueueServiceClient", () => {
       err = error;
     }
     assert.equal(err.details.errorCode, "QueueNotFound", "Error does not contain details property");
-    assert.ok(err.message.includes("QueueNotFound"), "Error doesn't say `QueueNotFound`");
+    assert.equal(err.code, "QueueNotFound", "Error doesn't have the expected code `QueueNotFound`");
+    assert.ok(
+      err.message.startsWith("The specified queue does not exist."),
+      "Error doesn't have the expected message "
+    );
   });
 });
