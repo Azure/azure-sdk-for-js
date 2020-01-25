@@ -179,6 +179,7 @@ export class EventProcessor {
   private _abortController?: AbortController;
   private _processingTarget: PartitionLoadBalancer | string;
   private _loopIntervalInMs = 10000;
+  private _initialLoopDelayMaxInMs = 2000;
   private _inactiveTimeLimitInMs = 60000;
 
   /**
@@ -217,6 +218,10 @@ export class EventProcessor {
       options.processingTarget || new FairPartitionLoadBalancer(inactiveTimeLimitInMS);
     if (options.loopIntervalInMs) {
       this._loopIntervalInMs = options.loopIntervalInMs;
+    }
+
+    if (options.initialLoopDelayMaxInMs != null) {
+      this._initialLoopDelayMaxInMs = options.initialLoopDelayMaxInMs;
     }
   }
 
@@ -362,8 +367,12 @@ export class EventProcessor {
 
   private async _runLoopWithLoadBalancing(
     loadBalancer: PartitionLoadBalancer,
-    abortSignal: AbortSignalLike
+    abortSignal: AbortSignalLike,
+    delayWithoutThrowFn: typeof delayWithoutThrow
   ): Promise<void> {
+    // tack on some jitter to prevent lockstep with other processors when claiming, etc..
+    await delayWithoutThrowFn(Math.random() * this._initialLoopDelayMaxInMs);
+
     // periodically check if there is any partition not being processed and process it
     while (!abortSignal.aborted) {
       try {
@@ -429,7 +438,7 @@ export class EventProcessor {
           `[${this._id}] Pausing the EventProcessor loop for ${this._loopIntervalInMs} ms.`
         );
         // swallow the error since it's fine to exit early from delay
-        await delayWithoutThrow(this._loopIntervalInMs, abortSignal);
+        await delayWithoutThrowFn(this._loopIntervalInMs, abortSignal);
       }
     }
   }
@@ -491,7 +500,8 @@ export class EventProcessor {
       logger.verbose(`[${this._id}] Multiple partitions, using load balancer`);
       this._loopTask = this._runLoopWithLoadBalancing(
         this._processingTarget,
-        this._abortController.signal
+        this._abortController.signal,
+        delayWithoutThrow
       );
     }
   }

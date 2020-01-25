@@ -56,6 +56,15 @@ export interface CommonEventProcessorOptions  // make the 'maxBatchSize', 'maxWa
   loopIntervalInMs?: number;
 
   /**
+   * The # of milliseconds (as a non-inclusive upper-bound) to delay before
+   * starting the event processor loop.
+   *
+   * This allows us to mitigate potential lockstep issues with other event
+   * processors that are starting up at the same time.
+   */
+  initialLoopDelayMaxInMs?: number;
+
+  /**
    * A load balancer to use to find targets or a specific partition to target.
    */
   processingTarget?: PartitionLoadBalancer | string;

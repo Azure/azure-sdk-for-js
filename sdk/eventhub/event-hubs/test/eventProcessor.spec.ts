@@ -32,10 +32,11 @@ import {
   sendOneMessagePerPartition
 } from "./utils/subscriptionHandlerForTests";
 import { GreedyPartitionLoadBalancer, PartitionLoadBalancer } from "../src/partitionLoadBalancer";
-import { AbortError } from "@azure/abort-controller";
+import { AbortError, AbortController } from "@azure/abort-controller";
 import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
 import sinon from "sinon";
 import { isLatestPosition } from "../src/eventPosition";
+import { delayWithoutThrow } from "../src/util/delayWithoutThrow";
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -374,7 +375,8 @@ describe("Event Processor", function(): void {
       const numTimesAbortedIsCheckedInLoop = 3;
       await ep["_runLoopWithLoadBalancing"](
         ep["_processingTarget"] as PartitionLoadBalancer,
-        triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop)
+        triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop),
+        delayWithoutThrow
       );
 
       handlers.errors.should.be.empty;
@@ -454,6 +456,59 @@ describe("Event Processor", function(): void {
           lastModifiedTimeInMs: ownershipsAfterStop[2].lastModifiedTimeInMs
         }
       ]);
+    });
+
+    it("jitter and delays work as expected", async () => {
+      let numListOwnershipCalls = 0;
+
+      const ehcMock = ({
+        getPartitionIds: async () => []
+      } as unknown) as EventHubClient;
+
+      const ac = new AbortController();
+
+      const cpsMock = ({
+        // called in each loop iteration - we'll let the first one
+        // "work" to show that the normal case delay()'s and then
+        // throw an error on the second iteration to show that also
+        // delay()'s.
+        listOwnership: async () => {
+          ++numListOwnershipCalls;
+          if (numListOwnershipCalls >= 2) {
+            ac.abort();
+            throw new Error("Demo'ing delay also happens on exception");
+          }
+          return [];
+        }
+      } as unknown) as CheckpointStore;
+
+      const options = {
+        initialLoopDelayMaxInMs: 1000,
+        loopIntervalInMs: 2001,
+        // irrelevant for this test
+        maxBatchSize: 1,
+        maxWaitTimeInSeconds: 1
+      };
+
+      const ep = new EventProcessor("consumerGroup", ehcMock, {} as any, cpsMock, options);
+
+      const delays: number[] = [];
+
+      await ep["_runLoopWithLoadBalancing"](
+        {} as PartitionLoadBalancer,
+        ac.signal,
+        async (delayMs: number) => {
+          delays.push(delayMs);
+        }
+      );
+
+      delays.length.should.equal(3);
+
+      // the first delay (the jitter) should only happen once
+      delays[0].should.be.within(0, options.initialLoopDelayMaxInMs - 1);
+
+      // the other two delays will be the normal loop delay
+      delays.slice(1).should.deep.equal([options.loopIntervalInMs, options.loopIntervalInMs]);
     });
   });
 
@@ -1079,7 +1134,7 @@ describe("Event Processor", function(): void {
         async processError(err: Error, context: PartitionContext) {
           loggerForTest(`processError(${context.partitionId})`);
           const errorName = (err as any).code;
-          if (errorName === 'ReceiverDisconnectedError') {
+          if (errorName === "ReceiverDisconnectedError") {
             didGetReceiverDisconnectedError = true;
           }
         }
@@ -1101,7 +1156,7 @@ describe("Event Processor", function(): void {
       // aggressively pursue getting its required partitions and avoid being in
       // lockstep with `processor-1`
       const processor2LoadBalancingInterval = {
-        loopIntervalInMs: processor1LoadBalancingInterval.loopIntervalInMs/2
+        loopIntervalInMs: processor1LoadBalancingInterval.loopIntervalInMs / 2
       };
 
       processorByName[`processor-1`] = new EventProcessor(
@@ -1109,7 +1164,11 @@ describe("Event Processor", function(): void {
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        { ...defaultOptions, startPosition: earliestEventPosition, ...processor1LoadBalancingInterval }
+        {
+          ...defaultOptions,
+          startPosition: earliestEventPosition,
+          ...processor1LoadBalancingInterval
+        }
       );
 
       processorByName[`processor-1`].start();
@@ -1127,7 +1186,11 @@ describe("Event Processor", function(): void {
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        { ...defaultOptions, startPosition: earliestEventPosition, ...processor2LoadBalancingInterval }
+        {
+          ...defaultOptions,
+          startPosition: earliestEventPosition,
+          ...processor2LoadBalancingInterval
+        }
       );
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
@@ -1153,13 +1216,16 @@ describe("Event Processor", function(): void {
           );
 
           // map of ownerId as a key and partitionIds as a value
-          const partitionOwnershipMap: Map<string, string[]> = ownershipListToMap(partitionOwnership);
+          const partitionOwnershipMap: Map<string, string[]> = ownershipListToMap(
+            partitionOwnership
+          );
 
           // if stealing has occurred we just want to make sure that _all_
           // the stealing has completed.
           const isBalanced = (friendlyName: string) => {
             const n = Math.floor(partitionIds.length / 2);
-            const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!.length;
+            const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!
+              .length;
             return numPartitions == n || numPartitions == n + 1;
           };
 
@@ -1172,7 +1238,7 @@ describe("Event Processor", function(): void {
       });
 
       for (const processor in processorByName) {
-         await processorByName[processor].stop();
+        await processorByName[processor].stop();
       }
 
       // now that all the dust has settled let's make sure that
@@ -1501,8 +1567,7 @@ function ownershipListToMap(partitionOwnership: PartitionOwnership[]): Map<strin
   for (const ownership of partitionOwnership) {
     if (!partitionOwnershipMap.has(ownership.ownerId)) {
       partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
-    }
-    else {
+    } else {
       let arr = partitionOwnershipMap.get(ownership.ownerId);
       arr!.push(ownership.partitionId);
       partitionOwnershipMap.set(ownership.ownerId, arr!);
