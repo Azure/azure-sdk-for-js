@@ -151,6 +151,26 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileParentId!);
   });
 
+  it("report error with correct code and message", async () => {
+    const name = recorder.getUniqueName("testingerror");
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(name));
+    try {
+      await dirClient2.create();
+      await dirClient2.create();
+      assert.fail();
+    } catch (error) {
+      assert.equal(
+        error.code,
+        "ResourceAlreadyExists",
+        `Error doesn't have the expected code. Actual code: ${error.code}`
+      );
+      assert.ok(
+        error.message.startsWith("The specified resource already exists."),
+        `Error doesn't have the expected message. Actual message: ${error.message}`
+      );
+    }
+  });
+
   it("setProperties with default parameters", async () => {
     await dirClient.setProperties();
 
@@ -625,7 +645,7 @@ describe("DirectoryClient", () => {
     await subDirClient.delete();
   });
 
-  it.only("createFile and deleteFile with tracing", async () => {
+  it("createFile and deleteFile with tracing", async () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
@@ -658,15 +678,6 @@ describe("DirectoryClient", () => {
         error.details.errorCode,
         "ResourceNotFound",
         "Error does not contain details property"
-      );
-      assert.equal(
-        error.code,
-        "ResourceNotFound",
-        "Error does not have the expected code, actual code: " + error.code
-      );
-      assert.ok(
-        error.message.startsWith("ResourceNotFound"),
-        `Error does not have the expected message. actual message: ${error.message}`
       );
     }
     await subDirClient.delete({ tracingOptions });

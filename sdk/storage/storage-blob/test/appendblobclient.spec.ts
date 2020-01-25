@@ -128,7 +128,7 @@ describe("AppendBlobClient", () => {
     }
   });
 
-  it.only("appendBlock with invalid CRC64 should fail", async () => {
+  it("appendBlock with invalid CRC64 should fail", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -137,8 +137,14 @@ describe("AppendBlobClient", () => {
       await appendBlobClient.appendBlock(content, content.length, {
         transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
       });
+      assert.fail();
     } catch (err) {
-      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+      if (
+        err instanceof Error &&
+        err.message.indexOf(
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+        ) != -1
+      ) {
         exceptionCaught = true;
       }
 

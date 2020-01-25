@@ -343,7 +343,7 @@ describe("QueueServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it.only("can create and delete a queue", async () => {
+  it("can create and delete a queue", async () => {
     const queueServiceClient = getQSU();
     const queueName = recorder.getUniqueName("queue");
 
