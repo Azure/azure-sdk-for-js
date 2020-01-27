@@ -27,7 +27,7 @@ export async function main() {
     "I love living in Seattle! Seattle is always sunny."
   ]);
 
-  if (result.error) {
+  if (!result.error) {
     for (const phrase of result.keyPhrases) {
       console.log(`Key phrase: ${phrase}`);
     }
