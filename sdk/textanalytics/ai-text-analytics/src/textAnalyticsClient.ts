@@ -80,32 +80,32 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
 /**
  * Options for the detect languages operation.
  */
-export interface DetectLanguagesOptions extends TextAnalyticsOperationOptions {}
+export type DetectLanguagesOptions = TextAnalyticsOperationOptions
 
 /**
  * Options for the recognize entities operation.
  */
-export interface RecognizeEntitiesOptions extends TextAnalyticsOperationOptions {}
+export type RecognizeEntitiesOptions = TextAnalyticsOperationOptions
 
 /**
  * Options for the analyze sentiment operation.
  */
-export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {}
+export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions
 
 /**
  * Options for the extract key phrases operation.
  */
-export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {}
+export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions
 
 /**
  * Options for the recognize linked entities operation.
  */
-export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {}
+export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions
 
 /**
  * Options for the recognize PII entities operation.
  */
-export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {}
+export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions
 
 /**
  * Client class for interacting with Azure Text Analytics.
