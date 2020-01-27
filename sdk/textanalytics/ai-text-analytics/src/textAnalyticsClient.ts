@@ -9,8 +9,7 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  OperationOptions,
-  RequestPolicyFactory
+  OperationOptions
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";

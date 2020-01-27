@@ -214,15 +214,15 @@ export interface SentimentConfidenceScorePerLabel {
 }
 
 // @public
-export class SubscriptionKeyCredential implements ServiceClientCredentials {
-    constructor(subscriptionKey: string);
+export class TextAnalyticsApiKeyCredential implements ServiceClientCredentials {
+    constructor(apiKey: string);
     signRequest(webResource: WebResource): Promise<WebResource>;
-    updateKey(subscriptionKey: string): void;
+    updateKey(apiKey: string): void;
 }
 
 // @public
 export class TextAnalyticsClient {
-    constructor(endpointUrl: string, credential: TokenCredential | SubscriptionKeyCredential, options?: TextAnalyticsClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | TextAnalyticsApiKeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(inputs: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     analyzeSentiment(inputs: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     defaultCountryHint: string;
@@ -238,7 +238,6 @@ export class TextAnalyticsClient {
     recognizeLinkedEntities(inputs: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
     recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
     recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
-    updateSubscriptionKey(subscriptionKey: string): void;
 }
 
 // @public
