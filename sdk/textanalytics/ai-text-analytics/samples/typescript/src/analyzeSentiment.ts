@@ -28,13 +28,9 @@ export async function main() {
 
   const [result] = await client.analyzeSentiment(["I love living in Seattle!"]);
 
-  if (isSuccess(result)) {
+  if (!result.error) {
     console.log(`Sentiment of statement is ${result.sentiment}`);
   }
-}
-
-function isSuccess(result: AnalyzeSentimentResult): result is AnalyzeSentimentSuccessResult {
-  return !(result as AnalyzeSentimentErrorResult).error;
 }
 
 main().catch((err) => {

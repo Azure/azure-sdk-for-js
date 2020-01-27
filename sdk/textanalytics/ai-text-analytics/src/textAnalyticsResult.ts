@@ -26,9 +26,9 @@ export interface TextAnalyticsSuccessResult {
   readonly statistics?: TextDocumentStatistics;
 
   /**
-   * Discriminant to determine if that this is a successful result.
+   * Discriminant to determine if that this is an error result.
    */
-  isSuccess: true;
+  readonly error?: undefined;
 }
 
 /**
@@ -45,11 +45,6 @@ export interface TextAnalyticsErrorResult {
    * The Error for this document result.
    */
   readonly error: TextAnalyticsError;
-
-  /**
-   * Discriminant to determine if that this is an error result.
-   */
-  isSuccess: false;
 }
 
 export function makeTextAnalysisResult(
@@ -59,7 +54,6 @@ export function makeTextAnalysisResult(
   return {
     id,
     statistics,
-    isSuccess: true
   };
 }
 
@@ -70,6 +64,5 @@ export function makeTextAnalysisErrorResult(
   return {
     id,
     error,
-    isSuccess: false
   };
 }

@@ -28,15 +28,11 @@ export async function main() {
 
   const [result] = await client.recognizeEntities(["I love living in Seattle."]);
 
-  if (isSuccess(result)) {
+  if (!result.error) {
     for (const entity of result.entities) {
       console.log(`Found entity ${entity.text} of type ${entity.type}`);
     }
   }
-}
-
-function isSuccess(result: RecognizeEntitiesResult): result is RecognizeEntitiesSuccessResult {
-  return !(result as RecognizeEntitiesErrorResult).error;
 }
 
 main().catch((err) => {
