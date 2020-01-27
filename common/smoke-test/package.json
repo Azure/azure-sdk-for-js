@@ -16,6 +16,9 @@
     "@types/node": "^12.6.2",
     "uuid": "^3.3.2",
     "@azure/core-tracing": "1.0.0-preview.7",
-    "@azure/core-http": "1.0.0"
+    "@azure/core-http": "1.0.0",
+    "@azure/core-lro": "1.0.0",
+    "@azure/core-paging": "1.0.0",
+    "@azure/logger": "1.0.0"
   }
 }
