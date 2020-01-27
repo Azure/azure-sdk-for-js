@@ -274,7 +274,7 @@ describe("BlobClient", () => {
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
     } catch (err) {
-      assert.ok((err as any).response.parsedBody.Code === "InvalidHeaderValue");
+      assert.ok(err.code === "InvalidHeaderValue", `Expected error code of 'InvalidHeaderValue' but actual code is ${err.code}.`);
     }
   });
 

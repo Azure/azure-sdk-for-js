@@ -6,7 +6,7 @@ import {
   getSASConnectionStringFromEnvironment,
   setupEnvironment
 } from "./utils";
-import { ContainerClient, BlobClient, PageBlobClient, PremiumPageBlobTier } from "../src";
+import { ContainerClient, BlobClient, PageBlobClient, PremiumPageBlobTier, RestError } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
@@ -84,7 +84,7 @@ describe("PageBlobClient", () => {
       const properties = await blobClient.getProperties();
       assert.equal(properties.accessTier, options.tier);
     } catch (err) {
-      if (err.message.indexOf("AccessTierNotSupportedForBlobType") == -1) {
+      if (err.code !=="AccessTierNotSupportedForBlobType") {
         // not found
         assert.fail("Error thrown while it's not AccessTierNotSupportedForBlobType.");
       }
@@ -205,7 +205,7 @@ describe("PageBlobClient", () => {
         transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
       });
     } catch (err) {
-      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+      if (err instanceof RestError && err.code ==="Crc64Mismatch") {
         exceptionCaught = true;
       }
     }

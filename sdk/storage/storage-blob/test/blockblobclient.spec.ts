@@ -9,7 +9,7 @@ import {
   getSASConnectionStringFromEnvironment,
   setupEnvironment
 } from "./utils";
-import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
+import { ContainerClient, BlobClient, BlockBlobClient, RestError } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { BlockBlobTier } from "../src";
 dotenv.config({ path: "../.env" });
@@ -393,7 +393,7 @@ describe("BlockBlobClient", () => {
         transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
       });
     } catch (err) {
-      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+      if (err instanceof RestError && err.code === "Crc64Mismatch") {
         exceptionCaught = true;
       }
     }
