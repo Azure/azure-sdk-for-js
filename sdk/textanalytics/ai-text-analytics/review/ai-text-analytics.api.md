@@ -4,18 +4,17 @@
 
 ```ts
 
-import { ApiKeyCredentials } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
+import { ServiceClientCredentials } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
+import { WebResource } from '@azure/core-http';
 
 // @public
-export interface AnalyzeSentimentErrorResult extends TextAnalyticsErrorResult {
-}
+export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
-}
+export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions;
 
 // @public
 export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
@@ -34,11 +33,6 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 }
 
 // @public
-export class CognitiveServicesCredential extends ApiKeyCredentials {
-    constructor(subscriptionKey: string);
-}
-
-// @public
 export interface DetectedLanguage {
     iso6391Name: string;
     name: string;
@@ -46,8 +40,7 @@ export interface DetectedLanguage {
 }
 
 // @public
-export interface DetectLanguageErrorResult extends TextAnalyticsErrorResult {
-}
+export type DetectLanguageErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface DetectLanguageInput {
@@ -68,8 +61,7 @@ export interface DetectLanguageResultCollection extends Array<DetectLanguageResu
 }
 
 // @public
-export interface DetectLanguagesOptions extends TextAnalyticsOperationOptions {
-}
+export type DetectLanguagesOptions = TextAnalyticsOperationOptions;
 
 // @public
 export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
@@ -94,12 +86,10 @@ export interface Entity {
 export type ErrorCodeValue = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
 // @public
-export interface ExtractKeyPhrasesErrorResult extends TextAnalyticsErrorResult {
-}
+export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {
-}
+export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
 
 // @public
 export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
@@ -148,12 +138,10 @@ export interface Match {
 }
 
 // @public
-export interface RecognizeEntitiesErrorResult extends TextAnalyticsErrorResult {
-}
+export type RecognizeEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export interface RecognizeEntitiesOptions extends TextAnalyticsOperationOptions {
-}
+export type RecognizeEntitiesOptions = TextAnalyticsOperationOptions;
 
 // @public
 export type RecognizeEntitiesResult = RecognizeEntitiesSuccessResult | RecognizeEntitiesErrorResult;
@@ -170,12 +158,10 @@ export interface RecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public
-export interface RecognizeLinkedEntitiesErrorResult extends TextAnalyticsErrorResult {
-}
+export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
-}
+export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
 
 // @public
 export type RecognizeLinkedEntitiesResult = RecognizeLinkedEntitiesSuccessResult | RecognizeLinkedEntitiesErrorResult;
@@ -192,8 +178,7 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 }
 
 // @public
-export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
-}
+export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
 
 // @public
 export interface SentenceSentiment {
@@ -218,8 +203,15 @@ export interface SentimentConfidenceScorePerLabel {
 }
 
 // @public
+export class TextAnalyticsApiKeyCredential implements ServiceClientCredentials {
+    constructor(apiKey: string);
+    signRequest(webResource: WebResource): Promise<WebResource>;
+    updateKey(apiKey: string): void;
+}
+
+// @public
 export class TextAnalyticsClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveServicesCredential, options?: TextAnalyticsClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | TextAnalyticsApiKeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(inputs: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     analyzeSentiment(inputs: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     defaultCountryHint: string;

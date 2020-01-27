@@ -268,7 +268,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   Import `jsonRecordingFilterFunction` from `"@azure/test-utils-recorder"` as shown below.
 
   ```javascript
-  const jsonRecordingFilter = require("@azure/test-utils-recorder").jsonRecordingFilterFunction;
+  const { jsonRecordingFilterFunction } = require("@azure/test-utils-recorder");
   ```
 
   jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs
@@ -278,7 +278,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
   jsonToFileReporter: {
     // required - to save the recordings of browser tests
-    filter: jsonRecordingFilter,
+    filter: jsonRecordingFilterFunction,
     outputPath: "."
   },
 
