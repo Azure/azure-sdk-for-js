@@ -30,11 +30,11 @@ import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
 import { QnAMakerClient } from "@azure/cognitiveservices-qnamaker";
 
 async function main() {
-  const qnaMakerKey = process.env["qnaMakerKey"] || "<qnaMakerKey>";
-  const qnaMakerEndpoint = process.env["qnaMakerEndpoint"] || "<qnaMakerEndpoint>";
+  const QNAMAKER_KEY = process.env["QNAMAKER_KEY"] || "<QNAMAKER_KEY>";
+  const QNAMAKER_ENDPOINT = process.env["QNAMAKER_ENDPOINT"] || "<QNAMAKER_ENDPOINT>";
 
-  const cognitiveServicesCredentials = new CognitiveServicesCredentials(qnaMakerKey);
-  const client = new QnAMakerClient(cognitiveServicesCredentials, qnaMakerEndpoint);
+  const cognitiveServicesCredentials = new CognitiveServicesCredentials(QNAMAKER_KEY);
+  const client = new QnAMakerClient(cognitiveServicesCredentials, QNAMAKER_ENDPOINT);
 
   const settings = await client.endpointSettings.getSettings();
 
@@ -66,17 +66,17 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/cognitiveservices-qnamaker/dist/cognitiveservices-qnamaker.js"></script>
     <script type="text/javascript">
-      const qnaMakerKey = "<QnAMaker_Key>";
-      const qnaMakerEndpoint = "<QnAMaler_Endpoin>";
+      const QNAMAKER_KEY = "<QNAMAKER_KEY>";
+      const QNAMAKER_ENDPOINT = "<QNAMAKER_ENDPOINT>";
       const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
         inHeader: {
-          "Ocp-Apim-Subscription-Key": qnaMakerKey
+          "Ocp-Apim-Subscription-Key": QNAMAKER_KEY
         }
       });
 
       const client = new Azure.CognitiveservicesQnamaker.QnAMakerClient(
         cognitiveServiceCredentials,
-        qnaMakerEndpoint
+        QNAMAKER_ENDPOINT
       );
 
       client.endpointSettings
@@ -99,4 +99,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-qnamaker/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/README.png)
