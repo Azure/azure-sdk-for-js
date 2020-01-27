@@ -22,6 +22,7 @@ trigger:
       - sdk/core/
       - eng/
       - common/config/rush/
+      - rush.json
 
 pr:
   branches:
@@ -35,6 +36,7 @@ pr:
       - sdk/core/
       - eng/
       - common/config/rush/
+      - rush.json
 
 stages:
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
