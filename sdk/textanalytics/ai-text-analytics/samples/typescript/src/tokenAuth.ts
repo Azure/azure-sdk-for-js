@@ -6,10 +6,7 @@
  */
 
 import {
-  TextAnalyticsClient,
-  DetectLanguageResult,
-  DetectLanguageErrorResult,
-  DetectLanguageSuccessResult
+  TextAnalyticsClient
 } from "@azure/ai-text-analytics";
 
 import { DefaultAzureCredential } from "@azure/identity";

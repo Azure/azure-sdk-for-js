@@ -7,10 +7,7 @@
 
 import {
   TextAnalyticsClient,
-  TextAnalyticsApiKeyCredential,
-  AnalyzeSentimentResult,
-  AnalyzeSentimentSuccessResult,
-  AnalyzeSentimentErrorResult
+  TextAnalyticsApiKeyCredential
 } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
