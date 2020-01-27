@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT license. See license.txt in the project root for license information.
+// Licensed under the MIT License. See License.txt in the project root for license information.
 
 import { TokenCredential } from "@azure/core-http";
 import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "@azure/core-http";
