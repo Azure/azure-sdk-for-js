@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel, KeyUsageType } from "./core/models";
 
