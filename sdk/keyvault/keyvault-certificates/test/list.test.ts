@@ -1,5 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+// Passing this is necessary for the current common recorder to work.
+// We're also using this to get mocha's test titles, for the generation of meaningful but unique names.
+/* eslint-disable no-invalid-this */
 
 import * as assert from "assert";
 import chai from "chai";
@@ -47,12 +51,16 @@ describe("Certificates client - list certificates in various ways", () => {
       })) {
         try {
           await testClient.flushCertificate(certificate.name!);
-        } catch (e) {}
+        } catch (e) {
+          // We're ignoring this error.
+        }
       }
       for await (const certificate of client.listDeletedCertificates({ includePending: true })) {
         try {
           await testClient.purgeCertificate(certificate.name!);
-        } catch (e) {}
+        } catch (e) {
+          // We're ignoring this error.
+        }
       }
     });
   }

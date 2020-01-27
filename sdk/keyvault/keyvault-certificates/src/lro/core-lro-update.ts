@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import {
   PollerStoppedError,
   PollerCancelledError,
@@ -20,7 +22,7 @@ export interface KVPollerLike<TState extends PollOperationState<TResult>, TResul
    * A method that defines under what conditions to reach out to the underlying service.
    * It should call the operation's update method.
    */
-  poll(options?: { abortSignal?: AbortSignal }): Promise<void>;
+  poll(options?: { abortSignal?: AbortSignalLike }): Promise<void>;
   /**
    * A method that will return a promise that will resolve once the underlying operation is completed.
    */
@@ -44,7 +46,7 @@ export interface KVPollerLike<TState extends PollOperationState<TResult>, TResul
   /**
    * A method that will try to cancel the underlying operation.
    */
-  cancelOperation(options?: { abortSignal?: AbortSignal }): Promise<void>;
+  cancelOperation(options?: { abortSignal?: AbortSignalLike }): Promise<void>;
   /**
    * A method that will return the state of the operation.
    * TState can be a different type than the underlying operation's TState.
@@ -70,6 +72,7 @@ export interface KVPollerLike<TState extends PollOperationState<TResult>, TResul
  * This edit of the original interface changes getOperationState() to return TState,
  * which helps to expose any re-interpretation of the state of the operation being polled,
  * such as only publicly available properties.
+ * @internal
  */
 export abstract class KVPoller<TState extends PollOperationState<TResult>, TResult>
   implements KVPollerLike<TState, TResult> {
@@ -96,13 +99,10 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
     // This prevents the UnhandledPromiseRejectionWarning in node.js from being thrown.
     // The above warning would get thrown if `poller.poll` is called, it returns an error,
     // and pullUntilDone did not have a .catch or await try/catch on it's return value.
-    this.promise.catch(() => {});
+    this.promise.catch(function() {
+      // We're ignoring this error.
+    });
   }
-
-  /**
-   * A method to determine how much to wait between pollings.
-   */
-  protected abstract async delay(): Promise<void>;
 
   /**
    * Starts a loop that will break only if the poller is done
@@ -158,7 +158,7 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
    * Invokes the underlying operation's cancel method, and rejects the
    * pollUntilDone promise.
    */
-  private async cancelOnce(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
+  private async cancelOnce(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     this.operation = await this.operation.cancel(options);
     if (this.reject) {
       this.reject(new PollerCancelledError("Poller cancelled"));
@@ -166,16 +166,21 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
   }
 
   /**
+   * A method to determine how much to wait between pollings.
+   */
+  protected abstract async delay(): Promise<void>;
+
+  /**
    * A method that defines under what conditions to reach out to the underlying service.
    * It should call the operation's update method.
    */
-  public poll(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
+  public poll(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     if (!this.pollOncePromise) {
       this.pollOncePromise = this.pollOnce(options);
       const clearPollOncePromise = (): void => {
         this.pollOncePromise = undefined;
       };
-      this.pollOncePromise.then(clearPollOncePromise, clearPollOncePromise);
+      return this.pollOncePromise.then(clearPollOncePromise, clearPollOncePromise);
     }
     return this.pollOncePromise;
   }
@@ -231,7 +236,7 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
   /**
    * A method that will try to cancel the underlying operation.
    */
-  public cancelOperation(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
+  public cancelOperation(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     if (!this.stopped) {
       this.stopped = true;
     }
@@ -242,12 +247,6 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
     }
     return this.cancelPromise;
   }
-
-  /**
-   * A method that will return the state of the operation.
-   * TState can be a different type than the underlying operation's TState.
-   */
-  public abstract getOperationState(): TState;
 
   /**
    * A method that will return the result value of the operation,
@@ -266,4 +265,10 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
   public toString(): string {
     return this.operation.toString();
   }
+
+  /**
+   * A method that will return the state of the operation.
+   * TState can be a different type than the underlying operation's TState.
+   */
+  public abstract getOperationState(): TState;
 }

@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+// core-lro implementations use this a lot more than what this plugin is expecting.
+/* eslint-disable no-invalid-this */
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
@@ -16,6 +19,7 @@ export type RecoverDeletedCertificateState = PollOperationState<KeyVaultCertific
 
 /**
  * An interface representing the state of a delete certificate's poll operation
+ * @internal
  */
 export interface RecoverDeletedCertificatePollOperationState
   extends PollOperationState<KeyVaultCertificateWithPolicy> {
@@ -36,15 +40,15 @@ export interface RecoverDeletedCertificatePollOperationState
 /**
  * An interface representing a delete certificate's poll operation
  */
-export interface RecoverDeletedCertificatePollOperation
-  extends PollOperation<
-    RecoverDeletedCertificatePollOperationState,
-    KeyVaultCertificateWithPolicy
-  > {}
+export type RecoverDeletedCertificatePollOperation = PollOperation<
+  RecoverDeletedCertificatePollOperationState,
+  KeyVaultCertificateWithPolicy
+>;
 
 /**
  * @summary Reaches to the service and updates the delete certificate's poll operation.
  * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
+ * @internal
  */
 async function update(
   this: RecoverDeletedCertificatePollOperation,
@@ -54,6 +58,7 @@ async function update(
   } = {}
 ): Promise<RecoverDeletedCertificatePollOperation> {
   const state = this.state;
+
   const { certificateName, client } = state;
 
   const requestOptions = state.requestOptions || {};
@@ -65,7 +70,9 @@ async function update(
     try {
       state.result = await client.getCertificate(certificateName, { requestOptions });
       state.isCompleted = true;
-    } catch (_) {}
+    } catch (e) {
+      // The previous request will only pass when we're done.
+    }
     if (!state.isCompleted) {
       state.result = await client.recoverDeletedCertificate(certificateName, { requestOptions });
       state.isStarted = true;
@@ -90,19 +97,25 @@ async function update(
   return makeRecoverDeletedCertificatePollOperation(state);
 }
 
+// Even though typescript accepts a parameter named underscore as an ignored parameter,
+// the eslint plugin doesn't support it.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  * @summary Reaches to the service and cancels the certificate's operation, also updating the certificate's poll operation
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
+ * @internal
  */
 async function cancel(
   this: RecoverDeletedCertificatePollOperation,
-  _: { abortSignal?: AbortSignal } = {}
+  _: { abortSignal?: AbortSignalLike } = {}
 ): Promise<RecoverDeletedCertificatePollOperation> {
   throw new Error("Canceling the deletion of a certificate is not supported.");
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 /**
  * @summary Serializes the create certificate's poll operation
+ * @internal
  */
 function toString(this: RecoverDeletedCertificatePollOperation): string {
   return JSON.stringify({
@@ -113,6 +126,7 @@ function toString(this: RecoverDeletedCertificatePollOperation): string {
 /**
  * @summary Builds a create certificate's poll operation
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
+ * @internal
  */
 export function makeRecoverDeletedCertificatePollOperation(
   state: RecoverDeletedCertificatePollOperationState

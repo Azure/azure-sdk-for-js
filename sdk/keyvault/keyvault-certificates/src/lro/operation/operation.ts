@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+// core-lro implementations use this a lot more than what this plugin is expecting.
+/* eslint-disable no-invalid-this */
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
@@ -27,6 +30,7 @@ export interface CertificateOperationState
 
 /**
  * An interface representing the state of a create certificate's poll operation
+ * @internal
  */
 export interface CertificateOperationPollOperationState
   extends PollOperationState<KeyVaultCertificateWithPolicy> {
@@ -51,12 +55,15 @@ export interface CertificateOperationPollOperationState
 /**
  * An interface representing a create certificate's poll operation
  */
-export interface CertificateOperationPollOperation
-  extends PollOperation<CertificateOperationPollOperationState, KeyVaultCertificateWithPolicy> {}
+export type CertificateOperationPollOperation = PollOperation<
+  CertificateOperationPollOperationState,
+  KeyVaultCertificateWithPolicy
+>;
 
 /**
  * @summary Reaches to the service and updates the create certificate's poll operation.
  * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
+ * @internal
  */
 async function update(
   this: CertificateOperationPollOperation,
@@ -66,6 +73,7 @@ async function update(
   } = {}
 ): Promise<CertificateOperationPollOperation> {
   const state = this.state;
+
   const client = state.client!;
   const certificateName = state.certificateName!;
 
@@ -102,10 +110,11 @@ async function update(
 /**
  * @summary Reaches to the service and cancels the certificate's operation, also updating the certificate's poll operation
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
+ * @internal
  */
 async function cancel(
   this: CertificateOperationPollOperation,
-  options: { abortSignal?: AbortSignal } = {}
+  options: { abortSignal?: AbortSignalLike } = {}
 ): Promise<CertificateOperationPollOperation> {
   const state = this.state;
   const client = state.client!;
@@ -129,6 +138,7 @@ async function cancel(
 
 /**
  * @summary Serializes the create certificate's poll operation
+ * @internal
  */
 function toString(this: CertificateOperationPollOperation): string {
   return JSON.stringify({
@@ -139,6 +149,7 @@ function toString(this: CertificateOperationPollOperation): string {
 /**
  * @summary Builds a create certificate's poll operation
  * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
+ * @internal
  */
 export function makeCertificateOperationPollOperation(
   state: CertificateOperationPollOperationState

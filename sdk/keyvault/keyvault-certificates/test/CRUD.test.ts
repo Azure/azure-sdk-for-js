@@ -1,5 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+// Passing this is necessary for the current common recorder to work.
+// We're also using this to get mocha's test titles, for the generation of meaningful but unique names.
+/* eslint-disable no-invalid-this */
 
 import * as assert from "assert";
 import { CertificateClient } from "../src";
@@ -410,7 +414,7 @@ describe("Certificates client - create, read, update and delete", () => {
     let certificateOperation: any;
 
     // Read
-    let operationPoller = await client.getCertificateOperation(certificateName);
+    const operationPoller = await client.getCertificateOperation(certificateName);
     certificateOperation = operationPoller.getOperationState().certificateOperation!;
     assert.equal(certificateOperation.status, "inProgress");
     assert.equal(certificateOperation.cancellationRequested, false);
@@ -451,7 +455,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     await client.setContacts(contacts);
 
-    let getResponse = await client.getContacts();
+    const getResponse = await client.getContacts();
     assert.equal(
       getResponse && getResponse[0] && getResponse[0].name ? getResponse[0].name : undefined,
       "a"

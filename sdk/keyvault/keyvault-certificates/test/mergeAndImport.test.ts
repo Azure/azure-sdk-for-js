@@ -1,5 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+// Passing this is necessary for the current common recorder to work.
+// We're also using this to get mocha's test titles, for the generation of meaningful but unique names.
+/* eslint-disable no-invalid-this */
 
 import fs from "fs";
 import childProcess from "child_process";

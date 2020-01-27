@@ -13,7 +13,9 @@
     "typescript",
     "browser",
     "isomorphic",
-    "keyvault"
+    "keyvault",
+    "Azure",
+    "cloud"
   ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -32,7 +34,8 @@
     "dist/",
     "dist-esm/",
     "src/",
-    "tsconfig.json"
+    "tsconfig.json",
+    "dist-esm/src"
   ],
   "browser": {
     "os": false,
