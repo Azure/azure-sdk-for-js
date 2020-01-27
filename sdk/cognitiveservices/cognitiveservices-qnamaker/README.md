@@ -66,29 +66,25 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/cognitiveservices-qnamaker/dist/cognitiveservices-qnamaker.js"></script>
     <script type="text/javascript">
-      const QNAMAKER_KEY = "<QNAMAKER_KEY>";
-      const QNAMAKER_ENDPOINT = "<QNAMAKER_ENDPOINT>";
-      const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
-        inHeader: {
-          "Ocp-Apim-Subscription-Key": QNAMAKER_KEY
-        }
-      });
-
-      const client = new Azure.CognitiveservicesQnamaker.QnAMakerClient(
-        cognitiveServiceCredentials,
-        QNAMAKER_ENDPOINT
-      );
-
-      client.endpointSettings
-        .getSettings()
-        .then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        })
-        .catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
+      async function main() {
+        const QNAMAKER_KEY = "<QNAMAKER_KEY>";
+        const QNAMAKER_ENDPOINT = "<QNAMAKER_ENDPOINT>";
+        const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
+          inHeader: {
+            "Ocp-Apim-Subscription-Key": QNAMAKER_KEY
+          }
         });
+
+        const client = new Azure.CognitiveservicesQnamaker.QnAMakerClient(
+          cognitiveServiceCredentials,
+          QNAMAKER_ENDPOINT
+        );
+
+        const settings = client.endpointSettings.getSettings();
+        console.log(`The result is: ${settings}`);
+      }
+
+      main();
     </script>
   </head>
   <body></body>
