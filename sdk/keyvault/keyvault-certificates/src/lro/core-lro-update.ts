@@ -158,7 +158,7 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
    * Invokes the underlying operation's cancel method, and rejects the
    * pollUntilDone promise.
    */
-  private async cancelOnce(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+  private async cancelOnce(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
     this.operation = await this.operation.cancel(options);
     if (this.reject) {
       this.reject(new PollerCancelledError("Poller cancelled"));
@@ -236,7 +236,7 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
   /**
    * A method that will try to cancel the underlying operation.
    */
-  public cancelOperation(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+  public cancelOperation(options: { abortSignal?: AbortSignal } = {}): Promise<void> {
     if (!this.stopped) {
       this.stopped = true;
     }

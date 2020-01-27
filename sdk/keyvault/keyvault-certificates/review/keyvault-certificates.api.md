@@ -4,6 +4,7 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/core-http';
 import { CancelOnProgress } from '@azure/core-lro';
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -29,8 +30,7 @@ export type ArrayOneOrMore<T> = {
 } & Array<T>;
 
 // @public
-export interface BackupCertificateOptions extends coreHttp.OperationOptions {
-}
+export type BackupCertificateOptions = coreHttp.OperationOptions;
 
 // @public
 export interface BackupCertificateResult {
@@ -42,12 +42,10 @@ export interface BeginCreateCertificateOptions extends CreateCertificateOptions,
 }
 
 // @public
-export interface BeginDeleteCertificateOptions extends CertificatePollerOptions {
-}
+export type BeginDeleteCertificateOptions = CertificatePollerOptions;
 
 // @public
-export interface BeginRecoverDeletedCertificateOptions extends CertificatePollerOptions {
-}
+export type BeginRecoverDeletedCertificateOptions = CertificatePollerOptions;
 
 // @public
 export class CertificateClient {
@@ -225,15 +223,13 @@ export const DefaultCertificatePolicy: {
 };
 
 // @public
-export interface DeleteCertificateOperationOptions extends coreHttp.OperationOptions {
-}
+export type DeleteCertificateOperationOptions = coreHttp.OperationOptions;
 
 // @public
 export type DeleteCertificateState = PollOperationState<DeletedCertificate>;
 
 // @public
-export interface DeleteContactsOptions extends coreHttp.OperationOptions {
-}
+export type DeleteContactsOptions = coreHttp.OperationOptions;
 
 // @public
 export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
@@ -243,8 +239,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
 }
 
 // @public
-export interface DeleteIssuerOptions extends coreHttp.OperationOptions {
-}
+export type DeleteIssuerOptions = coreHttp.OperationOptions;
 
 // @public
 export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
@@ -257,36 +252,28 @@ export interface ErrorModel {
 }
 
 // @public
-export interface GetCertificateOperationOptions extends CertificatePollerOptions {
-}
+export type GetCertificateOperationOptions = CertificatePollerOptions;
 
 // @public
-export interface GetCertificateOptions extends coreHttp.OperationOptions {
-}
+export type GetCertificateOptions = coreHttp.OperationOptions;
 
 // @public
-export interface GetCertificatePolicyOptions extends coreHttp.OperationOptions {
-}
+export type GetCertificatePolicyOptions = coreHttp.OperationOptions;
 
 // @public
-export interface GetCertificateVersionOptions extends coreHttp.OperationOptions {
-}
+export type GetCertificateVersionOptions = coreHttp.OperationOptions;
 
 // @public
-export interface GetContactsOptions extends coreHttp.OperationOptions {
-}
+export type GetContactsOptions = coreHttp.OperationOptions;
 
 // @public
-export interface GetDeletedCertificateOptions extends coreHttp.OperationOptions {
-}
+export type GetDeletedCertificateOptions = coreHttp.OperationOptions;
 
 // @public
-export interface GetIssuerOptions extends coreHttp.OperationOptions {
-}
+export type GetIssuerOptions = coreHttp.OperationOptions;
 
 // @public
-export interface GetPlainCertificateOperationOptions extends coreHttp.OperationOptions {
-}
+export type GetPlainCertificateOperationOptions = coreHttp.OperationOptions;
 
 // @public
 export interface ImportCertificateOptions extends coreHttp.OperationOptions {
@@ -344,7 +331,7 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 // @public
 export interface KVPollerLike<TState extends PollOperationState<TResult>, TResult> {
     cancelOperation(options?: {
-        abortSignal?: AbortSignal;
+        abortSignal?: AbortSignalLike;
     }): Promise<void>;
     getOperationState(): TState;
     getResult(): TResult | undefined;
@@ -352,7 +339,7 @@ export interface KVPollerLike<TState extends PollOperationState<TResult>, TResul
     isStopped(): boolean;
     onProgress(callback: (state: TState) => void): CancelOnProgress;
     poll(options?: {
-        abortSignal?: AbortSignal;
+        abortSignal?: AbortSignalLike;
     }): Promise<void>;
     pollUntilDone(): Promise<TResult>;
     stopPolling(): void;
@@ -377,19 +364,16 @@ export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationO
 }
 
 // @public
-export interface ListPropertiesOfCertificateVersionsOptions extends coreHttp.OperationOptions {
-}
+export type ListPropertiesOfCertificateVersionsOptions = coreHttp.OperationOptions;
 
 // @public
-export interface ListPropertiesOfIssuersOptions extends coreHttp.OperationOptions {
-}
+export type ListPropertiesOfIssuersOptions = coreHttp.OperationOptions;
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
 
 // @public
-export interface MergeCertificateOptions extends coreHttp.OperationOptions {
-}
+export type MergeCertificateOptions = coreHttp.OperationOptions;
 
 export { PipelineOptions }
 
@@ -402,8 +386,7 @@ export interface PolicySubjectProperties {
 export { PollerLike }
 
 // @public
-export interface PurgeDeletedCertificateOptions extends coreHttp.OperationOptions {
-}
+export type PurgeDeletedCertificateOptions = coreHttp.OperationOptions;
 
 // @public
 export type RecoverDeletedCertificateState = PollOperationState<KeyVaultCertificateWithPolicy>;
@@ -414,12 +397,10 @@ export type RequireAtLeastOne<T> = {
 }[keyof T];
 
 // @public
-export interface RestoreCertificateBackupOptions extends coreHttp.OperationOptions {
-}
+export type RestoreCertificateBackupOptions = coreHttp.OperationOptions;
 
 // @public
-export interface SetContactsOptions extends coreHttp.OperationOptions {
-}
+export type SetContactsOptions = coreHttp.OperationOptions;
 
 // @public
 export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesAll>;
@@ -436,8 +417,7 @@ export interface UpdateCertificateOptions extends CertificateProperties, coreHtt
 }
 
 // @public
-export interface UpdateCertificatePolicyOptions extends coreHttp.OperationOptions {
-}
+export type UpdateCertificatePolicyOptions = coreHttp.OperationOptions;
 
 // @public
 export interface UpdateIssuerOptions extends CreateIssuerOptions {
