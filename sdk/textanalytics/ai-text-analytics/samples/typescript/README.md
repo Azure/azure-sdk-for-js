@@ -63,7 +63,7 @@ node dist/recognizePii.js
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" SUBSCRIPTION_KEY="<subscription key>" node dist/recognizePii.js
+npx cross-env ENDPOINT="<endpoint>" TEXT_ANALYTICS_API_KEY="<api key>" node dist/recognizePii.js
 ```
 
 ## Next Steps

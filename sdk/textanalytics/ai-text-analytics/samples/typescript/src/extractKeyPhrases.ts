@@ -7,7 +7,7 @@
 
 import {
   TextAnalyticsClient,
-  CognitiveServicesCredential,
+  TextAnalyticsApiKeyCredential,
   ExtractKeyPhrasesResult,
   ExtractKeyPhrasesSuccessResult,
   ExtractKeyPhrasesErrorResult
@@ -22,12 +22,9 @@ export async function main() {
 
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-  const subscriptionKey = process.env["SUBSCRIPTION_KEY"] || "<subscription key>";
+  const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
-  const client = new TextAnalyticsClient(
-    endpoint,
-    new CognitiveServicesCredential(subscriptionKey)
-  );
+  const client = new TextAnalyticsClient(endpoint, new TextAnalyticsApiKeyCredential(apiKey));
 
   const [result] = await client.extractKeyPhrases([
     "I love living in Seattle! Seattle is always sunny."
@@ -47,4 +44,3 @@ function isSuccess(result: ExtractKeyPhrasesResult): result is ExtractKeyPhrases
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
