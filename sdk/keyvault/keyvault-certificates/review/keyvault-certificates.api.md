@@ -25,6 +25,14 @@ export interface AdministratorContact {
 }
 
 // @public
+export interface AdministratorDetails {
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
+}
+
+// @public
 export type ArrayOneOrMore<T> = {
     0: T;
 } & Array<T>;
@@ -88,6 +96,12 @@ export interface CertificateContactAll {
     email: string;
     name: string;
     phone: string;
+}
+
+// @public
+export interface CertificateContacts {
+    contactList?: CertificateContact[];
+    readonly id?: string;
 }
 
 // @public
@@ -374,6 +388,12 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export type MergeCertificateOptions = coreHttp.OperationOptions;
+
+// @public
+export interface OrganizationDetails {
+    adminDetails?: AdministratorContact[];
+    id?: string;
+}
 
 export { PipelineOptions }
 
