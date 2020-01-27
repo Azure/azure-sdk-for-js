@@ -160,14 +160,13 @@ export class TextAnalyticsClient {
     this.defaultLanguage = defaultLanguage;
 
     const libInfo = `azsdk-js-ai-textanalytics/${SDK_VERSION}`;
-    if (pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
-        ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo;
+    if (!pipelineOptions.userAgentOptions) {
+      pipelineOptions.userAgentOptions = {};
+    }
+    if (pipelineOptions.userAgentOptions.userAgentPrefix) {
+      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
     } else {
-      pipelineOptions.userAgentOptions = {
-        userAgentPrefix: libInfo
-      };
+      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
     const authPolicy = isTokenCredential(credential)

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { ServiceClientCredentials, WebResource } from "@azure/core-http";
 
@@ -36,6 +36,7 @@ export class TextAnalyticsApiKeyCredential implements ServiceClientCredentials {
     this.apiKey = apiKey;
   }
 
+  /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
   /**
    * Signs a request with the provided API Key.
    *
@@ -51,3 +52,4 @@ export class TextAnalyticsApiKeyCredential implements ServiceClientCredentials {
     return webResource;
   }
 }
+/* eslint-enable @azure/azure-sdk/ts-use-interface-parameters */
