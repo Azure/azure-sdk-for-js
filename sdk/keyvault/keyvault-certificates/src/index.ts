@@ -439,9 +439,10 @@ export class CertificateClient {
 
     let libInfo = `azsdk-js-keyvault-certificates/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
-      libInfo = pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
-        ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo;
+      libInfo =
+        pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
+          ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
+          : libInfo;
     } else {
       pipelineOptions.userAgentOptions = {
         userAgentPrefix: libInfo
@@ -609,7 +610,6 @@ export class CertificateClient {
     }
   }
 
-
   /**
    * @internal
    * @ignore
@@ -689,7 +689,6 @@ export class CertificateClient {
       }
     }
   }
-
 
   /**
    * @internal
