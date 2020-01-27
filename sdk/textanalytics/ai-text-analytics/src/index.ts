@@ -12,7 +12,7 @@ export {
   RecognizeLinkedEntitiesOptions,
   TextAnalyticsOperationOptions
 } from "./textAnalyticsClient";
-export { SubscriptionKeyCredential } from "./subscriptionKeyCredential";
+export { TextAnalyticsApiKeyCredential } from "./textAnalyticsApiKeyCredential";
 export {
   DetectLanguageResult,
   DetectLanguageErrorResult,

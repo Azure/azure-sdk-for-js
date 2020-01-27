@@ -47,32 +47,34 @@ npm install @azure/ai-text-analytics
 
 ### 2. Create and authenticate a `TextAnalyticsClient`
 
-TextAnalytics uses both AAD and subscription keys for authentication.
+TextAnalytics uses both AAD and api keys for authentication.
 
-#### Using a Subscription Key
+#### Using an API Key
 
-Use the [Azure CLI][azure_cli] snippet below to get the subscription key from the Text Analytics resource.
+Use the [Azure CLI][azure_cli] snippet below to get the API key from the Text Analytics resource.
+
+**Note:** Sometimes the API key is referred to as a "subscription key" or "subscription API key".
 
 ```PowerShell
 az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
 ```
 
-Alternatively, you can get the endpoint and subscription key from the resource information in the [Azure Portal][azure_portal].
+Alternatively, you can get the endpoint and API key from the resource information in the [Azure Portal][azure_portal].
 
-Once you have a subscription key, you can use it as follows:
+Once you have an aPI key, you can use it as follows:
 
 ```js
-const { TextAnalyticsClient, SubscriptionKeyCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
 
 const client = new TextAnalyticsClient(
   "<endpoint>",
-  new SubscriptionKeyCredential("<subscription key>")
+  new TextAnalyticsApiKeyCredential("<api key>")
 );
 ```
 
 #### Using an Azure Active Directory Credential
 
-Client subscription key authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below,
+Client API key authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below,
 or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
 ```bash

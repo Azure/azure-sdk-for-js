@@ -40,7 +40,7 @@ import {
   RecognizeLinkedEntitiesResultCollection,
   makeRecognizeLinkedEntitiesResultCollection
 } from "./recognizeLinkedEntitiesResultCollection";
-import { SubscriptionKeyCredential } from "./subscriptionKeyCredential";
+import { TextAnalyticsApiKeyCredential } from "./textAnalyticsApiKeyCredential";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -135,31 +135,24 @@ export class TextAnalyticsClient {
   private readonly client: GeneratedClient;
 
   /**
-   * @internal
-   * @ignore
-   * A reference to the SubscriptionKeyCredential used to authenticate, if provided
-   */
-  private subscriptionKeyCredential: SubscriptionKeyCredential | undefined;
-
-  /**
    * Creates an instance of TextAnalyticsClient.
    *
    * Example usage:
    * ```ts
-   * import { TextAnalyticsClient, SubscriptionKeyCredential } from "@azure/ai-text-analytics";
+   * import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "@azure/ai-text-analytics";
    *
    * const client = new TextAnalyticsClient(
    *    "<service endpoint>",
-   *    new SubscriptionKeyCredential("<subscription key>")
+   *    new TextAnalyticsApiKeyCredential("<api key>")
    * );
    * ```
    * @param {string} endpointUrl The URL to the TextAnalytics endpoint
-   * @param {TokenCredential | SubscriptionKeyCredential} credential Used to authenticate requests to the service.
+   * @param {TokenCredential | TextAnalyticsApiKeyCredential} credential Used to authenticate requests to the service.
    * @param {TextAnalyticsClientOptions} [options] Used to configure the TextAnalytics client.
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential | SubscriptionKeyCredential,
+    credential: TokenCredential | TextAnalyticsApiKeyCredential,
     options: TextAnalyticsClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -178,13 +171,9 @@ export class TextAnalyticsClient {
       };
     }
 
-    let authPolicy: RequestPolicyFactory;
-    if (isTokenCredential(credential)) {
-      authPolicy = bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE);
-    } else {
-      authPolicy = signingPolicy(credential);
-      this.subscriptionKeyCredential = credential;
-    }
+    const authPolicy = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
+      : signingPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
@@ -198,21 +187,6 @@ export class TextAnalyticsClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
-  }
-
-  /**
-   * Updates the Subscription Key used for authentication when using a SubscriptionKeyCredential.
-   * Use this method to roll credentials without having to create a new TextAnalyticsClient.
-   * @param subscriptionKey The Cognitive Services subscription key for authentication.
-   */
-  public updateSubscriptionKey(subscriptionKey: string): void {
-    if (!this.subscriptionKeyCredential) {
-      throw new Error(
-        "This TextAnalyticsClient is not using a SubscriptionKeyCredential to authenticate."
-      );
-    }
-
-    this.subscriptionKeyCredential.updateKey(subscriptionKey);
   }
 
   /**
