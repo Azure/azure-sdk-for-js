@@ -2,6 +2,12 @@
 
 This package contains an isomorphic SDK for QnAMakerClient.
 
+### Notes
+
+- This library contains operations to edit and create Knowledge Bases, its endpoints and keys.
+
+- For interacting with QnAMaker such as training and asking questions please see @azure/cognitiveservices-qnamaker-runtime
+
 ### Currently supported environments
 
 - Node.js version 6.x.x or higher
