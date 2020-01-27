@@ -53,7 +53,7 @@ export function makeTextAnalysisResult(
 ): TextAnalyticsSuccessResult {
   return {
     id,
-    statistics,
+    statistics
   };
 }
 
@@ -63,6 +63,6 @@ export function makeTextAnalysisErrorResult(
 ): TextAnalyticsErrorResult {
   return {
     id,
-    error,
+    error
   };
 }
