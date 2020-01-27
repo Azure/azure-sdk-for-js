@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import {
   applyReplacementMap,
   ReplacementMap,
@@ -6,6 +5,8 @@ import {
   applyReplacementFunctions,
   encodeRFC3986
 } from "../src/utils";
+import chai from "chai";
+const { expect } = chai;
 
 describe("utils", () => {
   describe("encodeRFC3986", () => {
