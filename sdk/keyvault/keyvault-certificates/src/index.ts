@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// The eslint plugin mentioned below doesn't follow through the extended types.
+/* eslint-disable @azure/azure-sdk/ts-apisurface-supportcancellation */
+
 import {
   TokenCredential,
   isTokenCredential,
@@ -297,19 +300,19 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
       if (names.emails && names.emails.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          emails: <ArrayOneOrMore<string>>names.emails
+          emails: names.emails as ArrayOneOrMore<string>
         };
       }
       if (names.dnsNames && names.dnsNames.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          dnsNames: <ArrayOneOrMore<string>>names.dnsNames
+          dnsNames: names.dnsNames as ArrayOneOrMore<string>
         };
       }
       if (names.upns && names.upns.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          userPrincipalNames: <ArrayOneOrMore<string>>names.upns
+          userPrincipalNames: names.upns as ArrayOneOrMore<string>
         };
       }
     }
@@ -388,11 +391,6 @@ function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
  * The client to interact with the KeyVault certificates functionality
  */
 export class CertificateClient {
-  /**
-   * The base URL to the vault
-   */
-  public readonly vaultUrl: string;
-
   private readonly client: KeyVaultClient;
 
   /**
@@ -409,6 +407,11 @@ export class CertificateClient {
     deleteCertificate: this.deleteCertificate.bind(this),
     getDeletedCertificate: this.getDeletedCertificate.bind(this)
   };
+
+  /**
+   * The base URL to the vault
+   */
+  public readonly vaultUrl: string;
 
   /**
    * Creates an instance of CertificateClient.
@@ -502,52 +505,6 @@ export class CertificateClient {
     }
   }
 
-  /**
-   * Iterates the latest version of all certificates in the vault.  The full certificate identifier and attributes are provided
-   * in the response. No values are returned for the certificates. This operations requires the certificates/list permission.
-   *
-   * Example usage:
-   * ```ts
-   * const client = new CertificateClient(url, credentials);
-   * // All in one call
-   * for await (const certificateProperties of client.listPropertiesOfCertificates()) {
-   *   console.log(certificateProperties);
-   * }
-   * // By pages
-   * for await (const page of client.listPropertiesOfCertificates().byPage()) {
-   *   for (const certificateProperties of page) {
-   *     console.log(certificateProperties);
-   *   }
-   * }
-   * ```
-   * @summary List all versions of the specified certificate.
-   * @param {ListPropertiesOfCertificatesOptions} [options] The optional parameters
-   */
-  public listPropertiesOfCertificates(
-    options: ListPropertiesOfCertificatesOptions = {}
-  ): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
-    const span = this.createSpan("listPropertiesOfCertificates", requestOptions);
-    const updatedOptions = this.setParentSpan(span, requestOptions);
-
-    const iter = this.listPropertiesOfCertificatesAll(updatedOptions);
-
-    span.end();
-    let result = {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfCertificatesPage(settings, updatedOptions)
-    };
-
-    return result;
-  }
-
   private async *listPropertiesOfCertificateVersionsPage(
     certificateName: string,
     continuationState: PageSettings,
@@ -600,6 +557,518 @@ export class CertificateClient {
     }
   }
 
+  private async *listPropertiesOfIssuersPage(
+    continuationState: PageSettings,
+    options: RequestOptionsBase = {}
+  ): AsyncIterableIterator<IssuerProperties[]> {
+    if (continuationState.continuationToken == null) {
+      const requestOptionsComplete: KeyVaultClientGetCertificateIssuersOptionalParams = {
+        maxresults: continuationState.maxPageSize,
+        ...options
+      };
+      const currentSetResponse = await this.client.getCertificateIssuers(
+        this.vaultUrl,
+        requestOptionsComplete
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      }
+    }
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.getCertificateIssuers(
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      } else {
+        break;
+      }
+    }
+  }
+
+  private async *listPropertiesOfIssuersAll(
+    options: RequestOptionsBase = {}
+  ): AsyncIterableIterator<IssuerProperties> {
+    const f = {};
+
+    for await (const page of this.listPropertiesOfIssuersPage(f, options)) {
+      for (const item of page) {
+        yield item;
+      }
+    }
+  }
+
+  /**
+   * @internal
+   * @ignore
+   * Cancels a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
+   *
+   * @summary Cancels a certificate's operation
+   * @param certificateName The name of the certificate
+   * @param cancel Whether to cancel the operation or not
+   * @param {CancelCertificateOperationOptions} [options] The optional parameters
+   */
+  private async cancelCertificateOperation(
+    certificateName: string,
+    options: CancelCertificateOperationOptions = {}
+  ): Promise<CertificateOperation> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("cancelCertificateOperation", requestOptions);
+
+    let result: UpdateCertificateOperationResponse;
+    try {
+      result = await this.client.updateCertificateOperation(
+        this.vaultUrl,
+        certificateName,
+        true,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return this.getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
+  }
+
+  private async *listDeletedCertificatesPage(
+    continuationState: PageSettings,
+    options: RequestOptionsBase = {}
+  ): AsyncIterableIterator<DeletedCertificate[]> {
+    if (continuationState.continuationToken == null) {
+      const requestOptionsComplete: KeyVaultClientGetDeletedCertificatesOptionalParams = {
+        maxresults: continuationState.maxPageSize,
+        ...options
+      };
+      const currentSetResponse = await this.client.getDeletedCertificates(
+        this.vaultUrl,
+        requestOptionsComplete
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getDeletedCertificateFromItem);
+      }
+    }
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.getDeletedCertificates(
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(this.getDeletedCertificateFromItem);
+      } else {
+        break;
+      }
+    }
+  }
+
+  private async *listDeletedCertificatesAll(
+    options: RequestOptionsBase = {}
+  ): AsyncIterableIterator<DeletedCertificate> {
+    const f = {};
+
+    for await (const page of this.listDeletedCertificatesPage(f, options)) {
+      for (const item of page) {
+        yield item;
+      }
+    }
+  }
+
+  /**
+   * @internal
+   * @ignore
+   * Creates a new certificate. If this is the first version, the certificate resource is created. This operation requires the certificates/create permission.
+   * @summary Creates a certificate
+   * @param certificateName The name of the certificate
+   * @param certificatePolicy The certificate's policy
+   * @param {CreateCertificateOptions} [options] Optional parameters
+   */
+  private async createCertificate(
+    certificateName: string,
+    certificatePolicy: CertificatePolicy,
+    options: CreateCertificateOptions = {}
+  ): Promise<KeyVaultCertificateWithPolicy> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("createCertificate", requestOptions);
+
+    const id = options.id;
+    const certificateAttributes = toCoreAttributes(options);
+    const corePolicy = toCorePolicy(id, certificatePolicy, certificateAttributes);
+
+    const updatedOptions = {
+      ...this.setParentSpan(span, requestOptions),
+      certificatePolicy: corePolicy,
+      certificateAttributes
+    };
+
+    let result: CreateCertificateResponse;
+
+    try {
+      result = await this.client.createCertificate(this.vaultUrl, certificateName, updatedOptions);
+    } finally {
+      span.end();
+    }
+
+    return this.getCertificateWithPolicyFromCertificateBundle(result);
+  }
+
+  /**
+   * @internal
+   * @ignore
+   * The DELETE operation applies to any certificate stored in Azure Key Vault. DELETE cannot be applied
+   * to an individual version of a certificate. This operation requires the certificates/delete permission.
+   * @summary Deletes a certificate from a specified key vault.
+   * @param certificateName The name of the certificate.
+   * @param {DeleteCertificateOptions} [options] The optional parameters
+   */
+  private async deleteCertificate(
+    certificateName: string,
+    options: DeleteCertificateOptions = {}
+  ): Promise<DeletedCertificate> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+
+    const span = this.createSpan("deleteCertificate", requestOptions);
+
+    let response: DeleteCertificateResponse;
+    try {
+      response = await this.client.deleteCertificate(
+        this.vaultUrl,
+        certificateName,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return this.getDeletedCertificateFromDeletedCertificateBundle(response);
+  }
+
+  /**
+   * @internal
+   * @ignore
+   * Recovers the deleted certificate in the specified vault. This operation can only be performed on a soft-delete enabled vault. This operation
+   * requires the certificate/recover permission.
+   * @summary Recovers a deleted certificate
+   * @param certificateName The name of the deleted certificate
+   * @param {RecoverDeletedCertificateOptions} [options] The optional parameters
+   */
+  private async recoverDeletedCertificate(
+    certificateName: string,
+    options: RecoverDeletedCertificateOptions = {}
+  ): Promise<KeyVaultCertificateWithPolicy> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = this.createSpan("recoverDeletedCertificate", requestOptions);
+
+    let result: RecoverDeletedCertificateResponse;
+
+    try {
+      result = await this.client.recoverDeletedCertificate(
+        this.vaultUrl,
+        certificateName,
+        this.setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return this.getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+  }
+
+  private getPropertiesFromCertificateBundle(
+    certificateBundle: CertificateBundle
+  ): CertificateProperties {
+    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
+    const attributes: CertificateAttributes = certificateBundle.attributes || {};
+
+    const abstractProperties: CertificateProperties = {
+      createdOn: attributes.created,
+      updatedOn: attributes.updated,
+      expiresOn: attributes.expires,
+      id: certificateBundle.id,
+      name: parsedId.name,
+      enabled: attributes.enabled,
+      notBefore: attributes.notBefore,
+      recoveryLevel: attributes.recoveryLevel,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      tags: certificateBundle.tags,
+      x509Thumbprint: certificateBundle.x509Thumbprint
+    };
+
+    return abstractProperties;
+  }
+
+  /**
+   * @internal
+   * @ignore
+   * Gets the certificate operation.
+   * @summary Gets the certificate operation
+   * @param certificateName The name of the certificate
+   * @param {GetPlainCertificateOperationOptions} [options] The optional parameters
+   */
+  private async getPlainCertificateOperation(
+    certificateName: string,
+    options?: GetPlainCertificateOperationOptions
+  ): Promise<CertificateOperation> {
+    const span = this.createSpan("getPlainCertificateOperation", options);
+
+    let result: GetCertificateOperationResponse;
+
+    try {
+      result = await this.client.getCertificateOperation(
+        this.vaultUrl,
+        certificateName,
+        this.setParentSpan(span, options)
+      );
+    } finally {
+      span.end();
+    }
+
+    return this.getCertificateOperationFromCoreOperation(
+      certificateName,
+      this.vaultUrl,
+      result._response.parsedBody
+    );
+  }
+
+  private getCertificateFromCertificateBundle(
+    certificateBundle: CertificateBundle
+  ): KeyVaultCertificate {
+    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
+
+    const attributes: CertificateAttributes = certificateBundle.attributes || {};
+
+    const abstractProperties: CertificateProperties = {
+      createdOn: attributes.created,
+      updatedOn: attributes.updated,
+      expiresOn: attributes.expires,
+      id: certificateBundle.id,
+      name: parsedId.name,
+      enabled: attributes.enabled,
+      notBefore: attributes.notBefore,
+      recoveryLevel: attributes.recoveryLevel,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      tags: certificateBundle.tags,
+      x509Thumbprint: certificateBundle.x509Thumbprint
+    };
+
+    return {
+      keyId: certificateBundle.kid,
+      secretId: certificateBundle.sid,
+      name: parsedId.name,
+      cer: certificateBundle.cer,
+      properties: abstractProperties
+    };
+  }
+
+  private getCertificateWithPolicyFromCertificateBundle(
+    certificateBundle: CertificateBundle
+  ): KeyVaultCertificateWithPolicy {
+    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
+
+    const attributes: CertificateAttributes = certificateBundle.attributes || {};
+    const policy = toPublicPolicy(certificateBundle.policy || {});
+
+    const abstractProperties: CertificateProperties = {
+      createdOn: attributes.created,
+      updatedOn: attributes.updated,
+      expiresOn: attributes.expires,
+      id: certificateBundle.id,
+      name: parsedId.name,
+      enabled: attributes.enabled,
+      notBefore: attributes.notBefore,
+      recoveryLevel: attributes.recoveryLevel,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      tags: certificateBundle.tags,
+      x509Thumbprint: certificateBundle.x509Thumbprint
+    };
+
+    return {
+      keyId: certificateBundle.kid,
+      secretId: certificateBundle.sid,
+      name: parsedId.name,
+      cer: certificateBundle.cer,
+      policy,
+      properties: abstractProperties
+    };
+  }
+
+  private getDeletedCertificateFromDeletedCertificateBundle(
+    certificateBundle: DeletedCertificateBundle
+  ): DeletedCertificate {
+    const certificate: KeyVaultCertificateWithPolicy = this.getCertificateWithPolicyFromCertificateBundle(
+      certificateBundle
+    );
+
+    return {
+      ...certificate,
+      recoveryId: certificateBundle.recoveryId,
+      scheduledPurgeDate: certificateBundle.scheduledPurgeDate,
+      deletedOn: certificateBundle.deletedDate
+    };
+  }
+
+  private getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {
+    const parsedId = parseKeyvaultEntityIdentifier("certificates", item.id);
+
+    const attributes: any = item.attributes || {};
+
+    const abstractProperties: any = {
+      name: parsedId.name,
+      createdOn: attributes.created,
+      updatedOn: attributes.updated,
+      expiresOn: attributes.expires,
+      ...parsedId,
+      ...item,
+      ...item.attributes
+    };
+
+    if (abstractProperties.deletedDate) {
+      delete abstractProperties.deletedDate;
+    }
+
+    if (abstractProperties.expires) {
+      delete abstractProperties.expires;
+    }
+    if (abstractProperties.created) {
+      delete abstractProperties.created;
+    }
+    if (abstractProperties.updated) {
+      delete abstractProperties.updated;
+    }
+
+    return {
+      name: parsedId.name,
+      properties: abstractProperties
+    };
+  }
+
+  private getCertificateOperationFromCoreOperation(
+    certificateName: string,
+    vaultUrl: string,
+    operation: CoreCertificateOperation
+  ): CertificateOperation {
+    return {
+      cancellationRequested: operation.cancellationRequested,
+      name: certificateName,
+      issuerName: operation.issuerParameters ? operation.issuerParameters.name : undefined,
+      certificateTransparency: operation.issuerParameters
+        ? operation.issuerParameters.certificateTransparency
+        : undefined,
+      certificateType: operation.issuerParameters
+        ? operation.issuerParameters.certificateType
+        : undefined,
+      csr: operation.csr,
+      error: operation.error,
+      id: operation.id,
+      requestId: operation.requestId,
+      status: operation.status,
+      statusDetails: operation.statusDetails,
+      target: operation.target,
+      vaultUrl: vaultUrl
+    };
+  }
+
+  private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContact[] {
+    return contacts.contactList
+      ? contacts.contactList.map(
+          (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
+        )
+      : [];
+  }
+
+  /**
+   * Creates a span using the tracer that was set by the user
+   * @param methodName The name of the method for which the span is being created.
+   * @param requestOptions The options for the underlying http request.
+   */
+  private createSpan(methodName: string, requestOptions: RequestOptionsBase = {}): Span {
+    const tracer = getTracer();
+    const span = tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+    span.setAttribute("az.namespace", "Microsoft.KeyVault");
+    return span;
+  }
+
+  /**
+   * Returns updated HTTP options with the given span as the parent of future spans,
+   * if applicable.
+   * @param span The span for the current operation
+   * @param options The options for the underlying http request
+   */
+  private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
+    if (span.isRecording()) {
+      const spanOptions = options.spanOptions || {};
+      return {
+        ...options,
+        spanOptions: {
+          ...spanOptions,
+          parent: span,
+          attributes: {
+            ...spanOptions.attributes,
+            "az.namespace": "Microsoft.KeyVault"
+          }
+        }
+      };
+    } else {
+      return options;
+    }
+  }
+
+  /**
+   * Iterates the latest version of all certificates in the vault.  The full certificate identifier and attributes are provided
+   * in the response. No values are returned for the certificates. This operations requires the certificates/list permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new CertificateClient(url, credentials);
+   * // All in one call
+   * for await (const certificateProperties of client.listPropertiesOfCertificates()) {
+   *   console.log(certificateProperties);
+   * }
+   * // By pages
+   * for await (const page of client.listPropertiesOfCertificates().byPage()) {
+   *   for (const certificateProperties of page) {
+   *     console.log(certificateProperties);
+   *   }
+   * }
+   * ```
+   * @summary List all versions of the specified certificate.
+   * @param {ListPropertiesOfCertificatesOptions} [options] The optional parameters
+   */
+  public listPropertiesOfCertificates(
+    options: ListPropertiesOfCertificatesOptions = {}
+  ): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+
+    const span = this.createSpan("listPropertiesOfCertificates", requestOptions);
+    const updatedOptions = this.setParentSpan(span, requestOptions);
+
+    const iter = this.listPropertiesOfCertificatesAll(updatedOptions);
+
+    span.end();
+    const result = {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) =>
+        this.listPropertiesOfCertificatesPage(settings, updatedOptions)
+    };
+
+    return result;
+  }
+
   /**
    * Returns the versions of a certificate in the specified key
    * vault. This operation requires the certificates/list permission.
@@ -626,7 +1095,7 @@ export class CertificateClient {
     const iter = this.listPropertiesOfCertificateVersionsAll(certificateName, updatedOptions);
 
     span.end();
-    let result = {
+    const result = {
       next() {
         return iter.next();
       },
@@ -745,7 +1214,7 @@ export class CertificateClient {
     contacts: CertificateContact[],
     options: SetContactsOptions = {}
   ): Promise<CertificateContact[] | undefined> {
-    let coreContacts = contacts.map((x) => ({
+    const coreContacts = contacts.map((x) => ({
       emailAddress: x ? x.email : undefined,
       name: x ? x.name : undefined,
       phone: x ? x.phone : undefined
@@ -804,50 +1273,6 @@ export class CertificateClient {
     return this.coreContactsToCertificateContacts(result);
   }
 
-  private async *listPropertiesOfIssuersPage(
-    continuationState: PageSettings,
-    options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<IssuerProperties[]> {
-    if (continuationState.continuationToken == null) {
-      const requestOptionsComplete: KeyVaultClientGetCertificateIssuersOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        ...options
-      };
-      const currentSetResponse = await this.client.getCertificateIssuers(
-        this.vaultUrl,
-        requestOptionsComplete
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value;
-      }
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getCertificateIssuers(
-        continuationState.continuationToken,
-        options
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value;
-      } else {
-        break;
-      }
-    }
-  }
-
-  private async *listPropertiesOfIssuersAll(
-    options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<IssuerProperties> {
-    const f = {};
-
-    for await (const page of this.listPropertiesOfIssuersPage(f, options)) {
-      for (const item of page) {
-        yield item;
-      }
-    }
-  }
-
   /**
    * Returns the set of certificate issuer resources in the specified key vault. This operation requires the certificates/manageissuers/getissuers permission.
    *
@@ -879,7 +1304,7 @@ export class CertificateClient {
     const iter = this.listPropertiesOfIssuersAll(updatedOptions);
 
     span.end();
-    let result = {
+    const result = {
       next() {
         return iter.next();
       },
@@ -912,8 +1337,8 @@ export class CertificateClient {
     provider: string,
     options: CreateIssuerOptions = {}
   ): Promise<CertificateIssuer> {
-    //Unflatten issuer credentials
-    let unflattenedOptions = {
+    // Unflatten issuer credentials
+    const unflattenedOptions = {
       ...options,
       credentials: { accountId: options.accountId, password: options.password }
     };
@@ -1431,42 +1856,6 @@ export class CertificateClient {
   }
 
   /**
-   * @internal
-   * @ignore
-   * Cancels a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
-   *
-   * @summary Cancels a certificate's operation
-   * @param certificateName The name of the certificate
-   * @param cancel Whether to cancel the operation or not
-   * @param {CancelCertificateOperationOptions} [options] The optional parameters
-   */
-  private async cancelCertificateOperation(
-    certificateName: string,
-    options: CancelCertificateOperationOptions = {}
-  ): Promise<CertificateOperation> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("cancelCertificateOperation", requestOptions);
-
-    let result: UpdateCertificateOperationResponse;
-    try {
-      result = await this.client.updateCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        true,
-        this.setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
-
-    return this.getCertificateOperationFromCoreOperation(
-      certificateName,
-      this.vaultUrl,
-      result._response.parsedBody
-    );
-  }
-
-  /**
    * Gets the creation operation associated with a specified certificate. This operation requires the certificates/get permission.
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the certificate is fully recovered.
    *
@@ -1685,50 +2074,6 @@ export class CertificateClient {
     return this.getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
   }
 
-  private async *listDeletedCertificatesPage(
-    continuationState: PageSettings,
-    options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<DeletedCertificate[]> {
-    if (continuationState.continuationToken == null) {
-      const requestOptionsComplete: KeyVaultClientGetDeletedCertificatesOptionalParams = {
-        maxresults: continuationState.maxPageSize,
-        ...options
-      };
-      const currentSetResponse = await this.client.getDeletedCertificates(
-        this.vaultUrl,
-        requestOptionsComplete
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getDeletedCertificateFromItem);
-      }
-    }
-    while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getDeletedCertificates(
-        continuationState.continuationToken,
-        options
-      );
-      continuationState.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getDeletedCertificateFromItem);
-      } else {
-        break;
-      }
-    }
-  }
-
-  private async *listDeletedCertificatesAll(
-    options: RequestOptionsBase = {}
-  ): AsyncIterableIterator<DeletedCertificate> {
-    const f = {};
-
-    for await (const page of this.listDeletedCertificatesPage(f, options)) {
-      for (const item of page) {
-        yield item;
-      }
-    }
-  }
-
   /**
    * Retrieves the certificates in the current vault which are in a deleted state and ready for recovery or purging. This operation includes deletion-specific
    * information. This operation requires the certificates/get/list permission. This operation can only be enabled on soft-delete enabled vaults.
@@ -1758,7 +2103,7 @@ export class CertificateClient {
     const iter = this.listDeletedCertificatesAll(updatedOptions);
 
     span.end();
-    let result = {
+    const result = {
       next() {
         return iter.next();
       },
@@ -1886,347 +2231,5 @@ export class CertificateClient {
     // This will initialize the poller's operation (the recovery of the deleted secret).
     await poller.poll();
     return poller;
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Creates a new certificate. If this is the first version, the certificate resource is created. This operation requires the certificates/create permission.
-   * @summary Creates a certificate
-   * @param certificateName The name of the certificate
-   * @param certificatePolicy The certificate's policy
-   * @param {CreateCertificateOptions} [options] Optional parameters
-   */
-  private async createCertificate(
-    certificateName: string,
-    certificatePolicy: CertificatePolicy,
-    options: CreateCertificateOptions = {}
-  ): Promise<KeyVaultCertificateWithPolicy> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("createCertificate", requestOptions);
-
-    const id = options.id;
-    const certificateAttributes = toCoreAttributes(options);
-    const corePolicy = toCorePolicy(id, certificatePolicy, certificateAttributes);
-
-    const updatedOptions = {
-      ...this.setParentSpan(span, requestOptions),
-      certificatePolicy: corePolicy,
-      certificateAttributes
-    };
-
-    let result: CreateCertificateResponse;
-
-    try {
-      result = await this.client.createCertificate(this.vaultUrl, certificateName, updatedOptions);
-    } finally {
-      span.end();
-    }
-
-    return this.getCertificateWithPolicyFromCertificateBundle(result);
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * The DELETE operation applies to any certificate stored in Azure Key Vault. DELETE cannot be applied
-   * to an individual version of a certificate. This operation requires the certificates/delete permission.
-   * @summary Deletes a certificate from a specified key vault.
-   * @param certificateName The name of the certificate.
-   * @param {DeleteCertificateOptions} [options] The optional parameters
-   */
-  private async deleteCertificate(
-    certificateName: string,
-    options: DeleteCertificateOptions = {}
-  ): Promise<DeletedCertificate> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
-    const span = this.createSpan("deleteCertificate", requestOptions);
-
-    let response: DeleteCertificateResponse;
-    try {
-      response = await this.client.deleteCertificate(
-        this.vaultUrl,
-        certificateName,
-        this.setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
-
-    return this.getDeletedCertificateFromDeletedCertificateBundle(response);
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Recovers the deleted certificate in the specified vault. This operation can only be performed on a soft-delete enabled vault. This operation
-   * requires the certificate/recover permission.
-   * @summary Recovers a deleted certificate
-   * @param certificateName The name of the deleted certificate
-   * @param {RecoverDeletedCertificateOptions} [options] The optional parameters
-   */
-  private async recoverDeletedCertificate(
-    certificateName: string,
-    options: RecoverDeletedCertificateOptions = {}
-  ): Promise<KeyVaultCertificateWithPolicy> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("recoverDeletedCertificate", requestOptions);
-
-    let result: RecoverDeletedCertificateResponse;
-
-    try {
-      result = await this.client.recoverDeletedCertificate(
-        this.vaultUrl,
-        certificateName,
-        this.setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
-
-    return this.getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
-  }
-
-  private getPropertiesFromCertificateBundle(
-    certificateBundle: CertificateBundle
-  ): CertificateProperties {
-    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
-    const attributes: CertificateAttributes = certificateBundle.attributes || {};
-
-    let abstractProperties: CertificateProperties = {
-      createdOn: attributes.created,
-      updatedOn: attributes.updated,
-      expiresOn: attributes.expires,
-      id: certificateBundle.id,
-      name: parsedId.name,
-      enabled: attributes.enabled,
-      notBefore: attributes.notBefore,
-      recoveryLevel: attributes.recoveryLevel,
-      vaultUrl: parsedId.vaultUrl,
-      version: parsedId.version,
-      tags: certificateBundle.tags,
-      x509Thumbprint: certificateBundle.x509Thumbprint
-    };
-
-    return abstractProperties;
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Gets the certificate operation.
-   * @summary Gets the certificate operation
-   * @param certificateName The name of the certificate
-   * @param {GetPlainCertificateOperationOptions} [options] The optional parameters
-   */
-  private async getPlainCertificateOperation(
-    certificateName: string,
-    options?: GetPlainCertificateOperationOptions
-  ): Promise<CertificateOperation> {
-    const span = this.createSpan("getPlainCertificateOperation", options);
-
-    let result: GetCertificateOperationResponse;
-
-    try {
-      result = await this.client.getCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        this.setParentSpan(span, options)
-      );
-    } finally {
-      span.end();
-    }
-
-    return this.getCertificateOperationFromCoreOperation(
-      certificateName,
-      this.vaultUrl,
-      result._response.parsedBody
-    );
-  }
-
-  private getCertificateFromCertificateBundle(
-    certificateBundle: CertificateBundle
-  ): KeyVaultCertificate {
-    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
-
-    const attributes: CertificateAttributes = certificateBundle.attributes || {};
-
-    let abstractProperties: CertificateProperties = {
-      createdOn: attributes.created,
-      updatedOn: attributes.updated,
-      expiresOn: attributes.expires,
-      id: certificateBundle.id,
-      name: parsedId.name,
-      enabled: attributes.enabled,
-      notBefore: attributes.notBefore,
-      recoveryLevel: attributes.recoveryLevel,
-      vaultUrl: parsedId.vaultUrl,
-      version: parsedId.version,
-      tags: certificateBundle.tags,
-      x509Thumbprint: certificateBundle.x509Thumbprint
-    };
-
-    return {
-      keyId: certificateBundle.kid,
-      secretId: certificateBundle.sid,
-      name: parsedId.name,
-      cer: certificateBundle.cer,
-      properties: abstractProperties
-    };
-  }
-
-  private getCertificateWithPolicyFromCertificateBundle(
-    certificateBundle: CertificateBundle
-  ): KeyVaultCertificateWithPolicy {
-    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
-
-    const attributes: CertificateAttributes = certificateBundle.attributes || {};
-    const policy = toPublicPolicy(certificateBundle.policy || {});
-
-    let abstractProperties: CertificateProperties = {
-      createdOn: attributes.created,
-      updatedOn: attributes.updated,
-      expiresOn: attributes.expires,
-      id: certificateBundle.id,
-      name: parsedId.name,
-      enabled: attributes.enabled,
-      notBefore: attributes.notBefore,
-      recoveryLevel: attributes.recoveryLevel,
-      vaultUrl: parsedId.vaultUrl,
-      version: parsedId.version,
-      tags: certificateBundle.tags,
-      x509Thumbprint: certificateBundle.x509Thumbprint
-    };
-
-    return {
-      keyId: certificateBundle.kid,
-      secretId: certificateBundle.sid,
-      name: parsedId.name,
-      cer: certificateBundle.cer,
-      policy,
-      properties: abstractProperties
-    };
-  }
-
-  private getDeletedCertificateFromDeletedCertificateBundle(
-    certificateBundle: DeletedCertificateBundle
-  ): DeletedCertificate {
-    const certificate: KeyVaultCertificateWithPolicy = this.getCertificateWithPolicyFromCertificateBundle(
-      certificateBundle
-    );
-
-    return {
-      ...certificate,
-      recoveryId: certificateBundle.recoveryId,
-      scheduledPurgeDate: certificateBundle.scheduledPurgeDate,
-      deletedOn: certificateBundle.deletedDate
-    };
-  }
-
-  private getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {
-    const parsedId = parseKeyvaultEntityIdentifier("certificates", item.id);
-
-    const attributes: any = item.attributes || {};
-
-    let abstractProperties: any = {
-      name: parsedId.name,
-      createdOn: attributes.created,
-      updatedOn: attributes.updated,
-      expiresOn: attributes.expires,
-      ...parsedId,
-      ...item,
-      ...item.attributes
-    };
-
-    if (abstractProperties.deletedDate) {
-      delete abstractProperties.deletedDate;
-    }
-
-    if (abstractProperties.expires) {
-      delete abstractProperties.expires;
-    }
-    if (abstractProperties.created) {
-      delete abstractProperties.created;
-    }
-    if (abstractProperties.updated) {
-      delete abstractProperties.updated;
-    }
-
-    return {
-      name: parsedId.name,
-      properties: abstractProperties
-    };
-  }
-
-  private getCertificateOperationFromCoreOperation(
-    certificateName: string,
-    vaultUrl: string,
-    operation: CoreCertificateOperation
-  ): CertificateOperation {
-    return {
-      cancellationRequested: operation.cancellationRequested,
-      name: certificateName,
-      issuerName: operation.issuerParameters ? operation.issuerParameters.name : undefined,
-      certificateTransparency: operation.issuerParameters
-        ? operation.issuerParameters.certificateTransparency
-        : undefined,
-      certificateType: operation.issuerParameters
-        ? operation.issuerParameters.certificateType
-        : undefined,
-      csr: operation.csr,
-      error: operation.error,
-      id: operation.id,
-      requestId: operation.requestId,
-      status: operation.status,
-      statusDetails: operation.statusDetails,
-      target: operation.target,
-      vaultUrl: vaultUrl
-    };
-  }
-
-  private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContact[] {
-    return contacts.contactList
-      ? contacts.contactList.map(
-          (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
-        )
-      : [];
-  }
-
-  /**
-   * Creates a span using the tracer that was set by the user
-   * @param methodName The name of the method for which the span is being created.
-   * @param requestOptions The options for the underlying http request.
-   */
-  private createSpan(methodName: string, requestOptions: RequestOptionsBase = {}): Span {
-    const tracer = getTracer();
-    const span = tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
-    span.setAttribute("az.namespace", "Microsoft.KeyVault");
-    return span;
-  }
-
-  /**
-   * Returns updated HTTP options with the given span as the parent of future spans,
-   * if applicable.
-   * @param span The span for the current operation
-   * @param options The options for the underlying http request
-   */
-  private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
-    if (span.isRecording()) {
-      const spanOptions = options.spanOptions || {};
-      return {
-        ...options,
-        spanOptions: {
-          ...spanOptions,
-          parent: span,
-          attributes: {
-            ...spanOptions.attributes,
-            "az.namespace": "Microsoft.KeyVault"
-          }
-        }
-      };
-    } else {
-      return options;
-    }
   }
 }

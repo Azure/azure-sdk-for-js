@@ -22,6 +22,7 @@ export interface RecoverDeletedCertificatePollerOptions {
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
+ * @internal
  */
 export class RecoverDeletedCertificatePoller extends Poller<
   RecoverDeletedCertificatePollOperationState,
