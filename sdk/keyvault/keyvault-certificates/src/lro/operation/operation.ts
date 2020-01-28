@@ -12,7 +12,6 @@ import {
 
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
- * @internal
  */
 export interface CertificateOperationState
   extends PollOperationState<KeyVaultCertificateWithPolicy> {

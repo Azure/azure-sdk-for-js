@@ -79,7 +79,6 @@ export interface CertificateClientInterface {
 
 /**
  * The key vault server error.
- * @internal
  */
 export interface CertificateOperationError {
   /**
@@ -100,7 +99,6 @@ export interface CertificateOperationError {
 
 /**
  * A certificate operation is returned in case of asynchronous requests.
- * @internal
  */
 export interface CertificateOperation {
   /**
@@ -169,7 +167,6 @@ export type CertificateContentType = "application/x-pem-file" | "application/x-p
 
 /**
  * An interface representing a certificate without the certificate's policy
- * @internal
  */
 export interface KeyVaultCertificate {
   /**
@@ -206,7 +203,6 @@ export interface KeyVaultCertificate {
 
 /**
  * An interface representing a certificate with its policy
- * @internal
  */
 export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
   /**
@@ -240,7 +236,6 @@ export type ArrayOneOrMore<T> = {
 
 /**
  * An interface representing the alternative names of the subject of a certificate policy.
- * @internal
  */
 export interface SubjectAlternativeNamesAll {
   /**
@@ -265,7 +260,6 @@ export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesA
 
 /**
  * Details of the organization administrator of the certificate issuer.
- * @internal
  */
 export interface AdministratorContact {
   /**
@@ -288,7 +282,6 @@ export interface AdministratorContact {
 
 /**
  * Action and its trigger that will be performed by Key Vault over the lifetime of a certificate.
- * @internal
  */
 export interface LifetimeAction {
   /**
@@ -314,7 +307,6 @@ export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
 /**
  * An interface representing a certificate's policy (without the subject properties).
- * @internal
  */
 export interface CertificatePolicyProperties {
   /**
@@ -388,7 +380,6 @@ export interface CertificatePolicyProperties {
 /**
  * An interface representing the possible subject properties of a certificate's policy.
  * The final type requires at least one of these properties to exist.
- * @internal
  */
 export interface PolicySubjectProperties {
   /**
@@ -419,7 +410,6 @@ export const DefaultCertificatePolicy = {
 
 /**
  * An interface representing the properties of a certificate
- * @internal
  */
 export interface CertificateProperties {
   /**
@@ -481,8 +471,7 @@ export interface CertificateProperties {
 }
 
 /**
- * An interface representing a deleted certificate
- * @internal
+ * An interface representing a deleted certificate.
  */
 export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
   /**
@@ -523,7 +512,6 @@ export interface CertificatePollerOptions extends coreHttp.OperationOptions {
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link beginCreateCertificate}
- * @internal
  */
 export interface BeginCreateCertificateOptions
   extends CreateCertificateOptions,
@@ -548,7 +536,6 @@ export type GetCertificateOperationOptions = CertificatePollerOptions;
 
 /**
  * Options for {@link createCertificate}.
- * @internal
  */
 export interface CreateCertificateOptions
   extends CertificateProperties,
@@ -583,7 +570,6 @@ export type DeleteContactsOptions = coreHttp.OperationOptions;
 
 /**
  * Options for {@link importCertificate}.
- * @internal
  */
 export interface ImportCertificateOptions extends coreHttp.OperationOptions {
   /**
@@ -617,7 +603,6 @@ export type SetContactsOptions = coreHttp.OperationOptions;
 
 /**
  * Options for {@link createIssuer}.
- * @internal
  */
 export interface CreateIssuerOptions extends coreHttp.OperationOptions {
   /**
@@ -649,7 +634,6 @@ export type PurgeDeletedCertificateOptions = coreHttp.OperationOptions;
 
 /**
  * Options for {@link updateIssuer}.
- * @internal
  */
 export interface UpdateIssuerOptions extends CreateIssuerOptions {
   /**
@@ -700,7 +684,6 @@ export type CertificateTags = { [propertyName: string]: string };
 
 /**
  * Options for {@link updateCertificate}.
- * @internal
  */
 export interface UpdateCertificatePropertiesOptions
   extends CertificateProperties,
@@ -713,7 +696,6 @@ export type UpdateCertificatePolicyOptions = coreHttp.OperationOptions;
 
 /**
  * An interface representing the properties of a certificate issuer
- * @internal
  */
 export interface IssuerProperties {
   /**
@@ -731,8 +713,7 @@ export interface IssuerProperties {
 }
 
 /**
- * An interface representing the properties of an issuer
- * @internal
+ * An interface representing the properties of an issuer.
  */
 export interface CertificateIssuer extends IssuerProperties {
   /**
@@ -767,7 +748,6 @@ export interface CertificateIssuer extends IssuerProperties {
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listPropertiesOfCertificates}.
- * @internal
  */
 export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
   /**
@@ -788,7 +768,6 @@ export type ListPropertiesOfIssuersOptions = coreHttp.OperationOptions;
 
 /**
  * An interface representing optional parameters for CertificateClient paged operations passed to {@link listDeletedCertificates}.
- * @internal
  */
 export interface ListDeletedCertificatesOptions extends coreHttp.OperationOptions {
   /**
@@ -815,7 +794,6 @@ export type RestoreCertificateBackupOptions = coreHttp.OperationOptions;
 
 /**
  * The shape of the contact information for the vault certificates.
- * @internal
  */
 export interface CertificateContactAll {
   /**
