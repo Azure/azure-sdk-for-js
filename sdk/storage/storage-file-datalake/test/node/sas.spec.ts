@@ -17,16 +17,16 @@ import {
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getDataLakeServiceClient, getTokenDataLakeServiceClient, setupEnvironment } from "../utils";
+import { getDataLakeServiceClient, getTokenDataLakeServiceClient, recorderEnvSetup } from "../utils";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
-  setupEnvironment();
+  
   const serviceClient = getDataLakeServiceClient();
 
   let recorder: any;
 
   beforeEach(function() {
-    recorder = record(this);
+    recorder = record(this,recorderEnvSetup);
   });
 
   afterEach(function() {

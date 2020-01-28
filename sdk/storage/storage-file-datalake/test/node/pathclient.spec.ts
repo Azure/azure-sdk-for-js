@@ -4,12 +4,12 @@ import * as dotenv from "dotenv";
 
 import { DataLakeFileClient, DataLakeFileSystemClient, PathAccessControlItem } from "../../src";
 import { PathPermissions } from "../../src/models";
-import { getDataLakeServiceClient, setupEnvironment } from "../utils";
+import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
 
 dotenv.config({ path: "../.env" });
 
 describe("DataLakePathClient Node.js only", () => {
-  setupEnvironment();
+  
   const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
@@ -20,7 +20,7 @@ describe("DataLakePathClient Node.js only", () => {
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this,recorderEnvSetup);
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
