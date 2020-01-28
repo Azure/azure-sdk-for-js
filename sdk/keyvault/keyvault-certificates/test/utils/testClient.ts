@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { retry } from "./recorderUtils";
 import { CertificateClient } from "../../src";
 

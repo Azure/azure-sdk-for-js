@@ -8,13 +8,5 @@
   "rules": {
     "@typescript-eslint/no-this-alias": "off",
     "no-invalid-this": "off"
-  },
-  "overrides": [
-    {
-      "files": ["test/utils/*.ts"],
-      "rules": {
-        "@azure/azure-sdk/ts-apisurface-supportcancellation": "off"
-      }
-    }
-  ]
+  }
 }
