@@ -58,17 +58,80 @@ export function isPlaybackMode() {
   return !isRecordMode() && !isLiveMode();
 }
 
+/**
+ * Encodes a string as a URI component, but also taking in consideration the RFC 3986 specification.
+ * JavaScript's encodeURIComponent method doesn't take in consideration the characters: !, ', (, ), *
+ * @param str The string that needs to be encoded.
+ */
+export function encodeRFC3986(str: string): string {
+  return encodeURIComponent(str).replace(
+    /[!'()*]/g,
+    (x) =>
+      `%${x
+        .charCodeAt(0)
+        .toString(16)
+        .toUpperCase()}`
+  );
+}
+
+/**
+ * Escapes all of the valid RegExp characters of a string.
+ * @param str The string that needs to be escaped.
+ */
 export function escapeRegExp(str: string): string {
-  return encodeURIComponent(str)
-    .replace(
-      /[!'()*]/g,
-      (x) =>
-        `%${x
-          .charCodeAt(0)
-          .toString(16)
-          .toUpperCase()}`
-    ) // RFC 3986.
-    .replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"); // All the RegExp sensitive characters.
+  return str.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
+/**
+ * Replaces all occurrences of a pattern in a string with a given replacement.
+ * @param string Target of the replacements.
+ * @param pattern String used to match and find what to replace.
+ * @param replacement Replacement of the matched string.
+ */
+function replaceAll(string: string, pattern: string, replacement: string) {
+  return string.replace(new RegExp(escapeRegExp(pattern), "g"), replacement);
+}
+
+export type ReplacementMap = Map<string, string>;
+
+/**
+ * Looks for the environment variables based on the keys of the given map,
+ * then replaces the values found with each value from the same map.
+ * @param replacements A map of string keys and string values.
+ * @param content The content that has the text to be replaced.
+ */
+export function applyReplacementMap(
+  env: NodeJS.ProcessEnv,
+  replacements: ReplacementMap,
+  content: string
+): string {
+  let updated = content;
+  replacements.forEach((replacement: string, key: string) => {
+    if (env[key]) {
+      updated = replaceAll(updated, encodeRFC3986(env[key]!), encodeRFC3986(replacement));
+      updated = replaceAll(updated, env[key]!, replacement);
+    }
+  });
+  return updated;
+}
+
+export type ReplacementFunctions = { (content: string): string }[];
+
+/**
+ * Passes the given content as the parameter to the first function of the array,
+ * then reduces the remaining functions of the array with the result of the previous function.
+ * @param replacements An array of replacement functions.
+ * @param content The input used to apply the replacements.
+ */
+export function applyReplacementFunctions(
+  replacements: ReplacementFunctions,
+  content: string
+): string {
+  let updated = content;
+  for (const map of replacements) {
+    updated = map(updated);
+  }
+  return updated;
 }
 
 /**

@@ -32,7 +32,7 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 /**
  * An error result from the detect languge operation on a single document.
  */
-export interface DetectLanguageErrorResult extends TextAnalyticsErrorResult {}
+export type DetectLanguageErrorResult = TextAnalyticsErrorResult
 
 export function makeDetectLanguageResult(
   id: string,
