@@ -98,6 +98,47 @@ export function applyReplacementFunctions(
 }
 
 /**
+ * Method to avoid unintended/accidental occurrences of secrets in the recordings.
+ *
+ * Takes in the content(recording), replaceableVariables and replacements(callback functions).
+ * Returns the recording after the updates as per the provided replaceableVariables, and the replacement functions.
+ * @export
+ * @param {string} content
+ * @param {ReplacementMap} replaceableVariables
+ * @param {ReplacementFunctions} replacements
+ * @returns
+ */
+export function filterSecretsFromStrings(
+  content: string,
+  replaceableVariables: ReplacementMap,
+  replacements: ReplacementFunctions
+) {
+  const result = applyReplacementMap(env, replaceableVariables, content);
+  return applyReplacementFunctions(replacements, result);
+}
+
+/**
+ * Method to avoid unintended/accidental occurrences of secrets in the recordings.
+ *
+ * Takes in the content(recording), replaceableVariables and replacements(callback functions).
+ * Returns the recording after the updates as per the provided replaceableVariables, and the replacement functions.
+ * @export
+ * @param {any} content
+ * @param {ReplacementMap} replaceableVariables
+ * @param {ReplacementFunctions} replacements
+ * @returns
+ */
+export function filterSecretsFromJSONContent(
+  content: any,
+  replaceableVariables: ReplacementMap,
+  replacements: ReplacementFunctions
+) {
+  return JSON.parse(
+    filterSecretsFromStrings(JSON.stringify(content), replaceableVariables, replacements)
+  );
+}
+
+/**
  * @returns {Promise<string>}
  */
 export async function blobToString(blob: Blob): Promise<string> {
