@@ -403,6 +403,19 @@ export class VirtualNetworkGateways {
   }
 
   /**
+   * Disconnect vpn connections of virtual network gateway in the specified resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param request The parameters are supplied to disconnect vpn connections.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  disconnectVirtualNetworkGatewayVpnConnections(resourceGroupName: string, virtualNetworkGatewayName: string, request: Models.P2SVpnConnectionRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDisconnectVirtualNetworkGatewayVpnConnections(resourceGroupName,virtualNetworkGatewayName,request,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Creates or updates a virtual network gateway in the specified resource group.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkGatewayName The name of the virtual network gateway.
@@ -714,6 +727,26 @@ export class VirtualNetworkGateways {
         options
       },
       beginGetVpnclientConnectionHealthOperationSpec,
+      options);
+  }
+
+  /**
+   * Disconnect vpn connections of virtual network gateway in the specified resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param request The parameters are supplied to disconnect vpn connections.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDisconnectVirtualNetworkGatewayVpnConnections(resourceGroupName: string, virtualNetworkGatewayName: string, request: Models.P2SVpnConnectionRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        request,
+        options
+      },
+      beginDisconnectVirtualNetworkGatewayVpnConnectionsOperationSpec,
       options);
   }
 
@@ -1400,6 +1433,37 @@ const beginGetVpnclientConnectionHealthOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.VpnClientConnectionHealthDetailListResult
     },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDisconnectVirtualNetworkGatewayVpnConnectionsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/disconnectVirtualNetworkGatewayVpnConnections",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualNetworkGatewayName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "request",
+    mapper: {
+      ...Mappers.P2SVpnConnectionRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
     202: {},
     default: {
       bodyMapper: Mappers.CloudError
