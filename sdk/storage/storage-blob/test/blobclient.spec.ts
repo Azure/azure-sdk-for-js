@@ -8,16 +8,21 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
 import { record, delay } from "@azure/test-utils-recorder";
-import { BlobClient, BlockBlobClient, ContainerClient, BlockBlobTier } from "../src";
+import {
+  BlobClient,
+  BlockBlobClient,
+  ContainerClient,
+  BlockBlobTier,
+  BlobServiceClient
+} from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
+  let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -28,7 +33,8 @@ describe("BlobClient", () => {
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
