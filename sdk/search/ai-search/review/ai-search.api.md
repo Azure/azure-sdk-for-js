@@ -4,8 +4,33 @@
 
 ```ts
 
+import { PipelineOptions } from '@azure/core-http';
+import { ServiceClientCredentials } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
+import { WebResource } from '@azure/core-http';
+
+// @public
+export class SearchApiKeyCredential implements ServiceClientCredentials {
+    constructor(apiKey: string);
+    signRequest(webResource: WebResource): Promise<WebResource>;
+    updateKey(apiKey: string): void;
+}
+
 // @public (undocumented)
-export function helloWorld(): string;
+export class SearchIndexClient {
+    constructor(apiVersion: string, searchServiceName: string, indexName: string, credential: TokenCredential | SearchApiKeyCredential, options?: SearchIndexClientOptions);
+    readonly apiVersion: string;
+    // (undocumented)
+    count(options: any): Promise<import("./generated/data/models").DocumentsCountResponse>;
+    readonly indexName: string;
+    searchDnsSuffix: string;
+    readonly searchServiceName: string;
+}
+
+// @public
+export interface SearchIndexClientOptions extends PipelineOptions {
+    searchDnsSuffix?: string;
+}
 
 
 // (No @packageDocumentation comment for this package)
