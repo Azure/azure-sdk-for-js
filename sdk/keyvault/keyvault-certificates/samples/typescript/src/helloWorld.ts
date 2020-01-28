@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { CertificateClient, DefaultCertificatePolicy } from "@azure/keyvault-certificates";

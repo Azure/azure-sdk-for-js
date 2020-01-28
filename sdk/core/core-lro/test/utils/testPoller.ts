@@ -4,7 +4,7 @@
 import { delay, RequestOptionsBase, HttpOperationResponse } from "@azure/core-http";
 import { Poller } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
-import { makeOperation, TestOperationState } from "./testOperation";
+import { makeOperation, TestOperationState, PublicTestOperationState } from "./testOperation";
 
 export class TestPoller extends Poller<TestOperationState, string> {
   public intervalInMs: number;
@@ -54,9 +54,23 @@ export class TestPoller extends Poller<TestOperationState, string> {
   }
 
   /**
-   * Can be used to get a publicly safe version of the poller state.
+   * The getOperationState() from TestPoller returns an object
+   * with the subset of properties from TestOperationState that are
+   * safe to be shared with the public.
    */
-  public getOperationState(): TestOperationState {
-    return this.operation.state;
+  public getOperationState(): PublicTestOperationState {
+    const state: PublicTestOperationState = this.operation.state;
+    return {
+      // Properties from PollOperationState<TResult>
+      isStarted: state.isStarted,
+      isCompleted: state.isCompleted,
+      isCancelled: state.isCancelled,
+      error: state.error,
+      result: state.result,
+
+      // The only other property needed by PublicTestOperationState.
+      // The other properties from TestOperationState will be hidden from the user.
+      previousResponse: state.previousResponse
+    };
   }
 }

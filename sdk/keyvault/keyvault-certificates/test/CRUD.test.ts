@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import { CertificateClient } from "../src";
@@ -410,7 +410,7 @@ describe("Certificates client - create, read, update and delete", () => {
     let certificateOperation: any;
 
     // Read
-    let operationPoller = await client.getCertificateOperation(certificateName);
+    const operationPoller = await client.getCertificateOperation(certificateName);
     certificateOperation = operationPoller.getOperationState().certificateOperation!;
     assert.equal(certificateOperation.status, "inProgress");
     assert.equal(certificateOperation.cancellationRequested, false);
@@ -451,7 +451,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
     await client.setContacts(contacts);
 
-    let getResponse = await client.getContacts();
+    const getResponse = await client.getContacts();
     assert.equal(
       getResponse && getResponse[0] && getResponse[0].name ? getResponse[0].name : undefined,
       "a"

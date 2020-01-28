@@ -6,30 +6,33 @@ import nise from "nise";
 import {
   isBrowser,
   blobToString,
-  escapeRegExp,
   env,
   TestInfo,
   parseUrl,
   isPlaybackMode,
   isRecordMode,
-  findRecordingsFolderPath
+  findRecordingsFolderPath,
+  applyReplacementMap,
+  applyReplacementFunctions,
+  ReplacementFunctions,
+  ReplacementMap
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
 let nock: any;
 
-let replaceableVariables: { [x: string]: string } = {};
-export function setReplaceableVariables(a: { [x: string]: string }): void {
-  replaceableVariables = a;
+let replaceableVariables: ReplacementMap;
+export function setReplaceableVariables(replacements: { [x: string]: string }): void {
+  replaceableVariables = new Map(Object.entries(replacements));
   if (isPlaybackMode()) {
     // Providing dummy values to avoid the error
-    Object.keys(a).map((k) => {
-      env[k] = a[k];
-    });
+    for (const key of Object.keys(replacements)) {
+      env[key] = replacements[key];
+    }
   }
 }
 
-let replacements: any[] = [];
+let replacements: ReplacementFunctions = [];
 export function setReplacements(maps: any): void {
   replacements = maps;
 }
@@ -90,23 +93,10 @@ export abstract class BaseRecorder {
 
   /**
    * Additional layer of security to avoid unintended/accidental occurrences of secrets in the recordings
-   * */
+   */
   protected filterSecrets(recording: string): string {
-    let updatedRecording = recording;
-    for (const k of Object.keys(replaceableVariables)) {
-      if (env[k]) {
-        const escaped = escapeRegExp(env[k]);
-        updatedRecording = updatedRecording.replace(
-          new RegExp(escaped, "g"),
-          replaceableVariables[k]
-        );
-      }
-    }
-    for (const map of replacements) {
-      updatedRecording = map(updatedRecording);
-    }
-
-    return updatedRecording;
+    const result = applyReplacementMap(env, replaceableVariables, recording);
+    return applyReplacementFunctions(replacements, result);
   }
 
   public abstract record(): void;
