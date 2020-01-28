@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   TokenCredential,
   isTokenCredential,
@@ -25,7 +28,6 @@ import {
   CancelCertificateOperationOptions,
   CertificateIssuer,
   CertificateContact,
-  CertificateContacts,
   CertificateContentType,
   CertificatePolicy,
   CertificateProperties,
@@ -313,7 +315,7 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
     }
   }
 
-  let certificatePolicy: CertificatePolicy = {
+  const certificatePolicy: CertificatePolicy = {
     lifetimeActions: policy.lifetimeActions
       ? policy.lifetimeActions.map((action) => ({
           action: action.action ? action.action.actionType : undefined,
@@ -425,9 +427,10 @@ export class CertificateClient {
 
     const libInfo = `azsdk-js-keyvault-certificates/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
-        ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo;
+      pipelineOptions.userAgentOptions.userAgentPrefix =
+        pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
+          ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
+          : libInfo;
     } else {
       pipelineOptions.userAgentOptions = {
         userAgentPrefix: libInfo
@@ -719,7 +722,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.coreContactsToCertificateContacts(result._response.parsedBody).contactList;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody);
   }
 
   /**
@@ -762,7 +765,7 @@ export class CertificateClient {
     } finally {
       span.end();
     }
-    return this.coreContactsToCertificateContacts(result._response.parsedBody).contactList;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody);
   }
 
   /**
@@ -798,7 +801,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.coreContactsToCertificateContacts(result).contactList;
+    return this.coreContactsToCertificateContacts(result);
   }
 
   private async *listPropertiesOfIssuersPage(
@@ -2182,15 +2185,12 @@ export class CertificateClient {
     };
   }
 
-  private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContacts {
-    return {
-      id: contacts.id,
-      contactList:
-        contacts.contactList &&
-        contacts.contactList.map(
+  private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContact[] {
+    return contacts.contactList
+      ? contacts.contactList.map(
           (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
         )
-    };
+      : [];
   }
 
   /**
