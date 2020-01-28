@@ -199,7 +199,9 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
       const clearPollOncePromise = (): void => {
         this.pollOncePromise = undefined;
       };
-      return this.pollOncePromise.then(clearPollOncePromise, clearPollOncePromise);
+      /* eslint-disable promise/catch-or-return */
+      this.pollOncePromise.then(clearPollOncePromise, clearPollOncePromise);
+      /* eslint-enable promise/catch-or-return */
     }
     return this.pollOncePromise;
   }
