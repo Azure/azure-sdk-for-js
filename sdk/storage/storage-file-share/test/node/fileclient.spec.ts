@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { Duplex } from "stream";
-import { bodyToString, getBSU, createRandomLocalFile, setupEnvironment } from "../utils";
+import { bodyToString, getBSU, createRandomLocalFile, recorderEnvSetup } from "../utils";
 import { Buffer } from "buffer";
 import {
   ShareFileClient,
@@ -18,8 +18,6 @@ import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("FileClient Node.js only", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -31,7 +29,8 @@ describe("FileClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
