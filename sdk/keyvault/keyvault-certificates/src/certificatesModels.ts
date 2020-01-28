@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel, KeyUsageType } from "./core/models";
 
@@ -254,20 +257,6 @@ export interface SubjectAlternativeNamesAll {
  * If present, it should at least have one of the properties of SubjectAlternativeNamesAll.
  */
 export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesAll>;
-
-/**
- * Details of the organization of the certificate issuer.
- */
-export interface OrganizationDetails {
-  /**
-   * Id of the organization.
-   */
-  id?: string;
-  /**
-   * Details of the organization administrator.
-   */
-  adminDetails?: AdministratorContact[];
-}
 
 /**
  * Details of the organization administrator of the certificate issuer.
@@ -611,28 +600,6 @@ export interface DeleteIssuerOptions extends coreHttp.OperationOptions {}
 export interface SetContactsOptions extends coreHttp.OperationOptions {}
 
 /**
- * Details of the organization administrator of the certificate issuer.
- */
-export interface AdministratorDetails {
-  /**
-   * First name.
-   */
-  firstName?: string;
-  /**
-   * Last name.
-   */
-  lastName?: string;
-  /**
-   * Email address.
-   */
-  email?: string;
-  /**
-   * Phone number.
-   */
-  phone?: string;
-}
-
-/**
  * Options for {@link createIssuer}.
  */
 export interface CreateIssuerOptions extends coreHttp.OperationOptions {
@@ -861,18 +828,3 @@ export type RequireAtLeastOne<T> = {
  * which are: emailAddress, name or phone.
  */
 export type CertificateContact = RequireAtLeastOne<CertificateContactAll> | undefined;
-
-/**
- * The contacts for the vault certificates.
- */
-export interface CertificateContacts {
-  /**
-   * Identifier for the contacts collection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The contact list for the vault certificates.
-   */
-  contactList?: CertificateContact[];
-}
