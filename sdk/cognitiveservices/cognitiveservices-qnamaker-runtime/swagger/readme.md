@@ -18,8 +18,10 @@ These settings apply only when `--typescript` is specified on the command line.
 
 ```yaml $(typescript)
 typescript:
+  package-version: 1.0.0
   package-name: "@azure/cognitiveservices-qnamaker-runtime"
   output-folder: ".."
   azure-arm: false
   generate-metadata: true
+  auto-publish: true
 ```

@@ -52,5 +52,6 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-qnamaker-runtime.js.map'\" -o ./dist/cognitiveservices-qnamaker-runtime.min.js ./dist/cognitiveservices-qnamaker-runtime.js",
     "prepack": "npm install && npm run build"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "autoPublish": true
 }
