@@ -20,20 +20,10 @@ describe("Special Naming Tests", () => {
     containerName = recorder.getUniqueName("1container-with-dash");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    recorder.stop();
   });
 
-  after(async function() {
-    recorder = record(this, recorderEnvSetup);
+  afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
-  });
-
-  beforeEach(function() {
-    recorder = record(this, recorderEnvSetup);
-  });
-
-  afterEach(function() {
     recorder.stop();
   });
 

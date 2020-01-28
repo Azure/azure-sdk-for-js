@@ -139,7 +139,6 @@ describe("LeaseClient from Container", () => {
 });
 
 describe("LeaseClient from Blob", () => {
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -150,6 +149,7 @@ describe("LeaseClient from Blob", () => {
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
+    const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
