@@ -261,6 +261,7 @@ export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErro
 
 // @public
 export interface TextAnalyticsSuccessResult {
+    readonly error?: undefined;
     readonly id: string;
     readonly statistics?: TextDocumentStatistics;
 }

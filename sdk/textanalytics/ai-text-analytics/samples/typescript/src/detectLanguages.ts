@@ -7,10 +7,7 @@
 
 import {
   TextAnalyticsClient,
-  TextAnalyticsApiKeyCredential,
-  DetectLanguageResult,
-  DetectLanguageErrorResult,
-  DetectLanguageSuccessResult
+  TextAnalyticsApiKeyCredential
 } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
@@ -28,13 +25,9 @@ export async function main() {
 
   const [result] = await client.detectLanguages(["hello world"]);
 
-  if (isSuccess(result)) {
+  if (!result.error) {
     console.log(`Primary language detected as ${result.primaryLanguage.name}`);
   }
-}
-
-function isSuccess(result: DetectLanguageResult): result is DetectLanguageSuccessResult {
-  return !(result as DetectLanguageErrorResult).error;
 }
 
 main().catch((err) => {

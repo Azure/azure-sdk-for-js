@@ -7,10 +7,7 @@
 
 import {
   TextAnalyticsClient,
-  TextAnalyticsApiKeyCredential,
-  ExtractKeyPhrasesResult,
-  ExtractKeyPhrasesSuccessResult,
-  ExtractKeyPhrasesErrorResult
+  TextAnalyticsApiKeyCredential
 } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
@@ -30,15 +27,11 @@ export async function main() {
     "I love living in Seattle! Seattle is always sunny."
   ]);
 
-  if (isSuccess(result)) {
+  if (!result.error) {
     for (const phrase of result.keyPhrases) {
       console.log(`Key phrase: ${phrase}`);
     }
   }
-}
-
-function isSuccess(result: ExtractKeyPhrasesResult): result is ExtractKeyPhrasesSuccessResult {
-  return !(result as ExtractKeyPhrasesErrorResult).error;
 }
 
 main().catch((err) => {
