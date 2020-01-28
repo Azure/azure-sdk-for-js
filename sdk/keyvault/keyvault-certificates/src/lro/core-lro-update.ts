@@ -100,8 +100,8 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
     // This prevents the UnhandledPromiseRejectionWarning in node.js from being thrown.
     // The above warning would get thrown if `poller.poll` is called, it returns an error,
     // and pullUntilDone did not have a .catch or await try/catch on it's return value.
-    this.promise.catch(function() {
-      // This error isn't needed.
+    this.promise.catch(() => {
+      return;
     });
   }
 
