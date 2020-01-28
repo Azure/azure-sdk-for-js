@@ -1,7 +1,7 @@
 ## An isomorphic javascript sdk for - QnAMakerRuntimeClient
 
 This package contains an isomorphic SDK for interacting with the QnA Maker service such as training and asking questions.
-For editing and createing Knowledge Bases see @azure/cognitiveservices-qnamaker.
+For editing and creating Knowledge Bases see @azure/cognitiveservices-qnamaker.
 
 ### Currently supported environments
 
