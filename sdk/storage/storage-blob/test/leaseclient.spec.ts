@@ -1,21 +1,21 @@
 import * as assert from "assert";
 
 import * as dotenv from "dotenv";
-import { getBSU, setupEnvironment } from "./utils";
+import { getBSU, recorderEnvSetup } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
+import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("LeaseClient from Container", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
+  let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -149,7 +149,7 @@ describe("LeaseClient from Blob", () => {
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
