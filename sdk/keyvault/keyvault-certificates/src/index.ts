@@ -2186,10 +2186,11 @@ export class CertificateClient {
   }
 
   private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContact[] {
-    return contacts.contactList ?
-        contacts.contactList.map(
+    return contacts.contactList
+      ? contacts.contactList.map(
           (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
-        ) : [];
+        )
+      : [];
   }
 
   /**
