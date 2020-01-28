@@ -1,11 +1,15 @@
-import { expect } from "chai";
 import {
   applyReplacementMap,
   ReplacementMap,
   ReplacementFunctions,
   applyReplacementFunctions,
-  encodeRFC3986
+  encodeRFC3986,
+  filterSecretsFromStrings,
+  filterSecretsFromJSONContent,
+  env
 } from "../src/utils";
+import chai from "chai";
+const { expect } = chai;
 
 describe("utils", () => {
   describe("encodeRFC3986", () => {
@@ -170,6 +174,60 @@ default.com/url/PUBLIC
 ultramarine.com/url/PUBLIC
 `
       );
+    });
+  });
+
+  describe("filter secrets from content", () => {
+    it("should work for strings", () => {
+      env.SECRET = "SECRET";
+      const replaceableVariables: ReplacementMap = new Map();
+      replaceableVariables.set("SECRET", "FAKE_IT");
+
+      const recording = "HERE_IS_THE_FLAG-SECRET";
+      const updatedRecording = filterSecretsFromStrings(recording, replaceableVariables, []);
+      expect(updatedRecording).to.equal("HERE_IS_THE_FLAG-FAKE_IT");
+    });
+
+    it("should work for JSON content", () => {
+      env.ACCOUNT_NAME = "azureaccount";
+      const replaceableVariables: ReplacementMap = new Map();
+      replaceableVariables.set("ACCOUNT_NAME", "fakestorageaccount");
+
+      const recording = {
+        recordings: [
+          {
+            method: "GET",
+            url: "https://azureaccount.net",
+            query: {
+              marker: "/azureaccount/queue156816850373302116x2",
+              maxresults: "1"
+            },
+            response:
+              '<?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://azureaccount.queue.core.windows.net/"><Prefix>queue156816850373302116</Prefix><Marker>/azureaccount/queue156816850373302116x2</Marker><MaxResults>1</MaxResults><Queues><Queue><Name>queue156816850373302116x2</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker /></EnumerationResults>',
+            responseHeaders: {
+              server: "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0"
+            }
+          }
+        ]
+      };
+      const updatedRecording = filterSecretsFromJSONContent(recording, replaceableVariables, []);
+      expect(updatedRecording).to.deep.equal({
+        recordings: [
+          {
+            method: "GET",
+            url: "https://fakestorageaccount.net",
+            query: {
+              marker: "/fakestorageaccount/queue156816850373302116x2",
+              maxresults: "1"
+            },
+            response:
+              '<?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://fakestorageaccount.queue.core.windows.net/"><Prefix>queue156816850373302116</Prefix><Marker>/fakestorageaccount/queue156816850373302116x2</Marker><MaxResults>1</MaxResults><Queues><Queue><Name>queue156816850373302116x2</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker /></EnumerationResults>',
+            responseHeaders: {
+              server: "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0"
+            }
+          }
+        ]
+      });
     });
   });
 });
