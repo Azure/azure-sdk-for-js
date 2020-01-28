@@ -4,7 +4,7 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
 import { record } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
@@ -12,8 +12,6 @@ import { AppendBlobClient, ContainerClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobClient", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -22,7 +20,8 @@ describe("AppendBlobClient", () => {
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();

@@ -2,6 +2,9 @@
 
 ## 1.0.1 (Unreleased)
 
+- `getOperationState()` now returns `TState`.
+- `TState` of `PollerLike` can be a subset of `TState` of `Poller`,
+
 ## 1.0.0 (2019-10-29)
 
 This release marks the general availability of the `@azure/core-lro` package.

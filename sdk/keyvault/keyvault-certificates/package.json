@@ -5,7 +5,7 @@
   "version": "4.0.0",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "node",
@@ -21,7 +21,7 @@
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/keyvault-certificates.d.ts",
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "files": [
@@ -98,7 +98,10 @@
     "@azure/keyvault-secrets": "^4.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
+    "@rollup/plugin-commonjs": "^11.0.1",
+    "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
+    "@rollup/plugin-node-resolve": "^7.0.0",
     "@rollup/plugin-replace": "^2.2.0",
     "@types/chai": "^4.1.6",
     "@types/fs-extra": "^8.0.0",
@@ -140,8 +143,6 @@
     "query-string": "^5.0.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
-    "@rollup/plugin-commonjs": "^11.0.1",
-    "@rollup/plugin-node-resolve": "^7.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",

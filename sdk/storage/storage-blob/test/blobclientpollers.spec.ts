@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 
 import { getBSU } from "./utils";
 import { record, Recorder, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
-import { setupEnvironment, testPollerProperties } from "./utils/testutils.common";
+import { recorderEnvSetup, testPollerProperties } from "./utils/testutils.common";
 import {
   BlobClient,
   BlockBlobClient,
@@ -18,8 +18,6 @@ import {
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient beginCopyFromURL Poller", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -32,7 +30,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();

@@ -6,14 +6,14 @@ import nise from "nise";
 import {
   isBrowser,
   blobToString,
-  escapeRegExp,
-  env,
   TestInfo,
   parseUrl,
   isPlaybackMode,
   isRecordMode,
   findRecordingsFolderPath,
-  RecorderEnvironmentSetup
+  RecorderEnvironmentSetup,
+  filterSecretsFromStrings,
+  filterSecretsFromJSONContent
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -69,24 +69,23 @@ export abstract class BaseRecorder {
   }
 
   /**
-   * Additional layer of security to avoid unintended/accidental occurrences of secrets in the recordings
-   * */
-  protected filterSecrets(recording: string): string {
-    let updatedRecording = recording;
-    for (const k of Object.keys(this.environmentSetup.replaceableVariables)) {
-      if (env[k]) {
-        const escaped = escapeRegExp(env[k]);
-        updatedRecording = updatedRecording.replace(
-          new RegExp(escaped, "g"),
-          this.environmentSetup.replaceableVariables[k]
-        );
-      }
-    }
-    for (const map of this.environmentSetup.replaceInRecordings) {
-      updatedRecording = map(updatedRecording);
-    }
-
-    return updatedRecording;
+   * Additional layer of security to avoid unintended/accidental occurrences of secrets in the recordings.
+   * If the content is a string, a filtered string is returned.
+   * If the content is a JSON object, a filtered JSON object is returned.
+   *
+   * @protected
+   * @param content
+   * @returns
+   * @memberof BaseRecorder
+   */
+  protected filterSecrets(content: any): any {
+    const recordingFilterMethod =
+      typeof content === "string" ? filterSecretsFromStrings : filterSecretsFromJSONContent;
+    return recordingFilterMethod(
+      content,
+      this.environmentSetup.replaceableVariables,
+      this.environmentSetup.replaceInRecordings
+    );
   }
 
   public abstract record(environmentSetup: RecorderEnvironmentSetup): void;
@@ -387,19 +386,18 @@ export class NiseRecorder extends BaseRecorder {
   }
 
   public stop(): void {
-    for (let i = 0; i < this.recordings.length; i++) {
-      for (const k of Object.keys(this.recordings[i])) {
-        if (typeof this.recordings[i][k] === "string") {
-          this.recordings[i][k] = this.filterSecrets(this.recordings[i][k]);
-        }
-      }
-    }
+    // recordings at this point are in the JSON format.
+    this.recordings = this.filterSecrets(this.recordings);
+
     // We're sending the recordings to the 'karma-json-to-file-reporter' via console.log
     console.log(
       JSON.stringify({
         writeFile: true,
         path: "./recordings/" + this.relativeTestRecordingFilePath,
-        content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
+        content: {
+          recordings: this.recordings,
+          uniqueTestInfo: this.uniqueTestInfo
+        }
       })
     );
   }
