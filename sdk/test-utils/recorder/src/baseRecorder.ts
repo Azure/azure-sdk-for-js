@@ -12,6 +12,7 @@ import {
   isPlaybackMode,
   isRecordMode,
   findRecordingsFolderPath,
+  RecorderEnvironmentSetup,
   ReplacementFunctions,
   ReplacementMap,
   filterSecretsFromStrings,
@@ -47,7 +48,7 @@ export function skipQueryParams(params: string[]): void {
   queryParameters = params;
 }
 
-export function setEnvironmentOnLoad() {
+export function setEnvironmentOnLoad(environmentSetup: RecorderEnvironmentSetup) {
   if (!isBrowser() && (isRecordMode() || isPlaybackMode())) {
     nock = require("nock");
   }
@@ -55,6 +56,9 @@ export function setEnvironmentOnLoad() {
   if (isBrowser() && isRecordMode()) {
     customConsoleLog();
   }
+  setReplaceableVariables(environmentSetup.replaceableVariables);
+  setReplacements(environmentSetup.replaceInRecordings);
+  skipQueryParams(environmentSetup.queryParametersToSkip);
 }
 
 export abstract class BaseRecorder {

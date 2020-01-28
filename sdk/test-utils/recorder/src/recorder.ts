@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { getUniqueName, isBrowser, isRecordMode, isPlaybackMode } from "./utils";
+import {
+  getUniqueName,
+  isBrowser,
+  isRecordMode,
+  isPlaybackMode,
+  RecorderEnvironmentSetup
+} from "./utils";
 import { NiseRecorder, NockRecorder, BaseRecorder, setEnvironmentOnLoad } from "./baseRecorder";
 
 /**
@@ -52,7 +58,10 @@ export interface Recorder {
  * @param {Mocha.Context} [testContext]
  * @returns {Recorder}
  */
-export function record(testContext: Mocha.Context): Recorder {
+export function record(
+  testContext: Mocha.Context,
+  environmentSetup: RecorderEnvironmentSetup
+): Recorder {
   let recorder: BaseRecorder;
   let testHierarchy: string;
   let testTitle: string;
@@ -72,7 +81,7 @@ export function record(testContext: Mocha.Context): Recorder {
     testTitle = testContext.test!.title;
   }
 
-  setEnvironmentOnLoad();
+  setEnvironmentOnLoad(environmentSetup);
 
   if (isBrowser()) {
     recorder = new NiseRecorder(testHierarchy, testTitle);
