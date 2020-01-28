@@ -8,11 +8,10 @@ import { getDataLakeServiceClient, getTokenDataLakeServiceClient, recorderEnvSet
 dotenv.config({ path: "../.env" });
 
 describe("DataLakeServiceClient", () => {
-  
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this,recorderEnvSetup);
+    recorder = record(this, recorderEnvSetup);
   });
 
   afterEach(async function() {
