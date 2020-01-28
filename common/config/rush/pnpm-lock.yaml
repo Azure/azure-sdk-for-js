@@ -3725,7 +3725,7 @@ packages:
     dev: false
     resolution:
       integrity: sha1-i1vL2ewyfFBBv5qwI/1nUPEXfmU=
-  /fetch-mock/8.2.1_node-fetch@2.6.0:
+  /fetch-mock/8.3.2_node-fetch@2.6.0:
     dependencies:
       babel-runtime: 6.26.0
       core-js: 3.6.4
@@ -3744,7 +3744,7 @@ packages:
       node-fetch:
         optional: true
     resolution:
-      integrity: sha512-v4YRwlAYZQmj+z1geAMn1RRbrnLXA61JtYfj2HdVDFOguzc/wTBYkH1vi78HOUA3DY2GgCLkcD1aq9vLAO/OKA==
+      integrity: sha512-RUdLbhIBTvECX20I8htNhmLRrCplCiOP62srst8UQsSV0m8taJe31PBsQybL7OIq5fEf6tnqVGvQ62ZnZ4IFfQ==
   /figgy-pudding/3.5.1:
     dev: false
     resolution:
@@ -10072,7 +10072,7 @@ packages:
       eslint-plugin-no-only-tests: 2.4.0
       eslint-plugin-promise: 4.2.1
       express: 4.17.1
-      fetch-mock: 8.2.1_node-fetch@2.6.0
+      fetch-mock: 8.3.2_node-fetch@2.6.0
       form-data: 3.0.0
       glob: 7.1.6
       karma: 4.4.1
