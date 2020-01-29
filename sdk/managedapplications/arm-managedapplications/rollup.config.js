@@ -6,7 +6,7 @@ import sourcemaps from "rollup-plugin-sourcemaps";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/managedApplicationClient.js",
+  input: "./esm/applicationClient.js",
   external: [
     "@azure/ms-rest-js",
     "@azure/ms-rest-azure-js"
@@ -29,7 +29,7 @@ const config = {
  */`
   },
   plugins: [
-    nodeResolve({ module: true }),
+    nodeResolve({ mainFields: ['module', 'main'] }),
     sourcemaps()
   ]
 };
