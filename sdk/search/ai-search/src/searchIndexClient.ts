@@ -3,19 +3,16 @@
 
 import {
   PipelineOptions,
-  TokenCredential,
-  isTokenCredential,
-  bearerTokenAuthenticationPolicy,
   signingPolicy,
   InternalPipelineOptions,
-  createPipelineFromOptions
+  createPipelineFromOptions,
+  OperationOptions,
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { SearchIndexClient as GeneratedClient } from "./generated/data/searchIndexClient";
 import { SearchApiKeyCredential } from "./searchApiKeyCredential";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-
-const DEFAULT_SEARCH_SCOPE = "https://search.azure.com/.default";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -26,6 +23,8 @@ export interface SearchIndexClientOptions extends PipelineOptions {
    */
   searchDnsSuffix?: string;
 }
+
+export type CountOptions = OperationOptions;
 
 // something extends OperationOptions
 
@@ -67,14 +66,14 @@ export class SearchIndexClient {
    * @param {string} apiVersion The API version to use
    * @param {string} searchServiceName The name of the search service
    * @param {string} indexName The name of the index
-   * @param {TokenCredential | SearchApiKeyCredential} credential Used to authenticate requests to the service.
+   * @param {SearchApiKeyCredential} credential Used to authenticate requests to the service.
    * @param {SearchClientOptions} [options] Used to configure the Search client.
    */
   constructor(
     apiVersion: string,
     searchServiceName: string,
     indexName: string,
-    credential: TokenCredential | SearchApiKeyCredential,
+    credential: SearchApiKeyCredential,
     options: SearchIndexClientOptions = {}
   ) {
     this.apiVersion = apiVersion;
@@ -93,10 +92,6 @@ export class SearchIndexClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_SEARCH_SCOPE)
-      : signingPolicy(credential);
-
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
       ...{
@@ -107,7 +102,7 @@ export class SearchIndexClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, signingPolicy(credential));
     this.client = new GeneratedClient(
       credential,
       this.apiVersion,
@@ -117,7 +112,7 @@ export class SearchIndexClient {
     );
   }
 
-  public count(options: any) {
-    return this.client.documents.count(options);
+  public count(options: CountOptions = {}) {
+    return this.client.documents.count(operationOptionsToRequestOptionsBase(options));
   }
 }
