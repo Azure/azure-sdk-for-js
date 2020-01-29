@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnalyzeSentimentResult, AnalyzeSentimentSuccessResult } from "../../src/index";
+import { TextAnalyticsResult } from "../../src/index";
 
-export function isAnalyzeSentimentSuccess(
-  res: AnalyzeSentimentResult
-): res is AnalyzeSentimentSuccessResult {
+export function isSuccess<T extends TextAnalyticsResult>(res: T): boolean {
   return (res as any).error === undefined;
 }
