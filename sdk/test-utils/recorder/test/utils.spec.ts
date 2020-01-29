@@ -8,6 +8,7 @@ import {
   env
 } from "../src/utils";
 import chai from "chai";
+import { setEnvironmentVariables } from "../src/baseRecorder";
 const { expect } = chai;
 
 describe("utils", () => {
@@ -225,6 +226,30 @@ ultramarine.com/url/PUBLIC
           }
         ]
       });
+    });
+  });
+
+  describe("set environment variables", () => {
+    it("should not fail if the dictionary is empty", () => {
+      env.SECRET = "SECRET";
+      const replaceableVariables = {};
+
+      setEnvironmentVariables(replaceableVariables);
+    });
+
+    it("should succeed if the dictionary has one key-value pair", () => {
+      const replaceableVariables = { SECRET: "FAKE_IT" };
+
+      setEnvironmentVariables(replaceableVariables);
+      expect(env.SECRET).to.equal("FAKE_IT");
+    });
+
+    it("should succeed if the dictionary has multiple key-value pairs", () => {
+      const replaceableVariables = { ACCOUNT_NAME: "fake_account_name", SECRET: "FAKE IT" };
+
+      setEnvironmentVariables(replaceableVariables);
+      expect(env.SECRET).to.equal("FAKE IT");
+      expect(env.ACCOUNT_NAME).to.equal("fake_account_name");
     });
   });
 });
