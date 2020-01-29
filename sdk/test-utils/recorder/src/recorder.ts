@@ -6,10 +6,15 @@ import {
   isBrowser,
   isRecordMode,
   isPlaybackMode,
-  RecorderEnvironmentSetup,
-  env
+  RecorderEnvironmentSetup
 } from "./utils";
-import { NiseRecorder, NockRecorder, BaseRecorder, setEnvironmentOnLoad } from "./baseRecorder";
+import {
+  NiseRecorder,
+  NockRecorder,
+  BaseRecorder,
+  setEnvironmentOnLoad,
+  setEnvironmentVariables
+} from "./baseRecorder";
 
 /**
  * @export
@@ -98,9 +103,7 @@ export function record(
     // If TEST_MODE=playback,
     //  1. sets up the ENV variables
     //  2. invokes the recorder, play the exisiting test recording.
-    Object.keys(recorderEnvironmentSetup.replaceableVariables).map((key) => {
-      env[key] = recorderEnvironmentSetup.replaceableVariables[key];
-    });
+    setEnvironmentVariables(recorderEnvironmentSetup.replaceableVariables);
     recorder.playback(recorderEnvironmentSetup, testContext.currentTest!.file!);
   }
   // If TEST_MODE=live, hits the live-service and no recordings are generated.

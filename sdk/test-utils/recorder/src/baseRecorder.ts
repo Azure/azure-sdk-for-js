@@ -13,11 +13,28 @@ import {
   findRecordingsFolderPath,
   RecorderEnvironmentSetup,
   filterSecretsFromStrings,
-  filterSecretsFromJSONContent
+  filterSecretsFromJSONContent,
+  env
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
 let nock: any;
+
+/**
+ * Loads the environment variables in both node and browser modes corresponding to the key-value pairs provided.
+ *
+ * Example-
+ *
+ * Suppose `replaceableVariables` is { ACCOUNT_NAME: "my_account_name", ACCOUNT_KEY: "fake_secret" },
+ * `setEnvironmentVariables` loads the ACCOUNT_NAME and ACCOUNT_KEY in the environment accordingly.
+ * @export
+ * @param {{ [key: string]: string }} replaceableVariables
+ */
+export function setEnvironmentVariables(replaceableVariables: { [key: string]: string }) {
+  Object.keys(replaceableVariables).map((key) => {
+    env[key] = replaceableVariables[key];
+  });
+}
 
 export function setEnvironmentOnLoad() {
   if (!isBrowser() && (isRecordMode() || isPlaybackMode())) {
