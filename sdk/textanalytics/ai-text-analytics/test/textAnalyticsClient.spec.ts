@@ -21,11 +21,13 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
 
-describe("[AAD] TextAnalyticsClient", () => {
+describe("[AAD] TextAnalyticsClient", function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
 
   let getId: () => string;
+
+  this.timeout(10000);
 
   beforeEach(function() {
     ({ client, recorder } = createRecordedClient(this));
@@ -42,12 +44,7 @@ describe("[AAD] TextAnalyticsClient", () => {
 
   describe("#analyzeSentiment", () => {
     it("client throws on empty list", async () => {
-      try {
-        await client.analyzeSentiment([]);
-        assert.fail("expected an exception");
-      } catch (error) {
-        assert.ok(error);
-      }
+      return assert.isRejected(client.analyzeSentiment([]));
     });
 
     it("client accepts string[] and language", async () => {
@@ -87,12 +84,7 @@ describe("[AAD] TextAnalyticsClient", () => {
 
   describe("#detectLanguages", () => {
     it("client throws on empty list", async () => {
-      try {
-        await client.detectLanguages([]);
-        assert.fail("expected an exception");
-      } catch (error) {
-        assert.ok(error);
-      }
+      return assert.isRejected(client.detectLanguages([]));
     });
 
     it("client accepts no countryHint", async () => {
@@ -136,12 +128,7 @@ describe("[AAD] TextAnalyticsClient", () => {
 
   describe("#recognizeEntities", () => {
     it("client throws on empty list", async () => {
-      try {
-        await client.recognizeEntities([]);
-        assert.fail("expected an exception");
-      } catch (error) {
-        assert.ok(error);
-      }
+      return assert.isRejected(client.recognizeEntities([]));
     });
 
     it("client accepts string[] with no language", async () => {
@@ -153,6 +140,162 @@ describe("[AAD] TextAnalyticsClient", () => {
     it("client accepts string[] with a language specified", async () => {
       const results = await client.recognizeEntities(testDataEn, "en");
       assert.equal(results.length, testDataEn.length);
+      assert.ok(results.every(isSuccess));
+    });
+
+    it("client accepts mixed-language TextDocumentInput[]", async () => {
+      const enInputs = testDataEn.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en"
+        })
+      );
+      const esInputs = testDataEs.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es"
+        })
+      );
+      const allInputs = enInputs.concat(esInputs);
+
+      const results = await client.recognizeEntities(allInputs);
+      assert.equal(results.length, testDataEn.length + testDataEs.length);
+      assert.ok(results.every(isSuccess));
+    });
+  });
+
+  describe("#extractKeyPhrases", () => {
+    it("client throws on empty list", async () => {
+      return assert.isRejected(client.extractKeyPhrases([]));
+    });
+
+    it("client accepts string[] with no language", async () => {
+      const results = await client.extractKeyPhrases(testDataEn);
+      assert.equal(results.length, testDataEn.length);
+      assert.ok(results.every(isSuccess));
+    });
+
+    it("client accepts string[] with a language specified", async () => {
+      const results = await client.extractKeyPhrases(testDataEn, "en");
+      assert.equal(results.length, testDataEn.length);
+      assert.ok(results.every(isSuccess));
+    });
+
+    it("client accepts mixed-language TextDocumentInput[]", async () => {
+      const enInputs = testDataEn.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en"
+        })
+      );
+      const esInputs = testDataEs.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es"
+        })
+      );
+      const allInputs = enInputs.concat(esInputs);
+
+      const results = await client.extractKeyPhrases(allInputs);
+      assert.equal(results.length, testDataEn.length + testDataEs.length);
+      assert.ok(results.every(isSuccess));
+    });
+  });
+
+  describe("#recognizePiiEntities", () => {
+    it("client throws on empty list", async () => {
+      return assert.isRejected(client.recognizePiiEntities([]));
+    });
+
+    it("client accepts string[] with no language", async () => {
+      const results = await client.recognizePiiEntities(testDataEn);
+      assert.equal(results.length, testDataEn.length);
+      assert.ok(results.every(isSuccess));
+    });
+
+    it("client accepts string[] with a language specified", async () => {
+      const results = await client.recognizePiiEntities(testDataEn, "en");
+      assert.equal(results.length, testDataEn.length);
+      assert.ok(results.every(isSuccess));
+    });
+
+    it("client correctly reports recognition of PII-like pattern", async () => {
+      // 078-05-1120 is an invalid social security number due to its use in advertising
+      // throughout the late 1930s
+      const fakeSSNDocument = "Your Social Security Number is 078-05-1120.";
+      const [result] = await client.recognizePiiEntities([fakeSSNDocument], "en");
+      assert.ok(isSuccess(result));
+      if (!result.error) {
+        assert.equal(result.entities.length, 1);
+      } else {
+        assert.fail("Service returned an error.");
+      }
+    });
+
+    it("client accepts mixed-language TextDocumentInput[]", async () => {
+      const enInputs = testDataEn.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en"
+        })
+      );
+      const esInputs = testDataEs.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es"
+        })
+      );
+      const allInputs = enInputs.concat(esInputs);
+
+      const results = await client.recognizePiiEntities(allInputs);
+      assert.equal(results.length, testDataEn.length + testDataEs.length);
+      // TA NER public preview currently supports only english
+      assert.ok(results.slice(0, enInputs.length).every(isSuccess));
+    });
+  });
+
+  describe("#recognizeLinkedEntities", () => {
+    it("client throws on empty list", async () => {
+      return assert.isRejected(client.recognizeLinkedEntities([]));
+    });
+
+    it("client accepts string[] with no language", async () => {
+      const results = await client.recognizeLinkedEntities(testDataEn);
+      assert.equal(results.length, testDataEn.length);
+      assert.ok(results.every(isSuccess));
+    });
+
+    it("client accepts string[] with a language specified", async () => {
+      const results = await client.recognizeLinkedEntities(testDataEn, "en");
+      assert.equal(results.length, testDataEn.length);
+      assert.ok(results.every(isSuccess));
+    });
+
+    it("client accepts mixed-language TextDocumentInput[]", async () => {
+      const enInputs = testDataEn.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en"
+        })
+      );
+      const esInputs = testDataEs.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es"
+        })
+      );
+      const allInputs = enInputs.concat(esInputs);
+
+      const results = await client.recognizeLinkedEntities(allInputs);
+      assert.equal(results.length, testDataEn.length + testDataEs.length);
       assert.ok(results.every(isSuccess));
     });
   });

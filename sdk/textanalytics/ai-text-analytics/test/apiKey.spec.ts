@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import * as chai from "chai";
+import chaiPromises from "chai-as-promised";
+chai.use(chaiPromises);
+
+import { assert, expect } from "chai";
 
 import { Recorder, env } from "@azure/test-utils-recorder";
 
 import { createRecordedClient } from "./utils/recordedClient";
-import { TextAnalyticsClient, CognitiveServicesCredential } from "../src/index";
+import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "../src/index";
 import { isSuccess } from "./utils/resultHelper";
+import { WebResource } from "@azure/core-http";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -16,14 +21,17 @@ const testDataEn = [
   "I didn't like the last book I read at all."
 ];
 
-describe("CognitiveServicesCredential", () => {
+describe("TextAnalyticsApiKeyCredential", () => {
+  it("credential signRequest throws on undefined webResource", async () => {
+    const credential = new TextAnalyticsApiKeyCredential(env.SUBSCRIPTION_KEY);
+
+    return assert.isRejected(
+      credential.signRequest((undefined as unknown) as WebResource),
+      /null or undefined/
+    );
+  });
   it("credential constructor throws on invalid key", () => {
-    try {
-      void new CognitiveServicesCredential("");
-      assert.fail("expected an exception");
-    } catch (error) {
-      assert.ok(error);
-    }
+    return expect(() => new TextAnalyticsApiKeyCredential("")).to.throw(/non-empty string/);
   });
 });
 
@@ -31,7 +39,7 @@ describe("[API Key] TextAnalyticsClient", () => {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
 
-  const apiKey = new CognitiveServicesCredential(env.SUBSCRIPTION_KEY);
+  const apiKey = new TextAnalyticsApiKeyCredential(env.SUBSCRIPTION_KEY);
 
   beforeEach(function() {
     ({ client, recorder } = createRecordedClient(this, apiKey));

@@ -5,17 +5,11 @@ import { Context } from "mocha";
 import * as dotenv from "dotenv";
 import * as path from "path";
 
-import {
-  setReplaceableVariables,
-  env,
-  Recorder,
-  record,
-  setReplacements
-} from "@azure/test-utils-recorder";
+import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
-import { CognitiveServicesCredential, TextAnalyticsClient } from "../../src/index";
+import { TextAnalyticsApiKeyCredential, TextAnalyticsClient } from "../../src/index";
 
 if (isNode) {
   dotenv.config({ path: path.join(__dirname, "..", "..", "..", ".env") });
@@ -26,24 +20,26 @@ export interface RecordedClient {
   recorder: Recorder;
 }
 
-export function createRecordedClient(
-  context: Context,
-  apiKey?: CognitiveServicesCredential
-): RecordedClient {
-  setReplaceableVariables({
+export const environmentSetup: RecorderEnvironmentSetup = {
+  replaceableVariables: {
     AZURE_CLIENT_ID: "azure_client_id",
     AZURE_CLIENT_SECRET: "azure_client_secret",
     AZURE_TENANT_ID: "azure_tenant_id",
     SUBSCRIPTION_KEY: "subscription_key",
     ENDPOINT: "endpoint"
-  });
-
-  setReplacements([
+  },
+  replaceInRecordings: [
     (recording: string): string =>
       recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`)
-  ]);
+  ],
+  queryParametersToSkip: []
+};
 
-  let credential: CognitiveServicesCredential | TokenCredential;
+export function createRecordedClient(
+  context: Context,
+  apiKey?: TextAnalyticsApiKeyCredential
+): RecordedClient {
+  let credential: TextAnalyticsApiKeyCredential | TokenCredential;
   if (apiKey !== undefined) {
     credential = apiKey;
   } else {
@@ -54,7 +50,7 @@ export function createRecordedClient(
     );
   }
 
-  const recorder = record(context);
+  const recorder = record(context, environmentSetup);
 
   return {
     client: new TextAnalyticsClient(env.ENDPOINT, credential),

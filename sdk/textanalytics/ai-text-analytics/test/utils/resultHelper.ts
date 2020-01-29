@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TextAnalyticsResult } from "../../src/index";
+import { TextAnalyticsResult, TextAnalyticsSuccessResult } from "../../src/index";
 
-export function isSuccess<T extends TextAnalyticsResult>(res: T): boolean {
-  return (res as any).error === undefined;
+export function isSuccess(res: TextAnalyticsResult): res is TextAnalyticsSuccessResult {
+  return res.error === undefined;
 }
