@@ -1,7 +1,6 @@
 import {
   applyReplacementMap,
   ReplacementMap,
-  ReplacementFunctions,
   applyReplacementFunctions,
   encodeRFC3986,
   filterSecretsFromStrings,
@@ -52,11 +51,11 @@ describe("utils", () => {
         SECRET: "(SECRET)"
       };
 
-      const replaceableVariables: ReplacementMap = new Map();
-      replaceableVariables.set("SECRET", "HIDDEN_SECRET");
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("SECRET", "HIDDEN_SECRET");
 
       const recording = "azure.com/url/%28SECRET%29";
-      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
 
       expect(appliedMap).to.equal("azure.com/url/HIDDEN_SECRET");
     });
@@ -66,11 +65,11 @@ describe("utils", () => {
         ENDPOINT: "azure.com/url/"
       };
 
-      const replaceableVariables: ReplacementMap = new Map();
-      replaceableVariables.set("ENDPOINT", "default.com/path/");
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("ENDPOINT", "default.com/path/");
 
       const recording = "azure.com/url/%28SECRET%29";
-      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
 
       expect(appliedMap).to.equal("default.com/path/%28SECRET%29");
     });
@@ -81,12 +80,12 @@ describe("utils", () => {
         ENDPOINT: "azure.com/url/"
       };
 
-      const replaceableVariables: ReplacementMap = new Map();
-      replaceableVariables.set("SECRET", "HIDDEN_SECRET");
-      replaceableVariables.set("ENDPOINT", "default.com/path/");
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("SECRET", "HIDDEN_SECRET");
+      replacementMap.set("ENDPOINT", "default.com/path/");
 
       const recording = "azure.com/url/%28SECRET%29";
-      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
 
       expect(appliedMap).to.equal("default.com/path/HIDDEN_SECRET");
     });
@@ -97,9 +96,9 @@ describe("utils", () => {
         ENDPOINT: "azure.com/url/"
       };
 
-      const replaceableVariables: ReplacementMap = new Map();
-      replaceableVariables.set("SECRET", "HIDDEN_SECRET");
-      replaceableVariables.set("ENDPOINT", "default.com/path/");
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("SECRET", "HIDDEN_SECRET");
+      replacementMap.set("ENDPOINT", "default.com/path/");
 
       const recording = `
 All the combinations:
@@ -108,7 +107,7 @@ ultramarine.com/url/%28SECRET%29
 azure.com/url/PUBLIC
 ultramarine.com/url/PUBLIC
 `;
-      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
 
       expect(appliedMap).to.equal(
         `
@@ -124,7 +123,7 @@ ultramarine.com/url/PUBLIC
 
   describe("applyReplacementFunctions", () => {
     it("should apply one replacement function", () => {
-      const replacements: ReplacementFunctions = [
+      const replacements: Array<(content: string) => string> = [
         (source: string): string => {
           return source.replace(/banana/i, "Bonobo's");
         }
@@ -135,7 +134,7 @@ ultramarine.com/url/PUBLIC
     });
 
     it("should apply several replacement functions", () => {
-      const replacements: ReplacementFunctions = [
+      const replacements: Array<(content: string) => string> = [
         (source: string): string => {
           return source.replace(/banana/i, "Bonobo's");
         },
@@ -149,7 +148,7 @@ ultramarine.com/url/PUBLIC
     });
 
     it("should work with recordings of several lines", () => {
-      const replacements: ReplacementFunctions = [
+      const replacements = [
         (source: string): string => {
           return source.replace(/azure.com/g, "default.com");
         },
@@ -180,8 +179,7 @@ ultramarine.com/url/PUBLIC
   describe("filter secrets from content", () => {
     it("should work for strings", () => {
       env.SECRET = "SECRET";
-      const replaceableVariables: ReplacementMap = new Map();
-      replaceableVariables.set("SECRET", "FAKE_IT");
+      const replaceableVariables = { SECRET: "FAKE_IT" };
 
       const recording = "HERE_IS_THE_FLAG-SECRET";
       const updatedRecording = filterSecretsFromStrings(recording, replaceableVariables, []);
@@ -190,8 +188,7 @@ ultramarine.com/url/PUBLIC
 
     it("should work for JSON content", () => {
       env.ACCOUNT_NAME = "azureaccount";
-      const replaceableVariables: ReplacementMap = new Map();
-      replaceableVariables.set("ACCOUNT_NAME", "fakestorageaccount");
+      const replaceableVariables = { ACCOUNT_NAME: "fakestorageaccount" };
 
       const recording = {
         recordings: [
