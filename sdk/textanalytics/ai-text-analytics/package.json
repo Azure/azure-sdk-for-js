@@ -117,6 +117,8 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "sinon": "^7.1.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.6.4"
+    "typescript": "~3.6.4",
+    "@types/chai-as-promised": "^7.1.0",
+    "chai-as-promised": "^7.1.1"
   }
 }
