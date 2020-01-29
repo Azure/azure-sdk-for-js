@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { getTracer } from "@azure/core-tracing";
 import { Span, SpanOptions, SpanKind } from "@opentelemetry/types";
@@ -9,6 +9,7 @@ type OperationTracingOptions = OperationOptions["tracingOptions"];
 
 /**
  * Creates a span using the global tracer.
+ * @ignore
  * @param name The name of the operation being performed.
  * @param tracingOptions The options for the underlying http request.
  */

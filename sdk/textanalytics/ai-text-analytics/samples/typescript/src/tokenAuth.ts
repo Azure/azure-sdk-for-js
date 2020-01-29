@@ -6,10 +6,7 @@
  */
 
 import {
-  TextAnalyticsClient,
-  DetectLanguageResult,
-  DetectLanguageErrorResult,
-  DetectLanguageSuccessResult
+  TextAnalyticsClient
 } from "@azure/ai-text-analytics";
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -34,13 +31,9 @@ export async function main() {
 
   const [result] = await client.detectLanguages(["hello world"]);
 
-  if (isSuccess(result)) {
+  if (!result.error) {
     console.log(`Primary language detected as ${result.primaryLanguage.name}`);
   }
-}
-
-function isSuccess(result: DetectLanguageResult): result is DetectLanguageSuccessResult {
-  return !(result as DetectLanguageErrorResult).error;
 }
 
 main().catch((err) => {
