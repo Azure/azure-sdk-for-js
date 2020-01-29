@@ -36,7 +36,7 @@ export abstract class BaseRecorder {
   public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
   public environmentSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {},
-    replaceInRecordings: [],
+    customizationsOnRecordings: [],
     queryParametersToSkip: []
   };
 
@@ -84,7 +84,7 @@ export abstract class BaseRecorder {
     return recordingFilterMethod(
       content,
       this.environmentSetup.replaceableVariables,
-      this.environmentSetup.replaceInRecordings
+      this.environmentSetup.customizationsOnRecordings
     );
   }
 

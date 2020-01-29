@@ -8,7 +8,6 @@ export interface TestInfo {
 }
 
 export type ReplacementMap = Map<string, string>;
-export type ReplacementFunctions = Array<(content: string) => string>;
 /**
  * Interface to setup environment necessary for the test run.
  *
@@ -18,6 +17,7 @@ export type ReplacementFunctions = Array<(content: string) => string>;
 export interface RecorderEnvironmentSetup {
   /**
    * Used in record and playback modes
+   *
    *  1. The key-value pairs will be used as the environment variables in playback mode.
    *  2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
    *
@@ -27,17 +27,20 @@ export interface RecorderEnvironmentSetup {
   replaceableVariables: { [ENV_VAR: string]: string };
   /**
    *  Used in record mode
+   *
    *   Array of callback functions provided to customize the generated recordings in record mode
    *
    *  Example with one callback function -
    *      `sig` param of SAS Token is being filtered here from the recordings..
    *      [ (recording: string): string => recording.replace(new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"), "aaaaa") ]
    *
+   * @type {Array<(content: string) => string>}
    * @memberof RecorderEnvironmentSetup
    */
-  replaceInRecordings: ReplacementFunctions;
+  customizationsOnRecordings: Array<(content: string) => string>;
   /**
    * Used in record and playback modes
+   *
    *  Array of query parameters provided will be filtered from the requests
    *
    * @type {Array<string>}
@@ -122,7 +125,7 @@ export function applyReplacementMap(
  * @param content The input used to apply the replacements.
  */
 export function applyReplacementFunctions(
-  replacements: ReplacementFunctions,
+  replacements: Array<(content: string) => string>,
   content: string
 ): string {
   let updated = content;
@@ -146,10 +149,10 @@ export function applyReplacementFunctions(
 export function filterSecretsFromStrings(
   content: string,
   replaceableVariables: { [ENV_VAR: string]: string },
-  replacements: ReplacementFunctions
+  customizations: Array<(content: string) => string>
 ) {
   const result = applyReplacementMap(env, new Map(Object.entries(replaceableVariables)), content);
-  return applyReplacementFunctions(replacements, result);
+  return applyReplacementFunctions(customizations, result);
 }
 
 /**
@@ -166,10 +169,10 @@ export function filterSecretsFromStrings(
 export function filterSecretsFromJSONContent(
   content: any,
   replaceableVariables: { [ENV_VAR: string]: string },
-  replacements: ReplacementFunctions
+  customizations: Array<(content: string) => string>
 ) {
   return JSON.parse(
-    filterSecretsFromStrings(JSON.stringify(content), replaceableVariables, replacements)
+    filterSecretsFromStrings(JSON.stringify(content), replaceableVariables, customizations)
   );
 }
 
