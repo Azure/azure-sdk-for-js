@@ -19,6 +19,7 @@ export interface DeleteCertificatePollerOptions {
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
+ * @internal
  */
 export class DeleteCertificatePoller extends Poller<
   DeleteCertificatePollOperationState,
