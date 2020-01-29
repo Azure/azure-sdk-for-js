@@ -98,6 +98,11 @@ export class SearchIndexClient {
         loggingOptions: {
           logger: logger.info,
           allowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
+        },
+        deserializationOptions: {
+          expectedContentTypes: {
+            json: ["application/json", "text/json"]
+          }
         }
       }
     };
@@ -112,7 +117,8 @@ export class SearchIndexClient {
     );
   }
 
-  public count(options: CountOptions = {}) {
-    return this.client.documents.count(operationOptionsToRequestOptionsBase(options));
+  public async count(options: CountOptions = {}) {
+    const result = await this.client.documents.count(operationOptionsToRequestOptionsBase(options));
+    return Number(result._response.bodyAsText);
   }
 }

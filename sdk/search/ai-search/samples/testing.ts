@@ -12,14 +12,8 @@ async function main() {
   const credential = new SearchApiKeyCredential(apiKey);
 
   const client = new SearchIndexClient(apiVersion, apiName, indexName, credential);
-  try {
-    const count = await client.count();
-    console.log(`${count} documents in index ${indexName}`);
-  } catch (e) {
-    console.log(e.response.headers);
-    const body = e.response.bodyAsText;
-    console.error("bad response", JSON.parse(body.slice(1)));
-  }
+  const count = await client.count();
+  console.log(`${count} documents in index ${indexName}`);
 }
 
 main().catch((e) => console.error(e));
