@@ -2,7 +2,7 @@
 
 ## 12.0.0-preview.8 (Unreleased)
 
-- Bug fix - Storage errors now have proper messages. ([PR #7107](https://github.com/Azure/azure-sdk-for-js/pull/7107))
+- Bug fix - Storage errors now have proper messages, instead of the raw XML response. ([PR #7107](https://github.com/Azure/azure-sdk-for-js/pull/7107))
 
 ## 12.0.0-preview.7 (2020.01)
 
