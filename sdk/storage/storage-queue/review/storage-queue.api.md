@@ -92,7 +92,6 @@ export { BaseRequestPolicy }
 
 // @public
 export interface CommonOptions {
-    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
     tracingOptions?: OperationTracingOptions;
 }
 
@@ -319,6 +318,11 @@ export interface Metrics {
 // @public
 export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
+// @public (undocumented)
+export interface OperationTracingOptions {
+    spanOptions?: SpanOptions;
+}
+
 // @public
 export interface PeekedMessageItem {
     dequeueCount: number;
@@ -350,7 +354,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 export type QueueClearMessagesResponse = MessagesClearResponse;
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class QueueClient extends StorageClient {
     constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);

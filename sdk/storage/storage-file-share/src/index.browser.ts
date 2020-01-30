@@ -25,7 +25,7 @@ export * from "./policies/CredentialPolicy";
 export * from "./StorageRetryPolicyFactory";
 export * from "./StorageBrowserPolicyFactory";
 export * from "./ShareServiceClient";
-export { CommonOptions } from "./StorageClient";
+export { CommonOptions, OperationTracingOptions } from "./StorageClient";
 export * from "./generatedModels";
 export { RestError };
 export { logger } from "./log";

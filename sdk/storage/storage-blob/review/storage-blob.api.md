@@ -1175,7 +1175,6 @@ export type BlockListType = 'committed' | 'uncommitted' | 'all';
 
 // @public
 export interface CommonOptions {
-    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
     tracingOptions?: OperationTracingOptions;
 }
 
@@ -1716,6 +1715,11 @@ export interface ModifiedAccessConditions {
 
 // @public
 export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+// @public (undocumented)
+export interface OperationTracingOptions {
+    spanOptions?: SpanOptions;
+}
 
 // @public
 export interface PageBlobClearPagesHeaders {

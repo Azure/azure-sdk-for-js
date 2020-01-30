@@ -15,7 +15,7 @@
     "os": false,
     "process": false
   },
-  "types": "./typings/src/index.d.ts",
+  "types": "./typings/storage-blob.d.ts",
   "engine": {
     "node": ">=8.0.0"
   },
@@ -57,7 +57,7 @@
     "dist-esm/src/",
     "LICENSE",
     "src/",
-    "typings/src",
+    "typings/storage-blob.d.ts",
     "tsconfig.json"
   ],
   "repository": {

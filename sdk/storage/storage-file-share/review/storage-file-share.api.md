@@ -92,8 +92,6 @@ export interface CloseHandlesInfo {
 
 // @public
 export interface CommonOptions {
-    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     tracingOptions?: OperationTracingOptions;
 }
@@ -718,6 +716,11 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export function newPipeline(credential: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+// @public (undocumented)
+export interface OperationTracingOptions {
+    spanOptions?: SpanOptions;
+}
 
 // @public
 export class Pipeline {

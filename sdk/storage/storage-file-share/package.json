@@ -14,7 +14,7 @@
     "os": false,
     "process": false
   },
-  "types": "./typings/src/index.d.ts",
+  "types": "./typings/storage-file-share.d.ts",
   "engine": {
     "node": ">=8.0.0"
   },
@@ -56,7 +56,7 @@
     "dist-esm/src/",
     "LICENSE",
     "src/",
-    "typings/src",
+    "typings/storage-file-share.d.ts",
     "tsconfig.json"
   ],
   "repository": {
