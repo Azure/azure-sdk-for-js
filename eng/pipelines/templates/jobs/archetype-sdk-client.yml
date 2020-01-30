@@ -277,7 +277,7 @@ jobs:
           condition: always()
           displayName: "Publish browser unit test results"
 
-  - job: "Rich Code Nav"
+  - job: "Rich_Code_Nav"
     variables:
         - template: ../variables/globals.yml
 
