@@ -163,6 +163,18 @@ describe("AppendBlobClient", () => {
         ),
         `Error does not have the expected message, actual message: ${err.message}`
       );
+      // vaildate "Code" and "Message" too for back-compatibility
+      assert.equal(
+        err.Code,
+        "Crc64Mismatch",
+        "Error does not have the expected code 'Crc64Mismatch'"
+      );
+      assert.ok(
+        err.Message.startsWith(
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+        ),
+        `Error does not have the expected message, actual message: ${err.message}`
+      );
     }
 
     assert.ok(exceptionCaught);

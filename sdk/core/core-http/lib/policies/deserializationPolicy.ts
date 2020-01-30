@@ -219,6 +219,16 @@ export function deserializeResponseBody(
                     error.message = internalError.message;
                   }
                 }
+
+                if (
+                  defaultResponseBodyMapper &&
+                  defaultResponseBodyMapper.serializedName === "StorageError"
+                ) {
+                  // to keep the object shape back-compatible
+                  (error as { [key: string]: any })["Code"] = error.code;
+                  (error as { [key: string]: any })["Message"] = error.message;
+                  error.response!.parsedBody["Code"] = error.code;
+                }
               }
 
               if (parsedResponse.headers && defaultResponseSpec.headersMapper) {

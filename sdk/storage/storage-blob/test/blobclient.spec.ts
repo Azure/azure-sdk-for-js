@@ -271,7 +271,7 @@ describe("BlobClient", () => {
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
-    assert.ok(result.copyId);
+    assert.ok(result.copyId, `Expecting valid copyId but got ${result.copyId}`);
     delay(1 * 1000);
 
     try {
@@ -280,7 +280,30 @@ describe("BlobClient", () => {
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
     } catch (err) {
-      assert.ok(err.code === "InvalidHeaderValue", `Expected error code of 'InvalidHeaderValue' but actual code is ${err.code}.`);
+      assert.equal(
+        err.code,
+        "InvalidHeaderValue",
+        `Expected error code of 'InvalidHeaderValue' but actual code is ${err.code}.`
+      );
+      // vaildate "Code" and "Message" too for back-compatibility
+      assert.equal(
+        err.Code,
+        "InvalidHeaderValue",
+        `Expected error code of 'InvalidHeaderValue' but actual code is ${err.code}.`
+      );
+      assert.ok(
+        err.Message.startsWith(
+          "The value for one of the HTTP headers is not in the correct format."
+        ),
+        `Error does not have the expected message, actual message: ${err.message}`
+      );
+      assert.equal(
+        (err as any).response.parsedBody.Code,
+        "InvalidHeaderValue",
+        `Expect error.response.parsedBody.Code to be 'InvalidHeaderValue'. Actual: ${
+          (err as any).response.parsedBody.Code
+        }`
+      );
     }
   });
 
