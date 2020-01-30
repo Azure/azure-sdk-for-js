@@ -152,6 +152,8 @@ export class URLQuery {
  */
 export class URLBuilder {
   private _scheme: string | undefined;
+  private _username: string | undefined;
+  private _password: string | undefined;
   private _host: string | undefined;
   private _port: string | undefined;
   private _path: string | undefined;
@@ -177,6 +179,42 @@ export class URLBuilder {
   }
 
   /**
+   * Get the username that has been set in this URL.
+   */
+  public getUsername(): string | undefined {
+    return this._username;
+  }
+
+  /**
+   * Set the username that has been set in this URL.
+   */
+  public setUsername(username: string | undefined) {
+    if (!username) {
+      this._username = undefined;
+    } else {
+      this.set(username, "AUTH_OR_HOST");
+    }
+  }
+
+  /**
+   * Get the password that has been set in this URL.
+   */
+  public getPassword(): string | undefined {
+    return this._password;
+  }
+
+  /**
+   * Set the password that has been set in this URL.
+   */
+  public setPassword(password: string | undefined) {
+    if (!password) {
+      this._password = undefined;
+    } else {
+      this.set(password, "PASSWORD");
+    }
+  }
+
+  /**
    * Set the host for this URL. If the provided host contains other parts of a URL (such as a
    * port, path, or query), those parts will be added to this URL as well.
    */
@@ -184,7 +222,7 @@ export class URLBuilder {
     if (!host) {
       this._host = undefined;
     } else {
-      this.set(host, "SCHEME_OR_HOST");
+      this.set(host, "SCHEME_OR_AUTH_OR_HOST");
     }
   }
 
@@ -313,6 +351,14 @@ export class URLBuilder {
             this._scheme = token.text || undefined;
             break;
 
+          case "USERNAME":
+            this._username = token.text || undefined;
+            break;
+
+          case "PASSWORD":
+            this._password = token.text || undefined;
+            break;
+
           case "HOST":
             this._host = token.text || undefined;
             break;
@@ -344,6 +390,18 @@ export class URLBuilder {
 
     if (this._scheme) {
       result += `${this._scheme}://`;
+    }
+
+    if (this._username) {
+      result += `${this._username}`;
+    }
+
+    if (this._password) {
+      result += `:${this._password}`;
+    }
+
+    if (this._username || this._password) {
+      result += "@";
     }
 
     if (this._host) {
@@ -384,14 +442,14 @@ export class URLBuilder {
 
   public static parse(text: string): URLBuilder {
     const result = new URLBuilder();
-    result.set(text, "SCHEME_OR_HOST");
+    result.set(text, "SCHEME_OR_AUTH_OR_HOST");
     return result;
   }
 }
 
-type URLTokenizerState = "SCHEME" | "SCHEME_OR_HOST" | "HOST" | "PORT" | "PATH" | "QUERY" | "DONE";
+type URLTokenizerState = "SCHEME" | "SCHEME_OR_AUTH_OR_HOST" | "AUTH_OR_HOST" | "PASSWORD" | "HOST" | "PORT" | "PATH" | "QUERY" | "DONE";
 
-type URLTokenType = "SCHEME" | "HOST" | "PORT" | "PATH" | "QUERY";
+type URLTokenType = "SCHEME" | "USERNAME" | "PASSWORD" | "HOST" | "PORT" | "PATH" | "QUERY";
 
 export class URLToken {
   public constructor(public readonly text: string, public readonly type: URLTokenType) {}
@@ -402,6 +460,14 @@ export class URLToken {
 
   public static host(text: string): URLToken {
     return new URLToken(text, "HOST");
+  }
+
+  public static username(text: string): URLToken {
+    return new URLToken(text, "USERNAME");
+  }
+
+  public static password(text: string): URLToken {
+    return new URLToken(text, "PASSWORD");
   }
 
   public static port(text: string): URLToken {
@@ -441,7 +507,7 @@ export class URLTokenizer {
 
   public constructor(readonly _text: string, state?: URLTokenizerState) {
     this._textLength = _text ? _text.length : 0;
-    this._currentState = state != undefined ? state : "SCHEME_OR_HOST";
+    this._currentState = state != undefined ? state : "SCHEME_OR_AUTH_OR_HOST";
     this._currentIndex = 0;
   }
 
@@ -465,8 +531,16 @@ export class URLTokenizer {
           nextScheme(this);
           break;
 
-        case "SCHEME_OR_HOST":
-          nextSchemeOrHost(this);
+        case "SCHEME_OR_AUTH_OR_HOST":
+          nextSchemeOrAuthOrHost(this);
+          break;
+
+        case "AUTH_OR_HOST":
+          nextAuthOrHost(this);
+          break;
+
+        case "PASSWORD":
+          nextPassword(this);
           break;
 
         case "HOST":
@@ -589,25 +663,31 @@ function nextScheme(tokenizer: URLTokenizer): void {
   if (!hasCurrentCharacter(tokenizer)) {
     tokenizer._currentState = "DONE";
   } else {
-    tokenizer._currentState = "HOST";
+    tokenizer._currentState = "AUTH_OR_HOST";
   }
 }
 
-function nextSchemeOrHost(tokenizer: URLTokenizer): void {
-  const schemeOrHost: string = readUntilCharacter(tokenizer, ":", "/", "?");
+function nextSchemeOrAuthOrHost(tokenizer: URLTokenizer): void {
+  const schemeOrUsernameOrHost: string = readUntilCharacter(tokenizer, ":", "/", "?", "@");
   if (!hasCurrentCharacter(tokenizer)) {
-    tokenizer._currentToken = URLToken.host(schemeOrHost);
+    tokenizer._currentToken = URLToken.host(schemeOrUsernameOrHost);
     tokenizer._currentState = "DONE";
   } else if (getCurrentCharacter(tokenizer) === ":") {
     if (peekCharacters(tokenizer, 3) === "://") {
-      tokenizer._currentToken = URLToken.scheme(schemeOrHost);
-      tokenizer._currentState = "HOST";
+      tokenizer._currentToken = URLToken.scheme(schemeOrUsernameOrHost);
+      tokenizer._currentState = "AUTH_OR_HOST";
+    } else if (peekCharacters(tokenizer, tokenizer._textLength).indexOf("@") !== -1) {
+      tokenizer._currentToken = URLToken.username(schemeOrUsernameOrHost);
+      tokenizer._currentState = "PASSWORD";
     } else {
-      tokenizer._currentToken = URLToken.host(schemeOrHost);
+      tokenizer._currentToken = URLToken.host(schemeOrUsernameOrHost);
       tokenizer._currentState = "PORT";
     }
+  } else if (getCurrentCharacter(tokenizer) === "@") {
+    tokenizer._currentToken = URLToken.username(schemeOrUsernameOrHost);
+    tokenizer._currentState = "HOST";
   } else {
-    tokenizer._currentToken = URLToken.host(schemeOrHost);
+    tokenizer._currentToken = URLToken.host(schemeOrUsernameOrHost);
     if (getCurrentCharacter(tokenizer) === "/") {
       tokenizer._currentState = "PATH";
     } else {
@@ -616,9 +696,54 @@ function nextSchemeOrHost(tokenizer: URLTokenizer): void {
   }
 }
 
+function nextAuthOrHost(tokenizer: URLTokenizer): void {
+  if (peekCharacters(tokenizer, 3) === "://") {
+    nextCharacter(tokenizer, 3);
+  }
+
+  const authOrHost: string = readUntilCharacter(tokenizer, ":", "/", "?", "@");
+  if (!hasCurrentCharacter(tokenizer)) {
+    tokenizer._currentToken = URLToken.host(authOrHost);
+    tokenizer._currentState = "DONE";
+  } else if (peekCharacters(tokenizer, 1) === ":") {
+    if (peekCharacters(tokenizer, tokenizer._textLength).indexOf("@") !== -1) {
+      tokenizer._currentToken = URLToken.username(authOrHost);
+      tokenizer._currentState = "PASSWORD";
+    } else {
+      tokenizer._currentToken = URLToken.host(authOrHost);
+      tokenizer._currentState = "PORT";
+    }
+  } else if (peekCharacters(tokenizer, 1) === "@") {
+    tokenizer._currentToken = URLToken.username(authOrHost);
+    tokenizer._currentState = "HOST";
+  } else {
+    tokenizer._currentToken = URLToken.host(authOrHost);
+    if (getCurrentCharacter(tokenizer) === "/") {
+      tokenizer._currentState = "PATH";
+    } else {
+      tokenizer._currentState = "QUERY";
+    }
+  }
+}
+
+function nextPassword(tokenizer: URLTokenizer): void {
+  if (getCurrentCharacter(tokenizer) === ":") {
+    nextCharacter(tokenizer, 1);
+  }
+
+  const password: string = readUntilCharacter(tokenizer, "@")
+  tokenizer._currentToken = URLToken.password(password);
+  tokenizer._currentState = "HOST";
+}
+
 function nextHost(tokenizer: URLTokenizer): void {
   if (peekCharacters(tokenizer, 3) === "://") {
     nextCharacter(tokenizer, 3);
+  } else {
+    const nextChar = peekCharacters(tokenizer, 1);
+    if (nextChar === ":" || nextChar === "@") {
+      nextCharacter(tokenizer, 1);
+    }
   }
 
   const host: string = readUntilCharacter(tokenizer, ":", "/", "?");

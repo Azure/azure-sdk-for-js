@@ -278,6 +278,88 @@ describe("URLBuilder", () => {
     });
   });
 
+  describe("setUsername()", () => {
+    it(`to ""`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setUsername("");
+      assert.strictEqual(urlBuilder.getUsername(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`to "user@"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setUsername("user@");
+      assert.strictEqual(urlBuilder.getUsername(), "user");
+      assert.strictEqual(urlBuilder.toString(), "user@");
+    });
+
+    it(`to "user@host"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setUsername("user@host");
+      assert.strictEqual(urlBuilder.getUsername(), "user");
+      assert.strictEqual(urlBuilder.toString(), "user@host");
+    });
+
+    it(`to "user@www.example.com:1234"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setUsername("user@www.example.com:1234");
+      assert.strictEqual(urlBuilder.getUsername(), "user");
+      assert.strictEqual(urlBuilder.toString(), "user@www.example.com:1234");
+    });
+
+    it(`from "user1@" to "user2@"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setUsername("user1@");
+      urlBuilder.setUsername("user2@");
+      assert.strictEqual(urlBuilder.getUsername(), "user2");
+      assert.strictEqual(urlBuilder.toString(), "user2@");
+    });
+  });
+
+  describe("setPassword()", () => {
+    it(`to ""`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPassword("");
+      assert.strictEqual(urlBuilder.getUsername(), undefined);
+      assert.strictEqual(urlBuilder.getPassword(), undefined);
+      assert.strictEqual(urlBuilder.toString(), "");
+    });
+
+    it(`to "pass@"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPassword("pass");
+      assert.strictEqual(urlBuilder.getUsername(), undefined);
+      assert.strictEqual(urlBuilder.getPassword(), "pass");
+      assert.strictEqual(urlBuilder.toString(), ":pass@");
+    });
+
+    it(`to "pass@host"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPassword("pass@host");
+      assert.strictEqual(urlBuilder.getUsername(), undefined);
+      assert.strictEqual(urlBuilder.getPassword(), "pass");
+      assert.strictEqual(urlBuilder.toString(), ":pass@host");
+    });
+
+    it(`to "pass@host/path"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPassword("pass@host/path");
+      assert.strictEqual(urlBuilder.getUsername(), undefined);
+      assert.strictEqual(urlBuilder.getPassword(), "pass");
+      assert.strictEqual(urlBuilder.getPath(), "/path");
+      assert.strictEqual(urlBuilder.toString(), ":pass@host/path");
+    });
+
+    it(`from "pass1@" to "pass2@"`, () => {
+      const urlBuilder = new URLBuilder();
+      urlBuilder.setPassword("pass1@");
+      urlBuilder.setPassword("pass2@");
+      assert.strictEqual(urlBuilder.getUsername(), undefined);
+      assert.strictEqual(urlBuilder.getPassword(), "pass2");
+      assert.strictEqual(urlBuilder.toString(), ":pass2@");
+    });
+  });
+
   describe("setHost()", () => {
     it(`to ""`, () => {
       const urlBuilder = new URLBuilder();
@@ -959,6 +1041,47 @@ describe("URLBuilder", () => {
         URLBuilder.parse("https://www.bing.com/my:/path").toString(),
         "https://www.bing.com/my:/path"
       );
+    });
+
+    it(`with "user:pass@www.bing.com/"`, () => {
+      const builder = URLBuilder.parse("user:pass@www.bing.com/");
+      assert.strictEqual(builder.toString(), "user:pass@www.bing.com/");
+      assert.strictEqual(builder.getUsername(), "user");
+      assert.strictEqual(builder.getPassword(), "pass");
+      assert.strictEqual(builder.getHost(), "www.bing.com");
+    });
+
+    it(`with "user@www.bing.com/"`, () => {
+      const builder = URLBuilder.parse("user@www.bing.com/");
+      assert.strictEqual(builder.toString(), "user@www.bing.com/");
+      assert.strictEqual(builder.getUsername(), "user");
+      assert.strictEqual(builder.getPassword(), undefined);
+      assert.strictEqual(builder.getHost(), "www.bing.com");
+    });
+
+    it(`with "https://user:pass@www.bing.com/"`, () => {
+      const builder = URLBuilder.parse("https://user:pass@www.bing.com/");
+      assert.strictEqual(builder.toString(), "https://user:pass@www.bing.com/");
+      assert.strictEqual(builder.getUsername(), "user");
+      assert.strictEqual(builder.getPassword(), "pass");
+      assert.strictEqual(builder.getHost(), "www.bing.com");
+    });
+
+    it(`with "https://user:@www.bing.com/"`, () => {
+      const builder = URLBuilder.parse("https://user:@www.bing.com/");
+      assert.strictEqual(builder.toString(), "https://user@www.bing.com/");
+      assert.strictEqual(builder.getUsername(), "user");
+      assert.strictEqual(builder.getPassword(), undefined);
+      assert.strictEqual(builder.getHost(), "www.bing.com");
+    });
+
+    it(`with "https://user:pass@www.bing.com:8080"`, () => {
+      const builder = URLBuilder.parse("https://user:pass@www.bing.com:8080/");
+      assert.strictEqual(builder.toString(), "https://user:pass@www.bing.com:8080/");
+      assert.strictEqual(builder.getUsername(), "user");
+      assert.strictEqual(builder.getPassword(), "pass");
+      assert.strictEqual(builder.getHost(), "www.bing.com");
+      assert.equal(builder.getPort(), "8080");
     });
   });
 
