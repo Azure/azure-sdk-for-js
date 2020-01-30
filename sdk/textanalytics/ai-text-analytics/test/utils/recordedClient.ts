@@ -26,7 +26,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     AZURE_CLIENT_SECRET: "azure_client_secret",
     AZURE_TENANT_ID: "azure_tenant_id",
     SUBSCRIPTION_KEY: "subscription_key",
-    ENDPOINT: "endpoint"
+    ENDPOINT: "https://endpoint/"
   },
   replaceInRecordings: [
     (recording: string): string =>
@@ -39,6 +39,8 @@ export function createRecordedClient(
   context: Context,
   apiKey?: TextAnalyticsApiKeyCredential
 ): RecordedClient {
+  const recorder = record(context, environmentSetup);
+
   let credential: TextAnalyticsApiKeyCredential | TokenCredential;
   if (apiKey !== undefined) {
     credential = apiKey;
@@ -49,8 +51,6 @@ export function createRecordedClient(
       env.AZURE_CLIENT_SECRET
     );
   }
-
-  const recorder = record(context, environmentSetup);
 
   return {
     client: new TextAnalyticsClient(env.ENDPOINT, credential),
