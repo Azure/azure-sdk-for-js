@@ -69,6 +69,7 @@ export function browserConfig(test = false, production = false) {
       globals: { "@azure/core-http": "Azure.Core.HTTP" }
     },
     preserveSymlinks: false,
+    external: ["fs-extra"],
     plugins: [
       sourcemaps(),
       replace({
@@ -85,8 +86,7 @@ export function browserConfig(test = false, production = false) {
         fs: `export default {}`,
         os: `export default {}`,
         dotenv: `export function config() { }`,
-        path: `export default {}`,
-        stream: `export default {}`
+        path: `export default {}`
       }),
       nodeResolve({
         mainFields: ["module", "browser"],
@@ -94,7 +94,7 @@ export function browserConfig(test = false, production = false) {
       }),
       cjs({
         namedExports: {
-          chai: ["assert", "expect"],
+          chai: ["assert", "expect", "use"],
           events: ["EventEmitter"],
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }

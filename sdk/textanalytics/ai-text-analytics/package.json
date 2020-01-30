@@ -119,6 +119,8 @@
     "source-map-support": "^0.5.9",
     "typescript": "~3.6.4",
     "@types/chai-as-promised": "^7.1.0",
-    "chai-as-promised": "^7.1.1"
+    "chai-as-promised": "^7.1.1",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1"
   }
 }
