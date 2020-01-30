@@ -1,3 +1,7 @@
+## 2020-01-30
+
+- Fixed a bug where the replacements aren't properly filerted in the JSON recordings.
+
 ## 2020-01-29
 
 - Fixed a bug where the replacements provided aren't being replaced in the query-param parts of recordings, which is an expectation for playback. This caused a few test failures during playback for new recordings. More info [#7108](https://github.com/Azure/azure-sdk-for-js/issues/7108)
