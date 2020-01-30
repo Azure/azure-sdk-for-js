@@ -7,11 +7,12 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
-      "preLaunchTask": "Build Node",
-      "program": "${workspaceFolder}\\src\\index.ts",
-      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
-      "sourceMaps": true
+      "name": "Current TS File",
+      "args": ["${fileBasename}"],
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+      "cwd": "${fileDirname}",
+      "sourceMaps": true,
+      "protocol": "inspector"
     }
   ]
 }

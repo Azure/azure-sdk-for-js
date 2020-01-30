@@ -4,9 +4,9 @@
 
 ```ts
 
+import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { ServiceClientCredentials } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
@@ -18,10 +18,18 @@ export class SearchApiKeyCredential implements ServiceClientCredentials {
 
 // @public (undocumented)
 export class SearchIndexClient {
-    constructor(apiVersion: string, searchServiceName: string, indexName: string, credential: TokenCredential | SearchApiKeyCredential, options?: SearchIndexClientOptions);
+    constructor(apiVersion: string, searchServiceName: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
     readonly apiVersion: string;
+    // Warning: (ae-forgotten-export) The symbol "AutocompleteRequest" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "AutocompleteOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "AutocompleteResult" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    count(options: any): Promise<import("./generated/data/models").DocumentsCountResponse>;
+    autocomplete(options: AutocompleteRequest, additionalOptions?: AutocompleteOptions): Promise<AutocompleteResult>;
+    // Warning: (ae-forgotten-export) The symbol "CountOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    count(options?: CountOptions): Promise<number>;
     readonly indexName: string;
     searchDnsSuffix: string;
     readonly searchServiceName: string;

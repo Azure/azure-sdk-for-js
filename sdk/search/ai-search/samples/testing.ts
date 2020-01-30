@@ -14,6 +14,9 @@ async function main() {
   const client = new SearchIndexClient(apiVersion, apiName, indexName, credential);
   const count = await client.count();
   console.log(`${count} documents in index ${indexName}`);
+
+  const result = await client.autocomplete({ searchText: "test" });
+  console.log(result);
 }
 
 main().catch((e) => console.error(e));

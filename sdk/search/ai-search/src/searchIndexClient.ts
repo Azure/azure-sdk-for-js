@@ -13,6 +13,7 @@ import { SearchIndexClient as GeneratedClient } from "./generated/data/searchInd
 import { SearchApiKeyCredential } from "./searchApiKeyCredential";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
+import { AutocompleteResult, AutocompleteRequest } from "./generated/data/models";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -25,6 +26,7 @@ export interface SearchIndexClientOptions extends PipelineOptions {
 }
 
 export type CountOptions = OperationOptions;
+export type AutocompleteOptions = OperationOptions;
 
 // something extends OperationOptions
 
@@ -120,5 +122,16 @@ export class SearchIndexClient {
   public async count(options: CountOptions = {}) {
     const result = await this.client.documents.count(operationOptionsToRequestOptionsBase(options));
     return Number(result._response.bodyAsText);
+  }
+
+  public async autocomplete(
+    options: AutocompleteRequest,
+    additionalOptions: AutocompleteOptions = {}
+  ): Promise<AutocompleteResult> {
+    const result = await this.client.documents.autocompletePost(
+      options,
+      operationOptionsToRequestOptionsBase(additionalOptions)
+    );
+    return result;
   }
 }
