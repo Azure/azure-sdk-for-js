@@ -1,5 +1,9 @@
 # Release History
 
+## 12.0.3 (Unreleased)
+
+- Fixed `api-extractor` related issue [PR #3513](https://github.com/Azure/azure-sdk-for-js/pull/3513)
+
 ## 12.0.2 (2020.01)
 
 - Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6753](https://github.com/Azure/azure-sdk-for-js/pull/6753)
