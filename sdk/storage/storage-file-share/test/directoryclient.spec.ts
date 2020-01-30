@@ -150,6 +150,26 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileParentId!);
   });
 
+  it("report error with correct code and message", async () => {
+    const name = recorder.getUniqueName("testingerror");
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(name));
+    try {
+      await dirClient2.create();
+      await dirClient2.create();
+      assert.fail();
+    } catch (error) {
+      assert.equal(
+        error.code,
+        "ResourceAlreadyExists",
+        `Error doesn't have the expected code. Actual code: ${error.code}`
+      );
+      assert.ok(
+        error.message.startsWith("The specified resource already exists."),
+        `Error doesn't have the expected message. Actual message: ${error.message}`
+      );
+    }
+  });
+
   it("setProperties with default parameters", async () => {
     await dirClient.setProperties();
 

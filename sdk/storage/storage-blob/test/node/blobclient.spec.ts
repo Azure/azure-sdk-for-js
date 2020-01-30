@@ -255,22 +255,6 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
-  it("abortCopyFromClient should failed for a completed copy operation", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
-    const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
-    assert.ok(result.copyId);
-    delay(1 * 1000);
-
-    try {
-      await newBlobClient.beginCopyFromURL(result.copyId!);
-      assert.fail(
-        "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
-      );
-    } catch (err) {
-      assert.ok((err as any).response.parsedBody.Code === "InvalidHeaderValue");
-    }
-  });
-
   it("setAccessTier set default to cool", async () => {
     await blockBlobClient.setAccessTier("Cool");
     const properties = await blockBlobClient.getProperties();
