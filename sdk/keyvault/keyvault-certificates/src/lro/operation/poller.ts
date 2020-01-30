@@ -24,6 +24,7 @@ export interface CertificateOperationPollerOptions {
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
+ * @internal
  */
 export class CertificateOperationPoller extends KVPoller<
   CertificateOperationPollOperationState,

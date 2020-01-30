@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
 
   await client.setContacts(contacts);
 
-  let getResponse = await client.getContacts();
+  const getResponse = await client.getContacts();
   console.log("Contact List:", getResponse);
 
   await client.deleteContacts();
