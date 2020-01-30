@@ -5,7 +5,6 @@ import {
   AbortSignalLike,
   BaseRequestPolicy,
   HttpOperationResponse,
-  HttpPipelineLogLevel,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
@@ -16,6 +15,7 @@ import {
 import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
 import { UrlConstants } from "../utils/constants";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
+import { logger } from "../log";
 
 /**
  * A factory method used to generated a RetryPolicy factory.
@@ -181,8 +181,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 
     let response: HttpOperationResponse | undefined;
     try {
-      this.logf(
-        HttpPipelineLogLevel.INFO,
+      logger.info(
         `RetryPolicy: =====> Try=${attempt} ${isPrimaryRetry ? "Primary" : "Secondary"}`
       );
       response = await this._nextPolicy.sendRequest(newRequest);
@@ -192,8 +191,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 
       secondaryHas404 = secondaryHas404 || (!isPrimaryRetry && response.status === 404);
     } catch (err) {
-      this.logf(
-        HttpPipelineLogLevel.ERROR,
+      logger.error(
         `RetryPolicy: Caught error, message: ${err.message}, code: ${err.code}`
       );
       if (!this.shouldRetry(isPrimaryRetry, attempt, response, err)) {
@@ -223,8 +221,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
     err?: RestError
   ): boolean {
     if (attempt >= this.retryOptions.maxTries!) {
-      this.logf(
-        HttpPipelineLogLevel.INFO,
+      logger.info(
         `RetryPolicy: Attempt(s) ${attempt} >= maxTries ${this.retryOptions
           .maxTries!}, no further try.`
       );
@@ -255,8 +252,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
               .toUpperCase()
               .includes(retriableError))
         ) {
-          this.logf(
-            HttpPipelineLogLevel.INFO,
+          logger.info(
             `RetryPolicy: Network error ${retriableError} found, will retry.`
           );
           return true;
@@ -270,14 +266,13 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
     if (response || err) {
       const statusCode = response ? response.status : err ? err.statusCode : 0;
       if (!isPrimaryRetry && statusCode === 404) {
-        this.logf(HttpPipelineLogLevel.INFO, `RetryPolicy: Secondary access with 404, will retry.`);
+        logger.info(`RetryPolicy: Secondary access with 404, will retry.`);
         return true;
       }
 
       // Server internal error or server timeout
       if (statusCode === 503 || statusCode === 500) {
-        this.logf(
-          HttpPipelineLogLevel.INFO,
+        logger.info(
           `RetryPolicy: Will retry for status code ${statusCode}.`
         );
         return true;
@@ -285,20 +280,6 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
     }
 
     return false;
-  }
-
-  /**
-   * This is to log for debugging purposes only.
-   * Comment/uncomment as necessary for releasing/debugging.
-   *
-   * @private
-   * @param {HttpPipelineLogLevel} _level
-   * @param {string} _message
-   * @memberof StorageRetryPolicy
-   */
-  // tslint:disable-next-line:variable-name
-  private logf(_level: HttpPipelineLogLevel, _message: string) {
-    // this.log(_level, _message);
   }
 
   /**
@@ -329,7 +310,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       delayTimeInMs = Math.random() * 1000;
     }
 
-    this.logf(HttpPipelineLogLevel.INFO, `RetryPolicy: Delay for ${delayTimeInMs}ms`);
+    logger.info(`RetryPolicy: Delay for ${delayTimeInMs}ms`);
     return delay(delayTimeInMs, abortSignal, RETRY_ABORT_ERROR);
   }
 }

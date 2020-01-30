@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { env } from "@azure/test-utils-recorder";
 import * as assert from "assert";
@@ -20,7 +20,7 @@ export function getKeyvaultName(): string {
   return keyVaultName;
 }
 
-export async function assertThrowsAbortError(cb: () => Promise<any>) {
+export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
   let passed = false;
   try {
     await cb();

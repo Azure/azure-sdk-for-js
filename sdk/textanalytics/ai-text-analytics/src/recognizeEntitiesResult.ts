@@ -28,7 +28,7 @@ export interface RecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResu
 /**
  * An error result from the recognize entities operation on a single document.
  */
-export interface RecognizeEntitiesErrorResult extends TextAnalyticsErrorResult {}
+export type RecognizeEntitiesErrorResult = TextAnalyticsErrorResult
 
 export function makeRecognizeEntitiesResult(
   id: string,

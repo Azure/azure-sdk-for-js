@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { getBSU, setupEnvironment } from "./utils";
+import { getBSU, recorderEnvSetup } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
@@ -10,8 +10,6 @@ import { URLBuilder } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -29,7 +27,8 @@ describe("DirectoryClient", () => {
   fullDirAttributes.noScrubData = true;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();

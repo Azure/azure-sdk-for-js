@@ -29,7 +29,7 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 /**
  * An error result from the extract key phrases operation on a single document.
  */
-export interface ExtractKeyPhrasesErrorResult extends TextAnalyticsErrorResult {}
+export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult
 
 export function makeExtractKeyPhrasesResult(
   id: string,

@@ -24,6 +24,11 @@ export interface TextAnalyticsSuccessResult {
    * in the client call.
    */
   readonly statistics?: TextDocumentStatistics;
+
+  /**
+   * Discriminant to determine if that this is an error result.
+   */
+  readonly error?: undefined;
 }
 
 /**
@@ -45,7 +50,7 @@ export interface TextAnalyticsErrorResult {
 export function makeTextAnalysisResult(
   id: string,
   statistics?: TextDocumentStatistics
-): TextAnalyticsResult {
+): TextAnalyticsSuccessResult {
   return {
     id,
     statistics

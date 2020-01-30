@@ -3,22 +3,26 @@ import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
-import { DataLakeFileSystemClient, FileSystemListPathsResponse } from "../src";
-import { getDataLakeServiceClient, setupEnvironment } from "./utils";
+import {
+  DataLakeFileSystemClient,
+  FileSystemListPathsResponse,
+  DataLakeServiceClient
+} from "../src";
+import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { URLBuilder } from "@azure/core-http";
 
 dotenv.config({ path: "../.env" });
 
 describe("DataLakeFileSystemClient", () => {
-  setupEnvironment();
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
 
   let recorder: Recorder;
+  let serviceClient: DataLakeServiceClient;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
