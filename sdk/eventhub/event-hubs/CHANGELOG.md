@@ -4,6 +4,8 @@
 
 - Fixed a potential issue with deadlock where greedy consumers could
   starve out other consumers, preventing us from properly balancing.
+- Fixed an issue where calling `subscription.close()` immediately
+  after calling `subscribe` would cause events to still be read.
 
 ## 5.0.0 (2020-01-09)
 

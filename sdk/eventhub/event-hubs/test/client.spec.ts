@@ -128,7 +128,7 @@ describe("Create EventHubClient using Azure Identity", function(): void {
 
 describe("ServiceCommunicationError for non existent namespace #RunnableInBrowser", function(): void {
   let client: EventHubClient;
-  const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError"
+  const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
   beforeEach(() => {
     client = new EventHubClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
