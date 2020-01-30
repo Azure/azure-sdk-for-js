@@ -16,9 +16,14 @@ export function createProxyAgent(
   headers?: HttpHeaders
 ): ProxyAgent {
   const host = URLBuilder.parse(proxySettings.host).getHost() as string;
-  if (!host || !isValidPort(proxySettings.port)) {
+  if (!host) {
     throw new Error(
-      "Expecting a non-empty host and a valid port number in the range of [0, 65535] in proxy settings."
+      "Expecting a non-empty host in proxy settings."
+    );
+  }
+  if (!isValidPort(proxySettings.port)) {
+    throw new Error(
+      "Expecting a valid port number in the range of [0, 65535] in proxy settings."
     );
   }
   const tunnelOptions: tunnel.HttpsOverHttpsOptions = {

@@ -83,9 +83,9 @@ describe("proxyAgent", () => {
     });
 
     [
-      { host: "", port: 8080 },
-      { host: "host", port: -1 },
-      { host: "host", port: 65536 }
+      { host: "", port: 8080, expectInvalidHostError: true },
+      { host: "host", port: -1, expectInvalidHostError: false },
+      { host: "host", port: 65536, expectInvalidHostError: false }
     ].forEach((testCase) => {
       it(`should throw error when being given an invalid proxy settings of { host: '${testCase.host}', port: ${testCase.port} }.`, function(done) {
         const proxySettings = {
@@ -97,7 +97,9 @@ describe("proxyAgent", () => {
           createProxyAgent("http://example.com", proxySettings);
         };
         fn.should.throw(
-          "Expecting a non-empty host and a valid port number in the range of [0, 65535] in proxy settings."
+          testCase.expectInvalidHostError?
+            "Expecting a non-empty host in proxy settings." :
+            "Expecting a valid port number in the range of [0, 65535] in proxy settings."
         );
         done();
       });
