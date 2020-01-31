@@ -164,8 +164,13 @@ export function deserializeResponseBody(
               ? `Unexpected status code: ${statusCode}`
               : (parsedResponse.bodyAsText as string);
 
-            const error = new RestError(initialErrorMessage);
-            error.statusCode = statusCode;
+            const error = new RestError(
+              initialErrorMessage,
+              undefined,
+              statusCode,
+              parsedResponse.request,
+              parsedResponse
+            );
 
             let parsedErrorResponse: { [key: string]: any } = parsedResponse.parsedBody;
             try {
