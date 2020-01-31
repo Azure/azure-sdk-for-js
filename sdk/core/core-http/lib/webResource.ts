@@ -503,6 +503,7 @@ export interface RequestOptionsBase {
 
   /**
    * The number of milliseconds a request can take before automatically being terminated.
+   * If the request is terminated, an abort error is thrown with the message - "The operation was aborted."
    */
   timeout?: number;
 
