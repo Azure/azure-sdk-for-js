@@ -13,7 +13,7 @@ import {
   findRecordingsFolderPath,
   RecorderEnvironmentSetup,
   filterSecretsFromStrings,
-  filterSecretsFromJSONContent
+  filterSecretsRecursivelyFromJSON
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -96,7 +96,7 @@ export abstract class BaseRecorder {
    */
   protected filterSecrets(content: any): any {
     const recordingFilterMethod =
-      typeof content === "string" ? filterSecretsFromStrings : filterSecretsFromJSONContent;
+      typeof content === "string" ? filterSecretsFromStrings : filterSecretsRecursivelyFromJSON;
     return recordingFilterMethod(
       content,
       this.environmentSetup.replaceableVariables,

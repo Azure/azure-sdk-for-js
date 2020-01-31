@@ -4,8 +4,8 @@ import {
   applyReplacementFunctions,
   encodeRFC3986,
   filterSecretsFromStrings,
-  filterSecretsFromJSONContent,
-  env
+  env,
+  filterSecretsRecursivelyFromJSON
 } from "../src/utils";
 import chai from "chai";
 import { setEnvironmentVariables } from "../src/baseRecorder";
@@ -178,6 +178,20 @@ ultramarine.com/url/PUBLIC
   });
 
   describe("filter secrets from content", () => {
+    function verifyFilterFunctionForJson(
+      recording: any,
+      replacementMap: { [ENV_VAR: string]: string },
+      replacements: Array<(content: string) => string>,
+      expectedFilteredOutput: any
+    ) {
+      const updatedRecording = filterSecretsRecursivelyFromJSON(
+        recording,
+        replacementMap,
+        replacements
+      );
+      expect(updatedRecording).to.deep.equal(expectedFilteredOutput);
+    }
+
     it("should work for strings", () => {
       env.SECRET = "SECRET";
       const replaceableVariables = { SECRET: "FAKE_IT" };
@@ -187,45 +201,159 @@ ultramarine.com/url/PUBLIC
       expect(updatedRecording).to.equal("HERE_IS_THE_FLAG-FAKE_IT");
     });
 
-    it("should work for JSON content", () => {
+    it("should work for JSON content #1 - secret is present in the query attributes, part of the xml response string", () => {
       env.ACCOUNT_NAME = "azureaccount";
       const replaceableVariables = { ACCOUNT_NAME: "fakestorageaccount" };
+      verifyFilterFunctionForJson(
+        {
+          recordings: [
+            {
+              method: "GET",
+              url: "https://azureaccount.net",
+              query: {
+                marker: "/azureaccount/queue156816850373302116x2",
+                maxresults: "1"
+              },
+              response:
+                '<?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://azureaccount.queue.core.windows.net/"><Prefix>queue156816850373302116</Prefix><Marker>/azureaccount/queue156816850373302116x2</Marker><MaxResults>1</MaxResults><Queues><Queue><Name>queue156816850373302116x2</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker /></EnumerationResults>',
+              responseHeaders: {
+                server: "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0"
+              }
+            }
+          ]
+        },
+        replaceableVariables,
+        [],
+        {
+          recordings: [
+            {
+              method: "GET",
+              url: "https://fakestorageaccount.net",
+              query: {
+                marker: "/fakestorageaccount/queue156816850373302116x2",
+                maxresults: "1"
+              },
+              response:
+                '<?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://fakestorageaccount.queue.core.windows.net/"><Prefix>queue156816850373302116</Prefix><Marker>/fakestorageaccount/queue156816850373302116x2</Marker><MaxResults>1</MaxResults><Queues><Queue><Name>queue156816850373302116x2</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker /></EnumerationResults>',
+              responseHeaders: {
+                server: "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0"
+              }
+            }
+          ]
+        }
+      );
+    });
 
-      const recording = {
-        recordings: [
-          {
-            method: "GET",
-            url: "https://azureaccount.net",
-            query: {
-              marker: "/azureaccount/queue156816850373302116x2",
-              maxresults: "1"
-            },
-            response:
-              '<?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://azureaccount.queue.core.windows.net/"><Prefix>queue156816850373302116</Prefix><Marker>/azureaccount/queue156816850373302116x2</Marker><MaxResults>1</MaxResults><Queues><Queue><Name>queue156816850373302116x2</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker /></EnumerationResults>',
-            responseHeaders: {
-              server: "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0"
+    it("should work for JSON content #2 - secret is present as part of a JSON lookalike response string ", () => {
+      verifyFilterFunctionForJson(
+        {
+          recording: [
+            {
+              response:
+                '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiwN"}'
             }
-          }
-        ]
-      };
-      const updatedRecording = filterSecretsFromJSONContent(recording, replaceableVariables, []);
-      expect(updatedRecording).to.deep.equal({
-        recordings: [
-          {
-            method: "GET",
-            url: "https://fakestorageaccount.net",
-            query: {
-              marker: "/fakestorageaccount/queue156816850373302116x2",
-              maxresults: "1"
-            },
-            response:
-              '<?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://fakestorageaccount.queue.core.windows.net/"><Prefix>queue156816850373302116</Prefix><Marker>/fakestorageaccount/queue156816850373302116x2</Marker><MaxResults>1</MaxResults><Queues><Queue><Name>queue156816850373302116x2</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker /></EnumerationResults>',
-            responseHeaders: {
-              server: "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0"
+          ]
+        },
+        {},
+        [
+          (recording: any): any =>
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+        ],
+        {
+          recording: [
+            {
+              response:
+                '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}'
             }
-          }
+          ]
+        }
+      );
+    });
+
+    it("should work for JSON content #3 - array of JSON objects", () => {
+      env.ACCOUNT_NAME = "azureaccount";
+      const replaceableVariables = { ACCOUNT_NAME: "fakestorageaccount" };
+      verifyFilterFunctionForJson(
+        [
+          {
+            response:
+              '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiwN"}'
+          },
+          { url: "http://bing.com" },
+          { ACCOUNT_NAME: "azureaccount" }
+        ],
+        replaceableVariables,
+        [
+          (recording: any): any =>
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+        ],
+        [
+          {
+            response:
+              '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}'
+          },
+          { url: "http://bing.com" },
+          { ACCOUNT_NAME: "fakestorageaccount" }
         ]
-      });
+      );
+    });
+
+    it("should work for JSON content #4 - JSON content with key-value pair strings", () => {
+      verifyFilterFunctionForJson(
+        {
+          response:
+            '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiwN"}'
+        },
+        {},
+        [
+          (recording: any): any =>
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+        ],
+        {
+          response:
+            '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}'
+        }
+      );
+    });
+
+    it("should work for JSON content #5 - regex to be replaced is present as a key-value pair in the JSON content", () => {
+      verifyFilterFunctionForJson(
+        { access_token: "eyJ0eXA75E_Q" },
+        {},
+        [
+          (recording: any): any =>
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+        ],
+        { access_token: "access_token" }
+      );
+    });
+
+    it("should work for JSON content #6 - JSON.stringify-ed content with regex to be replaced is present as a key-value pair at the top level in the JSON content", () => {
+      verifyFilterFunctionForJson(
+        JSON.stringify({ access_token: "eyJ0eXA75E_Q" }),
+        {},
+        [
+          (recording: any): any =>
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+        ],
+        JSON.stringify({ access_token: "access_token" })
+      );
+    });
+
+    it("should work for JSON content #7 - JSON.stringify-ed content - regex to be replaced is present as a key-value pair somewhere inside the tree in the JSON content", () => {
+      verifyFilterFunctionForJson(
+        JSON.stringify({
+          recording: [{ access_token: "eyJ0eXA75E_Q" }]
+        }),
+        {},
+        [
+          (recording: any): any =>
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+        ],
+        JSON.stringify({
+          recording: [{ access_token: "access_token" }]
+        })
+      );
     });
   });
 

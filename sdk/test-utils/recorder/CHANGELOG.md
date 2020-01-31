@@ -1,3 +1,7 @@
+## 2020-01-30
+
+- Fixed a bug where the replacements aren't properly filtered in the JSON recordings. [#7175](https://github.com/Azure/azure-sdk-for-js/issues/7175)
+
 ## 2020-01-29
 
 - [BREAKING] `replaceInRecordings` attribute of `RecorderEnvironmentSetup` interface has been renamed to `customizationsOnRecordings`.
