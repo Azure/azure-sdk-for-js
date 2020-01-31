@@ -20,7 +20,6 @@ describe("RestError", function() {
     };
     const error = new RestError("Error!", "LIFE", response.status, request, response);
     const result = inspect(error, false, 8);
-    console.log(`result from new test is ${result}`);
     assert.notInclude(result, "SUPER SECRET");
     assert.notInclude(result, "SUPER DUPER SECRET");
     assert.include(result, "REDACTED");
