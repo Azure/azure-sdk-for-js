@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.0-preview.1/languages",
+   "query": {},
+   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"Hello!\",\"countryHint\":\"us\"}]}",
+   "status": 200,
+   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguages\":[{\"name\":\"English\",\"iso6391Name\":\"en\",\"score\":1.0}]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
+   "responseHeaders": {
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "Operation-Location,Location",
+    "apim-request-id": "77ec59e2-adb0-454e-aa64-a1014d113603",
+    "content-type": "application/json; charset=utf-8",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
+    "date": "Fri, 31 Jan 2020 18:49:32 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "4"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ }
+}
