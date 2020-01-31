@@ -8,6 +8,7 @@ const argparse = require("argparse");
 const Handlebars = require("handlebars");
 const jju = require("jju");
 const tar = require("tar");
+const yaml = require("js-yaml");
 
 const readdir = util.promisify(fs.readdir);
 const readFile = util.promisify(fs.readFile);
@@ -35,6 +36,11 @@ const getRushPackages = async (rushPath) => {
   }
 
   return packageData;
+};
+
+const readPnpmLock = async (lockPath) => {
+  const data = await readFile(lockPath, "utf8");
+  return yaml.safeLoad(data);
 };
 
 const readCompressedFile = async (archivePath, filePath, encoding) => {
@@ -152,6 +158,50 @@ const constructDeps = (pkgs) => {
   return dependencies;
 };
 
+const dumpRushPackages = (rushPackages) => {
+  const dumpData = {};
+  for (const [pkgName, pkgInfo] of Object.entries(rushPackages)) {
+    const deps = Object.entries(pkgInfo.run || {})
+      .map(([name, version]) => ({ name, version }))
+
+    dumpData[`${pkgName}:${pkgInfo.ver}`] = {
+      name: pkgName,
+      version: pkgInfo.ver,
+      type: 'internal',
+      deps: deps
+    };
+  }
+  return dumpData;
+};
+
+const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId) => {
+  const yamlKey = `@rush-temp/${packages[pkgId].name.replace("@azure/", "")}`;
+  const packageKey = pnpmLock.dependencies[yamlKey];
+  const resolvedDeps = pnpmLock.packages[packageKey].dependencies;
+
+  for (const dep of packages[pkgId].deps) {
+    if (resolvedDeps[dep.name]) {
+      // Replace the version spec with the resolved version
+      dep.version = resolvedDeps[dep.name];
+
+      // Add the dependency to the top level of the packages list
+      const depId = `${dep.name}:${dep.version}`;
+      if (!packages[depId]) {
+        packages[depId] = {
+          name: dep.name,
+          version: dep.version,
+          type: internalPackages.includes(dep.name) ? 'internalbinary' : 'external',
+          deps: []
+        };
+      }
+    } else {
+      // Local linked projects are not listed here, so pull the version from the local package.json
+      const depInfo = Object.values(packages).find(pkgInfo => pkgInfo.name == dep.name);
+      dep.version = depInfo.version;
+    }
+  }
+};
+
 const main = async () => {
   const parser = new argparse.ArgumentParser({
     prog: "analyze-deps",
@@ -159,6 +209,7 @@ const main = async () => {
   });
   parser.addArgument("--verbose", { help: "verbose output", action: "storeTrue" });
   parser.addArgument("--out", { metavar: "FILE", help: "write HTML-formatted report to FILE" });
+  parser.addArgument("--dump", { metavar: "FILE", help: "write JSONP-formatted dependency data to FILE" });
   parser.addArgument("--packdir", {
     metavar: "DIR",
     help: "analyze packed tarballs in DIR rather than source packages in this repository"
@@ -232,6 +283,16 @@ const main = async () => {
 
   if (args.out) {
     await render(context, args.out);
+  }
+
+  if (args.dump) {
+    const internalPackages = Object.keys(rushPackages);
+    const dumpData = dumpRushPackages(context.packages);
+    const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../common/config/rush/pnpm-lock.yaml`));
+    for (const pkgId of Object.keys(dumpData)) {
+      resolveRushPackageDeps(dumpData, internalPackages, pnpmLock, pkgId);
+    }
+    await writeFile(args.dump, "const data = " + JSON.stringify(dumpData) + ";");
   }
 };
 
