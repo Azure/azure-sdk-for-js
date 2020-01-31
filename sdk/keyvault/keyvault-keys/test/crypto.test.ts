@@ -92,21 +92,27 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     assert.ok(verifyResult);
   });
 
-    it("wrap and unwrap with rsa1_5", async function() {
-      recorder.skip(undefined, "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode");
-      const text = "arepa";
-      const wrapped = await cryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));
-      const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
-      const unwrappedText = uint8ArrayToString(unwrappedResult.result);
-      assert.equal(text, unwrappedText);
-    });
+  it("wrap and unwrap with rsa1_5", async function() {
+    recorder.skip(
+      undefined,
+      "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
+    );
+    const text = "arepa";
+    const wrapped = await cryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));
+    const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
+    const unwrappedText = uint8ArrayToString(unwrappedResult.result);
+    assert.equal(text, unwrappedText);
+  });
 
-    it("wrap and unwrap with RSA-OAEP", async function() {
-      recorder.skip(undefined, "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode");
-      const text = this.test!.title;
-      const wrapped = await cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
-      const unwrappedResult = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
-      const unwrappedText = uint8ArrayToString(unwrappedResult.result);
-      assert.equal(text, unwrappedText);
-    });
+  it("wrap and unwrap with RSA-OAEP", async function() {
+    recorder.skip(
+      undefined,
+      "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
+    );
+    const text = this.test!.title;
+    const wrapped = await cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
+    const unwrappedResult = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
+    const unwrappedText = uint8ArrayToString(unwrappedResult.result);
+    assert.equal(text, unwrappedText);
+  });
 });
