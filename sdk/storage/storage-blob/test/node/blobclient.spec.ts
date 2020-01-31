@@ -9,13 +9,14 @@ import {
   ContainerClient,
   BlockBlobClient,
   generateBlobSASQueryParameters,
-  BlobSASPermissions
+  BlobSASPermissions,
+  BlobServiceClient
 } from "../../src";
 import {
   bodyToString,
   getBSU,
   getConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -23,8 +24,6 @@ import { record, delay } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient Node.js only", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -34,8 +33,10 @@ describe("BlobClient Node.js only", () => {
 
   let recorder: any;
 
+  let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -139,12 +140,14 @@ describe("BlobClient Node.js only", () => {
     await blobSnapshotClient.delete();
     await blobClient.delete();
 
-    const result2 = (await containerClient
-      .listBlobsFlat({
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    const result2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     // Verify that the snapshot is deleted
     assert.equal(result2.segment.blobItems!.length, 0);
@@ -157,12 +160,14 @@ describe("BlobClient Node.js only", () => {
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
     await blobSnapshotClient.getProperties();
 
-    const result3 = (await containerClient
-      .listBlobsFlat({
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    const result3 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
@@ -196,23 +201,27 @@ describe("BlobClient Node.js only", () => {
 
     await blobClient.delete();
 
-    const result = (await containerClient
-      .listBlobsFlat({
-        includeDeleted: true
-      })
-      .byPage()
-      .next()).value;
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          includeDeleted: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     assert.ok(result.segment.blobItems![0].deleted);
 
     await blobClient.undelete();
 
-    const result2 = (await containerClient
-      .listBlobsFlat({
-        includeDeleted: true
-      })
-      .byPage()
-      .next()).value;
+    const result2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeDeleted: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     assert.ok(!result2.segment.blobItems![0].deleted);
   });
@@ -244,22 +253,6 @@ describe("BlobClient Node.js only", () => {
     const properties2 = await newBlobClient.getProperties();
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
-  });
-
-  it("abortCopyFromClient should failed for a completed copy operation", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
-    const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
-    assert.ok(result.copyId);
-    delay(1 * 1000);
-
-    try {
-      await newBlobClient.beginCopyFromURL(result.copyId!);
-      assert.fail(
-        "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
-      );
-    } catch (err) {
-      assert.ok((err as any).response.parsedBody.Code === "InvalidHeaderValue");
-    }
   });
 
   it("setAccessTier set default to cool", async () => {

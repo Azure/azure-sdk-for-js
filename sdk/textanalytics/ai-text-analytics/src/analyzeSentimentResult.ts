@@ -43,7 +43,7 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 /**
  * An error result from the analyze sentiment operation on a single document.
  */
-export interface AnalyzeSentimentErrorResult extends TextAnalyticsErrorResult {}
+export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult
 
 export function makeAnalyzeSentimentResult(
   id: string,

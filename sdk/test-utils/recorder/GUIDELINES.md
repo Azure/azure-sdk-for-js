@@ -21,33 +21,21 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 - `record` from `@azure/test-utils-recorder` package should be imported in the test files.
 
-- `recorder = record(this);` initiates recording the HTTP requests and when `recorder.stop();` is called, the recording stops
+### Recording the tests
+
+- `recorder = record(this, recorderEnvSetup);` initiates recording the HTTP requests and when `recorder.stop();` is called, the recording stops
   and all the HTTP requests recorded in between the two calls are saved as part of the recording in the `"record"` mode.
-  In the same way, existing recordings are leveraged and played back in the `"playback"` mode when `recorder = record(this);` is invoked.
+  In the same way, existing recordings are leveraged and played back in the `"playback"` mode when `recorder = record(this, recorderEnvSetup);` is invoked.
   [Has no effect if the `TEST_MODE` is `"live"`, tests hit the live-service, we don't record the requests/responses]
 
-- Follow the below template for adding a new test. `before` and `after` sections are optional, `beforeEach` and `afterEach` sections are compulsory.
+- Follow the below template for adding a new test. `beforeEach` and `afterEach` sections are compulsory.
 
   ```typescript
   import { record } from "@azure/test-utils-recorder";
 
   describe("<describe-block-title>", () => {
-    // before section is optional
-    before(async function() {
-      recorder = record(this);
-      /*Place your code here*/
-      recorder.stop();
-    });
-
-    // after section is optional
-    after(async function() {
-      recorder = record(this);
-      /*Place your code here*/
-      recorder.stop();
-    });
-
     beforeEach(async function() {
-      recorder = record(this);
+      recorder = record(this, recorderEnvSetup);
       /*Place your code here*/
     });
 
@@ -64,17 +52,56 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 - Consider the `beforeEach`, `afterEach` and `it` blocks in the above test-suite.
 
-  - `recorder = record(this);` is invoked in the `beforeEach` section and `recorder.stop();` in the `afterEach` section.
+  - `recorder = record(this, recorderEnvSetup);` is invoked in the `beforeEach` section and `recorder.stop();` in the `afterEach` section.
   - All the HTTP requests recorded in between the two calls are saved as part of the test(`it` block) recording in the `"record"` mode.
-  - Existing test recording is played back when invoked `recorder = record(this);` in the `"playback"` mode.
+  - Existing test recording is played back when invoked `recorder = record(this, recorderEnvSetup);` in the `"playback"` mode.=
+  - Any function call that affects http requests and is not in the `it`-block and belongs to a `describe`-block must go in one of the `beforeEach` or `afterEach` sections.
 
-- Recordings corresponding to `beforeEach` or `afterEach` sections are saved along with the test recordings(`recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`).
+### ENV Setup - `recorderEnvSetup`
 
-- Recordings corresponding to `before` or `after` sections are saved separately under `recordings/{node|browsers}/<describe-block-title>/recording_before_all_hook.{js|json}`.
+- Required `recorderEnvSetup` has to be defined before invoking the recording
 
-- `Mocha.Context` is being leveraged to obtain the test title and other required information to save and replay the recordings.
+  ```typescript
+  interface RecorderEnvironmentSetup {
+    replaceableVariables: { [ENV_VAR: string]: string };
+    replaceInRecordings: Array<(recording: string) => string>;
+    queryParametersToSkip: Array<string>;
+  }
+  ```
 
-- Any function call that affects http requests and is not in the `it`-block and belongs to a `describe`-block must go in one of the `beforeEach`, `afterEach`, `before` or `after` sections.
+- `RecorderEnvironmentSetup` type is being exposed from the `@azure/test-utils-recorder` package.
+  Environment variables for the tests in the sdk can be managed with the setup on a per-test basis.
+
+- `replaceableVariables: { [ENV_VAR: string]: string };`
+
+  - Used in both record and playback modes.
+  - `replaceableVariables` is a dictionary with key-value pairs.
+  - The key-value pairs will be used as the environment variables in playback mode.
+  - If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode.
+
+- `replaceInRecordings: Array<(recording: string) => string>;`
+
+  - Used only in record mode.
+  - Array of callback functions provided to customize the generated recordings in record mode
+  - Example with one callback function -
+    ```typescript
+    // `sig` param of SAS Token is being filtered here from the recordings..
+    (recording: string): string =>
+      recording.replace(new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"), "aaaaa");
+    ```
+
+- `queryParametersToSkip: Array<string>;`
+
+  - Used in record and playback modes
+  - Array of query parameters provided will be filtered from the requests
+
+- With the above attributes, declare the `recorderEnvSetup` to use it below.
+
+### Saving the recordings
+
+- Any potential plain secrets in the recordings are replaced with dummy values provided at `replaceableVariables` and `replaceInRecordings`.
+
+- `Mocha.Context` is being leveraged to obtain the test title and other required information to save and replay the recordings. Recordings corresponding to `beforeEach`, `it` and `afterEach` sections are saved as a single test recording(`recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`).
 
 ### Member functions getUniqueName() and newDate() of the `Recorder`
 
@@ -83,7 +110,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 - `Recorder` returned by the `record()` method has `getUniqueName()` and `newDate()` member functions along with the `stop()`.
 
   ```typescript
-  recorder = record(this);
+  recorder = record(this, recorderEnvSetup);
 
   const randomName = recorder.getUniqueName("random");
   const tmr = recorder.newDate("tmr");
@@ -158,7 +185,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   ```typescript
   describe("Some Random Test Suite", () => {
     beforeEach(async function() {
-      recorder = record(this);
+      recorder = record(this, recorderEnvSetup);
       /*Place your code here*/
     });
 
@@ -179,49 +206,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
   [ Following this rule - `./recordings/node/<describe-block-title>/recording_<test-title>.js` ]
 
-- Just like the test recordings, we save the requests and responses from the `before` and `after` sections of the describe block in - `recordings/{node|browsers}/<describe-block-title>/recording_before_all_hook.{js|json}`.
 - In node recordings(Nock), the query parameters are not being stored and the SAS Token query parameters are not being stored in browser recordings(Nise).
-
-### ENV Variables
-
-- Any potential plain secrets in the recordings are replaced with dummy values.
-- `setReplaceableVariables` and `setReplacements` methods are being exposed from the recorder package so that the environment variables can be managed from the tests in the sdk. These two methods can be imported from `@azure/test-utils-recorder`.
-- Taking tests in the Keyvault sdk as an example -
-
-  ```typescript
-  setReplaceableVariables({
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "azure_tenant_id",
-    KEYVAULT_NAME: "keyvault_name"
-  });
-  ```
-
-  Calling the `setReplaceableVariables` method would mean that
-
-  - In playback mode, the environment variables will be overriden by the provided values.
-  - In record mode, occurences of the environment variables in the recordings are replaced with the provided values.
-  - This has no effect in the `live` test mode.
-
-  ```typescript
-  setReplacements([
-    (recording: any): any =>
-      recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-    (recording: any): any =>
-      keySuffix === "" ? recording : recording.replace(new RegExp(keySuffix, "g"), "")
-  ]);
-  ```
-
-  Calling the `setReplacements` method would mean that
-
-  - In `record` mode, occurences of any strings in the recordings that match the regular expressions are replaced with the provided values.
-  - This has no effect in the `live` test mode or `playback` mode.
-
-- The above methods can be called from the `before` section so that the tests can leverage the environment variables.
-
-  The same dummy values are used as the environment variables during the playback mode.
-
----
 
 ## Skipping a test
 
@@ -268,7 +253,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   Import `jsonRecordingFilterFunction` from `"@azure/test-utils-recorder"` as shown below.
 
   ```javascript
-  const jsonRecordingFilter = require("@azure/test-utils-recorder").jsonRecordingFilterFunction;
+  const { jsonRecordingFilterFunction } = require("@azure/test-utils-recorder");
   ```
 
   jsonToFileReporter in karma.conf.js filters the JSON strings in console.logs
@@ -278,7 +263,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
   jsonToFileReporter: {
     // required - to save the recordings of browser tests
-    filter: jsonRecordingFilter,
+    filter: jsonRecordingFilterFunction,
     outputPath: "."
   },
 

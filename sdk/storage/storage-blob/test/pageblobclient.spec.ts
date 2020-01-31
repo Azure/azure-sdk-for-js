@@ -4,15 +4,21 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
-import { ContainerClient, BlobClient, PageBlobClient, PremiumPageBlobTier } from "../src";
+import {
+  ContainerClient,
+  BlobClient,
+  PageBlobClient,
+  PremiumPageBlobTier,
+  BlobServiceClient,
+  RestError
+} from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobClient", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
+  let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -22,7 +28,8 @@ describe("PageBlobClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -84,7 +91,7 @@ describe("PageBlobClient", () => {
       const properties = await blobClient.getProperties();
       assert.equal(properties.accessTier, options.tier);
     } catch (err) {
-      if (err.message.indexOf("AccessTierNotSupportedForBlobType") == -1) {
+      if (err.code !=="AccessTierNotSupportedForBlobType") {
         // not found
         assert.fail("Error thrown while it's not AccessTierNotSupportedForBlobType.");
       }
@@ -205,7 +212,7 @@ describe("PageBlobClient", () => {
         transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
       });
     } catch (err) {
-      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+      if (err instanceof RestError && err.code ==="Crc64Mismatch") {
         exceptionCaught = true;
       }
     }

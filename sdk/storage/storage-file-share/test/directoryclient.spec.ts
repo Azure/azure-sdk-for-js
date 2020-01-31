@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { getBSU, setupEnvironment } from "./utils";
+import { getBSU, recorderEnvSetup } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
@@ -10,8 +10,6 @@ import { URLBuilder } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("DirectoryClient", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -29,7 +27,8 @@ describe("DirectoryClient", () => {
   fullDirAttributes.noScrubData = true;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
@@ -149,6 +148,26 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
+  });
+
+  it("report error with correct code and message", async () => {
+    const name = recorder.getUniqueName("testingerror");
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(name));
+    try {
+      await dirClient2.create();
+      await dirClient2.create();
+      assert.fail();
+    } catch (error) {
+      assert.equal(
+        error.code,
+        "ResourceAlreadyExists",
+        `Error doesn't have the expected code. Actual code: ${error.code}`
+      );
+      assert.ok(
+        error.message.startsWith("The specified resource already exists."),
+        `Error doesn't have the expected message. Actual message: ${error.message}`
+      );
+    }
   });
 
   it("setProperties with default parameters", async () => {

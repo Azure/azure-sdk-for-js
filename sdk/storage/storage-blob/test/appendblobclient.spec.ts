@@ -4,7 +4,7 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
 import { record } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
@@ -12,8 +12,6 @@ import { AppendBlobClient, ContainerClient } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("AppendBlobClient", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -22,7 +20,8 @@ describe("AppendBlobClient", () => {
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -137,8 +136,14 @@ describe("AppendBlobClient", () => {
       await appendBlobClient.appendBlock(content, content.length, {
         transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
       });
+      assert.fail();
     } catch (err) {
-      if (err instanceof Error && err.message.indexOf("Crc64Mismatch") != -1) {
+      if (
+        err instanceof Error &&
+        err.message.indexOf(
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+        ) != -1
+      ) {
         exceptionCaught = true;
       }
 
@@ -146,6 +151,29 @@ describe("AppendBlobClient", () => {
         err.details.errorCode,
         "Crc64Mismatch",
         "Error does not contain details property"
+      );
+      assert.equal(
+        err.code,
+        "Crc64Mismatch",
+        "Error does not have the expected code 'Crc64Mismatch'"
+      );
+      assert.ok(
+        err.message.startsWith(
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+        ),
+        `Error does not have the expected message, actual message: ${err.message}`
+      );
+      // vaildate "Code" and "Message" too for back-compatibility
+      assert.equal(
+        err.Code,
+        "Crc64Mismatch",
+        "Error does not have the expected code 'Crc64Mismatch'"
+      );
+      assert.ok(
+        err.Message.startsWith(
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+        ),
+        `Error does not have the expected message, actual message: ${err.message}`
       );
     }
 

@@ -3,24 +3,23 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
-import { DataLakeFileSystemClient, RestError } from "../src";
+import { DataLakeFileSystemClient, RestError, DataLakeServiceClient } from "../src";
 import { newPipeline, Pipeline } from "../src/Pipeline";
-import { getDataLakeServiceClient, setupEnvironment } from "./utils";
+import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
 dotenv.config({ path: "../.env" });
 
 describe("RetryPolicy", () => {
-  setupEnvironment();
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let dataLakeFileSystemClient: DataLakeFileSystemClient;
 
   let recorder: Recorder;
-
+  let serviceClient: DataLakeServiceClient;
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("container");
     dataLakeFileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await dataLakeFileSystemClient.create();
@@ -42,7 +41,10 @@ describe("RetryPolicy", () => {
     const factories = (dataLakeFileSystemClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerClient = new DataLakeFileSystemClient(dataLakeFileSystemClient.url, pipeline);
+    const injectContainerClient = new DataLakeFileSystemClient(
+      dataLakeFileSystemClient.url,
+      pipeline
+    );
 
     const metadata = {
       key0: "val0",
@@ -67,7 +69,10 @@ describe("RetryPolicy", () => {
     const factories = (dataLakeFileSystemClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerClient = new DataLakeFileSystemClient(dataLakeFileSystemClient.url, pipeline);
+    const injectContainerClient = new DataLakeFileSystemClient(
+      dataLakeFileSystemClient.url,
+      pipeline
+    );
 
     const metadata = {
       key0: "val0",
@@ -101,7 +106,10 @@ describe("RetryPolicy", () => {
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerClient = new DataLakeFileSystemClient(dataLakeFileSystemClient.url, pipeline);
+    const injectContainerClient = new DataLakeFileSystemClient(
+      dataLakeFileSystemClient.url,
+      pipeline
+    );
 
     let hasError = false;
     try {
@@ -142,7 +150,10 @@ describe("RetryPolicy", () => {
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
-    const injectContainerClient = new DataLakeFileSystemClient(dataLakeFileSystemClient.url, pipeline);
+    const injectContainerClient = new DataLakeFileSystemClient(
+      dataLakeFileSystemClient.url,
+      pipeline
+    );
 
     let finalRequestURL = "";
     try {
