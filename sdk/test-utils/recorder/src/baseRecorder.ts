@@ -13,8 +13,7 @@ import {
   findRecordingsFolderPath,
   RecorderEnvironmentSetup,
   filterSecretsFromStrings,
-  filterSecretsFromJSONContent,
-  env
+  filterSecretsFromJSONContent
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -30,7 +29,7 @@ let nock: any;
  * @export
  * @param {{ [key: string]: string }} replaceableVariables
  */
-export function setEnvironmentVariables(replaceableVariables: { [key: string]: string }) {
+export function setEnvironmentVariables(env: any, replaceableVariables: { [key: string]: string }) {
   Object.keys(replaceableVariables).map((key) => {
     env[key] = replaceableVariables[key];
   });

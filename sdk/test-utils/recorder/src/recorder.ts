@@ -6,7 +6,8 @@ import {
   isBrowser,
   isRecordMode,
   isPlaybackMode,
-  RecorderEnvironmentSetup
+  RecorderEnvironmentSetup,
+  env
 } from "./utils";
 import {
   NiseRecorder,
@@ -103,7 +104,7 @@ export function record(
     // If TEST_MODE=playback,
     //  1. sets up the ENV variables
     //  2. invokes the recorder, play the exisiting test recording.
-    setEnvironmentVariables(recorderEnvironmentSetup.replaceableVariables);
+    setEnvironmentVariables(env, recorderEnvironmentSetup.replaceableVariables);
     recorder.playback(recorderEnvironmentSetup, testContext.currentTest!.file!);
   }
   // If TEST_MODE=live, hits the live-service and no recordings are generated.
