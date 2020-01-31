@@ -13,7 +13,7 @@ param (
   [string] $TestApplicationSecret
 )
 
-$storageAccountName = $DeploymentOutputs['STORAGE_ACCOUNT_NAME']
+$storageAccountName = $DeploymentOutputs['ACCOUNT_NAME']
 $context = New-AzStorageContext -StorageAccountName $storageAccountName
 
 # https://docs.microsoft.com/en-us/powershell/module/az.storage/set-azstoragecorsrule?view=azps-3.3.0
