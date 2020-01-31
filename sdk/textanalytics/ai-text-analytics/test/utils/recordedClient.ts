@@ -30,7 +30,15 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   },
   replaceInRecordings: [
     (recording: string): string =>
-      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`)
+      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
+    // If we put ENDPOINT in replaceableVariables above, it will not capture
+    // the endpoint string used with nock, which will be expanded to
+    // https://<endpoint>:443/ and therefore will not match, so we have to do
+    // this instead.
+    (recording: string): string => {
+      const match = env.ENDPOINT.replace(/^https:\/\//, "").replace(/\/$/, "");
+      return recording.replace(match, "endpoint");
+    }
   ],
   queryParametersToSkip: []
 };
