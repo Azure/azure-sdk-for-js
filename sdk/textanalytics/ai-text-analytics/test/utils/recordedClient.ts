@@ -28,7 +28,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     SUBSCRIPTION_KEY: "subscription_key",
     ENDPOINT: "https://endpoint/"
   },
-  replaceInRecordings: [
+  customizationsOnRecordings: [
     (recording: string): string =>
       recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
     // If we put ENDPOINT in replaceableVariables above, it will not capture
