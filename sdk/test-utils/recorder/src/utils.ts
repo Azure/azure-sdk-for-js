@@ -301,7 +301,11 @@ export function findRecordingsFolderPath(filePath: string): string {
   try {
     // While loop to find the `recordings` folder
     while (!fs.existsSync(path.resolve(currentPath, "recordings/"))) {
-      if (fs.existsSync(path.resolve(currentPath, "package.json"))) {
+      if (
+        fs.existsSync(path.resolve(currentPath, "package.json")) &&
+        fs.existsSync(path.resolve(currentPath, "..", "..", "sdk/")) &&
+        fs.existsSync(path.resolve(currentPath, "..", "..", "..", "rush.json"))
+      ) {
         // package.json of the SDK is found but not the `recordings` folder
         // which is supposed to be present at the same level as package.json
         throw new Error(`'recordings' folder is not found at ${currentPath}`);

@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// The eslint plugin mentioned below doesn't follow through the extended types.
+/* eslint-disable @azure/azure-sdk/ts-apisurface-supportcancellation */
+
+// This file makes more sense if ordered based on how meaningful are some methods in relation to others.
+/* eslint-disable @typescript-eslint/member-ordering */
+
 import {
   TokenCredential,
   isTokenCredential,
@@ -297,19 +303,19 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
       if (names.emails && names.emails.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          emails: <ArrayOneOrMore<string>>names.emails
+          emails: names.emails as ArrayOneOrMore<string>
         };
       }
       if (names.dnsNames && names.dnsNames.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          dnsNames: <ArrayOneOrMore<string>>names.dnsNames
+          dnsNames: names.dnsNames as ArrayOneOrMore<string>
         };
       }
       if (names.upns && names.upns.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          userPrincipalNames: <ArrayOneOrMore<string>>names.upns
+          userPrincipalNames: names.upns as ArrayOneOrMore<string>
         };
       }
     }
@@ -534,7 +540,7 @@ export class CertificateClient {
     const iter = this.listPropertiesOfCertificatesAll(updatedOptions);
 
     span.end();
-    let result = {
+    const result = {
       next() {
         return iter.next();
       },
@@ -626,7 +632,7 @@ export class CertificateClient {
     const iter = this.listPropertiesOfCertificateVersionsAll(certificateName, updatedOptions);
 
     span.end();
-    let result = {
+    const result = {
       next() {
         return iter.next();
       },
@@ -745,7 +751,7 @@ export class CertificateClient {
     contacts: CertificateContact[],
     options: SetContactsOptions = {}
   ): Promise<CertificateContact[] | undefined> {
-    let coreContacts = contacts.map((x) => ({
+    const coreContacts = contacts.map((x) => ({
       emailAddress: x ? x.email : undefined,
       name: x ? x.name : undefined,
       phone: x ? x.phone : undefined
@@ -879,7 +885,7 @@ export class CertificateClient {
     const iter = this.listPropertiesOfIssuersAll(updatedOptions);
 
     span.end();
-    let result = {
+    const result = {
       next() {
         return iter.next();
       },
@@ -912,8 +918,8 @@ export class CertificateClient {
     provider: string,
     options: CreateIssuerOptions = {}
   ): Promise<CertificateIssuer> {
-    //Unflatten issuer credentials
-    let unflattenedOptions = {
+    // Unflatten issuer credentials
+    const unflattenedOptions = {
       ...options,
       credentials: { accountId: options.accountId, password: options.password }
     };
@@ -1758,7 +1764,7 @@ export class CertificateClient {
     const iter = this.listDeletedCertificatesAll(updatedOptions);
 
     span.end();
-    let result = {
+    const result = {
       next() {
         return iter.next();
       },
@@ -1994,7 +2000,7 @@ export class CertificateClient {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
-    let abstractProperties: CertificateProperties = {
+    const abstractProperties: CertificateProperties = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,
@@ -2052,7 +2058,7 @@ export class CertificateClient {
 
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
-    let abstractProperties: CertificateProperties = {
+    const abstractProperties: CertificateProperties = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,
@@ -2084,7 +2090,7 @@ export class CertificateClient {
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
     const policy = toPublicPolicy(certificateBundle.policy || {});
 
-    let abstractProperties: CertificateProperties = {
+    const abstractProperties: CertificateProperties = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,
@@ -2129,7 +2135,7 @@ export class CertificateClient {
 
     const attributes: any = item.attributes || {};
 
-    let abstractProperties: any = {
+    const abstractProperties: any = {
       name: parsedId.name,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
