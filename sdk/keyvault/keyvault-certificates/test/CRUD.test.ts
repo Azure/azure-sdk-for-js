@@ -3,8 +3,7 @@
 
 import * as assert from "assert";
 import { CertificateClient } from "../src";
-import { isNode } from "@azure/core-http";
-import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env } from "@azure/test-utils-recorder";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -68,9 +67,9 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can create a certificate with requestOptions timeout", async function() {
+      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
       await assertThrowsAbortError(async () => {
@@ -82,7 +81,6 @@ describe("Certificates client - create, read, update and delete", () => {
         });
       });
     });
-  }
 
   it("cannot create a certificate with an empty name", async function() {
     const certificateName = "";
@@ -127,9 +125,9 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can update certificate with requestOptions timeout", async function() {
+      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
       const poller = await client.beginCreateCertificate(
@@ -148,7 +146,6 @@ describe("Certificates client - create, read, update and delete", () => {
         });
       });
     });
-  }
 
   it("can get a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -166,9 +163,9 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can get a certificate with requestOptions timeout", async function() {
+      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       await client.beginCreateCertificate(
         certificateName,
@@ -179,7 +176,6 @@ describe("Certificates client - create, read, update and delete", () => {
         await client.getCertificate(certificateName, { requestOptions: { timeout: 1 } });
       });
     });
-  }
 
   it("can retrieve the latest version of a certificate value", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -242,9 +238,9 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.purgeCertificate(certificateName);
   });
 
-  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can delete a certificate with requestOptions timeout", async function() {
+      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       await client.beginCreateCertificate(
         certificateName,
@@ -260,7 +256,6 @@ describe("Certificates client - create, read, update and delete", () => {
         });
       });
     });
-  }
 
   it("can delete a certificate (Non Existing)", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);

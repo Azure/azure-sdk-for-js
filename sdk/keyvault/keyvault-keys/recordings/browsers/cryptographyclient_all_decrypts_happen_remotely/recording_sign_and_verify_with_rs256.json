@@ -1,8 +1,8 @@
 {
  "recordings": [
   {
-   "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-candeleteacertificateNonExisting-",
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/create",
    "query": {
     "api-version": "7.0"
    },
@@ -13,7 +13,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 19:38:20 GMT",
+    "date": "Fri, 31 Jan 2020 20:23:38 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -25,7 +25,7 @@
     "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
     "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "f2d6b5d3-a924-40e0-900a-bd533cd8a5d4",
+    "x-ms-request-id": "78c31627-5c9b-4a5b-abfe-39c2818239b6",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -40,7 +40,7 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 19:38:19 GMT",
+    "date": "Fri, 31 Jan 2020 20:23:38 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -48,34 +48,34 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.9987.9 - SCUS ProdSlices",
-    "x-ms-request-id": "1beacca1-672d-4470-8fa2-5da6be290100"
+    "x-ms-request-id": "f3a91ad6-24fb-4df6-b9b6-0361aeeb0200"
    }
   },
   {
-   "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-candeleteacertificateNonExisting-",
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/create",
    "query": {
     "api-version": "7.0"
    },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Certificate not found: recoverCertificateName-candeleteacertificateNonExisting-\"}}",
+   "requestBody": "{\"kty\":\"RSA\"}",
+   "status": 200,
+   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/a1177c4170814eb08e331801023fce2f\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"uye78lrrKbnuX8-b27xJmywsG875yRD9hXE4D7cu1rC3lCyyRustfVpPMOKnhTYf3k-0ah0HO4PAdnGhM-IPbQ643kXK88dO_SX4MDkjlgxUBhrrmjz3qwEAUKuv6VWX8Oe1ao8MRQKOC9PZtsLZUugrFgIsmMA0MOsASjUcM-FUIihs8ysE7yIB7s94PvVCiC4lgtCbE5lC0SYxsDvkvh2EmrrCyVEbBjw_r3G_-JuSpPCNBQOZ2DA-bv1gFsYhPf68_GhND8cYH0tvHKxqB1fXS0IEfbtIAV4ryFAhDMyBkDKlGiAuOUWz8RaFQ4UVReTwWh2UBm7p-6dQLP307w\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1580502219,\"updated\":1580502219,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "148",
+    "content-length": "694",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 19:38:20 GMT",
+    "date": "Fri, 31 Jan 2020 20:23:38 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
-    "status": "404",
+    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
     "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
     "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "1adaad5d-8c1c-4ba2-9d95-56c6cef87d28",
+    "x-ms-request-id": "966480c5-2c58-468d-8881-f694fdf9ede2",
     "x-powered-by": "ASP.NET"
    }
   }

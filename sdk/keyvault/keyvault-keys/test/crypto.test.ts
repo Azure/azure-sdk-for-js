@@ -4,7 +4,6 @@
 import * as assert from "assert";
 import { createHash, publicEncrypt } from "crypto";
 import * as constants from "constants";
-import { isNode } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../src";
 import { convertJWKtoPEM } from "../src/cryptographyClient";
@@ -51,17 +50,16 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       assert.equal(text, decryptedText);
     });
 
-    if (isNode) {
-      it("manually encrypt locally and decrypt remotely, both with RSA1_5", async function() {
-        const text = this.test!.title;
-        const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
-        const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
-        const encrypted = publicEncrypt(padded, Buffer.from(text));
-        const decryptResult = await cryptoClient.decrypt("RSA1_5", encrypted);
-        const decryptedText = uint8ArrayToString(decryptResult.result);
-        assert.equal(text, decryptedText);
-      });
-    }
+    it("manually encrypt locally and decrypt remotely, both with RSA1_5", async function() {
+      recorder.skip("browser");
+      const text = this.test!.title;
+      const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
+      const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
+      const encrypted = publicEncrypt(padded, Buffer.from(text));
+      const decryptResult = await cryptoClient.decrypt("RSA1_5", encrypted);
+      const decryptedText = uint8ArrayToString(decryptResult.result);
+      assert.equal(text, decryptedText);
+    });
 
     it("encrypt & decrypt with RSA-OAEP", async function() {
       const text = this.test!.title;
@@ -71,30 +69,28 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       assert.equal(text, decryptedText);
     });
 
-    if (isNode) {
-      it("manually encrypt locally and decrypt remotely, both with RSA-OAEP", async function() {
-        const text = this.test!.title;
-        // Encrypting outside the client since the client will intentionally
-        const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
-        const encrypted = publicEncrypt(keyPEM, Buffer.from(text));
-        const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encrypted);
-        const decryptedText = uint8ArrayToString(decryptResult.result);
-        assert.equal(text, decryptedText);
-      });
-    }
-  }
-
-  if (isNode) {
-    it("sign and verify with RS256", async function() {
-      const signatureValue = this.test!.title;
-      const hash = createHash("sha256");
-      hash.update(signatureValue);
-      const digest = hash.digest();
-      const signature = await cryptoClient.sign("RS256", digest);
-      const verifyResult = await cryptoClient.verify("RS256", digest, signature.result);
-      assert.ok(verifyResult);
+    it("manually encrypt locally and decrypt remotely, both with RSA-OAEP", async function() {
+      recorder.skip("browser");
+      const text = this.test!.title;
+      // Encrypting outside the client since the client will intentionally
+      const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
+      const encrypted = publicEncrypt(keyPEM, Buffer.from(text));
+      const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encrypted);
+      const decryptedText = uint8ArrayToString(decryptResult.result);
+      assert.equal(text, decryptedText);
     });
   }
+
+  it("sign and verify with RS256", async function() {
+    recorder.skip("browser");
+    const signatureValue = this.test!.title;
+    const hash = createHash("sha256");
+    hash.update(signatureValue);
+    const digest = hash.digest();
+    const signature = await cryptoClient.sign("RS256", digest);
+    const verifyResult = await cryptoClient.verify("RS256", digest, signature.result);
+    assert.ok(verifyResult);
+  });
 
   if (isRecordMode()) {
     it("wrap and unwrap with rsa1_5", async function() {
