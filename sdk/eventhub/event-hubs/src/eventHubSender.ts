@@ -21,7 +21,6 @@ import {
   RetryOptions,
   Constants
 } from "@azure/core-amqp";
-import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import {
@@ -33,12 +32,10 @@ import {
 import { getTracer } from "@azure/core-tracing";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
-import { EventDataBatch, isEventDataBatch, EventDataBatchImpl } from "./eventDataBatch";
+import { EventDataBatch, EventDataBatchImpl } from "./eventDataBatch";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { SpanContext, SpanKind, CanonicalCode, Link } from "@opentelemetry/types";
-import { createMessageSpan } from "./diagnostics/messageSpan";
 import { getParentSpan } from "./util/operationOptions";
-import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
