@@ -248,6 +248,7 @@ export interface Range {
  */
 export interface StorageError {
   message?: string;
+  code?: string;
 }
 
 /**

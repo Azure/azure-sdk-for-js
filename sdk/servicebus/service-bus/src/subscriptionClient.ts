@@ -128,7 +128,7 @@ export class SubscriptionClient implements Client {
    * `sessionOptions` argument)
    */
   public createReceiver(receiveMode: ReceiveMode): Receiver;
-  
+
   /**
    * Creates a Receiver for receiving messages from a session enabled Subscription. When no sessionId is
    * given, a random session among the available sessions is used.

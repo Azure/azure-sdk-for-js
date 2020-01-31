@@ -1,4 +1,4 @@
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 
 import {
@@ -20,17 +20,16 @@ import { SASProtocol } from "../../src/SASQueryParameters";
 import {
   getDataLakeServiceClient,
   getTokenDataLakeServiceClient,
-  setupEnvironment
+  recorderEnvSetup
 } from "../utils";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
-  setupEnvironment();
-  const serviceClient = getDataLakeServiceClient();
-
-  let recorder: any;
+  let recorder: Recorder;
+  let serviceClient: DataLakeServiceClient;
 
   beforeEach(function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    serviceClient = getDataLakeServiceClient();
   });
 
   afterEach(function() {

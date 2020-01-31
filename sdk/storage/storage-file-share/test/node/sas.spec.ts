@@ -16,17 +16,16 @@ import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues
 import { newPipeline } from "../../src/Pipeline";
 import { ShareClient } from "../../src/ShareClient";
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
-import { getBSU, setupEnvironment } from "../utils";
+import { getBSU, recorderEnvSetup } from "../utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
-
   let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
 
   beforeEach(function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    serviceClient = getBSU();
   });
 
   afterEach(function() {

@@ -4,7 +4,7 @@ import {
   getBSU,
   getConnectionStringFromEnvironment,
   bodyToString,
-  setupEnvironment
+  recorderEnvSetup
 } from "../utils";
 import {
   newPipeline,
@@ -13,7 +13,8 @@ import {
   ContainerClient,
   BlobClient,
   generateBlobSASQueryParameters,
-  BlobSASPermissions
+  BlobSASPermissions,
+  BlobServiceClient
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -21,8 +22,6 @@ import { record, delay } from "@azure/test-utils-recorder";
 import { Test_CPK_INFO } from "../utils/constants";
 
 describe("PageBlobClient Node.js only", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -31,8 +30,10 @@ describe("PageBlobClient Node.js only", () => {
 
   let recorder: any;
 
+  let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();

@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import { Duplex } from "stream";
-import { bodyToString, getBSU, createRandomLocalFile, setupEnvironment } from "../utils";
+import { bodyToString, getBSU, createRandomLocalFile, recorderEnvSetup } from "../utils";
 import { Buffer } from "buffer";
 import {
   ShareFileClient,
@@ -14,12 +14,10 @@ import {
 
 import * as fs from "fs";
 import * as path from "path";
-import { readStreamToLocalFile } from "../../src/utils/utils.node";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("FileClient Node.js only", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -27,11 +25,13 @@ describe("FileClient Node.js only", () => {
   let fileName: string;
   let fileClient: ShareFileClient;
   const content = "Hello World";
+  const timeoutForLargeFileUploadingTest = 10 * 60 * 1000;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
@@ -61,14 +61,14 @@ describe("FileClient Node.js only", () => {
 
     const downloadResponse = await fileClient.download();
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileLarge);
 
     fs.unlinkSync(downloadedFile);
     assert.ok(downloadedData.equals(uploadedData));
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("upload with buffer and default parameters", async () => {
     const body: string = recorder.getUniqueName("randomstring");

@@ -481,9 +481,7 @@ export enum EntityNames {
   QUEUE_NAME_NO_PARTITION = "unpartitioned-queue",
   QUEUE_NAME_SESSION = "partitioned-queue-sessions",
   QUEUE_NAME_NO_PARTITION_SESSION = "unpartitioned-queue-sessions",
-  // The name has been updated to use a different one
-  // For more details see https://github.com/Azure/azure-sdk-for-js/issues/6682
-  TOPIC_NAME = "new-partitioned-topic",
+  TOPIC_NAME = "partitioned-topic",
   TOPIC_NAME_NO_PARTITION = "unpartitioned-topic",
   TOPIC_NAME_SESSION = "partitioned-topic-sessions",
   TOPIC_NAME_NO_PARTITION_SESSION = "unpartitioned-topic-sessions",

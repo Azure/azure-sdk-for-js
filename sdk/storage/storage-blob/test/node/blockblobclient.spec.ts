@@ -4,31 +4,32 @@ import {
   bodyToString,
   getBSU,
   getConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "../utils";
 import {
   BlockBlobClient,
   newPipeline,
   StorageSharedKeyCredential,
   BlobClient,
-  ContainerClient
+  ContainerClient,
+  BlobServiceClient
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("BlockBlobClient Node.js only", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
   let blobClient: BlobClient;
   let blockBlobClient: BlockBlobClient;
-  let recorder: any;
+  let recorder: Recorder;
 
+  let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
