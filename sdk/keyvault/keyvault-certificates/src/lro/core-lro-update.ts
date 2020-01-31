@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   PollerStoppedError,
   PollerCancelledError,
@@ -70,6 +73,7 @@ export interface KVPollerLike<TState extends PollOperationState<TResult>, TResul
  * This edit of the original interface changes getOperationState() to return TState,
  * which helps to expose any re-interpretation of the state of the operation being polled,
  * such as only publicly available properties.
+ * @internal
  */
 export abstract class KVPoller<TState extends PollOperationState<TResult>, TResult>
   implements KVPollerLike<TState, TResult> {
@@ -96,13 +100,10 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
     // This prevents the UnhandledPromiseRejectionWarning in node.js from being thrown.
     // The above warning would get thrown if `poller.poll` is called, it returns an error,
     // and pullUntilDone did not have a .catch or await try/catch on it's return value.
-    this.promise.catch(() => {});
+    this.promise.catch(() => {
+      return;
+    });
   }
-
-  /**
-   * A method to determine how much to wait between pollings.
-   */
-  protected abstract async delay(): Promise<void>;
 
   /**
    * Starts a loop that will break only if the poller is done
@@ -166,6 +167,29 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
   }
 
   /**
+   * A method to determine how much to wait between polling requests.
+   */
+  protected abstract async delay(): Promise<void>;
+
+  /**
+   * A method intended to return a serialized version of the poller.
+   */
+  public toString(): string {
+    return this.operation.toString();
+  }
+
+  /**
+   * A method that will return the result value of the operation,
+   * regardless of the state of the poller.
+   * It can return undefined or an incomplete form of the final TResult value
+   * depending on the implementation.
+   */
+  public getResult(): TResult | undefined {
+    const state: PollOperationState<TResult> = this.operation.state;
+    return state.result;
+  }
+
+  /**
    * A method that defines under what conditions to reach out to the underlying service.
    * It should call the operation's update method.
    */
@@ -175,6 +199,7 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
       const clearPollOncePromise = (): void => {
         this.pollOncePromise = undefined;
       };
+      /* eslint-disable-next-line promise/catch-or-return */
       this.pollOncePromise.then(clearPollOncePromise, clearPollOncePromise);
     }
     return this.pollOncePromise;
@@ -248,22 +273,4 @@ export abstract class KVPoller<TState extends PollOperationState<TResult>, TResu
    * TState can be a different type than the underlying operation's TState.
    */
   public abstract getOperationState(): TState;
-
-  /**
-   * A method that will return the result value of the operation,
-   * regardless of the state of the poller.
-   * It can return undefined or an incomplete form of the final TResult value
-   * depending on the implementation.
-   */
-  public getResult(): TResult | undefined {
-    const state: PollOperationState<TResult> = this.operation.state;
-    return state.result;
-  }
-
-  /**
-   * A method intended to return a serialized version of the poller.
-   */
-  public toString(): string {
-    return this.operation.toString();
-  }
 }

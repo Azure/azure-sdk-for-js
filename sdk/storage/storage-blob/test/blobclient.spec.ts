@@ -8,16 +8,21 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
 import { record, delay } from "@azure/test-utils-recorder";
-import { BlobClient, BlockBlobClient, ContainerClient, BlockBlobTier } from "../src";
+import {
+  BlobClient,
+  BlockBlobClient,
+  ContainerClient,
+  BlockBlobTier,
+  BlobServiceClient
+} from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
+  let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -28,7 +33,8 @@ describe("BlobClient", () => {
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -265,7 +271,7 @@ describe("BlobClient", () => {
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
-    assert.ok(result.copyId);
+    assert.ok(result.copyId, `Expecting valid copyId but got ${result.copyId}`);
     delay(1 * 1000);
 
     try {
@@ -274,7 +280,30 @@ describe("BlobClient", () => {
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
     } catch (err) {
-      assert.ok((err as any).response.parsedBody.Code === "InvalidHeaderValue");
+      assert.equal(
+        err.code,
+        "InvalidHeaderValue",
+        `Expected error code of 'InvalidHeaderValue' but actual code is ${err.code}.`
+      );
+      // vaildate "Code" and "Message" too for back-compatibility
+      assert.equal(
+        err.Code,
+        "InvalidHeaderValue",
+        `Expected error code of 'InvalidHeaderValue' but actual code is ${err.code}.`
+      );
+      assert.ok(
+        err.Message.startsWith(
+          "The value for one of the HTTP headers is not in the correct format."
+        ),
+        `Error does not have the expected message, actual message: ${err.message}`
+      );
+      assert.equal(
+        (err as any).response.parsedBody.Code,
+        "InvalidHeaderValue",
+        `Expect error.response.parsedBody.Code to be 'InvalidHeaderValue'. Actual: ${
+          (err as any).response.parsedBody.Code
+        }`
+      );
     }
   });
 

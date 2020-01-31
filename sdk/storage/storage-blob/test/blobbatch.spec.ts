@@ -5,19 +5,25 @@ import {
   getGenericCredential,
   getTokenCredential,
   SimpleTokenCredential,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { BlobBatch } from "../src/BlobBatch";
-import { ContainerClient, BlockBlobClient, BlobServiceClient, newPipeline } from "../src";
+import {
+  ContainerClient,
+  BlockBlobClient,
+  BlobServiceClient,
+  newPipeline,
+  BlobBatchClient,
+  StorageSharedKeyCredential
+} from "../src";
 
 dotenv.config({ path: "../.env" });
 
 describe("BlobBatch", () => {
-  setupEnvironment();
-  const blobServiceClient = getGenericBSU("");
-  const blobBatchClient = blobServiceClient.getBlobBatchClient();
-  const credential = getGenericCredential("");
+  let blobServiceClient: BlobServiceClient;
+  let blobBatchClient: BlobBatchClient;
+  let credential: StorageSharedKeyCredential;
   let containerName: string;
   let containerClient: ContainerClient;
   const blockBlobCount = 3;
@@ -27,7 +33,11 @@ describe("BlobBatch", () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+
+    blobServiceClient = getGenericBSU("");
+    blobBatchClient = blobServiceClient.getBlobBatchClient();
+    credential = getGenericCredential("");
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();

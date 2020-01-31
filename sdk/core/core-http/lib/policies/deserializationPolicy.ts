@@ -172,11 +172,31 @@ export function deserializeResponseBody(
               parsedResponse
             );
 
-            let parsedErrorResponse: { [key: string]: any } = parsedResponse.parsedBody;
             try {
-              if (parsedErrorResponse) {
+              let parsedBody: { [key: string]: any } = parsedResponse.parsedBody;
+              if (parsedBody) {
                 const defaultResponseBodyMapper: Mapper | undefined =
                   defaultResponseSpec.bodyMapper;
+
+                if (defaultResponseBodyMapper) {
+                  let valueToDeserialize: any = parsedBody;
+                  if (
+                    operationSpec.isXML &&
+                    defaultResponseBodyMapper.type.name === MapperType.Sequence
+                  ) {
+                    valueToDeserialize =
+                      typeof parsedBody === "object"
+                        ? parsedBody[defaultResponseBodyMapper.xmlElementName!]
+                        : [];
+                  }
+                  error.response!.parsedBody = operationSpec.serializer.deserialize(
+                    defaultResponseBodyMapper,
+                    valueToDeserialize,
+                    "error.response.parsedBody"
+                  );
+                }
+
+                let parsedErrorResponse = error.response!.parsedBody;
                 if (
                   defaultResponseBodyMapper &&
                   defaultResponseBodyMapper.serializedName === "CloudError"
@@ -202,22 +222,14 @@ export function deserializeResponseBody(
                   }
                 }
 
-                if (defaultResponseBodyMapper) {
-                  let valueToDeserialize: any = parsedErrorResponse;
-                  if (
-                    operationSpec.isXML &&
-                    defaultResponseBodyMapper.type.name === MapperType.Sequence
-                  ) {
-                    valueToDeserialize =
-                      typeof parsedErrorResponse === "object"
-                        ? parsedErrorResponse[defaultResponseBodyMapper.xmlElementName!]
-                        : [];
-                  }
-                  error.response!.parsedBody = operationSpec.serializer.deserialize(
-                    defaultResponseBodyMapper,
-                    valueToDeserialize,
-                    "error.response.parsedBody"
-                  );
+                if (
+                  defaultResponseBodyMapper &&
+                  defaultResponseBodyMapper.serializedName === "StorageError"
+                ) {
+                  // to keep the object shape back-compatible
+                  (error as { [key: string]: any })["Code"] = error.code;
+                  (error as { [key: string]: any })["Message"] = error.message;
+                  error.response!.parsedBody["Code"] = error.code;
                 }
               }
 
