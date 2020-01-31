@@ -5,8 +5,8 @@ import {
   applyReplacementFunctions,
   encodeRFC3986,
   filterSecretsFromStrings,
-  filterSecretsFromJSONContent,
-  env
+  env,
+  filterSecretsRecursivelyFromJSON
 } from "../src/utils";
 import chai from "chai";
 const { expect } = chai;
@@ -210,7 +210,11 @@ ultramarine.com/url/PUBLIC
           }
         ]
       };
-      const updatedRecording = filterSecretsFromJSONContent(recording, replaceableVariables, []);
+      const updatedRecording = filterSecretsRecursivelyFromJSON(
+        recording,
+        replaceableVariables,
+        []
+      );
       expect(updatedRecording).to.deep.equal({
         recordings: [
           {
