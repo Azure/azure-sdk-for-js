@@ -1,6 +1,6 @@
 ## 2020-01-30
 
-- Fixed a bug where the replacements aren't properly filerted in the JSON recordings.
+- Fixed a bug where the replacements aren't properly filtered in the JSON recordings. [#7175](https://github.com/Azure/azure-sdk-for-js/issues/7175)
 
 ## 2020-01-29
 
