@@ -46,18 +46,30 @@ export class LogPolicy extends BaseRequestPolicy {
   logger: Debugger;
   sanitizer: Sanitizer;
 
+  /**
+   * @deprecated
+   */
   public get allowedHeaderNames(): Set<string> {
     return this.sanitizer.allowedHeaderNames;
   }
 
+  /**
+   * @deprecated
+   */
   public set allowedHeaderNames(allowedHeaderNames: Set<string>) {
     this.sanitizer.allowedHeaderNames = allowedHeaderNames;
   }
 
+  /**
+   * @deprecated
+   */
   public get allowedQueryParameters(): Set<string> {
     return this.sanitizer.allowedQueryParameters;
   }
 
+  /**
+   * @deprecated
+   */
   public set allowedQueryParameters(allowedQueryParameters: Set<string>) {
     this.sanitizer.allowedQueryParameters = allowedQueryParameters;
   }
