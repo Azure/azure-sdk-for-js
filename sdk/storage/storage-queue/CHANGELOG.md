@@ -3,6 +3,7 @@
 ## 12.0.3 (Unreleased)
 
 - Fixed `api-extractor` related issue [PR #3513](https://github.com/Azure/azure-sdk-for-js/pull/3513)
+- Bug fix - Storage errors now have proper messages, instead of the raw XML response. ([PR #7107](https://github.com/Azure/azure-sdk-for-js/pull/7107))
 
 ## 12.0.2 (2020.01)
 
