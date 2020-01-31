@@ -669,25 +669,10 @@ function _throwIfSenderOrConnectionClosed(context: ConnectionContext): void {
 
 function createSendSpan(
   connectionContext: ConnectionContext,
-  eventData: EventData[] | EventDataBatch,
+  eventData: EventDataBatch,
   options?: SendOptions
 ) {
-  let spanContextsToLink: SpanContext[] = [];
-  if (Array.isArray(eventData)) {
-    for (let i = 0; i < eventData.length; i++) {
-      const event = eventData[i];
-      if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
-        const messageSpan = createMessageSpan(getParentSpan(options));
-        // since these message spans are created from same context as the send span,
-        // these message spans don't need to be linked.
-        // replace the original event with the instrumented one
-        eventData[i] = instrumentEventData(eventData[i], messageSpan);
-        messageSpan.end();
-      }
-    }
-  } else if (isEventDataBatch(eventData)) {
-    spanContextsToLink = eventData._messageSpanContexts;
-  }
+  let spanContextsToLink: SpanContext[] = eventData._messageSpanContexts;
   const parentSpan = getParentSpan(options);
 
   const links: Link[] = spanContextsToLink.map((spanContext) => {
