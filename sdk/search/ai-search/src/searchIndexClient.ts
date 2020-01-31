@@ -13,6 +13,7 @@ import { SearchIndexClient as GeneratedClient } from "./generated/data/searchInd
 import { SearchApiKeyCredential } from "./searchApiKeyCredential";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
+import { SomeRequired } from "./util";
 import { AutocompleteResult, AutocompleteRequest } from "./generated/data/models";
 
 /**
@@ -27,6 +28,10 @@ export interface SearchIndexClientOptions extends PipelineOptions {
 
 export type CountOptions = OperationOptions;
 export type AutocompleteOptions = OperationOptions;
+export type AutocompleteArgument = SomeRequired<
+  AutocompleteRequest,
+  "searchText" | "suggesterName"
+>;
 
 // something extends OperationOptions
 
@@ -125,7 +130,7 @@ export class SearchIndexClient {
   }
 
   public async autocomplete(
-    options: AutocompleteRequest,
+    options: AutocompleteArgument,
     additionalOptions: AutocompleteOptions = {}
   ): Promise<AutocompleteResult> {
     const result = await this.client.documents.autocompletePost(

@@ -15,7 +15,7 @@ async function main() {
   const count = await client.count();
   console.log(`${count} documents in index ${indexName}`);
 
-  const result = await client.autocomplete({ searchText: "test" });
+  const result = await client.autocomplete({ searchText: "test", suggesterName: "test" });
   console.log(result);
 }
 
