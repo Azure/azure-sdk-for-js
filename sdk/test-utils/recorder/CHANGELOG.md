@@ -1,6 +1,6 @@
 ## 2020-01-29
 
-- `replaceInRecordings` attribute of `RecorderEnvironmentSetup` interface has been renamed to `customizationsOnRecordings`.
+- [BREAKING] `replaceInRecordings` attribute of `RecorderEnvironmentSetup` interface has been renamed to `customizationsOnRecordings`.
 
 ## 2020-01-28
 
