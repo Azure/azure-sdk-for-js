@@ -33,11 +33,13 @@ describe("TextAnalyticsApiKeyCredential", () => {
   });
 });
 
-describe("[API Key] TextAnalyticsClient", () => {
+describe("[API Key] TextAnalyticsClient", function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
 
   const apiKey = new TextAnalyticsApiKeyCredential(env.SUBSCRIPTION_KEY);
+
+  this.timeout(10000);
 
   beforeEach(function() {
     ({ client, recorder } = createRecordedClient(this, apiKey));
@@ -55,6 +57,36 @@ describe("[API Key] TextAnalyticsClient", () => {
 
   it("#detectLanguages", async () => {
     const results = await client.detectLanguages(["impossible"], "fr");
+    assert.equal(results.length, 1);
+    assert.ok(results.every(isSuccess));
+  });
+
+  it("#extractKeyPhrases", async () => {
+    const results = await client.extractKeyPhrases([
+      "I had a wonderful trip to Seattle last weekend"
+    ]);
+    assert.equal(results.length, 1);
+    assert.ok(results.every(isSuccess));
+  });
+
+  it("#recognizeEntities", async () => {
+    const results = await client.recognizeEntities([
+      "I had a wonderful trip to Seattle last weekend."
+    ]);
+    assert.equal(results.length, 1);
+    assert.ok(results.every(isSuccess));
+  });
+
+  it("#recognizePiiEntities", async () => {
+    const results = await client.recognizePiiEntities([
+      "Your social-security number is 078-05-1120."
+    ]);
+    assert.equal(results.length, 1);
+    assert.ok(results.every(isSuccess));
+  });
+
+  it("#recognizeLinkedEntities", async () => {
+    const results = await client.recognizeLinkedEntities(["the Roman god Mars"]);
     assert.equal(results.length, 1);
     assert.ok(results.every(isSuccess));
   });
