@@ -2,7 +2,7 @@
 
 ## 1.0.4 (Unreleased)
 
-- Fixed the error thrown when a request is terminated with `OperationRequestOptions.timeout` in browsers. An abort error is thrown with the message - "The operation was aborted." if the request is terminated. [PR #7159](https://github.com/Azure/azure-sdk-for-js/pull/7159)
+- Updated the error thrown when a request is terminated with `OperationRequestOptions.timeout` in browsers. An abort error is thrown with the message - "The operation was aborted." if the request is terminated. [PR #7159](https://github.com/Azure/azure-sdk-for-js/pull/7159)
 - Fixed an issue where `error.code` and `error.message` are not assigned for `StorageError` instances. ([PR #7107](https://github.com/Azure/azure-sdk-for-js/pull/7107))
 
 ## 1.0.3 (2020-01-02)
