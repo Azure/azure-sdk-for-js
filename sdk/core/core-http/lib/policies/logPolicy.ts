@@ -47,28 +47,40 @@ export class LogPolicy extends BaseRequestPolicy {
   sanitizer: Sanitizer;
 
   /**
-   * @deprecated
+   * Header names whose values will be logged when logging is enabled. Defaults to
+   * Date, traceparent, x-ms-client-request-id, and x-ms-request id.  Any headers
+   * specified in this field will be added to that list.  Any other values will
+   * be written to logs as "REDACTED".
+   * @deprecated Pass these into the constructor instead.
    */
   public get allowedHeaderNames(): Set<string> {
     return this.sanitizer.allowedHeaderNames;
   }
 
   /**
-   * @deprecated
+   * Header names whose values will be logged when logging is enabled. Defaults to
+   * Date, traceparent, x-ms-client-request-id, and x-ms-request id.  Any headers
+   * specified in this field will be added to that list.  Any other values will
+   * be written to logs as "REDACTED".
+   * @deprecated Pass these into the constructor instead.
    */
   public set allowedHeaderNames(allowedHeaderNames: Set<string>) {
     this.sanitizer.allowedHeaderNames = allowedHeaderNames;
   }
 
   /**
-   * @deprecated
+   * Query string names whose values will be logged when logging is enabled. By default no
+   * query string values are logged.
+   * @deprecated Pass these into the constructor instead.
    */
   public get allowedQueryParameters(): Set<string> {
     return this.sanitizer.allowedQueryParameters;
   }
 
   /**
-   * @deprecated
+   * Query string names whose values will be logged when logging is enabled. By default no
+   * query string values are logged.
+   * @deprecated Pass these into the constructor instead.
    */
   public set allowedQueryParameters(allowedQueryParameters: Set<string>) {
     this.sanitizer.allowedQueryParameters = allowedQueryParameters;
