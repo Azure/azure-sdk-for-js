@@ -64,7 +64,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   ```typescript
   interface RecorderEnvironmentSetup {
     replaceableVariables: { [ENV_VAR: string]: string };
-    replaceInRecordings: Array<(recording: string) => string>;
+    customizationsOnRecordings: Array<(recording: string) => string>;
     queryParametersToSkip: Array<string>;
   }
   ```
@@ -79,7 +79,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
   - The key-value pairs will be used as the environment variables in playback mode.
   - If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode.
 
-- `replaceInRecordings: Array<(recording: string) => string>;`
+- `customizationsOnRecordings: Array<(recording: string) => string>;`
 
   - Used only in record mode.
   - Array of callback functions provided to customize the generated recordings in record mode
@@ -99,7 +99,7 @@ Add `@azure/test-utils-recorder` as a devDependency of your sdk.
 
 ### Saving the recordings
 
-- Any potential plain secrets in the recordings are replaced with dummy values provided at `replaceableVariables` and `replaceInRecordings`.
+- Any potential plain secrets in the recordings are replaced with dummy values provided at `replaceableVariables` and `customizationsOnRecordings`.
 
 - `Mocha.Context` is being leveraged to obtain the test title and other required information to save and replay the recordings. Recordings corresponding to `beforeEach`, `it` and `afterEach` sections are saved as a single test recording(`recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`).
 
