@@ -1,7 +1,6 @@
 import {
   applyReplacementMap,
   ReplacementMap,
-  ReplacementFunctions,
   applyReplacementFunctions,
   encodeRFC3986,
   filterSecretsFromStrings,
@@ -9,6 +8,7 @@ import {
   filterSecretsRecursivelyFromJSON
 } from "../src/utils";
 import chai from "chai";
+import { setEnvironmentVariables } from "../src/baseRecorder";
 const { expect } = chai;
 
 describe("utils", () => {
@@ -52,11 +52,11 @@ describe("utils", () => {
         SECRET: "(SECRET)"
       };
 
-      const replaceableVariables: ReplacementMap = new Map();
-      replaceableVariables.set("SECRET", "HIDDEN_SECRET");
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("SECRET", "HIDDEN_SECRET");
 
       const recording = "azure.com/url/%28SECRET%29";
-      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
 
       expect(appliedMap).to.equal("azure.com/url/HIDDEN_SECRET");
     });
@@ -66,11 +66,11 @@ describe("utils", () => {
         ENDPOINT: "azure.com/url/"
       };
 
-      const replaceableVariables: ReplacementMap = new Map();
-      replaceableVariables.set("ENDPOINT", "default.com/path/");
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("ENDPOINT", "default.com/path/");
 
       const recording = "azure.com/url/%28SECRET%29";
-      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
 
       expect(appliedMap).to.equal("default.com/path/%28SECRET%29");
     });
@@ -81,12 +81,12 @@ describe("utils", () => {
         ENDPOINT: "azure.com/url/"
       };
 
-      const replaceableVariables: ReplacementMap = new Map();
-      replaceableVariables.set("SECRET", "HIDDEN_SECRET");
-      replaceableVariables.set("ENDPOINT", "default.com/path/");
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("SECRET", "HIDDEN_SECRET");
+      replacementMap.set("ENDPOINT", "default.com/path/");
 
       const recording = "azure.com/url/%28SECRET%29";
-      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
 
       expect(appliedMap).to.equal("default.com/path/HIDDEN_SECRET");
     });
@@ -97,9 +97,9 @@ describe("utils", () => {
         ENDPOINT: "azure.com/url/"
       };
 
-      const replaceableVariables: ReplacementMap = new Map();
-      replaceableVariables.set("SECRET", "HIDDEN_SECRET");
-      replaceableVariables.set("ENDPOINT", "default.com/path/");
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("SECRET", "HIDDEN_SECRET");
+      replacementMap.set("ENDPOINT", "default.com/path/");
 
       const recording = `
 All the combinations:
@@ -108,7 +108,7 @@ ultramarine.com/url/%28SECRET%29
 azure.com/url/PUBLIC
 ultramarine.com/url/PUBLIC
 `;
-      const appliedMap = applyReplacementMap(env, replaceableVariables, recording);
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
 
       expect(appliedMap).to.equal(
         `
@@ -124,7 +124,7 @@ ultramarine.com/url/PUBLIC
 
   describe("applyReplacementFunctions", () => {
     it("should apply one replacement function", () => {
-      const replacements: ReplacementFunctions = [
+      const replacements: Array<(content: string) => string> = [
         (source: string): string => {
           return source.replace(/banana/i, "Bonobo's");
         }
@@ -135,7 +135,7 @@ ultramarine.com/url/PUBLIC
     });
 
     it("should apply several replacement functions", () => {
-      const replacements: ReplacementFunctions = [
+      const replacements: Array<(content: string) => string> = [
         (source: string): string => {
           return source.replace(/banana/i, "Bonobo's");
         },
@@ -149,7 +149,7 @@ ultramarine.com/url/PUBLIC
     });
 
     it("should work with recordings of several lines", () => {
-      const replacements: ReplacementFunctions = [
+      const replacements = [
         (source: string): string => {
           return source.replace(/azure.com/g, "default.com");
         },
@@ -180,8 +180,8 @@ ultramarine.com/url/PUBLIC
   describe("filter secrets from content", () => {
     function verifyFilterFunctionForJson(
       recording: any,
-      replacementMap: ReplacementMap,
-      replacements: ReplacementFunctions,
+      replacementMap: { [ENV_VAR: string]: string },
+      replacements: Array<(content: string) => string>,
       expectedFilteredOutput: any
     ) {
       const updatedRecording = filterSecretsRecursivelyFromJSON(
@@ -194,18 +194,16 @@ ultramarine.com/url/PUBLIC
 
     it("should work for strings", () => {
       env.SECRET = "SECRET";
-      const replacementMap: ReplacementMap = new Map();
-      replacementMap.set("SECRET", "FAKE_IT");
+      const replaceableVariables = { SECRET: "FAKE_IT" };
 
       const recording = "HERE_IS_THE_FLAG-SECRET";
-      const updatedRecording = filterSecretsFromStrings(recording, replacementMap, []);
+      const updatedRecording = filterSecretsFromStrings(recording, replaceableVariables, []);
       expect(updatedRecording).to.equal("HERE_IS_THE_FLAG-FAKE_IT");
     });
 
     it("should work for JSON content #1 - secret is present in the query attributes, part of the xml response string", () => {
       env.ACCOUNT_NAME = "azureaccount";
-      const replacementMap: ReplacementMap = new Map();
-      replacementMap.set("ACCOUNT_NAME", "fakestorageaccount");
+      const replaceableVariables = { ACCOUNT_NAME: "fakestorageaccount" };
       verifyFilterFunctionForJson(
         {
           recordings: [
@@ -224,7 +222,7 @@ ultramarine.com/url/PUBLIC
             }
           ]
         },
-        replacementMap,
+        replaceableVariables,
         [],
         {
           recordings: [
@@ -256,7 +254,7 @@ ultramarine.com/url/PUBLIC
             }
           ]
         },
-        new Map(),
+        {},
         [
           (recording: any): any =>
             recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
@@ -274,8 +272,7 @@ ultramarine.com/url/PUBLIC
 
     it("should work for JSON content #3 - array of JSON objects", () => {
       env.ACCOUNT_NAME = "azureaccount";
-      const replacementMap: ReplacementMap = new Map();
-      replacementMap.set("ACCOUNT_NAME", "fakestorageaccount");
+      const replaceableVariables = { ACCOUNT_NAME: "fakestorageaccount" };
       verifyFilterFunctionForJson(
         [
           {
@@ -285,7 +282,7 @@ ultramarine.com/url/PUBLIC
           { url: "http://bing.com" },
           { ACCOUNT_NAME: "azureaccount" }
         ],
-        replacementMap,
+        replaceableVariables,
         [
           (recording: any): any =>
             recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
@@ -307,7 +304,7 @@ ultramarine.com/url/PUBLIC
           response:
             '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiwN"}'
         },
-        new Map(),
+        {},
         [
           (recording: any): any =>
             recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
@@ -322,7 +319,7 @@ ultramarine.com/url/PUBLIC
     it("should work for JSON content #5 - regex to be replaced is present as a key-value pair in the JSON content", () => {
       verifyFilterFunctionForJson(
         { access_token: "eyJ0eXA75E_Q" },
-        new Map(),
+        {},
         [
           (recording: any): any =>
             recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
@@ -334,7 +331,7 @@ ultramarine.com/url/PUBLIC
     it("should work for JSON content #6 - JSON.stringify-ed content with regex to be replaced is present as a key-value pair at the top level in the JSON content", () => {
       verifyFilterFunctionForJson(
         JSON.stringify({ access_token: "eyJ0eXA75E_Q" }),
-        new Map(),
+        {},
         [
           (recording: any): any =>
             recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
@@ -348,7 +345,7 @@ ultramarine.com/url/PUBLIC
         JSON.stringify({
           recording: [{ access_token: "eyJ0eXA75E_Q" }]
         }),
-        new Map(),
+        {},
         [
           (recording: any): any =>
             recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
@@ -357,6 +354,30 @@ ultramarine.com/url/PUBLIC
           recording: [{ access_token: "access_token" }]
         })
       );
+    });
+  });
+
+  describe("set environment variables", () => {
+    it("should not fail if the dictionary is empty", () => {
+      env.SECRET = "SECRET";
+      const replaceableVariables = {};
+
+      setEnvironmentVariables(env, replaceableVariables);
+    });
+
+    it("should succeed if the dictionary has one key-value pair", () => {
+      const replaceableVariables = { SECRET: "FAKE_IT" };
+
+      setEnvironmentVariables(env, replaceableVariables);
+      expect(env.SECRET).to.equal("FAKE_IT");
+    });
+
+    it("should succeed if the dictionary has multiple key-value pairs", () => {
+      const replaceableVariables = { ACCOUNT_NAME: "fake_account_name", SECRET: "FAKE IT" };
+
+      setEnvironmentVariables(env, replaceableVariables);
+      expect(env.SECRET).to.equal("FAKE IT");
+      expect(env.ACCOUNT_NAME).to.equal("fake_account_name");
     });
   });
 });
