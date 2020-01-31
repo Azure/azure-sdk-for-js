@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import {
   SubscriptionEventHandlers,
   PartitionContext
@@ -170,21 +173,25 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
 export async function sendOneMessagePerPartition(
   partitionIds: string[],
-  client: EventHubClient
+  client: EventHubProducerClient
 ): Promise<{ body: string; partitionId: string }[]> {
   const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
   const sentMessages = [];
 
   for (const partitionId of partitionIds) {
-    const producer = client.createProducer({ partitionId });
+    const batch = await client.createBatch({ partitionId });
+
     const body = expectedMessagePrefix + partitionId;
-    await producer.send({ body });
-    await producer.close();
+
+    batch.tryAdd({ body }).should.be.true;
+    await client.sendBatch(batch);
+
     sentMessages.push({
       body,
       partitionId
     });
   }
 
+  client.close();
   return sentMessages;
 }

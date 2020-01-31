@@ -8,7 +8,6 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import {
-  EventData,
   PartitionOwnership,
   CloseReason,
   ReceivedEventData,
@@ -16,7 +15,8 @@ import {
   SubscriptionEventHandlers,
   earliestEventPosition,
   latestEventPosition,
-  CheckpointStore
+  CheckpointStore,
+  EventHubProducerClient
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
@@ -36,6 +36,7 @@ import { AbortError } from "@azure/abort-controller";
 import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
 import sinon from "sinon";
 import { isLatestPosition } from "../src/eventPosition";
+import { sendMessagesToPartitionForTest } from "./utils/sendHelpers";
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -50,6 +51,7 @@ describe("Event Processor", function(): void {
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
   let client: EventHubClient;
+  let producerClient: EventHubProducerClient;
   before("validate environment", async function(): Promise<void> {
     should.exist(
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
@@ -63,10 +65,12 @@ describe("Event Processor", function(): void {
 
   beforeEach("create the client", function() {
     client = new EventHubClient(service.connectionString, service.path, {});
+    producerClient = new EventHubProducerClient(service.connectionString, service.path);
   });
 
   afterEach("close the connection", async function(): Promise<void> {
     await client.close();
+    await producerClient.close();
   });
 
   describe("unit tests", () => {
@@ -627,7 +631,7 @@ describe("Event Processor", function(): void {
     processor.start();
     processor.start();
 
-    const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
+    const expectedMessages = await sendOneMessagePerPartition(partitionIds, producerClient);
     const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
 
     // shutdown the processor
@@ -694,7 +698,7 @@ describe("Event Processor", function(): void {
     loggerForTest(`Starting processor for the first time`);
     processor.start();
 
-    const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
+    const expectedMessages = await sendOneMessagePerPartition(partitionIds, producerClient);
     const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
 
     loggerForTest(`Stopping processor for the first time`);
@@ -746,7 +750,7 @@ describe("Event Processor", function(): void {
 
       processor.start();
 
-      const expectedMessages = await sendOneMessagePerPartition(partitionIds, client);
+      const expectedMessages = await sendOneMessagePerPartition(partitionIds, producerClient);
       const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
 
       // shutdown the processor
@@ -872,15 +876,13 @@ describe("Event Processor", function(): void {
 
       // create messages
       const expectedMessagePrefix = "EventProcessor test - checkpoint - ";
-      const events: EventData[] = [];
 
       for (const partitionId of partitionIds) {
-        const producer = client.createProducer({ partitionId });
+        const batch = await producerClient.createBatch({ partitionId });
         for (let index = 1; index <= 100; index++) {
-          events.push({ body: `${expectedMessagePrefix} ${index} ${partitionId}` });
+          batch.tryAdd({ body: `${expectedMessagePrefix} ${index} ${partitionId}` }).should.be.true;
         }
-        await producer.send(events);
-        await producer.close();
+        await producerClient.sendBatch(batch);
       }
 
       // set a delay to give a consumers a chance to receive a message
@@ -1079,7 +1081,7 @@ describe("Event Processor", function(): void {
         async processError(err: Error, context: PartitionContext) {
           loggerForTest(`processError(${context.partitionId})`);
           const errorName = (err as any).code;
-          if (errorName === 'ReceiverDisconnectedError') {
+          if (errorName === "ReceiverDisconnectedError") {
             didGetReceiverDisconnectedError = true;
           }
         }
@@ -1088,9 +1090,11 @@ describe("Event Processor", function(): void {
       // create messages
       const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
       for (const partitionId of partitionIds) {
-        const producer = client.createProducer({ partitionId });
-        await producer.send({ body: expectedMessagePrefix + partitionId });
-        await producer.close();
+        await sendMessagesToPartitionForTest(
+          partitionId,
+          expectedMessagePrefix + partitionId,
+          producerClient
+        );
       }
 
       const processor1LoadBalancingInterval = {
@@ -1101,7 +1105,7 @@ describe("Event Processor", function(): void {
       // aggressively pursue getting its required partitions and avoid being in
       // lockstep with `processor-1`
       const processor2LoadBalancingInterval = {
-        loopIntervalInMs: processor1LoadBalancingInterval.loopIntervalInMs/2
+        loopIntervalInMs: processor1LoadBalancingInterval.loopIntervalInMs / 2
       };
 
       processorByName[`processor-1`] = new EventProcessor(
@@ -1109,7 +1113,11 @@ describe("Event Processor", function(): void {
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        { ...defaultOptions, startPosition: earliestEventPosition, ...processor1LoadBalancingInterval }
+        {
+          ...defaultOptions,
+          startPosition: earliestEventPosition,
+          ...processor1LoadBalancingInterval
+        }
       );
 
       processorByName[`processor-1`].start();
@@ -1127,7 +1135,11 @@ describe("Event Processor", function(): void {
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        { ...defaultOptions, startPosition: earliestEventPosition, ...processor2LoadBalancingInterval }
+        {
+          ...defaultOptions,
+          startPosition: earliestEventPosition,
+          ...processor2LoadBalancingInterval
+        }
       );
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
@@ -1153,13 +1165,16 @@ describe("Event Processor", function(): void {
           );
 
           // map of ownerId as a key and partitionIds as a value
-          const partitionOwnershipMap: Map<string, string[]> = ownershipListToMap(partitionOwnership);
+          const partitionOwnershipMap: Map<string, string[]> = ownershipListToMap(
+            partitionOwnership
+          );
 
           // if stealing has occurred we just want to make sure that _all_
           // the stealing has completed.
           const isBalanced = (friendlyName: string) => {
             const n = Math.floor(partitionIds.length / 2);
-            const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!.length;
+            const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!
+              .length;
             return numPartitions == n || numPartitions == n + 1;
           };
 
@@ -1172,7 +1187,7 @@ describe("Event Processor", function(): void {
       });
 
       for (const processor in processorByName) {
-         await processorByName[processor].stop();
+        await processorByName[processor].stop();
       }
 
       // now that all the dust has settled let's make sure that
@@ -1210,9 +1225,11 @@ describe("Event Processor", function(): void {
       // create messages
       const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
       for (const partitionId of partitionIds) {
-        const producer = client.createProducer({ partitionId });
-        await producer.send({ body: expectedMessagePrefix + partitionId });
-        await producer.close();
+        await sendMessagesToPartitionForTest(
+          partitionId,
+          expectedMessagePrefix + partitionId,
+          producerClient
+        );
       }
 
       for (let i = 0; i < 2; i++) {
@@ -1435,9 +1452,11 @@ describe("Event Processor", function(): void {
       const { startPosition } = await SubscriptionHandlerForTests.startingFromHere(client);
       const partitionIds = await client.getPartitionIds({});
       for (const partitionId of partitionIds) {
-        const producer = client.createProducer({ partitionId: `${partitionId}` });
-        await producer.send({ body: `Hello world - ${partitionId}` });
-        await producer.close();
+        await sendMessagesToPartitionForTest(
+          partitionId,
+          `Hello world - ${partitionId}`,
+          producerClient
+        );
       }
 
       let partitionIdsSet = new Set();
@@ -1501,8 +1520,7 @@ function ownershipListToMap(partitionOwnership: PartitionOwnership[]): Map<strin
   for (const ownership of partitionOwnership) {
     if (!partitionOwnershipMap.has(ownership.ownerId)) {
       partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
-    }
-    else {
+    } else {
       let arr = partitionOwnershipMap.get(ownership.ownerId);
       arr!.push(ownership.partitionId);
       partitionOwnershipMap.set(ownership.ownerId, arr!);

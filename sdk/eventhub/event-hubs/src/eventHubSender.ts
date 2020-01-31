@@ -8,7 +8,6 @@ import {
   EventContext,
   OnAmqpEvent,
   AwaitableSenderOptions,
-  message,
   AmqpError
 } from "rhea-promise";
 import {
@@ -22,15 +21,24 @@ import {
   RetryOptions,
   Constants
 } from "@azure/core-amqp";
-import { EventData, toAmqpMessage } from "./eventData";
+import { EventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { EventHubProducerOptions } from "./models/private";
-import { SendOptions } from "./models/public";
-
+import {
+  SendOptions,
+  CreateBatchOptions,
+  EventHubClientOptions,
+  SendBatchOptions
+} from "./models/public";
+import { getTracer } from "@azure/core-tracing";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
-import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
+import { EventDataBatch, isEventDataBatch, EventDataBatchImpl } from "./eventDataBatch";
+import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { SpanContext, SpanKind, CanonicalCode, Link } from "@opentelemetry/types";
+import { createMessageSpan } from "./diagnostics/messageSpan";
+import { getParentSpan } from "./util/operationOptions";
+import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
@@ -288,75 +296,44 @@ export class EventHubSender extends LinkEntity {
    * @param options Options to control the way the events are batched along with request options
    * @return Promise<void>
    */
-  async send(
-    events: EventData[] | EventDataBatch,
-    options?: SendOptions & EventHubProducerOptions
-  ): Promise<void> {
+  async send(events: EventDataBatch, options?: SendBatchOptions & EventHubClientOptions) {
+    const sendSpan = createSendSpan(this._context, events, options);
+
     try {
-      // throw an error if partition key and partition id are both defined
-      if (
-        options &&
-        typeof options.partitionKey === "string" &&
-        typeof options.partitionId === "string"
-      ) {
-        const error = new Error(
-          "Partition key is not supported when using producers that were created using a partition id."
-        );
-        logger.warning(
-          "[%s] Partition key is not supported when using producers that were created using a partition id. %O",
-          this._context.connectionId,
-          error
-        );
-        logErrorStackTrace(error);
-        throw error;
-      }
+      await this._sendImpl(events, options);
+      sendSpan.setStatus({ code: CanonicalCode.OK });
+    } catch (err) {
+      sendSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: err.message
+      });
+      throw err;
+    } finally {
+      sendSpan.end();
+    }
+  }
 
-      // throw an error if partition key is different than the one provided in the options.
-      if (isEventDataBatch(events) && options && options.partitionKey) {
-        const error = new Error(
-          "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
-        );
-        logger.warning(
-          "[%s] Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead. %O",
-          this._context.connectionId,
-          error
-        );
-        logErrorStackTrace(error);
-        throw error;
-      }
+  private async _sendImpl(
+    events: EventDataBatch,
+    options?: SendBatchOptions & EventHubClientOptions
+  ): Promise<void> {
+    _throwIfSenderOrConnectionClosed(this._context);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "send", "eventData", events);
 
+    if (events.count === 0) {
+      logger.info(`[${this._context.connectionId}] Empty batch was passsed. No events to send.`);
+      return;
+    }
+
+    try {
       logger.info(
         "[%s] Sender '%s', trying to send EventData[].",
         this._context.connectionId,
         this.name
       );
 
-      let encodedBatchMessage: Buffer | undefined;
-      if (isEventDataBatch(events)) {
-        encodedBatchMessage = events._message!;
-      } else {
-        const partitionKey = (options && options.partitionKey) || undefined;
-        const messages: AmqpMessage[] = [];
-        // Convert EventData to AmqpMessage.
-        for (let i = 0; i < events.length; i++) {
-          const message = toAmqpMessage(events[i], partitionKey);
-          message.body = this._context.dataTransformer.encode(events[i].body);
-          messages[i] = message;
-        }
-        // Encode every amqp message and then convert every encoded message to amqp data section
-        const batchMessage: AmqpMessage = {
-          body: message.data_sections(messages.map(message.encode))
-        };
+      let encodedBatchMessage = events._message!;
 
-        // Set message_annotations of the first message as
-        // that of the envelope (batch message).
-        if (messages[0].message_annotations) {
-          batchMessage.message_annotations = messages[0].message_annotations;
-        }
-
-        // Finally encode the envelope (batch message).
-        encodedBatchMessage = message.encode(batchMessage);
-      }
       logger.info(
         "[%s] Sender '%s', sending encoded batch message.",
         this._context.connectionId,
@@ -411,7 +388,7 @@ export class EventHubSender extends LinkEntity {
    */
   private _trySendBatch(
     message: AmqpMessage | Buffer,
-    options: SendOptions & EventHubProducerOptions = {}
+    options: SendOptions & EventHubClientOptions = {}
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
     const retryOptions = options.retryOptions || {};
@@ -624,4 +601,110 @@ export class EventHubSender extends LinkEntity {
     }
     return context.senders[ehSender.name];
   }
+}
+
+/**
+ * Creates an instance of `EventDataBatch` to which one can add events until the maximum supported size is reached.
+ * The batch can be passed to the `send()` method of the `EventHubProducer` to be sent to Azure Event Hubs.
+ * @param createBatchOptions  A set of options to configure the behavior of the batch.
+ * - `partitionKey`  : A value that is hashed to produce a partition assignment.
+ * Not applicable if the `EventHubProducer` was created using a `partitionId`.
+ * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
+ * - `abortSignal`   : A signal the request to cancel the send operation.
+ * @returns Promise<EventDataBatch>
+ */
+export async function createBatch(
+  connectionContext: ConnectionContext,
+  sender: EventHubSender,
+  senderOptions: EventHubClientOptions,
+  createBatchOptions?: CreateBatchOptions
+): Promise<EventDataBatch> {
+  _throwIfSenderOrConnectionClosed(connectionContext);
+  if (!createBatchOptions) {
+    createBatchOptions = {};
+  } else {
+    if (createBatchOptions.partitionId && createBatchOptions.partitionKey) {
+      throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
+    }
+  }
+
+  let maxMessageSize = await sender.getMaxMessageSize({
+    retryOptions: senderOptions.retryOptions,
+    abortSignal: createBatchOptions.abortSignal
+  });
+  if (createBatchOptions.maxSizeInBytes) {
+    if (createBatchOptions.maxSizeInBytes > maxMessageSize) {
+      const error = new Error(
+        `Max message size (${createBatchOptions.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
+      );
+      logger.warning(
+        `[${connectionContext.connectionId}] Max message size (${createBatchOptions.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
+      );
+      logErrorStackTrace(error);
+      throw error;
+    }
+    maxMessageSize = createBatchOptions.maxSizeInBytes;
+  }
+  return new EventDataBatchImpl(
+    connectionContext,
+    maxMessageSize,
+    createBatchOptions.partitionKey,
+    createBatchOptions.partitionId
+  );
+}
+
+function _throwIfSenderOrConnectionClosed(context: ConnectionContext): void {
+  throwErrorIfConnectionClosed(context);
+
+  if (context.wasConnectionCloseCalled) {
+    const errorMessage =
+      `The sender for "${context.config.entityPath}" has been closed and can no longer be used. ` +
+      `Please create a new sender using the "send*()" functions on EventHubProducerClient.`;
+    const error = new Error(errorMessage);
+    logger.warning(`[${context.connectionId}] %O`, error);
+    logErrorStackTrace(error);
+    throw error;
+  }
+}
+
+function createSendSpan(
+  connectionContext: ConnectionContext,
+  eventData: EventData[] | EventDataBatch,
+  options?: SendOptions
+) {
+  let spanContextsToLink: SpanContext[] = [];
+  if (Array.isArray(eventData)) {
+    for (let i = 0; i < eventData.length; i++) {
+      const event = eventData[i];
+      if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
+        const messageSpan = createMessageSpan(getParentSpan(options));
+        // since these message spans are created from same context as the send span,
+        // these message spans don't need to be linked.
+        // replace the original event with the instrumented one
+        eventData[i] = instrumentEventData(eventData[i], messageSpan);
+        messageSpan.end();
+      }
+    }
+  } else if (isEventDataBatch(eventData)) {
+    spanContextsToLink = eventData._messageSpanContexts;
+  }
+  const parentSpan = getParentSpan(options);
+
+  const links: Link[] = spanContextsToLink.map((spanContext) => {
+    return {
+      spanContext
+    };
+  });
+  const tracer = getTracer();
+  const sendSpan = tracer.startSpan("Azure.EventHubs.send", {
+    kind: SpanKind.CLIENT,
+    parent: parentSpan,
+    links
+  });
+
+  sendSpan.setAttribute("az.namespace", "Microsoft.EventHub");
+  sendSpan.setAttribute("message_bus.destination", connectionContext.config.entityPath);
+  sendSpan.setAttribute("peer.address", connectionContext.config.endpoint);
+
+  return sendSpan;
 }

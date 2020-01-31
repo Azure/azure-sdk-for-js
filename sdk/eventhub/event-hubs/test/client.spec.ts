@@ -10,13 +10,13 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { TokenCredential, earliestEventPosition } from "../src";
+import { TokenCredential, earliestEventPosition, EventHubProducerClient } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
 import { EnvironmentCredential } from "@azure/identity";
 import { EventHubConsumer } from "../src/receiver";
-import { EventHubProducer } from "../src/sender";
+import { sendMessagesToPartitionForTest } from "./utils/sendHelpers";
 const env = getEnvVars();
 
 describe("Create EventHubClient using connection string #RunnableInBrowser", function(): void {
@@ -128,7 +128,7 @@ describe("Create EventHubClient using Azure Identity", function(): void {
 
 describe("ServiceCommunicationError for non existent namespace #RunnableInBrowser", function(): void {
   let client: EventHubClient;
-  const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError"
+  const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
   beforeEach(() => {
     client = new EventHubClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
@@ -166,13 +166,22 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
   it("should throw ServiceCommunicationError while creating a sender", async function(): Promise<
     void
   > {
+    let badProducerClient: EventHubProducerClient | undefined;
+
     try {
-      const sender = client.createProducer({ partitionId: "0" });
-      await sender.send([{ body: "Hello World" }]);
+      badProducerClient = new EventHubProducerClient(
+        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+      );
+
+      await badProducerClient.createBatch({ partitionId: "0" });
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
+    } finally {
+      if (badProducerClient) {
+        badProducerClient.close();
+      }
     }
   });
 
@@ -236,13 +245,25 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
   it("should throw MessagingEntityNotFoundError while creating a sender", async function(): Promise<
     void
   > {
+    let producerClient: EventHubProducerClient | undefined;
+
     try {
-      const sender = client.createProducer({ partitionId: "0" });
-      await sender.send([{ body: "Hello World" }]);
+      producerClient = new EventHubProducerClient(
+        env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+        "bad" + Math.random()
+      );
+
+      await producerClient.createBatch({
+        partitionId: "0"
+      });
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
       should.equal(err.code, "MessagingEntityNotFoundError");
+    } finally {
+      if (producerClient) {
+        producerClient.close();
+      }
     }
   });
 
@@ -321,11 +342,17 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
 
 describe("Errors after close() #RunnableInBrowser", function(): void {
   let client: EventHubClient;
-  let sender: EventHubProducer;
+  let producerClient: EventHubProducerClient;
   let receiver: EventHubConsumer;
 
-  afterEach(() => {
-    return client.close();
+  afterEach(async () => {
+    if (client) {
+      await client.close();
+    }
+
+    if (producerClient) {
+      await producerClient.close();
+    }
   });
 
   async function beforeEachTest(entityToClose: string): Promise<void> {
@@ -342,11 +369,19 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
       env[EnvVarKeys.EVENTHUB_NAME]
     );
 
+    producerClient = new EventHubProducerClient(
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      env[EnvVarKeys.EVENTHUB_NAME]
+    );
+
     const timeNow = Date.now();
 
     // Ensure sender link is opened
-    sender = client.createProducer({ partitionId: "0" });
-    await sender.send({ body: "dummy send to ensure AMQP connection is opened" });
+    await sendMessagesToPartitionForTest(
+      "0",
+      { body: "dummy send to ensure AMQP connection is opened" },
+      producerClient
+    );
 
     // Ensure receiver link is opened
     receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", {
@@ -360,9 +395,6 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
       case "client":
         await client.close();
         break;
-      case "sender":
-        await sender.close();
-        break;
       case "receiver":
         await receiver.close();
         break;
@@ -374,16 +406,6 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
   /**
    * Tests that each feature of the sender throws expected error
    */
-  async function testSender(expectedErrorMsg: string): Promise<void> {
-    should.equal(sender.isClosed, true, "Sender is not marked as closed.");
-
-    const testMessage = { body: "test" };
-    let errorSend: string = "";
-    await sender.send(testMessage).catch((err) => {
-      errorSend = err.message;
-    });
-    should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for send()");
-  }
 
   /**
    * Tests that each feature of the receiver throws expected error
@@ -417,20 +439,42 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
     );
   }
 
+  it("AMQP errors thrown if EventHubProducerClient is already closed and we attempt to use it", async () => {
+    let producerClient = new EventHubProducerClient(
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      env[EnvVarKeys.EVENTHUB_NAME]
+    );
+
+    await producerClient.createBatch();
+    await producerClient.close();
+    await producerClient
+      .createBatch()
+      .then(() => {
+        throw new Error("Should have thrown an exception");
+      })
+      .catch((err) => err.message.should.equal("The underlying AMQP connection is closed."));
+
+    producerClient = new EventHubProducerClient(
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      env[EnvVarKeys.EVENTHUB_NAME]
+    );
+
+    // note this time we don't actually do anything that would cause the client
+    // to be open (ie, no createBatch call)
+    await producerClient.close();
+    await producerClient
+      .createBatch()
+      .then(() => {
+        throw new Error("Should have thrown an exception");
+      })
+      .catch((err) => err.message.should.equal("The underlying AMQP connection is closed."));
+  });
+
   it("errors after close() on client", async function(): Promise<void> {
     await beforeEachTest("client");
     const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
-    await testSender(expectedErrorMsg);
     await testReceiver(expectedErrorMsg);
-
-    let errorNewSender: string = "";
-    try {
-      client.createProducer();
-    } catch (err) {
-      errorNewSender = err.message;
-    }
-    should.equal(errorNewSender, expectedErrorMsg, "Expected error not thrown for createSender()");
 
     let errorNewReceiver: string = "";
     try {
@@ -483,14 +527,6 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
       expectedErrorMsg,
       "Expected error not thrown for getProperties()"
     );
-  });
-
-  it("errors after close() on sender", async function(): Promise<void> {
-    const senderErrorMsg =
-      `The EventHubProducer for "${client.eventHubName}" has been closed and can no longer be used. ` +
-      `Please create a new EventHubProducer using the "createProducer" function on the EventHubClient.`;
-    await beforeEachTest("sender");
-    await testSender(senderErrorMsg);
   });
 
   it("errors after close() on receiver", async function(): Promise<void> {

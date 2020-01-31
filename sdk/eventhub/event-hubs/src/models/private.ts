@@ -2,33 +2,7 @@
 // Licensed under the MIT License.
 
 import { PartitionLoadBalancer } from "../partitionLoadBalancer";
-import { RetryOptions } from "@azure/core-amqp";
 import { SubscribeOptions } from "../eventHubConsumerClientModels";
-
-/**
- * The set of options to configure the behavior of an `EventHubProducer`.
- * These can be specified when creating the producer via the `createProducer` method.
- * - `partitionId`  : The string identifier of the partition that the producer can be bound to.
- * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
- * A simple usage can be `{ "maxRetries": 4 }`.
- * @ignore
- * @internal
- */
-export interface EventHubProducerOptions {
-  /**
-   * @property
-   * The identifier of the partition that the producer will be bound to.
-   * If a value is provided, all events sent using the producer will reach the same partition.
-   * If no value is provided, the service will determine the partition to which the event will be sent.
-   */
-  partitionId?: string;
-  /**
-   * @property
-   * The retry options used to govern retry attempts when an issue is encountered while sending events.
-   * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
-   */
-  retryOptions?: RetryOptions;
-}
 
 /**
  * @internal

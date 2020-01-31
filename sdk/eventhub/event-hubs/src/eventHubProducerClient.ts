@@ -3,9 +3,7 @@
 
 import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
 import { EventDataBatch } from "./eventDataBatch";
-import { EventHubClient } from "./impl/eventHubClient";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
-import { EventHubProducer } from "./sender";
 import {
   SendBatchOptions,
   GetEventHubPropertiesOptions,
@@ -14,6 +12,10 @@ import {
   EventHubClientOptions,
   CreateBatchOptions
 } from "./models/public";
+import { EventHubSender, createBatch } from "./eventHubSender";
+import { ConnectionContext } from "./connectionContext";
+import { throwErrorIfConnectionClosed } from "./util/error";
+import * as amqpContextHelpers from "./impl/amqpContextHelpers";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.
@@ -28,9 +30,9 @@ import {
  *
  */
 export class EventHubProducerClient {
-  private _client: EventHubClient;
-
-  private _producersMap: Map<string, EventHubProducer>;
+  private _connectionContext: ConnectionContext;
+  private _clientOptions: EventHubClientOptions;
+  private _sendersMap: Map<string, EventHubSender>;
 
   /**
    * @property
@@ -38,7 +40,7 @@ export class EventHubProducerClient {
    * The name of the Event Hub instance for which this client is created.
    */
   get eventHubName(): string {
-    return this._client.eventHubName;
+    return this._connectionContext.config.entityPath;
   }
 
   /**
@@ -48,7 +50,7 @@ export class EventHubProducerClient {
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
    */
   get fullyQualifiedNamespace(): string {
-    return this._client.fullyQualifiedNamespace;
+    return this._connectionContext.config.host;
   }
 
   /**
@@ -108,26 +110,32 @@ export class EventHubProducerClient {
     options4?: EventHubClientOptions
   ) {
     if (typeof eventHubNameOrOptions2 !== "string") {
-      this._client = new EventHubClient(
+      this._clientOptions = eventHubNameOrOptions2 || {};
+
+      this._connectionContext = amqpContextHelpers.createAmqpContextUsingConnectionString(
         fullyQualifiedNamespaceOrConnectionString1,
-        eventHubNameOrOptions2
+        this._clientOptions
       );
     } else if (!isTokenCredential(credentialOrOptions3)) {
-      this._client = new EventHubClient(
+      this._clientOptions = credentialOrOptions3 || {};
+
+      this._connectionContext = amqpContextHelpers.createAmqpContextUsingConnectionString(
         fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2,
-        credentialOrOptions3
+        this._clientOptions
       );
     } else {
-      this._client = new EventHubClient(
+      this._clientOptions = options4 || {};
+
+      this._connectionContext = amqpContextHelpers.createAmqpContextWithTokenCredential(
         fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2,
         credentialOrOptions3,
-        options4
+        this._clientOptions
       );
     }
 
-    this._producersMap = new Map();
+    this._sendersMap = new Map();
   }
 
   /**
@@ -145,18 +153,9 @@ export class EventHubProducerClient {
    * @throws AbortError if the operation is cancelled via the abortSignal in the options.
    */
   async createBatch(options?: CreateBatchOptions): Promise<EventDataBatch> {
-    if (options && options.partitionId && options.partitionKey) {
-      throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
-    }
+    const sender = this.getCachedSenderForPartition("");
 
-    let producer = this._producersMap.get("");
-
-    if (!producer) {
-      producer = this._client.createProducer();
-      this._producersMap.set("", producer);
-    }
-
-    return producer.createBatch(options);
+    return createBatch(this._connectionContext, sender, this._clientOptions, options);
   }
 
   /**
@@ -179,14 +178,12 @@ export class EventHubProducerClient {
       partitionId = batch.partitionId;
     }
 
-    let producer = this._producersMap.get(partitionId);
-    if (!producer) {
-      producer = this._client.createProducer({
-        partitionId: partitionId === "" ? undefined : partitionId
-      });
-      this._producersMap.set(partitionId, producer);
-    }
-    return producer.send(batch, options);
+    const sender = this.getCachedSenderForPartition(partitionId);
+
+    return sender.send(batch, {
+      ...this._clientOptions,
+      ...options
+    });
   }
 
   /**
@@ -196,12 +193,8 @@ export class EventHubProducerClient {
    * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
-    await this._client.close();
-
-    for (const pair of this._producersMap) {
-      await pair[1].close();
-    }
-    this._producersMap.clear();
+    await amqpContextHelpers.close(this._connectionContext);
+    this._sendersMap.clear();
   }
 
   /**
@@ -212,7 +205,7 @@ export class EventHubProducerClient {
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
-    return this._client.getProperties(options);
+    return amqpContextHelpers.getProperties(this._connectionContext, this._clientOptions, options);
   }
 
   /**
@@ -224,7 +217,11 @@ export class EventHubProducerClient {
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
-    return this._client.getPartitionIds(options);
+    return amqpContextHelpers.getPartitionIds(
+      this._connectionContext,
+      this._clientOptions,
+      options
+    );
   }
 
   /**
@@ -239,6 +236,28 @@ export class EventHubProducerClient {
     partitionId: string,
     options: GetPartitionPropertiesOptions = {}
   ): Promise<PartitionProperties> {
-    return this._client.getPartitionProperties(partitionId, options);
+    return amqpContextHelpers.getPartitionProperties(
+      partitionId,
+      this._connectionContext,
+      this._clientOptions,
+      options
+    );
+  }
+
+  private getCachedSenderForPartition(partitionId: string): EventHubSender {
+    let sender = this._sendersMap.get(partitionId);
+
+    if (!sender) {
+      throwErrorIfConnectionClosed(this._connectionContext);
+
+      sender = EventHubSender.create(
+        this._connectionContext,
+        partitionId === "" ? undefined : partitionId
+      );
+
+      this._sendersMap.set(partitionId, sender);
+    }
+
+    return sender;
   }
 }

@@ -9,13 +9,13 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
 import { EventData, EventHubProducerClient, EventHubConsumerClient } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
-import { SendOptions } from "../src/models/public";
+import { SendBatchOptions } from "../src/models/public";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
-import { EventHubProducer } from "../src/sender";
 import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
+import { sendMessagesToPartitionForTest, createBatchForTests } from "./utils/sendHelpers";
 const env = getEnvVars();
 
 describe("EventHub Sender #RunnableInBrowser", function(): void {
@@ -46,35 +46,47 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   describe("Single message", function(): void {
     it("should be sent successfully.", async function(): Promise<void> {
       const data: EventData = { body: "Hello World 1" };
-      await client.createProducer().send(data);
+      sendMessagesToPartitionForTest("", data, producerClient);
     });
 
     it("with partition key should be sent successfully.", async function(): Promise<void> {
       const data: EventData = { body: "Hello World 1" };
-      await client.createProducer().send(data, { partitionKey: "1" });
+      sendMessagesToPartitionForTest("1", data, producerClient);
     });
 
     it("with partition key as a number should be sent successfully.", async function(): Promise<
       void
     > {
       const data: EventData = { body: "Hello World 1" };
-      await client.createProducer().send(data, { partitionKey: 1 as any });
+      const batch = await createBatchForTests(
+        {
+          partitionKey: 1 as any
+        },
+        data,
+        producerClient
+      );
+
+      await producerClient.sendBatch(batch);
     });
 
     it("should be sent successfully to a specific partition.", async function(): Promise<void> {
       const data: EventData = { body: "Hello World 1" };
-      await client.createProducer({ partitionId: "0" }).send(data);
+      // await client.createProducer({ partitionId: "0" }).send(data);
+      sendMessagesToPartitionForTest("0", data, producerClient);
     });
 
     it("should support being cancelled", async function(): Promise<void> {
       try {
         const data: EventData = { body: "Sender single message Cancellation Test - timeout 0" };
-        const sender = client.createProducer();
-        // call send() once to create a connection
-        await sender.send(data);
+
+        // call sendBatch once to create a connection
+        const batch = await createBatchForTests({}, data, producerClient);
+        producerClient.sendBatch(batch);
+
         // abortSignal event listeners will be triggered after synchronous paths are executed
         const abortSignal = AbortController.timeout(0);
-        await sender.send(data, { abortSignal });
+        await producerClient.sendBatch(batch, { abortSignal });
+
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
@@ -90,75 +102,13 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
 
       try {
         const data: EventData = { body: "Sender single message Cancellation Test - immediate" };
-        await client.createProducer().send(data, { abortSignal: abortController.signal });
+        const batch = await createBatchForTests({}, data, producerClient);
+        await producerClient.sendBatch(batch, { abortSignal: abortController.signal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The send operation has been cancelled by the user.");
       }
-    });
-
-    it("should throw when partitionId and partitionKey are provided", async function(): Promise<
-      void
-    > {
-      try {
-        const data: EventData = { body: "Sender paritition id and partition key" };
-        await client.createProducer({ partitionId: "0" }).send(data, { partitionKey: "1" });
-        throw new Error("Test Failure");
-      } catch (err) {
-        err.message.should.equal(
-          "Partition key is not supported when using producers that were created using a partition id."
-        );
-      }
-    });
-
-    it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
-
-      const rootSpan = tracer.startSpan("root");
-
-      const producer = client.createProducer({ partitionId: "0" });
-
-      await producer.send(
-        { body: "single message - manual trace propagation" },
-        {
-          tracingOptions: {
-            spanOptions: {
-              parent: rootSpan
-            }
-          }
-        }
-      );
-
-      rootSpan.end();
-
-      const rootSpans = tracer.getRootSpans();
-      rootSpans.length.should.equal(1, "Should only have one root spans.");
-      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
-
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.send",
-                children: []
-              }
-            ]
-          }
-        ]
-      };
-
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-
-      await producer.close();
     });
   });
 
@@ -172,7 +122,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
           body: "Hello World 2"
         }
       ];
-      await client.createProducer().send(data);
+      await sendMessagesToPartitionForTest("", data, producerClient);
     });
     it("with partition key should be sent successfully.", async function(): Promise<void> {
       const data: EventData[] = [
@@ -183,7 +133,8 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
           body: "Hello World 2"
         }
       ];
-      await client.createProducer().send(data, { partitionKey: 1 as any });
+      const batch = await createBatchForTests({ partitionKey: 1 as any }, data, producerClient);
+      await producerClient.sendBatch(batch);
     });
     it("should be sent successfully to a specific partition.", async function(): Promise<void> {
       const data: EventData[] = [
@@ -194,7 +145,8 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
           body: "Hello World 2"
         }
       ];
-      await client.createProducer({ partitionId: "0" }).send(data);
+
+      await sendMessagesToPartitionForTest("0", data, producerClient);
     });
 
     it("should support being cancelled", async function(): Promise<void> {
@@ -204,12 +156,15 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
             body: "Sender Cancellation Test - timeout 0"
           }
         ];
-        const sender = client.createProducer();
-        // call send() once to create a connection
-        await sender.send(data);
+
+        const batch = await createBatchForTests({}, data, producerClient);
+
+        // call sendBatch() once to create a connection
+        await producerClient.sendBatch(batch);
+
         // abortSignal event listeners will be triggered after synchronous paths are executed
         const abortSignal = AbortController.timeout(0);
-        await sender.send(data, { abortSignal });
+        await producerClient.sendBatch(batch, { abortSignal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
@@ -229,29 +184,17 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
             body: "Sender Cancellation Test - immediate"
           }
         ];
-        await client.createProducer().send(data, { abortSignal: abortController.signal });
+
+        const batch = await createBatchForTests({ partitionId: "0" }, data, producerClient);
+
+        await producerClient.sendBatch(batch, {
+          abortSignal: abortController.signal
+        });
+
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The send operation has been cancelled by the user.");
-      }
-    });
-
-    it("should throw when partitionId and partitionKey are provided", async function(): Promise<
-      void
-    > {
-      try {
-        const data: EventData[] = [
-          {
-            body: "Sender paritition id and partition key"
-          }
-        ];
-        await client.createProducer({ partitionId: "0" }).send(data, { partitionKey: "1" });
-        throw new Error("Test Failure");
-      } catch (err) {
-        err.message.should.equal(
-          "Partition key is not supported when using producers that were created using a partition id."
-        );
       }
     });
   });
@@ -513,30 +456,46 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
     });
 
     it("should support being cancelled", async function(): Promise<void> {
+      let newClient: EventHubProducerClient | undefined;
+
       try {
-        const producer = client.createProducer();
+        newClient = new EventHubProducerClient(service.connectionString, service.path);
+
         // abortSignal event listeners will be triggered after synchronous paths are executed
         const abortSignal = AbortController.timeout(0);
-        await producer.createBatch({ abortSignal: abortSignal });
+
+        await newClient.createBatch({ abortSignal: abortSignal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The create batch operation has been cancelled by the user.");
+      } finally {
+        if (newClient) {
+          await newClient.close();
+        }
       }
     });
 
     it("should support being cancelled from an already aborted AbortSignal", async function(): Promise<
       void
     > {
+      let newClient: EventHubProducerClient | undefined;
+
       const abortController = new AbortController();
       abortController.abort();
       try {
-        const producer = client.createProducer();
-        await producer.createBatch({ abortSignal: abortController.signal });
+        newClient = new EventHubProducerClient(service.connectionString, service.path);
+
+        const batch = await newClient.createBatch({ abortSignal: abortController.signal });
+        batch.tryAdd({ body: "hello" });
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The create batch operation has been cancelled by the user.");
+      } finally {
+        if (newClient) {
+          await newClient.close();
+        }
       }
     });
   });
@@ -554,29 +513,6 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
 
     afterEach(() => {
       consumerClient.close();
-    });
-
-    it("should be isolated on same partitionId", async function(): Promise<void> {
-      const producers: EventHubProducer[] = [];
-
-      // create multiple producers with the same partition id
-      for (let i = 0; i < 5; i++) {
-        producers.push(client.createProducer({ partitionId: "0" }));
-      }
-
-      // ensure all producers can send a message
-      for (const producer of producers) {
-        await producer.send({ body: "foo" });
-      }
-
-      do {
-        // close one of the producers and send messages with remaining senders
-        // also closes all of the senders by the end of the test!
-        await producers.pop()!.close();
-        for (const producer of producers) {
-          await producer.send({ body: "bar" });
-        }
-      } while (producers.length);
     });
   });
 
@@ -674,175 +610,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         throw err;
       }
     });
-
-    it("should fail when a message greater than 1 MB is sent and succeed when a normal message is sent after that on the same link.", async function(): Promise<
-      void
-    > {
-      const data: EventData = {
-        body: Buffer.from("Z".repeat(1300000))
-      };
-      try {
-        debug("Sending a message of 300KB...");
-        await client.createProducer({ partitionId: "0" }).send([data]);
-        throw new Error("Test failure");
-      } catch (err) {
-        debug(err);
-        should.exist(err);
-        should.equal(err.code, "MessageTooLargeError");
-        err.message.should.match(
-          /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
-        );
-      }
-      await client.createProducer({ partitionId: "0" }).send([{ body: "Hello World EventHub!!" }]);
-      debug("Sent the message successfully on the same link..");
-    });
-
-    it("can be manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
-
-      const rootSpan = tracer.startSpan("root");
-
-      const producer = client.createProducer({ partitionId: "0" });
-
-      const events = [];
-      for (let i = 0; i < 5; i++) {
-        events.push({ body: `multiple messages - manual trace propgation: ${i}` });
-      }
-      await producer.send(events, {
-        tracingOptions: {
-          spanOptions: {
-            parent: rootSpan
-          }
-        }
-      });
-      rootSpan.end();
-
-      const rootSpans = tracer.getRootSpans();
-      rootSpans.length.should.equal(1, "Should only have one root spans.");
-      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
-
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.send",
-                children: []
-              }
-            ]
-          }
-        ]
-      };
-
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-
-      await producer.close();
-    });
-
-    it("skips already instrumented events when manually traced", async function(): Promise<void> {
-      const tracer = new TestTracer();
-      setTracer(tracer);
-
-      const rootSpan = tracer.startSpan("root");
-
-      const producer = client.createProducer({ partitionId: "0" });
-
-      const events: EventData[] = [];
-      for (let i = 0; i < 5; i++) {
-        events.push({ body: `multiple messages - manual trace propgation: ${i}` });
-      }
-      events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
-      await producer.send(events, {
-        tracingOptions: {
-          spanOptions: {
-            parent: rootSpan
-          }
-        }
-      });
-      rootSpan.end();
-
-      const rootSpans = tracer.getRootSpans();
-      rootSpans.length.should.equal(1, "Should only have one root spans.");
-      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
-
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.send",
-                children: []
-              }
-            ]
-          }
-        ]
-      };
-
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-
-      await producer.close();
-    });
   });
 
   describe("Negative scenarios", function(): void {
-    it("a message greater than 1 MB should fail.", async function(): Promise<void> {
-      const data: EventData = {
-        body: Buffer.from("Z".repeat(1300000))
-      };
-      try {
-        await client.createProducer().send([data]);
-        throw new Error("Test failure");
-      } catch (err) {
-        debug(err);
-        should.exist(err);
-        should.equal(err.code, "MessageTooLargeError");
-        err.message.should.match(
-          /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
-        );
-      }
-    });
-
     describe("on invalid partition ids like", function(): void {
       // tslint:disable-next-line: no-null-keyword
       const invalidIds = ["XYZ", "-1", "1000", "-"];
@@ -850,9 +620,12 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         it(`"${id}" should throw an error`, async function(): Promise<void> {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await client
-              .createProducer({ partitionId: id as any })
-              .send([{ body: "Hello world!" }]);
+
+            await sendMessagesToPartitionForTest(
+              id as any,
+              { body: "Hello world!" },
+              producerClient
+            );
             debug("sent the message.");
             throw new Error("Test failure");
           } catch (err) {
@@ -865,14 +638,17 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
         });
       });
 
-      const invalidIds2 = ["", " "];
+      const invalidIds2 = [" "];
       invalidIds2.forEach(function(id: string): void {
         it(`"${id}" should throw an invalid EventHub address error`, async function(): Promise<void> {
           try {
             debug("Created sender and will be sending a message to partition id ...", id);
-            await client
-              .createProducer({ partitionId: id as any })
-              .send([{ body: "Hello world!" }]);
+            await sendMessagesToPartitionForTest(
+              id as any,
+              { body: "Hello world!" },
+              producerClient
+            );
+
             debug("sent the message.");
             throw new Error("Test failure");
           } catch (err) {
@@ -890,20 +666,20 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
   async function sendBatch(
     bodies: any[],
     partitionId: string,
-    options?: SendOptions
+    options?: SendBatchOptions
   ): Promise<void>;
-  async function sendBatch(bodies: any[], options?: SendOptions): Promise<void>;
+  async function sendBatch(bodies: any[], options?: SendBatchOptions): Promise<void>;
   async function sendBatch(
     bodies1: any[],
-    partitionIdOrOptions2: string | SendOptions | undefined,
-    options3?: SendOptions
+    partitionIdOrOptions2: string | SendBatchOptions | undefined,
+    options3?: SendBatchOptions
   ): Promise<void> {
-    let sendOptions: SendOptions | undefined = options3;
+    let sendOptions: SendBatchOptions | undefined = options3;
 
     let partitionId: string | undefined = undefined;
 
     if (typeof partitionIdOrOptions2 !== "string") {
-      sendOptions = partitionIdOrOptions2 as SendOptions;
+      sendOptions = partitionIdOrOptions2 as SendBatchOptions;
     } else {
       partitionId = partitionIdOrOptions2;
       sendOptions = options3;

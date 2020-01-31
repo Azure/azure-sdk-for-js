@@ -431,11 +431,7 @@ describe("EventHubConsumerClient", () => {
           "Single partition target: 0",
           "No partitions owned, skipping abandoning."
         ],
-        [
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger
-        ]
+        [logger.verbose as debug.Debugger]
       );
 
       const tester = new ReceivedMessagesTester(["0"], false);
@@ -468,11 +464,7 @@ describe("EventHubConsumerClient", () => {
           "EventHubConsumerClient subscribing to all partitions, no checkpoint store.",
           "GreedyPartitionLoadBalancer created. Watching all."
         ],
-        [
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger
-        ]
+        [logger.verbose as debug.Debugger]
       );
 
       const tester = new ReceivedMessagesTester(partitionIds, false);

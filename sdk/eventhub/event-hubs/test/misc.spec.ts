@@ -14,7 +14,8 @@ import {
   EventHubProperties,
   ReceivedEventData,
   EventHubConsumerClient,
-  Subscription
+  Subscription,
+  EventHubProducerClient
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -25,6 +26,7 @@ import {
 import { TraceFlags } from "@opentelemetry/types";
 import { EventHubConsumer } from "../src/receiver";
 import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
+import { sendMessagesToPartitionForTest, createBatchForTests } from "./utils/sendHelpers";
 const env = getEnvVars();
 
 describe("Misc tests #RunnableInBrowser", function(): void {
@@ -33,6 +35,11 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
   const client: EventHubClient = new EventHubClient(service.connectionString, service.path);
+  const producerClient: EventHubProducerClient = new EventHubProducerClient(
+    service.connectionString,
+    service.path
+  );
+
   let receiver: EventHubConsumer;
   let hubInfo: EventHubProperties;
   before("validate environment", async function(): Promise<void> {
@@ -49,6 +56,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
 
   after("close the connection", async function(): Promise<void> {
     await client.close();
+    await producerClient.close();
   });
 
   it("should be able to send and receive a large message correctly", async function(): Promise<
@@ -67,8 +75,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     });
     let data = await receiver.receiveBatch(1, 1);
     should.equal(data.length, 0, "Unexpected to receive message before client sends it");
-    const sender = client.createProducer({ partitionId });
-    await sender.send([obj]);
+    await sendMessagesToPartitionForTest(partitionId, obj, producerClient);
     debug("Successfully sent the large message.");
     data = await receiver.receiveBatch(1, 30);
     debug("Closing the receiver..");
@@ -103,8 +110,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
       offset
     });
-    const sender = client.createProducer({ partitionId });
-    await sender.send([obj]);
+    await sendMessagesToPartitionForTest(partitionId, obj, producerClient);
     debug("Successfully sent the large message.");
     const data = await receiver.receiveBatch(1, 30);
     await receiver.close();
@@ -137,8 +143,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
       offset
     });
-    const sender = client.createProducer({ partitionId });
-    await sender.send([obj]);
+    await sendMessagesToPartitionForTest(partitionId, obj, producerClient);
     debug("Successfully sent the large message.");
     const data = await receiver.receiveBatch(1, 30);
     await receiver.close();
@@ -160,8 +165,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
     receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
       offset
     });
-    const sender = client.createProducer({ partitionId });
-    await sender.send([obj]);
+    await sendMessagesToPartitionForTest(partitionId, obj, producerClient);
     debug("Successfully sent the large message.");
     const data = await receiver.receiveBatch(1, 30);
     await receiver.close();
@@ -187,8 +191,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
         d.push(obj);
       }
 
-      const sender = client.createProducer({ partitionId });
-      await sender.send(d);
+      await sendMessagesToPartitionForTest(partitionId, d, producerClient);
       debug("Successfully sent 5 messages batched together.");
 
       const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
@@ -239,8 +242,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
         d.push(obj);
       }
 
-      const sender = client.createProducer({ partitionId });
-      await sender.send(d);
+      await sendMessagesToPartitionForTest(partitionId, d, producerClient);
       debug("Successfully sent 5 messages batched together.");
 
       const receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, partitionId, {
@@ -286,12 +288,13 @@ describe("Misc tests #RunnableInBrowser", function(): void {
 
     for (let i = 0; i < msgToSendCount; i++) {
       const partitionKey = getRandomInt(10);
-      const sender = client.createProducer();
-      senderPromises.push(
-        sender.send([{ body: "Hello EventHub " + i }], {
-          partitionKey: partitionKey.toString()
-        })
+      const batch = await createBatchForTests(
+        { partitionKey: partitionKey.toString() },
+        [{ body: "Hello EventHub " + i }],
+        producerClient
       );
+
+      senderPromises.push(producerClient.sendBatch(batch));
     }
 
     await Promise.all(senderPromises);
