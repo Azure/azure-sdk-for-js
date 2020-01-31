@@ -165,14 +165,43 @@ export function filterSecretsFromStrings(
  * @param {ReplacementFunctions} replacements
  * @returns
  */
-export function filterSecretsFromJSONContent(
+export function filterSecretsRecursivelyFromJSON(
   content: any,
   replaceableVariables: ReplacementMap,
   replacements: ReplacementFunctions
 ) {
-  return JSON.parse(
-    filterSecretsFromStrings(JSON.stringify(content), replaceableVariables, replacements)
-  );
+  let updatedContent = content;
+  if (typeof updatedContent === "string") {
+    // strings
+    updatedContent = filterSecretsFromStrings(updatedContent, replaceableVariables, replacements);
+  } else if (Array.isArray(updatedContent)) {
+    // arrays
+    updatedContent = updatedContent.map((item) =>
+      filterSecretsRecursivelyFromJSON(item, replaceableVariables, replacements)
+    );
+  } else {
+    // json objects
+    for (const i of Object.keys(updatedContent)) {
+      if (typeof updatedContent[i] === "string") {
+        updatedContent[i] = filterSecretsFromStrings(
+          updatedContent[i],
+          replaceableVariables,
+          replacements
+        );
+      } else if (updatedContent[i] !== null && typeof updatedContent[i] === "object") {
+        updatedContent[i] = filterSecretsRecursivelyFromJSON(
+          updatedContent[i],
+          replaceableVariables,
+          replacements
+        );
+      }
+    }
+    // last resort to capture any left over secrets
+    updatedContent = JSON.parse(
+      filterSecretsFromStrings(JSON.stringify(updatedContent), replaceableVariables, replacements)
+    );
+  }
+  return updatedContent;
 }
 
 /**
