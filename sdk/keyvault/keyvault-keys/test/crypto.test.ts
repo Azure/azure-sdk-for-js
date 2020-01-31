@@ -51,7 +51,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
 
     it("manually encrypt locally and decrypt remotely, both with RSA1_5", async function() {
-      recorder.skip("browser");
+      recorder.skip("browser", "Local encryption is only supported in NodeJS");
       const text = this.test!.title;
       const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
       const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
@@ -70,7 +70,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
 
     it("manually encrypt locally and decrypt remotely, both with RSA-OAEP", async function() {
-      recorder.skip("browser");
+      recorder.skip("browser", "Local encryption is only supported in NodeJS");
       const text = this.test!.title;
       // Encrypting outside the client since the client will intentionally
       const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
@@ -82,7 +82,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   }
 
   it("sign and verify with RS256", async function() {
-    recorder.skip("browser");
+    recorder.skip("browser", "Local encryption is only supported in NodeJS");
     const signatureValue = this.test!.title;
     const hash = createHash("sha256");
     hash.update(signatureValue);
