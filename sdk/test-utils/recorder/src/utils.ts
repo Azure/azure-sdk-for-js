@@ -171,11 +171,16 @@ export function filterSecretsRecursivelyFromJSON(
   replacements: ReplacementFunctions
 ) {
   let updatedContent = content;
-  if (Array.isArray(updatedContent)) {
+  if (typeof updatedContent === "string") {
+    // strings
+    updatedContent = filterSecretsFromStrings(updatedContent, replaceableVariables, replacements);
+  } else if (Array.isArray(updatedContent)) {
+    // arrays
     updatedContent = updatedContent.map((item) =>
       filterSecretsRecursivelyFromJSON(item, replaceableVariables, replacements)
     );
   } else {
+    // json objects
     for (const i of Object.keys(updatedContent)) {
       if (typeof updatedContent[i] === "string") {
         updatedContent[i] = filterSecretsFromStrings(
@@ -191,6 +196,10 @@ export function filterSecretsRecursivelyFromJSON(
         );
       }
     }
+    // last resort to capture any left over secrets
+    updatedContent = JSON.parse(
+      filterSecretsFromStrings(JSON.stringify(updatedContent), replaceableVariables, replacements)
+    );
   }
   return updatedContent;
 }
