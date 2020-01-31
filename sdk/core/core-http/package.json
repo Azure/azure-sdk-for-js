@@ -45,7 +45,8 @@
     "./es/lib/policies/proxyPolicy.js": "./es/lib/policies/proxyPolicy.browser.js",
     "./es/lib/util/base64.js": "./es/lib/util/base64.browser.js",
     "./es/lib/util/xml.js": "./es/lib/util/xml.browser.js",
-    "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js"
+    "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js",
+    "./es/lib/util/inspect.js": "./es/lib/util/inspect.browser.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-http",
