@@ -3,17 +3,17 @@
 
 import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
 import { EventDataBatch } from "./eventDataBatch";
-import {
-  EventHubClient,
-  EventHubClientOptions,
-  GetPartitionIdsOptions,
-  GetEventHubPropertiesOptions,
-  CreateBatchOptions,
-  SendBatchOptions,
-  GetPartitionPropertiesOptions
-} from "./impl/eventHubClient";
+import { EventHubClient } from "./impl/eventHubClient";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { EventHubProducer } from "./sender";
+import {
+  SendBatchOptions,
+  GetEventHubPropertiesOptions,
+  GetPartitionIdsOptions,
+  GetPartitionPropertiesOptions,
+  EventHubClientOptions,
+  CreateBatchOptions
+} from "./models/public";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
+import { testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -79,7 +79,7 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can generate a backup of a key with requestOptions timeout", async function() {
       await assertThrowsAbortError(async () => {
@@ -111,7 +111,7 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can restore a key with requestOptions timeout", async function() {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);

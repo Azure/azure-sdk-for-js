@@ -5,7 +5,7 @@
   "version": "4.0.3",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "node",
@@ -21,7 +21,7 @@
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/keyvault-keys.d.ts",
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "files": [
@@ -60,11 +60,11 @@
     "lint:terminal": "eslint package.json tsconfig.json src test samples --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "test:browser": "npm run build:test && npm run unit-test:browser",
-    "test:node": "npm run build:test && npm run unit-test:node",
-    "test": "npm run build:test && npm run unit-test",
-    "unit-test:browser": "cross-env TEST_MODE=playback karma start --single-run",
-    "unit-test:node": "cross-env TEST_MODE=playback mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 5000000 --full-trace dist-test/index.node.js",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 5000000 --full-trace dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
@@ -96,6 +96,7 @@
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",
+    "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
     "@rollup/plugin-replace": "^2.2.0",
@@ -144,7 +145,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^3.1.1",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.7.4",
+    "typescript": "~3.6.4",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
   }

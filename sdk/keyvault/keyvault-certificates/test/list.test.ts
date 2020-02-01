@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import chai from "chai";
 import { CertificateClient } from "../src";
-import { isRecording, isPlayingBack } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { env, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { isNode } from '@azure/core-http';
-import { assertThrowsAbortError } from './utils/utils.common';
+import { isNode } from "@azure/core-http";
+import { assertThrowsAbortError } from "./utils/utils.common";
 const { expect } = chai;
 
 describe("Certificates client - list certificates in various ways", () => {
@@ -40,10 +39,12 @@ describe("Certificates client - list certificates in various ways", () => {
   // The tests follow
 
   // Use this while recording to make sure the target keyvault is clean. The next tests will produce a more consistent output.
-  if (isRecording) {
+  if (isRecordMode()) {
     it("can purge all certificates", async function() {
       // WARNING: When running integration-tests, or having TEST_MODE="record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
-      for await (const certificate of client.listPropertiesOfCertificates({ includePending: true })) {
+      for await (const certificate of client.listPropertiesOfCertificates({
+        includePending: true
+      })) {
         try {
           await testClient.flushCertificate(certificate.name!);
         } catch (e) {}
@@ -81,7 +82,7 @@ describe("Certificates client - list certificates in various ways", () => {
   // I believe it's a bug on the recorder, but we're
   // migrating to the new recorder soon, so I'm hoping to let
   // this oddity happen for now and come back when the new recorder is here.
-  if (isRecording) {
+  if (isRecordMode()) {
     it("can list deleted certificates", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const certificateNames = [`${certificateName}0`, `${certificateName}1`];
@@ -115,7 +116,9 @@ describe("Certificates client - list certificates in various ways", () => {
       await client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
     }
     let found = 0;
-    for await (const page of client.listPropertiesOfCertificates({ includePending: true }).byPage()) {
+    for await (const page of client
+      .listPropertiesOfCertificates({ includePending: true })
+      .byPage()) {
       for (const certificate of page) {
         // The vault might contain more certificates than the ones we inserted.
         if (!certificateNames.includes(certificate.name!)) continue;
@@ -128,7 +131,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can get several inserted certificates with requestOptions timeout", async function() {
       const iter = client.listPropertiesOfCertificates({ requestOptions: { timeout: 1 } });
@@ -163,7 +166,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("list deleted certificates with requestOptions timeout", async function() {
       const iter = client.listDeletedCertificates({ requestOptions: { timeout: 1 } });
@@ -219,7 +222,7 @@ describe("Certificates client - list certificates in various ways", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can get the versions of a certificate with requestOptions timeout", async function() {
       const iter = client.listPropertiesOfCertificateVersions("doesn't matter", {

@@ -81,20 +81,20 @@ export class TopicTypes {
   }
 
   /**
-   * List event types for a topic type
-   * @summary List event types
-   * @param topicTypeName Name of the topic type
+   * List event types for a topic type.
+   * @summary List event types.
+   * @param topicTypeName Name of the topic type.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopicTypesListEventTypesResponse>
    */
   listEventTypes(topicTypeName: string, options?: msRest.RequestOptionsBase): Promise<Models.TopicTypesListEventTypesResponse>;
   /**
-   * @param topicTypeName Name of the topic type
+   * @param topicTypeName Name of the topic type.
    * @param callback The callback
    */
   listEventTypes(topicTypeName: string, callback: msRest.ServiceCallback<Models.EventTypesListResult>): void;
   /**
-   * @param topicTypeName Name of the topic type
+   * @param topicTypeName Name of the topic type.
    * @param options The optional parameters
    * @param callback The callback
    */

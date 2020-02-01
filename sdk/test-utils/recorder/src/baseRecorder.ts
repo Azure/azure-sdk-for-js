@@ -6,46 +6,37 @@ import nise from "nise";
 import {
   isBrowser,
   blobToString,
-  escapeRegExp,
-  env,
   TestInfo,
+  parseUrl,
   isPlaybackMode,
   isRecordMode,
-  parseUrl,
-  findRecordingsFolderPath
+  findRecordingsFolderPath,
+  RecorderEnvironmentSetup,
+  filterSecretsFromStrings,
+  filterSecretsRecursivelyFromJSON
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
 let nock: any;
 
-let replaceableVariables: { [x: string]: string } = {};
-export function setReplaceableVariables(a: { [x: string]: string }): void {
-  replaceableVariables = a;
-  if (isPlaybackMode()) {
-    // Providing dummy values to avoid the error
-    Object.keys(a).map((k) => {
-      env[k] = a[k];
-    });
-  }
-}
-
-let replacements: any[] = [];
-export function setReplacements(maps: any): void {
-  replacements = maps;
-}
-
-let queryParameters: string[] = [];
 /**
- *  Query Parameters, for example from the SAS token may contain sensitive information.
- *  Query Parameters provided by calling this method will be skipped.
- * @param {string[]} [params] Query Parameters to be skipped
+ * Loads the environment variables in both node and browser modes corresponding to the key-value pairs provided.
+ *
+ * Example-
+ *
+ * Suppose `replaceableVariables` is { ACCOUNT_NAME: "my_account_name", ACCOUNT_KEY: "fake_secret" },
+ * `setEnvironmentVariables` loads the ACCOUNT_NAME and ACCOUNT_KEY in the environment accordingly.
+ * @export
+ * @param {{ [key: string]: string }} replaceableVariables
  */
-export function skipQueryParams(params: string[]): void {
-  queryParameters = params;
+export function setEnvironmentVariables(env: any, replaceableVariables: { [key: string]: string }) {
+  Object.keys(replaceableVariables).map((key) => {
+    env[key] = replaceableVariables[key];
+  });
 }
 
 export function setEnvironmentOnLoad() {
-  if (!isBrowser() && (isRecordMode || isPlaybackMode)) {
+  if (!isBrowser() && (isRecordMode() || isPlaybackMode())) {
     nock = require("nock");
   }
 
@@ -59,6 +50,11 @@ export abstract class BaseRecorder {
   // Example - node/some_random_test_suite/recording_first_test.js
   protected readonly relativeTestRecordingFilePath: string;
   public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
+  public environmentSetup: RecorderEnvironmentSetup = {
+    replaceableVariables: {},
+    customizationsOnRecordings: [],
+    queryParametersToSkip: []
+  };
 
   constructor(platform: "node" | "browsers", testSuiteTitle: string, testTitle: string) {
     // File Extension
@@ -89,27 +85,26 @@ export abstract class BaseRecorder {
   }
 
   /**
-   * Additional layer of security to avoid unintended/accidental occurrences of secrets in the recordings
-   * */
-  protected filterSecrets(recording: string): string {
-    let updatedRecording = recording;
-    for (const k of Object.keys(replaceableVariables)) {
-      if (env[k]) {
-        const escaped = escapeRegExp(env[k]);
-        updatedRecording = updatedRecording.replace(
-          new RegExp(escaped, "g"),
-          replaceableVariables[k]
-        );
-      }
-    }
-    for (const map of replacements) {
-      updatedRecording = map(updatedRecording);
-    }
-
-    return updatedRecording;
+   * Additional layer of security to avoid unintended/accidental occurrences of secrets in the recordings.
+   * If the content is a string, a filtered string is returned.
+   * If the content is a JSON object, a filtered JSON object is returned.
+   *
+   * @protected
+   * @param content
+   * @returns
+   * @memberof BaseRecorder
+   */
+  protected filterSecrets(content: any): any {
+    const recordingFilterMethod =
+      typeof content === "string" ? filterSecretsFromStrings : filterSecretsRecursivelyFromJSON;
+    return recordingFilterMethod(
+      content,
+      this.environmentSetup.replaceableVariables,
+      this.environmentSetup.customizationsOnRecordings
+    );
   }
 
-  public abstract record(): void;
+  public abstract record(environmentSetup: RecorderEnvironmentSetup): void;
   /**
    * Finds the recording for the corresponding test and replays the saved responses from the recording.
    *
@@ -117,7 +112,7 @@ export abstract class BaseRecorder {
    * @param {string} filePath Test file path (can be obtained from the mocha's context object - Mocha.Context.currentTest)
    * @memberof BaseRecorder
    */
-  public abstract playback(filePath: string): void;
+  public abstract playback(environmentSetup: RecorderEnvironmentSetup, filePath: string): void;
   public abstract stop(): void;
 }
 
@@ -126,13 +121,15 @@ export class NockRecorder extends BaseRecorder {
     super("node", testSuiteTitle, testTitle);
   }
 
-  public record(): void {
+  public record(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
+    this.environmentSetup = recorderEnvironmentSetup;
     nock.recorder.rec({
       dont_print: true
     });
   }
 
-  public playback(filePath: string): void {
+  public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup, filePath: string): void {
+    this.environmentSetup = recorderEnvironmentSetup;
     /**
      * `@azure/test-utils-recorder` package is used for both the browser and node tests
      *
@@ -243,7 +240,7 @@ export class NiseRecorder extends BaseRecorder {
     const parsedUrl = parseUrl(request.url);
     const query: any = {};
     for (const param in parsedUrl.query) {
-      if (!queryParameters.includes(param) && param !== "_") {
+      if (!this.environmentSetup.queryParametersToSkip.includes(param) && param !== "_") {
         query[param] = parsedUrl.query[param];
       }
     }
@@ -269,11 +266,11 @@ export class NiseRecorder extends BaseRecorder {
       }
     }
 
-    // There shouldn't be parameters in the request that are not present in the recording (except for SAS Query Parameters and "_")
+    // There shouldn't be parameters in the request that are not present in the recording (except for queryParametersToSkip and "_")
     for (const param in request.query) {
       if (
         recording.query[param] === undefined &&
-        !queryParameters.includes(param) &&
+        !this.environmentSetup.queryParametersToSkip.includes(param) &&
         param !== "_"
       ) {
         return false;
@@ -289,7 +286,8 @@ export class NiseRecorder extends BaseRecorder {
 
   // When recording, we want to hit the server and intercept requests/responses
   // Nise does not allow us to intercept requests if they're sent to the server, so we need to override its behavior
-  public record(): void {
+  public record(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
+    this.environmentSetup = recorderEnvironmentSetup;
     const self = this;
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
 
@@ -339,7 +337,8 @@ export class NiseRecorder extends BaseRecorder {
 
   // When playing back, we want to intercept requests, find a corresponding match in our recordings and respond to it with the recorded data
   // We must override the request's 'send' function because all the request information (body, url, method, queries) will be ready when it's called
-  public playback(): void {
+  public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
+    this.environmentSetup = recorderEnvironmentSetup;
     const self = this;
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
 
@@ -403,19 +402,18 @@ export class NiseRecorder extends BaseRecorder {
   }
 
   public stop(): void {
-    for (let i = 0; i < this.recordings.length; i++) {
-      for (const k of Object.keys(this.recordings[i])) {
-        if (typeof this.recordings[i][k] === "string") {
-          this.recordings[i][k] = this.filterSecrets(this.recordings[i][k]);
-        }
-      }
-    }
+    // recordings at this point are in the JSON format.
+    this.recordings = this.filterSecrets(this.recordings);
+
     // We're sending the recordings to the 'karma-json-to-file-reporter' via console.log
     console.log(
       JSON.stringify({
         writeFile: true,
         path: "./recordings/" + this.relativeTestRecordingFilePath,
-        content: { recordings: this.recordings, uniqueTestInfo: this.uniqueTestInfo }
+        content: {
+          recordings: this.recordings,
+          uniqueTestInfo: this.uniqueTestInfo
+        }
       })
     );
   }

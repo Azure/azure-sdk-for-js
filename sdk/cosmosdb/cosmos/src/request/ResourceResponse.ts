@@ -12,7 +12,7 @@ export class ResourceResponse<TResource> {
     public readonly substatus?: SubStatusCode
   ) {}
   public get requestCharge(): number {
-    return this.headers[Constants.HttpHeaders.RequestCharge] as number;
+    return Number(this.headers[Constants.HttpHeaders.RequestCharge]) || 0;
   }
   public get activityId(): string {
     return this.headers[Constants.HttpHeaders.ActivityId] as string;

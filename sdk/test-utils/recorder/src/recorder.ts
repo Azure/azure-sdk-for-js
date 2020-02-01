@@ -1,8 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { getUniqueName, isBrowser, isRecordMode, isPlaybackMode } from "./utils";
-import { NiseRecorder, NockRecorder, BaseRecorder, setEnvironmentOnLoad } from "./baseRecorder";
+import {
+  getUniqueName,
+  isBrowser,
+  isRecordMode,
+  isPlaybackMode,
+  RecorderEnvironmentSetup,
+  env
+} from "./utils";
+import {
+  NiseRecorder,
+  NockRecorder,
+  BaseRecorder,
+  setEnvironmentOnLoad,
+  setEnvironmentVariables
+} from "./baseRecorder";
 
 /**
  * @export
@@ -52,7 +65,10 @@ export interface Recorder {
  * @param {Mocha.Context} [testContext]
  * @returns {Recorder}
  */
-export function record(testContext: Mocha.Context): Recorder {
+export function record(
+  testContext: Mocha.Context,
+  recorderEnvironmentSetup: RecorderEnvironmentSetup
+): Recorder {
   let recorder: BaseRecorder;
   let testHierarchy: string;
   let testTitle: string;
@@ -80,12 +96,18 @@ export function record(testContext: Mocha.Context): Recorder {
     recorder = new NockRecorder(testHierarchy, testTitle);
   }
 
-  // If neither recording nor playback is enabled, requests hit the live-service and no recordings are generated
   if (isRecordMode()) {
-    recorder.record();
+    // If TEST_MODE=record, invokes the recorder, hits the live-service,
+    // expects that the appropriate environment variables are present
+    recorder.record(recorderEnvironmentSetup);
   } else if (isPlaybackMode()) {
-    recorder.playback(testContext.currentTest!.file!);
+    // If TEST_MODE=playback,
+    //  1. sets up the ENV variables
+    //  2. invokes the recorder, play the exisiting test recording.
+    setEnvironmentVariables(env, recorderEnvironmentSetup.replaceableVariables);
+    recorder.playback(recorderEnvironmentSetup, testContext.currentTest!.file!);
   }
+  // If TEST_MODE=live, hits the live-service and no recordings are generated.
 
   return {
     stop: function() {
@@ -123,7 +145,6 @@ export function record(testContext: Mocha.Context): Recorder {
         }
       }
     },
-
     getUniqueName: function(prefix: string, label?: string): string {
       let name: string;
       if (!label) {

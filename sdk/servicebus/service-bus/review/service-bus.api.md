@@ -7,6 +7,7 @@
 import { AmqpMessage } from '@azure/amqp-common';
 import { ApplicationTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { DataTransformer } from '@azure/amqp-common';
+import { DefaultDataTransformer } from '@azure/amqp-common';
 import { delay } from '@azure/amqp-common';
 import { Delivery } from 'rhea-promise';
 import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
@@ -74,6 +75,8 @@ export interface DeadLetterOptions {
     deadLetterErrorDescription: string;
     deadletterReason: string;
 }
+
+export { DefaultDataTransformer }
 
 export { delay }
 

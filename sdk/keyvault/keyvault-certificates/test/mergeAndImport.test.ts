@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import fs from "fs";
 import childProcess from "child_process";
 import { CertificateClient } from "../src";
-import { isRecording, testPollerProperties } from "./utils/recorderUtils";
+import { testPollerProperties } from "./utils/recorderUtils";
 import { isNode } from "@azure/core-http";
-import { env } from "@azure/test-utils-recorder";
+import { env, isRecordMode } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { SecretClient } from "@azure/keyvault-secrets";
@@ -55,11 +55,11 @@ describe("Certificates client - merge and import certificates", () => {
     const base64EncodedCertificate = certificateSecret.value!;
 
     let buffer: Uint8Array;
-    
+
     if (isNode) {
       buffer = Buffer.from(base64EncodedCertificate, "base64");
     } else {
-      buffer = Uint8Array.from(atob(base64EncodedCertificate), c => c.charCodeAt(0));
+      buffer = Uint8Array.from(atob(base64EncodedCertificate), (c) => c.charCodeAt(0));
     }
 
     await client.importCertificate(certificateNames[1], buffer);
@@ -70,7 +70,7 @@ describe("Certificates client - merge and import certificates", () => {
   });
 
   // The signed csr will never be the same.
-  if (isNode && isRecording) {
+  if (isNode && isRecordMode()) {
     it("can merge a self signed certificate", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 

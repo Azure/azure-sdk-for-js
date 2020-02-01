@@ -45,7 +45,8 @@
     "./es/lib/policies/proxyPolicy.js": "./es/lib/policies/proxyPolicy.browser.js",
     "./es/lib/util/base64.js": "./es/lib/util/base64.browser.js",
     "./es/lib/util/xml.js": "./es/lib/util/xml.browser.js",
-    "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js"
+    "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js",
+    "./es/lib/util/inspect.js": "./es/lib/util/inspect.browser.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-http",
@@ -163,7 +164,7 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "express": "^4.16.3",
-    "fetch-mock": "~8.2.1",
+    "fetch-mock": "^8.0.0",
     "glob": "^7.1.2",
     "karma": "^4.0.1",
     "karma-chai": "^0.1.0",

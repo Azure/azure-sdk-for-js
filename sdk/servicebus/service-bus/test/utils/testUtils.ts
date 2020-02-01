@@ -162,15 +162,14 @@ export async function getTopicClientWithTwoSubscriptionClients(
   topicClient: TopicClient;
   subscriptionClients: SubscriptionClient[];
 }> {
-  const entityNames = getEntityNames();
   const subscriptionClients: SubscriptionClient[] = [];
 
-  await recreateTopic(entityNames[EntityNameKeys.TOPIC_FILTER_NAME], {
+  await recreateTopic(EntityNames.TOPIC_FILTER_NAME, {
     enableBatchedOperations: true
   });
   await recreateSubscription(
-    entityNames[EntityNameKeys.TOPIC_FILTER_NAME],
-    entityNames[EntityNameKeys.TOPIC_FILTER_SUBSCRIPTION_NAME],
+    EntityNames.TOPIC_FILTER_NAME,
+    EntityNames.TOPIC_FILTER_SUBSCRIPTION_NAME,
     {
       lockDuration: defaultLockDuration,
       enableBatchedOperations: true
@@ -178,8 +177,8 @@ export async function getTopicClientWithTwoSubscriptionClients(
   );
 
   await recreateSubscription(
-    entityNames[EntityNameKeys.TOPIC_FILTER_NAME],
-    entityNames[EntityNameKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME],
+    EntityNames.TOPIC_FILTER_NAME,
+    EntityNames.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME,
     {
       lockDuration: defaultLockDuration,
       enableBatchedOperations: true
@@ -188,19 +187,19 @@ export async function getTopicClientWithTwoSubscriptionClients(
 
   subscriptionClients.push(
     namespace.createSubscriptionClient(
-      entityNames[EntityNameKeys.TOPIC_FILTER_NAME],
-      entityNames[EntityNameKeys.TOPIC_FILTER_SUBSCRIPTION_NAME]
+      EntityNames.TOPIC_FILTER_NAME,
+      EntityNames.TOPIC_FILTER_SUBSCRIPTION_NAME
     )
   );
   subscriptionClients.push(
     namespace.createSubscriptionClient(
-      entityNames[EntityNameKeys.TOPIC_FILTER_NAME],
-      entityNames[EntityNameKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME]
+      EntityNames.TOPIC_FILTER_NAME,
+      EntityNames.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME
     )
   );
 
   return {
-    topicClient: namespace.createTopicClient(entityNames[EntityNameKeys.TOPIC_FILTER_NAME]),
+    topicClient: namespace.createTopicClient(EntityNames.TOPIC_FILTER_NAME),
     subscriptionClients
   };
 }
@@ -213,17 +212,15 @@ export async function getSenderReceiverClients(
   senderClient: QueueClient | TopicClient;
   receiverClient: QueueClient | SubscriptionClient;
 }> {
-  const entityNames = getEntityNames();
-
   switch (receiverClientType) {
     case TestClientType.PartitionedQueue: {
-      await recreateQueue(entityNames[EntityNameKeys.QUEUE_NAME], {
+      await recreateQueue(EntityNames.QUEUE_NAME, {
         lockDuration: defaultLockDuration,
         enablePartitioning: true,
         enableBatchedOperations: true
       });
 
-      const queueClient = sbClient.createQueueClient(entityNames[EntityNameKeys.QUEUE_NAME]);
+      const queueClient = sbClient.createQueueClient(EntityNames.QUEUE_NAME);
       return {
         senderClient: queueClient,
         receiverClient: queueClient
@@ -231,37 +228,31 @@ export async function getSenderReceiverClients(
     }
 
     case TestClientType.PartitionedSubscription: {
-      await recreateTopic(entityNames[EntityNameKeys.TOPIC_NAME], {
+      await recreateTopic(EntityNames.TOPIC_NAME, {
         enablePartitioning: true,
         enableBatchedOperations: true
       });
-      await recreateSubscription(
-        entityNames[EntityNameKeys.TOPIC_NAME],
-        entityNames[EntityNameKeys.SUBSCRIPTION_NAME],
-        {
-          lockDuration: defaultLockDuration,
-          enableBatchedOperations: true
-        }
-      );
+      await recreateSubscription(EntityNames.TOPIC_NAME, EntityNames.SUBSCRIPTION_NAME, {
+        lockDuration: defaultLockDuration,
+        enableBatchedOperations: true
+      });
 
       return {
-        senderClient: sbClient.createTopicClient(entityNames[EntityNameKeys.TOPIC_NAME]),
+        senderClient: sbClient.createTopicClient(EntityNames.TOPIC_NAME),
         receiverClient: sbClient.createSubscriptionClient(
-          entityNames[EntityNameKeys.TOPIC_NAME],
-          entityNames[EntityNameKeys.SUBSCRIPTION_NAME]
+          EntityNames.TOPIC_NAME,
+          EntityNames.SUBSCRIPTION_NAME
         )
       };
     }
 
     case TestClientType.UnpartitionedQueue: {
-      await recreateQueue(entityNames[EntityNameKeys.QUEUE_NAME_NO_PARTITION], {
+      await recreateQueue(EntityNames.QUEUE_NAME_NO_PARTITION, {
         lockDuration: defaultLockDuration,
         enableBatchedOperations: true
       });
 
-      const queueClient = sbClient.createQueueClient(
-        entityNames[EntityNameKeys.QUEUE_NAME_NO_PARTITION]
-      );
+      const queueClient = sbClient.createQueueClient(EntityNames.QUEUE_NAME_NO_PARTITION);
       return {
         senderClient: queueClient,
         receiverClient: queueClient
@@ -269,12 +260,12 @@ export async function getSenderReceiverClients(
     }
 
     case TestClientType.UnpartitionedSubscription: {
-      await recreateTopic(entityNames[EntityNameKeys.TOPIC_NAME_NO_PARTITION], {
+      await recreateTopic(EntityNames.TOPIC_NAME_NO_PARTITION, {
         enableBatchedOperations: true
       });
       await recreateSubscription(
-        entityNames[EntityNameKeys.TOPIC_NAME_NO_PARTITION],
-        entityNames[EntityNameKeys.SUBSCRIPTION_NAME_NO_PARTITION],
+        EntityNames.TOPIC_NAME_NO_PARTITION,
+        EntityNames.SUBSCRIPTION_NAME_NO_PARTITION,
         {
           lockDuration: defaultLockDuration,
           enableBatchedOperations: true
@@ -282,27 +273,23 @@ export async function getSenderReceiverClients(
       );
 
       return {
-        senderClient: sbClient.createTopicClient(
-          entityNames[EntityNameKeys.TOPIC_NAME_NO_PARTITION]
-        ),
+        senderClient: sbClient.createTopicClient(EntityNames.TOPIC_NAME_NO_PARTITION),
         receiverClient: sbClient.createSubscriptionClient(
-          entityNames[EntityNameKeys.TOPIC_NAME_NO_PARTITION],
-          entityNames[EntityNameKeys.SUBSCRIPTION_NAME_NO_PARTITION]
+          EntityNames.TOPIC_NAME_NO_PARTITION,
+          EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
         )
       };
     }
 
     case TestClientType.PartitionedQueueWithSessions: {
-      await recreateQueue(entityNames[EntityNameKeys.QUEUE_NAME_SESSION], {
+      await recreateQueue(EntityNames.QUEUE_NAME_SESSION, {
         lockDuration: defaultLockDuration,
         enablePartitioning: true,
         enableBatchedOperations: true,
         requiresSession: true
       });
 
-      const queueClient = sbClient.createQueueClient(
-        entityNames[EntityNameKeys.QUEUE_NAME_SESSION]
-      );
+      const queueClient = sbClient.createQueueClient(EntityNames.QUEUE_NAME_SESSION);
       return {
         senderClient: queueClient,
         receiverClient: queueClient
@@ -310,13 +297,13 @@ export async function getSenderReceiverClients(
     }
 
     case TestClientType.PartitionedSubscriptionWithSessions: {
-      await recreateTopic(entityNames[EntityNameKeys.TOPIC_NAME_SESSION], {
+      await recreateTopic(EntityNames.TOPIC_NAME_SESSION, {
         enablePartitioning: true,
         enableBatchedOperations: true
       });
       await recreateSubscription(
-        entityNames[EntityNameKeys.TOPIC_NAME_SESSION],
-        entityNames[EntityNameKeys.SUBSCRIPTION_NAME_SESSION],
+        EntityNames.TOPIC_NAME_SESSION,
+        EntityNames.SUBSCRIPTION_NAME_SESSION,
         {
           lockDuration: defaultLockDuration,
           enableBatchedOperations: true,
@@ -325,24 +312,22 @@ export async function getSenderReceiverClients(
       );
 
       return {
-        senderClient: sbClient.createTopicClient(entityNames[EntityNameKeys.TOPIC_NAME_SESSION]),
+        senderClient: sbClient.createTopicClient(EntityNames.TOPIC_NAME_SESSION),
         receiverClient: sbClient.createSubscriptionClient(
-          entityNames[EntityNameKeys.TOPIC_NAME_SESSION],
-          entityNames[EntityNameKeys.SUBSCRIPTION_NAME_SESSION]
+          EntityNames.TOPIC_NAME_SESSION,
+          EntityNames.SUBSCRIPTION_NAME_SESSION
         )
       };
     }
 
     case TestClientType.UnpartitionedQueueWithSessions: {
-      await recreateQueue(entityNames[EntityNameKeys.QUEUE_NAME_NO_PARTITION_SESSION], {
+      await recreateQueue(EntityNames.QUEUE_NAME_NO_PARTITION_SESSION, {
         lockDuration: defaultLockDuration,
         enableBatchedOperations: true,
         requiresSession: true
       });
 
-      const queueClient = sbClient.createQueueClient(
-        entityNames[EntityNameKeys.QUEUE_NAME_NO_PARTITION_SESSION]
-      );
+      const queueClient = sbClient.createQueueClient(EntityNames.QUEUE_NAME_NO_PARTITION_SESSION);
       return {
         senderClient: queueClient,
         receiverClient: queueClient
@@ -350,12 +335,12 @@ export async function getSenderReceiverClients(
     }
 
     case TestClientType.UnpartitionedSubscriptionWithSessions: {
-      await recreateTopic(entityNames[EntityNameKeys.TOPIC_NAME_NO_PARTITION_SESSION], {
+      await recreateTopic(EntityNames.TOPIC_NAME_NO_PARTITION_SESSION, {
         enableBatchedOperations: true
       });
       await recreateSubscription(
-        entityNames[EntityNameKeys.TOPIC_NAME_NO_PARTITION_SESSION],
-        entityNames[EntityNameKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION],
+        EntityNames.TOPIC_NAME_NO_PARTITION_SESSION,
+        EntityNames.SUBSCRIPTION_NAME_NO_PARTITION_SESSION,
         {
           lockDuration: defaultLockDuration,
           enableBatchedOperations: true,
@@ -364,23 +349,21 @@ export async function getSenderReceiverClients(
       );
 
       return {
-        senderClient: sbClient.createTopicClient(
-          entityNames[EntityNameKeys.TOPIC_NAME_NO_PARTITION_SESSION]
-        ),
+        senderClient: sbClient.createTopicClient(EntityNames.TOPIC_NAME_NO_PARTITION_SESSION),
         receiverClient: sbClient.createSubscriptionClient(
-          entityNames[EntityNameKeys.TOPIC_NAME_NO_PARTITION_SESSION],
-          entityNames[EntityNameKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION]
+          EntityNames.TOPIC_NAME_NO_PARTITION_SESSION,
+          EntityNames.SUBSCRIPTION_NAME_NO_PARTITION_SESSION
         )
       };
     }
 
     case TestClientType.TopicFilterTestDefaultSubscription: {
-      await recreateTopic(entityNames[EntityNameKeys.TOPIC_FILTER_NAME], {
+      await recreateTopic(EntityNames.TOPIC_FILTER_NAME, {
         enableBatchedOperations: true
       });
       await recreateSubscription(
-        entityNames[EntityNameKeys.TOPIC_FILTER_NAME],
-        entityNames[EntityNameKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME],
+        EntityNames.TOPIC_FILTER_NAME,
+        EntityNames.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME,
         {
           lockDuration: defaultLockDuration,
           enableBatchedOperations: true
@@ -388,21 +371,21 @@ export async function getSenderReceiverClients(
       );
 
       return {
-        senderClient: sbClient.createTopicClient(entityNames[EntityNameKeys.TOPIC_FILTER_NAME]),
+        senderClient: sbClient.createTopicClient(EntityNames.TOPIC_FILTER_NAME),
         receiverClient: sbClient.createSubscriptionClient(
-          entityNames[EntityNameKeys.TOPIC_FILTER_NAME],
-          entityNames[EntityNameKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME]
+          EntityNames.TOPIC_FILTER_NAME,
+          EntityNames.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME
         )
       };
     }
 
     case TestClientType.TopicFilterTestSubscription: {
-      await recreateTopic(entityNames[EntityNameKeys.TOPIC_FILTER_NAME], {
+      await recreateTopic(EntityNames.TOPIC_FILTER_NAME, {
         enableBatchedOperations: true
       });
       await recreateSubscription(
-        entityNames[EntityNameKeys.TOPIC_FILTER_NAME],
-        entityNames[EntityNameKeys.TOPIC_FILTER_SUBSCRIPTION_NAME],
+        EntityNames.TOPIC_FILTER_NAME,
+        EntityNames.TOPIC_FILTER_SUBSCRIPTION_NAME,
         {
           lockDuration: defaultLockDuration,
           enableBatchedOperations: true
@@ -410,10 +393,10 @@ export async function getSenderReceiverClients(
       );
 
       return {
-        senderClient: sbClient.createTopicClient(entityNames[EntityNameKeys.TOPIC_FILTER_NAME]),
+        senderClient: sbClient.createTopicClient(EntityNames.TOPIC_FILTER_NAME),
         receiverClient: sbClient.createSubscriptionClient(
-          entityNames[EntityNameKeys.TOPIC_FILTER_NAME],
-          entityNames[EntityNameKeys.TOPIC_FILTER_SUBSCRIPTION_NAME]
+          EntityNames.TOPIC_FILTER_NAME,
+          EntityNames.TOPIC_FILTER_SUBSCRIPTION_NAME
         )
       };
     }
@@ -493,66 +476,30 @@ export function getServiceBusClient(): ServiceBusClient {
 /**
  * Enum to abstract away string values used for referencing the Service Bus entity names.
  */
-export enum EntityNameKeys {
-  QUEUE_NAME = "QUEUE_NAME",
-  QUEUE_NAME_NO_PARTITION = "QUEUE_NAME_NO_PARTITION",
-  QUEUE_NAME_SESSION = "QUEUE_NAME_SESSION",
-  QUEUE_NAME_NO_PARTITION_SESSION = "QUEUE_NAME_NO_PARTITION_SESSION",
-  TOPIC_NAME = "TOPIC_NAME",
-  TOPIC_NAME_NO_PARTITION = "TOPIC_NAME_NO_PARTITION",
-  TOPIC_NAME_SESSION = "TOPIC_NAME_SESSION",
-  TOPIC_NAME_NO_PARTITION_SESSION = "TOPIC_NAME_NO_PARTITION_SESSION",
-  SUBSCRIPTION_NAME = "SUBSCRIPTION_NAME",
-  SUBSCRIPTION_NAME_NO_PARTITION = "SUBSCRIPTION_NAME_NO_PARTITION",
-  SUBSCRIPTION_NAME_SESSION = "SUBSCRIPTION_NAME_SESSION",
-  SUBSCRIPTION_NAME_NO_PARTITION_SESSION = "SUBSCRIPTION_NAME_NO_PARTITION_SESSION",
-  TOPIC_FILTER_NAME = "TOPIC_FILTER_NAME",
-  TOPIC_FILTER_SUBSCRIPTION_NAME = "TOPIC_FILTER_SUBSCRIPTION_NAME",
-  TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME = "TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME",
-  MANAGEMENT_QUEUE_1 = "MANAGEMENT_QUEUE_1",
-  MANAGEMENT_TOPIC_1 = "MANAGEMENT_TOPIC_1",
-  MANAGEMENT_SUBSCRIPTION_1 = "MANAGEMENT_SUBSCRIPTION_1",
-  MANAGEMENT_RULE_1 = "MANAGEMENT_RULE_1",
-  MANAGEMENT_QUEUE_2 = "MANAGEMENT_QUEUE_2",
-  MANAGEMENT_TOPIC_2 = "MANAGEMENT_TOPIC_2",
-  MANAGEMENT_SUBSCRIPTION_2 = "MANAGEMENT_SUBSCRIPTION_2",
-  MANAGEMENT_RULE_2 = "MANAGEMENT_RULE_2",
-  MANAGEMENT_NEW_ENTITY_1 = "MANAGEMENT_NEW_ENTITY_1",
-  MANAGEMENT_NEW_ENTITY_2 = "MANAGEMENT_NEW_ENTITY_2"
-}
-
-/**
- * Utility to return map of entity name values.
- */
-export function getEntityNames(): { [key in EntityNameKeys]: any } {
-  return {
-    [EntityNameKeys.QUEUE_NAME]: "partitioned-queue",
-    [EntityNameKeys.QUEUE_NAME_NO_PARTITION]: "unpartitioned-queue",
-    [EntityNameKeys.QUEUE_NAME_SESSION]: "partitioned-queue-sessions",
-    [EntityNameKeys.QUEUE_NAME_NO_PARTITION_SESSION]: "unpartitioned-queue-sessions",
-    // The name has been updated to use a different one
-    // For more details see https://github.com/Azure/azure-sdk-for-js/issues/6682
-    [EntityNameKeys.TOPIC_NAME]: "new-partitioned-topic",
-    [EntityNameKeys.TOPIC_NAME_NO_PARTITION]: "unpartitioned-topic",
-    [EntityNameKeys.TOPIC_NAME_SESSION]: "partitioned-topic-sessions",
-    [EntityNameKeys.TOPIC_NAME_NO_PARTITION_SESSION]: "unpartitioned-topic-sessions",
-    [EntityNameKeys.SUBSCRIPTION_NAME]: "partitioned-topic-subscription",
-    [EntityNameKeys.SUBSCRIPTION_NAME_NO_PARTITION]: "unpartitioned-topic-subscription",
-    [EntityNameKeys.SUBSCRIPTION_NAME_SESSION]: "partitioned-topic-sessions-subscription",
-    [EntityNameKeys.SUBSCRIPTION_NAME_NO_PARTITION_SESSION]:
-      "unpartitioned-topic-sessions-subscription",
-    [EntityNameKeys.TOPIC_FILTER_NAME]: "topic-filter",
-    [EntityNameKeys.TOPIC_FILTER_SUBSCRIPTION_NAME]: "topic-filter-subscription",
-    [EntityNameKeys.TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME]: "topic-filter-default-subscription",
-    [EntityNameKeys.MANAGEMENT_QUEUE_1]: "management-queue-1",
-    [EntityNameKeys.MANAGEMENT_TOPIC_1]: "management-topic-1",
-    [EntityNameKeys.MANAGEMENT_SUBSCRIPTION_1]: "management-subscription-1",
-    [EntityNameKeys.MANAGEMENT_RULE_1]: "management-rule-1",
-    [EntityNameKeys.MANAGEMENT_QUEUE_2]: "management-queue-2",
-    [EntityNameKeys.MANAGEMENT_TOPIC_2]: "management-topic-2",
-    [EntityNameKeys.MANAGEMENT_SUBSCRIPTION_2]: "management-subscription-2",
-    [EntityNameKeys.MANAGEMENT_RULE_2]: "management-rule-2",
-    [EntityNameKeys.MANAGEMENT_NEW_ENTITY_1]: "management-new-entity-1",
-    [EntityNameKeys.MANAGEMENT_NEW_ENTITY_2]: "management-new-entity-2"
-  };
+export enum EntityNames {
+  QUEUE_NAME = "partitioned-queue",
+  QUEUE_NAME_NO_PARTITION = "unpartitioned-queue",
+  QUEUE_NAME_SESSION = "partitioned-queue-sessions",
+  QUEUE_NAME_NO_PARTITION_SESSION = "unpartitioned-queue-sessions",
+  TOPIC_NAME = "partitioned-topic",
+  TOPIC_NAME_NO_PARTITION = "unpartitioned-topic",
+  TOPIC_NAME_SESSION = "partitioned-topic-sessions",
+  TOPIC_NAME_NO_PARTITION_SESSION = "unpartitioned-topic-sessions",
+  SUBSCRIPTION_NAME = "partitioned-topic-subscription",
+  SUBSCRIPTION_NAME_NO_PARTITION = "unpartitioned-topic-subscription",
+  SUBSCRIPTION_NAME_SESSION = "partitioned-topic-sessions-subscription",
+  SUBSCRIPTION_NAME_NO_PARTITION_SESSION = "unpartitioned-topic-sessions-subscription",
+  TOPIC_FILTER_NAME = "topic-filter",
+  TOPIC_FILTER_SUBSCRIPTION_NAME = "topic-filter-subscription",
+  TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME = "topic-filter-default-subscription",
+  MANAGEMENT_QUEUE_1 = "management-queue-1",
+  MANAGEMENT_TOPIC_1 = "management-topic-1",
+  MANAGEMENT_SUBSCRIPTION_1 = "management-subscription-1",
+  MANAGEMENT_RULE_1 = "management-rule-1",
+  MANAGEMENT_QUEUE_2 = "management-queue-2",
+  MANAGEMENT_TOPIC_2 = "management-topic-2",
+  MANAGEMENT_SUBSCRIPTION_2 = "management-subscription-2",
+  MANAGEMENT_RULE_2 = "management-rule-2",
+  MANAGEMENT_NEW_ENTITY_1 = "management-new-entity-1",
+  MANAGEMENT_NEW_ENTITY_2 = "management-new-entity-2"
 }
