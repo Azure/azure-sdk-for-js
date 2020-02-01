@@ -17,7 +17,7 @@
   },
   "types": "./typings/latest/src/index.d.ts",
   "typesVersions": {
-    "<3.7": {
+    "<3.6": {
       "*": [
         "./typings/ts3.4/src/*"
       ]
@@ -65,7 +65,7 @@
     "dist-esm/src/",
     "LICENSE",
     "src/",
-    "typings/latest/src",
+    "typings/",
     "tsconfig.json"
   ],
   "repository": {
