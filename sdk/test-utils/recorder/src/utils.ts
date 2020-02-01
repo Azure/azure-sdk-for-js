@@ -115,7 +115,13 @@ export function applyReplacementMap(
     if (env[key]) {
       updated = replaceAll(updated, encodeRFC3986(env[key]!), encodeRFC3986(replacement));
       updated = replaceAll(updated, env[key]!, replacement);
-      if (env[key]!.startsWith("http")) {
+      if (
+        env[key]!.startsWith("http") &&
+        replacement.startsWith("http") &&
+        parse(env[key]!).hostname
+      ) {
+        // If an ENV variable and its replacement start with `http` with a valid hostname, replace the hostname
+        // with the one provided in the replacement. This has no effect incase the URI is already replaced in the previous step.
         updated = replaceAll(updated, parse(env[key]!).hostname, parse(replacement).hostname);
       }
     }
