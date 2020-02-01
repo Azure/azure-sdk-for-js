@@ -61,6 +61,7 @@
     "fs-extra": "^8.1.0",
     "nise": "^1.4.10",
     "nock": "^11.7.0",
+    "url-parse": "^1.4.7",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
@@ -72,6 +73,7 @@
     "@types/mocha": "^5.2.5",
     "@types/nise": "^1.4.0",
     "@types/chai": "^4.1.6",
+    "@types/url-parse": "^1.4.3",
     "chai": "^4.2.0",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^3.0.0",
