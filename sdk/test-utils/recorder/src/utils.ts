@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import fs from "fs-extra";
+import parse from "url-parse";
+
 export interface TestInfo {
   uniqueName: { [x: string]: string };
   newDate: { [x: string]: string };
@@ -113,6 +115,9 @@ export function applyReplacementMap(
     if (env[key]) {
       updated = replaceAll(updated, encodeRFC3986(env[key]!), encodeRFC3986(replacement));
       updated = replaceAll(updated, env[key]!, replacement);
+      if (env[key]!.startsWith("http")) {
+        updated = replaceAll(updated, parse(env[key]!).hostname, parse(replacement).hostname);
+      }
     }
   });
   return updated;
