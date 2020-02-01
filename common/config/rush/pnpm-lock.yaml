@@ -3069,14 +3069,14 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
-  /downlevel-dts/0.2.0:
+  /downlevel-dts/0.3.0:
     dependencies:
       shelljs: 0.8.3
       typescript: 3.8.0-dev.20200131
     dev: false
     hasBin: true
     resolution:
-      integrity: sha512-GaLpDes4ojlvex364aOZf/PXKKDz6N1iKhEP1bapWRj2ULLsjc+CLoVBbd7P8awVDlMz22xyCbJkx3nu2IAGDQ==
+      integrity: sha512-0v2KCE0ORZ28LUCxUalZRZH0op6D+5/KQh36kqderf/YibOfkEtj66sSdr3Y+X8QQQrhkqXNm+6o2DR6Aa/J1g==
   /duplexer2/0.0.2:
     dependencies:
       readable-stream: 1.1.14
@@ -10941,7 +10941,7 @@ packages:
       assert: 1.5.0
       cross-env: 6.0.3
       dotenv: 8.2.0
-      downlevel-dts: 0.2.0
+      downlevel-dts: 0.3.0
       es6-promise: 4.2.8
       eslint: 6.8.0
       eslint-config-prettier: 6.9.0_eslint@6.8.0
@@ -10984,7 +10984,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-juvzF2TTrteNjIEBTMfbDaODSZq7MuVB8v5JohV2ZpiMJlV9mQ7HCMrKz1PTXl70aTWkMRyzOyvUEJhfBPswPQ==
+      integrity: sha512-qkhxtGkt/GTXO8d2PeEZPKBDjsnhBIvZRCFnbYhulBSg4Bl/rC/V8RMfropjnZIabD8gzt2nQggCJY/QVvhPGg==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file-datalake.tgz':
