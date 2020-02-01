@@ -15,7 +15,7 @@
     "declaration": true,
     "declarationMap": true,
     "importHelpers": true,
-    "declarationDir": "./typings/latest",
+    "declarationDir": "./typings",
     "lib": ["dom", "es5", "es6", "es7", "esnext"],
     "esModuleInterop": true
   },
