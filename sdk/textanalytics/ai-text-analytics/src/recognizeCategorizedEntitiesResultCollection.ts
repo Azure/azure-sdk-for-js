@@ -8,17 +8,18 @@ import {
   MultiLanguageInput
 } from "./generated/models";
 import {
-  RecognizeEntitiesResult,
-  makeRecognizeEntitiesResult,
-  makeRecognizeEntitiesErrorResult
-} from "./recognizeEntitiesResult";
+  RecognizeCategorizedEntitiesResult,
+  makeRecognizeCategorizedEntitiesResult,
+  makeRecognizeCategorizedEntitiesErrorResult
+} from "./recognizeCategorizedEntitiesResult";
 import { sortByPreviousIdOrder } from "./util";
 
 /**
- * Collection of `RecognizeEntitiesResult` objects corresponding to a batch of input documents, and
+ * Collection of `RecognizeCategorizedEntitiesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface RecognizeEntitiesResultCollection extends Array<RecognizeEntitiesResult> {
+export interface RecognizeCategorizedEntitiesResultCollection
+  extends Array<RecognizeCategorizedEntitiesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -32,23 +33,27 @@ export interface RecognizeEntitiesResultCollection extends Array<RecognizeEntiti
   modelVersion: string;
 }
 
-export function makeRecognizeEntitiesResultCollection(
+export function makeRecognizeCategorizedEntitiesResultCollection(
   input: MultiLanguageInput[],
   documents: DocumentEntities[],
   errors: DocumentError[],
   modelVersion: string,
   statistics?: TextDocumentBatchStatistics
-): RecognizeEntitiesResultCollection {
+): RecognizeCategorizedEntitiesResultCollection {
   const unsortedResult = documents
     .map(
-      (document): RecognizeEntitiesResult => {
-        return makeRecognizeEntitiesResult(document.id, document.entities, document.statistics);
+      (document): RecognizeCategorizedEntitiesResult => {
+        return makeRecognizeCategorizedEntitiesResult(
+          document.id,
+          document.entities,
+          document.statistics
+        );
       }
     )
     .concat(
       errors.map(
-        (error): RecognizeEntitiesResult => {
-          return makeRecognizeEntitiesErrorResult(error.id, error.error);
+        (error): RecognizeCategorizedEntitiesResult => {
+          return makeRecognizeCategorizedEntitiesErrorResult(error.id, error.error);
         }
       )
     );

@@ -24,9 +24,13 @@ import {
   makeDetectLanguageResultCollection
 } from "./detectLanguageResultCollection";
 import {
-  RecognizeEntitiesResultCollection,
-  makeRecognizeEntitiesResultCollection
-} from "./recognizeEntitiesResultCollection";
+  RecognizeCategorizedEntitiesResultCollection,
+  makeRecognizeCategorizedEntitiesResultCollection
+} from "./recognizeCategorizedEntitiesResultCollection";
+import {
+  RecognizePiiEntitiesResultCollection,
+  makeRecognizePiiEntitiesResultCollection
+} from "./recognizePiiEntitiesResultCollection";
 import {
   AnalyzeSentimentResultCollection,
   makeAnalyzeSentimentResultCollection
@@ -80,32 +84,32 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
 /**
  * Options for the detect languages operation.
  */
-export type DetectLanguagesOptions = TextAnalyticsOperationOptions
+export type DetectLanguagesOptions = TextAnalyticsOperationOptions;
 
 /**
  * Options for the recognize entities operation.
  */
-export type RecognizeEntitiesOptions = TextAnalyticsOperationOptions
+export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
 
 /**
  * Options for the analyze sentiment operation.
  */
-export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions
+export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions;
 
 /**
  * Options for the extract key phrases operation.
  */
-export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions
+export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
 
 /**
  * Options for the recognize linked entities operation.
  */
-export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions
+export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
 
 /**
  * Options for the recognize PII entities operation.
  */
-export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions
+export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
 
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -285,11 +289,11 @@ export class TextAnalyticsClient {
         where the lanuage is explicitly set to "None".
    * @param options Optional parameters for the operation.
    */
-  public async recognizeEntities(
+  public async recognizeCategorizedEntities(
     inputs: string[],
     language?: string,
-    options?: RecognizeEntitiesOptions
-  ): Promise<RecognizeEntitiesResultCollection>;
+    options?: RecognizeCategorizedEntitiesOptions
+  ): Promise<RecognizeCategorizedEntitiesResultCollection>;
   /**
    * Runs a predictive model to identify a collection of named entities
    * in the passed-in input documents, and categorize those entities into types
@@ -301,16 +305,16 @@ export class TextAnalyticsClient {
    * @param inputs The input documents to analyze.
    * @param options Optional parameters for the operation.
    */
-  public async recognizeEntities(
+  public async recognizeCategorizedEntities(
     inputs: TextDocumentInput[],
-    options?: RecognizeEntitiesOptions
-  ): Promise<RecognizeEntitiesResultCollection>;
-  public async recognizeEntities(
+    options?: RecognizeCategorizedEntitiesOptions
+  ): Promise<RecognizeCategorizedEntitiesResultCollection>;
+  public async recognizeCategorizedEntities(
     inputs: string[] | TextDocumentInput[],
-    languageOrOptions?: string | RecognizeEntitiesOptions,
-    options?: RecognizeEntitiesOptions
-  ): Promise<RecognizeEntitiesResultCollection> {
-    let realOptions: RecognizeEntitiesOptions;
+    languageOrOptions?: string | RecognizeCategorizedEntitiesOptions,
+    options?: RecognizeCategorizedEntitiesOptions
+  ): Promise<RecognizeCategorizedEntitiesResultCollection> {
+    let realOptions: RecognizeCategorizedEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
     if (isStringArray(inputs)) {
@@ -319,7 +323,7 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = inputs;
-      realOptions = (languageOrOptions as RecognizeEntitiesOptions) || {};
+      realOptions = (languageOrOptions as RecognizeCategorizedEntitiesOptions) || {};
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -335,7 +339,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeRecognizeEntitiesResultCollection(
+      return makeRecognizeCategorizedEntitiesResultCollection(
         realInputs,
         result.documents,
         result.errors,
@@ -530,7 +534,7 @@ export class TextAnalyticsClient {
     inputs: string[],
     language?: string,
     options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizeEntitiesResultCollection>;
+  ): Promise<RecognizePiiEntitiesResultCollection>;
   /**
    * Runs a predictive model to identify a collection of entities containing
    * personally identifiable information found in the passed-in input documents,
@@ -544,12 +548,12 @@ export class TextAnalyticsClient {
   public async recognizePiiEntities(
     inputs: TextDocumentInput[],
     options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizeEntitiesResultCollection>;
+  ): Promise<RecognizePiiEntitiesResultCollection>;
   public async recognizePiiEntities(
     inputs: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizePiiEntitiesOptions,
     options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizeEntitiesResultCollection> {
+  ): Promise<RecognizePiiEntitiesResultCollection> {
     let realOptions: RecognizePiiEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
@@ -575,7 +579,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeRecognizeEntitiesResultCollection(
+      return makeRecognizePiiEntitiesResultCollection(
         realInputs,
         result.documents,
         result.errors,

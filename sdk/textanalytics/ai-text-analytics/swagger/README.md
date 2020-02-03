@@ -122,3 +122,15 @@ directive:
         $["x-ms-client-name"] = "includeStatistics";
       }
 ```
+
+### Rename type, subtype -> category, subCategory
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Entity.properties
+    transform: >
+      $.type["x-ms-client-name"] = "category";
+      $.subtype["x-ms-client-name"] = "subCategory";
+```
+

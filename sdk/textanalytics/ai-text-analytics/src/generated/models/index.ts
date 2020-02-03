@@ -238,11 +238,11 @@ export interface Entity {
   /**
    * Entity type, such as Person/Location/Org/SSN etc
    */
-  type: string;
+  category: string;
   /**
    * Entity sub type, such as Age/Year/TimeRange etc
    */
-  subtype?: string;
+  subCategory?: string;
   /**
    * Start position (in Unicode characters) for the entity text.
    */

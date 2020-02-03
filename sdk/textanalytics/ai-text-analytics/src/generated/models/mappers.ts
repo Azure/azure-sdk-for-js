@@ -470,14 +470,14 @@ export const Entity: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      type: {
+      category: {
         required: true,
         serializedName: "type",
         type: {
           name: "String"
         }
       },
-      subtype: {
+      subCategory: {
         serializedName: "subtype",
         type: {
           name: "String"

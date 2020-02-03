@@ -5,7 +5,7 @@ export {
   TextAnalyticsClient,
   TextAnalyticsClientOptions,
   DetectLanguagesOptions,
-  RecognizeEntitiesOptions,
+  RecognizeCategorizedEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
   RecognizePiiEntitiesOptions,
@@ -20,11 +20,19 @@ export {
 } from "./detectLanguageResult";
 export { DetectLanguageResultCollection } from "./detectLanguageResultCollection";
 export {
-  RecognizeEntitiesResult,
-  RecognizeEntitiesErrorResult,
-  RecognizeEntitiesSuccessResult
-} from "./recognizeEntitiesResult";
-export { RecognizeEntitiesResultCollection } from "./recognizeEntitiesResultCollection";
+  CategorizedEntity,
+  RecognizeCategorizedEntitiesResult,
+  RecognizeCategorizedEntitiesErrorResult,
+  RecognizeCategorizedEntitiesSuccessResult
+} from "./recognizeCategorizedEntitiesResult";
+export { RecognizeCategorizedEntitiesResultCollection } from "./recognizeCategorizedEntitiesResultCollection";
+export {
+  PiiEntity,
+  RecognizePiiEntitiesResult,
+  RecognizePiiEntitiesErrorResult,
+  RecognizePiiEntitiesSuccessResult
+} from "./recognizePiiEntitiesResult";
+export { RecognizePiiEntitiesResultCollection } from "./recognizePiiEntitiesResultCollection";
 export {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,
