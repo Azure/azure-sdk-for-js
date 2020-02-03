@@ -135,7 +135,7 @@ export class NockRecorder extends BaseRecorder {
     const importNockStatement =
       "let nock = require('nock');\n" +
       "\n" +
-      `module.exports.hash = ${this.hash}\n` +
+      `module.exports.hash = "${this.hash}";\n` +
       "\n" +
       "module.exports.testInfo = " +
       JSON.stringify(this.uniqueTestInfo) +

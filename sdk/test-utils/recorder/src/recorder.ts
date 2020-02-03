@@ -179,16 +179,12 @@ export function record(
     }
   };
 
-  let currentHash: string = "";
+  const stringTest = testContext.currentTest!.fn!.toString();
+  const currentHash = MD5(stringTest);
 
-  if ((testContext as any).test.type !== "hook") {
-    const stringTest = testContext.test!.fn!.toString();
-    currentHash = MD5(stringTest);
-
-    if (isSoftRecordMode() && testHasntChanged(testHierarchy, testTitle, currentHash)) {
-      testContext.skip();
-      return result;
-    }
+  if (isSoftRecordMode() && testHasntChanged(testHierarchy, testTitle, currentHash)) {
+    testContext.skip();
+    return result;
   }
 
   setEnvironmentOnLoad();
