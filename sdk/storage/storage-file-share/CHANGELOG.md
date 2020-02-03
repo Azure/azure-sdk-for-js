@@ -2,7 +2,7 @@
 
 ## 12.0.2 (Unreleased)
 
-- Fixed `api-extractor` related issue [PR #3513](https://github.com/Azure/azure-sdk-for-js/pull/3513)
+- Exposed the interface `OperationTracingOptions` in the API surface to support tracing features. [PR #7174](https://github.com/Azure/azure-sdk-for-js/pull/7174)
 - Bug fix - Storage errors now have proper messages, instead of the raw XML response. ([PR #7107](https://github.com/Azure/azure-sdk-for-js/pull/7107))
 
 ## 12.0.1 (2020.01)
