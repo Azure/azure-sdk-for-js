@@ -609,17 +609,17 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(client);
 
-      let initializeCalled = false;
-      let closeCalled = false;
+      let initializeCalled = 0;
+      let closeCalled = 0;
 
       const subscription = client.subscribe(partitionId, {
         async processError() {},
         async processEvents() {},
         async processClose() {
-          closeCalled = true;
+          closeCalled++;
         },
         async processInitialize() {
-          initializeCalled = true;
+          initializeCalled++;
         }
       });
 
@@ -634,11 +634,12 @@ describe("EventHubConsumerClient", () => {
         }
       });
 
-      if (initializeCalled) {
-        closeCalled.should.be.true;
-      } else {
-        closeCalled.should.equal(false, "processClose should not have been called.");
-      }
+      // If `processInitialize` is called, then `processClose` should be called as well.
+      // Otherwise, we shouldn't see either called.
+      initializeCalled.should.equal(
+        closeCalled,
+        "processClose was not called the same number of times as processInitialize."
+      );
     });
 
     it("Stops receiving events if close is immediately called, multiple partitions. #RunnableInBrowser", async function(): Promise<
@@ -679,14 +680,10 @@ describe("EventHubConsumerClient", () => {
 
       // If `processInitialize` is called, then `processClose` should be called as well.
       // Otherwise, we shouldn't see either called.
-      if (initializeCalled) {
-        closeCalled.should.equal(
-          initializeCalled,
-          "processClose was not called the expected number of times."
-        );
-      } else {
-        closeCalled.should.equal(0, "processClose should not have been called.");
-      }
+      initializeCalled.should.equal(
+        closeCalled,
+        "processClose was not called the same number of times as processInitialize."
+      );
     });
   });
 });
