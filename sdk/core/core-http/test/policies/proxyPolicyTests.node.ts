@@ -90,6 +90,25 @@ describe("getDefaultProxySettings", () => {
       proxySettings.port.should.equal(port);
     });
 
+    [
+      { proxyUrl: "prot://user:pass@proxy.microsoft.com", username: "user", password: "pass" },
+      { proxyUrl: "prot://user@proxy.microsoft.com", username: "user", password: undefined },
+      { proxyUrl: "prot://:pass@proxy.microsoft.com", username: undefined, password: "pass" },
+      { proxyUrl: "prot://proxy.microsoft.com", username: undefined, password: undefined }
+    ].forEach((testCase) => {
+      it.only(`should return settings with passed proxyUrl : ${testCase.proxyUrl}`, () => {
+        const proxyUrlWithoutAuth = "prot://proxy.microsoft.com";
+        const proxySettings: ProxySettings = getDefaultProxySettings(testCase.proxyUrl)!;
+        proxySettings.host.should.equal(proxyUrlWithoutAuth);
+        if (testCase.username) {
+          proxySettings.username!.should.equal(testCase.username);
+        }
+        if (testCase.password) {
+          proxySettings.password!.should.equal(testCase.password);
+        }
+      })
+    });
+
     describe("with loadEnvironmentProxyValue", () => {
       beforeEach(() => {
         delete process.env[Constants.HTTP_PROXY];
