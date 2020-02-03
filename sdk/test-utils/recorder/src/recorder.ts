@@ -93,7 +93,7 @@ export function record(
 
   const result: Recorder = {
     stop: function() {
-      if (isRecordMode()) {
+      if (isRecordMode() || isSoftRecordMode()) {
         recorder.stop();
       }
     },
@@ -114,7 +114,7 @@ export function record(
         !runtime
       ) {
         // record mode - recorder is stopped
-        if (isRecordMode()) recorder.stop();
+        if (isRecordMode() || isSoftRecordMode()) recorder.stop();
 
         // record/playback modes
         // - test title is updated with the given reason
@@ -132,7 +132,7 @@ export function record(
       if (!label) {
         label = prefix;
       }
-      if (isRecordMode()) {
+      if (isRecordMode() || isSoftRecordMode()) {
         name = getUniqueName(prefix);
         if (recorder.uniqueTestInfo["uniqueName"][label]) {
           throw new Error(
@@ -156,7 +156,7 @@ export function record(
     },
     newDate: function(label: string): Date {
       let date: Date;
-      if (isRecordMode()) {
+      if (isRecordMode() || isSoftRecordMode()) {
         date = new Date();
         if (recorder.uniqueTestInfo["newDate"][label]) {
           throw new Error(
@@ -195,7 +195,7 @@ export function record(
     recorder = new NockRecorder(currentHash, testHierarchy, testTitle);
   }
 
-  if (isRecordMode()) {
+  if (isRecordMode() || isSoftRecordMode()) {
     // If TEST_MODE=record, invokes the recorder, hits the live-service,
     // expects that the appropriate environment variables are present
     recorder.record(recorderEnvironmentSetup);
