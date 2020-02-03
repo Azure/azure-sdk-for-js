@@ -57,6 +57,10 @@ export function isRecordMode() {
   return env.TEST_MODE === "record";
 }
 
+export function isSoftRecordMode() {
+  return env.TEST_MODE === "soft-record";
+}
+
 export function isLiveMode() {
   return env.TEST_MODE === "live";
 }
@@ -368,4 +372,44 @@ export function findRecordingsFolderPath(filePath: string): string {
       `Unable to locate the 'recordings' folder anywhere in the hierarchy of the file path ${filePath}\n ${error}`
     );
   }
+}
+
+export function formatPath(path: string): string {
+  return path
+    .toLowerCase()
+    .replace(/ /g, "_")
+    .replace(/<=/g, "lte")
+    .replace(/>=/g, "gte")
+    .replace(/</g, "lt")
+    .replace(/>/g, "gt")
+    .replace(/=/g, "eq")
+    .replace(/\W/g, "");
+}
+
+/**
+ * Generates a file path with the following structure:
+ * `{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
+ */
+export function generateTestRecordingFilePath(
+  platform: "node" | "browsers",
+  testSuiteTitle: string,
+  testTitle: string
+): string {
+  // File Extension
+  // nock recordings for node tests - .js extension
+  // recordings are saved in json format for browser tests - .json extension
+  const ext = platform === "node" ? "js" : "json";
+  return `${platform}/${formatPath(testSuiteTitle)}/recording_${formatPath(testTitle)}.${ext}`;
+}
+
+/**
+ * Checks if a test hasn't changed from the last time it was recorded.
+ */
+export function testIsStale(
+  platform: "node" | "browsers",
+  testContext: Mocha.Context,
+  testSuiteTitle: string,
+  testTitle: string
+): boolean {
+
 }

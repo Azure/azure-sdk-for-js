@@ -7,7 +7,9 @@ import {
   isRecordMode,
   isPlaybackMode,
   RecorderEnvironmentSetup,
-  env
+  env,
+  isSoftRecordMode,
+  testIsStale
 } from "./utils";
 import {
   NiseRecorder,
@@ -28,7 +30,7 @@ export interface Recorder {
    */
   stop(): void;
   /**
-   * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
+   * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
    * If the `{runtime}` is `{undefined}`, the test will be skipped in both the node and browser runtimes.
    * Has no effect in the live test mode.
    */
@@ -88,35 +90,14 @@ export function record(
     testTitle = testContext.test!.title;
   }
 
-  setEnvironmentOnLoad();
-
-  if (isBrowser()) {
-    recorder = new NiseRecorder(testHierarchy, testTitle);
-  } else {
-    recorder = new NockRecorder(testHierarchy, testTitle);
-  }
-
-  if (isRecordMode()) {
-    // If TEST_MODE=record, invokes the recorder, hits the live-service,
-    // expects that the appropriate environment variables are present
-    recorder.record(recorderEnvironmentSetup);
-  } else if (isPlaybackMode()) {
-    // If TEST_MODE=playback,
-    //  1. sets up the ENV variables
-    //  2. invokes the recorder, play the exisiting test recording.
-    setEnvironmentVariables(env, recorderEnvironmentSetup.replaceableVariables);
-    recorder.playback(recorderEnvironmentSetup, testContext.currentTest!.file!);
-  }
-  // If TEST_MODE=live, hits the live-service and no recordings are generated.
-
-  return {
+  const result: Recorder = {
     stop: function() {
       if (isRecordMode()) {
         recorder.stop();
       }
     },
     /**
-     * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
+     * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
      * `{recorder.skip()}` If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes.
      * @param runtime Can either be `"node"` or `"browser"` or `undefined`
      * @param reason Reason for skipping the test
@@ -195,5 +176,33 @@ export function record(
       }
       return date;
     }
-  };
+  }  
+
+  if (isSoftRecordMode() && testIsStale(isBrowser() ? "browsers" : "node", testContext, testHierarchy, testTitle)) {
+    testContext.skip();
+    return result;
+  }
+
+  setEnvironmentOnLoad();
+
+  if (isBrowser()) {
+    recorder = new NiseRecorder(testHierarchy, testTitle);
+  } else {
+    recorder = new NockRecorder(testHierarchy, testTitle);
+  }
+
+  if (isRecordMode()) {
+    // If TEST_MODE=record, invokes the recorder, hits the live-service,
+    // expects that the appropriate environment variables are present
+    recorder.record(recorderEnvironmentSetup);
+  } else if (isPlaybackMode()) {
+    // If TEST_MODE=playback,
+    //  1. sets up the ENV variables
+    //  2. invokes the recorder, play the existing test recording.
+    setEnvironmentVariables(env, recorderEnvironmentSetup.replaceableVariables);
+    recorder.playback(recorderEnvironmentSetup, testContext.currentTest!.file!);
+  }
+  // If TEST_MODE=live, hits the live-service and no recordings are generated.
+
+  return result;
 }

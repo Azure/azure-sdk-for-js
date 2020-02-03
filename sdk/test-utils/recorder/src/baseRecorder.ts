@@ -13,7 +13,8 @@ import {
   findRecordingsFolderPath,
   RecorderEnvironmentSetup,
   filterSecretsFromStrings,
-  filterSecretsRecursivelyFromJSON
+  filterSecretsRecursivelyFromJSON,
+  generateTestRecordingFilePath
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -57,31 +58,11 @@ export abstract class BaseRecorder {
   };
 
   constructor(platform: "node" | "browsers", testSuiteTitle: string, testTitle: string) {
-    // File Extension
-    // nock recordings for node tests - .js extension
-    // recordings are saved in json format for browser tests - .json extension
-    const ext = platform === "node" ? "js" : "json";
-    // Filepath - `{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
-    this.relativeTestRecordingFilePath =
-      platform +
-      "/" +
-      this.formatPath(testSuiteTitle) +
-      "/recording_" +
-      this.formatPath(testTitle) +
-      "." +
-      ext;
-  }
-
-  protected formatPath(path: string): string {
-    return path
-      .toLowerCase()
-      .replace(/ /g, "_")
-      .replace(/<=/g, "lte")
-      .replace(/>=/g, "gte")
-      .replace(/</g, "lt")
-      .replace(/>/g, "gt")
-      .replace(/=/g, "eq")
-      .replace(/\W/g, "");
+    this.relativeTestRecordingFilePath = generateTestRecordingFilePath(
+      platform,
+      testSuiteTitle,
+      testTitle
+    );
   }
 
   /**
@@ -137,7 +118,7 @@ export class NockRecorder extends BaseRecorder {
      *  `path` module is leveraged to import the node test recordings and `path` module can't be imported in the browser.
      *  So, instead of `import`-ing the `path` library, `require` is being used and this code path is never executed in the browser.
      *
-     * [A diiferent strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
+     * [A different strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
      */
     let path = require("path");
     // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
@@ -297,7 +278,7 @@ export class NiseRecorder extends BaseRecorder {
 
     // 'onCreate' function is called when a new fake XMLHttpRequest object (req) is created
     // Our intent is to override the request's 'onreadystatechange' function so we can create a recording once the response is ready
-    // We can only override 'onreadystatechange' AFTER the 'send' function is called because we need to make sure our implementation won't be overriden by the client
+    // We can only override 'onreadystatechange' AFTER the 'send' function is called because we need to make sure our implementation won't be overridden by the client
     // But we can only override 'send' AFTER the 'open' function is called because the filter we set above makes Nise override it in 'open' body
     xhr.onCreate = function(req: any) {
       // We'll override the 'open' function, so we need to store a handle to its original implementation
@@ -328,7 +309,7 @@ export class NiseRecorder extends BaseRecorder {
             }
           };
 
-          // Now that we have overriden 'onreadystatechange', we can send the request to the server
+          // Now that we have overridden 'onreadystatechange', we can send the request to the server
           reqSend.apply(req, arguments);
         };
       };
