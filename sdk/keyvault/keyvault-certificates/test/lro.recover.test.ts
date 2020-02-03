@@ -3,9 +3,8 @@
 
 import * as assert from "assert";
 import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../src";
-import { isNode } from "@azure/core-http";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
@@ -109,9 +108,9 @@ describe("Certificates client - LRO - recoverDelete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can recover a deleted certificate with requestOptions timeout", async function() {
+      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
       const certificateName = testClient.formatName(
         `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
       );
@@ -132,5 +131,4 @@ describe("Certificates client - LRO - recoverDelete", () => {
         });
       });
     });
-  }
 });

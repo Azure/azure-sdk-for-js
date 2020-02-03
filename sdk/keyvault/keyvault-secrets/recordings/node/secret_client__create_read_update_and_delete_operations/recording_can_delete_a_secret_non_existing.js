@@ -5,7 +5,8 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/secrets/CRUDSecretName-candeleteasecretNonExisting-')
   .query(true)
-  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [ 'Cache-Control',
+  .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
+  'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -22,11 +23,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'cafb8e81-8596-42ff-acf6-39d54c6aa61c',
+  'fa7938a6-53ee-47e4-808c-dc12a8834d35',
   'x-ms-keyvault-service-version',
-  '1.1.0.879',
+  '1.1.0.891',
   'x-ms-keyvault-network-info',
-  'addr=52.191.114.234;act_addr_fam=InterNetwork;',
+  'addr=52.137.64.184;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -36,12 +37,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 23 Oct 2019 23:54:00 GMT' ]);
-
+  'Fri, 31 Jan 2020 20:49:35 GMT'
+]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":3600,"ext_expires_in":3600,"access_token":"access_token"}, [ 'Cache-Control',
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
+  'Cache-Control',
   'no-cache, no-store',
   'Pragma',
   'no-cache',
@@ -54,27 +56,28 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'cf07d7c2-e235-46f5-8c2d-162c88450300',
+  '825628ce-77d1-403e-80ed-fd88baa60700',
   'x-ms-ests-server',
-  '2.1.9557.16 - EUS ProdSlices',
+  '2.1.9987.9 - NCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AjQxS__baMRFmyIl0rJly4w_aSJHAQAAABffQtUOAAAA; expires=Fri, 22-Nov-2019 23:54:00 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aop5T0Z285BIvBVa6h06apA_aSJHAQAAAN-JxtUOAAAA; expires=Sun, 01-Mar-2020 20:49:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Wed, 23 Oct 2019 23:54:00 GMT',
+  'Fri, 31 Jan 2020 20:49:35 GMT',
   'Content-Length',
-  '1231' ]);
-
+  '1231'
+]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   .delete('/secrets/CRUDSecretName-candeleteasecretNonExisting-')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Secret not found: CRUDSecretName-candeleteasecretNonExisting-"}}, [ 'Cache-Control',
+  .reply(404, {"error":{"code":"SecretNotFound","message":"Secret not found: CRUDSecretName-candeleteasecretNonExisting-"}}, [
+  'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -89,11 +92,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'e3c535c3-c3f7-45ca-9c28-31cc5cee7c6d',
+  '1a58923b-009e-4cd8-ba51-baebc0eb2604',
   'x-ms-keyvault-service-version',
-  '1.1.0.879',
+  '1.1.0.891',
   'x-ms-keyvault-network-info',
-  'addr=52.191.114.234;act_addr_fam=InterNetwork;',
+  'addr=52.137.64.184;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -103,5 +106,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Wed, 23 Oct 2019 23:54:00 GMT' ]);
-
+  'Fri, 31 Jan 2020 20:49:36 GMT'
+]);

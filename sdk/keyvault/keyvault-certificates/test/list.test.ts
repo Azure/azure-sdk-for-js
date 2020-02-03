@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import chai from "chai";
 import { CertificateClient } from "../src";
-import { env, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -39,9 +39,9 @@ describe("Certificates client - list certificates in various ways", () => {
   // The tests follow
 
   // Use this while recording to make sure the target keyvault is clean. The next tests will produce a more consistent output.
-  if (isRecordMode()) {
     it("can purge all certificates", async function() {
       // WARNING: When running integration-tests, or having TEST_MODE="record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
+      recorder.skip(undefined, "Skipping this test on playback.");
       for await (const certificate of client.listPropertiesOfCertificates({
         includePending: true
       })) {
@@ -55,7 +55,6 @@ describe("Certificates client - list certificates in various ways", () => {
         } catch (e) {}
       }
     });
-  }
 
   it("can list certificates", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -78,11 +77,6 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  // This test passes during recording.
-  // I believe it's a bug on the recorder, but we're
-  // migrating to the new recorder soon, so I'm hoping to let
-  // this oddity happen for now and come back when the new recorder is here.
-  if (isRecordMode()) {
     it("can list deleted certificates", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const certificateNames = [`${certificateName}0`, `${certificateName}1`];
@@ -107,7 +101,6 @@ describe("Certificates client - list certificates in various ways", () => {
         await testClient.purgeCertificate(name);
       }
     });
-  }
 
   it("can list certificates by page", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -166,15 +159,14 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("list deleted certificates with requestOptions timeout", async function() {
+      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
       const iter = client.listDeletedCertificates({ requestOptions: { timeout: 1 } });
       await assertThrowsAbortError(async () => {
         await iter.next();
       });
     });
-  }
 
   it("can retrieve all versions of a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -222,9 +214,9 @@ describe("Certificates client - list certificates in various ways", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can get the versions of a certificate with requestOptions timeout", async function() {
+      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
       const iter = client.listPropertiesOfCertificateVersions("doesn't matter", {
         requestOptions: { timeout: 1 }
       });
@@ -232,7 +224,6 @@ describe("Certificates client - list certificates in various ways", () => {
         await iter.next();
       });
     });
-  }
 
   it("can list certificate versions (non existing)", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
