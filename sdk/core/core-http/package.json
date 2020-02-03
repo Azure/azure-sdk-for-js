@@ -199,7 +199,6 @@
     "webpack": "^4.16.3",
     "webpack-cli": "^3.2.3",
     "webpack-dev-middleware": "^3.1.2",
-    "xhr-mock": "^2.4.1",
-    "yarn": "^1.6.0"
+    "xhr-mock": "^2.4.1"
   }
 }
