@@ -617,7 +617,7 @@ export const ApplicationBase: msRest.CompositeMapper = {
       groupMembershipClaims: {
         serializedName: "groupMembershipClaims",
         type: {
-          name: "Object"
+          name: "String"
         }
       },
       homepage: {
@@ -946,7 +946,7 @@ export const Application: msRest.CompositeMapper = {
       groupMembershipClaims: {
         serializedName: "groupMembershipClaims",
         type: {
-          name: "Object"
+          name: "String"
         }
       },
       homepage: {
