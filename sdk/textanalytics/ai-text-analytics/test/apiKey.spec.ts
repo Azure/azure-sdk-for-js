@@ -5,9 +5,9 @@ import { assert, expect, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Recorder, env } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient, testEnv } from "./utils/recordedClient";
 import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "../src/index";
 import { isSuccess } from "./utils/resultHelper";
 import { WebResource } from "@azure/core-http";
@@ -21,7 +21,7 @@ const testDataEn = [
 
 describe("TextAnalyticsApiKeyCredential", () => {
   it("credential signRequest throws on undefined webResource", async () => {
-    const credential = new TextAnalyticsApiKeyCredential(env.SUBSCRIPTION_KEY);
+    const credential = new TextAnalyticsApiKeyCredential(testEnv.SUBSCRIPTION_KEY);
 
     return assert.isRejected(
       credential.signRequest((undefined as unknown) as WebResource),
@@ -37,7 +37,7 @@ describe("[API Key] TextAnalyticsClient", function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
 
-  const apiKey = new TextAnalyticsApiKeyCredential(env.SUBSCRIPTION_KEY);
+  const apiKey = new TextAnalyticsApiKeyCredential(testEnv.SUBSCRIPTION_KEY);
 
   this.timeout(10000);
 

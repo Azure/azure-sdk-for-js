@@ -4,13 +4,13 @@
 import { assert } from "chai";
 
 import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "../src";
-import { environmentSetup } from "./utils/recordedClient";
+import { environmentSetup, testEnv } from "./utils/recordedClient";
 
-import { record, Recorder, env } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 
 describe("TextAnalyticsClient Custom PipelineOptions", function() {
   let recorder: Recorder;
-  let credential = new TextAnalyticsApiKeyCredential(env.SUBSCRIPTION_KEY);
+  let credential = new TextAnalyticsApiKeyCredential(testEnv.SUBSCRIPTION_KEY);
 
   this.timeout(10000);
 
@@ -23,7 +23,7 @@ describe("TextAnalyticsClient Custom PipelineOptions", function() {
   });
 
   it("use custom user-agent string", async () => {
-    const client = new TextAnalyticsClient(env.ENDPOINT, credential, {
+    const client = new TextAnalyticsClient(testEnv.ENDPOINT, credential, {
       userAgentOptions: {
         userAgentPrefix: "azure_sdk_test"
       }
