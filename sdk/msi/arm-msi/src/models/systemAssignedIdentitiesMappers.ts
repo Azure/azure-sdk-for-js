@@ -7,8 +7,10 @@
  */
 
 export {
+  BaseResource,
   CloudError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  Identity,
+  IdentityPatch,
+  Resource,
+  SystemAssignedIdentity
 } from "../models/mappers";

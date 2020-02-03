@@ -8,5 +8,6 @@
  * regenerated.
  */
 
+export * from "./systemAssignedIdentities";
 export * from "./operations";
 export * from "./userAssignedIdentities";
