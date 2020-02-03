@@ -2,9 +2,14 @@
 // Licensed under the MIT Licence.
 
 /*
-  This sample demonstrates how to convert an Iot Hubs connection string to
-  an Event Hubs-compatible connection string that can be used with the EventHubConsumerClient
-  to process events from an Iot Hub.
+  This sample demonstrates how to convert an Iot Hub connection string to
+  an Event Hubs connection string that points to the built-in messaging endpoint.
+
+  The Event Hubs connection string is then used with the EventHubConsumerClient to
+  receive events.
+
+  More information about the built-in messaging endpoint can be found at:
+  https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
 */
 
 const crypto = require("crypto");
@@ -22,9 +27,8 @@ const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
 function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
   resourceUri = encodeURIComponent(resourceUri);
 
-  // Set expiration in seconds.
-  const expires = Math.ceil(Date.now() / 1000 + expiresInMins * 60);
-  const toSign = resourceUri + "\n" + expires;
+  const expiresInSeconds = Math.ceil(Date.now() / 1000 + expiresInMins * 60);
+  const toSign = resourceUri + "\n" + expiresInSeconds;
 
   // Use the crypto module to create the hmac.
   const hmac = crypto.createHmac("sha256", Buffer.from(signingKey, "base64"));
@@ -32,7 +36,7 @@ function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
   const base64UriEncoded = encodeURIComponent(hmac.digest("base64"));
 
   // Construct authorization string.
-  return `SharedAccessSignature sr=${resourceUri}&sig=${base64UriEncoded}&se=${expires}&skn=${policyName}`;
+  return `SharedAccessSignature sr=${resourceUri}&sig=${base64UriEncoded}&se=${expiresInSeconds}&skn=${policyName}`;
 }
 
 /**
@@ -91,14 +95,14 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
       if (isAmqpError(error) && error.condition === "amqp:link:redirect") {
         const hostname = error.info && error.info.hostname;
         if (!hostname) {
-          reject(new Error(`Unable to convert connection string.`));
+          reject(error);
         } else {
           resolve(
             `Endpoint=sb://${hostname}/;EntityPath=${iotHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`
           );
         }
       } else {
-        reject(new Error(`Unable to convert connection string.`));
+        reject(error);
       }
       connection.close().catch(() => {
         /* ignore error */
