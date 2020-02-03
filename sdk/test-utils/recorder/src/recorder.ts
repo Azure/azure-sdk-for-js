@@ -10,12 +10,12 @@ import {
   env
 } from "./utils";
 import {
-  NiseRecorder,
-  NockRecorder,
   BaseRecorder,
   setEnvironmentOnLoad,
   setEnvironmentVariables
 } from "./baseRecorder";
+import { BrowserRecorder } from './browserRecorder';
+import { NodeRecorder } from './nodeRecorder';
 
 /**
  * @export
@@ -28,7 +28,7 @@ export interface Recorder {
    */
   stop(): void;
   /**
-   * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
+   * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
    * If the `{runtime}` is `{undefined}`, the test will be skipped in both the node and browser runtimes.
    * Has no effect in the live test mode.
    */
@@ -91,9 +91,9 @@ export function record(
   setEnvironmentOnLoad();
 
   if (isBrowser()) {
-    recorder = new NiseRecorder(testHierarchy, testTitle);
+    recorder = new BrowserRecorder(testHierarchy, testTitle);
   } else {
-    recorder = new NockRecorder(testHierarchy, testTitle);
+    recorder = new NodeRecorder(testHierarchy, testTitle);
   }
 
   if (isRecordMode()) {
@@ -103,7 +103,7 @@ export function record(
   } else if (isPlaybackMode()) {
     // If TEST_MODE=playback,
     //  1. sets up the ENV variables
-    //  2. invokes the recorder, play the exisiting test recording.
+    //  2. invokes the recorder, play the existing test recording.
     setEnvironmentVariables(env, recorderEnvironmentSetup.replaceableVariables);
     recorder.playback(recorderEnvironmentSetup, testContext.currentTest!.file!);
   }
@@ -116,7 +116,7 @@ export function record(
       }
     },
     /**
-     * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
+     * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
      * `{recorder.skip()}` If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes.
      * @param runtime Can either be `"node"` or `"browser"` or `undefined`
      * @param reason Reason for skipping the test
