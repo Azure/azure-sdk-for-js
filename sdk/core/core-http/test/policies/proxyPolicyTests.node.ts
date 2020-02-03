@@ -96,7 +96,7 @@ describe("getDefaultProxySettings", () => {
       { proxyUrl: "prot://:pass@proxy.microsoft.com", username: undefined, password: "pass" },
       { proxyUrl: "prot://proxy.microsoft.com", username: undefined, password: undefined }
     ].forEach((testCase) => {
-      it.only(`should return settings with passed proxyUrl : ${testCase.proxyUrl}`, () => {
+      it(`should return settings with passed proxyUrl : ${testCase.proxyUrl}`, () => {
         const proxyUrlWithoutAuth = "prot://proxy.microsoft.com";
         const proxySettings: ProxySettings = getDefaultProxySettings(testCase.proxyUrl)!;
         proxySettings.host.should.equal(proxyUrlWithoutAuth);
