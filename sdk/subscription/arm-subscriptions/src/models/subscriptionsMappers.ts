@@ -9,6 +9,7 @@
 export {
   CanceledSubscriptionId,
   CloudError,
+  EnabledSubscriptionId,
   ErrorResponse,
   Location,
   LocationListResult,
