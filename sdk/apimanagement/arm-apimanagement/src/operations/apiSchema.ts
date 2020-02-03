@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/apiSchemaMappers";
 import * as Parameters from "../models/parameters";
@@ -169,42 +170,9 @@ export class ApiSchema {
    * @param [options] The optional parameters
    * @returns Promise<Models.ApiSchemaCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, options?: Models.ApiSchemaCreateOrUpdateOptionalParams): Promise<Models.ApiSchemaCreateOrUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   * service instance.
-   * @param parameters The schema contents to apply.
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service
-   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
-   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
-   * service instance.
-   * @param parameters The schema contents to apply.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, options: Models.ApiSchemaCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.SchemaContract>): void;
-  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaCreateOrUpdateContract, options?: Models.ApiSchemaCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.SchemaContract>, callback?: msRest.ServiceCallback<Models.SchemaContract>): Promise<Models.ApiSchemaCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        apiId,
-        schemaId,
-        parameters,
-        options
-      },
-      createOrUpdateOperationSpec,
-      callback) as Promise<Models.ApiSchemaCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaContract, options?: Models.ApiSchemaCreateOrUpdateOptionalParams): Promise<Models.ApiSchemaCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,serviceName,apiId,schemaId,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ApiSchemaCreateOrUpdateResponse>;
   }
 
   /**
@@ -258,6 +226,32 @@ export class ApiSchema {
       },
       deleteMethodOperationSpec,
       callback);
+  }
+
+  /**
+   * Creates or updates schema configuration for the API.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param apiId API revision identifier. Must be unique in the current API Management service
+   * instance. Non-current revision has ;rev=n as a suffix where n is the revision number.
+   * @param schemaId Schema identifier within an API. Must be unique in the current API Management
+   * service instance.
+   * @param parameters The schema contents to apply.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdate(resourceGroupName: string, serviceName: string, apiId: string, schemaId: string, parameters: Models.SchemaContract, options?: Models.ApiSchemaBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        serviceName,
+        apiId,
+        schemaId,
+        parameters,
+        options
+      },
+      beginCreateOrUpdateOperationSpec,
+      options);
   }
 
   /**
@@ -375,46 +369,6 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.apiId0,
-    Parameters.schemaId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.ifMatch0,
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.SchemaCreateOrUpdateContract,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SchemaContract,
-      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
-    },
-    201: {
-      bodyMapper: Mappers.SchemaContract,
-      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
@@ -436,6 +390,49 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/schemas/{schemaId}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.apiId0,
+    Parameters.schemaId,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.ifMatch0,
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.SchemaContract,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SchemaContract,
+      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
+    },
+    201: {
+      bodyMapper: Mappers.SchemaContract,
+      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
+    },
+    202: {
+      headersMapper: Mappers.ApiSchemaCreateOrUpdateHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
