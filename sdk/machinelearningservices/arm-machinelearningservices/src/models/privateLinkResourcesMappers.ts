@@ -14,6 +14,7 @@ export {
   AmlCompute,
   AmlComputeProperties,
   BaseResource,
+  CloudError,
   Compute,
   ComputeResource,
   Databricks,
@@ -28,15 +29,13 @@ export {
   HDInsightProperties,
   Identity,
   KeyVaultProperties,
-  ListWorkspaceKeysResult,
   MachineLearningServiceError,
   NodeStateCounts,
-  Password,
   PrivateEndpoint,
   PrivateEndpointConnection,
   PrivateLinkResource,
+  PrivateLinkResourceListResult,
   PrivateLinkServiceConnectionState,
-  RegistryListCredentialsResult,
   Resource,
   ResourceId,
   ScaleSettings,
@@ -47,7 +46,5 @@ export {
   VirtualMachine,
   VirtualMachineProperties,
   VirtualMachineSshCredentials,
-  Workspace,
-  WorkspaceListResult,
-  WorkspaceUpdateParameters
+  Workspace
 } from "../models/mappers";

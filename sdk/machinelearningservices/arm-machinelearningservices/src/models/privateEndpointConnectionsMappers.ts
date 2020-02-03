@@ -28,15 +28,12 @@ export {
   HDInsightProperties,
   Identity,
   KeyVaultProperties,
-  ListWorkspaceKeysResult,
   MachineLearningServiceError,
   NodeStateCounts,
-  Password,
   PrivateEndpoint,
   PrivateEndpointConnection,
   PrivateLinkResource,
   PrivateLinkServiceConnectionState,
-  RegistryListCredentialsResult,
   Resource,
   ResourceId,
   ScaleSettings,
@@ -47,7 +44,5 @@ export {
   VirtualMachine,
   VirtualMachineProperties,
   VirtualMachineSshCredentials,
-  Workspace,
-  WorkspaceListResult,
-  WorkspaceUpdateParameters
+  Workspace
 } from "../models/mappers";
