@@ -69,7 +69,6 @@ export type DetectLanguagesOptions = TextAnalyticsOperationOptions;
 
 // @public
 export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
-    readonly detectedLanguages: DetectedLanguage[];
     readonly primaryLanguage: DetectedLanguage;
 }
 

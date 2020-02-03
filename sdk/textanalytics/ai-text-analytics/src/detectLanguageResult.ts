@@ -20,10 +20,6 @@ export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageE
  */
 export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
   /**
-   * All detected languages in the document.
-   */
-  readonly detectedLanguages: DetectedLanguage[];
-  /**
    * The top detected language by confidence score.
    */
   readonly primaryLanguage: DetectedLanguage;
@@ -32,7 +28,7 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 /**
  * An error result from the detect languge operation on a single document.
  */
-export type DetectLanguageErrorResult = TextAnalyticsErrorResult
+export type DetectLanguageErrorResult = TextAnalyticsErrorResult;
 
 export function makeDetectLanguageResult(
   id: string,
@@ -41,7 +37,6 @@ export function makeDetectLanguageResult(
 ): DetectLanguageSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),
-    detectedLanguages,
     primaryLanguage: primaryLanguage(detectedLanguages)
   };
 }
