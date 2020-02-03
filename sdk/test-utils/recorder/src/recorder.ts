@@ -9,7 +9,7 @@ import {
   RecorderEnvironmentSetup,
   env,
   isSoftRecordMode,
-  testIsStale
+  testHasntChanged
 } from "./utils";
 import {
   NiseRecorder,
@@ -18,6 +18,7 @@ import {
   setEnvironmentOnLoad,
   setEnvironmentVariables
 } from "./baseRecorder";
+import MD5 from "md5";
 
 /**
  * @export
@@ -176,19 +177,26 @@ export function record(
       }
       return date;
     }
-  }  
+  };
 
-  if (isSoftRecordMode() && testIsStale(isBrowser() ? "browsers" : "node", testContext, testHierarchy, testTitle)) {
-    testContext.skip();
-    return result;
+  let currentHash: string = "";
+
+  if ((testContext as any).test.type !== "hook") {
+    const stringTest = testContext.test!.fn!.toString();
+    currentHash = MD5(stringTest);
+
+    if (isSoftRecordMode() && testHasntChanged(testHierarchy, testTitle, currentHash)) {
+      testContext.skip();
+      return result;
+    }
   }
 
   setEnvironmentOnLoad();
 
   if (isBrowser()) {
-    recorder = new NiseRecorder(testHierarchy, testTitle);
+    recorder = new NiseRecorder(currentHash, testHierarchy, testTitle);
   } else {
-    recorder = new NockRecorder(testHierarchy, testTitle);
+    recorder = new NockRecorder(currentHash, testHierarchy, testTitle);
   }
 
   if (isRecordMode()) {

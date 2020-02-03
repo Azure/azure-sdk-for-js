@@ -10,11 +10,11 @@ import {
   parseUrl,
   isPlaybackMode,
   isRecordMode,
-  findRecordingsFolderPath,
   RecorderEnvironmentSetup,
   filterSecretsFromStrings,
   filterSecretsRecursivelyFromJSON,
-  generateTestRecordingFilePath
+  generateTestRecordingFilePath,
+  nodeRequireIfExists
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -56,8 +56,15 @@ export abstract class BaseRecorder {
     customizationsOnRecordings: [],
     queryParametersToSkip: []
   };
+  protected hash: string;
 
-  constructor(platform: "node" | "browsers", testSuiteTitle: string, testTitle: string) {
+  constructor(
+    platform: "node" | "browsers",
+    hash: string,
+    testSuiteTitle: string,
+    testTitle: string
+  ) {
+    this.hash = hash;
     this.relativeTestRecordingFilePath = generateTestRecordingFilePath(
       platform,
       testSuiteTitle,
@@ -98,8 +105,8 @@ export abstract class BaseRecorder {
 }
 
 export class NockRecorder extends BaseRecorder {
-  constructor(testSuiteTitle: string, testTitle: string) {
-    super("node", testSuiteTitle, testTitle);
+  constructor(hash: string, testSuiteTitle: string, testTitle: string) {
+    super("node", hash, testSuiteTitle, testTitle);
   }
 
   public record(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
@@ -120,23 +127,15 @@ export class NockRecorder extends BaseRecorder {
      *
      * [A different strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
      */
-    let path = require("path");
-    // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
-    const recordingsFolderPath = findRecordingsFolderPath(filePath);
-    const recordingPath = path.resolve(recordingsFolderPath, this.relativeTestRecordingFilePath);
-    if (fs.existsSync(recordingPath)) {
-      this.uniqueTestInfo = require(recordingPath).testInfo;
-    } else {
-      throw new Error(
-        `Recording (${this.relativeTestRecordingFilePath}) is not found at ${recordingsFolderPath}`
-      );
-    }
+    this.uniqueTestInfo = nodeRequireIfExists(filePath).testInfo;
   }
 
   public stop(): void {
     // Importing "nock" library in the recording and appending the testInfo part in the recording
     const importNockStatement =
       "let nock = require('nock');\n" +
+      "\n" +
+      `module.exports.hash = ${this.hash}\n` +
       "\n" +
       "module.exports.testInfo = " +
       JSON.stringify(this.uniqueTestInfo) +
@@ -202,8 +201,8 @@ export class NockRecorder extends BaseRecorder {
 export class NiseRecorder extends BaseRecorder {
   private recordings: any[] = [];
 
-  constructor(testSuiteTitle: string, testTitle: string) {
-    super("browsers", testSuiteTitle, testTitle);
+  constructor(hash: string, testSuiteTitle: string, testTitle: string) {
+    super("browsers", hash, testSuiteTitle, testTitle);
   }
 
   // Inserts a request/response pair into the recordings array
@@ -393,7 +392,8 @@ export class NiseRecorder extends BaseRecorder {
         path: "./recordings/" + this.relativeTestRecordingFilePath,
         content: {
           recordings: this.recordings,
-          uniqueTestInfo: this.uniqueTestInfo
+          uniqueTestInfo: this.uniqueTestInfo,
+          hash: this.hash
         }
       })
     );

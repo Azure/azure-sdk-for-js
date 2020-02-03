@@ -63,7 +63,10 @@
     "fs-extra": "^8.1.0",
     "nise": "^1.4.10",
     "nock": "^11.7.0",
-    "tslib": "^1.10.0"
+    "tslib": "^1.10.0",
+    "md5": "~2.2.1",
+    "@types/md5": "~2.1.33",
+    "@types/node": "^8.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.1",

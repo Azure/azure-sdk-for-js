@@ -389,6 +389,10 @@ export function formatPath(path: string): string {
 /**
  * Generates a file path with the following structure:
  * `{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
+ *
+ * @param platform
+ * @param testSuiteTitle
+ * @param testTitle
  */
 export function generateTestRecordingFilePath(
   platform: "node" | "browsers",
@@ -403,13 +407,48 @@ export function generateTestRecordingFilePath(
 }
 
 /**
- * Checks if a test hasn't changed from the last time it was recorded.
+ * Requires a file if it exists. Only works on NodeJS.
  */
-export function testIsStale(
-  platform: "node" | "browsers",
-  testContext: Mocha.Context,
-  testSuiteTitle: string,
-  testTitle: string
-): boolean {
+export function nodeRequireIfExists(filePath: string): any {
+  const path = require("path");
+  // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
+  const recordingsFolderPath = findRecordingsFolderPath(filePath);
+  const recordingPath = path.resolve(recordingsFolderPath, filePath);
+  if (fs.existsSync(recordingPath)) {
+    return require(recordingPath);
+  } else {
+    throw new Error(`(${filePath}) is not found at ${recordingsFolderPath}`);
+  }
+}
 
+/**
+ * Checks if a test hasn't changed from the last time it was recorded.
+ * @param testContext
+ * @param testSuiteTitle
+ * @param testTitle
+ * @param currentHash
+ */
+export function testHasntChanged(
+  testSuiteTitle: string,
+  testTitle: string,
+  currentHash: string
+): boolean {
+  const platform = isBrowser() ? "browsers" : "node";
+  const filePath: string = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
+
+  let previousHash: string = "";
+
+  if (platform === "node") {
+    try {
+      previousHash = nodeRequireIfExists(filePath).hash;
+    } catch (e) {}
+  } else {
+    previousHash = (window as any).__json__["recordings/" + filePath].hash;
+  }
+
+  if (!previousHash) {
+    return false;
+  }
+
+  return previousHash === currentHash;
 }
