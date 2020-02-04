@@ -14,7 +14,7 @@ import {
   filterSecretsFromStrings,
   filterSecretsRecursivelyFromJSON,
   generateTestRecordingFilePath,
-  nodeRequireIfExists
+  nodeRequireRecordingIfExists
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -127,7 +127,7 @@ export class NockRecorder extends BaseRecorder {
      *
      * [A different strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
      */
-    this.uniqueTestInfo = nodeRequireIfExists(filePath).testInfo;
+    this.uniqueTestInfo = nodeRequireRecordingIfExists(filePath).testInfo;
   }
 
   public stop(): void {

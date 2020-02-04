@@ -390,7 +390,7 @@ export function formatPath(path: string): string {
 
 /**
  * Generates a file path with the following structure:
- * 
+ *
  *     `{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
  *
  * @param platform A string, either "node" or "browsers".
@@ -412,7 +412,7 @@ export function generateTestRecordingFilePath(
 /**
  * Requires a file if it exists. Only works on NodeJS.
  */
-export function nodeRequireIfExists(filePath: string): any {
+export function nodeRequireRecordingIfExists(filePath: string): any {
   if (isBrowser()) throw new Error("nodeRequireIfExists only works on NodeJS");
   const path = require("path");
   // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
@@ -421,7 +421,7 @@ export function nodeRequireIfExists(filePath: string): any {
   if (fs.existsSync(recordingPath)) {
     return require(recordingPath);
   } else {
-    throw new Error(`(${filePath}) is not found at ${recordingsFolderPath}`);
+    throw new Error(`The recording ${filePath} was not found in ${recordingsFolderPath}`);
   }
 }
 
@@ -444,7 +444,7 @@ export function testHasntChanged(
 
   if (platform === "node") {
     try {
-      previousHash = nodeRequireIfExists(filePath).hash;
+      previousHash = nodeRequireRecordingIfExists(filePath).hash;
     } catch (e) {}
   } else {
     previousHash = (window as any).__json__["recordings/" + filePath].hash;

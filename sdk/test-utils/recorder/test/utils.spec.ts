@@ -6,7 +6,10 @@ import {
   filterSecretsFromStrings,
   env,
   filterSecretsRecursivelyFromJSON,
-  generateTestRecordingFilePath
+  generateTestRecordingFilePath,
+  nodeRequireRecordingIfExists,
+  isBrowser,
+  findRecordingsFolderPath
 } from "../src/utils";
 import chai from "chai";
 import { setEnvironmentVariables } from "../src/baseRecorder";
@@ -428,17 +431,78 @@ ultramarine.com/url/PUBLIC
     it("should generate a properly formatted path on platform: Node", function() {
       const platform = "node";
       const testSuiteTitle = this.test!.parent!.fullTitle();
-      const testTitle =  this.test!.title;
+      const testTitle = this.test!.title;
       const result = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
-      expect(result).to.equal(`${platform}/utils_generatetestrecordingfilepath/recording_should_generate_a_properly_formatted_path_on_platform_node.js`);
+      expect(result).to.equal(
+        `${platform}/utils_generatetestrecordingfilepath/recording_should_generate_a_properly_formatted_path_on_platform_node.js`
+      );
     });
 
     it("should generate a properly formatted path on platform: Browsers", function() {
       const platform = "browsers";
       const testSuiteTitle = this.test!.parent!.fullTitle();
-      const testTitle =  this.test!.title;
+      const testTitle = this.test!.title;
       const result = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
-      expect(result).to.equal(`${platform}/utils_generatetestrecordingfilepath/recording_should_generate_a_properly_formatted_path_on_platform_browser.json`);
+      expect(result).to.equal(
+        `${platform}/utils_generatetestrecordingfilepath/recording_should_generate_a_properly_formatted_path_on_platform_browsers.json`
+      );
+    });
+  });
+
+  describe("nodeRequireRecordingIfExists", () => {
+    it("should be able to load the contents of a file at a given path if the file exists", function() {
+      if (isBrowser()) return this.skip();
+
+      const mockFs = require("mock-fs");
+      const mockRequire = require("mock-require");
+
+      // This needs to change if findRecordingsFolderPath changes.
+      mockFs({
+        // Our lazy require doesn't use the fs module internally.
+        "recordings/recording.json": "",
+        "../../sdk/": {},
+        "../../../rush.json": ""
+      });
+
+      mockRequire("../recordings/recording.json", {
+        property: "value"
+      });
+
+      expect(nodeRequireRecordingIfExists("recording.json").property).to.equal("value");
+
+      mockFs.restore();
+      mockRequire.stopAll();
+    });
+
+    it("should throw if the file at a given path doesn't exist", function() {
+      if (isBrowser()) return this.skip();
+
+      // Require shouldn't be mocked in this test since we should be preventing require from being reached.
+
+      const mockFs = require("mock-fs");
+
+      // This needs to change if findRecordingsFolderPath changes.
+      mockFs({
+        recordings: {},
+        "../../sdk/": {},
+        "../../../rush.json": ""
+      });
+
+      let error: Error | undefined;
+
+      try {
+        nodeRequireRecordingIfExists("recording.json");
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error!.message).to.equal(
+        `The recording recording.json was not found in ${findRecordingsFolderPath(
+          "recording.json"
+        )}`
+      );
+
+      mockFs.restore();
     });
   });
 });
