@@ -538,11 +538,67 @@ ultramarine.com/url/PUBLIC
     });
 
     it("should return false if the older hash is the same as the new hash", function() {
+      if (isBrowser()) return this.skip();
+
+      const mockFs = require("mock-fs");
+      const mockRequire = require("mock-require");
+      const platform = isBrowser() ? "browsers" : "node";
+      const testSuiteTitle = this.test!.parent!.fullTitle();
+      const testTitle = this.test!.title;
+      const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
+
+      // This needs to change if findRecordingsFolderPath changes.
+      mockFs({
+        // Our lazy require doesn't use the fs module internally.
+        [`recordings/${filePath}`]: "",
+        "../../sdk/": {},
+        "../../../rush.json": ""
+      });
+
+      mockRequire(`../recordings/${filePath}`, {
+        // We won't be testing wether MD5 works or not.
+        hash: "same old hash"
+      });
+
       // We won't be testing wether MD5 works or not.
+      const newHash = "same old hash";
+
+      expect(testHasChanged(testSuiteTitle, testTitle, newHash)).to.equal(false);
+
+      mockFs.restore();
+      mockRequire.stopAll();
     });
 
     it("should return true if the older hash is different than the new hash", function() {
+      if (isBrowser()) return this.skip();
+
+      const mockFs = require("mock-fs");
+      const mockRequire = require("mock-require");
+      const platform = isBrowser() ? "browsers" : "node";
+      const testSuiteTitle = this.test!.parent!.fullTitle();
+      const testTitle = this.test!.title;
+      const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
+
+      // This needs to change if findRecordingsFolderPath changes.
+      mockFs({
+        // Our lazy require doesn't use the fs module internally.
+        [`recordings/${filePath}`]: "",
+        "../../sdk/": {},
+        "../../../rush.json": ""
+      });
+
+      mockRequire(`../recordings/${filePath}`, {
+        // We won't be testing wether MD5 works or not.
+        hash: "old hash"
+      });
+
       // We won't be testing wether MD5 works or not.
+      const newHash = "new hash";
+
+      expect(testHasChanged(testSuiteTitle, testTitle, newHash)).to.equal(true);
+
+      mockFs.restore();
+      mockRequire.stopAll();
     });
   });
 });
