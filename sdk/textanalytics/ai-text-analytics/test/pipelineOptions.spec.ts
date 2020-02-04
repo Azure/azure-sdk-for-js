@@ -3,33 +3,44 @@
 
 import { assert } from "chai";
 
-import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "../src";
-import { environmentSetup, testEnv } from "./utils/recordedClient";
+import {
+  TextAnalyticsClient,
+  TextAnalyticsApiKeyCredential,
+  DetectLanguageResultCollection,
+  DetectLanguageSuccessResult
+} from "../src";
+import { testEnv } from "./utils/recordedClient";
 
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { WebResource, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 
 describe("TextAnalyticsClient Custom PipelineOptions", function() {
-  let recorder: Recorder;
   let credential = new TextAnalyticsApiKeyCredential(testEnv.SUBSCRIPTION_KEY);
 
-  this.timeout(10000);
+  it("use custom HTTPClient", async () => {
+    const pipelineTester = new Promise<DetectLanguageResultCollection>((resolve) => {
+      const client = new TextAnalyticsClient(testEnv.ENDPOINT, credential, {
+        httpClient: {
+          sendRequest: async (request: WebResource): Promise<HttpOperationResponse> => ({
+            status: 200,
+            request,
+            bodyAsText: JSON.stringify({
+              documents: [
+                { id: "0", detectedLanguages: [{ name: "English", iso6391Name: "en", score: 1.0 }] }
+              ],
+              errors: [],
+              modelVersion: "2019-10-01"
+            }),
+            headers: new HttpHeaders({})
+          })
+        }
+      });
 
-  beforeEach(function() {
-    recorder = record(this, environmentSetup);
-  });
-
-  afterEach(() => {
-    recorder.stop();
-  });
-
-  it("use custom user-agent string", async () => {
-    const client = new TextAnalyticsClient(testEnv.ENDPOINT, credential, {
-      userAgentOptions: {
-        userAgentPrefix: "azure_sdk_test"
-      }
+      client.detectLanguages(["Hello!"], "us").then((languages) => resolve(languages));
     });
 
-    const [result] = await client.detectLanguages(["Hello!"], "us");
+    const [result] = await pipelineTester;
     assert.ok(result.error === undefined);
+    assert.ok((result as DetectLanguageSuccessResult).id === "0");
+    assert.ok((result as DetectLanguageSuccessResult).primaryLanguage.iso6391Name === "en");
   });
 });
