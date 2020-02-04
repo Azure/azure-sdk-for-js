@@ -289,7 +289,7 @@ export class TextAnalyticsClient {
         where the lanuage is explicitly set to "None".
    * @param options Optional parameters for the operation.
    */
-  public async recognizeCategorizedEntities(
+  public async recognizeEntities(
     inputs: string[],
     language?: string,
     options?: RecognizeCategorizedEntitiesOptions
@@ -305,11 +305,11 @@ export class TextAnalyticsClient {
    * @param inputs The input documents to analyze.
    * @param options Optional parameters for the operation.
    */
-  public async recognizeCategorizedEntities(
+  public async recognizeEntities(
     inputs: TextDocumentInput[],
     options?: RecognizeCategorizedEntitiesOptions
   ): Promise<RecognizeCategorizedEntitiesResultCollection>;
-  public async recognizeCategorizedEntities(
+  public async recognizeEntities(
     inputs: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeCategorizedEntitiesOptions,
     options?: RecognizeCategorizedEntitiesOptions
