@@ -15,7 +15,7 @@ describe("Certificates client - lro - delete", () => {
   let client: CertificateClient;
   let testClient: TestClient;
   let recorder: any;
-  
+
   beforeEach(async function() {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
@@ -31,7 +31,9 @@ describe("Certificates client - lro - delete", () => {
   // The tests follow
 
   it("can wait until a certificate is deleted", async function() {
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
@@ -54,12 +56,14 @@ describe("Certificates client - lro - delete", () => {
   });
 
   it("can resume from a stopped poller", async function() {
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     await client.beginCreateCertificate(
-        certificateName,
-        DefaultCertificatePolicy,
-        testPollerProperties
-      );
+      certificateName,
+      DefaultCertificatePolicy,
+      testPollerProperties
+    );
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 
