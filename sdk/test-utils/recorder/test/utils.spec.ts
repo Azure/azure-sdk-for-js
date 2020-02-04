@@ -5,7 +5,8 @@ import {
   encodeRFC3986,
   filterSecretsFromStrings,
   env,
-  filterSecretsRecursivelyFromJSON
+  filterSecretsRecursivelyFromJSON,
+  generateTestRecordingFilePath
 } from "../src/utils";
 import chai from "chai";
 import { setEnvironmentVariables } from "../src/baseRecorder";
@@ -420,6 +421,24 @@ ultramarine.com/url/PUBLIC
       setEnvironmentVariables(env, replaceableVariables);
       expect(env.SECRET).to.equal("FAKE IT");
       expect(env.ACCOUNT_NAME).to.equal("fake_account_name");
+    });
+  });
+
+  describe("generateTestRecordingFilePath", () => {
+    it("should generate a properly formatted path on platform: Node", function() {
+      const platform = "node";
+      const testSuiteTitle = this.test!.parent!.fullTitle();
+      const testTitle =  this.test!.title;
+      const result = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
+      expect(result).to.equal(`${platform}/utils_generatetestrecordingfilepath/recording_should_generate_a_properly_formatted_path_on_platform_node.js`);
+    });
+
+    it("should generate a properly formatted path on platform: Browsers", function() {
+      const platform = "browsers";
+      const testSuiteTitle = this.test!.parent!.fullTitle();
+      const testTitle =  this.test!.title;
+      const result = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
+      expect(result).to.equal(`${platform}/utils_generatetestrecordingfilepath/recording_should_generate_a_properly_formatted_path_on_platform_browser.json`);
     });
   });
 });

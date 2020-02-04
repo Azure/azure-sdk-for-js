@@ -390,11 +390,12 @@ export function formatPath(path: string): string {
 
 /**
  * Generates a file path with the following structure:
- * `{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
+ * 
+ *     `{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
  *
- * @param platform
- * @param testSuiteTitle
- * @param testTitle
+ * @param platform A string, either "node" or "browsers".
+ * @param testSuiteTitle The title of the test suite.
+ * @param testTitle The title of the specific test we're running.
  */
 export function generateTestRecordingFilePath(
   platform: "node" | "browsers",
@@ -412,6 +413,7 @@ export function generateTestRecordingFilePath(
  * Requires a file if it exists. Only works on NodeJS.
  */
 export function nodeRequireIfExists(filePath: string): any {
+  if (isBrowser()) throw new Error("nodeRequireIfExists only works on NodeJS");
   const path = require("path");
   // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
   const recordingsFolderPath = findRecordingsFolderPath(filePath);
