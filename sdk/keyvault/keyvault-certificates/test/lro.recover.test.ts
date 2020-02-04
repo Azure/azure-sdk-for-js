@@ -108,27 +108,24 @@ describe("Certificates client - LRO - recoverDelete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can recover a deleted certificate with requestOptions timeout", async function() {
-      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
-      const certificateName = testClient.formatName(
-        `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
-      );
-      await client.beginCreateCertificate(
-        certificateName,
-        DefaultCertificatePolicy,
-        testPollerProperties
-      );
-      const deletePoller = await client.beginDeleteCertificate(
-        certificateName,
-        testPollerProperties
-      );
-      await deletePoller.pollUntilDone();
-      await assertThrowsAbortError(async () => {
-        await client.beginRecoverDeletedCertificate(certificateName, {
-          requestOptions: { timeout: 1 },
-          ...testPollerProperties
-        });
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can recover a deleted certificate with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
+    await client.beginCreateCertificate(
+      certificateName,
+      DefaultCertificatePolicy,
+      testPollerProperties
+    );
+    const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
+    await deletePoller.pollUntilDone();
+    await assertThrowsAbortError(async () => {
+      await client.beginRecoverDeletedCertificate(certificateName, {
+        requestOptions: { timeout: 1 },
+        ...testPollerProperties
       });
     });
+  });
 });

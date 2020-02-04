@@ -67,20 +67,20 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can create a certificate with requestOptions timeout", async function() {
-      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can create a certificate with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
-      await assertThrowsAbortError(async () => {
-        await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
-          ...testPollerProperties,
-          requestOptions: {
-            timeout: 1
-          }
-        });
+    await assertThrowsAbortError(async () => {
+      await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
+        ...testPollerProperties,
+        requestOptions: {
+          timeout: 1
+        }
       });
     });
+  });
 
   it("cannot create a certificate with an empty name", async function() {
     const certificateName = "";
@@ -125,27 +125,27 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can update certificate with requestOptions timeout", async function() {
-      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can update certificate with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
-      const poller = await client.beginCreateCertificate(
-        certificateName,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
-      const { version } = poller.getResult()!.properties;
+    const poller = await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+    const { version } = poller.getResult()!.properties;
 
-      await assertThrowsAbortError(async () => {
-        await client.updateCertificateProperties(certificateName, version || "", {
-          tags: {
-            customTag: "value"
-          },
-          requestOptions: { timeout: 1 }
-        });
+    await assertThrowsAbortError(async () => {
+      await client.updateCertificateProperties(certificateName, version || "", {
+        tags: {
+          customTag: "value"
+        },
+        requestOptions: { timeout: 1 }
       });
     });
+  });
 
   it("can get a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -163,19 +163,19 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can get a certificate with requestOptions timeout", async function() {
-      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-      await client.beginCreateCertificate(
-        certificateName,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
-      await assertThrowsAbortError(async () => {
-        await client.getCertificate(certificateName, { requestOptions: { timeout: 1 } });
-      });
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can get a certificate with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+    await assertThrowsAbortError(async () => {
+      await client.getCertificate(certificateName, { requestOptions: { timeout: 1 } });
     });
+  });
 
   it("can retrieve the latest version of a certificate value", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -238,24 +238,24 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.purgeCertificate(certificateName);
   });
 
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can delete a certificate with requestOptions timeout", async function() {
-      recorder.skip(undefined, "Timeout tests don't work on playback mode.");
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-      await client.beginCreateCertificate(
-        certificateName,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
-      await assertThrowsAbortError(async () => {
-        await client.beginDeleteCertificate(certificateName, {
-          ...testPollerProperties,
-          requestOptions: {
-            timeout: 1
-          }
-        });
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can delete a certificate with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+    await assertThrowsAbortError(async () => {
+      await client.beginDeleteCertificate(certificateName, {
+        ...testPollerProperties,
+        requestOptions: {
+          timeout: 1
+        }
       });
     });
+  });
 
   it("can delete a certificate (Non Existing)", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);

@@ -15,7 +15,7 @@ describe("Certificates client - LRO - create", () => {
   let client: CertificateClient;
   let testClient: TestClient;
   let recorder: any;
-  
+
   beforeEach(async function() {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
@@ -31,7 +31,9 @@ describe("Certificates client - LRO - create", () => {
   // The tests follow
 
   it("can wait until a certificate is created", async function() {
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     const poller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
@@ -53,7 +55,9 @@ describe("Certificates client - LRO - create", () => {
   });
 
   it("can resume from a stopped poller", async function() {
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     const poller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
@@ -73,10 +77,14 @@ describe("Certificates client - LRO - create", () => {
 
     const serialized = poller.toString();
 
-    const resumePoller = await client.beginCreateCertificate(certificateName, DefaultCertificatePolicy, {
-      resumeFrom: serialized,
-      ...testPollerProperties
-    });
+    const resumePoller = await client.beginCreateCertificate(
+      certificateName,
+      DefaultCertificatePolicy,
+      {
+        resumeFrom: serialized,
+        ...testPollerProperties
+      }
+    );
 
     assert.ok(resumePoller.getOperationState().isStarted);
     const createdCertificate: KeyVaultCertificate = await resumePoller.pollUntilDone();

@@ -71,7 +71,10 @@ describe("Certificates client - merge and import certificates", () => {
 
   // The signed csr will never be the same.
   it("can merge a self signed certificate", async function() {
-    recorder.skip(undefined, "The signed certificate will never be the same, so we can't play it back.");
+    recorder.skip(
+      undefined,
+      "The signed certificate will never be the same, so we can't play it back."
+    );
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await client.beginCreateCertificate(
@@ -90,7 +93,7 @@ describe("Certificates client - merge and import certificates", () => {
     const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}
 -----END CERTIFICATE REQUEST-----`;
-      fs.writeFileSync("test.csr", wrappedCsr);
+    fs.writeFileSync("test.csr", wrappedCsr);
 
     // Certificate available locally made using:
     //   openssl genrsa -out ca.key 2048
