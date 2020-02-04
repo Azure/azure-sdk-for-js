@@ -54,7 +54,9 @@ export interface RecorderEnvironmentSetup {
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
 export function isRecordMode() {
-  return env.TEST_MODE === "record";
+  // It should be safe to assume that these two can be considered being in record mode.
+  // For more specific distinctions, one can use isSoftRecordMode.
+  return env.TEST_MODE === "record" || env.TEST_MODE === "soft-record";
 }
 
 export function isSoftRecordMode() {
