@@ -27,9 +27,9 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
 
 // @public
 export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
-    documentScores: SentimentConfidenceScorePerLabel;
     sentences: SentenceSentiment[];
     sentiment: DocumentSentimentValue;
+    sentimentScores: SentimentConfidenceScorePerLabel;
 }
 
 // @public
@@ -208,8 +208,8 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
 export interface SentenceSentiment {
     length: number;
     offset: number;
-    sentenceScores: SentimentConfidenceScorePerLabel;
     sentiment: SentenceSentimentValue;
+    sentimentScores: SentimentConfidenceScorePerLabel;
     warnings?: string[];
 }
 

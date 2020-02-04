@@ -33,7 +33,7 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
-  documentScores: SentimentConfidenceScorePerLabel;
+  sentimentScores: SentimentConfidenceScorePerLabel;
   /**
    * The predicted sentiment for each sentence in the corresponding document.
    */
@@ -43,19 +43,19 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 /**
  * An error result from the analyze sentiment operation on a single document.
  */
-export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult
+export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 export function makeAnalyzeSentimentResult(
   id: string,
   sentiment: DocumentSentimentValue,
-  documentScores: SentimentConfidenceScorePerLabel,
+  sentimentScores: SentimentConfidenceScorePerLabel,
   sentences: SentenceSentiment[],
   statistics?: TextDocumentStatistics
 ): AnalyzeSentimentSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),
     sentiment,
-    documentScores,
+    sentimentScores,
     sentences
   };
 }

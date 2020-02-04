@@ -144,7 +144,7 @@ export interface SentenceSentiment {
   /**
    * The sentiment confidence score between 0 and 1 for the sentence for all classes.
    */
-  sentenceScores: SentimentConfidenceScorePerLabel;
+  sentimentScores: SentimentConfidenceScorePerLabel;
   /**
    * The sentence offset from the start of the document.
    */

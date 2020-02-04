@@ -134,3 +134,13 @@ directive:
       $.subtype["x-ms-client-name"] = "subCategory";
 ```
 
+### Rename sentenceScores -> sentimentScores
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SentenceSentiment.properties.sentenceScores
+    transform: >
+      $["x-ms-client-name"] = "sentimentScores";
+```
+

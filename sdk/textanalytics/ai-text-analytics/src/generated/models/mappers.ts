@@ -274,7 +274,7 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
           ]
         }
       },
-      sentenceScores: {
+      sentimentScores: {
         required: true,
         serializedName: "sentenceScores",
         type: {
