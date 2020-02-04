@@ -232,29 +232,78 @@ describe("Utility Helpers Node.js only", () => {
   });
 
   describe.only("streamToBuffer2", () => {
-    it("reads a readable stream into a buffer", async () => {
-      const size = 1024;
-      const inputBuffer = Buffer.alloc(size, 1);
+    class TestReadableStream extends Readable {
+      private _numBytesSent = 0;
+      private _buffer: Buffer;
+      private _bytesPerRead: number;
 
-      class TestReadableStream extends Readable {
-        private numBytesSent = 0;
-
-        _read() {
-          if (this.numBytesSent < size) {
-            this.numBytesSent += inputBuffer.length;
-            this.push(inputBuffer);
-          } else {
-            this.push(null);
-          }
-        }
+      constructor(buffer: Buffer, bytesPerRead: number, opts?: ReadableOptions) {
+        super(opts);
+        this._buffer = buffer;
+        this._bytesPerRead = bytesPerRead;
       }
 
-      const readStream = new TestReadableStream();
+      _read() {
+        if (this._numBytesSent < this._buffer.length) {
+          const bytesToSend = Math.min(this._bytesPerRead, this._buffer.length - this._numBytesSent);
+          this.push(this._buffer.slice(this._numBytesSent, this._numBytesSent + bytesToSend));
+          this._numBytesSent += bytesToSend;
+        } else {
+          this.push(null);
+        }
+      }
+    }
 
-      const outputBuffer = Buffer.alloc(inputBuffer.length);
-      await streamToBuffer2(readStream, outputBuffer);
+    const len = 1024;
+    const tests = [
+      {
+        title: "should success when buffer.length == stream.length and bytesPerRead == stream.length",
+        streamLength: len, bufferLength: len, bytesPerRead: len, expectedSuccess: true
+      },
+      {
+        title: "should success when buffer.length > stream.length and bytesPerRead == stream.length",
+        streamLength: len, bufferLength: len + 1, bytesPerRead: len, expectedSuccess: true
+      },
+      {
+        title: "should reject when buffer.length < stream.length and bytesPerRead == stream.length",
+        streamLength: len, bufferLength: len - 1, bytesPerRead: len, expectedSuccess: false
+      },
+      {
+        title: "should success when buffer.length == stream.length and bytesPerRead < stream.length",
+        streamLength: len, bufferLength: len, bytesPerRead: 100, expectedSuccess: true
+      },
+      {
+        title: "should success when buffer.length > stream.length and bytesPerRead < stream.length",
+        streamLength: len, bufferLength: len + 1, bytesPerRead: 100, expectedSuccess: true
+      },
+      {
+        title: "should reject when buffer.length < stream.length and bytesPerRead < stream.length",
+        streamLength: len, bufferLength: len - 1, bytesPerRead: 100, expectedSuccess: false
+      },
+    ]
 
-      assert.deepEqual(outputBuffer, inputBuffer);
+    tests.forEach(function (test) {
+      it(test.title, async () => {
+        const inputBuffer = Buffer.alloc(test.streamLength, 1);
+        const readStream = new TestReadableStream(inputBuffer, test.bytesPerRead);
+        const outputBuffer = Buffer.alloc(test.bufferLength);
+
+        try {
+          await streamToBuffer2(readStream, outputBuffer);
+          if (test.expectedSuccess) {
+            assert.deepEqual(outputBuffer.slice(0, inputBuffer.length), inputBuffer);
+          }
+          else {
+            throw new Error("Test failure");
+          }
+        } catch (err) {
+          if (test.expectedSuccess) {
+            throw err;
+          } else {
+            assert.notEqual(err.message, "Test failure");
+          }
+        }
+      });
     });
   });
 });
