@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { KeyClient, JsonWebKey } from "../src";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { isNode } from "@azure/core-http";
@@ -13,7 +13,7 @@ describe("Keys client - import keys", () => {
   let suffix: string;
   let client: KeyClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
