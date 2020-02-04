@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { Readable, ReadableOptions } from "stream";
-import { readStreamToLocalFile } from "../../src/utils/utils.node";
+import { readStreamToLocalFile, streamToBuffer2 } from "../../src/utils/utils.node";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers Node.js only", () => {
@@ -228,6 +228,33 @@ describe("Utility Helpers Node.js only", () => {
       } catch (err) {
         assert.notEqual(err.message, "Test failure");
       }
+    });
+  });
+
+  describe.only("streamToBuffer2", () => {
+    it("reads a readable stream into a buffer", async () => {
+      const size = 1024;
+      const inputBuffer = Buffer.alloc(size, 1);
+
+      class TestReadableStream extends Readable {
+        private numBytesSent = 0;
+
+        _read() {
+          if (this.numBytesSent < size) {
+            this.numBytesSent += inputBuffer.length;
+            this.push(inputBuffer);
+          } else {
+            this.push(null);
+          }
+        }
+      }
+
+      const readStream = new TestReadableStream();
+
+      const outputBuffer = Buffer.alloc(inputBuffer.length);
+      await streamToBuffer2(readStream, outputBuffer);
+
+      assert.deepEqual(outputBuffer, inputBuffer);
     });
   });
 });
