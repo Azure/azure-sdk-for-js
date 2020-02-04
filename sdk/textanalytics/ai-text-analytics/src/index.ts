@@ -4,7 +4,7 @@
 export {
   TextAnalyticsClient,
   TextAnalyticsClientOptions,
-  DetectLanguagesOptions,
+  DetectLanguageOptions,
   RecognizeCategorizedEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,

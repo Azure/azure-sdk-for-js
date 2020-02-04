@@ -84,7 +84,7 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
 /**
  * Options for the detect languages operation.
  */
-export type DetectLanguagesOptions = TextAnalyticsOperationOptions;
+export type DetectLanguageOptions = TextAnalyticsOperationOptions;
 
 /**
  * Options for the recognize entities operation.
@@ -207,10 +207,10 @@ export class TextAnalyticsClient {
    *   The same country hint is applied to all strings in the input collection.
    * @param options Optional parameters for the operation.
    */
-  public async detectLanguages(
+  public async detectLanguage(
     inputs: string[],
     countryHint?: string,
-    options?: DetectLanguagesOptions
+    options?: DetectLanguageOptions
   ): Promise<DetectLanguageResultCollection>;
   /**
    * Runs a predictive model to determine the language that the passed-in
@@ -221,16 +221,16 @@ export class TextAnalyticsClient {
    * @param inputs A collection of input documents to analyze.
    * @param options Optional parameters for the operation.
    */
-  public async detectLanguages(
+  public async detectLanguage(
     inputs: DetectLanguageInput[],
-    options?: DetectLanguagesOptions
+    options?: DetectLanguageOptions
   ): Promise<DetectLanguageResultCollection>;
-  public async detectLanguages(
+  public async detectLanguage(
     inputs: string[] | DetectLanguageInput[],
-    countryHintOrOptions?: string | DetectLanguagesOptions,
-    options?: DetectLanguagesOptions
+    countryHintOrOptions?: string | DetectLanguageOptions,
+    options?: DetectLanguageOptions
   ): Promise<DetectLanguageResultCollection> {
-    let realOptions: DetectLanguagesOptions;
+    let realOptions: DetectLanguageOptions;
     let realInputs: DetectLanguageInput[];
 
     if (isStringArray(inputs)) {
@@ -239,7 +239,7 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = inputs;
-      realOptions = (countryHintOrOptions as DetectLanguagesOptions) || {};
+      realOptions = (countryHintOrOptions as DetectLanguageOptions) || {};
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(

@@ -56,6 +56,9 @@ export interface DetectLanguageInput {
 }
 
 // @public
+export type DetectLanguageOptions = TextAnalyticsOperationOptions;
+
+// @public
 export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
 
 // @public
@@ -63,9 +66,6 @@ export interface DetectLanguageResultCollection extends Array<DetectLanguageResu
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
-
-// @public
-export type DetectLanguagesOptions = TextAnalyticsOperationOptions;
 
 // @public
 export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
@@ -240,8 +240,8 @@ export class TextAnalyticsClient {
     analyzeSentiment(inputs: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     defaultCountryHint: string;
     defaultLanguage: string;
-    detectLanguages(inputs: string[], countryHint?: string, options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
-    detectLanguages(inputs: DetectLanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguage(inputs: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguage(inputs: DetectLanguageInput[], options?: DetectLanguageOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
     extractKeyPhrases(inputs: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
     extractKeyPhrases(inputs: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
