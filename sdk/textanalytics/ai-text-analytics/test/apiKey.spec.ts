@@ -9,7 +9,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
 import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "../src/index";
-import { isSuccess } from "./utils/resultHelper";
+import { assertAllSuccess } from "./utils/resultHelper";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -48,13 +48,13 @@ describe("[API Key] TextAnalyticsClient", function() {
   it("#analyzeSentiment", async () => {
     const results = await client.analyzeSentiment(testDataEn);
     assert.equal(results.length, testDataEn.length);
-    assert.ok(results.every(isSuccess));
+    assertAllSuccess(results);
   });
 
   it("#detectLanguages", async () => {
     const results = await client.detectLanguages(["impossible"], "fr");
     assert.equal(results.length, 1);
-    assert.ok(results.every(isSuccess));
+    assertAllSuccess(results);
   });
 
   it("#extractKeyPhrases", async () => {
@@ -62,7 +62,7 @@ describe("[API Key] TextAnalyticsClient", function() {
       "I had a wonderful trip to Seattle last weekend"
     ]);
     assert.equal(results.length, 1);
-    assert.ok(results.every(isSuccess));
+    assertAllSuccess(results);
   });
 
   it("#recognizeEntities", async () => {
@@ -70,7 +70,7 @@ describe("[API Key] TextAnalyticsClient", function() {
       "I had a wonderful trip to Seattle last weekend."
     ]);
     assert.equal(results.length, 1);
-    assert.ok(results.every(isSuccess));
+    assertAllSuccess(results);
   });
 
   it("#recognizePiiEntities", async () => {
@@ -78,12 +78,12 @@ describe("[API Key] TextAnalyticsClient", function() {
       "Your social-security number is 078-05-1120."
     ]);
     assert.equal(results.length, 1);
-    assert.ok(results.every(isSuccess));
+    assertAllSuccess(results);
   });
 
   it("#recognizeLinkedEntities", async () => {
     const results = await client.recognizeLinkedEntities(["the Roman god Mars"]);
     assert.equal(results.length, 1);
-    assert.ok(results.every(isSuccess));
+    assertAllSuccess(results);
   });
 });

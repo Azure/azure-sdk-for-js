@@ -7,7 +7,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient } from "./utils/recordedClient";
 import { TextAnalyticsClient, TextDocumentInput, DetectLanguageInput } from "../src/index";
-import { isSuccess } from "./utils/resultHelper";
+import { isSuccess, assertAllSuccess } from "./utils/resultHelper";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -50,13 +50,13 @@ describe("[AAD] TextAnalyticsClient", function() {
     it("client accepts string[] and language", async () => {
       const results = await client.analyzeSentiment(testDataEn, "en");
       assert.equal(results.length, testDataEn.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client accepts string[] with no language", async () => {
       const results = await client.analyzeSentiment(testDataEn);
       assert.equal(results.length, testDataEn.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client accepts TextDocumentInput[]", async () => {
@@ -78,7 +78,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
       const results = await client.analyzeSentiment(allInputs);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
   });
 
@@ -90,13 +90,13 @@ describe("[AAD] TextAnalyticsClient", function() {
     it("client accepts no countryHint", async () => {
       const results = await client.detectLanguages(testDataEn);
       assert.equal(results.length, testDataEn.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client accepts a countryHint", async () => {
       const results = await client.detectLanguages(["impossible"], "fr");
       assert.equal(results.length, 1);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client produces an error on invalid country hint", async () => {
@@ -122,7 +122,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
       const results = await client.detectLanguages(allInputs);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
   });
 
@@ -134,13 +134,13 @@ describe("[AAD] TextAnalyticsClient", function() {
     it("client accepts string[] with no language", async () => {
       const results = await client.recognizeEntities(testDataEn);
       assert.equal(results.length, testDataEn.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client accepts string[] with a language specified", async () => {
       const results = await client.recognizeEntities(testDataEn, "en");
       assert.equal(results.length, testDataEn.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client accepts mixed-language TextDocumentInput[]", async () => {
@@ -162,7 +162,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
       const results = await client.recognizeEntities(allInputs);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
   });
 
@@ -174,13 +174,13 @@ describe("[AAD] TextAnalyticsClient", function() {
     it("client accepts string[] with no language", async () => {
       const results = await client.extractKeyPhrases(testDataEn);
       assert.equal(results.length, testDataEn.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client accepts string[] with a language specified", async () => {
       const results = await client.extractKeyPhrases(testDataEn, "en");
       assert.equal(results.length, testDataEn.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client accepts mixed-language TextDocumentInput[]", async () => {
@@ -202,7 +202,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
       const results = await client.extractKeyPhrases(allInputs);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
   });
 
@@ -214,13 +214,13 @@ describe("[AAD] TextAnalyticsClient", function() {
     it("client accepts string[] with no language", async () => {
       const results = await client.recognizePiiEntities(testDataEn);
       assert.equal(results.length, testDataEn.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client accepts string[] with a language specified", async () => {
       const results = await client.recognizePiiEntities(testDataEn, "en");
       assert.equal(results.length, testDataEn.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client correctly reports recognition of PII-like pattern", async () => {
@@ -268,13 +268,13 @@ describe("[AAD] TextAnalyticsClient", function() {
     it("client accepts string[] with no language", async () => {
       const results = await client.recognizeLinkedEntities(testDataEn);
       assert.equal(results.length, testDataEn.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client accepts string[] with a language specified", async () => {
       const results = await client.recognizeLinkedEntities(testDataEn, "en");
       assert.equal(results.length, testDataEn.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
 
     it("client accepts mixed-language TextDocumentInput[]", async () => {
@@ -296,7 +296,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
       const results = await client.recognizeLinkedEntities(allInputs);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
-      assert.ok(results.every(isSuccess));
+      assertAllSuccess(results);
     });
   });
 });
