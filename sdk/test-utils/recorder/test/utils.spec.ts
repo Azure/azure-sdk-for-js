@@ -539,7 +539,7 @@ ultramarine.com/url/PUBLIC
 
       mockRequire(`../recordings/${filePath}`, {});
 
-      // We won't be testing wether MD5 works or not.
+      // We won't be testing whether MD5 works or not.
       const newHash = "new hash";
 
       const path = require("path");
@@ -571,11 +571,11 @@ ultramarine.com/url/PUBLIC
       });
 
       mockRequire(`../recordings/${filePath}`, {
-        // We won't be testing wether MD5 works or not.
+        // We won't be testing whether MD5 works or not.
         hash: "same old hash"
       });
 
-      // We won't be testing wether MD5 works or not.
+      // We won't be testing whether MD5 works or not.
       const newHash = "same old hash";
 
       const path = require("path");
@@ -607,11 +607,11 @@ ultramarine.com/url/PUBLIC
       });
 
       mockRequire(`../recordings/${filePath}`, {
-        // We won't be testing wether MD5 works or not.
+        // We won't be testing whether MD5 works or not.
         hash: "old hash"
       });
 
-      // We won't be testing wether MD5 works or not.
+      // We won't be testing whether MD5 works or not.
       const newHash = "new hash";
 
       const path = require("path");
