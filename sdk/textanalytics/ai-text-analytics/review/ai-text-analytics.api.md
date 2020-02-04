@@ -29,7 +29,7 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
 export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
     sentences: SentenceSentiment[];
     sentiment: DocumentSentimentValue;
-    sentimentScores: SentimentConfidenceScorePerLabel;
+    sentimentScores: SentimentScorePerLabel;
 }
 
 // @public
@@ -209,7 +209,7 @@ export interface SentenceSentiment {
     length: number;
     offset: number;
     sentiment: SentenceSentimentValue;
-    sentimentScores: SentimentConfidenceScorePerLabel;
+    sentimentScores: SentimentScorePerLabel;
     warnings?: string[];
 }
 
@@ -217,7 +217,7 @@ export interface SentenceSentiment {
 export type SentenceSentimentValue = 'positive' | 'neutral' | 'negative';
 
 // @public
-export interface SentimentConfidenceScorePerLabel {
+export interface SentimentScorePerLabel {
     // (undocumented)
     negative: number;
     // (undocumented)

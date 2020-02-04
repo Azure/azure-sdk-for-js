@@ -144,3 +144,22 @@ directive:
       $["x-ms-client-name"] = "sentimentScores";
 ```
 
+### Rename SentimentConfidenceScorePerLabel -> SentimentScorePerLabel
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.SentimentScorePerLabel) {
+          $.SentimentScorePerLabel = $.SentimentConfidenceScorePerLabel;
+          delete $.SentimentConfidenceScorePerLabel;
+      }
+  - from: swagger-document
+    where: $.definitions..properties[*]
+    transform: >
+      if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
+          $["$ref"] = "#/definitions/SentimentScorePerLabel";
+      }
+```
+
