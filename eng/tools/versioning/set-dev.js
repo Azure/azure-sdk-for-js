@@ -23,7 +23,8 @@ const path = require("path");
 const process = require("process");
 const semver = require("semver");
 const versionUtils = require("./VersionUtils");
-
+//const { spawnSync } = require('child_process');
+// const proc = spawnSync('node', args, { cwd, stdio: 'inherit' });
 const commitChanges = async (rushPackages, package) => {
   // Commit the new version to the JSON document
   if (rushPackages[package].newVer) {
