@@ -10,7 +10,6 @@ import { Recorder } from "@azure/test-utils-recorder";
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
 import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "../src/index";
 import { isSuccess } from "./utils/resultHelper";
-import { WebResource } from "@azure/core-http";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -23,10 +22,7 @@ describe("TextAnalyticsApiKeyCredential", () => {
   it("credential signRequest throws on undefined webResource", async () => {
     const credential = new TextAnalyticsApiKeyCredential(testEnv.SUBSCRIPTION_KEY);
 
-    return assert.isRejected(
-      credential.signRequest((undefined as unknown) as WebResource),
-      /null or undefined/
-    );
+    return assert.isRejected(credential.signRequest(undefined as any), /null or undefined/);
   });
   it("credential constructor throws on invalid key", () => {
     return expect(() => new TextAnalyticsApiKeyCredential("")).to.throw(/non-empty string/);
