@@ -451,7 +451,7 @@ ultramarine.com/url/PUBLIC
   });
 
   describe("nodeRequireRecordingIfExists", () => {
-    it("should be able to load the contents of a file at a given path if the file exists", function() {
+    it("should be able to load the contents of a recording file if the file exists", function() {
       if (isBrowser()) return this.skip();
 
       const mockFs = require("mock-fs");
@@ -461,6 +461,7 @@ ultramarine.com/url/PUBLIC
       mockFs({
         // Our lazy require doesn't use the fs module internally.
         "recordings/recording.json": "",
+        "test/myTest.spec.ts": "",
         "../../sdk/": {},
         "../../../rush.json": ""
       });
@@ -469,13 +470,18 @@ ultramarine.com/url/PUBLIC
         property: "value"
       });
 
-      expect(nodeRequireRecordingIfExists("recording.json").property).to.equal("value");
+      const path = require("path");
+      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
+
+      expect(nodeRequireRecordingIfExists("recording.json", testAbsolutePath).property).to.equal(
+        "value"
+      );
 
       mockFs.restore();
       mockRequire.stopAll();
     });
 
-    it("should throw if the file at a given path doesn't exist", function() {
+    it("should throw if the file at a given recording path doesn't exist", function() {
       if (isBrowser()) return this.skip();
 
       // Require shouldn't be mocked in this test since we should be preventing require from being reached.
@@ -485,14 +491,18 @@ ultramarine.com/url/PUBLIC
       // This needs to change if findRecordingsFolderPath changes.
       mockFs({
         recordings: {},
+        "test/myTest.spec.ts": "",
         "../../sdk/": {},
         "../../../rush.json": ""
       });
 
+      const path = require("path");
+      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
+
       let error: Error | undefined;
 
       try {
-        nodeRequireRecordingIfExists("recording.json");
+        nodeRequireRecordingIfExists("recording.json", testAbsolutePath);
       } catch (e) {
         error = e;
       }
@@ -522,6 +532,7 @@ ultramarine.com/url/PUBLIC
       mockFs({
         // Our lazy require doesn't use the fs module internally.
         [`recordings/${filePath}`]: "",
+        "test/myTest.spec.ts": "",
         "../../sdk/": {},
         "../../../rush.json": ""
       });
@@ -531,7 +542,10 @@ ultramarine.com/url/PUBLIC
       // We won't be testing wether MD5 works or not.
       const newHash = "new hash";
 
-      expect(testHasChanged(testSuiteTitle, testTitle, newHash)).to.equal(true);
+      const path = require("path");
+      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
+
+      expect(testHasChanged(testSuiteTitle, testTitle, testAbsolutePath, newHash)).to.equal(true);
 
       mockFs.restore();
       mockRequire.stopAll();
@@ -551,6 +565,7 @@ ultramarine.com/url/PUBLIC
       mockFs({
         // Our lazy require doesn't use the fs module internally.
         [`recordings/${filePath}`]: "",
+        "test/myTest.spec.ts": "",
         "../../sdk/": {},
         "../../../rush.json": ""
       });
@@ -563,7 +578,10 @@ ultramarine.com/url/PUBLIC
       // We won't be testing wether MD5 works or not.
       const newHash = "same old hash";
 
-      expect(testHasChanged(testSuiteTitle, testTitle, newHash)).to.equal(false);
+      const path = require("path");
+      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
+
+      expect(testHasChanged(testSuiteTitle, testTitle, testAbsolutePath, newHash)).to.equal(false);
 
       mockFs.restore();
       mockRequire.stopAll();
@@ -583,6 +601,7 @@ ultramarine.com/url/PUBLIC
       mockFs({
         // Our lazy require doesn't use the fs module internally.
         [`recordings/${filePath}`]: "",
+        "test/myTest.spec.ts": "",
         "../../sdk/": {},
         "../../../rush.json": ""
       });
@@ -595,7 +614,10 @@ ultramarine.com/url/PUBLIC
       // We won't be testing wether MD5 works or not.
       const newHash = "new hash";
 
-      expect(testHasChanged(testSuiteTitle, testTitle, newHash)).to.equal(true);
+      const path = require("path");
+      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
+
+      expect(testHasChanged(testSuiteTitle, testTitle, testAbsolutePath, newHash)).to.equal(true);
 
       mockFs.restore();
       mockRequire.stopAll();

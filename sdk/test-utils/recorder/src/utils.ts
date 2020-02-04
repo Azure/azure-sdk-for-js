@@ -412,16 +412,16 @@ export function generateTestRecordingFilePath(
 /**
  * Requires a file if it exists. Only works on NodeJS.
  */
-export function nodeRequireRecordingIfExists(filePath: string): any {
-  if (isBrowser()) throw new Error("nodeRequireIfExists only works on NodeJS");
+export function nodeRequireRecordingIfExists(recordingPath: string, testAbsolutePath: string): any {
+  if (isBrowser()) throw new Error("nodeRequireRecordingIfExists only works on NodeJS");
   const path = require("path");
   // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
-  const recordingsFolderPath = findRecordingsFolderPath(filePath);
-  const recordingPath = path.resolve(recordingsFolderPath, filePath);
-  if (fs.existsSync(recordingPath)) {
-    return require(recordingPath);
+  const recordingsFolderPath = findRecordingsFolderPath(testAbsolutePath);
+  const absoluteRecordingPath = path.resolve(recordingsFolderPath, recordingPath);
+  if (fs.existsSync(absoluteRecordingPath)) {
+    return require(absoluteRecordingPath);
   } else {
-    throw new Error(`The recording ${filePath} was not found in ${recordingsFolderPath}`);
+    throw new Error(`The recording ${recordingPath} was not found in ${recordingsFolderPath}`);
   }
 }
 
@@ -435,19 +435,20 @@ export function nodeRequireRecordingIfExists(filePath: string): any {
 export function testHasChanged(
   testSuiteTitle: string,
   testTitle: string,
+  testAbsolutePath: string,
   currentHash: string
 ): boolean {
   const platform = isBrowser() ? "browsers" : "node";
-  const filePath: string = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
+  const recordingPath: string = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
 
   let previousHash: string = "";
 
   if (platform === "node") {
     try {
-      previousHash = nodeRequireRecordingIfExists(filePath).hash;
+      previousHash = nodeRequireRecordingIfExists(recordingPath, testAbsolutePath).hash;
     } catch (e) {}
   } else {
-    previousHash = (window as any).__json__["recordings/" + filePath].hash;
+    previousHash = (window as any).__json__["recordings/" + recordingPath].hash;
   }
 
   if (!previousHash) {

@@ -116,7 +116,7 @@ export class NockRecorder extends BaseRecorder {
     });
   }
 
-  public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup, filePath: string): void {
+  public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup, testFilePath: string): void {
     this.environmentSetup = recorderEnvironmentSetup;
     /**
      * `@azure/test-utils-recorder` package is used for both the browser and node tests
@@ -127,7 +127,10 @@ export class NockRecorder extends BaseRecorder {
      *
      * [A different strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
      */
-    this.uniqueTestInfo = nodeRequireRecordingIfExists(filePath).testInfo;
+    this.uniqueTestInfo = nodeRequireRecordingIfExists(
+      this.relativeTestRecordingFilePath,
+      testFilePath
+    ).testInfo;
   }
 
   public stop(): void {
