@@ -1,4 +1,5 @@
 import * as assert from "assert";
+import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
@@ -284,7 +285,7 @@ describe("Utility Helpers Node.js only", () => {
 
     tests.forEach(function (test) {
       it(test.title, async () => {
-        const inputBuffer = Buffer.alloc(test.streamLength, 1);
+        const inputBuffer = randomBytes(test.streamLength);
         const readStream = new TestReadableStream(inputBuffer, test.bytesPerRead);
         const outputBuffer = Buffer.alloc(test.bufferLength);
 
