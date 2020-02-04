@@ -174,12 +174,6 @@ export const StorageError: coreHttp.CompositeMapper = {
           name: "Composite",
           className: "StorageErrorError"
         }
-      },
-      code: {
-        serializedName: "Code",
-        type: {
-          name: "String"
-        }
       }
     }
   }
