@@ -432,7 +432,7 @@ export function nodeRequireRecordingIfExists(filePath: string): any {
  * @param testTitle
  * @param currentHash
  */
-export function testHasntChanged(
+export function testHasChanged(
   testSuiteTitle: string,
   testTitle: string,
   currentHash: string
@@ -451,8 +451,8 @@ export function testHasntChanged(
   }
 
   if (!previousHash) {
-    return false;
+    return true;
   }
 
-  return previousHash === currentHash;
+  return previousHash !== currentHash;
 }

@@ -9,7 +9,7 @@ import {
   RecorderEnvironmentSetup,
   env,
   isSoftRecordMode,
-  testHasntChanged
+  testHasChanged
 } from "./utils";
 import {
   NiseRecorder,
@@ -182,7 +182,7 @@ export function record(
   const stringTest = testContext.currentTest!.fn!.toString();
   const currentHash = MD5(stringTest);
 
-  if (isSoftRecordMode() && testHasntChanged(testHierarchy, testTitle, currentHash)) {
+  if (isSoftRecordMode() && !testHasChanged(testHierarchy, testTitle, currentHash)) {
     testContext.skip();
     return result;
   }

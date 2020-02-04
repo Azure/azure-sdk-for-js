@@ -9,7 +9,8 @@ import {
   generateTestRecordingFilePath,
   nodeRequireRecordingIfExists,
   isBrowser,
-  findRecordingsFolderPath
+  findRecordingsFolderPath,
+  testHasChanged
 } from "../src/utils";
 import chai from "chai";
 import { setEnvironmentVariables } from "../src/baseRecorder";
@@ -503,6 +504,45 @@ ultramarine.com/url/PUBLIC
       );
 
       mockFs.restore();
+    });
+  });
+
+  describe("testHasChanged", () => {
+    it("should return true if the older hash doesn't exist", function() {
+      if (isBrowser()) return this.skip();
+
+      const mockFs = require("mock-fs");
+      const mockRequire = require("mock-require");
+      const platform = isBrowser() ? "browsers" : "node";
+      const testSuiteTitle = this.test!.parent!.fullTitle();
+      const testTitle = this.test!.title;
+      const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
+
+      // This needs to change if findRecordingsFolderPath changes.
+      mockFs({
+        // Our lazy require doesn't use the fs module internally.
+        [`recordings/${filePath}`]: "",
+        "../../sdk/": {},
+        "../../../rush.json": ""
+      });
+
+      mockRequire(`../recordings/${filePath}`, {});
+
+      // We won't be testing wether MD5 works or not.
+      const newHash = "new hash";
+
+      expect(testHasChanged(testSuiteTitle, testTitle, newHash)).to.equal(true);
+
+      mockFs.restore();
+      mockRequire.stopAll();
+    });
+
+    it("should return false if the older hash is the same as the new hash", function() {
+      // We won't be testing wether MD5 works or not.
+    });
+
+    it("should return true if the older hash is different than the new hash", function() {
+      // We won't be testing wether MD5 works or not.
     });
   });
 });
