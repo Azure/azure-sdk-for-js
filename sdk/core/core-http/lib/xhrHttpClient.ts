@@ -161,15 +161,7 @@ function rejectOnTerminalEvent(
       )
     )
   );
-  xhr.addEventListener("abort", () => reject(new AbortError("The operation was aborted.")));
-  xhr.addEventListener("timeout", () =>
-    reject(
-      new RestError(
-        `timeout of ${xhr.timeout}ms exceeded`,
-        RestError.REQUEST_SEND_ERROR,
-        undefined,
-        request
-      )
-    )
-  );
+  const abortError = new AbortError("The operation was aborted.");
+  xhr.addEventListener("abort", () => reject(abortError));
+  xhr.addEventListener("timeout", () => reject(abortError));
 }
