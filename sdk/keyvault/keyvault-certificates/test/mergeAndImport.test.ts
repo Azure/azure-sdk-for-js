@@ -6,7 +6,7 @@ import childProcess from "child_process";
 import { CertificateClient } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { isNode } from "@azure/core-http";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { SecretClient } from "@azure/keyvault-secrets";
@@ -17,7 +17,7 @@ describe("Certificates client - merge and import certificates", () => {
   let suffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
   let keyVaultUrl: string;
   let credential: ClientSecretCredential;
   let secretClient: SecretClient;

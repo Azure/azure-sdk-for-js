@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { CertificateClient } from "../src";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -15,7 +15,7 @@ describe("Certificates client - create, read, update and delete", () => {
   let suffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   const basicCertificatePolicy = {
     issuerName: "Self",
@@ -52,7 +52,6 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
   it("can abort creating a certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const controller = new AbortController();

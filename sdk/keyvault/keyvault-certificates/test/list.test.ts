@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import chai from "chai";
 import { CertificateClient } from "../src";
-import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
@@ -17,7 +17,7 @@ describe("Certificates client - list certificates in various ways", () => {
   let suffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   const basicCertificatePolicy = {
     issuerName: "Self",

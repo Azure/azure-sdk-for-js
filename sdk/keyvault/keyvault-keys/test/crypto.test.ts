@@ -10,13 +10,13 @@ import { convertJWKtoPEM } from "../src/cryptographyClient";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
-import { isRecordMode } from "@azure/test-utils-recorder";
+import { isRecordMode, Recorder } from "@azure/test-utils-recorder";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   let client: KeyClient;
   let testClient: TestClient;
   let cryptoClient: CryptographyClient;
-  let recorder: any;
+  let recorder: Recorder;
   let credential: ClientSecretCredential;
   let keyName: string;
   let keyVaultKey: KeyVaultKey;
