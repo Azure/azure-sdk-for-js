@@ -38,7 +38,7 @@
   "typesVersions": {
     "<3.6": {
       "*": [
-        "./dist/types/3.0/index.d.ts"
+        "./dist/types/3.1/index.d.ts"
       ]
     }
   },
@@ -47,17 +47,17 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:samples": "tsc -b samples",
+    "build:samples": "node prep-samples.js && tsc -b samples",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc -b src test --verbose",
-    "build:types": "downlevel-dts dist/types/latest dist/types/3.0",
+    "build:types": "downlevel-dts dist/types/latest dist/types/3.1",
     "build": "npm run clean && tslint --project ./src/tsconfig.json && npm run extract-api && npm run build:types && node writeSDKVersion.js && npm run bundle",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
     "docs": "typedoc --tsconfig ./src/tsconfig.json --excludePrivate --mode file --out ./dist/docs ./src",
-    "execute:samples": "cd samples && npm run all-samples",
+    "execute:samples": " cd samples && npm run all-samples",
     "extract-api": "npm run build:src && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
