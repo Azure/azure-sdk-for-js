@@ -96,7 +96,7 @@ function buildSemverRegex(prefix) {
 function updateChangelog(targetPackagePath, newVersion, unreleased, replaceVersion) {
   const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
   try {
-    child = spawn("pwsh.exe", ["eng/common/Update-Change-Log.ps1", newVersion, changelogLocation, unreleased, replaceVersion]);
+    child = spawn("pwsh", ["eng/common/Update-Change-Log.ps1", newVersion, changelogLocation, unreleased, replaceVersion]);
     child.stdout.on("data", function (data) {
       console.log("Powershell Data: " + data);
     });
