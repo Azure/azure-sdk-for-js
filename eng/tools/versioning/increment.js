@@ -21,7 +21,6 @@ let argv = require("yargs")
 const path = require("path");
 const semver = require("semver");
 const versionUtils = require("./VersionUtils");
-var spawn = require("child_process").spawn, child;
 
 function incrementVersion(currentVersion) {
   const prerelease = semver.prerelease(currentVersion);
@@ -71,18 +70,7 @@ async function main(argv) {
     packageJsonContents,
     newVersion
   );
-  const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
-  child = spawn("powershell.exe", ["eng/common/Update-Change-Log.ps1", newVersion, changelogLocation, true, false]);
-  child.stdout.on("data", function (data) {
-    console.log("Powershell Data: " + data);
-  });
-  child.stderr.on("data", function (data) {
-    console.log("Powershell Errors: " + data);
-  });
-  child.on("exit", function () {
-    console.log("Powershell Script finished");
-  });
-  child.stdin.end();
+  versionUtils.updateChangelog(targetPackagePath, newVersion, true, false);
 }
 
 main(argv);

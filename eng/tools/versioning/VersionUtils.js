@@ -5,6 +5,7 @@ const { promisify } = require("util");
 
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
+var spawn = require("child_process").spawn, child;
 
 async function readFile(filename) {
   return await readFileAsync(filename, { encoding: "utf-8" });
@@ -90,6 +91,21 @@ async function updatePackageConstants(packagePath, packageJson, newVersion) {
 
 function buildSemverRegex(prefix) {
   return new RegExp(`(${prefix}.*?)(${semverRegex.toString()})`, "g");
+}
+
+function updateChangelog(targetPackagePath, newVersion, unreleased, replaceVersion) {
+  const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
+  child = spawn("powershell.exe", ["eng/common/Update-Change-Log.ps1", newVersion, changelogLocation, unreleased, replaceVersion]);
+  child.stdout.on("data", function (data) {
+    console.log("Powershell Data: " + data);
+  });
+  child.stderr.on("data", function (data) {
+    console.log("Powershell Errors: " + data);
+  });
+  child.on("exit", function () {
+    console.log("Powershell Script finished");
+  });
+  child.stdin.end();
 }
 
 // This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
