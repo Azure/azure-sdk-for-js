@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { Readable, ReadableOptions } from "stream";
+import { Readable, ReadableOptions, PassThrough } from "stream";
 import { readStreamToLocalFile, streamToBuffer2 } from "../../src/utils/utils.node";
 dotenv.config({ path: "../.env" });
 
@@ -259,35 +259,60 @@ describe("Utility Helpers Node.js only", () => {
     const len = 1024;
     const tests = [
       {
-        title: "should success when buffer.length == stream.length and bytesPerRead == stream.length",
-        streamLength: len, bufferLength: len, bytesPerRead: len, expectedSuccess: true
+        title: "should success when streamType == test, buffer.length == stream.length, and bytesPerRead == stream.length",
+        streamType: "test", streamLength: len, bufferLength: len, bytesPerRead: len, expectedSuccess: true
       },
       {
-        title: "should success when buffer.length > stream.length and bytesPerRead == stream.length",
-        streamLength: len, bufferLength: len + 1, bytesPerRead: len, expectedSuccess: true
+        title: "should success when streamType == test, buffer.length > stream.length and bytesPerRead == stream.length",
+        streamType: "test", streamLength: len, bufferLength: len + 1, bytesPerRead: len, expectedSuccess: true
       },
       {
-        title: "should reject when buffer.length < stream.length and bytesPerRead == stream.length",
-        streamLength: len, bufferLength: len - 1, bytesPerRead: len, expectedSuccess: false
+        title: "should reject when streamType == test, buffer.length < stream.length and bytesPerRead == stream.length",
+        streamType: "test", streamLength: len, bufferLength: len - 1, bytesPerRead: len, expectedSuccess: false
       },
       {
-        title: "should success when buffer.length == stream.length and bytesPerRead < stream.length",
-        streamLength: len, bufferLength: len, bytesPerRead: 100, expectedSuccess: true
+        title: "should success when streamType == test, buffer.length == stream.length and bytesPerRead < stream.length",
+        streamType: "test", streamLength: len, bufferLength: len, bytesPerRead: 100, expectedSuccess: true
       },
       {
-        title: "should success when buffer.length > stream.length and bytesPerRead < stream.length",
-        streamLength: len, bufferLength: len + 1, bytesPerRead: 100, expectedSuccess: true
+        title: "should success when streamType == test, buffer.length > stream.length and bytesPerRead < stream.length",
+        streamType: "test", streamLength: len, bufferLength: len + 1, bytesPerRead: 100, expectedSuccess: true
       },
       {
-        title: "should reject when buffer.length < stream.length and bytesPerRead < stream.length",
-        streamLength: len, bufferLength: len - 1, bytesPerRead: 100, expectedSuccess: false
+        title: "should reject when streamType == test, buffer.length < stream.length and bytesPerRead < stream.length",
+        streamType: "test", streamLength: len, bufferLength: len - 1, bytesPerRead: 100, expectedSuccess: false
+      },
+      {
+        title: "should success when streamType == passthrough, buffer.length == stream.length and bytesPerRead < stream.length",
+        streamType: "passthrough", streamLength: len, bufferLength: len, expectedSuccess: true
+      },
+      {
+        title: "should success when streamType == passthrough, buffer.length > stream.length and bytesPerRead < stream.length",
+        streamType: "passthrough", streamLength: len, bufferLength: len + 1, expectedSuccess: true
+      },
+      {
+        title: "should reject when streamType == passthrough, buffer.length < stream.length and bytesPerRead < stream.length",
+        streamType: "passthrough", streamLength: len, bufferLength: len - 1, expectedSuccess: false
       },
     ]
 
     tests.forEach(function (test) {
       it(test.title, async () => {
         const inputBuffer = randomBytes(test.streamLength);
-        const readStream = new TestReadableStream(inputBuffer, test.bytesPerRead);
+
+        let readStream: Readable;
+        if (test.streamType == "test") {
+          readStream = new TestReadableStream(inputBuffer, test.bytesPerRead!);
+        }
+        else if (test.streamType == "passthrough") {
+          const passthrough = new PassThrough();
+          passthrough.end(inputBuffer);
+          readStream = passthrough;
+        }
+        else {
+          throw new Error(`Invalid value for test.streamType: ${test.streamType}`);
+        }
+
         const outputBuffer = Buffer.alloc(test.bufferLength);
 
         try {
