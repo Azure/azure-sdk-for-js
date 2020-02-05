@@ -8,7 +8,7 @@ import { TokenCredentialOptions } from "../client/identityClient";
 
 const BrowserNotSupportedError = new Error("AuthFileCredential is not supported in the browser.");
 
-export class AuthFileCliCredential implements TokenCredential {
+export class AuthFileCredential implements TokenCredential {
   constructor(options?: TokenCredentialOptions) {
     throw BrowserNotSupportedError;
   }

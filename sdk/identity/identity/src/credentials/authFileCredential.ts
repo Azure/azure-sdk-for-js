@@ -28,28 +28,7 @@ export class AuthFileCredential implements TokenCredential {
    * @param filePath The path to the SDK Auth file.
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(filePath: string) {
-    let authData = JSON.parse(fs.readFileSync(filePath).toString());
-    if (this.credential == null && typeof authData == "object") {
-      let clientId = authData["clientId"];
-      let certificatePath = authData["certificatePath"];
-      let tenantId = authData["tenantId"];
-      let activeDirectoryEndpointUrl = authData["activeDirectoryEndpointUrl"];
-
-      if (
-        clientId == undefined ||
-        certificatePath == undefined ||
-        tenantId == undefined ||
-        activeDirectoryEndpointUrl == undefined
-      ) {
-        throw new Error("there was a problem building the credential.");
-      }
-
-      this.credential = new ClientCertificateCredential(tenantId, clientId, certificatePath, {
-        authorityHost: activeDirectoryEndpointUrl
-      });
-    }
-  }
+  constructor(filePath: string) {}
 
   /**
    * Authenticates with Azure Active Directory and returns an access token if
@@ -67,6 +46,26 @@ export class AuthFileCredential implements TokenCredential {
     const { span, options: newOptions } = createSpan("authFileCredential-getToken", options);
     if (this.credential) {
       try {
+        let authData = JSON.parse(fs.readFileSync(filePath).toString());
+        if (this.credential == null && typeof authData == "object") {
+          let clientId = authData["clientId"];
+          let certificatePath = authData["certificatePath"];
+          let tenantId = authData["tenantId"];
+          let activeDirectoryEndpointUrl = authData["activeDirectoryEndpointUrl"];
+
+          if (
+            clientId == undefined ||
+            certificatePath == undefined ||
+            tenantId == undefined ||
+            activeDirectoryEndpointUrl == undefined
+          ) {
+            throw new Error("there was a problem building the credential.");
+          }
+
+          this.credential = new ClientCertificateCredential(tenantId, clientId, certificatePath, {
+            authorityHost: activeDirectoryEndpointUrl
+          });
+        }
         return await this.credential.getToken(scopes, newOptions);
       } catch (err) {
         const code =
@@ -77,7 +76,7 @@ export class AuthFileCredential implements TokenCredential {
           code,
           message: err.message
         });
-        throw err;
+        return null;
       } finally {
         span.end();
       }
