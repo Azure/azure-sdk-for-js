@@ -28,7 +28,7 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
 // @public
 export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
     sentences: SentenceSentiment[];
-    sentiment: DocumentSentimentValue;
+    sentiment: DocumentSentimentLabel;
     sentimentScores: SentimentScorePerLabel;
 }
 
@@ -73,7 +73,7 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 }
 
 // @public
-export type DocumentSentimentValue = 'positive' | 'neutral' | 'negative' | 'mixed';
+export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixed';
 
 // @public
 export interface Entity {
@@ -208,13 +208,13 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
 export interface SentenceSentiment {
     length: number;
     offset: number;
-    sentiment: SentenceSentimentValue;
+    sentiment: SentenceSentimentLabel;
     sentimentScores: SentimentScorePerLabel;
     warnings?: string[];
 }
 
 // @public
-export type SentenceSentimentValue = 'positive' | 'neutral' | 'negative';
+export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
 
 // @public
 export interface SentimentScorePerLabel {

@@ -144,7 +144,7 @@ directive:
       $["x-ms-client-name"] = "sentimentScores";
 ```
 
-### Rename SentimentConfidenceScorePerLabel -> SentimentScorePerLabel
+### Rename SentimentConfidenceScorePerLabel -> SentimentScorePerLabel 
 
 ```yaml
 directive:
@@ -161,5 +161,19 @@ directive:
       if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
           $["$ref"] = "#/definitions/SentimentScorePerLabel";
       }
+```
+
+### Rename {Document,Sentence}SentimentValue -> Label 
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DocumentSentiment.properties.sentiment
+    transform: >
+      $["x-ms-enum"].name = "DocumentSentimentLabel";
+  - from: swagger-document
+    where: $.definitions.SentenceSentiment.properties.sentiment
+    transform: >
+      $["x-ms-enum"].name = "SentenceSentimentLabel";
 ```
 
