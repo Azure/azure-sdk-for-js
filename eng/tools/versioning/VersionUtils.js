@@ -119,3 +119,4 @@ module.exports.writePackageJson = writePackageJson;
 module.exports.getRushSpec = getRushSpec;
 module.exports.updatePackageConstants = updatePackageConstants;
 module.exports.getRushPackageJsons = getRushPackageJsons;
+module.exports.updateChangelog = updateChangelog;
