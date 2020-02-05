@@ -6,7 +6,7 @@
       "type": "string",
       "defaultValue": "[resourceGroup().name]",
       "metadata": {
-        "description": "THe base resource name."
+        "description": "The base resource name."
       }
     },
     "testApplicationOid": {
@@ -17,7 +17,7 @@
     }
   },
   "variables": {
-    "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/25fbc0a9-bd7c-42a3-aa1a-3b75d497ee68')]"
+    "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]"
   },
   "resources": [
     {
