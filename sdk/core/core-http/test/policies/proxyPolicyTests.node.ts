@@ -9,9 +9,8 @@ import { WebResource } from "../../lib/webResource";
 import { HttpHeaders } from "../../lib/httpHeaders";
 import { proxyPolicy, ProxyPolicy, getDefaultProxySettings } from "../../lib/policies/proxyPolicy";
 import { Constants } from "../../lib/coreHttp";
-import { nodeDescribe, browserDescribe } from "../msAssert";
 
-describe("ProxyPolicy", function() {
+describe("ProxyPolicy (node)", function() {
   const proxySettings: ProxySettings = {
     host: "https://example.com",
     port: 3030,
@@ -30,7 +29,7 @@ describe("ProxyPolicy", function() {
 
   const emptyPolicyOptions = new RequestPolicyOptions();
 
-  nodeDescribe("for Node.js", function() {
+  describe("for Node.js", function() {
     it("factory passes correct proxy settings", function(done) {
       const factory = proxyPolicy(proxySettings);
       const policy = factory.create(emptyRequestPolicy, emptyPolicyOptions) as ProxyPolicy;
@@ -65,21 +64,13 @@ describe("ProxyPolicy", function() {
       request.proxySettings!.should.be.deep.equal(requestSpecificProxySettings);
     });
   });
-
-  browserDescribe("for browser", () => {
-    it("should throw an Error while constructing object", () => {
-      const construct = () =>
-        new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
-      construct.should.throw();
-    });
-  });
 });
 
 describe("getDefaultProxySettings", () => {
   const proxyUrl = "https://proxy.microsoft.com";
   const defaultPort = 80;
 
-  nodeDescribe("for Node.js", function() {
+  describe("for Node.js", function() {
     it("should return settings with passed address", () => {
       const proxySettings: ProxySettings = getDefaultProxySettings(proxyUrl)!;
       proxySettings.host.should.equal(proxyUrl);
@@ -160,16 +151,5 @@ describe("getDefaultProxySettings", () => {
         });
       });
     });
-  });
-
-  browserDescribe("for browser", () => {
-    [undefined, "http://proxy.microsoft.com", "https://proxy.azure.com:8080"].forEach(
-      (proxyUrl) => {
-        it(`should return undefined for ${proxyUrl}`, () => {
-          const proxySettings = getDefaultProxySettings(proxyUrl);
-          should().not.exist(proxySettings);
-        });
-      }
-    );
   });
 });
