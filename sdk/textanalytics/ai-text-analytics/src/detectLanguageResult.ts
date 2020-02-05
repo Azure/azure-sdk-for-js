@@ -50,13 +50,7 @@ export function makeDetectLanguageErrorResult(
 
 function primaryLanguage(languages: DetectedLanguage[]): DetectedLanguage {
   const sorted = languages.slice(0).sort((a, b) => {
-    if (a.score === undefined) {
-      return -1;
-    } else if (b.score === undefined) {
-      return 1;
-    } else {
-      return a.score - b.score;
-    }
+    return a.score - b.score;
   });
   return sorted[0];
 }

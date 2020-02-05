@@ -6,13 +6,9 @@ import {
   sanitizeURL,
   extractConnectionStringParts
 } from "../src/utils/utils.common";
-import { record, Recorder } from "@azure/test-utils-recorder";
-import { recorderEnvSetup } from "./utils";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers", () => {
-  
-  let recorder: Recorder;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
   const accountName = "myaccount";
@@ -32,14 +28,6 @@ describe("Utility Helpers", () => {
       "extractConnectionStringParts().url is different than expected."
     );
   }
-
-  beforeEach(function() {
-    recorder = record(this,recorderEnvSetup);
-  });
-
-  afterEach(function() {
-    recorder.stop();
-  });
 
   it("sanitizeURL redacts SAS token", () => {
     const url = "https://some.url.com/container/blob?sig=sasstring";

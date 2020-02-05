@@ -1,4 +1,4 @@
-# Azure Storage TypeScript Protocol Layer
+# Azure Text Analytics TypeScript Protocol Layer
 
 > see https://aka.ms/autorest
 

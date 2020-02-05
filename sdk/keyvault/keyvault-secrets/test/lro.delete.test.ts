@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { SecretClient, DeletedSecret } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
@@ -15,7 +15,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
   let secretSuffix: string;
   let client: SecretClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
