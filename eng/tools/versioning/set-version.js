@@ -25,7 +25,7 @@ let argv = require("yargs")
 
 const path = require("path");
 const versionUtils = require("./VersionUtils");
-
+var spawn = require("child_process").spawn, child;
 async function main(argv) {
   const artifactName = argv["artifact-name"];
   const newVersion = argv["new-version"];
@@ -65,6 +65,18 @@ async function main(argv) {
     packageJsonContents,
     newVersion
   );
+  const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
+  child = spawn("powershell.exe", ["eng/common/Update-Change-Log.ps1", newVersion, changelogLocation, false, true]);
+  child.stdout.on("data", function (data) {
+    console.log("Powershell Data: " + data);
+  });
+  child.stderr.on("data", function (data) {
+    console.log("Powershell Errors: " + data);
+  });
+  child.on("exit", function () {
+    console.log("Powershell Script finished");
+  });
+  child.stdin.end();
 }
 
 main(argv);

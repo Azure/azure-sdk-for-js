@@ -72,10 +72,7 @@ async function main(argv) {
     newVersion
   );
   const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
-  const args = [newVersion, changelogLocation]
-  const cwd = repoRoot
-
-  child = spawn("powershell.exe", ["eng/common/Update-Change-Log.ps1", newVersion, changelogLocation]);
+  child = spawn("powershell.exe", ["eng/common/Update-Change-Log.ps1", newVersion, changelogLocation, true, false]);
   child.stdout.on("data", function (data) {
     console.log("Powershell Data: " + data);
   });
