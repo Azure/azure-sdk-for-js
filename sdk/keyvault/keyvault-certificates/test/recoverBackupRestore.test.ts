@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { CertificateClient } from "../src";
-import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { testPollerProperties, retry } from "./utils/recorderUtils";
@@ -15,7 +15,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
   let suffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   const basicCertificatePolicy = {
     issuerName: "Self",

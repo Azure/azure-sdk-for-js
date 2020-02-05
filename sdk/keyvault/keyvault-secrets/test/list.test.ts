@@ -5,7 +5,7 @@ import * as assert from "assert";
 import chai from "chai";
 import { SecretClient } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -17,7 +17,7 @@ describe("Secret client - list secrets in various ways", () => {
   let secretSuffix: string;
   let client: SecretClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
