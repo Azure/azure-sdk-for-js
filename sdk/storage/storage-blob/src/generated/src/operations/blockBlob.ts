@@ -246,6 +246,7 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.encryptionScope,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
@@ -295,7 +296,8 @@ const stageBlockOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId0,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
-    Parameters.encryptionAlgorithm
+    Parameters.encryptionAlgorithm,
+    Parameters.encryptionScope
   ],
   requestBody: {
     parameterPath: "body",
@@ -343,6 +345,7 @@ const stageBlockFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.encryptionScope,
     Parameters.leaseId0,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,
@@ -389,6 +392,7 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.encryptionScope,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,

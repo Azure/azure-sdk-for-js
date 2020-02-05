@@ -601,6 +601,19 @@ export const copySource: coreHttp.OperationParameter = {
     }
   }
 };
+export const defaultEncryptionScope: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "containerCpkScopeInfo",
+    "defaultEncryptionScope"
+  ],
+  mapper: {
+    serializedName: "x-ms-default-encryption-scope",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const deleteSnapshots: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
@@ -688,6 +701,19 @@ export const encryptionKeySha256: coreHttp.OperationParameter = {
   ],
   mapper: {
     serializedName: "x-ms-encryption-key-sha256",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const encryptionScope: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "cpkScopeInfo",
+    "encryptionScope"
+  ],
+  mapper: {
+    serializedName: "x-ms-encryption-scope",
     type: {
       name: "String"
     }
@@ -1055,6 +1081,19 @@ export const prefix: coreHttp.OperationQueryParameter = {
     }
   }
 };
+export const preventEncryptionScopeOverride: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "containerCpkScopeInfo",
+    "preventEncryptionScopeOverride"
+  ],
+  mapper: {
+    serializedName: "x-ms-deny-encryption-scope-override",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const prevsnapshot: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -1062,6 +1101,18 @@ export const prevsnapshot: coreHttp.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "prevsnapshot",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const prevSnapshotUrl: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "prevSnapshotUrl"
+  ],
+  mapper: {
+    serializedName: "x-ms-previous-snapshot-url",
     type: {
       name: "String"
     }
@@ -1465,7 +1516,7 @@ export const version: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-version",
-    defaultValue: '2019-02-02',
+    defaultValue: '2019-07-07',
     type: {
       name: "String"
     }
