@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -68,6 +68,10 @@
     "constantPaths": [
       {
         "path": "src/generated/src/appConfigurationContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/appConfigurationClient.ts",
         "prefix": "packageVersion"
       }
     ]
