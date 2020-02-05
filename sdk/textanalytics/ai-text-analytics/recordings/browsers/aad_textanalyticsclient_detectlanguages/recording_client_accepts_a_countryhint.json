@@ -11,15 +11,15 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1417",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 18:49:33 GMT",
+    "date": "Wed, 05 Feb 2020 23:15:47 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - SAN ProdSlices",
-    "x-ms-request-id": "09180ec8-16c0-4861-b64f-ff1fab2b7200"
+    "x-ms-ests-server": "2.1.9987.14 - SAN ProdSlices",
+    "x-ms-request-id": "914780c5-e0af-48b9-a267-88c9ed2f1a00"
    }
   },
   {
@@ -32,10 +32,10 @@
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "d477047d-ef75-4eb6-89ac-908eb5b4e206",
+    "apim-request-id": "7726620b-c673-4dd7-8d94-5766d01313cd",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Fri, 31 Jan 2020 18:49:33 GMT",
+    "date": "Wed, 05 Feb 2020 23:15:46 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
