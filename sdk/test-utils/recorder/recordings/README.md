@@ -1,0 +1,1 @@
+This folder only exists to make it easier for us to test this package.
