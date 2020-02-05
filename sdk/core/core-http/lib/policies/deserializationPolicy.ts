@@ -169,7 +169,7 @@ export function deserializeResponseBody(
       const defaultBodyMapper = defaultResponseSpec.bodyMapper;
       const defaultHeadersMapper = defaultResponseSpec.headersMapper;
       const parsedBody = parsedResponse.parsedBody;
-      const parsedHeaders = parsedResponse.parsedHeaders;
+      const parsedHeaders = parsedResponse.headers;
 
       const initialErrorMessage = isStreamOperation(operationSpec)
         ? `Unexpected status code: ${parsedResponse.status}`
