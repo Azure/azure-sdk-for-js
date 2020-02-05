@@ -234,9 +234,10 @@ describe("Utility Helpers Node.js only", () => {
 
   describe.only("streamToBuffer2", () => {
     class TestReadableStream extends Readable {
+      private readonly _buffer: Buffer;
+      private readonly _bytesPerRead: number;
+
       private _numBytesSent = 0;
-      private _buffer: Buffer;
-      private _bytesPerRead: number;
 
       constructor(buffer: Buffer, bytesPerRead: number, opts?: ReadableOptions) {
         super(opts);
