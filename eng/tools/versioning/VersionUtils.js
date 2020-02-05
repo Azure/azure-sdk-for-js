@@ -95,17 +95,23 @@ function buildSemverRegex(prefix) {
 
 function updateChangelog(targetPackagePath, newVersion, unreleased, replaceVersion) {
   const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
-  child = spawn("powershell.exe", ["eng/common/Update-Change-Log.ps1", newVersion, changelogLocation, unreleased, replaceVersion]);
-  child.stdout.on("data", function (data) {
-    console.log("Powershell Data: " + data);
-  });
-  child.stderr.on("data", function (data) {
-    console.log("Powershell Errors: " + data);
-  });
-  child.on("exit", function () {
-    console.log("Powershell Script finished");
-  });
-  child.stdin.end();
+  try {
+    child = spawn("pwsh.exe", ["eng/common/Update-Change-Log.ps1", newVersion, changelogLocation, unreleased, replaceVersion]);
+    child.stdout.on("data", function (data) {
+      console.log("Powershell Data: " + data);
+    });
+
+    child.stderr.on("error", function (error) {
+      console.log("Powershell Errors: " + error);
+    });
+    child.on("exit", function () {
+      console.log("Powershell Script finished");
+    });
+    child.stdin.end();
+  }
+  catch (ex) {
+    console.error(ex);
+  }
 }
 
 // This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
