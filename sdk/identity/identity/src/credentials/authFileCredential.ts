@@ -22,6 +22,7 @@ import * as fs from "fs";
  */
 export class AuthFileCredential implements TokenCredential {
   private credential?: TokenCredential = undefined;
+  private filePath: string;
   /**
    * Creates an instance of the authFileCredential class.
    *
@@ -29,7 +30,7 @@ export class AuthFileCredential implements TokenCredential {
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(filePath: string) {
-    this.getToken("", filePath);
+    this.filePath = filePath;
   }
 
   /**
@@ -43,32 +44,12 @@ export class AuthFileCredential implements TokenCredential {
    */
   async getToken(
     scopes: string | string[],
-    filePath: string,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan("authFileCredential-getToken", options);
     if (this.credential) {
       try {
-        let authData = JSON.parse(fs.readFileSync(filePath).toString());
-        if (this.credential == null && typeof authData == "object") {
-          let clientId = authData["clientId"];
-          let certificatePath = authData["certificatePath"];
-          let tenantId = authData["tenantId"];
-          let activeDirectoryEndpointUrl = authData["activeDirectoryEndpointUrl"];
-
-          if (
-            clientId == undefined ||
-            certificatePath == undefined ||
-            tenantId == undefined ||
-            activeDirectoryEndpointUrl == undefined
-          ) {
-            throw new Error("there was a problem building the credential.");
-          }
-
-          this.credential = new ClientCertificateCredential(tenantId, clientId, certificatePath, {
-            authorityHost: activeDirectoryEndpointUrl
-          });
-        }
+        await this.ensureCredential();
         return await this.credential.getToken(scopes, newOptions);
       } catch (err) {
         const code =
@@ -89,5 +70,38 @@ export class AuthFileCredential implements TokenCredential {
     // the user knows the credential was not configured appropriately
     span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
     span.end();
+  }
+
+  async ensureCredential() {
+    if (this.credential == null) {
+      try {
+        let authData = JSON.parse(fs.readFileSync(this.filePath).toString());
+        await this.buildCredentialForCredentialFile(authData);
+      } catch (err) {
+        throw new Error("error parsing SDK Auth File");
+      }
+    }
+  }
+
+  async buildCredentialForCredentialFile(authData: any) {
+    if (this.credential == null && typeof authData == "object") {
+      let clientId = authData["clientId"];
+      let certificatePath = authData["certificatePath"];
+      let tenantId = authData["tenantId"];
+      let activeDirectoryEndpointUrl = authData["activeDirectoryEndpointUrl"];
+
+      if (
+        clientId == undefined ||
+        certificatePath == undefined ||
+        tenantId == undefined ||
+        activeDirectoryEndpointUrl == undefined
+      ) {
+        throw new Error("there was a problem building the credential.");
+      }
+
+      this.credential = new ClientCertificateCredential(tenantId, clientId, certificatePath, {
+        authorityHost: activeDirectoryEndpointUrl
+      });
+    }
   }
 }
