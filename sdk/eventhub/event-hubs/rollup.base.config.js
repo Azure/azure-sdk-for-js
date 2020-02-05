@@ -117,10 +117,10 @@ export function browserConfig(test = false) {
         fs: `export default {}`,
         dotenv: `export function config() { }`,
         os: `
-                export function arch() { return "javascript" }
-                export function type() { return "Browser" }
-                export function release() { return typeof navigator === 'undefined' ? '' : navigator.appVersion }
-              `,
+          export function arch() { return "javascript" }
+          export function type() { return "Browser" }
+          export function release() { return typeof navigator === 'undefined' ? '' : navigator.appVersion }
+        `,
         path: `export default {}`
       }),
 
