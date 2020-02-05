@@ -300,6 +300,10 @@ describe("Utility Helpers Node.js only", () => {
       it(test.title, async () => {
         const inputBuffer = randomBytes(test.streamLength);
 
+        // TestReadableStream and PassThrough seem to have slightly different behavior at the end of the stream.
+        // With TestReadableStream, the last call to read() will return null.  However, with PassThrough
+        // the last call to read() returns the last bytes, and there is never a call which returns null.
+        // I'm not sure why this behavior is different, but streamToBuffer2() should support both.
         let readStream: Readable;
         if (test.streamType == "test") {
           readStream = new TestReadableStream(inputBuffer, test.bytesPerRead!);
