@@ -113,20 +113,16 @@ export function browserConfig(test = false) {
       ),
 
       // dotenv, path, and os don't work in the browser, so replace it with a no-op function
-      shim(
-        test
-          ? {
-              fs: `export default {}`,
-              dotenv: `export function config() { }`,
-              os: `
+      shim({
+        fs: `export default {}`,
+        dotenv: `export function config() { }`,
+        os: `
                 export function arch() { return "javascript" }
                 export function type() { return "Browser" }
                 export function release() { return typeof navigator === 'undefined' ? '' : navigator.appVersion }
               `,
-              path: `export default {}`
-            }
-          : {}
-      ),
+        path: `export default {}`
+      }),
 
       nodeResolve({
         mainFields: ["module", "browser"],
