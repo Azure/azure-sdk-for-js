@@ -28,7 +28,9 @@ export class AuthFileCredential implements TokenCredential {
    * @param filePath The path to the SDK Auth file.
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(filePath: string) {}
+  constructor(filePath: string) {
+    this.getToken("", filePath);
+  }
 
   /**
    * Authenticates with Azure Active Directory and returns an access token if
@@ -41,6 +43,7 @@ export class AuthFileCredential implements TokenCredential {
    */
   async getToken(
     scopes: string | string[],
+    filePath: string,
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan("authFileCredential-getToken", options);
