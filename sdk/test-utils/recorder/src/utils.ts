@@ -415,9 +415,11 @@ export function generateTestRecordingFilePath(
 export function nodeRequireRecordingIfExists(recordingPath: string, testAbsolutePath: string): any {
   if (isBrowser()) throw new Error("nodeRequireRecordingIfExists only works on NodeJS");
   const path = require("path");
+
   // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
   const recordingsFolderPath = findRecordingsFolderPath(testAbsolutePath);
   const absoluteRecordingPath = path.resolve(recordingsFolderPath, recordingPath);
+
   if (fs.existsSync(absoluteRecordingPath)) {
     return require(absoluteRecordingPath);
   } else {
