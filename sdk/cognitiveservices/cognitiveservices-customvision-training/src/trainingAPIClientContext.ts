@@ -14,21 +14,21 @@ const packageName = "@azure/cognitiveservices-customvision-training";
 const packageVersion = "4.0.0";
 
 export class TrainingAPIClientContext extends msRest.ServiceClient {
-  apiKey: string;
   endpoint: string;
+  credentials: msRest.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the TrainingAPIClientContext class.
-   * @param apiKey API key.
    * @param endpoint Supported Cognitive Services endpoints.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(apiKey: string, endpoint: string, options?: msRest.ServiceClientOptions) {
-    if (apiKey == undefined) {
-      throw new Error("'apiKey' cannot be null.");
-    }
+  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
     if (endpoint == undefined) {
       throw new Error("'endpoint' cannot be null.");
+    }
+    if (credentials == undefined) {
+      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
@@ -40,11 +40,11 @@ export class TrainingAPIClientContext extends msRest.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(undefined, options);
+    super(credentials, options);
 
-    this.baseUri = "{Endpoint}/customvision/v3.0/training";
+    this.baseUri = "{Endpoint}/customvision/v3.2/training";
     this.requestContentType = "application/json; charset=utf-8";
-    this.apiKey = apiKey;
     this.endpoint = endpoint;
+    this.credentials = credentials;
   }
 }

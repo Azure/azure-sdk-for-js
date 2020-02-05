@@ -10,13 +10,27 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-export const apiKey: msRest.OperationParameter = {
-  parameterPath: "apiKey",
+export const allImages: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "allImages"
+  ],
   mapper: {
-    required: true,
-    serializedName: "Training-Key",
+    serializedName: "allImages",
     type: {
-      name: "String"
+      name: "Boolean"
+    }
+  }
+};
+export const allIterations: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "allIterations"
+  ],
+  mapper: {
+    serializedName: "allIterations",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -144,26 +158,6 @@ export const imageId: msRest.OperationURLParameter = {
   }
 };
 export const imageIds0: msRest.OperationQueryParameter = {
-  parameterPath: "imageIds",
-  mapper: {
-    required: true,
-    serializedName: "imageIds",
-    constraints: {
-      MaxItems: 64,
-      MinItems: 0
-    },
-    type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
-  },
-  collectionFormat: msRest.QueryCollectionFormat.Csv
-};
-export const imageIds1: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "imageIds"
@@ -185,13 +179,13 @@ export const imageIds1: msRest.OperationQueryParameter = {
   },
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
-export const imageIds2: msRest.OperationQueryParameter = {
+export const imageIds1: msRest.OperationQueryParameter = {
   parameterPath: "imageIds",
   mapper: {
     required: true,
     serializedName: "imageIds",
     constraints: {
-      MaxItems: 256,
+      MaxItems: 64,
       MinItems: 0
     },
     type: {
@@ -217,7 +211,7 @@ export const iterationId0: msRest.OperationQueryParameter = {
     }
   }
 };
-export const iterationId1: msRest.OperationURLParameter = {
+export const iterationId1: msRest.OperationQueryParameter = {
   parameterPath: "iterationId",
   mapper: {
     required: true,
@@ -359,6 +353,19 @@ export const skip: msRest.OperationQueryParameter = {
     }
   }
 };
+export const store: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "store"
+  ],
+  mapper: {
+    serializedName: "store",
+    defaultValue: true,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const tagId: msRest.OperationURLParameter = {
   parameterPath: "tagId",
   mapper: {
@@ -376,22 +383,6 @@ export const tagIds0: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "tagIds",
-    type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
-  },
-  collectionFormat: msRest.QueryCollectionFormat.Csv
-};
-export const tagIds1: msRest.OperationQueryParameter = {
-  parameterPath: "tagIds",
-  mapper: {
-    required: true,
-    serializedName: "tagIds",
     constraints: {
       MaxItems: 20,
       MinItems: 0
@@ -407,12 +398,28 @@ export const tagIds1: msRest.OperationQueryParameter = {
   },
   collectionFormat: msRest.QueryCollectionFormat.Csv
 };
-export const tagIds2: msRest.OperationQueryParameter = {
+export const tagIds1: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "tagIds"
   ],
   mapper: {
+    serializedName: "tagIds",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
+};
+export const tagIds2: msRest.OperationQueryParameter = {
+  parameterPath: "tagIds",
+  mapper: {
+    required: true,
     serializedName: "tagIds",
     constraints: {
       MaxItems: 20,
@@ -473,6 +480,16 @@ export const threshold: msRest.OperationQueryParameter = {
     serializedName: "threshold",
     type: {
       name: "Number"
+    }
+  }
+};
+export const token: msRest.OperationQueryParameter = {
+  parameterPath: "token",
+  mapper: {
+    required: true,
+    serializedName: "token",
+    type: {
+      name: "String"
     }
   }
 };

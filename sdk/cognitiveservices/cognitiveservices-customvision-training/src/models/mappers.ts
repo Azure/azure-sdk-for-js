@@ -9,6 +9,72 @@
 import * as msRest from "@azure/ms-rest-js";
 
 
+export const BoundingBox: msRest.CompositeMapper = {
+  serializedName: "BoundingBox",
+  type: {
+    name: "Composite",
+    className: "BoundingBox",
+    modelProperties: {
+      left: {
+        required: true,
+        nullable: false,
+        serializedName: "left",
+        type: {
+          name: "Number"
+        }
+      },
+      top: {
+        required: true,
+        nullable: false,
+        serializedName: "top",
+        type: {
+          name: "Number"
+        }
+      },
+      width: {
+        required: true,
+        nullable: false,
+        serializedName: "width",
+        type: {
+          name: "Number"
+        }
+      },
+      height: {
+        required: true,
+        nullable: false,
+        serializedName: "height",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CustomVisionError: msRest.CompositeMapper = {
+  serializedName: "CustomVisionError",
+  type: {
+    name: "Composite",
+    className: "CustomVisionError",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Domain: msRest.CompositeMapper = {
   serializedName: "Domain",
   type: {
@@ -59,44 +125,246 @@ export const Domain: msRest.CompositeMapper = {
   }
 };
 
-export const ImageTagCreateEntry: msRest.CompositeMapper = {
-  serializedName: "ImageTagCreateEntry",
+export const ExportModel: msRest.CompositeMapper = {
+  serializedName: "Export",
   type: {
     name: "Composite",
-    className: "ImageTagCreateEntry",
+    className: "ExportModel",
     modelProperties: {
-      imageId: {
+      platform: {
         nullable: false,
-        serializedName: "imageId",
+        readOnly: true,
+        serializedName: "platform",
         type: {
-          name: "Uuid"
+          name: "String"
         }
       },
-      tagId: {
+      status: {
         nullable: false,
-        serializedName: "tagId",
+        readOnly: true,
+        serializedName: "status",
         type: {
-          name: "Uuid"
+          name: "String"
+        }
+      },
+      downloadUri: {
+        readOnly: true,
+        serializedName: "downloadUri",
+        type: {
+          name: "String"
+        }
+      },
+      flavor: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "flavor",
+        type: {
+          name: "String"
+        }
+      },
+      newerVersionAvailable: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "newerVersionAvailable",
+        type: {
+          name: "Boolean"
         }
       }
     }
   }
 };
 
-export const ImageTagCreateBatch: msRest.CompositeMapper = {
-  serializedName: "ImageTagCreateBatch",
+export const ImageTag: msRest.CompositeMapper = {
+  serializedName: "ImageTag",
   type: {
     name: "Composite",
-    className: "ImageTagCreateBatch",
+    className: "ImageTag",
     modelProperties: {
+      tagId: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "tagId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      tagName: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "tagName",
+        type: {
+          name: "String"
+        }
+      },
+      created: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "created",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ImageRegion: msRest.CompositeMapper = {
+  serializedName: "ImageRegion",
+  type: {
+    name: "Composite",
+    className: "ImageRegion",
+    modelProperties: {
+      regionId: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "regionId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      tagName: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "tagName",
+        type: {
+          name: "String"
+        }
+      },
+      created: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "created",
+        type: {
+          name: "DateTime"
+        }
+      },
+      tagId: {
+        required: true,
+        nullable: false,
+        serializedName: "tagId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      left: {
+        required: true,
+        nullable: false,
+        serializedName: "left",
+        type: {
+          name: "Number"
+        }
+      },
+      top: {
+        required: true,
+        nullable: false,
+        serializedName: "top",
+        type: {
+          name: "Number"
+        }
+      },
+      width: {
+        required: true,
+        nullable: false,
+        serializedName: "width",
+        type: {
+          name: "Number"
+        }
+      },
+      height: {
+        required: true,
+        nullable: false,
+        serializedName: "height",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const Image: msRest.CompositeMapper = {
+  serializedName: "Image",
+  type: {
+    name: "Composite",
+    className: "Image",
+    modelProperties: {
+      id: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      created: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "created",
+        type: {
+          name: "DateTime"
+        }
+      },
+      width: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "width",
+        type: {
+          name: "Number"
+        }
+      },
+      height: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "height",
+        type: {
+          name: "Number"
+        }
+      },
+      resizedImageUri: {
+        readOnly: true,
+        serializedName: "resizedImageUri",
+        type: {
+          name: "String"
+        }
+      },
+      thumbnailUri: {
+        readOnly: true,
+        serializedName: "thumbnailUri",
+        type: {
+          name: "String"
+        }
+      },
+      originalImageUri: {
+        readOnly: true,
+        serializedName: "originalImageUri",
+        type: {
+          name: "String"
+        }
+      },
       tags: {
+        nullable: true,
+        readOnly: true,
         serializedName: "tags",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ImageTagCreateEntry"
+              className: "ImageTag"
+            }
+          }
+        }
+      },
+      regions: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "regions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImageRegion"
             }
           }
         }
@@ -105,47 +373,483 @@ export const ImageTagCreateBatch: msRest.CompositeMapper = {
   }
 };
 
-export const ImageTagCreateSummary: msRest.CompositeMapper = {
-  serializedName: "ImageTagCreateSummary",
+export const ImageCreateResult: msRest.CompositeMapper = {
+  serializedName: "ImageCreateResult",
   type: {
     name: "Composite",
-    className: "ImageTagCreateSummary",
+    className: "ImageCreateResult",
     modelProperties: {
-      created: {
+      sourceUrl: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "sourceUrl",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      image: {
+        readOnly: true,
+        serializedName: "image",
+        type: {
+          name: "Composite",
+          className: "Image"
+        }
+      }
+    }
+  }
+};
+
+export const ImageCreateSummary: msRest.CompositeMapper = {
+  serializedName: "ImageCreateSummary",
+  type: {
+    name: "Composite",
+    className: "ImageCreateSummary",
+    modelProperties: {
+      isBatchSuccessful: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "isBatchSuccessful",
+        type: {
+          name: "Boolean"
+        }
+      },
+      images: {
+        readOnly: true,
+        serializedName: "images",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImageCreateResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Region: msRest.CompositeMapper = {
+  serializedName: "Region",
+  type: {
+    name: "Composite",
+    className: "Region",
+    modelProperties: {
+      tagId: {
+        required: true,
+        nullable: false,
+        serializedName: "tagId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      left: {
+        required: true,
+        nullable: false,
+        serializedName: "left",
+        type: {
+          name: "Number"
+        }
+      },
+      top: {
+        required: true,
+        nullable: false,
+        serializedName: "top",
+        type: {
+          name: "Number"
+        }
+      },
+      width: {
+        required: true,
+        nullable: false,
+        serializedName: "width",
+        type: {
+          name: "Number"
+        }
+      },
+      height: {
+        required: true,
+        nullable: false,
+        serializedName: "height",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ImageFileCreateEntry: msRest.CompositeMapper = {
+  serializedName: "ImageFileCreateEntry",
+  type: {
+    name: "Composite",
+    className: "ImageFileCreateEntry",
+    modelProperties: {
+      name: {
+        nullable: false,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      contents: {
+        serializedName: "contents",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      tagIds: {
+        serializedName: "tagIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
+        }
+      },
+      regions: {
+        serializedName: "regions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Region"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ImageFileCreateBatch: msRest.CompositeMapper = {
+  serializedName: "ImageFileCreateBatch",
+  type: {
+    name: "Composite",
+    className: "ImageFileCreateBatch",
+    modelProperties: {
+      images: {
+        serializedName: "images",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImageFileCreateEntry"
+            }
+          }
+        }
+      },
+      tagIds: {
+        serializedName: "tagIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ImageIdCreateEntry: msRest.CompositeMapper = {
+  serializedName: "ImageIdCreateEntry",
+  type: {
+    name: "Composite",
+    className: "ImageIdCreateEntry",
+    modelProperties: {
+      id: {
+        nullable: false,
+        serializedName: "id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      tagIds: {
+        serializedName: "tagIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
+        }
+      },
+      regions: {
+        serializedName: "regions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Region"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ImageIdCreateBatch: msRest.CompositeMapper = {
+  serializedName: "ImageIdCreateBatch",
+  type: {
+    name: "Composite",
+    className: "ImageIdCreateBatch",
+    modelProperties: {
+      images: {
+        serializedName: "images",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImageIdCreateEntry"
+            }
+          }
+        }
+      },
+      tagIds: {
+        serializedName: "tagIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Prediction: msRest.CompositeMapper = {
+  serializedName: "Prediction",
+  type: {
+    name: "Composite",
+    className: "Prediction",
+    modelProperties: {
+      probability: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "probability",
+        type: {
+          name: "Number"
+        }
+      },
+      tagId: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "tagId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      tagName: {
         nullable: true,
+        readOnly: true,
+        serializedName: "tagName",
+        type: {
+          name: "String"
+        }
+      },
+      boundingBox: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "boundingBox",
+        type: {
+          name: "Composite",
+          className: "BoundingBox"
+        }
+      }
+    }
+  }
+};
+
+export const ImagePerformance: msRest.CompositeMapper = {
+  serializedName: "ImagePerformance",
+  type: {
+    name: "Composite",
+    className: "ImagePerformance",
+    modelProperties: {
+      predictions: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "predictions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Prediction"
+            }
+          }
+        }
+      },
+      id: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      created: {
+        nullable: false,
+        readOnly: true,
         serializedName: "created",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ImageTagCreateEntry"
-            }
-          }
+          name: "DateTime"
         }
       },
-      duplicated: {
+      width: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "width",
+        type: {
+          name: "Number"
+        }
+      },
+      height: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "height",
+        type: {
+          name: "Number"
+        }
+      },
+      imageUri: {
+        readOnly: true,
+        serializedName: "imageUri",
+        type: {
+          name: "String"
+        }
+      },
+      thumbnailUri: {
+        readOnly: true,
+        serializedName: "thumbnailUri",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
         nullable: true,
-        serializedName: "duplicated",
+        readOnly: true,
+        serializedName: "tags",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ImageTagCreateEntry"
+              className: "ImageTag"
             }
           }
         }
       },
-      exceeded: {
+      regions: {
         nullable: true,
-        serializedName: "exceeded",
+        readOnly: true,
+        serializedName: "regions",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ImageTagCreateEntry"
+              className: "ImageRegion"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ImagePrediction: msRest.CompositeMapper = {
+  serializedName: "ImagePrediction",
+  type: {
+    name: "Composite",
+    className: "ImagePrediction",
+    modelProperties: {
+      id: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      project: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "project",
+        type: {
+          name: "Uuid"
+        }
+      },
+      iteration: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "iteration",
+        type: {
+          name: "Uuid"
+        }
+      },
+      created: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "created",
+        type: {
+          name: "DateTime"
+        }
+      },
+      predictions: {
+        readOnly: true,
+        serializedName: "predictions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Prediction"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ImageProcessingSettings: msRest.CompositeMapper = {
+  serializedName: "ImageProcessingSettings",
+  type: {
+    name: "Composite",
+    className: "ImageProcessingSettings",
+    modelProperties: {
+      augmentationMethods: {
+        nullable: true,
+        serializedName: "augmentationMethods",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Boolean"
             }
           }
         }
@@ -365,200 +1069,158 @@ export const ImageRegionCreateSummary: msRest.CompositeMapper = {
   }
 };
 
-export const ImageTag: msRest.CompositeMapper = {
-  serializedName: "ImageTag",
+export const RegionProposal: msRest.CompositeMapper = {
+  serializedName: "RegionProposal",
   type: {
     name: "Composite",
-    className: "ImageTag",
+    className: "RegionProposal",
     modelProperties: {
-      tagId: {
+      confidence: {
         nullable: false,
         readOnly: true,
-        serializedName: "tagId",
+        serializedName: "confidence",
         type: {
-          name: "Uuid"
+          name: "Number"
         }
       },
-      tagName: {
-        nullable: false,
+      boundingBox: {
         readOnly: true,
-        serializedName: "tagName",
+        serializedName: "boundingBox",
         type: {
-          name: "String"
-        }
-      },
-      created: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "created",
-        type: {
-          name: "DateTime"
+          name: "Composite",
+          className: "BoundingBox"
         }
       }
     }
   }
 };
 
-export const ImageRegion: msRest.CompositeMapper = {
-  serializedName: "ImageRegion",
+export const ImageRegionProposal: msRest.CompositeMapper = {
+  serializedName: "ImageRegionProposal",
   type: {
     name: "Composite",
-    className: "ImageRegion",
+    className: "ImageRegionProposal",
     modelProperties: {
-      regionId: {
+      projectId: {
         nullable: false,
         readOnly: true,
-        serializedName: "regionId",
+        serializedName: "projectId",
         type: {
           name: "Uuid"
         }
       },
-      tagName: {
+      imageId: {
         nullable: false,
         readOnly: true,
-        serializedName: "tagName",
-        type: {
-          name: "String"
-        }
-      },
-      created: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "created",
-        type: {
-          name: "DateTime"
-        }
-      },
-      tagId: {
-        required: true,
-        nullable: false,
-        serializedName: "tagId",
+        serializedName: "imageId",
         type: {
           name: "Uuid"
         }
       },
-      left: {
-        required: true,
-        nullable: false,
-        serializedName: "left",
+      proposals: {
+        readOnly: true,
+        serializedName: "proposals",
         type: {
-          name: "Number"
-        }
-      },
-      top: {
-        required: true,
-        nullable: false,
-        serializedName: "top",
-        type: {
-          name: "Number"
-        }
-      },
-      width: {
-        required: true,
-        nullable: false,
-        serializedName: "width",
-        type: {
-          name: "Number"
-        }
-      },
-      height: {
-        required: true,
-        nullable: false,
-        serializedName: "height",
-        type: {
-          name: "Number"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RegionProposal"
+            }
+          }
         }
       }
     }
   }
 };
 
-export const Image: msRest.CompositeMapper = {
-  serializedName: "Image",
+export const ImageTagCreateEntry: msRest.CompositeMapper = {
+  serializedName: "ImageTagCreateEntry",
   type: {
     name: "Composite",
-    className: "Image",
+    className: "ImageTagCreateEntry",
     modelProperties: {
-      id: {
+      imageId: {
         nullable: false,
-        readOnly: true,
-        serializedName: "id",
+        serializedName: "imageId",
         type: {
           name: "Uuid"
         }
       },
-      created: {
+      tagId: {
         nullable: false,
-        readOnly: true,
-        serializedName: "created",
+        serializedName: "tagId",
         type: {
-          name: "DateTime"
+          name: "Uuid"
         }
-      },
-      width: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "width",
-        type: {
-          name: "Number"
-        }
-      },
-      height: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "height",
-        type: {
-          name: "Number"
-        }
-      },
-      resizedImageUri: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "resizedImageUri",
-        type: {
-          name: "String"
-        }
-      },
-      thumbnailUri: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "thumbnailUri",
-        type: {
-          name: "String"
-        }
-      },
-      originalImageUri: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "originalImageUri",
-        type: {
-          name: "String"
-        }
-      },
+      }
+    }
+  }
+};
+
+export const ImageTagCreateBatch: msRest.CompositeMapper = {
+  serializedName: "ImageTagCreateBatch",
+  type: {
+    name: "Composite",
+    className: "ImageTagCreateBatch",
+    modelProperties: {
       tags: {
-        nullable: true,
-        readOnly: true,
         serializedName: "tags",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ImageTag"
+              className: "ImageTagCreateEntry"
             }
           }
         }
-      },
-      regions: {
+      }
+    }
+  }
+};
+
+export const ImageTagCreateSummary: msRest.CompositeMapper = {
+  serializedName: "ImageTagCreateSummary",
+  type: {
+    name: "Composite",
+    className: "ImageTagCreateSummary",
+    modelProperties: {
+      created: {
         nullable: true,
-        readOnly: true,
-        serializedName: "regions",
+        serializedName: "created",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ImageRegion"
+              className: "ImageTagCreateEntry"
+            }
+          }
+        }
+      },
+      duplicated: {
+        nullable: true,
+        serializedName: "duplicated",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImageTagCreateEntry"
+            }
+          }
+        }
+      },
+      exceeded: {
+        nullable: true,
+        serializedName: "exceeded",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImageTagCreateEntry"
             }
           }
         }
@@ -567,196 +1229,18 @@ export const Image: msRest.CompositeMapper = {
   }
 };
 
-export const ImageCreateResult: msRest.CompositeMapper = {
-  serializedName: "ImageCreateResult",
+export const ImageUrl: msRest.CompositeMapper = {
+  serializedName: "ImageUrl",
   type: {
     name: "Composite",
-    className: "ImageCreateResult",
+    className: "ImageUrl",
     modelProperties: {
-      sourceUrl: {
+      url: {
+        required: true,
         nullable: false,
-        readOnly: true,
-        serializedName: "sourceUrl",
+        serializedName: "url",
         type: {
           name: "String"
-        }
-      },
-      status: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      image: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "image",
-        type: {
-          name: "Composite",
-          className: "Image"
-        }
-      }
-    }
-  }
-};
-
-export const ImageCreateSummary: msRest.CompositeMapper = {
-  serializedName: "ImageCreateSummary",
-  type: {
-    name: "Composite",
-    className: "ImageCreateSummary",
-    modelProperties: {
-      isBatchSuccessful: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "isBatchSuccessful",
-        type: {
-          name: "Boolean"
-        }
-      },
-      images: {
-        readOnly: true,
-        serializedName: "images",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ImageCreateResult"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const Region: msRest.CompositeMapper = {
-  serializedName: "Region",
-  type: {
-    name: "Composite",
-    className: "Region",
-    modelProperties: {
-      tagId: {
-        required: true,
-        nullable: false,
-        serializedName: "tagId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      left: {
-        required: true,
-        nullable: false,
-        serializedName: "left",
-        type: {
-          name: "Number"
-        }
-      },
-      top: {
-        required: true,
-        nullable: false,
-        serializedName: "top",
-        type: {
-          name: "Number"
-        }
-      },
-      width: {
-        required: true,
-        nullable: false,
-        serializedName: "width",
-        type: {
-          name: "Number"
-        }
-      },
-      height: {
-        required: true,
-        nullable: false,
-        serializedName: "height",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ImageFileCreateEntry: msRest.CompositeMapper = {
-  serializedName: "ImageFileCreateEntry",
-  type: {
-    name: "Composite",
-    className: "ImageFileCreateEntry",
-    modelProperties: {
-      name: {
-        nullable: false,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      contents: {
-        nullable: false,
-        serializedName: "contents",
-        type: {
-          name: "ByteArray"
-        }
-      },
-      tagIds: {
-        serializedName: "tagIds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Uuid"
-            }
-          }
-        }
-      },
-      regions: {
-        serializedName: "regions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Region"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ImageFileCreateBatch: msRest.CompositeMapper = {
-  serializedName: "ImageFileCreateBatch",
-  type: {
-    name: "Composite",
-    className: "ImageFileCreateBatch",
-    modelProperties: {
-      images: {
-        serializedName: "images",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ImageFileCreateEntry"
-            }
-          }
-        }
-      },
-      tagIds: {
-        serializedName: "tagIds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Uuid"
-            }
-          }
         }
       }
     }
@@ -837,154 +1321,60 @@ export const ImageUrlCreateBatch: msRest.CompositeMapper = {
   }
 };
 
-export const ImageIdCreateEntry: msRest.CompositeMapper = {
-  serializedName: "ImageIdCreateEntry",
+export const Iteration: msRest.CompositeMapper = {
+  serializedName: "Iteration",
   type: {
     name: "Composite",
-    className: "ImageIdCreateEntry",
+    className: "Iteration",
     modelProperties: {
       id: {
         nullable: false,
+        readOnly: true,
         serializedName: "id",
         type: {
           name: "Uuid"
         }
       },
-      tagIds: {
-        serializedName: "tagIds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Uuid"
-            }
-          }
-        }
-      },
-      regions: {
-        serializedName: "regions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Region"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ImageIdCreateBatch: msRest.CompositeMapper = {
-  serializedName: "ImageIdCreateBatch",
-  type: {
-    name: "Composite",
-    className: "ImageIdCreateBatch",
-    modelProperties: {
-      images: {
-        serializedName: "images",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ImageIdCreateEntry"
-            }
-          }
-        }
-      },
-      tagIds: {
-        serializedName: "tagIds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Uuid"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const BoundingBox: msRest.CompositeMapper = {
-  serializedName: "BoundingBox",
-  type: {
-    name: "Composite",
-    className: "BoundingBox",
-    modelProperties: {
-      left: {
+      name: {
         required: true,
         nullable: false,
-        serializedName: "left",
+        serializedName: "name",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
-      top: {
-        required: true,
-        nullable: false,
-        serializedName: "top",
-        type: {
-          name: "Number"
-        }
-      },
-      width: {
-        required: true,
-        nullable: false,
-        serializedName: "width",
-        type: {
-          name: "Number"
-        }
-      },
-      height: {
-        required: true,
-        nullable: false,
-        serializedName: "height",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const RegionProposal: msRest.CompositeMapper = {
-  serializedName: "RegionProposal",
-  type: {
-    name: "Composite",
-    className: "RegionProposal",
-    modelProperties: {
-      confidence: {
+      status: {
         nullable: false,
         readOnly: true,
-        serializedName: "confidence",
+        serializedName: "status",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
-      boundingBox: {
+      created: {
         nullable: false,
         readOnly: true,
-        serializedName: "boundingBox",
+        serializedName: "created",
         type: {
-          name: "Composite",
-          className: "BoundingBox"
+          name: "DateTime"
         }
-      }
-    }
-  }
-};
-
-export const ImageRegionProposal: msRest.CompositeMapper = {
-  serializedName: "ImageRegionProposal",
-  type: {
-    name: "Composite",
-    className: "ImageRegionProposal",
-    modelProperties: {
+      },
+      lastModified: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "lastModified",
+        type: {
+          name: "DateTime"
+        }
+      },
+      trainedAt: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "trainedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
       projectId: {
         nullable: false,
         readOnly: true,
@@ -993,372 +1383,80 @@ export const ImageRegionProposal: msRest.CompositeMapper = {
           name: "Uuid"
         }
       },
-      imageId: {
+      exportable: {
         nullable: false,
         readOnly: true,
-        serializedName: "imageId",
+        serializedName: "exportable",
         type: {
-          name: "Uuid"
+          name: "Boolean"
         }
       },
-      proposals: {
+      exportableTo: {
         readOnly: true,
-        serializedName: "proposals",
+        serializedName: "exportableTo",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "Composite",
-              className: "RegionProposal"
+              name: "String"
             }
           }
         }
-      }
-    }
-  }
-};
-
-export const ImageUrl: msRest.CompositeMapper = {
-  serializedName: "ImageUrl",
-  type: {
-    name: "Composite",
-    className: "ImageUrl",
-    modelProperties: {
-      url: {
-        required: true,
-        nullable: false,
-        serializedName: "url",
+      },
+      domainId: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "domainId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      classificationType: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "classificationType",
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const Prediction: msRest.CompositeMapper = {
-  serializedName: "Prediction",
-  type: {
-    name: "Composite",
-    className: "Prediction",
-    modelProperties: {
-      probability: {
+      },
+      trainingType: {
         nullable: false,
         readOnly: true,
-        serializedName: "probability",
+        serializedName: "trainingType",
+        type: {
+          name: "String"
+        }
+      },
+      reservedBudgetInHours: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "reservedBudgetInHours",
         type: {
           name: "Number"
         }
       },
-      tagId: {
+      trainingTimeInMinutes: {
         nullable: false,
         readOnly: true,
-        serializedName: "tagId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      tagName: {
-        nullable: true,
-        readOnly: true,
-        serializedName: "tagName",
-        type: {
-          name: "String"
-        }
-      },
-      boundingBox: {
-        nullable: true,
-        readOnly: true,
-        serializedName: "boundingBox",
-        type: {
-          name: "Composite",
-          className: "BoundingBox"
-        }
-      }
-    }
-  }
-};
-
-export const ImagePrediction: msRest.CompositeMapper = {
-  serializedName: "ImagePrediction",
-  type: {
-    name: "Composite",
-    className: "ImagePrediction",
-    modelProperties: {
-      id: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "Uuid"
-        }
-      },
-      project: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "project",
-        type: {
-          name: "Uuid"
-        }
-      },
-      iteration: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "iteration",
-        type: {
-          name: "Uuid"
-        }
-      },
-      created: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "created",
-        type: {
-          name: "DateTime"
-        }
-      },
-      predictions: {
-        readOnly: true,
-        serializedName: "predictions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Prediction"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PredictionQueryTag: msRest.CompositeMapper = {
-  serializedName: "PredictionQueryTag",
-  type: {
-    name: "Composite",
-    className: "PredictionQueryTag",
-    modelProperties: {
-      id: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "Uuid"
-        }
-      },
-      minThreshold: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "minThreshold",
+        serializedName: "trainingTimeInMinutes",
         type: {
           name: "Number"
         }
       },
-      maxThreshold: {
+      publishName: {
         nullable: false,
         readOnly: true,
-        serializedName: "maxThreshold",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const PredictionQueryToken: msRest.CompositeMapper = {
-  serializedName: "PredictionQueryToken",
-  type: {
-    name: "Composite",
-    className: "PredictionQueryToken",
-    modelProperties: {
-      session: {
-        nullable: false,
-        serializedName: "session",
+        serializedName: "publishName",
         type: {
           name: "String"
         }
       },
-      continuation: {
+      originalPublishResourceId: {
         nullable: false,
-        serializedName: "continuation",
+        readOnly: true,
+        serializedName: "originalPublishResourceId",
         type: {
           name: "String"
-        }
-      },
-      maxCount: {
-        nullable: false,
-        serializedName: "maxCount",
-        type: {
-          name: "Number"
-        }
-      },
-      orderBy: {
-        nullable: false,
-        serializedName: "orderBy",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PredictionQueryTag"
-            }
-          }
-        }
-      },
-      iterationId: {
-        nullable: true,
-        serializedName: "iterationId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      startTime: {
-        nullable: true,
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      endTime: {
-        nullable: true,
-        serializedName: "endTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      application: {
-        nullable: false,
-        serializedName: "application",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const StoredImagePrediction: msRest.CompositeMapper = {
-  serializedName: "StoredImagePrediction",
-  type: {
-    name: "Composite",
-    className: "StoredImagePrediction",
-    modelProperties: {
-      resizedImageUri: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "resizedImageUri",
-        type: {
-          name: "String"
-        }
-      },
-      thumbnailUri: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "thumbnailUri",
-        type: {
-          name: "String"
-        }
-      },
-      originalImageUri: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "originalImageUri",
-        type: {
-          name: "String"
-        }
-      },
-      domain: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "domain",
-        type: {
-          name: "Uuid"
-        }
-      },
-      id: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "Uuid"
-        }
-      },
-      project: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "project",
-        type: {
-          name: "Uuid"
-        }
-      },
-      iteration: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "iteration",
-        type: {
-          name: "Uuid"
-        }
-      },
-      created: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "created",
-        type: {
-          name: "DateTime"
-        }
-      },
-      predictions: {
-        readOnly: true,
-        serializedName: "predictions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Prediction"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const PredictionQueryResult: msRest.CompositeMapper = {
-  serializedName: "PredictionQueryResult",
-  type: {
-    name: "Composite",
-    className: "PredictionQueryResult",
-    modelProperties: {
-      token: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "token",
-        type: {
-          name: "Composite",
-          className: "PredictionQueryToken"
-        }
-      },
-      results: {
-        readOnly: true,
-        serializedName: "results",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StoredImagePrediction"
-            }
-          }
         }
       }
     }
@@ -1494,30 +1592,170 @@ export const IterationPerformance: msRest.CompositeMapper = {
   }
 };
 
-export const ImagePerformance: msRest.CompositeMapper = {
-  serializedName: "ImagePerformance",
+export const PredictionQueryTag: msRest.CompositeMapper = {
+  serializedName: "PredictionQueryTag",
   type: {
     name: "Composite",
-    className: "ImagePerformance",
+    className: "PredictionQueryTag",
     modelProperties: {
-      predictions: {
-        nullable: true,
-        readOnly: true,
-        serializedName: "predictions",
+      id: {
+        nullable: false,
+        serializedName: "id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      minThreshold: {
+        nullable: false,
+        serializedName: "minThreshold",
+        type: {
+          name: "Number"
+        }
+      },
+      maxThreshold: {
+        nullable: false,
+        serializedName: "maxThreshold",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const PredictionQueryToken: msRest.CompositeMapper = {
+  serializedName: "PredictionQueryToken",
+  type: {
+    name: "Composite",
+    className: "PredictionQueryToken",
+    modelProperties: {
+      session: {
+        nullable: false,
+        serializedName: "session",
+        type: {
+          name: "String"
+        }
+      },
+      continuation: {
+        nullable: false,
+        serializedName: "continuation",
+        type: {
+          name: "String"
+        }
+      },
+      maxCount: {
+        nullable: false,
+        serializedName: "maxCount",
+        type: {
+          name: "Number"
+        }
+      },
+      orderBy: {
+        nullable: false,
+        serializedName: "orderBy",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "Prediction"
+              className: "PredictionQueryTag"
             }
           }
+        }
+      },
+      iterationId: {
+        nullable: true,
+        serializedName: "iterationId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      startTime: {
+        nullable: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        nullable: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      application: {
+        nullable: false,
+        serializedName: "application",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StoredImagePrediction: msRest.CompositeMapper = {
+  serializedName: "StoredImagePrediction",
+  type: {
+    name: "Composite",
+    className: "StoredImagePrediction",
+    modelProperties: {
+      resizedImageUri: {
+        readOnly: true,
+        serializedName: "resizedImageUri",
+        type: {
+          name: "String"
+        }
+      },
+      thumbnailUri: {
+        readOnly: true,
+        serializedName: "thumbnailUri",
+        type: {
+          name: "String"
+        }
+      },
+      originalImageUri: {
+        readOnly: true,
+        serializedName: "originalImageUri",
+        type: {
+          name: "String"
+        }
+      },
+      domain: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "domain",
+        type: {
+          name: "Uuid"
         }
       },
       id: {
         nullable: false,
         readOnly: true,
         serializedName: "id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      project: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "project",
+        type: {
+          name: "Uuid"
+        }
+      },
+      iteration: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "iteration",
         type: {
           name: "Uuid"
         }
@@ -1530,62 +1768,45 @@ export const ImagePerformance: msRest.CompositeMapper = {
           name: "DateTime"
         }
       },
-      width: {
-        nullable: false,
+      predictions: {
         readOnly: true,
-        serializedName: "width",
-        type: {
-          name: "Number"
-        }
-      },
-      height: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "height",
-        type: {
-          name: "Number"
-        }
-      },
-      imageUri: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "imageUri",
-        type: {
-          name: "String"
-        }
-      },
-      thumbnailUri: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "thumbnailUri",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        nullable: true,
-        readOnly: true,
-        serializedName: "tags",
+        serializedName: "predictions",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ImageTag"
+              className: "Prediction"
             }
           }
         }
+      }
+    }
+  }
+};
+
+export const PredictionQueryResult: msRest.CompositeMapper = {
+  serializedName: "PredictionQueryResult",
+  type: {
+    name: "Composite",
+    className: "PredictionQueryResult",
+    modelProperties: {
+      token: {
+        serializedName: "token",
+        type: {
+          name: "Composite",
+          className: "PredictionQueryToken"
+        }
       },
-      regions: {
-        nullable: true,
+      results: {
         readOnly: true,
-        serializedName: "regions",
+        serializedName: "results",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ImageRegion"
+              className: "StoredImagePrediction"
             }
           }
         }
@@ -1624,6 +1845,29 @@ export const ProjectSettings: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      useNegativeSet: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "useNegativeSet",
+        type: {
+          name: "Boolean"
+        }
+      },
+      detectionParameters: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "detectionParameters",
+        type: {
+          name: "String"
+        }
+      },
+      imageProcessingSettings: {
+        serializedName: "imageProcessingSettings",
+        type: {
+          name: "Composite",
+          className: "ImageProcessingSettings"
+        }
       }
     }
   }
@@ -1653,7 +1897,7 @@ export const Project: msRest.CompositeMapper = {
       },
       description: {
         required: true,
-        nullable: false,
+        nullable: true,
         serializedName: "description",
         type: {
           name: "String"
@@ -1661,7 +1905,6 @@ export const Project: msRest.CompositeMapper = {
       },
       settings: {
         required: true,
-        nullable: false,
         serializedName: "settings",
         type: {
           name: "Composite",
@@ -1685,7 +1928,6 @@ export const Project: msRest.CompositeMapper = {
         }
       },
       thumbnailUri: {
-        nullable: false,
         readOnly: true,
         serializedName: "thumbnailUri",
         type: {
@@ -1699,17 +1941,127 @@ export const Project: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      status: {
+        nullable: false,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const Iteration: msRest.CompositeMapper = {
-  serializedName: "Iteration",
+export const ProjectExport: msRest.CompositeMapper = {
+  serializedName: "ProjectExport",
   type: {
     name: "Composite",
-    className: "Iteration",
+    className: "ProjectExport",
     modelProperties: {
+      iterationCount: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "iterationCount",
+        type: {
+          name: "Number"
+        }
+      },
+      imageCount: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "imageCount",
+        type: {
+          name: "Number"
+        }
+      },
+      tagCount: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "tagCount",
+        type: {
+          name: "Number"
+        }
+      },
+      regionCount: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "regionCount",
+        type: {
+          name: "Number"
+        }
+      },
+      estimatedImportTimeInMS: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "estimatedImportTimeInMS",
+        type: {
+          name: "Number"
+        }
+      },
+      token: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "token",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StoredSuggestedTagAndRegion: msRest.CompositeMapper = {
+  serializedName: "StoredSuggestedTagAndRegion",
+  type: {
+    name: "Composite",
+    className: "StoredSuggestedTagAndRegion",
+    modelProperties: {
+      width: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "width",
+        type: {
+          name: "Number"
+        }
+      },
+      height: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "height",
+        type: {
+          name: "Number"
+        }
+      },
+      resizedImageUri: {
+        readOnly: true,
+        serializedName: "resizedImageUri",
+        type: {
+          name: "String"
+        }
+      },
+      thumbnailUri: {
+        readOnly: true,
+        serializedName: "thumbnailUri",
+        type: {
+          name: "String"
+        }
+      },
+      originalImageUri: {
+        readOnly: true,
+        serializedName: "originalImageUri",
+        type: {
+          name: "String"
+        }
+      },
+      domain: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "domain",
+        type: {
+          name: "Uuid"
+        }
+      },
       id: {
         nullable: false,
         readOnly: true,
@@ -1718,20 +2070,20 @@ export const Iteration: msRest.CompositeMapper = {
           name: "Uuid"
         }
       },
-      name: {
-        required: true,
-        nullable: false,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
+      project: {
         nullable: false,
         readOnly: true,
-        serializedName: "status",
+        serializedName: "project",
         type: {
-          name: "String"
+          name: "Uuid"
+        }
+      },
+      iteration: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "iteration",
+        type: {
+          name: "Uuid"
         }
       },
       created: {
@@ -1742,94 +2094,142 @@ export const Iteration: msRest.CompositeMapper = {
           name: "DateTime"
         }
       },
-      lastModified: {
-        nullable: false,
+      predictions: {
         readOnly: true,
-        serializedName: "lastModified",
-        type: {
-          name: "DateTime"
-        }
-      },
-      trainedAt: {
-        nullable: true,
-        readOnly: true,
-        serializedName: "trainedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      projectId: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "projectId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      exportable: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "exportable",
-        type: {
-          name: "Boolean"
-        }
-      },
-      exportableTo: {
-        readOnly: true,
-        serializedName: "exportableTo",
+        serializedName: "predictions",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Composite",
+              className: "Prediction"
             }
           }
         }
       },
-      domainId: {
-        nullable: true,
+      predictionUncertainty: {
+        nullable: false,
         readOnly: true,
-        serializedName: "domainId",
+        serializedName: "predictionUncertainty",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SuggestedTagAndRegion: msRest.CompositeMapper = {
+  serializedName: "SuggestedTagAndRegion",
+  type: {
+    name: "Composite",
+    className: "SuggestedTagAndRegion",
+    modelProperties: {
+      id: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "id",
         type: {
           name: "Uuid"
         }
       },
-      classificationType: {
-        nullable: true,
-        readOnly: true,
-        serializedName: "classificationType",
-        type: {
-          name: "String"
-        }
-      },
-      trainingType: {
+      project: {
         nullable: false,
         readOnly: true,
-        serializedName: "trainingType",
+        serializedName: "project",
         type: {
-          name: "String"
+          name: "Uuid"
         }
       },
-      reservedBudgetInHours: {
+      iteration: {
         nullable: false,
         readOnly: true,
-        serializedName: "reservedBudgetInHours",
+        serializedName: "iteration",
+        type: {
+          name: "Uuid"
+        }
+      },
+      created: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "created",
+        type: {
+          name: "DateTime"
+        }
+      },
+      predictions: {
+        readOnly: true,
+        serializedName: "predictions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Prediction"
+            }
+          }
+        }
+      },
+      predictionUncertainty: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "predictionUncertainty",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SuggestedTagAndRegionQueryToken: msRest.CompositeMapper = {
+  serializedName: "SuggestedTagAndRegionQueryToken",
+  type: {
+    name: "Composite",
+    className: "SuggestedTagAndRegionQueryToken",
+    modelProperties: {
+      tagIds: {
+        serializedName: "tagIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
+        }
+      },
+      threshold: {
+        nullable: false,
+        serializedName: "threshold",
         type: {
           name: "Number"
         }
       },
-      publishName: {
-        nullable: true,
-        readOnly: true,
-        serializedName: "publishName",
+      session: {
+        nullable: false,
+        serializedName: "session",
         type: {
           name: "String"
         }
       },
-      originalPublishResourceId: {
-        nullable: true,
-        readOnly: true,
-        serializedName: "originalPublishResourceId",
+      continuation: {
+        nullable: false,
+        serializedName: "continuation",
+        type: {
+          name: "String"
+        }
+      },
+      maxCount: {
+        nullable: false,
+        serializedName: "maxCount",
+        type: {
+          name: "Number"
+        }
+      },
+      sortBy: {
+        nullable: false,
+        serializedName: "sortBy",
         type: {
           name: "String"
         }
@@ -1838,50 +2238,30 @@ export const Iteration: msRest.CompositeMapper = {
   }
 };
 
-export const ExportModel: msRest.CompositeMapper = {
-  serializedName: "Export",
+export const SuggestedTagAndRegionQuery: msRest.CompositeMapper = {
+  serializedName: "SuggestedTagAndRegionQuery",
   type: {
     name: "Composite",
-    className: "ExportModel",
+    className: "SuggestedTagAndRegionQuery",
     modelProperties: {
-      platform: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "platform",
+      token: {
+        serializedName: "token",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "SuggestedTagAndRegionQueryToken"
         }
       },
-      status: {
-        nullable: false,
+      results: {
         readOnly: true,
-        serializedName: "status",
+        serializedName: "results",
         type: {
-          name: "String"
-        }
-      },
-      downloadUri: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "downloadUri",
-        type: {
-          name: "String"
-        }
-      },
-      flavor: {
-        nullable: true,
-        readOnly: true,
-        serializedName: "flavor",
-        type: {
-          name: "String"
-        }
-      },
-      newerVersionAvailable: {
-        nullable: false,
-        readOnly: true,
-        serializedName: "newerVersionAvailable",
-        type: {
-          name: "Boolean"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StoredSuggestedTagAndRegion"
+            }
+          }
         }
       }
     }
@@ -1912,7 +2292,7 @@ export const Tag: msRest.CompositeMapper = {
       },
       description: {
         required: true,
-        nullable: false,
+        nullable: true,
         serializedName: "description",
         type: {
           name: "String"
@@ -1938,24 +2318,49 @@ export const Tag: msRest.CompositeMapper = {
   }
 };
 
-export const CustomVisionError: msRest.CompositeMapper = {
-  serializedName: "CustomVisionError",
+export const TagFilter: msRest.CompositeMapper = {
+  serializedName: "TagFilter",
   type: {
     name: "Composite",
-    className: "CustomVisionError",
+    className: "TagFilter",
     modelProperties: {
-      code: {
-        required: true,
-        serializedName: "code",
+      tagIds: {
+        serializedName: "tagIds",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
         }
       },
-      message: {
-        required: true,
-        serializedName: "message",
+      threshold: {
+        nullable: false,
+        serializedName: "threshold",
         type: {
-          name: "String"
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TrainingParameters: msRest.CompositeMapper = {
+  serializedName: "TrainingParameters",
+  type: {
+    name: "Composite",
+    className: "TrainingParameters",
+    modelProperties: {
+      selectedTags: {
+        serializedName: "selectedTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
         }
       }
     }
