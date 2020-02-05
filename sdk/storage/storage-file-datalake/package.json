@@ -5,7 +5,7 @@
   "sdk-type": "client",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "typings/storage-datalake.d.ts",
+  "types": "typings/storage-file-datalake.d.ts",
   "browser": {
     "./dist-esm/src/index.js": "./dist-esm/src/index.browser.js",
     "./dist-esm/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/src/credentials/StorageSharedKeyCredential.browser.js",
@@ -51,7 +51,7 @@
     "dist-esm/src/",
     "LICENSE",
     "src/",
-    "typings/storage-datalake.d.ts",
+    "typings/storage-file-datalake.d.ts",
     "tsconfig.json"
   ],
   "sideEffects": false,
