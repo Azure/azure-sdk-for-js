@@ -3,7 +3,7 @@ import chai from "chai";
 import { record } from "../src";
 const { expect } = chai;
 
-describe.only("recorder", () => {
+describe("recorder", () => {
   describe("NodeJS", () => {
     it("should record and playback a simple test", async function() {
       if (isBrowser()) return this.skip();
