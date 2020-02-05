@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 const fs = require("fs");
@@ -42,7 +42,8 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const secretName = "secretBackupAndRestoreJS";
+  const uniqueString = new Date().getTime();
+  const secretName = `secret${uniqueString}`;
 
   // Create our secret
   await client.setSecret(secretName, "XYZ789");

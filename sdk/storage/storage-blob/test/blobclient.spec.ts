@@ -8,16 +8,21 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
 import { record, delay } from "@azure/test-utils-recorder";
-import { BlobClient, BlockBlobClient, ContainerClient, BlockBlobTier } from "../src";
+import {
+  BlobClient,
+  BlockBlobClient,
+  ContainerClient,
+  BlockBlobTier,
+  BlobServiceClient
+} from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
+  let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -28,7 +33,8 @@ describe("BlobClient", () => {
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -547,13 +553,15 @@ describe("BlobClient", () => {
     }
     assert.ok(exceptionCaught);
   });
+});
 
-  it("verify blobName and containerName passed to the client", async () => {
-    const accountName = "myaccount";
-    const blobName = "blob/part/1.txt";
-    const newClient = new BlobClient(
-      `https://${accountName}.blob.core.windows.net/` + containerName + "/" + blobName
-    );
+describe("BlobClient - Verify Name Properties", () => {
+  const accountName = "myaccount";
+  const blobName = "blob/part/1.txt";
+  const containerName = "containername";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new BlobClient(url);
     assert.equal(
       newClient.containerName,
       containerName,
@@ -565,5 +573,25 @@ describe("BlobClient", () => {
       accountName,
       "Account name is not the same as the one provided."
     );
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(
+      `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}`
+    );
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(`https://192.0.0.10:1900/${accountName}/${containerName}/${blobName}`);
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${containerName}/${blobName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${containerName}/${blobName}`);
   });
 });

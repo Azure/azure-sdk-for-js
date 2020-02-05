@@ -232,6 +232,7 @@ export const SyncGroup: msRest.CompositeMapper = {
     modelProperties: {
       ...ProxyResource.type.modelProperties,
       uniqueId: {
+        readOnly: true,
         serializedName: "properties.uniqueId",
         type: {
           name: "String"
@@ -308,6 +309,39 @@ export const CloudEndpoint: msRest.CompositeMapper = {
         serializedName: "properties.lastOperationName",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TriggerChangeDetectionParameters: msRest.CompositeMapper = {
+  serializedName: "TriggerChangeDetectionParameters",
+  type: {
+    name: "Composite",
+    className: "TriggerChangeDetectionParameters",
+    modelProperties: {
+      directoryPath: {
+        serializedName: "directoryPath",
+        type: {
+          name: "String"
+        }
+      },
+      changeDetectionMode: {
+        serializedName: "changeDetectionMode",
+        type: {
+          name: "String"
+        }
+      },
+      paths: {
+        serializedName: "paths",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -408,6 +442,12 @@ export const CloudEndpointCreateParameters: msRest.CompositeMapper = {
       },
       storageAccountTenantId: {
         serializedName: "properties.storageAccountTenantId",
+        type: {
+          name: "String"
+        }
+      },
+      friendlyName: {
+        serializedName: "properties.friendlyName",
         type: {
           name: "String"
         }
@@ -612,11 +652,11 @@ export const ServerEndpointUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const FilesNotSyncingError: msRest.CompositeMapper = {
-  serializedName: "FilesNotSyncingError",
+export const ServerEndpointFilesNotSyncingError: msRest.CompositeMapper = {
+  serializedName: "ServerEndpointFilesNotSyncingError",
   type: {
     name: "Composite",
-    className: "FilesNotSyncingError",
+    className: "ServerEndpointFilesNotSyncingError",
     modelProperties: {
       errorCode: {
         readOnly: true,
@@ -628,6 +668,9 @@ export const FilesNotSyncingError: msRest.CompositeMapper = {
       persistentCount: {
         readOnly: true,
         serializedName: "persistentCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }
@@ -635,6 +678,9 @@ export const FilesNotSyncingError: msRest.CompositeMapper = {
       transientCount: {
         readOnly: true,
         serializedName: "transientCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }
@@ -643,11 +689,11 @@ export const FilesNotSyncingError: msRest.CompositeMapper = {
   }
 };
 
-export const SyncSessionStatus: msRest.CompositeMapper = {
-  serializedName: "SyncSessionStatus",
+export const ServerEndpointSyncSessionStatus: msRest.CompositeMapper = {
+  serializedName: "ServerEndpointSyncSessionStatus",
   type: {
     name: "Composite",
-    className: "SyncSessionStatus",
+    className: "ServerEndpointSyncSessionStatus",
     modelProperties: {
       lastSyncResult: {
         readOnly: true,
@@ -673,6 +719,9 @@ export const SyncSessionStatus: msRest.CompositeMapper = {
       lastSyncPerItemErrorCount: {
         readOnly: true,
         serializedName: "lastSyncPerItemErrorCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }
@@ -680,6 +729,9 @@ export const SyncSessionStatus: msRest.CompositeMapper = {
       persistentFilesNotSyncingCount: {
         readOnly: true,
         serializedName: "persistentFilesNotSyncingCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }
@@ -687,6 +739,9 @@ export const SyncSessionStatus: msRest.CompositeMapper = {
       transientFilesNotSyncingCount: {
         readOnly: true,
         serializedName: "transientFilesNotSyncingCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }
@@ -699,7 +754,7 @@ export const SyncSessionStatus: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "FilesNotSyncingError"
+              className: "ServerEndpointFilesNotSyncingError"
             }
           }
         }
@@ -708,11 +763,11 @@ export const SyncSessionStatus: msRest.CompositeMapper = {
   }
 };
 
-export const SyncActivityStatus: msRest.CompositeMapper = {
-  serializedName: "SyncActivityStatus",
+export const ServerEndpointSyncActivityStatus: msRest.CompositeMapper = {
+  serializedName: "ServerEndpointSyncActivityStatus",
   type: {
     name: "Composite",
-    className: "SyncActivityStatus",
+    className: "ServerEndpointSyncActivityStatus",
     modelProperties: {
       timestamp: {
         readOnly: true,
@@ -724,6 +779,9 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
       perItemErrorCount: {
         readOnly: true,
         serializedName: "perItemErrorCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }
@@ -731,6 +789,9 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
       appliedItemCount: {
         readOnly: true,
         serializedName: "appliedItemCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }
@@ -738,6 +799,9 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
       totalItemCount: {
         readOnly: true,
         serializedName: "totalItemCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }
@@ -745,6 +809,9 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
       appliedBytes: {
         readOnly: true,
         serializedName: "appliedBytes",
+        constraints: {
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }
@@ -752,6 +819,9 @@ export const SyncActivityStatus: msRest.CompositeMapper = {
       totalBytes: {
         readOnly: true,
         serializedName: "totalBytes",
+        constraints: {
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }
@@ -797,6 +867,9 @@ export const ServerEndpointSyncStatus: msRest.CompositeMapper = {
       totalPersistentFilesNotSyncingCount: {
         readOnly: true,
         serializedName: "totalPersistentFilesNotSyncingCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
         type: {
           name: "Number"
         }
@@ -813,7 +886,7 @@ export const ServerEndpointSyncStatus: msRest.CompositeMapper = {
         serializedName: "uploadStatus",
         type: {
           name: "Composite",
-          className: "SyncSessionStatus"
+          className: "ServerEndpointSyncSessionStatus"
         }
       },
       downloadStatus: {
@@ -821,7 +894,7 @@ export const ServerEndpointSyncStatus: msRest.CompositeMapper = {
         serializedName: "downloadStatus",
         type: {
           name: "Composite",
-          className: "SyncSessionStatus"
+          className: "ServerEndpointSyncSessionStatus"
         }
       },
       uploadActivity: {
@@ -829,7 +902,7 @@ export const ServerEndpointSyncStatus: msRest.CompositeMapper = {
         serializedName: "uploadActivity",
         type: {
           name: "Composite",
-          className: "SyncActivityStatus"
+          className: "ServerEndpointSyncActivityStatus"
         }
       },
       downloadActivity: {
@@ -837,7 +910,7 @@ export const ServerEndpointSyncStatus: msRest.CompositeMapper = {
         serializedName: "downloadActivity",
         type: {
           name: "Composite",
-          className: "SyncActivityStatus"
+          className: "ServerEndpointSyncActivityStatus"
         }
       },
       offlineDataTransferStatus: {
@@ -845,6 +918,111 @@ export const ServerEndpointSyncStatus: msRest.CompositeMapper = {
         serializedName: "offlineDataTransferStatus",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServerEndpointCloudTieringStatus: msRest.CompositeMapper = {
+  serializedName: "ServerEndpointCloudTieringStatus",
+  type: {
+    name: "Composite",
+    className: "ServerEndpointCloudTieringStatus",
+    modelProperties: {
+      health: {
+        readOnly: true,
+        serializedName: "health",
+        type: {
+          name: "String"
+        }
+      },
+      lastUpdatedTimestamp: {
+        readOnly: true,
+        serializedName: "lastUpdatedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastCloudTieringResult: {
+        readOnly: true,
+        serializedName: "lastCloudTieringResult",
+        type: {
+          name: "Number"
+        }
+      },
+      lastSuccessTimestamp: {
+        readOnly: true,
+        serializedName: "lastSuccessTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ServerEndpointRecallError: msRest.CompositeMapper = {
+  serializedName: "ServerEndpointRecallError",
+  type: {
+    name: "Composite",
+    className: "ServerEndpointRecallError",
+    modelProperties: {
+      errorCode: {
+        readOnly: true,
+        serializedName: "errorCode",
+        type: {
+          name: "Number"
+        }
+      },
+      count: {
+        readOnly: true,
+        serializedName: "count",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ServerEndpointRecallStatus: msRest.CompositeMapper = {
+  serializedName: "ServerEndpointRecallStatus",
+  type: {
+    name: "Composite",
+    className: "ServerEndpointRecallStatus",
+    modelProperties: {
+      lastUpdatedTimestamp: {
+        readOnly: true,
+        serializedName: "lastUpdatedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      totalRecallErrorsCount: {
+        readOnly: true,
+        serializedName: "totalRecallErrorsCount",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      recallErrors: {
+        readOnly: true,
+        serializedName: "recallErrors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServerEndpointRecallError"
+            }
+          }
         }
       }
     }
@@ -955,6 +1133,22 @@ export const ServerEndpoint: msRest.CompositeMapper = {
         serializedName: "properties.offlineDataTransferShareName",
         type: {
           name: "String"
+        }
+      },
+      cloudTieringStatus: {
+        readOnly: true,
+        serializedName: "properties.cloudTieringStatus",
+        type: {
+          name: "Composite",
+          className: "ServerEndpointCloudTieringStatus"
+        }
+      },
+      recallStatus: {
+        readOnly: true,
+        serializedName: "properties.recallStatus",
+        type: {
+          name: "Composite",
+          className: "ServerEndpointRecallStatus"
         }
       }
     }
@@ -1325,7 +1519,6 @@ export const RestoreFileSpec: msRest.CompositeMapper = {
         }
       },
       isdir: {
-        readOnly: true,
         serializedName: "isdir",
         type: {
           name: "Boolean"
@@ -1523,6 +1716,52 @@ export const StorageSyncServiceUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatus: msRest.CompositeMapper = {
+  serializedName: "OperationStatus",
+  type: {
+    name: "Composite",
+    className: "OperationStatus",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        readOnly: true,
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        readOnly: true,
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      error: {
+        readOnly: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "StorageSyncApiError"
         }
       }
     }
@@ -2025,6 +2264,34 @@ export const CloudEndpointsPostRestoreHeaders: msRest.CompositeMapper = {
   }
 };
 
+export const CloudEndpointsTriggerChangeDetectionHeaders: msRest.CompositeMapper = {
+  serializedName: "cloudendpoints-triggerchangedetection-headers",
+  type: {
+    name: "Composite",
+    className: "CloudEndpointsTriggerChangeDetectionHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      xMsRequestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      xMsCorrelationRequestId: {
+        serializedName: "x-ms-correlation-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ServerEndpointsCreateHeaders: msRest.CompositeMapper = {
   serializedName: "serverendpoints-create-headers",
   type: {
@@ -2382,6 +2649,28 @@ export const WorkflowsAbortHeaders: msRest.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WorkflowsAbortHeaders",
+    modelProperties: {
+      xMsRequestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      xMsCorrelationRequestId: {
+        serializedName: "x-ms-correlation-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatusGetHeaders: msRest.CompositeMapper = {
+  serializedName: "operationstatus-get-headers",
+  type: {
+    name: "Composite",
+    className: "OperationStatusGetHeaders",
     modelProperties: {
       xMsRequestId: {
         serializedName: "x-ms-request-id",

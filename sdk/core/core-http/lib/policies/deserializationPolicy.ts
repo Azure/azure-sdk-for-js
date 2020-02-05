@@ -6,7 +6,6 @@ import { OperationResponse } from "../operationResponse";
 import { OperationSpec, isStreamOperation } from "../operationSpec";
 import { RestError } from "../restError";
 import { Mapper, MapperType } from "../serializer";
-import * as utils from "../util/utils";
 import { parseXML } from "../util/xml";
 import { WebResource } from "../webResource";
 import {
@@ -165,10 +164,13 @@ export function deserializeResponseBody(
               ? `Unexpected status code: ${statusCode}`
               : (parsedResponse.bodyAsText as string);
 
-            const error = new RestError(initialErrorMessage);
-            error.statusCode = statusCode;
-            error.request = utils.stripRequest(parsedResponse.request);
-            error.response = utils.stripResponse(parsedResponse);
+            const error = new RestError(
+              initialErrorMessage,
+              undefined,
+              statusCode,
+              parsedResponse.request,
+              parsedResponse
+            );
 
             let parsedErrorResponse: { [key: string]: any } = parsedResponse.parsedBody;
             try {
@@ -248,10 +250,12 @@ export function deserializeResponseBody(
               );
             } catch (error) {
               const restError = new RestError(
-                `Error ${error} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`
+                `Error ${error} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`,
+                undefined,
+                parsedResponse.status,
+                parsedResponse.request,
+                parsedResponse
               );
-              restError.request = utils.stripRequest(parsedResponse.request);
-              restError.response = utils.stripResponse(parsedResponse);
               return Promise.reject(restError);
             }
           } else if (operationSpec.httpMethod === "HEAD") {

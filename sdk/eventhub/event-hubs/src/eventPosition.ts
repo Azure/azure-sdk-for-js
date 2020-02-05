@@ -76,6 +76,10 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
   return result;
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 export function isLatestPosition(eventPosition: EventPosition): boolean {
   if (eventPosition.offset === "@latest") {
     return true;
@@ -124,7 +128,7 @@ export function validateEventPositions(
       "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set."
     );
   }
-  
+
   if (offsetPresent || sequenceNumberPresent || enqueuedOnPresent || !keys.length) {
     validateEventPosition(position);
     return;

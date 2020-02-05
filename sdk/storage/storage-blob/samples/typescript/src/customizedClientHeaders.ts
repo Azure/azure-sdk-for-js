@@ -24,7 +24,7 @@ import {
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {

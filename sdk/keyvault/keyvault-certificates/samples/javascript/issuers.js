@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 const { CertificateClient } = require("@azure/keyvault-certificates");
@@ -21,8 +21,9 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificateIssuersJS";
-  const issuerName = "issuerNameIssuersJS";
+  const uniqueString = new Date().getTime();
+  const certificateName = `cert${uniqueString}`;
+  const issuerName = `issuer${uniqueString}`;
 
   // Create
   await client.createIssuer(issuerName, "Test", {

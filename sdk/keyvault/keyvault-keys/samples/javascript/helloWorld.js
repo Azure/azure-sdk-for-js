@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 const { KeyClient } = require("@azure/keyvault-keys");
@@ -18,9 +18,10 @@ async function main() {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new KeyClient(url, credential);
 
-  const keyName = "MyKeyNameCertificates";
-  const ecKeyName = "MyECKeyNameCertificates";
-  const rsaKeyName = "MyRSAKeyNameCertificates";
+  const uniqueString = new Date().getTime();
+  const keyName = `KeyName${uniqueString}`;
+  const ecKeyName = `ECKeyName${uniqueString}`;
+  const rsaKeyName = `RSAKeyName${uniqueString}`;
 
   // You can create keys using the general method
   const result = await client.createKey(keyName, "EC");

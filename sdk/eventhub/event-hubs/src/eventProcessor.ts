@@ -8,25 +8,11 @@ import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { logger, logErrorStackTrace } from "./log";
 import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
-import { SubscribeOptions } from "./eventHubConsumerClientModels";
 import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 import { EventPosition, latestEventPosition } from "./eventPosition";
 import { delayWithoutThrow } from "./util/delayWithoutThrow";
-
-/**
- * An enum representing the different reasons for an `EventProcessor` to stop processing
- * events from a partition in a consumer group of an Event Hub instance.
- */
-export enum CloseReason {
-  /**
-   * Ownership of the partition was lost or transitioned to a new processor instance.
-   */
-  OwnershipLost = "OwnershipLost",
-  /**
-   * The EventProcessor was shutdown.
-   */
-  Shutdown = "Shutdown"
-}
+import { CommonEventProcessorOptions } from "./models/private";
+import { CloseReason } from "./models/public";
 
 /**
  * An interface representing the details on which instance of a `EventProcessor` owns processing
@@ -72,11 +58,9 @@ export interface PartitionOwnership {
  *
  * Users are not meant to implement an `CheckpointStore`.
  * Users are expected to choose existing implementations of this interface, instantiate it, and pass
- * it to the constructor of `EventProcessor`.
- *
- * To get started, you can use the `InMemoryCheckpointStore` which will store the relevant information in memory.
- * But in production, you should choose an implementation of the `CheckpointStore` interface that will
- * store the checkpoints and partition ownerships to a durable store instead.
+ * it to the `EventHubConsumerClient` class constructor when instantiating a client.
+ * Users are not expected to use any of the methods on a checkpoint store, these are used internally by
+ * the client.
  *
  * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  */
@@ -142,39 +126,9 @@ export interface CheckpointStore {
  * }
  * ```
  * @internal
+ * @ignore
  */
-export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends // for our internal classes (these are optional for external users)
-  extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
-    Pick<
-      SubscribeOptions,
-      Exclude<
-        keyof SubscribeOptions,
-        // (made required above)
-        "maxBatchSize" | "maxWaitTimeInSeconds"
-      >
-    > {
-  /**
-   * A load balancer to use to find targets or a specific partition to target.
-   */
-  processingTarget?: PartitionLoadBalancer | string;
-  /**
-   * The amount of time to wait between each attempt at claiming partitions.
-   */
-  loopIntervalInMs?: number;
-
-  /**
-   * The maximum amount of time since a PartitionOwnership was updated
-   * to use to determine if a partition is no longer claimed.
-   * Setting this value to 0 will cause the default value to be used.
-   */
-  inactiveTimeLimitInMs?: number;
-  /**
-   * An optional ownerId to use rather than using an internally generated ID
-   * This allows you to logically group a series of processors together (for instance
-   * like we do with EventHubConsumerClient)
-   */
-  ownerId?: string;
-
+export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
   /**
    * An optional pump manager to use, rather than instantiating one internally
    * @internal
@@ -212,6 +166,8 @@ export interface FullEventProcessorOptions  // make the 'maxBatchSize', 'maxWait
  * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  *
  * @class EventProcessor
+ * @internal
+ * @ignore
  */
 export class EventProcessor {
   private _consumerGroup: string;

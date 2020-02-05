@@ -1,5 +1,9 @@
 # Release History
 
+## 3.5.4 (2020-1-28)
+
+- BUG FIX: Return parsed number instead of string for request charge
+
 ## 3.5.3 (2020-1-06)
 
 - BUG FIX: maxDegreeOfParallelism was defaulting to 1 and should default to the number of partitions of the collection

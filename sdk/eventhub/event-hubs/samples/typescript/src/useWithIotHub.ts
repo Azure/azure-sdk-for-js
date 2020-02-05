@@ -8,7 +8,7 @@ import { EventHubConsumerClient } from "@azure/event-hubs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // Define IoT Hub Event Hubs-compatible connection string here.
 // To find the correct connection string to use, visit:

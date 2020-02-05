@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 const { CertificateClient } = require("@azure/keyvault-certificates");
@@ -23,8 +23,9 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName1 = "MyCertificateListCertificatesJS1";
-  const certificateName2 = "MyCertificateListCertificatesJS2";
+  const uniqueString = new Date().getTime();
+  const certificateName1 = `cert1${uniqueString}`;
+  const certificateName2 = `cert2${uniqueString}`;
 
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.beginCreateCertificate(certificateName1, {

@@ -91,7 +91,7 @@ describe("NodeJS CRUD Tests", function() {
     });
 
     it("nativeApi Should do offer replace operations successfully name based", async function() {
-      const container = await getTestContainer("Validate Offer CRUD");
+      await getTestContainer("Validate Offer CRUD");
       const { resources: offers } = await client.offers.readAll().fetchAll();
       assert.equal(offers.length, 1);
       const expectedOffer = offers[0];

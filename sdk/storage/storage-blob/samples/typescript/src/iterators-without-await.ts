@@ -6,7 +6,7 @@ import { ContainerClient, StorageSharedKeyCredential, BlobItem } from "@azure/st
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 export async function main() {
   // Enter your storage account name and shared key

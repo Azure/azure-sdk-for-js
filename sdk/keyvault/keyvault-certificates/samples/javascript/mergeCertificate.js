@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 const fs = require("fs");
@@ -25,15 +25,18 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
+  const uniqueString = new Date().getTime();
+  const certificateName = `cert${uniqueString}`;
+
   // Creating a certificate with an Unknown issuer.
-  await client.beginCreateCertificate("MyCertificate", {
+  await client.beginCreateCertificate(certificateName, {
     issuerName: "Unknown",
     certificateTransparency: false,
     subject: "cn=MyCert"
   });
 
   // Retrieving the certificate's signing request
-  const operationPoller = await client.getCertificateOperation("MyCertificate");
+  const operationPoller = await client.getCertificateOperation(certificateName);
   const { csr } = operationPoller.getOperationState().certificateOperation;
   const base64Csr = Buffer.from(csr).toString("base64");
   const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
@@ -62,7 +65,7 @@ ${base64Csr}
     .join("");
 
   // Once we have the response in base64 format, we send it to mergeCertificate
-  await client.mergeCertificate("MyCertificate", [Buffer.from(base64Crt)]);
+  await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
 }
 
 main().catch((err) => {

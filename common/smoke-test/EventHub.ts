@@ -4,7 +4,10 @@
 // ------------------------------------
 import {
   EventHubProducerClient,
-  EventHubConsumerClient
+  EventHubConsumerClient,
+  ReceivedEventData,
+  SubscribeOptions,
+  earliestEventPosition
 } from "@azure/event-hubs";
 
 export class EventHubs {
@@ -72,18 +75,24 @@ export class EventHubs {
     }
 
     await EventHubs.producer.sendBatch(batch);
-    console.log("\tdone");
     await EventHubs.producer.close();
+    console.log("\tdone");
 
     console.log("receiving events...");
+    const subscribeOptions: SubscribeOptions = {
+      maxBatchSize: events.length,
+      maxWaitTimeInSeconds: 5,
+      startPosition: earliestEventPosition
+    };
+
     let numEventsReceived = 0;
 
     await new Promise(async (res, rej) => {
       const subscription = await EventHubs.consumer.subscribe(
         {
-          processEvents: async (receivedEvents, context) => {
+          processEvents: async (receivedEvents: ReceivedEventData[]) => {
             numEventsReceived += receivedEvents.length;
-            receivedEvents.forEach(event =>
+            receivedEvents.forEach((event: ReceivedEventData) =>
               console.log(`Event received: ${event.body}`)
             );
 
@@ -96,16 +105,13 @@ export class EventHubs {
               res();
             }
           },
-          processError: async (err, context) => {
+          processError: async (error: Error) => {
             await subscription.close();
             await EventHubs.consumer.close();
-            rej(err);
+            rej(error);
           }
         },
-        {
-          maxBatchSize: events.length,
-          maxWaitTimeInSeconds: 5
-        }
+        subscribeOptions
       );
     });
   }

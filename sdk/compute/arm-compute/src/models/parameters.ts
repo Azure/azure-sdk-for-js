@@ -225,6 +225,18 @@ export const imageName: msRest.OperationURLParameter = {
     }
   }
 };
+export const includeColocationStatus: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "includeColocationStatus"
+  ],
+  mapper: {
+    serializedName: "includeColocationStatus",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const instanceId: msRest.OperationURLParameter = {
   parameterPath: "instanceId",
   mapper: {

@@ -1,11 +1,31 @@
 # Release History
 
-## 5.0.0-preview.8 (Unreleased)
+## 5.0.1 (TBD)
 
+- Fixed a potential issue with deadlock where greedy consumers could
+  starve out other consumers, preventing us from properly balancing.
+
+## 5.0.0 (2020-01-09)
+
+- This release marks the general availability of the `@azure/event-hubs` package.
 - Fixed potential issues with claims being mismanaged when subscriptions terminate.
 - Improved reporting of errors that occur when attempting to claim partitions from CheckpointStores.
 - Updated to use the latest version of the `@azure/core-amqp` package.
   This update allows the SDK to detect when a connection has gone idle for 60 seconds and attempt to reconnect.
+
+### Breaking changes:
+
+- Starting event positions are now passed in the `options` to the `subscribe()` method instead of using
+  the `processInitialize()` callback.
+- If no position is passed and no checkpoints are available for the partition,
+  the `subscribe()` method will start receiving events that are queued after the method invocation.
+  This is different from the last preview, where events were received from the beginning of the partition.
+- The `MessagingError` class is updated to have the `code` property instead of `name` to contain the error
+  type that the user can use to differentiate errors that can occur during communication with the service.
+  The `name` property of this class will always have the value "MessagingError" and will not change based
+  on the error type.
+- System errors around network issues like ENOTFOUND, ECONNREFUSED will retain their `code` value even after
+  getting converted to a `MessagingError` object and being passed to the user.
 
 ## 5.0.0-preview.7 (2019-12-03)
 
@@ -14,7 +34,7 @@
   ([PR #6294](https://github.com/Azure/azure-sdk-for-js/pull/6294))
 - Updated to use OpenTelemetry 0.2 via `@azure/core-tracing`
 
-Breaking changes:
+### Breaking changes:
 
 - CheckpointStore and consumer group are now passed to the EventHubConsumerClient
   constructor rather than being passed to subscribe().

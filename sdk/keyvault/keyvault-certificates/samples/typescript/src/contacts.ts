@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { CertificateClient } from "@azure/keyvault-certificates";
@@ -6,7 +6,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // This sample creates, updates and deletes certificate contacts.
 
@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
 
   await client.setContacts(contacts);
 
-  let getResponse = await client.getContacts();
+  const getResponse = await client.getContacts();
   console.log("Contact List:", getResponse);
 
   await client.deleteContacts();
