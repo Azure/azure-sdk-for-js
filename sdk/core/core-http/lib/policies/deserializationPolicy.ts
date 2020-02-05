@@ -5,7 +5,7 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { OperationResponse } from "../operationResponse";
 import { OperationSpec, isStreamOperation } from "../operationSpec";
 import { RestError } from "../restError";
-import { Mapper, MapperType } from "../serializer";
+import { MapperType } from "../serializer";
 import { parseXML } from "../util/xml";
 import { WebResource } from "../webResource";
 import {
@@ -140,8 +140,7 @@ export function deserializeResponseBody(
   response: HttpOperationResponse
 ): Promise<HttpOperationResponse> {
   return parse(jsonContentTypes, xmlContentTypes, response).then((parsedResponse) => {
-    const shouldDeserialize = shouldDeserializeResponse(parsedResponse);
-    if (!shouldDeserialize) {
+    if (!shouldDeserializeResponse(parsedResponse)) {
       return parsedResponse;
     }
 
@@ -151,13 +150,12 @@ export function deserializeResponseBody(
     }
 
     const responseSpec = getOperationResponse(parsedResponse);
-    const statusCode = parsedResponse.status;
     const expectedStatusCodes = Object.keys(operationSpec.responses);
     const hasNoExpectedStatusCodes =
       expectedStatusCodes.length === 0 ||
       (expectedStatusCodes.length === 1 && expectedStatusCodes[0] === "default");
     const isExpectedStatusCode: boolean = hasNoExpectedStatusCodes
-      ? 200 <= statusCode && statusCode < 300
+      ? 200 <= parsedResponse.status && parsedResponse.status < 300
       : !!responseSpec;
 
     // There is no operation response spec for current status code.
@@ -174,13 +172,13 @@ export function deserializeResponseBody(
       const parsedHeaders = parsedResponse.parsedHeaders;
 
       const initialErrorMessage = isStreamOperation(operationSpec)
-        ? `Unexpected status code: ${statusCode}`
+        ? `Unexpected status code: ${parsedResponse.status}`
         : (parsedResponse.bodyAsText as string);
 
       const error = new RestError(
         initialErrorMessage,
         undefined,
-        statusCode,
+        parsedResponse.status,
         parsedResponse.request,
         parsedResponse
       );
