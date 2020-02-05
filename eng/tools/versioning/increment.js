@@ -21,6 +21,7 @@ let argv = require("yargs")
 const path = require("path");
 const semver = require("semver");
 const versionUtils = require("./VersionUtils");
+const { spawnSync } = require('child_process');
 
 function incrementVersion(currentVersion) {
   const prerelease = semver.prerelease(currentVersion);
@@ -70,6 +71,10 @@ async function main(argv) {
     packageJsonContents,
     newVersion
   );
+  const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
+  const args = [newVersion, changelogLocation]
+  const cwd = repoRoot
+  const proc = spawnSync('eng/common/Update-Change-Log.ps1', args, { cwd, stdio: 'inherit' });
 }
 
 main(argv);
