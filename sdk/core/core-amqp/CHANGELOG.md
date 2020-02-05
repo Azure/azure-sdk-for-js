@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.1 (2020-02-06)
+
+- Updated to use the latest version of the `rhea` package.
+  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) the SDK.
+
 ## 1.0.0 (2019-01-08)
 
 - This release marks the general availability of the `@azure/core-amqp` package.

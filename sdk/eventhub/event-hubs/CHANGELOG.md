@@ -4,6 +4,8 @@
 
 - Fixed a potential issue with deadlock where greedy consumers could
   starve out other consumers, preventing us from properly balancing.
+- Updated to use the latest version of the `@azure/core-amqp` package.
+  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) the SDK.
 
 ## 5.0.0 (2020-01-09)
 
