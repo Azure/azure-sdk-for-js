@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+
 import { makeAnalyzeSentimentResultCollection } from "../src/analyzeSentimentResultCollection";
 import { makeDetectLanguageResultCollection } from "../src/detectLanguageResultCollection";
 import { makeExtractKeyPhrasesResultCollection } from "../src/extractKeyPhrasesResultCollection";

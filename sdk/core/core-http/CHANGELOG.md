@@ -2,14 +2,13 @@
 
 ## 1.0.4 (Unreleased)
 
-- Fixed an issue where `error.code` and `error.message` are not assigned for `StorageError` instances. ([PR #7107](https://github.com/Azure/azure-sdk-for-js/pull/7107))
+- When an operation times out based on the `timeout` configured in the `OperationRequestOptions`, it gets terminated with an error. In this update, the error that is thrown in browser for such cases is updated to match what is thrown in node i.e an `AbortError` is thrown instead of the previous `RestError`. [PR #7159](https://github.com/Azure/azure-sdk-for-js/pull/7159)
 
 ## 1.0.3 (2020-01-02)
-
 - Added `x-ms-useragent` to the list of allowed headers in request logs.
-- Fixed issue of data being pushed twice when reporting progress ([PR #6427](https://github.com/Azure/azure-sdk-for-js/issues/6427))
-- Moved `getDefaultProxySettings()` calls into `proxyPolicy` so that libraries that don't use the PipelineOptions or createDefaultRequestPolicyFactories from core-http can use this behavior without duplicating code. ([PR #6478](https://github.com/Azure/azure-sdk-for-js/issues/6478))
-- Fix tracingPolicy() to set standard span attributes ([PR #6565](https://github.com/Azure/azure-sdk-for-js/pull/6565)). Now the following are set correctly for the spans
+- Fix issue of data being pushed twice when reporting progress ([PR #6427](https://github.com/Azure/azure-sdk-for-js/issues/6427))
+- Move `getDefaultProxySettings()` calls into `proxyPolicy` so that libraries that don't use the PipelineOptions or createDefaultRequestPolicyFactories from core-http can use this behavior without duplicating code. ([PR #6478](https://github.com/Azure/azure-sdk-for-js/issues/6478))
+- Fix tracingPolicy() to set standard span attributes ([PR #6565](https://github.com/Azure/azure-sdk-for-js/pull/6565)).  Now the following are set correctly for the spans
   - `http.method`
   - `http.url`
   - `http.user_agent`
