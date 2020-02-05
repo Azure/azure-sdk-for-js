@@ -36,16 +36,45 @@ async function main() {
   const kbid = "<QNAMAKER_KNOWLEDGE_BASE_ID>";
 
   const cognitiveServicesCredentials = new CognitiveServicesCredentials(QNAMAKER_KEY);
-  const client = new QnAMakerRuntimeClient(cognitiveServicesCredentials, QNMAKER_ENDPOINT);
+  const client = new QnAMakerRuntimeClient(cognitiveServicesCredentials, QNAMAKER_ENDPOINT);
   const customHeaders = { Authorization: `EndpointKey ${QNAMAKER_KEY}` };
-  const question = "<QUESTION>";
 
-  try {
-    const settings = await client.runtime.generateAnswer(kbid, { question }, { customHeaders });
-    console.log(`The result is: ${JSON.stringify(settings)}`);
-  } catch (error) {
-    console.error(error);
-  }
+  // A question you'd like to get a response for, from the knowledge base. For example
+  const question = "How are you?";
+
+  // Maximum number of answer to retreive
+  const top = 1;
+
+  // Find only answers that contain these metadata
+  const strictFilters: MetadataDTO[] = [{ name: "editorial", value: "chitchat" }];
+
+  const result = await client.runtime.generateAnswer(
+    kbid,
+    { question, top, strictFilters },
+    { customHeaders }
+  );
+  console.log(JSON.stringify(result));
+  // Result
+  // {
+  //   answers: [
+  //     {
+  //       questions: [
+  //         "How are you?",
+  //         "How is your tuesday?"
+  //       ],
+  //       answer:
+  //         ""I'm doing great, thanks for asking!",
+  //       score: 100,
+  //       id: 90,
+  //       source:
+  //         "qna_chitchat_Friendly.tsv",
+  //       metadata: [{ name: "editorial", value: "chitchat" }],
+  //       context: { isContextOnly: false, prompts: [] }
+  //     }
+  //   ],
+  //   debugInfo: null,
+  //   activeLearningEnabled: false
+  // }
 }
 
 main();
@@ -86,15 +115,43 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           cognitiveServiceCredentials,
           QNAMAKER_ENDPOINT
         );
-        const question = "<QUESTION>";
-        const kbid = "<KNOWLEDGE_BASE_ID>";
 
-        try {
-          const settings = await client.runtime.generateAnswer(kbid, { question });
-          console.log(`The result is: ${JSON.stringify(settings)}`);
-        } catch (error) {
-          console.error(error);
-        }
+        // A question you'd like to get a response for, from the knowledge base. For example
+        const question = "How are you?";
+
+        // Maximum number of answer to retreive
+        const top = 1;
+
+        // Find only answers that contain these metadata
+        const strictFilters: MetadataDTO[] = [{ name: "editorial", value: "chitchat" }];
+
+        const result = await client.runtime.generateAnswer(
+          kbid,
+          { question, top, strictFilters },
+          { customHeaders }
+        );
+        console.log(JSON.stringify(result));
+        // Result
+        // {
+        //   answers: [
+        //     {
+        //       questions: [
+        //         "How are you?",
+        //         "How is your tuesday?"
+        //       ],
+        //       answer:
+        //         ""I'm doing great, thanks for asking!",
+        //       score: 100,
+        //       id: 90,
+        //       source:
+        //         "qna_chitchat_Friendly.tsv",
+        //       metadata: [{ name: "editorial", value: "chitchat" }],
+        //       context: { isContextOnly: false, prompts: [] }
+        //     }
+        //   ],
+        //   debugInfo: null,
+        //   activeLearningEnabled: false
+        // }
       }
 
       main();
