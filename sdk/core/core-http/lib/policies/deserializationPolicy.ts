@@ -168,8 +168,6 @@ export function deserializeResponseBody(
 
       const defaultBodyMapper = defaultResponseSpec.bodyMapper;
       const defaultHeadersMapper = defaultResponseSpec.headersMapper;
-      const parsedBody = parsedResponse.parsedBody;
-      const parsedHeaders = parsedResponse.headers;
 
       const initialErrorMessage = isStreamOperation(operationSpec)
         ? `Unexpected status code: ${parsedResponse.status}`
@@ -186,7 +184,8 @@ export function deserializeResponseBody(
       try {
         // If error response has a body, try to extract error code & message from it
         // Then try to deserialize it using default body mapper
-        if (parsedBody) {
+        if (parsedResponse.parsedBody) {
+          const parsedBody = parsedResponse.parsedBody;
           const internalError: any = parsedBody.error || parsedBody;
           error.code = internalError.code;
           if (internalError.message) {
@@ -208,10 +207,10 @@ export function deserializeResponseBody(
         }
 
         // If error response has headers, try to deserialize it using default header mapper
-        if (parsedHeaders && defaultHeadersMapper) {
+        if (parsedResponse.headers && defaultHeadersMapper) {
           error.response!.parsedHeaders = operationSpec.serializer.deserialize(
             defaultHeadersMapper,
-            parsedHeaders.rawHeaders(),
+            parsedResponse.headers.rawHeaders(),
             "operationRes.parsedHeaders"
           );
         }
