@@ -107,11 +107,13 @@ export function browserConfig(test = false) {
         }
       }),
 
-      // fs, net, and tls are used by rhea and need to be shimmed
-      // TODO: get these into rhea's pkg.browser field
       // dotenv doesn't work in the browser, so replace it with a no-op function
+      // os and path are shimmed by bundlers (e.g. webpack, parcel) automatically,
+      // but needs to be configured in rollup.
       shim({
-        dotenv: `export function config() { }`
+        dotenv: `export function config() { }`,
+        os: `export default { }`,
+        path: `export default { }`
       }),
 
       nodeResolve({
