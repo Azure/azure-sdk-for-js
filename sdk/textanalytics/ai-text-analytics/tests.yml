@@ -41,5 +41,6 @@ jobs:
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
         ENDPOINT: $(ENDPOINT)
-        SUBSCRIPTION_KEY: $(SUBSCRIPTION_KEY)
+        TEXT_ANALYTICS_API_KEY: $(TEXT_ANALYTICS_API_KEY)
+        TEXT_ANALYTICS_API_KEY_ALT: $(TEXT_ANALYTICS_API_KEY_ALT)
 

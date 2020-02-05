@@ -20,7 +20,7 @@ const testDataEn = [
 
 describe("TextAnalyticsApiKeyCredential", () => {
   it("credential signRequest throws on undefined webResource", async () => {
-    const credential = new TextAnalyticsApiKeyCredential(testEnv.SUBSCRIPTION_KEY);
+    const credential = new TextAnalyticsApiKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
 
     return assert.isRejected(credential.signRequest(undefined as any), /null or undefined/);
   });
@@ -33,7 +33,7 @@ describe("[API Key] TextAnalyticsClient", function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
 
-  const apiKey = new TextAnalyticsApiKeyCredential(testEnv.SUBSCRIPTION_KEY);
+  const apiKey = new TextAnalyticsApiKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
 
   this.timeout(10000);
 
