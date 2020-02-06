@@ -16,7 +16,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | [analyzeSentiment.ts][analyzesentiment]               | analyzes the sentiment of a piece of text                                             |
 | [recognizePii.ts][recognizepii]                       | detects personally-identifiable information                                           |
-| [detectLanguages.ts][detectlanguages]                 | detects the language of a piece of text                                               |
+| [detectLanguage.ts][detectlanguages]                 | detects the language of a piece of text                                               |
 | [extractKeyPhrases.ts][extractkeyphrases]             | extracts key phrases from a piece of text                                             |
 | [recognizeLinkedEntities.ts][recognizelinkedentities] | detects entities that have links to more information on the web                       |
 | [tokenAuth.ts][tokenauth]                             | uses Azure Active Directory (RBAC) to authenticate to the Cognitive Services endpoint |
@@ -72,7 +72,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [analyzesentiment]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/analyzeSentiment.ts
 [recognizepii]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/recognizePii.ts
-[detectlanguages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/detectLanguages.ts
+[detectlanguages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/detectLanguage.ts
 [extractkeyphrases]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/extractKeyPhrases.ts
 [recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/recognizeLinkedEntities.ts
 [tokenauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/tokenAuth.ts

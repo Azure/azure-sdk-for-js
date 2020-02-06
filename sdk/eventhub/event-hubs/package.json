@@ -21,7 +21,7 @@
   "module": "dist-esm/src/index.js",
   "types": "./typings/event-hubs.d.ts",
   "browser": {
-    "./dist/index.js": "./browser/index.js"
+    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
   },
   "engine": {
     "node": ">=8.0.0"
@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "^1.0.0",
+    "@azure/core-amqp": "^1.0.1",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/identity": "^1.0.0",

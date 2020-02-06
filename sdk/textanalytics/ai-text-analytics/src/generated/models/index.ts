@@ -126,7 +126,7 @@ export interface TextDocumentStatistics {
  * Represents the confidence scores between 0 and 1 across all sentiment classes: positive,
  * neutral, negative.
  */
-export interface SentimentConfidenceScorePerLabel {
+export interface SentimentScorePerLabel {
   positive: number;
   neutral: number;
   negative: number;
@@ -140,11 +140,11 @@ export interface SentenceSentiment {
    * The predicted Sentiment for the sentence. Possible values include: 'positive', 'neutral',
    * 'negative'
    */
-  sentiment: SentenceSentimentValue;
+  sentiment: SentenceSentimentLabel;
   /**
    * The sentiment confidence score between 0 and 1 for the sentence for all classes.
    */
-  sentenceScores: SentimentConfidenceScorePerLabel;
+  sentimentScores: SentimentScorePerLabel;
   /**
    * The sentence offset from the start of the document.
    */
@@ -171,12 +171,12 @@ export interface DocumentSentiment {
    * Predicted sentiment for document (Negative, Neutral, Positive, or Mixed). Possible values
    * include: 'positive', 'neutral', 'negative', 'mixed'
    */
-  sentiment: DocumentSentimentValue;
+  sentiment: DocumentSentimentLabel;
   statistics?: TextDocumentStatistics;
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
-  documentScores: SentimentConfidenceScorePerLabel;
+  documentScores: SentimentScorePerLabel;
   /**
    * Sentence level sentiment analysis.
    */
@@ -238,11 +238,11 @@ export interface Entity {
   /**
    * Entity type, such as Person/Location/Org/SSN etc
    */
-  type: string;
+  category: string;
   /**
    * Entity sub type, such as Age/Year/TimeRange etc
    */
-  subtype?: string;
+  subCategory?: string;
   /**
    * Start position (in Unicode characters) for the entity text.
    */
@@ -612,20 +612,20 @@ export type ErrorCodeValue = 'invalidRequest' | 'invalidArgument' | 'internalSer
 export type InnerErrorCodeValue = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
 
 /**
- * Defines values for DocumentSentimentValue.
+ * Defines values for DocumentSentimentLabel.
  * Possible values include: 'positive', 'neutral', 'negative', 'mixed'
  * @readonly
  * @enum {string}
  */
-export type DocumentSentimentValue = 'positive' | 'neutral' | 'negative' | 'mixed';
+export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixed';
 
 /**
- * Defines values for SentenceSentimentValue.
+ * Defines values for SentenceSentimentLabel.
  * Possible values include: 'positive', 'neutral', 'negative'
  * @readonly
  * @enum {string}
  */
-export type SentenceSentimentValue = 'positive' | 'neutral' | 'negative';
+export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
 
 /**
  * Contains response data for the entitiesRecognitionGeneral operation.

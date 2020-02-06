@@ -148,7 +148,6 @@ export interface Logging {
  */
 export interface StorageError {
   message?: string;
-  code?: string;
 }
 
 /**

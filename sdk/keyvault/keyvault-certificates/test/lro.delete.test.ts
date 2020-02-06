@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
@@ -14,8 +14,8 @@ describe("Certificates client - lro - delete", () => {
   let certificateSuffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
-  let recorder: any;
-  
+  let recorder: Recorder;
+
   beforeEach(async function() {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
@@ -31,7 +31,9 @@ describe("Certificates client - lro - delete", () => {
   // The tests follow
 
   it("can wait until a certificate is deleted", async function() {
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
@@ -54,12 +56,14 @@ describe("Certificates client - lro - delete", () => {
   });
 
   it("can resume from a stopped poller", async function() {
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     await client.beginCreateCertificate(
-        certificateName,
-        DefaultCertificatePolicy,
-        testPollerProperties
-      );
+      certificateName,
+      DefaultCertificatePolicy,
+      testPollerProperties
+    );
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 

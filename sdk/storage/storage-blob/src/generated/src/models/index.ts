@@ -66,7 +66,6 @@ export interface UserDelegationKey {
  */
 export interface StorageError {
   message?: string;
-  code?: string;
 }
 
 /**
