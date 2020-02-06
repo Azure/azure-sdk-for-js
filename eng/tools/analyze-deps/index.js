@@ -174,7 +174,7 @@ const dumpRushPackages = (rushPackages) => {
   return dumpData;
 };
 
-const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId) => {
+const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId, external) => {
   const yamlKey = `@rush-temp/${packages[pkgId].name.replace("@azure/", "")}`;
   const packageKey = pnpmLock.dependencies[yamlKey];
   const resolvedDeps = pnpmLock.packages[packageKey].dependencies;
@@ -187,13 +187,24 @@ const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId) => 
       // Add the dependency to the top level of the packages list
       const depId = `${dep.name}:${dep.version}`;
       if (!packages[depId]) {
-        packages[depId] = {
-          name: dep.name,
-          version: dep.version,
-          type: internalPackages.includes(dep.name) ? 'internalbinary' : 'external',
-          deps: []
-        };
+        if (internalPackages.includes(dep.name)) {
+          packages[depId] = {
+            name: dep.name,
+            version: dep.version,
+            type: 'internalbinary',
+            deps: []
+          };
+        }
+        else if (external) {
+          packages[depId] = {
+            name: dep.name,
+            version: dep.version,
+            type: 'external',
+            deps: []
+          };
+        }
       }
+
     } else {
       // Local linked projects are not listed here, so pull the version from the local package.json
       const depInfo = Object.values(packages).find(pkgInfo => pkgInfo.name == dep.name);
@@ -208,6 +219,7 @@ const main = async () => {
     description: "Analyze dependencies in NodeJS packages."
   });
   parser.addArgument("--verbose", { help: "verbose output", action: "storeTrue" });
+  parser.addArgument("--external", { help: "include external dependencies in the graph data", action: "storeTrue" });
   parser.addArgument("--out", { metavar: "FILE", help: "write HTML-formatted report to FILE" });
   parser.addArgument("--dump", { metavar: "FILE", help: "write JSONP-formatted dependency data to FILE" });
   parser.addArgument("--packdir", {
@@ -290,10 +302,9 @@ const main = async () => {
     const dumpData = dumpRushPackages(context.packages);
     const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../common/config/rush/pnpm-lock.yaml`));
     for (const pkgId of Object.keys(dumpData)) {
-      resolveRushPackageDeps(dumpData, internalPackages, pnpmLock, pkgId);
+      resolveRushPackageDeps(dumpData, internalPackages, pnpmLock, pkgId, args.external);
     }
-    const internalDep = dumpData.filter(d => d.type === 'internal');
-    await writeFile(args.dump, "const data = " + JSON.stringify(internalDep) + ";");
+    await writeFile(args.dump, "const data = " + JSON.stringify(dumpData) + ";");
   }
 };
 
