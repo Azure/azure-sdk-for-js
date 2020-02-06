@@ -56,7 +56,7 @@ export const env = isBrowser() ? (window as any).__env__ : process.env;
 export function isRecordMode() {
   // It should be safe to assume that these two can be considered being in record mode.
   // For more specific distinctions, one can use isSoftRecordMode.
-  return env.TEST_MODE === "record" || env.TEST_MODE === "soft-record";
+  return env.TEST_MODE === "record" || isSoftRecordMode();
 }
 
 export function isSoftRecordMode() {
