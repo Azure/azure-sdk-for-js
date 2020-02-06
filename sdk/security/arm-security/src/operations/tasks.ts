@@ -339,7 +339,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion4,
     Parameters.filter
   ],
   headerParameters: [
@@ -364,7 +364,7 @@ const listByHomeRegionOperationSpec: msRest.OperationSpec = {
     Parameters.ascLocation
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion4,
     Parameters.filter
   ],
   headerParameters: [
@@ -390,7 +390,7 @@ const getSubscriptionLevelTaskOperationSpec: msRest.OperationSpec = {
     Parameters.taskName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -416,7 +416,7 @@ const updateSubscriptionLevelTaskStateOperationSpec: msRest.OperationSpec = {
     Parameters.taskUpdateActionType
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -439,7 +439,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.ascLocation
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion4,
     Parameters.filter
   ],
   headerParameters: [
@@ -466,7 +466,7 @@ const getResourceGroupLevelTaskOperationSpec: msRest.OperationSpec = {
     Parameters.taskName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -493,7 +493,7 @@ const updateResourceGroupLevelTaskStateOperationSpec: msRest.OperationSpec = {
     Parameters.taskUpdateActionType
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion4
   ],
   headerParameters: [
     Parameters.acceptLanguage
