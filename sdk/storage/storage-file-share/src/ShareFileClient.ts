@@ -2624,14 +2624,14 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
-   * Get a {@link FileLeaseClient} that manages leases on the file.
+   * Get a {@link ShareLeaseClient} that manages leases on the file.
    *
    * @param {string} [proposeLeaseId] Initial proposed lease Id.
-   * @returns {FileLeaseClient} A new FileLeaseClient object for managing leases on the file.
+   * @returns {ShareLeaseClient} A new ShareLeaseClient object for managing leases on the file.
    * @memberof ShareFileClient
    */
-  public getFileLeaseClient(proposeLeaseId?: string): FileLeaseClient {
-    return new FileLeaseClient(this, proposeLeaseId);
+  public getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient {
+    return new ShareLeaseClient(this, proposeLeaseId);
   }
 }
 
@@ -2675,7 +2675,7 @@ export interface LeaseOperationResponseHeaders {
 /**
  * Contains the response data for operations that acquire, change, break or release a lease.
  *
- * See {@link FileLeaseClient}.
+ * See {@link ShareLeaseClient}.
  */
 export type LeaseOperationResponse = LeaseOperationResponseHeaders & {
   /**
@@ -2710,9 +2710,9 @@ export interface LeaseOperationOptions extends CommonOptions {
  * A client that manages leases for a {@link ShareFileClient}.
  *
  * @export
- * @class FileLeaseClient
+ * @class ShareLeaseClient
  */
-export class FileLeaseClient {
+export class ShareLeaseClient {
   private _leaseId: string;
   private _url: string;
   private _file: File;
@@ -2720,7 +2720,7 @@ export class FileLeaseClient {
    * Gets the lease Id.
    *
    * @readonly
-   * @memberof FileLeaseClient
+   * @memberof ShareLeaseClient
    * @type {string}
    */
   public get leaseId(): string {
@@ -2731,7 +2731,7 @@ export class FileLeaseClient {
    * Gets the url.
    *
    * @readonly
-   * @memberof FileLeaseClient
+   * @memberof ShareLeaseClient
    * @type {string}
    */
   public get url(): string {
@@ -2739,10 +2739,10 @@ export class FileLeaseClient {
   }
 
   /**
-   * Creates an instance of FileLeaseClient.
+   * Creates an instance of ShareLeaseClient.
    * @param {ShareFileClient} client The client to make the lease operation requests.
    * @param {string} leaseId Initial proposed lease id.
-   * @memberof FileLeaseClient
+   * @memberof ShareLeaseClient
    */
   constructor(client: ShareFileClient, leaseId?: string) {
     const clientContext = new StorageClientContext(
@@ -2766,14 +2766,14 @@ export class FileLeaseClient {
    * @param {number} duration Specifies the duration of lease. The only allowed value is -1, for a lease that never expires.
    * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
    * @returns {Promise<LeaseOperationResponse>} Response data for acquire lease operation.
-   * @memberof FileLeaseClient
+   * @memberof ShareLeaseClient
    */
   public async acquireLease(
     duration = -1,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan(
-      "FileLeaseClient-acquireLease",
+      "ShareLeaseClient-acquireLease",
       options.tracingOptions
     );
     try {
@@ -2800,13 +2800,13 @@ export class FileLeaseClient {
    * @param {string} proposedLeaseId the proposed new lease Id.
    * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
    * @returns {Promise<LeaseOperationResponse>} Response data for change lease operation.
-   * @memberof FileLeaseClient
+   * @memberof ShareLeaseClient
    */
   public async changeLease(
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("FileLeaseClient-changeLease", options.tracingOptions);
+    const { span, spanOptions } = createSpan("ShareLeaseClient-changeLease", options.tracingOptions);
     try {
       const response = await this._file.changeLease(this._leaseId, {
         proposedLeaseId,
@@ -2832,11 +2832,11 @@ export class FileLeaseClient {
    *
    * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
    * @returns {Promise<LeaseOperationResponse>} Response data for release lease operation.
-   * @memberof FileLeaseClient
+   * @memberof ShareLeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan(
-      "FileLeaseClient-releaseLease",
+      "ShareLeaseClient-releaseLease",
       options.tracingOptions
     );
     try {
@@ -2860,10 +2860,10 @@ export class FileLeaseClient {
    *
    * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
    * @returns {Promise<LeaseOperationResponse>} Response data for break lease operation.
-   * @memberof FileLeaseClient
+   * @memberof ShareLeaseClient
    */
   public async breakLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("FileLeaseClient-breakLease", options.tracingOptions);
+    const { span, spanOptions } = createSpan("ShareLeaseClient-breakLease", options.tracingOptions);
     try {
       return await this._file.breakLease({
         abortSignal: options.abortSignal,

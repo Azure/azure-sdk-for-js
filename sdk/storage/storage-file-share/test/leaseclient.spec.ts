@@ -53,7 +53,7 @@ describe("LeaseClient", () => {
 
   // lease management:
   it("acquireLease", async () => {
-    const leaseClient = fileClient.getFileLeaseClient(guid);
+    const leaseClient = fileClient.getShareLeaseClient(guid);
 
     const acquireResp = await leaseClient.acquireLease(duration);
     assert.equal(acquireResp.leaseId, guid);
@@ -67,7 +67,7 @@ describe("LeaseClient", () => {
   });
 
   it("acquireLease without proposed lease id", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease(duration);
 
     const result = await fileClient.getProperties();
@@ -77,10 +77,10 @@ describe("LeaseClient", () => {
   });
 
   it("acquireLease again with another lease id", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease(duration);
 
-    const anotherLeaseClient = fileClient.getFileLeaseClient(guid);
+    const anotherLeaseClient = fileClient.getShareLeaseClient(guid);
     try {
       await anotherLeaseClient.acquireLease(duration);
       assert.fail("acquireLease a leased lease should fail with a different lease id");
@@ -90,14 +90,14 @@ describe("LeaseClient", () => {
   });
 
   it("acquireLease again with same lease id", async () => {
-    const leaseClient = fileClient.getFileLeaseClient(guid);
+    const leaseClient = fileClient.getShareLeaseClient(guid);
     await leaseClient.acquireLease();
     leaseClient.acquireLease(duration);
   });
 
   it("invalid duration for acquireLease", async () => {
     const invalid_duration = 2;
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     try {
       await leaseClient.acquireLease(invalid_duration);
       assert.fail("acquireLease should fail for an invalid duration: -2");
@@ -107,14 +107,14 @@ describe("LeaseClient", () => {
   });
 
   it("changeLease", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease(duration);
     const changeResp = await leaseClient.changeLease(guid);
     assert.equal(changeResp.leaseId, guid);
   });
 
   it("changeLease before acquiring a lease", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     try {
       const changeResp = await leaseClient.changeLease(guid);
       assert.equal(changeResp.leaseId, guid);
@@ -125,7 +125,7 @@ describe("LeaseClient", () => {
   });
 
   it("release lease", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
     await leaseClient.releaseLease();
 
@@ -136,7 +136,7 @@ describe("LeaseClient", () => {
   });
 
   it("break lease and then release it", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
     let result = await fileClient.getProperties();
     assert.equal(result.leaseState, "leased");
@@ -149,7 +149,7 @@ describe("LeaseClient", () => {
   });
 
   it("break a broken lease", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
     await leaseClient.breakLease();
     await leaseClient.breakLease();
@@ -157,7 +157,7 @@ describe("LeaseClient", () => {
   });
 
   it("acquire a broken lease", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
     await leaseClient.breakLease();
     let result = await fileClient.getProperties();
@@ -172,7 +172,7 @@ describe("LeaseClient", () => {
 
   // lease id in request is required if the file has an active lease:
   it("create file", async () => {
-    const leaseClient = fileClient.getFileLeaseClient(guid);
+    const leaseClient = fileClient.getShareLeaseClient(guid);
 
     await leaseClient.acquireLease();
     const result = await fileClient.getProperties();
@@ -194,7 +194,7 @@ describe("LeaseClient", () => {
   });
 
   it("setProperties", async () => {
-    const leaseClient = fileClient.getFileLeaseClient(guid);
+    const leaseClient = fileClient.getShareLeaseClient(guid);
 
     await leaseClient.acquireLease();
     const result = await fileClient.getProperties();
@@ -212,7 +212,7 @@ describe("LeaseClient", () => {
   });
 
   it("delete file", async () => {
-    const leaseClient = fileClient.getFileLeaseClient(guid);
+    const leaseClient = fileClient.getShareLeaseClient(guid);
 
     await leaseClient.acquireLease();
     const result = await fileClient.getProperties();
@@ -228,7 +228,7 @@ describe("LeaseClient", () => {
   });
 
   it("uploadRange", async () => {
-    const leaseClient = fileClient.getFileLeaseClient(guid);
+    const leaseClient = fileClient.getShareLeaseClient(guid);
     await leaseClient.acquireLease();
     try {
       await fileClient.uploadRange(content, 0, content.length);
@@ -242,7 +242,7 @@ describe("LeaseClient", () => {
   });
 
   it("startCopyFromURL", async () => {
-    const leaseClient = fileClient.getFileLeaseClient(guid);
+    const leaseClient = fileClient.getShareLeaseClient(guid);
     await leaseClient.acquireLease();
 
     const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
@@ -259,7 +259,7 @@ describe("LeaseClient", () => {
   });
 
   it("setMetadata", async () => {
-    const leaseClient = fileClient.getFileLeaseClient(guid);
+    const leaseClient = fileClient.getShareLeaseClient(guid);
     await leaseClient.acquireLease();
 
     try {
@@ -273,7 +273,7 @@ describe("LeaseClient", () => {
 
   // The lease ID is optional in the request but should matches that of the file if specified.
   it("getRangeList", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
 
     await fileClient.getRangeList();
@@ -292,7 +292,7 @@ describe("LeaseClient", () => {
   // The lease ID is optional in the request but should matches that of the file if specified.
   // Also has lease headers in the response.
   it("download file", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
 
     const downloadRes = await fileClient.download();
@@ -315,7 +315,7 @@ describe("LeaseClient", () => {
   });
 
   it("getProperties", async () => {
-    const leaseClient = fileClient.getFileLeaseClient();
+    const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
 
     const downloadRes = await fileClient.getProperties();
