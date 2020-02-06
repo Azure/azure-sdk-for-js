@@ -90,9 +90,12 @@
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@microsoft/api-extractor": "^7.5.4",
+    "@rollup/plugin-commonjs": "^11.0.1",
+    "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
-    "@rollup/plugin-replace": "^2.2.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
+    "@rollup/plugin-node-resolve": "^7.0.0",
+    "@rollup/plugin-replace": "^2.2.0",
     "@types/async-lock": "^1.1.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -138,16 +141,13 @@
     "puppeteer": "^2.0.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
-    "@rollup/plugin-commonjs": "^11.0.1",
-    "@rollup/plugin-inject": "^4.0.0",
-    "@rollup/plugin-node-resolve": "^7.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^7.1.0",
     "ts-mocha": "^6.0.0",
     "ts-node": "^8.3.0",
-    "typescript": "~3.6.4",
+    "typescript": "~3.7.5",
     "ws": "^7.1.1"
   }
 }
