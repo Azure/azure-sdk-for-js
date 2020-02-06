@@ -146,4 +146,121 @@ describe("recorder - NodeJS", () => {
 
     recorder.stop();
   });
+
+  it("soft-record should re-record a simple outdated test", async function() {
+    process.env.TEST_MODE = "soft-record";
+    process.env.SERVER_ADDRESS = "http://127.0.0.1:8080";
+
+    // Making sure the expected recording actually exists before running playback.
+    const fs = require("fs");
+    fs.writeFileSync(
+      "./recordings/node/recorder__nodejs/recording_softrecord_should_rerecord_a_simple_outdated_test.js",
+      expectedRecording
+    );
+
+    // We create a very simple HTTP server that serves some content at a specific port.
+    const http = require("http");
+    const server = http.createServer(function(_: any, res: any) {
+      res.write(expectedHttpResponse);
+      res.end();
+    });
+    server.listen(8080);
+
+    // The recorder should start in the beforeEach call.
+    // To emulate that behavior while keeping the test code as contained as possible,
+    // we're compensating with this.
+    (this as any).currentTest = {
+      file: __filename,
+      // The hash in our expected recording is made out of an empty function.
+      // This function has something inside, which means it has changed.
+      fn: () => {
+        let the_contents_have_changed = true;
+        return the_contents_have_changed;
+      }
+    };
+
+    const recorder = record(this, recorderEnvSetup);
+
+    const response = await helloWorldRequest();
+
+    // This test's request reached the server and received the expected response.
+    expect(response).to.equal(expectedHttpResponse);
+
+    // Cleaning everything before we continue verifying the results.
+    server.close();
+    recorder.stop();
+
+    // The recorder takes some time to finish writing the output file.
+    // It's not a second, but we're being pessimists.
+    await delay(1000);
+    const recording = fs.readFileSync(
+      "./recordings/node/recorder__nodejs/recording_softrecord_should_rerecord_a_simple_outdated_test.js",
+      { encoding: "utf-8" }
+    );
+
+    // Nock does store the date of the request. Let's strip that from the response.
+    const recordingWithoutDate = recording.replace(/Date',\n[^\n]*\n/, "Date',\n  'DATE',\n");
+
+    // Let's make a new expected recording variable,
+    // this time with the new hash.
+    const expectedRecordingWithUpdatedHash = recordingWithoutDate.replace(
+      "11e537d0ca3f2ede6f3847dcbce1df9c",
+      "64b9c884d95c9ec1db3ffe737fdd86ce"
+    );
+
+    expect(recordingWithoutDate).to.equal(expectedRecordingWithUpdatedHash);
+  });
+
+  it("soft-record should skip a simple unchanged test", async function() {
+    process.env.TEST_MODE = "soft-record";
+
+    // Making sure the expected recording actually exists before running playback.
+    const fs = require("fs");
+    fs.writeFileSync(
+      "./recordings/node/recorder__nodejs/recording_softrecord_should_skip_a_simple_unchanged_test.js",
+      expectedRecording
+    );
+
+    // The recorder should start in the beforeEach call.
+    // To emulate that behavior while keeping the test code as contained as possible,
+    // we're compensating with this.
+    (this as any).currentTest = {
+      file: __filename,
+      // The hash in our expected recording is made out of an empty function.
+      // This function is empty, which means it remains the same.
+      fn: () => {}
+    };
+
+    // We have to mock this.skip in order to confirm that the recorder has called it.
+    // We'll make a fake this.
+    let skipped = false;
+    const fakeThis = {
+      ...this,
+      skip() {
+        skipped = true;
+      }
+    };
+
+    const recorder = record(fakeThis as Mocha.Context, recorderEnvSetup);
+
+    expect(skipped).to.true;
+
+    // This should not crash.
+    recorder.stop();
+
+    // The file shouldn't have changed, but just in case.
+    // The recorder takes some time to finish writing the output file.
+    // It's not a second, but we're being pessimists.
+    await delay(1000);
+    const recording = fs.readFileSync(
+      "./recordings/node/recorder__nodejs/recording_softrecord_should_skip_a_simple_unchanged_test.js",
+      { encoding: "utf-8" }
+    );
+
+    // Nock does store the date of the request. Let's strip that from the response.
+    const recordingWithoutDate = recording.replace(/Date',\n[^\n]*\n/, "Date',\n  'DATE',\n");
+
+    // We confirm that the file hasn't changed.
+    expect(recordingWithoutDate).to.equal(expectedRecording);
+  });
 });
