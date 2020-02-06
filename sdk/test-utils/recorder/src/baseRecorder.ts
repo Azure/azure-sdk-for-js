@@ -39,6 +39,11 @@ export function setEnvironmentVariables(env: any, replaceableVariables: { [key: 
 export function setEnvironmentOnLoad() {
   if (!isBrowser() && (isRecordMode() || isPlaybackMode())) {
     nock = require("nock");
+    if (!nock.isActive()) {
+      // Nock's restore will also remove the http interceptor itself.
+      // We need to run nock.activate() to re-activate the http interceptor. Without re-activation, nock will not intercept any calls.
+      nock.activate();
+    }
   }
 
   if (isBrowser() && isRecordMode()) {
@@ -209,7 +214,6 @@ export class NockRecorder extends BaseRecorder {
       nock.restore();
       nock.cleanAll();
       nock.enableNetConnect();
-      nock.activate();
     }
   }
 }
