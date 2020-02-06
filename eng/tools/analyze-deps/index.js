@@ -292,7 +292,8 @@ const main = async () => {
     for (const pkgId of Object.keys(dumpData)) {
       resolveRushPackageDeps(dumpData, internalPackages, pnpmLock, pkgId);
     }
-    await writeFile(args.dump, "const data = " + JSON.stringify(dumpData) + ";");
+    const internalDep = dumpData.filter(d => d.type === 'internal');
+    await writeFile(args.dump, "const data = " + JSON.stringify(internalDep) + ";");
   }
 };
 
