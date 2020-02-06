@@ -65,6 +65,8 @@ async function main(argv) {
     packageJsonContents,
     newVersion
   );
+
+  versionUtils.updateChangelog(targetPackagePath, newVersion, false, true);
 }
 
 main(argv);

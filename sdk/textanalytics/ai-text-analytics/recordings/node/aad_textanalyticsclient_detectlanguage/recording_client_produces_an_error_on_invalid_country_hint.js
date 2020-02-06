@@ -18,40 +18,40 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '6c598315-f4a9-40fc-9522-c5c3f1bf3100',
+  '73e53a21-494e-4cd3-9781-8720f6231e00',
   'x-ms-ests-server',
-  '2.1.9987.14 - WST ProdSlices',
+  '2.1.9987.14 - SAN ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AmSge_opNntMm7tHZ7PHrdL0CyfMAQAAAI5DzdUOAAAA; expires=Fri, 06-Mar-2020 23:15:26 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvQvOKkmbEJFh1E_pN3OZ-f0CyfMAQAAAOFLzdUOAAAA; expires=Fri, 06-Mar-2020 23:50:58 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=corp; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estscorp; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Wed, 05 Feb 2020 23:15:26 GMT',
+  'Wed, 05 Feb 2020 23:50:57 GMT',
   'Content-Length',
   '1417'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.0-preview.1/languages', {"documents":[{"id":"0","text":"impossible","countryHint":"fr"}]})
-  .reply(200, {"documents":[{"id":"0","detectedLanguages":[{"name":"French","iso6391Name":"fr","score":1}]}],"errors":[],"modelVersion":"2019-10-01"}, [
+  .post('/text/analytics/v3.0-preview.1/languages', {"documents":[{"id":"0","text":"hello","countryHint":"invalidcountry"}]})
+  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","innerError":{"code":"InvalidDocument","message":"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code."},"message":"Invalid Country Hint."}}],"modelVersion":"2019-10-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'csp-billing-usage',
-  'CognitiveServices.TextAnalytics.BatchScoring=1',
+  'CognitiveServices.TextAnalytics.BatchScoring=0',
   'x-envoy-upstream-service-time',
-  '4',
+  '6',
   'apim-request-id',
-  '072e2b15-f648-4033-960c-8e9904175723',
+  '6d9cf140-0c79-4e40-b836-d7c2f40cf8ee',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Feb 2020 23:15:26 GMT'
+  'Wed, 05 Feb 2020 23:50:57 GMT'
 ]);

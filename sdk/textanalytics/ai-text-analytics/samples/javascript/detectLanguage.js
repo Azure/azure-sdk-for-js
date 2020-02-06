@@ -11,7 +11,7 @@ const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/a
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running detectLanguages sample`);
+  console.log(`Running detectLanguage sample`);
 
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
@@ -19,7 +19,7 @@ async function main() {
 
   const client = new TextAnalyticsClient(endpoint, new TextAnalyticsApiKeyCredential(apiKey));
 
-  const [result] = await client.detectLanguages(["hello world"]);
+  const [result] = await client.detectLanguage(["hello world"]);
 
   if (!result.error) {
     console.log(`Primary language detected as ${result.primaryLanguage.name}`);

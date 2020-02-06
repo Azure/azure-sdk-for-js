@@ -14,11 +14,11 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '4',
   'apim-request-id',
-  '2727e9f6-aa72-432f-9252-ce9f3e15be73',
+  'd6ad6fb7-3e7e-4036-8fd3-6d4ebc6527f6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Feb 2020 23:15:19 GMT'
+  'Wed, 05 Feb 2020 23:50:56 GMT'
 ]);

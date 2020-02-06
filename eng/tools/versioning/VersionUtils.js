@@ -5,6 +5,7 @@ const { promisify } = require("util");
 
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
+var spawn = require("child_process").spawn, child;
 
 async function readFile(filename) {
   return await readFileAsync(filename, { encoding: "utf-8" });
@@ -92,6 +93,27 @@ function buildSemverRegex(prefix) {
   return new RegExp(`(${prefix}.*?)(${semverRegex.toString()})`, "g");
 }
 
+function updateChangelog(targetPackagePath, newVersion, unreleased, replaceVersion) {
+  const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
+  try {
+    child = spawn("pwsh", ["eng/common/Update-Change-Log.ps1", newVersion, changelogLocation, unreleased, replaceVersion]);
+    child.stdout.on("data", function (data) {
+      console.log("Powershell Data: " + data);
+    });
+
+    child.stderr.on("error", function (error) {
+      console.log("Powershell Errors: " + error);
+    });
+    child.on("exit", function () {
+      console.log("Powershell Script finished");
+    });
+    child.stdin.end();
+  }
+  catch (ex) {
+    console.error(ex);
+  }
+}
+
 // This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 // and adapted to exclude beginning of line (^) and end of line ($) anchors.
 const semverRegex = `(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?`;
@@ -103,3 +125,4 @@ module.exports.writePackageJson = writePackageJson;
 module.exports.getRushSpec = getRushSpec;
 module.exports.updatePackageConstants = updatePackageConstants;
 module.exports.getRushPackageJsons = getRushPackageJsons;
+module.exports.updateChangelog = updateChangelog;
