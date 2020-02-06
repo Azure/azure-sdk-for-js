@@ -67,10 +67,6 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/appConfigurationContext.ts",
-        "prefix": "packageVersion"
-      },
-      {
         "path": "src/appConfigurationClient.ts",
         "prefix": "packageVersion"
       }
