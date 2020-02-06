@@ -19,7 +19,6 @@ let argv = require("yargs")
   })
   .help().argv;
 
-const path = require("path");
 const process = require("process");
 const semver = require("semver");
 const versionUtils = require("./VersionUtils");
