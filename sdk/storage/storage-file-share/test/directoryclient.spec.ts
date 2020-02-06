@@ -781,7 +781,7 @@ describe("DirectoryClient", () => {
 
     assert.deepStrictEqual(
       await dirClient.forceCloseAllHandles(),
-      { closedHandlesCount: 0 },
+      { closedHandlesCount: 0, numberOfHandlesFailedToClose: 0 },
       "Error in forceCloseAllHandles"
     );
   });

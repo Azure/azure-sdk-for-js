@@ -515,7 +515,7 @@ describe("FileClient", () => {
 
     assert.deepStrictEqual(
       await fileClient.forceCloseAllHandles(),
-      { closedHandlesCount: 0 },
+      { closedHandlesCount: 0, numberOfHandlesFailedToClose: 0 },
       "Error in forceCloseAllHandles"
     );
   });
