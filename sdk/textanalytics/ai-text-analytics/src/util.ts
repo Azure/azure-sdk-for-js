@@ -8,6 +8,7 @@ export interface IdObject {
 /**
  * Given a sorted array of input objects (with a unique ID) and an unsorted array of results,
  * return a sorted array of results.
+ * @ignore
  * @param sortedArray An array of entries sorted by `id`
  * @param unsortedArray An array of entries that contain `id` but are not sorted
  */

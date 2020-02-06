@@ -10,3 +10,5 @@
 
 export * from "./configurationStores";
 export * from "./operations";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";

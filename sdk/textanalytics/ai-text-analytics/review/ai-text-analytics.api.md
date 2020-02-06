@@ -4,18 +4,17 @@
 
 ```ts
 
-import { ApiKeyCredentials } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
+import { ServiceClientCredentials } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
+import { WebResource } from '@azure/core-http';
 
 // @public
-export interface AnalyzeSentimentErrorResult extends TextAnalyticsErrorResult {
-}
+export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
-}
+export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions;
 
 // @public
 export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
@@ -28,14 +27,13 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
 
 // @public
 export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
-    documentScores: SentimentConfidenceScorePerLabel;
     sentences: SentenceSentiment[];
-    sentiment: DocumentSentimentValue;
+    sentiment: DocumentSentimentLabel;
+    sentimentScores: SentimentScorePerLabel;
 }
 
 // @public
-export class CognitiveServicesCredential extends ApiKeyCredentials {
-    constructor(subscriptionKey: string);
+export interface CategorizedEntity extends Entity {
 }
 
 // @public
@@ -46,8 +44,7 @@ export interface DetectedLanguage {
 }
 
 // @public
-export interface DetectLanguageErrorResult extends TextAnalyticsErrorResult {
-}
+export type DetectLanguageErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface DetectLanguageInput {
@@ -59,6 +56,9 @@ export interface DetectLanguageInput {
 }
 
 // @public
+export type DetectLanguageOptions = TextAnalyticsOperationOptions;
+
+// @public
 export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
 
 // @public
@@ -68,38 +68,31 @@ export interface DetectLanguageResultCollection extends Array<DetectLanguageResu
 }
 
 // @public
-export interface DetectLanguagesOptions extends TextAnalyticsOperationOptions {
-}
-
-// @public
 export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
-    readonly detectedLanguages: DetectedLanguage[];
     readonly primaryLanguage: DetectedLanguage;
 }
 
 // @public
-export type DocumentSentimentValue = 'positive' | 'neutral' | 'negative' | 'mixed';
+export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixed';
 
 // @public
 export interface Entity {
+    category: string;
     length: number;
     offset: number;
     score: number;
-    subtype?: string;
+    subCategory?: string;
     text: string;
-    type: string;
 }
 
 // @public
 export type ErrorCodeValue = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
 
 // @public
-export interface ExtractKeyPhrasesErrorResult extends TextAnalyticsErrorResult {
-}
+export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {
-}
+export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
 
 // @public
 export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
@@ -148,34 +141,34 @@ export interface Match {
 }
 
 // @public
-export interface RecognizeEntitiesErrorResult extends TextAnalyticsErrorResult {
+export interface PiiEntity extends Entity {
 }
 
 // @public
-export interface RecognizeEntitiesOptions extends TextAnalyticsOperationOptions {
-}
+export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type RecognizeEntitiesResult = RecognizeEntitiesSuccessResult | RecognizeEntitiesErrorResult;
+export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
 
 // @public
-export interface RecognizeEntitiesResultCollection extends Array<RecognizeEntitiesResult> {
+export type RecognizeCategorizedEntitiesResult = RecognizeCategorizedEntitiesSuccessResult | RecognizeCategorizedEntitiesErrorResult;
+
+// @public
+export interface RecognizeCategorizedEntitiesResultCollection extends Array<RecognizeCategorizedEntitiesResult> {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
-export interface RecognizeEntitiesSuccessResult extends TextAnalyticsSuccessResult {
-    readonly entities: Entity[];
+export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+    readonly entities: CategorizedEntity[];
 }
 
 // @public
-export interface RecognizeLinkedEntitiesErrorResult extends TextAnalyticsErrorResult {
-}
+export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
-}
+export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
 
 // @public
 export type RecognizeLinkedEntitiesResult = RecognizeLinkedEntitiesSuccessResult | RecognizeLinkedEntitiesErrorResult;
@@ -192,23 +185,39 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 }
 
 // @public
-export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
+export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
+
+// @public
+export type RecognizePiiEntitiesResult = RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
+
+// @public
+export interface RecognizePiiEntitiesResultCollection extends Array<RecognizePiiEntitiesResult> {
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+    readonly entities: PiiEntity[];
 }
 
 // @public
 export interface SentenceSentiment {
     length: number;
     offset: number;
-    sentenceScores: SentimentConfidenceScorePerLabel;
-    sentiment: SentenceSentimentValue;
+    sentiment: SentenceSentimentLabel;
+    sentimentScores: SentimentScorePerLabel;
     warnings?: string[];
 }
 
 // @public
-export type SentenceSentimentValue = 'positive' | 'neutral' | 'negative';
+export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
 
 // @public
-export interface SentimentConfidenceScorePerLabel {
+export interface SentimentScorePerLabel {
     // (undocumented)
     negative: number;
     // (undocumented)
@@ -218,23 +227,30 @@ export interface SentimentConfidenceScorePerLabel {
 }
 
 // @public
+export class TextAnalyticsApiKeyCredential implements ServiceClientCredentials {
+    constructor(apiKey: string);
+    signRequest(webResource: WebResource): Promise<WebResource>;
+    updateKey(apiKey: string): void;
+}
+
+// @public
 export class TextAnalyticsClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveServicesCredential, options?: TextAnalyticsClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | TextAnalyticsApiKeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(inputs: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     analyzeSentiment(inputs: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultCollection>;
     defaultCountryHint: string;
     defaultLanguage: string;
-    detectLanguages(inputs: string[], countryHint?: string, options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
-    detectLanguages(inputs: DetectLanguageInput[], options?: DetectLanguagesOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguage(inputs: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultCollection>;
+    detectLanguage(inputs: DetectLanguageInput[], options?: DetectLanguageOptions): Promise<DetectLanguageResultCollection>;
     readonly endpointUrl: string;
     extractKeyPhrases(inputs: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
     extractKeyPhrases(inputs: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultCollection>;
-    recognizeEntities(inputs: string[], language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
-    recognizeEntities(inputs: TextDocumentInput[], options?: RecognizeEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    recognizeEntities(inputs: string[], language?: string, options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultCollection>;
+    recognizeEntities(inputs: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultCollection>;
     recognizeLinkedEntities(inputs: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
     recognizeLinkedEntities(inputs: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
-    recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
-    recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizeEntitiesResultCollection>;
+    recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultCollection>;
+    recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultCollection>;
 }
 
 // @public
@@ -269,6 +285,7 @@ export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErro
 
 // @public
 export interface TextAnalyticsSuccessResult {
+    readonly error?: undefined;
     readonly id: string;
     readonly statistics?: TextDocumentStatistics;
 }

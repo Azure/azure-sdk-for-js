@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-export const SDK_VERSION: string = "12.0.0-preview.7";
+export const SDK_VERSION: string = "12.0.0-preview.8";
 export const SERVICE_VERSION: string = "2019-02-02";
 
 export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";

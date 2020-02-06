@@ -4,15 +4,15 @@
 export {
   TextAnalyticsClient,
   TextAnalyticsClientOptions,
-  DetectLanguagesOptions,
-  RecognizeEntitiesOptions,
+  DetectLanguageOptions,
+  RecognizeCategorizedEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
   RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
   TextAnalyticsOperationOptions
 } from "./textAnalyticsClient";
-export { CognitiveServicesCredential } from "./cognitiveServicesCredential";
+export { TextAnalyticsApiKeyCredential } from "./textAnalyticsApiKeyCredential";
 export {
   DetectLanguageResult,
   DetectLanguageErrorResult,
@@ -20,11 +20,19 @@ export {
 } from "./detectLanguageResult";
 export { DetectLanguageResultCollection } from "./detectLanguageResultCollection";
 export {
-  RecognizeEntitiesResult,
-  RecognizeEntitiesErrorResult,
-  RecognizeEntitiesSuccessResult
-} from "./recognizeEntitiesResult";
-export { RecognizeEntitiesResultCollection } from "./recognizeEntitiesResultCollection";
+  CategorizedEntity,
+  RecognizeCategorizedEntitiesResult,
+  RecognizeCategorizedEntitiesErrorResult,
+  RecognizeCategorizedEntitiesSuccessResult
+} from "./recognizeCategorizedEntitiesResult";
+export { RecognizeCategorizedEntitiesResultCollection } from "./recognizeCategorizedEntitiesResultCollection";
+export {
+  PiiEntity,
+  RecognizePiiEntitiesResult,
+  RecognizePiiEntitiesErrorResult,
+  RecognizePiiEntitiesSuccessResult
+} from "./recognizePiiEntitiesResult";
+export { RecognizePiiEntitiesResultCollection } from "./recognizePiiEntitiesResultCollection";
 export {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,
@@ -53,7 +61,7 @@ export {
 export {
   DetectedLanguage,
   TextDocumentStatistics,
-  SentimentConfidenceScorePerLabel,
+  SentimentScorePerLabel,
   MultiLanguageInput as TextDocumentInput,
   LanguageInput as DetectLanguageInput,
   TextAnalyticsError,
@@ -63,8 +71,8 @@ export {
   InnerError,
   Entity,
   SentenceSentiment,
-  DocumentSentimentValue,
-  SentenceSentimentValue,
+  DocumentSentimentLabel,
+  SentenceSentimentLabel,
   LinkedEntity,
   Match
 } from "./generated/models";

@@ -3,7 +3,7 @@ parameters:
   PreIntegrationSteps: ""
   PostIntegrationSteps: ""
   ResourceServiceDirectory: ""
-  EnvVars: []
+  EnvVars: {}
   MaxParallel: 0
   Matrix:
     Linux_Node10:

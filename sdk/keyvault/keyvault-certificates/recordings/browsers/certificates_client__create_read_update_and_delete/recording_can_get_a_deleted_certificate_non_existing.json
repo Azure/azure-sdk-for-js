@@ -13,19 +13,19 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 09 Jan 2020 20:40:56 GMT",
+    "date": "Fri, 31 Jan 2020 19:38:34 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.250.15.99;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
     "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "f4057cc5-1d3e-48bb-8b4e-03f26c340dc6",
+    "x-ms-request-id": "9911b497-266d-41c3-8841-798d22829c02",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -40,15 +40,15 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 09 Jan 2020 20:40:56 GMT",
+    "date": "Fri, 31 Jan 2020 19:38:35 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9898.10 - WST ProdSlices",
-    "x-ms-request-id": "81e34327-072d-4eb0-8e0a-36815d016700"
+    "x-ms-ests-server": "2.1.9987.9 - SCUS ProdSlices",
+    "x-ms-request-id": "d98ebb71-ac89-416e-83cf-89034b2b0100"
    }
   },
   {
@@ -62,9 +62,9 @@
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Certificate not found: recoverCertificateName-cangetadeletedcertificateNonExisting-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "152",
+    "content-length": "153",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 09 Jan 2020 20:40:56 GMT",
+    "date": "Fri, 31 Jan 2020 19:38:35 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -72,10 +72,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.250.15.99;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
     "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "783f399b-a09d-4e08-8f35-e118a062f98d",
+    "x-ms-request-id": "7a835ac8-2148-41df-890c-b1f9945c2ae7",
     "x-powered-by": "ASP.NET"
    }
   }

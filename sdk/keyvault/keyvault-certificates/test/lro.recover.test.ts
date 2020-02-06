@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../src";
-import { isNode } from "@azure/core-http";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
@@ -16,7 +15,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
   let certificateSuffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
@@ -109,28 +108,24 @@ describe("Certificates client - LRO - recoverDelete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  if (isNode && !isPlaybackMode()) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can recover a deleted certificate with requestOptions timeout", async function() {
-      const certificateName = testClient.formatName(
-        `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
-      );
-      await client.beginCreateCertificate(
-        certificateName,
-        DefaultCertificatePolicy,
-        testPollerProperties
-      );
-      const deletePoller = await client.beginDeleteCertificate(
-        certificateName,
-        testPollerProperties
-      );
-      await deletePoller.pollUntilDone();
-      await assertThrowsAbortError(async () => {
-        await client.beginRecoverDeletedCertificate(certificateName, {
-          requestOptions: { timeout: 1 },
-          ...testPollerProperties
-        });
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can recover a deleted certificate with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
+    await client.beginCreateCertificate(
+      certificateName,
+      DefaultCertificatePolicy,
+      testPollerProperties
+    );
+    const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
+    await deletePoller.pollUntilDone();
+    await assertThrowsAbortError(async () => {
+      await client.beginRecoverDeletedCertificate(certificateName, {
+        requestOptions: { timeout: 1 },
+        ...testPollerProperties
       });
     });
-  }
+  });
 });

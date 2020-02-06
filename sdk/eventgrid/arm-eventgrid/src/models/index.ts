@@ -171,8 +171,9 @@ export interface Domain extends TrackedResource {
   inputSchemaMapping?: InputSchemaMappingUnion;
   /**
    * Metric resource id for the domain.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  metricResourceId?: string;
+  readonly metricResourceId?: string;
   /**
    * This determines if IP filtering rules ought to be evaluated or not. By default it will not
    * evaluate and will allow traffic from all IPs.
@@ -193,6 +194,16 @@ export interface DomainUpdateParameters {
    * Tags of the domains resource
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * This determines if IP filtering rules ought to be evaluated or not. By default it will not
+   * evaluate and will allow traffic from all IPs.
+   */
+  allowTrafficFromAllIPs?: boolean;
+  /**
+   * This determines the IP filtering rules that ought be applied when events are received on this
+   * domain.
+   */
+  inboundIpRules?: InboundIpRule[];
 }
 
 /**
@@ -872,8 +883,9 @@ export interface Topic extends TrackedResource {
   inputSchemaMapping?: InputSchemaMappingUnion;
   /**
    * Metric resource id for the topic.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  metricResourceId?: string;
+  readonly metricResourceId?: string;
   /**
    * This determines if IP filtering rules ought to be evaluated or not. By default it will not
    * evaluate and will allow traffic from all IPs.
@@ -894,6 +906,16 @@ export interface TopicUpdateParameters {
    * Tags of the resource.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * This determines if IP filtering rules ought to be evaluated or not. By default it will not
+   * evaluate and will allow traffic from all IPs.
+   */
+  allowTrafficFromAllIPs?: boolean;
+  /**
+   * This determines the IP filtering rules that ought be applied when events are received on this
+   * domain.
+   */
+  inboundIpRules?: InboundIpRule[];
 }
 
 /**

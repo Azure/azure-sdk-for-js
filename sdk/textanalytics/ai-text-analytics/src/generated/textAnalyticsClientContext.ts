@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/ai-text-analytics";
-const packageVersion = "1.0.0-preview.1";
+const packageVersion = "1.0.0-preview.2";
 
 export class TextAnalyticsClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -24,11 +24,7 @@ export class TextAnalyticsClientContext extends coreHttp.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    endpoint: string,
-    options?: coreHttp.ServiceClientOptions
-  ) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: coreHttp.ServiceClientOptions) {
     if (endpoint == undefined) {
       throw new Error("'endpoint' cannot be null.");
     }
