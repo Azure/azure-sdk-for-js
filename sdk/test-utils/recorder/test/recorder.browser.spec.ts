@@ -76,7 +76,7 @@ describe("recorder - Browser", () => {
 
     const response = await helloWorldRequest();
 
-    // Here we confirm that the recorder reached the server and got an expected response.
+    // This test's request reached the server and received the expected response.
     expect(response).to.equal(expectedHttpResponse);
 
     // Cleaning everything before we continue verifying the results.
@@ -128,6 +128,8 @@ describe("recorder - Browser", () => {
     const recorder = record(this, recorderEnvSetup);
 
     const response = await helloWorldRequest();
+
+    // The playback code served the appropriate response based on the recordings.
     expect(response).to.equal(expectedHttpResponse);
 
     recorder.stop();

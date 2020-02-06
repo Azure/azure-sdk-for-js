@@ -23,7 +23,8 @@ nock('http://127.0.0.1:1337', {"encodedQueryParams":true})
 `;
 
 /**
- * hello
+ * helloWorldRequest makes a get request to the env.SERVER_ADDRESS
+ * and returns a promise that resolves when the server responds.
  */
 async function helloWorldRequest(): Promise<string> {
   return new Promise((resolve) => {
@@ -51,10 +52,12 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
 describe("recorder - NodeJS", () => {
   beforeEach(function() {
     if (isBrowser()) return this.skip();
+
+    // These tests do make files in the recordings folder.
+    // For that reason, we make sure these files are deleted before testing.
     const fs = require("fs");
     const path = require("path");
     const directory = path.resolve("./recordings/node/recorder__nodejs");
-
     try {
       const files = fs.readdirSync(directory);
       for (const file of files) {
@@ -72,6 +75,7 @@ describe("recorder - NodeJS", () => {
     process.env.TEST_MODE = "record";
     process.env.SERVER_ADDRESS = "http://127.0.0.1:8080";
 
+    // We create a very simple HTTP server that serves some content at a specific port.
     const http = require("http");
     const server = http.createServer(function(_: any, res: any) {
       res.write(expectedHttpResponse);
@@ -91,17 +95,24 @@ describe("recorder - NodeJS", () => {
     const recorder = record(this, recorderEnvSetup);
 
     const response = await helloWorldRequest();
-    expect(response).to.equal(expectedHttpResponse);
-    server.close();
 
+    // This test's request reached the server and received the expected response.
+    expect(response).to.equal(expectedHttpResponse);
+
+    // Cleaning everything before we continue verifying the results.
+    server.close();
     recorder.stop();
 
+    // The recorder takes some time to finish writing the output file.
+    // It's not a second, but we're being pessimists.
     await delay(1000);
     const fs = require("fs");
     const recording = fs.readFileSync(
       "./recordings/node/recorder__nodejs/recording_should_record_a_simple_test.js",
       { encoding: "utf-8" }
     );
+
+    // Nock does store the date of the request. Let's strip that from the response.
     const recordingWithoutDate = recording.replace(/Date',\n[^\n]*\n/, "Date',\n  'DATE',\n");
     expect(recordingWithoutDate).to.equal(expectedRecording);
   });
@@ -111,6 +122,7 @@ describe("recorder - NodeJS", () => {
 
     process.env.TEST_MODE = "playback";
 
+    // Making sure the expected recording actually exists before running playback.
     const fs = require("fs");
     fs.writeFileSync(
       "./recordings/node/recorder__nodejs/recording_should_playback_a_simple_test.js",
@@ -128,6 +140,8 @@ describe("recorder - NodeJS", () => {
 
     const recorder = record(this, recorderEnvSetup);
     const response = await helloWorldRequest();
+
+    // The playback code served the appropriate response based on the recordings.
     expect(response).to.equal(expectedHttpResponse);
 
     recorder.stop();
