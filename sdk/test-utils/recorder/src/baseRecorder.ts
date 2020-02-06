@@ -214,6 +214,7 @@ export class NockRecorder extends BaseRecorder {
 // This class overrides requests' 'open', 'send' and 'onreadystatechange' functions, adding our own code to them to deal with requests
 export class NiseRecorder extends BaseRecorder {
   private recordings: any[] = [];
+  private xhr: any;
 
   constructor(hash: string, testSuiteTitle: string, testTitle: string) {
     super("browsers", hash, testSuiteTitle, testTitle);
@@ -284,6 +285,7 @@ export class NiseRecorder extends BaseRecorder {
     this.environmentSetup = recorderEnvironmentSetup;
     const self = this;
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
+    this.xhr = xhr;
 
     // The following filter allows every request to be sent to the server without being mocked
     xhr.useFilters = true;
@@ -335,6 +337,7 @@ export class NiseRecorder extends BaseRecorder {
     this.environmentSetup = recorderEnvironmentSetup;
     const self = this;
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
+    this.xhr = xhr;
 
     // 'karma-json-preprocessor' helps us to retrieve recordings
     this.recordings = (window as any).__json__[
@@ -414,6 +417,13 @@ export class NiseRecorder extends BaseRecorder {
       );
     } else if (isPlaybackMode()) {
       // TO DO - playback cleanup if any necessary
+    }
+
+    // Resetting the XHR behavior to it's original state.
+    // Necessary if any code wants to use the browser outside fo the recorder once the recorder is stopped.
+    if (this.xhr) {
+      this.xhr.useFilters = false;
+      this.xhr.restore();
     }
   }
 }

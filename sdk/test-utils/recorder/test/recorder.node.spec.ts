@@ -22,6 +22,9 @@ nock('http://127.0.0.1:1337', {"encodedQueryParams":true})
 ]);
 `;
 
+/**
+ * hello
+ */
 async function helloWorldRequest(): Promise<string> {
   return new Promise((resolve) => {
     const http = require("http");
@@ -37,35 +40,37 @@ async function helloWorldRequest(): Promise<string> {
   });
 }
 
-describe("recorder - NodeJS", () => {
-  beforeEach(() => {
-    if (!isBrowser()) {
-      const fs = require("fs");
-      const path = require("path");
-      const directory = path.resolve("./recordings/node/recorder__nodejs");
+const recorderEnvSetup: RecorderEnvironmentSetup = {
+  replaceableVariables: {
+    SERVER_ADDRESS: "http://127.0.0.1:1337"
+  },
+  customizationsOnRecordings: [],
+  queryParametersToSkip: []
+};
 
-      try {
-        const files = fs.readdirSync(directory);
-        for (const file of files) {
-          fs.unlinkSync(path.join(directory, file));
-        }
-      } catch (e) {}
-    }
+describe("recorder - NodeJS", () => {
+  beforeEach(function() {
+    if (isBrowser()) return this.skip();
+    const fs = require("fs");
+    const path = require("path");
+    const directory = path.resolve("./recordings/node/recorder__nodejs");
+
+    try {
+      const files = fs.readdirSync(directory);
+      for (const file of files) {
+        fs.unlinkSync(path.join(directory, file));
+      }
+    } catch (e) {}
+  });
+
+  afterEach(() => {
+    delete process.env.TEST_MODE;
+    delete process.env.SERVER_ADDRESS;
   });
 
   it("should record a simple test", async function() {
-    if (isBrowser()) return this.skip();
-
     process.env.TEST_MODE = "record";
     process.env.SERVER_ADDRESS = "http://127.0.0.1:8080";
-
-    const recorderEnvSetup: RecorderEnvironmentSetup = {
-      replaceableVariables: {
-        SERVER_ADDRESS: "http://127.0.0.1:1337"
-      },
-      customizationsOnRecordings: [],
-      queryParametersToSkip: []
-    };
 
     const http = require("http");
     const server = http.createServer(function(_: any, res: any) {
@@ -75,7 +80,8 @@ describe("recorder - NodeJS", () => {
     server.listen(8080);
 
     // The recorder should start in the beforeEach call.
-    // We have to do this to emulate that.
+    // To emulate that behavior while keeping the test code as contained as possible,
+    // we're compensating with this.
     (this as any).currentTest = {
       file: __filename,
       // For this test, we don't care what's the content of the recorded function.
@@ -87,6 +93,7 @@ describe("recorder - NodeJS", () => {
     const response = await helloWorldRequest();
     expect(response).to.equal(expectedHttpResponse);
     server.close();
+
     recorder.stop();
 
     await delay(1000);
@@ -96,7 +103,6 @@ describe("recorder - NodeJS", () => {
       { encoding: "utf-8" }
     );
     const recordingWithoutDate = recording.replace(/Date',\n[^\n]*\n/, "Date',\n  'DATE',\n");
-
     expect(recordingWithoutDate).to.equal(expectedRecording);
   });
 
@@ -105,27 +111,20 @@ describe("recorder - NodeJS", () => {
 
     process.env.TEST_MODE = "playback";
 
-    const recorderEnvSetup: RecorderEnvironmentSetup = {
-      replaceableVariables: {
-        SERVER_ADDRESS: "http://127.0.0.1:1337"
-      },
-      customizationsOnRecordings: [],
-      queryParametersToSkip: []
-    };
-
-    // The recorder should start in the beforeEach call.
-    // We have to do this to emulate that.
-    (this as any).currentTest = {
-      file: __filename,
-      // For this test, we don't care what's the content of the recorded function.
-      fn: () => {}
-    };
-
     const fs = require("fs");
     fs.writeFileSync(
       "./recordings/node/recorder__nodejs/recording_should_playback_a_simple_test.js",
       expectedRecording
     );
+
+    // The recorder should start in the beforeEach call.
+    // To emulate that behavior while keeping the test code as contained as possible,
+    // we're compensating with this.
+    (this as any).currentTest = {
+      file: __filename,
+      // For this test, we don't care what's the content of the recorded function.
+      fn: () => {}
+    };
 
     const recorder = record(this, recorderEnvSetup);
     const response = await helloWorldRequest();
