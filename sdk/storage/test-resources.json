@@ -13,6 +13,25 @@
       "metadata": {
         "description": "The client OID to grant access to test resources."
       }
+    },
+    "tenantId": {
+      "type": "string",
+      "defaultValue": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+      "metadata": {
+        "description": "The tenant ID to which the application and resources belong."
+      }
+    },
+    "testApplicationId": {
+      "type": "string",
+      "metadata": {
+        "description": "The application client ID used to run tests."
+      }
+    },
+    "testApplicationSecret": {
+      "type": "string",
+      "metadata": {
+        "description": "The application client secret used to run tests."
+      }
     }
   },
   "variables": {
@@ -221,7 +240,7 @@
     }
   ],
   "outputs": {
-    "STORAGE_ACCOUNT_NAME": {
+    "ACCOUNT_NAME": {
       "type": "string",
       "value": "[variables('accountName')]"
     },
@@ -229,17 +248,29 @@
       "type": "string",
       "value": "[variables('datalakeAccountName')]"
     },
-    "STORAGE_ACCOUNT_KEY": {
+    "ACCOUNT_KEY": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value]"
     },
-    "STORAGE_ACCOUNT_SAS": {
+    "ACCOUNT_SAS": {
       "type": "string",
       "value": "[concat('?', listAccountSas(variables('accountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
     },
     "STORAGE_CONNECTION_STRING": {
       "type": "string",
       "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', 'core.windows.net')]"
+    },
+    "AZURE_TENANT_ID": {
+      "type": "string",
+      "value": "[parameters('tenantId')]"
+    },
+    "AZURE_CLIENT_ID": {
+      "type": "string",
+      "value": "[parameters('testApplicationId')]"
+    },
+    "AZURE_CLIENT_SECRET": {
+      "type": "string",
+      "value": "[parameters('testApplicationSecret')]"
     }
   }
 }

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "baseName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]",
+      "metadata": {
+        "description": "The base resource name."
+      }
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The AAD Client ID of the test application service principal."
+      }
+    }
+  },
+  "variables": {
+    "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2018-09-01-preview",
+      "name": "[guid(concat(variables('taRoleId'), parameters('baseName')))]",
+      "dependsOn": ["[parameters('baseName')]"],
+      "properties": {
+        "principalId": "[parameters('testApplicationOid')]",
+        "roleDefinitionId": "[variables('taRoleId')]"
+      }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "name": "[parameters('baseName')]",
+      "apiVersion": "2017-04-18",
+      "sku": {
+        "name": "S"
+      },
+      "kind": "TextAnalytics",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "customSubDomainName": "[parameters('baseName')]"
+      }
+    }
+  ],
+  "outputs": {
+    "TEXT_ANALYTICS_API_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName')), '2017-04-18').key1]"
+    },
+    "TEXT_ANALYTICS_API_KEY_ALT": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName')), '2017-04-18').key2]"
+    },
+    "ENDPOINT": {
+      "type": "string",
+      "value": "[concat('https://', parameters('baseName'), '.cognitiveservices.azure.com/')]"
+    }
+  }
+}

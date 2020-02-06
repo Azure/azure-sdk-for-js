@@ -70,6 +70,7 @@ async function main(argv) {
     packageJsonContents,
     newVersion
   );
+  versionUtils.updateChangelog(targetPackagePath, newVersion, true, false);
 }
 
 main(argv);

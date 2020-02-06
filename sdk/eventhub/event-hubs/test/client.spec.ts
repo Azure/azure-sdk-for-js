@@ -292,7 +292,11 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
     properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
     should.equal(properties!.product, "MSJSClient");
     should.equal(properties!.version, packageVersion);
-    should.equal(properties!.framework, `Node/${process.version}`);
+    if (isNode) {
+      should.equal(properties!.framework, `Node/${process.version}`);
+    } else {
+      should.equal(properties!.framework.startsWith("Browser/"), true);
+    }
     should.equal(properties!.platform, `(${os.arch()}-${os.type()}-${os.release()})`);
     done();
   });
@@ -313,7 +317,11 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
     properties!["user-agent"].should.endWith(customua);
     should.equal(properties!.product, "MSJSClient");
     should.equal(properties!.version, packageVersion);
-    should.equal(properties!.framework, `Node/${process.version}`);
+    if (isNode) {
+      should.equal(properties!.framework, `Node/${process.version}`);
+    } else {
+      should.equal(properties!.framework.startsWith("Browser/"), true);
+    }
     should.equal(properties!.platform, `(${os.arch()}-${os.type()}-${os.release()})`);
     done();
   });

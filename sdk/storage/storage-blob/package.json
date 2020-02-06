@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob",
   "sdk-type": "client",
-  "version": "12.0.2",
+  "version": "12.0.3",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -149,7 +149,7 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
-    "typescript": "~3.6.4",
+    "typescript": "~3.7.5",
     "util": "^0.12.1"
   }
 }

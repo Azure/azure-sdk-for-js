@@ -22,7 +22,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // which depends on this environment variable
     DFS_ACCOUNT_TOKEN: `${mockAccountKey}`
   },
-  replaceInRecordings: [
+  customizationsOnRecordings: [
     // Used in record mode
     // Array of callback functions can be provided to customize the generated recordings in record mode
     // `sig` param of SAS Token is being filtered here
