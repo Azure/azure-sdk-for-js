@@ -82,25 +82,25 @@ describe("[AAD] TextAnalyticsClient", function() {
     });
   });
 
-  describe("#detectLanguages", () => {
+  describe("#detectLanguage", () => {
     it("client throws on empty list", async () => {
-      return assert.isRejected(client.detectLanguages([]));
+      return assert.isRejected(client.detectLanguage([]));
     });
 
     it("client accepts no countryHint", async () => {
-      const results = await client.detectLanguages(testDataEn);
+      const results = await client.detectLanguage(testDataEn);
       assert.equal(results.length, testDataEn.length);
       assertAllSuccess(results);
     });
 
     it("client accepts a countryHint", async () => {
-      const results = await client.detectLanguages(["impossible"], "fr");
+      const results = await client.detectLanguage(["impossible"], "fr");
       assert.equal(results.length, 1);
       assertAllSuccess(results);
     });
 
     it("client produces an error on invalid country hint", async () => {
-      const [result] = await client.detectLanguages(["hello"], "invalidcountry");
+      const [result] = await client.detectLanguage(["hello"], "invalidcountry");
       assert.ok((result as any).error !== undefined);
     });
 
@@ -120,7 +120,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       );
       const allInputs = enInputs.concat(esInputs);
 
-      const results = await client.detectLanguages(allInputs);
+      const results = await client.detectLanguage(allInputs);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
       assertAllSuccess(results);
     });

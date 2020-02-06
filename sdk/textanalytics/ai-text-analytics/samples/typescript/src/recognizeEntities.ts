@@ -5,10 +5,7 @@
  * detects entites in a piece of text and prints them along with the entity type
  */
 
-import {
-  TextAnalyticsClient,
-  TextAnalyticsApiKeyCredential
-} from "@azure/ai-text-analytics";
+import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -27,7 +24,7 @@ export async function main() {
 
   if (!result.error) {
     for (const entity of result.entities) {
-      console.log(`Found entity ${entity.text} of type ${entity.type}`);
+      console.log(`Found entity ${entity.text} of type ${entity.category}`);
     }
   }
 }

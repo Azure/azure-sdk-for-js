@@ -10,9 +10,9 @@ import {
 import {
   TextDocumentStatistics,
   TextAnalyticsError,
-  DocumentSentimentValue,
+  DocumentSentimentLabel,
   SentenceSentiment,
-  SentimentConfidenceScorePerLabel
+  SentimentScorePerLabel
 } from "./generated/models";
 
 /**
@@ -29,11 +29,11 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
    * Predicted sentiment for document. Possible values
    * include: 'positive', 'neutral', 'negative', 'mixed'
    */
-  sentiment: DocumentSentimentValue;
+  sentiment: DocumentSentimentLabel;
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
-  documentScores: SentimentConfidenceScorePerLabel;
+  sentimentScores: SentimentScorePerLabel;
   /**
    * The predicted sentiment for each sentence in the corresponding document.
    */
@@ -43,19 +43,19 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 /**
  * An error result from the analyze sentiment operation on a single document.
  */
-export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult
+export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 export function makeAnalyzeSentimentResult(
   id: string,
-  sentiment: DocumentSentimentValue,
-  documentScores: SentimentConfidenceScorePerLabel,
+  sentiment: DocumentSentimentLabel,
+  sentimentScores: SentimentScorePerLabel,
   sentences: SentenceSentiment[],
   statistics?: TextDocumentStatistics
 ): AnalyzeSentimentSuccessResult {
   return {
     ...makeTextAnalysisResult(id, statistics),
     sentiment,
-    documentScores,
+    sentimentScores,
     sentences
   };
 }

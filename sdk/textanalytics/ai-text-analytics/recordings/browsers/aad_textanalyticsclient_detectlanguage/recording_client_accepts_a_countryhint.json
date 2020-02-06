@@ -11,7 +11,7 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1417",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 05 Feb 2020 23:15:47 GMT",
+    "date": "Wed, 05 Feb 2020 23:51:00 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,27 +19,27 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.9987.14 - SAN ProdSlices",
-    "x-ms-request-id": "7f0480ee-70c5-43a7-b271-8c73e8421a00"
+    "x-ms-request-id": "6fb02ad4-1265-4616-984c-1918b8402100"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/text/analytics/v3.0-preview.1/languages",
    "query": {},
-   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"countryHint\":\"us\"},{\"id\":\"1\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"countryHint\":\"us\"},{\"id\":\"2\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"countryHint\":\"us\"},{\"id\":\"3\",\"text\":\"I didn't like the last book I read at all.\",\"countryHint\":\"us\"}]}",
+   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"impossible\",\"countryHint\":\"fr\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguages\":[{\"name\":\"English\",\"iso6391Name\":\"en\",\"score\":1.0}]},{\"id\":\"1\",\"detectedLanguages\":[{\"name\":\"English\",\"iso6391Name\":\"en\",\"score\":1.0}]},{\"id\":\"2\",\"detectedLanguages\":[{\"name\":\"English\",\"iso6391Name\":\"en\",\"score\":1.0}]},{\"id\":\"3\",\"detectedLanguages\":[{\"name\":\"English\",\"iso6391Name\":\"en\",\"score\":1.0}]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
+   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguages\":[{\"name\":\"French\",\"iso6391Name\":\"fr\",\"score\":1.0}]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "585b686b-aa64-484f-95b7-421af1bf2cc2",
+    "apim-request-id": "4788c2e3-c4d4-4c03-8157-02db8c63bf17",
     "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Wed, 05 Feb 2020 23:15:46 GMT",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
+    "date": "Wed, 05 Feb 2020 23:51:00 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
+    "x-envoy-upstream-service-time": "5"
    }
   }
  ],

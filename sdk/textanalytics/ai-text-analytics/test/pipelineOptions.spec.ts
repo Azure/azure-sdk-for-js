@@ -35,7 +35,7 @@ describe("TextAnalyticsClient Custom PipelineOptions", function() {
         }
       });
 
-      client.detectLanguages(["Hello!"], "us").then((languages) => resolve(languages));
+      client.detectLanguage(["Hello!"], "us").then((languages) => resolve(languages));
     });
 
     const [result] = await pipelineTester;

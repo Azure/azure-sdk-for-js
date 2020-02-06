@@ -10,10 +10,10 @@
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location,Location",
-    "apim-request-id": "61201ff7-a78e-4740-898f-85855f0f4d86",
+    "apim-request-id": "496570e0-9e0e-4b26-8dd0-f05446adc457",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 05 Feb 2020 23:15:44 GMT",
+    "date": "Wed, 05 Feb 2020 23:50:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",

@@ -11,7 +11,7 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1417",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 05 Feb 2020 23:15:46 GMT",
+    "date": "Wed, 05 Feb 2020 23:50:59 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,7 +19,7 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.9987.14 - SAN ProdSlices",
-    "x-ms-request-id": "7f0480ee-70c5-43a7-b271-8c73c9421a00"
+    "x-ms-request-id": "73e53a21-494e-4cd3-9781-8720db241e00"
    }
   },
   {
@@ -32,9 +32,9 @@
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "52e8d5e8-12db-4499-8c12-2f428cdddb92",
+    "apim-request-id": "eeb1d2ea-cd71-42c0-b969-393757cf6955",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 05 Feb 2020 23:15:46 GMT",
+    "date": "Wed, 05 Feb 2020 23:50:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",

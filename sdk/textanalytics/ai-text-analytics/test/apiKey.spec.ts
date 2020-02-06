@@ -51,8 +51,8 @@ describe("[API Key] TextAnalyticsClient", function() {
     assertAllSuccess(results);
   });
 
-  it("#detectLanguages", async () => {
-    const results = await client.detectLanguages(["impossible"], "fr");
+  it("#detectLanguage", async () => {
+    const results = await client.detectLanguage(["impossible"], "fr");
     assert.equal(results.length, 1);
     assertAllSuccess(results);
   });
