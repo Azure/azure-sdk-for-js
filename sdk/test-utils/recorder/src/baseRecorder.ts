@@ -6,49 +6,36 @@ import nise from "nise";
 import {
   isBrowser,
   blobToString,
-  env,
   TestInfo,
   parseUrl,
   isPlaybackMode,
   isRecordMode,
   findRecordingsFolderPath,
   RecorderEnvironmentSetup,
-  ReplacementFunctions,
-  ReplacementMap,
   filterSecretsFromStrings,
-  filterSecretsFromJSONContent
+  filterSecretsRecursivelyFromJSON
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
 let nock: any;
 
-let replaceableVariables: ReplacementMap;
-export function setReplaceableVariables(replacements: { [x: string]: string }): void {
-  replaceableVariables = new Map(Object.entries(replacements));
-  if (isPlaybackMode()) {
-    // Providing dummy values to avoid the error
-    for (const key of Object.keys(replacements)) {
-      env[key] = replacements[key];
-    }
-  }
-}
-
-let replacements: ReplacementFunctions = [];
-export function setReplacements(maps: any): void {
-  replacements = maps;
-}
-
-let queryParameters: string[] = [];
 /**
- *  Query Parameters, for example from the SAS token may contain sensitive information.
- *  Query Parameters provided by calling this method will be skipped.
- * @param {string[]} [params] Query Parameters to be skipped
+ * Loads the environment variables in both node and browser modes corresponding to the key-value pairs provided.
+ *
+ * Example-
+ *
+ * Suppose `replaceableVariables` is { ACCOUNT_NAME: "my_account_name", ACCOUNT_KEY: "fake_secret" },
+ * `setEnvironmentVariables` loads the ACCOUNT_NAME and ACCOUNT_KEY in the environment accordingly.
+ * @export
+ * @param {{ [key: string]: string }} replaceableVariables
  */
-export function skipQueryParams(params: string[]): void {
-  queryParameters = params;
+export function setEnvironmentVariables(env: any, replaceableVariables: { [key: string]: string }) {
+  Object.keys(replaceableVariables).map((key) => {
+    env[key] = replaceableVariables[key];
+  });
 }
 
-export function setEnvironmentOnLoad(environmentSetup: RecorderEnvironmentSetup) {
+export function setEnvironmentOnLoad() {
   if (!isBrowser() && (isRecordMode() || isPlaybackMode())) {
     nock = require("nock");
   }
@@ -56,9 +43,6 @@ export function setEnvironmentOnLoad(environmentSetup: RecorderEnvironmentSetup)
   if (isBrowser() && isRecordMode()) {
     customConsoleLog();
   }
-  setReplaceableVariables(environmentSetup.replaceableVariables);
-  setReplacements(environmentSetup.replaceInRecordings);
-  skipQueryParams(environmentSetup.queryParametersToSkip);
 }
 
 export abstract class BaseRecorder {
@@ -66,6 +50,11 @@ export abstract class BaseRecorder {
   // Example - node/some_random_test_suite/recording_first_test.js
   protected readonly relativeTestRecordingFilePath: string;
   public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
+  public environmentSetup: RecorderEnvironmentSetup = {
+    replaceableVariables: {},
+    customizationsOnRecordings: [],
+    queryParametersToSkip: []
+  };
 
   constructor(platform: "node" | "browsers", testSuiteTitle: string, testTitle: string) {
     // File Extension
@@ -107,11 +96,15 @@ export abstract class BaseRecorder {
    */
   protected filterSecrets(content: any): any {
     const recordingFilterMethod =
-      typeof content === "string" ? filterSecretsFromStrings : filterSecretsFromJSONContent;
-    return recordingFilterMethod(content, replaceableVariables, replacements);
+      typeof content === "string" ? filterSecretsFromStrings : filterSecretsRecursivelyFromJSON;
+    return recordingFilterMethod(
+      content,
+      this.environmentSetup.replaceableVariables,
+      this.environmentSetup.customizationsOnRecordings
+    );
   }
 
-  public abstract record(): void;
+  public abstract record(environmentSetup: RecorderEnvironmentSetup): void;
   /**
    * Finds the recording for the corresponding test and replays the saved responses from the recording.
    *
@@ -119,7 +112,7 @@ export abstract class BaseRecorder {
    * @param {string} filePath Test file path (can be obtained from the mocha's context object - Mocha.Context.currentTest)
    * @memberof BaseRecorder
    */
-  public abstract playback(filePath: string): void;
+  public abstract playback(environmentSetup: RecorderEnvironmentSetup, filePath: string): void;
   public abstract stop(): void;
 }
 
@@ -128,13 +121,15 @@ export class NockRecorder extends BaseRecorder {
     super("node", testSuiteTitle, testTitle);
   }
 
-  public record(): void {
+  public record(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
+    this.environmentSetup = recorderEnvironmentSetup;
     nock.recorder.rec({
       dont_print: true
     });
   }
 
-  public playback(filePath: string): void {
+  public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup, filePath: string): void {
+    this.environmentSetup = recorderEnvironmentSetup;
     /**
      * `@azure/test-utils-recorder` package is used for both the browser and node tests
      *
@@ -245,7 +240,7 @@ export class NiseRecorder extends BaseRecorder {
     const parsedUrl = parseUrl(request.url);
     const query: any = {};
     for (const param in parsedUrl.query) {
-      if (!queryParameters.includes(param) && param !== "_") {
+      if (!this.environmentSetup.queryParametersToSkip.includes(param) && param !== "_") {
         query[param] = parsedUrl.query[param];
       }
     }
@@ -271,11 +266,11 @@ export class NiseRecorder extends BaseRecorder {
       }
     }
 
-    // There shouldn't be parameters in the request that are not present in the recording (except for SAS Query Parameters and "_")
+    // There shouldn't be parameters in the request that are not present in the recording (except for queryParametersToSkip and "_")
     for (const param in request.query) {
       if (
         recording.query[param] === undefined &&
-        !queryParameters.includes(param) &&
+        !this.environmentSetup.queryParametersToSkip.includes(param) &&
         param !== "_"
       ) {
         return false;
@@ -291,7 +286,8 @@ export class NiseRecorder extends BaseRecorder {
 
   // When recording, we want to hit the server and intercept requests/responses
   // Nise does not allow us to intercept requests if they're sent to the server, so we need to override its behavior
-  public record(): void {
+  public record(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
+    this.environmentSetup = recorderEnvironmentSetup;
     const self = this;
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
 
@@ -341,7 +337,8 @@ export class NiseRecorder extends BaseRecorder {
 
   // When playing back, we want to intercept requests, find a corresponding match in our recordings and respond to it with the recorded data
   // We must override the request's 'send' function because all the request information (body, url, method, queries) will be ready when it's called
-  public playback(): void {
+  public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
+    this.environmentSetup = recorderEnvironmentSetup;
     const self = this;
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
 

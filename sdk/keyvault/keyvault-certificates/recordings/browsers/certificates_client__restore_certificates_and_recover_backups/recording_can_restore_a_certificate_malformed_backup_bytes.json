@@ -13,19 +13,19 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 09 Jan 2020 20:54:45 GMT",
+    "date": "Fri, 31 Jan 2020 19:53:07 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "www-authenticate": "Bearer authorization=\"https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47\", resource=\"https://vault.azure.net\"",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.250.15.99;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
     "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "bbb3b7d6-4447-446e-abfc-3568caf00196",
+    "x-ms-request-id": "b7287d9d-bf9e-46db-b06a-3b46f1b28e19",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -40,15 +40,15 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 09 Jan 2020 20:54:45 GMT",
+    "date": "Fri, 31 Jan 2020 19:53:07 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9898.10 - WST ProdSlices",
-    "x-ms-request-id": "6565dd5f-1b87-487f-899d-337ad6516700"
+    "x-ms-ests-server": "2.1.9987.9 - EUS ProdSlices",
+    "x-ms-request-id": "5676fd9f-669d-474b-852d-88e709590700"
    }
   },
   {
@@ -64,7 +64,7 @@
     "cache-control": "no-cache",
     "content-length": "103",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 09 Jan 2020 20:54:45 GMT",
+    "date": "Fri, 31 Jan 2020 19:53:07 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -72,10 +72,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.250.15.99;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
     "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "66e26688-20a9-45f6-b7a3-a9a4e996aa31",
+    "x-ms-request-id": "c58c243b-b00b-4273-8d21-ee6c06987434",
     "x-powered-by": "ASP.NET"
    }
   }

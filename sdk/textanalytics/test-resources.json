@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "baseName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]",
+      "metadata": {
+        "description": "THe base resource name."
+      }
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The AAD Client ID of the test application service principal."
+      }
+    }
+  },
+  "variables": {
+    "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/25fbc0a9-bd7c-42a3-aa1a-3b75d497ee68')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2017-09-01",
+      "name": "[guid(concat(variables('taRoleId'), parameters('baseName')))]",
+      "dependsOn": ["[parameters('baseName')]"],
+      "properties": {
+        "principalId": "[parameters('testApplicationOid')]",
+        "roleDefinitionId": "[variables('taRoleId')]"
+      }
+    },
+    {
+      "type": "Microsoft.CognitiveServices/accounts",
+      "name": "[parameters('baseName')]",
+      "apiVersion": "2017-04-18",
+      "sku": {
+        "name": "S"
+      },
+      "kind": "TextAnalytics",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "customSubDomainName": "[parameters('baseName')]"
+      }
+    }
+  ],
+  "outputs": {
+    "SUBSCRIPTION_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName')), '2017-04-18').key1]"
+    },
+    "ENDPOINT": {
+      "type": "string",
+      "value": "[concat('https://', parameters('baseName'), '.cognitiveservices.azure.com/')]"
+    }
+  }
+}

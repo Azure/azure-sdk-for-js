@@ -14,7 +14,7 @@ export async function authenticate(that: any): Promise<any> {
       AZURE_TENANT_ID: "azure_tenant_id",
       KEYVAULT_NAME: "keyvault_name"
     },
-    replaceInRecordings: [
+    customizationsOnRecordings: [
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
       (recording: any): any =>

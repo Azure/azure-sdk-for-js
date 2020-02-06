@@ -20,6 +20,7 @@ let argv = require("yargs")
   .help().argv;
 
 const path = require("path");
+const process = require("process");
 const semver = require("semver");
 const versionUtils = require("./VersionUtils");
 
@@ -184,7 +185,10 @@ async function main(argv) {
       targetPackages.push(package);
     }
   }
-
+if(targetPackages.length === 0){
+  console.error(`Empty array targetPackages! There is no package that qualifies for dev versioning in the given service folder ${service}`);
+  process.exit(1);
+}
   // Set all the new versions & update any references to internal projects with the new versions
   console.log(`Updating packages with build ID ${buildId}`);
   for (const package of targetPackages) {

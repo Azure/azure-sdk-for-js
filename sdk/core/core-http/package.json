@@ -45,7 +45,8 @@
     "./es/lib/policies/proxyPolicy.js": "./es/lib/policies/proxyPolicy.browser.js",
     "./es/lib/util/base64.js": "./es/lib/util/base64.browser.js",
     "./es/lib/util/xml.js": "./es/lib/util/xml.browser.js",
-    "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js"
+    "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js",
+    "./es/lib/util/inspect.js": "./es/lib/util/inspect.browser.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-http",
@@ -198,7 +199,6 @@
     "webpack": "^4.16.3",
     "webpack-cli": "^3.2.3",
     "webpack-dev-middleware": "^3.1.2",
-    "xhr-mock": "^2.4.1",
-    "yarn": "^1.6.0"
+    "xhr-mock": "^2.4.1"
   }
 }

@@ -83,12 +83,3 @@ directive:
     $.Path.properties.lastModified.format = "date-time-rfc1123";
 ```
 
-### Add Code to StorageError properties
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.StorageError
-    transform: >
-      $.properties.Code = { "type": "string" };
-```
