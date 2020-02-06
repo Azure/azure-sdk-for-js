@@ -51,7 +51,7 @@ describe("recorder - Browser", () => {
 
     // Before starting the recorder, we need to make a copy of the original XHR object, so that we can
     // restore it before doing the recorder do its magic, in order for the HTTP request to hit the xhr-mock instance.
-    const originalXHR = window.XMLHttpRequest;
+    const originalXHR = XMLHttpRequest;
 
     // The recorder outputs files into the console,
     // so we need to mock the console.log function to capture and test the recorder output.
@@ -132,6 +132,138 @@ describe("recorder - Browser", () => {
     // The playback code served the appropriate response based on the recordings.
     expect(response).to.equal(expectedHttpResponse);
 
+    recorder.stop();
+  });
+
+  it("soft-record should re-record a simple outdated test", async function() {
+    // Setting up the playback mode.
+    // The PATH environment variable is not needed on playback.
+    (window as any).__env__.TEST_MODE = "soft-record";
+    (window as any).__env__.PATH = "/to/replace";
+
+    // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
+    (window as any).__json__ = {
+      ["recordings/browsers/recorder__browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json"]: {
+        recordings: [
+          {
+            method: "GET",
+            url: "/replaced",
+            response: expectedHttpResponse
+          }
+        ],
+        uniqueTestInfo: { uniqueName: {}, newDate: {} },
+        hash: "fake old hash"
+      }
+    };
+
+    // We can't use Nise's FakeServer since the recorder ends up sending the request through the original XHR anyway.
+    xhrMock.setup();
+    xhrMock.get("/to/replace", {
+      status: 200,
+      body: expectedHttpResponse
+    });
+
+    // Before starting the recorder, we need to make a copy of the original XHR object, so that we can
+    // restore it before doing the recorder do its magic, in order for the HTTP request to hit the xhr-mock instance.
+    const originalXHR = XMLHttpRequest;
+
+    // The recorder outputs files into the console,
+    // so we need to mock the console.log function to capture and test the recorder output.
+    const originalConsoleLog = console.log;
+    const savedConsoleLogParams: any[] = [];
+    console.log = (...params: any) => {
+      savedConsoleLogParams.push(params);
+    };
+
+    // The recorder should start in the beforeEach call.
+    // To emulate that behavior while keeping the test code as contained as possible,
+    // we're compensating with this.
+    (this as any).currentTest = {
+      file: "test/recorder.browser.spec.ts",
+      // The hash in our expected recording is made out of an empty function.
+      // This function has something inside, which means it has changed.
+      fn: () => {
+        let the_contents_have_changed = true;
+        return the_contents_have_changed;
+      }
+    };
+
+    const recorder = record(this, recorderEnvSetup);
+
+    // Restoring the XHR, otherwise we can't test this.
+    window.XMLHttpRequest = originalXHR;
+
+    const response = await helloWorldRequest();
+
+    // This test's request reached the server and received the expected response.
+    expect(response).to.equal(expectedHttpResponse);
+
+    // Cleaning everything before we continue verifying the results.
+    xhrMock.teardown();
+    recorder.stop();
+    console.log = originalConsoleLog;
+
+    // Now we check the hash has changed in the recorded console.log output.
+
+    // Here we confirm that the recorder generated an expected output on the console.logs.
+    // This output is used to generate the recording files in the filesystem, though here we're only
+    // checking what was that the recorded emitted to the standard output.
+    expect(savedConsoleLogParams).to.deep.equal([
+      [
+        // The recordings here are empty because we hijacked the XHR.
+        // See the playback test for an example of a properly constructed recording object.
+        // TODO: Find a way to capture the complete output.
+        '{"writeFile":true,"path":"./recordings/browsers/recorder__browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json","content":{"recordings":[],"uniqueTestInfo":{"uniqueName":{},"newDate":{}},"hash":"a2d2e186550d37c743cb66e7f4e32062"}}'
+      ]
+    ]);
+  });
+
+  it("soft-record should skip a simple unchanged test", async function() {
+    // Setting up the playback mode.
+    // The PATH environment variable is not needed on playback.
+    (window as any).__env__.TEST_MODE = "soft-record";
+
+    // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
+    (window as any).__json__ = {
+      ["recordings/browsers/recorder__browser/recording_softrecord_should_skip_a_simple_unchanged_test.json"]: {
+        recordings: [
+          {
+            method: "GET",
+            url: "/replaced",
+            response: expectedHttpResponse
+          }
+        ],
+        uniqueTestInfo: { uniqueName: {}, newDate: {} },
+        // This is the expected hash
+        hash: "78076b9657581d45ed9f1233a3476e07"
+      }
+    };
+
+    // The recorder should start in the beforeEach call.
+    // To emulate that behavior while keeping the test code as contained as possible,
+    // we're compensating with this.
+    (this as any).currentTest = {
+      file: "test/recorder.browser.spec.ts",
+      // The hash in our expected recording is made out of an empty function.
+      // This function is empty, which means it remains the same.
+      fn: () => {}
+    };
+
+    // We have to mock this.skip in order to confirm that the recorder has called it.
+    // We'll make a fake this.
+    let skipped = false;
+    const fakeThis = {
+      ...this,
+      skip() {
+        skipped = true;
+      }
+    };
+
+    const recorder = record(fakeThis as Mocha.Context, recorderEnvSetup);
+
+    expect(skipped).to.true;
+
+    // This should not crash.
     recorder.stop();
   });
 });

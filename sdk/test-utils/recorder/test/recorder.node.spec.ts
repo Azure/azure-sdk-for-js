@@ -208,6 +208,7 @@ describe("recorder - NodeJS", () => {
       "64b9c884d95c9ec1db3ffe737fdd86ce"
     );
 
+    // The hash has changed in the recorded file.
     expect(recordingWithoutDate).to.equal(expectedRecordingWithUpdatedHash);
   });
 
