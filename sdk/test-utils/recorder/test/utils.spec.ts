@@ -518,12 +518,41 @@ ultramarine.com/url/PUBLIC
   });
 
   describe("testHasChanged", () => {
-    it("should return true if the older hash doesn't exist", function() {
+    it("In NodeJS - should not crash if the recorded file doesn't exist", function() {
       if (isBrowser()) return this.skip();
 
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
-      const platform = isBrowser() ? "browsers" : "node";
+      const testSuiteTitle = this.test!.parent!.fullTitle();
+      const testTitle = this.test!.title;
+
+      // This needs to change if findRecordingsFolderPath changes.
+      mockFs({
+        // Our lazy require doesn't use the fs module internally.
+        recordings: {},
+        "test/myTest.spec.ts": "",
+        "../../sdk/": {},
+        "../../../rush.json": ""
+      });
+
+      // We won't be testing whether MD5 works or not.
+      const newHash = "new hash";
+
+      const path = require("path");
+      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
+
+      expect(testHasChanged(testSuiteTitle, testTitle, testAbsolutePath, newHash)).to.equal(true);
+
+      mockFs.restore();
+      mockRequire.stopAll();
+    });
+
+    it("In NodeJS - should return true if the older hash doesn't exist", function() {
+      if (isBrowser()) return this.skip();
+
+      const mockFs = require("mock-fs");
+      const mockRequire = require("mock-require");
+      const platform = "node";
       const testSuiteTitle = this.test!.parent!.fullTitle();
       const testTitle = this.test!.title;
       const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
@@ -551,12 +580,12 @@ ultramarine.com/url/PUBLIC
       mockRequire.stopAll();
     });
 
-    it("should return false if the older hash is the same as the new hash", function() {
+    it("In NodeJS - should return false if the older hash is the same as the new hash", function() {
       if (isBrowser()) return this.skip();
 
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
-      const platform = isBrowser() ? "browsers" : "node";
+      const platform = "node";
       const testSuiteTitle = this.test!.parent!.fullTitle();
       const testTitle = this.test!.title;
       const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
@@ -587,12 +616,12 @@ ultramarine.com/url/PUBLIC
       mockRequire.stopAll();
     });
 
-    it("should return true if the older hash is different than the new hash", function() {
+    it("In NodeJS - should return true if the older hash is different than the new hash", function() {
       if (isBrowser()) return this.skip();
 
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
-      const platform = isBrowser() ? "browsers" : "node";
+      const platform = "node";
       const testSuiteTitle = this.test!.parent!.fullTitle();
       const testTitle = this.test!.title;
       const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
@@ -621,6 +650,42 @@ ultramarine.com/url/PUBLIC
 
       mockFs.restore();
       mockRequire.stopAll();
+    });
+
+    it("In the browser - should not crash if the recorded file doesn't exist", function() {
+      if (!isBrowser()) return this.skip();
+
+      const testSuiteTitle = this.test!.parent!.fullTitle();
+      const testTitle = this.test!.title;
+
+      (window as any).__json__ = {};
+
+      // We won't be testing whether MD5 works or not.
+      const newHash = "new hash";
+
+      expect(testHasChanged(testSuiteTitle, testTitle, "test/myTest.spec.ts", newHash)).to.equal(
+        true
+      );
+    });
+
+    it("In the browser - should return true if the older hash doesn't exist", function() {
+      if (!isBrowser()) return this.skip();
+
+      const platform = "browsers";
+      const testSuiteTitle = this.test!.parent!.fullTitle();
+      const testTitle = this.test!.title;
+      const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
+
+      (window as any).__json__ = {
+        ["recordings/" + filePath]: {}
+      };
+
+      // We won't be testing whether MD5 works or not.
+      const newHash = "new hash";
+
+      expect(testHasChanged(testSuiteTitle, testTitle, "test/myTest.spec.ts", newHash)).to.equal(
+        true
+      );
     });
   });
 });

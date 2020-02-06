@@ -447,7 +447,7 @@ export function testHasChanged(
     try {
       previousHash = nodeRequireRecordingIfExists(recordingPath, testAbsolutePath).hash;
     } catch (e) {}
-  } else {
+  } else if ((window as any).__json__["recordings/" + recordingPath]) {
     previousHash = (window as any).__json__["recordings/" + recordingPath].hash;
   }
 
