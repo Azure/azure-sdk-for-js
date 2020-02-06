@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-interface Window {}
-declare var self: Window & typeof globalThis;
 
-interface NavigatorEx extends Navigator {
+interface Window {}
+declare var self: Window & typeof globalThis & { navigator: Navigator };
+
+interface Navigator {
   /**
    * Returns a string representing the browser version info.
    */
@@ -33,6 +34,6 @@ function getReleaseInfo(): string {
     return "";
   }
 
-  const navigator = self.navigator as NavigatorEx;
+  const navigator = self.navigator;
   return navigator.appVersion;
 }
