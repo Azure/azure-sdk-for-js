@@ -8,6 +8,7 @@
  * regenerated.
  */
 
+export * from "./endpointSettings";
 export * from "./endpointKeys";
 export * from "./alterations";
 export * from "./knowledgebase";

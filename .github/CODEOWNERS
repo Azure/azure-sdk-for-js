@@ -12,7 +12,7 @@
 /sdk/core/abort-controller/ @chradek @xirzec @bterlson
 /sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft
 /sdk/core/core-auth/ @daviwil @xirzec @bterlson
-/sdk/core/core-http/ @daviwil @xirzec @bterlson
+/sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng
 /sdk/core/core-lro/ @sadasant @xirzec @bterlson
 /sdk/core/core-paging/ @daviwil @xirzec @bterlson
 /sdk/core/core-tracing/ @xirzec @bterlson @chradek

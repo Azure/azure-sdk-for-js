@@ -5,7 +5,7 @@ import * as assert from "assert";
 import { KeyClient } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -15,7 +15,7 @@ describe("Keys client - list keys in various ways", () => {
   let keySuffix: string;
   let client: KeyClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
