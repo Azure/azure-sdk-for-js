@@ -55,7 +55,7 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
-    external: ["@azure/core-http", "fs-extra", "nock", "path"],
+    external: ["fs-extra", "nock", "path"],
     output: {
       file: "browser/azure-test-utils-recorder.js",
       format: "umd",
@@ -82,7 +82,10 @@ export function browserConfig(test = false) {
         // When "rollup-plugin-commonjs@10.0.0" is used with "resolve@1.11.1", named exports of
         // modules with built-in names must have a trailing slash.
         // https://github.com/rollup/rollup-plugin-commonjs/issues/394
-        namedExports: { "events/": ["EventEmitter"] }
+        namedExports: {
+          "events/": ["EventEmitter"],
+          "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
       }),
       viz({ filename: "browser/browser-stats.html", sourcemap: false })
     ]
