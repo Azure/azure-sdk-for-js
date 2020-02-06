@@ -59,6 +59,7 @@
   "private": true,
   "dependencies": {
     "fs-extra": "^8.1.0",
+    "match-all":"^1.2.5",
     "nise": "^1.4.10",
     "nock": "^11.7.0",
     "tslib": "^1.10.0"
