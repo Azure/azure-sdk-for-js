@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import fs from "fs-extra";
-import parse from "url-parse";
+import { URLBuilder } from "@azure/core-http";
 
 export interface TestInfo {
   uniqueName: { [x: string]: string };
@@ -118,11 +118,15 @@ export function applyReplacementMap(
       if (
         env[key]!.startsWith("http") &&
         replacement.startsWith("http") &&
-        parse(env[key]!).hostname
+        URLBuilder.parse(env[key]!).getHost()
       ) {
         // If an ENV variable and its replacement start with `http` with a valid hostname, replace the hostname
         // with the one provided in the replacement. This has no effect incase the URI is already replaced in the previous step.
-        updated = replaceAll(updated, parse(env[key]!).hostname, parse(replacement).hostname);
+        updated = replaceAll(
+          updated,
+          URLBuilder.parse(env[key]!).getHost()!,
+          URLBuilder.parse(replacement).getHost()!
+        );
       }
     }
   });
