@@ -16,6 +16,7 @@ import {
   filterSecretsRecursivelyFromJSON
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
+import { fakeOutDelaysForNewRequests } from "./utils.node";
 
 let nock: any;
 
@@ -145,6 +146,8 @@ export class NockRecorder extends BaseRecorder {
     const recordingPath = path.resolve(recordingsFolderPath, this.relativeTestRecordingFilePath);
     if (fs.existsSync(recordingPath)) {
       this.uniqueTestInfo = require(recordingPath).testInfo;
+      // Delay and reply with errors for the new requests with the existing base urls from the current recording
+      fakeOutDelaysForNewRequests(nock, recordingPath);
     } else {
       throw new Error(
         `Recording (${this.relativeTestRecordingFilePath}) is not found at ${recordingsFolderPath}`
