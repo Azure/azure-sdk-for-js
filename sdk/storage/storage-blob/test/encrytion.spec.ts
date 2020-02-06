@@ -12,9 +12,10 @@ import {
   ContainerClient
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
+import { isNode } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
-describe.only("Encryption Scope", function () {
+describe("Encryption Scope", function () {
   let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
@@ -23,8 +24,18 @@ describe.only("Encryption Scope", function () {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
   const accountEncryptionKey = "$account-encryption-key";
-  const encryptionScopeName1 = process.env["ENCRYPTION_SCOPE_1"];
-  const encryptionScopeName2 = process.env["ENCRYPTION_SCOPE_2"];
+
+  const encryptionScopeEnvVar1 = "ENCRYPTION_SCOPE_1";
+  const encryptionScopeEnvVar2 = "ENCRYPTION_SCOPE_2";
+  let encryptionScopeName1: string | undefined;
+  let encryptionScopeName2: string | undefined;
+  if (isNode) {
+    encryptionScopeName1 = process.env[encryptionScopeEnvVar1];
+    encryptionScopeName2 = process.env[encryptionScopeEnvVar2];
+  } else {
+    encryptionScopeName1 = (window as any).__env__[encryptionScopeEnvVar1];
+    encryptionScopeName2 = (window as any).__env__[encryptionScopeEnvVar2];
+  }
 
   let recorder: any;
 
@@ -85,26 +96,30 @@ describe.only("Encryption Scope", function () {
     }
     assert.ok(containerChecked);
 
+    let operationFailed = false;
     try {
       await blockBlobClient.upload(content, content.length, {
         cpkScopeInfo: { encryptionScope: encryptionScopeName2 }
       });
-      assert.fail("Blob update overriding encryption scope should fail.");
     } catch (err) {
+      operationFailed = true;
       assert.equal(err.details.errorCode, "RequestForbiddenByContainerEncryptionPolicy");
     }
+    assert.ok(operationFailed, "Blob update overriding encryption scope should fail.");
   });
 
   it.skip("specify CPK together with CPK-N should fail", async () => {
     await containerClient.create();
+    let operationFailed = false;
     try {
       await blockBlobClient.upload(content, content.length, {
         customerProvidedKey: Test_CPK_INFO,
         cpkScopeInfo: { encryptionScope: encryptionScopeName1 }
       });
-      assert.fail("Should fail.");
     } catch (err) {
+      operationFailed = true;
     }
+    assert.ok(operationFailed, "Providing both CPK and CPK-N should fail.");
   });
 
   it("setMetadata, getProperties and createSnapshot with CPK-N", async () => {
@@ -125,13 +140,15 @@ describe.only("Encryption Scope", function () {
     assert.strictEqual(gpResp.encryptionScope, encryptionScopeName1);
 
     // update with an unmatching encryption scope should fail
+    let operationFailed = false;
     try {
-      const csResp = await blobClient.createSnapshot({
+      await blobClient.createSnapshot({
         cpkScopeInfo: { encryptionScope: encryptionScopeName2 }
       });
-      assert.fail("Create snapshot with unmatching encryption scope should fail.")
     } catch (err) {
+      operationFailed = true;
       assert.strictEqual(err.details.errorCode, "BlobCustomerSpecifiedEncryptionMismatch");
     }
+    assert.ok(operationFailed, "Create snapshot with unmatching encryption scope should fail.")
   });
 })
