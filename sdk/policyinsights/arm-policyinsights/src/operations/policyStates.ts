@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/policyStatesMappers";
 import * as Parameters from "../models/parameters";
@@ -296,6 +297,29 @@ export class PolicyStates {
       },
       summarizeForResourceOperationSpec,
       callback) as Promise<Models.PolicyStatesSummarizeForResourceResponse>;
+  }
+
+  /**
+   * Triggers a policy evaluation scan for all the resources under the subscription
+   * @param subscriptionId Microsoft Azure subscription ID.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  triggerSubscriptionEvaluation(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginTriggerSubscriptionEvaluation(subscriptionId,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Triggers a policy evaluation scan for all the resources under the resource group.
+   * @param subscriptionId Microsoft Azure subscription ID.
+   * @param resourceGroupName Resource group name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  triggerResourceGroupEvaluation(subscriptionId: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginTriggerResourceGroupEvaluation(subscriptionId,resourceGroupName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -602,6 +626,40 @@ export class PolicyStates {
       },
       summarizeForResourceGroupLevelPolicyAssignmentOperationSpec,
       callback) as Promise<Models.PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse>;
+  }
+
+  /**
+   * Triggers a policy evaluation scan for all the resources under the subscription
+   * @param subscriptionId Microsoft Azure subscription ID.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginTriggerSubscriptionEvaluation(subscriptionId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        subscriptionId,
+        options
+      },
+      beginTriggerSubscriptionEvaluationOperationSpec,
+      options);
+  }
+
+  /**
+   * Triggers a policy evaluation scan for all the resources under the resource group.
+   * @param subscriptionId Microsoft Azure subscription ID.
+   * @param resourceGroupName Resource group name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginTriggerResourceGroupEvaluation(subscriptionId: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        subscriptionId,
+        resourceGroupName,
+        options
+      },
+      beginTriggerResourceGroupEvaluationOperationSpec,
+      options);
   }
 }
 
@@ -1095,6 +1153,51 @@ const summarizeForResourceGroupLevelPolicyAssignmentOperationSpec: msRest.Operat
     200: {
       bodyMapper: Mappers.SummarizeResults
     },
+    default: {
+      bodyMapper: Mappers.QueryFailure
+    }
+  },
+  serializer
+};
+
+const beginTriggerSubscriptionEvaluationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.QueryFailure
+    }
+  },
+  serializer
+};
+
+const beginTriggerResourceGroupEvaluationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyStates/latest/triggerEvaluation",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.QueryFailure
     }
