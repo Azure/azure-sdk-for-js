@@ -1,23 +1,19 @@
-import { isBrowser, RecorderEnvironmentSetup, delay } from "../src/utils";
+import { isBrowser, RecorderEnvironmentSetup } from "../src/utils";
 import chai from "chai";
 import { record } from "../src";
 import xhrMock from "xhr-mock";
 const { expect } = chai;
 
 const expectedHttpResponse = "Hello World!";
-const expectedRecording = ``;
 
 async function helloWorldRequest(): Promise<string> {
   return new Promise((resolve) => {
     function reqListener(this: any) {
-      // TODO: This is NOT FOUND
-      console.log(this.responseText);
       resolve(this.responseText);
     }
 
     const req = new XMLHttpRequest();
     req.addEventListener("load", reqListener);
-    console.log((window as any).__env__.PATH!);
     req.open("GET", (window as any).__env__.PATH!);
     req.send();
   });
@@ -27,8 +23,9 @@ describe.only("recorder - Browser", () => {
   it("should record a simple test", async function() {
     if (!isBrowser()) return this.skip();
 
+    // TODO: Comment all of this.
     (window as any).__env__.TEST_MODE = "record";
-    (window as any).__env__.PATH = "/toReplace";
+    (window as any).__env__.PATH = "/to/replace";
 
     const recorderEnvSetup: RecorderEnvironmentSetup = {
       replaceableVariables: {
@@ -38,7 +35,8 @@ describe.only("recorder - Browser", () => {
       queryParametersToSkip: []
     };
 
-    xhrMock.get("/toReplace", {
+    xhrMock.setup();
+    xhrMock.get("/to/replace", {
       status: 200,
       body: expectedHttpResponse
     });
@@ -51,21 +49,30 @@ describe.only("recorder - Browser", () => {
       fn: () => {}
     };
 
+    const originalXHR = window.XMLHttpRequest;
+    const originalConsoleLog = console.log;
+
+    const savedConsoleLogParams: any[] = [];
+    console.log = (...params: any) => {
+      savedConsoleLogParams.push(params);
+    };
+
     const recorder = record(this, recorderEnvSetup);
+
+    // Restoring the XHR, otherwise we can't test this.
+    window.XMLHttpRequest = originalXHR;
 
     const response = await helloWorldRequest();
     expect(response).to.equal(expectedHttpResponse);
     xhrMock.teardown();
     recorder.stop();
+    console.log = originalConsoleLog;
 
-    await delay(1000);
-    const fs = require("fs");
-    const recording = fs.readFileSync(
-      "./recordings/node/recorder__nodejs/recording_should_record_a_simple_test.js",
-      { encoding: "utf-8" }
-    );
-    const recordingWithoutDate = recording.replace(/Date',\n[^\n]*\n/, "Date',\n  'DATE',\n");
-
-    expect(recordingWithoutDate).to.equal(expectedRecording);
+    console.log(savedConsoleLogParams.length);
+    expect(savedConsoleLogParams).to.deep.equal([
+      [
+        '{"writeFile":true,"path":"./recordings/browsers/recorder__browser/recording_should_record_a_simple_test.json","content":{"recordings":[],"uniqueTestInfo":{"uniqueName":{},"newDate":{}},"hash":"cd66dca29955acb89b218a38555c2fe1"}}'
+      ]
+    ]);
   });
 });
