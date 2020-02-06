@@ -124,9 +124,9 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
+  // On playback mode, the tests happen too fast for the timeout to work - in browsers only
   it("can update certificate with requestOptions timeout", async function() {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    recorder.skip("browser", "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const poller = await client.beginCreateCertificate(
@@ -162,9 +162,9 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
+  // On playback mode, the tests happen too fast for the timeout to work - in browsers only
   it("can get a certificate with requestOptions timeout", async function() {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    recorder.skip("browser", "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -237,9 +237,9 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.purgeCertificate(certificateName);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
+  // On playback mode, the tests happen too fast for the timeout to work - in browsers only
   it("can delete a certificate with requestOptions timeout", async function() {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    recorder.skip("browser", "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
