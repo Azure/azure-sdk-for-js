@@ -1,12 +1,69 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
+import {
+  TextDocumentStatistics,
+  TextAnalyticsError as GeneratedTextAnalyticsErrorModel,
+  InnerError
+} from "./generated/models";
 
 /**
  * The result of a text analytics operation on a single input document.
  */
 export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
+
+/**
+ * An Error Code returned from the Text Analytics service. Possible
+ * values include:
+ *
+ * - 'InvalidRequest'
+ * - 'InvalidArgument'
+ * - 'InternalServerError'
+ * - 'ServiceUnavailable'
+ * - 'InvalidParameterValue'
+ * - 'InvalidRequestBodyFormat'
+ * - 'EmptyRequest'
+ * - 'MissingInputRecords'
+ * - 'InvalidDocument'
+ * - 'ModelVersionIncorrect'
+ * - 'InvalidDocumentBatch'
+ * - 'UnsupportedLanguageCode'
+ * - 'InvalidCountryHint'
+ *
+ * For more information about the error, see the `message` property of the associated error.
+ */
+export type ErrorCode =
+  | "InvalidRequest"
+  | "InvalidArgument"
+  | "InternalServerError"
+  | "ServiceUnavailable"
+  | "InvalidParameterValue"
+  | "InvalidRequestBodyFormat"
+  | "EmptyRequest"
+  | "MissingInputRecords"
+  | "InvalidDocument"
+  | "ModelVersionIncorrect"
+  | "InvalidDocumentBatch"
+  | "UnsupportedLanguageCode"
+  | "InvalidCountryHint";
+
+/**
+ * Type describing an error from the Text Analytics service
+ */
+export interface TextAnalyticsError {
+  /**
+   * A code describing the kind of error produced
+   */
+  readonly code: ErrorCode;
+  /**
+   * A message from the service explaining the error
+   */
+  readonly message: string;
+  /**
+   * The target of the particular error (for example, the name of an invalid parameter)
+   */
+  readonly target?: string;
+}
 
 /**
  * Base type for results of text analytics operations corresponding to a single
@@ -47,7 +104,31 @@ export interface TextAnalyticsErrorResult {
   readonly error: TextAnalyticsError;
 }
 
-export function makeTextAnalysisResult(
+/**
+ * Helper function for converting nested service error into
+ * the unified TextAnalyticsError
+ */
+function intoTextAnalyticsError(
+  errorModel: GeneratedTextAnalyticsErrorModel | InnerError
+): TextAnalyticsError {
+  // Return the deepest error. This will always be at most
+  // one level for TextAnalytics
+  if (errorModel.innerError !== undefined) {
+    return intoTextAnalyticsError(errorModel.innerError);
+  }
+
+  return {
+    // 2020-02-06
+    // Cast is necessary for now as swagger generated model
+    // does not align with the actual results produced by the
+    // TA service in terms of casing.
+    code: errorModel.code as ErrorCode,
+    message: errorModel.message,
+    target: errorModel.target
+  };
+}
+
+export function makeTextAnalyticsSuccessResult(
   id: string,
   statistics?: TextDocumentStatistics
 ): TextAnalyticsSuccessResult {
@@ -57,12 +138,12 @@ export function makeTextAnalysisResult(
   };
 }
 
-export function makeTextAnalysisErrorResult(
+export function makeTextAnalyticsErrorResult(
   id: string,
-  error: TextAnalyticsError
+  error: GeneratedTextAnalyticsErrorModel
 ): TextAnalyticsErrorResult {
   return {
     id,
-    error
+    error: intoTextAnalyticsError(error)
   };
 }

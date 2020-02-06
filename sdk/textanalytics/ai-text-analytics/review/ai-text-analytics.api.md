@@ -86,7 +86,7 @@ export interface Entity {
 }
 
 // @public
-export type ErrorCodeValue = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
+export type ErrorCode = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable" | "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint";
 
 // @public
 export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
@@ -107,20 +107,6 @@ export interface ExtractKeyPhrasesResultCollection extends Array<ExtractKeyPhras
 export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResult {
     keyPhrases: string[];
 }
-
-// @public
-export interface InnerError {
-    code: InnerErrorCodeValue;
-    details?: {
-        [propertyName: string]: string;
-    };
-    innerError?: InnerError;
-    message: string;
-    target?: string;
-}
-
-// @public
-export type InnerErrorCodeValue = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
 
 // @public
 export interface LinkedEntity {
@@ -261,11 +247,9 @@ export interface TextAnalyticsClientOptions extends PipelineOptions {
 
 // @public
 export interface TextAnalyticsError {
-    code: ErrorCodeValue;
-    details?: TextAnalyticsError[];
-    innerError?: InnerError;
-    message: string;
-    target?: string;
+    readonly code: ErrorCode;
+    readonly message: string;
+    readonly target?: string;
 }
 
 // @public
