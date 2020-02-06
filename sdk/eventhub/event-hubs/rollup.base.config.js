@@ -112,20 +112,16 @@ export function browserConfig(test = false) {
         }
       ),
 
-      // fs, net, and tls are used by rhea and need to be shimmed
-      // dotenv doesn't work in the browser, so replace it with a no-op function
+      // dotenv, path, and os don't work in the browser, so replace it with a no-op function
       shim({
         fs: `export default {}`,
-        net: `export default {}`,
-        tls: `export default {}`,
         dotenv: `export function config() { }`,
         os: `
           export function arch() { return "javascript" }
           export function type() { return "Browser" }
-          export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
+          export function release() { return typeof navigator === 'undefined' ? '' : navigator.appVersion }
         `,
-        path: `export default {}`,
-        dns: `export function resolve() { }`
+        path: `export default {}`
       }),
 
       nodeResolve({

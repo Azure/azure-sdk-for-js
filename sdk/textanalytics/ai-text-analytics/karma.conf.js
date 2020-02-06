@@ -3,7 +3,8 @@
 
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
+const { jsonRecordingFilterFunction, isPlaybackMode } = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -24,11 +25,15 @@ module.exports = function(config) {
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-remap-coverage",
-      "karma-junit-reporter"
+      "karma-junit-reporter",
+      "karma-json-to-file-reporter",
+      "karma-json-preprocessor"
     ],
 
     // list of files / patterns to load in the browser
-    files: ["dist-test/index.browser.js"],
+    files: ["dist-test/index.browser.js"].concat(
+      isPlaybackMode() ? ["recordings/browsers/**/*.json"] : []
+    ),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -36,16 +41,27 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["env"]
+      "**/*.js": ["env"],
+      "recordings/browsers/**/*.json": ["json"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       // "test-browser/index.js": ["coverage"]
     },
 
+    envPreprocessor: [
+      "TEST_MODE",
+      "ENDPOINT",
+      "TEXT_ANALYTICS_API_KEY",
+      "TEXT_ANALYTICS_API_KEY_ALT",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TENANT_ID"
+    ],
+
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "remap-coverage", "junit"],
+    reporters: ["mocha", "coverage", "remap-coverage", "junit", "json-to-file"],
 
     coverageReporter: { type: "in-memory" },
 
@@ -71,6 +87,11 @@ module.exports = function(config) {
       properties: {} // key value pair of properties to add to the <properties> section of the report
     },
 
+    jsonToFileReporter: {
+      filter: jsonRecordingFilterFunction,
+      outputPath: "."
+    },
+
     // web server port
     port: 9876,
 
@@ -84,10 +105,15 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    // --no-sandbox allows our tests to run in Linux without having to change the system.
+    // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
+    browsers: ["ChromeHeadlessNoSandbox"],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox", "--disable-web-security"]
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -100,6 +126,9 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
+    browserConsoleLogOptions: {
+      terminal: process.env.TEST_MODE !== "record"
+    },
 
     client: {
       mocha: {

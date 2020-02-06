@@ -6,7 +6,7 @@ import childProcess from "child_process";
 import { CertificateClient } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { isNode } from "@azure/core-http";
-import { env, isRecordMode } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { SecretClient } from "@azure/keyvault-secrets";
@@ -17,7 +17,7 @@ describe("Certificates client - merge and import certificates", () => {
   let suffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
   let keyVaultUrl: string;
   let credential: ClientSecretCredential;
   let secretClient: SecretClient;
@@ -70,44 +70,46 @@ describe("Certificates client - merge and import certificates", () => {
   });
 
   // The signed csr will never be the same.
-  if (isNode && isRecordMode()) {
-    it("can merge a self signed certificate", async function() {
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can merge a self signed certificate", async function() {
+    recorder.skip(
+      undefined,
+      "The signed certificate will never be the same, so we can't play it back."
+    );
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
-      await client.beginCreateCertificate(
-        certificateName,
-        {
-          issuerName: "Unknown",
-          certificateTransparency: false,
-          subject: "cn=MyCert"
-        },
-        testPollerProperties
-      );
+    await client.beginCreateCertificate(
+      certificateName,
+      {
+        issuerName: "Unknown",
+        certificateTransparency: false,
+        subject: "cn=MyCert"
+      },
+      testPollerProperties
+    );
 
-      const certificateOperationPoller = await client.getCertificateOperation(certificateName);
-      const { csr } = await certificateOperationPoller.getOperationState().certificateOperation!;
-      const base64Csr = Buffer.from(csr!).toString("base64");
-      const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
+    const certificateOperationPoller = await client.getCertificateOperation(certificateName);
+    const { csr } = await certificateOperationPoller.getOperationState().certificateOperation!;
+    const base64Csr = Buffer.from(csr!).toString("base64");
+    const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}
 -----END CERTIFICATE REQUEST-----`;
-      fs.writeFileSync("test.csr", wrappedCsr);
+    fs.writeFileSync("test.csr", wrappedCsr);
 
-      // Certificate available locally made using:
-      //   openssl genrsa -out ca.key 2048
-      //   openssl req -new -x509 -key ca.key -out ca.crt
-      childProcess.execSync(
-        "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt"
-      );
-      const base64Crt = fs
-        .readFileSync("test.crt")
-        .toString()
-        .split("\n")
-        .slice(1, -1)
-        .join("");
+    // Certificate available locally made using:
+    //   openssl genrsa -out ca.key 2048
+    //   openssl req -new -x509 -key ca.key -out ca.crt
+    childProcess.execSync(
+      "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt"
+    );
+    const base64Crt = fs
+      .readFileSync("test.crt")
+      .toString()
+      .split("\n")
+      .slice(1, -1)
+      .join("");
 
-      await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
+    await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
 
-      await testClient.flushCertificate(certificateName);
-    });
-  }
+    await testClient.flushCertificate(certificateName);
+  });
 });

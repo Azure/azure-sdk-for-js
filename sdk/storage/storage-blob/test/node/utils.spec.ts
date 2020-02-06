@@ -5,13 +5,9 @@ import * as path from "path";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { Readable, ReadableOptions } from "stream";
 import { readStreamToLocalFile } from "../../src/utils/utils.node";
-import { record, Recorder } from "@azure/test-utils-recorder";
-import { setupEnvironment } from "../utils";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers Node.js only", () => {
-  setupEnvironment();
-  let recorder: Recorder;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
   const accountName = "myaccount";
@@ -37,14 +33,6 @@ describe("Utility Helpers Node.js only", () => {
     );
   }
 
-  beforeEach(function() {
-    recorder = record(this);
-  });
-
-  afterEach(function() {
-    recorder.stop();
-  });
-
   it("extractConnectionStringParts throws error when passed an invalid protocol in the connection string", async () => {
     try {
       extractConnectionStringParts(
@@ -54,7 +42,7 @@ describe("Utility Helpers Node.js only", () => {
     } catch (error) {
       assert.ok(
         error.message ===
-          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+        "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
       );
     }
   });

@@ -184,6 +184,22 @@ export const UpdateKbOperationDTO: msRest.CompositeMapper = {
           name: "Composite",
           className: "UpdateKbOperationDTOUpdate"
         }
+      },
+      enableHierarchicalExtraction: {
+        serializedName: "enableHierarchicalExtraction",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultAnswerUsedForExtraction: {
+        serializedName: "defaultAnswerUsedForExtraction",
+        constraints: {
+          MaxLength: 300,
+          MinLength: 1
+        },
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -674,6 +690,32 @@ export const CreateKbDTO: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      enableHierarchicalExtraction: {
+        serializedName: "enableHierarchicalExtraction",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultAnswerUsedForExtraction: {
+        serializedName: "defaultAnswerUsedForExtraction",
+        constraints: {
+          MaxLength: 300,
+          MinLength: 1
+        },
+        type: {
+          name: "String"
+        }
+      },
+      language: {
+        serializedName: "language",
+        constraints: {
+          MaxLength: 100,
+          MinLength: 1
+        },
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -950,6 +992,50 @@ export const KnowledgebasesDTO: msRest.CompositeMapper = {
   }
 };
 
+export const ActiveLearningSettingsDTO: msRest.CompositeMapper = {
+  serializedName: "ActiveLearningSettingsDTO",
+  type: {
+    name: "Composite",
+    className: "ActiveLearningSettingsDTO",
+    modelProperties: {
+      enable: {
+        serializedName: "enable",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointSettingsDTOActiveLearning: msRest.CompositeMapper = {
+  serializedName: "EndpointSettingsDTO_activeLearning",
+  type: {
+    name: "Composite",
+    className: "EndpointSettingsDTOActiveLearning",
+    modelProperties: {
+      ...ActiveLearningSettingsDTO.type.modelProperties
+    }
+  }
+};
+
+export const EndpointSettingsDTO: msRest.CompositeMapper = {
+  serializedName: "EndpointSettingsDTO",
+  type: {
+    name: "Composite",
+    className: "EndpointSettingsDTO",
+    modelProperties: {
+      activeLearning: {
+        serializedName: "activeLearning",
+        type: {
+          name: "Composite",
+          className: "EndpointSettingsDTOActiveLearning"
+        }
+      }
+    }
+  }
+};
+
 export const AlterationsDTO: msRest.CompositeMapper = {
   serializedName: "AlterationsDTO",
   type: {
@@ -1021,6 +1107,12 @@ export const EndpointKeysDTO: msRest.CompositeMapper = {
       },
       lastStableVersion: {
         serializedName: "lastStableVersion",
+        type: {
+          name: "String"
+        }
+      },
+      language: {
+        serializedName: "language",
         type: {
           name: "String"
         }

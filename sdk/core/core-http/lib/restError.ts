@@ -3,6 +3,10 @@
 
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResource } from "./webResource";
+import { custom } from "./util/inspect";
+import { Sanitizer } from "./util/sanitizer";
+
+const errorSanitizer = new Sanitizer();
 
 export class RestError extends Error {
   static readonly REQUEST_SEND_ERROR: string = "REQUEST_SEND_ERROR";
@@ -27,5 +31,12 @@ export class RestError extends Error {
     this.response = response;
 
     Object.setPrototypeOf(this, RestError.prototype);
+  }
+
+  /**
+   * Logging method for util.inspect in Node
+   */
+  [custom](): string {
+    return errorSanitizer.sanitize(this);
   }
 }

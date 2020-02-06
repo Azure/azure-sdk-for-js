@@ -1,26 +1,27 @@
 import * as assert from "assert";
 
-import { getBSU, getConnectionStringFromEnvironment, setupEnvironment } from "../utils";
+import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
 import { PublicAccessType } from "../../src/generated/src/models/index";
 import {
   ContainerClient,
   newPipeline,
   StorageSharedKeyCredential,
-  ContainerSASPermissions
+  ContainerSASPermissions,
+  BlobServiceClient
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record } from "@azure/test-utils-recorder";
 
 describe("ContainerClient Node.js only", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let recorder: any;
 
+  let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();

@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+
 import { makeAnalyzeSentimentResultCollection } from "../src/analyzeSentimentResultCollection";
 import { makeDetectLanguageResultCollection } from "../src/detectLanguageResultCollection";
 import { makeExtractKeyPhrasesResultCollection } from "../src/extractKeyPhrasesResultCollection";
 import { makeRecognizeLinkedEntitiesResultCollection } from "../src/recognizeLinkedEntitiesResultCollection";
-import { makeRecognizeEntitiesResultCollection } from "../src/recognizeEntitiesResultCollection";
+import { makeRecognizeCategorizedEntitiesResultCollection } from "../src/recognizeCategorizedEntitiesResultCollection";
 import { LanguageInput, MultiLanguageInput } from "../src/generated/models";
+import { makeRecognizePiiEntitiesResultCollection } from "../src/recognizePiiEntitiesResultCollection";
 
 describe("SentimentResultCollection", () => {
   it("merges items in order", () => {
@@ -176,7 +178,7 @@ describe("ExtractKeyPhrasesResultCollection", () => {
   });
 });
 
-describe("RecognizeEntitiesResultCollection", () => {
+describe("RecognizeCategorizedEntitiesResultCollection", () => {
   it("merges items in order", () => {
     const input: MultiLanguageInput[] = [
       {
@@ -192,7 +194,7 @@ describe("RecognizeEntitiesResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeRecognizeEntitiesResultCollection(
+    const result = makeRecognizeCategorizedEntitiesResultCollection(
       input,
       [
         {
@@ -200,7 +202,7 @@ describe("RecognizeEntitiesResultCollection", () => {
           entities: [
             {
               text: "Microsoft",
-              type: "Organization",
+              category: "Organization",
               offset: 10,
               length: 9,
               score: 0.9989
@@ -212,8 +214,71 @@ describe("RecognizeEntitiesResultCollection", () => {
           entities: [
             {
               text: "last week",
-              type: "DateTime",
-              subtype: "DateRange",
+              category: "DateTime",
+              subCategory: "DateRange",
+              offset: 34,
+              length: 9,
+              score: 0.8
+            }
+          ]
+        }
+      ],
+      [
+        {
+          id: "B",
+          error: {
+            code: "internalServerError",
+            message: "test error"
+          }
+        }
+      ],
+      ""
+    );
+
+    const inputOrder = input.map((item) => item.id);
+    const outputOrder = result.map((item) => item.id);
+    assert.deepEqual(inputOrder, outputOrder);
+  });
+});
+
+describe("RecognizePiiEntitiesResultCollection", () => {
+  it("merges items in order", () => {
+    const input: MultiLanguageInput[] = [
+      {
+        id: "A",
+        text: "test"
+      },
+      {
+        id: "B",
+        text: "test2"
+      },
+      {
+        id: "C",
+        text: "test3"
+      }
+    ];
+    const result = makeRecognizePiiEntitiesResultCollection(
+      input,
+      [
+        {
+          id: "A",
+          entities: [
+            {
+              text: "(555) 555-5555",
+              category: "US Phone Number",
+              offset: 10,
+              length: 9,
+              score: 0.9989
+            }
+          ]
+        },
+        {
+          id: "C",
+          entities: [
+            {
+              text: "1234 Default Ln.",
+              category: "US Address",
+              subCategory: "",
               offset: 34,
               length: 9,
               score: 0.8
