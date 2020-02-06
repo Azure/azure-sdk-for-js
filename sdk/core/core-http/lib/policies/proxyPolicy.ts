@@ -41,8 +41,9 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
 
   const { username, password, urlWithoutAuth } = extractAuthFromUrl(proxyUrl);
   const parsedUrl = URLBuilder.parse(urlWithoutAuth);
+  const schema = parsedUrl.getScheme() ? parsedUrl.getScheme() + "://" : "";
   return {
-    host: parsedUrl.getScheme() + "://" + parsedUrl.getHost(),
+    host: schema + parsedUrl.getHost(),
     port: Number.parseInt(parsedUrl.getPort() || "80"),
     username,
     password
