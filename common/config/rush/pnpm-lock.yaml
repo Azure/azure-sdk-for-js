@@ -308,6 +308,7 @@ packages:
     resolution:
       integrity: sha512-xB+w7ZDAu3YBzqH44rCmG9/RlrOmFuDPt/bpf17eJr8eZSrLt7nc7LnWdxM9Mmoj/YKMHpxRg28txu3TcpiL+g==
   /@opentelemetry/types/0.2.0:
+    deprecated: 'Package renamed to @opentelemetry/api, see https://github.com/open-telemetry/opentelemetry-js'
     dev: false
     engines:
       node: '>=8.0.0'
@@ -319,7 +320,7 @@ packages:
       estree-walker: 1.0.1
       is-reference: 1.1.4
       magic-string: 0.25.6
-      resolve: 1.15.0
+      resolve: 1.15.1
       rollup: 1.31.0
     dev: false
     engines:
@@ -363,7 +364,7 @@ packages:
       '@types/resolve': 0.0.8
       builtin-modules: 3.1.0
       is-module: 1.0.0
-      resolve: 1.15.0
+      resolve: 1.15.1
       rollup: 1.31.0
     dev: false
     engines:
@@ -2380,7 +2381,7 @@ packages:
   /degenerator/1.0.4:
     dependencies:
       ast-types: 0.13.2
-      escodegen: 1.13.0
+      escodegen: 1.14.1
       esprima: 3.1.3
     dev: false
     resolution:
@@ -2657,7 +2658,7 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
-  /escodegen/1.13.0:
+  /escodegen/1.14.1:
     dependencies:
       esprima: 4.0.1
       estraverse: 4.3.0
@@ -2670,7 +2671,7 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
     resolution:
-      integrity: sha512-eYk2dCkxR07DsHA/X2hRBj0CFAZeri/LyDMc0C8JT1Hqi6JnVpMhJ7XFITbb0+yZS3lVkaPL2oCkZ3AVmeVbMw==
+      integrity: sha512-Bmt7NcRySdIfNPfU2ZoXDrrXsG9ZjvDxcAlMfDUgRBjLOWTuIACXPBFJH7Z+cLb40JeQco5toikyc9t9P8E9SQ==
   /escodegen/1.8.1:
     dependencies:
       esprima: 2.7.3
@@ -3483,7 +3484,7 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha1-4oxNRdBey77YGDY86PnFkmIp/+U=
-  /handlebars/4.7.2:
+  /handlebars/4.7.3:
     dependencies:
       neo-async: 2.6.1
       optimist: 0.6.1
@@ -3495,7 +3496,7 @@ packages:
     optionalDependencies:
       uglify-js: 3.7.7
     resolution:
-      integrity: sha512-4PwqDL2laXtTWZghzzCtunQUTLbo31pcCJrd/B/9JP8XbhVzpS5ZXuKqlOzsd1rtcaLo4KqAn8nl8mkknS4MHw==
+      integrity: sha512-SRGwSYuNfx8DwHD/6InAPzD6RgeruWLT+B8e8a7gGs8FWgHzlExpTFMEq2IA6QpAfOClpKHy6+8IqTjeBCu6Kg==
   /har-schema/2.0.0:
     dev: false
     engines:
@@ -4130,7 +4131,7 @@ packages:
       escodegen: 1.8.1
       esprima: 2.7.3
       glob: 5.0.15
-      handlebars: 4.7.2
+      handlebars: 4.7.3
       js-yaml: 3.13.1
       mkdirp: 0.5.1
       nopt: 3.0.6
@@ -5213,7 +5214,7 @@ packages:
   /normalize-package-data/2.5.0:
     dependencies:
       hosted-git-info: 2.8.5
-      resolve: 1.15.0
+      resolve: 1.15.1
       semver: 5.7.1
       validate-npm-package-license: 3.0.4
     dev: false
@@ -5880,7 +5881,7 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-hEJH0s8PXLY/cdXh66tNEQGndDrIKNqNC5xmrysZy3i5C3oEoLna7YAOad+7u125+zH1HNXUmGEkrhb3c2VriA==
-  /puppeteer/2.1.0:
+  /puppeteer/2.1.1:
     dependencies:
       '@types/mime-types': 2.1.0
       debug: 4.1.1
@@ -5897,7 +5898,7 @@ packages:
       node: '>=8.16.0'
     requiresBuild: true
     resolution:
-      integrity: sha512-PC4oKMtwAElo8YtS/cYnk2/dew/3TonsGKKzjpFLWwkhBCteFsOZCVOXTt2QlP6w53mH0YsJE+fPLPzOW+DCug==
+      integrity: sha512-LWzaDVQkk1EPiuYeTOj+CZRIjda4k2s5w4MK4xoH2+kgWV/SDlkYHmxatDdtYrciHUKSXTsGgPgPP8ILVdBsxg==
   /qjobs/1.2.0:
     dev: false
     engines:
@@ -6069,7 +6070,7 @@ packages:
       integrity: sha512-zz0pAkSPOXXm1viEwygWIPSPkcBYjW1xU5j/JBh5t9bGCJwa6f9+BJa6VaB2g+b55yVrmXzqkyLf4xaWYM0IkQ==
   /rechoir/0.6.2:
     dependencies:
-      resolve: 1.15.0
+      resolve: 1.15.1
     dev: false
     engines:
       node: '>= 0.10'
@@ -6279,12 +6280,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-IDEU2CrSxe2ejgQRs5ModeiJ6Xs=
-  /resolve/1.15.0:
+  /resolve/1.15.1:
     dependencies:
       path-parse: 1.0.6
     dev: false
     resolution:
-      integrity: sha512-+hTmAldEGE80U2wJJDC1lebb5jWqvTYAfm3YZ1ckk1gBr0MnCqUKlwK1e+anaFljIl+F5tR5IoZcm4ZDA1zMQw==
+      integrity: sha512-84oo6ZTtoTUpjgNEr5SJyzQhzL72gaRodsSfyxC/AXRvwu0Yse9H8eF9IpGo7b8YetZhlI6v7ZQ6bKBFV/6S7w==
   /resolve/1.8.1:
     dependencies:
       path-parse: 1.0.6
@@ -6430,7 +6431,7 @@ packages:
   /rollup/1.31.0:
     dependencies:
       '@types/estree': 0.0.42
-      '@types/node': 13.7.0
+      '@types/node': 8.10.59
       acorn: 7.1.0
     dev: false
     hasBin: true
@@ -7332,7 +7333,7 @@ packages:
       js-yaml: 3.13.1
       minimatch: 3.0.4
       mkdirp: 0.5.1
-      resolve: 1.15.0
+      resolve: 1.15.1
       semver: 5.7.1
       tslib: 1.10.0
       tsutils: 2.29.0_typescript@3.6.5
@@ -7429,7 +7430,7 @@ packages:
     dependencies:
       '@types/minimatch': 3.0.3
       fs-extra: 8.1.0
-      handlebars: 4.7.2
+      handlebars: 4.7.3
       highlight.js: 9.18.1
       lodash: 4.17.15
       marked: 0.8.0
@@ -7988,11 +7989,14 @@ packages:
       '@rollup/plugin-node-resolve': 7.1.1_rollup@1.31.0
       '@rollup/plugin-replace': 2.3.1_rollup@1.31.0
       '@types/chai': 4.2.8
+      '@types/chai-as-promised': 7.1.2
       '@types/mocha': 5.2.7
+      '@types/node': 8.10.59
       '@types/sinon': 7.5.1
       '@typescript-eslint/eslint-plugin': 2.19.0_35fcc2f500999129ab3cdd4e0a57b2b4
       '@typescript-eslint/parser': 2.19.0_eslint@6.8.0+typescript@3.6.5
       chai: 4.2.0
+      chai-as-promised: 7.1.1_chai@4.2.0
       cross-env: 6.0.3
       dotenv: 8.2.0
       eslint: 6.8.0
@@ -8007,6 +8011,8 @@ packages:
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
       karma-ie-launcher: 1.0.0_karma@4.4.1
+      karma-json-preprocessor: 0.3.3_karma@4.4.1
+      karma-json-to-file-reporter: 1.0.1
       karma-junit-reporter: 2.0.1_karma@4.4.1
       karma-mocha: 1.3.0
       karma-mocha-reporter: 2.2.5_karma@4.4.1
@@ -8014,19 +8020,22 @@ packages:
       mocha: 6.2.2
       mocha-junit-reporter: 1.23.3_mocha@6.2.2
       mocha-multi: 1.1.3_mocha@6.2.2
+      nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.1
       rollup: 1.31.0
+      rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.31.0
       rollup-plugin-terser: 5.2.0_rollup@1.31.0
       rollup-plugin-visualizer: 3.3.1_rollup@1.31.0
       sinon: 7.5.0
+      source-map-support: 0.5.16
       tslib: 1.10.0
       typescript: 3.6.5
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-p1bAicJ3veOdJYtunNQJ+z/GcA82+TvfnQZp15O36YgzVMnIUS83Doa8SaHSWVrp14pUX3d+3rSkj16XVBh0Lg==
+      integrity: sha512-TjdPUEQXXWdPTHQ+z5jhRDNjNI9108k/1Gm5aIHdggNGwHRY4kyN56tP/CbRwccj4rg/Ns1GE6WSdLQQoLBn2g==
       tarball: 'file:projects/ai-text-analytics.tgz'
     version: 0.0.0
   'file:projects/app-configuration.tgz':
@@ -8116,7 +8125,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       process: 0.11.10
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       rhea: 1.0.18
       rhea-promise: 1.0.0
       rimraf: 3.0.1
@@ -8136,7 +8145,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-vWp+CIMzjF0jNlIwxC/JfPLCP32XFzpqaCmZBZUCvF1e9mRAEUSiTNfahtEJlLvpyK9evC3fgjimxud0OtLdfw==
+      integrity: sha512-v4qyHyTH4H3ZyaNSjPqF7zBCe4e1qF6zomAx+weVJZOwc53s1lBywYcXEb3mSLelnfQXgD3fekNkYRbc8cKGYA==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -8285,7 +8294,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       process: 0.11.10
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       regenerator-runtime: 0.13.3
       rimraf: 3.0.1
       rollup: 1.31.0
@@ -8545,7 +8554,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       process: 0.11.10
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       rhea-promise: 1.0.0
       rimraf: 3.0.1
       rollup: 1.31.0
@@ -8562,7 +8571,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-xptO4amKkVUZ9sn0TShmruu96G5x3/skEuohZngrp2vDZaCMmdDvyHcnysvFZJHE2nZq1xduP1ZMJF1jZv7K6A==
+      integrity: sha512-2wHAA1Il3YRPx1SMIHYyAWEfBTh00S3DIiZpL57klbJUShhpz2jxOqaXbELRbidIhrVJXAFGPMzHpg9SyJA1AQ==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -8727,7 +8736,7 @@ packages:
       msal: 1.2.1
       open: 7.0.2
       prettier: 1.19.1
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       qs: 6.9.1
       rimraf: 3.0.1
       rollup: 1.31.0
@@ -8791,7 +8800,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       query-string: 5.1.1
       rimraf: 3.0.1
       rollup: 1.31.0
@@ -8857,7 +8866,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       query-string: 5.1.1
       rimraf: 3.0.1
       rollup: 1.31.0
@@ -8923,7 +8932,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       query-string: 5.1.1
       rimraf: 3.0.1
       rollup: 1.31.0
@@ -8981,7 +8990,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       rimraf: 3.0.1
       rollup: 1.31.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.31.0
@@ -9059,7 +9068,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       promise: 8.0.3
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       rhea: 1.0.18
       rhea-promise: 0.1.15
       rimraf: 3.0.1
@@ -9074,7 +9083,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-2zEjShuCWE6nPEH+gfYROp0LeittbQ1pLynfqC01H5WEW4EuQNrwXUvHRW4CvS1UIiQGg2QGhufVjmyDsOMRVA==
+      integrity: sha512-KQfJfQzKJPG1VeJZyRGKtKDCstYGJYGQtoahLcOE1KurcXkIaSD2v1CMTLDtosqboT0XSZvfo8SiCJABB82ANw==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -9120,7 +9129,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       rimraf: 3.0.1
       rollup: 1.31.0
       rollup-plugin-shim: 1.0.0
@@ -9188,7 +9197,7 @@ packages:
       nock: 11.7.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       query-string: 5.1.1
       rimraf: 3.0.1
       rollup: 1.31.0
@@ -9250,7 +9259,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       rimraf: 3.0.1
       rollup: 1.31.0
       rollup-plugin-shim: 1.0.0
@@ -9310,7 +9319,7 @@ packages:
       mocha-multi: 1.1.3_mocha@6.2.2
       nyc: 14.1.1
       prettier: 1.19.1
-      puppeteer: 2.1.0
+      puppeteer: 2.1.1
       rimraf: 3.0.1
       rollup: 1.31.0
       rollup-plugin-shim: 1.0.0
@@ -9444,7 +9453,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-g8YrQTDA4IXHMgGiVqT+qbOUqRiLSUi6d4iefxs8T9YIlVrfc1ugL9dDj82ePjXhrBNKzdVGnfr+2s9QsYbiAQ==
+      integrity: sha512-Us5kUSfS4PHYG6L9v7JDz8VnUa+zSLqU1ltYqxcrztvKy90W3TYKaaPgq+WuK0RUOftmfTPynb8XAA2dLNYGdw==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 specifiers:
