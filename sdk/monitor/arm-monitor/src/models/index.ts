@@ -2113,7 +2113,7 @@ export interface MetricAlertAction {
   /**
    * The properties of a webhook object.
    */
-  webhookProperties?: { [propertyName: string]: string };
+  webHookProperties?: { [propertyName: string]: string };
 }
 
 /**
