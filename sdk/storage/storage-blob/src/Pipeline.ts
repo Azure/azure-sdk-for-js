@@ -108,7 +108,10 @@ export class Pipeline {
    */
   constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
     this.factories = factories;
-    this.options = options;
+    this.options = {
+      ...options,
+      httpClient: options.httpClient || getCachedDefaultHttpClient()
+    };
   }
 
   /**
@@ -214,7 +217,7 @@ export function newPipeline(
   // avoid each client creating its own http client.
   const newOptions = {
     ...pipelineOptions,
-    httpClient: pipelineOptions.httpClient || getCachedDefaultHttpClient()
+    httpClient: pipelineOptions.httpClient
   };
 
   return new Pipeline(factories, newOptions);
