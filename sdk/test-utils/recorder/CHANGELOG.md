@@ -2,7 +2,8 @@
 
 - If any URLs are meant to be replaced in the recordings with `replaceableVariables`, hostname from the URLs will be independently matched and replaced. [#7204](https://github.com/Azure/azure-sdk-for-js/issues/7204)
   - Example - ENV_VAR `ACCOUNT_URL=https://azureaccount.com/` is supposed to be replaced with `https://endpoint/`, `azureaccount.com` will be independently matched and replaced with `endpoint` too.
-- Added the "soft-record" mode, which allows users to only record the tests that have changed.
+- Added the "soft-record" mode, which allows users to only record the tests that have changed. [#7213](https://github.com/Azure/azure-sdk-for-js/issues/7213)
+
 
 ## 2020-01-30
 
