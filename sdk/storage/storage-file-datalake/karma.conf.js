@@ -118,7 +118,7 @@ module.exports = function(config) {
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
-      terminal: isRecordMode()
+      terminal: !isRecordMode()
     },
 
     client: {
