@@ -81,7 +81,7 @@ async function send() {
       await producer.sendBatch(batch);
       numEventsSent += batch.count;
     }
-    console.log(`Sent ${numEventsSent} events`);
+    outputLog(`Sent ${numEventsSent} events`);
     if (numEventsSent !== eventsToSend.length) {
       throw new Error(`Not all messages were sent (${numEventsSent}/${eventsToSend.length})`);
     }
@@ -89,7 +89,6 @@ async function send() {
     outputLog("Error when creating & sending a batch of events: ", err);
   }
   await producer.close();
-  console.log(`Exiting sendEvents sample`);
 }
 
 module.exports = {
