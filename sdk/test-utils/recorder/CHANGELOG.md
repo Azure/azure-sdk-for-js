@@ -1,3 +1,9 @@
+## 2020-02-06
+
+- If any URLs are meant to be replaced in the recordings with `replaceableVariables`, hostname from the URLs will be independently matched and replaced. [#7204](https://github.com/Azure/azure-sdk-for-js/issues/7204)
+
+  - Example - ENV_VAR `ACCOUNT_URL=https://azureaccount.com/` is supposed to be replaced with `https://endpoint/`, `azureaccount.com` will be independently matched and replaced with `endpoint` too.
+
 ## 2020-01-30
 
 - Fixed a bug where the replacements aren't properly filtered in the JSON recordings. [#7175](https://github.com/Azure/azure-sdk-for-js/issues/7175)

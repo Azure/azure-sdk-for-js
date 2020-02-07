@@ -350,7 +350,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
 export type QueueClearMessagesResponse = MessagesClearResponse;
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
-// 
+//
 // @public
 export class QueueClient extends StorageClient {
     constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
@@ -362,7 +362,7 @@ export class QueueClient extends StorageClient {
     deleteMessage(messageId: string, popReceipt: string, options?: QueueDeleteMessageOptions): Promise<QueueDeleteMessageResponse>;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
-    readonly name: string;
+    get name(): string;
     peekMessages(options?: QueuePeekMessagesOptions): Promise<QueuePeekMessagesResponse>;
     receiveMessages(options?: QueueReceiveMessageOptions): Promise<QueueReceiveMessageResponse>;
     sendMessage(messageText: string, options?: QueueSendMessageOptions): Promise<QueueSendMessageResponse>;
@@ -670,7 +670,7 @@ export class SASQueryParameters {
     constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string);
     readonly expiresOn?: Date;
     readonly identifier?: string;
-    readonly ipRange: SasIPRange | undefined;
+    get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;

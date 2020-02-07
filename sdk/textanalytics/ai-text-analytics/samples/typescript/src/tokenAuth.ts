@@ -5,9 +5,7 @@
  * uses Azure Active Directory (RBAC) to authenticate to the Cognitive Services endpoint
  */
 
-import {
-  TextAnalyticsClient
-} from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
 
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -16,7 +14,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
-  console.log(`Running detectLanguages sample`);
+  console.log(`Running detectLanguage sample`);
 
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -29,7 +27,7 @@ export async function main() {
 
   const client = new TextAnalyticsClient(endpoint, credential);
 
-  const [result] = await client.detectLanguages(["hello world"]);
+  const [result] = await client.detectLanguage(["hello world"]);
 
   if (!result.error) {
     console.log(`Primary language detected as ${result.primaryLanguage.name}`);

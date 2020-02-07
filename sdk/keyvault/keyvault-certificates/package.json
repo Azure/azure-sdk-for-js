@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-certificates",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/README.md",
@@ -149,7 +149,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^3.1.1",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.6.4",
+    "typescript": "~3.7.5",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
   }

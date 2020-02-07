@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running detectLanguages sample`);
+  console.log(`Running detectLanguage sample`);
 
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -25,7 +25,7 @@ async function main() {
 
   const client = new TextAnalyticsClient(endpoint, credential);
 
-  const [result] = await client.detectLanguages(["hello world"]);
+  const [result] = await client.detectLanguage(["hello world"]);
 
   if (!result.error) {
     console.log(`Primary language detected as ${result.primaryLanguage.name}`);

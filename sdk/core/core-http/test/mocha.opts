@@ -3,4 +3,5 @@
 --reporter mocha-multi
 --reporter-options spec=-,mocha-junit-reporter=-
 --colors
+--exclude test/**/*.browser.ts
 test/**/*.ts
