@@ -20,6 +20,10 @@ jobs:
     workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
     displayName: 'Validate dependencies'
 
+  - pwsh: |
+      copy eng/common/InterdependencyGraph.html $(Build.ArtifactStagingDirectory)
+    displayName: 'Copy static file'
+
   - task: AzureFileCopy@2
     displayName: 'Upload dependency report'
     inputs:
