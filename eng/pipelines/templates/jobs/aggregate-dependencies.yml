@@ -17,14 +17,14 @@ jobs:
 
   - script: |
         mkdir $(Build.SourcesDirectory)/reports
-        node index.js --verbose --out "$(Build.SourcesDirectory)/reports/dependencies.html" --dump "$(Build.SourcesDirectory)/reports/data.js"
+        node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/reports/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)/reports/data.js"
     workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
     displayName: 'Validate dependencies'
 
   - task: AzureFileCopy@2
     displayName: 'Upload dependency report'
     inputs:
-      sourcePath: '$(Build.SourcesDirectory)/reports'
+      sourcePath: '$(Build.ArtifactStagingDirectory)/reports'
       additionalArgumentsForBlobCopy: |
         '/Y'
         '/Pattern:*'
