@@ -12,8 +12,14 @@ import { TokenCredential } from '@azure/identity';
 import { WebResource } from '@azure/core-http';
 
 // @public
+export class FormRecognizerApiKeyCredential implements ServiceClientCredentials {
+    constructor(apiKey: string);
+    signRequest(webResource: WebResource): Promise<WebResource>;
+    updateKey(apiKey: string): void;
+}
+
+// @public
 export class FormRecognizerClient {
-    // Warning: (ae-forgotten-export) The symbol "FormRecognizerApiKeyCredential" needs to be exported by the entry point index.d.ts
     constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // Warning: (ae-forgotten-export) The symbol "ListCustomModelsOptions" needs to be exported by the entry point index.d.ts
