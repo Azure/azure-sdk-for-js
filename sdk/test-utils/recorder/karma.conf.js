@@ -118,7 +118,8 @@ module.exports = function(config) {
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
-      terminal: process.env.TEST_MODE !== "record"
+      // We would usually hide the logs from the tests, but we don't need to do this inside of the recorder package.
+      // // terminal: process.env.TEST_MODE !== "record"
     },
 
     client: {

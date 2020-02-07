@@ -1,7 +1,7 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
-const { jsonRecordingFilterFunction, isPlaybackMode, isSoftRecordMode } = require("@azure/test-utils-recorder");
+const { jsonRecordingFilterFunction, isPlaybackMode, isSoftRecordMode, isRecordMode } = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -99,7 +99,7 @@ module.exports = function(config) {
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
       // IMPORTANT: COMMENT the following line if you want to print debug logs in your browsers in record mode!!
-      terminal: process.env.TEST_MODE !== "record"
+      terminal: !isRecordMode()
     },
 
     client: {
