@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/keyvault-certificates";
-export const packageVersion = "4.0.1";
+const packageVersion = "4.0.1";
 
 export class KeyVaultClientContext extends coreHttp.ServiceClient {
   apiVersion: string;
