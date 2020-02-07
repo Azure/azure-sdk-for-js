@@ -187,45 +187,6 @@ describe("BlobClient Node.js only", () => {
     assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
   });
 
-  it("undelete", async () => {
-    const properties = await blobServiceClient.getProperties();
-    if (!properties.deleteRetentionPolicy!.enabled) {
-      await blobServiceClient.setProperties({
-        deleteRetentionPolicy: {
-          days: 7,
-          enabled: true
-        }
-      });
-      await delay(15 * 1000);
-    }
-
-    await blobClient.delete();
-
-    const result = (
-      await containerClient
-        .listBlobsFlat({
-          includeDeleted: true
-        })
-        .byPage()
-        .next()
-    ).value;
-
-    assert.ok(result.segment.blobItems![0].deleted);
-
-    await blobClient.undelete();
-
-    const result2 = (
-      await containerClient
-        .listBlobsFlat({
-          includeDeleted: true
-        })
-        .byPage()
-        .next()
-    ).value;
-
-    assert.ok(!result2.segment.blobItems![0].deleted);
-  });
-
   it("syncCopyFromURL", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
 

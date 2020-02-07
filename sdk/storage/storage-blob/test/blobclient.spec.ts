@@ -243,29 +243,40 @@ describe("BlobClient", () => {
 
     await blobClient.delete();
 
-    const result = (
-      await containerClient
-        .listBlobsFlat({
-          includeDeleted: true
-        })
-        .byPage()
-        .next()
-    ).value;
+    const iter = await containerClient
+      .listBlobsFlat({
+        includeDeleted: true
+      })
+      .byPage({ maxPageSize: 1 });
 
-    assert.ok(result.segment.blobItems![0].deleted);
+    let res = await iter.next();
+    let result = res.value;
+    while (!result.segment.blobItems && !res.done) {
+      res = await iter.next();
+      result = res.value;
+    }
+
+    assert.ok(result.segment.blobItems![0].deleted, "Expect that the blob is marked for deletion");
 
     await blobClient.undelete();
 
-    const result2 = (
-      await containerClient
-        .listBlobsFlat({
-          includeDeleted: true
-        })
-        .byPage()
-        .next()
-    ).value;
+    const iter2 = await containerClient
+      .listBlobsFlat({
+        includeDeleted: true
+      })
+      .byPage();
 
-    assert.ok(!result2.segment.blobItems![0].deleted);
+    res = await iter2.next();
+    let result2 = res.value;
+    while (!result2.segment.blobItems && !res.done) {
+      res = await iter2.next();
+      result2 = res.value;
+    }
+
+    assert.ok(
+      !result2.segment.blobItems![0].deleted,
+      "Expect that the blob is NOT marked for deletion"
+    );
   });
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
