@@ -96,7 +96,7 @@ describe("recorder - Browser", () => {
             uniqueName: {},
             newDate: {}
           },
-          hash: "8651749982bd89975dae989606629838"
+          hash: "53a549cb738425ce5b850f55ce6e7d7c"
         }
       })
     );
@@ -227,7 +227,7 @@ describe("recorder - Browser", () => {
             uniqueName: {},
             newDate: {}
           },
-          hash: "ca6951c3855174171b153051bfb7943b"
+          hash: "c05fc8585ed0ff8c862d87ead1453bd0"
         }
       })
     );
@@ -250,7 +250,7 @@ describe("recorder - Browser", () => {
         ],
         uniqueTestInfo: { uniqueName: {}, newDate: {} },
         // This is the expected hash
-        hash: "0f327c44415bce4a8868db211fe25c6c"
+        hash: "cfc8f9725a2125b8a63f1177c46245f8"
       }
     };
 
