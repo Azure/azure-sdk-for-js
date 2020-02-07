@@ -72,7 +72,8 @@
     "stream-browserify": "^2.0.2",
     "tslib": "^1.10.0",
     "url": "^0.11.0",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "net": "~1.0.2"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
