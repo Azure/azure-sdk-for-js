@@ -239,15 +239,19 @@ describe("recorder - NodeJS", () => {
       ...this,
       skip() {
         skipped = true;
+        throw new Error("Emulating mocha's skip");
       }
     };
 
-    const recorder = record(fakeThis as Mocha.Context, recorderEnvSetup);
+    try {
+      record(fakeThis as Mocha.Context, recorderEnvSetup);
+    } catch (e) {
+      if (e.message !== "Emulating mocha's skip") {
+        throw e;
+      }
+    }
 
     expect(skipped).to.true;
-
-    // This should not crash.
-    recorder.stop();
 
     // The file shouldn't have changed, but just in case.
     // The recorder takes some time to finish writing the output file.

@@ -87,14 +87,23 @@ describe("recorder - Browser", () => {
     // Here we confirm that the recorder generated an expected output on the console.logs.
     // This output is used to generate the recording files in the filesystem, though here we're only
     // checking what was that the recorded emitted to the standard output.
-    expect(savedConsoleLogParams).to.deep.equal([
-      [
-        // The recordings here are empty because we hijacked the XHR.
-        // See the playback test for an example of a properly constructed recording object.
-        // TODO: Find a way to capture the complete output.
-        '{"writeFile":true,"path":"./recordings/browsers/recorder__browser/recording_should_record_a_simple_test.json","content":{"recordings":[],"uniqueTestInfo":{"uniqueName":{},"newDate":{}},"hash":"bee6c8ee9e9197caa06d7a1a88c30aaa"}}'
-      ]
-    ]);
+    expect(savedConsoleLogParams[0][0]).to.equal(
+      // The recordings here are empty because we hijacked the XHR.
+      // See the playback test for an example of a properly constructed recording object.
+      // TODO: Find a way to capture the complete output.
+      JSON.stringify({
+        writeFile: true,
+        path: "./recordings/browsers/recorder__browser/recording_should_record_a_simple_test.json",
+        content: {
+          recordings: [],
+          uniqueTestInfo: {
+            uniqueName: {},
+            newDate: {}
+          },
+          hash: "8651749982bd89975dae989606629838"
+        }
+      })
+    );
   });
 
   it("should playback a simple test", async function() {
@@ -208,14 +217,24 @@ describe("recorder - Browser", () => {
     // Here we confirm that the recorder generated an expected output on the console.logs.
     // This output is used to generate the recording files in the filesystem, though here we're only
     // checking what was that the recorded emitted to the standard output.
-    expect(savedConsoleLogParams).to.deep.equal([
-      [
-        // The recordings here are empty because we hijacked the XHR.
-        // See the playback test for an example of a properly constructed recording object.
-        // TODO: Find a way to capture the complete output.
-        '{"writeFile":true,"path":"./recordings/browsers/recorder__browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json","content":{"recordings":[],"uniqueTestInfo":{"uniqueName":{},"newDate":{}},"hash":"a2d2e186550d37c743cb66e7f4e32062"}}'
-      ]
-    ]);
+    expect(savedConsoleLogParams[0][0]).to.equal(
+      // The recordings here are empty because we hijacked the XHR.
+      // See the playback test for an example of a properly constructed recording object.
+      // TODO: Find a way to capture the complete output.
+      JSON.stringify({
+        writeFile: true,
+        path:
+          "./recordings/browsers/recorder__browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json",
+        content: {
+          recordings: [],
+          uniqueTestInfo: {
+            uniqueName: {},
+            newDate: {}
+          },
+          hash: "ca6951c3855174171b153051bfb7943b"
+        }
+      })
+    );
   });
 
   it("soft-record should skip a simple unchanged test", async function() {
@@ -235,7 +254,7 @@ describe("recorder - Browser", () => {
         ],
         uniqueTestInfo: { uniqueName: {}, newDate: {} },
         // This is the expected hash
-        hash: "78076b9657581d45ed9f1233a3476e07"
+        hash: "0f327c44415bce4a8868db211fe25c6c"
       }
     };
 
@@ -256,14 +275,18 @@ describe("recorder - Browser", () => {
       ...this,
       skip() {
         skipped = true;
+        throw new Error("Emulating mocha's skip");
       }
     };
 
-    const recorder = record(fakeThis as Mocha.Context, recorderEnvSetup);
+    try {
+      record(fakeThis as Mocha.Context, recorderEnvSetup);
+    } catch (e) {
+      if (e.message !== "Emulating mocha's skip") {
+        throw e;
+      }
+    }
 
     expect(skipped).to.true;
-
-    // This should not crash.
-    recorder.stop();
   });
 });
