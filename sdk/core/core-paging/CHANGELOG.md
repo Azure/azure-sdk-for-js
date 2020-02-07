@@ -2,7 +2,7 @@
 
 ## 1.1.0 (Unreleased)
 
-- Added new generic argument to `PagedAsyncIterableIterator` for custom `PageSettings` for services that have complex continuation parameters or no maxPageSize.
+- Added new generic argument to `PagedAsyncIterableIterator` for custom `PageSettings` for services that use client-driven paging or other paging patterns.
 
 ## 1.0.0 (2019-10-29)
 
