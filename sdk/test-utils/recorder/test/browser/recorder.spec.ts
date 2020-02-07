@@ -27,7 +27,7 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-describe("recorder - Browser", () => {
+describe("The recorder's public API, on a browser", () => {
   afterEach(() => {
     delete (window as any).__env__.TEST_MODE;
     delete (window as any).__env__.PATH;
@@ -89,7 +89,7 @@ describe("recorder - Browser", () => {
       // TODO: Find a way to capture the complete output.
       JSON.stringify({
         writeFile: true,
-        path: "./recordings/browsers/recorder__browser/recording_should_record_a_simple_test.json",
+        path: "./recordings/browsers/the_recorders_public_api_on_a_browser/recording_should_record_a_simple_test.json",
         content: {
           recordings: [],
           uniqueTestInfo: {
@@ -109,7 +109,7 @@ describe("recorder - Browser", () => {
 
     // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
     (window as any).__json__ = {
-      ["recordings/browsers/recorder__browser/recording_should_playback_a_simple_test.json"]: {
+      ["recordings/browsers/the_recorders_public_api_on_a_browser/recording_should_playback_a_simple_test.json"]: {
         recordings: [
           {
             method: "GET",
@@ -148,7 +148,7 @@ describe("recorder - Browser", () => {
 
     // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
     (window as any).__json__ = {
-      ["recordings/browsers/recorder__browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json"]: {
+      ["recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json"]: {
         recordings: [
           {
             method: "GET",
@@ -220,7 +220,7 @@ describe("recorder - Browser", () => {
       JSON.stringify({
         writeFile: true,
         path:
-          "./recordings/browsers/recorder__browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json",
+          "./recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json",
         content: {
           recordings: [],
           uniqueTestInfo: {
@@ -240,7 +240,7 @@ describe("recorder - Browser", () => {
 
     // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
     (window as any).__json__ = {
-      ["recordings/browsers/recorder__browser/recording_softrecord_should_skip_a_simple_unchanged_test.json"]: {
+      ["recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_skip_a_simple_unchanged_test.json"]: {
         recordings: [
           {
             method: "GET",

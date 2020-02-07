@@ -49,13 +49,13 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-describe("recorder - NodeJS", () => {
+describe("The recorder's public API, on NodeJS", () => {
   beforeEach(function() {
     // These tests do make files in the recordings folder.
     // For that reason, we make sure these files are deleted before testing.
     const fs = require("fs");
     const path = require("path");
-    const directory = path.resolve("./recordings/node/recorder__nodejs");
+    const directory = path.resolve("./recordings/node/the_recorders_public_api_on_nodejs");
     try {
       const files = fs.readdirSync(directory);
       for (const file of files) {
@@ -106,12 +106,14 @@ describe("recorder - NodeJS", () => {
     await delay(1000);
     const fs = require("fs");
     const recording = fs.readFileSync(
-      "./recordings/node/recorder__nodejs/recording_should_record_a_simple_test.js",
+      "./recordings/node/the_recorders_public_api_on_nodejs/recording_should_record_a_simple_test.js",
       { encoding: "utf-8" }
     );
 
     // Nock does store the date of the request. Let's strip that from the response.
-    const recordingWithoutDate = recording.replace(/Date',\n[^\n]*\n/, "Date',\n  'DATE',\n");
+    const recordingParts = recording.split("\n");
+    recordingParts[10] = "  'DATE',";
+    const recordingWithoutDate = recordingParts.join("\n");
     expect(recordingWithoutDate).to.equal(expectedRecording);
   });
 
@@ -121,7 +123,7 @@ describe("recorder - NodeJS", () => {
     // Making sure the expected recording actually exists before running playback.
     const fs = require("fs");
     fs.writeFileSync(
-      "./recordings/node/recorder__nodejs/recording_should_playback_a_simple_test.js",
+      "./recordings/node/the_recorders_public_api_on_nodejs/recording_should_playback_a_simple_test.js",
       expectedRecording
     );
 
@@ -150,7 +152,7 @@ describe("recorder - NodeJS", () => {
     // Making sure the expected recording actually exists before running playback.
     const fs = require("fs");
     fs.writeFileSync(
-      "./recordings/node/recorder__nodejs/recording_softrecord_should_rerecord_a_simple_outdated_test.js",
+      "./recordings/node/the_recorders_public_api_on_nodejs/recording_softrecord_should_rerecord_a_simple_outdated_test.js",
       expectedRecording
     );
 
@@ -190,7 +192,7 @@ describe("recorder - NodeJS", () => {
     // It's not a second, but we're being pessimists.
     await delay(1000);
     const recording = fs.readFileSync(
-      "./recordings/node/recorder__nodejs/recording_softrecord_should_rerecord_a_simple_outdated_test.js",
+      "./recordings/node/the_recorders_public_api_on_nodejs/recording_softrecord_should_rerecord_a_simple_outdated_test.js",
       { encoding: "utf-8" }
     );
 
@@ -214,7 +216,7 @@ describe("recorder - NodeJS", () => {
     // Making sure the expected recording actually exists before running playback.
     const fs = require("fs");
     fs.writeFileSync(
-      "./recordings/node/recorder__nodejs/recording_softrecord_should_skip_a_simple_unchanged_test.js",
+      "./recordings/node/the_recorders_public_api_on_nodejs/recording_softrecord_should_skip_a_simple_unchanged_test.js",
       expectedRecording
     );
 
@@ -254,7 +256,7 @@ describe("recorder - NodeJS", () => {
     // It's not a second, but we're being pessimists.
     await delay(1000);
     const recording = fs.readFileSync(
-      "./recordings/node/recorder__nodejs/recording_softrecord_should_skip_a_simple_unchanged_test.js",
+      "./recordings/node/the_recorders_public_api_on_nodejs/recording_softrecord_should_skip_a_simple_unchanged_test.js",
       { encoding: "utf-8" }
     );
 
