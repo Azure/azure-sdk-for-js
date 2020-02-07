@@ -1,11 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export {
-  FormRecognizerClient,
-  FormRecognizerClientOptions
-} from "./formRecognizerClient";
+export { FormRecognizerClient, FormRecognizerClientOptions } from "./formRecognizerClient";
 
-export {
-  GetCustomModelsResponse
-} from "./generated/models";
+export { GetCustomModelsResponse } from "./generated/models";

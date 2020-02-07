@@ -1,6 +1,5 @@
 {
-    "plugins": ["@azure/azure-sdk"],
-    "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
-    "ignorePatterns": ["src/generated/**/*.ts"]
-  }
-  
+  "plugins": ["@azure/azure-sdk"],
+  "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
+  "ignorePatterns": ["src/generated/**/*.ts"]
+}

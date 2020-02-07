@@ -14,9 +14,7 @@ import {
 import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import {
-  GetCustomModelsResponse
-} from "./generated/models";
+import { GetCustomModelsResponse } from "./generated/models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -25,24 +23,20 @@ import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
-
 /**
  * Client options used to configure FormRecognizer API requests.
  */
-export interface FormRecognizerClientOptions extends PipelineOptions {
-
-}
+export interface FormRecognizerClientOptions extends PipelineOptions {}
 
 /**
  * Options common to all form recognizer operations.
  */
-export interface FormRecognizerOperationOptions extends OperationOptions {
-}
+export interface FormRecognizerOperationOptions extends OperationOptions {}
 
 /**
  * Options for the detect languages operation.
  */
-export type ListCustomModelsOptions = FormRecognizerOperationOptions
+export type ListCustomModelsOptions = FormRecognizerOperationOptions;
 
 /**
  * Client class for interacting with Azure Form Recognizer.
@@ -112,8 +106,10 @@ export class FormRecognizerClient {
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
   }
 
-  public async listCustomModels(includingFullList: boolean = true, options?: ListCustomModelsOptions): Promise<GetCustomModelsResponse> {
-
+  public async listCustomModels(
+    includingFullList: boolean = true,
+    options?: ListCustomModelsOptions
+  ): Promise<GetCustomModelsResponse> {
     const realOptions: ListCustomModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormRecognizerClient-listCustomModels",
@@ -123,7 +119,7 @@ export class FormRecognizerClient {
     try {
       const result = await this.client.getCustomModels({
         ...operationOptionsToRequestOptionsBase(finalOptions),
-        op: includingFullList? "full" : "summary"
+        op: includingFullList ? "full" : "summary"
       });
 
       return result;
