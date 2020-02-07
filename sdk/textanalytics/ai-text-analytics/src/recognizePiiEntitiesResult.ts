@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalysisResult,
+  makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalysisErrorResult
+  makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import { Entity, TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
 
@@ -44,7 +44,7 @@ export function makeRecognizePiiEntitiesResult(
   statistics?: TextDocumentStatistics
 ): RecognizePiiEntitiesSuccessResult {
   return {
-    ...makeTextAnalysisResult(id, statistics),
+    ...makeTextAnalyticsSuccessResult(id, statistics),
     entities
   };
 }
@@ -53,5 +53,5 @@ export function makeRecognizePiiEntitiesErrorResult(
   id: string,
   error: TextAnalyticsError
 ): RecognizePiiEntitiesErrorResult {
-  return makeTextAnalysisErrorResult(id, error);
+  return makeTextAnalyticsErrorResult(id, error);
 }

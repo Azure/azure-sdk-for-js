@@ -59,6 +59,31 @@ describe("[AAD] TextAnalyticsClient", function() {
       assertAllSuccess(results);
     });
 
+    it("service returns error for invalid language", async () => {
+      const [result] = await client.analyzeSentiment(["Hello world!"], "notalanguage");
+      if (result.error === undefined) {
+        assert.fail("Expected an error from the service.");
+        return;
+      }
+      assert.equal(result.error.code, "UnsupportedLanguageCode");
+    });
+
+    it("service returns an error for an empty document", async () => {
+      const data = [...testDataEn];
+      data.splice(1, 0, "");
+      const results = await client.analyzeSentiment(data);
+      const errorResult = results[1];
+      if (errorResult.error === undefined) {
+        assert.fail("Expected an error from the service");
+        return;
+      }
+      assert.equal(
+        results.filter((result) => result.error === undefined).length,
+        testDataEn.length
+      );
+      assert.equal(errorResult.error.code, "InvalidDocument");
+    });
+
     it("client accepts TextDocumentInput[]", async () => {
       const enInputs = testDataEn.map(
         (text): TextDocumentInput => ({
@@ -99,9 +124,14 @@ describe("[AAD] TextAnalyticsClient", function() {
       assertAllSuccess(results);
     });
 
-    it("client produces an error on invalid country hint", async () => {
+    it("service errors on invalid country hint", async () => {
       const [result] = await client.detectLanguage(["hello"], "invalidcountry");
-      assert.ok((result as any).error !== undefined);
+      if (result.error === undefined) {
+        assert.fail("Expected an error from the service");
+        return;
+      }
+
+      assert.equal(result.error.code, "InvalidCountryHint");
     });
 
     it("client accepts mixed-country DetectLanguageInput[]", async () => {
@@ -143,6 +173,20 @@ describe("[AAD] TextAnalyticsClient", function() {
       assertAllSuccess(results);
     });
 
+    it("service errors on unsupported language", async () => {
+      const [result] = await client.recognizeEntities(
+        ["This is some text, but it doesn't matter."],
+        "notalanguage"
+      );
+
+      if (result.error === undefined) {
+        assert.fail("Expected an error from the service");
+        return;
+      }
+
+      assert.equal(result.error.code, "UnsupportedLanguageCode");
+    });
+
     it("client accepts mixed-language TextDocumentInput[]", async () => {
       const enInputs = testDataEn.map(
         (text): TextDocumentInput => ({
@@ -181,6 +225,20 @@ describe("[AAD] TextAnalyticsClient", function() {
       const results = await client.extractKeyPhrases(testDataEn, "en");
       assert.equal(results.length, testDataEn.length);
       assertAllSuccess(results);
+    });
+
+    it("service errors on unsupported language", async () => {
+      const [result] = await client.extractKeyPhrases(
+        ["This is some text, but it doesn't matter."],
+        "notalanguage"
+      );
+
+      if (result.error === undefined) {
+        assert.fail("Expected an error from the service");
+        return;
+      }
+
+      assert.equal(result.error.code, "UnsupportedLanguageCode");
     });
 
     it("client accepts mixed-language TextDocumentInput[]", async () => {
@@ -236,6 +294,20 @@ describe("[AAD] TextAnalyticsClient", function() {
       }
     });
 
+    it("service errors on unsupported language", async () => {
+      const [result] = await client.recognizePiiEntities(
+        ["This is some text, but it doesn't matter."],
+        "notalanguage"
+      );
+
+      if (result.error === undefined) {
+        assert.fail("Expected an error from the service");
+        return;
+      }
+
+      assert.equal(result.error.code, "UnsupportedLanguageCode");
+    });
+
     it("client accepts mixed-language TextDocumentInput[]", async () => {
       const enInputs = testDataEn.map(
         (text): TextDocumentInput => ({
@@ -275,6 +347,20 @@ describe("[AAD] TextAnalyticsClient", function() {
       const results = await client.recognizeLinkedEntities(testDataEn, "en");
       assert.equal(results.length, testDataEn.length);
       assertAllSuccess(results);
+    });
+
+    it("service errors on unsupported language", async () => {
+      const [result] = await client.recognizeLinkedEntities(
+        ["This is some text, but it doesn't matter."],
+        "notalanguage"
+      );
+
+      if (result.error === undefined) {
+        assert.fail("Expected an error from the service");
+        return;
+      }
+
+      assert.equal(result.error.code, "UnsupportedLanguageCode");
     });
 
     it("client accepts mixed-language TextDocumentInput[]", async () => {
