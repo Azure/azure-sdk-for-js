@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist/index.js": "./browser/index.js",
+    "./dist/index.js": "./browser/index.js"
   },
   "types": "types/ai-form-recognizer.d.ts",
   "scripts": {
