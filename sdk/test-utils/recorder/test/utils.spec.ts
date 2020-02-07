@@ -7,10 +7,6 @@ import {
   env,
   filterSecretsRecursivelyFromJSON,
   generateTestRecordingFilePath,
-  nodeRequireRecordingIfExists,
-  isBrowser,
-  findRecordingsFolderPath,
-  testHasChanged
 } from "../src/utils";
 import chai from "chai";
 import { setEnvironmentVariables } from "../src/baseRecorder";
@@ -52,7 +48,7 @@ describe("utils", () => {
   });
 
   describe("applyReplacementMap", () => {
-    it("should filter URI encoded secrets", () => {
+    it("Should filter URI encoded secrets", () => {
       const env: NodeJS.ProcessEnv = {
         SECRET: "(SECRET)"
       };
@@ -66,7 +62,7 @@ describe("utils", () => {
       expect(appliedMap).to.equal("azure.com/url/HIDDEN_SECRET");
     });
 
-    it("should filter hostname of the plain URI", () => {
+    it("Should filter hostname of the plain URI", () => {
       const env: NodeJS.ProcessEnv = {
         ENDPOINT: "https://azureaccount.net/"
       };
@@ -80,7 +76,7 @@ describe("utils", () => {
       expect(appliedMap).to.equal("https://endpoint/");
     });
 
-    it("should filter hostname of the URI irrespective of `/` at the end", () => {
+    it("Should filter hostname of the URI irrespective of `/` at the end", () => {
       const env: NodeJS.ProcessEnv = {
         ENDPOINT: "https://azureaccount.net/"
       };
@@ -94,7 +90,7 @@ describe("utils", () => {
       expect(appliedMap).to.equal("https://endpoint");
     });
 
-    it("should filter hostname of the URI irrespective of the content succeeding the hostname", () => {
+    it("Should filter hostname of the URI irrespective of the content succeeding the hostname", () => {
       const env: NodeJS.ProcessEnv = {
         ENDPOINT: "https://azureaccount.net/queue/"
       };
@@ -108,7 +104,7 @@ describe("utils", () => {
       expect(appliedMap).to.equal("https://endpoint");
     });
 
-    it("should filter raw secrets", () => {
+    it("Should filter raw secrets", () => {
       const env: NodeJS.ProcessEnv = {
         ENDPOINT: "azure.com/url/"
       };
@@ -122,7 +118,7 @@ describe("utils", () => {
       expect(appliedMap).to.equal("default.com/path/%28SECRET%29");
     });
 
-    it("should filter both, raw and URI encoded secrets", () => {
+    it("Should filter both, raw and URI encoded secrets", () => {
       const env: NodeJS.ProcessEnv = {
         SECRET: "(SECRET)",
         ENDPOINT: "azure.com/url/"
@@ -138,7 +134,7 @@ describe("utils", () => {
       expect(appliedMap).to.equal("default.com/path/HIDDEN_SECRET");
     });
 
-    it("should work with recordings of several lines", () => {
+    it("Should work with recordings of several lines", () => {
       const env: NodeJS.ProcessEnv = {
         SECRET: "(SECRET)",
         ENDPOINT: "azure.com/url/"
@@ -170,7 +166,7 @@ ultramarine.com/url/PUBLIC
   });
 
   describe("applyReplacementFunctions", () => {
-    it("should apply one replacement function", () => {
+    it("Should apply one replacement function", () => {
       const replacements: Array<(content: string) => string> = [
         (source: string): string => {
           return source.replace(/banana/i, "Bonobo's");
@@ -181,7 +177,7 @@ ultramarine.com/url/PUBLIC
       expect(appliedFunctions).to.equal("Bonobo's Split");
     });
 
-    it("should apply several replacement functions", () => {
+    it("Should apply several replacement functions", () => {
       const replacements: Array<(content: string) => string> = [
         (source: string): string => {
           return source.replace(/banana/i, "Bonobo's");
@@ -195,7 +191,7 @@ ultramarine.com/url/PUBLIC
       expect(appliedFunctions).to.equal("Bonobo's Flex");
     });
 
-    it("should work with recordings of several lines", () => {
+    it("Should work with recordings of several lines", () => {
       const replacements = [
         (source: string): string => {
           return source.replace(/azure.com/g, "default.com");
@@ -239,7 +235,7 @@ ultramarine.com/url/PUBLIC
       expect(updatedRecording).to.deep.equal(expectedFilteredOutput);
     }
 
-    it("should work for strings", () => {
+    it("Should work for strings", () => {
       env.SECRET = "SECRET";
       const replaceableVariables = { SECRET: "FAKE_IT" };
 
@@ -248,7 +244,7 @@ ultramarine.com/url/PUBLIC
       expect(updatedRecording).to.equal("HERE_IS_THE_FLAG-FAKE_IT");
     });
 
-    it("should work for JSON content #1 - secret is present in the query attributes, part of the xml response string", () => {
+    it("Should work for JSON content #1 - secret is present in the query attributes, part of the xml response string", () => {
       env.ACCOUNT_NAME = "azureaccount";
       const replaceableVariables = { ACCOUNT_NAME: "fakestorageaccount" };
       verifyFilterFunctionForJson(
@@ -291,7 +287,7 @@ ultramarine.com/url/PUBLIC
       );
     });
 
-    it("should work for JSON content #2 - secret is present as part of a JSON lookalike response string ", () => {
+    it("Should work for JSON content #2 - secret is present as part of a JSON lookalike response string ", () => {
       verifyFilterFunctionForJson(
         {
           recording: [
@@ -317,7 +313,7 @@ ultramarine.com/url/PUBLIC
       );
     });
 
-    it("should work for JSON content #3 - array of JSON objects", () => {
+    it("Should work for JSON content #3 - array of JSON objects", () => {
       env.ACCOUNT_NAME = "azureaccount";
       const replaceableVariables = { ACCOUNT_NAME: "fakestorageaccount" };
       verifyFilterFunctionForJson(
@@ -345,7 +341,7 @@ ultramarine.com/url/PUBLIC
       );
     });
 
-    it("should work for JSON content #4 - JSON content with key-value pair strings", () => {
+    it("Should work for JSON content #4 - JSON content with key-value pair strings", () => {
       verifyFilterFunctionForJson(
         {
           response:
@@ -363,7 +359,7 @@ ultramarine.com/url/PUBLIC
       );
     });
 
-    it("should work for JSON content #5 - regex to be replaced is present as a key-value pair in the JSON content", () => {
+    it("Should work for JSON content #5 - regex to be replaced is present as a key-value pair in the JSON content", () => {
       verifyFilterFunctionForJson(
         { access_token: "eyJ0eXA75E_Q" },
         {},
@@ -375,7 +371,7 @@ ultramarine.com/url/PUBLIC
       );
     });
 
-    it("should work for JSON content #6 - JSON.stringify-ed content with regex to be replaced is present as a key-value pair at the top level in the JSON content", () => {
+    it("Should work for JSON content #6 - JSON.stringify-ed content with regex to be replaced is present as a key-value pair at the top level in the JSON content", () => {
       verifyFilterFunctionForJson(
         JSON.stringify({ access_token: "eyJ0eXA75E_Q" }),
         {},
@@ -387,7 +383,7 @@ ultramarine.com/url/PUBLIC
       );
     });
 
-    it("should work for JSON content #7 - JSON.stringify-ed content - regex to be replaced is present as a key-value pair somewhere inside the tree in the JSON content", () => {
+    it("Should work for JSON content #7 - JSON.stringify-ed content - regex to be replaced is present as a key-value pair somewhere inside the tree in the JSON content", () => {
       verifyFilterFunctionForJson(
         JSON.stringify({
           recording: [{ access_token: "eyJ0eXA75E_Q" }]
@@ -405,21 +401,21 @@ ultramarine.com/url/PUBLIC
   });
 
   describe("set environment variables", () => {
-    it("should not fail if the dictionary is empty", () => {
+    it("Should not fail if the dictionary is empty", () => {
       env.SECRET = "SECRET";
       const replaceableVariables = {};
 
       setEnvironmentVariables(env, replaceableVariables);
     });
 
-    it("should succeed if the dictionary has one key-value pair", () => {
+    it("Should succeed if the dictionary has one key-value pair", () => {
       const replaceableVariables = { SECRET: "FAKE_IT" };
 
       setEnvironmentVariables(env, replaceableVariables);
       expect(env.SECRET).to.equal("FAKE_IT");
     });
 
-    it("should succeed if the dictionary has multiple key-value pairs", () => {
+    it("Should succeed if the dictionary has multiple key-value pairs", () => {
       const replaceableVariables = { ACCOUNT_NAME: "fake_account_name", SECRET: "FAKE IT" };
 
       setEnvironmentVariables(env, replaceableVariables);
@@ -429,7 +425,7 @@ ultramarine.com/url/PUBLIC
   });
 
   describe("generateTestRecordingFilePath", () => {
-    it("should generate a properly formatted path on platform: Node", function() {
+    it("Should generate a properly formatted path on platform: Node", function() {
       const platform = "node";
       const testSuiteTitle = this.test!.parent!.fullTitle();
       const testTitle = this.test!.title;
@@ -439,252 +435,13 @@ ultramarine.com/url/PUBLIC
       );
     });
 
-    it("should generate a properly formatted path on platform: Browsers", function() {
+    it("Should generate a properly formatted path on platform: Browsers", function() {
       const platform = "browsers";
       const testSuiteTitle = this.test!.parent!.fullTitle();
       const testTitle = this.test!.title;
       const result = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
       expect(result).to.equal(
         `${platform}/utils_generatetestrecordingfilepath/recording_should_generate_a_properly_formatted_path_on_platform_browsers.json`
-      );
-    });
-  });
-
-  describe("nodeRequireRecordingIfExists", () => {
-    it("should be able to load the contents of a recording file if the file exists", function() {
-      if (isBrowser()) return this.skip();
-
-      const mockFs = require("mock-fs");
-      const mockRequire = require("mock-require");
-
-      // This needs to change if findRecordingsFolderPath changes.
-      mockFs({
-        // Our lazy require doesn't use the fs module internally.
-        "recordings/recording.json": "",
-        "test/myTest.spec.ts": "",
-        "../../sdk/": {},
-        "../../../rush.json": ""
-      });
-
-      mockRequire("../recordings/recording.json", {
-        property: "value"
-      });
-
-      const path = require("path");
-      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
-
-      expect(nodeRequireRecordingIfExists("recording.json", testAbsolutePath).property).to.equal(
-        "value"
-      );
-
-      mockFs.restore();
-      mockRequire.stopAll();
-    });
-
-    it("should throw if the file at a given recording path doesn't exist", function() {
-      if (isBrowser()) return this.skip();
-
-      // Require shouldn't be mocked in this test since we should be preventing require from being reached.
-
-      const mockFs = require("mock-fs");
-
-      // This needs to change if findRecordingsFolderPath changes.
-      mockFs({
-        recordings: {},
-        "test/myTest.spec.ts": "",
-        "../../sdk/": {},
-        "../../../rush.json": ""
-      });
-
-      const path = require("path");
-      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
-
-      let error: Error | undefined;
-
-      try {
-        nodeRequireRecordingIfExists("recording.json", testAbsolutePath);
-      } catch (e) {
-        error = e;
-      }
-
-      expect(error!.message).to.equal(
-        `The recording recording.json was not found in ${findRecordingsFolderPath(
-          "recording.json"
-        )}`
-      );
-
-      mockFs.restore();
-    });
-  });
-
-  describe("testHasChanged", () => {
-    it("In NodeJS - should not crash if the recorded file doesn't exist", function() {
-      if (isBrowser()) return this.skip();
-
-      const mockFs = require("mock-fs");
-      const mockRequire = require("mock-require");
-      const testSuiteTitle = this.test!.parent!.fullTitle();
-      const testTitle = this.test!.title;
-
-      // This needs to change if findRecordingsFolderPath changes.
-      mockFs({
-        // Our lazy require doesn't use the fs module internally.
-        recordings: {},
-        "test/myTest.spec.ts": "",
-        "../../sdk/": {},
-        "../../../rush.json": ""
-      });
-
-      // We won't be testing whether MD5 works or not.
-      const newHash = "new hash";
-
-      const path = require("path");
-      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
-
-      expect(testHasChanged(testSuiteTitle, testTitle, testAbsolutePath, newHash)).to.equal(true);
-
-      mockFs.restore();
-      mockRequire.stopAll();
-    });
-
-    it("In NodeJS - should return true if the older hash doesn't exist", function() {
-      if (isBrowser()) return this.skip();
-
-      const mockFs = require("mock-fs");
-      const mockRequire = require("mock-require");
-      const platform = "node";
-      const testSuiteTitle = this.test!.parent!.fullTitle();
-      const testTitle = this.test!.title;
-      const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
-
-      // This needs to change if findRecordingsFolderPath changes.
-      mockFs({
-        // Our lazy require doesn't use the fs module internally.
-        [`recordings/${filePath}`]: "",
-        "test/myTest.spec.ts": "",
-        "../../sdk/": {},
-        "../../../rush.json": ""
-      });
-
-      mockRequire(`../recordings/${filePath}`, {});
-
-      // We won't be testing whether MD5 works or not.
-      const newHash = "new hash";
-
-      const path = require("path");
-      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
-
-      expect(testHasChanged(testSuiteTitle, testTitle, testAbsolutePath, newHash)).to.equal(true);
-
-      mockFs.restore();
-      mockRequire.stopAll();
-    });
-
-    it("In NodeJS - should return false if the older hash is the same as the new hash", function() {
-      if (isBrowser()) return this.skip();
-
-      const mockFs = require("mock-fs");
-      const mockRequire = require("mock-require");
-      const platform = "node";
-      const testSuiteTitle = this.test!.parent!.fullTitle();
-      const testTitle = this.test!.title;
-      const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
-
-      // This needs to change if findRecordingsFolderPath changes.
-      mockFs({
-        // Our lazy require doesn't use the fs module internally.
-        [`recordings/${filePath}`]: "",
-        "test/myTest.spec.ts": "",
-        "../../sdk/": {},
-        "../../../rush.json": ""
-      });
-
-      mockRequire(`../recordings/${filePath}`, {
-        // We won't be testing whether MD5 works or not.
-        hash: "same old hash"
-      });
-
-      // We won't be testing whether MD5 works or not.
-      const newHash = "same old hash";
-
-      const path = require("path");
-      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
-
-      expect(testHasChanged(testSuiteTitle, testTitle, testAbsolutePath, newHash)).to.equal(false);
-
-      mockFs.restore();
-      mockRequire.stopAll();
-    });
-
-    it("In NodeJS - should return true if the older hash is different than the new hash", function() {
-      if (isBrowser()) return this.skip();
-
-      const mockFs = require("mock-fs");
-      const mockRequire = require("mock-require");
-      const platform = "node";
-      const testSuiteTitle = this.test!.parent!.fullTitle();
-      const testTitle = this.test!.title;
-      const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
-
-      // This needs to change if findRecordingsFolderPath changes.
-      mockFs({
-        // Our lazy require doesn't use the fs module internally.
-        [`recordings/${filePath}`]: "",
-        "test/myTest.spec.ts": "",
-        "../../sdk/": {},
-        "../../../rush.json": ""
-      });
-
-      mockRequire(`../recordings/${filePath}`, {
-        // We won't be testing whether MD5 works or not.
-        hash: "old hash"
-      });
-
-      // We won't be testing whether MD5 works or not.
-      const newHash = "new hash";
-
-      const path = require("path");
-      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
-
-      expect(testHasChanged(testSuiteTitle, testTitle, testAbsolutePath, newHash)).to.equal(true);
-
-      mockFs.restore();
-      mockRequire.stopAll();
-    });
-
-    it("In the browser - should not crash if the recorded file doesn't exist", function() {
-      if (!isBrowser()) return this.skip();
-
-      const testSuiteTitle = this.test!.parent!.fullTitle();
-      const testTitle = this.test!.title;
-
-      (window as any).__json__ = {};
-
-      // We won't be testing whether MD5 works or not.
-      const newHash = "new hash";
-
-      expect(testHasChanged(testSuiteTitle, testTitle, "test/myTest.spec.ts", newHash)).to.equal(
-        true
-      );
-    });
-
-    it("In the browser - should return true if the older hash doesn't exist", function() {
-      if (!isBrowser()) return this.skip();
-
-      const platform = "browsers";
-      const testSuiteTitle = this.test!.parent!.fullTitle();
-      const testTitle = this.test!.title;
-      const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
-
-      (window as any).__json__ = {
-        ["recordings/" + filePath]: {}
-      };
-
-      // We won't be testing whether MD5 works or not.
-      const newHash = "new hash";
-
-      expect(testHasChanged(testSuiteTitle, testTitle, "test/myTest.spec.ts", newHash)).to.equal(
-        true
       );
     });
   });
