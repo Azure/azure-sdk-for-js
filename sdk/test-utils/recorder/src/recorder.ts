@@ -187,8 +187,8 @@ export function record(
     isSoftRecordMode() &&
     !testHasChanged(testHierarchy, testTitle, testAbsolutePath, currentHash)
   ) {
+    testContext.test!.title = `${testContext.test!.title} (The test has been skipped since it hasn't changed)`;
     testContext.skip();
-    return result;
   }
 
   setEnvironmentOnLoad();
