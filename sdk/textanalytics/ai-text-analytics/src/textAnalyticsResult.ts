@@ -4,7 +4,9 @@
 import {
   TextDocumentStatistics,
   TextAnalyticsError as GeneratedTextAnalyticsErrorModel,
-  InnerError
+  InnerError,
+  ErrorCodeValue,
+  InnerErrorCodeValue
 } from "./generated/models";
 
 /**
@@ -16,36 +18,9 @@ export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErro
  * An Error Code returned from the Text Analytics service. Possible
  * values include:
  *
- * - 'InvalidRequest'
- * - 'InvalidArgument'
- * - 'InternalServerError'
- * - 'ServiceUnavailable'
- * - 'InvalidParameterValue'
- * - 'InvalidRequestBodyFormat'
- * - 'EmptyRequest'
- * - 'MissingInputRecords'
- * - 'InvalidDocument'
- * - 'ModelVersionIncorrect'
- * - 'InvalidDocumentBatch'
- * - 'UnsupportedLanguageCode'
- * - 'InvalidCountryHint'
- *
  * For more information about the error, see the `message` property of the associated error.
  */
-export type ErrorCode =
-  | "InvalidRequest"
-  | "InvalidArgument"
-  | "InternalServerError"
-  | "ServiceUnavailable"
-  | "InvalidParameterValue"
-  | "InvalidRequestBodyFormat"
-  | "EmptyRequest"
-  | "MissingInputRecords"
-  | "InvalidDocument"
-  | "ModelVersionIncorrect"
-  | "InvalidDocumentBatch"
-  | "UnsupportedLanguageCode"
-  | "InvalidCountryHint";
+export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 
 /**
  * Type describing an error from the Text Analytics service
@@ -118,11 +93,7 @@ function intoTextAnalyticsError(
   }
 
   return {
-    // 2020-02-06
-    // Cast is necessary for now as swagger generated model
-    // does not align with the actual results produced by the
-    // TA service in terms of casing.
-    code: errorModel.code as ErrorCode,
+    code: errorModel.code,
     message: errorModel.message,
     target: errorModel.target
   };

@@ -4,19 +4,11 @@
 import { assert } from "chai";
 
 import { makeTextAnalyticsErrorResult } from "../src/textAnalyticsResult";
-import { ErrorCodeValue, InnerErrorCodeValue } from "../src/generated/models";
-
-/**
- * Works around an issue with the swagger models and casing
- */
-function cap<T extends ErrorCodeValue | InnerErrorCodeValue>(code: T): T {
-  return (code.charAt(0).toUpperCase() + code.slice(1)) as T;
-}
 
 describe("makeTextAnalyticsErrorResult", function() {
   it("single-layer error is transposed", () => {
     const result = makeTextAnalyticsErrorResult("1", {
-      code: cap("serviceUnavailable"),
+      code: "ServiceUnavailable",
       message: "internal server error",
       details: []
     });
@@ -33,10 +25,10 @@ describe("makeTextAnalyticsErrorResult", function() {
 
   it("innerError must take precedence", () => {
     const result = makeTextAnalyticsErrorResult("2", {
-      code: cap("invalidRequest"),
+      code: "InvalidRequest",
       message: "This is an error message",
       innerError: {
-        code: cap("missingInputRecords"),
+        code: "MissingInputRecords",
         message: "This is a deeper error message",
         target: "a target"
       }
