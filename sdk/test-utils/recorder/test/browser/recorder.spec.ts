@@ -1,6 +1,6 @@
-import { isBrowser, RecorderEnvironmentSetup } from "../src/utils";
+import { RecorderEnvironmentSetup } from "../../src/utils";
 import chai from "chai";
-import { record } from "../src";
+import { record } from "../../src";
 import xhrMock from "xhr-mock";
 const { expect } = chai;
 
@@ -28,10 +28,6 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
 };
 
 describe("recorder - Browser", () => {
-  beforeEach(function() {
-    if (!isBrowser()) return this.skip();
-  });
-
   afterEach(() => {
     delete (window as any).__env__.TEST_MODE;
     delete (window as any).__env__.PATH;

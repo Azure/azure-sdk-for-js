@@ -1,6 +1,6 @@
-import { isBrowser, RecorderEnvironmentSetup, delay } from "../src/utils";
+import { RecorderEnvironmentSetup, delay } from "../../src/utils";
 import chai from "chai";
-import { record } from "../src";
+import { record } from "../../src";
 const { expect } = chai;
 
 const expectedHttpResponse = "Hello World!";
@@ -51,8 +51,6 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
 
 describe("recorder - NodeJS", () => {
   beforeEach(function() {
-    if (isBrowser()) return this.skip();
-
     // These tests do make files in the recordings folder.
     // For that reason, we make sure these files are deleted before testing.
     const fs = require("fs");
@@ -118,8 +116,6 @@ describe("recorder - NodeJS", () => {
   });
 
   it("should playback a simple test", async function() {
-    if (isBrowser()) return this.skip();
-
     process.env.TEST_MODE = "playback";
 
     // Making sure the expected recording actually exists before running playback.
