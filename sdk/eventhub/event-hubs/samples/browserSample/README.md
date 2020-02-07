@@ -35,8 +35,8 @@ Register a new application in AAD and assign the "Azure Event Hubs Data Owner" r
 - Note down the client id and tenant id from the above step.
   You will need to set these in the [configuration.js][configuration] file.
 
-Ensure your app registration has been configured properly to allow enable the [implicit grant flow][implicitgrantflow]
-and allow `Access tokens` and `ID tokens` to be issued by the authorization endpoint.
+Ensure your app registration has been configured properly to allow the [implicit grant flow][implicitgrantflow]
+and allow both `Access tokens` and `ID tokens` to be issued by the authorization endpoint.
 In your app registration, you will also need to add a permission for the `Microsoft.EventHubs` app.
 When adding permission for `Microsoft.EventHubs`, the type should be `delegated permissions` and the permission should be `user_impersonation`.
 
