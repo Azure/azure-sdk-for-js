@@ -230,6 +230,9 @@ const main = async () => {
     metavar: "DIR",
     help: "analyze packed tarballs in DIR rather than source packages in this repository"
   });
+  try{
+
+ 
   const args = parser.parseArgs();
 
   const context = {
@@ -310,6 +313,14 @@ const main = async () => {
     }
     await writeFile(args.dump, "const data = " + JSON.stringify(dumpData) + ";");
   }
+  }
+  catch(ex){
+    console.error(ex);
+  }
+  finally{
+
+  }
+
 };
 
 main();
