@@ -1,6 +1,8 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.0 (Unreleased)
+
+- Added new generic argument to `PagedAsyncIterableIterator` for custom `PageSettings` for services that have complex continuation parameters or no maxPageSize.
 
 ## 1.0.0 (2019-10-29)
 
