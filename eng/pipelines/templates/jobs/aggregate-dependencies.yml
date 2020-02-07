@@ -1,35 +1,36 @@
-trigger:
-  - master
+
 jobs:
-  - job: ValidateDependencies
-    pool:
-      vmImage: windows-2019
-    steps:
-    - task: NodeTool@0
-      displayName: 'Use Node 10.x'
-      inputs:
-        versionSpec: 10.x
+- job: 'ValidateDependencies'
 
-    - script: 'npm ci'
-      workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
-      displayName: 'Install tool dependencies'
+  pool:
+    vmImage: 'Ubuntu 16.04'
 
-    - script: |
-          mkdir $(Build.SourcesDirectory)/reports
-          node index.js --verbose --out "$(Build.SourcesDirectory)/reports/dependencies.html" --dump "$(Build.SourcesDirectory)/reports/data.js"
-      workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
-      displayName: 'Validate dependencies'
+  steps:
+  - task: NodeTool@0
+    displayName: 'Use Node 10.x'
+    inputs:
+      versionSpec: 10.x
 
-    - task: AzureFileCopy@2
-      displayName: 'Upload dependency report'
-      inputs:
-        sourcePath: '$(Build.SourcesDirectory)/reports'
-        additionalArgumentsForBlobCopy: |
-          '/Y'
-          '/Pattern:*'
-          '/S'
-        azureSubscription: 'Azure SDK Artifacts'
-        destination: AzureBlob
-        storage: azuresdkartifacts
-        containerName: 'azure-sdk-for-js'
-        blobPrefix: dependencies
+  - script: 'npm ci'
+    workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
+    displayName: 'Install tool dependencies'
+
+  - script: |
+        mkdir $(Build.SourcesDirectory)/reports
+        node index.js --verbose --out "$(Build.SourcesDirectory)/reports/dependencies.html" --dump "$(Build.SourcesDirectory)/reports/data.js"
+    workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
+    displayName: 'Validate dependencies'
+
+  - task: AzureFileCopy@2
+    displayName: 'Upload dependency report'
+    inputs:
+      sourcePath: '$(Build.SourcesDirectory)/reports'
+      additionalArgumentsForBlobCopy: |
+        '/Y'
+        '/Pattern:*'
+        '/S'
+      azureSubscription: 'Azure SDK Artifacts'
+      destination: AzureBlob
+      storage: azuresdkartifacts
+      containerName: 'azure-sdk-for-js'
+      blobPrefix: dependencies
