@@ -9,12 +9,19 @@ import {
   OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SearchIndexClient as GeneratedClient } from "./generated/data/searchIndexClient";
 import { SearchApiKeyCredential } from "./searchApiKeyCredential";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { SomeRequired } from "./util";
-import { AutocompleteResult, AutocompleteRequest } from "./generated/data/models";
+import {
+  AutocompleteResult,
+  AutocompleteRequest,
+  SearchRequest,
+  DocumentsSearchPostResponse,
+  SearchResult,
+  SearchDocumentsResult
+} from "./generated/data/models";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -27,11 +34,9 @@ export interface SearchIndexClientOptions extends PipelineOptions {
 }
 
 export type CountOptions = OperationOptions;
-export type AutocompleteOptions = OperationOptions;
-export type AutocompleteArgument = SomeRequired<
-  AutocompleteRequest,
-  "searchText" | "suggesterName"
->;
+export type AutocompleteOptions = OperationOptions &
+  Omit<AutocompleteRequest, "searchText" | "suggesterName">;
+export type SearchOptions = OperationOptions & Omit<SearchRequest, "searchText">;
 
 // something extends OperationOptions
 
@@ -39,7 +44,7 @@ export class SearchIndexClient {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string;
+  public readonly apiVersion: string = "2019-05-06";
 
   /**
    * The name of the search service
@@ -70,20 +75,17 @@ export class SearchIndexClient {
    * ```ts
    * // tbd
    * ```
-   * @param {string} apiVersion The API version to use
    * @param {string} searchServiceName The name of the search service
    * @param {string} indexName The name of the index
    * @param {SearchApiKeyCredential} credential Used to authenticate requests to the service.
    * @param {SearchClientOptions} [options] Used to configure the Search client.
    */
   constructor(
-    apiVersion: string,
     searchServiceName: string,
     indexName: string,
     credential: SearchApiKeyCredential,
     options: SearchIndexClientOptions = {}
   ) {
-    this.apiVersion = apiVersion;
     this.searchServiceName = searchServiceName;
     this.indexName = indexName;
     const { searchDnsSuffix = "search.windows.net", ...pipelineOptions } = options;
@@ -130,13 +132,102 @@ export class SearchIndexClient {
   }
 
   public async autocomplete(
-    options: AutocompleteArgument,
-    additionalOptions: AutocompleteOptions = {}
+    suggesterName: string,
+    searchText: string,
+    options: AutocompleteOptions = {}
   ): Promise<AutocompleteResult> {
+    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
+    const fullOptions: AutocompleteRequest = {
+      suggesterName,
+      searchText,
+      ...restOptions
+    };
+
     const result = await this.client.documents.autocompletePost(
-      options,
-      operationOptionsToRequestOptionsBase(additionalOptions)
+      fullOptions,
+      operationOptionsToRequestOptionsBase(operationOptions)
     );
     return result;
+  }
+
+  private async search(
+    searchText: string,
+    options: SearchOptions = {}
+  ): Promise<DocumentsSearchPostResponse> {
+    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
+    const fullOptions: SearchRequest = {
+      searchText,
+      ...restOptions
+    };
+
+    const result = await this.client.documents.searchPost(
+      fullOptions,
+      operationOptionsToRequestOptionsBase(operationOptions)
+    );
+    return result;
+  }
+
+  private async *listSearchResultsPage(
+    searchText: string,
+    options: SearchOptions = {}
+  ): AsyncIterableIterator<SearchDocumentsResult> {
+    let result = await this.search(searchText, options);
+
+    yield result;
+
+    while (result.nextPageParameters) {
+      result = await this.search(searchText, {
+        ...options,
+        top: result.nextPageParameters.top,
+        skip: result.nextPageParameters.skip
+      });
+      yield result;
+    }
+  }
+
+  public async *listSearchResultsAll(
+    searchText: string,
+    options: SearchOptions = {}
+  ): AsyncIterableIterator<SearchResult> {
+    // TOOD: how do we return metadata on each page?
+    for await (const page of this.listSearchResultsPage(searchText, options)) {
+      const results = page.results || [];
+      yield* results;
+    }
+  }
+
+  public listSearchResults(
+    searchText: string,
+    options: SearchOptions = {}
+  ): PagedAsyncIterableIterator<SearchResult, SearchDocumentsResult> {
+    const iter = this.listSearchResultsAll(searchText, options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (_settings: PageSettings = {}) => this.listSearchResultsPage(searchText, options)
+    };
+  }
+
+  private extractOperationOptions<T extends OperationOptions>(
+    obj: T
+  ): {
+    operationOptions: OperationOptions;
+    restOptions: Pick<T, Exclude<keyof T, keyof OperationOptions>>;
+  } {
+    const { abortSignal, requestOptions, tracingOptions, ...restOptions } = obj;
+
+    return {
+      operationOptions: {
+        abortSignal,
+        requestOptions,
+        tracingOptions
+      },
+      restOptions
+    };
   }
 }

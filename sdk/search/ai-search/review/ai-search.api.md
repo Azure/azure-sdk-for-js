@@ -20,12 +20,12 @@ export class SearchApiKeyCredential implements ServiceClientCredentials {
 export class SearchIndexClient {
     constructor(apiVersion: string, searchServiceName: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
     readonly apiVersion: string;
-    // Warning: (ae-forgotten-export) The symbol "AutocompleteRequest" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "AutocompleteArgument" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "AutocompleteOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "AutocompleteResult" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    autocomplete(options: AutocompleteRequest, additionalOptions?: AutocompleteOptions): Promise<AutocompleteResult>;
+    autocomplete(options: AutocompleteArgument, additionalOptions?: AutocompleteOptions): Promise<AutocompleteResult>;
     // Warning: (ae-forgotten-export) The symbol "CountOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
