@@ -180,36 +180,39 @@ const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId, ext
   const resolvedDeps = pnpmLock.packages[packageKey].dependencies;
 
   for (const dep of packages[pkgId].deps) {
-    if (resolvedDeps[dep.name]) {
-      // Replace the version spec with the resolved version
-      dep.version = resolvedDeps[dep.name];
+    if (dep) {
+      if (resolvedDeps[dep.name]) {
+        // Replace the version spec with the resolved version
+        dep.version = resolvedDeps[dep.name];
 
-      // Add the dependency to the top level of the packages list
-      const depId = `${dep.name}:${dep.version}`;
-      if (!packages[depId]) {
-        if (internalPackages.includes(dep.name)) {
-          packages[depId] = {
-            name: dep.name,
-            version: dep.version,
-            type: 'internalbinary',
-            deps: []
-          };
+        // Add the dependency to the top level of the packages list
+        const depId = `${dep.name}:${dep.version}`;
+        if (!packages[depId]) {
+          if (internalPackages.includes(dep.name)) {
+            packages[depId] = {
+              name: dep.name,
+              version: dep.version,
+              type: 'internalbinary',
+              deps: []
+            };
+          }
+          else if (external) {
+            packages[depId] = {
+              name: dep.name,
+              version: dep.version,
+              type: 'external',
+              deps: []
+            };
+          }
         }
-        else if (external) {
-          packages[depId] = {
-            name: dep.name,
-            version: dep.version,
-            type: 'external',
-            deps: []
-          };
-        }
+
+      } else {
+        // Local linked projects are not listed here, so pull the version from the local package.json
+        const depInfo = Object.values(packages).find(pkgInfo => pkgInfo.name == dep.name);
+        console.log("dep=" + dep.name);
+        console.log(depInfo);
+        dep.version = depInfo.version;
       }
-
-    } else {
-      // Local linked projects are not listed here, so pull the version from the local package.json
-      const depInfo = Object.values(packages).find(pkgInfo => pkgInfo.name == dep.name);
-      console.log("dep=" + dep.toString());
-      dep.version = depInfo.version;
     }
   }
 };
