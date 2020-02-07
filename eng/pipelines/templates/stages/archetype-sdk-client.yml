@@ -2,6 +2,7 @@ parameters:
   Artifacts: []
   ServiceDirectory: not-specified
   IncludeRelease: true
+  RunUnitTests: false
 
 stages:
 - stage: Build
