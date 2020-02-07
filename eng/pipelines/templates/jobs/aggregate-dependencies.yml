@@ -29,6 +29,7 @@ jobs:
         '/Y'
         '/Pattern:*'
         '/S'
+        '/V'
       azureSubscription: 'Azure SDK Artifacts'
       destination: AzureBlob
       storage: azuresdkartifacts
