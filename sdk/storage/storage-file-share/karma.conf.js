@@ -23,7 +23,7 @@ module.exports = function(config) {
       "karma-coverage",
       "karma-remap-istanbul",
       "karma-junit-reporter",
-      "karma-json-to-file-reporter",\
+      "karma-json-to-file-reporter",
       "karma-json-preprocessor"
     ],
 
