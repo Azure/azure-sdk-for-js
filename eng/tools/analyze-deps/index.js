@@ -208,6 +208,7 @@ const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId, ext
     } else {
       // Local linked projects are not listed here, so pull the version from the local package.json
       const depInfo = Object.values(packages).find(pkgInfo => pkgInfo.name == dep.name);
+      console.log("dep=" + dep);
       dep.version = depInfo.version;
     }
   }
