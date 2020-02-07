@@ -110,6 +110,8 @@ export class Pipeline extends BlobPipeline {
   constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
     super(factories, options);
     this.factories = factories;
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
     this.options = {
       ...options,
       httpClient: options.httpClient || getCachedDefaultHttpClient()
@@ -215,12 +217,5 @@ export function newPipeline(
       : credential
   );
 
-  // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-  // avoid each client creating its own http client.
-  const newOptions = {
-    ...pipelineOptions,
-    httpClient: pipelineOptions.httpClient
-  };
-
-  return new Pipeline(factories, newOptions);
+  return new Pipeline(factories, pipelineOptions);
 }

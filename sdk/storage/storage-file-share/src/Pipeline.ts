@@ -102,6 +102,8 @@ export class Pipeline {
    */
   constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
     this.factories = factories;
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
     this.options = {
       ...options,
       httpClient: options.httpClient || getCachedDefaultHttpClient()
@@ -202,12 +204,5 @@ export function newPipeline(
   }
   factories.push(credential);
 
-  // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-  // avoid each client creating its own http client.
-  const newOptions = {
-    ...pipelineOptions,
-    httpClient: pipelineOptions.httpClient
-  };
-
-  return new Pipeline(factories, newOptions);
+  return new Pipeline(factories, pipelineOptions);
 }
