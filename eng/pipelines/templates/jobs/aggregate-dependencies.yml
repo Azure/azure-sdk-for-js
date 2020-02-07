@@ -24,7 +24,7 @@ jobs:
       copy eng/common/InterdependencyGraph.html $(Build.ArtifactStagingDirectory)
     displayName: 'Copy static file'
 
-  - task: AzureFileCopy@2
+  - task: AzureFileCopy@3
     displayName: 'Upload dependency report'
     inputs:
       sourcePath: '$(Build.ArtifactStagingDirectory)'
