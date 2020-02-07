@@ -58,6 +58,8 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
+    "@azure/core-http": "^1.0.0",
+    "@opentelemetry/types": "^0.2.0",
     "fs-extra": "^8.1.0",
     "match-all":"^1.2.5",
     "nise": "^1.4.10",
@@ -99,6 +101,6 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^3.1.1",
-    "typescript": "~3.6.4"
+    "typescript": "~3.7.5"
   }
 }

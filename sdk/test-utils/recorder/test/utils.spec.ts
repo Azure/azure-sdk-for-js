@@ -61,6 +61,48 @@ describe("utils", () => {
       expect(appliedMap).to.equal("azure.com/url/HIDDEN_SECRET");
     });
 
+    it("should filter hostname of the plain URI", () => {
+      const env: NodeJS.ProcessEnv = {
+        ENDPOINT: "https://azureaccount.net/"
+      };
+
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("ENDPOINT", "https://endpoint/");
+
+      const recording = "https://azureaccount.net/";
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
+
+      expect(appliedMap).to.equal("https://endpoint/");
+    });
+
+    it("should filter hostname of the URI irrespective of `/` at the end", () => {
+      const env: NodeJS.ProcessEnv = {
+        ENDPOINT: "https://azureaccount.net/"
+      };
+
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("ENDPOINT", "https://endpoint/");
+
+      const recording = "https://azureaccount.net";
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
+
+      expect(appliedMap).to.equal("https://endpoint");
+    });
+
+    it("should filter hostname of the URI irrespective of the content succeeding the hostname", () => {
+      const env: NodeJS.ProcessEnv = {
+        ENDPOINT: "https://azureaccount.net/queue/"
+      };
+
+      const replacementMap: ReplacementMap = new Map();
+      replacementMap.set("ENDPOINT", "https://endpoint/blob/");
+
+      const recording = "https://azureaccount.net";
+      const appliedMap = applyReplacementMap(env, replacementMap, recording);
+
+      expect(appliedMap).to.equal("https://endpoint");
+    });
+
     it("should filter raw secrets", () => {
       const env: NodeJS.ProcessEnv = {
         ENDPOINT: "azure.com/url/"

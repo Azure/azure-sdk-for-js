@@ -1,6 +1,6 @@
 const execa = require("execa");
 
-let versions = ["3.0", "3.1", "3.2", "3.3", "3.4"];
+let versions = ["3.1", "3.2", "3.3", "3.4", "3.5", "3.6"];
 
 if (!process.env.SKIP_LATEST) {
   versions.push("latest");

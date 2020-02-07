@@ -6,7 +6,7 @@
       "type": "string",
       "defaultValue": "[resourceGroup().name]",
       "metadata": {
-        "description": "THe base resource name."
+        "description": "The base resource name."
       }
     },
     "testApplicationOid": {
@@ -17,12 +17,12 @@
     }
   },
   "variables": {
-    "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/25fbc0a9-bd7c-42a3-aa1a-3b75d497ee68')]"
+    "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]"
   },
   "resources": [
     {
       "type": "Microsoft.Authorization/roleAssignments",
-      "apiVersion": "2017-09-01",
+      "apiVersion": "2018-09-01-preview",
       "name": "[guid(concat(variables('taRoleId'), parameters('baseName')))]",
       "dependsOn": ["[parameters('baseName')]"],
       "properties": {
@@ -45,9 +45,13 @@
     }
   ],
   "outputs": {
-    "SUBSCRIPTION_KEY": {
+    "TEXT_ANALYTICS_API_KEY": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName')), '2017-04-18').key1]"
+    },
+    "TEXT_ANALYTICS_API_KEY_ALT": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName')), '2017-04-18').key2]"
     },
     "ENDPOINT": {
       "type": "string",

@@ -774,7 +774,7 @@ export class SASQueryParameters {
     readonly contentType?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
-    readonly ipRange: SasIPRange | undefined;
+    get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;
@@ -866,8 +866,8 @@ export class ShareClient extends StorageClient {
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
     getProperties(options?: ShareGetPropertiesOptions): Promise<ShareGetPropertiesResponse>;
     getStatistics(options?: ShareGetStatisticsOptions): Promise<ShareGetStatisticsResponse>;
-    readonly name: string;
-    readonly rootDirectoryClient: ShareDirectoryClient;
+    get name(): string;
+    get rootDirectoryClient(): ShareDirectoryClient;
     setAccessPolicy(shareAcl?: SignedIdentifier[], options?: ShareSetAccessPolicyOptions): Promise<ShareSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: ShareSetMetadataOptions): Promise<ShareSetMetadataResponse>;
     setQuota(quotaInGB: number, options?: ShareSetQuotaOptions): Promise<ShareSetQuotaResponse>;
@@ -965,11 +965,11 @@ export class ShareDirectoryClient extends StorageClient {
         kind: "directory";
     } & DirectoryItem), DirectoryListFilesAndDirectoriesSegmentResponse>;
     listHandles(options?: DirectoryListHandlesOptions): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>;
-    readonly name: string;
-    readonly path: string;
+    get name(): string;
+    get path(): string;
     setMetadata(metadata?: Metadata, options?: DirectorySetMetadataOptions): Promise<DirectorySetMetadataResponse>;
     setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
-    readonly shareName: string;
+    get shareName(): string;
     }
 
 // @public
@@ -989,13 +989,13 @@ export class ShareFileClient extends StorageClient {
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
-    readonly name: string;
-    readonly path: string;
+    get name(): string;
+    get path(): string;
     resize(length: number, options?: FileResizeOptions): Promise<FileSetHTTPHeadersResponse>;
     setHttpHeaders(fileHttpHeaders?: FileHttpHeaders, options?: FileSetHttpHeadersOptions): Promise<FileSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: FileSetMetadataOptions): Promise<FileSetMetadataResponse>;
     setProperties(properties?: FileProperties): Promise<SetPropertiesResponse>;
-    readonly shareName: string;
+    get shareName(): string;
     startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
     uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
     uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<void>;
