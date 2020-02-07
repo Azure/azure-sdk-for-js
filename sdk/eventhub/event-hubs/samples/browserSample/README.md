@@ -5,10 +5,10 @@ languages:
 products:
   - azure
   - azure-event-hubs
-urlFragment: event-hubs-javascript
+urlFragment: event-hubs-javascript-browser
 ---
 
-# Azure Event Hubs client library samples for JavaScript
+# Azure Event Hubs client library browser samples for JavaScript
 
 This sample programs show how to use the JavaScript client libraries for Azure Event Hubs to send and receive events in the browser while authenticating with Azure Active Directory.
 
