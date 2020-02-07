@@ -91,9 +91,46 @@ export function record(
     testTitle = testContext.test!.title;
   }
 
-  const result: Recorder = {
+  const stringTest = testContext.currentTest!.fn!.toString();
+  const currentHash = MD5(stringTest);
+  const testAbsolutePath = testContext.currentTest!.file!;
+
+  if (
+    isSoftRecordMode() &&
+    !testHasChanged(testHierarchy, testTitle, testAbsolutePath, currentHash)
+  ) {
+    testContext.test!.title = `${
+      testContext.test!.title
+    } (The test has been skipped since it hasn't changed)`;
+    testContext.skip();
+  }
+
+  setEnvironmentOnLoad();
+
+  if (isBrowser()) {
+    recorder = new NiseRecorder(currentHash, testHierarchy, testTitle);
+  } else {
+    recorder = new NockRecorder(currentHash, testHierarchy, testTitle);
+  }
+
+  if (isRecordMode()) {
+    // If TEST_MODE=record, invokes the recorder, hits the live-service,
+    // expects that the appropriate environment variables are present
+    recorder.record(recorderEnvironmentSetup);
+  } else if (isPlaybackMode()) {
+    // If TEST_MODE=playback,
+    //  1. sets up the ENV variables
+    //  2. invokes the recorder, play the existing test recording.
+    setEnvironmentVariables(env, recorderEnvironmentSetup.replaceableVariables);
+    recorder.playback(recorderEnvironmentSetup, testAbsolutePath);
+  }
+  // If TEST_MODE=live, hits the live-service and no recordings are generated.
+
+  return {
     stop: function() {
-      if (isRecordMode()) {
+      // In soft-delete, if the recording hasn't changed,
+      // recorder won't exist.
+      if (isRecordMode() && recorder) {
         recorder.stop();
       }
     },
@@ -178,39 +215,4 @@ export function record(
       return date;
     }
   };
-
-  const stringTest = testContext.currentTest!.fn!.toString();
-  const currentHash = MD5(stringTest);
-  const testAbsolutePath = testContext.currentTest!.file!;
-
-  if (
-    isSoftRecordMode() &&
-    !testHasChanged(testHierarchy, testTitle, testAbsolutePath, currentHash)
-  ) {
-    testContext.test!.title = `${testContext.test!.title} (The test has been skipped since it hasn't changed)`;
-    testContext.skip();
-  }
-
-  setEnvironmentOnLoad();
-
-  if (isBrowser()) {
-    recorder = new NiseRecorder(currentHash, testHierarchy, testTitle);
-  } else {
-    recorder = new NockRecorder(currentHash, testHierarchy, testTitle);
-  }
-
-  if (isRecordMode()) {
-    // If TEST_MODE=record, invokes the recorder, hits the live-service,
-    // expects that the appropriate environment variables are present
-    recorder.record(recorderEnvironmentSetup);
-  } else if (isPlaybackMode()) {
-    // If TEST_MODE=playback,
-    //  1. sets up the ENV variables
-    //  2. invokes the recorder, play the existing test recording.
-    setEnvironmentVariables(env, recorderEnvironmentSetup.replaceableVariables);
-    recorder.playback(recorderEnvironmentSetup, testAbsolutePath);
-  }
-  // If TEST_MODE=live, hits the live-service and no recordings are generated.
-
-  return result;
 }
