@@ -16,7 +16,7 @@ jobs:
     displayName: 'Install tool dependencies'
 
   - script: |
-        mkdir $(Build.SourcesDirectory)/reports
+        mkdir $(Build.ArtifactStagingDirectory)/reports
         node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/reports/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)/reports/data.js"
     workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
     displayName: 'Validate dependencies'
