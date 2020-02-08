@@ -388,7 +388,7 @@ export interface FileStartCopyOptions extends CommonOptions {
    */
   filePermissionKey?: string;
   /**
-   * SMB Info
+   * SMB info.
    * 
    * @type {CopyFileSmbInfo}
    * @memberof FileStartCopyOptions
