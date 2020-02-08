@@ -127,7 +127,7 @@ const render = async (context, dest) => {
   });
 
   const template = await readFile("deps.html.hbs", "utf8");
-  return writeFile(dest, Handlebars.compile(template)(context));
+  return writeFile(dest, Handlebars.compile(template)(context), "text/html; charset=utf-8;");
 };
 
 const appendDependencyData = (dependencies, dep, spec, package, depType) => {
