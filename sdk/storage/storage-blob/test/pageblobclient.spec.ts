@@ -15,7 +15,6 @@ import {
   BlobServiceClient
 } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { isNode } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
 describe("PageBlobClient", () => {
@@ -214,13 +213,8 @@ describe("PageBlobClient", () => {
     await mdPageBlobClient.uploadPages("a".repeat(512), 0, 512);
     await mdPageBlobClient.clearPages(512, 512);
 
-    let snapShotUrl;
-    if (!isNode) {
-      snapShotUrl = mdPageBlobClient.url + '&snapshot=' + snapshotResult.snapshot;
-    } else {
-      snapShotUrl = mdPageBlobClient.url + '?snapshot=' + snapshotResult.snapshot;
-    }
-    const rangesDiff = await mdPageBlobClient.getPageRangesDiff(0, 1024, snapShotUrl);
+    const snapshotUrl = mdPageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
+    const rangesDiff = await mdPageBlobClient.getPageRangesDiff(0, 1024, snapshotUrl);
 
     assert.equal(rangesDiff.pageRange![0].offset, 0);
     assert.equal(rangesDiff.pageRange![0].count, 511);
