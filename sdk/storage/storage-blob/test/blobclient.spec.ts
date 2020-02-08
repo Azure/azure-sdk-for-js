@@ -252,10 +252,16 @@ describe("BlobClient", () => {
     let res = await iter.next();
     let result = res.value;
     while (!result.segment.blobItems && !res.done) {
+      console.log(`result.segment.blobItems ${result.segment.blobItems}`);
+      console.log(`res.done ${res.done}`);
       res = await iter.next();
       result = res.value;
     }
 
+    assert.ok(
+      result.segment.blobItems,
+      "Expect non empty result from list blobs({ includeDeleted: true })."
+    );
     assert.ok(result.segment.blobItems![0].deleted, "Expect that the blob is marked for deletion");
 
     await blobClient.undelete();
@@ -267,14 +273,17 @@ describe("BlobClient", () => {
       .byPage();
 
     res = await iter2.next();
-    let result2 = res.value;
-    while (!result2.segment.blobItems && !res.done) {
+    result = res.value;
+    while (!result.segment.blobItems && !res.done) {
+      console.log(`result.segment.blobItems ${result.segment.blobItems}`);
+      console.log(`res.done ${res.done}`);
       res = await iter2.next();
-      result2 = res.value;
+      result = res.value;
     }
 
+    assert.ok(result.segment.blobItems, "Expect non empty result from list blobs().");
     assert.ok(
-      !result2.segment.blobItems![0].deleted,
+      !result.segment.blobItems![0].deleted,
       "Expect that the blob is NOT marked for deletion"
     );
   });
