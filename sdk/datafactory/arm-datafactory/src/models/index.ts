@@ -21976,6 +21976,11 @@ export interface PipelinesCreateRunOptionalParams extends msRest.RequestOptionsB
    */
   startActivityName?: string;
   /**
+   * In recovery mode, if set to true, the rerun will start from failed activities. The property
+   * will be used only if startActivityName is not specified.
+   */
+  startFromFailure?: boolean;
+  /**
    * Parameters of the pipeline run. These parameters will be used only if the runId is not
    * specified.
    */

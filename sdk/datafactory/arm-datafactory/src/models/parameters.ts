@@ -268,6 +268,18 @@ export const startActivityName: msRest.OperationQueryParameter = {
     }
   }
 };
+export const startFromFailure: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "startFromFailure"
+  ],
+  mapper: {
+    serializedName: "startFromFailure",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
