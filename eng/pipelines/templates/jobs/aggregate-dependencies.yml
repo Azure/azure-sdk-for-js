@@ -2,7 +2,7 @@ jobs:
 - job: 'ValidateDependencies'
 
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'windows-2019'
 
   steps:
   - task: NodeTool@0
