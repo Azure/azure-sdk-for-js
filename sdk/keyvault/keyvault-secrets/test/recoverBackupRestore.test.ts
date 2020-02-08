@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import { SecretClient } from "../src";
 import { isNode } from "@azure/core-http";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
-import { env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -16,7 +16,7 @@ describe("Secret client - restore secrets and recover backups", () => {
   let secretSuffix: string;
   let client: SecretClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);

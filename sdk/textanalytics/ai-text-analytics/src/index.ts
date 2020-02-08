@@ -4,8 +4,8 @@
 export {
   TextAnalyticsClient,
   TextAnalyticsClientOptions,
-  DetectLanguagesOptions,
-  RecognizeEntitiesOptions,
+  DetectLanguageOptions,
+  RecognizeCategorizedEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
   RecognizePiiEntitiesOptions,
@@ -20,11 +20,19 @@ export {
 } from "./detectLanguageResult";
 export { DetectLanguageResultCollection } from "./detectLanguageResultCollection";
 export {
-  RecognizeEntitiesResult,
-  RecognizeEntitiesErrorResult,
-  RecognizeEntitiesSuccessResult
-} from "./recognizeEntitiesResult";
-export { RecognizeEntitiesResultCollection } from "./recognizeEntitiesResultCollection";
+  CategorizedEntity,
+  RecognizeCategorizedEntitiesResult,
+  RecognizeCategorizedEntitiesErrorResult,
+  RecognizeCategorizedEntitiesSuccessResult
+} from "./recognizeCategorizedEntitiesResult";
+export { RecognizeCategorizedEntitiesResultCollection } from "./recognizeCategorizedEntitiesResultCollection";
+export {
+  PiiEntity,
+  RecognizePiiEntitiesResult,
+  RecognizePiiEntitiesErrorResult,
+  RecognizePiiEntitiesSuccessResult
+} from "./recognizePiiEntitiesResult";
+export { RecognizePiiEntitiesResultCollection } from "./recognizePiiEntitiesResultCollection";
 export {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,
@@ -45,6 +53,8 @@ export {
 export { RecognizeLinkedEntitiesResultCollection } from "./recognizeLinkedEntitiesResultCollection";
 export {
   TextAnalyticsResult,
+  ErrorCode,
+  TextAnalyticsError,
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult
 } from "./textAnalyticsResult";
@@ -53,18 +63,16 @@ export {
 export {
   DetectedLanguage,
   TextDocumentStatistics,
-  SentimentConfidenceScorePerLabel,
+  SentimentScorePerLabel,
   MultiLanguageInput as TextDocumentInput,
   LanguageInput as DetectLanguageInput,
-  TextAnalyticsError,
   TextDocumentBatchStatistics,
-  InnerErrorCodeValue,
-  ErrorCodeValue,
-  InnerError,
   Entity,
   SentenceSentiment,
-  DocumentSentimentValue,
-  SentenceSentimentValue,
+  DocumentSentimentLabel,
+  SentenceSentimentLabel,
+  ErrorCodeValue,
+  InnerErrorCodeValue,
   LinkedEntity,
   Match
 } from "./generated/models";

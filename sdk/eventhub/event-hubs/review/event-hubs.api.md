@@ -88,8 +88,8 @@ export class EventHubConsumerClient {
     constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
-    readonly eventHubName: string;
-    readonly fullyQualifiedNamespace: string;
+    get eventHubName(): string;
+    get fullyQualifiedNamespace(): string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<string[]>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
@@ -104,8 +104,8 @@ export class EventHubProducerClient {
     constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<EventDataBatch>;
-    readonly eventHubName: string;
-    readonly fullyQualifiedNamespace: string;
+    get eventHubName(): string;
+    get fullyQualifiedNamespace(): string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;

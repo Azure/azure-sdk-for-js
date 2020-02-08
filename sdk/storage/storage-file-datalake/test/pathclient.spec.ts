@@ -7,13 +7,11 @@ import * as dotenv from "dotenv";
 
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
-import { bodyToString, getDataLakeServiceClient, setupEnvironment } from "./utils";
+import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
 dotenv.config({ path: "../.env" });
 
 describe("DataLakePathClient", () => {
-  setupEnvironment();
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
   let fileName: string;
@@ -23,7 +21,8 @@ describe("DataLakePathClient", () => {
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();

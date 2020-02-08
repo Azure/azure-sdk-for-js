@@ -23,11 +23,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '2322cd44-727b-4d23-9926-1f6dbd2751ac',
+  '2ccdf478-5e76-482a-98d7-f13810acadb2',
   'x-ms-keyvault-service-version',
-  '1.1.0.882',
+  '1.1.0.891',
   'x-ms-keyvault-network-info',
-  'addr=52.183.14.89;act_addr_fam=InterNetwork;',
+  'addr=52.137.64.184;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -37,7 +37,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Nov 2019 20:51:25 GMT'
+  'Fri, 31 Jan 2020 20:26:32 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -56,19 +56,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '85c8b454-5f55-42f2-8dc3-d0fd3e300400',
+  'cf73108c-88ff-4ca3-9d00-00cd1a5c0300',
   'x-ms-ests-server',
-  '2.1.9645.7 - WUS ProdSlices',
+  '2.1.9987.9 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AvomLXcnzz9Kvrw6VNJoRcA_aSJHAQAAAE3MV9UOAAAA; expires=Sun, 08-Dec-2019 20:51:26 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuMqx-pUtpJPpxGOl6dGSqk_aSJHAQAAAHiExtUOAAAA; expires=Sun, 01-Mar-2020 20:26:32 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Fri, 08 Nov 2019 20:51:25 GMT',
+  'Fri, 31 Jan 2020 20:26:32 GMT',
   'Content-Length',
   '1231'
 ]);
@@ -90,11 +90,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '088bf195-df09-4bcf-bcf1-455e44bb9a57',
+  '7bc5fdab-08b8-4e6f-8579-42a61f89d991',
   'x-ms-keyvault-service-version',
-  '1.1.0.882',
+  '1.1.0.891',
   'x-ms-keyvault-network-info',
-  'addr=52.183.14.89;act_addr_fam=InterNetwork;',
+  'addr=52.137.64.184;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -104,7 +104,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Nov 2019 20:51:26 GMT',
+  'Fri, 31 Jan 2020 20:26:32 GMT',
   'Content-Length',
   '28'
 ]);

@@ -5,13 +5,7 @@
  * detects personally-identifiable information
  */
 
-import {
-  TextAnalyticsClient,
-  TextAnalyticsApiKeyCredential,
-  RecognizeEntitiesResult,
-  RecognizeEntitiesSuccessResult,
-  RecognizeEntitiesErrorResult
-} from "@azure/ai-text-analytics";
+import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -28,15 +22,11 @@ export async function main() {
 
   const [result] = await client.recognizePiiEntities(["My phone number is 555-5555"]);
 
-  if (isSuccess(result)) {
+  if (!result.error) {
     for (const entity of result.entities) {
-      console.log(`Found PII entity ${entity.text} of type ${entity.type}`);
+      console.log(`Found PII entity ${entity.text} of type ${entity.category}`);
     }
   }
-}
-
-function isSuccess(result: RecognizeEntitiesResult): result is RecognizeEntitiesSuccessResult {
-  return !(result as RecognizeEntitiesErrorResult).error;
 }
 
 main().catch((err) => {

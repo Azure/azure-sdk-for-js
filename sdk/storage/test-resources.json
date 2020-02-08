@@ -1,0 +1,276 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "baseName": {
+      "type": "string",
+      "metadata": {
+        "description": "The base resource name."
+      }
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The client OID to grant access to test resources."
+      }
+    },
+    "tenantId": {
+      "type": "string",
+      "defaultValue": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+      "metadata": {
+        "description": "The tenant ID to which the application and resources belong."
+      }
+    },
+    "testApplicationId": {
+      "type": "string",
+      "metadata": {
+        "description": "The application client ID used to run tests."
+      }
+    },
+    "testApplicationSecret": {
+      "type": "string",
+      "metadata": {
+        "description": "The application client secret used to run tests."
+      }
+    }
+  },
+  "variables": {
+    "storageApiVersion": "2019-04-01",
+    "location": "[resourceGroup().location]",
+    "accountName": "[parameters('baseName')]",
+    "datalakeAccountName": "[concat('d', parameters('baseName'))]",
+    "accountNameTidy": "[toLower(trim(variables('accountName')))]",
+    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]",
+    "endpointSuffix": "core.windows.net",
+    "accountSasProperties": {
+      "signedServices": "bfqt",
+      "signedPermission": "rwdlacup",
+      "signedResourceTypes": "sco",
+      "keyToSign": "key2",
+      "signedExpiry": "2022-01-01T23:59:00Z"
+    },
+    "authorizationApiVersion": "2018-01-01-preview",
+    "blobDataContributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "[variables('authorizationApiVersion')]",
+      "name": "[guid(concat('blobDataContributorRoleId', variables('accountName')))]",
+      "dependsOn": [
+        "[variables('accountName')]"
+      ],
+      "properties": {
+        "roleDefinitionId": "[variables('blobDataContributorRoleId')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "name": "[variables('accountName')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [
+          ],
+          "ipRules": [
+          ],
+          "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": true,
+        "encryption": {
+          "services": {
+            "file": {
+              "enabled": true
+            },
+            "blob": {
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        },
+        "accessTier": "Hot"
+      },
+      "resources": [
+        {
+          "name": "default",
+          "type": "blobServices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "dependsOn": [
+            "[variables('accountName')]"
+          ],
+          "properties": {
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": [
+                    "*"
+                  ],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT",
+                    "PATCH"
+                  ],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": [
+                    "*"
+                  ],
+                  "allowedHeaders": [
+                    "*"
+                  ]
+                }
+              ]
+            }
+          },
+          "resources": [
+          ]
+        },
+        {
+          "name": "default",
+          "type": "fileServices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "dependsOn": [
+            "[variables('accountName')]"
+          ],
+          "properties": {
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": [
+                    "*"
+                  ],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT"
+                  ],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": [
+                    "*"
+                  ],
+                  "allowedHeaders": [
+                    "*"
+                  ]
+                }
+              ]
+            }
+          },
+          "resources": [
+          ]
+        }
+
+      ]
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "name": "[variables('datalakeAccountName')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "isHnsEnabled": true,
+        "cors": {
+          "corsRules": [
+            {
+              "allowedOrigins": [
+                "*"
+              ],
+              "allowedMethods": [
+                "DELETE",
+                "GET",
+                "HEAD",
+                "MERGE",
+                "POST",
+                "OPTIONS",
+                "PUT",
+                "PATCH"
+              ],
+              "maxAgeInSeconds": 86400,
+              "exposedHeaders": [
+                "*"
+              ],
+              "allowedHeaders": [
+                "*"
+              ]
+            }
+          ]
+        },
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [
+          ],
+          "ipRules": [
+          ],
+          "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": true,
+        "encryption": {
+          "services": {
+            "file": {
+              "enabled": true
+            },
+            "blob": {
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        },
+        "accessTier": "Hot"
+      }
+    }
+  ],
+  "outputs": {
+    "ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('accountName')]"
+    },
+    "STORAGE_DATALAKE_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('datalakeAccountName')]"
+    },
+    "ACCOUNT_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "ACCOUNT_SAS": {
+      "type": "string",
+      "value": "[concat('?', listAccountSas(variables('accountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
+    },
+    "STORAGE_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', 'core.windows.net')]"
+    },
+    "AZURE_TENANT_ID": {
+      "type": "string",
+      "value": "[parameters('tenantId')]"
+    },
+    "AZURE_CLIENT_ID": {
+      "type": "string",
+      "value": "[parameters('testApplicationId')]"
+    },
+    "AZURE_CLIENT_SECRET": {
+      "type": "string",
+      "value": "[parameters('testApplicationSecret')]"
+    }
+  }
+}

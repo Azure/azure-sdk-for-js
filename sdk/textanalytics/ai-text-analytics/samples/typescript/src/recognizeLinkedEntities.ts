@@ -7,10 +7,7 @@
 
 import {
   TextAnalyticsClient,
-  TextAnalyticsApiKeyCredential,
-  RecognizeLinkedEntitiesResult,
-  RecognizeLinkedEntitiesErrorResult,
-  RecognizeLinkedEntitiesSuccessResult
+  TextAnalyticsApiKeyCredential
 } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
@@ -28,19 +25,13 @@ export async function main() {
 
   const [result] = await client.recognizeLinkedEntities(["I love living in Seattle."]);
 
-  if (isSuccess(result)) {
+  if (!result.error) {
     for (const entity of result.entities) {
       console.log(
         `Found entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`
       );
     }
   }
-}
-
-function isSuccess(
-  result: RecognizeLinkedEntitiesResult
-): result is RecognizeLinkedEntitiesSuccessResult {
-  return !(result as RecognizeLinkedEntitiesErrorResult).error;
 }
 
 main().catch((err) => {
