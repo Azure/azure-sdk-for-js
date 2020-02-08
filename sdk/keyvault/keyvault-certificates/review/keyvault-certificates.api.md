@@ -241,7 +241,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
 export type DeleteIssuerOptions = coreHttp.OperationOptions;
 
 // @public
-export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
+export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription" | "CustomizedRecoverable+Purgeable" | "CustomizedRecoverable" | "CustomizedRecoverable+ProtectedSubscription";
 
 // @public
 export interface ErrorModel {

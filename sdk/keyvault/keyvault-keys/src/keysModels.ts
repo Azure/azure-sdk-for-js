@@ -30,11 +30,11 @@ export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey"
 
 /**
  * Defines values for KeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
  * @readonly
  * @enum {string}
  */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
 
 /**
  * @internal
