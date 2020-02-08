@@ -4512,12 +4512,12 @@ export class PageBlobClient extends BlobClient {
    *
    * @param {number} offset Starting byte position of the page blob
    * @param {number} count Number of bytes to get ranges diff.
-   * @param {string} prevSnapshot Timestamp or URL of snapshot to retrive the difference.
+   * @param {string} prevSnapshot Timestamp of snapshot to retrive the difference.
    * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
    * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
    * @memberof PageBlobClient
    */
-   public async getPageRangesDiff(
+  public async getPageRangesDiff(
     offset: number,
     count: number,
     prevSnapshot: string,
