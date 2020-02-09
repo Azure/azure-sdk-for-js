@@ -511,7 +511,7 @@ export interface BlobServiceStatistics {
 /**
  * Additional parameters for create operation.
  */
-export interface ContainerCpkScopeInfo {
+export interface ContainerEncryptionScope {
   /**
    * Optional.  Version 2019-07-07 and later.  Specifies the default encryption scope to set on the
    * container and use for all future writes.
@@ -666,19 +666,6 @@ export interface BlobHTTPHeaders {
    * Optional. Sets the blob's Content-Disposition header.
    */
   blobContentDisposition?: string;
-}
-
-/**
- * Additional parameters for a set of operations.
- */
-export interface CpkScopeInfo {
-  /**
-   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
-   * encrypt the data provided in the request. If not specified, encryption is performed with the
-   * default account encryption scope.  For more information, see Encryption at Rest for Azure
-   * Storage Services.
-   */
-  encryptionScope?: string;
 }
 
 /**
@@ -885,7 +872,7 @@ export interface ContainerCreateOptionalParams extends coreHttp.RequestOptionsBa
   /**
    * Additional parameters for the operation
    */
-  containerCpkScopeInfo?: ContainerCpkScopeInfo;
+  containerEncryptionScope?: ContainerEncryptionScope;
 }
 
 /**
@@ -1804,6 +1791,13 @@ export interface BlobSetMetadataOptionalParams extends coreHttp.RequestOptionsBa
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -1816,10 +1810,6 @@ export interface BlobSetMetadataOptionalParams extends coreHttp.RequestOptionsBa
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -1974,6 +1964,13 @@ export interface BlobCreateSnapshotOptionalParams extends coreHttp.RequestOption
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -1982,10 +1979,6 @@ export interface BlobCreateSnapshotOptionalParams extends coreHttp.RequestOption
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2166,6 +2159,13 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Set for page blobs only. The sequence number is a user-controlled value that you can use to
    * track requests. The value of the sequence number must be between 0 and 2^63 - 1. Default
    * value: 0.
@@ -2188,10 +2188,6 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2221,6 +2217,13 @@ export interface PageBlobUploadPagesOptionalParams extends coreHttp.RequestOptio
    */
   range?: string;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2233,10 +2236,6 @@ export interface PageBlobUploadPagesOptionalParams extends coreHttp.RequestOptio
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2262,6 +2261,13 @@ export interface PageBlobClearPagesOptionalParams extends coreHttp.RequestOption
    */
   range?: string;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2274,10 +2280,6 @@ export interface PageBlobClearPagesOptionalParams extends coreHttp.RequestOption
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2307,6 +2309,13 @@ export interface PageBlobUploadPagesFromURLOptionalParams extends coreHttp.Reque
    */
   timeoutInSeconds?: number;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2315,10 +2324,6 @@ export interface PageBlobUploadPagesFromURLOptionalParams extends coreHttp.Reque
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2435,6 +2440,13 @@ export interface PageBlobResizeOptionalParams extends coreHttp.RequestOptionsBas
    */
   timeoutInSeconds?: number;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2447,10 +2459,6 @@ export interface PageBlobResizeOptionalParams extends coreHttp.RequestOptionsBas
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2530,6 +2538,13 @@ export interface AppendBlobCreateOptionalParams extends coreHttp.RequestOptionsB
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2546,10 +2561,6 @@ export interface AppendBlobCreateOptionalParams extends coreHttp.RequestOptionsB
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2575,6 +2586,13 @@ export interface AppendBlobAppendBlockOptionalParams extends coreHttp.RequestOpt
    */
   transactionalContentCrc64?: Uint8Array;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2591,10 +2609,6 @@ export interface AppendBlobAppendBlockOptionalParams extends coreHttp.RequestOpt
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2628,6 +2642,13 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams extends coreHttp.Req
    */
   transactionalContentMD5?: Uint8Array;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2636,10 +2657,6 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams extends coreHttp.Req
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2683,6 +2700,13 @@ export interface BlockBlobUploadOptionalParams extends coreHttp.RequestOptionsBa
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
    * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
    */
@@ -2704,10 +2728,6 @@ export interface BlockBlobUploadOptionalParams extends coreHttp.RequestOptionsBa
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2733,6 +2753,13 @@ export interface BlockBlobStageBlockOptionalParams extends coreHttp.RequestOptio
    */
   timeoutInSeconds?: number;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2745,10 +2772,6 @@ export interface BlockBlobStageBlockOptionalParams extends coreHttp.RequestOptio
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -2774,6 +2797,13 @@ export interface BlockBlobStageBlockFromURLOptionalParams extends coreHttp.Reque
    */
   timeoutInSeconds?: number;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2782,10 +2812,6 @@ export interface BlockBlobStageBlockFromURLOptionalParams extends coreHttp.Reque
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2825,6 +2851,13 @@ export interface BlockBlobCommitBlockListOptionalParams extends coreHttp.Request
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
    * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
    */
@@ -2846,10 +2879,6 @@ export interface BlockBlobCommitBlockListOptionalParams extends coreHttp.Request
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
-  /**
-   * Additional parameters for the operation
-   */
-  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */

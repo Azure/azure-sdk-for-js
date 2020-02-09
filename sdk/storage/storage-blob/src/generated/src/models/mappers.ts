@@ -1492,11 +1492,11 @@ export const BlobServiceStatistics: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerCpkScopeInfo: coreHttp.CompositeMapper = {
-  xmlName: "container-cpk-scope-info",
+export const ContainerEncryptionScope: coreHttp.CompositeMapper = {
+  xmlName: "container-encryption-scope",
   type: {
     name: "Composite",
-    className: "ContainerCpkScopeInfo",
+    className: "ContainerEncryptionScope",
     modelProperties: {
       defaultEncryptionScope: {
         xmlName: "defaultEncryptionScope",
@@ -1707,22 +1707,6 @@ export const BlobHTTPHeaders: coreHttp.CompositeMapper = {
       },
       blobContentDisposition: {
         xmlName: "blobContentDisposition",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CpkScopeInfo: coreHttp.CompositeMapper = {
-  xmlName: "cpk-scope-info",
-  type: {
-    name: "Composite",
-    className: "CpkScopeInfo",
-    modelProperties: {
-      encryptionScope: {
-        xmlName: "encryptionScope",
         type: {
           name: "String"
         }
