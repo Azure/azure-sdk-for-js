@@ -243,7 +243,7 @@ describe("BlobClient", () => {
 
     await blobClient.delete();
 
-    const iter = await containerClient
+    const iter = containerClient
       .listBlobsFlat({
         includeDeleted: true
       })
@@ -251,12 +251,14 @@ describe("BlobClient", () => {
 
     let res = await iter.next();
     let result = res.value;
-    while (!result.segment.blobItems && !res.done) {
+    while (!res.done && result.segment && !result.segment.blobItems) {
       console.log(`result.segment.blobItems ${result.segment.blobItems}`);
       console.log(`res.done ${res.done}`);
       res = await iter.next();
       result = res.value;
     }
+
+    assert.ok(result.segment, "Expect valid segment response");
 
     assert.ok(
       result.segment.blobItems,
@@ -266,7 +268,7 @@ describe("BlobClient", () => {
 
     await blobClient.undelete();
 
-    const iter2 = await containerClient
+    const iter2 = containerClient
       .listBlobsFlat({
         includeDeleted: true
       })
@@ -274,12 +276,14 @@ describe("BlobClient", () => {
 
     res = await iter2.next();
     result = res.value;
-    while (!result.segment.blobItems && !res.done) {
+    while (!res.done && result.segment && !result.segment.blobItems) {
       console.log(`result.segment.blobItems ${result.segment.blobItems}`);
       console.log(`res.done ${res.done}`);
       res = await iter2.next();
       result = res.value;
     }
+
+    assert.ok(result.segment, "Expect valid segment response");
 
     assert.ok(result.segment.blobItems, "Expect non empty result from list blobs().");
     assert.ok(
