@@ -19,9 +19,10 @@ import {
   BlobServiceClient
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
+import { setLogLevel } from '@azure/logger';
 dotenv.config({ path: "../.env" });
 
-describe("BlobClient", () => {
+describe.only("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
@@ -29,6 +30,8 @@ describe("BlobClient", () => {
   let blobClient: BlobClient;
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
+
+  setLogLevel("info");
 
   let recorder: any;
 
