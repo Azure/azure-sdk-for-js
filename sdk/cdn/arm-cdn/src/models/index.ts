@@ -17,7 +17,8 @@ export { BaseResource, CloudError };
 export interface Sku {
   /**
    * Name of the pricing tier. Possible values include: 'Standard_Verizon', 'Premium_Verizon',
-   * 'Custom_Verizon', 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft'
+   * 'Custom_Verizon', 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft',
+   * 'Premium_ChinaCdn'
    */
   name?: SkuName;
 }
@@ -242,24 +243,9 @@ export interface GeoFilter {
 }
 
 /**
- * Contains the possible cases for DeliveryRuleAction.
- */
-export type DeliveryRuleActionUnion = DeliveryRuleAction | DeliveryRuleCacheExpirationAction;
-
-/**
- * An action for the delivery rule.
- */
-export interface DeliveryRuleAction {
-  /**
-   * Polymorphic Discriminator
-   */
-  name: "DeliveryRuleAction";
-}
-
-/**
  * Contains the possible cases for DeliveryRuleCondition.
  */
-export type DeliveryRuleConditionUnion = DeliveryRuleCondition | DeliveryRuleUrlPathCondition | DeliveryRuleUrlFileExtensionCondition;
+export type DeliveryRuleConditionUnion = DeliveryRuleCondition | DeliveryRuleRemoteAddressCondition | DeliveryRuleRequestMethodCondition | DeliveryRuleQueryStringCondition | DeliveryRulePostArgsCondition | DeliveryRuleRequestUriCondition | DeliveryRuleRequestHeaderCondition | DeliveryRuleRequestBodyCondition | DeliveryRuleRequestSchemeCondition | DeliveryRuleUrlPathCondition | DeliveryRuleUrlFileExtensionCondition | DeliveryRuleUrlFileNameCondition | DeliveryRuleHttpVersionCondition | DeliveryRuleCookiesCondition | DeliveryRuleIsDeviceCondition;
 
 /**
  * A condition for the delivery rule.
@@ -272,9 +258,28 @@ export interface DeliveryRuleCondition {
 }
 
 /**
+ * Contains the possible cases for DeliveryRuleAction.
+ */
+export type DeliveryRuleActionUnion = DeliveryRuleAction | UrlRedirectAction | UrlRewriteAction | DeliveryRuleRequestHeaderAction | DeliveryRuleResponseHeaderAction | DeliveryRuleCacheExpirationAction | DeliveryRuleCacheKeyQueryStringAction;
+
+/**
+ * An action for the delivery rule.
+ */
+export interface DeliveryRuleAction {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "DeliveryRuleAction";
+}
+
+/**
  * A rule that specifies a set of actions and conditions
  */
 export interface DeliveryRule {
+  /**
+   * Name of the rule
+   */
+  name?: string;
   /**
    * The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,………}. A
    * rule with a lesser order will be applied before a rule with a greater order. Rule with order 0
@@ -283,13 +288,13 @@ export interface DeliveryRule {
    */
   order: number;
   /**
-   * A list of actions that are executed when all the conditions of a rule are satisfied.
-   */
-  actions: DeliveryRuleActionUnion[];
-  /**
    * A list of conditions that must be matched for the actions to be executed
    */
   conditions?: DeliveryRuleConditionUnion[];
+  /**
+   * A list of actions that are executed when all the conditions of a rule are satisfied.
+   */
+  actions: DeliveryRuleActionUnion[];
 }
 
 /**
@@ -377,22 +382,318 @@ export interface EndpointUpdateParameters extends BaseResource {
 }
 
 /**
- * Defines the parameters for the URL path condition.
+ * Defines the parameters for RemoteAddress match conditions
  */
-export interface UrlPathConditionParameters {
+export interface RemoteAddressMatchConditionParameters {
   /**
-   * A URL path for the condition of the delivery rule
+   * Describes operator to be matched. Possible values include: 'Any', 'IPMatch', 'GeoMatch'
    */
-  path: string;
+  operator: RemoteAddressOperator;
   /**
-   * The match type for the condition of the delivery rule. Possible values include: 'Literal',
-   * 'Wildcard'
+   * Describes if this is negate condition or not
    */
-  matchType: MatchType;
+  negateCondition?: boolean;
+  /**
+   * Match values to match against. The operator will apply to each value in here with OR
+   * semantics. If any of them match the variable with the given operator this match condition is
+   * considered a match.
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
 }
 
 /**
- * Defines the URL path condition for the delivery rule.
+ * Defines the RemoteAddress condition for the delivery rule.
+ */
+export interface DeliveryRuleRemoteAddressCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RemoteAddress";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RemoteAddressMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for RequestMethod match conditions
+ */
+export interface RequestMethodMatchConditionParameters {
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+}
+
+/**
+ * Defines the RequestMethod condition for the delivery rule.
+ */
+export interface DeliveryRuleRequestMethodCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RequestMethod";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RequestMethodMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for QueryString match conditions
+ */
+export interface QueryStringMatchConditionParameters {
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: QueryStringOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the QueryString condition for the delivery rule.
+ */
+export interface DeliveryRuleQueryStringCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "QueryString";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: QueryStringMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for PostArgs match conditions
+ */
+export interface PostArgsMatchConditionParameters {
+  /**
+   * Name of PostArg to be matched
+   */
+  selector: string;
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: PostArgsOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the PostArgs condition for the delivery rule.
+ */
+export interface DeliveryRulePostArgsCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "PostArgs";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: PostArgsMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for RequestUri match conditions
+ */
+export interface RequestUriMatchConditionParameters {
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: RequestUriOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the RequestUri condition for the delivery rule.
+ */
+export interface DeliveryRuleRequestUriCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RequestUri";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RequestUriMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for RequestHeader match conditions
+ */
+export interface RequestHeaderMatchConditionParameters {
+  /**
+   * Name of Header to be matched
+   */
+  selector: string;
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: RequestHeaderOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the RequestHeader condition for the delivery rule.
+ */
+export interface DeliveryRuleRequestHeaderCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RequestHeader";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RequestHeaderMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for RequestBody match conditions
+ */
+export interface RequestBodyMatchConditionParameters {
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: RequestBodyOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the RequestBody condition for the delivery rule.
+ */
+export interface DeliveryRuleRequestBodyCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RequestBody";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RequestBodyMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for RequestScheme match conditions
+ */
+export interface RequestSchemeMatchConditionParameters {
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+}
+
+/**
+ * Defines the RequestScheme condition for the delivery rule.
+ */
+export interface DeliveryRuleRequestSchemeCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "RequestScheme";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: RequestSchemeMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for UrlPath match conditions
+ */
+export interface UrlPathMatchConditionParameters {
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual',
+   * 'Wildcard'
+   */
+  operator: UrlPathOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the UrlPath condition for the delivery rule.
  */
 export interface DeliveryRuleUrlPathCondition {
   /**
@@ -402,21 +703,34 @@ export interface DeliveryRuleUrlPathCondition {
   /**
    * Defines the parameters for the condition.
    */
-  parameters: UrlPathConditionParameters;
+  parameters: UrlPathMatchConditionParameters;
 }
 
 /**
- * Defines the parameters for the URL file extension condition.
+ * Defines the parameters for UrlFileExtension match conditions
  */
-export interface UrlFileExtensionConditionParameters {
+export interface UrlFileExtensionMatchConditionParameters {
   /**
-   * A list of extensions for the condition of the delivery rule.
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
    */
-  extensions: string[];
+  operator: UrlFileExtensionOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
 }
 
 /**
- * Defines the URL file extension condition for the delivery rule.
+ * Defines the UrlFileExtension condition for the delivery rule.
  */
 export interface DeliveryRuleUrlFileExtensionCondition {
   /**
@@ -426,7 +740,277 @@ export interface DeliveryRuleUrlFileExtensionCondition {
   /**
    * Defines the parameters for the condition.
    */
-  parameters: UrlFileExtensionConditionParameters;
+  parameters: UrlFileExtensionMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for UrlFilename match conditions
+ */
+export interface UrlFileNameMatchConditionParameters {
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: UrlFileNameOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the UrlFileName condition for the delivery rule.
+ */
+export interface DeliveryRuleUrlFileNameCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "UrlFileName";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: UrlFileNameMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for HttpVersion match conditions
+ */
+export interface HttpVersionMatchConditionParameters {
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+}
+
+/**
+ * Defines the HttpVersion condition for the delivery rule.
+ */
+export interface DeliveryRuleHttpVersionCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "HttpVersion";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: HttpVersionMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for Cookies match conditions
+ */
+export interface CookiesMatchConditionParameters {
+  /**
+   * Name of Cookies to be matched
+   */
+  selector: string;
+  /**
+   * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
+   * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+   */
+  operator: CookiesOperator;
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the Cookies condition for the delivery rule.
+ */
+export interface DeliveryRuleCookiesCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "Cookies";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: CookiesMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for IsDevice match conditions
+ */
+export interface IsDeviceMatchConditionParameters {
+  /**
+   * Describes if this is negate condition or not
+   */
+  negateCondition?: boolean;
+  /**
+   * The match value for the condition of the delivery rule
+   */
+  matchValues: string[];
+  /**
+   * List of transforms
+   */
+  transforms?: Transform[];
+}
+
+/**
+ * Defines the IsDevice condition for the delivery rule.
+ */
+export interface DeliveryRuleIsDeviceCondition {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "IsDevice";
+  /**
+   * Defines the parameters for the condition.
+   */
+  parameters: IsDeviceMatchConditionParameters;
+}
+
+/**
+ * Defines the parameters for the url redirect action.
+ */
+export interface UrlRedirectActionParameters {
+  /**
+   * The redirect type the rule will use when redirecting traffic. Possible values include:
+   * 'Moved', 'Found', 'TemporaryRedirect', 'PermanentRedirect'
+   */
+  redirectType: RedirectType;
+  /**
+   * Protocol to use for the redirect. The default value is MatchRequest. Possible values include:
+   * 'MatchRequest', 'Http', 'Https'
+   */
+  destinationProtocol?: DestinationProtocol;
+  /**
+   * The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the
+   * incoming path as destination path.
+   */
+  customPath?: string;
+  /**
+   * Host to redirect. Leave empty to use the incoming host as the destination host.
+   */
+  customHostname?: string;
+  /**
+   * The set of query strings to be placed in the redirect URL. Setting this value would replace
+   * any existing query string; leave empty to preserve the incoming query string. Query string
+   * must be in <key>=<value> format. ? and & will be added automatically so do not include them.
+   */
+  customQueryString?: string;
+  /**
+   * Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do
+   * not include the #.
+   */
+  customFragment?: string;
+}
+
+/**
+ * Defines the url redirect action for the delivery rule.
+ */
+export interface UrlRedirectAction {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "UrlRedirect";
+  /**
+   * Defines the parameters for the action.
+   */
+  parameters: UrlRedirectActionParameters;
+}
+
+/**
+ * Defines the parameters for the url rewrite action.
+ */
+export interface UrlRewriteActionParameters {
+  /**
+   * define a request URI pattern that identifies the type of requests that may be rewritten.
+   * Currently, source pattern uses a prefix-based match. To match all URL paths, use "/" as the
+   * source pattern value. To match only the root directory and re-write this path, use the origin
+   * path field
+   */
+  sourcePattern: string;
+  /**
+   * Define the destination path for be used in the rewrite. This will overwrite the source pattern
+   */
+  destination: string;
+  /**
+   * If True, the remaining path after the source pattern will be appended to the new destination
+   * path.
+   */
+  preserveUnmatchedPath?: boolean;
+}
+
+/**
+ * Defines the url rewrite action for the delivery rule.
+ */
+export interface UrlRewriteAction {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "UrlRewrite";
+  /**
+   * Defines the parameters for the action.
+   */
+  parameters: UrlRewriteActionParameters;
+}
+
+/**
+ * Defines the parameters for the request header action.
+ */
+export interface HeaderActionParameters {
+  /**
+   * Action to perform. Possible values include: 'Append', 'Overwrite', 'Delete'
+   */
+  headerAction: HeaderAction;
+  /**
+   * Name of the header to modify
+   */
+  headerName: string;
+  /**
+   * Value for the specified action
+   */
+  value?: string;
+}
+
+/**
+ * Defines the request header action for the delivery rule.
+ */
+export interface DeliveryRuleRequestHeaderAction {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "ModifyRequestHeader";
+  /**
+   * Defines the parameters for the action.
+   */
+  parameters: HeaderActionParameters;
+}
+
+/**
+ * Defines the response header action for the delivery rule.
+ */
+export interface DeliveryRuleResponseHeaderAction {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "ModifyResponseHeader";
+  /**
+   * Defines the parameters for the action.
+   */
+  parameters: HeaderActionParameters;
 }
 
 /**
@@ -434,8 +1018,8 @@ export interface DeliveryRuleUrlFileExtensionCondition {
  */
 export interface CacheExpirationActionParameters {
   /**
-   * Caching behavior for the requests that include query strings. Possible values include:
-   * 'BypassCache', 'Override', 'SetIfMissing'
+   * Caching behavior for the requests. Possible values include: 'BypassCache', 'Override',
+   * 'SetIfMissing'
    */
   cacheBehavior: CacheBehavior;
   /**
@@ -456,6 +1040,35 @@ export interface DeliveryRuleCacheExpirationAction {
    * Defines the parameters for the action.
    */
   parameters: CacheExpirationActionParameters;
+}
+
+/**
+ * Defines the parameters for the cache-key query string action.
+ */
+export interface CacheKeyQueryStringActionParameters {
+  /**
+   * Caching behavior for the requests. Possible values include: 'Include', 'IncludeAll',
+   * 'Exclude', 'ExcludeAll'
+   */
+  queryStringBehavior: QueryStringBehavior;
+  /**
+   * query parameters to include or exclude (comma separated).
+   */
+  queryParameters?: string;
+}
+
+/**
+ * Defines the cache-key query string action for the delivery rule.
+ */
+export interface DeliveryRuleCacheKeyQueryStringAction {
+  /**
+   * Polymorphic Discriminator
+   */
+  name: "CacheKeyQueryString";
+  /**
+   * Defines the parameters for the action.
+   */
+  parameters: CacheKeyQueryStringActionParameters;
 }
 
 /**
@@ -527,6 +1140,31 @@ export interface OriginUpdateParameters extends BaseResource {
 }
 
 /**
+ * Contains the possible cases for CustomDomainHttpsParameters.
+ */
+export type CustomDomainHttpsParametersUnion = CustomDomainHttpsParameters | CdnManagedHttpsParameters | UserManagedHttpsParameters;
+
+/**
+ * The JSON object that contains the properties to secure a custom domain.
+ */
+export interface CustomDomainHttpsParameters {
+  /**
+   * Polymorphic Discriminator
+   */
+  certificateSource: "CustomDomainHttpsParameters";
+  /**
+   * Defines the TLS extension protocol that is used for secure delivery. Possible values include:
+   * 'ServerNameIndication', 'IPBased'
+   */
+  protocolType: ProtocolType;
+  /**
+   * TLS protocol version that will be used for Https. Possible values include: 'None', 'TLS10',
+   * 'TLS12'
+   */
+  minimumTlsVersion?: MinimumTlsVersion;
+}
+
+/**
  * The resource model definition for a ARM proxy resource. It will have everything other than
  * required location and tags
  */
@@ -565,6 +1203,10 @@ export interface CustomDomain extends ProxyResource {
    */
   readonly customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
   /**
+   * Certificate parameters for securing custom HTTPS
+   */
+  customHttpsParameters?: CustomDomainHttpsParametersUnion;
+  /**
    * Special validation or data may be required when delivering CDN to some regions due to local
    * compliance reasons. E.g. ICP license number of a custom domain is required to deliver content
    * in China.
@@ -585,26 +1227,6 @@ export interface CustomDomainParameters {
    * The host name of the custom domain. Must be a domain name.
    */
   hostName: string;
-}
-
-/**
- * Contains the possible cases for CustomDomainHttpsParameters.
- */
-export type CustomDomainHttpsParametersUnion = CustomDomainHttpsParameters | CdnManagedHttpsParameters | UserManagedHttpsParameters;
-
-/**
- * The JSON object that contains the properties to secure a custom domain.
- */
-export interface CustomDomainHttpsParameters {
-  /**
-   * Polymorphic Discriminator
-   */
-  certificateSource: "CustomDomainHttpsParameters";
-  /**
-   * Defines the TLS extension protocol that is used for secure delivery. Possible values include:
-   * 'ServerNameIndication', 'IPBased'
-   */
-  protocolType: ProtocolType;
 }
 
 /**
@@ -630,6 +1252,11 @@ export interface CdnManagedHttpsParameters {
    * 'ServerNameIndication', 'IPBased'
    */
   protocolType: ProtocolType;
+  /**
+   * TLS protocol version that will be used for Https. Possible values include: 'None', 'TLS10',
+   * 'TLS12'
+   */
+  minimumTlsVersion?: MinimumTlsVersion;
   /**
    * Defines the certificate source parameters using CDN managed certificate for enabling SSL.
    */
@@ -675,6 +1302,11 @@ export interface UserManagedHttpsParameters {
    * 'ServerNameIndication', 'IPBased'
    */
   protocolType: ProtocolType;
+  /**
+   * TLS protocol version that will be used for Https. Possible values include: 'None', 'TLS10',
+   * 'TLS12'
+   */
+  minimumTlsVersion?: MinimumTlsVersion;
   /**
    * Defines the certificate source parameters using user's keyvault certificate for enabling SSL.
    */
@@ -1027,11 +1659,11 @@ export interface EdgenodeResult extends Array<EdgeNode> {
 /**
  * Defines values for SkuName.
  * Possible values include: 'Standard_Verizon', 'Premium_Verizon', 'Custom_Verizon',
- * 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft'
+ * 'Standard_Akamai', 'Standard_ChinaCdn', 'Standard_Microsoft', 'Premium_ChinaCdn'
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Standard_Verizon' | 'Premium_Verizon' | 'Custom_Verizon' | 'Standard_Akamai' | 'Standard_ChinaCdn' | 'Standard_Microsoft';
+export type SkuName = 'Standard_Verizon' | 'Premium_Verizon' | 'Custom_Verizon' | 'Standard_Akamai' | 'Standard_ChinaCdn' | 'Standard_Microsoft' | 'Premium_ChinaCdn';
 
 /**
  * Defines values for ProfileResourceState.
@@ -1073,6 +1705,143 @@ export type QueryStringCachingBehavior = 'IgnoreQueryString' | 'BypassCaching' |
  * @enum {string}
  */
 export type GeoFilterActions = 'Block' | 'Allow';
+
+/**
+ * Defines values for RemoteAddressOperator.
+ * Possible values include: 'Any', 'IPMatch', 'GeoMatch'
+ * @readonly
+ * @enum {string}
+ */
+export type RemoteAddressOperator = 'Any' | 'IPMatch' | 'GeoMatch';
+
+/**
+ * Defines values for Transform.
+ * Possible values include: 'Lowercase', 'Uppercase'
+ * @readonly
+ * @enum {string}
+ */
+export type Transform = 'Lowercase' | 'Uppercase';
+
+/**
+ * Defines values for QueryStringOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type QueryStringOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for PostArgsOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type PostArgsOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for RequestUriOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type RequestUriOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for RequestHeaderOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type RequestHeaderOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for RequestBodyOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type RequestBodyOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for UrlPathOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual', 'Wildcard'
+ * @readonly
+ * @enum {string}
+ */
+export type UrlPathOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual' | 'Wildcard';
+
+/**
+ * Defines values for UrlFileExtensionOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type UrlFileExtensionOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for UrlFileNameOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type UrlFileNameOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for CookiesOperator.
+ * Possible values include: 'Any', 'Equal', 'Contains', 'BeginsWith', 'EndsWith', 'LessThan',
+ * 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type CookiesOperator = 'Any' | 'Equal' | 'Contains' | 'BeginsWith' | 'EndsWith' | 'LessThan' | 'LessThanOrEqual' | 'GreaterThan' | 'GreaterThanOrEqual';
+
+/**
+ * Defines values for RedirectType.
+ * Possible values include: 'Moved', 'Found', 'TemporaryRedirect', 'PermanentRedirect'
+ * @readonly
+ * @enum {string}
+ */
+export type RedirectType = 'Moved' | 'Found' | 'TemporaryRedirect' | 'PermanentRedirect';
+
+/**
+ * Defines values for DestinationProtocol.
+ * Possible values include: 'MatchRequest', 'Http', 'Https'
+ * @readonly
+ * @enum {string}
+ */
+export type DestinationProtocol = 'MatchRequest' | 'Http' | 'Https';
+
+/**
+ * Defines values for HeaderAction.
+ * Possible values include: 'Append', 'Overwrite', 'Delete'
+ * @readonly
+ * @enum {string}
+ */
+export type HeaderAction = 'Append' | 'Overwrite' | 'Delete';
+
+/**
+ * Defines values for CacheBehavior.
+ * Possible values include: 'BypassCache', 'Override', 'SetIfMissing'
+ * @readonly
+ * @enum {string}
+ */
+export type CacheBehavior = 'BypassCache' | 'Override' | 'SetIfMissing';
+
+/**
+ * Defines values for QueryStringBehavior.
+ * Possible values include: 'Include', 'IncludeAll', 'Exclude', 'ExcludeAll'
+ * @readonly
+ * @enum {string}
+ */
+export type QueryStringBehavior = 'Include' | 'IncludeAll' | 'Exclude' | 'ExcludeAll';
 
 /**
  * Defines values for OriginResourceState.
@@ -1119,6 +1888,14 @@ export type CustomHttpsProvisioningSubstate = 'SubmittingDomainControlValidation
 export type ProtocolType = 'ServerNameIndication' | 'IPBased';
 
 /**
+ * Defines values for MinimumTlsVersion.
+ * Possible values include: 'None', 'TLS10', 'TLS12'
+ * @readonly
+ * @enum {string}
+ */
+export type MinimumTlsVersion = 'None' | 'TLS10' | 'TLS12';
+
+/**
  * Defines values for CertificateType.
  * Possible values include: 'Shared', 'Dedicated'
  * @readonly
@@ -1133,22 +1910,6 @@ export type CertificateType = 'Shared' | 'Dedicated';
  * @enum {string}
  */
 export type ResourceType = 'Microsoft.Cdn/Profiles/Endpoints';
-
-/**
- * Defines values for MatchType.
- * Possible values include: 'Literal', 'Wildcard'
- * @readonly
- * @enum {string}
- */
-export type MatchType = 'Literal' | 'Wildcard';
-
-/**
- * Defines values for CacheBehavior.
- * Possible values include: 'BypassCache', 'Override', 'SetIfMissing'
- * @readonly
- * @enum {string}
- */
-export type CacheBehavior = 'BypassCache' | 'Override' | 'SetIfMissing';
 
 /**
  * Contains response data for the list operation.
