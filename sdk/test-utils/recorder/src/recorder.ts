@@ -128,9 +128,8 @@ export function record(
 
   return {
     stop: function() {
-      // In soft-delete, if the recording hasn't changed,
-      // recorder won't exist.
-      if (isRecordMode() && recorder) {
+      // We check wether we're on record or playback inside of the recorder's stop method.
+      if (recorder) {
         recorder.stop();
       }
     },
