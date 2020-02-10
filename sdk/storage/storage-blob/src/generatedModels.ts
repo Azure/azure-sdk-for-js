@@ -137,6 +137,5 @@ export {
   ServiceSubmitBatchOptionalParams as ServiceSubmitBatchOptionalParamsModel,
   SignedIdentifier as SignedIdentifierModel,
   UserDelegationKey as UserDelegationKeyModel,
-  ContainerCpkScopeInfo,
-  CpkScopeInfo,
+  ContainerEncryptionScope,
 } from "./generated/src/models";

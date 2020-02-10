@@ -76,12 +76,12 @@ describe("Encryption Scope", function () {
     assert.ok(containerChecked);
 
     await blockBlobClient.upload(content, content.length, {
-      cpkScopeInfo: { encryptionScope: encryptionScopeName1 }
+      encryptionScope: encryptionScopeName1
     });
   });
 
   it("create container preventEncryptionScopeOverride", async () => {
-    await containerClient.create({ containerCpkScopeInfo: { defaultEncryptionScope: encryptionScopeName1, preventEncryptionScopeOverride: true } });
+    await containerClient.create({ containerEncryptionScope: { defaultEncryptionScope: encryptionScopeName1, preventEncryptionScopeOverride: true } });
 
     let containerChecked = false;
     for await (const container of blobServiceClient.listContainers({
@@ -99,7 +99,7 @@ describe("Encryption Scope", function () {
     let operationFailed = false;
     try {
       await blockBlobClient.upload(content, content.length, {
-        cpkScopeInfo: { encryptionScope: encryptionScopeName2 }
+        encryptionScope: encryptionScopeName2
       });
     } catch (err) {
       operationFailed = true;
@@ -114,7 +114,7 @@ describe("Encryption Scope", function () {
     try {
       await blockBlobClient.upload(content, content.length, {
         customerProvidedKey: Test_CPK_INFO,
-        cpkScopeInfo: { encryptionScope: encryptionScopeName1 }
+        encryptionScope: encryptionScopeName1
       });
     } catch (err) {
       operationFailed = true;
@@ -125,13 +125,13 @@ describe("Encryption Scope", function () {
   it("setMetadata, getProperties and createSnapshot with CPK-N", async () => {
     await containerClient.create();
     await blockBlobClient.upload(content, content.length, {
-      cpkScopeInfo: { encryptionScope: encryptionScopeName1 }
+      encryptionScope: encryptionScopeName1
     });
 
     // update with same encryption scope should succeed
     const metadata = { a: "a", b: "b" };
     const smResp = await blobClient.setMetadata(metadata, {
-      cpkScopeInfo: { encryptionScope: encryptionScopeName1 }
+      encryptionScope: encryptionScopeName1
     });
     assert.strictEqual(smResp.encryptionScope, encryptionScopeName1);
 
@@ -143,7 +143,7 @@ describe("Encryption Scope", function () {
     let operationFailed = false;
     try {
       await blobClient.createSnapshot({
-        cpkScopeInfo: { encryptionScope: encryptionScopeName2 }
+        encryptionScope: encryptionScopeName2
       });
     } catch (err) {
       operationFailed = true;
