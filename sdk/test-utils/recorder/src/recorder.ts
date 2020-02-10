@@ -101,7 +101,7 @@ export function record(
   ) {
     testContext.test!.title = `${
       testContext.test!.title
-    } (The test has been skipped since it hasn't changed)`;
+    } (Test unchanged since last recording)`;
     testContext.skip();
   }
 
