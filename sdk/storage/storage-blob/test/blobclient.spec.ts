@@ -251,13 +251,15 @@ describe.only("BlobClient", () => {
 
     let res = await iter.next();
     let result = res.value;
-    while (!res.done && (!result.segment.blobItems || result.segment.blobItems.length === 0)) {
-      console.log(`result.segment.blobItems ${result.segment.blobItems} ${result.segment.blobItems.length}`);
-      console.log(`res.done ${res.done}`);
+    while (!res.done) {
+      if (!!result && !!result.segment && !!result.segment.blobItems) {
+        break;
+      }
       res = await iter.next();
       result = res.value;
     }
 
+    assert.ok(result, "Expect valid iterator value");
     assert.ok(result.segment, "Expect valid segment response");
 
     assert.ok(
@@ -288,13 +290,15 @@ describe.only("BlobClient", () => {
 
     res = await iter2.next();
     result = res.value;
-    while (!res.done && (!result.segment.blobItems || result.segment.blobItems.length === 0)) {
-      console.log(`result.segment.blobItems ${result.segment.blobItems} ${result.segment.blobItems.length}`);
-      console.log(`res.done ${res.done}`);
+    while (!res.done) {
+      if (!!result && !!result.segment && !!result.segment.blobItems) {
+        break;
+      }
       res = await iter2.next();
       result = res.value;
     }
 
+    assert.ok(result, "Expect valid iterator value");
     assert.ok(result.segment, "Expect valid segment response");
 
     assert.ok(result.segment.blobItems, "Expect non empty result from list blobs().");
