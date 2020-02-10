@@ -24,6 +24,7 @@ import {
   HandleItem,
   RangeModel,
   FileForceCloseHandlesHeaders,
+  CopyFileSmbInfo,
   LeaseAccessConditions
 } from "./generatedModels";
 import { File } from "./generated/src/operations";
@@ -424,7 +425,7 @@ export interface FileStartCopyOptions extends CommonOptions {
    * A collection of key-value string pair to associate with the file storage object.
    *
    * @type {Metadata}
-   * @memberof FileCreateOptions
+   * @memberof FileStartCopyOptions
    */
   metadata?: Metadata;
   /**
@@ -434,6 +435,32 @@ export interface FileStartCopyOptions extends CommonOptions {
    * @memberof FileStartCopyOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * If specified the permission (security descriptor) shall be set for the directory/file. This
+   * header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be
+   * used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and
+   * dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be
+   * specified.
+   * 
+   * @type {string}
+   * @memberof FileStartCopyOptions
+   */
+  filePermission?: string;
+  /**
+   * Key of the permission to be set for the directory/file. Note: Only one of the
+   * x-ms-file-permission or x-ms-file-permission-key should be specified.
+   * 
+   * @type {string}
+   * @memberof FileStartCopyOptions
+   */
+  filePermissionKey?: string;
+  /**
+   * SMB info.
+   * 
+   * @type {CopyFileSmbInfo}
+   * @memberof FileStartCopyOptions
+   */
+  copyFileSmbInfo?: CopyFileSmbInfo;
 }
 
 /**
@@ -1657,6 +1684,9 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         metadata: options.metadata,
         leaseAccessConditions: options.leaseAccessConditions,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey,
+        copyFileSmbInfo: options.copyFileSmbInfo,
         spanOptions
       });
     } catch (e) {

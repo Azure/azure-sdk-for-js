@@ -4,7 +4,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
+import { ShareClient, ShareDirectoryClient, ShareFileClient, FileStartCopyOptions } from "../src";
 import { getBSU, bodyToString, recorderEnvSetup } from "./utils";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
@@ -23,7 +23,8 @@ describe("FileClient", () => {
   let fileName: string;
   let fileClient: ShareFileClient;
   const content = "Hello World";
-
+  const filePermissionInSDDL = "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513" +
+    "D:(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
   let recorder: Recorder;
 
   let fullFileAttributes = new FileSystemAttributes();
@@ -294,6 +295,74 @@ describe("FileClient", () => {
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
     assert.deepStrictEqual(properties2.copySource, fileClient.url);
+  });
+
+  it("startCopyFromURL with smb options", async () => {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
+
+    let fileAttributesInstance = new FileSystemAttributes();
+    fileAttributesInstance.hidden = true;
+    fileAttributesInstance.system = true;
+    const fileAttributes = fileAttributesInstance.toString();
+
+    const fileCreationDate = new Date('05 October 2011 14:48 UTC');
+    const fileCreationTime = truncatedISO8061Date(fileCreationDate);
+    const options: FileStartCopyOptions = {
+      filePermission: filePermissionInSDDL,
+      copyFileSmbInfo: {
+        filePermissionCopyMode: "override",
+        ignoreReadOnly: false,
+        fileAttributes,
+        fileCreationTime,
+        fileLastWriteTime: "source",
+        setArchiveAttribute: false
+      }
+    }
+
+    const result = await newFileClient.startCopyFromURL(fileClient.url, options);
+    assert.ok(result.copyId);
+    const sourceProperties = await fileClient.getProperties();
+    const targetProperties = await newFileClient.getProperties();
+
+    assert.deepStrictEqual(FileSystemAttributes.parse(targetProperties.fileAttributes!), fileAttributesInstance);
+    assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
+    assert.deepStrictEqual(targetProperties.fileCreatedOn, fileCreationDate);
+  });
+
+  it("startCopyFromURL with smb options: filePermissionKey", async () => {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
+
+    const createPermResp = await shareClient.createPermission(filePermissionInSDDL);
+    let fileAttributesInstance = new FileSystemAttributes();
+    fileAttributesInstance.hidden = true;
+    fileAttributesInstance.system = true;
+    const fileAttributes = fileAttributesInstance.toString();
+
+    const fileCreationDate = new Date('05 October 2011 14:48 UTC');
+    const fileCreationTime = truncatedISO8061Date(fileCreationDate);
+    const options: FileStartCopyOptions = {
+      filePermissionKey: createPermResp.filePermissionKey,
+      copyFileSmbInfo: {
+        filePermissionCopyMode: "override",
+        ignoreReadOnly: false,
+        fileAttributes,
+        fileCreationTime,
+        fileLastWriteTime: "source",
+        setArchiveAttribute: true
+      }
+    }
+
+    const result = await newFileClient.startCopyFromURL(fileClient.url, options);
+    assert.ok(result.copyId);
+    const sourceProperties = await fileClient.getProperties();
+    const targetProperties = await newFileClient.getProperties();
+
+    fileAttributesInstance.archive = true;
+    assert.deepStrictEqual(FileSystemAttributes.parse(targetProperties.fileAttributes!), fileAttributesInstance);
+    assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
+    assert.deepStrictEqual(targetProperties.fileCreatedOn, fileCreationDate);
   });
 
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
