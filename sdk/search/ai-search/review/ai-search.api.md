@@ -5,6 +5,7 @@
 ```ts
 
 import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { ServiceClientCredentials } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
@@ -18,19 +19,28 @@ export class SearchApiKeyCredential implements ServiceClientCredentials {
 
 // @public (undocumented)
 export class SearchIndexClient {
-    constructor(apiVersion: string, searchServiceName: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
+    constructor(searchServiceName: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
     readonly apiVersion: string;
-    // Warning: (ae-forgotten-export) The symbol "AutocompleteArgument" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "AutocompleteOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "AutocompleteResult" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    autocomplete(options: AutocompleteArgument, additionalOptions?: AutocompleteOptions): Promise<AutocompleteResult>;
+    autocomplete(suggesterName: string, searchText: string, options?: AutocompleteOptions): Promise<AutocompleteResult>;
     // Warning: (ae-forgotten-export) The symbol "CountOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     count(options?: CountOptions): Promise<number>;
     readonly indexName: string;
+    // Warning: (ae-forgotten-export) The symbol "SearchDocumentsResult" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "ListSearchResultsPageSettings" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    listSearchResults(searchText: string, options?: SearchOptions): PagedAsyncIterableIterator<SearchResult, SearchDocumentsResult, ListSearchResultsPageSettings>;
+    // Warning: (ae-forgotten-export) The symbol "SearchOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "SearchResult" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    listSearchResultsAll(searchText: string, options?: SearchOptions): AsyncIterableIterator<SearchResult>;
     searchDnsSuffix: string;
     readonly searchServiceName: string;
 }

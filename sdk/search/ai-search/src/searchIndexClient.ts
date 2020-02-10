@@ -180,17 +180,19 @@ export class SearchIndexClient {
 
   private async *listSearchResultsPage(
     searchText: string,
-    options: SearchOptions = {}
+    options: SearchOptions = {},
+    settings: ListSearchResultsPageSettings = {}
   ): AsyncIterableIterator<SearchDocumentsResult> {
-    let result = await this.search(searchText, options);
+    let result = await this.search(searchText, { ...options, ...settings.nextPageParameters });
 
     yield result;
 
+    // Technically, we should also leverage nextLink, but the generated code
+    // doesn't support this yet.
     while (result.nextPageParameters) {
       result = await this.search(searchText, {
         ...options,
-        top: result.nextPageParameters.top,
-        skip: result.nextPageParameters.skip
+        ...result.nextPageParameters
       });
       yield result;
     }
@@ -224,7 +226,7 @@ export class SearchIndexClient {
         return this;
       },
       byPage: (settings: ListSearchResultsPageSettings = {}) =>
-        this.listSearchResultsPage(searchText, options)
+        this.listSearchResultsPage(searchText, options, settings)
     };
   }
 
