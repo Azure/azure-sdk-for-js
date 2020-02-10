@@ -83,7 +83,8 @@ export const expand0: msRest.OperationQueryParameter = {
     type: {
       name: "Enum",
       allowedValues: [
-        "geoReplicationStats"
+        "geoReplicationStats",
+        "blobRestoreStatus"
       ]
     }
   }
