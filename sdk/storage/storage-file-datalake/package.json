@@ -9,6 +9,7 @@
   "browser": {
     "./dist-esm/src/index.js": "./dist-esm/src/index.browser.js",
     "./dist-esm/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/src/credentials/StorageSharedKeyCredential.browser.js",
+    "./dist-esm/src/utils/utils.node.js": "./dist-esm/src/utils/utils.browser.js",
     "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
     "fs": false,
     "os": false,

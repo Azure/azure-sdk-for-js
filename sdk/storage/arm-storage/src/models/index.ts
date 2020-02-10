@@ -706,6 +706,63 @@ export interface GeoReplicationStats {
 }
 
 /**
+ * Blob range
+ */
+export interface BlobRestoreRange {
+  /**
+   * Blob start range. Empty means account start.
+   */
+  startRange: string;
+  /**
+   * Blob end range. Empty means account end.
+   */
+  endRange: string;
+}
+
+/**
+ * Blob restore parameters
+ */
+export interface BlobRestoreParameters {
+  /**
+   * Restore blob to the specified time.
+   */
+  timeToRestore: Date;
+  /**
+   * Blob ranges to restore.
+   */
+  blobRanges: BlobRestoreRange[];
+}
+
+/**
+ * Blob restore status.
+ */
+export interface BlobRestoreStatus {
+  /**
+   * The status of blob restore progress. Possible values are: - InProgress: Indicates that blob
+   * restore is ongoing. - Complete: Indicates that blob restore has been completed successfully. -
+   * Failed: Indicates that blob restore is failed. Possible values include: 'InProgress',
+   * 'Complete', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: BlobRestoreProgressStatus;
+  /**
+   * Failure reason when blob restore is failed.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly failureReason?: string;
+  /**
+   * Id for tracking blob restore request.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restoreId?: string;
+  /**
+   * Blob restore request parameters.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly parameters?: BlobRestoreParameters;
+}
+
+/**
  * The Private Endpoint resource.
  */
 export interface PrivateEndpoint {
@@ -924,6 +981,11 @@ export interface StorageAccount extends TrackedResource {
    * Maintains information about the network routing choice opted by the user for data transfer
    */
   routingPreference?: RoutingPreference;
+  /**
+   * Blob restore status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly blobRestoreStatus?: BlobRestoreStatus;
 }
 
 /**
@@ -1766,6 +1828,21 @@ export interface ChangeFeed {
 }
 
 /**
+ * The blob service properties for blob restore policy
+ */
+export interface RestorePolicyProperties {
+  /**
+   * Blob restore is enabled if set to true.
+   */
+  enabled: boolean;
+  /**
+   * how long this blob can be restored. It should be great than zero and less than
+   * DeleteRetentionPolicy.days.
+   */
+  days?: number;
+}
+
+/**
  * The properties of a storage account’s Blob service.
  */
 export interface BlobServiceProperties extends Resource {
@@ -1793,6 +1870,10 @@ export interface BlobServiceProperties extends Resource {
    * The blob service properties for change feed events.
    */
   changeFeed?: ChangeFeed;
+  /**
+   * The blob service properties for blob restore policy.
+   */
+  restorePolicy?: RestorePolicyProperties;
   /**
    * Sku name and tier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1922,8 +2003,8 @@ export interface FileShareItem extends AzureEntityResource {
 export interface StorageAccountsGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
   /**
    * May be used to expand the properties within account's properties. By default, data is not
-   * included when fetching properties. Currently we only support geoReplicationStats. Possible
-   * values include: 'geoReplicationStats'
+   * included when fetching properties. Currently we only support geoReplicationStats and
+   * blobRestoreStatus. Possible values include: 'geoReplicationStats', 'blobRestoreStatus'
    */
   expand?: StorageAccountExpand;
 }
@@ -2353,6 +2434,14 @@ export type RoutingChoice = 'MicrosoftRouting' | 'InternetRouting';
 export type GeoReplicationStatus = 'Live' | 'Bootstrap' | 'Unavailable';
 
 /**
+ * Defines values for BlobRestoreProgressStatus.
+ * Possible values include: 'InProgress', 'Complete', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobRestoreProgressStatus = 'InProgress' | 'Complete' | 'Failed';
+
+/**
  * Defines values for ProvisioningState.
  * Possible values include: 'Creating', 'ResolvingDNS', 'Succeeded'
  * @readonly
@@ -2491,11 +2580,11 @@ export type ImmutabilityPolicyUpdateType = 'put' | 'lock' | 'extend';
 
 /**
  * Defines values for StorageAccountExpand.
- * Possible values include: 'geoReplicationStats'
+ * Possible values include: 'geoReplicationStats', 'blobRestoreStatus'
  * @readonly
  * @enum {string}
  */
-export type StorageAccountExpand = 'geoReplicationStats';
+export type StorageAccountExpand = 'geoReplicationStats' | 'blobRestoreStatus';
 
 /**
  * Defines values for ListKeyExpand.
@@ -2754,6 +2843,26 @@ export type StorageAccountsListServiceSASResponse = ListServiceSasResponse & {
 };
 
 /**
+ * Contains response data for the restoreBlobRanges operation.
+ */
+export type StorageAccountsRestoreBlobRangesResponse = BlobRestoreStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobRestoreStatus;
+    };
+};
+
+/**
  * Contains response data for the beginCreate operation.
  */
 export type StorageAccountsBeginCreateResponse = StorageAccount & {
@@ -2770,6 +2879,26 @@ export type StorageAccountsBeginCreateResponse = StorageAccount & {
        * The response body as parsed JSON or XML
        */
       parsedBody: StorageAccount;
+    };
+};
+
+/**
+ * Contains response data for the beginRestoreBlobRanges operation.
+ */
+export type StorageAccountsBeginRestoreBlobRangesResponse = BlobRestoreStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobRestoreStatus;
     };
 };
 

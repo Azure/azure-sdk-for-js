@@ -111,9 +111,7 @@ export function record(
 
   return {
     stop: function() {
-      if (isRecordMode()) {
-        recorder.stop();
-      }
+      recorder.stop();
     },
     /**
      * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.

@@ -28,59 +28,6 @@ export interface Sku {
 }
 
 /**
- * The parameters to provide for the account.
- */
-export interface CognitiveServicesAccountCreateParameters {
-  /**
-   * Required. Gets or sets the SKU of the resource.
-   */
-  sku: Sku;
-  /**
-   * Required. Gets or sets the Kind of the resource.
-   */
-  kind: string;
-  /**
-   * Required. Gets or sets the location of the resource. This will be one of the supported and
-   * registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of
-   * a resource cannot be changed once it is created, but if an identical geo region is specified
-   * on update the request will succeed.
-   */
-  location: string;
-  /**
-   * Gets or sets a list of key value pairs that describe the resource. These tags can be used in
-   * viewing and grouping this resource (across resource groups). A maximum of 15 tags can be
-   * provided for a resource. Each tag must have a key no greater than 128 characters and value no
-   * greater than 256 characters.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Must exist in the request. Must be an empty object. Must not be null.
-   */
-  properties: any;
-}
-
-/**
- * The parameters to provide for the account.
- */
-export interface CognitiveServicesAccountUpdateParameters {
-  /**
-   * Gets or sets the SKU of the resource.
-   */
-  sku?: Sku;
-  /**
-   * Gets or sets a list of key value pairs that describe the resource. These tags can be used in
-   * viewing and grouping this resource (across resource groups). A maximum of 15 tags can be
-   * provided for a resource. Each tag must have a key no greater than 128 characters and value no
-   * greater than 256 characters.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Additional properties for Account. Only provided fields will be updated.
-   */
-  properties?: any;
-}
-
-/**
  * A rule governing the accessibility from a specific ip address or ip range.
  */
 export interface IpRule {
@@ -115,11 +62,6 @@ export interface VirtualNetworkRule {
  */
 export interface NetworkRuleSet {
   /**
-   * Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not
-   * specified the default is 'AzureServices'. Possible values include: 'AzureServices', 'None'
-   */
-  bypass?: NetworkRuleBypassOptions;
-  /**
    * The default action when no rule from ipRules and from virtualNetworkRules match. This is only
    * used after the bypass property has been evaluated. Possible values include: 'Allow', 'Deny'
    */
@@ -135,21 +77,79 @@ export interface NetworkRuleSet {
 }
 
 /**
+ * The api properties for special APIs.
+ */
+export interface CognitiveServicesAccountApiProperties {
+  /**
+   * (QnAMaker Only) The runtime endpoint of QnAMaker.
+   */
+  qnaRuntimeEndpoint?: string;
+  /**
+   * (Bing Search Only) The flag to enable statistics of Bing Search.
+   */
+  statisticsEnabled?: boolean;
+  /**
+   * (Personalization Only) The flag to enable statistics of Bing Search.
+   */
+  eventHubConnectionString?: string;
+  /**
+   * (Personalization Only) The storage account connection string.
+   */
+  storageAccountConnectionString?: string;
+}
+
+/**
+ * Properties of Cognitive Services account.
+ */
+export interface CognitiveServicesAccountProperties {
+  /**
+   * Gets the status of the cognitive services account at the time the operation was called.
+   * Possible values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting', 'Succeeded',
+   * 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Endpoint of the created account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endpoint?: string;
+  /**
+   * The internal identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly internalId?: string;
+  /**
+   * Optional subdomain name used for token-based authentication.
+   */
+  customSubDomainName?: string;
+  /**
+   * A collection of rules governing the accessibility from specific network locations.
+   */
+  networkAcls?: NetworkRuleSet;
+  /**
+   * The api properties for special APIs.
+   */
+  apiProperties?: CognitiveServicesAccountApiProperties;
+}
+
+/**
  * Cognitive Services Account is an Azure resource representing the provisioned account, its type,
  * location and SKU.
  */
 export interface CognitiveServicesAccount extends BaseResource {
   /**
    * Entity Tag
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  etag?: string;
+  readonly etag?: string;
   /**
    * The id of the created account
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Type of cognitive service account.
+   * The Kind of the resource.
    */
   kind?: string;
   /**
@@ -162,28 +162,9 @@ export interface CognitiveServicesAccount extends BaseResource {
    */
   readonly name?: string;
   /**
-   * Gets the status of the cognitive services account at the time the operation was called.
-   * Possible values include: 'Creating', 'ResolvingDNS', 'Moving', 'Deleting', 'Succeeded',
-   * 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Properties of Cognitive Services account.
    */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Endpoint of the created account.
-   */
-  endpoint?: string;
-  /**
-   * The internal identifier.
-   */
-  internalId?: string;
-  /**
-   * Optional subdomain name used for token-based authentication.
-   */
-  customSubDomainName?: string;
-  /**
-   * A collection of rules governing the accessibility from specific network locations.
-   */
-  networkAcls?: NetworkRuleSet;
+  properties?: CognitiveServicesAccountProperties;
   /**
    * The SKU of Cognitive Services account.
    */
@@ -564,27 +545,6 @@ export interface ResourceSku {
 /**
  * Optional Parameters.
  */
-export interface AccountsUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Gets or sets the SKU of the resource.
-   */
-  sku?: Sku;
-  /**
-   * Gets or sets a list of key value pairs that describe the resource. These tags can be used in
-   * viewing and grouping this resource (across resource groups). A maximum of 15 tags can be
-   * provided for a resource. Each tag must have a key no greater than 128 characters and value no
-   * greater than 256 characters.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Additional properties for Account. Only provided fields will be updated.
-   */
-  properties?: any;
-}
-
-/**
- * Optional Parameters.
- */
 export interface AccountsGetUsagesOptionalParams extends msRest.RequestOptionsBase {
   /**
    * An OData filter expression that describes a subset of usages to return. The supported
@@ -651,14 +611,6 @@ export type SkuTier = 'Free' | 'Standard' | 'Premium';
  * @enum {string}
  */
 export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Moving' | 'Deleting' | 'Succeeded' | 'Failed';
-
-/**
- * Defines values for NetworkRuleBypassOptions.
- * Possible values include: 'AzureServices', 'None'
- * @readonly
- * @enum {string}
- */
-export type NetworkRuleBypassOptions = 'AzureServices' | 'None';
 
 /**
  * Defines values for NetworkRuleAction.
@@ -1010,9 +962,9 @@ export type OperationsListNextResponse = OperationEntityListResult & {
 };
 
 /**
- * Contains response data for the list operation.
+ * Contains response data for the checkSkuAvailability operation.
  */
-export type CheckSkuAvailabilityListResponse = CheckSkuAvailabilityResultList & {
+export type CheckSkuAvailabilityResponse = CheckSkuAvailabilityResultList & {
   /**
    * The underlying HTTP response.
    */

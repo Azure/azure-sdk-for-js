@@ -159,9 +159,9 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
+  // On playback mode, the tests happen too fast for the timeout to work - in browsers only
   it("list deleted certificates with requestOptions timeout", async function() {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    recorder.skip("browser", "Timeout tests don't work on playback mode.");
     const iter = client.listDeletedCertificates({ requestOptions: { timeout: 1 } });
     await assertThrowsAbortError(async () => {
       await iter.next();
@@ -214,9 +214,9 @@ describe("Certificates client - list certificates in various ways", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
+  // On playback mode, the tests happen too fast for the timeout to work - in browsers only
   it("can get the versions of a certificate with requestOptions timeout", async function() {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    recorder.skip("browser", "Timeout tests don't work on playback mode.");
     const iter = client.listPropertiesOfCertificateVersions("doesn't matter", {
       requestOptions: { timeout: 1 }
     });

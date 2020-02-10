@@ -8,6 +8,7 @@ import { CloseReason } from "./models/public";
 import { PartitionProcessor } from "./partitionProcessor";
 import { PartitionPump } from "./partitionPump";
 import { logger, logErrorStackTrace } from "./log";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * The PumpManager handles the creation and removal of PartitionPumps.
@@ -28,7 +29,8 @@ export interface PumpManager {
   createPump(
     startPosition: EventPosition,
     eventHubClient: EventHubClient,
-    partitionProcessor: PartitionProcessor
+    partitionProcessor: PartitionProcessor,
+    abortSignal: AbortSignalLike
   ): Promise<void>;
 
   /**
@@ -101,9 +103,16 @@ export class PumpManagerImpl implements PumpManager {
   public async createPump(
     startPosition: EventPosition,
     eventHubClient: EventHubClient,
-    partitionProcessor: PartitionProcessor
+    partitionProcessor: PartitionProcessor,
+    abortSignal: AbortSignalLike
   ): Promise<void> {
     const partitionId = partitionProcessor.partitionId;
+    if (abortSignal.aborted) {
+      logger.verbose(
+        `${this._eventProcessorName}] The subscription was closed before creating the pump for partition ${partitionId}.`
+      );
+      return;
+    }
     // attempt to get an existing pump
     const existingPump = this._partitionIdToPumps[partitionId];
     if (existingPump) {

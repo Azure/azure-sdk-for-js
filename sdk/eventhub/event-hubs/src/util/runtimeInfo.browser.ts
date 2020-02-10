@@ -16,7 +16,7 @@ interface Navigator {
  * @internal
  */
 export function getRuntimeInfo(): string {
-  return `v0.0.0; Browser ${getReleaseInfo()}`;
+  return `BROWSER-VERSION; Browser ${getReleaseInfo()}`;
 }
 
 function getReleaseInfo(): string {
