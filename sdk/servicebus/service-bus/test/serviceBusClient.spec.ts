@@ -14,7 +14,8 @@ import {
   SessionReceiver,
   SubscriptionClient,
   TopicClient,
-  ServiceBusMessage
+  ServiceBusMessage,
+  MessagingError
 } from "../src";
 import {
   getClientClosedErrorMsg,
@@ -28,15 +29,20 @@ import {
   getSenderReceiverClients,
   purge,
   TestMessage,
-  getServiceBusClient
+  getServiceBusClient,
+  isMessagingError
 } from "./utils/testUtils";
 import { ClientType } from "../src/client";
 import { DispositionType } from "../src/serviceBusMessage";
-import { getEnvVars, isNode } from "./utils/envVarUtils";
-import { getTokenCredentialsFromAAD } from "./utils/aadUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
+
+import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+import { EnvironmentCredential } from "@azure/identity";
 
 describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBrowser", function(): void {
   let sbClient: ServiceBusClient;
@@ -48,7 +54,7 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
   });
 
   it("Creates an Namespace from a connection string", function(): void {
-    sbClient = ServiceBusClient.createFromConnectionString(
+    sbClient = new ServiceBusClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
     sbClient.should.be.an.instanceof(ServiceBusClient);
@@ -56,7 +62,7 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
   });
 
   it("Creates clients after coercing name to string", function(): void {
-    sbClient = ServiceBusClient.createFromConnectionString(
+    sbClient = new ServiceBusClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
     const queueClient = sbClient.createQueueClient(1 as any);
@@ -68,29 +74,13 @@ describe("Create ServiceBusClient and Queue/Topic/Subscription Clients #RunInBro
     const subscriptionClient = sbClient.createSubscriptionClient(1 as any, 2 as any);
     should.equal(subscriptionClient.entityPath, "1/Subscriptions/2");
   });
-
-  it("Missing tokenProvider in createFromTokenProvider", function(): void {
-    let caughtError: Error | undefined;
-    try {
-      sbClient = ServiceBusClient.createFromTokenProvider("somestring", undefined as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(caughtError && caughtError.message, `Missing parameter "tokenProvider"`);
-  });
-
-  it("Coerces input to string for host in createFromTokenProvider", function(): void {
-    sbClient = ServiceBusClient.createFromTokenProvider(123 as any, {} as any);
-    should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
-  });
 });
 
 describe("Errors with non existing Namespace #RunInBrowser", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean;
   beforeEach(() => {
-    sbClient = ServiceBusClient.createFromConnectionString(
+    sbClient = new ServiceBusClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
     );
     errorWasThrown = false;
@@ -99,9 +89,14 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     return sbClient.close();
   });
 
-  const testError = (err: Error): void => {
-    should.equal(err.name, "ServiceCommunicationError", "ErrorName is different than expected");
-    errorWasThrown = true;
+  const testError = (err: Error | MessagingError): void => {
+    const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
+    if (!isMessagingError(err)) {
+      should.equal(true, false, "Error expected to be instance of MessagingError");
+    } else {
+      should.equal(err.code, expectedErrCode, "Error code is different than expected");
+      errorWasThrown = true;
+    }
   };
 
   it("throws error when sending data via a queueClient to a non existing namespace", async function(): Promise<
@@ -151,7 +146,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving batch data via a queueClient from a non existing namespace", async function(): Promise<
+  it("throws error when receiving batch data via a queueClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = sbClient.createQueueClient("some-name");
@@ -161,7 +156,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving batch data via a subscriptionClient from a non existing namespace", async function(): Promise<
+  it("throws error when receiving batch data via a subscriptionClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
@@ -171,7 +166,7 @@ describe("Errors with non existing Namespace #RunInBrowser", function(): void {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving streaming data via a queueClient from a non existing namespace", async function(): Promise<
+  it("throws error when receiving streaming data via a queueClient from a non existing namespace", async function(): Promise<
     void
   > {
     const client = sbClient.createQueueClient("some-name");
@@ -199,15 +194,23 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     return sbClient.close();
   });
 
-  const testError = (err: Error, entityPath: string): void => {
-    should.equal(err.name, "MessagingEntityNotFoundError", "ErrorName is different than expected");
-    should.equal(
-      err.message.startsWith(
-        `The messaging entity '${sbClient.name}${entityPath}' could not be found.`
-      ),
-      true
-    );
-    errorWasThrown = true;
+  const testError = (err: Error | MessagingError, entityPath: string): void => {
+    if (!isMessagingError(err)) {
+      should.equal(true, false, "Error expected to be instance of MessagingError");
+    } else {
+      should.equal(
+        err.code,
+        "MessagingEntityNotFoundError",
+        "Error code is different than expected"
+      );
+      should.equal(
+        err.message.startsWith(
+          `The messaging entity '${sbClient.name}${entityPath}' could not be found.`
+        ),
+        true
+      );
+      errorWasThrown = true;
+    }
   };
 
   it("throws error when sending data to a non existing queue #RunInBrowser", async function(): Promise<
@@ -278,7 +281,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving streaming data from a non existing queue #RunInBrowser", async function(): Promise<
+  it("throws error when receiving streaming data from a non existing queue #RunInBrowser", async function(): Promise<
     void
   > {
     const client = sbClient.createQueueClient("some-name");
@@ -293,7 +296,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("throws error when receving streaming data from a non existing subscription", async function(): Promise<
+  it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
     void
   > {
     const client = sbClient.createSubscriptionClient("some-topic-name", "some-subscription-name");
@@ -311,7 +314,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-describe("Test createFromAadTokenCredentials", function(): void {
+describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
   let sbClient: ServiceBusClient;
   let errorWasThrown: boolean = false;
 
@@ -320,69 +323,91 @@ describe("Test createFromAadTokenCredentials", function(): void {
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
 
-  async function testCreateFromAadTokenCredentials(host: string, tokenCreds: any): Promise<void> {
-    const testMessages = TestMessage.getSample();
-    sbClient = ServiceBusClient.createFromAadTokenCredentials(host, tokenCreds);
-    sbClient.should.be.an.instanceof(ServiceBusClient);
-    const clients = await getSenderReceiverClients(
-      sbClient,
-      TestClientType.UnpartitionedQueue,
-      TestClientType.UnpartitionedQueue
+  /**
+   * Utility to create EnvironmentCredential using `@azure/identity`
+   */
+  function getDefaultTokenCredential() {
+    should.exist(
+      env[EnvVarNames.AZURE_CLIENT_ID],
+      "define AZURE_CLIENT_ID in your environment before running integration tests."
     );
-
-    const sender = clients.senderClient.createSender();
-    const receiver = await clients.receiverClient.createReceiver(ReceiveMode.peekLock);
-    await sender.send(testMessages);
-    const msgs = await receiver.receiveMessages(1);
-
-    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.exist(
+      env[EnvVarNames.AZURE_TENANT_ID],
+      "define AZURE_TENANT_ID in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarNames.AZURE_CLIENT_SECRET],
+      "define AZURE_CLIENT_SECRET in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
+      "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+    );
+    return new EnvironmentCredential();
   }
 
-  it("throws error when using `CreateFromAadTokenCredentials` in browser #RunInBrowser", async function(): Promise<
-    void
-  > {
-    // We use the `!isNode` check here to ensure this test is run only in browser only
-    // as by default all tests run in Node
-    if (!isNode) {
-      const credentials: any = {};
-      await testCreateFromAadTokenCredentials(serviceBusEndpoint, credentials).catch((err) => {
-        errorWasThrown = true;
-        should.equal(
-          err.message,
-          "`createFromAadTokenCredentials` cannot be used to create ServiceBusClient as AAD support is not present in browser."
-        );
-      });
-      should.equal(errorWasThrown, true, "Error thrown flag must be true");
-    }
-  });
-
   it("throws error for invalid tokenCredentials", async function(): Promise<void> {
-    await testCreateFromAadTokenCredentials(serviceBusEndpoint, "").catch((err) => {
+    try {
+      new ServiceBusClient(serviceBusEndpoint, [] as any);
+    } catch (err) {
       errorWasThrown = true;
       should.equal(
         err.message,
-        "'credentials' is a required parameter and must be an instance of ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials.",
+        "Connection string malformed: each part of the connection string must have an `=` assignment.",
+        // "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
         "ErrorMessage is different than expected"
       );
-    });
+    }
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("Coerces input to string for host in createFromAadTokenCredentials", async function(): Promise<
-    void
-  > {
-    const tokenCreds = await getTokenCredentialsFromAAD();
-    sbClient = ServiceBusClient.createFromAadTokenCredentials(123 as any, tokenCreds);
-    should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
+  it("throws error for undefined tokenCredentials", async function(): Promise<void> {
+    try {
+      new ServiceBusClient(serviceBusEndpoint, undefined as any);
+    } catch (err) {
+      errorWasThrown = true;
+      should.equal(
+        err.message,
+        "Connection string malformed: each part of the connection string must have an `=` assignment.",
+        // "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
+        "ErrorMessage is different than expected"
+      );
+    }
+    should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
 
-  it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-    const tokenCreds = await getTokenCredentialsFromAAD();
-    await testCreateFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
-    await sbClient.close();
-  });
+  if (isNode) {
+    it("Coerces input to string for host in credential based constructor", async function(): Promise<
+      void
+    > {
+      const tokenCreds = getDefaultTokenCredential();
+      sbClient = new ServiceBusClient(123 as any, tokenCreds);
+      should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
+    });
+
+    it("sends a message to the ServiceBus entity", async function(): Promise<void> {
+      const tokenCreds = getDefaultTokenCredential();
+      const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
+
+      sbClient.should.be.an.instanceof(ServiceBusClient);
+      const clients = await getSenderReceiverClients(
+        sbClient,
+        TestClientType.UnpartitionedQueue,
+        TestClientType.UnpartitionedQueue
+      );
+
+      const sender = clients.senderClient.createSender();
+      const receiver = await clients.receiverClient.createReceiver(ReceiveMode.peekLock);
+      const testMessages = TestMessage.getSample();
+      await sender.send(testMessages);
+      const msgs = await receiver.receiveMessages(1);
+
+      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+      should.equal(msgs.length, 1, "Unexpected number of messages");
+      await sbClient.close();
+    });
+  }
 });
 
 describe("Errors after close()", function(): void {

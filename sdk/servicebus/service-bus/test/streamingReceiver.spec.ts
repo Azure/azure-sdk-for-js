@@ -25,9 +25,13 @@ import {
   TestMessage,
   getServiceBusClient
 } from "./utils/testUtils";
-import { SasTokenProvider, TokenInfo, parseConnectionString } from "@azure/amqp-common";
-import { getEnvVars, EnvVarNames } from "./utils/envVarUtils";
+// import { SasTokenProvider, TokenInfo, parseConnectionString } from "@azure/amqp-common";
+// import { getEnvVars, EnvVarNames } from "./utils/envVarUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
+
+import { AccessToken, parseConnectionString, TokenCredential } from "@azure/core-amqp";
+import { getEnvVars, EnvVarNames } from "./utils/envVarUtils";
+import { EnvironmentCredential } from "@azure/identity";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -867,34 +871,26 @@ describe("Streaming - Failed init should not cache recevier", function(): void {
     await afterEachTest();
   });
 
-  class TestTokenProvider extends SasTokenProvider {
+  class TestTokenCredential extends EnvironmentCredential implements TokenCredential {
     private firstCall = true;
     static errorMessage = "This is a faulty token provider.";
-    constructor(connectionObject: {
-      Endpoint: string;
-      SharedAccessKeyName: string;
-      SharedAccessKey: string;
-    }) {
-      super(
-        connectionObject.Endpoint,
-        connectionObject.SharedAccessKeyName,
-        connectionObject.SharedAccessKey
-      );
+    constructor() {
+      super();
     }
 
-    async getToken(audience: string): Promise<TokenInfo> {
+    async getToken(audience: string): Promise<AccessToken | null> {
       if (this.firstCall) {
         this.firstCall = false;
-        throw new Error(TestTokenProvider.errorMessage);
+        throw new Error(TestTokenCredential.errorMessage);
       }
       return super.getToken(audience);
     }
   }
 
-  it("UnPartitioned Queue: Receiver is not cached when not initialized #RunInBrowser", async function(): Promise<
+  it("UnPartitioned Queue: Receiver is not cached when not initialized", async function(): Promise<
     void
   > {
-    const env = getEnvVars();
+    const env: any = getEnvVars();
 
     // Send a message using service bus client created with connection string
     sbClient = getServiceBusClient();
@@ -913,11 +909,8 @@ describe("Streaming - Failed init should not cache recevier", function(): void {
       SharedAccessKeyName: string;
       SharedAccessKey: string;
     } = parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
-    const tokenProvider = new TestTokenProvider(connectionObject);
-    sbClient = ServiceBusClient.createFromTokenProvider(
-      connectionObject.Endpoint.substr(5),
-      tokenProvider
-    );
+    const tokenProvider = new TestTokenCredential();
+    sbClient = new ServiceBusClient(connectionObject.Endpoint.substr(5), tokenProvider);
     clients = await getSenderReceiverClients(
       sbClient,
       TestClientType.UnpartitionedQueue,
@@ -940,7 +933,7 @@ describe("Streaming - Failed init should not cache recevier", function(): void {
     should.equal(errCheck, true, "Expected error to be thrown, but no error found.");
     should.equal(
       actualError!.message,
-      TestTokenProvider.errorMessage,
+      TestTokenCredential.errorMessage,
       "Expected error from token provider, but unexpected error found."
     );
     should.equal(

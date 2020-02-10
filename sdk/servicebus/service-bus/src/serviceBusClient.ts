@@ -3,13 +3,6 @@
 
 import * as log from "./log";
 
-import {
-  ApplicationTokenCredentials,
-  DeviceTokenCredentials,
-  UserTokenCredentials,
-  MSITokenCredentials
-} from "@azure/ms-rest-nodeauth";
-
 import { WebSocketImpl } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { QueueClient } from "./queueClient";
@@ -17,12 +10,11 @@ import { TopicClient } from "./topicClient";
 import {
   ConnectionConfig,
   DataTransformer,
-  TokenProvider,
-  AadTokenProvider,
-  SasTokenProvider
-} from "@azure/amqp-common";
+  TokenCredential,
+  SharedKeyCredential,
+  isTokenCredential
+} from "@azure/core-amqp";
 import { SubscriptionClient } from "./subscriptionClient";
-import { isNode } from "./util/utils";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
@@ -66,24 +58,67 @@ export class ServiceBusClient {
   private _context: ConnectionContext;
 
   /**
+   * Creates a ServiceBusClient for the Service Bus Namespace represented in the given connection
+   * string.
+   * @param connectionString - Connection string of the form
+   * 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
+   * @param options Options to control ways to interact with the
+   * Service Bus Namespace.
+   * @returns ServiceBusClient
+   */
+  constructor(connectionString: string, options?: ServiceBusClientOptions);
+
+  /**
    * Instantiates a ServiceBusClient to interact with a Service Bus Namespace.
    *
    * @constructor
-   * @param {ConnectionConfig} config - The connection configuration needed to connect to the
-   * Service Bus Namespace.
-   * @param {TokenProvider} [tokenProvider] - The token provider that provides the token for
-   * authentication.
-   * @param {ServiceBusClientOptions} - Options to control ways to interact with the Service Bus
+   * @param host - The host name for the Service Bus namespace. This is likely to be similar to
+   * <yournamespace>.servicebus.windows.net
+   * @param credential - credential that implements the TokenCredential interface.
+   * @param options - Options to control ways to interact with the Service Bus
    * Namespace.
    */
-  private constructor(
-    config: ConnectionConfig,
-    tokenProvider: TokenProvider,
+  constructor(host: string, credential: TokenCredential, options?: ServiceBusClientOptions);
+
+  constructor(
+    hostOrConnectionString: string,
+    credentialOrServiceBusClientOptions?: TokenCredential | ServiceBusClientOptions,
     options?: ServiceBusClientOptions
   ) {
-    if (!options) options = {};
+    let config;
+    let credential;
+
+    if (!isTokenCredential(credentialOrServiceBusClientOptions)) {
+      // connectionString and options based constructor was invoked
+      config = ConnectionConfig.create(hostOrConnectionString);
+
+      options = credentialOrServiceBusClientOptions as ServiceBusClientOptions;
+      config.webSocket = options && options.webSocket;
+      config.webSocketEndpointPath = "$servicebus/websocket";
+      config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
+
+      // Since connectionstring was passed, create a SharedKeyCredential
+      credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+
+      ConnectionConfig.validate(config);
+    } else {
+      // host, credential and options based constructor was invoked
+      credential = credentialOrServiceBusClientOptions as TokenCredential;
+
+      hostOrConnectionString = String(hostOrConnectionString);
+      if (!hostOrConnectionString.endsWith("/")) {
+        hostOrConnectionString += "/";
+      }
+      const connectionString = `Endpoint=sb://${hostOrConnectionString};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
+      config = ConnectionConfig.create(connectionString);
+    }
+
+    if (!options) {
+      options = {};
+    }
+
     this.name = config.endpoint;
-    this._context = ConnectionContext.create(config, tokenProvider, options);
+    this._context = ConnectionContext.create(config, credential, options);
   }
 
   /**
@@ -160,103 +195,5 @@ export class ServiceBusClient {
       );
       throw errObj;
     }
-  }
-
-  /**
-   * Creates a ServiceBusClient for the Service Bus Namespace represented in the given connection
-   * string.
-   * @param {string} connectionString - Connection string of the form
-   * 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key'
-   * @param {ServiceBusClientOptions} [options] Options to control ways to interact with the
-   * Service Bus Namespace.
-   * @returns {ServiceBusClient}
-   */
-  static createFromConnectionString(
-    connectionString: string,
-    options?: ServiceBusClientOptions
-  ): ServiceBusClient {
-    const config = ConnectionConfig.create(connectionString);
-
-    config.webSocket = options && options.webSocket;
-    config.webSocketEndpointPath = "$servicebus/websocket";
-    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
-
-    ConnectionConfig.validate(config);
-    const tokenProvider = new SasTokenProvider(
-      config.endpoint,
-      config.sharedAccessKeyName,
-      config.sharedAccessKey
-    );
-    return new ServiceBusClient(config, tokenProvider, options);
-  }
-
-  /**
-   * Creates a ServiceBusClient for the Service Bus Namespace represented by the given host using
-   * the given TokenProvider.
-   * @param {string} host - Fully qualified domain name for Servicebus. Most likely,
-   * `<yournamespace>.servicebus.windows.net`.
-   * @param {TokenProvider} tokenProvider - Your custom implementation of the {@link https://github.com/Azure/amqp-common-js/blob/master/lib/auth/token.ts Token Provider}
-   * interface.
-   * @param {ServiceBusClientOptions} options - Options to control ways to interact with the
-   * Service Bus Namespace.
-   * @returns {ServiceBusClient}
-   */
-  static createFromTokenProvider(
-    host: string,
-    tokenProvider: TokenProvider,
-    options?: ServiceBusClientOptions
-  ): ServiceBusClient {
-    host = String(host);
-    if (!tokenProvider) {
-      throw new TypeError('Missing parameter "tokenProvider"');
-    }
-    if (!host.endsWith("/")) host += "/";
-    const connectionString =
-      `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;` +
-      `SharedAccessKey=defaultKeyValue`;
-    const config = ConnectionConfig.create(connectionString);
-
-    config.webSocket = options && options.webSocket;
-    config.webSocketEndpointPath = "$servicebus/websocket";
-    config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
-
-    ConnectionConfig.validate(config);
-    return new ServiceBusClient(config, tokenProvider, options);
-  }
-
-  /**
-   * Creates a ServiceBusClient for the Service Bus Namespace represented by the given host using
-   * the TokenCredentials generated using the `@azure/ms-rest-nodeauth` library.
-   * @param {string} host - Fully qualified domain name for ServiceBus.
-   * Most likely, {yournamespace}.servicebus.windows.net
-   * @param {ServiceClientCredentials} credentials - The Token credentials generated by using the
-   * `@azure/ms-rest-nodeauth` library. It can be one of the following:
-   *  - ApplicationTokenCredentials
-   *  - UserTokenCredentials
-   *  - DeviceTokenCredentials
-   *  - MSITokenCredentials
-   * Token audience (or resource in case of MSI based credentials) to use when creating the credentials is https://servicebus.azure.net/
-   * @param {ServiceBusClientOptions} options - Options to control ways to interact with the
-   * Service Bus Namespace.
-   * @returns {ServiceBusClient}
-   * @throws Error if `createFromAadTokenCredentials` is accessed in browser context, as AAD support is not present in browser.
-   */
-  static createFromAadTokenCredentials(
-    host: string,
-    credentials:
-      | ApplicationTokenCredentials
-      | UserTokenCredentials
-      | DeviceTokenCredentials
-      | MSITokenCredentials,
-    options?: ServiceBusClientOptions
-  ): ServiceBusClient {
-    if (!isNode) {
-      throw new Error(
-        "`createFromAadTokenCredentials` cannot be used to create ServiceBusClient as AAD support is not present in browser."
-      );
-    }
-    host = String(host);
-    const tokenProvider = new AadTokenProvider(credentials);
-    return ServiceBusClient.createFromTokenProvider(host, tokenProvider, options);
   }
 }

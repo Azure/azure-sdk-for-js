@@ -49,9 +49,10 @@ module.exports = function(config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "SERVICEBUS_CONNECTION_STRING",
-      "AAD_CLIENT_ID",
-      "AAD_CLIENT_SECRET",
-      "AAD_TENANT_ID"
+      "SERVICEBUS_CONNECTION_STRING_BROWSER",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TENANT_ID"
     ],
 
     // test results reporter to use

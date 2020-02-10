@@ -23,9 +23,9 @@ import {
   RetryConfig,
   RetryOperationType,
   Constants,
-  randomNumberFromInterval,
-  delay
-} from "@azure/amqp-common";
+  delay,
+  MessagingError
+} from "@azure/core-amqp";
 import {
   SendableMessageInfo,
   toAmqpMessage,
@@ -374,10 +374,7 @@ export class MessageSender extends LinkEntity {
           this._sender!.on(SenderEvents.rejected, onRejected);
           this._sender!.on(SenderEvents.modified, onModified);
           this._sender!.on(SenderEvents.released, onReleased);
-          waitTimer = setTimeout(
-            actionAfterTimeout,
-            Constants.defaultOperationTimeoutInSeconds * 1000
-          );
+          waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInMs);
           try {
             const delivery = this._sender!.send(
               encodedMessage,
@@ -408,13 +405,14 @@ export class MessageSender extends LinkEntity {
         }
       });
 
-    const jitterInSeconds = randomNumberFromInterval(1, 4);
     const config: RetryConfig<void> = {
       operation: sendEventPromise,
       connectionId: this._context.namespace.connectionId!,
       operationType: RetryOperationType.sendMessage,
-      times: Constants.defaultRetryAttempts,
-      delayInSeconds: Constants.defaultDelayBetweenOperationRetriesInSeconds + jitterInSeconds
+      retryOptions: {
+        maxRetries: Constants.defaultMaxRetries,
+        retryDelayInMs: Constants.defaultDelayBetweenOperationRetriesInMs
+      }
     };
 
     return retry<void>(config);
@@ -499,7 +497,7 @@ export class MessageSender extends LinkEntity {
       // We should attempt to reopen only when the sender(sdk) did not initiate the close
       let shouldReopen = false;
       if (senderError && !wasCloseInitiated) {
-        const translatedError = translate(senderError);
+        const translatedError = translate(senderError) as MessagingError;
         if (translatedError.retryable) {
           shouldReopen = true;
           log.error(
@@ -555,9 +553,11 @@ export class MessageSender extends LinkEntity {
             operation: () => this._init(options),
             connectionId: this._context.namespace.connectionId!,
             operationType: RetryOperationType.senderLink,
-            times: Constants.defaultConnectionRetryAttempts,
-            connectionHost: this._context.namespace.config.host,
-            delayInSeconds: 15
+            retryOptions: {
+              maxRetries: Constants.defaultMaxRetriesForConnection,
+              retryDelayInMs: 15000
+            },
+            connectionHost: this._context.namespace.config.host
           };
           return retry<void>(config);
         });
