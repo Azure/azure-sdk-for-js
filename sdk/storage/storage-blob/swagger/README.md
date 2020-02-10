@@ -365,5 +365,34 @@ directive:
 
 ```
 
+### Un-group encryptionScope 
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.EncryptionScope
+    transform: >
+      const grouping = $["x-ms-parameter-grouping"];
+      if (grouping) {
+        delete $["x-ms-parameter-grouping"];
+      }
+
+```
+
+### Rename ContainerCpkScopeInfo -> ContainerEncryptionScope
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.DefaultEncryptionScope
+    transform: >
+      $["x-ms-parameter-grouping"]["name"] = "container-encryption-scope";
+  - from: swagger-document
+    where: $.parameters.DenyEncryptionScopeOverride
+    transform: >
+      $["x-ms-parameter-grouping"]["name"] = "container-encryption-scope";
+
+```
+
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

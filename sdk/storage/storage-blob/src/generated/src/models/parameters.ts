@@ -604,7 +604,7 @@ export const copySource: coreHttp.OperationParameter = {
 export const defaultEncryptionScope: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "containerCpkScopeInfo",
+    "containerEncryptionScope",
     "defaultEncryptionScope"
   ],
   mapper: {
@@ -709,7 +709,6 @@ export const encryptionKeySha256: coreHttp.OperationParameter = {
 export const encryptionScope: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "cpkScopeInfo",
     "encryptionScope"
   ],
   mapper: {
@@ -1084,7 +1083,7 @@ export const prefix: coreHttp.OperationQueryParameter = {
 export const preventEncryptionScopeOverride: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "containerCpkScopeInfo",
+    "containerEncryptionScope",
     "preventEncryptionScopeOverride"
   ],
   mapper: {

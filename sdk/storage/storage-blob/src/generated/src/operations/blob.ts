@@ -923,6 +923,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   ],
   headerParameters: [
     Parameters.metadata,
+    Parameters.encryptionScope,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
@@ -1127,6 +1128,7 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
   ],
   headerParameters: [
     Parameters.metadata,
+    Parameters.encryptionScope,
     Parameters.version,
     Parameters.requestId,
     Parameters.encryptionKey,

@@ -138,6 +138,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.contentLength,
     Parameters.metadata,
+    Parameters.encryptionScope,
     Parameters.version,
     Parameters.requestId,
     Parameters.blobType1,
@@ -184,6 +185,7 @@ const appendBlockOperationSpec: coreHttp.OperationSpec = {
     Parameters.contentLength,
     Parameters.transactionalContentMD5,
     Parameters.transactionalContentCrc64,
+    Parameters.encryptionScope,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
@@ -239,6 +241,7 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
     Parameters.sourceContentCrc64,
     Parameters.contentLength,
     Parameters.transactionalContentMD5,
+    Parameters.encryptionScope,
     Parameters.version,
     Parameters.requestId,
     Parameters.encryptionKey,

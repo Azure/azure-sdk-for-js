@@ -28,7 +28,8 @@ import {
   BlobStartCopyFromURLResponse,
   BlobAbortCopyFromURLResponse,
   BlobCopyFromURLResponse,
-  BlobSetTierResponse
+  BlobSetTierResponse,
+  ContainerEncryptionScope,
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
@@ -443,6 +444,16 @@ export interface BlobSetMetadataOptions extends CommonOptions {
    * @memberof BlobSetMetadataOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlobSetMetadataOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -601,6 +612,16 @@ export interface BlobCreateSnapshotOptions extends CommonOptions {
    * @memberof BlobCreateSnapshotOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlobCreateSnapshotOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -1433,6 +1454,7 @@ export class BlobClient extends StorageClient {
         metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -1478,6 +1500,7 @@ export class BlobClient extends StorageClient {
         metadata: options.metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -2063,6 +2086,16 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    * @memberof AppendBlobCreateOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof AppendBlobCreateOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -2121,6 +2154,16 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
    * @memberof AppendBlobAppendBlockOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof AppendBlobAppendBlockOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -2181,6 +2224,16 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof AppendBlobAppendBlockFromURLOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -2388,6 +2441,7 @@ export class AppendBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -2433,6 +2487,7 @@ export class AppendBlobClient extends BlobClient {
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -2492,6 +2547,7 @@ export class AppendBlobClient extends BlobClient {
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -2556,6 +2612,16 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    * @memberof BlockBlobUploadOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobUploadOptions
+   */
+  encryptionScope?: string;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -2624,6 +2690,16 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * @memberof BlockBlobStageBlockOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobStageBlockOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -2685,6 +2761,16 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * @memberof BlockBlobStageBlockFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobStageBlockFromURLOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -2730,6 +2816,16 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
    * @memberof BlockBlobCommitBlockListOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobCommitBlockListOptions
+   */
+  encryptionScope?: string;
   /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
@@ -2812,6 +2908,17 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * @memberof BlockBlobUploadStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobUploadStreamOptions
+   */
+  encryptionScope?: string;
 }
 /**
  * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
@@ -2887,6 +2994,17 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * @memberof BlockBlobParallelUploadOptions
    */
   concurrency?: number;
+
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobParallelUploadOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -3134,6 +3252,7 @@ export class BlockBlobClient extends BlobClient {
         modifiedAccessConditions: options.conditions,
         onUploadProgress: options.onProgress,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
         spanOptions
       });
@@ -3176,6 +3295,7 @@ export class BlockBlobClient extends BlobClient {
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -3231,6 +3351,7 @@ export class BlockBlobClient extends BlobClient {
         sourceContentCrc64: options.sourceContentCrc64,
         sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -3277,6 +3398,7 @@ export class BlockBlobClient extends BlobClient {
           metadata: options.metadata,
           modifiedAccessConditions: options.conditions,
           cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
           tier: toAccessTier(options.tier),
           spanOptions
         }
@@ -3480,6 +3602,7 @@ export class BlockBlobClient extends BlobClient {
             await this.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
+              encryptionScope: options.encryptionScope,
               tracingOptions: { ...options!.tracingOptions, spanOptions }
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -3604,6 +3727,7 @@ export class BlockBlobClient extends BlobClient {
 
           await this.stageBlock(blockID, buffer, buffer.length, {
             conditions: options.conditions,
+            encryptionScope: options.encryptionScope,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
@@ -3740,6 +3864,7 @@ export class BlockBlobClient extends BlobClient {
               {
                 abortSignal: options.abortSignal,
                 conditions: options.conditions,
+                encryptionScope: options.encryptionScope,
                 tracingOptions: { ...options!.tracingOptions, spanOptions }
               }
             );
@@ -3821,6 +3946,16 @@ export interface PageBlobCreateOptions extends CommonOptions {
    */
   customerProvidedKey?: CpkInfo;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobCreateOptions
+   */
+  encryptionScope?: string;
+  /**
    * Access tier.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
    *
@@ -3886,6 +4021,16 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
    * @memberof PageBlobUploadPagesOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobUploadPagesOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -3917,6 +4062,16 @@ export interface PageBlobClearPagesOptions extends CommonOptions {
    * @memberof PageBlobClearPagesOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobClearPagesOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -3996,6 +4151,16 @@ export interface PageBlobResizeOptions extends CommonOptions {
    * @memberof PageBlobResizeOptions
    */
   conditions?: BlobRequestConditions;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobResizeOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -4104,6 +4269,16 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * @memberof PageBlobUploadPagesFromURLOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobUploadPagesFromURLOptions
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -4308,6 +4483,7 @@ export class PageBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
         spanOptions
       });
@@ -4353,6 +4529,7 @@ export class PageBlobClient extends BlobClient {
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -4413,6 +4590,7 @@ export class PageBlobClient extends BlobClient {
             sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
           },
           cpkInfo: options.customerProvidedKey,
+          encryptionScope: options.encryptionScope,
           spanOptions
         }
       );
@@ -4452,6 +4630,7 @@ export class PageBlobClient extends BlobClient {
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -4580,6 +4759,7 @@ export class PageBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
+        encryptionScope: options.encryptionScope,
         spanOptions
       });
     } catch (e) {
@@ -5030,6 +5210,13 @@ export interface ContainerCreateOptions extends CommonOptions {
    * @memberof ContainerCreateOptions
    */
   access?: PublicAccessType;
+  /**
+   * Container encryption scope info.
+   * 
+   * @type {ContainerEncryptionScope}
+   * @memberof ContainerCreateOptions
+   */
+  containerEncryptionScope?: ContainerEncryptionScope;
 }
 
 /**
