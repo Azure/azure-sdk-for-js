@@ -20,7 +20,8 @@ import {
   SearchRequest,
   DocumentsSearchPostResponse,
   SearchResult,
-  SearchDocumentsResult
+  SearchDocumentsResult,
+  SuggestRequest
 } from "./generated/data/models";
 
 /**
@@ -37,6 +38,8 @@ export type CountOptions = OperationOptions;
 export type AutocompleteOptions = OperationOptions &
   Omit<AutocompleteRequest, "searchText" | "suggesterName">;
 export type SearchOptions = OperationOptions & Omit<SearchRequest, "searchText">;
+export type SuggestOptions = OperationOptions &
+  Omit<SuggestRequest, "searchText" | "suggesterName">;
 
 export interface ListSearchResultsPageSettings {
   /**
@@ -183,7 +186,10 @@ export class SearchIndexClient {
     options: SearchOptions = {},
     settings: ListSearchResultsPageSettings = {}
   ): AsyncIterableIterator<SearchDocumentsResult> {
-    let result = await this.search(searchText, { ...options, ...settings.nextPageParameters });
+    let result = await this.search(searchText, {
+      ...options,
+      ...settings.nextPageParameters
+    });
 
     yield result;
 
@@ -228,6 +234,21 @@ export class SearchIndexClient {
       byPage: (settings: ListSearchResultsPageSettings = {}) =>
         this.listSearchResultsPage(searchText, options, settings)
     };
+  }
+
+  public async suggest(suggesterName: string, searchText: string, options: SuggestOptions = {}) {
+    const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
+    const fullOptions: SuggestRequest = {
+      suggesterName,
+      searchText,
+      ...restOptions
+    };
+
+    const result = await this.client.documents.suggestPost(
+      fullOptions,
+      operationOptionsToRequestOptionsBase(operationOptions)
+    );
+    return result;
   }
 
   private extractOperationOptions<T extends OperationOptions>(
