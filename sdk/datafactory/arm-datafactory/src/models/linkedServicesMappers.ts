@@ -374,7 +374,6 @@ export {
   RedshiftUnloadSettings,
   RelationalSource,
   RelationalTableDataset,
-  RerunTriggerResource,
   RerunTumblingWindowTrigger,
   Resource,
   ResponsysLinkedService,
