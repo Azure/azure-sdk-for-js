@@ -9,7 +9,7 @@ import {
   OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SearchIndexClient as GeneratedClient } from "./generated/data/searchIndexClient";
 import { SearchApiKeyCredential } from "./searchApiKeyCredential";
 import { SDK_VERSION } from "./constants";
@@ -37,6 +37,17 @@ export type CountOptions = OperationOptions;
 export type AutocompleteOptions = OperationOptions &
   Omit<AutocompleteRequest, "searchText" | "suggesterName">;
 export type SearchOptions = OperationOptions & Omit<SearchRequest, "searchText">;
+
+export interface ListSearchResultsPageSettings {
+  /**
+   * When server pagination occurs, this is the URL to the next result page.
+   */
+  nextLink?: string;
+  /**
+   * When server pagination occurs, this is the set of parameters to include in the POST body.
+   */
+  nextPageParameters?: SearchRequest;
+}
 
 // something extends OperationOptions
 
@@ -189,7 +200,6 @@ export class SearchIndexClient {
     searchText: string,
     options: SearchOptions = {}
   ): AsyncIterableIterator<SearchResult> {
-    // TOOD: how do we return metadata on each page?
     for await (const page of this.listSearchResultsPage(searchText, options)) {
       const results = page.results || [];
       yield* results;
@@ -199,7 +209,11 @@ export class SearchIndexClient {
   public listSearchResults(
     searchText: string,
     options: SearchOptions = {}
-  ): PagedAsyncIterableIterator<SearchResult, SearchDocumentsResult> {
+  ): PagedAsyncIterableIterator<
+    SearchResult,
+    SearchDocumentsResult,
+    ListSearchResultsPageSettings
+  > {
     const iter = this.listSearchResultsAll(searchText, options);
 
     return {
@@ -209,7 +223,8 @@ export class SearchIndexClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (_settings: PageSettings = {}) => this.listSearchResultsPage(searchText, options)
+      byPage: (settings: ListSearchResultsPageSettings = {}) =>
+        this.listSearchResultsPage(searchText, options)
     };
   }
 
