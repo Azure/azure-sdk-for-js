@@ -114,7 +114,9 @@ describe("The recorder's public API, on NodeJS", () => {
     const recordingWithoutDate = recording.replace(/Date',\n[^\n]*\n/, "Date',\n  'DATE',\n");
 
     // Removing empty spaces and new lines because of inconsistencies for this specific test on CI.
-    expect(stripNewLines(recordingWithoutDate).replace(/\s*/g, " ")).to.equal(stripNewLines(expectedRecording).replace(/\s*/g, " "));
+    expect(stripNewLines(recordingWithoutDate).replace(/\s*/g, " ")).to.equal(
+      stripNewLines(expectedRecording).replace(/\s*/g, " ")
+    );
   });
 
   it("should playback a simple test", async function() {
