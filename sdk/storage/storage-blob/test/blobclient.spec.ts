@@ -251,8 +251,8 @@ describe.only("BlobClient", () => {
 
     let res = await iter.next();
     let result = res.value;
-    while (!res.done && result.segment && !result.segment.blobItems) {
-      console.log(`result.segment.blobItems ${result.segment.blobItems}`);
+    while (!res.done && (!result.segment.blobItems || result.segment.blobItems.length === 0)) {
+      console.log(`result.segment.blobItems ${result.segment.blobItems} ${result.segment.blobItems.length}`);
       console.log(`res.done ${res.done}`);
       res = await iter.next();
       result = res.value;
@@ -268,7 +268,7 @@ describe.only("BlobClient", () => {
     assert.equal(
       result.segment.blobItems.length,
       1,
-      "Expect one element in result array from list blobs({ includeDeleted: true }) with page size of 1."
+      `Expect result.segmetn.blobItems.length === 1 but got ${result.segment.blobItems.length}.`
     );
 
     assert.ok(
@@ -288,8 +288,8 @@ describe.only("BlobClient", () => {
 
     res = await iter2.next();
     result = res.value;
-    while (!res.done && result.segment && !result.segment.blobItems) {
-      console.log(`result.segment.blobItems ${result.segment.blobItems}`);
+    while (!res.done && (!result.segment.blobItems || result.segment.blobItems.length === 0)) {
+      console.log(`result.segment.blobItems ${result.segment.blobItems} ${result.segment.blobItems.length}`);
       console.log(`res.done ${res.done}`);
       res = await iter2.next();
       result = res.value;
