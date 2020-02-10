@@ -1,4 +1,4 @@
-## Azure test-utils-recorder for JavaScript
+## Azure SDK for JavaScript's test-utils-recorder
 
 The Azure SDK for JavaScript is composed of a multitude of repositories that
 attempt to deliver a common, homogenous SDK to make use of all of the services
