@@ -56,6 +56,6 @@ export {
   LeaseAccessConditions,
   LeaseDurationType,
   LeaseStateType,
-  LeaseStatusType
+  LeaseStatusType,
   CopyFileSmbInfo,
 } from "./generated/src/models";
