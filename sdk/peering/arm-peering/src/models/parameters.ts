@@ -30,6 +30,30 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const asn: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "asn"
+  ],
+  mapper: {
+    serializedName: "asn",
+    type: {
+      name: "Number"
+    }
+  }
+};
+export const country: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "country"
+  ],
+  mapper: {
+    serializedName: "country",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const directPeeringType: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -37,6 +61,18 @@ export const directPeeringType: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "directPeeringType",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const expand: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "expand"
+  ],
+  mapper: {
+    serializedName: "$expand",
     type: {
       name: "String"
     }
@@ -108,6 +144,26 @@ export const prefixName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "prefixName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const registeredAsnName: msRest.OperationURLParameter = {
+  parameterPath: "registeredAsnName",
+  mapper: {
+    required: true,
+    serializedName: "registeredAsnName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const registeredPrefixName: msRest.OperationURLParameter = {
+  parameterPath: "registeredPrefixName",
+  mapper: {
+    required: true,
+    serializedName: "registeredPrefixName",
     type: {
       name: "String"
     }
