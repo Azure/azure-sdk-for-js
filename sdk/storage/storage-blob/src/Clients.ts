@@ -47,7 +47,8 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DEFAULT_BLOCK_BUFFER_SIZE_BYTES
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+  SNAPSHOT_URL_SCHEME,
 } from "./utils/constants";
 import {
   setURLParameter,
@@ -179,7 +180,7 @@ export interface BlobBeginCopyFromURLOptions extends BlobStartCopyFromURLOptions
  * @export
  * @interface BlobBeginCopyFromURLResponse
  */
-export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse {}
+export interface BlobBeginCopyFromURLResponse extends BlobStartCopyFromURLResponse { }
 
 /**
  * Options to configure the {@link BlobClient.download} operation.
@@ -3459,7 +3460,7 @@ export class BlockBlobClient extends BlobClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The buffer's size is too big or the BlockSize is too small;` +
-            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
@@ -3715,7 +3716,7 @@ export class BlockBlobClient extends BlobClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The buffer's size is too big or the BlockSize is too small;` +
-            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
@@ -4527,13 +4528,23 @@ export class PageBlobClient extends BlobClient {
       "PageBlobClient-getPageRangesDiff",
       options.tracingOptions
     );
+
+    let prevSnapshotUrl = undefined;
+    let prevSnapshotDateTime = undefined;
+    if (0 === prevSnapshot.slice(0, SNAPSHOT_URL_SCHEME.length).localeCompare(SNAPSHOT_URL_SCHEME, undefined, { sensitivity: 'accent' })) {
+      prevSnapshotUrl = prevSnapshot;
+    } else {
+      prevSnapshotDateTime = prevSnapshot;
+    }
+
     try {
       return await this.pageBlobContext
         .getPageRangesDiff({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
-          prevsnapshot: prevSnapshot,
+          prevsnapshot: prevSnapshotDateTime,
+          prevSnapshotUrl,
           range: rangeToString({ offset, count }),
           spanOptions
         })
@@ -5174,24 +5185,24 @@ export interface SignedIdentifier {
 export declare type ContainerGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifierModel[];
 } & ContainerGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ContainerGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifierModel[];
-    };
+    parsedHeaders: ContainerGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SignedIdentifierModel[];
   };
+};
 
 /**
  * Options to configure {@link ContainerClient.setAccessPolicy} operation.

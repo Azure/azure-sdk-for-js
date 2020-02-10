@@ -66,6 +66,7 @@ export const BATCH_MAX_REQUEST = 256;
 export const BATCH_MAX_PAYLOAD_IN_BYTES = 4 * SIZE_1_MB;
 export const HTTP_LINE_ENDING = "\r\n";
 export const HTTP_VERSION_1_1 = "HTTP/1.1";
+export const SNAPSHOT_URL_SCHEME = "http";
 
 export const EncryptionAlgorithmAES25 = "AES256";
 
