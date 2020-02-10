@@ -54,11 +54,10 @@ import {
   extractConnectionStringParts,
   appendToURLPath
 } from "./utils/utils.common";
-import { readStreamToLocalFile } from "./utils/utils.node";
+import { fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
-import { streamToBuffer } from "./utils/utils.node";
 import { createSpan } from "./utils/tracing";
 import { HttpRequestBody } from "@azure/core-http";
 import {
@@ -83,7 +82,6 @@ import {
 import { BlockBlob } from "./generated/src/operations";
 import { Range } from "./Range";
 import { generateBlockID } from "./utils/utils.common";
-import { fsStat } from "./utils/utils.node";
 import {
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
