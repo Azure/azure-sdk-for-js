@@ -27,6 +27,12 @@ async function main() {
   });
   console.log(result2);
 
+  const bestMatch = result2.results![0]["HotelId"];
+
+  const result3 = await client.getDocument(bestMatch);
+
+  console.log(result3);
+
   // const stars = 4, price = 200.0;
   // const options = {
   //   filter: odata`Rooms/any(room: room/BaseRate lt ${price}) and Rating ge ${stars}`,

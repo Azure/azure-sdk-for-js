@@ -40,6 +40,13 @@ export type AutocompleteOptions = OperationOptions &
 export type SearchOptions = OperationOptions & Omit<SearchRequest, "searchText">;
 export type SuggestOptions = OperationOptions &
   Omit<SuggestRequest, "searchText" | "suggesterName">;
+export interface GetDocumentOptions extends OperationOptions {
+  /**
+   * List of field names to retrieve for the document; Any field not retrieved will be missing from
+   * the returned document.
+   */
+  selectedFields?: string[];
+}
 
 export interface ListSearchResultsPageSettings {
   /**
@@ -247,6 +254,14 @@ export class SearchIndexClient {
     const result = await this.client.documents.suggestPost(
       fullOptions,
       operationOptionsToRequestOptionsBase(operationOptions)
+    );
+    return result;
+  }
+
+  public async getDocument(key: string, options: GetDocumentOptions = {}) {
+    const result = await this.client.documents.get(
+      key,
+      operationOptionsToRequestOptionsBase(options)
     );
     return result;
   }
