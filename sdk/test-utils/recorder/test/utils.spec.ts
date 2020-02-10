@@ -6,7 +6,7 @@ import {
   filterSecretsFromStrings,
   env,
   filterSecretsRecursivelyFromJSON,
-  generateTestRecordingFilePath,
+  generateTestRecordingFilePath
 } from "../src/utils";
 import chai from "chai";
 import { setEnvironmentVariables } from "../src/baseRecorder";

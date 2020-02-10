@@ -1,13 +1,10 @@
-import {
-  testHasChanged,
-  generateTestRecordingFilePath
-} from "../../src/utils";
+import { testHasChanged, generateTestRecordingFilePath } from "../../src/utils";
 import chai from "chai";
 const { expect } = chai;
 
 describe("Browser utils", () => {
-    describe("testHasChanged", () => {
-        it("Should not crash if the recorded file doesn't exist", function() {
+  describe("testHasChanged", () => {
+    it("Should not crash if the recorded file doesn't exist", function() {
       const testSuiteTitle = this.test!.parent!.fullTitle();
       const testTitle = this.test!.title;
 
