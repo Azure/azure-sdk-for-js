@@ -5,7 +5,7 @@
 - Fixes issue where the promise returned by `receiveMessages` would sometimes fail to settle when the underlying connection
   was disconnected while receiving messages.
   [PR 6601](https://github.com/Azure/azure-sdk-for-js/pull/6601)
-- Workaround for the [bug 6816](https://github.com/Azure/azure-sdk-for-js/issues/6816) affecting messages sent using the `scheduleMessage()` and `scheduleMessages()` methods has been added to the docs - [PR 6983](https://github.com/Azure/azure-sdk-for-js/pull/6983)
+- A workaround for the [bug 6816](https://github.com/Azure/azure-sdk-for-js/issues/6816) affecting messages sent using the `scheduleMessage()` and `scheduleMessages()` methods has been added to the docs - [PR 6983](https://github.com/Azure/azure-sdk-for-js/pull/6983)
 
 ## 1.1.2 (2019-12-12)
 
