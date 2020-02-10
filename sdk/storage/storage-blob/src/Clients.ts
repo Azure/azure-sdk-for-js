@@ -739,6 +739,13 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    * @memberof BlobSyncCopyFromURLOptions
    */
   sourceConditions?: ModifiedAccessConditions;
+  /**
+   * Specify the md5 calculated for the range of bytes that must be read from the copy source.
+   * 
+   * @type {Uint8Array}
+   * @memberof BlobSyncCopyFromURLOptions
+   */
+  sourceContentMD5?: Uint8Array;
 }
 
 /**
@@ -1675,6 +1682,7 @@ export class BlobClient extends StorageClient {
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
         },
+        sourceContentMD5: options.sourceContentMD5,
         spanOptions
       });
     } catch (e) {
