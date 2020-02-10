@@ -26,7 +26,6 @@ export {
   Document,
   Enrollment,
   EnrollmentAccount,
-  EnrollmentAccountListResult,
   EnrollmentPolicies,
   ErrorDetails,
   ErrorResponse,
