@@ -27,6 +27,16 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
+/**
+ * A function that generates another function with a predictable shape, even after compiling it to the browser.
+ */
+const getNoOpFunction = () => eval("() => {}");
+
+/**
+ * Another function that generates another function with a predictable shape, even after compiling it to the browser.
+ */
+const getAnotherNoOpFunction = () => eval("x => x");
+
 describe("The recorder's public API, on a browser", () => {
   afterEach(() => {
     delete (window as any).__env__.TEST_MODE;
@@ -62,7 +72,7 @@ describe("The recorder's public API, on a browser", () => {
     (this as any).currentTest = {
       file: "test/recorder.browser.spec.ts",
       // For this test, we don't care what's the content of the recorded function.
-      fn: () => {}
+      fn: getNoOpFunction()
     };
 
     const recorder = record(this, recorderEnvSetup);
@@ -89,14 +99,15 @@ describe("The recorder's public API, on a browser", () => {
       // TODO: Find a way to capture the complete output.
       JSON.stringify({
         writeFile: true,
-        path: "./recordings/browsers/the_recorders_public_api_on_a_browser/recording_should_record_a_simple_test.json",
+        path:
+          "./recordings/browsers/the_recorders_public_api_on_a_browser/recording_should_record_a_simple_test.json",
         content: {
           recordings: [],
           uniqueTestInfo: {
             uniqueName: {},
             newDate: {}
           },
-          hash: "53a549cb738425ce5b850f55ce6e7d7c"
+          hash: "f21244a78addd0fc85c04222825c484e"
         }
       })
     );
@@ -127,7 +138,7 @@ describe("The recorder's public API, on a browser", () => {
     (this as any).currentTest = {
       file: "test/recorder.browser.spec.ts",
       // For this test, we don't care what's the content of the recorded function.
-      fn: () => {}
+      fn: getNoOpFunction()
     };
 
     const recorder = record(this, recorderEnvSetup);
@@ -187,10 +198,7 @@ describe("The recorder's public API, on a browser", () => {
       file: "test/recorder.browser.spec.ts",
       // The hash in our expected recording is made out of an empty function.
       // This function has something inside, which means it has changed.
-      fn: () => {
-        let the_contents_have_changed = true;
-        return the_contents_have_changed;
-      }
+      fn: getAnotherNoOpFunction()
     };
 
     const recorder = record(this, recorderEnvSetup);
@@ -227,7 +235,7 @@ describe("The recorder's public API, on a browser", () => {
             uniqueName: {},
             newDate: {}
           },
-          hash: "c05fc8585ed0ff8c862d87ead1453bd0"
+          hash: "7073929e2ed9b8bd3aa435866c8e9b93"
         }
       })
     );
@@ -250,7 +258,7 @@ describe("The recorder's public API, on a browser", () => {
         ],
         uniqueTestInfo: { uniqueName: {}, newDate: {} },
         // This is the expected hash
-        hash: "cfc8f9725a2125b8a63f1177c46245f8"
+        hash: "f21244a78addd0fc85c04222825c484e"
       }
     };
 
@@ -261,7 +269,7 @@ describe("The recorder's public API, on a browser", () => {
       file: "test/recorder.browser.spec.ts",
       // The hash in our expected recording is made out of an empty function.
       // This function is empty, which means it remains the same.
-      fn: () => {}
+      fn: getNoOpFunction()
     };
 
     // We have to mock this.skip in order to confirm that the recorder has called it.

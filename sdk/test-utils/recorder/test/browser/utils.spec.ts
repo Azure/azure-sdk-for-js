@@ -1,4 +1,4 @@
-import { testHasChanged, generateTestRecordingFilePath } from "../../src/utils";
+import { testHasChanged, generateTestRecordingFilePath, stripNewLines } from "../../src/utils";
 import chai from "chai";
 const { expect } = chai;
 
@@ -34,6 +34,13 @@ describe("Browser utils", () => {
       expect(testHasChanged(testSuiteTitle, testTitle, "test/myTest.spec.ts", newHash)).to.equal(
         true
       );
+    });
+  });
+
+  describe("stripNewLines", () => {
+    it("should remove new lines", () => {
+      const targetString = "a\r\nb\nc\rd";
+      expect(stripNewLines(targetString)).to.equal("abcd");
     });
   });
 });

@@ -9,7 +9,8 @@ import {
   RecorderEnvironmentSetup,
   env,
   isSoftRecordMode,
-  testHasChanged
+  testHasChanged,
+  stripNewLines
 } from "./utils";
 import {
   NiseRecorder,
@@ -92,7 +93,8 @@ export function record(
   }
 
   const stringTest = testContext.currentTest!.fn!.toString();
-  const currentHash = MD5(stringTest);
+  // We strip new lines to make it easier for the browser builds to make a predictable output after small changes on the files.
+  const currentHash = MD5(stripNewLines(stringTest));
   const testAbsolutePath = testContext.currentTest!.file!;
 
   if (

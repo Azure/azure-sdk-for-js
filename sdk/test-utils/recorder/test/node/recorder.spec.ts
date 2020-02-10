@@ -1,4 +1,4 @@
-import { RecorderEnvironmentSetup, delay } from "../../src/utils";
+import { RecorderEnvironmentSetup, delay, stripNewLines } from "../../src/utils";
 import chai from "chai";
 import { record } from "../../src";
 const { expect } = chai;
@@ -114,7 +114,7 @@ describe("The recorder's public API, on NodeJS", () => {
     const recordingWithoutDate = recording.replace(/Date',\n[^\n]*\n/, "Date',\n  'DATE',\n");
 
     // Removing empty spaces and new lines because of inconsistencies for this specific test on CI.
-    expect(recordingWithoutDate.replace(/\s/g, "")).to.equal(expectedRecording.replace(/\s/g, ""));
+    expect(stripNewLines(recordingWithoutDate)).to.equal(stripNewLines(expectedRecording));
   });
 
   it("should playback a simple test", async function() {

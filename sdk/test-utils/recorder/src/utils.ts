@@ -459,3 +459,11 @@ export function testHasChanged(
 
   return previousHash !== currentHash;
 }
+
+/**
+ * Removes new lines from a string.
+ * @param str String with new lines
+ */
+export function stripNewLines(str: string): string {
+  return str.replace(/(\r\n|\n|\r)/gm, "");
+}
