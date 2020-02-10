@@ -1715,6 +1715,22 @@ export const BlobHTTPHeaders: coreHttp.CompositeMapper = {
   }
 };
 
+export const CpkScopeInfo: coreHttp.CompositeMapper = {
+  xmlName: "cpk-scope-info",
+  type: {
+    name: "Composite",
+    className: "CpkScopeInfo",
+    modelProperties: {
+      encryptionScope: {
+        xmlName: "encryptionScope",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SequenceNumberAccessConditions: coreHttp.CompositeMapper = {
   xmlName: "sequence-number-access-conditions",
   type: {

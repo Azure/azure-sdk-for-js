@@ -49,7 +49,8 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DEFAULT_BLOCK_BUFFER_SIZE_BYTES
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+  SNAPSHOT_URL_SCHEME,
 } from "./utils/constants";
 import {
   setURLParameter,
@@ -4659,13 +4660,23 @@ export class PageBlobClient extends BlobClient {
       "PageBlobClient-getPageRangesDiff",
       options.tracingOptions
     );
+
+    let prevSnapshotUrl = undefined;
+    let prevSnapshotDateTime = undefined;
+    if (0 === prevSnapshot.slice(0, SNAPSHOT_URL_SCHEME.length).localeCompare(SNAPSHOT_URL_SCHEME, undefined, { sensitivity: 'accent' })) {
+      prevSnapshotUrl = prevSnapshot;
+    } else {
+      prevSnapshotDateTime = prevSnapshot;
+    }
+
     try {
       return await this.pageBlobContext
         .getPageRangesDiff({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
-          prevsnapshot: prevSnapshot,
+          prevsnapshot: prevSnapshotDateTime,
+          prevSnapshotUrl,
           range: rangeToString({ offset, count }),
           spanOptions
         })

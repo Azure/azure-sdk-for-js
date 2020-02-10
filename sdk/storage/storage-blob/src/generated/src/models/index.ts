@@ -669,6 +669,19 @@ export interface BlobHTTPHeaders {
 }
 
 /**
+ * Additional parameters for a set of operations.
+ */
+export interface CpkScopeInfo {
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+}
+
+/**
  * Additional parameters for a set of operations, such as: PageBlob_uploadPages,
  * PageBlob_clearPages, PageBlob_uploadPagesFromURL.
  */
@@ -1813,6 +1826,10 @@ export interface BlobSetMetadataOptionalParams extends coreHttp.RequestOptionsBa
   /**
    * Additional parameters for the operation
    */
+  cpkScopeInfo?: CpkScopeInfo;
+  /**
+   * Additional parameters for the operation
+   */
   modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
@@ -1979,6 +1996,10 @@ export interface BlobCreateSnapshotOptionalParams extends coreHttp.RequestOption
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2191,6 +2212,10 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
   /**
    * Additional parameters for the operation
    */
+  cpkScopeInfo?: CpkScopeInfo;
+  /**
+   * Additional parameters for the operation
+   */
   modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
@@ -2239,6 +2264,10 @@ export interface PageBlobUploadPagesOptionalParams extends coreHttp.RequestOptio
   /**
    * Additional parameters for the operation
    */
+  cpkScopeInfo?: CpkScopeInfo;
+  /**
+   * Additional parameters for the operation
+   */
   sequenceNumberAccessConditions?: SequenceNumberAccessConditions;
   /**
    * Additional parameters for the operation
@@ -2283,6 +2312,10 @@ export interface PageBlobClearPagesOptionalParams extends coreHttp.RequestOption
   /**
    * Additional parameters for the operation
    */
+  cpkScopeInfo?: CpkScopeInfo;
+  /**
+   * Additional parameters for the operation
+   */
   sequenceNumberAccessConditions?: SequenceNumberAccessConditions;
   /**
    * Additional parameters for the operation
@@ -2324,6 +2357,10 @@ export interface PageBlobUploadPagesFromURLOptionalParams extends coreHttp.Reque
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2462,6 +2499,10 @@ export interface PageBlobResizeOptionalParams extends coreHttp.RequestOptionsBas
   /**
    * Additional parameters for the operation
    */
+  cpkScopeInfo?: CpkScopeInfo;
+  /**
+   * Additional parameters for the operation
+   */
   modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
@@ -2564,6 +2605,10 @@ export interface AppendBlobCreateOptionalParams extends coreHttp.RequestOptionsB
   /**
    * Additional parameters for the operation
    */
+  cpkScopeInfo?: CpkScopeInfo;
+  /**
+   * Additional parameters for the operation
+   */
   modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
@@ -2612,6 +2657,10 @@ export interface AppendBlobAppendBlockOptionalParams extends coreHttp.RequestOpt
   /**
    * Additional parameters for the operation
    */
+  cpkScopeInfo?: CpkScopeInfo;
+  /**
+   * Additional parameters for the operation
+   */
   modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
@@ -2657,6 +2706,10 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams extends coreHttp.Req
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2731,6 +2784,10 @@ export interface BlockBlobUploadOptionalParams extends coreHttp.RequestOptionsBa
   /**
    * Additional parameters for the operation
    */
+  cpkScopeInfo?: CpkScopeInfo;
+  /**
+   * Additional parameters for the operation
+   */
   modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
@@ -2772,6 +2829,10 @@ export interface BlockBlobStageBlockOptionalParams extends coreHttp.RequestOptio
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkScopeInfo?: CpkScopeInfo;
 }
 
 /**
@@ -2812,6 +2873,10 @@ export interface BlockBlobStageBlockFromURLOptionalParams extends coreHttp.Reque
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
@@ -2879,6 +2944,10 @@ export interface BlockBlobCommitBlockListOptionalParams extends coreHttp.Request
    * Additional parameters for the operation
    */
   cpkInfo?: CpkInfo;
+  /**
+   * Additional parameters for the operation
+   */
+  cpkScopeInfo?: CpkScopeInfo;
   /**
    * Additional parameters for the operation
    */
