@@ -53,6 +53,8 @@ export {
 export { RecognizeLinkedEntitiesResultCollection } from "./recognizeLinkedEntitiesResultCollection";
 export {
   TextAnalyticsResult,
+  ErrorCode,
+  TextAnalyticsError,
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult
 } from "./textAnalyticsResult";
@@ -64,15 +66,13 @@ export {
   SentimentScorePerLabel,
   MultiLanguageInput as TextDocumentInput,
   LanguageInput as DetectLanguageInput,
-  TextAnalyticsError,
   TextDocumentBatchStatistics,
-  InnerErrorCodeValue,
-  ErrorCodeValue,
-  InnerError,
   Entity,
   SentenceSentiment,
   DocumentSentimentLabel,
   SentenceSentimentLabel,
+  ErrorCodeValue,
+  InnerErrorCodeValue,
   LinkedEntity,
   Match
 } from "./generated/models";

@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalysisResult,
+  makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalysisErrorResult
+  makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import { DetectedLanguage, TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
 
@@ -36,7 +36,7 @@ export function makeDetectLanguageResult(
   statistics?: TextDocumentStatistics
 ): DetectLanguageSuccessResult {
   return {
-    ...makeTextAnalysisResult(id, statistics),
+    ...makeTextAnalyticsSuccessResult(id, statistics),
     primaryLanguage: primaryLanguage(detectedLanguages)
   };
 }
@@ -45,7 +45,7 @@ export function makeDetectLanguageErrorResult(
   id: string,
   error: TextAnalyticsError
 ): DetectLanguageErrorResult {
-  return makeTextAnalysisErrorResult(id, error);
+  return makeTextAnalyticsErrorResult(id, error);
 }
 
 function primaryLanguage(languages: DetectedLanguage[]): DetectedLanguage {
