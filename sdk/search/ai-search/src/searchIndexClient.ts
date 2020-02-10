@@ -21,7 +21,9 @@ import {
   DocumentsSearchPostResponse,
   SearchResult,
   SearchDocumentsResult,
-  SuggestRequest
+  SuggestRequest,
+  IndexAction,
+  IndexDocumentsResult
 } from "./generated/data/models";
 
 /**
@@ -47,6 +49,7 @@ export interface GetDocumentOptions extends OperationOptions {
    */
   selectedFields?: string[];
 }
+export type ModifyIndexOptions = OperationOptions;
 
 export interface ListSearchResultsPageSettings {
   /**
@@ -127,7 +130,11 @@ export class SearchIndexClient {
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
+          allowedHeaderNames: [
+            "x-ms-correlation-request-id",
+            "x-ms-request-id",
+            "client-request-id"
+          ]
         },
         deserializationOptions: {
           expectedContentTypes: {
@@ -137,6 +144,8 @@ export class SearchIndexClient {
       }
     };
 
+    // TODO, generateClientRequestIdPolicy can't be passed a custom argument
+    // when using this codepath, but we need to use "client-request-id" somehow...
     const pipeline = createPipelineFromOptions(internalPipelineOptions, signingPolicy(credential));
     this.client = new GeneratedClient(
       credential,
@@ -261,6 +270,17 @@ export class SearchIndexClient {
   public async getDocument(key: string, options: GetDocumentOptions = {}) {
     const result = await this.client.documents.get(
       key,
+      operationOptionsToRequestOptionsBase(options)
+    );
+    return result;
+  }
+
+  public async modifyIndex(
+    batch: IndexAction[],
+    options: ModifyIndexOptions = {}
+  ): Promise<IndexDocumentsResult> {
+    const result = await this.client.documents.index(
+      { actions: batch },
       operationOptionsToRequestOptionsBase(options)
     );
     return result;
