@@ -120,8 +120,8 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
 export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: AppendBlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
     sourceConditions?: ModifiedAccessConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
@@ -157,8 +157,8 @@ export interface AppendBlobAppendBlockHeaders {
 export interface AppendBlobAppendBlockOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: AppendBlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
     onProgress?: (progress: TransferProgressEvent) => void;
     transactionalContentCrc64?: Uint8Array;
     transactionalContentMD5?: Uint8Array;
@@ -203,8 +203,8 @@ export interface AppendBlobCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blobHTTPHeaders?: BlobHTTPHeaders;
     conditions?: BlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
     metadata?: Metadata;
 }
 
@@ -421,8 +421,8 @@ export interface BlobCreateSnapshotHeaders {
 export interface BlobCreateSnapshotOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
     metadata?: Metadata;
 }
 
@@ -861,8 +861,8 @@ export interface BlobSetMetadataHeaders {
 export interface BlobSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
 }
 
 // @public
@@ -932,6 +932,7 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     metadata?: Metadata;
     sourceConditions?: ModifiedAccessConditions;
+    sourceContentMD5?: Uint8Array;
 }
 
 // @public
@@ -1009,8 +1010,8 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blobHTTPHeaders?: BlobHTTPHeaders;
     conditions?: BlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
     metadata?: Metadata;
     tier?: BlockBlobTier | string;
 }
@@ -1058,7 +1059,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
     blockSize?: number;
     concurrency?: number;
     conditions?: BlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
+    encryptionScope?: string;
     maxSingleShotSize?: number;
     metadata?: {
         [propertyName: string]: string;
@@ -1085,8 +1086,8 @@ export interface BlockBlobStageBlockFromURLHeaders {
 export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: LeaseAccessConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
     range?: Range;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
@@ -1118,8 +1119,8 @@ export interface BlockBlobStageBlockHeaders {
 export interface BlockBlobStageBlockOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: LeaseAccessConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
     onProgress?: (progress: TransferProgressEvent) => void;
     transactionalContentCrc64?: Uint8Array;
     transactionalContentMD5?: Uint8Array;
@@ -1160,8 +1161,8 @@ export interface BlockBlobUploadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blobHTTPHeaders?: BlobHTTPHeaders;
     conditions?: BlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
     tier?: BlockBlobTier | string;
@@ -1179,7 +1180,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blobHTTPHeaders?: BlobHTTPHeaders;
     conditions?: BlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
+    encryptionScope?: string;
     metadata?: {
         [propertyName: string]: string;
     };
@@ -1261,12 +1262,6 @@ export class ContainerClient extends StorageClient {
 }
 
 // @public
-export interface ContainerCpkScopeInfo {
-    defaultEncryptionScope?: string;
-    denyEncryptionScopeOverride?: boolean;
-}
-
-// @public
 export interface ContainerCreateHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -1282,7 +1277,7 @@ export interface ContainerCreateHeaders {
 export interface ContainerCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     access?: PublicAccessType;
-    containerCpkScopeInfo?: ContainerCpkScopeInfo;
+    containerEncryptionScope?: ContainerEncryptionScope;
     metadata?: Metadata;
 }
 
@@ -1315,6 +1310,12 @@ export type ContainerDeleteResponse = ContainerDeleteHeaders & {
         parsedHeaders: ContainerDeleteHeaders;
     };
 };
+
+// @public
+export interface ContainerEncryptionScope {
+    defaultEncryptionScope?: string;
+    preventEncryptionScopeOverride?: boolean;
+}
 
 // @public
 export interface ContainerExistsOptions extends CommonOptions {
@@ -1456,8 +1457,6 @@ export interface ContainerProperties {
     // (undocumented)
     defaultEncryptionScope?: string;
     // (undocumented)
-    denyEncryptionScopeOverride?: boolean;
-    // (undocumented)
     etag: string;
     // (undocumented)
     hasImmutabilityPolicy?: boolean;
@@ -1468,6 +1467,8 @@ export interface ContainerProperties {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    // (undocumented)
+    preventEncryptionScopeOverride?: boolean;
     publicAccess?: PublicAccessType;
 }
 
@@ -1567,11 +1568,6 @@ export interface CpkInfo {
     encryptionAlgorithm?: EncryptionAlgorithmType;
     encryptionKey?: string;
     encryptionKeySha256?: string;
-}
-
-// @public
-export interface CpkScopeInfo {
-    encryptionScope?: string;
 }
 
 // @public
@@ -1778,8 +1774,8 @@ export interface PageBlobClearPagesHeaders {
 export interface PageBlobClearPagesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: PageBlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
 }
 
 // @public
@@ -1798,7 +1794,6 @@ export class PageBlobClient extends BlobClient {
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
     getPageRanges(offset?: number, count?: number, options?: PageBlobGetPageRangesOptions): Promise<PageBlobGetPageRangesResponse>;
     getPageRangesDiff(offset: number, count: number, prevSnapshot: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
-    getPageRangesDiff(offset: number, count: number, prevSnapshotUrl: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
     resize(size: number, options?: PageBlobResizeOptions): Promise<PageBlobResizeResponse>;
     startCopyIncremental(copySource: string, options?: PageBlobStartCopyIncrementalOptions): Promise<PageBlobCopyIncrementalResponse>;
     updateSequenceNumber(sequenceNumberAction: SequenceNumberActionType, sequenceNumber?: number, options?: PageBlobUpdateSequenceNumberOptions): Promise<PageBlobUpdateSequenceNumberResponse>;
@@ -1850,8 +1845,8 @@ export interface PageBlobCreateOptions extends CommonOptions {
     blobHTTPHeaders?: BlobHTTPHeaders;
     blobSequenceNumber?: number;
     conditions?: BlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
     metadata?: Metadata;
     tier?: PremiumPageBlobTier | string;
 }
@@ -1941,7 +1936,7 @@ export interface PageBlobResizeHeaders {
 export interface PageBlobResizeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
+    encryptionScope?: string;
 }
 
 // @public
@@ -2004,8 +1999,8 @@ export interface PageBlobUploadPagesFromURLHeaders {
 export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: PageBlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
     sourceConditions?: ModifiedAccessConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
@@ -2040,8 +2035,8 @@ export interface PageBlobUploadPagesHeaders {
 export interface PageBlobUploadPagesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: PageBlobRequestConditions;
-    cpkScopeInfo?: CpkScopeInfo;
     customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
     onProgress?: (progress: TransferProgressEvent) => void;
     transactionalContentCrc64?: Uint8Array;
     transactionalContentMD5?: Uint8Array;

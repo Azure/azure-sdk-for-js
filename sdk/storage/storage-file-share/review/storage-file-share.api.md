@@ -516,17 +516,6 @@ export interface FileItem {
     properties: FileProperty;
 }
 
-// @public
-export class FileLeaseClient {
-    constructor(client: ShareFileClient, leaseId?: string);
-    acquireLease(duration?: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
-    breakLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
-    changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
-    readonly leaseId: string;
-    releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
-    readonly url: string;
-    }
-
 // @public (undocumented)
 export interface FileListHandlesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
@@ -1074,9 +1063,9 @@ export class ShareFileClient extends StorageClient {
     downloadToFile(filePath: string, offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
-    getFileLeaseClient(proposeLeaseId?: string): FileLeaseClient;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
+    getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
     readonly name: string;
     readonly path: string;
@@ -1190,6 +1179,17 @@ export interface ShareItem {
     // (undocumented)
     snapshot?: string;
 }
+
+// @public
+export class ShareLeaseClient {
+    constructor(client: ShareFileClient, leaseId?: string);
+    acquireLease(duration?: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    breakLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    readonly leaseId: string;
+    releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    readonly url: string;
+    }
 
 // @public
 export class ShareSASPermissions {
