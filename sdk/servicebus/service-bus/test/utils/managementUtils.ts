@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  QueueOptions,
-  TopicOptions,
-  SubscriptionOptions,
-  ServiceBusAtomManagementClient,
-  delay
-} from "../../src";
+import { QueueOptions, TopicOptions, SubscriptionOptions, delay } from "../../src";
+import { ServiceBusAtomManagementClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 
