@@ -53,5 +53,9 @@ export {
   SourceModifiedAccessConditions,
   FileForceCloseHandlesHeaders,
   DirectoryForceCloseHandlesHeaders,
+  LeaseAccessConditions,
+  LeaseDurationType,
+  LeaseStateType,
+  LeaseStatusType
   CopyFileSmbInfo,
 } from "./generated/src/models";

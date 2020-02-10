@@ -25,6 +25,7 @@ import {
   RangeModel,
   FileForceCloseHandlesHeaders,
   CopyFileSmbInfo,
+  LeaseAccessConditions
 } from "./generatedModels";
 import { File } from "./generated/src/operations";
 import { Range, rangeToString } from "./Range";
@@ -61,6 +62,9 @@ import { FileSystemAttributes } from "./FileSystemAttributes";
 import { getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 import { getCachedDefaultHttpClient } from "./utils/cache";
+import { StorageClientContext } from "./generated/src/storageClientContext";
+import { SERVICE_VERSION } from "./utils/constants";
+import { generateUuid } from "@azure/core-http";
 
 /**
  * Options to configure the {@link ShareFileClient.create} operation.
@@ -92,6 +96,13 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    * @memberof FileCreateOptions
    */
   metadata?: Metadata;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileCreateOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -110,6 +121,13 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
    * @memberof FileProperties
    */
   fileHttpHeaders?: FileHttpHeaders;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileProperties
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse { }
@@ -126,9 +144,16 @@ export interface FileDeleteOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileDeleteOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileDeleteOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -183,6 +208,13 @@ export interface FileDownloadOptions extends CommonOptions {
    * @memberof FileDownloadOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileDownloadOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -219,6 +251,13 @@ export interface FileUploadRangeOptions extends CommonOptions {
    * @memberof FileUploadRangeOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileUploadRangeOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -250,6 +289,13 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
    * Additional parameters for the operation
    */
   sourceConditions?: SourceModifiedAccessConditions;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileUploadRangeFromURLOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -297,6 +343,13 @@ export interface FileGetRangeListOptions extends CommonOptions {
    * @memberof FileGetRangeListOptions
    */
   range?: Range;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileGetRangeListOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -314,6 +367,13 @@ export interface FileGetPropertiesOptions extends CommonOptions {
    * @memberof AppendBlobCreateOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileGetPropertiesOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -369,6 +429,13 @@ export interface FileStartCopyOptions extends CommonOptions {
    */
   metadata?: Metadata;
   /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileStartCopyOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
    * If specified the permission (security descriptor) shall be set for the directory/file. This
    * header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be
    * used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and
@@ -411,6 +478,13 @@ export interface FileSetMetadataOptions extends CommonOptions {
    * @memberof FileSetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileSetMetadataOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -430,6 +504,13 @@ export interface FileSetHttpHeadersOptions
    * @memberof FileSetHttpHeadersOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileSetHttpHeadersOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -447,6 +528,13 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
    * @memberof FileAbortCopyFromURLOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileAbortCopyFromURLOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -466,6 +554,13 @@ export interface FileResizeOptions
    * @memberof FileResizeOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileResizeOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -483,6 +578,13 @@ export interface FileClearRangeOptions extends CommonOptions {
    * @memberof FileClearRangeOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileClearRangeOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -626,6 +728,13 @@ export interface FileUploadStreamOptions extends CommonOptions {
    * @memberof FileUploadStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileUploadStreamOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -687,6 +796,13 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * @memberof FileParallelUploadOptions
    */
   concurrency?: number;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileParallelUploadOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -748,6 +864,13 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
    * @memberof FileDownloadToBufferOptions
    */
   concurrency?: number;
+  /**
+   * Lease access conditions.
+   * 
+   * @type {LeaseAccessConditions}
+   * @memberof FileDownloadToBufferOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -914,6 +1037,7 @@ export class ShareFileClient extends StorageClient {
           metadata: options.metadata,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
+          leaseAccessConditions: options.leaseAccessConditions,
           spanOptions
         }
       );
@@ -1007,6 +1131,7 @@ export class ShareFileClient extends StorageClient {
         onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
+        leaseAccessConditions: options.leaseAccessConditions,
         spanOptions
       });
 
@@ -1049,6 +1174,7 @@ export class ShareFileClient extends StorageClient {
           return (
             await this.context.download({
               abortSignal: options.abortSignal,
+              leaseAccessConditions: options.leaseAccessConditions,
               ...updatedOptions,
               spanOptions
             })
@@ -1092,6 +1218,7 @@ export class ShareFileClient extends StorageClient {
     try {
       return this.context.getProperties({
         abortSignal: options.abortSignal,
+        leaseAccessConditions: options.leaseAccessConditions,
         spanOptions
       });
     } catch (e) {
@@ -1135,6 +1262,7 @@ export class ShareFileClient extends StorageClient {
           fileHttpHeaders: properties.fileHttpHeaders,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
+          leaseAccessConditions: properties.leaseAccessConditions,
           spanOptions
         }
       );
@@ -1172,6 +1300,7 @@ export class ShareFileClient extends StorageClient {
     try {
       return await this.context.deleteMethod({
         abortSignal: options.abortSignal,
+        leaseAccessConditions: options.leaseAccessConditions,
         spanOptions
       });
     } catch (e) {
@@ -1218,6 +1347,7 @@ export class ShareFileClient extends StorageClient {
           fileHttpHeaders,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
+          leaseAccessConditions: options.leaseAccessConditions,
           spanOptions
         }
       );
@@ -1265,6 +1395,7 @@ export class ShareFileClient extends StorageClient {
           fileContentLength: length,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
+          leaseAccessConditions: options.leaseAccessConditions,
           spanOptions
         }
       );
@@ -1300,6 +1431,7 @@ export class ShareFileClient extends StorageClient {
       return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
+        leaseAccessConditions: options.leaseAccessConditions,
         spanOptions
       });
     } catch (e) {
@@ -1369,7 +1501,8 @@ export class ShareFileClient extends StorageClient {
           contentMD5: options.contentMD5,
           onUploadProgress: options.onProgress,
           body: body,
-          spanOptions
+          spanOptions,
+          leaseAccessConditions: options.leaseAccessConditions
         }
       );
     } catch (e) {
@@ -1464,7 +1597,8 @@ export class ShareFileClient extends StorageClient {
         0,
         {
           abortSignal: options.abortSignal,
-          spanOptions
+          spanOptions,
+          leaseAccessConditions: options.leaseAccessConditions
         }
       );
     } catch (e) {
@@ -1496,6 +1630,7 @@ export class ShareFileClient extends StorageClient {
       const originalResponse = await this.context.getRangeList({
         abortSignal: options.abortSignal,
         range: options.range ? rangeToString(options.range) : undefined,
+        leaseAccessConditions: options.leaseAccessConditions,
         spanOptions
       });
       return {
@@ -1548,6 +1683,7 @@ export class ShareFileClient extends StorageClient {
       return await this.context.startCopy(copySource, {
         abortSignal: options.abortSignal,
         metadata: options.metadata,
+        leaseAccessConditions: options.leaseAccessConditions,
         filePermission: options.filePermission,
         filePermissionKey: options.filePermissionKey,
         copyFileSmbInfo: options.copyFileSmbInfo,
@@ -1585,6 +1721,7 @@ export class ShareFileClient extends StorageClient {
     try {
       return await this.context.abortCopy(copyId, {
         abortSignal: options.abortSignal,
+        leaseAccessConditions: options.leaseAccessConditions,
         spanOptions
       });
     } catch (e) {
@@ -1687,6 +1824,7 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
+        leaseAccessConditions: options.leaseAccessConditions,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
 
@@ -1702,6 +1840,7 @@ export class ShareFileClient extends StorageClient {
             const contentLength = end - start;
             await this.uploadRange(blobFactory(start, contentLength), start, contentLength, {
               abortSignal: options.abortSignal,
+              leaseAccessConditions: options.leaseAccessConditions,
               tracingOptions: { ...options!.tracingOptions, spanOptions }
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -1811,6 +1950,7 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
+        leaseAccessConditions: options.leaseAccessConditions,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
 
@@ -1830,6 +1970,7 @@ export class ShareFileClient extends StorageClient {
               contentLength,
               {
                 abortSignal: options.abortSignal,
+                leaseAccessConditions: options.leaseAccessConditions,
                 tracingOptions: { ...options!.tracingOptions, spanOptions }
               }
             );
@@ -1897,6 +2038,7 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
+        leaseAccessConditions: options.leaseAccessConditions,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
 
@@ -1912,6 +2054,7 @@ export class ShareFileClient extends StorageClient {
             const contentLength = end - start;
             await this.uploadRange(bufferChunk(start, contentLength), start, contentLength, {
               abortSignal: options.abortSignal,
+              leaseAccessConditions: options.leaseAccessConditions,
               tracingOptions: { ...options!.tracingOptions, spanOptions }
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -2031,6 +2174,7 @@ export class ShareFileClient extends StorageClient {
       if (!count) {
         const response = await this.getProperties({
           abortSignal: options.abortSignal,
+          leaseAccessConditions: options.leaseAccessConditions,
           tracingOptions: { ...options!.tracingOptions, spanOptions }
         });
         count = response.contentLength! - offset;
@@ -2071,6 +2215,7 @@ export class ShareFileClient extends StorageClient {
           const response = await this.download(off, chunkEnd - off, {
             abortSignal: options.abortSignal,
             maxRetryRequests: options.maxRetryRequestsPerRange,
+            leaseAccessConditions: options.leaseAccessConditions,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
           const stream = response.readableStreamBody!;
@@ -2148,6 +2293,7 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
+        leaseAccessConditions: options.leaseAccessConditions,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
 
@@ -2166,6 +2312,7 @@ export class ShareFileClient extends StorageClient {
 
           await this.uploadRange(buffer, offset!, buffer.length, {
             abortSignal: options.abortSignal,
+            leaseAccessConditions: options.leaseAccessConditions,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
@@ -2438,6 +2585,7 @@ export class ShareFileClient extends StorageClient {
     );
     try {
       let handlesClosed = 0;
+      let numberOfHandlesFailedToClose = 0;
       let marker: string | undefined = "";
 
       do {
@@ -2447,10 +2595,12 @@ export class ShareFileClient extends StorageClient {
         );
         marker = response.marker;
         response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
+        response.numberOfHandlesFailedToClose && (numberOfHandlesFailedToClose += response.numberOfHandlesFailedToClose);
       } while (marker);
 
       return {
-        closedHandlesCount: handlesClosed
+        closedHandlesCount: handlesClosed,
+        numberOfHandlesFailedToClose,
       };
     } catch (e) {
       span.setStatus({
@@ -2495,6 +2645,263 @@ export class ShareFileClient extends StorageClient {
       const response = rawResponse as FileForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
       return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Get a {@link ShareLeaseClient} that manages leases on the file.
+   *
+   * @param {string} [proposeLeaseId] Initial proposed lease Id.
+   * @returns {ShareLeaseClient} A new ShareLeaseClient object for managing leases on the file.
+   * @memberof ShareFileClient
+   */
+  public getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient {
+    return new ShareLeaseClient(this, proposeLeaseId);
+  }
+}
+
+/**
+ * The details of the response for a specific lease operation.
+ */
+export interface LeaseOperationResponseHeaders {
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
+   */
+  etag?: string;
+  /**
+   * Returns the date and time the file was last modified. Any operation that modifies the file,
+   * including an update of the file's metadata or properties, changes the last-modified time of
+   * the file.
+   */
+  lastModified?: Date;
+  /**
+   * Uniquely identifies a file's lease, won't be set when returned by releaseLease.
+   */
+  leaseId?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the Blob service used to execute the request. This header is returned
+   * for requests made against version 2009-09-19 and above.
+   */
+  version?: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date?: Date;
+  errorCode?: string;
+}
+
+/**
+ * Contains the response data for operations that acquire, change, break or release a lease.
+ *
+ * See {@link ShareLeaseClient}.
+ */
+export type LeaseOperationResponse = LeaseOperationResponseHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: LeaseOperationResponseHeaders;
+  };
+};
+
+/**
+ * lease operations options.
+ *
+ * @export
+ * @interface LeaseOperationOptions
+ */
+export interface LeaseOperationOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof LeaseOperationOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * A client that manages leases for a {@link ShareFileClient}.
+ *
+ * @export
+ * @class ShareLeaseClient
+ */
+export class ShareLeaseClient {
+  private _leaseId: string;
+  private _url: string;
+  private _file: File;
+  /**
+   * Gets the lease Id.
+   *
+   * @readonly
+   * @memberof ShareLeaseClient
+   * @type {string}
+   */
+  public get leaseId(): string {
+    return this._leaseId;
+  }
+
+  /**
+   * Gets the url.
+   *
+   * @readonly
+   * @memberof ShareLeaseClient
+   * @type {string}
+   */
+  public get url(): string {
+    return this._url;
+  }
+
+  /**
+   * Creates an instance of ShareLeaseClient.
+   * @param {ShareFileClient} client The client to make the lease operation requests.
+   * @param {string} leaseId Initial proposed lease id.
+   * @memberof ShareLeaseClient
+   */
+  constructor(client: ShareFileClient, leaseId?: string) {
+    const clientContext = new StorageClientContext(
+      SERVICE_VERSION,
+      client.url,
+      (client as any).pipeline.toServiceClientOptions()
+    );
+    this._file = new File(clientContext);
+
+    this._url = client.url;
+
+    if (!leaseId) {
+      leaseId = generateUuid();
+    }
+    this._leaseId = leaseId;
+  }
+
+  /**
+   * The Lease File operation establishes and manages a lock on a file for write and delete operations.
+   *
+   * @param {number} duration Specifies the duration of lease. The only allowed value is -1, for a lease that never expires.
+   * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
+   * @returns {Promise<LeaseOperationResponse>} Response data for acquire lease operation.
+   * @memberof ShareLeaseClient
+   */
+  public async acquireLease(
+    duration = -1,
+    options: LeaseOperationOptions = {}
+  ): Promise<LeaseOperationResponse> {
+    const { span, spanOptions } = createSpan(
+      "ShareLeaseClient-acquireLease",
+      options.tracingOptions
+    );
+    try {
+      return await this._file.acquireLease({
+        abortSignal: options.abortSignal,
+        duration,
+        proposedLeaseId: this._leaseId,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * To change the ID of an existing lease.
+   *
+   * @param {string} proposedLeaseId the proposed new lease Id.
+   * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
+   * @returns {Promise<LeaseOperationResponse>} Response data for change lease operation.
+   * @memberof ShareLeaseClient
+   */
+  public async changeLease(
+    proposedLeaseId: string,
+    options: LeaseOperationOptions = {}
+  ): Promise<LeaseOperationResponse> {
+    const { span, spanOptions } = createSpan("ShareLeaseClient-changeLease", options.tracingOptions);
+    try {
+      const response = await this._file.changeLease(this._leaseId, {
+        proposedLeaseId,
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+      this._leaseId = proposedLeaseId;
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * To free the lease if it is no longer needed so that another client may
+   * immediately acquire a lease against the file.
+   *
+   * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
+   * @returns {Promise<LeaseOperationResponse>} Response data for release lease operation.
+   * @memberof ShareLeaseClient
+   */
+  public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
+    const { span, spanOptions } = createSpan(
+      "ShareLeaseClient-releaseLease",
+      options.tracingOptions
+    );
+    try {
+      return await this._file.releaseLease(this._leaseId, {
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * To force end the lease.
+   *
+   * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
+   * @returns {Promise<LeaseOperationResponse>} Response data for break lease operation.
+   * @memberof ShareLeaseClient
+   */
+  public async breakLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
+    const { span, spanOptions } = createSpan("ShareLeaseClient-breakLease", options.tracingOptions);
+    try {
+      return await this._file.breakLease({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
