@@ -19,7 +19,6 @@ import {
   BlobServiceClient
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
-import { setLogLevel } from '@azure/logger';
 dotenv.config({ path: "../.env" });
 
 describe.only("BlobClient", () => {
@@ -30,8 +29,6 @@ describe.only("BlobClient", () => {
   let blobClient: BlobClient;
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
-
-  setLogLevel("info");
 
   let recorder: any;
 
@@ -265,8 +262,20 @@ describe.only("BlobClient", () => {
 
     assert.ok(
       result.segment.blobItems,
-      "Expect non empty result from list blobs({ includeDeleted: true })."
+      "Expect non empty result from list blobs({ includeDeleted: true }) with page size of 1."
     );
+
+    assert.equal(
+      result.segment.blobItems.length,
+      1,
+      "Expect one element in result array from list blobs({ includeDeleted: true }) with page size of 1."
+    );
+
+    assert.ok(
+      result.segment.blobItems![0],
+      "Expect a valid element in result array from list blobs({ includeDeleted: true }) with page size of 1."
+    );
+
     assert.ok(result.segment.blobItems![0].deleted, "Expect that the blob is marked for deletion");
 
     await blobClient.undelete();
