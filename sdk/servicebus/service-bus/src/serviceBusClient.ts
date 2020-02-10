@@ -29,13 +29,30 @@ export interface ServiceBusClientOptions {
    */
   dataTransformer?: DataTransformer;
   /**
-   * @property The WebSocket constructor used to create an AMQP connection
-   * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
-   * TCP socket will be used if a WebSocket constructor is not provided.
+   * @property
+   * Options to configure the channelling of the AMQP connection over Web Sockets.
+   */
+  webSocketOptions?: WebSocketOptions;
+}
+
+/**
+ * Options to configure the channelling of the AMQP connection over Web Sockets.
+ */
+export interface WebSocketOptions {
+  /**
+   * @property
+   * The WebSocket constructor used to create an AMQP connection over a WebSocket.
+   * This option should be provided in the below scenarios:
+   * - The TCP port 5671 which is that is used by the AMQP connection to Event Hubs is blocked in your environment.
+   * - Your application needs to be run behind a proxy server
+   * - Your application needs to run in the browser and you want to provide your own choice of Websocket implementation
+   *   instead of the built-in WebSocket in the browser.
    */
   webSocket?: WebSocketImpl;
   /**
-   * @property Options to be passed to the WebSocket constructor
+   * @property
+   * Options to be passed to the WebSocket constructor when the underlying `rhea` library instantiates
+   * the WebSocket.
    */
   webSocketConstructorOptions?: any;
 }
@@ -93,9 +110,10 @@ export class ServiceBusClient {
       config = ConnectionConfig.create(hostOrConnectionString);
 
       options = credentialOrServiceBusClientOptions as ServiceBusClientOptions;
-      config.webSocket = options && options.webSocket;
+      config.webSocket = options && options.webSocketOptions?.webSocket;
       config.webSocketEndpointPath = "$servicebus/websocket";
-      config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
+      config.webSocketConstructorOptions =
+        options && options.webSocketOptions?.webSocketConstructorOptions;
 
       // Since connectionstring was passed, create a SharedKeyCredential
       credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
