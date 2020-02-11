@@ -49,7 +49,6 @@ import {
   URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
   DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
-  SNAPSHOT_URL_SCHEME,
 } from "./utils/constants";
 import {
   setURLParameter,
@@ -4714,13 +4713,50 @@ export class PageBlobClient extends BlobClient {
       options.tracingOptions
     );
 
-    let prevSnapshotUrl = undefined;
-    let prevSnapshotDateTime = undefined;
-    if (0 === prevSnapshot.slice(0, SNAPSHOT_URL_SCHEME.length).localeCompare(SNAPSHOT_URL_SCHEME, undefined, { sensitivity: 'accent' })) {
-      prevSnapshotUrl = prevSnapshot;
-    } else {
-      prevSnapshotDateTime = prevSnapshot;
+    try {
+      return await this.pageBlobContext
+        .getPageRangesDiff({
+          abortSignal: options.abortSignal,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
+          prevsnapshot: prevSnapshot,
+          range: rangeToString({ offset, count }),
+          spanOptions
+        })
+        .then(rangeResponseFromModel);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
+  }
+
+  /**
+  * Gets the collection of page ranges that differ between a specified snapshot and this page blob for managed disks.
+  * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+  *
+  * @param {number} offset Starting byte position of the page blob
+  * @param {number} count Number of bytes to get ranges diff.
+  * @param {string} prevSnapshotUrl URL of snapshot to retrive the difference.
+  * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
+  * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
+  * @memberof PageBlobClient
+  */
+  public async getPageRangesDiffForManagedDisks(
+    offset: number,
+    count: number,
+    prevSnapshotUrl: string,
+    options: PageBlobGetPageRangesDiffOptions = {}
+  ): Promise<PageBlobGetPageRangesDiffResponse> {
+    options.conditions = options.conditions || {};
+    const { span, spanOptions } = createSpan(
+      "PageBlobClient-GetPageRangesDiffForManagedDisks",
+      options.tracingOptions
+    );
 
     try {
       return await this.pageBlobContext
@@ -4728,7 +4764,6 @@ export class PageBlobClient extends BlobClient {
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
-          prevsnapshot: prevSnapshotDateTime,
           prevSnapshotUrl,
           range: rangeToString({ offset, count }),
           spanOptions
