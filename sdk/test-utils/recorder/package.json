@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "dist/index.js": "./browser/azure-test-utils-recorder.js"
+    "dist/index.js": "./dist-browser/azure-test-utils-recorder.js"
   },
   "types": "./typings/src/index.d.ts",
   "scripts": {
@@ -34,8 +34,8 @@
     "test": "npm run clean && npm run build:test && npm run unit-test"
   },
   "files": [
-    "browser/*.js*",
     "dist/",
+    "dist-browser/*.js*",
     "dist-esm/src/",
     "src/",
     "typings/src"

@@ -149,9 +149,3 @@ swagger/*.json
 
 # library-specific ignores
 sdk/keyvault/*/src/**/*.js
-
-# skipping browser tests while also ignoring the browser folders where the browser bundles are
-/**/browser/*.js
-/**/browser/*.js.map
-/**/browser/*.html
-!/test/browser/*.spec.ts
