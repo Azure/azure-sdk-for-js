@@ -1,5 +1,9 @@
 # Release History
 
+## 3.6.0 (2020-2-10)
+
+- FEATURE: Add support for spatial indexing, bounding boxes, and geospatial configuration
+
 ## 3.5.4 (2020-1-28)
 
 - BUG FIX: Return parsed number instead of string for request charge
