@@ -142,7 +142,9 @@ export class QueryIterator<T> {
     let response: Response<any>;
     try {
       response = await this.queryExecutionContext.fetchMore();
+      console.log(response);
     } catch (error) {
+      console.log(error);
       if (this.needsQueryPlan(error)) {
         await this.createPipelinedExecutionContext();
         try {
@@ -256,7 +258,7 @@ export class QueryIterator<T> {
     return this.initPromise;
   }
   private async _init() {
-    if (this.options.forceQueryPlan === true) {
+    if (this.options.forceQueryPlan === true && this.resourceType === ResourceType.item) {
       await this.createPipelinedExecutionContext();
     }
     this.isInitialized = true;
