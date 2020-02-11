@@ -781,7 +781,7 @@ describe("DirectoryClient", () => {
 
     assert.deepStrictEqual(
       await dirClient.forceCloseAllHandles(),
-      { closedHandlesCount: 0, numberOfHandlesFailedToClose: 0 },
+      { closedHandlesCount: 0, closeFailureCount: 0 },
       "Error in forceCloseAllHandles"
     );
   });
@@ -801,7 +801,7 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("forceCloseHandle could return numberOfHandlesFailedToClose", async () => {
+  it("forceCloseHandle could return closeFailureCount", async () => {
     // TODO: Open or create a handle; currently have to do this manually
     const result = (
       await dirClient
@@ -818,13 +818,13 @@ describe("DirectoryClient", () => {
 
       const handle = result.handleList[0];
       const closeResp = await mockDirClient.forceCloseHandle(handle.handleId);
-      assert.equal(closeResp.numberOfHandlesFailedToClose, 1, "Number of handles failed to close is not as set.")
+      assert.equal(closeResp.closeFailureCount, 1, "Number of handles failed to close is not as set.")
     }
   });
 
-  it("forceCloseAllHandles return correct numberOfHandlesFailedToClose", async () => {
+  it("forceCloseAllHandles return correct closeFailureCount", async () => {
     const closeRes = await dirClient.forceCloseAllHandles();
-    assert.equal(closeRes.numberOfHandlesFailedToClose, 0, "The numberOfHandlesFailedToClose is not set to 0 as default.");
+    assert.equal(closeRes.closeFailureCount, 0, "The closeFailureCount is not set to 0 as default.");
   });
 });
 
