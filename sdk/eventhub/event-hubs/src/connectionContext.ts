@@ -71,7 +71,7 @@ export namespace ConnectionContext {
    */
   const userAgent: string = `azsdk-js-azureeventhubs/${
     packageJsonInfo.version
-  } (NODE-VERSION ${getRuntimeInfo()})`;
+  } (${getRuntimeInfo()})`;
 
   export function getUserAgent(options: ConnectionContextOptions): string {
     const finalUserAgent = options.userAgent ? `${userAgent},${options.userAgent}` : userAgent;

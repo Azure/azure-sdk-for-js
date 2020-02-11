@@ -43,9 +43,9 @@ export interface MultiLanguageBatchInput {
  */
 export interface InnerError {
   /**
-   * Error code. Possible values include: 'invalidParameterValue', 'invalidRequestBodyFormat',
-   * 'emptyRequest', 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect',
-   * 'invalidDocumentBatch', 'unsupportedLanguageCode', 'invalidCountryHint'
+   * Error code. Possible values include: 'InvalidParameterValue', 'InvalidRequestBodyFormat',
+   * 'EmptyRequest', 'MissingInputRecords', 'InvalidDocument', 'ModelVersionIncorrect',
+   * 'InvalidDocumentBatch', 'UnsupportedLanguageCode', 'InvalidCountryHint'
    */
   code: InnerErrorCodeValue;
   /**
@@ -71,8 +71,8 @@ export interface InnerError {
  */
 export interface TextAnalyticsError {
   /**
-   * Error code. Possible values include: 'invalidRequest', 'invalidArgument',
-   * 'internalServerError', 'serviceUnavailable'
+   * Error code. Possible values include: 'InvalidRequest', 'InvalidArgument',
+   * 'InternalServerError', 'ServiceUnavailable'
    */
   code: ErrorCodeValue;
   /**
@@ -594,22 +594,22 @@ export interface TextAnalyticsClientSentimentOptionalParams extends coreHttp.Req
 
 /**
  * Defines values for ErrorCodeValue.
- * Possible values include: 'invalidRequest', 'invalidArgument', 'internalServerError',
- * 'serviceUnavailable'
+ * Possible values include: 'InvalidRequest', 'InvalidArgument', 'InternalServerError',
+ * 'ServiceUnavailable'
  * @readonly
  * @enum {string}
  */
-export type ErrorCodeValue = 'invalidRequest' | 'invalidArgument' | 'internalServerError' | 'serviceUnavailable';
+export type ErrorCodeValue = 'InvalidRequest' | 'InvalidArgument' | 'InternalServerError' | 'ServiceUnavailable';
 
 /**
  * Defines values for InnerErrorCodeValue.
- * Possible values include: 'invalidParameterValue', 'invalidRequestBodyFormat', 'emptyRequest',
- * 'missingInputRecords', 'invalidDocument', 'modelVersionIncorrect', 'invalidDocumentBatch',
- * 'unsupportedLanguageCode', 'invalidCountryHint'
+ * Possible values include: 'InvalidParameterValue', 'InvalidRequestBodyFormat', 'EmptyRequest',
+ * 'MissingInputRecords', 'InvalidDocument', 'ModelVersionIncorrect', 'InvalidDocumentBatch',
+ * 'UnsupportedLanguageCode', 'InvalidCountryHint'
  * @readonly
  * @enum {string}
  */
-export type InnerErrorCodeValue = 'invalidParameterValue' | 'invalidRequestBodyFormat' | 'emptyRequest' | 'missingInputRecords' | 'invalidDocument' | 'modelVersionIncorrect' | 'invalidDocumentBatch' | 'unsupportedLanguageCode' | 'invalidCountryHint';
+export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyFormat' | 'EmptyRequest' | 'MissingInputRecords' | 'InvalidDocument' | 'ModelVersionIncorrect' | 'InvalidDocumentBatch' | 'UnsupportedLanguageCode' | 'InvalidCountryHint';
 
 /**
  * Defines values for DocumentSentimentLabel.

@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalysisResult,
+  makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalysisErrorResult
+  makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import { TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
 
@@ -37,7 +37,7 @@ export function makeExtractKeyPhrasesResult(
   statistics?: TextDocumentStatistics
 ): ExtractKeyPhrasesSuccessResult {
   return {
-    ...makeTextAnalysisResult(id, statistics),
+    ...makeTextAnalyticsSuccessResult(id, statistics),
     keyPhrases
   };
 }
@@ -46,5 +46,5 @@ export function makeExtractKeyPhrasesErrorResult(
   id: string,
   error: TextAnalyticsError
 ): ExtractKeyPhrasesErrorResult {
-  return makeTextAnalysisErrorResult(id, error);
+  return makeTextAnalyticsErrorResult(id, error);
 }
