@@ -127,7 +127,7 @@ const render = async (context, dest) => {
   });
 
   const template = await readFile("deps.html.hbs", "utf8");
-  return writeFile(dest, Handlebars.compile(template)(context), "text/html; charset=utf-8;");
+  return writeFile(dest, Handlebars.compile(template)(context));
 };
 
 const appendDependencyData = (dependencies, dep, spec, package, depType) => {
@@ -158,17 +158,28 @@ const constructDeps = (pkgs) => {
   return dependencies;
 };
 
-const dumpRushPackages = (rushPackages) => {
+const dumpRushPackages = (rushPackages, internalPackages, external) => {
   const dumpData = {};
   for (const [pkgName, pkgInfo] of Object.entries(rushPackages)) {
-    const deps = Object.entries(pkgInfo.run || {})
-      .map(([name, version]) => ({ name, version }))
+    var newDep = [];
+    if (external) {
+      newDep = Object.entries(pkgInfo.run || {})
+        .map(([name, version]) => ({ name, version }));
+    }
+    else {
+      for (var name in pkgInfo.run) {
+        if (internalPackages.includes(name)) {
+          version = pkgInfo.run[name];
+          newDep.push({ name, version })
+        }
+      }
+    }
 
     dumpData[`${pkgName}:${pkgInfo.ver}`] = {
       name: pkgName,
       version: pkgInfo.ver,
       type: 'internal',
-      deps: deps
+      deps: newDep
     };
   }
   return dumpData;
@@ -212,7 +223,6 @@ const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId, ext
         dep.version = depInfo.version;
       }
     }
-
   }
 };
 
@@ -305,7 +315,7 @@ const main = async () => {
 
     if (args.dump) {
       const internalPackages = Object.keys(rushPackages);
-      const dumpData = dumpRushPackages(context.packages);
+      const dumpData = dumpRushPackages(context.packages, internalPackages, args.external);
       const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../common/config/rush/pnpm-lock.yaml`));
       for (const pkgId of Object.keys(dumpData)) {
         resolveRushPackageDeps(dumpData, internalPackages, pnpmLock, pkgId, args.external);
