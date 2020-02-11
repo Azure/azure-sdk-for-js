@@ -11,43 +11,184 @@ import { ServiceClientCredentials } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
+export interface AutocompleteItem {
+    readonly queryPlusText?: string;
+    readonly text?: string;
+}
+
+// @public
+export type AutocompleteMode = 'oneTerm' | 'twoTerms' | 'oneTermWithContext';
+
+// @public (undocumented)
+export type AutocompleteOptions = OperationOptions & Omit<AutocompleteRequest, "searchText" | "suggesterName">;
+
+// @public
+export interface AutocompleteRequest {
+    autocompleteMode?: AutocompleteMode;
+    filter?: string;
+    highlightPostTag?: string;
+    highlightPreTag?: string;
+    minimumCoverage?: number;
+    searchFields?: string;
+    searchText?: string;
+    suggesterName?: string;
+    top?: number;
+    useFuzzyMatching?: boolean;
+}
+
+// @public
+export interface AutocompleteResult {
+    readonly coverage?: number;
+    readonly results?: AutocompleteItem[];
+}
+
+// @public (undocumented)
+export type CountOptions = OperationOptions;
+
+// @public
+export interface FacetResult {
+    [property: string]: any;
+    readonly count?: number;
+}
+
+// @public (undocumented)
+export interface GetDocumentOptions extends OperationOptions {
+    selectedFields?: string[];
+}
+
+// @public
+export interface IndexAction {
+    [property: string]: any;
+    actionType?: IndexActionType;
+}
+
+// @public
+export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
+
+// @public
+export interface IndexDocumentsResult {
+    readonly results?: IndexingResult[];
+}
+
+// @public
+export interface IndexingResult {
+    readonly errorMessage?: string;
+    readonly key?: string;
+    readonly statusCode?: number;
+    readonly succeeded?: boolean;
+}
+
+// @public (undocumented)
+export interface ListSearchResultsPageSettings {
+    nextLink?: string;
+    nextPageParameters?: SearchRequest;
+}
+
+// @public (undocumented)
+export type ModifyIndexOptions = OperationOptions;
+
+// @public
+export type QueryType = 'simple' | 'full';
+
+// @public
 export class SearchApiKeyCredential implements ServiceClientCredentials {
     constructor(apiKey: string);
     signRequest(webResource: WebResource): Promise<WebResource>;
     updateKey(apiKey: string): void;
 }
 
+// @public
+export interface SearchDocumentsResult {
+    readonly count?: number;
+    readonly coverage?: number;
+    readonly facets?: {
+        [propertyName: string]: FacetResult[];
+    };
+    readonly nextLink?: string;
+    readonly nextPageParameters?: SearchRequest;
+    readonly results?: SearchResult[];
+}
+
 // @public (undocumented)
 export class SearchIndexClient {
     constructor(searchServiceName: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
     readonly apiVersion: string;
-    // Warning: (ae-forgotten-export) The symbol "AutocompleteOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "AutocompleteResult" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     autocomplete(suggesterName: string, searchText: string, options?: AutocompleteOptions): Promise<AutocompleteResult>;
-    // Warning: (ae-forgotten-export) The symbol "CountOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     count(options?: CountOptions): Promise<number>;
+    // (undocumented)
+    getDocument(key: string, options?: GetDocumentOptions): Promise<import("./generated/data/models").DocumentsGetResponse>;
     readonly indexName: string;
-    // Warning: (ae-forgotten-export) The symbol "SearchDocumentsResult" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "ListSearchResultsPageSettings" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     listSearchResults(searchText: string, options?: SearchOptions): PagedAsyncIterableIterator<SearchResult, SearchDocumentsResult, ListSearchResultsPageSettings>;
-    // Warning: (ae-forgotten-export) The symbol "SearchOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "SearchResult" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     listSearchResultsAll(searchText: string, options?: SearchOptions): AsyncIterableIterator<SearchResult>;
+    // (undocumented)
+    modifyIndex(batch: IndexAction[], options?: ModifyIndexOptions): Promise<IndexDocumentsResult>;
     searchDnsSuffix: string;
     readonly searchServiceName: string;
+    // (undocumented)
+    suggest(suggesterName: string, searchText: string, options?: SuggestOptions): Promise<import("./generated/data/models").DocumentsSuggestPostResponse>;
 }
 
 // @public
 export interface SearchIndexClientOptions extends PipelineOptions {
     searchDnsSuffix?: string;
+}
+
+// @public
+export type SearchMode = 'any' | 'all';
+
+// @public (undocumented)
+export type SearchOptions = OperationOptions & Omit<SearchRequest, "searchText">;
+
+// @public
+export interface SearchRequest {
+    facets?: string[];
+    filter?: string;
+    highlightFields?: string;
+    highlightPostTag?: string;
+    highlightPreTag?: string;
+    includeTotalResultCount?: boolean;
+    minimumCoverage?: number;
+    orderBy?: string;
+    queryType?: QueryType;
+    scoringParameters?: string[];
+    scoringProfile?: string;
+    searchFields?: string;
+    searchMode?: SearchMode;
+    searchText?: string;
+    select?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface SearchResult {
+    [property: string]: any;
+    readonly highlights?: {
+        [propertyName: string]: string[];
+    };
+    readonly score?: number;
+}
+
+// @public (undocumented)
+export type SuggestOptions = OperationOptions & Omit<SuggestRequest, "searchText" | "suggesterName">;
+
+// @public
+export interface SuggestRequest {
+    filter?: string;
+    highlightPostTag?: string;
+    highlightPreTag?: string;
+    minimumCoverage?: number;
+    orderBy?: string;
+    searchFields?: string;
+    searchText?: string;
+    select?: string;
+    suggesterName?: string;
+    top?: number;
+    useFuzzyMatching?: boolean;
 }
 
 
