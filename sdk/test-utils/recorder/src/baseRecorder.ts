@@ -214,7 +214,7 @@ export class NockRecorder extends BaseRecorder {
 // This class overrides requests' 'open', 'send' and 'onreadystatechange' functions, adding our own code to them to deal with requests
 export class NiseRecorder extends BaseRecorder {
   private recordings: any[] = [];
-  private xhr: any;
+  private xhr: nise.FakeXMLHttpRequestStatic | undefined;
 
   constructor(hash: string, testSuiteTitle: string, testTitle: string) {
     super("browsers", hash, testSuiteTitle, testTitle);
