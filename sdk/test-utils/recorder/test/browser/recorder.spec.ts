@@ -32,7 +32,7 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
  */
 const getNoOpFunction = () => {
   /* istanbul ignore next */
-  return () => {}
+  return () => {};
 };
 
 /**
@@ -41,7 +41,7 @@ const getNoOpFunction = () => {
 const getAnotherNoOpFunction = () => {
   /* istanbul ignore next */
   return (x: any) => x;
-}
+};
 
 describe("The recorder's public API, on a browser", () => {
   afterEach(() => {

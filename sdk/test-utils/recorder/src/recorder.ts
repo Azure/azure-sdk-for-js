@@ -101,9 +101,7 @@ export function record(
     isSoftRecordMode() &&
     !testHasChanged(testHierarchy, testTitle, testAbsolutePath, currentHash)
   ) {
-    testContext.test!.title = `${
-      testContext.test!.title
-    } (Test unchanged since last recording)`;
+    testContext.test!.title = `${testContext.test!.title} (Test unchanged since last recording)`;
     testContext.skip();
   }
 
