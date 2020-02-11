@@ -83,3 +83,11 @@ directive:
     $.Path.properties.lastModified.format = "date-time-rfc1123";
 ```
 
+### Update service version to "2019-07-07"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2019-07-07" ];
+```
