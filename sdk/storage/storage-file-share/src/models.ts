@@ -159,7 +159,7 @@ export interface CloseHandlesInfo {
   /**
    * Contains count of number of handles that failed to close.
    */
-  numberOfHandlesFailedToClose?: number;
+  closeFailureCount?: number;
 }
 
 export function validateFilePermissionOptions(filePermission?: string, filePermissionKey?: string) {

@@ -584,7 +584,7 @@ describe("FileClient", () => {
 
     assert.deepStrictEqual(
       await fileClient.forceCloseAllHandles(),
-      { closedHandlesCount: 0, numberOfHandlesFailedToClose: 0 },
+      { closedHandlesCount: 0, closeFailureCount: 0 },
       "Error in forceCloseAllHandles"
     );
   });
@@ -606,7 +606,7 @@ describe("FileClient", () => {
     }
   });
 
-  it("forceCloseHandle could return numberOfHandlesFailedToClose", async () => {
+  it("forceCloseHandle could return closeFailureCount", async () => {
     await fileClient.create(10);
 
     // TODO: Open or create a handle, currently have to do this manually
@@ -625,11 +625,11 @@ describe("FileClient", () => {
 
       const handle = result.handleList[0];
       const closeResp = await mockFileClient.forceCloseHandle(handle.handleId);
-      assert.equal(closeResp.numberOfHandlesFailedToClose, 1, 'Number of handles failed to close is not as set.');
+      assert.equal(closeResp.closeFailureCount, 1, 'Number of handles failed to close is not as set.');
     }
   });
 
-  it("forceCloseAllHandles return correct numberOfHandlesFailedToClose", async () => {
+  it("forceCloseAllHandles return correct closeFailureCount", async () => {
     await fileClient.create(10);
 
     // TODO: Open or create a handle; currently have to do this manually
@@ -646,11 +646,11 @@ describe("FileClient", () => {
       const pipeline = new Pipeline(factories);
       const mockFileClient = new ShareFileClient(fileClient.url, pipeline);
       const closeResp = await mockFileClient.forceCloseAllHandles();
-      assert.equal(closeResp.numberOfHandlesFailedToClose, 1, 'Number of handles failed to close is not as set.');
+      assert.equal(closeResp.closeFailureCount, 1, 'Number of handles failed to close is not as set.');
     }
 
     const closeAllResp = await fileClient.forceCloseAllHandles();
-    assert.equal(closeAllResp.numberOfHandlesFailedToClose, 0, 'The numberOfHandlesFailedToClose is not set to 0 as default.');
+    assert.equal(closeAllResp.closeFailureCount, 0, 'The closeFailureCount is not set to 0 as default.');
   });
 
   it("create with tracing", async () => {

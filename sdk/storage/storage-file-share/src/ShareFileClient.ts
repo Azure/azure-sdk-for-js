@@ -2556,6 +2556,7 @@ export class ShareFileClient extends StorageClient {
       });
       const response = rawResponse as FileForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
+      response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
     } catch (e) {
       span.setStatus({
@@ -2595,12 +2596,12 @@ export class ShareFileClient extends StorageClient {
         );
         marker = response.marker;
         response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
-        response.numberOfHandlesFailedToClose && (numberOfHandlesFailedToClose += response.numberOfHandlesFailedToClose);
+        response.closeFailureCount && (numberOfHandlesFailedToClose += response.closeFailureCount);
       } while (marker);
 
       return {
         closedHandlesCount: handlesClosed,
-        numberOfHandlesFailedToClose,
+        closeFailureCount: numberOfHandlesFailedToClose,
       };
     } catch (e) {
       span.setStatus({
@@ -2644,6 +2645,7 @@ export class ShareFileClient extends StorageClient {
       });
       const response = rawResponse as FileForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
+      response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
     } catch (e) {
       span.setStatus({

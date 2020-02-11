@@ -1308,6 +1308,7 @@ export class ShareDirectoryClient extends StorageClient {
       });
       const response = rawResponse as DirectoryForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
+      response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
     } catch (e) {
       span.setStatus({
@@ -1347,10 +1348,10 @@ export class ShareDirectoryClient extends StorageClient {
         );
         marker = response.marker;
         response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
-        response.numberOfHandlesFailedToClose && (numberOfHandlesFailedToClose += response.numberOfHandlesFailedToClose);
+        response.closeFailureCount && (numberOfHandlesFailedToClose += response.closeFailureCount);
       } while (marker);
 
-      return { closedHandlesCount: handlesClosed, numberOfHandlesFailedToClose };
+      return { closedHandlesCount: handlesClosed, closeFailureCount: numberOfHandlesFailedToClose };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1395,6 +1396,7 @@ export class ShareDirectoryClient extends StorageClient {
       });
       const response = rawResponse as DirectoryForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
+      response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
     } catch (e) {
       span.setStatus({
