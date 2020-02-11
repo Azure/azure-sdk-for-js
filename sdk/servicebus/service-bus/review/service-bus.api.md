@@ -12,9 +12,7 @@ import { Delivery } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
-import { ProxySettings } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
-import { ServiceClient } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
@@ -416,11 +414,6 @@ export interface SubscriptionOptions {
     requiresSession?: boolean;
     status?: EntityStatus;
     userMetadata?: string;
-}
-
-// @public
-export interface SubscriptionResponse extends SubscriptionDetails {
-    _response: HttpOperationResponse;
 }
 
 export { TokenCredential }
