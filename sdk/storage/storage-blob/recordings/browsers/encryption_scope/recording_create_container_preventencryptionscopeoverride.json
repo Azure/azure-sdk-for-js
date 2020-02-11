@@ -1,0 +1,87 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158096496717505985",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 06 Feb 2020 04:56:06 GMT",
+    "etag": "\"0x8D7AAC0E0AAB815\"",
+    "last-modified": "Thu, 06 Feb 2020 04:56:07 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "e9402871-112b-472f-8571-bc67d55b6ac0",
+    "x-ms-request-id": "1e186edc-001e-0039-2fa9-dc6927000000",
+    "x-ms-version": "2019-07-07"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/",
+   "query": {
+    "include": "metadata",
+    "comp": "list"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\"><Containers><Container><Name>container158096405701703371</Name><Properties><Last-Modified>Thu, 06 Feb 2020 04:40:57 GMT</Last-Modified><Etag>\"0x8D7AABEC22A0F64\"</Etag><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><DefaultEncryptionScope>antjoscope1</DefaultEncryptionScope><DenyEncryptionScopeOverride>true</DenyEncryptionScopeOverride><HasImmutabilityPolicy>false</HasImmutabilityPolicy><HasLegalHold>false</HasLegalHold></Properties><Metadata /></Container><Container><Name>container158096496717505985</Name><Properties><Last-Modified>Thu, 06 Feb 2020 04:56:07 GMT</Last-Modified><Etag>\"0x8D7AAC0E0AAB815\"</Etag><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><DefaultEncryptionScope>antjoscope1</DefaultEncryptionScope><DenyEncryptionScopeOverride>true</DenyEncryptionScopeOverride><HasImmutabilityPolicy>false</HasImmutabilityPolicy><HasLegalHold>false</HasLegalHold></Properties><Metadata /></Container></Containers><NextMarker /></EnumerationResults>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Thu, 06 Feb 2020 04:56:07 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "8aede40e-9138-41f7-bd2b-0390fcfb519c",
+    "x-ms-request-id": "1e186ee7-001e-0039-39a9-dc6927000000",
+    "x-ms-version": "2019-07-07"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158096496717505985/blob158096496718007545",
+   "query": {},
+   "requestBody": "Hello World",
+   "status": 403,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>RequestForbiddenByContainerEncryptionPolicy</Code><Message>The request is forbidden by the container encryption policy.\nRequestId:1e186ef5-001e-0039-46a9-dc6927000000\nTime:2020-02-06T04:56:08.7651911Z</Message></Error>",
+   "responseHeaders": {
+    "content-length": "272",
+    "content-type": "application/xml",
+    "date": "Thu, 06 Feb 2020 04:56:07 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "9f60d9bf-7bcf-427f-835f-baa58e50bf91",
+    "x-ms-error-code": "RequestForbiddenByContainerEncryptionPolicy",
+    "x-ms-request-id": "1e186ef5-001e-0039-46a9-dc6927000000",
+    "x-ms-version": "2019-07-07"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158096496717505985",
+   "query": {
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 06 Feb 2020 04:56:08 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "e3eaa46d-2c38-48c6-be7c-827aabf1ae43",
+    "x-ms-request-id": "1e186f07-001e-0039-58a9-dc6927000000",
+    "x-ms-version": "2019-07-07"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "container": "container158096496717505985",
+   "blob": "blob158096496718007545"
+  },
+  "newDate": {}
+ }
+}

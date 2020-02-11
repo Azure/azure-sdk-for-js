@@ -142,9 +142,9 @@ import { record, env, delay } from "@azure/test-utils-recorder";
  
 The common recorder provides the following public methods and properties:
 
-- `record`: Which deals with recording and playing back the network requests,
+- `record()`: Which deals with recording and playing back the network requests,
   depending on the value assigned to the `TEST_MODE` environment variable. If
-  `TEST_MODE` equals to `record`, it will automatically store network requests
+  `TEST_MODE` equals to `record` or `soft-record`, it will automatically store network requests
   in a plain text file in the folder `recordings` at the root of your
   repository (which for our example case is the root of the
   `@azure/keyvault/keyvault-keys` repository).
@@ -155,7 +155,7 @@ The common recorder provides the following public methods and properties:
   package in the repo. It also returns an object with a method `stop()`, which
   will allow you to control when you want the recorder to stop re-routing your
   http requests.
-- `Recorder`: The return of `record` is going to be an instance of the
+- `Recorder`: The return of the `record()` method is going to be an instance of the
   `Recorder`, which has some useful functions: `stop`, `skip`, `getUniqueName`,
   and `newDate`. `stop` will stop the recorder from storing a copy of the HTTP
   requests and responses. `skip` will pause the recorder only during the test
@@ -169,7 +169,9 @@ The common recorder provides the following public methods and properties:
   but only while the `TEST_MODE` is not `playback`, since you want to make sure you can run the playback tests
   as fast as possible.
 - `isRecordMode`, which is a shorthand for checking if the environment variable
-  `TEST_MODE` is set to `record`.
+  `TEST_MODE` is set to `record` or `soft-record`.
+- `isSoftRecordMode`, which is a shorthand for checking if the environment
+  variable `TEST_MODE` is set to `soft-record` only.
 - `isPlaybackMode`, which is a shorthand for checking if the environment
   variable `TEST_MODE` is set to `playback`.
 - `setReplaceableVariables`, which will allow you to hide sensitive content
@@ -183,12 +185,12 @@ The common recorder provides the following public methods and properties:
 ### Configuring your project
 
 Having the common recorder as a devDependency means that you'll be able to start
-recording tests right away by using the exported method `record`. We'll get
+recording tests right away by using the exported method `record()`. We'll get
 into the details further down this document. This function will do recordings,
 or will play back previous recordings, depending on an environment variable:
-`TEST_MODE`. If the environment variable `TEST_MODE` is empty, `record` (and most
+`TEST_MODE`. If the environment variable `TEST_MODE` is empty, `record()` (and most
 of the functions provided by test-utils-recorder) won't be doing anything. You'll need
-to set this environment variable to `record` to start recording, and then to
+to set the `TEST_MODE` environment variable to `record` (or `soft-record`) to start recording, and then to
 `playback` to play the recordings back at your code.
 
 #### package.json scripts
@@ -297,7 +299,7 @@ section of our guidelines:
 ### How to record
 
 To record your tests, make sure to set the environment variable `TEST_MODE` to
-`record`, then in your code, call to the `record` function exported from
+`record` or `soft-record`, then in your code, call to the `record()` function exported from
 `@azure/test-utils-recorder`, then call it before the http request you want to
 make. In the following example, we'll invoke the `record()` method before
 authenticating our KeyVault client:
@@ -335,6 +337,9 @@ After running this test with the `TEST_MODE` environment variable set to
 `record`, the common recorder will create a recording file located in
 `recordings/node/my_test/recording_before_each_hook.js` with the contents of
 the HTTP request as well as the contents of the HTTP response.
+
+If `TEST_MODE` is set to `soft-record` instead, the recorder will only create
+this recording file if the test has changed from a previous execution.
 
 You'll see in the code above that we're invoking `recorder.stop`. This is so
 that, after each test, we can stop recording and the test file can be
@@ -391,6 +396,8 @@ request according to their matching copy stored in the recordings.
 
 Once you have your recorded files, to update them after changing one of the tests, simply
 re-run the tests with `TEST_MODE` set to `record`. This will overwrite previously existing files.
+Or re run the tests with `TEST_MODE` set to `soft-record` to only overwrite the files related to
+tests that have changed.
 
 > **Note:** If you rename the file of the test, or the name of the test, the
 > path of the recording will change. Make sure to delete the recordings
@@ -482,7 +489,7 @@ Some HTTP requests might have parameters with sensitive information. To get
 them out of your recordings, you can call to `skipQueryParams` with an array of strings
 where you specify the names of the query parameter you want to remove.
 
-For example, give nthat we find this query parameters in our recordings:
+For example, given that we find this query parameters in our recordings:
 `?sv=2018-11-09&sr=c&sig=<sig>&sktid=<sktid>&skv=2018-11-09&se=2019-08-07T07%3A00%3A00Z&sp=rwdl`,
 if we don't want the parameters "sr", "sig" and "sp" to appear in these files, we can do the following:
 

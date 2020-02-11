@@ -169,6 +169,10 @@ export interface ShareProperties {
   lastModified: Date;
   etag: string;
   quota: number;
+  provisionedIops?: number;
+  provisionedIngressMBps?: number;
+  provisionedEgressMBps?: number;
+  nextAllowedQuotaDowngradeTime?: Date;
 }
 
 /**
@@ -335,6 +339,17 @@ export interface FileHttpHeaders {
 }
 
 /**
+ * Additional parameters for a set of operations.
+ */
+export interface LeaseAccessConditions {
+  /**
+   * If specified, the operation only succeeds if the resource's lease is active and matches this
+   * ID.
+   */
+  leaseId?: string;
+}
+
+/**
  * Additional parameters for uploadRangeFromURL operation.
  */
 export interface SourceModifiedAccessConditions {
@@ -346,6 +361,43 @@ export interface SourceModifiedAccessConditions {
    * Specify the crc64 value to operate only on range without a matching crc64 checksum.
    */
   sourceIfNoneMatchCrc64?: Uint8Array;
+}
+
+/**
+ * Additional parameters for startCopy operation.
+ */
+export interface CopyFileSmbInfo {
+  /**
+   * Specifies the option to copy file security descriptor from source file or to set it using the
+   * value which is defined by the header value of x-ms-file-permission or
+   * x-ms-file-permission-key. Possible values include: 'source', 'override'
+   */
+  filePermissionCopyMode?: PermissionCopyModeType;
+  /**
+   * Specifies the option to overwrite the target file if it already exists and has read-only
+   * attribute set.
+   */
+  ignoreReadOnly?: boolean;
+  /**
+   * Specifies either the option to copy file attributes from a source file(source) to a target
+   * file or a list of attributes to set on a target file.
+   */
+  fileAttributes?: string;
+  /**
+   * Specifies either the option to copy file creation time from a source file(source) to a target
+   * file or a time value in ISO 8601 format to set as creation time on a target file.
+   */
+  fileCreationTime?: string;
+  /**
+   * Specifies either the option to copy file last write time from a source file(source) to a
+   * target file or a time value in ISO 8601 format to set as last write time on a target file.
+   */
+  fileLastWriteTime?: string;
+  /**
+   * Specifies the option to set archive attribute on a target file. True means archive attribute
+   * will be set on a target file despite attribute overrides or a source file state.
+   */
+  setArchiveAttribute?: boolean;
 }
 
 /**
@@ -801,6 +853,10 @@ export interface FileCreateOptionalParams extends coreHttp.RequestOptionsBase {
    * Additional parameters for the operation
    */
   fileHttpHeaders?: FileHttpHeaders;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -823,6 +879,10 @@ export interface FileDownloadOptionalParams extends coreHttp.RequestOptionsBase 
    * size.
    */
   rangeGetContentMD5?: boolean;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -840,6 +900,10 @@ export interface FileGetPropertiesOptionalParams extends coreHttp.RequestOptions
    * Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -852,6 +916,10 @@ export interface FileDeleteMethodOptionalParams extends coreHttp.RequestOptionsB
    * Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -886,6 +954,10 @@ export interface FileSetHTTPHeadersOptionalParams extends coreHttp.RequestOption
    * Additional parameters for the operation
    */
   fileHttpHeaders?: FileHttpHeaders;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -902,6 +974,100 @@ export interface FileSetMetadataOptionalParams extends coreHttp.RequestOptionsBa
    * A name-value pair to associate with a file storage object.
    */
   metadata?: { [propertyName: string]: string };
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FileAcquireLeaseOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never
+   * expires. A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be
+   * changed using renew or change.
+   */
+  duration?: number;
+  /**
+   * Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if
+   * the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list
+   * of valid GUID string formats.
+   */
+  proposedLeaseId?: string;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FileReleaseLeaseOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FileChangeLeaseOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if
+   * the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list
+   * of valid GUID string formats.
+   */
+  proposedLeaseId?: string;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FileBreakLeaseOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The timeout parameter is expressed in seconds. For more information, see <a
+   * href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting
+   * Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+  /**
+   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
+   * analytics logs when storage analytics logging is enabled.
+   */
+  requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -925,6 +1091,10 @@ export interface FileUploadRangeOptionalParams extends coreHttp.RequestOptionsBa
    * the operation will fail with error code 400 (Bad Request).
    */
   contentMD5?: Uint8Array;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -949,6 +1119,10 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOp
    * Additional parameters for the operation
    */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -970,6 +1144,10 @@ export interface FileGetRangeListOptionalParams extends coreHttp.RequestOptionsB
    * Specifies the range of bytes over which to list ranges, inclusively.
    */
   range?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -986,6 +1164,27 @@ export interface FileStartCopyOptionalParams extends coreHttp.RequestOptionsBase
    * A name-value pair to associate with a file storage object.
    */
   metadata?: { [propertyName: string]: string };
+  /**
+   * If specified the permission (security descriptor) shall be set for the directory/file. This
+   * header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be
+   * used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and
+   * dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be
+   * specified.
+   */
+  filePermission?: string;
+  /**
+   * Key of the permission to be set for the directory/file. Note: Only one of the
+   * x-ms-file-permission or x-ms-file-permission-key should be specified.
+   */
+  filePermissionKey?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  copyFileSmbInfo?: CopyFileSmbInfo;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -998,6 +1197,10 @@ export interface FileAbortCopyOptionalParams extends coreHttp.RequestOptionsBase
    * Timeouts for File Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Additional parameters for the operation
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -1165,6 +1368,22 @@ export interface ShareGetPropertiesHeaders {
    * Returns the current share quota in GB.
    */
   quota?: number;
+  /**
+   * Returns the current share provisioned ipos.
+   */
+  provisionedIops?: number;
+  /**
+   * Returns the current share provisioned ingress in megabytes per second.
+   */
+  provisionedIngressMBps?: number;
+  /**
+   * Returns the current share provisioned egress in megabytes per second.
+   */
+  provisionedEgressMBps?: number;
+  /**
+   * Returns the current share next allowed quota downgrade time.
+   */
+  nextAllowedQuotaDowngradeTime?: Date;
   errorCode?: string;
 }
 
@@ -1756,6 +1975,10 @@ export interface DirectoryForceCloseHandlesHeaders {
    * Contains count of number of handles closed.
    */
   numberOfHandlesClosed?: number;
+  /**
+   * Contains count of number of handles that failed to close.
+   */
+  numberOfHandlesFailedToClose?: number;
   errorCode?: string;
 }
 
@@ -1967,6 +2190,20 @@ export interface FileDownloadHeaders {
    * The parent fileId of the file.
    */
   fileParentId?: string;
+  /**
+   * When a file is leased, specifies whether the lease is of infinite or fixed duration. Possible
+   * values include: 'infinite', 'fixed'
+   */
+  leaseDuration?: LeaseDurationType;
+  /**
+   * Lease state of the file. Possible values include: 'available', 'leased', 'expired',
+   * 'breaking', 'broken'
+   */
+  leaseState?: LeaseStateType;
+  /**
+   * The current lease status of the file. Possible values include: 'locked', 'unlocked'
+   */
+  leaseStatus?: LeaseStatusType;
   errorCode?: string;
 }
 
@@ -2101,6 +2338,20 @@ export interface FileGetPropertiesHeaders {
    * The parent fileId of the file.
    */
   fileParentId?: string;
+  /**
+   * When a file is leased, specifies whether the lease is of infinite or fixed duration. Possible
+   * values include: 'infinite', 'fixed'
+   */
+  leaseDuration?: LeaseDurationType;
+  /**
+   * Lease state of the file. Possible values include: 'available', 'leased', 'expired',
+   * 'breaking', 'broken'
+   */
+  leaseState?: LeaseStateType;
+  /**
+   * The current lease status of the file. Possible values include: 'locked', 'unlocked'
+   */
+  leaseStatus?: LeaseStatusType;
   errorCode?: string;
 }
 
@@ -2216,6 +2467,166 @@ export interface FileSetMetadataHeaders {
    * encrypted using the specified algorithm, and false otherwise.
    */
   isServerEncrypted?: boolean;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for AcquireLease operation.
+ */
+export interface FileAcquireLeaseHeaders {
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
+   */
+  etag?: string;
+  /**
+   * Returns the date and time the file was last modified. Any operation that modifies the file,
+   * including an update of the file's metadata or properties, changes the last-modified time of
+   * the file.
+   */
+  lastModified?: Date;
+  /**
+   * Uniquely identifies a file's lease
+   */
+  leaseId?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date?: Date;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for ReleaseLease operation.
+ */
+export interface FileReleaseLeaseHeaders {
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
+   */
+  etag?: string;
+  /**
+   * Returns the date and time the file was last modified. Any operation that modifies the file,
+   * including an update of the file's metadata or properties, changes the last-modified time of
+   * the file.
+   */
+  lastModified?: Date;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date?: Date;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for ChangeLease operation.
+ */
+export interface FileChangeLeaseHeaders {
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
+   */
+  etag?: string;
+  /**
+   * Returns the date and time the file was last modified. Any operation that modifies the file,
+   * including an update of the file's metadata or properties, changes the last-modified time of
+   * the file.
+   */
+  lastModified?: Date;
+  /**
+   * Uniquely identifies a file's lease
+   */
+  leaseId?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date?: Date;
+  errorCode?: string;
+}
+
+/**
+ * Defines headers for BreakLease operation.
+ */
+export interface FileBreakLeaseHeaders {
+  /**
+   * The ETag contains a value that you can use to perform operations conditionally. If the request
+   * version is 2011-08-18 or newer, the ETag value will be in quotes.
+   */
+  etag?: string;
+  /**
+   * Returns the date and time the file was last modified. Any operation that modifies the file,
+   * including an update of the file's metadata or properties, changes the last-modified time of
+   * the file.
+   */
+  lastModified?: Date;
+  /**
+   * Uniquely identifies a file's lease
+   */
+  leaseId?: string;
+  /**
+   * If a client request id header is sent in the request, this header will be present in the
+   * response with the same value.
+   */
+  clientRequestId?: string;
+  /**
+   * This header uniquely identifies the request that was made and can be used for troubleshooting
+   * the request.
+   */
+  requestId?: string;
+  /**
+   * Indicates the version of the File service used to execute the request.
+   */
+  version?: string;
+  /**
+   * UTC date/time value generated by the service that indicates the time at which the response was
+   * initiated
+   */
+  date?: Date;
   errorCode?: string;
 }
 
@@ -2451,6 +2862,10 @@ export interface FileForceCloseHandlesHeaders {
    * Contains count of number of handles closed.
    */
   numberOfHandlesClosed?: number;
+  /**
+   * Contains count of number of handles that failed to close.
+   */
+  numberOfHandlesFailedToClose?: number;
   errorCode?: string;
 }
 
@@ -2481,6 +2896,14 @@ export interface FileForceCloseHandlesHeaders {
 export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'CannotDeleteFileOrDirectory' | 'ClientCacheFlushDelay' | 'DeletePending' | 'DirectoryNotEmpty' | 'FileLockConflict' | 'InvalidFileOrDirectoryPathName' | 'ParentNotFound' | 'ReadOnlyAttribute' | 'ShareAlreadyExists' | 'ShareBeingDeleted' | 'ShareDisabled' | 'ShareNotFound' | 'SharingViolation' | 'ShareSnapshotInProgress' | 'ShareSnapshotCountExceeded' | 'ShareSnapshotOperationNotSupported' | 'ShareHasSnapshots' | 'ContainerQuotaDowngradeNotAllowed' | 'AuthorizationSourceIPMismatch' | 'AuthorizationProtocolMismatch' | 'AuthorizationPermissionMismatch' | 'AuthorizationServiceMismatch' | 'AuthorizationResourceTypeMismatch' | 'FeatureVersionMismatch';
 
 /**
+ * Defines values for PermissionCopyModeType.
+ * Possible values include: 'source', 'override'
+ * @readonly
+ * @enum {string}
+ */
+export type PermissionCopyModeType = 'source' | 'override';
+
+/**
  * Defines values for DeleteSnapshotsOptionType.
  * Possible values include: 'include'
  * @readonly
@@ -2503,6 +2926,30 @@ export type ListSharesIncludeType = 'snapshots' | 'metadata';
  * @enum {string}
  */
 export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
+
+/**
+ * Defines values for LeaseDurationType.
+ * Possible values include: 'infinite', 'fixed'
+ * @readonly
+ * @enum {string}
+ */
+export type LeaseDurationType = 'infinite' | 'fixed';
+
+/**
+ * Defines values for LeaseStateType.
+ * Possible values include: 'available', 'leased', 'expired', 'breaking', 'broken'
+ * @readonly
+ * @enum {string}
+ */
+export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
+
+/**
+ * Defines values for LeaseStatusType.
+ * Possible values include: 'locked', 'unlocked'
+ * @readonly
+ * @enum {string}
+ */
+export type LeaseStatusType = 'locked' | 'unlocked';
 
 /**
  * Defines values for FileRangeWriteType.
@@ -3023,6 +3470,66 @@ export type FileSetMetadataResponse = FileSetMetadataHeaders & {
        * The parsed HTTP response headers.
        */
       parsedHeaders: FileSetMetadataHeaders;
+    };
+};
+
+/**
+ * Contains response data for the acquireLease operation.
+ */
+export type FileAcquireLeaseResponse = FileAcquireLeaseHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileAcquireLeaseHeaders;
+    };
+};
+
+/**
+ * Contains response data for the releaseLease operation.
+ */
+export type FileReleaseLeaseResponse = FileReleaseLeaseHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileReleaseLeaseHeaders;
+    };
+};
+
+/**
+ * Contains response data for the changeLease operation.
+ */
+export type FileChangeLeaseResponse = FileChangeLeaseHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileChangeLeaseHeaders;
+    };
+};
+
+/**
+ * Contains response data for the breakLease operation.
+ */
+export type FileBreakLeaseResponse = FileBreakLeaseHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FileBreakLeaseHeaders;
     };
 };
 
