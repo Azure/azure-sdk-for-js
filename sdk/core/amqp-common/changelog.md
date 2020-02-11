@@ -1,3 +1,9 @@
+### 2020-02-11 1.0.0-preview.10
+
+- Improves bundling support by updating `rhea` dependency and removing reference
+  to the `dns` module in browser builds.
+  Fixes [bug 5364](https://github.com/Azure/azure-sdk-for-js/issues/5364).
+
 ### 2019-12-10 1.0.0-preview.9
 
 - Improved detection of when an established socket is no longer receiving data from the service.

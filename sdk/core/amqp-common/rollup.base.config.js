@@ -106,17 +106,13 @@ export function browserConfig(test = false) {
       // TODO: get these into rhea's pkg.browser field
       // dotenv doesn't work in the browser, so replace it with a no-op function
       shim({
-        fs: `export default {}`,
-        net: `export default {}`,
-        tls: `export default {}`,
         dotenv: `export function config() { }`,
         os: `
           export function arch() { return "javascript" }
           export function type() { return "Browser" }
           export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
         `,
-        path: `export default {}`,
-        dns: `export function resolve() { }`
+        path: `export default {}`
       }),
 
       nodeResolve({
