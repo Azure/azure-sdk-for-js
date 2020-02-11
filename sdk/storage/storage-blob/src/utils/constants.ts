@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-export const SDK_VERSION: string = "12.0.3";
-export const SERVICE_VERSION: string = "2019-02-02";
+export const SDK_VERSION: string = "12.1.0";
+export const SERVICE_VERSION: string = "2019-07-07";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
 export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 100 * 1024 * 1024; // 100MB
@@ -66,7 +66,6 @@ export const BATCH_MAX_REQUEST = 256;
 export const BATCH_MAX_PAYLOAD_IN_BYTES = 4 * SIZE_1_MB;
 export const HTTP_LINE_ENDING = "\r\n";
 export const HTTP_VERSION_1_1 = "HTTP/1.1";
-export const SNAPSHOT_URL_SCHEME = "http";
 
 export const EncryptionAlgorithmAES25 = "AES256";
 

@@ -185,7 +185,7 @@ describe("PageBlobClient", () => {
     assert.equal(rangesDiff.clearRange![0].count, 511);
   });
 
-  it("getPageRangesDiff with URL", async function () {
+  it("getPageRangesDiffForManagedDisks", async function () {
     let mdBlobServiceClient: BlobServiceClient;
     try {
       mdBlobServiceClient = getGenericBSU("MD_", "");
@@ -214,7 +214,7 @@ describe("PageBlobClient", () => {
     await mdPageBlobClient.clearPages(512, 512);
 
     const snapshotUrl = mdPageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
-    const rangesDiff = await mdPageBlobClient.getPageRangesDiff(0, 1024, snapshotUrl);
+    const rangesDiff = await mdPageBlobClient.getPageRangesDiffForManagedDisks(0, 1024, snapshotUrl);
 
     assert.equal(rangesDiff.pageRange![0].offset, 0);
     assert.equal(rangesDiff.pageRange![0].count, 511);

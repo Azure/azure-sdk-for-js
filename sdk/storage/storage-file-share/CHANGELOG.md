@@ -6,6 +6,7 @@
 - New SMB parameters for file copy.
 - Force Close Handles Response now includes the number of handles that failed to close.
 - `ShareProperties` now has 4 additional properties for premium file shares.
+- Fixed a bug where the package didn't work as expected when bundling web applications. [PR #7298](https://github.com/Azure/azure-sdk-for-js/pull/7298)
 
 ## 12.0.1 (2020.01)
 
