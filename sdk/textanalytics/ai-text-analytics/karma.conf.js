@@ -4,7 +4,7 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
-const { jsonRecordingFilterFunction, isPlaybackMode } = require("@azure/test-utils-recorder");
+const { jsonRecordingFilterFunction, isPlaybackMode, isSoftRecordMode, isRecordMode } = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -32,7 +32,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: ["dist-test/index.browser.js"].concat(
-      isPlaybackMode() ? ["recordings/browsers/**/*.json"] : []
+      (isPlaybackMode() || isSoftRecordMode()) ? ["recordings/browsers/**/*.json"] : []
     ),
 
     // list of files / patterns to exclude
@@ -127,7 +127,7 @@ module.exports = function(config) {
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
-      terminal: process.env.TEST_MODE !== "record"
+      terminal: !isRecordMode()
     },
 
     client: {

@@ -7,7 +7,9 @@ import {
   isRecordMode,
   isPlaybackMode,
   RecorderEnvironmentSetup,
-  env
+  env,
+  isSoftRecordMode,
+  testHasChanged
 } from "./utils";
 import {
   NiseRecorder,
@@ -16,6 +18,7 @@ import {
   setEnvironmentOnLoad,
   setEnvironmentVariables
 } from "./baseRecorder";
+import MD5 from "md5";
 
 /**
  * @export
@@ -28,7 +31,7 @@ export interface Recorder {
    */
   stop(): void;
   /**
-   * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
+   * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
    * If the `{runtime}` is `{undefined}`, the test will be skipped in both the node and browser runtimes.
    * Has no effect in the live test mode.
    */
@@ -88,12 +91,26 @@ export function record(
     testTitle = testContext.test!.title;
   }
 
+  const stringTest = testContext.currentTest!.fn!.toString();
+  const currentHash = MD5(stringTest);
+  const testAbsolutePath = testContext.currentTest!.file!;
+
+  if (
+    isSoftRecordMode() &&
+    !testHasChanged(testHierarchy, testTitle, testAbsolutePath, currentHash)
+  ) {
+    testContext.test!.title = `${
+      testContext.test!.title
+    } (Test unchanged since last recording)`;
+    testContext.skip();
+  }
+
   setEnvironmentOnLoad();
 
   if (isBrowser()) {
-    recorder = new NiseRecorder(testHierarchy, testTitle);
+    recorder = new NiseRecorder(currentHash, testHierarchy, testTitle);
   } else {
-    recorder = new NockRecorder(testHierarchy, testTitle);
+    recorder = new NockRecorder(currentHash, testHierarchy, testTitle);
   }
 
   if (isRecordMode()) {
@@ -103,18 +120,21 @@ export function record(
   } else if (isPlaybackMode()) {
     // If TEST_MODE=playback,
     //  1. sets up the ENV variables
-    //  2. invokes the recorder, play the exisiting test recording.
+    //  2. invokes the recorder, play the existing test recording.
     setEnvironmentVariables(env, recorderEnvironmentSetup.replaceableVariables);
-    recorder.playback(recorderEnvironmentSetup, testContext.currentTest!.file!);
+    recorder.playback(recorderEnvironmentSetup, testAbsolutePath);
   }
   // If TEST_MODE=live, hits the live-service and no recordings are generated.
 
   return {
     stop: function() {
-      recorder.stop();
+      // We check wether we're on record or playback inside of the recorder's stop method.
+      if (recorder) {
+        recorder.stop();
+      }
     },
     /**
-     * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
+     * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
      * `{recorder.skip()}` If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes.
      * @param runtime Can either be `"node"` or `"browser"` or `undefined`
      * @param reason Reason for skipping the test
