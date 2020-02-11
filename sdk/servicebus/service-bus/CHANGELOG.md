@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.4 (Unreleased)
+
+
 ## 1.1.3 (2020-02-11)
 
 - Fixes issue where the promise returned by `receiveMessages` would sometimes fail to settle when the underlying connection
