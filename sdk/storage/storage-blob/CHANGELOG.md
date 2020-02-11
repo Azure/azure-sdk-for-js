@@ -2,7 +2,8 @@
 
 ## 12.1.0 (2020.02)
 - Updated Azure Storage Service API version to 2019-07-07.
-- Add support for Encryptions Scopes, which is similar to regular CPK, except the encryption key is provided by name.
+- Add support for Encryption Scope, which is similar to regular CPK, except the encryption key is provided by name.
+- MD5 and CRC headers for Blob Copy: add `contentMD5`and `xMsContentCrc64` to `BlobCopyFromURLHeaders` and `sourceContentMD5` to `BlobSyncCopyFromURLOptions`.
 
 ## 12.0.2 (2020.01)
 
