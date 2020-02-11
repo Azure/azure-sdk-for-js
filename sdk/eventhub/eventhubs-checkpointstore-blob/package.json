@@ -21,7 +21,7 @@
   "module": "dist-esm/src/index.js",
   "types": "./typings/eventhubs-checkpointstore-blob.d.ts",
   "browser": {
-    "./dist/index.js": "./browser/index.js"
+    "./dist/index.js": "./dist-browser/index.js"
   },
   "engine": {
     "node": ">=8.0.0"
