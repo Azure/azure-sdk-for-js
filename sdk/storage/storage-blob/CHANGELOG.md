@@ -1,5 +1,9 @@
 # Release History
 
+## 12.1.0 (2020.02)
+- Updated Azure Storage Service API version to 2019-07-07.
+- Add support for Encryptions Scopes, which is similar to regular CPK, except the encryption key is provided by name.
+
 ## 12.0.2 (2020.01)
 
 - Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6753](https://github.com/Azure/azure-sdk-for-js/pull/6753)
