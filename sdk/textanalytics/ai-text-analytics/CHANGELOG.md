@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.0-preview.3 (Unreleased)
+
+
 ## 1.0.0-preview.2 (2020-02-11)
 
 - Added support for rotating API keys via the `TextAnalyticsApiKeyCredential.updateKey` method. #6972
