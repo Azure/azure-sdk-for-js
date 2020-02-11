@@ -25,8 +25,6 @@ import {
   TestMessage,
   getServiceBusClient
 } from "./utils/testUtils";
-// import { SasTokenProvider, TokenInfo, parseConnectionString } from "@azure/amqp-common";
-// import { getEnvVars, EnvVarNames } from "./utils/envVarUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import { AccessToken, parseConnectionString, TokenCredential } from "@azure/core-amqp";

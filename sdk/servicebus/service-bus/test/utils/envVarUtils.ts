@@ -33,26 +33,15 @@ let envVars: any;
 /**
  * Utility to return cached map of environment variables,
  * or create and return one from configured values if not existing.
- *
- * The utility helps use the right environment variable name based on targetted platform and type.
- * Specifically, we use different Service Bus namespaces for browser Vs node test runs.
- * Thus, the connection string value is retrieved from `SERVICE_BUS_CONNECTION_STRING_BROWSER`
- * environment variable name for browser, and from `SERVICE_BUS_CONNECTION_STRING` for Node.
  */
 export function getEnvVars(): { [key in EnvVarNames]: any } {
   if (envVars != undefined) {
     return envVars;
   }
 
-  let serviceBusConnectionStringEnvVarName: string = EnvVarNames.SERVICEBUS_CONNECTION_STRING.valueOf();
-
-  if (!isNode) {
-    serviceBusConnectionStringEnvVarName += "_BROWSER";
-  }
-
   // Throw error if required environment variables are missing.
   [
-    serviceBusConnectionStringEnvVarName,
+    EnvVarNames.SERVICEBUS_CONNECTION_STRING,
     EnvVarNames.AZURE_CLIENT_ID,
     EnvVarNames.AZURE_CLIENT_SECRET,
     EnvVarNames.AZURE_TENANT_ID
@@ -64,7 +53,7 @@ export function getEnvVars(): { [key in EnvVarNames]: any } {
 
   envVars = {
     [EnvVarNames.SERVICEBUS_CONNECTION_STRING]: getEnvVarValue(
-      serviceBusConnectionStringEnvVarName
+      EnvVarNames.SERVICEBUS_CONNECTION_STRING
     ),
     [EnvVarNames.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarNames.AZURE_CLIENT_ID),
     [EnvVarNames.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarNames.AZURE_CLIENT_SECRET),

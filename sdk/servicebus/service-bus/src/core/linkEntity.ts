@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { defaultLock, TokenType, AccessToken, Constants, SharedKeyCredential } from "@azure/core-amqp";
+import {
+  defaultLock,
+  TokenType,
+  AccessToken,
+  Constants,
+  SharedKeyCredential
+} from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";
 import { Sender, Receiver } from "rhea-promise";
@@ -131,7 +137,9 @@ export class LinkEntity {
       // renew sas token in every 45 minutess
       this._tokenTimeout = (3600 - 900) * 1000;
     } else {
-      const aadToken = await this._context.namespace.tokenCredential.getToken(Constants.aadServiceBusScope);
+      const aadToken = await this._context.namespace.tokenCredential.getToken(
+        Constants.aadServiceBusScope
+      );
       if (!aadToken) {
         throw new Error(`Failed to get token from the provided "TokenCredential" object`);
       }
@@ -145,9 +153,6 @@ export class LinkEntity {
       this._type,
       this.audience
     );
-    if (!tokenObject) {
-      throw new Error("Token cannot be null");
-    }
     // Acquire the lock to negotiate the CBS claim.
     log.link(
       "[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
@@ -161,7 +166,11 @@ export class LinkEntity {
       throw new Error("Token cannot be null");
     }
     await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
-      return this._context.namespace.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
+      return this._context.namespace.cbsSession.negotiateClaim(
+        this.audience,
+        tokenObject,
+        tokenType
+      );
     });
     log.link(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
