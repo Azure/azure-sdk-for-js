@@ -1,5 +1,8 @@
 # Release History
 
+## 5.0.2 (Unreleased)
+
+
 ## 5.0.1 (2020-02-11)
 
 - Fixed a potential issue with deadlock where greedy consumers could
