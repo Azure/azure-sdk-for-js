@@ -87,8 +87,6 @@
     "is-buffer": "^2.0.3",
     "long": "^4.0.0",
     "process": "^0.11.10",
-    "rhea": "^1.0.18",
-    "rhea-promise": "^1.0.0",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
