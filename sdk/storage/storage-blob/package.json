@@ -16,18 +16,26 @@
     "os": false,
     "process": false
   },
-  "types": "./typings/src/index.d.ts",
+  "types": "./typings/latest/src/index.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "*": [
+        "./typings/3.1/src/index.d.ts"
+      ]
+    }
+  },
   "engine": {
     "node": ">=8.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:autorest": "autorest ./swagger/README.md --typescript --package-version=12.1.0 --use=@microsoft.azure/autorest.typescript@5.0.1",
-    "build:es6": "tsc -p tsconfig.json",
+    "build:es6": "tsc -p tsconfig.json && npm run build:types",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "npm run clean && npm run build:es6 && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run build:prep-samples",
     "build:prep-samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
+    "build:types": "downlevel-dts typings/latest typings/3.1",
     "build": "npm run build:es6 && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
@@ -58,7 +66,8 @@
     "dist-esm/src/",
     "LICENSE",
     "src/",
-    "typings/src",
+    "typings/latest/src",
+    "typings/3.1/src",
     "tsconfig.json"
   ],
   "repository": {
@@ -113,6 +122,7 @@
     "assert": "^1.4.1",
     "cross-env": "^6.0.3",
     "dotenv": "^8.2.0",
+    "downlevel-dts": "~0.4.0",
     "es6-promise": "^4.2.5",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
