@@ -489,7 +489,7 @@ Some HTTP requests might have parameters with sensitive information. To get
 them out of your recordings, you can call to `skipQueryParams` with an array of strings
 where you specify the names of the query parameter you want to remove.
 
-For example, give nthat we find this query parameters in our recordings:
+For example, given that we find this query parameters in our recordings:
 `?sv=2018-11-09&sr=c&sig=<sig>&sktid=<sktid>&skv=2018-11-09&se=2019-08-07T07%3A00%3A00Z&sp=rwdl`,
 if we don't want the parameters "sr", "sig" and "sp" to appear in these files, we can do the following:
 
