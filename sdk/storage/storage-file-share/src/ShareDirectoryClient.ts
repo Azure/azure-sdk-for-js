@@ -69,7 +69,7 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
 
 export interface DirectoryProperties
   extends FileAndDirectorySetPropertiesCommonOptions,
-    CommonOptions {
+  CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -1308,6 +1308,7 @@ export class ShareDirectoryClient extends StorageClient {
       });
       const response = rawResponse as DirectoryForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
+      response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
     } catch (e) {
       span.setStatus({
@@ -1337,6 +1338,7 @@ export class ShareDirectoryClient extends StorageClient {
     );
     try {
       let handlesClosed = 0;
+      let numberOfHandlesFailedToClose = 0;
       let marker: string | undefined = "";
 
       do {
@@ -1346,9 +1348,10 @@ export class ShareDirectoryClient extends StorageClient {
         );
         marker = response.marker;
         response.closedHandlesCount && (handlesClosed += response.closedHandlesCount);
+        response.closeFailureCount && (numberOfHandlesFailedToClose += response.closeFailureCount);
       } while (marker);
 
-      return { closedHandlesCount: handlesClosed };
+      return { closedHandlesCount: handlesClosed, closeFailureCount: numberOfHandlesFailedToClose };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1393,6 +1396,7 @@ export class ShareDirectoryClient extends StorageClient {
       });
       const response = rawResponse as DirectoryForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
+      response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
     } catch (e) {
       span.setStatus({
