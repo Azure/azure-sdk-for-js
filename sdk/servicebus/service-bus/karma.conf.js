@@ -49,7 +49,6 @@ module.exports = function(config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "SERVICEBUS_CONNECTION_STRING",
-      "SERVICEBUS_CONNECTION_STRING_BROWSER",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID"
