@@ -80,7 +80,6 @@ describe("Containers", function() {
       ];
       containerDef.geospatialConfig.type = GeospatialType.Geometry;
       const { resource: replacedContainer } = await container.replace(containerDef);
-      console.log(replacedContainer);
       assert.equal("lazy", replacedContainer.indexingPolicy.indexingMode);
 
       // Replacing partition key is not allowed.
