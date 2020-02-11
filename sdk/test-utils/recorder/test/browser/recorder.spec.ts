@@ -30,12 +30,18 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
 /**
  * A function that generates another function with a predictable shape, even after compiling it to the browser.
  */
-const getNoOpFunction = () => eval("() => {}");
+const getNoOpFunction = () => {
+  /* istanbul ignore next */
+  return () => {}
+};
 
 /**
  * Another function that generates another function with a predictable shape, even after compiling it to the browser.
  */
-const getAnotherNoOpFunction = () => eval("x => x");
+const getAnotherNoOpFunction = () => {
+  /* istanbul ignore next */
+  return (x: any) => x;
+}
 
 describe("The recorder's public API, on a browser", () => {
   afterEach(() => {
@@ -107,7 +113,7 @@ describe("The recorder's public API, on a browser", () => {
             uniqueName: {},
             newDate: {}
           },
-          hash: "f21244a78addd0fc85c04222825c484e"
+          hash: "7c1368cdbc23988b15934bf7655c765b"
         }
       })
     );
@@ -235,7 +241,7 @@ describe("The recorder's public API, on a browser", () => {
             uniqueName: {},
             newDate: {}
           },
-          hash: "7073929e2ed9b8bd3aa435866c8e9b93"
+          hash: "83c0614e97dffe335d5edf4d772981a1"
         }
       })
     );
@@ -258,7 +264,7 @@ describe("The recorder's public API, on a browser", () => {
         ],
         uniqueTestInfo: { uniqueName: {}, newDate: {} },
         // This is the expected hash
-        hash: "f21244a78addd0fc85c04222825c484e"
+        hash: "7c1368cdbc23988b15934bf7655c765b"
       }
     };
 
