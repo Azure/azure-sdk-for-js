@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.1 (TBD)
+## 5.0.1 (2020-02-11)
 
 - Fixed a potential issue with deadlock where greedy consumers could
   starve out other consumers, preventing us from properly balancing.

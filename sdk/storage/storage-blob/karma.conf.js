@@ -7,7 +7,7 @@ module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
-
+    
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ["mocha"],
@@ -51,7 +51,7 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS", "TEST_MODE", "ACCOUNT_TOKEN"],
+    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS", "TEST_MODE", "ACCOUNT_TOKEN", "MD_ACCOUNT_NAME", "MD_ACCOUNT_SAS", "ENCRYPTION_SCOPE_1", "ENCRYPTION_SCOPE_2"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
