@@ -87,7 +87,8 @@
     "is-buffer": "^2.0.3",
     "long": "^4.0.0",
     "process": "^0.11.10",
-    "tslib": "^1.10.0"
+    "tslib": "^1.10.0",
+    "rhea-promise": "^1.0.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
