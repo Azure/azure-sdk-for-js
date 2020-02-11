@@ -1,7 +1,7 @@
 {
   "name": "@azure/amqp-common",
   "sdk-type": "client",
-  "version": "1.0.0-preview.9",
+  "version": "1.0.0-preview.10",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "is-buffer": "^2.0.3",
     "jssha": "^2.3.1",
     "process": "^0.11.10",
-    "rhea": "^1.0.15",
+    "rhea": "^1.0.18",
     "rhea-promise": "^0.1.15",
     "stream-browserify": "^2.0.2",
     "tslib": "^1.9.3",
@@ -29,6 +29,7 @@
   "browser": {
     "./dist/index.js": "./browser/index.js",
     "./dist-esm/src/index.node.js": "./dist-esm/src/index.browser.js",
+    "./dist-esm/src/util/checkNetworkConnection.js": "./dist-esm/src/util/checkNetworkConnection.browser.js",
     "buffer": "buffer",
     "stream": "stream-browserify"
   },
