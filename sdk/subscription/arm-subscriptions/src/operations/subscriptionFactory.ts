@@ -28,18 +28,34 @@ export class SubscriptionFactory {
   }
 
   /**
-   * The operation to create a new Azure subscription
+   * The operation to create a new WebDirect or EA Azure subscription.
    * @param billingAccountName The name of the Microsoft Customer Agreement billing account for which
    * you want to create the subscription.
+   * @param billingProfileName The name of the billing profile in the billing account for which you
+   * want to create the subscription.
    * @param invoiceSectionName The name of the invoice section in the billing account for which you
    * want to create the subscription.
    * @param body The subscription creation parameters.
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>
    */
-  createSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionResponse> {
-    return this.beginCreateSubscription(billingAccountName,invoiceSectionName,body,options)
+  createSubscription(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateSubscriptionResponse> {
+    return this.beginCreateSubscription(billingAccountName,billingProfileName,invoiceSectionName,body,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionFactoryCreateSubscriptionResponse>;
+  }
+
+  /**
+   * The operation to create a new CSP subscription.
+   * @param billingAccountName The name of the Microsoft Customer Agreement billing account for which
+   * you want to create the subscription.
+   * @param customerName The name of the customer.
+   * @param body The subscription creation parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionFactoryCreateCspSubscriptionResponse>
+   */
+  createCspSubscription(billingAccountName: string, customerName: string, body: Models.ModernCspSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionFactoryCreateCspSubscriptionResponse> {
+    return this.beginCreateCspSubscription(billingAccountName,customerName,body,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionFactoryCreateCspSubscriptionResponse>;
   }
 
   /**
@@ -56,24 +72,48 @@ export class SubscriptionFactory {
   }
 
   /**
-   * The operation to create a new Azure subscription
+   * The operation to create a new WebDirect or EA Azure subscription.
    * @param billingAccountName The name of the Microsoft Customer Agreement billing account for which
    * you want to create the subscription.
+   * @param billingProfileName The name of the billing profile in the billing account for which you
+   * want to create the subscription.
    * @param invoiceSectionName The name of the invoice section in the billing account for which you
    * want to create the subscription.
    * @param body The subscription creation parameters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateSubscription(billingAccountName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateSubscription(billingAccountName: string, billingProfileName: string, invoiceSectionName: string, body: Models.ModernSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         billingAccountName,
+        billingProfileName,
         invoiceSectionName,
         body,
         options
       },
       beginCreateSubscriptionOperationSpec,
+      options);
+  }
+
+  /**
+   * The operation to create a new CSP subscription.
+   * @param billingAccountName The name of the Microsoft Customer Agreement billing account for which
+   * you want to create the subscription.
+   * @param customerName The name of the customer.
+   * @param body The subscription creation parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateCspSubscription(billingAccountName: string, customerName: string, body: Models.ModernCspSubscriptionCreationParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        billingAccountName,
+        customerName,
+        body,
+        options
+      },
+      beginCreateCspSubscriptionOperationSpec,
       options);
   }
 
@@ -101,9 +141,10 @@ export class SubscriptionFactory {
 const serializer = new msRest.Serializer(Mappers);
 const beginCreateSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Subscription/createSubscription",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Subscription/createSubscription",
   urlParameters: [
     Parameters.billingAccountName,
+    Parameters.billingProfileName,
     Parameters.invoiceSectionName
   ],
   queryParameters: [
@@ -126,6 +167,41 @@ const beginCreateSubscriptionOperationSpec: msRest.OperationSpec = {
     },
     202: {
       headersMapper: Mappers.SubscriptionFactoryCreateSubscriptionHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginCreateCspSubscriptionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/providers/Microsoft.Subscription/createSubscription",
+  urlParameters: [
+    Parameters.billingAccountName,
+    Parameters.customerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "body",
+    mapper: {
+      ...Mappers.ModernCspSubscriptionCreationParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionCreationResult,
+      headersMapper: Mappers.SubscriptionFactoryCreateCspSubscriptionHeaders
+    },
+    202: {
+      headersMapper: Mappers.SubscriptionFactoryCreateCspSubscriptionHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
