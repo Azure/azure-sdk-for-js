@@ -8,6 +8,7 @@ export {
   isPlaybackMode,
   isRecordMode,
   isLiveMode,
+  isSoftRecordMode,
   RecorderEnvironmentSetup
 } from "./utils";
 export { jsonRecordingFilterFunction } from "./basekarma.conf";
