@@ -142,9 +142,7 @@ export class QueryIterator<T> {
     let response: Response<any>;
     try {
       response = await this.queryExecutionContext.fetchMore();
-      console.log(response);
     } catch (error) {
-      console.log(error);
       if (this.needsQueryPlan(error)) {
         await this.createPipelinedExecutionContext();
         try {
