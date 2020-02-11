@@ -316,7 +316,7 @@ const main = async () => {
 
     if (args.dump) {
       const internalPackages = Object.keys(rushPackages);
-      const dumpData = dumpRushPackages(context.packages, args.external);
+      const dumpData = dumpRushPackages(context.packages, internalPackages, args.external);
       const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../common/config/rush/pnpm-lock.yaml`));
       for (const pkgId of Object.keys(dumpData)) {
         resolveRushPackageDeps(dumpData, internalPackages, pnpmLock, pkgId, args.external);
