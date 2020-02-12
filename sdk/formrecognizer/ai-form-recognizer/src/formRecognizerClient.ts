@@ -19,7 +19,7 @@ import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
-import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
+import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -67,12 +67,12 @@ export class FormRecognizerClient {
    * );
    * ```
    * @param {string} endpointUrl The URL to the FormRecognizer endpoint
-   * @param {TokenCredential | FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
+   * @param {TokenCredential | CognitiveKeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the FormRecognizer client.
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential | FormRecognizerApiKeyCredential,
+    credential: TokenCredential | CognitiveKeyCredential,
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;

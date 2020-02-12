@@ -2,6 +2,6 @@
 // Licensed under the MIT license.
 
 export { FormRecognizerClient, FormRecognizerClientOptions } from "./formRecognizerClient";
-export { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
+export { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 
 export { GetCustomModelsResponse } from "./generated/models";
