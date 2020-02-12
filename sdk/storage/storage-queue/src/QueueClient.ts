@@ -45,7 +45,6 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { Metadata } from "./models";
-import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure {@link QueueClient.create} operation
@@ -497,12 +496,7 @@ export class QueueClient extends StorageClient {
       | string,
     options?: StoragePipelineOptions
   ) {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
+    options = options || {};
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
@@ -516,7 +510,7 @@ export class QueueClient extends StorageClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      pipeline = newPipeline(credentialOrPipelineOrQueueName, newOptions);
+      pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
@@ -524,7 +518,7 @@ export class QueueClient extends StorageClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second paramter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
@@ -539,15 +533,15 @@ export class QueueClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, queueName);
-          newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          pipeline = newPipeline(sharedKeyCredential, newOptions);
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
         url = appendToURLPath(extractedCreds.url, queueName) + "?" + extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), newOptions);
+        pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
