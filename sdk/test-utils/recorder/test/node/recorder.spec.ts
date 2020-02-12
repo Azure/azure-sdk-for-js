@@ -125,7 +125,8 @@ describe("The recorder's public API, on NodeJS", () => {
   });
 
   it("should playback a simple test", async function() {
-    process.env.TEST_MODE = "playback";
+    // The recorder will assume that it is in playback mode by default.
+    // process.env.TEST_MODE = "playback";
 
     // Making sure the expected recording actually exists before running playback.
     const fs = require("fs");

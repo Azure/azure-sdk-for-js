@@ -126,7 +126,8 @@ describe("The recorder's public API, on a browser", () => {
   it("should playback a simple test", async function() {
     // Setting up the playback mode.
     // The PATH environment variable is not needed on playback.
-    (window as any).__env__.TEST_MODE = "playback";
+    // The recorder will assume that it is in playback mode by default.
+    // (window as any).__env__.TEST_MODE = "playback";
 
     // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
     (window as any).__json__ = {
