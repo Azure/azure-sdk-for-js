@@ -3006,6 +3006,12 @@ export const BlobServiceProperties: msRest.CompositeMapper = {
           className: "DeleteRetentionPolicy"
         }
       },
+      isVersioningEnabled: {
+        serializedName: "properties.isVersioningEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
       automaticSnapshotPolicyEnabled: {
         serializedName: "properties.automaticSnapshotPolicyEnabled",
         type: {
