@@ -102,7 +102,7 @@ export function browserConfig(test = false) {
     input: input,
     external: [],
     output: {
-      file: "browser/service-bus.js",
+      file: "dist-browser/service-bus.js",
       format: "umd",
       name: "Azure.Messaging.ServiceBus",
       sourcemap: true
