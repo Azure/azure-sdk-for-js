@@ -1,5 +1,8 @@
 # Release History
 
+## 3.6.1 (Unreleased)
+
+
 ## 3.6.0 (2020-2-10)
 
 - FEATURE: Add support for spatial indexing, bounding boxes, and geospatial configuration
