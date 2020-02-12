@@ -1,7 +1,8 @@
 import { RecorderEnvironmentSetup } from "../../src/utils";
-import chai from "chai";
 import { record } from "../../src";
 import xhrMock from "xhr-mock";
+import MD5 from "md5";
+import chai from "chai";
 const { expect } = chai;
 
 const expectedHttpResponse = "Hello World!";
@@ -116,7 +117,7 @@ describe("The recorder's public API, on a browser", () => {
             uniqueName: {},
             newDate: {}
           },
-          hash: "7c1368cdbc23988b15934bf7655c765b"
+          hash: MD5(getNoOpFunction().toString())
         }
       })
     );
@@ -250,7 +251,7 @@ describe("The recorder's public API, on a browser", () => {
             uniqueName: {},
             newDate: {}
           },
-          hash: "83c0614e97dffe335d5edf4d772981a1"
+          hash: MD5(getAnotherNoOpFunction().toString())
         }
       })
     );
@@ -273,7 +274,7 @@ describe("The recorder's public API, on a browser", () => {
         ],
         uniqueTestInfo: { uniqueName: {}, newDate: {} },
         // This is the expected hash
-        hash: "7c1368cdbc23988b15934bf7655c765b"
+        hash: MD5(getNoOpFunction().toString())
       }
     };
 

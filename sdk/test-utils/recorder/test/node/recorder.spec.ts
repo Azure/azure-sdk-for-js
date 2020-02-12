@@ -1,12 +1,15 @@
 import { RecorderEnvironmentSetup, delay, stripNewLines } from "../../src/utils";
-import chai from "chai";
 import { record } from "../../src";
+import MD5 from "md5";
+import chai from "chai";
 const { expect } = chai;
 
 const expectedHttpResponse = "Hello World!";
+const emptyFunction = () => {};
+const expectedHash = MD5(emptyFunction.toString());
 const expectedRecording = `let nock = require('nock');
 
-module.exports.hash = "11e537d0ca3f2ede6f3847dcbce1df9c";
+module.exports.hash = "${expectedHash}";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -88,7 +91,7 @@ describe("The recorder's public API, on NodeJS", () => {
       ...this,
       currentTest: {
         file: __filename,
-        fn: () => {}
+        fn: emptyFunction
       }
     };
 
@@ -137,7 +140,7 @@ describe("The recorder's public API, on NodeJS", () => {
     (this as any).currentTest = {
       file: __filename,
       // For this test, we don't care what's the content of the recorded function.
-      fn: () => {}
+      fn: emptyFunction
     };
 
     const recorder = record(this, recorderEnvSetup);
@@ -168,6 +171,11 @@ describe("The recorder's public API, on NodeJS", () => {
     });
     server.listen(8080);
 
+    const changedTestFunction = () => {
+      let the_contents_have_changed = true;
+      return the_contents_have_changed;
+    }
+
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
     // we're compensating with this.
@@ -175,10 +183,7 @@ describe("The recorder's public API, on NodeJS", () => {
       file: __filename,
       // The hash in our expected recording is made out of an empty function.
       // This function has something inside, which means it has changed.
-      fn: () => {
-        let the_contents_have_changed = true;
-        return the_contents_have_changed;
-      }
+      fn: changedTestFunction
     };
 
     const recorder = record(this, recorderEnvSetup);
@@ -206,8 +211,8 @@ describe("The recorder's public API, on NodeJS", () => {
     // Let's make a new expected recording variable,
     // this time with the new hash.
     const expectedRecordingWithUpdatedHash = recordingWithoutDate.replace(
-      "11e537d0ca3f2ede6f3847dcbce1df9c",
-      "64b9c884d95c9ec1db3ffe737fdd86ce"
+      expectedHash,
+      MD5(changedTestFunction.toString())
     );
 
     // The hash has changed in the recorded file.
@@ -231,7 +236,7 @@ describe("The recorder's public API, on NodeJS", () => {
       file: __filename,
       // The hash in our expected recording is made out of an empty function.
       // This function is empty, which means it remains the same.
-      fn: () => {}
+      fn: emptyFunction
     };
 
     // We have to mock this.skip in order to confirm that the recorder has called it.
