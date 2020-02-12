@@ -7,7 +7,6 @@
 export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
 export {
   TokenType,
-  DefaultDataTransformer,
   TokenCredential,
   DataTransformer,
   delay,
