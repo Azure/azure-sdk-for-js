@@ -13,11 +13,12 @@ import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
 import { MessageSession } from "./session/messageSession";
 import { SessionManager } from "./session/sessionManager";
+import { MessagingError } from "@azure/core-amqp";
 
 /**
  * @interface ClientEntityContext
  * Provides contextual information like the underlying amqp connection, cbs session,
- * management session, tokenProvider, senders, receivers, etc. about the ServiceBus client.
+ * management session, tokenCredential, senders, receivers, etc. about the ServiceBus client.
  * @internal
  */
 export interface ClientEntityContextBase {
@@ -148,10 +149,11 @@ export namespace ClientEntityContext {
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
       if (sessionId != undefined && entityContext.expiredMessageSessions[sessionId]) {
-        const error = new Error(
+        const error = new MessagingError(
           `The session lock has expired on the session with id ${sessionId}.`
         );
-        error.name = "SessionLockLostError";
+        error.code = "SessionLockLostError";
+        error.retryable = false;
         log.error(
           "[%s] Failed to find receiver '%s' as the session with id '%s' is expired",
           entityContext.namespace.connectionId,

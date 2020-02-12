@@ -10,7 +10,8 @@ import {
   SubscriptionClient,
   delay,
   ReceiveMode,
-  ServiceBusMessage
+  ServiceBusMessage,
+  MessagingError
 } from "../../src";
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
@@ -470,7 +471,7 @@ export function getNamespace(serviceBusConnectionString: string): string {
 
 export function getServiceBusClient(): ServiceBusClient {
   const env = getEnvVars();
-  return ServiceBusClient.createFromConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
+  return new ServiceBusClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
 }
 
 /**
@@ -502,4 +503,12 @@ export enum EntityNames {
   MANAGEMENT_RULE_2 = "management-rule-2",
   MANAGEMENT_NEW_ENTITY_1 = "management-new-entity-1",
   MANAGEMENT_NEW_ENTITY_2 = "management-new-entity-2"
+}
+
+/**
+ * Utility to check if given error is instance of `MessagingError`
+ * @param err
+ */
+export function isMessagingError(err: any): err is MessagingError {
+  return err.name === "MessagingError";
 }
