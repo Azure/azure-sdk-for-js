@@ -62,7 +62,7 @@ export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "browser/azure-ai-text-analytics.js",
+      file: "dist-browser/azure-ai-text-analytics.js",
       format: "umd",
       name: "Azure.CognitiveServicesTextAnalytics",
       sourcemap: true,
@@ -99,7 +99,7 @@ export function browserConfig(test = false, production = false) {
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
-      viz({ filename: "browser/browser-stats.html", sourcemap: false })
+      viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
     ]
   };
 
@@ -126,7 +126,7 @@ export function browserConfig(test = false, production = false) {
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
   } else if (production) {
-    baseConfig.output.file = "browser/azure-ai-text-analytics.min.js";
+    baseConfig.output.file = "dist-browser/azure-ai-text-analytics.min.js";
     baseConfig.plugins.push(terser());
   }
 
