@@ -1863,7 +1863,11 @@ export interface BlobServiceProperties extends Resource {
    */
   deleteRetentionPolicy?: DeleteRetentionPolicy;
   /**
-   * Automatic Snapshot is enabled if set to true.
+   * Versioning is enabled if set to true.
+   */
+  isVersioningEnabled?: boolean;
+  /**
+   * Deprecated in favor of isVersioningEnabled property.
    */
   automaticSnapshotPolicyEnabled?: boolean;
   /**
