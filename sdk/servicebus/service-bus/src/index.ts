@@ -12,7 +12,8 @@ export {
   DataTransformer,
   delay,
   MessagingError,
-  RetryOptions
+  RetryOptions,
+  WebSocketOptions
 } from "@azure/core-amqp";
 
 export { QueueClient } from "./queueClient";

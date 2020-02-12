@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
-
-import { WebSocketImpl } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { QueueClient } from "./queueClient";
 import { TopicClient } from "./topicClient";
@@ -15,6 +13,7 @@ import {
   isTokenCredential
 } from "@azure/core-amqp";
 import { SubscriptionClient } from "./subscriptionClient";
+import { WebSocketOptions } from "@azure/core-amqp";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
@@ -33,28 +32,6 @@ export interface ServiceBusClientOptions {
    * Options to configure the channelling of the AMQP connection over Web Sockets.
    */
   webSocketOptions?: WebSocketOptions;
-}
-
-/**
- * Options to configure the channelling of the AMQP connection over Web Sockets.
- */
-export interface WebSocketOptions {
-  /**
-   * @property
-   * The WebSocket constructor used to create an AMQP connection over a WebSocket.
-   * This option should be provided in the below scenarios:
-   * - The TCP port 5671 which is that is used by the AMQP connection to Event Hubs is blocked in your environment.
-   * - Your application needs to be run behind a proxy server
-   * - Your application needs to run in the browser and you want to provide your own choice of Websocket implementation
-   *   instead of the built-in WebSocket in the browser.
-   */
-  webSocket?: WebSocketImpl;
-  /**
-   * @property
-   * Options to be passed to the WebSocket constructor when the underlying `rhea` library instantiates
-   * the WebSocket.
-   */
-  webSocketConstructorOptions?: any;
 }
 
 /**
