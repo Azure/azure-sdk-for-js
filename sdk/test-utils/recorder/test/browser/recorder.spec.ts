@@ -80,7 +80,7 @@ describe("The recorder's public API, on a browser", () => {
       currentTest: {
         file: "test/recorder.browser.spec.ts",
         // For this test, we don't care what's the content of the recorded function.
-        fn: getNoOpFunction()  
+        fn: getNoOpFunction()
       }
     };
 
@@ -149,7 +149,7 @@ describe("The recorder's public API, on a browser", () => {
       currentTest: {
         file: "test/recorder.browser.spec.ts",
         // For this test, we don't care what's the content of the recorded function.
-        fn: getNoOpFunction()  
+        fn: getNoOpFunction()
       }
     };
 
@@ -212,7 +212,7 @@ describe("The recorder's public API, on a browser", () => {
         file: "test/recorder.browser.spec.ts",
         // The hash in our expected recording is made out of an empty function.
         // This function has something inside, which means it has changed.
-        fn: getAnotherNoOpFunction()  
+        fn: getAnotherNoOpFunction()
       }
     };
 

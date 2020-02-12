@@ -88,7 +88,7 @@ describe("The recorder's public API, on NodeJS", () => {
       ...this,
       currentTest: {
         file: __filename,
-        fn: () => {}  
+        fn: () => {}
       }
     };
 
