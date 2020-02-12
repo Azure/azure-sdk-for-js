@@ -75,13 +75,16 @@ describe("The recorder's public API, on a browser", () => {
 
     // The recorder should start in the beforeEach call.
     // We have to do this to emulate that.
-    (this as any).currentTest = {
-      file: "test/recorder.browser.spec.ts",
-      // For this test, we don't care what's the content of the recorded function.
-      fn: getNoOpFunction()
+    const fakeThis: any = {
+      ...this,
+      currentTest: {
+        file: "test/recorder.browser.spec.ts",
+        // For this test, we don't care what's the content of the recorded function.
+        fn: getNoOpFunction()  
+      }
     };
 
-    const recorder = record(this, recorderEnvSetup);
+    const recorder = record(fakeThis, recorderEnvSetup);
 
     // Restoring the XHR, otherwise we can't test this.
     window.XMLHttpRequest = originalXHR;
@@ -141,13 +144,16 @@ describe("The recorder's public API, on a browser", () => {
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
     // we're compensating with this.
-    (this as any).currentTest = {
-      file: "test/recorder.browser.spec.ts",
-      // For this test, we don't care what's the content of the recorded function.
-      fn: getNoOpFunction()
+    const fakeThis: any = {
+      ...this,
+      currentTest: {
+        file: "test/recorder.browser.spec.ts",
+        // For this test, we don't care what's the content of the recorded function.
+        fn: getNoOpFunction()  
+      }
     };
 
-    const recorder = record(this, recorderEnvSetup);
+    const recorder = record(fakeThis, recorderEnvSetup);
 
     const response = await helloWorldRequest();
 
@@ -200,14 +206,17 @@ describe("The recorder's public API, on a browser", () => {
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
     // we're compensating with this.
-    (this as any).currentTest = {
-      file: "test/recorder.browser.spec.ts",
-      // The hash in our expected recording is made out of an empty function.
-      // This function has something inside, which means it has changed.
-      fn: getAnotherNoOpFunction()
+    const fakeThis: any = {
+      ...this,
+      currentTest: {
+        file: "test/recorder.browser.spec.ts",
+        // The hash in our expected recording is made out of an empty function.
+        // This function has something inside, which means it has changed.
+        fn: getAnotherNoOpFunction()  
+      }
     };
 
-    const recorder = record(this, recorderEnvSetup);
+    const recorder = record(fakeThis, recorderEnvSetup);
 
     // Restoring the XHR, otherwise we can't test this.
     window.XMLHttpRequest = originalXHR;

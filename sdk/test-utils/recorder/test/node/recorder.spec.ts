@@ -84,13 +84,15 @@ describe("The recorder's public API, on NodeJS", () => {
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
     // we're compensating with this.
-    (this as any).currentTest = {
-      file: __filename,
-      // For this test, we don't care what's the content of the recorded function.
-      fn: () => {}
+    const fakeThis: any = {
+      ...this,
+      currentTest: {
+        file: __filename,
+        fn: () => {}  
+      }
     };
 
-    const recorder = record(this, recorderEnvSetup);
+    const recorder = record(fakeThis, recorderEnvSetup);
 
     const response = await helloWorldRequest();
 
@@ -235,16 +237,16 @@ describe("The recorder's public API, on NodeJS", () => {
     // We have to mock this.skip in order to confirm that the recorder has called it.
     // We'll make a fake this.
     let skipped = false;
-    const fakeThis = {
+    const fakeThis: any = {
       ...this,
-      skip() {
+      skip: () => {
         skipped = true;
         throw new Error("Emulating mocha's skip");
       }
     };
 
     try {
-      record(fakeThis as Mocha.Context, recorderEnvSetup);
+      record(fakeThis, recorderEnvSetup);
     } catch (e) {
       if (e.message !== "Emulating mocha's skip") {
         throw e;
