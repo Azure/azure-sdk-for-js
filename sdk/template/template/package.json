@@ -7,7 +7,7 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "stream": "./node_modules/stream-browserify/index.js",
-    "./dist/index.js": "./browser/index.js",
+    "./dist/index.js": "./dist-browser/index.js",
     "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js"
   },
   "types": "types/azure-template.d.ts",
@@ -38,8 +38,8 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
-    "browser/*.js*",
     "dist/",
+    "dist-browser/*.js*",
     "dist-esm/src/",
     "src/",
     "types/azure-template.d.ts"
