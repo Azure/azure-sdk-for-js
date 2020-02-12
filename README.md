@@ -10,7 +10,7 @@ For your convenience, each service has a separate set of libraries that you can 
 
 Each service might have a number of libraries available from each of the following categories:
 
-- [Client - November 2019 Releases](#Client-New-Releases)
+- [Client - New Releases](#Client-New-Releases)
 - [Client - Previous Versions](#Client-Previous-Versions)
 - [Management](#Management)
 
