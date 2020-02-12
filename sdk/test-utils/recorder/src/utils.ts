@@ -2,6 +2,8 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import fs from "fs-extra";
+import { URLBuilder } from "@azure/core-http";
+
 export interface TestInfo {
   uniqueName: { [x: string]: string };
   newDate: { [x: string]: string };
@@ -52,7 +54,13 @@ export interface RecorderEnvironmentSetup {
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
 export function isRecordMode() {
-  return env.TEST_MODE === "record";
+  // It should be safe to assume that these two can be considered being in record mode.
+  // For more specific distinctions, one can use isSoftRecordMode.
+  return env.TEST_MODE === "record" || isSoftRecordMode();
+}
+
+export function isSoftRecordMode() {
+  return env.TEST_MODE === "soft-record";
 }
 
 export function isLiveMode() {
@@ -113,6 +121,19 @@ export function applyReplacementMap(
     if (env[key]) {
       updated = replaceAll(updated, encodeRFC3986(env[key]!), encodeRFC3986(replacement));
       updated = replaceAll(updated, env[key]!, replacement);
+      if (
+        env[key]!.startsWith("http") &&
+        replacement.startsWith("http") &&
+        URLBuilder.parse(env[key]!).getHost()
+      ) {
+        // If an ENV variable and its replacement start with `http` with a valid hostname, replace the hostname
+        // with the one provided in the replacement. This has no effect incase the URI is already replaced in the previous step.
+        updated = replaceAll(
+          updated,
+          URLBuilder.parse(env[key]!).getHost()!,
+          URLBuilder.parse(replacement).getHost()!
+        );
+      }
     }
   });
   return updated;
@@ -353,4 +374,86 @@ export function findRecordingsFolderPath(filePath: string): string {
       `Unable to locate the 'recordings' folder anywhere in the hierarchy of the file path ${filePath}\n ${error}`
     );
   }
+}
+
+export function formatPath(path: string): string {
+  return path
+    .toLowerCase()
+    .replace(/ /g, "_")
+    .replace(/<=/g, "lte")
+    .replace(/>=/g, "gte")
+    .replace(/</g, "lt")
+    .replace(/>/g, "gt")
+    .replace(/=/g, "eq")
+    .replace(/\W/g, "");
+}
+
+/**
+ * Generates a file path with the following structure:
+ *
+ *     `{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
+ *
+ * @param platform A string, either "node" or "browsers".
+ * @param testSuiteTitle The title of the test suite.
+ * @param testTitle The title of the specific test we're running.
+ */
+export function generateTestRecordingFilePath(
+  platform: "node" | "browsers",
+  testSuiteTitle: string,
+  testTitle: string
+): string {
+  // File Extension
+  // nock recordings for node tests - .js extension
+  // recordings are saved in json format for browser tests - .json extension
+  const ext = platform === "node" ? "js" : "json";
+  return `${platform}/${formatPath(testSuiteTitle)}/recording_${formatPath(testTitle)}.${ext}`;
+}
+
+/**
+ * Requires a file if it exists. Only works on NodeJS.
+ */
+export function nodeRequireRecordingIfExists(recordingPath: string, testAbsolutePath: string): any {
+  if (isBrowser()) throw new Error("nodeRequireRecordingIfExists only works on NodeJS");
+  const path = require("path");
+  // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
+  const recordingsFolderPath = findRecordingsFolderPath(testAbsolutePath);
+  const absoluteRecordingPath = path.resolve(recordingsFolderPath, recordingPath);
+  if (fs.existsSync(absoluteRecordingPath)) {
+    return require(absoluteRecordingPath);
+  } else {
+    throw new Error(`The recording ${recordingPath} was not found in ${recordingsFolderPath}`);
+  }
+}
+
+/**
+ * Checks if a test hasn't changed from the last time it was recorded.
+ * @param testContext
+ * @param testSuiteTitle
+ * @param testTitle
+ * @param currentHash
+ */
+export function testHasChanged(
+  testSuiteTitle: string,
+  testTitle: string,
+  testAbsolutePath: string,
+  currentHash: string
+): boolean {
+  const platform = isBrowser() ? "browsers" : "node";
+  const recordingPath: string = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
+
+  let previousHash: string = "";
+
+  if (platform === "node") {
+    try {
+      previousHash = nodeRequireRecordingIfExists(recordingPath, testAbsolutePath).hash;
+    } catch (e) {}
+  } else if ((window as any).__json__["recordings/" + recordingPath]) {
+    previousHash = (window as any).__json__["recordings/" + recordingPath].hash;
+  }
+
+  if (!previousHash) {
+    return true;
+  }
+
+  return previousHash !== currentHash;
 }

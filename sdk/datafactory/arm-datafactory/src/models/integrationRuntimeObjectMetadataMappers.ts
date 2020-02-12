@@ -7,8 +7,17 @@
  */
 
 export {
-  CheckSkuAvailabilityParameter,
-  CheckSkuAvailabilityResult,
-  CheckSkuAvailabilityResultList,
-  CloudError
+  discriminators,
+  CloudError,
+  GetSsisObjectMetadataRequest,
+  SsisEnvironment,
+  SsisEnvironmentReference,
+  SsisFolder,
+  SsisObjectMetadata,
+  SsisObjectMetadataListResponse,
+  SsisObjectMetadataStatusResponse,
+  SsisPackage,
+  SsisParameter,
+  SsisProject,
+  SsisVariable
 } from "../models/mappers";

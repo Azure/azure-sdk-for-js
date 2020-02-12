@@ -439,6 +439,13 @@ export const BlobProperties: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        xmlName: "EncryptionScope",
+        serializedName: "EncryptionScope",
+        type: {
+          name: "String"
+        }
+      },
       accessTierChangedOn: {
         xmlName: "AccessTierChangeTime",
         serializedName: "AccessTierChangeTime",
@@ -920,6 +927,20 @@ export const ContainerProperties: coreHttp.CompositeMapper = {
       hasLegalHold: {
         xmlName: "HasLegalHold",
         serializedName: "HasLegalHold",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultEncryptionScope: {
+        xmlName: "DefaultEncryptionScope",
+        serializedName: "DefaultEncryptionScope",
+        type: {
+          name: "String"
+        }
+      },
+      preventEncryptionScopeOverride: {
+        xmlName: "DenyEncryptionScopeOverride",
+        serializedName: "DenyEncryptionScopeOverride",
         type: {
           name: "Boolean"
         }
@@ -1465,6 +1486,28 @@ export const BlobServiceStatistics: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "GeoReplication"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerEncryptionScope: coreHttp.CompositeMapper = {
+  xmlName: "container-encryption-scope",
+  type: {
+    name: "Composite",
+    className: "ContainerEncryptionScope",
+    modelProperties: {
+      defaultEncryptionScope: {
+        xmlName: "defaultEncryptionScope",
+        type: {
+          name: "String"
+        }
+      },
+      preventEncryptionScopeOverride: {
+        xmlName: "preventEncryptionScopeOverride",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -2161,6 +2204,18 @@ export const ContainerGetPropertiesHeaders: coreHttp.CompositeMapper = {
       },
       hasLegalHold: {
         serializedName: "x-ms-has-legal-hold",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultEncryptionScope: {
+        serializedName: "x-ms-default-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
+      denyEncryptionScopeOverride: {
+        serializedName: "x-ms-deny-encryption-scope-override",
         type: {
           name: "Boolean"
         }
@@ -3301,6 +3356,12 @@ export const BlobDownloadHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       blobContentMD5: {
         serializedName: "x-ms-blob-content-md5",
         type: {
@@ -3549,6 +3610,12 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -3855,6 +3922,12 @@ export const PageBlobCreateHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -3925,6 +3998,12 @@ export const AppendBlobCreateHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -3991,6 +4070,12 @@ export const BlockBlobUploadHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -4153,6 +4238,12 @@ export const BlobSetMetadataHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -4642,6 +4733,18 @@ export const BlobCopyFromURLHeaders: coreHttp.CompositeMapper = {
           ]
         }
       },
+      contentMD5: {
+        serializedName: "content-md5",
+        type: {
+          name: "ByteArray"
+        }
+      },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -4844,6 +4947,12 @@ export const BlockBlobStageBlockHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -4904,6 +5013,12 @@ export const BlockBlobStageBlockFromURLHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -4980,6 +5095,12 @@ export const BlockBlobCommitBlockListHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -5130,6 +5251,12 @@ export const PageBlobUploadPagesHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -5272,6 +5399,12 @@ export const PageBlobUploadPagesFromURLHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }
@@ -5666,6 +5799,12 @@ export const AppendBlobAppendBlockHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -5738,6 +5877,12 @@ export const AppendBlobAppendBlockFromUrlHeaders: coreHttp.CompositeMapper = {
       },
       encryptionKeySha256: {
         serializedName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
         type: {
           name: "String"
         }

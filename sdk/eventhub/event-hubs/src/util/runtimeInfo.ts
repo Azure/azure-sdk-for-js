@@ -8,5 +8,5 @@ import * as os from "os";
  * @internal
  */
 export function getRuntimeInfo(): string {
-  return `${process.version}; ${os.type()} ${os.release()}`;
+  return `NODE-VERSION ${process.version}; ${os.type()} ${os.release()}`;
 }

@@ -1,5 +1,12 @@
 # Release History
 
+## 12.1.0 (2020.02)
+- Updated Azure Storage Service API version to 2019-07-07.
+- Add support for Encryption Scope, which is similar to regular CPK, except the encryption key is provided by name.
+- MD5 and CRC headers for Blob Copy: add `contentMD5`and `xMsContentCrc64` to `BlobCopyFromURLHeaders` and `sourceContentMD5` to `BlobSyncCopyFromURLOptions`.
+- Add `getPageRangesDiffForManagedDisks` to `PageBlobClient`. 
+- Fixed a bug where the package didn't work as expected when bundling web applications. [PR #7298](https://github.com/Azure/azure-sdk-for-js/pull/7298)
+
 ## 12.0.2 (2020.01)
 
 - Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6753](https://github.com/Azure/azure-sdk-for-js/pull/6753)

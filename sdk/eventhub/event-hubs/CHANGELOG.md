@@ -1,11 +1,18 @@
 # Release History
 
-## 5.0.1 (TBD)
+## 5.0.2 (Unreleased)
+
+
+## 5.0.1 (2020-02-11)
 
 - Fixed a potential issue with deadlock where greedy consumers could
   starve out other consumers, preventing us from properly balancing.
-- Updated to use the latest version of the `@azure/core-amqp` package.
+- Fixed an issue where calling `subscription.close()` immediately
+  after calling `subscribe` would cause events to still be read.
+- Updated to use the latest version of the `@azure/core-amqp` package which in
+  turn uses the latest version of the `rhea` package.
   This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
+  ([Pull Request](https://github.com/amqp/rhea/pull/274))
 
 ## 5.0.0 (2020-01-09)
 

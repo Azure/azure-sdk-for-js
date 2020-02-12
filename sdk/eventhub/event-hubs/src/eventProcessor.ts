@@ -249,7 +249,16 @@ export class EventProcessor {
   /*
    * Claim ownership of the given partition if it's available
    */
-  private async _claimOwnership(ownershipRequest: PartitionOwnership): Promise<void> {
+  private async _claimOwnership(
+    ownershipRequest: PartitionOwnership,
+    abortSignal: AbortSignalLike
+  ): Promise<void> {
+    if (abortSignal.aborted) {
+      logger.verbose(
+        `[${this._id}] Subscription was closed before claiming ownership of ${ownershipRequest.partitionId}.`
+      );
+      return;
+    }
     logger.info(
       `[${this._id}] Attempting to claim ownership of partition ${ownershipRequest.partitionId}.`
     );
@@ -266,7 +275,7 @@ export class EventProcessor {
         `[${this._id}] Successfully claimed ownership of partition ${ownershipRequest.partitionId}.`
       );
 
-      await this._startPump(ownershipRequest.partitionId);
+      await this._startPump(ownershipRequest.partitionId, abortSignal);
     } catch (err) {
       logger.warning(
         `[${this.id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
@@ -276,7 +285,14 @@ export class EventProcessor {
     }
   }
 
-  private async _startPump(partitionId: string) {
+  private async _startPump(partitionId: string, abortSignal: AbortSignalLike) {
+    if (abortSignal.aborted) {
+      logger.verbose(
+        `[${this._id}] The subscription was closed before starting to read from ${partitionId}.`
+      );
+      return;
+    }
+
     if (this._pumpManager.isReceivingFromPartition(partitionId)) {
       logger.verbose(
         `[${this._id}] There is already an active partitionPump for partition "${partitionId}", skipping pump creation.`
@@ -301,7 +317,12 @@ export class EventProcessor {
     );
 
     const eventPosition = await this._getStartingPosition(partitionId);
-    await this._pumpManager.createPump(eventPosition, this._eventHubClient, partitionProcessor);
+    await this._pumpManager.createPump(
+      eventPosition,
+      this._eventHubClient,
+      partitionProcessor,
+      abortSignal
+    );
 
     logger.verbose(`[${this._id}] PartitionPump created successfully.`);
   }
@@ -333,7 +354,7 @@ export class EventProcessor {
   ): Promise<void> {
     while (!abortSignal.aborted) {
       try {
-        await this._startPump(partitionId);
+        await this._startPump(partitionId, abortSignal);
       } catch (err) {
         logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
         logErrorStackTrace(err);
@@ -347,6 +368,7 @@ export class EventProcessor {
         await delayWithoutThrow(this._loopIntervalInMs, abortSignal);
       }
     }
+    this._isRunning = false;
   }
 
   /**
@@ -415,7 +437,7 @@ export class EventProcessor {
                 );
               }
 
-              await this._claimOwnership(ownershipRequest);
+              await this._claimOwnership(ownershipRequest, abortSignal);
             }
           }
         }
@@ -432,6 +454,7 @@ export class EventProcessor {
         await delayWithoutThrow(this._loopIntervalInMs, abortSignal);
       }
     }
+    this._isRunning = false;
   }
 
   /**
@@ -514,7 +537,6 @@ export class EventProcessor {
       this._abortController.abort();
     }
 
-    this._isRunning = false;
     try {
       // remove all existing pumps
       await this._pumpManager.removeAllPumps(CloseReason.Shutdown);

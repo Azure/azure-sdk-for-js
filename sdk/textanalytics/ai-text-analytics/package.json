@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Text Analytics service.",
-  "version": "1.0.0-preview.2",
+  "version": "1.0.0-preview.3",
   "keywords": [
     "node",
     "azure",
@@ -121,6 +121,6 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "sinon": "^7.1.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.6.4"
+    "typescript": "~3.7.5"
   }
 }
