@@ -1,7 +1,8 @@
 # Release History
 
-## 3.6.1 (Unreleased)
+## 3.6.1 (2020-2-11)
 
+- BUG FIX: Normalize location names when selecting endpoint. Allows passing of normalized endpoint names
 
 ## 3.6.0 (2020-2-10)
 
