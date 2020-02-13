@@ -203,6 +203,18 @@ export interface KeyProperties {
 export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
+export class KeyVaultIdentifier implements ParsedKeyVaultIdentifier {
+    constructor(collection: KeyVaultIdentifierCollections, identifier: string);
+    id: string;
+    name: string;
+    vaultUri: string;
+    version?: string;
+}
+
+// @public
+export type KeyVaultIdentifierCollections = "keys" | "secrets" | "certificates";
+
+// @public
 export interface KeyVaultKey {
     id?: string;
     key?: JsonWebKey;
@@ -233,6 +245,14 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export interface ParsedKeyVaultIdentifier {
+    id: string;
+    name: string;
+    vaultUri: string;
+    version?: string;
+}
 
 export { PipelineOptions }
 

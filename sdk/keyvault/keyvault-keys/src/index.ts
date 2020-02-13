@@ -73,7 +73,6 @@ import {
   RestoreKeyBackupOptions,
   UpdateKeyPropertiesOptions
 } from "./keysModels";
-import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
 import {
   CryptographyClient,
@@ -92,6 +91,7 @@ import {
   WrapKeyOptions,
   WrapResult
 } from "./cryptographyClient";
+import { KeyVaultIdentifier, ParsedKeyVaultIdentifier, KeyVaultIdentifierCollections } from "./identifier";
 
 export {
   BackupKeyOptions,
@@ -121,11 +121,14 @@ export {
   SignatureAlgorithm,
   KeyVaultKey,
   KeyWrapAlgorithm,
+  KeyVaultIdentifier,
+  KeyVaultIdentifierCollections,
   ListPropertiesOfKeysOptions,
   ListPropertiesOfKeyVersionsOptions,
   ListDeletedKeysOptions,
   PageSettings,
   PagedAsyncIterableIterator,
+  ParsedKeyVaultIdentifier,
   PipelineOptions,
   PollOperationState,
   PollerLike,
@@ -1123,10 +1126,7 @@ export class KeyClient {
     const keyBundle = bundle as KeyBundle;
     const deletedKeyBundle = bundle as DeletedKeyBundle;
 
-    const parsedId = parseKeyvaultEntityIdentifier(
-      "keys",
-      keyBundle.key ? keyBundle.key.kid : undefined
-    );
+    const parsedId = new KeyVaultIdentifier("keys", keyBundle.key!.kid!);
 
     const attributes: any = keyBundle.attributes || {};
     delete keyBundle.attributes;
@@ -1143,7 +1143,7 @@ export class KeyClient {
         expiresOn: attributes.expires,
         createdOn: attributes.created,
         updatedOn: attributes.updated,
-        vaultUrl: parsedId.vaultUrl,
+        vaultUrl: parsedId.vaultUri,
         ...keyBundle,
         ...parsedId,
         ...attributes
@@ -1177,7 +1177,7 @@ export class KeyClient {
    * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
    */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
-    const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
+    const parsedId = new KeyVaultIdentifier("keys", keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 
@@ -1221,14 +1221,14 @@ export class KeyClient {
    * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
-    const parsedId = parseKeyvaultEntityIdentifier("keys", keyItem.kid);
+    const parsedId = new KeyVaultIdentifier("keys", keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 
     let resultObject: any = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      vaultUrl: parsedId.vaultUrl,
+      vaultUrl: parsedId.vaultUri,
       ...keyItem,
       ...parsedId,
       ...keyItem.attributes
