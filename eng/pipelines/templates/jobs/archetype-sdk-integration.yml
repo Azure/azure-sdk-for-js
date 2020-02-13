@@ -133,6 +133,17 @@ jobs:
             condition: ne(variables['AZURE_RESOURCEGROUP_NAME'], '')
             continueOnError: true
 
+      - pwsh: |
+          $(Build.SourcesDirectory)/eng/tools/compress-coverage.ps1 "coverage" "$(Build.ArtifactStagingDirectory)/CodeCoverage"
+        displayName: "Copy Coverage"
+
+      - task: PublishPipelineArtifact@1
+        condition: succeededOrFailed()
+        displayName: "Publish artifacts"
+        inputs:
+          artifactName: documentation
+          path: $(Build.ArtifactStagingDirectory)/CodeCoverage
+
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
       - script: |
