@@ -146,6 +146,3 @@ sdk/cosmosdb/cosmos/lib
 
 # autorest generated files
 swagger/*.json
-
-# library-specific ignores
-sdk/keyvault/*/src/**/*.js
