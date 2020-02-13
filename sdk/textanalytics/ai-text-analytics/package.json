@@ -33,6 +33,18 @@
     "src/",
     "README.md"
   ],
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/textAnalyticsClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",

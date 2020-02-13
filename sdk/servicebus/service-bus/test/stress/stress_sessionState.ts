@@ -25,7 +25,7 @@ async function main(): Promise<void> {
 }
 
 async function setGetSessionState(sessionId: string): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = new ServiceBusClient(connectionString);
   const client = ns.createQueueClient(queueName);
 
   try {

@@ -687,7 +687,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     const deadLetterMsg = await deadLetterMessage(testMessage);
 
     await deadLetterMsg.deadLetter().catch((err) => {
-      should.equal(err.name, "InvalidOperationError", "ErrorName is different than expected");
+      should.equal(err.code, "InvalidOperationError", "Error code is different than expected");
       errorWasThrown = true;
     });
 

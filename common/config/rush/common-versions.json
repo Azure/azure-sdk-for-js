@@ -49,9 +49,6 @@
     // "typescript": [
     //   "~2.4.0"
     // ]
-    // Following is required to allow for backward compatibility with Service Bus Track 1
-    // TODO: Remove this once Service Bus is updated to use current depenedencies as part of Track 2
-    "rhea-promise": ["^0.1.15"],
     // Following is required to allow for backward compatibility with Event Processor Host Track 1
     "@azure/event-hubs": ["^2.1.4"]
   }

@@ -9,7 +9,7 @@ import {
   MessageAnnotations,
   DeliveryAnnotations
 } from "rhea-promise";
-import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/amqp-common";
+import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/core-amqp";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "../src/util/utils";

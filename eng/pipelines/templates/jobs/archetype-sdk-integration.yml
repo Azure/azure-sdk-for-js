@@ -5,6 +5,7 @@ parameters:
   ResourceServiceDirectory: ""
   EnvVars: {}
   MaxParallel: 0
+  TimeoutInMinutes: 240
   Matrix:
     Linux_Node10:
       OSVmImage: "ubuntu-16.04"
@@ -48,7 +49,7 @@ jobs:
     pool:
       vmImage: "$(OSVmImage)"
 
-    timeoutInMinutes: 240
+    timeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
 
     steps:
       - template: ../steps/common.yml

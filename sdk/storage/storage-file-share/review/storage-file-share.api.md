@@ -1186,9 +1186,9 @@ export class ShareLeaseClient {
     acquireLease(duration?: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     breakLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
-    readonly leaseId: string;
+    get leaseId(): string;
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
-    readonly url: string;
+    get url(): string;
     }
 
 // @public
