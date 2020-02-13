@@ -1,8 +1,8 @@
 param (
-  $dirname,
+  $pathToDir,
   $pathToDest
 )
-$list = Get-ChildItem $dirname -Recurse -Depth 3
+$list = Get-ChildItem $pathToDir -Recurse -Depth 3
 Foreach ($q in $list) {
   $dir=(Split-Path (Split-Path $q) -Leaf)
   $dest = Join-path -path $pathToDest -ChildPath "$($dir)-$($q.name).zip"

@@ -135,7 +135,13 @@ jobs:
 
       - pwsh: |
           $(Build.SourcesDirectory)/eng/tools/compress-coverage.ps1 "coverage" "$(Build.ArtifactStagingDirectory)/CodeCoverage"
-        displayName: "Copy Coverage"
+        displayName: "Copy Coverage Reports - Node"
+        condition: and(always(), eq(variables['TestType'], 'node'))
+
+      - pwsh: |
+          $(Build.SourcesDirectory)/eng/tools/compress-coverage.ps1 "coverage-browser" "$(Build.ArtifactStagingDirectory)/CodeCoverage"
+        displayName: "Copy Coverage Reports - Browser"
+        condition: and(always(), eq(variables['TestType'], 'browser'))
 
       - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
