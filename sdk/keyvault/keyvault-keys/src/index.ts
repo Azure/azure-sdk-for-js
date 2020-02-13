@@ -180,6 +180,7 @@ export class KeyClient {
    * A self reference that bypasses private methods, for the pollers.
    */
   private readonly pollerClient: KeyClientInterface = {
+    parseIdentifier: this.parseIdentifier.bind(this),
     recoverDeletedKey: this.recoverDeletedKey.bind(this),
     getKey: this.getKey.bind(this),
     deleteKey: this.deleteKey.bind(this),
@@ -862,7 +863,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -873,7 +874,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
       } else {
         break;
       }
@@ -960,7 +961,7 @@ export class KeyClient {
       const currentSetResponse = await this.client.getKeys(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -970,7 +971,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem);
+        yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
       } else {
         break;
       }
@@ -1054,7 +1055,7 @@ export class KeyClient {
       const currentSetResponse = await this.client.getDeletedKeys(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem);
+        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -1064,7 +1065,7 @@ export class KeyClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem);
+        yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem, this);
       } else {
         break;
       }
