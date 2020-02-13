@@ -51,6 +51,18 @@ export const clientRequestId: coreHttp.OperationParameter = {
     }
   }
 };
+export const endpoint: coreHttp.OperationURLParameter = {
+  parameterPath: "endpoint",
+  mapper: {
+    required: true,
+    serializedName: "Endpoint",
+    defaultValue: '',
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
 export const facets: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -366,18 +378,6 @@ export const scoringProfile: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const searchDnsSuffix: coreHttp.OperationURLParameter = {
-  parameterPath: "searchDnsSuffix",
-  mapper: {
-    required: true,
-    serializedName: "searchDnsSuffix",
-    defaultValue: 'search.windows.net',
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
 export const searchFields0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -451,18 +451,6 @@ export const searchMode: coreHttp.OperationQueryParameter = {
       ]
     }
   }
-};
-export const searchServiceName: coreHttp.OperationURLParameter = {
-  parameterPath: "searchServiceName",
-  mapper: {
-    required: true,
-    serializedName: "searchServiceName",
-    defaultValue: '',
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 export const searchText0: coreHttp.OperationQueryParameter = {
   parameterPath: [

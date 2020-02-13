@@ -9,32 +9,30 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import * as Models from "./models";
 
 const packageName = "@azure/ai-search";
 const packageVersion = "1.0.0-preview.1";
 
 export class SearchIndexClientContext extends coreHttp.ServiceClient {
   apiVersion: string;
-  searchServiceName: string;
-  searchDnsSuffix?: string;
+  endpoint: string;
   indexName: string;
   credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the SearchIndexClientContext class.
    * @param apiVersion Client Api Version.
-   * @param searchServiceName The name of the search service.
+   * @param endpoint Search API endpoint (protocol and hostname)
    * @param indexName The name of the index.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, searchServiceName: string, indexName: string, options?: Models.SearchIndexClientOptions) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, endpoint: string, indexName: string, options?: coreHttp.ServiceClientOptions) {
     if (apiVersion == undefined) {
       throw new Error("'apiVersion' cannot be null.");
     }
-    if (searchServiceName == undefined) {
-      throw new Error("'searchServiceName' cannot be null.");
+    if (endpoint == undefined) {
+      throw new Error("'endpoint' cannot be null.");
     }
     if (indexName == undefined) {
       throw new Error("'indexName' cannot be null.");
@@ -54,15 +52,11 @@ export class SearchIndexClientContext extends coreHttp.ServiceClient {
 
     super(credentials, options);
 
-    this.searchDnsSuffix = 'search.windows.net';
-    this.baseUri = "https://{searchServiceName}.{searchDnsSuffix}/indexes('{indexName}')";
+    this.baseUri = "{Endpoint}/indexes('{indexName}')";
     this.requestContentType = "application/json; charset=utf-8";
     this.apiVersion = apiVersion;
-    this.searchServiceName = searchServiceName;
+    this.endpoint = endpoint;
     this.indexName = indexName;
     this.credentials = credentials;
-    if (options.searchDnsSuffix !== null && options.searchDnsSuffix !== undefined) {
-      this.searchDnsSuffix = options.searchDnsSuffix;
-    }
   }
 }

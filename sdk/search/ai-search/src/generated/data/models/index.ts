@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/core-http";
+
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -669,17 +669,6 @@ export interface AutocompleteOptions {
    * default is 5.
    */
   top?: number;
-}
-
-/**
- * An interface representing SearchIndexClientOptions.
- */
-export interface SearchIndexClientOptions extends ServiceClientOptions {
-  /**
-   * The DNS suffix of the search service. The default is search.windows.net. Default value:
-   * 'search.windows.net'.
-   */
-  searchDnsSuffix?: string;
 }
 
 /**

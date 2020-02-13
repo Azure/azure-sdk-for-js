@@ -21,13 +21,13 @@ class SearchIndexClient extends SearchIndexClientContext {
   /**
    * Initializes a new instance of the SearchIndexClient class.
    * @param apiVersion Client Api Version.
-   * @param searchServiceName The name of the search service.
+   * @param endpoint Search API endpoint (protocol and hostname)
    * @param indexName The name of the index.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, searchServiceName: string, indexName: string, options?: Models.SearchIndexClientOptions) {
-    super(credentials, apiVersion, searchServiceName, indexName, options);
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, endpoint: string, indexName: string, options?: coreHttp.ServiceClientOptions) {
+    super(credentials, apiVersion, endpoint, indexName, options);
     this.documents = new operations.Documents(this);
   }
 }

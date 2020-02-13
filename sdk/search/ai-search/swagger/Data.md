@@ -20,3 +20,30 @@ use-extension:
 
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
+
+### Move to endpoint
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $['x-ms-parameterized-host']
+    transform: >
+      $["hostTemplate"] = "{Endpoint}/indexes('{indexName}')";
+      $.parameters = [{"$ref": "#/parameters/Endpoint"},{"$ref": "#/parameters/IndexNameParameter"}]
+  - from: swagger-document
+    where: $.parameters
+    transform: >
+      delete $.SearchServiceNameParameter;
+      delete $.SearchDnsSuffixParameter;
+      $.Endpoint = {};
+      $.Endpoint.name = "Endpoint";
+      $.Endpoint.in = "path";
+      $.Endpoint.required = true;
+      $.Endpoint.type = "string";
+      $.Endpoint["x-ms-skip-url-encoding"] =  true;
+      $.Endpoint["description"] = "Search API endpoint (protocol and hostname)";
+      $.Endpoint["x-ms-parameter-location"] = "client";
+      const indexName = $.IndexNameParameter;
+      delete $.IndexNameParameter;
+      $.IndexNameParameter = indexName;
+```

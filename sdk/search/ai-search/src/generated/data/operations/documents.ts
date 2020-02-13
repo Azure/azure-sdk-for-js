@@ -294,8 +294,7 @@ const countOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "docs/$count",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.indexName
   ],
   queryParameters: [
@@ -322,8 +321,7 @@ const searchGetOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "docs",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.indexName
   ],
   queryParameters: [
@@ -362,8 +360,7 @@ const searchPostOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "docs/search.post.search",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.indexName
   ],
   queryParameters: [
@@ -392,8 +389,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "docs('{key}')",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.indexName,
     Parameters.key
   ],
@@ -422,8 +418,7 @@ const suggestGetOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "docs/search.suggest",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.indexName
   ],
   queryParameters: [
@@ -456,8 +451,7 @@ const suggestPostOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "docs/search.post.suggest",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.indexName
   ],
   queryParameters: [
@@ -486,8 +480,7 @@ const indexOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "docs/search.index",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.indexName
   ],
   queryParameters: [
@@ -519,8 +512,7 @@ const autocompleteGetOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "docs/search.autocomplete",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.indexName
   ],
   queryParameters: [
@@ -552,8 +544,7 @@ const autocompletePostOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "docs/search.post.autocomplete",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.indexName
   ],
   queryParameters: [

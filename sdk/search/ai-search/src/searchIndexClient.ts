@@ -29,13 +29,7 @@ import {
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export interface SearchIndexClientOptions extends PipelineOptions {
-  /**
-   * The DNS suffix of the search service. Default value: 'search.windows.net'.
-   */
-  searchDnsSuffix?: string;
-}
-
+export type SearchIndexClientOptions = PipelineOptions;
 export type CountOptions = OperationOptions;
 export type AutocompleteOptions = OperationOptions &
   Omit<AutocompleteRequest, "searchText" | "suggesterName">;
@@ -49,7 +43,13 @@ export interface GetDocumentOptions extends OperationOptions {
    */
   selectedFields?: string[];
 }
-export type ModifyIndexOptions = OperationOptions;
+export interface ModifyIndexOptions extends OperationOptions {
+  /**
+   * If true, will cause this operation to throw if any document operation
+   * in the batch did not succeed.
+   */
+  throwOnAnyFailure?: boolean;
+}
 
 export interface ListSearchResultsPageSettings {
   /**
@@ -71,19 +71,14 @@ export class SearchIndexClient {
   public readonly apiVersion: string = "2019-05-06";
 
   /**
-   * The name of the search service
+   * The endpoint of the search service
    */
-  public readonly searchServiceName: string;
+  public readonly endpoint: string;
 
   /**
    * The name of the index
    */
   public readonly indexName: string;
-
-  /**
-   * The DNS suffix of the search service. Default value: 'search.windows.net'.
-   */
-  public searchDnsSuffix: string;
 
   /**
    * @internal
@@ -99,34 +94,32 @@ export class SearchIndexClient {
    * ```ts
    * // tbd
    * ```
-   * @param {string} searchServiceName The name of the search service
+   * @param {string} endpoint The endpoint of the search service
    * @param {string} indexName The name of the index
    * @param {SearchApiKeyCredential} credential Used to authenticate requests to the service.
    * @param {SearchClientOptions} [options] Used to configure the Search client.
    */
   constructor(
-    searchServiceName: string,
+    endpoint: string,
     indexName: string,
     credential: SearchApiKeyCredential,
     options: SearchIndexClientOptions = {}
   ) {
-    this.searchServiceName = searchServiceName;
+    this.endpoint = endpoint;
     this.indexName = indexName;
-    const { searchDnsSuffix = "search.windows.net", ...pipelineOptions } = options;
-    this.searchDnsSuffix = searchDnsSuffix;
 
     const libInfo = `azsdk-js-ai-search/${SDK_VERSION}`;
-    if (!pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions = {};
+    if (!options.userAgentOptions) {
+      options.userAgentOptions = {};
     }
-    if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
+    if (options.userAgentOptions.userAgentPrefix) {
+      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
     } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
+      options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
     const internalPipelineOptions: InternalPipelineOptions = {
-      ...pipelineOptions,
+      ...options,
       ...{
         loggingOptions: {
           logger: logger.info,
@@ -150,7 +143,7 @@ export class SearchIndexClient {
     this.client = new GeneratedClient(
       credential,
       this.apiVersion,
-      this.searchServiceName,
+      this.endpoint,
       this.indexName,
       pipeline
     );
@@ -275,6 +268,15 @@ export class SearchIndexClient {
     return result;
   }
 
+  /**
+   * Perform a set of index modifications (upload, merge, mergeOrUpload, delete)
+   * for the given set of documents.
+   * This operation may partially succeed and not all document operations will
+   * be reflected in the index. If you would like to treat this as an exception,
+   * set the `throwOnAnyFailure` option to true.
+   * @param batch
+   * @param options
+   */
   public async modifyIndex(
     batch: IndexAction[],
     options: ModifyIndexOptions = {}
@@ -283,6 +285,9 @@ export class SearchIndexClient {
       { actions: batch },
       operationOptionsToRequestOptionsBase(options)
     );
+    if (options.throwOnAnyFailure && result._response.status === 207) {
+      throw result;
+    }
     return result;
   }
 
