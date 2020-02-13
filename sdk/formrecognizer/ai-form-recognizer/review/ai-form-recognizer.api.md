@@ -7,6 +7,8 @@
 import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { ServiceClientCredentials } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
 import { WebResource } from '@azure/core-http';
@@ -16,6 +18,38 @@ export class CognitiveKeyCredential implements ServiceClientCredentials {
     constructor(apiKey: string);
     signRequest(webResource: WebResource): Promise<WebResource>;
     updateKey(apiKey: string): void;
+}
+
+// @public
+export class CustomRecognizerClient {
+    // Warning: (ae-forgotten-export) The symbol "FormRecognizerClientOptions" needs to be exported by the entry point index.d.ts
+    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions_2);
+    // Warning: (ae-forgotten-export) The symbol "DeleteModelOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    deleteModel(modelId: string, options?: DeleteModelOptions): Promise<import("@azure/core-http").RestResponse>;
+    readonly endpointUrl: string;
+    // Warning: (ae-forgotten-export) The symbol "GetModelOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getModel(modelId: string, options: GetModelOptions): Promise<import("./generated/models").GetCustomModelResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetSummaryOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
+    // Warning: (ae-forgotten-export) The symbol "ListModelsOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    listModels(options?: ListModelsOptions): Promise<GetCustomModelsResponse>;
+    // Warning: (ae-forgotten-export) The symbol "StartTrainingOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "Model" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    startTraining(source: string, options?: StartTrainingOptions): Promise<PollerLike<PollOperationState<Model>, Model>>;
+    // Warning: (ae-forgotten-export) The symbol "TrainCustomModelOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    trainCustomModelInternal(source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions): Promise<import("./generated/models").TrainCustomModelAsyncResponse>;
 }
 
 // @public

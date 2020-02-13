@@ -14,12 +14,14 @@ import {
 import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { GetCustomModelsResponse } from "./generated/models";
+import { GetCustomModelsResponse, Model } from "./generated/models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
+import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from './lro/train/poller';
+import { PollOperationState, PollerLike } from '@azure/core-lro';
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -53,12 +55,18 @@ export type DeleteModelOptions = FormRecognizerOperationOptions;
  */
 export type GetModelOptions = FormRecognizerOperationOptions;
 
+export type TrainCustomModelOptions = FormRecognizerOperationOptions & {
+  prefix?: string;
+  includeSubFolders?: boolean;
+}
+
 /**
  * Options for the start training operation.
  */
-export type StartTrainingOptions = FormRecognizerOperationOptions & {
-  prefix?: string;
-  includeSubFolders?: boolean;
+export type StartTrainingOptions = TrainCustomModelOptions & {
+  intervalInMs?: number;
+  onProgress?: (state: StartTrainingPollState) => void;
+  resumeFrom?: string;
 }
 
 /**
@@ -233,7 +241,7 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async startTraining(source: string, options?: StartTrainingOptions) {
+  public async trainCustomModelInternal(source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormRecognizerClient-startTraining",
@@ -243,7 +251,8 @@ export class CustomRecognizerClient {
     try {
       return await this.client.trainCustomModelAsync({
         source: source,
-        sourceFilter: finalOptions
+        sourceFilter: finalOptions,
+        useLabelFile
       }, finalOptions);
     } catch (e) {
       span.setStatus({
@@ -256,27 +265,27 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async startTrainingWithLabels(source: string, options?: StartTrainingWithLabelsOptions) {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-startTrainingWithLabels",
-      realOptions
-    );
 
-    try {
-      await this.client.trainCustomModelAsync({
-        source: source,
-        sourceFilter: finalOptions,
-        useLabelFile: true
-      }, finalOptions);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+  public async startTraining(
+    source:string,
+    options: StartTrainingOptions = {}
+  ): Promise<PollerLike<PollOperationState<Model>, Model>> {
+    const trainPollerClient: TrainPollerClient = {
+      getModel: (...args) => this.getModel(...args),
+      trainCustomModelInternal: (...args) => this.trainCustomModelInternal(...args)
+    };
+
+    const poller = new StartTrainingPoller({
+      client: trainPollerClient,
+      source,
+      intervalInMs: options.intervalInMs,
+      onProgress: options.onProgress,
+      resumeFrom: options.resumeFrom,
+      trainModelOptions: options
+    });
+
+    await poller.poll();
+
+    return poller;
   }
 }
