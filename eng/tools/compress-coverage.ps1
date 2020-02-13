@@ -1,5 +1,5 @@
 param (
-  $pathToDir,
+  $dirName,
   $pathToDest
 )
 
@@ -7,7 +7,7 @@ if((-Not (Test-Path $pathToDest))){
   mkdir $pathToDest
 }
 
-$list = Get-ChildItem $pathToDir -Recurse -Depth 3
+$list = Get-ChildItem $dirName -Recurse -Depth 3
 Write-Host "list of code coverage reports = $list"
 Foreach ($q in $list) {
   $dir=(Split-Path (Split-Path $q) -Leaf)
