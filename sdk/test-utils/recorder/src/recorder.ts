@@ -106,7 +106,7 @@ export class TestContext implements TestContextInterface {
  * @returns {Recorder}
  */
 export function record(
-  testContext: TestContextInterface,
+  testContext: TestContextInterface | Mocha.Context,
   recorderEnvironmentSetup: RecorderEnvironmentSetup
 ): Recorder {
   let recorder: BaseRecorder;
@@ -117,7 +117,7 @@ export function record(
   // points to the individual test that will be run next.  A "before all" hook is run once before all tests,
   // so the hook itself should be used to identify recordings.  However, a "before each" hook is run once before each
   // test, so the individual test should be used instead.
-  if (testContext.test!.type == "hook" && testContext.test!.title!.includes("each")) {
+  if ((testContext as any).test!.type == "hook" && testContext.test!.title!.includes("each")) {
     testHierarchy = testContext.currentTest!.parent!.fullTitle();
     testTitle = testContext.currentTest!.title!;
   } else {
