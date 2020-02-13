@@ -1,5 +1,5 @@
 import { RecorderEnvironmentSetup, delay, stripNewLines } from "../../src/utils";
-import { record } from "../../src";
+import { record, TestContext, TestContextInterface, TestContextTest } from "../../src";
 import MD5 from "md5";
 import chai from "chai";
 const { expect } = chai;
@@ -138,13 +138,13 @@ describe("The recorder's public API, on NodeJS", () => {
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
     // we're compensating with this.
-    (this as any).currentTest = {
+    const fakeThis: TestContextInterface = new TestContext(this.test! as TestContextTest, {
+      ...this.currentTest,
       file: __filename,
-      // For this test, we don't care what's the content of the recorded function.
       fn: emptyFunction
-    };
+    });
 
-    const recorder = record(this, recorderEnvSetup);
+    const recorder = record(fakeThis, recorderEnvSetup);
     const response = await helloWorldRequest();
 
     // The playback code served the appropriate response based on the recordings.
@@ -175,19 +175,18 @@ describe("The recorder's public API, on NodeJS", () => {
     const changedTestFunction = () => {
       let the_contents_have_changed = true;
       return the_contents_have_changed;
-    }
+    };
 
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
     // we're compensating with this.
-    (this as any).currentTest = {
+    const fakeThis: TestContextInterface = new TestContext(this.test! as TestContextTest, {
+      ...this.currentTest,
       file: __filename,
-      // The hash in our expected recording is made out of an empty function.
-      // This function has something inside, which means it has changed.
       fn: changedTestFunction
-    };
+    });
 
-    const recorder = record(this, recorderEnvSetup);
+    const recorder = record(fakeThis, recorderEnvSetup);
 
     const response = await helloWorldRequest();
 

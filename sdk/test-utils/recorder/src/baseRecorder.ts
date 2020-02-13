@@ -420,7 +420,7 @@ export class NiseRecorder extends BaseRecorder {
     }
 
     // Resetting the XHR behavior to it's original state.
-    // Necessary if any code wants to use the browser outside fo the recorder once the recorder is stopped.
+    // Necessary if any code wants to use the browser outside of the recorder once the recorder is stopped.
     if (this.xhr) {
       this.xhr.useFilters = false;
       this.xhr.restore();

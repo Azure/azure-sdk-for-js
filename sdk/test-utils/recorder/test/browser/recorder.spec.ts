@@ -1,5 +1,5 @@
 import { RecorderEnvironmentSetup } from "../../src/utils";
-import { record } from "../../src";
+import { record, TestContextInterface, TestContext, TestContextTest } from "../../src";
 import xhrMock from "xhr-mock";
 import MD5 from "md5";
 import chai from "chai";
@@ -76,14 +76,12 @@ describe("The recorder's public API, on a browser", () => {
 
     // The recorder should start in the beforeEach call.
     // We have to do this to emulate that.
-    const fakeThis: any = {
-      ...this,
-      currentTest: {
-        file: "test/recorder.browser.spec.ts",
-        // For this test, we don't care what's the content of the recorded function.
-        fn: getNoOpFunction()
-      }
-    };
+    const fakeThis: TestContextInterface = new TestContext(this.test! as TestContextTest, {
+      ...this.currentTest,
+      file: "test/recorder.browser.spec.ts",
+      // For this test, we don't care what's the content of the recorded function.
+      fn: getNoOpFunction()
+    });
 
     const recorder = record(fakeThis, recorderEnvSetup);
 
@@ -292,16 +290,17 @@ describe("The recorder's public API, on a browser", () => {
     // We have to mock this.skip in order to confirm that the recorder has called it.
     // We'll make a fake this.
     let skipped = false;
-    const fakeThis = {
-      ...this,
-      skip() {
-        skipped = true;
-        throw new Error("Emulating mocha's skip");
-      }
+    const fakeThis: TestContextInterface = new TestContext(
+      this.test! as TestContextTest,
+      this.currentTest as TestContextTest
+    );
+    fakeThis.skip = () => {
+      skipped = true;
+      throw new Error("Emulating mocha's skip");
     };
 
     try {
-      record(fakeThis as Mocha.Context, recorderEnvSetup);
+      record(fakeThis, recorderEnvSetup);
     } catch (e) {
       if (e.message !== "Emulating mocha's skip") {
         throw e;

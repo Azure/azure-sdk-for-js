@@ -65,12 +65,48 @@ export interface Recorder {
 }
 
 /**
+ * An interface representing Mocha's Runnable
+ */
+export interface TestContextTest {
+  parent?: {
+    fullTitle: () => string;
+  };
+  fn?: () => any;
+  title?: string;
+  type?: string;
+  file: string;
+}
+
+/**
+ * An interface representing only the public properties of Mocha.Context
+ */
+export interface TestContextInterface {
+  test?: TestContextTest;
+  currentTest?: TestContextTest;
+  skip: () => void;
+}
+
+/**
+ * A simple class that lets us make fake contexts for tests.
+ */
+export class TestContext implements TestContextInterface {
+  public test: TestContextTest | undefined;
+  public currentTest: TestContextTest | undefined;
+  public skip() {}
+
+  constructor(test: TestContextTest, currentTest: TestContextTest) {
+    this.test = test;
+    this.currentTest = currentTest;
+  }
+}
+
+/**
  *
  * @param {Mocha.Context} [testContext]
  * @returns {Recorder}
  */
 export function record(
-  testContext: Mocha.Context,
+  testContext: TestContextInterface,
   recorderEnvironmentSetup: RecorderEnvironmentSetup
 ): Recorder {
   let recorder: BaseRecorder;
@@ -81,15 +117,12 @@ export function record(
   // points to the individual test that will be run next.  A "before all" hook is run once before all tests,
   // so the hook itself should be used to identify recordings.  However, a "before each" hook is run once before each
   // test, so the individual test should be used instead.
-  if (
-    (testContext as any).test.type == "hook" &&
-    (testContext as any).test.title.includes("each")
-  ) {
+  if (testContext.test!.type == "hook" && testContext.test!.title!.includes("each")) {
     testHierarchy = testContext.currentTest!.parent!.fullTitle();
-    testTitle = testContext.currentTest!.title;
+    testTitle = testContext.currentTest!.title!;
   } else {
     testHierarchy = testContext.test!.parent!.fullTitle();
-    testTitle = testContext.test!.title;
+    testTitle = testContext.test!.title!;
   }
 
   const stringTest = testContext.currentTest!.fn!.toString();
