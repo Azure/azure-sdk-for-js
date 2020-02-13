@@ -90,7 +90,7 @@ export function browserConfig(test = false) {
     input: input,
     external: ["ms-rest-js"],
     output: {
-      file: "browser/eventhubs-checkpointstore-blob.js",
+      file: "dist-browser/eventhubs-checkpointstore-blob.js",
       format: "umd",
       name: "Azure.Messaging.EventHubs.CheckpointStore.Blob",
       sourcemap: true,

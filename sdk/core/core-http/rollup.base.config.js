@@ -90,7 +90,7 @@ export function browserConfig(test = false, production = false) {
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
-      viz({ filename: "browser/browser-stats.html", sourcemap: false })
+      viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
     ]
   };
 

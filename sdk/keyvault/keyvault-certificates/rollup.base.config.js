@@ -86,7 +86,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: "dist-esm/src/index.js",
     output: {
-      file: "browser/azure-keyvault-certificates.js",
+      file: "dist-browser/azure-keyvault-certificates.js",
       banner: banner,
       format: "umd",
       name: "azurekeyvaultcertificates",

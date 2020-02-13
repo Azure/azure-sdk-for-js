@@ -82,7 +82,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: "dist-esm/src/index.browser.js",
     output: {
-      file: "browser/azure-storage-queue.js",
+      file: "dist-browser/azure-storage-queue.js",
       banner: banner,
       format: "umd",
       name: "azqueue",
