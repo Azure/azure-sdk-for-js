@@ -71,6 +71,7 @@ export {
   PartnerInfo,
   PartnerRegionInfo,
   PrivateEndpointConnection,
+  PrivateEndpointConnectionProperties,
   PrivateEndpointProperty,
   PrivateLinkResource,
   PrivateLinkResourceProperties,
@@ -98,6 +99,7 @@ export {
   ServerDnsAliasAcquisition,
   ServerDnsAliasListResult,
   ServerKey,
+  ServerPrivateEndpointConnection,
   ServerSecurityAlertPolicy,
   ServerVulnerabilityAssessment,
   ServiceObjective,
@@ -120,5 +122,7 @@ export {
   VirtualNetworkRule,
   VulnerabilityAssessmentRecurringScansProperties,
   VulnerabilityAssessmentScanError,
-  VulnerabilityAssessmentScanRecord
+  VulnerabilityAssessmentScanRecord,
+  WorkloadClassifier,
+  WorkloadGroup
 } from "../models/mappers";

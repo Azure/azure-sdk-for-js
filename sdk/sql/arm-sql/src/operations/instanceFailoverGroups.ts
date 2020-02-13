@@ -287,7 +287,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -312,7 +312,7 @@ const listByLocationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -338,7 +338,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -375,7 +375,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -401,7 +401,7 @@ const beginFailoverOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -428,7 +428,7 @@ const beginForceFailoverAllowDataLossOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
