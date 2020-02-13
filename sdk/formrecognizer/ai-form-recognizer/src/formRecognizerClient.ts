@@ -59,11 +59,11 @@ export class FormRecognizerClient {
    *
    * Example usage:
    * ```ts
-   * import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
+   * import { FormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
    *
    * const client = new FormRecognizerClient(
    *    "<service endpoint>",
-   *    new FormRecognizerApiKeyCredential("<api key>")
+   *    new CognitiveKeyCredential("<api key>")
    * );
    * ```
    * @param {string} endpointUrl The URL to the FormRecognizer endpoint
