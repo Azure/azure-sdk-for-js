@@ -91,7 +91,11 @@ import {
   WrapKeyOptions,
   WrapResult
 } from "./cryptographyClient";
-import { KeyVaultIdentifier, ParsedKeyVaultIdentifier, KeyVaultIdentifierCollections } from "./identifier";
+import {
+  KeyVaultIdentifier,
+  ParsedKeyVaultIdentifier,
+  KeyVaultIdentifierCollections
+} from "./identifier";
 
 export {
   BackupKeyOptions,
@@ -295,6 +299,14 @@ export class KeyClient {
     }
 
     return this.getKeyFromKeyBundle(response);
+  }
+
+  /**
+   * Parses the KeyVault unique identifier of a KeyVault Key.
+   * @param identifier The unique identifier of the KeyVault key
+   */
+  public parseIdentifier(identifier: string): ParsedKeyVaultIdentifier {
+    return new KeyVaultIdentifier("keys", identifier);
   }
 
   /**
@@ -1126,7 +1138,7 @@ export class KeyClient {
     const keyBundle = bundle as KeyBundle;
     const deletedKeyBundle = bundle as DeletedKeyBundle;
 
-    const parsedId = new KeyVaultIdentifier("keys", keyBundle.key!.kid!);
+    const parsedId = this.parseIdentifier(keyBundle.key!.kid!);
 
     const attributes: any = keyBundle.attributes || {};
     delete keyBundle.attributes;
@@ -1177,7 +1189,7 @@ export class KeyClient {
    * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
    */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
-    const parsedId = new KeyVaultIdentifier("keys", keyItem.kid!);
+    const parsedId = this.parseIdentifier(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 
@@ -1221,7 +1233,7 @@ export class KeyClient {
    * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
-    const parsedId = new KeyVaultIdentifier("keys", keyItem.kid!);
+    const parsedId = this.parseIdentifier(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 
