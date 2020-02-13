@@ -1,5 +1,8 @@
 # Release History
 
+## 12.1.1 (Unreleased)
+
+
 ## 12.1.0 (2020-02-11)
 - Updated Azure Storage Service API version to 2019-07-07.
 - A new type `ShareLeaseClient` is added to manage leases.
