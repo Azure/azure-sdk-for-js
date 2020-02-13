@@ -70,7 +70,7 @@ describe("The recorder's public API, on a browser", () => {
     // so we need to mock the console.log function to capture and test the recorder output.
     const originalConsoleLog = console.log;
     const savedConsoleLogParams: any[] = [];
-    console.log = (...params: any) => {
+    console.log = (...params: any[]) => {
       savedConsoleLogParams.push(params);
     };
 
