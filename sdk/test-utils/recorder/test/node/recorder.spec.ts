@@ -87,13 +87,11 @@ describe("The recorder's public API, on NodeJS", () => {
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
     // we're compensating with this.
-    const fakeThis: any = {
-      ...this,
-      currentTest: {
-        file: __filename,
-        fn: emptyFunction
-      }
-    };
+    const fakeThis: TestContextInterface = new TestContext(this.test! as TestContextTest, {
+      ...this.currentTest,
+      file: __filename,
+      fn: emptyFunction
+    });
 
     const recorder = record(fakeThis, recorderEnvSetup);
 
@@ -232,22 +230,19 @@ describe("The recorder's public API, on NodeJS", () => {
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
     // we're compensating with this.
-    (this as any).currentTest = {
+    let skipped = false;
+    const fakeThis: TestContextInterface = new TestContext(this.test! as TestContextTest, {
+      ...this.currentTest,
       file: __filename,
       // The hash in our expected recording is made out of an empty function.
       // This function is empty, which means it remains the same.
       fn: emptyFunction
-    };
+    });
 
     // We have to mock this.skip in order to confirm that the recorder has called it.
-    // We'll make a fake this.
-    let skipped = false;
-    const fakeThis: any = {
-      ...this,
-      skip: () => {
-        skipped = true;
-        throw new Error("Emulating mocha's skip");
-      }
+    fakeThis.skip = () => {
+      skipped = true;
+      throw new Error("Emulating mocha's skip");
     };
 
     try {

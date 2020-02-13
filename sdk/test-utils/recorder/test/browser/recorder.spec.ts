@@ -41,7 +41,7 @@ const getNoOpFunction = () => {
  */
 const getAnotherNoOpFunction = () => {
   /* istanbul ignore next */
-  return (x: any) => x;
+  return () => 1;
 };
 
 describe("The recorder's public API, on a browser", () => {
@@ -144,14 +144,12 @@ describe("The recorder's public API, on a browser", () => {
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
     // we're compensating with this.
-    const fakeThis: any = {
-      ...this,
-      currentTest: {
-        file: "test/recorder.browser.spec.ts",
-        // For this test, we don't care what's the content of the recorded function.
-        fn: getNoOpFunction()
-      }
-    };
+    const fakeThis: TestContextInterface = new TestContext(this.test! as TestContextTest, {
+      ...this.currentTest,
+      file: "test/recorder.browser.spec.ts",
+      // For this test, we don't care what's the content of the recorded function.
+      fn: getNoOpFunction()
+    });
 
     const recorder = record(fakeThis, recorderEnvSetup);
 
@@ -206,15 +204,13 @@ describe("The recorder's public API, on a browser", () => {
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
     // we're compensating with this.
-    const fakeThis: any = {
-      ...this,
-      currentTest: {
-        file: "test/recorder.browser.spec.ts",
-        // The hash in our expected recording is made out of an empty function.
-        // This function has something inside, which means it has changed.
-        fn: getAnotherNoOpFunction()
-      }
-    };
+    const fakeThis: TestContextInterface = new TestContext(this.test! as TestContextTest, {
+      ...this.currentTest,
+      file: "test/recorder.browser.spec.ts",
+      // The hash in our expected recording is made out of an empty function.
+      // This function has something inside, which means it has changed.
+      fn: getAnotherNoOpFunction()
+    });
 
     const recorder = record(fakeThis, recorderEnvSetup);
 
@@ -280,20 +276,17 @@ describe("The recorder's public API, on a browser", () => {
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
     // we're compensating with this.
-    (this as any).currentTest = {
+    let skipped = false;
+    const fakeThis: TestContextInterface = new TestContext(this.test! as TestContextTest, {
+      ...this.currentTest,
       file: "test/recorder.browser.spec.ts",
       // The hash in our expected recording is made out of an empty function.
       // This function is empty, which means it remains the same.
       fn: getNoOpFunction()
-    };
+    });
 
     // We have to mock this.skip in order to confirm that the recorder has called it.
     // We'll make a fake this.
-    let skipped = false;
-    const fakeThis: TestContextInterface = new TestContext(
-      this.test! as TestContextTest,
-      this.currentTest as TestContextTest
-    );
     fakeThis.skip = () => {
       skipped = true;
       throw new Error("Emulating mocha's skip");
