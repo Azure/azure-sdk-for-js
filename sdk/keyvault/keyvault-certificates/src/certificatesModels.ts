@@ -124,7 +124,7 @@ export interface CertificateOperation {
    */
   certificateTransparency?: boolean;
   /**
-   * The certificate signing request (CSR) that is being used in the certificate operation.
+   * The base64-encoded certificate signing request (CSR) that is being used in the certificate operation.
    */
   csr?: Uint8Array;
   /**
@@ -170,7 +170,7 @@ export type CertificateContentType = "application/x-pem-file" | "application/x-p
  */
 export interface KeyVaultCertificate {
   /**
-   * CER contents of x509 certificate.
+   * The base64-encoded CER contents of x509 certificate.
    */
   cer?: Uint8Array;
   /**
@@ -465,7 +465,7 @@ export interface CertificateProperties {
    */
   readonly version?: string;
   /**
-   * Thumbprint of the certificate.
+   * The base64-encoded thumbprint of the certificate.
    */
   readonly x509Thumbprint?: Uint8Array;
 }
