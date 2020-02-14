@@ -10,7 +10,7 @@ import {
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";
-import { Sender, Receiver } from "rhea-promise";
+import { AwaitableSender, Receiver } from "rhea-promise";
 import { getUniqueName } from "../util/utils";
 
 /**
@@ -225,7 +225,7 @@ export class LinkEntity {
    * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be closed and
    * removed.
    */
-  protected async _closeLink(link?: Sender | Receiver): Promise<void> {
+  protected async _closeLink(link?: AwaitableSender | Receiver): Promise<void> {
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     if (link) {
       try {
