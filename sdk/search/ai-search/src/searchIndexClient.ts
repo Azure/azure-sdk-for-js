@@ -23,7 +23,8 @@ import {
   SearchDocumentsResult,
   SuggestRequest,
   IndexAction,
-  IndexDocumentsResult
+  IndexDocumentsResult,
+  SuggestResult
 } from "./generated/data/models";
 
 /**
@@ -50,6 +51,16 @@ export interface ModifyIndexOptions extends OperationOptions {
    */
   throwOnAnyFailure?: boolean;
 }
+
+export interface UploadDocumentsOptions extends ModifyIndexOptions {
+  mergeIfExists?: boolean;
+}
+
+export interface UpdateDocumentsOptions extends ModifyIndexOptions {
+  uploadIfNotExists?: boolean;
+}
+
+export type DeleteDocumentsOptions = ModifyIndexOptions;
 
 export interface ListSearchResultsPageSettings {
   /**
@@ -137,8 +148,6 @@ export class SearchIndexClient {
       }
     };
 
-    // TODO, generateClientRequestIdPolicy can't be passed a custom argument
-    // when using this codepath, but we need to use "client-request-id" somehow...
     const pipeline = createPipelineFromOptions(internalPipelineOptions, signingPolicy(credential));
     this.client = new GeneratedClient(
       credential,
@@ -149,7 +158,7 @@ export class SearchIndexClient {
     );
   }
 
-  public async count(options: CountOptions = {}) {
+  public async count(options: CountOptions = {}): Promise<number> {
     const result = await this.client.documents.count(operationOptionsToRequestOptionsBase(options));
     return Number(result._response.bodyAsText);
   }
@@ -245,7 +254,11 @@ export class SearchIndexClient {
     };
   }
 
-  public async suggest(suggesterName: string, searchText: string, options: SuggestOptions = {}) {
+  public async suggest(
+    suggesterName: string,
+    searchText: string,
+    options: SuggestOptions = {}
+  ): Promise<SuggestResult> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const fullOptions: SuggestRequest = {
       suggesterName,
@@ -260,12 +273,12 @@ export class SearchIndexClient {
     return result;
   }
 
-  public async getDocument(key: string, options: GetDocumentOptions = {}) {
+  public async getDocument<T>(key: string, options: GetDocumentOptions = {}): Promise<T> {
     const result = await this.client.documents.get(
       key,
       operationOptionsToRequestOptionsBase(options)
     );
-    return result;
+    return result.body;
   }
 
   /**
@@ -289,6 +302,53 @@ export class SearchIndexClient {
       throw result;
     }
     return result;
+  }
+
+  public async uploadDocuments<T>(
+    documents: T[],
+    options: UploadDocumentsOptions = {}
+  ): Promise<IndexDocumentsResult> {
+    const actionType = options.mergeIfExists ? "mergeOrUpload" : "upload";
+
+    const batch = documents.map<IndexAction>((doc) => {
+      return {
+        ...doc,
+        actionType
+      };
+    });
+
+    return this.modifyIndex(batch, options);
+  }
+
+  public async updateDocuments<T>(
+    documents: T[],
+    options: UpdateDocumentsOptions = {}
+  ): Promise<IndexDocumentsResult> {
+    const actionType = options.uploadIfNotExists ? "mergeOrUpload" : "merge";
+
+    const batch = documents.map<IndexAction>((doc) => {
+      return {
+        ...doc,
+        actionType
+      };
+    });
+
+    return this.modifyIndex(batch, options);
+  }
+
+  public async deleteDocuments(
+    keyName: string,
+    keyValues: string[],
+    options: DeleteDocumentsOptions = {}
+  ): Promise<IndexDocumentsResult> {
+    const batch = keyValues.map<IndexAction>((keyValue) => {
+      return {
+        actionType: "delete",
+        [keyName]: keyValue
+      };
+    });
+
+    return this.modifyIndex(batch, options);
   }
 
   private extractOperationOptions<T extends OperationOptions>(
