@@ -145,9 +145,9 @@ jobs:
         displayName: "Install script dependencies"
 
       - script: |
-          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" 
+          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
-        displayName: "Selecting packages to build"
+        displayName: "Get package path"
 
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish Code Coverage to DevOps'
