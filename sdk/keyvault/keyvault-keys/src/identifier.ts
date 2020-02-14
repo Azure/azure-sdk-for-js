@@ -5,6 +5,11 @@ import { parseKeyvaultIdentifier } from "./core/utils";
  */
 export interface ParsedKeyVaultIdentifier {
   /**
+   * The type of resource under KeyVault that this identifier is referring to.
+   */
+  collection: "keys" | "secrets" | "certificates";
+
+  /**
    * The KeyVault Key unique identifier (an URI).
    */
   vaultUri: string;
@@ -25,6 +30,11 @@ export interface ParsedKeyVaultIdentifier {
  */
 export class KeyVaultIdentifier implements ParsedKeyVaultIdentifier {
   /**
+   * The type of resource under KeyVault that this identifier is referring to.
+   */
+  collection: "keys" | "secrets" | "certificates";
+
+  /**
    * The KeyVault Key unique identifier (an URI).
    */
   public vaultUri: string;
@@ -42,6 +52,7 @@ export class KeyVaultIdentifier implements ParsedKeyVaultIdentifier {
   constructor(uri: string) {
     const coreParsedIdentifier = parseKeyvaultIdentifier("keys", uri);
 
+    this.collection = "keys";
     this.vaultUri = coreParsedIdentifier.vaultUrl;
     this.version = coreParsedIdentifier.version;
     this.name = coreParsedIdentifier.name;

@@ -204,15 +204,12 @@ export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
 export class KeyVaultIdentifier implements ParsedKeyVaultIdentifier {
-    constructor(collection: KeyVaultIdentifierCollections, identifier: string);
-    id: string;
+    constructor(uri: string);
+    collection: "keys" | "secrets" | "certificates";
     name: string;
     vaultUri: string;
     version?: string;
 }
-
-// @public
-export type KeyVaultIdentifierCollections = "keys" | "secrets" | "certificates";
 
 // @public
 export interface KeyVaultKey {
@@ -248,7 +245,7 @@ export { PageSettings }
 
 // @public
 export interface ParsedKeyVaultIdentifier {
-    id: string;
+    collection: "keys" | "secrets" | "certificates";
     name: string;
     vaultUri: string;
     version?: string;
