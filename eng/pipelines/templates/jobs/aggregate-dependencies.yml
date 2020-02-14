@@ -27,11 +27,6 @@ jobs:
     displayName: 'Upload dependency report'
     inputs:
       sourcePath: '$(Build.ArtifactStagingDirectory)'
-      additionalArgumentsForBlobCopy: |
-        '/Y'
-        '/Pattern:*'
-        '/S'
-        '/V'
       azureSubscription: 'Azure SDK Artifacts'
       destination: AzureBlob
       storage: azuresdkartifacts
