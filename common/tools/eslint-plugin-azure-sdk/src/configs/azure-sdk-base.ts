@@ -4,8 +4,12 @@
 export default {
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: "./tsconfig.json",
-    createDefaultProgram: true
+    project: [
+      "./tsconfig.json",
+      "../../../common/tools/eslint-plugin-azure-sdk/tsconfig.lintjson.json"
+    ],
+    sourceType: "module",
+    extraFileExtensions: [".json"]
   },
   plugins: ["@typescript-eslint", "no-only-tests", "promise"],
   extends: [
@@ -14,7 +18,8 @@ export default {
     "plugin:promise/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "prettier",
-    "prettier/@typescript-eslint"
+    "prettier/@typescript-eslint",
+    "plugin:@azure/azure-sdk/recommended"
   ],
   env: {
     mocha: true
@@ -55,6 +60,8 @@ export default {
     ],
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/no-inferrable-types": "off",
+    // We use empty extends and empty interface for shimming and renaming extensively
+    "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/interface-name-prefix": ["error", "never"],
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-non-null-assertion": "off",

@@ -60,7 +60,8 @@
   "dependencies": {
     "eslint-config-prettier": "^6.0.0",
     "glob": "^7.1.2",
-    "typescript": "~3.7.5"
+    "typescript": "~3.7.5",
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.27",
