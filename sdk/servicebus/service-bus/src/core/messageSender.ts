@@ -41,7 +41,7 @@ import { throwErrorIfConnectionClosed } from "../util/errors";
  */
 export class MessageSender extends LinkEntity {
   /**
-   * @property {string} senderLock The unqiue lock name per connection that is used to acquire the
+   * @property {string} senderLock The unique lock name per connection that is used to acquire the
    * lock for establishing a sender link by an entity on that connection.
    * @readonly
    */
@@ -139,7 +139,7 @@ export class MessageSender extends LinkEntity {
         } else {
           log.error(
             "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-              "and the sdk did not initate this. Moreover the sender is already re-connecting. " +
+              "and the sdk did not initiate this. Moreover the sender is already re-connecting. " +
               "Hence not calling detached from the _onAmqpClose() handler.",
             this._context.namespace.connectionId,
             this.name,
@@ -463,9 +463,12 @@ export class MessageSender extends LinkEntity {
       }
       if (shouldReopen) {
         await defaultLock.acquire(this.senderLock, () => {
-          const senderOptions = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
+          const senderOptions = this._createSenderOptions(
+            Constants.defaultOperationTimeoutInMs,
+            true
+          );
           // shall retry forever at an interval of 15 seconds if the error is a retryable error
-          // else bail out when the error is not retryable or the oepration succeeds.
+          // else bail out when the error is not retryable or the operation succeeds.
           const config: RetryConfig<void> = {
             operation: () => this._init(senderOptions),
             connectionId: this._context.namespace.connectionId!,
@@ -492,7 +495,7 @@ export class MessageSender extends LinkEntity {
   }
 
   /**
-   * Deletes the sender fromt the context. Clears the token renewal timer. Closes the sender link.
+   * Deletes the sender from the context. Clears the token renewal timer. Closes the sender link.
    * @return {Promise<void>} Promise<void>
    */
   async close(): Promise<void> {
@@ -553,7 +556,7 @@ export class MessageSender extends LinkEntity {
         if (error instanceof TypeError || error.name === "TypeError") {
           // `RheaMessageUtil.encode` can fail if message properties are of invalid type
           // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
-          // Errors in such cases do not have user friendy message or call stack
+          // Errors in such cases do not have user-friendly message or call stack
           // So use `getMessagePropertyTypeMismatchError` to get a better error message
           throw getMessagePropertyTypeMismatchError(data) || error;
         }
@@ -666,7 +669,7 @@ export class MessageSender extends LinkEntity {
   }
 
   /**
-   * Creates a new sender to the specifiec ServiceBus entity, and optionally to a given
+   * Creates a new sender to the specific ServiceBus entity, and optionally to a given
    * partition if it is not present in the context or returns the one present in the context.
    * @static
    * @returns {Promise<MessageSender>}
