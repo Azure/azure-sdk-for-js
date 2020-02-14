@@ -3,7 +3,6 @@
 
 import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel } from "./core/models";
-import { ParsedKeyVaultIdentifier } from "./identifier";
 
 /**
  * Defines values for EncryptionAlgorithm.
@@ -43,10 +42,6 @@ export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
  * An interface representing the KeyClient. For internal use.
  */
 export interface KeyClientInterface {
-  /**
-   * Parses the KeyVault unique identifier of a KeyVault Key.
-   */
-  parseIdentifier(identifier: string): ParsedKeyVaultIdentifier;
   /**
    * Recovers the deleted key in the specified vault. This operation can only be performed on a
    * soft-delete enabled vault.
