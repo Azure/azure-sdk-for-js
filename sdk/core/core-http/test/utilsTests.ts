@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { expect } from "chai";
 import { isValidUuid } from "../lib/util/utils";
 
 describe("utils", function() {
@@ -9,9 +10,8 @@ describe("utils", function() {
 
       const uuidString = "ae9b0564-7aa1-47d1-8061-0ffd8f12f723";
 
-      isValidUuid(uuidString).should.be.true;
-
-      isValidUuid(uuidString).should.be.true;
+      expect(isValidUuid(uuidString), "First call failed").to.be.true;
+      expect(isValidUuid(uuidString), "Second call failed").to.be.true;
     })
   });
 })

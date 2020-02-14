@@ -85,7 +85,7 @@ export function browserConfig(test = false, production = false) {
       }),
       cjs({
         namedExports: {
-          chai: ["assert", "AssertionError", "should"],
+          chai: ["assert", "AssertionError", "should", "expect"],
           events: ["EventEmitter"],
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
