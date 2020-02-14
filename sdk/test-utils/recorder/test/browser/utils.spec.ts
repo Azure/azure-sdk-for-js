@@ -1,14 +1,37 @@
-import { testHasChanged, generateTestRecordingFilePath, stripNewLines } from "../../src/utils";
+import {
+  testHasChanged,
+  generateTestRecordingFilePath,
+  stripNewLines,
+  windowLens
+} from "../../src/utils";
 import chai from "chai";
 const { expect } = chai;
 
 describe("Browser utils", () => {
+  describe("windowLens", () => {
+    it("should set and set at one level of depth", () => {
+      windowLens.set(["A"], "A");
+      expect(windowLens.get(["A"])).to.equal("A");
+      // Cleaning what we just did.
+      windowLens.set(["A"], undefined);
+    });
+
+    it("should set and set at more than one level of depth", () => {
+      windowLens.set(["A", "B", "C"], "ABC");
+      expect(windowLens.get(["A", "B", "C"])).to.equal("ABC");
+      // Cleaning what we just did.
+      windowLens.set(["A", "B", "C"], undefined);
+      windowLens.set(["A", "B"], undefined);
+      windowLens.set(["A"], undefined);
+    });
+  });
+
   describe("testHasChanged", () => {
     it("Should not crash if the recorded file doesn't exist", function() {
       const testSuiteTitle = this.test!.parent!.fullTitle();
       const testTitle = this.test!.title;
 
-      (window as any).__json__ = {};
+      windowLens.set(["__json__"], {});
 
       // We won't be testing whether MD5 works or not.
       const newHash = "new hash";
@@ -24,9 +47,9 @@ describe("Browser utils", () => {
       const testTitle = this.test!.title;
       const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
 
-      (window as any).__json__ = {
+      windowLens.set(["__json__"], {
         ["recordings/" + filePath]: {}
-      };
+      });
 
       // We won't be testing whether MD5 works or not.
       const newHash = "new hash";

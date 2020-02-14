@@ -1,4 +1,4 @@
-import { RecorderEnvironmentSetup } from "../../src/utils";
+import { RecorderEnvironmentSetup, windowLens } from "../../src/utils";
 import { record, TestContextInterface, TestContext, TestContextTest } from "../../src";
 import xhrMock from "xhr-mock";
 import MD5 from "md5";
@@ -15,7 +15,7 @@ async function helloWorldRequest(): Promise<string> {
 
     const req = new XMLHttpRequest();
     req.addEventListener("load", reqListener);
-    req.open("GET", (window as any).__env__.PATH!);
+    req.open("GET", windowLens.get(["__env__", "PATH"]));
     req.send();
   });
 }
@@ -46,14 +46,14 @@ const getAnotherNoOpFunction = () => {
 
 describe("The recorder's public API, on a browser", () => {
   afterEach(() => {
-    delete (window as any).__env__.TEST_MODE;
-    delete (window as any).__env__.PATH;
+    windowLens.set(["__env__", "TEST_MODE"], undefined);
+    windowLens.set(["__env__", "PATH"], undefined);
   });
 
   it("should record a simple test", async function() {
     // Setting up the record mode, and the PATH environment variable.
-    (window as any).__env__.TEST_MODE = "record";
-    (window as any).__env__.PATH = "/to/replace";
+    windowLens.set(["__env__", "TEST_MODE"], "record");
+    windowLens.set(["__env__", "PATH"], "/to/replace");
 
     // We can't use Nise's FakeServer since the recorder ends up sending the request through the original XHR anyway.
     xhrMock.setup();
@@ -86,7 +86,7 @@ describe("The recorder's public API, on a browser", () => {
     const recorder = record(fakeThis, recorderEnvSetup);
 
     // Restoring the XHR, otherwise we can't test this.
-    window.XMLHttpRequest = originalXHR;
+    windowLens.set(["XMLHttpRequest"], originalXHR);
 
     const response = await helloWorldRequest();
 
@@ -125,10 +125,10 @@ describe("The recorder's public API, on a browser", () => {
     // Setting up the playback mode.
     // The PATH environment variable is not needed on playback.
     // The recorder will assume that it is in playback mode by default.
-    // (window as any).__env__.TEST_MODE = "playback";
+    // windowLens.set(["__env__", "TEST_MODE"], "playback");
 
     // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
-    (window as any).__json__ = {
+    windowLens.set(["__json__"], {
       ["recordings/browsers/the_recorders_public_api_on_a_browser/recording_should_playback_a_simple_test.json"]: {
         recordings: [
           {
@@ -139,7 +139,7 @@ describe("The recorder's public API, on a browser", () => {
         ],
         uniqueTestInfo: { uniqueName: {}, newDate: {} }
       }
-    };
+    });
 
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
@@ -164,11 +164,11 @@ describe("The recorder's public API, on a browser", () => {
   it("soft-record should re-record a simple outdated test", async function() {
     // Setting up the playback mode.
     // The PATH environment variable is not needed on playback.
-    (window as any).__env__.TEST_MODE = "soft-record";
-    (window as any).__env__.PATH = "/to/replace";
+    windowLens.set(["__env__", "TEST_MODE"], "soft-record");
+    windowLens.set(["__env__", "PATH"], "/to/replace");
 
     // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
-    (window as any).__json__ = {
+    windowLens.set(["__json__"], {
       ["recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json"]: {
         recordings: [
           {
@@ -180,7 +180,7 @@ describe("The recorder's public API, on a browser", () => {
         uniqueTestInfo: { uniqueName: {}, newDate: {} },
         hash: "fake old hash"
       }
-    };
+    });
 
     // We can't use Nise's FakeServer since the recorder ends up sending the request through the original XHR anyway.
     xhrMock.setup();
@@ -215,7 +215,7 @@ describe("The recorder's public API, on a browser", () => {
     const recorder = record(fakeThis, recorderEnvSetup);
 
     // Restoring the XHR, otherwise we can't test this.
-    window.XMLHttpRequest = originalXHR;
+    windowLens.set(["XMLHttpRequest"], originalXHR);
 
     const response = await helloWorldRequest();
 
@@ -255,10 +255,10 @@ describe("The recorder's public API, on a browser", () => {
   it("soft-record should skip a simple unchanged test", async function() {
     // Setting up the playback mode.
     // The PATH environment variable is not needed on playback.
-    (window as any).__env__.TEST_MODE = "soft-record";
+    windowLens.set(["__env__", "TEST_MODE"], "soft-record");
 
     // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
-    (window as any).__json__ = {
+    windowLens.set(["__json__"], {
       ["recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_skip_a_simple_unchanged_test.json"]: {
         recordings: [
           {
@@ -271,7 +271,7 @@ describe("The recorder's public API, on a browser", () => {
         // This is the expected hash
         hash: MD5(getNoOpFunction().toString())
       }
-    };
+    });
 
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,

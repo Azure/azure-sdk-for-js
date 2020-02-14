@@ -14,7 +14,8 @@ import {
   filterSecretsFromStrings,
   filterSecretsRecursivelyFromJSON,
   generateTestRecordingFilePath,
-  nodeRequireRecordingIfExists
+  nodeRequireRecordingIfExists,
+  windowLens
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -340,12 +341,16 @@ export class NiseRecorder extends BaseRecorder {
     this.xhr = xhr;
 
     // 'karma-json-preprocessor' helps us to retrieve recordings
-    this.recordings = (window as any).__json__[
-      "recordings/" + this.relativeTestRecordingFilePath
-    ].recordings;
-    this.uniqueTestInfo = (window as any).__json__[
-      "recordings/" + this.relativeTestRecordingFilePath
-    ].uniqueTestInfo;
+    this.recordings = windowLens.get([
+      "__json__",
+      "recordings/" + this.relativeTestRecordingFilePath,
+      "recordings"
+    ]);
+    this.uniqueTestInfo = windowLens.get([
+      "__json__",
+      "recordings/" + this.relativeTestRecordingFilePath,
+      "uniqueTestInfo"
+    ]);
 
     // 'onCreate' function is called when a new fake XMLHttpRequest object (req) is created
     xhr.onCreate = function(req: any) {

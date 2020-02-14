@@ -449,8 +449,8 @@ export function testHasChanged(
     try {
       previousHash = nodeRequireRecordingIfExists(recordingPath, testAbsolutePath).hash;
     } catch (e) {}
-  } else if ((window as any).__json__["recordings/" + recordingPath]) {
-    previousHash = (window as any).__json__["recordings/" + recordingPath].hash;
+  } else if (windowLens.get(["__json__", "recordings/" + recordingPath])) {
+    previousHash = windowLens.get(["__json__", "recordings/" + recordingPath, "hash"]);
   }
 
   if (!previousHash) {
@@ -467,3 +467,32 @@ export function testHasChanged(
 export function stripNewLines(str: string): string {
   return str.replace(/(\r\n|\n|\r)/gm, "");
 }
+
+/**
+ * A method that allows us to alter and retrieve from the Window object.
+ * This will help us clean up the code later.
+ */
+export const windowLens: {
+  get: (propertyPath: string[], root?: any) => any;
+  set: (propertyPath: string[], propertyValue: any, root?: any) => void;
+} = {
+  get(propertyPath: string[], root = window): any {
+    if (propertyPath.length === 1) {
+      return root[propertyPath[0]];
+    }
+    if (!root[propertyPath[0]]) {
+      return;
+    }
+    return this.get(propertyPath.slice(1), root[propertyPath[0]]);
+  },
+  set(propertyPath: string[], propertyValue: any, root = window): void {
+    if (propertyPath.length === 1) {
+      root[propertyPath[0]] = propertyValue;
+      return;
+    }
+    if (!root[propertyPath[0]]) {
+      root[propertyPath[0]] = {};
+    }
+    return this.set(propertyPath.slice(1), propertyValue, root[propertyPath[0]]);
+  }
+};
