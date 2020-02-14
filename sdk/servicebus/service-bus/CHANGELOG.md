@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-preview.1 (#ToBeReleased)
+## 2.0.0-preview.1 (Unreleased)
 
 - Fixes [bug 6816](https://github.com/Azure/azure-sdk-for-js/issues/6816) affecting messages sent using the `scheduleMessage()` and `scheduleMessages()` methods. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372)
 
