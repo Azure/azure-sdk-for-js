@@ -10,6 +10,202 @@
 import * as coreHttp from "@azure/core-http";
 
 /**
+ * Filter to apply to the documents in the source path for training.
+ */
+export interface TrainSourceFilter {
+  /**
+   * A case-sensitive prefix string to filter documents in the source path for training. For
+   * example, when using a Azure storage blob Uri, use the prefix to restrict sub folders for
+   * training.
+   */
+  prefix?: string;
+  /**
+   * A flag to indicate if sub folders within the set of prefix folders will also need to be
+   * included when searching for content to be preprocessed. Default value: false.
+   */
+  includeSubFolders?: boolean;
+}
+
+/**
+ * Request parameter to train a new custom model.
+ */
+export interface TrainRequest {
+  /**
+   * Source path containing the training documents.
+   */
+  source: string;
+  /**
+   * Filter to apply to the documents in the source path for training.
+   */
+  sourceFilter?: TrainSourceFilter;
+  /**
+   * Use label file for training a model. Default value: false.
+   */
+  useLabelFile?: boolean;
+}
+
+/**
+ * An interface representing ErrorInformation.
+ */
+export interface ErrorInformation {
+  code: string;
+  message: string;
+}
+
+/**
+ * Report for a custom model training document.
+ */
+export interface TrainingDocumentInfo {
+  /**
+   * Training document name.
+   */
+  documentName: string;
+  /**
+   * Total number of pages trained.
+   */
+  pages: number;
+  /**
+   * List of errors.
+   */
+  errors: ErrorInformation[];
+  /**
+   * Status of the training operation. Possible values include: 'succeeded', 'partiallySucceeded',
+   * 'failed'
+   */
+  status: TrainStatus;
+}
+
+/**
+ * Report for a custom model training field.
+ */
+export interface FormFieldsReport {
+  /**
+   * Training field name.
+   */
+  fieldName: string;
+  /**
+   * Estimated extraction accuracy for this field.
+   */
+  accuracy: number;
+}
+
+/**
+ * Custom model training result.
+ */
+export interface TrainResult {
+  /**
+   * List of the documents used to train the model and any errors reported in each document.
+   */
+  trainingDocuments: TrainingDocumentInfo[];
+  /**
+   * List of fields used to train the model and the train operation error reported by each.
+   */
+  fields?: FormFieldsReport[];
+  /**
+   * Average accuracy.
+   */
+  averageModelAccuracy?: number;
+  /**
+   * Errors returned during the training operation.
+   */
+  errors?: ErrorInformation[];
+}
+
+/**
+ * Uri or local path to source data.
+ */
+export interface SourcePath {
+  /**
+   * File source path.
+   */
+  source?: string;
+}
+
+/**
+ * Basic custom model information.
+ */
+export interface ModelInfo {
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Status of the model. Possible values include: 'creating', 'ready', 'invalid'
+   */
+  status: ModelStatus;
+  /**
+   * Date and time (UTC) when the model was created.
+   */
+  createdDateTime: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastUpdatedDateTime: Date;
+}
+
+/**
+ * Summary of all trained custom models.
+ */
+export interface ModelsSummary {
+  /**
+   * Current count of trained custom models.
+   */
+  count: number;
+  /**
+   * Max number of models that can be trained for this subscription.
+   */
+  limit: number;
+  /**
+   * Date and time (UTC) when the summary was last updated.
+   */
+  lastUpdatedDateTime: Date;
+}
+
+/**
+ * Response to the list custom models operation.
+ */
+export interface ModelsModel {
+  /**
+   * Summary of all trained custom models.
+   */
+  summary?: ModelsSummary;
+  /**
+   * Collection of trained custom models.
+   */
+  modelList?: ModelInfo[];
+  /**
+   * Link to the next page of custom models.
+   */
+  nextLink?: string;
+}
+
+/**
+ * Keys extracted by the custom model.
+ */
+export interface KeysResult {
+  /**
+   * Object mapping clusterIds to a list of keys.
+   */
+  clusters: { [propertyName: string]: string[] };
+}
+
+/**
+ * Response to the get custom model operation.
+ */
+export interface Model {
+  modelInfo: ModelInfo;
+  keys?: KeysResult;
+  trainResult?: TrainResult;
+}
+
+/**
+ * An interface representing ErrorResponse.
+ */
+export interface ErrorResponse {
+  error: ErrorInformation;
+}
+
+/**
  * An object representing a word.
  */
 export interface TextWord {
@@ -234,11 +430,11 @@ export interface FieldValue {
   /**
    * Date value.
    */
-  valueDate?: Date;
+  valueDate?: string;
   /**
    * Time value.
    */
-  valueTime?: Date;
+  valueTime?: string;
   /**
    * Phone number value.
    */
@@ -301,14 +497,6 @@ export interface DocumentResult {
 }
 
 /**
- * An interface representing ErrorInformation.
- */
-export interface ErrorInformation {
-  code: string;
-  message: string;
-}
-
-/**
  * Analyze operation result.
  */
 export interface AnalyzeResult {
@@ -357,194 +545,6 @@ export interface AnalyzeOperationResult {
 }
 
 /**
- * Filter to apply to the documents in the source path for training.
- */
-export interface TrainSourceFilter {
-  /**
-   * A case-sensitive prefix string to filter documents in the source path for training. For
-   * example, when using a Azure storage blob Uri, use the prefix to restrict sub folders for
-   * training.
-   */
-  prefix?: string;
-  /**
-   * A flag to indicate if sub folders within the set of prefix folders will also need to be
-   * included when searching for content to be preprocessed. Default value: false.
-   */
-  includeSubFolders?: boolean;
-}
-
-/**
- * Request parameter to train a new custom model.
- */
-export interface TrainRequest {
-  /**
-   * Source path containing the training documents.
-   */
-  source: string;
-  /**
-   * Filter to apply to the documents in the source path for training.
-   */
-  sourceFilter?: TrainSourceFilter;
-  /**
-   * Use label file for training a model. Default value: false.
-   */
-  useLabelFile?: boolean;
-}
-
-/**
- * Report for a custom model training document.
- */
-export interface TrainingDocumentInfo {
-  /**
-   * Training document name.
-   */
-  documentName: string;
-  /**
-   * Total number of pages trained.
-   */
-  pages: number;
-  /**
-   * List of errors.
-   */
-  errors: ErrorInformation[];
-  /**
-   * Status of the training operation. Possible values include: 'succeeded', 'partiallySucceeded',
-   * 'failed'
-   */
-  status: TrainStatus;
-}
-
-/**
- * Report for a custom model training field.
- */
-export interface FormFieldsReport {
-  /**
-   * Training field name.
-   */
-  fieldName: string;
-  /**
-   * Estimated extraction accuracy for this field.
-   */
-  accuracy: number;
-}
-
-/**
- * Custom model training result.
- */
-export interface TrainResult {
-  /**
-   * List of the documents used to train the model and any errors reported in each document.
-   */
-  trainingDocuments: TrainingDocumentInfo[];
-  /**
-   * List of fields used to train the model and the train operation error reported by each.
-   */
-  fields?: FormFieldsReport[];
-  /**
-   * Average accuracy.
-   */
-  averageModelAccuracy?: number;
-  /**
-   * Errors returned during the training operation.
-   */
-  errors?: ErrorInformation[];
-}
-
-/**
- * Uri or local path to source data.
- */
-export interface SourcePath {
-  /**
-   * File source path.
-   */
-  source?: string;
-}
-
-/**
- * Basic custom model information.
- */
-export interface ModelInfo {
-  /**
-   * Model identifier.
-   */
-  modelId: string;
-  /**
-   * Status of the model. Possible values include: 'creating', 'ready', 'invalid'
-   */
-  status: ModelStatus;
-  /**
-   * Date and time (UTC) when the model was created.
-   */
-  createdDateTime: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
-  lastUpdatedDateTime: Date;
-}
-
-/**
- * Summary of all trained custom models.
- */
-export interface ModelsSummary {
-  /**
-   * Current count of trained custom models.
-   */
-  count: number;
-  /**
-   * Max number of models that can be trained for this subscription.
-   */
-  limit: number;
-  /**
-   * Date and time (UTC) when the summary was last updated.
-   */
-  lastUpdatedDateTime: Date;
-}
-
-/**
- * Response to the list custom models operation.
- */
-export interface ModelsModel {
-  /**
-   * Summary of all trained custom models.
-   */
-  summary?: ModelsSummary;
-  /**
-   * Collection of trained custom models.
-   */
-  modelList?: ModelInfo[];
-  /**
-   * Link to the next page of custom models.
-   */
-  nextLink?: string;
-}
-
-/**
- * Keys extracted by the custom model.
- */
-export interface KeysResult {
-  /**
-   * Object mapping clusterIds to a list of keys.
-   */
-  clusters: { [propertyName: string]: string[] };
-}
-
-/**
- * Response to the get custom model operation.
- */
-export interface Model {
-  modelInfo: ModelInfo;
-  keys?: KeysResult;
-  trainResult?: TrainResult;
-}
-
-/**
- * An interface representing ErrorResponse.
- */
-export interface ErrorResponse {
-  error: ErrorInformation;
-}
-
-/**
  * Optional Parameters.
  */
 export interface FormRecognizerClientGetCustomModelsOptionalParams extends coreHttp.RequestOptionsBase {
@@ -576,7 +576,7 @@ export interface FormRecognizerClientAnalyzeWithCustomModelOptionalParams extend
   /**
    * .json, .pdf, .jpg, .png or .tiff type file stream.
    */
-  fileStream?: any;
+  fileStream?: SourcePath;
 }
 
 /**
@@ -590,7 +590,7 @@ export interface FormRecognizerClientAnalyzeReceiptAsyncOptionalParams extends c
   /**
    * .json, .pdf, .jpg, .png or .tiff type file stream.
    */
-  fileStream?: any;
+  fileStream?: SourcePath;
 }
 
 /**
@@ -600,7 +600,7 @@ export interface FormRecognizerClientAnalyzeLayoutAsyncOptionalParams extends co
   /**
    * .json, .pdf, .jpg, .png or .tiff type file stream.
    */
-  fileStream?: any;
+  fileStream?: SourcePath;
 }
 
 /**
@@ -656,6 +656,22 @@ export interface AnalyzeLayoutAsyncHeaders {
 export type OperationStatus = 'notStarted' | 'running' | 'succeeded' | 'failed';
 
 /**
+ * Defines values for TrainStatus.
+ * Possible values include: 'succeeded', 'partiallySucceeded', 'failed'
+ * @readonly
+ * @enum {string}
+ */
+export type TrainStatus = 'succeeded' | 'partiallySucceeded' | 'failed';
+
+/**
+ * Defines values for ModelStatus.
+ * Possible values include: 'creating', 'ready', 'invalid'
+ * @readonly
+ * @enum {string}
+ */
+export type ModelStatus = 'creating' | 'ready' | 'invalid';
+
+/**
  * Defines values for LengthUnit.
  * Possible values include: 'pixel', 'inch'
  * @readonly
@@ -679,22 +695,6 @@ export type Language = 'en' | 'es';
  * @enum {string}
  */
 export type FieldValueType = 'string' | 'date' | 'time' | 'phoneNumber' | 'number' | 'integer' | 'array' | 'object';
-
-/**
- * Defines values for TrainStatus.
- * Possible values include: 'succeeded', 'partiallySucceeded', 'failed'
- * @readonly
- * @enum {string}
- */
-export type TrainStatus = 'succeeded' | 'partiallySucceeded' | 'failed';
-
-/**
- * Defines values for ModelStatus.
- * Possible values include: 'creating', 'ready', 'invalid'
- * @readonly
- * @enum {string}
- */
-export type ModelStatus = 'creating' | 'ready' | 'invalid';
 
 /**
  * Defines values for Op.

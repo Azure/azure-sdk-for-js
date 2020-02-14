@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://github.com/azure/azure-rest-api-specs/blob/master/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.0/FormRecognizer.json
+input-file: https://raw.githubusercontent.com/kristapratico/azure-rest-api-specs/form-recognizer-patch/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.0/FormRecognizer.json
 add-credentials: true
 use-extension:
   "@microsoft.azure/autorest.typescript": "5.0.1"

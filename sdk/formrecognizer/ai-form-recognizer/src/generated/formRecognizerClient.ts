@@ -426,12 +426,7 @@ const analyzeWithCustomModelOperationSpec: coreHttp.OperationSpec = {
       "options",
       "fileStream"
     ],
-    mapper: {
-      serializedName: "fileStream",
-      type: {
-        name: "Object"
-      }
-    }
+    mapper: Mappers.SourcePath
   },
   responses: {
     202: {
@@ -478,12 +473,7 @@ const analyzeReceiptAsyncOperationSpec: coreHttp.OperationSpec = {
       "options",
       "fileStream"
     ],
-    mapper: {
-      serializedName: "fileStream",
-      type: {
-        name: "Object"
-      }
-    }
+    mapper: Mappers.SourcePath
   },
   responses: {
     202: {
@@ -526,12 +516,7 @@ const analyzeLayoutAsyncOperationSpec: coreHttp.OperationSpec = {
       "options",
       "fileStream"
     ],
-    mapper: {
-      serializedName: "fileStream",
-      type: {
-        name: "Object"
-      }
-    }
+    mapper: Mappers.SourcePath
   },
   responses: {
     202: {
