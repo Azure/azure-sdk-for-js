@@ -19,9 +19,10 @@ export {
   Endpoint,
   ErrorResponse,
   Experiment,
+  ExperimentList,
+  ExperimentUpdateModel,
   ForwardingConfiguration,
   FrontDoor,
-  FrontDoorListResult,
   FrontendEndpoint,
   FrontendEndpointLink,
   FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink,
@@ -54,7 +55,5 @@ export {
   SubResource,
   Timeseries,
   TimeseriesDataPoint,
-  ValidateCustomDomainInput,
-  ValidateCustomDomainOutput,
   WebApplicationFirewallPolicy
 } from "../models/mappers";

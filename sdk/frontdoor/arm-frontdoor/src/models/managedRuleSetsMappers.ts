@@ -21,7 +21,6 @@ export {
   Experiment,
   ForwardingConfiguration,
   FrontDoor,
-  FrontDoorListResult,
   FrontendEndpoint,
   FrontendEndpointLink,
   FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink,
@@ -38,6 +37,7 @@ export {
   ManagedRuleOverride,
   ManagedRuleSet,
   ManagedRuleSetDefinition,
+  ManagedRuleSetDefinitionList,
   ManagedRuleSetList,
   MatchCondition,
   PolicySettings,
@@ -54,7 +54,5 @@ export {
   SubResource,
   Timeseries,
   TimeseriesDataPoint,
-  ValidateCustomDomainInput,
-  ValidateCustomDomainOutput,
   WebApplicationFirewallPolicy
 } from "../models/mappers";
