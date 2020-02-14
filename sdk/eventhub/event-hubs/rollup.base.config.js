@@ -90,7 +90,7 @@ export function browserConfig(test = false) {
     input: input,
     external: ["ms-rest-js"],
     output: {
-      file: "browser/event-hubs.js",
+      file: "dist-browser/event-hubs.js",
       format: "umd",
       name: "Azure.Messaging.EventHubs",
       sourcemap: true,

@@ -4,22 +4,19 @@
 
 ```ts
 
-import { AmqpMessage } from '@azure/amqp-common';
-import { ApplicationTokenCredentials } from '@azure/ms-rest-nodeauth';
-import { DataTransformer } from '@azure/amqp-common';
-import { DefaultDataTransformer } from '@azure/amqp-common';
-import { delay } from '@azure/amqp-common';
+import { AmqpMessage } from '@azure/core-amqp';
+import { DataTransformer } from '@azure/core-amqp';
+import { DefaultDataTransformer } from '@azure/core-amqp';
+import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
-import { MessagingError } from '@azure/amqp-common';
-import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
-import { TokenInfo } from '@azure/amqp-common';
-import { TokenProvider } from '@azure/amqp-common';
-import { TokenType } from '@azure/amqp-common';
-import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
+import { MessagingError } from '@azure/core-amqp';
+import { RetryOptions } from '@azure/core-amqp';
+import { TokenCredential } from '@azure/core-amqp';
+import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
+import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
 export type AuthorizationRule = {
@@ -192,6 +189,8 @@ export class Receiver {
     renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;
     }
 
+export { RetryOptions }
+
 // @public
 export interface RuleDescription {
     action?: string;
@@ -249,10 +248,9 @@ export class Sender {
 
 // @public
 export class ServiceBusClient {
+    constructor(connectionString: string, options?: ServiceBusClientOptions);
+    constructor(host: string, credential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<any>;
-    static createFromAadTokenCredentials(host: string, credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, options?: ServiceBusClientOptions): ServiceBusClient;
-    static createFromConnectionString(connectionString: string, options?: ServiceBusClientOptions): ServiceBusClient;
-    static createFromTokenProvider(host: string, tokenProvider: TokenProvider, options?: ServiceBusClientOptions): ServiceBusClient;
     createQueueClient(queueName: string): QueueClient;
     createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient;
     createTopicClient(topicName: string): TopicClient;
@@ -262,8 +260,7 @@ export class ServiceBusClient {
 // @public
 export interface ServiceBusClientOptions {
     dataTransformer?: DataTransformer;
-    webSocket?: WebSocketImpl;
-    webSocketConstructorOptions?: any;
+    webSocketOptions?: WebSocketOptions;
 }
 
 // Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
@@ -419,9 +416,7 @@ export interface SubscriptionOptions {
     userMetadata?: string;
 }
 
-export { TokenInfo }
-
-export { TokenProvider }
+export { TokenCredential }
 
 export { TokenType }
 
@@ -480,6 +475,8 @@ export interface TopicOptions {
 }
 
 export { WebSocketImpl }
+
+export { WebSocketOptions }
 
 
 // (No @packageDocumentation comment for this package)

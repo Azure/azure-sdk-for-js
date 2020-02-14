@@ -1,5 +1,8 @@
 # Release History
 
+## 12.1.1 (Unreleased)
+
+
 ## 12.1.0 (2020.02)
 - Updated Azure Storage Service API version to 2019-07-07.
 - Add support for Encryption Scope, which is similar to regular CPK, except the encryption key is provided by name.

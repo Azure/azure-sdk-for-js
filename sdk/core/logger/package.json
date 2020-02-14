@@ -6,7 +6,7 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/src/logger.js",
   "browser": {
-    "./dist/index.js": "./browser/logger.js",
+    "./dist/index.js": "./dist-browser/logger.js",
     "./dist-esm/src/log.js": "./dist-esm/src/log.browser.js",
     "process": false
   },
@@ -17,7 +17,7 @@
     "build:test": "rollup -c rollup.test.config.js 2>&1",
     "build": "npm run build:es6 && npm run build:nodebrowser && npm run extract-api",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm dist-test types temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean": "rimraf dist dist-esm dist-test types temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",

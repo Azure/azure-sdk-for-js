@@ -10,27 +10,15 @@ For your convenience, each service has a separate set of libraries that you can 
 
 Each service might have a number of libraries available from each of the following categories:
 
-- [Client - November 2019 Releases](#Client-November-2019-Releases)
+- [Client - New Releases](#Client-New-Releases)
 - [Client - Previous Versions](#Client-Previous-Versions)
 - [Management](#Management)
 
-### Client: November 2019 Releases
+### Client: New Releases
 
 New wave of packages that we are announcing as **GA** and several that are currently releasing in **preview** on `npm`. These libraries allow you to use and consume existing resources and interact with them. These libraries share a number of core functionalities found in the Azure Core package such as retries, logging, transport protocols, authentication protocols, etc. Learn more about these libraries by reading [the guidelines](https://azure.github.io/azure-sdk/typescript/guidelines/) that they follow.
 
-The libraries released in the November 2019 GA release:
-
-- [@azure/storage-blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob)
-- [@azure/storage-queue](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue)
-- [@azure/keyvault-keys](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys)
-- [@azure/keyvault-secrets](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets)
-- [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity)
-
-The libraries released in the November 2019 preview:
-- [@azure/storage-file-share@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share)
-- [@azure/event-hubs@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs)
-- [@azure/keyvault-certificates@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates)
-- [@azure/app-configuration@next](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration)
+You can find the [most up to date list of all of the new packages on our page](https://azure.github.io/azure-sdk/releases/latest/index.html#javascript-packages)
 
 > NOTE: If you need to ensure your code is ready for production use one of the stable, non-preview libraries.
 

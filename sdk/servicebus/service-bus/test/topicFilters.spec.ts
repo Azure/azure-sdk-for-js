@@ -239,9 +239,9 @@ describe("addRule() #RunInBrowser", function(): void {
         "ErrorMessage is different than expected"
       );
       should.equal(
-        error.name,
+        error.code,
         "MessagingEntityAlreadyExistsError",
-        "ErrorName is different than expected"
+        "Error code is different than expected"
       );
     }
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -270,9 +270,9 @@ describe("removeRule()", function(): void {
         "ErrorMessage is different than expected"
       );
       should.equal(
-        error.name,
+        error.code,
         "MessagingEntityNotFoundError",
-        "ErrorName is different than expected"
+        "Error code is different than expected"
       );
       errorWasThrown = true;
     }
