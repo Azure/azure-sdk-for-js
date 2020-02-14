@@ -49,6 +49,27 @@ export class GalleryApplicationVersions {
   }
 
   /**
+   * Update a gallery Application Version.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Application Gallery in which the Application
+   * Definition resides.
+   * @param galleryApplicationName The name of the gallery Application Definition in which the
+   * Application Version is to be updated.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be updated.
+   * Needs to follow semantic version name pattern: The allowed characters are digit and period.
+   * Digits must be within the range of a 32-bit integer. Format:
+   * <MajorVersion>.<MinorVersion>.<Patch>
+   * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version
+   * operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GalleryApplicationVersionsUpdateResponse>
+   */
+  update(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: Models.GalleryApplicationVersionUpdate, options?: msRest.RequestOptionsBase): Promise<Models.GalleryApplicationVersionsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,galleryName,galleryApplicationName,galleryApplicationVersionName,galleryApplicationVersion,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GalleryApplicationVersionsUpdateResponse>;
+  }
+
+  /**
    * Retrieves information about a gallery Application Version.
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Application Gallery in which the Application
@@ -182,6 +203,36 @@ export class GalleryApplicationVersions {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Update a gallery Application Version.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Application Gallery in which the Application
+   * Definition resides.
+   * @param galleryApplicationName The name of the gallery Application Definition in which the
+   * Application Version is to be updated.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be updated.
+   * Needs to follow semantic version name pattern: The allowed characters are digit and period.
+   * Digits must be within the range of a 32-bit integer. Format:
+   * <MajorVersion>.<MinorVersion>.<Patch>
+   * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version
+   * operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: Models.GalleryApplicationVersionUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        galleryName,
+        galleryApplicationName,
+        galleryApplicationVersionName,
+        galleryApplicationVersion,
+        options
+      },
+      beginUpdateOperationSpec,
       options);
   }
 
@@ -325,6 +376,40 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.GalleryApplicationVersion
     },
     202: {
+      bodyMapper: Mappers.GalleryApplicationVersion
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.galleryApplicationName,
+    Parameters.galleryApplicationVersionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "galleryApplicationVersion",
+    mapper: {
+      ...Mappers.GalleryApplicationVersionUpdate,
+      required: true
+    }
+  },
+  responses: {
+    200: {
       bodyMapper: Mappers.GalleryApplicationVersion
     },
     default: {

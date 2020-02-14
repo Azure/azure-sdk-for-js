@@ -7,10 +7,10 @@
  */
 
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
-import { ParserWeakMap } from "@typescript-eslint/typescript-estree/dist/parser-options";
+import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
 import { Rule } from "eslint";
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
-import { Node, Symbol as TSSymbol, Type, TypeChecker, TypeFlags } from "typescript";
+import { Symbol as TSSymbol, Type, TypeChecker, TypeFlags } from "typescript";
 import { getPublicMethods, getRuleMetaData } from "../utils";
 
 //------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ const isValidSymbol = (symbol: TSSymbol, typeChecker: TypeChecker): boolean => {
 const isValidParam = (
   param: TSESTree.Parameter,
   typeChecker: TypeChecker,
-  converter: ParserWeakMap<TSESTree.Node, Node>
+  converter: ParserWeakMapESTreeToTSNode
 ): boolean => {
   if (param.type !== "Identifier" || param.typeAnnotation === undefined) {
     return false;

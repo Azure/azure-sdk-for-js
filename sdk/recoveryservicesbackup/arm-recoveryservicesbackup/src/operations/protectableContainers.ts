@@ -31,7 +31,7 @@ export class ProtectableContainers {
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
-   * @param fabricName Fabric name associated with the container.
+   * @param fabricName
    * @param [options] The optional parameters
    * @returns Promise<Models.ProtectableContainersListResponse>
    */
@@ -40,7 +40,7 @@ export class ProtectableContainers {
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
-   * @param fabricName Fabric name associated with the container.
+   * @param fabricName
    * @param callback The callback
    */
   list(vaultName: string, resourceGroupName: string, fabricName: string, callback: msRest.ServiceCallback<Models.ProtectableContainerResourceList>): void;
@@ -48,7 +48,7 @@ export class ProtectableContainers {
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
-   * @param fabricName Fabric name associated with the container.
+   * @param fabricName
    * @param options The optional parameters
    * @param callback The callback
    */

@@ -7,9 +7,11 @@
 import { AmqpMessage } from '@azure/amqp-common';
 import { ApplicationTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { DataTransformer } from '@azure/amqp-common';
+import { DefaultDataTransformer } from '@azure/amqp-common';
 import { delay } from '@azure/amqp-common';
 import { Delivery } from 'rhea-promise';
 import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
+import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/amqp-common';
 import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
@@ -18,6 +20,18 @@ import { TokenProvider } from '@azure/amqp-common';
 import { TokenType } from '@azure/amqp-common';
 import { UserTokenCredentials } from '@azure/ms-rest-nodeauth';
 import { WebSocketImpl } from 'rhea-promise';
+
+// @public
+export type AuthorizationRule = {
+    claimType: string;
+    claimValue: string;
+    rights: {
+        accessRights?: string[];
+    };
+    keyName: string;
+    primaryKey?: string;
+    secondaryKey?: string;
+};
 
 // @public
 export interface CorrelationFilter {
@@ -40,9 +54,25 @@ export interface DeadLetterOptions {
     deadletterReason: string;
 }
 
+export { DefaultDataTransformer }
+
 export { delay }
 
 export { Delivery }
+
+// @public
+export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
+
+export { HttpOperationResponse }
+
+// @public
+export type MessageCountDetails = {
+    activeMessageCount: number;
+    deadLetterMessageCount: number;
+    scheduledMessageCount: number;
+    transferMessageCount: number;
+    transferDeadLetterMessageCount: number;
+};
 
 // @public
 export interface MessageHandlerOptions {
@@ -79,6 +109,57 @@ export class QueueClient implements Client {
 }
 
 // @public
+export interface QueueDetails {
+    accessedOn?: string;
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle: string;
+    createdOn?: string;
+    deadLetteringOnMessageExpiration: boolean;
+    defaultMessageTtl: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    enableBatchedOperations: boolean;
+    enableExpress?: boolean;
+    enablePartitioning: boolean;
+    entityAvailabilityStatus?: string;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    isAnonymousAccessible?: boolean;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    maxSizeInMegabytes: number;
+    messageCount?: number;
+    messageCountDetails?: MessageCountDetails;
+    queueName: string;
+    requiresDuplicateDetection: boolean;
+    requiresSession: boolean;
+    sizeInBytes?: number;
+    status?: EntityStatus;
+    supportOrdering?: boolean;
+    updatedOn?: string;
+    userMetadata?: string;
+}
+
+// @public
+export interface QueueOptions {
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTtl?: string;
+    duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration?: string;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes?: number;
+    requiresDuplicateDetection?: boolean;
+    requiresSession?: boolean;
+    status?: EntityStatus;
+    userMetadata?: string;
+}
+
+// @public
 export interface ReceivedMessageInfo extends SendableMessageInfo {
     readonly _amqpMessage: AmqpMessage;
     readonly deadLetterSource?: string;
@@ -101,12 +182,12 @@ export enum ReceiveMode {
 export class Receiver {
     close(): Promise<void>;
     getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
-    readonly isClosed: boolean;
+    get isClosed(): boolean;
     isReceivingMessages(): boolean;
     receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
     receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
     receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
-    readonly receiveMode: ReceiveMode;
+    get receiveMode(): ReceiveMode;
     registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void;
     renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;
     }
@@ -116,6 +197,22 @@ export interface RuleDescription {
     action?: string;
     filter?: string | CorrelationFilter;
     name: string;
+}
+
+// @public
+export interface RuleDetails {
+    action?: SqlAction;
+    createdOn: string;
+    filter?: SqlFilter | CorrelationFilter;
+    ruleName: string;
+    subscriptionName: string;
+    topicName: string;
+}
+
+// @public
+export interface RuleOptions {
+    action?: SqlAction;
+    filter?: SqlFilter | CorrelationFilter;
 }
 
 // @public
@@ -143,7 +240,7 @@ export class Sender {
     cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
     cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
     close(): Promise<void>;
-    readonly isClosed: boolean;
+    get isClosed(): boolean;
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
     send(message: SendableMessageInfo): Promise<void>;
@@ -192,7 +289,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     readonly enqueuedSequenceNumber?: number;
     readonly enqueuedTimeUtc?: Date;
     readonly expiresAtUtc?: Date;
-    readonly isSettled: boolean;
+    get isSettled(): boolean;
     label?: string;
     lockedUntilUtc?: Date;
     readonly lockToken?: string;
@@ -222,18 +319,18 @@ export class SessionReceiver {
     close(): Promise<void>;
     getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
     getState(): Promise<any>;
-    readonly isClosed: boolean;
+    get isClosed(): boolean;
     isReceivingMessages(): boolean;
     peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
     peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
     receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
     receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
     receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
-    readonly receiveMode: ReceiveMode;
+    get receiveMode(): ReceiveMode;
     registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void;
     renewSessionLock(): Promise<Date>;
-    readonly sessionId: string | undefined;
-    readonly sessionLockedUntilUtc: Date | undefined;
+    get sessionId(): string | undefined;
+    get sessionLockedUntilUtc(): Date | undefined;
     setState(state: any): Promise<void>;
     }
 
@@ -242,6 +339,24 @@ export interface SessionReceiverOptions {
     maxSessionAutoRenewLockDurationInSeconds?: number;
     sessionId: string | undefined;
 }
+
+// @public
+export type SqlAction = SqlFilter;
+
+// @public
+export interface SqlFilter {
+    compatibilityLevel?: number;
+    requiresPreprocessing?: boolean;
+    sqlExpression?: string;
+    sqlParameters?: SqlParameter[];
+}
+
+// @public
+export type SqlParameter = {
+    key: string;
+    value: string | number;
+    type: string;
+};
 
 // @public
 export class SubscriptionClient implements Client {
@@ -260,6 +375,50 @@ export class SubscriptionClient implements Client {
     readonly topicName: string;
 }
 
+// @public
+export interface SubscriptionDetails {
+    accessedOn?: string;
+    autoDeleteOnIdle: string;
+    createdOn: string;
+    deadLetteringOnFilterEvaluationExceptions: boolean;
+    deadLetteringOnMessageExpiration: boolean;
+    defaultMessageTtl?: string;
+    defaultRuleDescription?: any;
+    enableBatchedOperations: boolean;
+    enablePartitioning?: boolean;
+    entityAvailabilityStatus: string;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    maxSizeInMegabytes?: number;
+    messageCount: number;
+    messageCountDetails?: MessageCountDetails;
+    requiresSession: boolean;
+    sizeInBytes?: number;
+    status?: EntityStatus;
+    subscriptionName: string;
+    topicName: string;
+    updatedOn: string;
+    userMetadata?: string;
+}
+
+// @public
+export interface SubscriptionOptions {
+    autoDeleteOnIdle?: string;
+    deadLetteringOnFilterEvaluationExceptions?: boolean;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTtl?: string;
+    enableBatchedOperations?: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration?: string;
+    maxDeliveryCount?: number;
+    requiresSession?: boolean;
+    status?: EntityStatus;
+    userMetadata?: string;
+}
+
 export { TokenInfo }
 
 export { TokenProvider }
@@ -273,6 +432,51 @@ export class TopicClient implements Client {
     readonly entityPath: string;
     static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
     readonly id: string;
+}
+
+// @public
+export interface TopicDetails {
+    accessedOn?: string;
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    createdOn?: string;
+    defaultMessageTtl: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    enableBatchedOperations: boolean;
+    enableExpress?: boolean;
+    enablePartitioning: boolean;
+    enableSubscriptionPartitioning?: boolean;
+    entityAvailabilityStatus?: string;
+    filteringMessagesBeforePublishing?: boolean;
+    isAnonymousAccessible?: boolean;
+    isExpress?: boolean;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes: number;
+    messageCount?: number;
+    messageCountDetails?: MessageCountDetails;
+    requiresDuplicateDetection: boolean;
+    sizeInBytes?: number;
+    status?: EntityStatus;
+    subscriptionCount?: number;
+    supportOrdering: boolean;
+    topicName: string;
+    updatedOn?: string;
+    userMetadata?: string;
+}
+
+// @public
+export interface TopicOptions {
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    defaultMessageTtl?: string;
+    duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
+    maxSizeInMegabytes?: number;
+    requiresDuplicateDetection?: boolean;
+    status?: EntityStatus;
+    supportOrdering?: boolean;
+    userMetadata?: string;
 }
 
 export { WebSocketImpl }

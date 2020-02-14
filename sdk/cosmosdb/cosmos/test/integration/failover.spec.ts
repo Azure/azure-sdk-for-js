@@ -164,9 +164,9 @@ describe("Region Failover", () => {
       plugins
     } as any);
     const containerRef = client.database("any").container("any");
-    const { resource } = await containerRef.item("any", undefined).read();
+    await containerRef.item("any", undefined).read();
     assert.strictEqual(lastEndpointCalled, "https://failovertest-eastus.documents.azure.com:443/");
-    const { resource: resource2 } = await containerRef.item("any", undefined).read();
+    await containerRef.item("any", undefined).read();
     assert.strictEqual(
       lastEndpointCalled,
       "https://failovertest-australiaeast.documents.azure.com:443/"
@@ -204,9 +204,9 @@ describe("Region Failover", () => {
       plugins
     } as any);
     const containerRef = client.database("any").container("any");
-    const { resource } = await containerRef.item("any", undefined).read();
+    await containerRef.item("any", undefined).read();
     assert.strictEqual(lastEndpointCalled, "https://failovertest-eastus.documents.azure.com:443/");
-    const { resource: resource2 } = await containerRef.item("any", undefined).read();
+    await containerRef.item("any", undefined).read();
     assert.strictEqual(
       lastEndpointCalled,
       "https://failovertest-australiaeast.documents.azure.com:443/"
@@ -246,8 +246,8 @@ describe("Region Failover", () => {
       plugins
     } as any);
     const containerRef = client.database("any").container("any");
-    const { resource } = await containerRef.item("any", undefined).read();
-    const { resource: resource2 } = await containerRef.item("any", undefined).read();
+    await containerRef.item("any", undefined).read();
+    await containerRef.item("any", undefined).read();
     assert.strictEqual(lastEndpointCalled, "https://failovertest.documents.azure.com/");
   });
 });

@@ -3,7 +3,8 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventHubProducerOptions, SendOptions, CreateBatchOptions } from "./impl/eventHubClient";
+import { EventHubProducerOptions } from "../src/models/private";
+import { SendOptions, CreateBatchOptions } from "../src/models/public";
 import { ConnectionContext } from "./connectionContext";
 import { logger, logErrorStackTrace } from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
@@ -31,6 +32,8 @@ import { getParentSpan } from "./util/operationOptions";
  *  - The event data will be evenly distributed among all available partitions.
  *
  * @class
+ * @internal
+ * @ignore
  */
 export class EventHubProducer {
   /**
@@ -151,12 +154,12 @@ export class EventHubProducer {
    * - `abortSignal`  : A signal the request to cancel the send operation.
    *
    * @returns Promise<void>
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
-   * @throws {MessagingError} Thrown if an error is encountered while sending a message.
-   * @throws {TypeError} Thrown if a required parameter is missing.
-   * @throws {Error} Thrown if the underlying connection or sender has been closed.
-   * @throws {Error} Thrown if a partitionKey is provided when the producer was created with a partitionId.
-   * @throws {Error} Thrown if batch was created with partitionKey different than the one provided in the options.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   * @throws MessagingError if an error is encountered while sending a message.
+   * @throws TypeError if a required parameter is missing.
+   * @throws Error if the underlying connection or sender has been closed.
+   * @throws Error if a partitionKey is provided when the producer was created with a partitionId.
+   * @throws Error if batch was created with partitionKey different than the one provided in the options.
    * Create a new producer using the EventHubClient createProducer method.
    */
   async send(
@@ -221,7 +224,7 @@ export class EventHubProducer {
    * Use the `createProducer` function on the EventHubClient to instantiate a new EventHubProducer.
    *
    * @returns
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {
@@ -258,6 +261,7 @@ export class EventHubProducer {
       links
     });
 
+    span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this._eventHubName);
     span.setAttribute("peer.address", this._endpoint);
 

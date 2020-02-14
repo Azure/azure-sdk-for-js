@@ -26,7 +26,7 @@ export class Conflict {
     // (undocumented)
     readonly id: string;
     read(options?: RequestOptions): Promise<ConflictResponse>;
-    readonly url: string;
+    get url(): string;
 }
 
 // @public (undocumented)
@@ -254,7 +254,7 @@ export const Constants: {
 export class Container {
     constructor(database: Database, id: string, clientContext: ClientContext);
     conflict(id: string): Conflict;
-    readonly conflicts: Conflicts;
+    get conflicts(): Conflicts;
     // (undocumented)
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
@@ -266,16 +266,16 @@ export class Container {
     getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     readonly id: string;
-    item(id: string, partitionKey: any): Item;
-    readonly items: Items;
+    item(id: string, partitionKeyValue?: any): Item;
+    get items(): Items;
     read(options?: RequestOptions): Promise<ContainerResponse>;
     readPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     // Warning: (ae-forgotten-export) The symbol "Scripts" needs to be exported by the entry point index.d.ts
-    readonly scripts: Scripts;
-    readonly url: string;
+    get scripts(): Scripts;
+    get url(): string;
 }
 
 // @public (undocumented)
@@ -357,7 +357,7 @@ export class Database {
     // (undocumented)
     readonly id: string;
     read(options?: RequestOptions): Promise<DatabaseResponse>;
-    readonly url: string;
+    get url(): string;
     user(id: string): User;
     readonly users: Users;
 }
@@ -368,21 +368,21 @@ export class DatabaseAccount {
         [key: string]: any;
     }, headers: CosmosHeaders);
     // @deprecated
-    readonly ConsistencyPolicy: ConsistencyLevel;
+    get ConsistencyPolicy(): ConsistencyLevel;
     readonly consistencyPolicy: ConsistencyLevel;
     // @deprecated
-    readonly CurrentMediaStorageUsageInMB: number;
+    get CurrentMediaStorageUsageInMB(): number;
     readonly currentMediaStorageUsageInMB: number;
     // @deprecated
-    readonly DatabasesLink: string;
+    get DatabasesLink(): string;
     readonly databasesLink: string;
     // (undocumented)
     readonly enableMultipleWritableLocations: boolean;
     // @deprecated
-    readonly MaxMediaStorageUsageInMB: number;
+    get MaxMediaStorageUsageInMB(): number;
     readonly maxMediaStorageUsageInMB: number;
     // @deprecated
-    readonly MediaLink: string;
+    get MediaLink(): string;
     readonly mediaLink: string;
     readonly readableLocations: Location[];
     readonly writableLocations: Location[];
@@ -475,17 +475,17 @@ export interface FeedOptions extends SharedOptions {
 export class FeedResponse<TResource> {
     constructor(resources: TResource[], headers: CosmosHeaders, hasMoreResults: boolean);
     // (undocumented)
-    readonly activityId: string;
+    get activityId(): string;
     // (undocumented)
-    readonly continuation: string;
+    get continuation(): string;
     // (undocumented)
-    readonly continuationToken: string;
+    get continuationToken(): string;
     // (undocumented)
     readonly hasMoreResults: boolean;
     // (undocumented)
-    readonly queryMetrics: string;
+    get queryMetrics(): string;
     // (undocumented)
-    readonly requestCharge: number;
+    get requestCharge(): number;
     // (undocumented)
     readonly resources: TResource[];
 }
@@ -541,7 +541,7 @@ export class Item {
     read<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
     replace(body: ItemDefinition, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     replace<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
-    readonly url: string;
+    get url(): string;
 }
 
 // @public
@@ -609,7 +609,7 @@ export class Offer {
     readonly id: string;
     read(options?: RequestOptions): Promise<OfferResponse>;
     replace(body: OfferDefinition, options?: RequestOptions): Promise<OfferResponse>;
-    readonly url: string;
+    get url(): string;
 }
 
 // @public (undocumented)
@@ -702,7 +702,7 @@ export class Permission {
     readonly id: string;
     read(options?: RequestOptions): Promise<PermissionResponse>;
     replace(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse>;
-    readonly url: string;
+    get url(): string;
     // (undocumented)
     readonly user: User;
 }
@@ -783,7 +783,7 @@ export class QueryMetrics {
     readonly documentWriteTime: TimeSpan;
     // (undocumented)
     readonly indexHitDocumentCount: number;
-    readonly indexHitRatio: number;
+    get indexHitRatio(): number;
     // (undocumented)
     readonly indexLookupTime: TimeSpan;
     // (undocumented)
@@ -961,13 +961,13 @@ export interface Resource {
 export class ResourceResponse<TResource> {
     constructor(resource: TResource, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
     // (undocumented)
-    readonly activityId: string;
+    get activityId(): string;
     // (undocumented)
-    readonly etag: string;
+    get etag(): string;
     // (undocumented)
     readonly headers: CosmosHeaders_2;
     // (undocumented)
-    readonly requestCharge: number;
+    get requestCharge(): number;
     // (undocumented)
     readonly resource: TResource;
     // Warning: (ae-forgotten-export) The symbol "StatusCode" needs to be exported by the entry point index.d.ts
@@ -1068,7 +1068,7 @@ export class StoredProcedure {
     readonly id: string;
     read(options?: RequestOptions): Promise<StoredProcedureResponse>;
     replace(body: StoredProcedureDefinition, options?: RequestOptions): Promise<StoredProcedureResponse>;
-    readonly url: string;
+    get url(): string;
 }
 
 // @public (undocumented)
@@ -1080,7 +1080,7 @@ export interface StoredProcedureDefinition {
 // @public (undocumented)
 export class StoredProcedureResponse extends ResourceResponse<StoredProcedureDefinition & Resource> {
     constructor(resource: StoredProcedureDefinition & Resource, headers: CosmosHeaders, statusCode: number, storedProcedure: StoredProcedure);
-    readonly sproc: StoredProcedure;
+    get sproc(): StoredProcedure;
     readonly storedProcedure: StoredProcedure;
 }
 
@@ -1169,7 +1169,7 @@ export class Trigger {
     readonly id: string;
     read(options?: RequestOptions): Promise<TriggerResponse>;
     replace(body: TriggerDefinition, options?: RequestOptions): Promise<TriggerResponse>;
-    readonly url: string;
+    get url(): string;
 }
 
 // @public (undocumented)
@@ -1236,7 +1236,7 @@ export class User {
     readonly permissions: Permissions;
     read(options?: RequestOptions): Promise<UserResponse>;
     replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
-    readonly url: string;
+    get url(): string;
 }
 
 // @public
@@ -1249,7 +1249,7 @@ export class UserDefinedFunction {
     readonly id: string;
     read(options?: RequestOptions): Promise<UserDefinedFunctionResponse>;
     replace(body: UserDefinedFunctionDefinition, options?: RequestOptions): Promise<UserDefinedFunctionResponse>;
-    readonly url: string;
+    get url(): string;
 }
 
 // @public (undocumented)
@@ -1261,7 +1261,7 @@ export interface UserDefinedFunctionDefinition {
 // @public (undocumented)
 export class UserDefinedFunctionResponse extends ResourceResponse<UserDefinedFunctionDefinition & Resource> {
     constructor(resource: UserDefinedFunctionDefinition & Resource, headers: CosmosHeaders, statusCode: number, udf: UserDefinedFunction);
-    readonly udf: UserDefinedFunction;
+    get udf(): UserDefinedFunction;
     readonly userDefinedFunction: UserDefinedFunction;
 }
 

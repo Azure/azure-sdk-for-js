@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import nodeResolve from "rollup-plugin-node-resolve";
-import multiEntry from "rollup-plugin-multi-entry";
-import cjs from "rollup-plugin-commonjs";
+import nodeResolve from "@rollup/plugin-node-resolve";
+import multiEntry from "@rollup/plugin-multi-entry";
+import cjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
-import inject from "rollup-plugin-inject";
+import inject from "@rollup/plugin-inject";
 
 import path from "path";
 
@@ -112,20 +112,16 @@ export function browserConfig(test = false) {
         }
       ),
 
-      // fs, net, and tls are used by rhea and need to be shimmed
-      // dotenv doesn't work in the browser, so replace it with a no-op function
+      // dotenv, path, and os don't work in the browser, so replace it with a no-op function
       shim({
         fs: `export default {}`,
-        net: `export default {}`,
-        tls: `export default {}`,
         dotenv: `export function config() { }`,
         os: `
           export function arch() { return "javascript" }
           export function type() { return "Browser" }
-          export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
+          export function release() { return typeof navigator === 'undefined' ? '' : navigator.appVersion }
         `,
-        path: `export default {}`,
-        dns: `export function resolve() { }`
+        path: `export default {}`
       }),
 
       nodeResolve({

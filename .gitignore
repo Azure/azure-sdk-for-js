@@ -134,7 +134,6 @@ dist
 dist-*
 test-dist
 test-dist*
-browser
 test-browser
 typings
 typedoc
@@ -150,3 +149,9 @@ swagger/*.json
 
 # library-specific ignores
 sdk/keyvault/*/src/**/*.js
+
+# skipping browser tests while also ignoring the browser folders where the browser bundles are
+/**/browser/*.js
+/**/browser/*.js.map
+/**/browser/*.html
+!/test/browser/*.spec.ts

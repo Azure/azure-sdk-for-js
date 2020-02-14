@@ -13,7 +13,7 @@ const debug = debugModule("azure:event-hubs:client-spec");
 import { TokenCredential, earliestEventPosition } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { packageJsonInfo } from "../src/util/constants";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
 import { EnvironmentCredential } from "@azure/identity";
 import { EventHubConsumer } from "../src/receiver";
 import { EventHubProducer } from "../src/sender";
@@ -128,7 +128,7 @@ describe("Create EventHubClient using Azure Identity", function(): void {
 
 describe("ServiceCommunicationError for non existent namespace #RunnableInBrowser", function(): void {
   let client: EventHubClient;
-
+  const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
   beforeEach(() => {
     client = new EventHubClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
@@ -147,7 +147,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -159,7 +159,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -172,7 +172,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 
@@ -189,7 +189,7 @@ describe("ServiceCommunicationError for non existent namespace #RunnableInBrowse
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "ServiceCommunicationError");
+      should.equal(err.code, expectedErrCode);
     }
   });
 });
@@ -217,7 +217,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -229,7 +229,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -242,7 +242,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 
@@ -259,7 +259,7 @@ describe("MessagingEntityNotFoundError for non existent eventhub #RunnableInBrow
       throw new Error("Test failure");
     } catch (err) {
       debug(err);
-      should.equal(err.name, "MessagingEntityNotFoundError");
+      should.equal(err.code, "MessagingEntityNotFoundError");
     }
   });
 });
@@ -292,7 +292,11 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
     properties!["user-agent"].should.startWith(`azsdk-js-azureeventhubs/${packageVersion}`);
     should.equal(properties!.product, "MSJSClient");
     should.equal(properties!.version, packageVersion);
-    should.equal(properties!.framework, `Node/${process.version}`);
+    if (isNode) {
+      should.equal(properties!.framework, `Node/${process.version}`);
+    } else {
+      should.equal(properties!.framework.startsWith("Browser/"), true);
+    }
     should.equal(properties!.platform, `(${os.arch()}-${os.type()}-${os.release()})`);
     done();
   });
@@ -313,7 +317,11 @@ describe("User Agent on EventHubClient on #RunnableInBrowser", function(): void 
     properties!["user-agent"].should.endWith(customua);
     should.equal(properties!.product, "MSJSClient");
     should.equal(properties!.version, packageVersion);
-    should.equal(properties!.framework, `Node/${process.version}`);
+    if (isNode) {
+      should.equal(properties!.framework, `Node/${process.version}`);
+    } else {
+      should.equal(properties!.framework.startsWith("Browser/"), true);
+    }
     should.equal(properties!.platform, `(${os.arch()}-${os.type()}-${os.release()})`);
     done();
   });
@@ -349,11 +357,9 @@ describe("Errors after close() #RunnableInBrowser", function(): void {
     await sender.send({ body: "dummy send to ensure AMQP connection is opened" });
 
     // Ensure receiver link is opened
-    receiver = client.createConsumer(
-      EventHubClient.defaultConsumerGroupName,
-      "0",
-      { enqueuedOn: timeNow }
-    );
+    receiver = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", {
+      enqueuedOn: timeNow
+    });
     const msgs = await receiver.receiveBatch(1, 10);
     should.equal(msgs.length, 1);
 

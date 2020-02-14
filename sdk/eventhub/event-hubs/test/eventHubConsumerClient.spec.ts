@@ -11,7 +11,7 @@ import {
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { LogTester } from "./utils/logHelpers";
@@ -225,6 +225,203 @@ describe("EventHubConsumerClient", () => {
       await producerClient.close();
     });
 
+    describe("Reinitialize partition processing after error", function(): void {
+      it("when subscribed to single partition", async function(): Promise<void> {
+        const partitionId = "0";
+        const consumerClient1 = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+        const consumerClient2 = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+
+        clients.push(consumerClient1, consumerClient2);
+
+        // keep track of the handlers called on subscription 1
+        const handlerCalls = {
+          initialize: 0,
+          close: 0
+        };
+        const subscriptionHandlers1: SubscriptionEventHandlers = {
+          async processError() {},
+          async processEvents() {
+            if (!handlerCalls.close) {
+              // start the 2nd subscription that will kick the 1st subscription off
+              subscription2 = consumerClient2.subscribe(partitionId, subscriptionHandlers2, {
+                ownerLevel: 1,
+                maxBatchSize: 1,
+                maxWaitTimeInSeconds: 1
+              });
+            } else {
+              // stop this subscription, we know close was called so we've restarted
+              await subscription1.close();
+            }
+          },
+          async processClose() {
+            handlerCalls.close++;
+          },
+          async processInitialize() {
+            handlerCalls.initialize++;
+          }
+        };
+        const subscriptionHandlers2: SubscriptionEventHandlers = {
+          async processError() {},
+          async processEvents() {
+            // stop this subscription since it already should have forced the 1st subscription to have an error.
+            await subscription2!.close();
+          }
+        };
+        let subscription2: Subscription | undefined;
+        const subscription1 = consumerClient1.subscribe(partitionId, subscriptionHandlers1, {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 1
+        });
+
+        await loopUntil({
+          maxTimes: 10,
+          name: "Wait for subscription1 to recover",
+          timeBetweenRunsMs: 5000,
+          async until() {
+            return !subscription1.isRunning && !subscription2!.isRunning;
+          }
+        });
+
+        // Initialize may be called multiple times while the 2nd subscription is running.
+        // We want to make sure it has been called at least twice to verify that subscription1
+        // attempts to recover.
+        handlerCalls.initialize.should.be.greaterThan(1);
+        handlerCalls.close.should.be.greaterThan(1);
+      });
+
+      it("when subscribed to multiple partitions", async function(): Promise<void> {
+        const consumerClient1 = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+        const consumerClient2 = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+
+        clients.push(consumerClient1, consumerClient2);
+
+        const partitionIds = await consumerClient1.getPartitionIds();
+
+        const partitionHandlerCalls: {
+          [partitionId: string]: {
+            initialize: number;
+            processEvents: boolean;
+            close: number;
+          };
+        } = {};
+
+        // keep track of the handlers called on subscription 1
+        for (const id of partitionIds) {
+          partitionHandlerCalls[id] = { initialize: 0, processEvents: false, close: 0 };
+        }
+
+        const subscriptionHandlers1: SubscriptionEventHandlers = {
+          async processError() {},
+          async processEvents(_, context) {
+            partitionHandlerCalls[context.partitionId].processEvents = true;
+          },
+          async processClose(_, context) {
+            partitionHandlerCalls[context.partitionId].close++;
+            // reset processEvents count
+            partitionHandlerCalls[context.partitionId].processEvents = false;
+          },
+          async processInitialize(context) {
+            partitionHandlerCalls[context.partitionId].initialize++;
+          }
+        };
+
+        const subscription1 = consumerClient1.subscribe(subscriptionHandlers1, {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 1
+        });
+
+        await loopUntil({
+          maxTimes: 10,
+          name: "Wait for subscription1 to read from all partitions",
+          timeBetweenRunsMs: 1000,
+          async until() {
+            // wait until we've seen processEvents invoked for each partition.
+            return (
+              partitionIds.filter((id) => {
+                return partitionHandlerCalls[id].processEvents;
+              }).length === partitionIds.length
+            );
+          }
+        });
+
+        const partitionsReadFromSub2 = new Set<string>();
+        const subscriptionHandlers2: SubscriptionEventHandlers = {
+          async processError() {},
+          async processEvents(_, context) {
+            partitionsReadFromSub2.add(context.partitionId);
+          }
+        };
+
+        // start 2nd subscription with an ownerLevel so it triggers the close handlers on the 1st subscription.
+        const subscription2 = consumerClient2.subscribe(subscriptionHandlers2, {
+          maxBatchSize: 1,
+          maxWaitTimeInSeconds: 1,
+          ownerLevel: 1
+        });
+
+        await loopUntil({
+          maxTimes: 10,
+          name:
+            "Wait for subscription2 to read from all partitions and subscription1 to invoke close handlers",
+          timeBetweenRunsMs: 1000,
+          async until() {
+            const sub1CloseHandlersCalled = Boolean(
+              partitionIds.filter((id) => {
+                return partitionHandlerCalls[id].close > 0;
+              }).length === partitionIds.length
+            );
+            return partitionsReadFromSub2.size === partitionIds.length && sub1CloseHandlersCalled;
+          }
+        });
+
+        // close subscription2 so subscription1 can recover.
+        await subscription2.close();
+
+        await loopUntil({
+          maxTimes: 10,
+          name: "Wait for subscription1 to recover",
+          timeBetweenRunsMs: 1000,
+          async until() {
+            // wait until we've seen an additional processEvent for each partition.
+            return (
+              partitionIds.filter((id) => {
+                return partitionHandlerCalls[id].processEvents;
+              }).length === partitionIds.length
+            );
+          }
+        });
+
+        await subscription1.close();
+
+        for (const id of partitionIds) {
+          partitionHandlerCalls[id].initialize.should.be.greaterThan(
+            1,
+            `Initialize on partition ${id} was not called more than 1 time.`
+          );
+          partitionHandlerCalls[id].close.should.be.greaterThan(
+            1,
+            `Close on partition ${id} was not called more than 1 time.`
+          );
+        }
+      });
+    });
+
     it("Receive from specific partitions, no coordination #RunnableInBrowser", async function(): Promise<
       void
     > {
@@ -398,6 +595,95 @@ describe("EventHubConsumerClient", () => {
         await subscription.close();
       }
       logTester.assert();
+    });
+
+    it("Stops receiving events if close is immediately called, single partition. #RunnableInBrowser", async function(): Promise<
+      void
+    > {
+      const partitionId = "0";
+      const client = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );
+
+      clients.push(client);
+
+      let initializeCalled = 0;
+      let closeCalled = 0;
+
+      const subscription = client.subscribe(partitionId, {
+        async processError() {},
+        async processEvents() {},
+        async processClose() {
+          closeCalled++;
+        },
+        async processInitialize() {
+          initializeCalled++;
+        }
+      });
+
+      await subscription.close();
+
+      await loopUntil({
+        maxTimes: 10,
+        name: "Wait for the subscription to stop running.",
+        timeBetweenRunsMs: 100,
+        async until() {
+          return !subscription.isRunning;
+        }
+      });
+
+      // If `processInitialize` is called, then `processClose` should be called as well.
+      // Otherwise, we shouldn't see either called.
+      initializeCalled.should.equal(
+        closeCalled,
+        "processClose was not called the same number of times as processInitialize."
+      );
+    });
+
+    it("Stops receiving events if close is immediately called, multiple partitions. #RunnableInBrowser", async function(): Promise<
+      void
+    > {
+      const client = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );
+
+      clients.push(client);
+
+      let initializeCalled = 0;
+      let closeCalled = 0;
+
+      const subscription = client.subscribe({
+        async processError() {},
+        async processEvents() {},
+        async processClose() {
+          closeCalled++;
+        },
+        async processInitialize() {
+          initializeCalled++;
+        }
+      });
+
+      await subscription.close();
+
+      await loopUntil({
+        maxTimes: 10,
+        name: "Wait for the subscription to stop running.",
+        timeBetweenRunsMs: 100,
+        async until() {
+          return !subscription.isRunning;
+        }
+      });
+
+      // If `processInitialize` is called, then `processClose` should be called as well.
+      // Otherwise, we shouldn't see either called.
+      initializeCalled.should.equal(
+        closeCalled,
+        "processClose was not called the same number of times as processInitialize."
+      );
     });
   });
 });

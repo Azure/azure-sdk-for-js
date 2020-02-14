@@ -1,16 +1,26 @@
 import chai from "chai";
+import glob from "glob";
 import fs from "fs";
-import path from "path";
+
+function globAsync(pattern: string): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    glob(pattern, (error, matches) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(matches);
+      }
+    });
+  });
+}
 
 // Since `npm run build:samples` now update the typescript samples to make them debuggable,
 // we now have the below tests to ensure such updates dont get checked in.
 describe("Ensure typescript samples use published package", function(): void {
-  const regex = new RegExp('from "@azure/service-bus"');
-
-  function testSamples(folder: string): void {
-    const files = fs.readdirSync(folder);
+  function testSamples(files: string[], regex: RegExp): void {
+    console.log("I have", files.length, "files");
     const failingFiles = files.filter((file) => {
-      const fileContents = fs.readFileSync(path.join(folder, file), { encoding: "utf-8" });
+      const fileContents = fs.readFileSync(file, { encoding: "utf-8" });
       return !regex.test(fileContents);
     });
     if (failingFiles.length) {
@@ -20,13 +30,15 @@ describe("Ensure typescript samples use published package", function(): void {
     }
   }
 
-  it("Ensure getStarted samples use published package", () => {
-    const folder = path.join(__dirname, "../samples/typescript/gettingStarted");
-    testSamples(folder);
+  it("Ensure TypeScript samples use published package", async () => {
+    const pattern = "samples/typescript/src/**/*.ts";
+    const files = await globAsync(pattern);
+    testSamples(files, new RegExp('from\\s"@azure/service-bus"'));
   });
 
-  it("Ensure advancedFeatures samples use published package", () => {
-    const folder = path.join(__dirname, "../samples/typescript/advancedFeatures");
-    testSamples(folder);
+  it("Ensure JavaScript samples use published package", async () => {
+    const pattern = "samples/javascript/**/*.js";
+    const files = await globAsync(pattern);
+    testSamples(files, new RegExp('=\\srequire\\("@azure/service-bus"\\)'));
   });
 });

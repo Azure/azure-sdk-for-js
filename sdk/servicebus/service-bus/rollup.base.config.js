@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import nodeResolve from "rollup-plugin-node-resolve";
-import multiEntry from "rollup-plugin-multi-entry";
-import cjs from "rollup-plugin-commonjs";
+import nodeResolve from "@rollup/plugin-node-resolve";
+import multiEntry from "@rollup/plugin-multi-entry";
+import cjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
 import path from "path";
-import inject from "rollup-plugin-inject";
+import inject from "@rollup/plugin-inject";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -136,7 +136,8 @@ export function browserConfig(test = false) {
           export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
         `,
         path: `export default {}`,
-        dns: `export function resolve() { }`
+        dns: `export function resolve() { }`,
+        glob: `export default {}`
       }),
 
       nodeResolve({

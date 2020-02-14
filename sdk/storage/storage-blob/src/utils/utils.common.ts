@@ -523,24 +523,30 @@ export function iEqual(str1: string, str2: string): boolean {
   return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
 }
 
+/**
+ * Extracts account name from the url
+ * @param {string} url url to extract the account name from
+ * @returns {string} with the account name
+ */
 export function getAccountNameFromUrl(url: string): string {
-  if (url.startsWith("http://127.0.0.1:10000")) {
-    // Dev Conn String
-    return getValueInConnString(DevelopmentConnectionString, "AccountName");
-  } else {
-    try {
+  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  let accountName;
+  try {
+    if (parsedUrl.getHost()!.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
-      // Slicing off '/' at the end if exists
-      url = url.endsWith("/") ? url.slice(0, -1) : url;
-
-      const accountName = url.substring(url.lastIndexOf("://") + 3, url.lastIndexOf(".blob."));
-      if (!accountName) {
-        throw new Error("Provided accountName is invalid.");
-      }
-
-      return accountName;
-    } catch (error) {
-      throw new Error("Unable to extract accountName with provided information.");
+      accountName = parsedUrl.getHost()!.split(".")[0];
+    } else {
+      // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
+      // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
+      // .getPath() -> /devstoreaccount1/
+      accountName = parsedUrl.getPath()!.split("/")[1];
     }
+
+    if (!accountName) {
+      throw new Error("Provided accountName is invalid.");
+    }
+    return accountName;
+  } catch (error) {
+    throw new Error("Unable to extract accountName with provided information.");
   }
 }

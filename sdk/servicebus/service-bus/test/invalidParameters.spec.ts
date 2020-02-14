@@ -288,12 +288,20 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
     // Add rule with number as name
     await subscriptionClient.addRule(123 as any, true);
     rules = await subscriptionClient.getRules();
-    should.equal(rules.some((rule) => rule.name === "123"), true, "Added rule not found");
+    should.equal(
+      rules.some((rule) => rule.name === "123"),
+      true,
+      "Added rule not found"
+    );
 
     // Remove rule with number as name
     await subscriptionClient.removeRule(123 as any);
     rules = await subscriptionClient.getRules();
-    should.equal(rules.some((rule) => rule.name === "123"), false, "Removed rule still found");
+    should.equal(
+      rules.some((rule) => rule.name === "123"),
+      false,
+      "Removed rule still found"
+    );
 
     // Add default rule so that other tests are not affected
     await subscriptionClient.addRule(subscriptionClient.defaultRuleName, true);
@@ -454,12 +462,9 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   it("RegisterMessageHandler: Missing onError in SessionReceiver", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.registerMessageHandler(
-        async () => {
-          /** */
-        },
-        undefined as any
-      );
+      await sessionReceiver.registerMessageHandler(async () => {
+        /** */
+      }, undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -472,12 +477,9 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   > {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.registerMessageHandler(
-        async () => {
-          /** */
-        },
-        "somethingelse" as any
-      );
+      await sessionReceiver.registerMessageHandler(async () => {
+        /** */
+      }, "somethingelse" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -622,12 +624,9 @@ describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
   it("RegisterMessageHandler: Missing onError in Receiver", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await receiver.registerMessageHandler(
-        async () => {
-          /** */
-        },
-        undefined as any
-      );
+      await receiver.registerMessageHandler(async () => {
+        /** */
+      }, undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -638,12 +637,9 @@ describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
   it("RegisterMessageHandler: Wrong type for onError in Receiver", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await receiver.registerMessageHandler(
-        async () => {
-          /** */
-        },
-        "somethingelse" as any
-      );
+      await receiver.registerMessageHandler(async () => {
+        /** */
+      }, "somethingelse" as any);
     } catch (error) {
       caughtError = error;
     }

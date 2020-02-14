@@ -7,7 +7,10 @@
  */
 
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
-import { ParserWeakMap } from "@typescript-eslint/typescript-estree/dist/parser-options";
+import {
+  ParserWeakMapESTreeToTSNode,
+  ParserWeakMap
+} from "@typescript-eslint/typescript-estree/dist/parser-options";
 import { Rule } from "eslint";
 import {
   FunctionDeclaration,
@@ -55,7 +58,7 @@ const getParamAsIdentifier = (param: Pattern): Identifier =>
  */
 const getTypeOfParam = (
   param: Pattern,
-  converter: ParserWeakMap<TSESTree.Node, TSNode>,
+  converter: ParserWeakMapESTreeToTSNode,
   typeChecker: TypeChecker
 ): Type => {
   const type = typeChecker.getTypeAtLocation(
@@ -134,7 +137,7 @@ const addSeenSymbols = (symbol: TSSymbol, symbols: TSSymbol[], typeChecker: Type
  */
 const getSymbolsUsedInParam = (
   param: Pattern,
-  converter: ParserWeakMap<TSESTree.Node, TSNode>,
+  converter: ParserWeakMapESTreeToTSNode,
   typeChecker: TypeChecker
 ): TSSymbol[] => {
   const symbols: TSSymbol[] = [];
@@ -154,7 +157,7 @@ const getSymbolsUsedInParam = (
  */
 const isValidParam = (
   param: Pattern,
-  converter: ParserWeakMap<TSESTree.Node, TSNode>,
+  converter: ParserWeakMapESTreeToTSNode,
   typeChecker: TypeChecker
 ): boolean => {
   const tsIdentifier = param as TSESTree.Identifier;
@@ -175,7 +178,7 @@ const isValidParam = (
  */
 const isValidOverload = (
   overloads: FunctionType[],
-  converter: ParserWeakMap<TSESTree.Node, TSNode>,
+  converter: ParserWeakMapESTreeToTSNode,
   typeChecker: TypeChecker
 ): boolean =>
   overloads.some((overload: FunctionType): boolean =>
@@ -197,7 +200,7 @@ const isValidOverload = (
  */
 const evaluateOverloads = (
   overloads: FunctionType[],
-  converter: ParserWeakMap<TSESTree.Node, TSNode>,
+  converter: ParserWeakMapESTreeToTSNode,
   typeChecker: TypeChecker,
   verified: string[],
   name: string | null,

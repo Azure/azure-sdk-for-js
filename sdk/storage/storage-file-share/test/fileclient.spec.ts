@@ -4,17 +4,17 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { AbortController } from "@azure/abort-controller";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
-import { getBSU, bodyToString, setupEnvironment } from "./utils";
+import { ShareClient, ShareDirectoryClient, ShareFileClient, FileStartCopyOptions } from "../src";
+import { getBSU, bodyToString, recorderEnvSetup } from "./utils";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
+import { MockPolicyFactory } from "./utils/MockPolicyFactory";
+import { Pipeline } from "../src/Pipeline";
 
 dotenv.config({ path: "../.env" });
 
 describe("FileClient", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -23,7 +23,8 @@ describe("FileClient", () => {
   let fileName: string;
   let fileClient: ShareFileClient;
   const content = "Hello World";
-
+  const filePermissionInSDDL = "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513" +
+    "D:(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
   let recorder: Recorder;
 
   let fullFileAttributes = new FileSystemAttributes();
@@ -36,8 +37,9 @@ describe("FileClient", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function() {
-    recorder = record(this);
+  beforeEach(async function () {
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
@@ -51,7 +53,7 @@ describe("FileClient", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await shareClient.delete();
     recorder.stop();
   });
@@ -295,6 +297,74 @@ describe("FileClient", () => {
     assert.deepStrictEqual(properties2.copySource, fileClient.url);
   });
 
+  it("startCopyFromURL with smb options", async () => {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
+
+    let fileAttributesInstance = new FileSystemAttributes();
+    fileAttributesInstance.hidden = true;
+    fileAttributesInstance.system = true;
+    const fileAttributes = fileAttributesInstance.toString();
+
+    const fileCreationDate = new Date('05 October 2011 14:48 UTC');
+    const fileCreationTime = truncatedISO8061Date(fileCreationDate);
+    const options: FileStartCopyOptions = {
+      filePermission: filePermissionInSDDL,
+      copyFileSmbInfo: {
+        filePermissionCopyMode: "override",
+        ignoreReadOnly: false,
+        fileAttributes,
+        fileCreationTime,
+        fileLastWriteTime: "source",
+        setArchiveAttribute: false
+      }
+    }
+
+    const result = await newFileClient.startCopyFromURL(fileClient.url, options);
+    assert.ok(result.copyId);
+    const sourceProperties = await fileClient.getProperties();
+    const targetProperties = await newFileClient.getProperties();
+
+    assert.deepStrictEqual(FileSystemAttributes.parse(targetProperties.fileAttributes!), fileAttributesInstance);
+    assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
+    assert.deepStrictEqual(targetProperties.fileCreatedOn, fileCreationDate);
+  });
+
+  it("startCopyFromURL with smb options: filePermissionKey", async () => {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
+
+    const createPermResp = await shareClient.createPermission(filePermissionInSDDL);
+    let fileAttributesInstance = new FileSystemAttributes();
+    fileAttributesInstance.hidden = true;
+    fileAttributesInstance.system = true;
+    const fileAttributes = fileAttributesInstance.toString();
+
+    const fileCreationDate = new Date('05 October 2011 14:48 UTC');
+    const fileCreationTime = truncatedISO8061Date(fileCreationDate);
+    const options: FileStartCopyOptions = {
+      filePermissionKey: createPermResp.filePermissionKey,
+      copyFileSmbInfo: {
+        filePermissionCopyMode: "override",
+        ignoreReadOnly: false,
+        fileAttributes,
+        fileCreationTime,
+        fileLastWriteTime: "source",
+        setArchiveAttribute: true
+      }
+    }
+
+    const result = await newFileClient.startCopyFromURL(fileClient.url, options);
+    assert.ok(result.copyId);
+    const sourceProperties = await fileClient.getProperties();
+    const targetProperties = await newFileClient.getProperties();
+
+    fileAttributesInstance.archive = true;
+    assert.deepStrictEqual(FileSystemAttributes.parse(targetProperties.fileAttributes!), fileAttributesInstance);
+    assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
+    assert.deepStrictEqual(targetProperties.fileCreatedOn, fileCreationDate);
+  });
+
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
     await fileClient.create(content.length);
     const newFileClient = dirClient.getFileClient(recorder.getUniqueName("copiedfile"));
@@ -433,7 +503,7 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
     const result = await fileClient.download(0, undefined, {
-      onProgress: () => {}
+      onProgress: () => { }
     });
     assert.deepStrictEqual(await bodyToString(result), content);
   });
@@ -470,7 +540,7 @@ describe("FileClient", () => {
           const rs = result.readableStreamBody!;
 
           // tslint:disable-next-line:no-empty
-          rs.on("data", () => {});
+          rs.on("data", () => { });
           rs.on("end", resolve);
           rs.on("error", reject);
         } else {
@@ -514,7 +584,7 @@ describe("FileClient", () => {
 
     assert.deepStrictEqual(
       await fileClient.forceCloseAllHandles(),
-      { closedHandlesCount: 0 },
+      { closedHandlesCount: 0, closeFailureCount: 0 },
       "Error in forceCloseAllHandles"
     );
   });
@@ -536,34 +606,51 @@ describe("FileClient", () => {
     }
   });
 
-  it("verify shareName and filePath passed to the client", async () => {
-    const accountName = "myaccount";
-    const newClient = new ShareFileClient(
-      `https://${accountName}.file.core.windows.net/` + shareName + "/" + dirName + "/" + fileName
-    );
-    assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
-    assert.equal(
-      newClient.path,
-      dirName + "/" + fileName,
-      "FilePath is not the same as the one provided."
-    );
-    assert.equal(
-      newClient.accountName,
-      accountName,
-      "Account name is not the same as the one provided."
-    );
+  it("forceCloseHandle could return closeFailureCount", async () => {
+    await fileClient.create(10);
+
+    // TODO: Open or create a handle, currently have to do this manually
+    const result = (
+      await fileClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
+      const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
+      factories.unshift(mockPolicyFactory);
+      const pipeline = new Pipeline(factories);
+      const mockFileClient = new ShareFileClient(fileClient.url, pipeline);
+
+      const handle = result.handleList[0];
+      const closeResp = await mockFileClient.forceCloseHandle(handle.handleId);
+      assert.equal(closeResp.closeFailureCount, 1, 'Number of handles failed to close is not as set.');
+    }
   });
 
-  it("verify FileClient name matches file name", async () => {
-    const accountName = "myaccount";
-    const newClient = new ShareFileClient(
-      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}/${fileName}`
-    );
-    assert.equal(
-      newClient.name,
-      fileName,
-      "FileClient name is not the same as the baseName of the provided file URI"
-    );
+  it("forceCloseAllHandles return correct closeFailureCount", async () => {
+    await fileClient.create(10);
+
+    // TODO: Open or create a handle; currently have to do this manually
+    const result = (
+      await fileClient
+        .listHandles()
+        .byPage()
+        .next()
+    ).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
+      const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
+      factories.unshift(mockPolicyFactory);
+      const pipeline = new Pipeline(factories);
+      const mockFileClient = new ShareFileClient(fileClient.url, pipeline);
+      const closeResp = await mockFileClient.forceCloseAllHandles();
+      assert.equal(closeResp.closeFailureCount, 1, 'Number of handles failed to close is not as set.');
+    }
+
+    const closeAllResp = await fileClient.forceCloseAllHandles();
+    assert.equal(closeAllResp.closeFailureCount, 0, 'The closeFailureCount is not set to 0 as default.');
   });
 
   it("create with tracing", async () => {
@@ -604,5 +691,54 @@ describe("FileClient", () => {
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  });
+});
+
+describe("ShareFileClient - Verify Name Properties", () => {
+  const accountName = "myaccount";
+  const dirName = "dir1/dir2";
+  const fileName = "1.txt";
+  const shareName = "shareName";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new ShareFileClient(url);
+    assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
+    assert.equal(
+      newClient.path,
+      dirName + "/" + fileName,
+      "FilePath is not the same as the one provided."
+    );
+    assert.equal(
+      newClient.accountName,
+      accountName,
+      "Account name is not the same as the one provided."
+    );
+    assert.equal(
+      newClient.name,
+      fileName,
+      "FileClient name is not the same as the baseName of the provided file URI"
+    );
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(
+      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}/${fileName}`
+    );
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://192.0.0.10:1900/${accountName}/${shareName}/${dirName}/${fileName}`
+    );
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}/${dirName}/${fileName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${shareName}/${dirName}/${fileName}`);
   });
 });

@@ -1,8 +1,24 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { getUniqueName, isBrowser, isRecordMode, isPlaybackMode } from "./utils";
-import { NiseRecorder, NockRecorder, BaseRecorder, setEnvironmentOnLoad } from "./baseRecorder";
+import {
+  getUniqueName,
+  isBrowser,
+  isRecordMode,
+  isPlaybackMode,
+  RecorderEnvironmentSetup,
+  env,
+  isSoftRecordMode,
+  testHasChanged
+} from "./utils";
+import {
+  NiseRecorder,
+  NockRecorder,
+  BaseRecorder,
+  setEnvironmentOnLoad,
+  setEnvironmentVariables
+} from "./baseRecorder";
+import MD5 from "md5";
 
 /**
  * @export
@@ -15,7 +31,7 @@ export interface Recorder {
    */
   stop(): void;
   /**
-   * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
+   * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
    * If the `{runtime}` is `{undefined}`, the test will be skipped in both the node and browser runtimes.
    * Has no effect in the live test mode.
    */
@@ -52,7 +68,10 @@ export interface Recorder {
  * @param {Mocha.Context} [testContext]
  * @returns {Recorder}
  */
-export function record(testContext: Mocha.Context): Recorder {
+export function record(
+  testContext: Mocha.Context,
+  recorderEnvironmentSetup: RecorderEnvironmentSetup
+): Recorder {
   let recorder: BaseRecorder;
   let testHierarchy: string;
   let testTitle: string;
@@ -72,29 +91,50 @@ export function record(testContext: Mocha.Context): Recorder {
     testTitle = testContext.test!.title;
   }
 
+  const stringTest = testContext.currentTest!.fn!.toString();
+  const currentHash = MD5(stringTest);
+  const testAbsolutePath = testContext.currentTest!.file!;
+
+  if (
+    isSoftRecordMode() &&
+    !testHasChanged(testHierarchy, testTitle, testAbsolutePath, currentHash)
+  ) {
+    testContext.test!.title = `${
+      testContext.test!.title
+    } (Test unchanged since last recording)`;
+    testContext.skip();
+  }
+
   setEnvironmentOnLoad();
 
   if (isBrowser()) {
-    recorder = new NiseRecorder(testHierarchy, testTitle);
+    recorder = new NiseRecorder(currentHash, testHierarchy, testTitle);
   } else {
-    recorder = new NockRecorder(testHierarchy, testTitle);
+    recorder = new NockRecorder(currentHash, testHierarchy, testTitle);
   }
 
-  // If neither recording nor playback is enabled, requests hit the live-service and no recordings are generated
   if (isRecordMode()) {
-    recorder.record();
+    // If TEST_MODE=record, invokes the recorder, hits the live-service,
+    // expects that the appropriate environment variables are present
+    recorder.record(recorderEnvironmentSetup);
   } else if (isPlaybackMode()) {
-    recorder.playback(testContext.currentTest!.file!);
+    // If TEST_MODE=playback,
+    //  1. sets up the ENV variables
+    //  2. invokes the recorder, play the existing test recording.
+    setEnvironmentVariables(env, recorderEnvironmentSetup.replaceableVariables);
+    recorder.playback(recorderEnvironmentSetup, testAbsolutePath);
   }
+  // If TEST_MODE=live, hits the live-service and no recordings are generated.
 
   return {
     stop: function() {
-      if (isRecordMode()) {
+      // We check wether we're on record or playback inside of the recorder's stop method.
+      if (recorder) {
         recorder.stop();
       }
     },
     /**
-     * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes repectively.
+     * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
      * `{recorder.skip()}` If the `{runtime}` is undefined, the test will be skipped in both the node and browser runtimes.
      * @param runtime Can either be `"node"` or `"browser"` or `undefined`
      * @param reason Reason for skipping the test
@@ -123,7 +163,6 @@ export function record(testContext: Mocha.Context): Recorder {
         }
       }
     },
-
     getUniqueName: function(prefix: string, label?: string): string {
       let name: string;
       if (!label) {

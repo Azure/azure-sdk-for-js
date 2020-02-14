@@ -16,20 +16,20 @@ import {
   newPipeline
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getBSU, getTokenBSU, setupEnvironment } from "../utils";
+import { getBSU, getTokenBSU, recorderEnvSetup } from "../utils";
 import { record } from "@azure/test-utils-recorder";
+import { SERVICE_VERSION } from "../../src/utils/constants";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
-
   let recorder: any;
 
-  beforeEach(function() {
-    recorder = record(this);
+  let blobServiceClient: BlobServiceClient;
+  beforeEach(async function () {
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     recorder.stop();
   });
 
@@ -206,10 +206,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (await containerClientwithSAS
-      .listBlobsFlat()
-      .byPage()
-      .next()).value;
+    (
+      await containerClientwithSAS
+        .listBlobsFlat()
+        .byPage()
+        .next()
+    ).value;
     await containerClient.delete();
   });
 
@@ -481,13 +483,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for container with all configurations", async function() {
+  it("GenerateUserDelegationSAS should work for container with all configurations", async function () {
     // Try to get BlobServiceClient object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
       blobServiceClientWithToken = getTokenBSU();
-    } catch {}
+    } catch { }
 
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
@@ -518,7 +520,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: ContainerSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        version: "2019-02-02"
+        version: SERVICE_VERSION
       },
       userDelegationKey,
       accountName
@@ -530,20 +532,22 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (await containerClientwithSAS
-      .listBlobsFlat()
-      .byPage()
-      .next()).value;
+    (
+      await containerClientwithSAS
+        .listBlobsFlat()
+        .byPage()
+        .next()
+    ).value;
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for container with minimum parameters", async function() {
+  it("GenerateUserDelegationSAS should work for container with minimum parameters", async function () {
     // Try to get BlobServiceClient object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
       blobServiceClientWithToken = getTokenBSU();
-    } catch {}
+    } catch { }
 
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
@@ -582,20 +586,22 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    (await containerClientwithSAS
-      .listBlobsFlat()
-      .byPage()
-      .next()).value;
+    (
+      await containerClientwithSAS
+        .listBlobsFlat()
+        .byPage()
+        .next()
+    ).value;
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob", async function() {
+  it("GenerateUserDelegationSAS should work for blob", async function () {
     // Try to get blobServiceClient object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
       blobServiceClientWithToken = getTokenBSU();
-    } catch {}
+    } catch { }
 
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test
@@ -658,13 +664,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob snapshot", async function() {
+  it("GenerateUserDelegationSAS should work for blob snapshot", async function () {
     // Try to get blobServiceClient object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
       blobServiceClientWithToken = getTokenBSU();
-    } catch {}
+    } catch { }
 
     // Requires bearer token for this case which cannot be generated in the runtime
     // Make sure this case passed in sanity test

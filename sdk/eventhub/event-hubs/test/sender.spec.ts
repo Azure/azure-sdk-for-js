@@ -8,7 +8,8 @@ chai.use(chaiAsPromised);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:sender-spec");
 import { EventData, EventHubProducerClient, EventHubConsumerClient } from "../src";
-import { SendOptions, EventHubClient } from "../src/impl/eventHubClient";
+import { EventHubClient } from "../src/impl/eventHubClient";
+import { SendOptions } from "../src/models/public";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
@@ -469,11 +470,9 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
 
     it("with max message size should be sent successfully.", async function(): Promise<void> {
       const partitionInfo = await client.getPartitionProperties("0");
-      const consumer = client.createConsumer(
-        EventHubClient.defaultConsumerGroupName,
-        "0",
-       { sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber }
-      );
+      const consumer = client.createConsumer(EventHubClient.defaultConsumerGroupName, "0", {
+        sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber
+      });
       const eventDataBatch = await producerClient.createBatch({
         maxSizeInBytes: 5000,
         partitionId: "0"
@@ -689,7 +688,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       } catch (err) {
         debug(err);
         should.exist(err);
-        should.equal(err.name, "MessageTooLargeError");
+        should.equal(err.code, "MessageTooLargeError");
         err.message.should.match(
           /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
         );
@@ -837,7 +836,7 @@ describe("EventHub Sender #RunnableInBrowser", function(): void {
       } catch (err) {
         debug(err);
         should.exist(err);
-        should.equal(err.name, "MessageTooLargeError");
+        should.equal(err.code, "MessageTooLargeError");
         err.message.should.match(
           /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
         );

@@ -3,7 +3,7 @@ parameters:
   PreIntegrationSteps: ""
   PostIntegrationSteps: ""
   ResourceServiceDirectory: ""
-  EnvVars: []
+  EnvVars: {}
   MaxParallel: 0
   Matrix:
     Linux_Node10:
@@ -74,7 +74,7 @@ jobs:
               -ProvisionerApplicationId $(provisioner-aad-id)
               -ProvisionerApplicationSecret $(provisioner-aad-secret)
               -DeleteAfterHours 24
-              -Location westus2
+              -CI
               -Force
               -Verbose
             displayName: Provision Test Resources
@@ -103,7 +103,9 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Integration test libraries"
-        env: ${{parameters.EnvVars}}
+        env: 
+          TEST_MODE: "live"
+          ${{ insert }}: ${{ parameters.EnvVars }}
         condition: ne(variables['TestType'],'sample')
 
       - ${{if ne(parameters.PostIntegrationSteps, '')}}:
@@ -112,21 +114,23 @@ jobs:
       - script: |
           node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples
         displayName: "Execute Samples"
-        env: ${{parameters.EnvVars}}
+        env: 
+          TEST_MODE: "live"
+          ${{ insert }}: ${{ parameters.EnvVars }}
         condition: eq(variables['TestType'],'sample')
 
       - ${{ if ne(parameters.ResourceServiceDirectory, '') }}:
-          - pwsh: >-
+          - pwsh: >
               eng/Remove-TestResources.ps1
-              -BaseName $(BaseName)
-              -ServiceDirectory ${{ parameters.ResourceServiceDirectory }}
+              -ResourceGroupName "${env:AZURE_RESOURCEGROUP_NAME}"
               -TenantId $(aad-azure-sdk-test-tenant-id)
               -ProvisionerApplicationId $(provisioner-aad-id)
               -ProvisionerApplicationSecret $(provisioner-aad-secret)
               -Force
               -Verbose
             displayName: Remove Test Resources
-            condition: always()
+            condition: ne(variables['AZURE_RESOURCEGROUP_NAME'], '')
+            continueOnError: true
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).

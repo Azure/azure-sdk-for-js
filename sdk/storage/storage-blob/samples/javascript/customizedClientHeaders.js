@@ -86,8 +86,6 @@ async function main() {
   console.log(response._response.request.headers.get("x-ms-client-request-id"));
 }
 
-module.exports = { main };
-
 main().catch((err) => {
   console.error("Error running sample:", err.message);
 });

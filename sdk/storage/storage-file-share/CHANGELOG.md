@@ -1,9 +1,19 @@
 # Release History
 
-## 12.0.1 (Unreleased)
+## 12.1.0 (2020-02-11)
+- Updated Azure Storage Service API version to 2019-07-07.
+- A new type `ShareLeaseClient` is added to manage leases.
+- New SMB parameters for file copy.
+- Force Close Handles Response now includes the number of handles that failed to close.
+- `ShareProperties` now has 4 additional properties for premium file shares.
+- Fixed a bug where the package didn't work as expected when bundling web applications. [PR #7298](https://github.com/Azure/azure-sdk-for-js/pull/7298)
 
-- Share a single httpClient among clients. [PR #6657](https://github.com/Azure/azure-sdk-for-js/pull/6657)
-  Currently clients share their parent client's pipeline. But when the pipeline doesn't have a http client specified, a `DefaultHttpClient` will be created for each of the clients. This leads to memory leaks and exhaustion of TCP connections when many clients are created with `keepAlive` option enabled because each client creates a long-live http connection.  This change creates a default http client instance to share among all clients if none is specified in the pipeline options.
+## 12.0.1 (2020.01)
+
+- Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6755](https://github.com/Azure/azure-sdk-for-js/pull/6755)
+- Service clients now share a single http client instance by default. [PR #6657](https://github.com/Azure/azure-sdk-for-js/pull/6657)
+
+  Previously, a new http client was created for each service client if none was provided by the user. This could result in TCP port exhaustion under heavy usage with the keepAlive option enabled because each http client has its own persistent TCP connection. This change creates a single http client instance which is shared among all service clients by default.
 
 ## 12.0.0 (2019-12-04)
 

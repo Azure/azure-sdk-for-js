@@ -15,9 +15,20 @@ export function createProxyAgent(
   proxySettings: ProxySettings,
   headers?: HttpHeaders
 ): ProxyAgent {
+  const host = URLBuilder.parse(proxySettings.host).getHost() as string;
+  if (!host) {
+    throw new Error(
+      "Expecting a non-empty host in proxy settings."
+    );
+  }
+  if (!isValidPort(proxySettings.port)) {
+    throw new Error(
+      "Expecting a valid port number in the range of [0, 65535] in proxy settings."
+    );
+  }
   const tunnelOptions: tunnel.HttpsOverHttpsOptions = {
     proxy: {
-      host: URLBuilder.parse(proxySettings.host).getHost() as string,
+      host: host,
       port: proxySettings.port,
       headers: (headers && headers.rawHeaders()) || {}
     }
@@ -57,4 +68,10 @@ export function createTunnel(
   } else {
     return tunnel.httpOverHttp(tunnelOptions);
   }
+}
+
+function isValidPort(port: number) {
+  // any port in 0-65535 range is valid (RFC 793) even though almost all implementations
+  // will reserve 0 for a specific purpose, and a range of numbers for ephemeral ports
+  return 0 <= port && port <= 65535;
 }

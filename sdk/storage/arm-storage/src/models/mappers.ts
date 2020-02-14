@@ -435,6 +435,12 @@ export const EncryptionService: msRest.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      keyType: {
+        serializedName: "keyType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -461,7 +467,6 @@ export const EncryptionServices: msRest.CompositeMapper = {
         }
       },
       table: {
-        readOnly: true,
         serializedName: "table",
         type: {
           name: "Composite",
@@ -469,7 +474,6 @@ export const EncryptionServices: msRest.CompositeMapper = {
         }
       },
       queue: {
-        readOnly: true,
         serializedName: "queue",
         type: {
           name: "Composite",
@@ -1124,6 +1128,99 @@ export const GeoReplicationStats: msRest.CompositeMapper = {
   }
 };
 
+export const BlobRestoreRange: msRest.CompositeMapper = {
+  serializedName: "BlobRestoreRange",
+  type: {
+    name: "Composite",
+    className: "BlobRestoreRange",
+    modelProperties: {
+      startRange: {
+        required: true,
+        serializedName: "startRange",
+        type: {
+          name: "String"
+        }
+      },
+      endRange: {
+        required: true,
+        serializedName: "endRange",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BlobRestoreParameters: msRest.CompositeMapper = {
+  serializedName: "BlobRestoreParameters",
+  type: {
+    name: "Composite",
+    className: "BlobRestoreParameters",
+    modelProperties: {
+      timeToRestore: {
+        required: true,
+        serializedName: "timeToRestore",
+        type: {
+          name: "DateTime"
+        }
+      },
+      blobRanges: {
+        required: true,
+        serializedName: "blobRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BlobRestoreRange"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BlobRestoreStatus: msRest.CompositeMapper = {
+  serializedName: "BlobRestoreStatus",
+  type: {
+    name: "Composite",
+    className: "BlobRestoreStatus",
+    modelProperties: {
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      failureReason: {
+        readOnly: true,
+        serializedName: "failureReason",
+        type: {
+          name: "String"
+        }
+      },
+      restoreId: {
+        readOnly: true,
+        serializedName: "restoreId",
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        readOnly: true,
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "BlobRestoreParameters"
+        }
+      }
+    }
+  }
+};
+
 export const PrivateEndpoint: msRest.CompositeMapper = {
   serializedName: "PrivateEndpoint",
   type: {
@@ -1461,6 +1558,14 @@ export const StorageAccount: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RoutingPreference"
+        }
+      },
+      blobRestoreStatus: {
+        readOnly: true,
+        serializedName: "properties.blobRestoreStatus",
+        type: {
+          name: "Composite",
+          className: "BlobRestoreStatus"
         }
       }
     }
@@ -2847,6 +2952,33 @@ export const ChangeFeed: msRest.CompositeMapper = {
   }
 };
 
+export const RestorePolicyProperties: msRest.CompositeMapper = {
+  serializedName: "RestorePolicyProperties",
+  type: {
+    name: "Composite",
+    className: "RestorePolicyProperties",
+    modelProperties: {
+      enabled: {
+        required: true,
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      days: {
+        serializedName: "days",
+        constraints: {
+          InclusiveMaximum: 365,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const BlobServiceProperties: msRest.CompositeMapper = {
   serializedName: "BlobServiceProperties",
   type: {
@@ -2885,6 +3017,13 @@ export const BlobServiceProperties: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ChangeFeed"
+        }
+      },
+      restorePolicy: {
+        serializedName: "properties.restorePolicy",
+        type: {
+          name: "Composite",
+          className: "RestorePolicyProperties"
         }
       },
       sku: {
@@ -3046,7 +3185,7 @@ export const FileShare: msRest.CompositeMapper = {
       shareQuota: {
         serializedName: "properties.shareQuota",
         constraints: {
-          InclusiveMaximum: 100000,
+          InclusiveMaximum: 102400,
           InclusiveMinimum: 1
         },
         type: {
@@ -3085,7 +3224,7 @@ export const FileShareItem: msRest.CompositeMapper = {
       shareQuota: {
         serializedName: "properties.shareQuota",
         constraints: {
-          InclusiveMaximum: 100000,
+          InclusiveMaximum: 102400,
           InclusiveMinimum: 1
         },
         type: {

@@ -1,6 +1,8 @@
 # Release History
 
-## 1.0.0-preview.11 (Unreleased)
+## 1.0.0 (2020-01-06)
+
+This release marks the general availability of the `@azure/app-configuration` package.
 
 - Fixed issue [#6528](https://github.com/Azure/azure-sdk-for-js/pull/6528) where
   the proper user agent header (`x-ms-useragent`) wasn't being sent when we were

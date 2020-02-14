@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import { CertificateClient } from "../src";
-import { env } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { testPollerProperties, retry, isPlayingBack } from "./utils/recorderUtils";
-import { assertThrowsAbortError } from './utils/utils.common';
-import { isNode } from '@azure/core-http';
+import { testPollerProperties, retry } from "./utils/recorderUtils";
+import { assertThrowsAbortError } from "./utils/utils.common";
+import { isNode } from "@azure/core-http";
 
 describe("Certificates client - restore certificates and recover backups", () => {
   const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   const basicCertificatePolicy = {
     issuerName: "Self",
@@ -95,7 +95,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     await testClient.flushCertificate(certificateName);
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can generate a backup of a certificate with requestOptions timeout", async function() {
       await assertThrowsAbortError(async () => {
@@ -120,7 +120,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     );
   });
 
-  if (isNode && !isPlayingBack) {
+  if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
     it("can restore a key with requestOptions timeout", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);

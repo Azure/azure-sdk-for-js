@@ -9,11 +9,11 @@
 export {
   BaseResource,
   CognitiveServicesAccount,
-  CognitiveServicesAccountCreateParameters,
+  CognitiveServicesAccountApiProperties,
   CognitiveServicesAccountEnumerateSkusResult,
   CognitiveServicesAccountKeys,
   CognitiveServicesAccountListResult,
-  CognitiveServicesAccountUpdateParameters,
+  CognitiveServicesAccountProperties,
   CognitiveServicesResourceAndSku,
   ErrorBody,
   ErrorModel,

@@ -63,6 +63,47 @@ describe("proxyAgent", () => {
       agent.proxyOptions.headers!.should.contain({ "user-agent": "Node.js" });
       done();
     });
+
+    [
+      { host: "host", port: 0 },
+      { host: "host", port: 65535 }
+    ].forEach((testCase) => {
+      it(`should not throw error when being given a valid proxy settings of { host: '${testCase.host}', port: ${testCase.port} }.`, function(done) {
+        const proxySettings = {
+          host: testCase.host,
+          port: testCase.port
+        };
+
+        const fn = function() {
+          createProxyAgent("http://example.com", proxySettings);
+        };
+        fn.should.not.throw();
+        done();
+      });
+    });
+
+    [
+      { host: "", port: 8080, expectInvalidHostError: true },
+      { host: "host", port: -1, expectInvalidHostError: false },
+      { host: "host", port: 65536, expectInvalidHostError: false }
+    ].forEach((testCase) => {
+      it(`should throw error when being given an invalid proxy settings of { host: '${testCase.host}', port: ${testCase.port} }.`, function(done) {
+        const proxySettings = {
+          host: testCase.host,
+          port: testCase.port
+        };
+
+        const fn = function() {
+          createProxyAgent("http://example.com", proxySettings);
+        };
+        fn.should.throw(
+          testCase.expectInvalidHostError?
+            "Expecting a non-empty host in proxy settings." :
+            "Expecting a valid port number in the range of [0, 65535] in proxy settings."
+        );
+        done();
+      });
+    });
   });
 
   describe("createTunnel", () => {

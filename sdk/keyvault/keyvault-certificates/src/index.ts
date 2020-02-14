@@ -1,3 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// The eslint plugin mentioned below doesn't follow through the extended types.
+/* eslint-disable @azure/azure-sdk/ts-apisurface-supportcancellation */
+
+// This file makes more sense if ordered based on how meaningful are some methods in relation to others.
+/* eslint-disable @typescript-eslint/member-ordering */
+
 import {
   TokenCredential,
   isTokenCredential,
@@ -25,7 +34,6 @@ import {
   CancelCertificateOperationOptions,
   CertificateIssuer,
   CertificateContact,
-  CertificateContacts,
   CertificateContentType,
   CertificatePolicy,
   CertificateProperties,
@@ -295,25 +303,25 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
       if (names.emails && names.emails.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          emails: <ArrayOneOrMore<string>>names.emails
+          emails: names.emails as ArrayOneOrMore<string>
         };
       }
       if (names.dnsNames && names.dnsNames.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          dnsNames: <ArrayOneOrMore<string>>names.dnsNames
+          dnsNames: names.dnsNames as ArrayOneOrMore<string>
         };
       }
       if (names.upns && names.upns.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          userPrincipalNames: <ArrayOneOrMore<string>>names.upns
+          userPrincipalNames: names.upns as ArrayOneOrMore<string>
         };
       }
     }
   }
 
-  let certificatePolicy: CertificatePolicy = {
+  const certificatePolicy: CertificatePolicy = {
     lifetimeActions: policy.lifetimeActions
       ? policy.lifetimeActions.map((action) => ({
           action: action.action ? action.action.actionType : undefined,
@@ -425,9 +433,10 @@ export class CertificateClient {
 
     const libInfo = `azsdk-js-keyvault-certificates/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
-        ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo;
+      pipelineOptions.userAgentOptions.userAgentPrefix =
+        pipelineOptions.userAgentOptions.userAgentPrefix !== undefined
+          ? `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`
+          : libInfo;
     } else {
       pipelineOptions.userAgentOptions = {
         userAgentPrefix: libInfo
@@ -531,7 +540,7 @@ export class CertificateClient {
     const iter = this.listPropertiesOfCertificatesAll(updatedOptions);
 
     span.end();
-    let result = {
+    const result = {
       next() {
         return iter.next();
       },
@@ -623,7 +632,7 @@ export class CertificateClient {
     const iter = this.listPropertiesOfCertificateVersionsAll(certificateName, updatedOptions);
 
     span.end();
-    let result = {
+    const result = {
       next() {
         return iter.next();
       },
@@ -719,7 +728,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.coreContactsToCertificateContacts(result._response.parsedBody).contactList;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody);
   }
 
   /**
@@ -742,7 +751,7 @@ export class CertificateClient {
     contacts: CertificateContact[],
     options: SetContactsOptions = {}
   ): Promise<CertificateContact[] | undefined> {
-    let coreContacts = contacts.map((x) => ({
+    const coreContacts = contacts.map((x) => ({
       emailAddress: x ? x.email : undefined,
       name: x ? x.name : undefined,
       phone: x ? x.phone : undefined
@@ -762,7 +771,7 @@ export class CertificateClient {
     } finally {
       span.end();
     }
-    return this.coreContactsToCertificateContacts(result._response.parsedBody).contactList;
+    return this.coreContactsToCertificateContacts(result._response.parsedBody);
   }
 
   /**
@@ -772,12 +781,12 @@ export class CertificateClient {
    * ```ts
    * let client = new CertificateClient(url, credentials);
    * await client.setContacts([{
-   *   emailAddress: "b@b.com",
+   *   email: "b@b.com",
    *   name: "b",
    *   phone: "222222222222"
    * }]);
-   * const getResponse = await client.getContacts();
-   * console.log(getResponse.contactList!);
+   * const contacts = await client.getContacts();
+   * console.log(contacts);
    * ```
    * @summary Sets the certificate contacts.
    * @param {GetContactsOptions} [options] The optional parameters
@@ -798,7 +807,7 @@ export class CertificateClient {
       span.end();
     }
 
-    return this.coreContactsToCertificateContacts(result).contactList;
+    return this.coreContactsToCertificateContacts(result);
   }
 
   private async *listPropertiesOfIssuersPage(
@@ -851,7 +860,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * // All in one call
    * for await (const issuerProperties of client.listPropertiesOfIssuers()) {
    *   console.log(issuerProperties);
@@ -876,7 +885,7 @@ export class CertificateClient {
     const iter = this.listPropertiesOfIssuersAll(updatedOptions);
 
     span.end();
-    let result = {
+    const result = {
       next() {
         return iter.next();
       },
@@ -897,7 +906,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * ```
    * @summary Sets the specified certificate issuer.
    * @param issuerName The name of the issuer.
@@ -909,8 +918,8 @@ export class CertificateClient {
     provider: string,
     options: CreateIssuerOptions = {}
   ): Promise<CertificateIssuer> {
-    //Unflatten issuer credentials
-    let unflattenedOptions = {
+    // Unflatten issuer credentials
+    const unflattenedOptions = {
       ...options,
       credentials: { accountId: options.accountId, password: options.password }
     };
@@ -976,7 +985,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * await client.updateIssuer("IssuerName", {
    *   provider: "Provider2"
    * });
@@ -1051,7 +1060,7 @@ export class CertificateClient {
    * Example usage:
    * ```ts
    * const client = new CertificateClient(url, credentials);
-   * await client.createIssuer("IssuerName", "Provider");
+   * await client.createIssuer("IssuerName", "Test");
    * const certificateIssuer = await client.getIssuer("IssuerName");
    * console.log(certificateIssuer);
    * ```
@@ -1478,7 +1487,7 @@ export class CertificateClient {
    * const poller = await client.getCertificateOperation("MyCertificate");
    * const pendingCertificate = poller.getResult();
    *
-   * const certificateOperation = poller.getState().certificateOperation;
+   * const certificateOperation = poller.getOperationState().certificateOperation;
    * console.log(certificateOperation);
    * ```
    * @summary Gets a certificate's poller operation
@@ -1557,7 +1566,7 @@ export class CertificateClient {
    *   subject: "cn=MyCert"
    * });
    * const poller = await client.getCertificateOperation("MyCertificate");
-   * const { csr } = poller.getState().certificateOperation!;
+   * const { csr } = poller.getOperationState().certificateOperation!;
    * const base64Csr = Buffer.from(csr!).toString("base64");
    * const wrappedCsr = ["-----BEGIN CERTIFICATE REQUEST-----", base64Csr, "-----END CERTIFICATE REQUEST-----"].join("\n");
    *
@@ -1755,7 +1764,7 @@ export class CertificateClient {
     const iter = this.listDeletedCertificatesAll(updatedOptions);
 
     span.end();
-    let result = {
+    const result = {
       next() {
         return iter.next();
       },
@@ -1991,7 +2000,7 @@ export class CertificateClient {
     const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
-    let abstractProperties: CertificateProperties = {
+    const abstractProperties: CertificateProperties = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,
@@ -2049,7 +2058,7 @@ export class CertificateClient {
 
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
-    let abstractProperties: CertificateProperties = {
+    const abstractProperties: CertificateProperties = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,
@@ -2081,7 +2090,7 @@ export class CertificateClient {
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
     const policy = toPublicPolicy(certificateBundle.policy || {});
 
-    let abstractProperties: CertificateProperties = {
+    const abstractProperties: CertificateProperties = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,
@@ -2126,7 +2135,7 @@ export class CertificateClient {
 
     const attributes: any = item.attributes || {};
 
-    let abstractProperties: any = {
+    const abstractProperties: any = {
       name: parsedId.name,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
@@ -2182,15 +2191,12 @@ export class CertificateClient {
     };
   }
 
-  private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContacts {
-    return {
-      id: contacts.id,
-      contactList:
-        contacts.contactList &&
-        contacts.contactList.map(
+  private coreContactsToCertificateContacts(contacts: CoreContacts): CertificateContact[] {
+    return contacts.contactList
+      ? contacts.contactList.map(
           (x) => ({ email: x.emailAddress, phone: x.phone, name: x.name } as CertificateContact)
         )
-    };
+      : [];
   }
 
   /**
@@ -2200,7 +2206,9 @@ export class CertificateClient {
    */
   private createSpan(methodName: string, requestOptions: RequestOptionsBase = {}): Span {
     const tracer = getTracer();
-    return tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+    const span = tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+    span.setAttribute("az.namespace", "Microsoft.KeyVault");
+    return span;
   }
 
   /**
@@ -2211,11 +2219,16 @@ export class CertificateClient {
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
     if (span.isRecording()) {
+      const spanOptions = options.spanOptions || {};
       return {
         ...options,
         spanOptions: {
-          ...options.spanOptions,
-          parent: span
+          ...spanOptions,
+          parent: span,
+          attributes: {
+            ...spanOptions.attributes,
+            "az.namespace": "Microsoft.KeyVault"
+          }
         }
       };
     } else {

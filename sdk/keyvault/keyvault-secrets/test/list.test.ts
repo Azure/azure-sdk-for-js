@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import chai from "chai";
 import { SecretClient } from "../src";
-import { isNode } from "@azure/core-http";
-import { isPlayingBack, testPollerProperties } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { assertThrowsAbortError } from "./utils/utils.common";
@@ -18,7 +17,7 @@ describe("Secret client - list secrets in various ways", () => {
   let secretSuffix: string;
   let client: SecretClient;
   let testClient: TestClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
@@ -35,8 +34,9 @@ describe("Secret client - list secrets in various ways", () => {
   // The tests follow
 
   // This test is only useful while developing locally
-  it.skip("can purge all secrets", async function() {
+  it("can purge all secrets", async function() {
     // WARNING: When running integration-tests, or having TEST_MODE="record", all of the secrets in the indicated KEYVAULT_NAME will be deleted as part of this test.
+    recorder.skip(undefined, "Skipping this test on playback.");
     for await (const secretProperties of client.listPropertiesOfSecrets()) {
       try {
         await testClient.flushSecret(secretProperties.name);
@@ -72,17 +72,16 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can get secret properties with requestOptions timeout", async function() {
-      const iter = client.listPropertiesOfSecrets({
-        requestOptions: { timeout: 1 }
-      });
-      await assertThrowsAbortError(async () => {
-        await iter.next();
-      });
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can get secret properties with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    const iter = client.listPropertiesOfSecrets({
+      requestOptions: { timeout: 1 }
     });
-  }
+    await assertThrowsAbortError(async () => {
+      await iter.next();
+    });
+  });
 
   it("can list deleted secrets", async function() {
     const secretName = testClient.formatName(
@@ -111,19 +110,20 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  if (isNode && !isPlayingBack) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can get the deleted secrets with requestOptions timeout", async function() {
-      const iter = client.listDeletedSecrets({
-        requestOptions: { timeout: 1 }
-      });
-      await assertThrowsAbortError(async () => {
-        await iter.next();
-      });
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can get the deleted secrets with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+
+    const iter = client.listDeletedSecrets({
+      requestOptions: { timeout: 1 }
     });
-  }
+    await assertThrowsAbortError(async () => {
+      await iter.next();
+    });
+  });
 
   it("can retrieve all versions of a secret", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -154,17 +154,16 @@ describe("Secret client - list secrets in various ways", () => {
     await testClient.flushSecret(secretName);
   });
 
-  if (isNode && !isPlayingBack) {
-    // On playback mode, the tests happen too fast for the timeout to work
-    it("can get versions of a secret with requestOptions timeout", async function() {
-      const iter = client.listPropertiesOfSecretVersions("doesntmatter", {
-        requestOptions: { timeout: 1 }
-      });
-      await assertThrowsAbortError(async () => {
-        await iter.next();
-      });
+  // On playback mode, the tests happen too fast for the timeout to work
+  it("can get versions of a secret with requestOptions timeout", async function() {
+    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    const iter = client.listPropertiesOfSecretVersions("doesntmatter", {
+      requestOptions: { timeout: 1 }
     });
-  }
+    await assertThrowsAbortError(async () => {
+      await iter.next();
+    });
+  });
 
   it("can list secret versions (non existing)", async function() {
     const secretName = testClient.formatName(

@@ -9,10 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/cosmos": "3.2.0",
-    "@azure/event-hubs": "5.0.0-preview.3",
-    "@azure/keyvault-secrets": "4.0.0-preview.5",
-    "@azure/storage-blob": "12.0.0-preview.3",
+    "@azure/cosmos": "dev",
+    "@azure/event-hubs": "dev",
+    "@azure/keyvault-secrets": "dev",
+    "@azure/storage-blob": "dev",
     "@types/node": "^12.6.2",
     "uuid": "^3.3.2"
   }

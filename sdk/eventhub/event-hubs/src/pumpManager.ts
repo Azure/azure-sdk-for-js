@@ -3,10 +3,12 @@
 
 import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
-import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
+import { CommonEventProcessorOptions } from "./models/private";
+import { CloseReason } from "./models/public";
 import { PartitionProcessor } from "./partitionProcessor";
 import { PartitionPump } from "./partitionPump";
 import { logger, logErrorStackTrace } from "./log";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * The PumpManager handles the creation and removal of PartitionPumps.
@@ -19,7 +21,7 @@ export interface PumpManager {
   /**
    * Creates and starts a PartitionPump.
    * @param startPosition The position in the partition to start reading from.
-   * @param eventHubClient The EventHubClient to forward to the PartitionPump.   
+   * @param eventHubClient The EventHubClient to forward to the PartitionPump.
    * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
    * @param abortSignal Used to cancel pump creation.
    * @ignore
@@ -27,8 +29,17 @@ export interface PumpManager {
   createPump(
     startPosition: EventPosition,
     eventHubClient: EventHubClient,
-    partitionProcessor: PartitionProcessor
+    partitionProcessor: PartitionProcessor,
+    abortSignal: AbortSignalLike
   ): Promise<void>;
+
+  /**
+   * Indicates whether the pump manager is actively receiving events from a given partition.
+   * @param partitionId The partition to check.
+   * @ignore
+   * @internal
+   */
+  isReceivingFromPartition(partitionId: string): boolean;
 
   /**
    * Stops all PartitionPumps and removes them from the internal map.
@@ -47,7 +58,7 @@ export interface PumpManager {
  */
 export class PumpManagerImpl implements PumpManager {
   private readonly _eventProcessorName: string;
-  private readonly _options: FullEventProcessorOptions;
+  private readonly _options: CommonEventProcessorOptions;
   private _partitionIdToPumps: {
     [partitionId: string]: PartitionPump | undefined;
   } = {};
@@ -55,7 +66,7 @@ export class PumpManagerImpl implements PumpManager {
   /**
    * @ignore
    */
-  constructor(eventProcessorName: string, eventProcessorOptions: FullEventProcessorOptions) {
+  constructor(eventProcessorName: string, eventProcessorOptions: CommonEventProcessorOptions) {
     this._eventProcessorName = eventProcessorName;
     this._options = eventProcessorOptions;
   }
@@ -72,6 +83,17 @@ export class PumpManagerImpl implements PumpManager {
   }
 
   /**
+   * Indicates whether the pump manager is actively receiving events from a given partition.
+   * @param partitionId
+   * @ignore
+   * @internal
+   */
+  public isReceivingFromPartition(partitionId: string): boolean {
+    const pump = this._partitionIdToPumps[partitionId];
+    return Boolean(pump && pump.isReceiving);
+  }
+
+  /**
    * Creates and starts a PartitionPump.
    * @param startPosition The position in the partition to start reading from.
    * @param eventHubClient The EventHubClient to forward to the PartitionPump.
@@ -81,9 +103,16 @@ export class PumpManagerImpl implements PumpManager {
   public async createPump(
     startPosition: EventPosition,
     eventHubClient: EventHubClient,
-    partitionProcessor: PartitionProcessor
+    partitionProcessor: PartitionProcessor,
+    abortSignal: AbortSignalLike
   ): Promise<void> {
     const partitionId = partitionProcessor.partitionId;
+    if (abortSignal.aborted) {
+      logger.verbose(
+        `${this._eventProcessorName}] The subscription was closed before creating the pump for partition ${partitionId}.`
+      );
+      return;
+    }
     // attempt to get an existing pump
     const existingPump = this._partitionIdToPumps[partitionId];
     if (existingPump) {

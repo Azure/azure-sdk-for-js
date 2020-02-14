@@ -270,6 +270,12 @@ export interface EncryptionService {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly lastEnabledTime?: Date;
+  /**
+   * Encryption key type to be used for the encryption service. 'Account' key type implies that an
+   * account-scoped encryption key will be used. 'Service' key type implies that a default service
+   * key is used. Possible values include: 'Service', 'Account'
+   */
+  keyType?: KeyType;
 }
 
 /**
@@ -286,14 +292,12 @@ export interface EncryptionServices {
   file?: EncryptionService;
   /**
    * The encryption function of the table storage service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly table?: EncryptionService;
+  table?: EncryptionService;
   /**
    * The encryption function of the queue storage service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly queue?: EncryptionService;
+  queue?: EncryptionService;
 }
 
 /**
@@ -702,6 +706,63 @@ export interface GeoReplicationStats {
 }
 
 /**
+ * Blob range
+ */
+export interface BlobRestoreRange {
+  /**
+   * Blob start range. Empty means account start.
+   */
+  startRange: string;
+  /**
+   * Blob end range. Empty means account end.
+   */
+  endRange: string;
+}
+
+/**
+ * Blob restore parameters
+ */
+export interface BlobRestoreParameters {
+  /**
+   * Restore blob to the specified time.
+   */
+  timeToRestore: Date;
+  /**
+   * Blob ranges to restore.
+   */
+  blobRanges: BlobRestoreRange[];
+}
+
+/**
+ * Blob restore status.
+ */
+export interface BlobRestoreStatus {
+  /**
+   * The status of blob restore progress. Possible values are: - InProgress: Indicates that blob
+   * restore is ongoing. - Complete: Indicates that blob restore has been completed successfully. -
+   * Failed: Indicates that blob restore is failed. Possible values include: 'InProgress',
+   * 'Complete', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: BlobRestoreProgressStatus;
+  /**
+   * Failure reason when blob restore is failed.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly failureReason?: string;
+  /**
+   * Id for tracking blob restore request.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restoreId?: string;
+  /**
+   * Blob restore request parameters.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly parameters?: BlobRestoreParameters;
+}
+
+/**
  * The Private Endpoint resource.
  */
 export interface PrivateEndpoint {
@@ -920,6 +981,11 @@ export interface StorageAccount extends TrackedResource {
    * Maintains information about the network routing choice opted by the user for data transfer
    */
   routingPreference?: RoutingPreference;
+  /**
+   * Blob restore status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly blobRestoreStatus?: BlobRestoreStatus;
 }
 
 /**
@@ -1762,6 +1828,21 @@ export interface ChangeFeed {
 }
 
 /**
+ * The blob service properties for blob restore policy
+ */
+export interface RestorePolicyProperties {
+  /**
+   * Blob restore is enabled if set to true.
+   */
+  enabled: boolean;
+  /**
+   * how long this blob can be restored. It should be great than zero and less than
+   * DeleteRetentionPolicy.days.
+   */
+  days?: number;
+}
+
+/**
  * The properties of a storage account’s Blob service.
  */
 export interface BlobServiceProperties extends Resource {
@@ -1789,6 +1870,10 @@ export interface BlobServiceProperties extends Resource {
    * The blob service properties for change feed events.
    */
   changeFeed?: ChangeFeed;
+  /**
+   * The blob service properties for blob restore policy.
+   */
+  restorePolicy?: RestorePolicyProperties;
   /**
    * Sku name and tier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1887,7 +1972,7 @@ export interface FileShare extends AzureEntityResource {
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
@@ -1907,7 +1992,7 @@ export interface FileShareItem extends AzureEntityResource {
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
@@ -1918,8 +2003,8 @@ export interface FileShareItem extends AzureEntityResource {
 export interface StorageAccountsGetPropertiesOptionalParams extends msRest.RequestOptionsBase {
   /**
    * May be used to expand the properties within account's properties. By default, data is not
-   * included when fetching properties. Currently we only support geoReplicationStats. Possible
-   * values include: 'geoReplicationStats'
+   * included when fetching properties. Currently we only support geoReplicationStats and
+   * blobRestoreStatus. Possible values include: 'geoReplicationStats', 'blobRestoreStatus'
    */
   expand?: StorageAccountExpand;
 }
@@ -2053,7 +2138,7 @@ export interface FileSharesCreateOptionalParams extends msRest.RequestOptionsBas
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
@@ -2068,7 +2153,7 @@ export interface FileSharesUpdateOptionalParams extends msRest.RequestOptionsBas
   metadata?: { [propertyName: string]: string };
   /**
    * The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to
-   * 5TB (5120). For Large File Shares, the maximum size is 100000.
+   * 5TB (5120). For Large File Shares, the maximum size is 102400.
    */
   shareQuota?: number;
 }
@@ -2260,6 +2345,14 @@ export type Kind = 'Storage' | 'StorageV2' | 'BlobStorage' | 'FileStorage' | 'Bl
 export type Reason = 'AccountNameInvalid' | 'AlreadyExists';
 
 /**
+ * Defines values for KeyType.
+ * Possible values include: 'Service', 'Account'
+ * @readonly
+ * @enum {string}
+ */
+export type KeyType = 'Service' | 'Account';
+
+/**
  * Defines values for KeySource.
  * Possible values include: 'Microsoft.Storage', 'Microsoft.Keyvault'
  * @readonly
@@ -2339,6 +2432,14 @@ export type RoutingChoice = 'MicrosoftRouting' | 'InternetRouting';
  * @enum {string}
  */
 export type GeoReplicationStatus = 'Live' | 'Bootstrap' | 'Unavailable';
+
+/**
+ * Defines values for BlobRestoreProgressStatus.
+ * Possible values include: 'InProgress', 'Complete', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobRestoreProgressStatus = 'InProgress' | 'Complete' | 'Failed';
 
 /**
  * Defines values for ProvisioningState.
@@ -2479,11 +2580,11 @@ export type ImmutabilityPolicyUpdateType = 'put' | 'lock' | 'extend';
 
 /**
  * Defines values for StorageAccountExpand.
- * Possible values include: 'geoReplicationStats'
+ * Possible values include: 'geoReplicationStats', 'blobRestoreStatus'
  * @readonly
  * @enum {string}
  */
-export type StorageAccountExpand = 'geoReplicationStats';
+export type StorageAccountExpand = 'geoReplicationStats' | 'blobRestoreStatus';
 
 /**
  * Defines values for ListKeyExpand.
@@ -2742,6 +2843,26 @@ export type StorageAccountsListServiceSASResponse = ListServiceSasResponse & {
 };
 
 /**
+ * Contains response data for the restoreBlobRanges operation.
+ */
+export type StorageAccountsRestoreBlobRangesResponse = BlobRestoreStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobRestoreStatus;
+    };
+};
+
+/**
  * Contains response data for the beginCreate operation.
  */
 export type StorageAccountsBeginCreateResponse = StorageAccount & {
@@ -2758,6 +2879,26 @@ export type StorageAccountsBeginCreateResponse = StorageAccount & {
        * The response body as parsed JSON or XML
        */
       parsedBody: StorageAccount;
+    };
+};
+
+/**
+ * Contains response data for the beginRestoreBlobRanges operation.
+ */
+export type StorageAccountsBeginRestoreBlobRangesResponse = BlobRestoreStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BlobRestoreStatus;
     };
 };
 

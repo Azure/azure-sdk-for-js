@@ -23,13 +23,15 @@
 
 const baseFS = require("fs");
 const path = require("path");
+const promisify = require("util").promisify;
+
+const exec = promisify(require("child_process").execFile);
 
 // Node >= 10 provide fs.promises, but since we're still building Node 8 for now
 // we need to use util.promisify if fs.promises doesn't exist
 const fs =
   baseFS.promises ||
   (() => {
-    const promisify = require("util").promisify;
     return {
       readdir: promisify(baseFS.readdir),
       readFile: promisify(baseFS.readFile),
@@ -130,7 +132,7 @@ async function enableLocalRun(fileName, baseDir, pkgName) {
   // Remove trailing call to main()
   const updatedContents = importRenamedContents.replace(
     new RegExp("main\\(\\)\\.catch.*", "s"),
-    ""
+    isTs ? "" : "module.exports = { main };\n"
   );
 
   console.log("[prep-samples] Updating imports in", fileName);
@@ -154,6 +156,33 @@ async function main() {
     `${package.name}@${package.version}`
   );
 
+  // Check if the package samples directory is dirty using git
+  // Refuse to proceed if this script may overwrite changes to samples.
+  try {
+    const gitDiff = await exec("git", [
+      "status",
+      "-s",
+      path.join(baseDir, "samples")
+    ]);
+    if (gitDiff.stdout !== "") {
+      console.error(
+        "[prep-samples] Error: The samples tree is dirty. Refusing to continue."
+      );
+      console.error(
+        "[prep-samples] Stash or commit your changes to the following files:"
+      );
+      for (const line of gitDiff.stdout.trim().split("\n")) {
+        console.error("  -", line);
+      }
+      process.exit(1);
+    }
+  } catch (err) {
+    console.error(
+      "[prep-samples] Error: Failed to check the git status. Refusing to continue."
+    );
+    process.exit(1);
+  }
+
   const tsDir = path.join(baseDir, "samples", "typescript", "src");
   for await (const fileName of findMatchingFiles(
     tsDir,
@@ -175,6 +204,6 @@ async function main() {
 }
 
 main().catch(err => {
-  console.error("[prep-samples] Error:", err);
+  console.error("[prep-samples]", err);
   process.exit(1);
 });
