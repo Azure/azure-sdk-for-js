@@ -141,8 +141,8 @@ jobs:
 
       - script: |
             npm install
-          workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
-          displayName: "Install script dependencies"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
+        displayName: "Install script dependencies"
 
       - script: |
           node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" 
