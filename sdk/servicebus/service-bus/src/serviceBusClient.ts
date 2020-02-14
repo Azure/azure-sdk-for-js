@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import * as log from "./log";
-
-import { WebSocketImpl } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
 import { QueueClient } from "./queueClient";
 import { TopicClient } from "./topicClient";
@@ -15,6 +13,7 @@ import {
   isTokenCredential
 } from "@azure/core-amqp";
 import { SubscriptionClient } from "./subscriptionClient";
+import { WebSocketOptions } from "@azure/core-amqp";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
@@ -29,15 +28,10 @@ export interface ServiceBusClientOptions {
    */
   dataTransformer?: DataTransformer;
   /**
-   * @property The WebSocket constructor used to create an AMQP connection
-   * over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
-   * TCP socket will be used if a WebSocket constructor is not provided.
+   * @property
+   * Options to configure the channelling of the AMQP connection over Web Sockets.
    */
-  webSocket?: WebSocketImpl;
-  /**
-   * @property Options to be passed to the WebSocket constructor
-   */
-  webSocketConstructorOptions?: any;
+  webSocketOptions?: WebSocketOptions;
 }
 
 /**
@@ -93,9 +87,9 @@ export class ServiceBusClient {
       config = ConnectionConfig.create(hostOrConnectionString);
 
       options = credentialOrServiceBusClientOptions as ServiceBusClientOptions;
-      config.webSocket = options && options.webSocket;
+      config.webSocket = options?.webSocketOptions?.webSocket;
       config.webSocketEndpointPath = "$servicebus/websocket";
-      config.webSocketConstructorOptions = options && options.webSocketConstructorOptions;
+      config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
 
       // Since connectionstring was passed, create a SharedKeyCredential
       credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
