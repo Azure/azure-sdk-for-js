@@ -87,10 +87,9 @@ export class ServiceBusClient {
       config = ConnectionConfig.create(hostOrConnectionString);
 
       options = credentialOrServiceBusClientOptions as ServiceBusClientOptions;
-      config.webSocket = options && options.webSocketOptions?.webSocket;
+      config.webSocket = options?.webSocketOptions?.webSocket;
       config.webSocketEndpointPath = "$servicebus/websocket";
-      config.webSocketConstructorOptions =
-        options && options.webSocketOptions?.webSocketConstructorOptions;
+      config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
 
       // Since connectionstring was passed, create a SharedKeyCredential
       credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
