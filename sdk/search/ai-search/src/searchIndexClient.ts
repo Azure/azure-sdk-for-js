@@ -26,6 +26,8 @@ import {
   IndexDocumentsResult,
   SuggestResult
 } from "./generated/data/models";
+import { createSpan } from "./tracing";
+import { CanonicalCode } from "@opentelemetry/types";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -159,8 +161,21 @@ export class SearchIndexClient {
   }
 
   public async count(options: CountOptions = {}): Promise<number> {
-    const result = await this.client.documents.count(operationOptionsToRequestOptionsBase(options));
-    return Number(result._response.bodyAsText);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-count", options);
+    try {
+      const result = await this.client.documents.count(
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return Number(result._response.bodyAsText);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async autocomplete(
@@ -175,11 +190,23 @@ export class SearchIndexClient {
       ...restOptions
     };
 
-    const result = await this.client.documents.autocompletePost(
-      fullOptions,
-      operationOptionsToRequestOptionsBase(operationOptions)
-    );
-    return result;
+    const { span, updatedOptions } = createSpan("SearchIndexClient-autocomplete", operationOptions);
+
+    try {
+      const result = await this.client.documents.autocompletePost(
+        fullOptions,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   private async search(
@@ -192,11 +219,23 @@ export class SearchIndexClient {
       ...restOptions
     };
 
-    const result = await this.client.documents.searchPost(
-      fullOptions,
-      operationOptionsToRequestOptionsBase(operationOptions)
-    );
-    return result;
+    const { span, updatedOptions } = createSpan("SearchIndexClient-search", operationOptions);
+
+    try {
+      const result = await this.client.documents.searchPost(
+        fullOptions,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   private async *listSearchResultsPage(
@@ -265,20 +304,42 @@ export class SearchIndexClient {
       searchText,
       ...restOptions
     };
+    const { span, updatedOptions } = createSpan("SearchIndexClient-suggest", operationOptions);
 
-    const result = await this.client.documents.suggestPost(
-      fullOptions,
-      operationOptionsToRequestOptionsBase(operationOptions)
-    );
-    return result;
+    try {
+      const result = await this.client.documents.suggestPost(
+        fullOptions,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async getDocument<T>(key: string, options: GetDocumentOptions = {}): Promise<T> {
-    const result = await this.client.documents.get(
-      key,
-      operationOptionsToRequestOptionsBase(options)
-    );
-    return result.body;
+    const { span, updatedOptions } = createSpan("SearchIndexClient-getDocument", options);
+    try {
+      const result = await this.client.documents.get(
+        key,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result.body;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -294,14 +355,25 @@ export class SearchIndexClient {
     batch: IndexAction[],
     options: ModifyIndexOptions = {}
   ): Promise<IndexDocumentsResult> {
-    const result = await this.client.documents.index(
-      { actions: batch },
-      operationOptionsToRequestOptionsBase(options)
-    );
-    if (options.throwOnAnyFailure && result._response.status === 207) {
-      throw result;
+    const { span, updatedOptions } = createSpan("SearchIndexClient-modifyIndex", options);
+    try {
+      const result = await this.client.documents.index(
+        { actions: batch },
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      if (options.throwOnAnyFailure && result._response.status === 207) {
+        throw result;
+      }
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return result;
   }
 
   public async uploadDocuments<T>(
@@ -309,6 +381,7 @@ export class SearchIndexClient {
     options: UploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const actionType = options.mergeIfExists ? "mergeOrUpload" : "upload";
+    const { span, updatedOptions } = createSpan("SearchIndexClient-uploadDocuments", options);
 
     const batch = documents.map<IndexAction>((doc) => {
       return {
@@ -317,7 +390,17 @@ export class SearchIndexClient {
       };
     });
 
-    return this.modifyIndex(batch, options);
+    try {
+      return await this.modifyIndex(batch, updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async updateDocuments<T>(
@@ -325,6 +408,7 @@ export class SearchIndexClient {
     options: UpdateDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const actionType = options.uploadIfNotExists ? "mergeOrUpload" : "merge";
+    const { span, updatedOptions } = createSpan("SearchIndexClient-updateDocuments", options);
 
     const batch = documents.map<IndexAction>((doc) => {
       return {
@@ -333,7 +417,17 @@ export class SearchIndexClient {
       };
     });
 
-    return this.modifyIndex(batch, options);
+    try {
+      return await this.modifyIndex(batch, updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async deleteDocuments(
@@ -341,6 +435,7 @@ export class SearchIndexClient {
     keyValues: string[],
     options: DeleteDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteDocuments", options);
     const batch = keyValues.map<IndexAction>((keyValue) => {
       return {
         actionType: "delete",
@@ -348,7 +443,17 @@ export class SearchIndexClient {
       };
     });
 
-    return this.modifyIndex(batch, options);
+    try {
+      return await this.modifyIndex(batch, updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   private extractOperationOptions<T extends OperationOptions>(
