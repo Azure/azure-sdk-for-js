@@ -48,6 +48,7 @@ describe("The recorder's public API, on a browser", () => {
   afterEach(() => {
     windowLens.set(["__env__", "TEST_MODE"], undefined);
     windowLens.set(["__env__", "PATH"], undefined);
+    windowLens.set(["__json__"], undefined);
   });
 
   it("should record a simple test", async function() {
@@ -128,8 +129,12 @@ describe("The recorder's public API, on a browser", () => {
     // windowLens.set(["__env__", "TEST_MODE"], "playback");
 
     // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
-    windowLens.set(["__json__"], {
-      ["recordings/browsers/the_recorders_public_api_on_a_browser/recording_should_playback_a_simple_test.json"]: {
+    windowLens.set(
+      [
+        "__json__",
+        "recordings/browsers/the_recorders_public_api_on_a_browser/recording_should_playback_a_simple_test.json"
+      ],
+      {
         recordings: [
           {
             method: "GET",
@@ -139,7 +144,7 @@ describe("The recorder's public API, on a browser", () => {
         ],
         uniqueTestInfo: { uniqueName: {}, newDate: {} }
       }
-    });
+    );
 
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
@@ -168,8 +173,12 @@ describe("The recorder's public API, on a browser", () => {
     windowLens.set(["__env__", "PATH"], "/to/replace");
 
     // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
-    windowLens.set(["__json__"], {
-      ["recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json"]: {
+    windowLens.set(
+      [
+        "__json__",
+        "recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json"
+      ],
+      {
         recordings: [
           {
             method: "GET",
@@ -180,7 +189,7 @@ describe("The recorder's public API, on a browser", () => {
         uniqueTestInfo: { uniqueName: {}, newDate: {} },
         hash: "fake old hash"
       }
-    });
+    );
 
     // We can't use Nise's FakeServer since the recorder ends up sending the request through the original XHR anyway.
     xhrMock.setup();
@@ -258,8 +267,12 @@ describe("The recorder's public API, on a browser", () => {
     windowLens.set(["__env__", "TEST_MODE"], "soft-record");
 
     // This is to emulate what 'karma-json-preprocessor' does for us during the real scenarios.
-    windowLens.set(["__json__"], {
-      ["recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_skip_a_simple_unchanged_test.json"]: {
+    windowLens.set(
+      [
+        "__json__",
+        "recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_skip_a_simple_unchanged_test.json"
+      ],
+      {
         recordings: [
           {
             method: "GET",
@@ -271,7 +284,7 @@ describe("The recorder's public API, on a browser", () => {
         // This is the expected hash
         hash: MD5(getNoOpFunction().toString())
       }
-    });
+    );
 
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
