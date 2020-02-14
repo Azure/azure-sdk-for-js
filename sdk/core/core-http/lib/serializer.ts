@@ -89,7 +89,7 @@ export class Serializer {
     if (!objectName) {
       objectName = mapper.serializedName!;
     }
-    if (mapperType.match(/^Sequence$/gi) !== null) {
+    if (mapperType.match(/^Sequence$/i) !== null) {
       payload = [];
     }
 
@@ -124,26 +124,26 @@ export class Serializer {
     } else {
       // Validate Constraints if any
       this.validateConstraints(mapper, object, objectName);
-      if (mapperType.match(/^any$/gi) !== null) {
+      if (mapperType.match(/^any$/i) !== null) {
         payload = object;
-      } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/gi) !== null) {
+      } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/i) !== null) {
         payload = serializeBasicTypes(mapperType, objectName, object);
-      } else if (mapperType.match(/^Enum$/gi) !== null) {
+      } else if (mapperType.match(/^Enum$/i) !== null) {
         const enumMapper: EnumMapper = mapper as EnumMapper;
         payload = serializeEnumType(objectName, enumMapper.type.allowedValues, object);
       } else if (
-        mapperType.match(/^(Date|DateTime|TimeSpan|DateTimeRfc1123|UnixTime)$/gi) !== null
+        mapperType.match(/^(Date|DateTime|TimeSpan|DateTimeRfc1123|UnixTime)$/i) !== null
       ) {
         payload = serializeDateTypes(mapperType, object, objectName);
-      } else if (mapperType.match(/^ByteArray$/gi) !== null) {
+      } else if (mapperType.match(/^ByteArray$/i) !== null) {
         payload = serializeByteArrayType(objectName, object);
-      } else if (mapperType.match(/^Base64Url$/gi) !== null) {
+      } else if (mapperType.match(/^Base64Url$/i) !== null) {
         payload = serializeBase64UrlType(objectName, object);
-      } else if (mapperType.match(/^Sequence$/gi) !== null) {
+      } else if (mapperType.match(/^Sequence$/i) !== null) {
         payload = serializeSequenceType(this, mapper as SequenceMapper, object, objectName);
-      } else if (mapperType.match(/^Dictionary$/gi) !== null) {
+      } else if (mapperType.match(/^Dictionary$/i) !== null) {
         payload = serializeDictionaryType(this, mapper as DictionaryMapper, object, objectName);
-      } else if (mapperType.match(/^Composite$/gi) !== null) {
+      } else if (mapperType.match(/^Composite$/i) !== null) {
         payload = serializeCompositeType(this, mapper as CompositeMapper, object, objectName);
       }
     }
@@ -182,7 +182,7 @@ export class Serializer {
       objectName = mapper.serializedName!;
     }
 
-    if (mapperType.match(/^Composite$/gi) !== null) {
+    if (mapperType.match(/^Composite$/i) !== null) {
       payload = deserializeCompositeType(this, mapper as CompositeMapper, responseBody, objectName);
     } else {
       if (this.isXML) {
@@ -196,12 +196,12 @@ export class Serializer {
         }
       }
 
-      if (mapperType.match(/^Number$/gi) !== null) {
+      if (mapperType.match(/^Number$/i) !== null) {
         payload = parseFloat(responseBody);
         if (isNaN(payload)) {
           payload = responseBody;
         }
-      } else if (mapperType.match(/^Boolean$/gi) !== null) {
+      } else if (mapperType.match(/^Boolean$/i) !== null) {
         if (responseBody === "true") {
           payload = true;
         } else if (responseBody === "false") {
@@ -209,19 +209,19 @@ export class Serializer {
         } else {
           payload = responseBody;
         }
-      } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/gi) !== null) {
+      } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/i) !== null) {
         payload = responseBody;
-      } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/gi) !== null) {
+      } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/i) !== null) {
         payload = new Date(responseBody);
-      } else if (mapperType.match(/^UnixTime$/gi) !== null) {
+      } else if (mapperType.match(/^UnixTime$/i) !== null) {
         payload = unixTimeToDate(responseBody);
-      } else if (mapperType.match(/^ByteArray$/gi) !== null) {
+      } else if (mapperType.match(/^ByteArray$/i) !== null) {
         payload = base64.decodeString(responseBody);
-      } else if (mapperType.match(/^Base64Url$/gi) !== null) {
+      } else if (mapperType.match(/^Base64Url$/i) !== null) {
         payload = base64UrlToByteArray(responseBody);
-      } else if (mapperType.match(/^Sequence$/gi) !== null) {
+      } else if (mapperType.match(/^Sequence$/i) !== null) {
         payload = deserializeSequenceType(this, mapper as SequenceMapper, responseBody, objectName);
-      } else if (mapperType.match(/^Dictionary$/gi) !== null) {
+      } else if (mapperType.match(/^Dictionary$/i) !== null) {
         payload = deserializeDictionaryType(
           this,
           mapper as DictionaryMapper,
@@ -315,25 +315,25 @@ function unixTimeToDate(n: number): Date | undefined {
 
 function serializeBasicTypes(typeName: string, objectName: string, value: any): any {
   if (value !== null && value !== undefined) {
-    if (typeName.match(/^Number$/gi) !== null) {
+    if (typeName.match(/^Number$/i) !== null) {
       if (typeof value !== "number") {
         throw new Error(`${objectName} with value ${value} must be of type number.`);
       }
-    } else if (typeName.match(/^String$/gi) !== null) {
+    } else if (typeName.match(/^String$/i) !== null) {
       if (typeof value.valueOf() !== "string") {
         throw new Error(`${objectName} with value "${value}" must be of type string.`);
       }
-    } else if (typeName.match(/^Uuid$/gi) !== null) {
+    } else if (typeName.match(/^Uuid$/i) !== null) {
       if (!(typeof value.valueOf() === "string" && utils.isValidUuid(value))) {
         throw new Error(
           `${objectName} with value "${value}" must be of type string and a valid uuid.`
         );
       }
-    } else if (typeName.match(/^Boolean$/gi) !== null) {
+    } else if (typeName.match(/^Boolean$/i) !== null) {
       if (typeof value !== "boolean") {
         throw new Error(`${objectName} with value ${value} must be of type boolean.`);
       }
-    } else if (typeName.match(/^Stream$/gi) !== null) {
+    } else if (typeName.match(/^Stream$/i) !== null) {
       const objectType = typeof value;
       if (
         objectType !== "string" &&
@@ -395,7 +395,7 @@ function serializeBase64UrlType(objectName: string, value: any): any {
 
 function serializeDateTypes(typeName: string, value: any, objectName: string) {
   if (value != undefined) {
-    if (typeName.match(/^Date$/gi) !== null) {
+    if (typeName.match(/^Date$/i) !== null) {
       if (
         !(
           value instanceof Date ||
@@ -408,7 +408,7 @@ function serializeDateTypes(typeName: string, value: any, objectName: string) {
         value instanceof Date
           ? value.toISOString().substring(0, 10)
           : new Date(value).toISOString().substring(0, 10);
-    } else if (typeName.match(/^DateTime$/gi) !== null) {
+    } else if (typeName.match(/^DateTime$/i) !== null) {
       if (
         !(
           value instanceof Date ||
@@ -418,7 +418,7 @@ function serializeDateTypes(typeName: string, value: any, objectName: string) {
         throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
       }
       value = value instanceof Date ? value.toISOString() : new Date(value).toISOString();
-    } else if (typeName.match(/^DateTimeRfc1123$/gi) !== null) {
+    } else if (typeName.match(/^DateTimeRfc1123$/i) !== null) {
       if (
         !(
           value instanceof Date ||
@@ -428,7 +428,7 @@ function serializeDateTypes(typeName: string, value: any, objectName: string) {
         throw new Error(`${objectName} must be an instanceof Date or a string in RFC-1123 format.`);
       }
       value = value instanceof Date ? value.toUTCString() : new Date(value).toUTCString();
-    } else if (typeName.match(/^UnixTime$/gi) !== null) {
+    } else if (typeName.match(/^UnixTime$/i) !== null) {
       if (
         !(
           value instanceof Date ||
@@ -441,7 +441,7 @@ function serializeDateTypes(typeName: string, value: any, objectName: string) {
         );
       }
       value = dateToUnixTime(value);
-    } else if (typeName.match(/^TimeSpan$/gi) !== null) {
+    } else if (typeName.match(/^TimeSpan$/i) !== null) {
       if (!utils.isDuration(value)) {
         throw new Error(
           `${objectName} must be a string in ISO 8601 format. Instead was "${value}".`
