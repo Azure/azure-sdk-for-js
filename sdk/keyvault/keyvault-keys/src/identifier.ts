@@ -10,9 +10,9 @@ export interface ParsedKeyVaultIdentifier {
   collection: "keys" | "secrets" | "certificates";
 
   /**
-   * The KeyVault Key unique identifier (an URI).
+   * The KeyVault Key unique identifier (an URl).
    */
-  vaultUri: string;
+  vaultUrl: string;
 
   /**
    * The version of KeyVault Key. May be undefined.
@@ -35,9 +35,9 @@ export class KeyVaultIdentifier implements ParsedKeyVaultIdentifier {
   collection: "keys" | "secrets" | "certificates";
 
   /**
-   * The KeyVault Key unique identifier (an URI).
+   * The KeyVault Key unique identifier (an URl).
    */
-  public vaultUri: string;
+  public vaultUrl: string;
 
   /**
    * The version of KeyVault Key. May be undefined.
@@ -49,11 +49,11 @@ export class KeyVaultIdentifier implements ParsedKeyVaultIdentifier {
    */
   public name: string;
 
-  constructor(uri: string) {
-    const coreParsedIdentifier = parseKeyvaultIdentifier("keys", uri);
+  constructor(url: string) {
+    const coreParsedIdentifier = parseKeyvaultIdentifier("keys", url);
 
     this.collection = "keys";
-    this.vaultUri = coreParsedIdentifier.vaultUrl;
+    this.vaultUrl = coreParsedIdentifier.vaultUrl;
     this.version = coreParsedIdentifier.version;
     this.name = coreParsedIdentifier.name;
   }

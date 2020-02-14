@@ -1142,7 +1142,7 @@ export class KeyClient {
         expiresOn: attributes.expires,
         createdOn: attributes.created,
         updatedOn: attributes.updated,
-        vaultUrl: parsedId.vaultUri,
+        vaultUrl: parsedId.vaultUrl,
         ...keyBundle,
         ...parsedId,
         ...attributes
@@ -1227,7 +1227,7 @@ export class KeyClient {
     let resultObject: any = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      vaultUrl: parsedId.vaultUri,
+      vaultUrl: parsedId.vaultUrl,
       ...keyItem,
       ...parsedId,
       ...keyItem.attributes
