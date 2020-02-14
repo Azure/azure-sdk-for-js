@@ -2,7 +2,10 @@
 
 ## 2.0.0-preview.1 (Unreleased)
 
-- Fixes [bug 6816](https://github.com/Azure/azure-sdk-for-js/issues/6816) affecting messages sent using the `scheduleMessage()` and `scheduleMessages()` methods. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372)
+### Breaking Changes
+
+- Fixes [bug 6816](https://github.com/Azure/azure-sdk-for-js/issues/6816) affecting messages sent using the `scheduleMessage()` and `scheduleMessages()` methods. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372).
+  - Users on version-`1.x.x` of `@azure/service-bus` library had to rely on the workaround of encoding the message body with `DefaultDataTransformer` before calling `scheduleMessage()`/`scheduleMessages()` methods. The workaround is no longer needed since the bug has been fixed here starting from version-`2.0.0-preview.1`. [PR 7372](https://github.com/Azure/azure-sdk-for-js/pull/7372).
 
 ## 1.1.3 (2020-02-11)
 
