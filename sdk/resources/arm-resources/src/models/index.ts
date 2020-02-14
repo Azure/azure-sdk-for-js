@@ -172,6 +172,20 @@ export interface Deployment {
 }
 
 /**
+ * Deployment operation parameters.
+ */
+export interface ScopedDeployment {
+  /**
+   * The location to store the deployment data.
+   */
+  location: string;
+  /**
+   * The deployment properties.
+   */
+  properties: DeploymentProperties;
+}
+
+/**
  * The deployment export result.
  */
 export interface DeploymentExportResult {
@@ -800,7 +814,7 @@ export interface TagCount {
  */
 export interface TagValue extends BaseResource {
   /**
-   * The tag ID.
+   * The tag value ID.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
@@ -819,7 +833,7 @@ export interface TagValue extends BaseResource {
  */
 export interface TagDetails {
   /**
-   * The tag ID.
+   * The tag name ID.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
@@ -1111,6 +1125,52 @@ export interface WhatIfOperationResult {
 }
 
 /**
+ * A dictionary of name and value pairs.
+ */
+export interface Tags {
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Wrapper resource for tags patch API request only.
+ */
+export interface TagsPatchResource {
+  /**
+   * The operation type for the patch API. Possible values include: 'Replace', 'Merge', 'Delete'
+   */
+  operation?: OperationEnum;
+  /**
+   * The set of tags.
+   */
+  properties?: Tags;
+}
+
+/**
+ * Wrapper resource for tags API requests and responses.
+ */
+export interface TagsResource extends BaseResource {
+  /**
+   * The ID of the tags wrapper resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the tags wrapper resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the tags wrapper resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The set of tags.
+   */
+  properties: Tags;
+}
+
+/**
  * Optional Parameters.
  */
 export interface DeploymentsListAtScopeOptionalParams extends msRest.RequestOptionsBase {
@@ -1253,8 +1313,9 @@ export interface ResourcesListByResourceGroupOptionalParams extends msRest.Reque
    * and resourceGroup.<br><br>For example, to get all resources with 'demo' anywhere in the name,
    * use: $filter=substringof('demo', name)<br><br>You can link more than one substringof together
    * by adding and/or operators.<br><br>You can filter by tag names and values. For example, to
-   * filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq
-   * 'Value1'<br><br>You can use some properties together when filtering. The combinations you can
+   * filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'. When
+   * you filter by a tag name and value, the tags for each resource are not returned in the
+   * results.<br><br>You can use some properties together when filtering. The combinations you can
    * use are: substringof and/or resourceType, plan and plan/publisher and plan/name, identity and
    * identity/principalId.
    */
@@ -1284,8 +1345,9 @@ export interface ResourcesListOptionalParams extends msRest.RequestOptionsBase {
    * and resourceGroup.<br><br>For example, to get all resources with 'demo' anywhere in the name,
    * use: $filter=substringof('demo', name)<br><br>You can link more than one substringof together
    * by adding and/or operators.<br><br>You can filter by tag names and values. For example, to
-   * filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq
-   * 'Value1'<br><br>You can use some properties together when filtering. The combinations you can
+   * filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'. When
+   * you filter by a tag name and value, the tags for each resource are not returned in the
+   * results.<br><br>You can use some properties together when filtering. The combinations you can
    * use are: substringof and/or resourceType, plan and plan/publisher and plan/name, identity and
    * identity/principalId.
    */
@@ -1541,6 +1603,14 @@ export type PropertyChangeType = 'Create' | 'Delete' | 'Modify' | 'Array';
  * @enum {string}
  */
 export type ChangeType = 'Create' | 'Delete' | 'Ignore' | 'Deploy' | 'NoChange' | 'Modify';
+
+/**
+ * Defines values for OperationEnum.
+ * Possible values include: 'Replace', 'Merge', 'Delete'
+ * @readonly
+ * @enum {string}
+ */
+export type OperationEnum = 'Replace' | 'Merge' | 'Delete';
 
 /**
  * Contains response data for the list operation.
@@ -3093,6 +3163,26 @@ export type ResourceGroupsListResponse = ResourceGroupListResult & {
 };
 
 /**
+ * Contains response data for the beginExportTemplate operation.
+ */
+export type ResourceGroupsBeginExportTemplateResponse = ResourceGroupExportResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ResourceGroupExportResult;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type ResourceGroupsListNextResponse = ResourceGroupListResult & {
@@ -3169,6 +3259,66 @@ export type TagsListResponse = TagsListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: TagsListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateAtScope operation.
+ */
+export type TagsCreateOrUpdateAtScopeResponse = TagsResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagsResource;
+    };
+};
+
+/**
+ * Contains response data for the updateAtScope operation.
+ */
+export type TagsUpdateAtScopeResponse = TagsResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagsResource;
+    };
+};
+
+/**
+ * Contains response data for the getAtScope operation.
+ */
+export type TagsGetAtScopeResponse = TagsResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TagsResource;
     };
 };
 
