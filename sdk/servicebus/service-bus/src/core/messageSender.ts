@@ -300,7 +300,7 @@ export class MessageSender extends LinkEntity {
             );
             return resolve();
           } catch (error) {
-            error = translate(error);
+            error = translate(error.innerError || error);
             log.error(
               "[%s] An error occurred while sending the message",
               this._context.namespace.connectionId,
