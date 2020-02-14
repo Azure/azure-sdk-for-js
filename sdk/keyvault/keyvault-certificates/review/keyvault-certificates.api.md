@@ -328,6 +328,16 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 }
 
 // @public
+export class KeyVaultIdentifier implements ParsedKeyVaultIdentifier {
+    constructor(url: string);
+    collection: "keys" | "secrets" | "certificates";
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
 export interface KVPollerLike<TState extends PollOperationState<TResult>, TResult> {
     cancelOperation(options?: {
         abortSignal?: AbortSignal;
@@ -373,6 +383,15 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export type MergeCertificateOptions = coreHttp.OperationOptions;
+
+// @public
+export interface ParsedKeyVaultIdentifier {
+    collection: "keys" | "secrets" | "certificates";
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
 
 export { PipelineOptions }
 
