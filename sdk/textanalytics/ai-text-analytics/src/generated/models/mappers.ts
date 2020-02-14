@@ -186,10 +186,10 @@ export const TextAnalyticsError: coreHttp.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "invalidRequest",
-            "invalidArgument",
-            "internalServerError",
-            "serviceUnavailable"
+            "InvalidRequest",
+            "InvalidArgument",
+            "InternalServerError",
+            "ServiceUnavailable"
           ]
         },
         serializedName: "code",
@@ -228,15 +228,15 @@ export const InnerError: coreHttp.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "invalidParameterValue",
-            "invalidRequestBodyFormat",
-            "emptyRequest",
-            "missingInputRecords",
-            "invalidDocument",
-            "modelVersionIncorrect",
-            "invalidDocumentBatch",
-            "unsupportedLanguageCode",
-            "invalidCountryHint"
+            "InvalidParameterValue",
+            "InvalidRequestBodyFormat",
+            "EmptyRequest",
+            "MissingInputRecords",
+            "InvalidDocument",
+            "ModelVersionIncorrect",
+            "InvalidDocumentBatch",
+            "UnsupportedLanguageCode",
+            "InvalidCountryHint"
           ]
         },
         serializedName: "code",

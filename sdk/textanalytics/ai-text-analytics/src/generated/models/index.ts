@@ -87,11 +87,11 @@ export interface Entity {
   /**
    * Entity type, such as Person/Location/Org/SSN etc
    */
-  type: string;
+  category: string;
   /**
    * Entity sub type, such as Age/Year/TimeRange etc
    */
-  subtype?: string;
+  subCategory?: string;
   /**
    * Start position (in Unicode characters) for the entity text.
    */
@@ -441,7 +441,7 @@ export interface DocumentSentiment {
   /**
    * Predicted sentiment for document (Negative, Neutral, Positive, or Mixed).
    */
-  sentiment: DocumentSentimentValue;
+  sentiment: DocumentSentimentLabel;
   /**
    * if showStats=true was specified in the request this field will contain information about the document payload.
    */
@@ -472,11 +472,11 @@ export interface SentenceSentiment {
   /**
    * The predicted Sentiment for the sentence.
    */
-  sentiment: SentenceSentimentValue;
+  sentiment: SentenceSentimentLabel;
   /**
    * Represents the confidence scores between 0 and 1 across all sentiment classes: positive, neutral, negative.
    */
-  sentenceScores: SentimentConfidenceScorePerLabel;
+  sentimentScores: SentimentConfidenceScorePerLabel;
   /**
    * The sentence offset from the start of the document.
    */
@@ -495,35 +495,35 @@ export interface SentenceSentiment {
  * Defines values for ErrorCodeValue.
  */
 export type ErrorCodeValue =
-  | "invalidRequest"
-  | "invalidArgument"
-  | "internalServerError"
-  | "serviceUnavailable";
+  | "InvalidRequest"
+  | "InvalidArgument"
+  | "InternalServerError"
+  | "ServiceUnavailable";
 /**
  * Defines values for InnerErrorCodeValue.
  */
 export type InnerErrorCodeValue =
-  | "invalidParameterValue"
-  | "invalidRequestBodyFormat"
-  | "emptyRequest"
-  | "missingInputRecords"
-  | "invalidDocument"
-  | "modelVersionIncorrect"
-  | "invalidDocumentBatch"
-  | "unsupportedLanguageCode"
-  | "invalidCountryHint";
+  | "InvalidParameterValue"
+  | "InvalidRequestBodyFormat"
+  | "EmptyRequest"
+  | "MissingInputRecords"
+  | "InvalidDocument"
+  | "ModelVersionIncorrect"
+  | "InvalidDocumentBatch"
+  | "UnsupportedLanguageCode"
+  | "InvalidCountryHint";
 /**
- * Defines values for DocumentSentimentValue.
+ * Defines values for DocumentSentimentLabel.
  */
-export type DocumentSentimentValue =
+export type DocumentSentimentLabel =
   | "positive"
   | "neutral"
   | "negative"
   | "mixed";
 /**
- * Defines values for SentenceSentimentValue.
+ * Defines values for SentenceSentimentLabel.
  */
-export type SentenceSentimentValue = "positive" | "neutral" | "negative";
+export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 
 /**
  * Contains response data for the entitiesRecognitionGeneral operation.
