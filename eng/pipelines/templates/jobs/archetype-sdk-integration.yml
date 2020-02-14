@@ -10,21 +10,27 @@ parameters:
     Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "node"
+      RunCodeCoverage: true
     Windows_Node10:
       OSVmImage: "windows-2019"
       TestType: "node"
+      RunCodeCoverage: false
     macOS_Node10:
       OSVmImage: "macOS-10.13"
       TestType: "node"
+      RunCodeCoverage: false
     Browser_Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "browser"
+      RunCodeCoverage: true
     Browser_Windows_Node10:
       OSVmImage: "windows-2019"
       TestType: "browser"
+      RunCodeCoverage: false
     Browser_macOS_Node10:
       OSVmImage: "macOS-10.13"
       TestType: "browser"
+      RunCodeCoverage: false
 
 jobs:
   - job: "IntegrationTest"
@@ -133,22 +139,31 @@ jobs:
             condition: ne(variables['AZURE_RESOURCEGROUP_NAME'], '')
             continueOnError: true
 
-      - pwsh: |
-          $(Build.SourcesDirectory)/eng/tools/compress-coverage.ps1 "coverage" "$(Build.ArtifactStagingDirectory)/CodeCoverage"
-        displayName: "Copy Coverage Reports - Node"
-        condition: and(always(), eq(variables['TestType'], 'node'))
+      - script: |
+            npm install
+          workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
+          displayName: "Install script dependencies"
 
-      - pwsh: |
-          $(Build.SourcesDirectory)/eng/tools/compress-coverage.ps1 "coverage-browser" "$(Build.ArtifactStagingDirectory)/CodeCoverage"
-        displayName: "Copy Coverage Reports - Browser"
-        condition: and(always(), eq(variables['TestType'], 'browser'))
+      - script: |
+          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" 
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
+        displayName: "Selecting packages to build"
 
-      - task: PublishPipelineArtifact@1
-        condition: succeededOrFailed()
-        displayName: "Publish artifacts"
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish Code Coverage to DevOps'
+        continueOnError: true
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['RunCodeCoverage'], true))
         inputs:
-          artifactName: documentation
-          path: $(Build.ArtifactStagingDirectory)/CodeCoverage
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(Build.SourcesDirectory)/$(PackagePath)/coverage/cobertura-coverage.xml'
+
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish Code Coverage to DevOps'
+        continueOnError: true
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['RunCodeCoverage'], true))
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(Build.SourcesDirectory)/$(PackagePath)/coverage-browser/cobertura-coverage.xml'
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
