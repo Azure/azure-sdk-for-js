@@ -1,4 +1,4 @@
-# Azure Text Analytics TypeScript Protocol Layer
+# Azure Storage TypeScript Protocol Layer
 
 > see https://aka.ms/autorest
 
@@ -6,6 +6,7 @@
 
 ```yaml
 package-name: "@azure/ai-text-analytics"
+package-version: "1.0.0-preview.1"
 title: TextAnalyticsClient
 description: TextAnalytics Client
 generate-metadata: false
@@ -14,8 +15,6 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.0-preview.1/TextAnalytics.json
 add-credentials: true
-use-extension:
-  "@microsoft.azure/autorest.typescript": "5.0.1"
 ```
 
 ## Customizations for Track 2 Generator
@@ -78,18 +77,9 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions
+    where: $.definitions.DocumentStatistics
     transform: >
-      if (!$.TextDocumentStatistics) {
-          $.TextDocumentStatistics = $.DocumentStatistics;
-          delete $.DocumentStatistics;
-      }
-  - from: swagger-document
-    where: $.definitions..properties.statistics
-    transform: >
-      if ($["$ref"] && $["$ref"] === "#/definitions/DocumentStatistics") {
-          $["$ref"] = "#/definitions/TextDocumentStatistics";
-      }
+      $["x-ms-client-name"] = "TextDocumentStatistics";
 ```
 
 ### RequestStatistics => TextDocumentBatchStatistics
@@ -97,18 +87,9 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions
+    where: $.definitions.RequestStatistics
     transform: >
-      if (!$.TextDocumentBatchStatistics) {
-          $.TextDocumentBatchStatistics = $.RequestStatistics;
-          delete $.RequestStatistics;
-      }
-  - from: swagger-document
-    where: $.definitions..properties.statistics
-    transform: >
-      if ($["$ref"] && $["$ref"] === "#/definitions/RequestStatistics") {
-          $["$ref"] = "#/definitions/TextDocumentBatchStatistics";
-      }
+      $["x-ms-client-name"] = "TextDocumentBatchStatistics";
 ```
 
 ### Rename showStats -> includeStatistics
@@ -122,68 +103,3 @@ directive:
         $["x-ms-client-name"] = "includeStatistics";
       }
 ```
-
-### Rename type, subtype -> category, subCategory
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.Entity.properties
-    transform: >
-      $.type["x-ms-client-name"] = "category";
-      $.subtype["x-ms-client-name"] = "subCategory";
-```
-
-### Rename sentenceScores -> sentimentScores
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.SentenceSentiment.properties.sentenceScores
-    transform: >
-      $["x-ms-client-name"] = "sentimentScores";
-```
-
-### Rename SentimentConfidenceScorePerLabel -> SentimentScorePerLabel 
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions
-    transform: >
-      if (!$.SentimentScorePerLabel) {
-          $.SentimentScorePerLabel = $.SentimentConfidenceScorePerLabel;
-          delete $.SentimentConfidenceScorePerLabel;
-      }
-  - from: swagger-document
-    where: $.definitions..properties[*]
-    transform: >
-      if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
-          $["$ref"] = "#/definitions/SentimentScorePerLabel";
-      }
-```
-
-### Rename {Document,Sentence}SentimentValue -> Label 
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.DocumentSentiment.properties.sentiment
-    transform: >
-      $["x-ms-enum"].name = "DocumentSentimentLabel";
-  - from: swagger-document
-    where: $.definitions.SentenceSentiment.properties.sentiment
-    transform: >
-      $["x-ms-enum"].name = "SentenceSentimentLabel";
-```
-
-### Fix capitalization of Code enum values
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions..properties.code
-    transform: >
-      $.enum = $.enum.map((val) => val.charAt(0).toUpperCase() + val.slice(1));
-```
-
