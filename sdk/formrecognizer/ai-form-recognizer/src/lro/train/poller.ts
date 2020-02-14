@@ -41,7 +41,7 @@ export class StartTrainingPoller extends Poller<StartTrainingPollState, Model> {
     const {
       client,
       source,
-      intervalInMs = 2000,
+      intervalInMs = 5000,
       onProgress,
       resumeFrom,
       trainModelOptions

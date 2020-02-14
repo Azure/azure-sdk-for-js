@@ -251,7 +251,11 @@ export class CustomRecognizerClient {
     try {
       return await this.client.trainCustomModelAsync({
         source: source,
-        sourceFilter: finalOptions,
+        sourceFilter: {
+          prefix: "",
+          includeSubFolders: false,
+          ...finalOptions
+        },
         useLabelFile
       }, finalOptions);
     } catch (e) {
