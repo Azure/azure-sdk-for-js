@@ -16,7 +16,7 @@ let argv = require("yargs")
   .help().argv;
 
 const versionUtils = require("./VersionUtils");
-
+const path = require("path");
 async function main(argv) {
   const packageName = argv["package-name"];
   const repoRoot = argv["repo-root"];
