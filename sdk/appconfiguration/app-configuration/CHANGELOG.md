@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (2002-02-17)
+## 1.0.1 (2020-02-19)
 
 - The underlying filter behavior has changed for `listConfigurationSettings` and `listRevisions`.
   Inline documentation has been revised to accomodate it.
