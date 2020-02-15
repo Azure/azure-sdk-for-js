@@ -5,6 +5,7 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
+import { HttpRequestBody } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
@@ -24,11 +25,20 @@ export class CognitiveKeyCredential implements ServiceClientCredentials {
 export class CustomRecognizerClient {
     // Warning: (ae-forgotten-export) The symbol "FormRecognizerClientOptions" needs to be exported by the entry point index.d.ts
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions_2);
+    // Warning: (ae-forgotten-export) The symbol "AnalyzeReceiptOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeReceiptResultResponse" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    analyzeReceipt(body: HttpRequestBody, contentType: string, options?: AnalyzeReceiptOptions): Promise<GetAnalyzeReceiptResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "DeleteModelOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<import("@azure/core-http").RestResponse>;
     readonly endpointUrl: string;
+    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeReceiptResultOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getAnalyzeReceiptResult(resultId: string, options?: GetAnalyzeReceiptResultOptions): Promise<GetAnalyzeReceiptResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "GetModelOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)

@@ -92,10 +92,8 @@ const update: StartTrainingPollerOperation["update"] = async function update(
   if (!state.isStarted) {
     state.isStarted = true;
     const result = await client.trainCustomModelInternal(source, false, trainModelOptions || {});
-    const location = result.location;
-    console.log(location);
-    const lastSlashIndex = location.lastIndexOf("/");
-    state.modelId = location.substring(lastSlashIndex + 1);
+    const lastSlashIndex = result.location.lastIndexOf("/");
+    state.modelId = result.location.substring(lastSlashIndex + 1);
   }
 
   const model = await client.getModel(state.modelId!, { abortSignal: trainModelOptions?.abortSignal });
