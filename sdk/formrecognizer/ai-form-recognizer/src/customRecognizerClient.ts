@@ -316,7 +316,6 @@ export class CustomRecognizerClient {
         body,
         customHeaders
       });
-      console.log(result);
       const lastSlashIndex = result.operationLocation.lastIndexOf("/");
       const resultId = result.operationLocation.substring(lastSlashIndex + 1);
 
@@ -349,8 +348,7 @@ export class CustomRecognizerClient {
 
     try {
       const result = await this.client.getAnalyzeReceiptResult(resultId, finalOptions);
-
-      return result; // TODO get result id from location then poll to retrieve result.
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

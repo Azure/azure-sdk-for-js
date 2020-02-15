@@ -26,11 +26,6 @@ async function main() {
   const result = await client.analyzeReceipt(readStream, "image/png", {
     onProgress: (state) => { console.log("training status: "); console.log(state); },
     requestOptions: {
-      customHeaders: {
-        "Content-Length": length,
-        // "Content-Type": "image/png",
-        "a": "b"
-      }
     },
   });
   console.log(result);
