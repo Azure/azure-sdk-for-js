@@ -18,17 +18,20 @@ import { MapsManagementClientContext } from "./mapsManagementClientContext";
 class MapsManagementClient extends MapsManagementClientContext {
   // Operation groups
   accounts: operations.Accounts;
+  maps: operations.Maps;
+  privateAtlases: operations.PrivateAtlases;
 
   /**
    * Initializes a new instance of the MapsManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure
-   * subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MapsManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.accounts = new operations.Accounts(this);
+    this.maps = new operations.Maps(this);
+    this.privateAtlases = new operations.PrivateAtlases(this);
   }
 }
 
