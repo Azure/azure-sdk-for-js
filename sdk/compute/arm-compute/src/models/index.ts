@@ -182,21 +182,6 @@ export interface UpdateResource extends BaseResource {
    * Resource tags
    */
   tags?: { [propertyName: string]: string };
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
 }
 
 /**
@@ -649,7 +634,7 @@ export interface VirtualMachineExtensionUpdate extends UpdateResource {
   /**
    * Specifies the type of the extension; an example is "CustomScriptExtension".
    */
-  virtualMachineExtensionUpdateType?: string;
+  type?: string;
   /**
    * Specifies the version of the script handler.
    */
@@ -4849,9 +4834,34 @@ export interface Gallery extends Resource {
 }
 
 /**
+ * The Update Resource model definition.
+ */
+export interface UpdateResourceDefinition extends BaseResource {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
  * Specifies information about the Shared Image Gallery that you want to update.
  */
-export interface GalleryUpdate extends UpdateResource {
+export interface GalleryUpdate extends UpdateResourceDefinition {
   /**
    * The description of this Shared Image Gallery resource. This property is updatable.
    */
@@ -4903,7 +4913,7 @@ export interface GalleryApplication extends Resource {
 /**
  * Specifies information about the gallery Application Definition that you want to update.
  */
-export interface GalleryApplicationUpdate extends UpdateResource {
+export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
   /**
    * The description of this gallery Application Definition resource. This property is updatable.
    */
@@ -5064,7 +5074,7 @@ export interface GalleryApplicationVersion extends Resource {
 /**
  * Specifies information about the gallery Application Version that you want to update.
  */
-export interface GalleryApplicationVersionUpdate extends UpdateResource {
+export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinition {
   publishingProfile: GalleryApplicationVersionPublishingProfile;
   /**
    * The current state of the gallery Application Version. The provisioning state, which only
@@ -5205,7 +5215,7 @@ export interface GalleryImage extends Resource {
 /**
  * Specifies information about the gallery Image Definition that you want to update.
  */
-export interface GalleryImageUpdate extends UpdateResource {
+export interface GalleryImageUpdate extends UpdateResourceDefinition {
   /**
    * The description of this gallery Image Definition resource. This property is updatable.
    */
@@ -5342,7 +5352,7 @@ export interface GalleryImageVersion extends Resource {
 /**
  * Specifies information about the gallery Image Version that you want to update.
  */
-export interface GalleryImageVersionUpdate extends UpdateResource {
+export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
   publishingProfile?: GalleryImageVersionPublishingProfile;
   /**
    * The current state of the gallery Image Version. The provisioning state, which only appears in
@@ -5356,6 +5366,46 @@ export interface GalleryImageVersionUpdate extends UpdateResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly replicationStatus?: ReplicationStatus;
+}
+
+/**
+ * This is the disk image encryption base class.
+ */
+export interface DiskImageEncryption {
+  /**
+   * A relative URI containing the resource ID of the disk encryption set.
+   */
+  diskEncryptionSetId?: string;
+}
+
+/**
+ * Contains encryption settings for an OS disk image.
+ */
+export interface OSDiskImageEncryption extends DiskImageEncryption {
+}
+
+/**
+ * Contains encryption settings for a data disk image.
+ */
+export interface DataDiskImageEncryption extends DiskImageEncryption {
+  /**
+   * This property specifies the logical unit number of the data disk. This value is used to
+   * identify data disks within the Virtual Machine and therefore must be unique for each data disk
+   * attached to the Virtual Machine.
+   */
+  lun: number;
+}
+
+/**
+ * Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in
+ * the gallery artifact.
+ */
+export interface EncryptionImages {
+  osDiskImage?: OSDiskImageEncryption;
+  /**
+   * A list of encryption specifications for data disk images.
+   */
+  dataDiskImages?: DataDiskImageEncryption[];
 }
 
 /**
@@ -5376,6 +5426,7 @@ export interface TargetRegion {
    * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
    */
   storageAccountType?: StorageAccountType;
+  encryption?: EncryptionImages;
 }
 
 /**
