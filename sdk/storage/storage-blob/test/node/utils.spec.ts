@@ -232,7 +232,7 @@ describe("Utility Helpers Node.js only", () => {
     });
   });
 
-  describe.only("streamToBuffer2", () => {
+  describe("streamToBuffer2", () => {
     class TestReadableStream extends Readable {
       private readonly _buffer: Buffer;
       private readonly _bytesPerRead: number;

@@ -174,16 +174,16 @@ export interface SignedIdentifier {
     /**
      * @member {Date} startsOn the date-time the policy is active.
      */
-    startsOn: Date;
+    startsOn?: Date;
     /**
      * @member {string} expiresOn the date-time the policy expires.
      */
-    expiresOn: Date;
+    expiresOn?: Date;
     /**
      * @member {string} permission the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
      */
-    permissions: string;
+    permissions?: string;
   };
 }
 
@@ -193,24 +193,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifierModel[];
-    };
+    parsedHeaders: QueueGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SignedIdentifierModel[];
   };
+};
 
 /**
  * Options to configure {@link QueueClient.clearMessages} operation
@@ -236,7 +236,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
  * @interface QueueSendMessageOptions
  * @extends {MessagesEnqueueOptionalParams}
  */
-export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
+export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions { }
 
 /**
  * Options to configure {@link QueueClient.receiveMessages} operation
@@ -245,7 +245,7 @@ export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, 
  * @interface QueueReceiveMessageOptions
  * @extends {MessagesDequeueOptionalParams}
  */
-export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
+export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions { }
 
 /**
  * Options to configure {@link QueueClient.peekMessages} operation
@@ -254,7 +254,7 @@ export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParam
  * @interface QueuePeekMessagesOptions
  * @extends {MessagesPeekOptionalParams}
  */
-export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
+export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions { }
 
 /**
  * Contains the response data for the {@link QueueClient.sendMessage} operation.
@@ -286,24 +286,24 @@ export declare type QueueSendMessageResponse = {
    */
   nextVisibleOn: Date;
 } & MessagesEnqueueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesEnqueueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnqueuedMessage[];
-    };
+    parsedHeaders: MessagesEnqueueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnqueuedMessage[];
   };
+};
 
 /**
  * The object returned in the `receivedMessageItems` array when calling {@link QueueClient.receiveMessages}.
@@ -318,24 +318,24 @@ export declare type ReceivedMessageItem = DequeuedMessageItem;
 export declare type QueueReceiveMessageResponse = {
   receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesDequeueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReceivedMessageItem[];
-    };
+    parsedHeaders: MessagesDequeueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReceivedMessageItem[];
   };
+};
 
 /**
  * Contains the response data for the {@link QueueClient.peekMessages} operation.
@@ -343,24 +343,24 @@ export declare type QueueReceiveMessageResponse = {
 export declare type QueuePeekMessagesResponse = {
   peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesPeekHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeekedMessageItem[];
-    };
+    parsedHeaders: MessagesPeekHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeekedMessageItem[];
   };
+};
 
 /**
  * Options to configure the {@link QueueClient.deleteMessage} operation
@@ -746,9 +746,9 @@ export class QueueClient extends StorageClient {
       for (const identifier of response) {
         res.signedIdentifiers.push({
           accessPolicy: {
-            expiresOn: new Date(identifier.accessPolicy.expiresOn),
+            expiresOn: identifier.accessPolicy.expiresOn ? new Date(identifier.accessPolicy.expiresOn) : undefined,
             permissions: identifier.accessPolicy.permissions,
-            startsOn: new Date(identifier.accessPolicy.startsOn)
+            startsOn: identifier.accessPolicy.startsOn ? new Date(identifier.accessPolicy.startsOn) : undefined
           },
           id: identifier.id
         });
@@ -785,9 +785,9 @@ export class QueueClient extends StorageClient {
       for (const identifier of queueAcl || []) {
         acl.push({
           accessPolicy: {
-            expiresOn: truncatedISO8061Date(identifier.accessPolicy.expiresOn),
+            expiresOn: identifier.accessPolicy.expiresOn ? truncatedISO8061Date(identifier.accessPolicy.expiresOn) : undefined,
             permissions: identifier.accessPolicy.permissions,
-            startsOn: truncatedISO8061Date(identifier.accessPolicy.startsOn)
+            startsOn: identifier.accessPolicy.startsOn ? truncatedISO8061Date(identifier.accessPolicy.startsOn) : undefined
           },
           id: identifier.id
         });

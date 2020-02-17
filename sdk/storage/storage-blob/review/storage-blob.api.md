@@ -32,9 +32,9 @@ import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AccessPolicy {
-    expiresOn: string;
-    permissions: string;
-    startsOn: string;
+    expiresOn?: string;
+    permissions?: string;
+    startsOn?: string;
 }
 
 // @public
@@ -1343,7 +1343,7 @@ export interface ContainerGetAccessPolicyOptions extends CommonOptions {
 
 // @public
 export type ContainerGetAccessPolicyResponse = {
-    signedIdentifiers: SignedIdentifierModel[];
+    signedIdentifiers: SignedIdentifier[];
 } & ContainerGetAccessPolicyHeaders & {
     _response: HttpResponse & {
         parsedHeaders: ContainerGetAccessPolicyHeaders;
@@ -2336,7 +2336,7 @@ export interface SignedIdentifier {
     accessPolicy: {
         startsOn?: Date;
         expiresOn?: Date;
-        permissions: string;
+        permissions?: string;
     };
     id: string;
 }

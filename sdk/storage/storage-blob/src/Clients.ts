@@ -5391,7 +5391,7 @@ export interface SignedIdentifier {
      * @member {string} permissions The permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
      */
-    permissions: string;
+    permissions?: string;
   };
 }
 
@@ -5399,7 +5399,7 @@ export interface SignedIdentifier {
  * Contains response data for the {@link ContainerClient.getAccessPolicy} operation.
  */
 export declare type ContainerGetAccessPolicyResponse = {
-  signedIdentifiers: SignedIdentifierModel[];
+  signedIdentifiers: SignedIdentifier[];
 } & ContainerGetAccessPolicyHeaders & {
   /**
    * The underlying HTTP response.

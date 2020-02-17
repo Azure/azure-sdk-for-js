@@ -461,7 +461,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         accessPolicy: {
           expiresOn: tmr,
-          permissions: ContainerSASPermissions.parse("racwdl").toString(),
+          // permissions: ContainerSASPermissions.parse("racwdl").toString(),
           startsOn: now
         },
         id
@@ -471,6 +471,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const blobSAS = generateBlobSASQueryParameters(
       {
         containerName,
+        permissions: ContainerSASPermissions.parse("racwdl"),
         identifier: id
       },
       sharedKeyCredential as StorageSharedKeyCredential
