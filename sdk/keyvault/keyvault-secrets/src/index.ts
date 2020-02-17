@@ -60,7 +60,7 @@ import {
   ListDeletedSecretsOptions,
   SecretProperties
 } from "./secretsModels";
-import { KeyVaultIdentifier, ParsedKeyVaultIdentifier } from "./identifier";
+import { KeyVaultSecretsIdentifier, ParsedKeyVaultSecretsIdentifier } from "./identifier";
 
 export {
   DeletedSecret,
@@ -79,8 +79,8 @@ export {
   PollerLike,
   PollOperationState,
   KeyVaultSecret,
-  KeyVaultIdentifier,
-  ParsedKeyVaultIdentifier,
+  KeyVaultSecretsIdentifier,
+  ParsedKeyVaultSecretsIdentifier,
   SecretProperties,
   SecretPollerOptions,
   BeginDeleteSecretOptions,
@@ -944,7 +944,7 @@ export class SecretClient {
   private getSecretFromSecretBundle(bundle: SecretBundle | DeletedSecretBundle): KeyVaultSecret {
     const secretBundle = bundle as SecretBundle;
     const deletedSecretBundle = bundle as DeletedSecretBundle;
-    const parsedId = new KeyVaultIdentifier(secretBundle.id!);
+    const parsedId = new KeyVaultSecretsIdentifier(secretBundle.id!);
 
     const attributes = secretBundle.attributes;
     delete secretBundle.attributes;
