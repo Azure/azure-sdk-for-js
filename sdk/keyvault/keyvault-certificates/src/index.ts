@@ -148,7 +148,7 @@ import { CertificateOperationState } from "./lro/operation/operation";
 import { DeleteCertificateState } from "./lro/delete/operation";
 import { CreateCertificateState } from "./lro/create/operation";
 import { RecoverDeletedCertificateState } from "./lro/recover/operation";
-import { KeyVaultIdentifier, ParsedKeyVaultIdentifier } from "./identifier";
+import { KeyVaultCertificatesIdentifier, ParsedKeyVaultCertificatesIdentifier } from "./identifier";
 
 export {
   ActionType,
@@ -160,8 +160,8 @@ export {
   BeginRecoverDeletedCertificateOptions,
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
-  KeyVaultIdentifier,
-  ParsedKeyVaultIdentifier,
+  KeyVaultCertificatesIdentifier,
+  ParsedKeyVaultCertificatesIdentifier,
   BackupCertificateOptions,
   CertificateContentType,
   CertificateProperties,
@@ -364,7 +364,7 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
 }
 
 function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
-  const parsedId = new KeyVaultIdentifier(issuer.id!);
+  const parsedId = new KeyVaultCertificatesIdentifier(issuer.id!);
   const attributes: IssuerAttributes = issuer.attributes || {};
 
   const publicIssuer: CertificateIssuer = {
@@ -1999,7 +1999,7 @@ export class CertificateClient {
   private getPropertiesFromCertificateBundle(
     certificateBundle: CertificateBundle
   ): CertificateProperties {
-    const parsedId = new KeyVaultIdentifier(certificateBundle.id!);
+    const parsedId = new KeyVaultCertificatesIdentifier(certificateBundle.id!);
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
     const abstractProperties: CertificateProperties = {
@@ -2056,7 +2056,7 @@ export class CertificateClient {
   private getCertificateFromCertificateBundle(
     certificateBundle: CertificateBundle
   ): KeyVaultCertificate {
-    const parsedId = new KeyVaultIdentifier(certificateBundle.id!);
+    const parsedId = new KeyVaultCertificatesIdentifier(certificateBundle.id!);
 
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
@@ -2087,7 +2087,7 @@ export class CertificateClient {
   private getCertificateWithPolicyFromCertificateBundle(
     certificateBundle: CertificateBundle
   ): KeyVaultCertificateWithPolicy {
-    const parsedId = new KeyVaultIdentifier(certificateBundle.id!);
+    const parsedId = new KeyVaultCertificatesIdentifier(certificateBundle.id!);
 
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
     const policy = toPublicPolicy(certificateBundle.policy || {});
@@ -2133,7 +2133,7 @@ export class CertificateClient {
   }
 
   private getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {
-    const parsedId = new KeyVaultIdentifier(item.id!);
+    const parsedId = new KeyVaultCertificatesIdentifier(item.id!);
 
     const attributes: any = item.attributes || {};
 

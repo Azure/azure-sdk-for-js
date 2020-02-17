@@ -3,11 +3,11 @@ import { parseKeyvaultIdentifier } from "./core/utils";
 /**
  * Represents a KeyVault identifier and its parsed contents.
  */
-export interface ParsedKeyVaultIdentifier {
+export interface ParsedKeyVaultCertificatesIdentifier {
   /**
    * The type of resource under KeyVault that this identifier is referring to.
    */
-  collection: "keys" | "secrets" | "certificates";
+  collection: "certificates";
 
   /**
    * The originally received identifier.
@@ -33,11 +33,11 @@ export interface ParsedKeyVaultIdentifier {
 /**
  * Parser of the KeyVaultIdentifier for the KeyVault Keys Client.
  */
-export class KeyVaultIdentifier implements ParsedKeyVaultIdentifier {
+export class KeyVaultCertificatesIdentifier implements ParsedKeyVaultCertificatesIdentifier {
   /**
    * The type of resource under KeyVault that this identifier is referring to.
    */
-  collection: "keys" | "secrets" | "certificates";
+  collection: "certificates";
 
   /**
    * The originally received identifier.
@@ -62,7 +62,7 @@ export class KeyVaultIdentifier implements ParsedKeyVaultIdentifier {
   constructor(url: string) {
     const coreParsedIdentifier = parseKeyvaultIdentifier("certificates", url);
 
-    this.collection = "keys";
+    this.collection = "certificates";
     this.id = url;
     this.vaultUrl = coreParsedIdentifier.vaultUrl;
     this.version = coreParsedIdentifier.version;
