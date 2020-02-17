@@ -744,12 +744,23 @@ export class QueueClient extends StorageClient {
       };
 
       for (const identifier of response) {
+        let accessPolicy: any = undefined;
+        if (identifier.accessPolicy) {
+          accessPolicy = {
+            permissions: identifier.accessPolicy.permissions
+          };
+
+          if (identifier.accessPolicy.expiresOn) {
+            accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+          }
+
+          if (identifier.accessPolicy.startsOn) {
+            accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+          }
+        }
+
         res.signedIdentifiers.push({
-          accessPolicy: {
-            expiresOn: identifier.accessPolicy.expiresOn ? new Date(identifier.accessPolicy.expiresOn) : undefined,
-            permissions: identifier.accessPolicy.permissions,
-            startsOn: identifier.accessPolicy.startsOn ? new Date(identifier.accessPolicy.startsOn) : undefined
-          },
+          accessPolicy,
           id: identifier.id
         });
       }
