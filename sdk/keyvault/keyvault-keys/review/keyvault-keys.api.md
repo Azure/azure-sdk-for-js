@@ -203,16 +203,6 @@ export interface KeyProperties {
 export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
-export class KeyVaultIdentifier implements ParsedKeyVaultIdentifier {
-    constructor(url: string);
-    collection: "keys" | "secrets" | "certificates";
-    id: string;
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
-// @public
 export interface KeyVaultKey {
     id?: string;
     key?: JsonWebKey;
@@ -220,6 +210,16 @@ export interface KeyVaultKey {
     keyType?: KeyType;
     name: string;
     properties: KeyProperties;
+}
+
+// @public
+export class KeyVaultKeysIdentifier implements ParsedKeyVaultKeysIdentifier {
+    constructor(url: string);
+    collection: "keys";
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
 }
 
 // @public
@@ -245,8 +245,8 @@ export { PagedAsyncIterableIterator }
 export { PageSettings }
 
 // @public
-export interface ParsedKeyVaultIdentifier {
-    collection: "keys" | "secrets" | "certificates";
+export interface ParsedKeyVaultKeysIdentifier {
+    collection: "keys";
     id: string;
     name: string;
     vaultUrl: string;

@@ -3,11 +3,11 @@ import { parseKeyvaultIdentifier } from "./core/utils";
 /**
  * Represents a KeyVault identifier and its parsed contents.
  */
-export interface ParsedKeyVaultIdentifier {
+export interface ParsedKeyVaultKeysIdentifier {
   /**
    * The type of resource under KeyVault that this identifier is referring to.
    */
-  collection: "keys" | "secrets" | "certificates";
+  collection: "keys";
 
   /**
    * The originally received identifier.
@@ -31,13 +31,13 @@ export interface ParsedKeyVaultIdentifier {
 }
 
 /**
- * Parser of the KeyVaultIdentifier for the KeyVault Keys Client.
+ * Parser of the KeyVaultKeysIdentifier for the KeyVault Keys Client.
  */
-export class KeyVaultIdentifier implements ParsedKeyVaultIdentifier {
+export class KeyVaultKeysIdentifier implements ParsedKeyVaultKeysIdentifier {
   /**
    * The type of resource under KeyVault that this identifier is referring to.
    */
-  collection: "keys" | "secrets" | "certificates";
+  collection: "keys";
 
   /**
    * The originally received identifier.

@@ -91,7 +91,7 @@ import {
   WrapKeyOptions,
   WrapResult
 } from "./cryptographyClient";
-import { KeyVaultIdentifier, ParsedKeyVaultIdentifier } from "./identifier";
+import { KeyVaultKeysIdentifier, ParsedKeyVaultKeysIdentifier } from "./identifier";
 
 export {
   BackupKeyOptions,
@@ -121,13 +121,13 @@ export {
   SignatureAlgorithm,
   KeyVaultKey,
   KeyWrapAlgorithm,
-  KeyVaultIdentifier,
+  KeyVaultKeysIdentifier,
   ListPropertiesOfKeysOptions,
   ListPropertiesOfKeyVersionsOptions,
   ListDeletedKeysOptions,
   PageSettings,
   PagedAsyncIterableIterator,
-  ParsedKeyVaultIdentifier,
+  ParsedKeyVaultKeysIdentifier,
   PipelineOptions,
   PollOperationState,
   PollerLike,
@@ -1125,7 +1125,7 @@ export class KeyClient {
     const keyBundle = bundle as KeyBundle;
     const deletedKeyBundle = bundle as DeletedKeyBundle;
 
-    const parsedId = new KeyVaultIdentifier(keyBundle.key!.kid!);
+    const parsedId = new KeyVaultKeysIdentifier(keyBundle.key!.kid!);
 
     const attributes: any = keyBundle.attributes || {};
     delete keyBundle.attributes;
@@ -1176,7 +1176,7 @@ export class KeyClient {
    * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
    */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
-    const parsedId = new KeyVaultIdentifier(keyItem.kid!);
+    const parsedId = new KeyVaultKeysIdentifier(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 
@@ -1220,7 +1220,7 @@ export class KeyClient {
    * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
-    const parsedId = new KeyVaultIdentifier(keyItem.kid!);
+    const parsedId = new KeyVaultKeysIdentifier(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 
