@@ -61,7 +61,7 @@ export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "browser/azure-ai-form-recognizer.js",
+      file: "dist-browser/azure-ai-form-recognizer.js",
       format: "umd",
       name: "Azure.CognitiveServicesFormRecognizer",
       sourcemap: true,

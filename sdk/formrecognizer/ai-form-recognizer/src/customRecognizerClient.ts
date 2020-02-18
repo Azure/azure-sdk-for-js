@@ -16,14 +16,19 @@ import {
 import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { GetCustomModelsResponse, Model, GetAnalyzeReceiptResultResponse, GetAnalyzeLayoutResultResponse } from "./generated/models";
+import {
+  GetCustomModelsResponse,
+  Model,
+  GetAnalyzeReceiptResultResponse,
+  GetAnalyzeLayoutResultResponse
+} from "./generated/models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from './lro/train/poller';
-import { PollOperationState, PollerLike } from '@azure/core-lro';
+import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from "./lro/train/poller";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -60,15 +65,13 @@ export type GetModelOptions = FormRecognizerOperationOptions;
 export type TrainCustomModelOptions = FormRecognizerOperationOptions & {
   prefix?: string;
   includeSubFolders?: boolean;
-}
+};
 
 export type AnalyzeReceiptOptions = FormRecognizerOperationOptions & {
   includeTextDetails?: boolean;
-}
+};
 
-export type AnalyzeLayoutOptions = FormRecognizerOperationOptions & {
-
-}
+export type AnalyzeLayoutOptions = FormRecognizerOperationOptions & {};
 
 /**
  * Options for the start training operation.
@@ -77,7 +80,7 @@ export type StartTrainingOptions = TrainCustomModelOptions & {
   intervalInMs?: number;
   onProgress?: (state: StartTrainingPollState) => void;
   resumeFrom?: string;
-}
+};
 
 /**
  * Options for the start training with labels operation.
@@ -85,7 +88,7 @@ export type StartTrainingOptions = TrainCustomModelOptions & {
 export type StartTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
   prefix?: string;
   includeSubFolders?: boolean;
-}
+};
 
 export type GetAnalyzeReceiptResultOptions = FormRecognizerOperationOptions;
 
@@ -159,9 +162,7 @@ export class CustomRecognizerClient {
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
   }
 
-  public async getSummary(
-    options?: GetSummaryOptions
-  ) {
+  public async getSummary(options?: GetSummaryOptions) {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-listCustomModels",
@@ -186,9 +187,7 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async deleteModel(
-    modelId: string,
-    options?: DeleteModelOptions) {
+  public async deleteModel(modelId: string, options?: DeleteModelOptions) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-deleteModel",
@@ -208,7 +207,7 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async getModel(modelId: string, options: GetModelOptions){
+  public async getModel(modelId: string, options: GetModelOptions) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-getModel",
@@ -228,9 +227,7 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async listModels(
-    options?: ListModelsOptions
-  ): Promise<GetCustomModelsResponse> {
+  public async listModels(options?: ListModelsOptions): Promise<GetCustomModelsResponse> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-listModels",
@@ -256,12 +253,16 @@ export class CustomRecognizerClient {
   }
 
   public async startTraining(
-    source:string,
+    source: string,
     options: StartTrainingOptions = {}
   ): Promise<PollerLike<PollOperationState<Model>, Model>> {
     const trainPollerClient: TrainPollerClient = {
       getModel: (...args) => this.getModel(...args),
-      trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions) => trainCustomModelInternal(this.client, source, useLabelFile, options)
+      trainCustomModelInternal: (
+        source: string,
+        useLabelFile?: boolean,
+        options?: TrainCustomModelOptions
+      ) => trainCustomModelInternal(this.client, source, useLabelFile, options)
     };
 
     const poller = new StartTrainingPoller({
@@ -278,14 +279,19 @@ export class CustomRecognizerClient {
     return poller;
   }
 
-  public async analyzeReceipt(body: HttpRequestBody, contentType: string, options?: AnalyzeReceiptOptions) {
+  public async analyzeReceipt(
+    body: HttpRequestBody,
+    contentType: string,
+    options?: AnalyzeReceiptOptions
+  ): Promise<GetAnalyzeReceiptResultResponse> {
     const realOptions = options || { includeTextDetails: false };
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-analyzeReceipt",
       realOptions
     );
 
-    const customHeaders: { [key: string]: string } = finalOptions.requestOptions?.customHeaders || {};
+    const customHeaders: { [key: string]: string } =
+      finalOptions.requestOptions?.customHeaders || {};
     customHeaders["Content-Type"] = contentType;
     try {
       const result = await this.client.analyzeReceiptAsync({
@@ -298,7 +304,9 @@ export class CustomRecognizerClient {
 
       let analyzeResult: GetAnalyzeReceiptResultResponse;
       do {
-        analyzeResult = await this.getAnalyzeReceiptResult(resultId, { abortSignal: finalOptions.abortSignal });
+        analyzeResult = await this.getAnalyzeReceiptResult(resultId, {
+          abortSignal: finalOptions.abortSignal
+        });
         if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
           delay(2000); // TODO: internal polling or LRO
         }
@@ -317,7 +325,7 @@ export class CustomRecognizerClient {
   }
 
   public async getAnalyzeReceiptResult(resultId: string, options?: GetAnalyzeReceiptResultOptions) {
-    const realOptions = options || { };
+    const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-getAnalyzeReceiptResult",
       realOptions
@@ -337,14 +345,19 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async analyzeLayout(body: HttpRequestBody, contentType: string, options?: AnalyzeLayoutOptions) {
-    const realOptions = options || { };
+  public async analyzeLayout(
+    body: HttpRequestBody,
+    contentType: string,
+    options?: AnalyzeLayoutOptions
+  ) {
+    const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-analyzeLayout",
       realOptions
     );
 
-    const customHeaders: { [key: string]: string } = finalOptions.requestOptions?.customHeaders || {};
+    const customHeaders: { [key: string]: string } =
+      finalOptions.requestOptions?.customHeaders || {};
     customHeaders["Content-Type"] = contentType;
     try {
       const result = await this.client.analyzeLayoutAsync({
@@ -357,7 +370,9 @@ export class CustomRecognizerClient {
 
       let analyzeResult: GetAnalyzeLayoutResultResponse;
       do {
-        analyzeResult = await this.getAnalyzeLayoutResult(resultId, { abortSignal: finalOptions.abortSignal });
+        analyzeResult = await this.getAnalyzeLayoutResult(resultId, {
+          abortSignal: finalOptions.abortSignal
+        });
         if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
           delay(2000); // TODO: internal polling or LRO
         }
@@ -376,7 +391,7 @@ export class CustomRecognizerClient {
   }
 
   public async getAnalyzeLayoutResult(resultId: string, options?: GetAnalyzeLayoutResultOptions) {
-    const realOptions = options || { };
+    const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-getAnalyzeLayoutResult",
       realOptions
@@ -395,10 +410,14 @@ export class CustomRecognizerClient {
       span.end();
     }
   }
-
 }
 
-export async function trainCustomModelInternal(client: GeneratedClient, source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions) {
+async function trainCustomModelInternal(
+  client: GeneratedClient,
+  source: string,
+  useLabelFile?: boolean,
+  options?: TrainCustomModelOptions
+) {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan(
     "trainCustomModelInternal",
@@ -406,15 +425,18 @@ export async function trainCustomModelInternal(client: GeneratedClient, source: 
   );
 
   try {
-    return await client.trainCustomModelAsync({
-      source: source,
-      sourceFilter: {
-        prefix: "",
-        includeSubFolders: false,
-        ...finalOptions
+    return await client.trainCustomModelAsync(
+      {
+        source: source,
+        sourceFilter: {
+          prefix: "",
+          includeSubFolders: false,
+          ...finalOptions
+        },
+        useLabelFile
       },
-      useLabelFile
-    }, finalOptions);
+      finalOptions
+    );
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,
@@ -425,4 +447,3 @@ export async function trainCustomModelInternal(client: GeneratedClient, source: 
     span.end();
   }
 }
-

@@ -3,16 +3,20 @@
 
 import { delay } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { CustomRecognizerClient, TrainCustomModelOptions } from '../../customRecognizerClient';
+import { CustomRecognizerClient, TrainCustomModelOptions } from "../../customRecognizerClient";
 
-import { Model, ModelStatus, TrainCustomModelAsyncResponse } from '../../generated/models';
+import { Model, ModelStatus, TrainCustomModelAsyncResponse } from "../../generated/models";
 
 /**
  * Defines the operations from a {@link CustomRecognizerClient} that are needed for the poller
  * returned by {@link CustomRecognizerClient.startTraining} to work.
  */
 export type TrainPollerClient = Pick<CustomRecognizerClient, "getModel"> & {
-  trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions) => Promise<TrainCustomModelAsyncResponse>;
+  trainCustomModelInternal: (
+    source: string,
+    useLabelFile?: boolean,
+    options?: TrainCustomModelOptions
+  ) => Promise<TrainCustomModelAsyncResponse>;
 };
 
 export interface StartTrainingPollState extends PollOperationState<Model> {
@@ -23,7 +27,8 @@ export interface StartTrainingPollState extends PollOperationState<Model> {
   readonly trainModelOptions?: TrainCustomModelOptions;
 }
 
-export interface StartTrainingPollerOperation extends PollOperation<StartTrainingPollState, Model> {}
+export interface StartTrainingPollerOperation
+  extends PollOperation<StartTrainingPollState, Model> {}
 
 export interface StartTrainingPollerOptions {
   client: TrainPollerClient;
@@ -61,7 +66,7 @@ export class StartTrainingPoller extends Poller<StartTrainingPollState, Model> {
       client,
       source,
       status: "creating",
-      trainModelOptions,
+      trainModelOptions
     });
 
     super(operation);
@@ -81,9 +86,9 @@ export class StartTrainingPoller extends Poller<StartTrainingPollState, Model> {
 const cancel: StartTrainingPollerOperation["cancel"] = async function cancel(
   this: StartTrainingPollerOperation,
   _options = {}
-): Promise<StartTrainingPollerOperation>  {
+): Promise<StartTrainingPollerOperation> {
   throw new Error("Cancel operation is not supported.");
-}
+};
 
 const update: StartTrainingPollerOperation["update"] = async function update(
   this: StartTrainingPollerOperation,
@@ -99,7 +104,9 @@ const update: StartTrainingPollerOperation["update"] = async function update(
     state.modelId = result.location.substring(lastSlashIndex + 1);
   }
 
-  const model = await client.getModel(state.modelId!, { abortSignal: trainModelOptions?.abortSignal });
+  const model = await client.getModel(state.modelId!, {
+    abortSignal: trainModelOptions?.abortSignal
+  });
 
   state.status = model.modelInfo.status;
 
@@ -116,17 +123,18 @@ const update: StartTrainingPollerOperation["update"] = async function update(
   }
 
   return makeStartTrainingPollOperation(state);
-}
+};
 
 const toString: StartTrainingPollerOperation["toString"] = function toString(
-  this: StartTrainingPollerOperation) {
+  this: StartTrainingPollerOperation
+) {
   return JSON.stringify({ state: this.state }, (key, value) => {
     if (key === "client") {
       return undefined;
     }
     return value;
-  })
-}
+  });
+};
 
 /**
  * Creates a poll operation given the provided state.
