@@ -437,7 +437,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob with access policy", async () => {
+  it("generateBlobSASQueryParameters should work for blob with container SAS using access policy", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -471,6 +471,53 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         containerName,
         permissions: ContainerSASPermissions.parse("racwdl"),
+        identifier: id
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasClient = `${blobClient.url}?${blobSAS}`;
+    const blobClientwithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+
+    await blobClientwithSAS.getProperties();
+    await containerClient.delete();
+  });
+
+  it("generateBlobSASQueryParameters should work for blob with blob SAS using access policy", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024);
+
+    const id = "unique-id";
+    await containerClient.setAccessPolicy(undefined, [
+      {
+        accessPolicy: {
+          expiresOn: tmr,
+          permissions: ContainerSASPermissions.parse("racwdl").toString(),
+          startsOn: now
+        },
+        id
+      }
+    ]);
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobName,
+        containerName: containerName,
         identifier: id
       },
       sharedKeyCredential as StorageSharedKeyCredential
