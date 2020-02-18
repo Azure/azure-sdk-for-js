@@ -66,6 +66,11 @@ describe("serialization.deserialize", () => {
     assert.deepEqual(result, { a: -Infinity });
   });
 
+  it("Date", () => {
+    const result = deserialize({ a: "1975-04-04T07:00:00.000Z" });
+    assert.deepEqual(result, { a: new Date(1975, 3, 4) });
+  });
+
   afterEach(() => {
     sinon.restore();
   });

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+const ISO8601DateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z/i;
+
 export function serialize<InputT, OutputT>(obj: InputT): OutputT {
   return walk(obj, (value) => {
     let result = serializeSpecialNumbers(value);
@@ -11,21 +13,11 @@ export function serialize<InputT, OutputT>(obj: InputT): OutputT {
 export function deserialize<InputT, OutputT>(obj: InputT): OutputT {
   return walk(obj, (value) => {
     let result = deserializeSpecialNumbers(value);
+    result = deserializeDates(result);
+    // TODO: GeoPoint
     return result;
   });
 }
-
-// function walk(start: unknown, mapper: (val: any) => any): any {
-//   let result = mapper(start);
-
-//   if (typeof result === "object" && result !== null) {
-//     for (const key of Object.keys(result)) {
-//       result[key] = walk(result[key], mapper);
-//     }
-//   }
-
-//   return result;
-// }
 
 function walk(start: unknown, mapper: (val: any) => any): any {
   const seenMarker = new WeakMap<object, boolean>();
@@ -84,6 +76,15 @@ function deserializeSpecialNumbers(input: unknown): unknown {
       return Infinity;
     } else if (input === "-INF") {
       return -Infinity;
+    }
+  }
+  return input;
+}
+
+function deserializeDates(input: unknown): Date | unknown {
+  if (typeof input === "string") {
+    if (ISO8601DateRegex.test(input)) {
+      return new Date(input);
     }
   }
   return input;
