@@ -42,7 +42,7 @@ To quickly create the needed Key Vault resources in Azure and to receive a conne
 
 To fill this form:
 
-1. If you know about ARM templates, or if you're interested to know about them, we recommend you to take some time to read through the [ARM template we are using for this button](https://github.com/Azure/azure-sdk-for-js/blob/keyvault/deploy-button-guide/sdk/keyvault/test-resources.json). You can read more about the concept of an ARM template in our [Azure Resource Manager templates overview](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview).
+1. If you know about ARM templates, or you're interested to learn about them, we recommend you to take some time to read through the [ARM template used by the deploy button in this readme](https://github.com/Azure/azure-sdk-for-js/blob/keyvault/deploy-button-guide/sdk/keyvault/test-resources.json). You can read more about ARM templates in the [Azure Resource Manager templates overview](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview).
 2. The subscription, resource group and location are required fields, they help specify where to create the KeyVault.
 3. On the "Base Name", you'll see `[resourceGroup().name]`. Remove the contents of this field and type any alphanumeric string. This string will be used to generate unique names for the resources that will be created.
 4. To fill the "Tenant Id" field, copy it from the one you'll be able to see once you go to the [overview page of the Azure Active Directory section of the Azure portal](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview).
