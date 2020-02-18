@@ -461,7 +461,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         accessPolicy: {
           expiresOn: tmr,
-          // permissions: ContainerSASPermissions.parse("racwdl").toString(),
           startsOn: now
         },
         id
