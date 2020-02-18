@@ -5,7 +5,6 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "dist/index.js": "./dist-browser/azure-test-utils-recorder.js"
   },
   "types": "./typings/src/index.d.ts",
   "scripts": {

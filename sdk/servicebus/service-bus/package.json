@@ -19,7 +19,6 @@
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist/index.js": "./dist-browser/service-bus.js",
     "./dist-esm/src/util/crypto.js": "./dist-esm/src/util/crypto.browser.js",
     "./dist-esm/src/util/parseUrl.js": "./dist-esm/src/util/parseUrl.browser.js",
     "buffer": "buffer",

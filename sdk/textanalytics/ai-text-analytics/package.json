@@ -14,9 +14,6 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "browser": {
-    "./dist/index.js": "./dist-browser/index.js"
-  },
   "types": "./types/ai-text-analytics.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics",
   "repository": {
