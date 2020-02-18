@@ -15,6 +15,7 @@ jobs:
     parameters:
       PackageName: "@azure/service-bus"
       ResourceServiceDirectory: servicebus
+      TimeoutInMinutes: 180
       # Use a more simple matrix because these tests run for a long time
       Matrix:
         Linux_Node10:

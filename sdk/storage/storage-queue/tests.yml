@@ -13,7 +13,6 @@ jobs:
     parameters:
       PackageName: "@azure/storage-queue"
       ResourceServiceDirectory: storage
-      TimeoutInMinutes: 60
       Matrix:
         Linux_Node8:
           OSVmImage: "ubuntu-16.04"
