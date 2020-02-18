@@ -44,7 +44,7 @@ To fill this form:
 
 1. If you know about ARM templates, or you're interested to learn about them, we recommend you to take some time to read through the [ARM template used by the deploy button in this readme](https://github.com/Azure/azure-sdk-for-js/blob/keyvault/deploy-button-guide/sdk/keyvault/test-resources.json). You can read more about ARM templates in the [Azure Resource Manager templates overview](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview).
 2. The subscription, resource group and location are required to specify where to create the KeyVault.
-3. On the "Base Name", you'll see `[resourceGroup().name]`. Remove the contents of this field and type any alphanumeric string. This string will be used to generate unique names for the resources that will be created.
+3. For "Base Name", replace `[resourceGroup().name]` with any alphanumeric string. All new resources will use this name as a prefix.
 4. To fill the "Tenant Id" field, copy it from the one you'll be able to see once you go to the [overview page of the Azure Active Directory section of the Azure portal](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview).
 5. To fill the "Test Application Oid", you'll first need to create an Azure Active Directory application (Read: [How to: Use the portal to create an Azure AD application and service principal that can access resources](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal)). Once created, go to your application's overview page, and you'll see an "Object ID" property. This is the one that you want to copy and paste on the form.
 6. Finally, accept the terms and conditions, then click on the "Purchase" button.
