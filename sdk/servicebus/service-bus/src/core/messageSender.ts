@@ -29,7 +29,8 @@ import {
 import {
   SendableMessageInfo,
   toAmqpMessage,
-  getMessagePropertyTypeMismatchError
+  getMessagePropertyTypeMismatchError,
+  CreateBatchOptions
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
@@ -669,7 +670,7 @@ export class MessageSender extends LinkEntity {
    * Batch message.
    * @return {Promise<void>}
    */
-  async sendBatch(inputMessages: SendableMessageInfo[]): Promise<void> {
+  async sendBatch(inputMessages: SendableMessageInfo[] | SendableMessageInfoBatch): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!Array.isArray(inputMessages)) {
@@ -729,6 +730,13 @@ export class MessageSender extends LinkEntity {
 
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
+
+      console.log(
+        encodedBatchMessage.length,
+        encodedBatchMessage.byteLength,
+        this._sender?.maxMessageSize
+      );
+
       log.sender(
         "[%s]Sender '%s', sending encoded batch message.",
         this._context.namespace.connectionId,

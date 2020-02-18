@@ -175,30 +175,39 @@ describe("Simple Send Batch", function(): void {
 
   async function testSimpleSendBatch(useSessions: boolean, usePartitions: boolean): Promise<void> {
     const testMessages = [];
-    testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
-    testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
-
-    await senderClient.createSender().sendBatch(testMessages);
-    const msgs = await receiver.receiveMessages(2);
-
-    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-    should.equal(msgs.length, 2, "Unexpected number of messages");
-
-    if (testMessages[0].messageId === msgs[0].messageId) {
-      TestMessage.checkMessageContents(testMessages[0], msgs[0], useSessions, usePartitions);
-      TestMessage.checkMessageContents(testMessages[1], msgs[1], useSessions, usePartitions);
-    } else {
-      TestMessage.checkMessageContents(testMessages[1], msgs[0], useSessions, usePartitions);
-      TestMessage.checkMessageContents(testMessages[0], msgs[1], useSessions, usePartitions);
+    // testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
+    // testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
+    useSessions;
+    usePartitions;
+    const sender = senderClient.createSender();
+    sender.createBatch();
+    for (let index = 0; index < (10000 / 488910) * 202144; index++) {
+      testMessages.push({
+        body: `message body ${index}`
+      });
     }
+    console.log(Buffer.from(testMessages).byteLength);
+    await sender.sendBatch(testMessages);
+    // const msgs = await receiver.receiveMessages(2);
 
-    await msgs[0].complete();
-    await msgs[1].complete();
+    // should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    // should.equal(msgs.length, 2, "Unexpected number of messages");
 
-    await testPeekMsgsLength(receiverClient, 0);
+    // if (testMessages[0].messageId === msgs[0].messageId) {
+    //   TestMessage.checkMessageContents(testMessages[0], msgs[0], useSessions, usePartitions);
+    //   TestMessage.checkMessageContents(testMessages[1], msgs[1], useSessions, usePartitions);
+    // } else {
+    //   TestMessage.checkMessageContents(testMessages[1], msgs[0], useSessions, usePartitions);
+    //   TestMessage.checkMessageContents(testMessages[0], msgs[1], useSessions, usePartitions);
+    // }
+
+    // await msgs[0].complete();
+    // await msgs[1].complete();
+
+    // await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
+  it.only("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testSimpleSendBatch(false, true);
   });
