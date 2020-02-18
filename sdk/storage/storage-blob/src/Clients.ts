@@ -5391,7 +5391,7 @@ export interface SignedIdentifier {
      * @member {string} permissions The permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
      */
-    permissions: string;
+    permissions?: string;
   };
 }
 
@@ -5399,7 +5399,7 @@ export interface SignedIdentifier {
  * Contains response data for the {@link ContainerClient.getAccessPolicy} operation.
  */
 export declare type ContainerGetAccessPolicyResponse = {
-  signedIdentifiers: SignedIdentifierModel[];
+  signedIdentifiers: SignedIdentifier[];
 } & ContainerGetAccessPolicyHeaders & {
   /**
    * The underlying HTTP response.
@@ -6132,16 +6132,19 @@ export class ContainerClient extends StorageClient {
       };
 
       for (const identifier of response) {
-        const accessPolicy: any = {
-          permissions: identifier.accessPolicy.permissions
-        };
+        let accessPolicy: any = undefined;
+        if (identifier.accessPolicy) {
+          accessPolicy = {
+            permissions: identifier.accessPolicy.permissions
+          };
 
-        if (identifier.accessPolicy.expiresOn) {
-          accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
-        }
+          if (identifier.accessPolicy.expiresOn) {
+            accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+          }
 
-        if (identifier.accessPolicy.startsOn) {
-          accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+          if (identifier.accessPolicy.startsOn) {
+            accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+          }
         }
 
         res.signedIdentifiers.push({
