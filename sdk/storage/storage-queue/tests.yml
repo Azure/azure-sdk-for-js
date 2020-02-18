@@ -18,51 +18,64 @@ jobs:
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "8.x"
           TestType: "node"
+          RunCodeCoverage: false
         Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "10.x"
           TestType: "node"
+          RunCodeCoverage: true
         Linux_Node12:
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "12.x"
           TestType: "node"
+          RunCodeCoverage: false
         Windows_Node8:
           OSVmImage: "windows-2019"
           NodeVersion: "8.x"
           TestType: "node"
+          RunCodeCoverage: false
         Windows_Node10:
           OSVmImage: "windows-2019"
           NodeVersion: "10.x"
           TestType: "node"
+          RunCodeCoverage: false
         Windows_Node12:
           OSVmImage: "windows-2019"
           NodeVersion: "12.x"
           TestType: "node"
+          RunCodeCoverage: false
         macOS_Node8:
           OSVmImage: "macOS-10.13"
           NodeVersion: "8.x"
           TestType: "node"
+          RunCodeCoverage: false
         macOS_Node10:
           OSVmImage: "macOS-10.13"
           NodeVersion: "10.x"
           TestType: "node"
+          RunCodeCoverage: false
         macOS_Node12:
           OSVmImage: "macOS-10.13"
           NodeVersion: "12.x"
           TestType: "node"
+          RunCodeCoverage: false
         Browser_Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "10.x"
           TestType: "browser"
+          RunCodeCoverage: true
         Browser_Windows_Node10:
           OSVmImage: "windows-2019"
           NodeVersion: "10.x"
           TestType: "browser"
+          RunCodeCoverage: false
         Browser_macOS_Node10:
           OSVmImage: "macOS-10.13"
           NodeVersion: "10.x"
           TestType: "browser"
+          RunCodeCoverage: false
         Linux_Sample10:
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "10.x"
           TestType: "sample"
+          RunCodeCoverage: false
