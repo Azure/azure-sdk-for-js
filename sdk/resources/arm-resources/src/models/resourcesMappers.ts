@@ -30,10 +30,13 @@ export {
   ResourceGroup,
   ResourceGroupProperties,
   ResourceListResult,
+  ResourceReference,
   ResourcesMoveInfo,
   Sku,
   SubResource,
   TagCount,
+  Tags,
+  TagsResource,
   TagValue,
   TemplateLink
 } from "../models/mappers";
