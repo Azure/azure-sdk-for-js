@@ -4,6 +4,7 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { serialize, deserialize } from "../src/serialization";
+import GeographyPoint from "../src/geographyPoint";
 
 describe("serialization.serialize", () => {
   it("nested", () => {
@@ -69,6 +70,19 @@ describe("serialization.deserialize", () => {
   it("Date", () => {
     const result = deserialize({ a: "1975-04-04T07:00:00.000Z" });
     assert.deepEqual(result, { a: new Date(1975, 3, 4) });
+  });
+
+  it("GeographyPoint", () => {
+    const result: { location: GeographyPoint } = deserialize({
+      location: {
+        type: "Point",
+        coordinates: [-84.527771, 37.989769],
+        crs: { type: "name", properties: { name: "EPSG:4326" } }
+      }
+    });
+    assert.instanceOf(result.location, GeographyPoint);
+    assert.equal(result.location.latitude, -84.527771);
+    assert.equal(result.location.longitude, 37.989769);
   });
 
   afterEach(() => {

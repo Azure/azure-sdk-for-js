@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import GeographyPoint from "./geographyPoint";
+
 const ISO8601DateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z/i;
+const GeoJSONPointTypeName = "Point";
+const WorldGeodeticSystem1984 = "EPSG:4326"; // See https://epsg.io/4326
 
 export function serialize<InputT, OutputT>(obj: InputT): OutputT {
   return walk(obj, (value) => {
@@ -14,7 +18,7 @@ export function deserialize<InputT, OutputT>(obj: InputT): OutputT {
   return walk(obj, (value) => {
     let result = deserializeSpecialNumbers(value);
     result = deserializeDates(result);
-    // TODO: GeoPoint
+    result = deserializeGeoPoint(result);
     return result;
   });
 }
@@ -88,4 +92,121 @@ function deserializeDates(input: unknown): Date | unknown {
     }
   }
   return input;
+}
+
+function deserializeGeoPoint(input: unknown): GeographyPoint | unknown {
+  if (isGeoJSONPoint(input)) {
+    return new GeographyPoint(input.coordinates[0], input.coordinates[1]);
+  }
+
+  return input;
+}
+
+interface GeoJSONPoint {
+  type: "Point";
+  coordinates: [number, number];
+  crs: {
+    type: "name";
+    properties: {
+      name: "EPSG:4326";
+    };
+  };
+}
+
+function isGeoJSONPoint(obj: any): obj is GeoJSONPoint {
+  const requiredKeys = ["type", "coordinates"];
+  return isValidObject(obj, {
+    requiredKeys,
+    propertyValidator: (key) => {
+      switch (key) {
+        case "type":
+          return obj.type === GeoJSONPointTypeName;
+          break;
+        case "coordinates":
+          return isCoordinateArray(obj.coordinates);
+          break;
+        case "crs":
+          return isCrs(obj.crs);
+          break;
+        default:
+          return false;
+      }
+    }
+  });
+}
+
+function isCoordinateArray(maybeCoordinates: any): boolean {
+  if (!Array.isArray(maybeCoordinates)) {
+    return false;
+  }
+  if (maybeCoordinates.length !== 2) {
+    return false;
+  }
+  if (typeof maybeCoordinates[0] !== "number" || typeof maybeCoordinates[1] !== "number") {
+    return false;
+  }
+  return true;
+}
+
+function isCrs(maybeCrs: any): boolean {
+  return isValidObject(maybeCrs, {
+    requiredKeys: ["type", "properties"],
+    propertyValidator: (key) => {
+      switch (key) {
+        case "type":
+          return maybeCrs.type === "name";
+          break;
+        case "properties":
+          return isCrsProperties(maybeCrs.properties);
+          break;
+        default:
+          return false;
+      }
+    }
+  });
+}
+
+function isCrsProperties(maybeProperties: any): boolean {
+  return isValidObject(maybeProperties, {
+    requiredKeys: ["name"],
+    propertyValidator: (key) => {
+      if (key === "name") {
+        return maybeProperties.name === WorldGeodeticSystem1984;
+      } else {
+        return false;
+      }
+    }
+  });
+}
+
+function isValidObject(
+  obj: any,
+  options: {
+    requiredKeys?: string[];
+    propertyValidator?: (keyName: string) => boolean;
+  } = {}
+): boolean {
+  if (typeof obj !== "object" || obj === null) {
+    return false;
+  }
+
+  const keys = Object.keys(obj);
+
+  if (options.requiredKeys) {
+    for (const requiredKey of options.requiredKeys) {
+      if (!keys.includes(requiredKey)) {
+        return false;
+      }
+    }
+  }
+
+  if (options.propertyValidator) {
+    for (const key of keys) {
+      if (!options.propertyValidator(key)) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
