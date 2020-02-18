@@ -18,16 +18,17 @@ import {
   AutocompleteResult,
   AutocompleteRequest,
   SearchRequest,
-  DocumentsSearchPostResponse,
-  SearchResult,
-  SearchDocumentsResult,
+  SearchResult as RawSearchResult,
+  SearchDocumentsResult as RawSearchDocumentsResult,
   SuggestRequest,
   IndexAction,
   IndexDocumentsResult,
-  SuggestResult
+  SuggestResult,
+  SuggestDocumentsResult as RawSuggestDocumentsResult
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
+import { KnownKeys, ReplaceProperties } from "./util";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -37,8 +38,24 @@ export type CountOptions = OperationOptions;
 export type AutocompleteOptions = OperationOptions &
   Omit<AutocompleteRequest, "searchText" | "suggesterName">;
 export type SearchOptions = OperationOptions & Omit<SearchRequest, "searchText">;
+
+export type SearchResult<T> = Pick<RawSearchResult, KnownKeys<RawSearchResult>> & T;
+
+export type SearchDocumentsResult<T> = ReplaceProperties<
+  RawSearchDocumentsResult,
+  { readonly results?: RawSearchResult[] },
+  { readonly results?: Array<SearchResult<T>> }
+>;
+
 export type SuggestOptions = OperationOptions &
   Omit<SuggestRequest, "searchText" | "suggesterName">;
+
+export type SuggestDocumentsResult<T> = ReplaceProperties<
+  RawSuggestDocumentsResult,
+  { readonly results?: SuggestResult[] },
+  { readonly results?: Array<Pick<SuggestResult, KnownKeys<SuggestResult>> & T> }
+>;
+
 export interface GetDocumentOptions extends OperationOptions {
   /**
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
@@ -209,10 +226,10 @@ export class SearchIndexClient {
     }
   }
 
-  private async search(
+  private async search<T>(
     searchText: string,
     options: SearchOptions = {}
-  ): Promise<DocumentsSearchPostResponse> {
+  ): Promise<SearchDocumentsResult<T>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const fullOptions: SearchRequest = {
       searchText,
@@ -222,10 +239,10 @@ export class SearchIndexClient {
     const { span, updatedOptions } = createSpan("SearchIndexClient-search", operationOptions);
 
     try {
-      const result = await this.client.documents.searchPost(
+      const result: SearchDocumentsResult<T> = (await this.client.documents.searchPost(
         fullOptions,
         operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      )) as any;
       return result;
     } catch (e) {
       span.setStatus({
@@ -238,12 +255,12 @@ export class SearchIndexClient {
     }
   }
 
-  private async *listSearchResultsPage(
+  private async *listSearchResultsPage<T>(
     searchText: string,
     options: SearchOptions = {},
     settings: ListSearchResultsPageSettings = {}
-  ): AsyncIterableIterator<SearchDocumentsResult> {
-    let result = await this.search(searchText, {
+  ): AsyncIterableIterator<SearchDocumentsResult<T>> {
+    let result = await this.search<T>(searchText, {
       ...options,
       ...settings.nextPageParameters
     });
@@ -261,25 +278,25 @@ export class SearchIndexClient {
     }
   }
 
-  public async *listSearchResultsAll(
+  public async *listSearchResultsAll<T>(
     searchText: string,
     options: SearchOptions = {}
-  ): AsyncIterableIterator<SearchResult> {
+  ): AsyncIterableIterator<SearchResult<T>> {
     for await (const page of this.listSearchResultsPage(searchText, options)) {
-      const results = page.results || [];
+      const results: Array<SearchResult<T>> = (page.results as any) || [];
       yield* results;
     }
   }
 
-  public listSearchResults(
+  public listSearchResults<T>(
     searchText: string,
     options: SearchOptions = {}
   ): PagedAsyncIterableIterator<
-    SearchResult,
-    SearchDocumentsResult,
+    SearchResult<T>,
+    SearchDocumentsResult<T>,
     ListSearchResultsPageSettings
   > {
-    const iter = this.listSearchResultsAll(searchText, options);
+    const iter = this.listSearchResultsAll<T>(searchText, options);
 
     return {
       next() {
@@ -289,15 +306,15 @@ export class SearchIndexClient {
         return this;
       },
       byPage: (settings: ListSearchResultsPageSettings = {}) =>
-        this.listSearchResultsPage(searchText, options, settings)
+        this.listSearchResultsPage<T>(searchText, options, settings)
     };
   }
 
-  public async suggest(
+  public async suggest<T>(
     suggesterName: string,
     searchText: string,
     options: SuggestOptions = {}
-  ): Promise<SuggestResult> {
+  ): Promise<SuggestDocumentsResult<T>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const fullOptions: SuggestRequest = {
       suggesterName,
@@ -307,10 +324,10 @@ export class SearchIndexClient {
     const { span, updatedOptions } = createSpan("SearchIndexClient-suggest", operationOptions);
 
     try {
-      const result = await this.client.documents.suggestPost(
+      const result: SuggestDocumentsResult<T> = (await this.client.documents.suggestPost(
         fullOptions,
         operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      )) as any;
       return result;
     } catch (e) {
       span.setStatus({

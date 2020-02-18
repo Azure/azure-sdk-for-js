@@ -13,6 +13,7 @@ export {
   SuggestOptions
 } from "./searchIndexClient";
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";
+export { default as GeographyPoint } from "./geographyPoint";
 export {
   AutocompleteRequest,
   AutocompleteResult,
