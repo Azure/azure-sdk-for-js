@@ -1,5 +1,9 @@
 # Release History
 
+## 4.0.1 (Unreleased)
+
+- Added `KeyVaultCertificatesIdentifier` and `ParsedKeyVaultCertificatesIdentifier` to help with parsing the unique identifiers of KeyVault Keys.
+
 ## 4.0.0 (2020-01-07)
 
 This release marks the general availability of the `@azure/keyvault-certificates` package.
