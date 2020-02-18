@@ -20,7 +20,8 @@ import {
   GetCustomModelsResponse,
   Model,
   GetAnalyzeReceiptResultResponse,
-  GetAnalyzeLayoutResultResponse
+  GetAnalyzeLayoutResultResponse,
+  GetAnalyzeFormResultResponse
 } from "./generated/models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
@@ -60,7 +61,9 @@ export type DeleteModelOptions = FormRecognizerOperationOptions;
 /**
  * Options for the get model operation.
  */
-export type GetModelOptions = FormRecognizerOperationOptions;
+export type GetModelOptions = FormRecognizerOperationOptions & {
+  includeKeys?: boolean;
+};
 
 export type TrainCustomModelOptions = FormRecognizerOperationOptions & {
   prefix?: string;
@@ -72,6 +75,10 @@ export type AnalyzeReceiptOptions = FormRecognizerOperationOptions & {
 };
 
 export type AnalyzeLayoutOptions = FormRecognizerOperationOptions & {};
+
+export type AnalyzeCustomFormOptions = FormRecognizerOperationOptions &  & {
+  includeTextDetails?: boolean;
+};
 
 /**
  * Options for the start training operation.
@@ -93,6 +100,8 @@ export type StartTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
 export type GetAnalyzeReceiptResultOptions = FormRecognizerOperationOptions;
 
 export type GetAnalyzeLayoutResultOptions = FormRecognizerOperationOptions;
+
+export type GetAnalyzeCustomFormOptions = FormRecognizerOperationOptions;
 
 /**
  * Client class for interacting with Azure Form Recognizer.
@@ -304,7 +313,7 @@ export class CustomRecognizerClient {
 
       let analyzeResult: GetAnalyzeReceiptResultResponse;
       do {
-        analyzeResult = await this.getAnalyzeReceiptResult(resultId, {
+        analyzeResult = await this.client.getAnalyzeReceiptResult(resultId, {
           abortSignal: finalOptions.abortSignal
         });
         if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
@@ -370,7 +379,7 @@ export class CustomRecognizerClient {
 
       let analyzeResult: GetAnalyzeLayoutResultResponse;
       do {
-        analyzeResult = await this.getAnalyzeLayoutResult(resultId, {
+        analyzeResult = await this.client.getAnalyzeLayoutResult(resultId, {
           abortSignal: finalOptions.abortSignal
         });
         if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
@@ -399,6 +408,72 @@ export class CustomRecognizerClient {
 
     try {
       const result = await this.client.getAnalyzeLayoutResult(resultId, finalOptions);
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async analyzeCustomForm(
+    modelId: string,
+    body: HttpRequestBody,
+    contentType: string,
+    options: AnalyzeCustomFormOptions) {
+    const realOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-analyzeCustomForm",
+      realOptions
+    );
+    const customHeaders: { [key: string]: string } =
+      finalOptions.requestOptions?.customHeaders || {};
+    customHeaders["Content-Type"] = contentType;
+    try {
+      const result = await this.client.analyzeWithCustomModel(modelId, {
+        ...finalOptions,
+        body,
+        customHeaders
+      });
+      const lastSlashIndex = result.operationLocation.lastIndexOf("/");
+      const resultId = result.operationLocation.substring(lastSlashIndex + 1);
+
+      let analyzeResult: GetAnalyzeFormResultResponse;
+      do {
+        analyzeResult = await this.client.getAnalyzeFormResult(modelId, resultId, {
+          abortSignal: finalOptions.abortSignal
+        });
+        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
+          delay(2000); // TODO: internal polling or LRO
+        }
+      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
+
+      return analyzeResult;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+
+  }
+
+  public async getAnalyzeCustomFormResult(modelId: string, resultId: string, options?: GetAnalyzeCustomFormOptions) {
+    const realOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-getAnalyzeCustomFormResult",
+      realOptions
+    );
+
+    try {
+      const result = await this.client.getAnalyzeFormResult(modelId, resultId, finalOptions);
       return result;
     } catch (e) {
       span.setStatus({

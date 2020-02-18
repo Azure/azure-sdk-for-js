@@ -25,6 +25,11 @@ export class CognitiveKeyCredential implements ServiceClientCredentials {
 export class CustomRecognizerClient {
     // Warning: (ae-forgotten-export) The symbol "FormRecognizerClientOptions" needs to be exported by the entry point index.d.ts
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions_2);
+    // Warning: (ae-forgotten-export) The symbol "AnalyzeCustomFormOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeFormResultResponse" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    analyzeCustomForm(modelId: string, body: HttpRequestBody, contentType: string, options: AnalyzeCustomFormOptions): Promise<GetAnalyzeFormResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "AnalyzeLayoutOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "GetAnalyzeLayoutResultResponse" needs to be exported by the entry point index.d.ts
     //
@@ -40,6 +45,10 @@ export class CustomRecognizerClient {
     // (undocumented)
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<import("@azure/core-http").RestResponse>;
     readonly endpointUrl: string;
+    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeCustomFormOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getAnalyzeCustomFormResult(modelId: string, resultId: string, options?: GetAnalyzeCustomFormOptions): Promise<GetAnalyzeFormResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "GetAnalyzeLayoutResultOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
