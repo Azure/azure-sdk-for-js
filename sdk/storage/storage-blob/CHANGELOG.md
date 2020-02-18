@@ -2,7 +2,7 @@
 
 ## 12.1.1 (Unreleased)
 
-- Bug fix - Blob SAS's `sr` field is now properly set when generating SAS for a blob using a stored policy with `signedpermissions`.
+- Bug fix - Blob SAS's `sr` field is now properly set when generating SAS for a blob using a stored policy with `signedpermissions`. For more details about Service SAS, please refer to [link](https://docs.microsoft.com/en-us/rest/api/storageservices/create-service-sas).
 
 ## 12.1.0 (2020.02)
 
