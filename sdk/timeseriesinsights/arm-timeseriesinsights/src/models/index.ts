@@ -105,19 +105,59 @@ export interface ResourceProperties {
 }
 
 /**
- * The sku determines the capacity of the environment, the SLA (in queries-per-minute and total
- * capacity), and the billing rate.
+ * The sku determines the type of environment, either standard (S1 or S2) or long-term (L1). For
+ * standard environments the sku determines the capacity of the environment, the ingress rate, and
+ * the billing rate.
  */
 export interface Sku {
   /**
-   * The name of this SKU. Possible values include: 'S1', 'S2'
+   * The name of this SKU. Possible values include: 'S1', 'S2', 'P1', 'L1'
    */
   name: SkuName;
   /**
-   * The capacity of the sku. This value can be changed to support scale out of environments after
-   * they have been created.
+   * The capacity of the sku. For standard environments, this value can be changed to support scale
+   * out of environments after they have been created.
    */
   capacity: number;
+}
+
+/**
+ * The storage configuration provides the connection details that allows the Time Series Insights
+ * service to connect to the customer storage account that is used to store the environment's data.
+ */
+export interface LongTermStorageConfigurationInput {
+  /**
+   * The name of the storage account that will hold the environment's long term data.
+   */
+  accountName: string;
+  /**
+   * The value of the management key that grants the Time Series Insights service write access to
+   * the storage account. This property is not shown in environment responses.
+   */
+  managementKey: string;
+}
+
+/**
+ * The storage configuration provides the non-secret connection details about the customer storage
+ * account that is used to store the environment's data.
+ */
+export interface LongTermStorageConfigurationOutput {
+  /**
+   * The name of the storage account that will hold the environment's long term data.
+   */
+  accountName: string;
+}
+
+/**
+ * The storage configuration provides the connection details that allows the Time Series Insights
+ * service to connect to the customer storage account that is used to store the environment's data.
+ */
+export interface LongTermStorageConfigurationMutableProperties {
+  /**
+   * The value of the management key that grants the Time Series Insights service write access to
+   * the storage account. This property is not shown in environment responses.
+   */
+  managementKey: string;
 }
 
 /**
@@ -135,10 +175,39 @@ export interface CreateOrUpdateTrackedResourceProperties {
 }
 
 /**
- * The structure of the property that a partition key can have. An environment can have multiple
+ * Contains the possible cases for EnvironmentCreateOrUpdateParameters.
+ */
+export type EnvironmentCreateOrUpdateParametersUnion = EnvironmentCreateOrUpdateParameters | StandardEnvironmentCreateOrUpdateParameters | LongTermEnvironmentCreateOrUpdateParameters;
+
+/**
+ * Parameters supplied to the CreateOrUpdate Environment operation.
+ */
+export interface EnvironmentCreateOrUpdateParameters {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "EnvironmentCreateOrUpdateParameters";
+  /**
+   * The location of the resource.
+   */
+  location: string;
+  /**
+   * Key-value pairs of additional properties for the resource.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The sku determines the type of environment, either standard (S1 or S2) or long-term (L1). For
+   * standard environments the sku determines the capacity of the environment, the ingress rate,
+   * and the billing rate.
+   */
+  sku: Sku;
+}
+
+/**
+ * The structure of the property that a time series id can have. An environment can have multiple
  * such properties.
  */
-export interface PartitionKeyProperty {
+export interface TimeSeriesIdProperty {
   /**
    * The name of the property.
    */
@@ -150,12 +219,25 @@ export interface PartitionKeyProperty {
 }
 
 /**
- * Parameters supplied to the CreateOrUpdate Environment operation.
+ * Parameters supplied to the Create or Update Environment operation for a standard environment.
  */
-export interface EnvironmentCreateOrUpdateParameters extends CreateOrUpdateTrackedResourceProperties {
+export interface StandardEnvironmentCreateOrUpdateParameters {
   /**
-   * The sku determines the capacity of the environment, the SLA (in queries-per-minute and total
-   * capacity), and the billing rate.
+   * Polymorphic Discriminator
+   */
+  kind: "Standard";
+  /**
+   * The location of the resource.
+   */
+  location: string;
+  /**
+   * Key-value pairs of additional properties for the resource.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The sku determines the type of environment, either standard (S1 or S2) or long-term (L1). For
+   * standard environments the sku determines the capacity of the environment, the ingress rate,
+   * and the billing rate.
    */
   sku: Sku;
   /**
@@ -172,9 +254,48 @@ export interface EnvironmentCreateOrUpdateParameters extends CreateOrUpdateTrack
    */
   storageLimitExceededBehavior?: StorageLimitExceededBehavior;
   /**
-   * The list of partition keys according to which the data in the environment will be ordered.
+   * The list of event properties which will be used to partition data in the environment.
    */
-  partitionKeyProperties?: PartitionKeyProperty[];
+  partitionKeyProperties?: TimeSeriesIdProperty[];
+}
+
+/**
+ * Parameters supplied to the Create or Update Environment operation for a long-term environment.
+ */
+export interface LongTermEnvironmentCreateOrUpdateParameters {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "LongTerm";
+  /**
+   * The location of the resource.
+   */
+  location: string;
+  /**
+   * Key-value pairs of additional properties for the resource.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The sku determines the type of environment, either standard (S1 or S2) or long-term (L1). For
+   * standard environments the sku determines the capacity of the environment, the ingress rate,
+   * and the billing rate.
+   */
+  sku: Sku;
+  /**
+   * The list of event properties which will be used to define the environment's time series id.
+   */
+  timeSeriesIdProperties: TimeSeriesIdProperty[];
+  /**
+   * The storage configuration provides the connection details that allows the Time Series Insights
+   * service to connect to the customer storage account that is used to store the environment's
+   * data.
+   */
+  storageConfiguration: LongTermStorageConfigurationInput;
+  /**
+   * ISO8601 timespan specifying the number of days the environment's events will be available for
+   * query from the warm store.
+   */
+  dataRetention: string;
 }
 
 /**
@@ -182,13 +303,19 @@ export interface EnvironmentCreateOrUpdateParameters extends CreateOrUpdateTrack
  */
 export interface EnvironmentUpdateParameters {
   /**
-   * The sku of the environment.
-   */
-  sku?: Sku;
-  /**
    * Key-value pairs of additional properties for the environment.
    */
   tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Parameters supplied to the Update Environment operation to update a standard environment.
+ */
+export interface StandardEnvironmentUpdateParameters extends EnvironmentUpdateParameters {
+  /**
+   * The sku of the environment.
+   */
+  sku?: Sku;
   /**
    * ISO8601 timespan specifying the minimum number of days the environment's events will be
    * available for query.
@@ -205,7 +332,79 @@ export interface EnvironmentUpdateParameters {
   /**
    * The list of event properties which will be used to partition data in the environment.
    */
-  partitionKeyProperties?: PartitionKeyProperty[];
+  partitionKeyProperties?: TimeSeriesIdProperty[];
+}
+
+/**
+ * Parameters supplied to the Update Environment operation to update a long-term environment.
+ */
+export interface LongTermEnvironmentUpdateParameters extends EnvironmentUpdateParameters {
+  /**
+   * The storage configuration provides the connection details that allows the Time Series Insights
+   * service to connect to the customer storage account that is used to store the environment's
+   * data.
+   */
+  storageConfiguration?: LongTermStorageConfigurationMutableProperties;
+  /**
+   * ISO8601 timespan specifying the number of days the environment's events will be available for
+   * query from the warm store.
+   */
+  dataRetention: string;
+}
+
+/**
+ * Contains the possible cases for EnvironmentResource.
+ */
+export type EnvironmentResourceUnion = EnvironmentResource | StandardEnvironmentResource | LongTermEnvironmentResource;
+
+/**
+ * An environment is a set of time-series data available for query, and is the top level Azure Time
+ * Series Insights resource.
+ */
+export interface EnvironmentResource {
+  /**
+   * Polymorphic Discriminator
+   */
+  kind: "EnvironmentResource";
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location
+   */
+  location: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The sku determines the type of environment, either standard (S1 or S2) or long-term (L1). For
+   * standard environments the sku determines the capacity of the environment, the ingress rate,
+   * and the billing rate.
+   */
+  sku: Sku;
+}
+
+/**
+ * The response of the List Environments operation.
+ */
+export interface EnvironmentListResponse {
+  /**
+   * Result of the List Environments operation.
+   */
+  value?: EnvironmentResourceUnion[];
 }
 
 /**
@@ -240,6 +439,27 @@ export interface IngressEnvironmentStatus {
 }
 
 /**
+ * An object that represents the status of warm storage on an environment.
+ */
+export interface WarmStorageEnvironmentStatus {
+  /**
+   * This string represents the state of warm storage properties usage. It can be "Ok", "Error",
+   * "Unknown". Possible values include: 'Ok', 'Error', 'Unknown'
+   */
+  state?: WarmStoragePropertiesState;
+  /**
+   * A value that represents the number of properties used by the environment for S1/S2 SKU and
+   * number of properties used by Warm Store for PAYG SKU
+   */
+  currentCount?: number;
+  /**
+   * A value that represents the maximum number of properties used allowed by the environment for
+   * S1/S2 SKU and maximum number of properties allowed by Warm Store for PAYG SKU.
+   */
+  maxCount?: number;
+}
+
+/**
  * An object that represents the status of the environment, and its internal state in the Time
  * Series Insights service.
  */
@@ -248,18 +468,50 @@ export interface EnvironmentStatus {
    * An object that represents the status of ingress on an environment.
    */
   ingress?: IngressEnvironmentStatus;
+  /**
+   * An object that represents the status of warm storage on an environment.
+   */
+  warmStorage?: WarmStorageEnvironmentStatus;
 }
 
 /**
  * An environment is a set of time-series data available for query, and is the top level Azure Time
- * Series Insights resource.
+ * Series Insights resource. Standard environments have data retention limits.
  */
-export interface EnvironmentResource extends TrackedResource {
+export interface StandardEnvironmentResource {
   /**
-   * The sku determines the capacity of the environment, the SLA (in queries-per-minute and total
-   * capacity), and the billing rate.
+   * Polymorphic Discriminator
    */
-  sku?: Sku;
+  kind: "Standard";
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location
+   */
+  location: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The sku determines the type of environment, either standard (S1 or S2) or long-term (L1). For
+   * standard environments the sku determines the capacity of the environment, the ingress rate,
+   * and the billing rate.
+   */
+  sku: Sku;
   /**
    * ISO8601 timespan specifying the minimum number of days the environment's events will be
    * available for query.
@@ -274,19 +526,9 @@ export interface EnvironmentResource extends TrackedResource {
    */
   storageLimitExceededBehavior?: StorageLimitExceededBehavior;
   /**
-   * The list of partition keys according to which the data in the environment will be ordered.
+   * The list of event properties which will be used to partition data in the environment.
    */
-  partitionKeyProperties?: PartitionKeyProperty[];
-  /**
-   * Provisioning state of the resource. Possible values include: 'Accepted', 'Creating',
-   * 'Updating', 'Succeeded', 'Failed', 'Deleting'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * The time the resource was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationTime?: Date;
+  partitionKeyProperties?: TimeSeriesIdProperty[];
   /**
    * An id used to access the environment data, e.g. to query the environment's events or upload
    * reference data for the environment.
@@ -304,16 +546,121 @@ export interface EnvironmentResource extends TrackedResource {
    * Series Insights service.
    */
   status?: EnvironmentStatus;
+  /**
+   * Provisioning state of the resource. Possible values include: 'Accepted', 'Creating',
+   * 'Updating', 'Succeeded', 'Failed', 'Deleting'
+   */
+  provisioningState?: ProvisioningState;
+  /**
+   * The time the resource was created.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creationTime?: Date;
 }
 
 /**
- * The response of the List Environments operation.
+ * An environment is a set of time-series data available for query, and is the top level Azure Time
+ * Series Insights resource. LongTerm environments do not have set data retention limits.
  */
-export interface EnvironmentListResponse {
+export interface LongTermEnvironmentResource {
   /**
-   * Result of the List Environments operation.
+   * Polymorphic Discriminator
    */
-  value?: EnvironmentResource[];
+  kind: "LongTerm";
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location
+   */
+  location: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The sku determines the type of environment, either standard (S1 or S2) or long-term (L1). For
+   * standard environments the sku determines the capacity of the environment, the ingress rate,
+   * and the billing rate.
+   */
+  sku: Sku;
+  /**
+   * An id used to access the environment data, e.g. to query the environment's events or upload
+   * reference data for the environment.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataAccessId?: string;
+  /**
+   * The fully qualified domain name used to access the environment data, e.g. to query the
+   * environment's events or upload reference data for the environment.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataAccessFqdn?: string;
+  /**
+   * An object that represents the status of the environment, and its internal state in the Time
+   * Series Insights service.
+   */
+  status?: EnvironmentStatus;
+  /**
+   * Provisioning state of the resource. Possible values include: 'Accepted', 'Creating',
+   * 'Updating', 'Succeeded', 'Failed', 'Deleting'
+   */
+  provisioningState?: ProvisioningState;
+  /**
+   * The time the resource was created.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creationTime?: Date;
+  /**
+   * The list of event properties which will be used to define the environment's time series id.
+   */
+  timeSeriesIdProperties: TimeSeriesIdProperty[];
+  /**
+   * The storage configuration provides the connection details that allows the Time Series Insights
+   * service to connect to the customer storage account that is used to store the environment's
+   * data.
+   */
+  storageConfiguration: LongTermStorageConfigurationOutput;
+  /**
+   * ISO8601 timespan specifying the number of days the environment's events will be available for
+   * query from the warm store.
+   */
+  dataRetention: string;
+}
+
+/**
+ * Properties of the environment.
+ */
+export interface EnvironmentResourceProperties extends ResourceProperties {
+  /**
+   * An id used to access the environment data, e.g. to query the environment's events or upload
+   * reference data for the environment.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataAccessId?: string;
+  /**
+   * The fully qualified domain name used to access the environment data, e.g. to query the
+   * environment's events or upload reference data for the environment.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataAccessFqdn?: string;
+  /**
+   * An object that represents the status of the environment, and its internal state in the Time
+   * Series Insights service.
+   */
+  status?: EnvironmentStatus;
 }
 
 /**
@@ -1013,11 +1360,11 @@ export type ProvisioningState = 'Accepted' | 'Creating' | 'Updating' | 'Succeede
 
 /**
  * Defines values for SkuName.
- * Possible values include: 'S1', 'S2'
+ * Possible values include: 'S1', 'S2', 'P1', 'L1'
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'S1' | 'S2';
+export type SkuName = 'S1' | 'S2' | 'P1' | 'L1';
 
 /**
  * Defines values for StorageLimitExceededBehavior.
@@ -1042,6 +1389,14 @@ export type PropertyType = 'String';
  * @enum {string}
  */
 export type IngressState = 'Disabled' | 'Ready' | 'Running' | 'Paused' | 'Unknown';
+
+/**
+ * Defines values for WarmStoragePropertiesState.
+ * Possible values include: 'Ok', 'Error', 'Unknown'
+ * @readonly
+ * @enum {string}
+ */
+export type WarmStoragePropertiesState = 'Ok' | 'Error' | 'Unknown';
 
 /**
  * Defines values for LocalTimestampFormat.
@@ -1118,7 +1473,7 @@ export type OperationsListNextResponse = OperationListResult & {
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type EnvironmentsCreateOrUpdateResponse = EnvironmentResource & {
+export type EnvironmentsCreateOrUpdateResponse = EnvironmentResourceUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1131,14 +1486,14 @@ export type EnvironmentsCreateOrUpdateResponse = EnvironmentResource & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EnvironmentResource;
+      parsedBody: EnvironmentResourceUnion;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type EnvironmentsGetResponse = EnvironmentResource & {
+export type EnvironmentsGetResponse = EnvironmentResourceUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1151,14 +1506,14 @@ export type EnvironmentsGetResponse = EnvironmentResource & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EnvironmentResource;
+      parsedBody: EnvironmentResourceUnion;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type EnvironmentsUpdateResponse = EnvironmentResource & {
+export type EnvironmentsUpdateResponse = EnvironmentResourceUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1171,7 +1526,7 @@ export type EnvironmentsUpdateResponse = EnvironmentResource & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EnvironmentResource;
+      parsedBody: EnvironmentResourceUnion;
     };
 };
 
@@ -1218,7 +1573,7 @@ export type EnvironmentsListBySubscriptionResponse = EnvironmentListResponse & {
 /**
  * Contains response data for the beginCreateOrUpdate operation.
  */
-export type EnvironmentsBeginCreateOrUpdateResponse = EnvironmentResource & {
+export type EnvironmentsBeginCreateOrUpdateResponse = EnvironmentResourceUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1231,14 +1586,14 @@ export type EnvironmentsBeginCreateOrUpdateResponse = EnvironmentResource & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EnvironmentResource;
+      parsedBody: EnvironmentResourceUnion;
     };
 };
 
 /**
  * Contains response data for the beginUpdate operation.
  */
-export type EnvironmentsBeginUpdateResponse = EnvironmentResource & {
+export type EnvironmentsBeginUpdateResponse = EnvironmentResourceUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1251,7 +1606,7 @@ export type EnvironmentsBeginUpdateResponse = EnvironmentResource & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: EnvironmentResource;
+      parsedBody: EnvironmentResourceUnion;
     };
 };
 

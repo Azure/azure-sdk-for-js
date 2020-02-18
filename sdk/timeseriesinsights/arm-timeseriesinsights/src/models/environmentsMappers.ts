@@ -25,11 +25,21 @@ export {
   IngressEnvironmentStatus,
   IoTHubEventSourceCreateOrUpdateParameters,
   IoTHubEventSourceResource,
-  PartitionKeyProperty,
+  LongTermEnvironmentCreateOrUpdateParameters,
+  LongTermEnvironmentResource,
+  LongTermEnvironmentUpdateParameters,
+  LongTermStorageConfigurationInput,
+  LongTermStorageConfigurationMutableProperties,
+  LongTermStorageConfigurationOutput,
   ReferenceDataSetCreateOrUpdateParameters,
   ReferenceDataSetKeyProperty,
   ReferenceDataSetResource,
   Resource,
   Sku,
-  TrackedResource
+  StandardEnvironmentCreateOrUpdateParameters,
+  StandardEnvironmentResource,
+  StandardEnvironmentUpdateParameters,
+  TimeSeriesIdProperty,
+  TrackedResource,
+  WarmStorageEnvironmentStatus
 } from "../models/mappers";

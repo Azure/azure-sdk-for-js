@@ -35,7 +35,7 @@ export class Environments {
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, environmentName: string, parameters: Models.EnvironmentCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, environmentName: string, parameters: Models.EnvironmentCreateOrUpdateParametersUnion, options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,environmentName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.EnvironmentsCreateOrUpdateResponse>;
   }
@@ -55,7 +55,7 @@ export class Environments {
    * specified resource group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, environmentName: string, callback: msRest.ServiceCallback<Models.EnvironmentResource>): void;
+  get(resourceGroupName: string, environmentName: string, callback: msRest.ServiceCallback<Models.EnvironmentResourceUnion>): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
@@ -63,8 +63,8 @@ export class Environments {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, environmentName: string, options: Models.EnvironmentsGetOptionalParams, callback: msRest.ServiceCallback<Models.EnvironmentResource>): void;
-  get(resourceGroupName: string, environmentName: string, options?: Models.EnvironmentsGetOptionalParams | msRest.ServiceCallback<Models.EnvironmentResource>, callback?: msRest.ServiceCallback<Models.EnvironmentResource>): Promise<Models.EnvironmentsGetResponse> {
+  get(resourceGroupName: string, environmentName: string, options: Models.EnvironmentsGetOptionalParams, callback: msRest.ServiceCallback<Models.EnvironmentResourceUnion>): void;
+  get(resourceGroupName: string, environmentName: string, options?: Models.EnvironmentsGetOptionalParams | msRest.ServiceCallback<Models.EnvironmentResourceUnion>, callback?: msRest.ServiceCallback<Models.EnvironmentResourceUnion>): Promise<Models.EnvironmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -81,13 +81,13 @@ export class Environments {
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
    * specified resource group.
-   * @param environmentUpdateParameters Request object that contains the updated information for the
-   * environment.
+   * @param standardEnvironmentUpdateParameters Request object that contains the updated information
+   * for the environment.
    * @param [options] The optional parameters
    * @returns Promise<Models.EnvironmentsUpdateResponse>
    */
-  update(resourceGroupName: string, environmentName: string, environmentUpdateParameters: Models.EnvironmentUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,environmentName,environmentUpdateParameters,options)
+  update(resourceGroupName: string, environmentName: string, standardEnvironmentUpdateParameters: Models.StandardEnvironmentUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.EnvironmentsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,environmentName,standardEnvironmentUpdateParameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.EnvironmentsUpdateResponse>;
   }
 
@@ -188,7 +188,7 @@ export class Environments {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, environmentName: string, parameters: Models.EnvironmentCreateOrUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, environmentName: string, parameters: Models.EnvironmentCreateOrUpdateParametersUnion, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -206,17 +206,17 @@ export class Environments {
    * @param resourceGroupName Name of an Azure Resource group.
    * @param environmentName The name of the Time Series Insights environment associated with the
    * specified resource group.
-   * @param environmentUpdateParameters Request object that contains the updated information for the
-   * environment.
+   * @param standardEnvironmentUpdateParameters Request object that contains the updated information
+   * for the environment.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, environmentName: string, environmentUpdateParameters: Models.EnvironmentUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, environmentName: string, standardEnvironmentUpdateParameters: Models.StandardEnvironmentUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         environmentName,
-        environmentUpdateParameters,
+        standardEnvironmentUpdateParameters,
         options
       },
       beginUpdateOperationSpec,
@@ -374,9 +374,9 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "environmentUpdateParameters",
+    parameterPath: "standardEnvironmentUpdateParameters",
     mapper: {
-      ...Mappers.EnvironmentUpdateParameters,
+      ...Mappers.StandardEnvironmentUpdateParameters,
       required: true
     }
   },

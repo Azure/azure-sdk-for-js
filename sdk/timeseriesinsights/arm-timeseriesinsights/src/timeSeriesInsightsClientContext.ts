@@ -44,7 +44,7 @@ export class TimeSeriesInsightsClientContext extends msRestAzure.AzureServiceCli
 
     super(credentials, options);
 
-    this.apiVersion = '2017-11-15';
+    this.apiVersion = '2018-08-15-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

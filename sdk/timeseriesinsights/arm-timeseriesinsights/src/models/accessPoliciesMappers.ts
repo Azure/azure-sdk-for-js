@@ -21,10 +21,14 @@ export {
   EventSourceResource,
   IngressEnvironmentStatus,
   IoTHubEventSourceResource,
-  PartitionKeyProperty,
+  LongTermEnvironmentResource,
+  LongTermStorageConfigurationOutput,
   ReferenceDataSetKeyProperty,
   ReferenceDataSetResource,
   Resource,
   Sku,
-  TrackedResource
+  StandardEnvironmentResource,
+  TimeSeriesIdProperty,
+  TrackedResource,
+  WarmStorageEnvironmentStatus
 } from "../models/mappers";
