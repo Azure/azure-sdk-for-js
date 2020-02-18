@@ -56,10 +56,6 @@ export class CustomRecognizerClient {
     //
     // (undocumented)
     startTraining(source: string, options?: StartTrainingOptions): Promise<PollerLike<PollOperationState<Model>, Model>>;
-    // Warning: (ae-forgotten-export) The symbol "TrainCustomModelOptions" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    trainCustomModelInternal(source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions): Promise<import("./generated/models").TrainCustomModelAsyncResponse>;
 }
 
 // @public

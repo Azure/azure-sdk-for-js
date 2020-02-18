@@ -249,42 +249,13 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async trainCustomModelInternal(source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions) {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-startTraining",
-      realOptions
-    );
-
-    try {
-      return await this.client.trainCustomModelAsync({
-        source: source,
-        sourceFilter: {
-          prefix: "",
-          includeSubFolders: false,
-          ...finalOptions
-        },
-        useLabelFile
-      }, finalOptions);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-
   public async startTraining(
     source:string,
     options: StartTrainingOptions = {}
   ): Promise<PollerLike<PollOperationState<Model>, Model>> {
     const trainPollerClient: TrainPollerClient = {
       getModel: (...args) => this.getModel(...args),
-      trainCustomModelInternal: (...args) => this.trainCustomModelInternal(...args)
+      trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions) => trainCustomModelInternal(this.client, source, useLabelFile, options)
     };
 
     const poller = new StartTrainingPoller({
@@ -360,3 +331,32 @@ export class CustomRecognizerClient {
     }
   }
 }
+
+export async function trainCustomModelInternal(client: GeneratedClient, source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions) {
+  const realOptions = options || {};
+  const { span, updatedOptions: finalOptions } = createSpan(
+    "trainCustomModelInternal",
+    realOptions
+  );
+
+  try {
+    return await client.trainCustomModelAsync({
+      source: source,
+      sourceFilter: {
+        prefix: "",
+        includeSubFolders: false,
+        ...finalOptions
+      },
+      useLabelFile
+    }, finalOptions);
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
+  }
+}
+
