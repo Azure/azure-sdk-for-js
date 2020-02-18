@@ -25,6 +25,11 @@ export class CognitiveKeyCredential implements ServiceClientCredentials {
 export class CustomRecognizerClient {
     // Warning: (ae-forgotten-export) The symbol "FormRecognizerClientOptions" needs to be exported by the entry point index.d.ts
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions_2);
+    // Warning: (ae-forgotten-export) The symbol "AnalyzeLayoutOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeLayoutResultResponse" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    analyzeLayout(body: HttpRequestBody, contentType: string, options?: AnalyzeLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "AnalyzeReceiptOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "GetAnalyzeReceiptResultResponse" needs to be exported by the entry point index.d.ts
     //
@@ -35,6 +40,10 @@ export class CustomRecognizerClient {
     // (undocumented)
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<import("@azure/core-http").RestResponse>;
     readonly endpointUrl: string;
+    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeLayoutResultOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getAnalyzeLayoutResult(resultId: string, options?: GetAnalyzeLayoutResultOptions): Promise<GetAnalyzeLayoutResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "GetAnalyzeReceiptResultOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)

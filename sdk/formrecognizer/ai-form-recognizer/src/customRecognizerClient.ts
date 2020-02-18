@@ -16,7 +16,7 @@ import {
 import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { GetCustomModelsResponse, Model, GetAnalyzeReceiptResultResponse } from "./generated/models";
+import { GetCustomModelsResponse, Model, GetAnalyzeReceiptResultResponse, GetAnalyzeLayoutResultResponse } from "./generated/models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -66,6 +66,10 @@ export type AnalyzeReceiptOptions = FormRecognizerOperationOptions & {
   includeTextDetails?: boolean;
 }
 
+export type AnalyzeLayoutOptions = FormRecognizerOperationOptions & {
+
+}
+
 /**
  * Options for the start training operation.
  */
@@ -84,6 +88,8 @@ export type StartTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
 }
 
 export type GetAnalyzeReceiptResultOptions = FormRecognizerOperationOptions;
+
+export type GetAnalyzeLayoutResultOptions = FormRecognizerOperationOptions;
 
 /**
  * Client class for interacting with Azure Form Recognizer.
@@ -292,7 +298,7 @@ export class CustomRecognizerClient {
 
       let analyzeResult: GetAnalyzeReceiptResultResponse;
       do {
-        analyzeResult = await this.getAnalyzeReceiptResult(resultId);
+        analyzeResult = await this.getAnalyzeReceiptResult(resultId, { abortSignal: finalOptions.abortSignal });
         if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
           delay(2000); // TODO: internal polling or LRO
         }
@@ -330,6 +336,66 @@ export class CustomRecognizerClient {
       span.end();
     }
   }
+
+  public async analyzeLayout(body: HttpRequestBody, contentType: string, options?: AnalyzeLayoutOptions) {
+    const realOptions = options || { };
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-analyzeLayout",
+      realOptions
+    );
+
+    const customHeaders: { [key: string]: string } = finalOptions.requestOptions?.customHeaders || {};
+    customHeaders["Content-Type"] = contentType;
+    try {
+      const result = await this.client.analyzeLayoutAsync({
+        ...finalOptions,
+        body,
+        customHeaders
+      });
+      const lastSlashIndex = result.operationLocation.lastIndexOf("/");
+      const resultId = result.operationLocation.substring(lastSlashIndex + 1);
+
+      let analyzeResult: GetAnalyzeLayoutResultResponse;
+      do {
+        analyzeResult = await this.getAnalyzeLayoutResult(resultId, { abortSignal: finalOptions.abortSignal });
+        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
+          delay(2000); // TODO: internal polling or LRO
+        }
+      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
+
+      return analyzeResult;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getAnalyzeLayoutResult(resultId: string, options?: GetAnalyzeLayoutResultOptions) {
+    const realOptions = options || { };
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-getAnalyzeLayoutResult",
+      realOptions
+    );
+
+    try {
+      const result = await this.client.getAnalyzeLayoutResult(resultId, finalOptions);
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
 }
 
 export async function trainCustomModelInternal(client: GeneratedClient, source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions) {
