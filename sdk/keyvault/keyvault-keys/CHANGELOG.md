@@ -2,6 +2,8 @@
 
 ## 4.0.3 (Unreleased)
 
+- Added `KeyVaultKeysIdentifier` and `ParsedKeyVaultKeysIdentifier` to help with parsing the unique identifiers of KeyVault Keys.
+
 ## 4.0.2 (2019-12-03)
 
 - Updated dependencies to their latest available versions.

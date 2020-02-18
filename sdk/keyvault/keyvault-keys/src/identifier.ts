@@ -60,9 +60,10 @@ export class KeyVaultKeysIdentifier implements ParsedKeyVaultKeysIdentifier {
   public name: string;
 
   constructor(url: string) {
-    const coreParsedIdentifier = parseKeyvaultIdentifier("keys", url);
+    const collection = "keys";
+    const coreParsedIdentifier = parseKeyvaultIdentifier(collection, url);
 
-    this.collection = "keys";
+    this.collection = collection;
     this.id = url;
     this.vaultUrl = coreParsedIdentifier.vaultUrl;
     this.version = coreParsedIdentifier.version;
