@@ -40,42 +40,8 @@ To quickly create the needed Key Vault resources in Azure and to receive a conne
 
 [![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
 
-> Keep in mind that our KeyVault template is used by our automated test system to verify that our libraries are working correctly.
-> This template might create resources that you don't intend to create.
-
-To fill this form:
-
-1. We recommend you to take some time to check out our [Intro to Microsoft Azure Resource Manager Templates (Video)][ARMIntro],
-   so that you can read through the [ARM template we are using for this deploy button][KVARM].
-2. The **subscription, resource group and location are required fields**, they help specify where to create the resources.
-3. On the **Base Name** field, you'll see `[resourceGroup().name]`.
-   Remove the contents of this field and type any alphanumeric string.
-   This string will be used to generate unique names for the resources that will be created.
-4. To fill the **Tenant Id** field, copy it from the one available on the
-   [overview page of the Azure Active Directory section of the Azure portal][AADOverview].
-5. To fill the **Test Application Oid** field, you'll first need to create an Azure Active Directory application
-   (Read: [How to: Use the portal to create an Azure AD application and service principal that can access resources][HowToAADApp].
-   Once created, go to your application's overview page, and you'll see an "Object ID" property. This is the one that you want to copy and paste on the form.
-6. Finally, accept the terms and conditions, then click on the **Purchase** button.
-7. A badge will appear on the top right of the portal, indicating that the resource is being created.
-   You can go to your resource group's page,
-   then go to the **Deployments** section to see a history of all the deployments you've made.
-    - You'll see that those deployments that have used an ARM template will say in their names **Microsoft.Template**,
-      these are the ones that have been created from the Deploy Button.
-    - Once you click in one of them, you'll see at the left "Outputs" as one of the menu options.
-      If your deployment has succeeded, you will see the name of the KeyVault that was just created.
-8. To use the Azure Active Directory Application to authenticate, go to your Azure Active Directory,
-   then go to App Registrations, then to the application name of your choice,
-   then to "Certificates & secrets", and create (or copy) your application's secret.
-9. You can use the **Tenant ID**, the **Application Client ID** (also from your AAD Application's overview),
-   the **Application Client Secret** (from the Certificates & secrets page of your AAD application)
-   and the **KeyVault Name** generated from the build to set the environment variables needed to run the integration tests of this repository
-   (namely `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET` and `KEYVAULT_NAME`).
-
-[KVARM]: https://github.com/Azure/azure-sdk-for-js/blob/keyvault/deploy-button-guide/sdk/keyvault/test-resources.json
-[ARMIntro]: https://dev.to/azure/intro-to-microsoft-azure-resource-manager-templates-video-9cc
-[AADOverview]: https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview
-[HowToAADApp]: https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal
+Keep in mind that deploying these resources constitutes a purchase of Azure services that will be billed to your active account.
+To read more information about how this form works, and how to fill it, please read our [TEST_RESOURCES_README.md guide](../TEST_RESOURCES_README.md).
 
 ### Install the package
 
