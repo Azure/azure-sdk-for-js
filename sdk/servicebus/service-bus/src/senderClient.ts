@@ -1,3 +1,4 @@
+import Long from "long";
 import { Sender } from "./sender";
 import { ClientEntityContext } from "./clientEntityContext";
 import { ServiceBusClientOptions, ServiceBusClient } from "./serviceBusClient";

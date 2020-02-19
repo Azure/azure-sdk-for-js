@@ -1,3 +1,4 @@
+import Long from "long";
 import { Receiver, SessionReceiver } from "./receiver";
 import { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
 import { TokenCredential, OnMessage, OnError, MessageHandlerOptions } from ".";
