@@ -159,7 +159,7 @@ jobs:
         condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['RunCodeCoverage'], true))
         inputs:
           codeCoverageTool: Cobertura
-          summaryFileLocation: '$(Build.SourcesDirectory)/$(PackagePath)/coverage/cobertura-coverage.xml'
+          summaryFileLocation: '$(PackagePath)/coverage/cobertura-coverage.xml'
 
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish Code Coverage to DevOps'
@@ -167,7 +167,7 @@ jobs:
         condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['RunCodeCoverage'], true))
         inputs:
           codeCoverageTool: Cobertura
-          summaryFileLocation: '$(Build.SourcesDirectory)/$(PackagePath)/coverage-browser/cobertura-coverage.xml'
+          summaryFileLocation: '$(PackagePath)/coverage-browser/cobertura-coverage.xml'
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
