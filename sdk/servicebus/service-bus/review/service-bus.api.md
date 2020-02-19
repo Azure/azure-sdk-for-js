@@ -6,7 +6,6 @@
 
 import { AmqpMessage } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
-import { DefaultDataTransformer } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
@@ -51,8 +50,6 @@ export interface DeadLetterOptions {
     deadletterReason: string;
 }
 
-export { DefaultDataTransformer }
-
 export { delay }
 
 export { Delivery }
@@ -88,21 +85,6 @@ export interface OnError {
 // @public
 export interface OnMessage {
     (message: ServiceBusMessage): Promise<void>;
-}
-
-// Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
-//
-// @public
-export class QueueClient implements Client {
-    close(): Promise<void>;
-    createReceiver(receiveMode: ReceiveMode): Receiver;
-    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
-    createSender(): Sender;
-    readonly entityPath: string;
-    static getDeadLetterQueuePath(queueName: string): string;
-    readonly id: string;
-    peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
 }
 
 // @public
@@ -175,20 +157,6 @@ export enum ReceiveMode {
     receiveAndDelete = 2
 }
 
-// @public
-export class Receiver {
-    close(): Promise<void>;
-    getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
-    get isClosed(): boolean;
-    isReceivingMessages(): boolean;
-    receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
-    receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
-    get receiveMode(): ReceiveMode;
-    registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void;
-    renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;
-    }
-
 export { RetryOptions }
 
 // @public
@@ -234,35 +202,6 @@ export interface SendableMessageInfo {
     viaPartitionKey?: string;
 }
 
-// @public
-export class Sender {
-    cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
-    cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
-    close(): Promise<void>;
-    get isClosed(): boolean;
-    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
-    send(message: SendableMessageInfo): Promise<void>;
-    sendBatch(messages: SendableMessageInfo[]): Promise<void>;
-    }
-
-// @public
-export class ServiceBusClient {
-    constructor(connectionString: string, options?: ServiceBusClientOptions);
-    constructor(host: string, credential: TokenCredential, options?: ServiceBusClientOptions);
-    close(): Promise<any>;
-    createQueueClient(queueName: string): QueueClient;
-    createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient;
-    createTopicClient(topicName: string): TopicClient;
-    readonly name: string;
-}
-
-// @public
-export interface ServiceBusClientOptions {
-    dataTransformer?: DataTransformer;
-    webSocketOptions?: WebSocketOptions;
-}
-
 // Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -305,31 +244,137 @@ export class ServiceBusMessage implements ReceivedMessage {
     viaPartitionKey?: string;
 }
 
+// @public (undocumented)
+export class ServiceBusReceiverQueueClient {
+    // Warning: (ae-forgotten-export) The symbol "ServiceBusClientReceiverOptions" needs to be exported by the entry point index.d.ts
+    constructor(entityConnectionString: string, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions);
+    constructor(serviceBusConnectionString: string, entityName: string, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions);
+    constructor(host: string, entityName: string, receiveMode: ReceiveMode, credential: TokenCredential, options?: ServiceBusClientReceiverOptions);
+    // (undocumented)
+    close(): Promise<void>;
+    // (undocumented)
+    _entityPath: string;
+    static getDeadLetterQueuePath(queueName: string): string;
+    // (undocumented)
+    getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
+    // (undocumented)
+    getState(): Promise<any>;
+    // (undocumented)
+    get isClosed(): boolean;
+    // (undocumented)
+    isReceivingMessages(): boolean;
+    // (undocumented)
+    peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    // (undocumented)
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    // (undocumented)
+    receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
+    // (undocumented)
+    receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
+    // (undocumented)
+    receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
+    // (undocumented)
+    get receiveMode(): ReceiveMode;
+    // (undocumented)
+    _receiveMode: ReceiveMode;
+    // (undocumented)
+    registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void;
+    // (undocumented)
+    renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;
+    // (undocumented)
+    renewSessionLock(): Promise<Date>;
+    // (undocumented)
+    get sessionId(): string | undefined;
+    // (undocumented)
+    get sessionLockedUntilUtc(): Date | undefined;
+    // (undocumented)
+    setState(state: any): Promise<void>;
+}
+
+// @public (undocumented)
+export class ServiceBusReceiverSubscriptionClient {
+    // Warning: (ae-forgotten-export) The symbol "ServiceBusClientReceiverOptions" needs to be exported by the entry point index.d.ts
+    constructor(entityConnectionString: string, subscriptionName: string, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions_2);
+    constructor(serviceBusConnectionString: string, entityName: string, subscriptionName: string, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions_2);
+    constructor(host: string, entityName: string, subscriptionName: string, receiveMode: ReceiveMode, credential: TokenCredential, options?: ServiceBusClientReceiverOptions_2);
+    // (undocumented)
+    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
+    // (undocumented)
+    close(): Promise<void>;
+    // (undocumented)
+    readonly defaultRuleName: string;
+    // (undocumented)
+    _entityPath: string;
+    static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
+    // (undocumented)
+    getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
+    // (undocumented)
+    getRules(): Promise<RuleDescription[]>;
+    // (undocumented)
+    getState(): Promise<any>;
+    // (undocumented)
+    get isClosed(): boolean;
+    // (undocumented)
+    isReceivingMessages(): boolean;
+    // (undocumented)
+    peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    // (undocumented)
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    // (undocumented)
+    receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
+    // (undocumented)
+    receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
+    // (undocumented)
+    receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
+    // (undocumented)
+    get receiveMode(): ReceiveMode;
+    // (undocumented)
+    _receiveMode: ReceiveMode;
+    // (undocumented)
+    registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void;
+    // (undocumented)
+    removeRule(ruleName: string): Promise<void>;
+    // (undocumented)
+    renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;
+    // (undocumented)
+    renewSessionLock(): Promise<Date>;
+    // (undocumented)
+    get sessionId(): string | undefined;
+    // (undocumented)
+    get sessionLockedUntilUtc(): Date | undefined;
+    // (undocumented)
+    setState(state: any): Promise<void>;
+}
+
+// @public (undocumented)
+export class ServiceBusSenderClient {
+    // Warning: (ae-forgotten-export) The symbol "ServiceBusClientOptions" needs to be exported by the entry point index.d.ts
+    constructor(entityConnectionString: string, options?: ServiceBusClientOptions);
+    constructor(serviceBusConnectionString: string, entityName: string, options?: ServiceBusClientOptions);
+    constructor(host: string, entityName: string, credential: TokenCredential, options?: ServiceBusClientOptions);
+    // (undocumented)
+    cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
+    // (undocumented)
+    cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
+    // (undocumented)
+    close(): Promise<void>;
+    // (undocumented)
+    _entityPath: string;
+    // (undocumented)
+    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
+    // (undocumented)
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
+    // (undocumented)
+    send(message: SendableMessageInfo): Promise<void>;
+    // (undocumented)
+    sendBatch(messages: SendableMessageInfo[]): Promise<void>;
+}
+
 // @public
 export interface SessionMessageHandlerOptions {
     autoComplete?: boolean;
     maxConcurrentCalls?: number;
 }
-
-// @public
-export class SessionReceiver {
-    close(): Promise<void>;
-    getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
-    getState(): Promise<any>;
-    get isClosed(): boolean;
-    isReceivingMessages(): boolean;
-    peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
-    receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
-    receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
-    get receiveMode(): ReceiveMode;
-    registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void;
-    renewSessionLock(): Promise<Date>;
-    get sessionId(): string | undefined;
-    get sessionLockedUntilUtc(): Date | undefined;
-    setState(state: any): Promise<void>;
-    }
 
 // @public
 export interface SessionReceiverOptions {
@@ -354,23 +399,6 @@ export type SqlParameter = {
     value: string | number;
     type: string;
 };
-
-// @public
-export class SubscriptionClient implements Client {
-    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
-    close(): Promise<void>;
-    createReceiver(receiveMode: ReceiveMode): Receiver;
-    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
-    readonly defaultRuleName: string;
-    readonly entityPath: string;
-    getRules(): Promise<RuleDescription[]>;
-    readonly id: string;
-    peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
-    removeRule(ruleName: string): Promise<void>;
-    readonly subscriptionName: string;
-    readonly topicName: string;
-}
 
 // @public
 export interface SubscriptionDetails {
@@ -419,15 +447,6 @@ export interface SubscriptionOptions {
 export { TokenCredential }
 
 export { TokenType }
-
-// @public
-export class TopicClient implements Client {
-    close(): Promise<void>;
-    createSender(): Sender;
-    readonly entityPath: string;
-    static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
-    readonly id: string;
-}
 
 // @public
 export interface TopicDetails {
