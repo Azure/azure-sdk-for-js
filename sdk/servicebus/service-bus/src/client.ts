@@ -29,6 +29,5 @@ export interface Client {
  */
 export enum ClientType {
   ServiceBusSenderClient = "ServiceBusSenderClient",
-  ServiceBusReceiverSubscriptionClient = "ServiceBusReceiverSubscriptionClient",
-  ServiceBusReceiverQueueClient = "ServiceBusReceiverQueueClient"
+  ServiceBusReceiverClient = "ServiceBusReceiverClient"
 }

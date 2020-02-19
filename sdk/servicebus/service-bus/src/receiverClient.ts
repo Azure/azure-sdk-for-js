@@ -1,7 +1,14 @@
 import Long from "long";
 import { Receiver, SessionReceiver } from "./receiver";
 import { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
-import { TokenCredential, OnMessage, OnError, MessageHandlerOptions } from ".";
+import {
+  TokenCredential,
+  OnMessage,
+  OnError,
+  MessageHandlerOptions,
+  CorrelationFilter,
+  RuleDescription
+} from ".";
 import { isTokenCredential } from "@azure/core-amqp";
 import { ClientEntityContext } from "./clientEntityContext";
 import { ClientType } from "./client";
@@ -12,69 +19,140 @@ import { throwErrorIfClientOrConnectionClosed } from "./util/errors";
 
 export type ServiceBusClientReceiverOptions = ServiceBusClientOptions & SessionReceiverOptions;
 
-export class ServiceBusReceiverQueueClient {
+export class ServiceBusReceiverClient {
   public _receiveMode: ReceiveMode;
   public _entityPath: string;
   private _clientEntityContext: ClientEntityContext;
   private _sbClient: ServiceBusClient;
   private _currentReceiver: Receiver | SessionReceiver;
+  readonly defaultRuleName: string = "$Default";
 
+  // Queue
   constructor(
     entityConnectionString: string,
-    receiveMode: ReceiveMode,
+    receiveMode?: ReceiveMode,
     options?: ServiceBusClientReceiverOptions
   );
 
+  // Queue
   constructor(
     serviceBusConnectionString: string,
     entityName: string,
-    receiveMode: ReceiveMode,
+    receiveMode?: ReceiveMode,
     options?: ServiceBusClientReceiverOptions
   );
 
+  // Queue
   constructor(
     host: string,
     entityName: string,
-    receiveMode: ReceiveMode,
     credential: TokenCredential,
+    receiveMode?: ReceiveMode,
+    options?: ServiceBusClientReceiverOptions
+  );
+
+  // Subscription
+  constructor(
+    topicConnectionString: string,
+    subscriptionName: string,
+    receiveMode?: ReceiveMode,
+    options?: ServiceBusClientReceiverOptions
+  );
+
+  // Subscription
+  constructor(
+    serviceBusConnectionString: string,
+    topicName: string,
+    subscriptionName: string,
+    receiveMode?: ReceiveMode,
+    options?: ServiceBusClientReceiverOptions
+  );
+
+  // Subscription
+  constructor(
+    host: string,
+    topicName: string,
+    subscriptionName: string,
+    credential: TokenCredential,
+    receiveMode?: ReceiveMode,
     options?: ServiceBusClientReceiverOptions
   );
 
   constructor(
-    hostOrConnectionString: string,
-    entityNameOrReceiveMode?: string | ReceiveMode,
-    optionsOrReceiveMode?: ServiceBusClientReceiverOptions | ReceiveMode,
-    optionsOrCredential?: ServiceBusClientReceiverOptions | TokenCredential,
-    options?: ServiceBusClientReceiverOptions
+    param1: string,
+    param2?: string | ReceiveMode,
+    param3?: string | ReceiveMode | ServiceBusClientReceiverOptions | TokenCredential,
+    param4?: ServiceBusClientReceiverOptions | ReceiveMode | TokenCredential,
+    param5?: ServiceBusClientReceiverOptions | ReceiveMode,
+    param6?: ServiceBusClientReceiverOptions
   ) {
     let receiveMode: ReceiveMode;
-    if (typeof entityNameOrReceiveMode !== "string") {
+    let options: ServiceBusClientReceiverOptions;
+    if (typeof param2 !== "string") {
+      // Queue
       // (entityConnectionString: string, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions)
-      const entityConnectionString = hostOrConnectionString;
-      options = optionsOrReceiveMode as ServiceBusClientReceiverOptions;
+      const entityConnectionString = param1;
+      options = param3 as ServiceBusClientReceiverOptions;
       // get the entity name from the connection string
       const entityPathMatch = entityConnectionString.match(/^.+EntityPath=(.+?);{0,1}$/);
 
       if (entityPathMatch!.length !== 2) {
         throw new Error("Invalid entity connection string - no EntityPath");
       } else {
-        this._entityPath = String(entityPathMatch![0]);
+        this._entityPath = String(entityPathMatch![1]);
       }
 
       this._sbClient = new ServiceBusClient(entityConnectionString, options);
-      receiveMode = entityNameOrReceiveMode as ReceiveMode;
-    } else if (!isTokenCredential(optionsOrCredential)) {
-      // (serviceBusConnectionString: string, entityName: string, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions)
-      this._sbClient = new ServiceBusClient(hostOrConnectionString, options);
-      this._entityPath = String(entityNameOrReceiveMode);
-      receiveMode = optionsOrReceiveMode as ReceiveMode;
-      options = optionsOrCredential;
-    } else {
-      // (host: string, entityName: string, receiveMode: ReceiveMode, credential: TokenCredential, options?: ServiceBusClientReceiverOptions)
-      const entityName = entityNameOrReceiveMode;
-      this._sbClient = new ServiceBusClient(hostOrConnectionString, optionsOrCredential, options);
+      receiveMode = param2 as ReceiveMode;
+    } else if (isTokenCredential(param3)) {
+      // Queue
+      // (host: string, entityName: string, credential: TokenCredential, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions)
+      const entityName = param2;
+      options = param5 as ServiceBusClientReceiverOptions;
+      this._sbClient = new ServiceBusClient(param1, param3, options);
       this._entityPath = String(entityName);
-      receiveMode = optionsOrReceiveMode as ReceiveMode;
+      receiveMode = param4 as ReceiveMode;
+    } else if (isTokenCredential(param4)) {
+      // Subscription
+      // (host: string, topicName: string, subscriptionName: string, credential: TokenCredential, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions)
+      const entityName = param2;
+      options = param6 as ServiceBusClientReceiverOptions;
+      this._entityPath = `${entityName}/Subscriptions/${param3}`;
+      this._sbClient = new ServiceBusClient(param1, param4, options);
+      receiveMode = param5 as ReceiveMode;
+    } else if (typeof param3 === "string") {
+      // Subscription
+      // (serviceBusConnectionString: string, topicName: string, subscriptionName: string, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions)
+      const entityName = param2;
+      options = param5 as ServiceBusClientReceiverOptions;
+      this._entityPath = `${entityName}/Subscriptions/${param3}`;
+      this._sbClient = new ServiceBusClient(param1, options);
+      receiveMode = param4 as ReceiveMode;
+    } else {
+      // Queue
+      // (serviceBusConnectionString: string, entityName: string, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions)
+      // Subscription
+      // (topicConnectionString: string, subscriptionName: string, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions)
+      if (param1.includes("EntityPath")) {
+        // Subscription
+        // (topicConnectionString: string, subscriptionName: string, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions)
+        // get the entity name from the connection string
+        const entityPathMatch = param1.match(/^.+EntityPath=(.+?);{0,1}$/);
+
+        if (entityPathMatch!.length !== 2) {
+          throw new Error("Invalid entity connection string - no EntityPath");
+        } else {
+          this._entityPath = `${entityPathMatch![1]}/Subscriptions/${param2}`;
+        }
+      } else {
+        // Queue
+        // (serviceBusConnectionString: string, entityName: string, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions)
+        this._entityPath = String(param2);
+        receiveMode = param3 as ReceiveMode;
+      }
+      options = param4 as ServiceBusClientReceiverOptions;
+      this._sbClient = new ServiceBusClient(param1, options);
+      receiveMode = param3 as ReceiveMode;
     }
 
     this._receiveMode =
@@ -82,13 +160,13 @@ export class ServiceBusReceiverQueueClient {
 
     this._clientEntityContext = ClientEntityContext.create(
       this._entityPath,
-      ClientType.ServiceBusReceiverQueueClient,
+      ClientType.ServiceBusReceiverClient,
       this._sbClient._context,
       `${this._entityPath}/${generate_uuid()}`
     );
 
     if (!options?.sessionId) {
-      // Receiver for Queue where sessions are not enabled
+      // Receiver for the subscription where sessions are not enabled
       this._currentReceiver = new Receiver(this._clientEntityContext, receiveMode);
     } else {
       this._currentReceiver = new SessionReceiver(this._clientEntityContext, receiveMode, options);
@@ -250,9 +328,60 @@ export class ServiceBusReceiverQueueClient {
   // ManagementClient methods # End
 
   /**
-   * Returns the corresponding dead letter queue name for the given queue.
+   * Returns the corresponding dead letter queue path for the client entity.
    */
-  static getDeadLetterQueuePath(queueName: string): string {
-    return `${queueName}/$DeadLetterQueue`;
+  getDeadLetterPath(): string {
+    return `${this._entityPath}/$DeadLetterQueue`;
   }
+
+  // #region topic-filters
+
+  async getRules(): Promise<RuleDescription[]> {
+    if (this._currentReceiver instanceof SessionReceiver) {
+      throwErrorIfClientOrConnectionClosed(
+        this._clientEntityContext.namespace,
+        this._entityPath,
+        this._clientEntityContext.isClosed
+      );
+      return this._clientEntityContext.managementClient!.getRules();
+    } else {
+      throw new Error("Only for a subscription");
+    }
+  }
+
+  async removeRule(ruleName: string): Promise<void> {
+    if (this._currentReceiver instanceof SessionReceiver) {
+      throwErrorIfClientOrConnectionClosed(
+        this._clientEntityContext.namespace,
+        this._entityPath,
+        this._clientEntityContext.isClosed
+      );
+      return this._clientEntityContext.managementClient!.removeRule(ruleName);
+    } else {
+      throw new Error("Only for a subscription");
+    }
+  }
+
+  async addRule(
+    ruleName: string,
+    filter: boolean | string | CorrelationFilter,
+    sqlRuleActionExpression?: string
+  ): Promise<void> {
+    if (this._currentReceiver instanceof SessionReceiver) {
+      throwErrorIfClientOrConnectionClosed(
+        this._clientEntityContext.namespace,
+        this._entityPath,
+        this._clientEntityContext.isClosed
+      );
+      return this._clientEntityContext.managementClient!.addRule(
+        ruleName,
+        filter,
+        sqlRuleActionExpression
+      );
+    } else {
+      throw new Error("Only for a subscription");
+    }
+  }
+
+  // #endregion
 }
