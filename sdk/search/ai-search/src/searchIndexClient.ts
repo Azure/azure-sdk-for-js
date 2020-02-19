@@ -29,6 +29,7 @@ import {
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 import { KnownKeys, ReplaceProperties } from "./util";
+import { deserialize } from "./serialization";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -252,14 +253,11 @@ export class SearchIndexClient<T> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-search", operationOptions);
 
     try {
-      const result: SearchDocumentsResult<Pick<
-        T,
-        Fields
-      >> = (await this.client.documents.searchPost(
+      const result = await this.client.documents.searchPost(
         fullOptions,
         operationOptionsToRequestOptionsBase(updatedOptions)
-      )) as any;
-      return result;
+      );
+      return deserialize<SearchDocumentsResult<Pick<T, Fields>>>(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -342,14 +340,11 @@ export class SearchIndexClient<T> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-suggest", operationOptions);
 
     try {
-      const result: SuggestDocumentsResult<Pick<
-        T,
-        Fields
-      >> = (await this.client.documents.suggestPost(
+      const result = await this.client.documents.suggestPost(
         fullOptions,
         operationOptionsToRequestOptionsBase(updatedOptions)
-      )) as any;
-      return result;
+      );
+      return deserialize<SuggestDocumentsResult<Pick<T, Fields>>>(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -361,14 +356,14 @@ export class SearchIndexClient<T> {
     }
   }
 
-  public async getDocument<T>(key: string, options: GetDocumentOptions = {}): Promise<T> {
+  public async getDocument(key: string, options: GetDocumentOptions = {}): Promise<T> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getDocument", options);
     try {
       const result = await this.client.documents.get(
         key,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result.body;
+      return deserialize<T>(result.body);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

@@ -7,14 +7,14 @@ const ISO8601DateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z/i;
 const GeoJSONPointTypeName = "Point";
 const WorldGeodeticSystem1984 = "EPSG:4326"; // See https://epsg.io/4326
 
-export function serialize<InputT, OutputT>(obj: InputT): OutputT {
+export function serialize<OutputT>(obj: unknown): OutputT {
   return walk(obj, (value) => {
     let result = serializeSpecialNumbers(value);
     return result;
   });
 }
 
-export function deserialize<InputT, OutputT>(obj: InputT): OutputT {
+export function deserialize<OutputT>(obj: unknown): OutputT {
   return walk(obj, (value) => {
     let result = deserializeSpecialNumbers(value);
     result = deserializeDates(result);
