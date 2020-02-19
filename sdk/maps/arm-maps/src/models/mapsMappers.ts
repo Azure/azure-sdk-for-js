@@ -7,22 +7,9 @@
  */
 
 export {
-  AzureEntityResource,
-  BaseResource,
   ErrorAdditionalInfo,
   ErrorResponse,
-  MapsAccount,
-  MapsAccountCreateParameters,
-  MapsAccountKeys,
-  MapsAccountProperties,
-  MapsAccounts,
-  MapsAccountUpdateParameters,
-  MapsKeySpecification,
-  PrivateAtlas,
-  PrivateAtlasProperties,
-  ProxyResource,
-  Resource,
-  Sku,
-  SystemData,
-  TrackedResource
+  MapsOperations,
+  MapsOperationsValueItem,
+  MapsOperationsValueItemDisplay
 } from "../models/mappers";
