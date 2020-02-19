@@ -120,6 +120,7 @@ or you can use the "Delete" button located at the top of the "Overview" page of 
 We recommend you to take some time to check out our [Intro to Microsoft Azure Resource Manager Templates (Video)][ARMIntro],
 so that you can read through the [ARM template we are using for this deploy button][KVARM].
 
+
 [KVARM]: https://github.com/Azure/azure-sdk-for-js/blob/keyvault/deploy-button-guide/sdk/keyvault/test-resources.json
 [CreateAzureAccount]: https://docs.microsoft.com/en-us/learn/modules/create-an-azure-account/
 [ResourceGroups]: https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview#resource-groups
