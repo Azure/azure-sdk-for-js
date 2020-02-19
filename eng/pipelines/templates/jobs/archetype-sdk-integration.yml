@@ -6,31 +6,28 @@ parameters:
   EnvVars: {}
   MaxParallel: 0
   TimeoutInMinutes: 60
+  PublishCodeCoverage: false
   Matrix:
     Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "node"
-      RunCodeCoverage: true
+      PublishCodeCoverage: true
     Windows_Node10:
       OSVmImage: "windows-2019"
       TestType: "node"
-      RunCodeCoverage: false
     macOS_Node10:
       OSVmImage: "macOS-10.13"
       TestType: "node"
-      RunCodeCoverage: false
     Browser_Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "browser"
-      RunCodeCoverage: true
+      PublishCodeCoverage: true
     Browser_Windows_Node10:
       OSVmImage: "windows-2019"
       TestType: "browser"
-      RunCodeCoverage: false
     Browser_macOS_Node10:
       OSVmImage: "macOS-10.13"
       TestType: "browser"
-      RunCodeCoverage: false
 
 jobs:
   - job: "IntegrationTest"
@@ -152,7 +149,7 @@ jobs:
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish Code Coverage to DevOps'
         continueOnError: true
-        condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['RunCodeCoverage'], true))
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], true))
         inputs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(PackagePath)/coverage/cobertura-coverage.xml'
@@ -160,7 +157,7 @@ jobs:
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish Code Coverage to DevOps'
         continueOnError: true
-        condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['RunCodeCoverage'], true))
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
         inputs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(PackagePath)/coverage-browser/cobertura-coverage.xml'

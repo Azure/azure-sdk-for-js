@@ -21,51 +21,43 @@ jobs:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
           NodeVersion: "10.x"
-          RunCodeCoverage: true
+          PublishCodeCoverage: true
         Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "node"
           NodeVersion: "10.x"
-          RunCodeCoverage: false
         macOS_Node10:
           OSVmImage: "macOS-10.13"
           TestType: "node"
           NodeVersion: "10.x"
-          RunCodeCoverage: false
         Linux_Node12:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
           NodeVersion: "12.x"
-          RunCodeCoverage: false
         Windows_Node12:
           OSVmImage: "windows-2019"
           TestType: "node"
           NodeVersion: "12.x"
-          RunCodeCoverage: false
         macOS_Node12:
           OSVmImage: "macOS-10.13"
           TestType: "node"
           NodeVersion: "12.x"
-          RunCodeCoverage: false
         Linux_Node8:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
           NodeVersion: "8.x"
-          RunCodeCoverage: false
         Windows_Node8:
           OSVmImage: "windows-2019"
           TestType: "node"
           NodeVersion: "8.x"
-          RunCodeCoverage: false
         macOS_Node8:
           OSVmImage: "macOS-10.13"
           TestType: "node"
           NodeVersion: "8.x"
-          RunCodeCoverage: false
         Windows_Browser:
           OSVmImage: "windows-2019"
           TestType: "browser"
-          RunCodeCoverage: true
+          PublishCodeCoverage: true
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)

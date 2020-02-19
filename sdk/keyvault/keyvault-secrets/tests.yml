@@ -17,32 +17,27 @@ jobs:
         Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
-          RunCodeCoverage: true
+          PublishCodeCoverage: true
         Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "node"
-          RunCodeCoverage: false
         macOS_Node10:
           OSVmImage: "macOS-10.13"
           TestType: "node"
-          RunCodeCoverage: false
         Browser_Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "browser"
-          RunCodeCoverage: true
+          PublishCodeCoverage: true
         Browser_Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "browser"
-          RunCodeCoverage: false
         Browser_macOS_Node10:
           OSVmImage: "macOS-10.13"
           TestType: "browser"
-          RunCodeCoverage: false
         Linux_Sample10:
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "10.x"
           TestType: "sample"
-          RunCodeCoverage: false
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
