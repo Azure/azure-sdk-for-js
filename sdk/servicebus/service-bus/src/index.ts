@@ -4,7 +4,7 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
+// export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
 export {
   TokenType,
   TokenCredential,
@@ -15,12 +15,15 @@ export {
   WebSocketOptions
 } from "@azure/core-amqp";
 
-export { QueueClient } from "./queueClient";
-export { TopicClient } from "./topicClient";
-export { SubscriptionClient } from "./subscriptionClient";
+// export { QueueClient } from "./queueClient";
+// export { TopicClient } from "./topicClient";
+// export { SubscriptionClient } from "./subscriptionClient";
+export { ServiceBusSenderClient } from "./senderClient";
+export { ServiceBusReceiverQueueClient } from "./queueReceiverClient";
+export { ServiceBusReceiverSubscriptionClient } from "./subscriptionReceiverClient";
 
-export { Sender } from "./sender";
-export { Receiver, SessionReceiver } from "./receiver";
+// export { Sender } from "./sender";
+// export { Receiver, SessionReceiver } from "./receiver";
 
 export { MessageHandlerOptions } from "./core/streamingReceiver";
 export { OnError, OnMessage } from "./core/messageReceiver";
