@@ -131,5 +131,6 @@ export class ServiceBusSenderClient {
 
   async close(): Promise<void> {
     await this._currentSender.close();
+    await this._sbClient.close();
   }
 }
