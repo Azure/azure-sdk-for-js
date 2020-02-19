@@ -16,8 +16,7 @@
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
-    "project": "./tsconfig.json",
-    "createDefaultProgram": true
+    "project": "./tsconfig.json"
   },
   "parser": "@typescript-eslint/parser",
   "rules": {
