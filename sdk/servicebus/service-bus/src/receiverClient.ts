@@ -337,7 +337,7 @@ export class ServiceBusReceiverClient {
   // #region topic-filters
 
   async getRules(): Promise<RuleDescription[]> {
-    if (this._currentReceiver instanceof SessionReceiver) {
+    if (this._entityPath.includes("/Subscriptions/")) {
       throwErrorIfClientOrConnectionClosed(
         this._clientEntityContext.namespace,
         this._entityPath,
@@ -350,7 +350,7 @@ export class ServiceBusReceiverClient {
   }
 
   async removeRule(ruleName: string): Promise<void> {
-    if (this._currentReceiver instanceof SessionReceiver) {
+    if (this._entityPath.includes("/Subscriptions/")) {
       throwErrorIfClientOrConnectionClosed(
         this._clientEntityContext.namespace,
         this._entityPath,
@@ -367,7 +367,7 @@ export class ServiceBusReceiverClient {
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    if (this._currentReceiver instanceof SessionReceiver) {
+    if (this._entityPath.includes("/Subscriptions/")) {
       throwErrorIfClientOrConnectionClosed(
         this._clientEntityContext.namespace,
         this._entityPath,
