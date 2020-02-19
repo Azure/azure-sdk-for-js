@@ -37,7 +37,17 @@ export type SearchIndexClientOptions = PipelineOptions;
 export type CountOptions = OperationOptions;
 export type AutocompleteOptions = OperationOptions &
   Omit<AutocompleteRequest, "searchText" | "suggesterName">;
-export type SearchOptions = OperationOptions & Omit<SearchRequest, "searchText">;
+
+export interface SelectedFields<T, Fields extends keyof T> {
+  /**
+   * The list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema
+   * are included.
+   */
+  select?: Fields[];
+}
+export type SearchOptions<T, Fields extends keyof T> = OperationOptions &
+  SelectedFields<T, Fields> &
+  Omit<SearchRequest, "searchText" | "select">;
 
 export type SearchResult<T> = Pick<RawSearchResult, KnownKeys<RawSearchResult>> & T;
 
@@ -47,8 +57,9 @@ export type SearchDocumentsResult<T> = ReplaceProperties<
   { readonly results?: Array<SearchResult<T>> }
 >;
 
-export type SuggestOptions = OperationOptions &
-  Omit<SuggestRequest, "searchText" | "suggesterName">;
+export type SuggestOptions<T, Fields extends keyof T> = OperationOptions &
+  SelectedFields<T, Fields> &
+  Omit<SuggestRequest, "searchText" | "suggesterName" | "select">;
 
 export type SuggestDocumentsResult<T> = ReplaceProperties<
   RawSuggestDocumentsResult,
@@ -94,7 +105,7 @@ export interface ListSearchResultsPageSettings {
 
 // something extends OperationOptions
 
-export class SearchIndexClient {
+export class SearchIndexClient<T> {
   /**
    * The API version to use when communicating with the service.
    */
@@ -226,20 +237,25 @@ export class SearchIndexClient {
     }
   }
 
-  private async search<T>(
+  private async search<Fields extends keyof T>(
     searchText: string,
-    options: SearchOptions = {}
-  ): Promise<SearchDocumentsResult<T>> {
+    options: SearchOptions<T, Fields> = {}
+  ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
+    const { select, ...nonSelectOptions } = restOptions;
     const fullOptions: SearchRequest = {
       searchText,
-      ...restOptions
+      select: this.convertSelect<T, Fields>(select),
+      ...nonSelectOptions
     };
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-search", operationOptions);
 
     try {
-      const result: SearchDocumentsResult<T> = (await this.client.documents.searchPost(
+      const result: SearchDocumentsResult<Pick<
+        T,
+        Fields
+      >> = (await this.client.documents.searchPost(
         fullOptions,
         operationOptionsToRequestOptionsBase(updatedOptions)
       )) as any;
@@ -255,14 +271,14 @@ export class SearchIndexClient {
     }
   }
 
-  private async *listSearchResultsPage<T>(
+  private async *listSearchResultsPage<Fields extends keyof T>(
     searchText: string,
-    options: SearchOptions = {},
+    options: SearchOptions<T, Fields> = {},
     settings: ListSearchResultsPageSettings = {}
-  ): AsyncIterableIterator<SearchDocumentsResult<T>> {
-    let result = await this.search<T>(searchText, {
+  ): AsyncIterableIterator<SearchDocumentsResult<Pick<T, Fields>>> {
+    let result = await this.search<Fields>(searchText, {
       ...options,
-      ...settings.nextPageParameters
+      ...(settings.nextPageParameters as any)
     });
 
     yield result;
@@ -272,15 +288,15 @@ export class SearchIndexClient {
     while (result.nextPageParameters) {
       result = await this.search(searchText, {
         ...options,
-        ...result.nextPageParameters
+        ...(result.nextPageParameters as any)
       });
       yield result;
     }
   }
 
-  public async *listSearchResultsAll<T>(
+  public async *listSearchResultsAll<Fields extends keyof T>(
     searchText: string,
-    options: SearchOptions = {}
+    options: SearchOptions<T, Fields> = {}
   ): AsyncIterableIterator<SearchResult<T>> {
     for await (const page of this.listSearchResultsPage(searchText, options)) {
       const results: Array<SearchResult<T>> = (page.results as any) || [];
@@ -288,15 +304,15 @@ export class SearchIndexClient {
     }
   }
 
-  public listSearchResults<T>(
+  public listSearchResults<Fields extends keyof T>(
     searchText: string,
-    options: SearchOptions = {}
+    options: SearchOptions<T, Fields> = {}
   ): PagedAsyncIterableIterator<
-    SearchResult<T>,
-    SearchDocumentsResult<T>,
+    SearchResult<Pick<T, Fields>>,
+    SearchDocumentsResult<Pick<T, Fields>>,
     ListSearchResultsPageSettings
   > {
-    const iter = this.listSearchResultsAll<T>(searchText, options);
+    const iter = this.listSearchResultsAll(searchText, options);
 
     return {
       next() {
@@ -306,25 +322,30 @@ export class SearchIndexClient {
         return this;
       },
       byPage: (settings: ListSearchResultsPageSettings = {}) =>
-        this.listSearchResultsPage<T>(searchText, options, settings)
+        this.listSearchResultsPage(searchText, options, settings)
     };
   }
 
-  public async suggest<T>(
+  public async suggest<Fields extends keyof T>(
     suggesterName: string,
     searchText: string,
-    options: SuggestOptions = {}
-  ): Promise<SuggestDocumentsResult<T>> {
+    options: SuggestOptions<T, Fields> = {}
+  ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
+    const { select, ...nonSelectOptions } = restOptions;
     const fullOptions: SuggestRequest = {
       suggesterName,
       searchText,
-      ...restOptions
+      select: this.convertSelect<T, Fields>(select),
+      ...nonSelectOptions
     };
     const { span, updatedOptions } = createSpan("SearchIndexClient-suggest", operationOptions);
 
     try {
-      const result: SuggestDocumentsResult<T> = (await this.client.documents.suggestPost(
+      const result: SuggestDocumentsResult<Pick<
+        T,
+        Fields
+      >> = (await this.client.documents.suggestPost(
         fullOptions,
         operationOptionsToRequestOptionsBase(updatedOptions)
       )) as any;
@@ -489,5 +510,12 @@ export class SearchIndexClient {
       },
       restOptions
     };
+  }
+
+  private convertSelect<T, Fields extends keyof T>(select?: Fields[]): string | undefined {
+    if (select) {
+      return select.join(",");
+    }
+    return select;
   }
 }
