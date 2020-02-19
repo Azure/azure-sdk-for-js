@@ -18,26 +18,11 @@ Use the client libararies in this package to:
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples) |
 [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
 
-## Key concepts
-
-Blob storage is designed for:
-
-- Serving images or documents directly to a browser.
-- Storing files for distributed access.
-- Streaming video and audio.
-- Writing to log files.
-- Storing data for backup and restore, disaster recovery, and archiving.
-- Storing data for analysis by an on-premises or Azure-hosted service.
-
-Blob storage offers three types of resources:
-
-- The _storage account_ used via `BlobServiceClient`
-- A _container_ in the storage account used via `ContainerClient`
-- A _blob_ in a container used via `BlobClient`
-
 ## Getting started
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
+
+### Install the package
 
 The preferred way to install the Azure Storage Blob client library for JavaScript is to use the npm package manager. Type the following into a terminal window:
 
@@ -45,9 +30,16 @@ The preferred way to install the Azure Storage Blob client library for JavaScrip
 npm install @azure/storage-blob
 ```
 
-### Authenticating with Azure Active Directory
+### Authenticate the client
 
-The Azure Blob Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+Azure Storage supports several ways to authenticate. In order to interact with the Storage Service you'll need to create an instance of a Storage client - `BlobServiceClient`, `ContainerClient`, or `BlobClient` for example. See [samples for creating `BlobServiceClient`](#create-the-blob-service-client) to learn more about authentication.
+- [Azure Active Directory](#with-defaultazurecredential-from-azureidentity-package)
+- [Shared Key](#with-storagesharedkeycredential)
+- [Shared access signatures](#with-sas-token)
+
+#### Azure Active Directory
+
+ The Azure Blob Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. Please see the [README for `@azure/identity`](/sdk/identity/identity/README.md) for more details and samples to get you started.
 
 ### Compatibility
 
@@ -108,6 +100,23 @@ For example, you can create following CORS settings for debugging. But please cu
 - Exposed headers: \*
 - Maximum age (seconds): 86400
 
+## Key concepts
+
+Blob storage is designed for:
+
+- Serving images or documents directly to a browser.
+- Storing files for distributed access.
+- Streaming video and audio.
+- Writing to log files.
+- Storing data for backup and restore, disaster recovery, and archiving.
+- Storing data for analysis by an on-premises or Azure-hosted service.
+
+Blob storage offers three types of resources:
+
+- The _storage account_ used via `BlobServiceClient`
+- A _container_ in the storage account used via `ContainerClient`
+- A _blob_ in a container used via `BlobClient`
+
 ## Examples
 
 ### Import the package
@@ -128,7 +137,8 @@ const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storag
 
 Use the constructor to create a instance of `BlobServiceClient`.
 
-- **Recommended way to instantiate a `BlobServiceClient` - with `DefaultAzureCredential` from `@azure/identity` package**
+#### with `DefaultAzureCredential` from `@azure/identity` package
+**Recommended way to instantiate a `BlobServiceClient`**
 
   Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://docs.microsoft.com/azure/storage/common/storage-auth-aad-app
 
@@ -165,7 +175,8 @@ Use the constructor to create a instance of `BlobServiceClient`.
 
   [Note - Above steps are only for Node.js]
 
-- Alternatively, you instantiate a `BlobServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
+#### with StorageSharedKeyCredential
+ Alternatively, you instantiate a `BlobServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
   [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
   ```javascript
@@ -184,6 +195,19 @@ Use the constructor to create a instance of `BlobServiceClient`.
   );
   ```
 
+#### with SAS Token
+Also, You can instantiate a `BlobServiceClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal or generate one using `generateAccountSASQueryParameters()`.
+
+```javascript
+const { BlobServiceClient } = require("@azure/storage-blob");
+
+const account = "<account name>";
+const sas = "<service Shared Access Signature Token>";
+
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net${sas}`
+);
+```
 ### Create a new container
 
 Use `BlobServiceClient.getContainerClient()` to get a container client instance then create a new container resource.
