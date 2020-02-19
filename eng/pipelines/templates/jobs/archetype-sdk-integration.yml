@@ -5,7 +5,7 @@ parameters:
   ResourceServiceDirectory: ""
   EnvVars: {}
   MaxParallel: 0
-  TimeoutInMinutes: 240
+  TimeoutInMinutes: 60
   Matrix:
     Linux_Node10:
       OSVmImage: "ubuntu-16.04"
