@@ -149,6 +149,10 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
         displayName: "Get package path"
 
+      - script: |
+          Write-Host "$($(Build.SourcesDirectory))/$($(PackagePath))"
+        displayName: "List package path"
+
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish Code Coverage to DevOps'
         continueOnError: true
