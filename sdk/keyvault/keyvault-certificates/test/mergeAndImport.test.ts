@@ -39,7 +39,7 @@ describe("Certificates client - merge and import certificates", () => {
 
   // The tests follow
 
-  it.only("can import a certificate from a certificate's non base64 secret value", async function() {
+  it("can import a certificate from a certificate's non base64 secret value", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     const createPoller = await client.beginCreateCertificate(
@@ -63,7 +63,7 @@ describe("Certificates client - merge and import certificates", () => {
     }
   });
 
-  it.only("can import a certificate from a certificate's base64 secret value", async function() {
+  it("can import a certificate from a certificate's base64 secret value", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     const createPoller = await client.beginCreateCertificate(

@@ -1,5 +1,11 @@
 # Release History
 
+## 4.0.1 (Unreleased)
+
+- Fixed a bug on `importCertificate`. The bytes of a PEM formatted certificate were being encoded again on base64.
+  Now, if the user provides a policy with contentType `application/x-pem-file`, the bytes will be assumed to be formatted using ASCII,
+  and thus will be sent as is.
+
 ## 4.0.0 (2020-01-07)
 
 This release marks the general availability of the `@azure/keyvault-certificates` package.

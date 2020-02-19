@@ -14,8 +14,7 @@ import {
   signingPolicy,
   RequestOptionsBase,
   PipelineOptions,
-  createPipelineFromOptions,
-  isNode
+  createPipelineFromOptions
 } from "@azure/core-http";
 
 import { getTracer } from "@azure/core-tracing";
