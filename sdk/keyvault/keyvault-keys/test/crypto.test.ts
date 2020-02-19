@@ -85,7 +85,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   it("sign and verify with RS256", async function() {
     recorder.skip("browser", "Local encryption is only supported in NodeJS");
     if (!isNode) {
-      // recorder.skip doesn't work on TEST_MODE=live
+      // recorder.skip is not meant for TEST_MODE=live
       return this.skip();
     }
     const signatureValue = this.test!.title;
