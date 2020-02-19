@@ -8,6 +8,7 @@ import { generate_uuid } from "rhea-promise";
 
 export class ServiceBusSenderClient {
   public _entityPath: string;
+  public _clientEntityContext: ClientEntityContext;
   private _sbClient: ServiceBusClient;
   private _currentSender: Sender;
 
@@ -88,15 +89,13 @@ export class ServiceBusSenderClient {
       );
       this._entityPath = String(entityName);
     }
-
-    this._currentSender = new Sender(
-      ClientEntityContext.create(
-        this._entityPath,
-        ClientType.ServiceBusSenderClient,
-        this._sbClient._context,
-        `${this._entityPath}/${generate_uuid()}`
-      )
+    this._clientEntityContext = ClientEntityContext.create(
+      this._entityPath,
+      ClientType.ServiceBusSenderClient,
+      this._sbClient._context,
+      `${this._entityPath}/${generate_uuid()}`
     );
+    this._currentSender = new Sender(this._clientEntityContext);
   }
 
   async send(message: SendableMessageInfo): Promise<void> {
@@ -131,6 +130,7 @@ export class ServiceBusSenderClient {
 
   async close(): Promise<void> {
     await this._currentSender.close();
+    await this._clientEntityContext.close();
     await this._sbClient.close();
   }
 }
