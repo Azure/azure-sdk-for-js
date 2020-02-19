@@ -70,13 +70,13 @@ export type TrainCustomModelOptions = FormRecognizerOperationOptions & {
   includeSubFolders?: boolean;
 };
 
-export type AnalyzeReceiptOptions = FormRecognizerOperationOptions & {
+export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
   includeTextDetails?: boolean;
 };
 
-export type AnalyzeLayoutOptions = FormRecognizerOperationOptions & {};
+export type ExtractLayoutOptions = FormRecognizerOperationOptions & {};
 
-export type AnalyzeCustomFormOptions = FormRecognizerOperationOptions &  & {
+export type ExtractCustomFormOptions = FormRecognizerOperationOptions & {
   includeTextDetails?: boolean;
 };
 
@@ -97,11 +97,14 @@ export type StartTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
   includeSubFolders?: boolean;
 };
 
-export type GetAnalyzeReceiptResultOptions = FormRecognizerOperationOptions;
+export type GetExtractedReceiptResultOptions = FormRecognizerOperationOptions;
 
-export type GetAnalyzeLayoutResultOptions = FormRecognizerOperationOptions;
+export type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
 
-export type GetAnalyzeCustomFormOptions = FormRecognizerOperationOptions;
+export type GetExtractedCustomFormOptions = FormRecognizerOperationOptions;
+
+
+export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff";
 
 /**
  * Client class for interacting with Azure Form Recognizer.
@@ -288,14 +291,14 @@ export class CustomRecognizerClient {
     return poller;
   }
 
-  public async analyzeReceipt(
+  public async extractReceipt(
     body: HttpRequestBody,
-    contentType: string,
-    options?: AnalyzeReceiptOptions
+    contentType: SupportedContentType,
+    options?: ExtractReceiptOptions
   ): Promise<GetAnalyzeReceiptResultResponse> {
     const realOptions = options || { includeTextDetails: false };
     const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-analyzeReceipt",
+      "CustomRecognizerClient-extractReceipt",
       realOptions
     );
 
@@ -333,10 +336,57 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async getAnalyzeReceiptResult(resultId: string, options?: GetAnalyzeReceiptResultOptions) {
+  public async extractReceiptFromUrl(
+    imageSourceUrl: string,
+    options?: ExtractReceiptOptions
+  ): Promise<GetAnalyzeReceiptResultResponse> {
+    const realOptions = options || { includeTextDetails: false };
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-extractReceiptFromUrl",
+      realOptions
+    );
+
+    const customHeaders: { [key: string]: string } =
+      finalOptions.requestOptions?.customHeaders || {};
+    customHeaders["Content-Type"] = "application/json";
+    const body = JSON.stringify({
+      source: imageSourceUrl
+    });
+    try {
+      const result = await this.client.analyzeReceiptAsync({
+        ...finalOptions,
+        body,
+        customHeaders
+      });
+      const lastSlashIndex = result.operationLocation.lastIndexOf("/");
+      const resultId = result.operationLocation.substring(lastSlashIndex + 1);
+
+      let analyzeResult: GetAnalyzeReceiptResultResponse;
+      do {
+        analyzeResult = await this.client.getAnalyzeReceiptResult(resultId, {
+          abortSignal: finalOptions.abortSignal
+        });
+        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
+          delay(2000); // TODO: internal polling or LRO
+        }
+      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
+
+      return analyzeResult;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getExtractedReceipt(resultId: string, options?: GetExtractedReceiptResultOptions) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-getAnalyzeReceiptResult",
+      "CustomRecognizerClient-getExtractedReceipt",
       realOptions
     );
 
@@ -354,14 +404,14 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async analyzeLayout(
+  public async extractLayout(
     body: HttpRequestBody,
-    contentType: string,
-    options?: AnalyzeLayoutOptions
+    contentType: SupportedContentType,
+    options?: ExtractLayoutOptions
   ) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-analyzeLayout",
+      "CustomRecognizerClient-extractLayout",
       realOptions
     );
 
@@ -399,10 +449,57 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async getAnalyzeLayoutResult(resultId: string, options?: GetAnalyzeLayoutResultOptions) {
+  public async extractLayoutFromUrl(
+    imageSourceUrl: string,
+    options?: ExtractLayoutOptions
+  ) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-getAnalyzeLayoutResult",
+      "CustomRecognizerClient-extractLayoutFromUrl",
+      realOptions
+    );
+
+    const customHeaders: { [key: string]: string } =
+      finalOptions.requestOptions?.customHeaders || {};
+    customHeaders["Content-Type"] = "application/json";
+    const body = JSON.stringify({
+      source: imageSourceUrl
+    });
+    try {
+      const result = await this.client.analyzeLayoutAsync({
+        ...finalOptions,
+        body,
+        customHeaders
+      });
+      const lastSlashIndex = result.operationLocation.lastIndexOf("/");
+      const resultId = result.operationLocation.substring(lastSlashIndex + 1);
+
+      let analyzeResult: GetAnalyzeLayoutResultResponse;
+      do {
+        analyzeResult = await this.client.getAnalyzeLayoutResult(resultId, {
+          abortSignal: finalOptions.abortSignal
+        });
+        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
+          delay(2000); // TODO: internal polling or LRO
+        }
+      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
+
+      return analyzeResult;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getExtractedLayoutResult(resultId: string, options?: GetExtractedLayoutResultOptions) {
+    const realOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-getExtractedLayoutResult",
       realOptions
     );
 
@@ -420,14 +517,14 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async analyzeCustomForm(
+  public async extractCustomForm(
     modelId: string,
     body: HttpRequestBody,
     contentType: string,
-    options: AnalyzeCustomFormOptions) {
+    options: ExtractCustomFormOptions) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-analyzeCustomForm",
+      "CustomRecognizerClient-extractCustomForm",
       realOptions
     );
     const customHeaders: { [key: string]: string } =
@@ -465,10 +562,10 @@ export class CustomRecognizerClient {
 
   }
 
-  public async getAnalyzeCustomFormResult(modelId: string, resultId: string, options?: GetAnalyzeCustomFormOptions) {
+  public async getExtractedCustomForm(modelId: string, resultId: string, options?: GetExtractedCustomFormOptions) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-getAnalyzeCustomFormResult",
+      "CustomRecognizerClient-getExtractedCustomFormResult",
       realOptions
     );
 

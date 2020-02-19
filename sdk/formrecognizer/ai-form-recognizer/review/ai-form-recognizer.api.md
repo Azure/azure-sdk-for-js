@@ -25,38 +25,43 @@ export class CognitiveKeyCredential implements ServiceClientCredentials {
 export class CustomRecognizerClient {
     // Warning: (ae-forgotten-export) The symbol "FormRecognizerClientOptions" needs to be exported by the entry point index.d.ts
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions_2);
-    // Warning: (ae-forgotten-export) The symbol "AnalyzeCustomFormOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeFormResultResponse" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    analyzeCustomForm(modelId: string, body: HttpRequestBody, contentType: string, options: AnalyzeCustomFormOptions): Promise<GetAnalyzeFormResultResponse>;
-    // Warning: (ae-forgotten-export) The symbol "AnalyzeLayoutOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeLayoutResultResponse" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    analyzeLayout(body: HttpRequestBody, contentType: string, options?: AnalyzeLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
-    // Warning: (ae-forgotten-export) The symbol "AnalyzeReceiptOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeReceiptResultResponse" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    analyzeReceipt(body: HttpRequestBody, contentType: string, options?: AnalyzeReceiptOptions): Promise<GetAnalyzeReceiptResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "DeleteModelOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<import("@azure/core-http").RestResponse>;
     readonly endpointUrl: string;
-    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeCustomFormOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "ExtractCustomFormOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeFormResultResponse" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    getAnalyzeCustomFormResult(modelId: string, resultId: string, options?: GetAnalyzeCustomFormOptions): Promise<GetAnalyzeFormResultResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeLayoutResultOptions" needs to be exported by the entry point index.d.ts
+    extractCustomForm(modelId: string, body: HttpRequestBody, contentType: string, options: ExtractCustomFormOptions): Promise<GetAnalyzeFormResultResponse>;
+    // Warning: (ae-forgotten-export) The symbol "ExtractLayoutOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeLayoutResultResponse" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    getAnalyzeLayoutResult(resultId: string, options?: GetAnalyzeLayoutResultOptions): Promise<GetAnalyzeLayoutResultResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeReceiptResultOptions" needs to be exported by the entry point index.d.ts
+    extractLayout(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
+    // (undocumented)
+    extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
+    // Warning: (ae-forgotten-export) The symbol "SupportedContentType" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "ExtractReceiptOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeReceiptResultResponse" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    getAnalyzeReceiptResult(resultId: string, options?: GetAnalyzeReceiptResultOptions): Promise<GetAnalyzeReceiptResultResponse>;
+    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractReceiptOptions): Promise<GetAnalyzeReceiptResultResponse>;
+    // (undocumented)
+    extractReceiptFromUrl(imageSourceUrl: string, options?: ExtractReceiptOptions): Promise<GetAnalyzeReceiptResultResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetExtractedCustomFormOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getExtractedCustomForm(modelId: string, resultId: string, options?: GetExtractedCustomFormOptions): Promise<GetAnalyzeFormResultResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetExtractedLayoutResultOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getExtractedLayoutResult(resultId: string, options?: GetExtractedLayoutResultOptions): Promise<GetAnalyzeLayoutResultResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetExtractedReceiptResultOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getExtractedReceipt(resultId: string, options?: GetExtractedReceiptResultOptions): Promise<GetAnalyzeReceiptResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "GetModelOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
