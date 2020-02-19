@@ -2,28 +2,24 @@
 // Licensed under the MIT License.
 
 /**
- * Analyze Custom Form
+ * Extract receipt
  */
 
 const { CustomRecognizerClient, CognitiveKeyCredential } = require("../../dist");
-const fs = require("fs");
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running AnalyzeCustomForm sample`);
+  console.log(`Running ExtractReceipt sample`);
 
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = "a205cf64-9191-4ba2-ad5a-acfb59ebee63";
-  const path = "e:/temp/fr-test/Invoice_6.pdf";
-
-  const readStream = fs.createReadStream(path);
+  const imageUrl = "http://images2.wikia.nocookie.net/__cb20111106201150/groceryreceipts/images/8/80/Grocery_receipts_001.jpg";
 
   const client = new CustomRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const result = await client.analyzeCustomForm(modelId, readStream, "application/pdf", {
+  const result = await client.extractReceiptFromUrl(imageUrl, {
   });
   console.log(result);
 

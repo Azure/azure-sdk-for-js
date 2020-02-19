@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Analyze Layout
+ * Extract Custom Form
  */
 
 const { CustomRecognizerClient, CognitiveKeyCredential } = require("../../dist");
@@ -12,17 +12,18 @@ const fs = require("fs");
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running AnalyzeLayout sample`);
+  console.log(`Running ExtractCustomForm sample`);
 
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const path = "e:/temp/fr-test/layout-to-analyze.png";
+  const modelId = "a205cf64-9191-4ba2-ad5a-acfb59ebee63";
+  const path = "e:/temp/fr-test/Invoice_6.pdf";
 
   const readStream = fs.createReadStream(path);
 
   const client = new CustomRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const result = await client.analyzeLayout(readStream, "image/png", {
+  const result = await client.extractCustomForm(modelId, readStream, "application/pdf", {
   });
   console.log(result);
 
