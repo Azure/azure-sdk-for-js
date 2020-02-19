@@ -245,58 +245,14 @@ export class ServiceBusMessage implements ReceivedMessage {
 }
 
 // @public (undocumented)
-export class ServiceBusReceiverQueueClient {
+export class ServiceBusReceiverClient {
     // Warning: (ae-forgotten-export) The symbol "ServiceBusClientReceiverOptions" needs to be exported by the entry point index.d.ts
-    constructor(entityConnectionString: string, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions);
-    constructor(serviceBusConnectionString: string, entityName: string, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions);
-    constructor(host: string, entityName: string, receiveMode: ReceiveMode, credential: TokenCredential, options?: ServiceBusClientReceiverOptions);
-    // (undocumented)
-    close(): Promise<void>;
-    // (undocumented)
-    _entityPath: string;
-    static getDeadLetterQueuePath(queueName: string): string;
-    // (undocumented)
-    getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
-    // (undocumented)
-    getState(): Promise<any>;
-    // (undocumented)
-    get isClosed(): boolean;
-    // (undocumented)
-    isReceivingMessages(): boolean;
-    // (undocumented)
-    peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
-    // (undocumented)
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
-    // (undocumented)
-    receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
-    // (undocumented)
-    receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
-    // (undocumented)
-    receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
-    // (undocumented)
-    get receiveMode(): ReceiveMode;
-    // (undocumented)
-    _receiveMode: ReceiveMode;
-    // (undocumented)
-    registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void;
-    // (undocumented)
-    renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;
-    // (undocumented)
-    renewSessionLock(): Promise<Date>;
-    // (undocumented)
-    get sessionId(): string | undefined;
-    // (undocumented)
-    get sessionLockedUntilUtc(): Date | undefined;
-    // (undocumented)
-    setState(state: any): Promise<void>;
-}
-
-// @public (undocumented)
-export class ServiceBusReceiverSubscriptionClient {
-    // Warning: (ae-forgotten-export) The symbol "ServiceBusClientReceiverOptions" needs to be exported by the entry point index.d.ts
-    constructor(entityConnectionString: string, subscriptionName: string, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions_2);
-    constructor(serviceBusConnectionString: string, entityName: string, subscriptionName: string, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions_2);
-    constructor(host: string, entityName: string, subscriptionName: string, receiveMode: ReceiveMode, credential: TokenCredential, options?: ServiceBusClientReceiverOptions_2);
+    constructor(entityConnectionString: string, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions);
+    constructor(serviceBusConnectionString: string, entityName: string, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions);
+    constructor(host: string, entityName: string, credential: TokenCredential, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions);
+    constructor(topicConnectionString: string, subscriptionName: string, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions);
+    constructor(serviceBusConnectionString: string, topicName: string, subscriptionName: string, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions);
+    constructor(host: string, topicName: string, subscriptionName: string, credential: TokenCredential, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions);
     // (undocumented)
     addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
     // (undocumented)
@@ -305,7 +261,7 @@ export class ServiceBusReceiverSubscriptionClient {
     readonly defaultRuleName: string;
     // (undocumented)
     _entityPath: string;
-    static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
+    getDeadLetterPath(): string;
     // (undocumented)
     getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
     // (undocumented)
