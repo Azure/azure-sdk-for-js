@@ -82,6 +82,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
   }
 
+  // Local encryption is only supported in NodeJS.
   it("sign and verify with RS256", async function() {
     recorder.skip("browser", "Local encryption is only supported in NodeJS");
     if (!isNode) {
