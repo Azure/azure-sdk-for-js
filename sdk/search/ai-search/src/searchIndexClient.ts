@@ -29,7 +29,7 @@ import {
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 import { KnownKeys, ReplaceProperties } from "./util";
-import { deserialize } from "./serialization";
+import { deserialize, serialize } from "./serialization";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -391,7 +391,7 @@ export class SearchIndexClient<T> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-modifyIndex", options);
     try {
       const result = await this.client.documents.index(
-        { actions: batch },
+        { actions: serialize(batch) },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       if (options.throwOnAnyFailure && result._response.status === 207) {
