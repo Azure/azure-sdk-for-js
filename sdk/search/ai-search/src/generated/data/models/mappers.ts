@@ -662,6 +662,30 @@ export const AutocompleteResult: coreHttp.CompositeMapper = {
   }
 };
 
+export const SearchError: coreHttp.CompositeMapper = {
+  serializedName: "SearchError",
+  type: {
+    name: "Composite",
+    className: "SearchError",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const RequestOptions: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",

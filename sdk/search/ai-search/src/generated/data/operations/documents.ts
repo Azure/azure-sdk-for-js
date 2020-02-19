@@ -312,7 +312,9 @@ const countOperationSpec: coreHttp.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -351,7 +353,9 @@ const searchGetOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.SearchDocumentsResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -380,7 +384,9 @@ const searchPostOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.SearchDocumentsResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -409,7 +415,9 @@ const getOperationSpec: coreHttp.OperationSpec = {
         }
       }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -442,7 +450,9 @@ const suggestGetOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.SuggestDocumentsResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -471,7 +481,9 @@ const suggestPostOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.SuggestDocumentsResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -503,7 +515,9 @@ const indexOperationSpec: coreHttp.OperationSpec = {
     207: {
       bodyMapper: Mappers.IndexDocumentsResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -535,7 +549,9 @@ const autocompleteGetOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.AutocompleteResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -564,7 +580,9 @@ const autocompletePostOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.AutocompleteResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };

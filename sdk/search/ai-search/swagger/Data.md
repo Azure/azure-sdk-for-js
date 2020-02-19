@@ -47,3 +47,26 @@ directive:
       delete $.IndexNameParameter;
       $.IndexNameParameter = indexName;
 ```
+
+### Give us a default handler
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths..responses
+    transform: >
+      if (!$["default"]) {
+        $["default"] = {};
+        $["default"].description = "Error Response";
+        $["default"].schema = {"$ref": "#/definitions/SearchError"};
+      }
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      $["SearchError"] = {};
+      $["SearchError"].type = "object";
+      $["SearchError"].required = ["code", "message"];
+      $["SearchError"].properties = {};
+      $["SearchError"].properties.code = { type: "string" };
+      $["SearchError"].properties.message = { type: "string" };
+```

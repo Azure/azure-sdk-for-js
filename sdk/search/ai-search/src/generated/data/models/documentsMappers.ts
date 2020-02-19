@@ -16,6 +16,7 @@ export {
   IndexDocumentsResult,
   IndexingResult,
   SearchDocumentsResult,
+  SearchError,
   SearchRequest,
   SearchResult,
   SuggestDocumentsResult,

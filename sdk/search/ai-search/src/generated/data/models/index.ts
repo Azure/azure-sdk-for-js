@@ -456,6 +456,14 @@ export interface AutocompleteResult {
 }
 
 /**
+ * An interface representing SearchError.
+ */
+export interface SearchError {
+  code: string;
+  message: string;
+}
+
+/**
  * Additional parameters for a set of operations.
  */
 export interface RequestOptions {
