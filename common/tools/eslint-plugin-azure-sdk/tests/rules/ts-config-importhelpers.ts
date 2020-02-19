@@ -147,7 +147,7 @@ ruleTester.run("ts-config-importhelpers", rule, {
     },
     {
       // commpilerOptions does not contain importHelpers
-      code: '{"compilerOptions": { "lenient": true }}',
+      code: '{"compilerOptions": { "strict": true }}',
       filename: "tsconfig.json",
       errors: [
         {

@@ -145,7 +145,7 @@ ruleTester.run("ts-config-strict", rule, {
     },
     {
       // commpilerOptions does not contain strict
-      code: '{"compilerOptions": { "lenient": true }}',
+      code: '{"compilerOptions": { "module": "commonjs" }}',
       filename: "tsconfig.json",
       errors: [
         {

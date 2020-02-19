@@ -145,7 +145,7 @@ ruleTester.run("ts-config-target", rule, {
     },
     {
       // commpilerOptions does not contain target
-      code: '{"compilerOptions": { "notTarget": true }}',
+      code: '{"compilerOptions": { "strict": true }}',
       filename: "tsconfig.json",
       errors: [
         {

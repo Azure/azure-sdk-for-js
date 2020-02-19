@@ -145,7 +145,7 @@ ruleTester.run("ts-config-forceconsistentcasinginfilenames", rule, {
     },
     {
       // commpilerOptions does not contain forceConsistentCasingInFileNames
-      code: '{"compilerOptions": { "lenient": true }}',
+      code: '{"compilerOptions": { "strict": true }}',
       filename: "tsconfig.json",
       errors: [
         {

@@ -145,7 +145,7 @@ ruleTester.run("ts-config-moduleresolution", rule, {
     },
     {
       // commpilerOptions does not contain moduleResolution
-      code: '{"compilerOptions": { "module": "node" }}',
+      code: '{"compilerOptions": { "strict": true }}',
       filename: "tsconfig.json",
       errors: [
         {

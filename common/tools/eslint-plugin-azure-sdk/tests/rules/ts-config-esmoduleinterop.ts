@@ -145,7 +145,7 @@ ruleTester.run("ts-config-esmoduleinterop", rule, {
     },
     {
       // commpilerOptions does not contain esModuleInterop
-      code: '{"compilerOptions": { "lenient": true }}',
+      code: '{"compilerOptions": { "strict": true }}',
       filename: "tsconfig.json",
       errors: [
         {

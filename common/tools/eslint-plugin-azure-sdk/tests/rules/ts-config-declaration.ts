@@ -145,7 +145,7 @@ ruleTester.run("ts-config-declaration", rule, {
     },
     {
       // commpilerOptions does not contain declaration
-      code: '{"compilerOptions": { "lenient": true }}',
+      code: '{"compilerOptions": { "strict": true }}',
       filename: "tsconfig.json",
       errors: [
         {

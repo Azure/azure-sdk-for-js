@@ -147,7 +147,7 @@ ruleTester.run("ts-config-allowsyntheticdefaultimports", rule, {
     },
     {
       // commpilerOptions does not contain allowSyntheticDefaultImports
-      code: '{"compilerOptions": { "lenient": true }}',
+      code: '{"compilerOptions": { "strict": true }}',
       filename: "tsconfig.json",
       errors: [
         {

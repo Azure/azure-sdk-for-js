@@ -59,7 +59,7 @@ const exampleTsconfigBad = `{
   "compilerOptions": {
     /* Basic Options */
     "target": "es6" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */,
-    "module": "es5" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
+    "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
 
     "declaration": true /* Generates corresponding '.d.ts' file. */,
     "declarationMap": true /* Generates a sourcemap for each corresponding '.d.ts' file. */,
@@ -147,7 +147,7 @@ ruleTester.run("ts-config-module", rule, {
     },
     {
       // commpilerOptions does not contain module
-      code: '{"compilerOptions": { "lenient": true }}',
+      code: '{"compilerOptions": { "strict": true }}',
       filename: "tsconfig.json",
       errors: [
         {
@@ -157,11 +157,11 @@ ruleTester.run("ts-config-module", rule, {
     },
     {
       // only the fields we care about
-      code: '{"compilerOptions": { "module": "es5" }}',
+      code: '{"compilerOptions": { "module": "commonjs" }}',
       filename: "tsconfig.json",
       errors: [
         {
-          message: "compilerOptions.module is set to es5 when it should be set to ES6"
+          message: "compilerOptions.module is set to commonjs when it should be set to ES6"
         }
       ],
       output: '{"compilerOptions": { "module": "es6" }}'
@@ -172,7 +172,7 @@ ruleTester.run("ts-config-module", rule, {
       filename: "tsconfig.json",
       errors: [
         {
-          message: "compilerOptions.module is set to es5 when it should be set to ES6"
+          message: "compilerOptions.module is set to commonjs when it should be set to ES6"
         }
       ],
       output: exampleTsconfigGood

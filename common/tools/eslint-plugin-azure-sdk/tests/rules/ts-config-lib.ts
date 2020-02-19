@@ -147,7 +147,7 @@ ruleTester.run("ts-config-lib", rule, {
     },
     {
       // commpilerOptions does not contain strict
-      code: '{"compilerOptions": { "notLib": true }}',
+      code: '{"compilerOptions": { "sourceMap": true }}',
       filename: "tsconfig.json",
       errors: [
         {
