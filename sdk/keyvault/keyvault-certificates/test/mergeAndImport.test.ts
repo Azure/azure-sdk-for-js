@@ -75,6 +75,10 @@ describe("Certificates client - merge and import certificates", () => {
       undefined,
       "The signed certificate will never be the same, so we can't play it back."
     );
+    if (!isNode) {
+      // recorder.skip doesn't work on TEST_MODE=live
+      return this.skip();
+    }
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await client.beginCreateCertificate(
