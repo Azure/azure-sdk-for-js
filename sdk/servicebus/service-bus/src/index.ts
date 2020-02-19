@@ -4,7 +4,7 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
+// export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
 export {
   TokenType,
   TokenCredential,

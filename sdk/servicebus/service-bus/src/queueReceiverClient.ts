@@ -14,7 +14,7 @@ export type ServiceBusClientReceiverOptions = ServiceBusClientOptions & SessionR
 export class ServiceBusReceiverQueueClient {
   public _receiveMode: ReceiveMode;
   public _entityPath: string;
-  public _clientEntityContext: ClientEntityContext;
+  private _clientEntityContext: ClientEntityContext;
   private _sbClient: ServiceBusClient;
   private _currentReceiver: Receiver | SessionReceiver;
 

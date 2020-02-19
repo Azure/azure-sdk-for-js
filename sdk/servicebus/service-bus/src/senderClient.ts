@@ -8,7 +8,7 @@ import { generate_uuid } from "rhea-promise";
 
 export class ServiceBusSenderClient {
   public _entityPath: string;
-  public _clientEntityContext: ClientEntityContext;
+  private _clientEntityContext: ClientEntityContext;
   private _sbClient: ServiceBusClient;
   private _currentSender: Sender;
 
