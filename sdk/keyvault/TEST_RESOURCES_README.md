@@ -94,7 +94,7 @@ Make sure to read the Terms and Conditions before purchasing these resources.
 
 ### Verifying your deploy
 
-Once your purchase is completed, a notification badge will appear on the top right of the portal,
+Once your ARM template deployment starts a notification badge will appear on the top right of the portal,
 indicating that the resource is being created. You can go to your resource group's page,
 then go to the **Deployments** section to see a history of all the deployments you've made.
 
