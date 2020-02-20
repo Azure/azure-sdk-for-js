@@ -233,8 +233,8 @@ describe("BlobClient", () => {
   });
 
   it.only("undelete", async () => {
-    const properties = await blobServiceClient.getProperties();
-    if (!properties.deleteRetentionPolicy!.enabled) {
+    let properties = await blobServiceClient.getProperties();
+    while (!properties.deleteRetentionPolicy!.enabled) {
       await blobServiceClient.setProperties({
         deleteRetentionPolicy: {
           days: 7,
@@ -242,6 +242,7 @@ describe("BlobClient", () => {
         }
       });
       await delay(15 * 1000);
+      properties = await blobServiceClient.getProperties();
     }
 
     await blobClient.delete();
