@@ -732,7 +732,7 @@ const getBuildSourceUploadUrlOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SourceUploadDefinition
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorSchema
     }
   },
   serializer
@@ -891,7 +891,7 @@ const beginScheduleRunOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorSchema
     }
   },
   serializer
