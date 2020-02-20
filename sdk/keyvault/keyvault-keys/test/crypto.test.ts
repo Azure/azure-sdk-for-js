@@ -11,6 +11,7 @@ import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 import { isRecordMode, Recorder } from "@azure/test-utils-recorder";
+import { isNode } from "@azure/core-http";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   let client: KeyClient;
@@ -81,8 +82,13 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
   }
 
+  // Local encryption is only supported in NodeJS.
   it("sign and verify with RS256", async function() {
     recorder.skip("browser", "Local encryption is only supported in NodeJS");
+    if (!isNode) {
+      // recorder.skip is not meant for TEST_MODE=live
+      return this.skip();
+    }
     const signatureValue = this.test!.title;
     const hash = createHash("sha256");
     hash.update(signatureValue);
