@@ -3,8 +3,8 @@
 
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
-// import { QueueClient } from "./queueClient";
-// import { TopicClient } from "./topicClient";
+import { QueueClient } from "./queueClient";
+import { TopicClient } from "./topicClient";
 import {
   ConnectionConfig,
   DataTransformer,
@@ -12,7 +12,7 @@ import {
   SharedKeyCredential,
   isTokenCredential
 } from "@azure/core-amqp";
-// import { SubscriptionClient } from "./subscriptionClient";
+import { SubscriptionClient } from "./subscriptionClient";
 import { WebSocketOptions } from "@azure/core-amqp";
 
 /**
@@ -49,7 +49,7 @@ export class ServiceBusClient {
    * @property Describes the amqp connection context for the Namespace.
    * @private
    */
-  public _context: ConnectionContext;
+  private _context: ConnectionContext;
 
   /**
    * Creates a ServiceBusClient for the Service Bus Namespace represented in the given connection
@@ -115,47 +115,47 @@ export class ServiceBusClient {
     this._context = ConnectionContext.create(config, credential, options);
   }
 
-  // /**
-  //  * Creates a QueueClient for an existing Service Bus Queue.
-  //  * @param {string} queueName The queue name.
-  //  * @returns QueueClient.
-  //  * @throws Error if the underlying connection is closed.
-  //  */
-  // createQueueClient(queueName: string): QueueClient {
-  //   const client = new QueueClient(queueName, this._context);
-  //   log.ns("Created the QueueClient for Queue: %s", queueName);
-  //   return client;
-  // }
+  /**
+   * Creates a QueueClient for an existing Service Bus Queue.
+   * @param {string} queueName The queue name.
+   * @returns QueueClient.
+   * @throws Error if the underlying connection is closed.
+   */
+  createQueueClient(queueName: string): QueueClient {
+    const client = new QueueClient(queueName, this._context);
+    log.ns("Created the QueueClient for Queue: %s", queueName);
+    return client;
+  }
 
-  // /**
-  //  * Creates a TopicClient for an existing Service Bus Topic.
-  //  * @param {string} topicName The topic name.
-  //  * @returns TopicClient.
-  //  * @throws
-  //  * @throws Error if the underlying connection is closed.
-  //  */
-  // createTopicClient(topicName: string): TopicClient {
-  //   const client = new TopicClient(topicName, this._context);
-  //   log.ns("Created the TopicClient for Topic: %s", topicName);
-  //   return client;
-  // }
+  /**
+   * Creates a TopicClient for an existing Service Bus Topic.
+   * @param {string} topicName The topic name.
+   * @returns TopicClient.
+   * @throws
+   * @throws Error if the underlying connection is closed.
+   */
+  createTopicClient(topicName: string): TopicClient {
+    const client = new TopicClient(topicName, this._context);
+    log.ns("Created the TopicClient for Topic: %s", topicName);
+    return client;
+  }
 
-  // /**
-  //  * Creates a SubscriptionClient for an existing Service Bus Subscription.
-  //  * @param {string} topicName The topic name.
-  //  * @param {string} subscriptionName The subscription name.
-  //  * @returns SubscriptionClient.
-  //  * @throws Error if the underlying connection is closed.
-  //  */
-  // createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient {
-  //   const client = new SubscriptionClient(topicName, subscriptionName, this._context);
-  //   log.ns(
-  //     "Created the SubscriptionClient for Topic: %s and Subscription: %s",
-  //     topicName,
-  //     subscriptionName
-  //   );
-  //   return client;
-  // }
+  /**
+   * Creates a SubscriptionClient for an existing Service Bus Subscription.
+   * @param {string} topicName The topic name.
+   * @param {string} subscriptionName The subscription name.
+   * @returns SubscriptionClient.
+   * @throws Error if the underlying connection is closed.
+   */
+  createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient {
+    const client = new SubscriptionClient(topicName, subscriptionName, this._context);
+    log.ns(
+      "Created the SubscriptionClient for Topic: %s and Subscription: %s",
+      topicName,
+      subscriptionName
+    );
+    return client;
+  }
 
   /**
    * Closes the AMQP connection created by this ServiceBusClient along with AMQP links for
