@@ -98,7 +98,7 @@ Once your ARM template deployment starts a notification badge will appear on the
 indicating that the resource is being created. You can go to your resource group's page,
 then go to the **Deployments** section to see a history of all the deployments you've made.
 
-The deployments that have used an ARM template will say in their names **Microsoft.Template**
+Deployments done with an ARM template will have **Microsoft.Template** in their name.
 If you click in one of them, you'll see at the left "Outputs" as one of the menu options.
 If your deployment has succeeded, the outputs will contain the name of the KeyVault that was just created.
 
