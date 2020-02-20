@@ -14,7 +14,6 @@ import { ConnectionContext } from "./connectionContext";
 
 export class ServiceBusSenderClient {
   public _entityPath: string;
-  private _clientEntityContext: ClientEntityContext;
   private _currentSender: Sender;
 
   /**
@@ -95,13 +94,13 @@ export class ServiceBusSenderClient {
         options
       );
     }
-    this._clientEntityContext = ClientEntityContext.create(
+    const clientEntityContext = ClientEntityContext.create(
       this._entityPath,
       ClientType.ServiceBusSenderClient,
       context,
       `${this._entityPath}/${generate_uuid()}`
     );
-    this._currentSender = new Sender(this._clientEntityContext);
+    this._currentSender = new Sender(clientEntityContext);
   }
 
   async send(message: SendableMessageInfo): Promise<void> {
@@ -136,6 +135,5 @@ export class ServiceBusSenderClient {
 
   async close(): Promise<void> {
     await this._currentSender.close();
-    await this._clientEntityContext.close();
   }
 }

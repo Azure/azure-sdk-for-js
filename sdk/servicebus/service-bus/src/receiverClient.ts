@@ -19,7 +19,6 @@ import { ClientType } from "./client";
 import { ReceiveMode, ServiceBusMessage, ReceivedMessageInfo } from "./serviceBusMessage";
 import { SessionReceiverOptions } from "./session/messageSession";
 import { generate_uuid } from "rhea-promise";
-import { throwErrorIfClientOrConnectionClosed } from "./util/errors";
 import { ConnectionContext } from "./connectionContext";
 
 export type ServiceBusClientReceiverOptions = ServiceBusClientOptions & SessionReceiverOptions;
@@ -27,7 +26,6 @@ export type ServiceBusClientReceiverOptions = ServiceBusClientOptions & SessionR
 export class ServiceBusReceiverClient {
   public _receiveMode: ReceiveMode;
   public _entityPath: string;
-  private _clientEntityContext: ClientEntityContext;
   private _currentReceiver: Receiver | SessionReceiver;
   readonly defaultRuleName: string = "$Default";
 
@@ -166,7 +164,7 @@ export class ServiceBusReceiverClient {
     this._receiveMode =
       receiveMode === ReceiveMode.receiveAndDelete ? receiveMode : ReceiveMode.peekLock;
 
-    this._clientEntityContext = ClientEntityContext.create(
+    const clientEntityContext = ClientEntityContext.create(
       this._entityPath,
       ClientType.ServiceBusReceiverClient,
       context,
@@ -175,9 +173,9 @@ export class ServiceBusReceiverClient {
 
     if (!options?.sessionId) {
       // Receiver for the subscription where sessions are not enabled
-      this._currentReceiver = new Receiver(this._clientEntityContext, receiveMode);
+      this._currentReceiver = new Receiver(clientEntityContext, receiveMode);
     } else {
-      this._currentReceiver = new SessionReceiver(this._clientEntityContext, receiveMode, options);
+      this._currentReceiver = new SessionReceiver(clientEntityContext, receiveMode, options);
     }
   }
 
@@ -229,7 +227,6 @@ export class ServiceBusReceiverClient {
 
   async close(): Promise<void> {
     await this._currentReceiver.close();
-    await this._clientEntityContext.close();
   }
 
   isReceivingMessages(): boolean {
@@ -283,13 +280,7 @@ export class ServiceBusReceiverClient {
     if (this._currentReceiver instanceof SessionReceiver) {
       return this._currentReceiver.peek(maxMessageCount);
     } else {
-      throwErrorIfClientOrConnectionClosed(
-        this._clientEntityContext.namespace,
-        this._entityPath,
-        this._clientEntityContext.isClosed
-      );
-
-      return this._clientEntityContext.managementClient!.peek(maxMessageCount);
+      return this._currentReceiver.peek(this._entityPath, maxMessageCount);
     }
   }
 
@@ -300,13 +291,8 @@ export class ServiceBusReceiverClient {
     if (this._currentReceiver instanceof SessionReceiver) {
       return this._currentReceiver.peekBySequenceNumber(fromSequenceNumber, maxMessageCount);
     } else {
-      throwErrorIfClientOrConnectionClosed(
-        this._clientEntityContext.namespace,
+      return this._currentReceiver.peekBySequenceNumber(
         this._entityPath,
-        this._clientEntityContext.isClosed
-      );
-
-      return this._clientEntityContext.managementClient!.peekBySequenceNumber(
         fromSequenceNumber,
         maxMessageCount
       );
@@ -344,29 +330,11 @@ export class ServiceBusReceiverClient {
   // #region topic-filters
 
   async getRules(): Promise<RuleDescription[]> {
-    if (this._entityPath.includes("/Subscriptions/")) {
-      throwErrorIfClientOrConnectionClosed(
-        this._clientEntityContext.namespace,
-        this._entityPath,
-        this._clientEntityContext.isClosed
-      );
-      return this._clientEntityContext.managementClient!.getRules();
-    } else {
-      throw new Error("Only for a subscription");
-    }
+    return this._currentReceiver.getRules(this._entityPath);
   }
 
   async removeRule(ruleName: string): Promise<void> {
-    if (this._entityPath.includes("/Subscriptions/")) {
-      throwErrorIfClientOrConnectionClosed(
-        this._clientEntityContext.namespace,
-        this._entityPath,
-        this._clientEntityContext.isClosed
-      );
-      return this._clientEntityContext.managementClient!.removeRule(ruleName);
-    } else {
-      throw new Error("Only for a subscription");
-    }
+    return this._currentReceiver.removeRule(this._entityPath, ruleName);
   }
 
   async addRule(
@@ -374,20 +342,12 @@ export class ServiceBusReceiverClient {
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    if (this._entityPath.includes("/Subscriptions/")) {
-      throwErrorIfClientOrConnectionClosed(
-        this._clientEntityContext.namespace,
-        this._entityPath,
-        this._clientEntityContext.isClosed
-      );
-      return this._clientEntityContext.managementClient!.addRule(
-        ruleName,
-        filter,
-        sqlRuleActionExpression
-      );
-    } else {
-      throw new Error("Only for a subscription");
-    }
+    return this._currentReceiver.addRule(
+      this._entityPath,
+      ruleName,
+      filter,
+      sqlRuleActionExpression
+    );
   }
 
   // #endregion
