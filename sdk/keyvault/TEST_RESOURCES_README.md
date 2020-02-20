@@ -100,8 +100,7 @@ If your deployment has succeeded, the outputs will contain the name of the KeyVa
 
 ## Running the KeyVault client tests
 
-Once you have the resources ready to run our integration tests,
-continue reading [how to run our integration tests](./test/README.md).
+After your resources have been deployed you can read about [how to run our integration tests](./test/README.md).
 
 ## Deleting your test resources
 
