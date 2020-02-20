@@ -21,6 +21,7 @@ jobs:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
           NodeVersion: "10.x"
+          PublishCodeCoverage: true
         Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "node"
@@ -56,6 +57,7 @@ jobs:
         Windows_Browser:
           OSVmImage: "windows-2019"
           TestType: "browser"
+          PublishCodeCoverage: true
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)

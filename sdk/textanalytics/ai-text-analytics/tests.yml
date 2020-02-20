@@ -17,6 +17,7 @@ jobs:
         Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
+          UploadCodeCoverage: true
         Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "node"
@@ -26,6 +27,7 @@ jobs:
         Browser_Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "browser"
+          UploadCodeCoverage: true
         Browser_Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "browser"
@@ -43,4 +45,3 @@ jobs:
         ENDPOINT: $(ENDPOINT)
         TEXT_ANALYTICS_API_KEY: $(TEXT_ANALYTICS_API_KEY)
         TEXT_ANALYTICS_API_KEY_ALT: $(TEXT_ANALYTICS_API_KEY_ALT)
-

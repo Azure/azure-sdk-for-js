@@ -22,6 +22,7 @@ jobs:
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "10.x"
           TestType: "node"
+          UploadCodeCoverage: true
         Linux_Node12:
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "12.x"
@@ -54,6 +55,7 @@ jobs:
           OSVmImage: "ubuntu-16.04"
           NodeVersion: "10.x"
           TestType: "browser"
+          UploadCodeCoverage: true
         Browser_Windows_Node10:
           OSVmImage: "windows-2019"
           NodeVersion: "10.x"
