@@ -29,7 +29,7 @@ jobs:
           TestType: "node"
           NodeVersion: "10.x"
         macOS_Node10:
-          OSVmImage: "macOS-10.13"
+          OSVmImage: "macOS-10.15"
           TestType: "node"
           NodeVersion: "10.x"
         Linux_Node12:
@@ -41,7 +41,7 @@ jobs:
           TestType: "node"
           NodeVersion: "12.x"
         macOS_Node12:
-          OSVmImage: "macOS-10.13"
+          OSVmImage: "macOS-10.15"
           TestType: "node"
           NodeVersion: "12.x"
         Linux_Node8:
@@ -53,6 +53,6 @@ jobs:
           TestType: "node"
           NodeVersion: "8.x"
         macOS_Node8:
-          OSVmImage: "macOS-10.13"
+          OSVmImage: "macOS-10.15"
           TestType: "node"
           NodeVersion: "8.x"
