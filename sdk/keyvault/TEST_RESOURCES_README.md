@@ -1,7 +1,7 @@
 # KeyVault Test Resources
 
 The KeyVault packages provide a common [Azure Resource Manager template][KVARM] to help developers set up the resources needed
-to run all of the integration tests in each of the KeyVault clients. This ARM template is used automatically by the CI pipelines
+to run all of the integration tests for each KeyVault client. This ARM template is used by the CI pipelines
 that run during pull requests, just as much as it is used to help developers deploy their own resources on their personal
 Azure accounts for manual testing purposes.
 
