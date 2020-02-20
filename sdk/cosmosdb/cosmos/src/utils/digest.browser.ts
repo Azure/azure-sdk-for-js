@@ -1,12 +1,14 @@
 import { encodeUTF8 } from "./encode";
 
+const _global = typeof self === "undefined" ? window : self;
+
 export async function digest(str: string) {
-  if (!window || !window.crypto || !window.crypto.subtle) {
+  if (!_global || !_global.crypto || !_global.crypto.subtle) {
     throw new Error("Browser does not support cryptography functions");
   }
 
   const data = encodeUTF8(str);
-  const hash = await window.crypto.subtle.digest("SHA-256", data);
+  const hash = await _global.crypto.subtle.digest("SHA-256", data);
   return bufferToHex(hash);
 }
 
