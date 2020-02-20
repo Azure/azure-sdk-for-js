@@ -21,7 +21,10 @@ import {
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
-describe.only("BlobClient", () => {
+import { setLogLevel } from '@azure/logger';
+setLogLevel("info");
+
+describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
@@ -32,7 +35,7 @@ describe.only("BlobClient", () => {
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -44,7 +47,7 @@ describe.only("BlobClient", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     recorder.stop();
   });
@@ -229,7 +232,7 @@ describe.only("BlobClient", () => {
     assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
   });
 
-  it("undelete", async () => {
+  it.only("undelete", async () => {
     const properties = await blobServiceClient.getProperties();
     if (!properties.deleteRetentionPolicy!.enabled) {
       await blobServiceClient.setProperties({
