@@ -66,10 +66,6 @@ az identity create -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME
 
 Save its `clientId`, `id` (ARM URI), and `principalId` (object ID) for later:
 ```sh
-$MANAGED_IDENTITY_CLIENT_ID=az identity show -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME --query clientId -o tsv
-
-$MANAGED_IDENTITY_ID=az identity show -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME --query id -o tsv
-
 $MANAGED_IDENTITY_PRINCIPAL_ID=az identity show -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME --query principalId -o tsv
 ```
 
@@ -88,6 +84,28 @@ az keyvault set-policy -n $KEY_VAULT_NAME --object-id $MANAGED_IDENTITY_PRINCIPA
 ```
 az webapp config appsettings set -g $RESOURCE_GROUP -n $APP_NAME_SYSTEM_ASSIGNED --settings KEY_VAULT_NAME=$KEY_VAULT_NAME
 ```
+
+### Build the webapp
+```
+git clone https://github.com/azure/azure-sdk-for-js --single-branch --branch master --depth 1
+```
+
+```
+cd azure-sdk-for-js\sdk\identity\identity\test\manual-integration\webjobs\App_Data
+```
+
+Install the requirements:
+```
+node install
+```
+
+Build the job:
+```
+tsc -p .
+```
+
+Zip the App_Data directory, and all its contents, into "AzureTestJob.zip"
+
 
 ### Upload the job
 ```
@@ -111,11 +129,17 @@ Invoke-WebRequest -Uri https://$APP_NAME_SYSTEM_ASSIGNED.scm.azurewebsites.net/a
 ### Trigger the job
 
 ```
-az webapp webjob triggered run -w AzureTestJob -g $group -n $webapp
+az webapp webjob triggered run -w AzureTestJob -g $RESOURCE_GROUP -n $APP_NAME_SYSTEM_ASSIGNED
 ```
 
 ### Test the job completed successfully
 
 ```
 az keyvault secret show -n "secret-name" --vault-name "$($KEY_VAULT_NAME)"
+```
+
+# Delete Azure resources
+After running tests, delete the resources provisioned earlier:
+```sh
+az group delete -n $RESOURCE_GROUP -y --no-wait
 ```
