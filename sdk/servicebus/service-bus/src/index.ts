@@ -58,4 +58,12 @@ export {
 } from "./serializers/ruleResourceSerializer";
 
 export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
-export { ReceiverClient, NonSessionReceiverClient, SessionReceiverClient } from "./receiverClient2";
+export {
+  ReceiverClient,
+  NonSessionReceiverClient,
+  SessionReceiverClient,
+  SessionConnections,
+  Message,
+  UselessEmptyContextThatMaybeShouldBeRemoved,
+  ContextWithSettlement
+} from "./receiverClient2";

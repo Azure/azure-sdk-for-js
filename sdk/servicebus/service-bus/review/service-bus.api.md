@@ -29,6 +29,18 @@ export type AuthorizationRule = {
     secondaryKey?: string;
 };
 
+// @public (undocumented)
+export interface ContextWithSettlement {
+    // (undocumented)
+    abandon(m: Message): Promise<void>;
+    // (undocumented)
+    complete(m: Message): Promise<void>;
+    // (undocumented)
+    deadLetter(m: Message): Promise<void>;
+    // (undocumented)
+    defer(m: Message): Promise<void>;
+}
+
 // @public
 export interface CorrelationFilter {
     contentType?: string;
@@ -58,6 +70,9 @@ export { Delivery }
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
 export { HttpOperationResponse }
+
+// @public (undocumented)
+export type Message = Omit<ServiceBusMessage, "complete" | "abandon" | "defer" | "deadletter" | "prototype">;
 
 // @public
 export type MessageCountDetails = {
@@ -358,6 +373,10 @@ export class ServiceBusSenderClient {
 }
 
 // @public
+export class SessionConnections {
+}
+
+// @public
 export interface SessionMessageHandlerOptions {
     autoComplete?: boolean;
     maxConcurrentCalls?: number;
@@ -488,6 +507,10 @@ export interface TopicOptions {
     status?: EntityStatus;
     supportOrdering?: boolean;
     userMetadata?: string;
+}
+
+// @public (undocumented)
+export interface UselessEmptyContextThatMaybeShouldBeRemoved {
 }
 
 export { WebSocketImpl }

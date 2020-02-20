@@ -22,16 +22,15 @@ export interface Session {
 }
 
 // the "action" methods here are on the context object instead.
-export interface Message
-  extends Omit<
-    typeof ServiceBusMessage,
-    | "complete"
-    | "abandon"
-    | "defer"
-    | "deadletter"
-    // Um..am I doing something odd here or is this a normal thing to exclude?
-    | "prototype"
-  > {}
+export type Message = Omit<
+  ServiceBusMessage,
+  | "complete"
+  | "abandon"
+  | "defer"
+  | "deadletter"
+  // Um..am I doing something odd here or is this a normal thing to exclude?
+  | "prototype"
+>;
 
 export interface ContextWithSettlement {
   complete(m: Message): Promise<void>;
@@ -40,7 +39,7 @@ export interface ContextWithSettlement {
   deadLetter(m: Message): Promise<void>;
 }
 
-export interface EmptyContext {}
+export interface UselessEmptyContextThatMaybeShouldBeRemoved {}
 
 export interface MessageHandlers<ContextT> {
   processMessage(message: Message, context: ContextT): Promise<void>;
@@ -58,7 +57,7 @@ export interface MessageIterator<ContextT> extends AsyncIterable<Message> {
 export type ContextType<LockModeT> = LockModeT extends "PeekLock"
   ? ContextWithSettlement
   : LockModeT extends "ReceiveAndDelete"
-  ? EmptyContext
+  ? UselessEmptyContextThatMaybeShouldBeRemoved
   : never;
 
 // TODO: could extend NonSessionReceiverClient
@@ -97,7 +96,7 @@ function getEntityPath(
       entityPath = queueOrTopicName!;
     }
   } else {
-    const baseEntityPath = entityPath![1]!;
+    const baseEntityPath = entityPathMatch![1]!;
 
     if (optionalQueueOrSubscriptionOrTopicName != null) {
       // topic (from connection string) + sub
@@ -236,9 +235,11 @@ export const ReceiverClient: ReceiverClient = class {
   }
 
   streamMessages(handlers: MessageHandlers<ContextWithSettlement>): void;
-  streamMessages(handlers: MessageHandlers<EmptyContext>): void;
+  streamMessages(handlers: MessageHandlers<UselessEmptyContextThatMaybeShouldBeRemoved>): void;
   streamMessages(
-    handlers: MessageHandlers<EmptyContext> | MessageHandlers<ContextWithSettlement>
+    handlers:
+      | MessageHandlers<UselessEmptyContextThatMaybeShouldBeRemoved>
+      | MessageHandlers<ContextWithSettlement>
   ): void {
     // this is so goofy that I apologize in advance:
     if (this._receiveMode === ReceiveMode.peekLock) {
@@ -251,7 +252,9 @@ export const ReceiverClient: ReceiverClient = class {
         handlers.processError(err);
       });
     } else if (this._receiveMode === ReceiveMode.receiveAndDelete) {
-      const actualHandlers = handlers as MessageHandlers<EmptyContext>;
+      const actualHandlers = handlers as MessageHandlers<
+        UselessEmptyContextThatMaybeShouldBeRemoved
+      >;
 
       this._receiver.registerMessageHandler(
         (message) => {
