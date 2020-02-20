@@ -20,6 +20,8 @@ import { Buffer } from "buffer";
 
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
+ * @internal
+ * @ignore
  */
 export enum ReceiveMode {
   /**
