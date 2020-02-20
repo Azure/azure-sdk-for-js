@@ -234,16 +234,16 @@ describe("BlobClient", () => {
 
   it.only("undelete", async () => {
     let properties = await blobServiceClient.getProperties();
-    while (!properties.deleteRetentionPolicy!.enabled) {
+    if (!properties.deleteRetentionPolicy!.enabled) {
       await blobServiceClient.setProperties({
         deleteRetentionPolicy: {
           days: 7,
           enabled: true
         }
       });
-      await delay(15 * 1000);
+      // await delay(15 * 1000);
       properties = await blobServiceClient.getProperties();
-      assert.ok(properties.deleteRetentionPolicy!.enabled, "deleteRetentionPolicy should be enabled.");
+      assert.ok(properties.deleteRetentionPolicy!.enabled, "deleteRetentionPolicy should be enabled immediately.");
     }
 
     await blobClient.delete();
