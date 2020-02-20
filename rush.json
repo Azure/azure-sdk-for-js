@@ -388,6 +388,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/dev-tool",
+      "projectFolder": "common/tools/dev-tool",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/event-hubs",
       "projectFolder": "sdk/eventhub/event-hubs",
       "versionPolicyName": "client"

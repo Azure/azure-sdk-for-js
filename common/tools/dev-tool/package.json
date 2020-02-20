@@ -1,0 +1,43 @@
+{
+  "name": "@azure/dev-tool",
+  "version": "1.0.0",
+  "description": "A helpful command for azure-sdk-for-js developers",
+  "bin": {
+    "dev-tool": "launch.js"
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build": "echo",
+    "clean": "rimraf dist dist-* *.tgz *.log",
+    "extract-api": "echo skipped",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test": "./launch.js --num 10 --pre pre command --bool --bool2=true --post post -- --after --after-bool=true "
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/common/tools/dev-tool",
+  "sideEffects": false,
+  "private": true,
+  "dependencies": {
+    "@azure/logger": "^1.0.0",
+    "fs-extra": "^8.1.0",
+    "ts-node": "^8.3.0",
+    "typescript": "~3.7.5",
+    "inquirer": "~7.0.4",
+    "minimist": "~1.2.0",
+    "chalk": "~3.0.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.0",
+    "@types/node": "^8.0.0",
+    "rimraf": "^3.0.0",
+    "@types/minimist": "~1.2.0",
+    "@types/chalk": "~2.2.0"
+  }
+}
