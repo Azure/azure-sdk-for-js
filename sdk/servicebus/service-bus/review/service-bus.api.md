@@ -100,6 +100,21 @@ export interface OnMessage {
     (message: ServiceBusMessage): Promise<void>;
 }
 
+// Warning: (ae-forgotten-export) The symbol "Client" needs to be exported by the entry point index.d.ts
+//
+// @public
+export class QueueClient implements Client {
+    close(): Promise<void>;
+    createReceiver(receiveMode: ReceiveMode): Receiver;
+    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
+    createSender(): Sender;
+    readonly entityPath: string;
+    static getDeadLetterQueuePath(queueName: string): string;
+    readonly id: string;
+    peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+}
+
 // @public
 export interface QueueDetails {
     accessedOn?: string;
@@ -170,6 +185,30 @@ export enum ReceiveMode {
     receiveAndDelete = 2
 }
 
+// @public
+export class Receiver {
+    // (undocumented)
+    addRule(entityPath: string, ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
+    close(): Promise<void>;
+    getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
+    // (undocumented)
+    getRules(entityPath: string): Promise<RuleDescription[]>;
+    get isClosed(): boolean;
+    isReceivingMessages(): boolean;
+    // (undocumented)
+    peek(entityPath: string, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    // (undocumented)
+    peekBySequenceNumber(entityPath: string, fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
+    receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
+    receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
+    get receiveMode(): ReceiveMode;
+    registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptions): void;
+    // (undocumented)
+    removeRule(entityPath: string, ruleName: string): Promise<void>;
+    renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;
+    }
+
 // @public (undocumented)
 export interface ReceiverClient {
     // Warning: (ae-forgotten-export) The symbol "ServiceBusClientReceiverOptions" needs to be exported by the entry point index.d.ts
@@ -232,6 +271,35 @@ export interface SendableMessageInfo {
         [key: string]: any;
     };
     viaPartitionKey?: string;
+}
+
+// @public
+export class Sender {
+    cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
+    close(): Promise<void>;
+    get isClosed(): boolean;
+    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
+    send(message: SendableMessageInfo): Promise<void>;
+    sendBatch(messages: SendableMessageInfo[]): Promise<void>;
+    }
+
+// @public
+export class ServiceBusClient {
+    constructor(connectionString: string, options?: ServiceBusClientOptions);
+    constructor(host: string, credential: TokenCredential, options?: ServiceBusClientOptions);
+    close(): Promise<any>;
+    createQueueClient(queueName: string): QueueClient;
+    createSubscriptionClient(topicName: string, subscriptionName: string): SubscriptionClient;
+    createTopicClient(topicName: string): TopicClient;
+    readonly name: string;
+}
+
+// @public
+export interface ServiceBusClientOptions {
+    dataTransformer?: DataTransformer;
+    webSocketOptions?: WebSocketOptions;
 }
 
 // Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
@@ -335,7 +403,6 @@ export class ServiceBusReceiverClient {
 
 // @public (undocumented)
 export class ServiceBusSenderClient {
-    // Warning: (ae-forgotten-export) The symbol "ServiceBusClientOptions" needs to be exported by the entry point index.d.ts
     constructor(entityConnectionString: string, options?: ServiceBusClientOptions);
     constructor(serviceBusConnectionString: string, entityName: string, options?: ServiceBusClientOptions);
     constructor(host: string, entityName: string, credential: TokenCredential, options?: ServiceBusClientOptions);
@@ -362,6 +429,32 @@ export interface SessionMessageHandlerOptions {
     autoComplete?: boolean;
     maxConcurrentCalls?: number;
 }
+
+// @public
+export class SessionReceiver {
+    // (undocumented)
+    addRule(entityPath: string, ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
+    close(): Promise<void>;
+    getMessageIterator(): AsyncIterableIterator<ServiceBusMessage>;
+    // (undocumented)
+    getRules(entityPath: string): Promise<RuleDescription[]>;
+    getState(): Promise<any>;
+    get isClosed(): boolean;
+    isReceivingMessages(): boolean;
+    peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
+    receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
+    receiveMessages(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]>;
+    get receiveMode(): ReceiveMode;
+    registerMessageHandler(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void;
+    // (undocumented)
+    removeRule(entityPath: string, ruleName: string): Promise<void>;
+    renewSessionLock(): Promise<Date>;
+    get sessionId(): string | undefined;
+    get sessionLockedUntilUtc(): Date | undefined;
+    setState(state: any): Promise<void>;
+    }
 
 // @public (undocumented)
 export interface SessionReceiverClient<LockModeT extends "PeekLock" | "ReceiveAndDelete"> {
@@ -396,6 +489,23 @@ export type SqlParameter = {
     value: string | number;
     type: string;
 };
+
+// @public
+export class SubscriptionClient implements Client {
+    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
+    close(): Promise<void>;
+    createReceiver(receiveMode: ReceiveMode): Receiver;
+    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
+    readonly defaultRuleName: string;
+    readonly entityPath: string;
+    getRules(): Promise<RuleDescription[]>;
+    readonly id: string;
+    peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    removeRule(ruleName: string): Promise<void>;
+    readonly subscriptionName: string;
+    readonly topicName: string;
+}
 
 // @public
 export interface SubscriptionDetails {
@@ -444,6 +554,15 @@ export interface SubscriptionOptions {
 export { TokenCredential }
 
 export { TokenType }
+
+// @public
+export class TopicClient implements Client {
+    close(): Promise<void>;
+    createSender(): Sender;
+    readonly entityPath: string;
+    static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
+    readonly id: string;
+}
 
 // @public
 export interface TopicDetails {
