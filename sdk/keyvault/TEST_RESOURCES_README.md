@@ -98,10 +98,6 @@ Deployments done with an ARM template will have **Microsoft.Template** in their 
 If you click in one of them, you'll see at the left "Outputs" as one of the menu options.
 If your deployment has succeeded, the outputs will contain the name of the KeyVault that was just created.
 
-## Running the KeyVault client tests
-
-After your resources have been deployed you can read about [how to run our integration tests](./test/README.md).
-
 ## Deleting your test resources
 
 At the home page of your Azure account you will be able to see your recently created resources.
