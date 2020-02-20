@@ -1,16 +1,20 @@
 import Long from "long";
 import { Sender } from "./sender";
 import { ClientEntityContext } from "./clientEntityContext";
-import { ServiceBusClientOptions, ServiceBusClient } from "./serviceBusClient";
+import {
+  ServiceBusClientOptions,
+  createConnectionContextForTokenCredential,
+  createConnectionContextForConnectionString
+} from "./serviceBusClient";
 import { TokenCredential, SendableMessageInfo } from ".";
 import { isTokenCredential } from "@azure/core-amqp";
 import { ClientType } from "./client";
 import { generate_uuid } from "rhea-promise";
+import { ConnectionContext } from "./connectionContext";
 
 export class ServiceBusSenderClient {
   public _entityPath: string;
   private _clientEntityContext: ClientEntityContext;
-  private _sbClient: ServiceBusClient;
   private _currentSender: Sender;
 
   /**
@@ -62,6 +66,7 @@ export class ServiceBusSenderClient {
     credentialOrServiceBusClientOptions?: TokenCredential | ServiceBusClientOptions,
     options?: ServiceBusClientOptions
   ) {
+    let context: ConnectionContext;
     if (typeof entityNameOrOptions !== "string") {
       // (entityConnectionString: string, options?: ServiceBusClientOptions)
       const entityConnectionString = hostOrConnectionString;
@@ -75,25 +80,25 @@ export class ServiceBusSenderClient {
         this._entityPath = String(entityPathMatch![0]);
       }
 
-      this._sbClient = new ServiceBusClient(entityConnectionString, options);
+      context = createConnectionContextForConnectionString(entityConnectionString, options);
     } else if (!isTokenCredential(credentialOrServiceBusClientOptions)) {
       // (serviceBusConnectionString: string, entityName: string, options?: ServiceBusClientOptions)
-      this._sbClient = new ServiceBusClient(hostOrConnectionString, options);
       this._entityPath = String(entityNameOrOptions);
+      context = createConnectionContextForConnectionString(hostOrConnectionString, options);
     } else {
       // (host: string, entityName: string, credential: TokenCredential, options?: ServiceBusClientOptions)
       const entityName = entityNameOrOptions;
-      this._sbClient = new ServiceBusClient(
-        hostOrConnectionString,
+      this._entityPath = String(entityName);
+      context = createConnectionContextForTokenCredential(
         credentialOrServiceBusClientOptions,
+        hostOrConnectionString,
         options
       );
-      this._entityPath = String(entityName);
     }
     this._clientEntityContext = ClientEntityContext.create(
       this._entityPath,
       ClientType.ServiceBusSenderClient,
-      this._sbClient._context,
+      context,
       `${this._entityPath}/${generate_uuid()}`
     );
     this._currentSender = new Sender(this._clientEntityContext);
@@ -132,6 +137,5 @@ export class ServiceBusSenderClient {
   async close(): Promise<void> {
     await this._currentSender.close();
     await this._clientEntityContext.close();
-    await this._sbClient.close();
   }
 }

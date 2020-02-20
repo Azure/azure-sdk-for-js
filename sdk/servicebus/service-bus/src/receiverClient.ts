@@ -1,6 +1,10 @@
 import Long from "long";
 import { Receiver, SessionReceiver } from "./receiver";
-import { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
+import {
+  ServiceBusClientOptions,
+  createConnectionContextForConnectionString,
+  createConnectionContextForTokenCredential
+} from "./serviceBusClient";
 import {
   TokenCredential,
   OnMessage,
@@ -16,6 +20,7 @@ import { ReceiveMode, ServiceBusMessage, ReceivedMessageInfo } from "./serviceBu
 import { SessionReceiverOptions } from "./session/messageSession";
 import { generate_uuid } from "rhea-promise";
 import { throwErrorIfClientOrConnectionClosed } from "./util/errors";
+import { ConnectionContext } from "./connectionContext";
 
 export type ServiceBusClientReceiverOptions = ServiceBusClientOptions & SessionReceiverOptions;
 
@@ -23,7 +28,6 @@ export class ServiceBusReceiverClient {
   public _receiveMode: ReceiveMode;
   public _entityPath: string;
   private _clientEntityContext: ClientEntityContext;
-  private _sbClient: ServiceBusClient;
   private _currentReceiver: Receiver | SessionReceiver;
   readonly defaultRuleName: string = "$Default";
 
@@ -88,6 +92,7 @@ export class ServiceBusReceiverClient {
   ) {
     let receiveMode: ReceiveMode;
     let options: ServiceBusClientReceiverOptions;
+    let context: ConnectionContext;
     if (typeof param2 !== "string") {
       // Queue
       // (entityConnectionString: string, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions)
@@ -102,14 +107,15 @@ export class ServiceBusReceiverClient {
         this._entityPath = String(entityPathMatch![1]);
       }
 
-      this._sbClient = new ServiceBusClient(entityConnectionString, options);
+      context = createConnectionContextForConnectionString(entityConnectionString, options);
       receiveMode = param2 as ReceiveMode;
     } else if (isTokenCredential(param3)) {
       // Queue
       // (host: string, entityName: string, credential: TokenCredential, receiveMode: ReceiveMode, options?: ServiceBusClientReceiverOptions)
       const entityName = param2;
       options = param5 as ServiceBusClientReceiverOptions;
-      this._sbClient = new ServiceBusClient(param1, param3, options);
+      context = createConnectionContextForTokenCredential(param3, param1, options);
+
       this._entityPath = String(entityName);
       receiveMode = param4 as ReceiveMode;
     } else if (isTokenCredential(param4)) {
@@ -118,7 +124,8 @@ export class ServiceBusReceiverClient {
       const entityName = param2;
       options = param6 as ServiceBusClientReceiverOptions;
       this._entityPath = `${entityName}/Subscriptions/${param3}`;
-      this._sbClient = new ServiceBusClient(param1, param4, options);
+      context = createConnectionContextForTokenCredential(param4, param1, options);
+
       receiveMode = param5 as ReceiveMode;
     } else if (typeof param3 === "string") {
       // Subscription
@@ -126,7 +133,8 @@ export class ServiceBusReceiverClient {
       const entityName = param2;
       options = param5 as ServiceBusClientReceiverOptions;
       this._entityPath = `${entityName}/Subscriptions/${param3}`;
-      this._sbClient = new ServiceBusClient(param1, options);
+      context = createConnectionContextForConnectionString(param1, options);
+
       receiveMode = param4 as ReceiveMode;
     } else {
       // Queue
@@ -151,7 +159,7 @@ export class ServiceBusReceiverClient {
         receiveMode = param3 as ReceiveMode;
       }
       options = param4 as ServiceBusClientReceiverOptions;
-      this._sbClient = new ServiceBusClient(param1, options);
+      context = createConnectionContextForConnectionString(param1, options);
       receiveMode = param3 as ReceiveMode;
     }
 
@@ -161,7 +169,7 @@ export class ServiceBusReceiverClient {
     this._clientEntityContext = ClientEntityContext.create(
       this._entityPath,
       ClientType.ServiceBusReceiverClient,
-      this._sbClient._context,
+      context,
       `${this._entityPath}/${generate_uuid()}`
     );
 
@@ -222,7 +230,6 @@ export class ServiceBusReceiverClient {
   async close(): Promise<void> {
     await this._currentReceiver.close();
     await this._clientEntityContext.close();
-    await this._sbClient.close();
   }
 
   isReceivingMessages(): boolean {
