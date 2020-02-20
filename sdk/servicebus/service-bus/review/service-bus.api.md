@@ -6,7 +6,6 @@
 
 import { AmqpMessage } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
-import { DefaultDataTransformer } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
@@ -50,8 +49,6 @@ export interface DeadLetterOptions {
     deadLetterErrorDescription: string;
     deadletterReason: string;
 }
-
-export { DefaultDataTransformer }
 
 export { delay }
 
