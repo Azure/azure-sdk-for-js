@@ -243,6 +243,7 @@ describe("BlobClient", () => {
       });
       await delay(15 * 1000);
       properties = await blobServiceClient.getProperties();
+      assert.ok(properties.deleteRetentionPolicy!.enabled, "deleteRetentionPolicy should be enabled.");
     }
 
     await blobClient.delete();
