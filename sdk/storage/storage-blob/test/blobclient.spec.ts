@@ -254,12 +254,14 @@ describe("BlobClient", () => {
 
     let res = await iter.next();
     let result = res.value;
+    console.log(res);
     while (!res.done) {
       if (!!result && !!result.segment && !!result.segment.blobItems &&
         result.segment.blobItems.length > 0) {
         break;
       }
       res = await iter.next();
+      console.log(res);
       result = res.value;
     }
 
