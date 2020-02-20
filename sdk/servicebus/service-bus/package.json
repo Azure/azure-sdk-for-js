@@ -30,7 +30,6 @@
   },
   "files": [
     "dist/",
-    "dist-browser/",
     "dist-esm/src/",
     "src/",
     "typings/service-bus.d.ts",

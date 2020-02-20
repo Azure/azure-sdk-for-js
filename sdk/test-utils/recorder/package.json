@@ -34,7 +34,6 @@
   },
   "files": [
     "dist/",
-    "dist-browser/*.js*",
     "dist-esm/src/",
     "src/",
     "typings/src"
