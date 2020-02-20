@@ -14,6 +14,7 @@ export {
 } from "./searchIndexClient";
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
+export { odata } from "./odata";
 export {
   AutocompleteRequest,
   AutocompleteResult,
