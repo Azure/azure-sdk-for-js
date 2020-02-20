@@ -25,7 +25,7 @@ export class Sender {
   /**
    * @property Describes the amqp connection context for the Client.
    */
-  protected _context: ClientEntityContext;
+  private _context: ClientEntityContext;
   /**
    * @property Denotes if close() was called on this sender
    */
