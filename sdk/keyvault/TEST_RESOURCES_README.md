@@ -88,10 +88,6 @@ Once created, go to your application's overview page, and you'll see an "Object 
 
 **This field is required.**
 
-### Terms and conditions
-
-Make sure to read the Terms and Conditions before purchasing these resources.
-
 ### Verifying your deploy
 
 Once your ARM template deployment starts a notification badge will appear on the top right of the portal,
