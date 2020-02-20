@@ -38,21 +38,4 @@ describe("KeyVault Keys Identifier", () => {
       })
     );
   });
-
-  it("It should work with a URI of a key's issuer", async function() {
-    const uri = "https://keyvault-name.vault.azure.net/keys/issuers/key-issuer-name";
-    const identifier = new KeyVaultKeysIdentifier(uri);
-
-    // Assert doesn't have deepEqual on the browser.
-    assert.equal(
-      JSON.stringify(identifier),
-      JSON.stringify({
-        collection: "keys",
-        id: "https://keyvault-name.vault.azure.net/keys/issuers/key-issuer-name",
-        vaultUrl: "https://keyvault-name.vault.azure.net",
-        version: "key-issuer-name",
-        name: "issuers"
-      })
-    );
-  });
 });
