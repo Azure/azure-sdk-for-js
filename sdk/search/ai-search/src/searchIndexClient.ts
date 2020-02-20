@@ -319,8 +319,9 @@ export class SearchIndexClient<T> {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: ListSearchResultsPageSettings = {}) =>
-        this.listSearchResultsPage(searchText, options, settings)
+      byPage: (settings: ListSearchResultsPageSettings = {}) => {
+        return this.listSearchResultsPage(searchText, options, settings);
+      }
     };
   }
 
@@ -409,7 +410,7 @@ export class SearchIndexClient<T> {
     }
   }
 
-  public async uploadDocuments<T>(
+  public async uploadDocuments(
     documents: T[],
     options: UploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
@@ -436,7 +437,7 @@ export class SearchIndexClient<T> {
     }
   }
 
-  public async updateDocuments<T>(
+  public async updateDocuments(
     documents: T[],
     options: UpdateDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {

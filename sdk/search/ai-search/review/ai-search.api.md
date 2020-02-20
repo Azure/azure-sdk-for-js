@@ -199,9 +199,9 @@ export class SearchIndexClient<T> {
     // (undocumented)
     suggest<Fields extends keyof T>(suggesterName: string, searchText: string, options?: SuggestOptions<T, Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     // (undocumented)
-    updateDocuments<T>(documents: T[], options?: UpdateDocumentsOptions): Promise<IndexDocumentsResult>;
+    updateDocuments(documents: T[], options?: UpdateDocumentsOptions): Promise<IndexDocumentsResult>;
     // (undocumented)
-    uploadDocuments<T>(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
+    uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
 // @public
