@@ -17,7 +17,8 @@ dotenv.config({
  * @internal
  */
 export async function receiveMessagesUsingPeekLock() {
-  console.log(`Listening, peeklock for queue ${env[`queue.withoutSessions.connectionString`]}`);
+  const log = (...args: any[]) => console.log(`receiveMessagesUsingPeekLock:`, ...args);
+  log(`Listening, peeklock for queue`);
   const receiverClient = new ReceiverClient(
     env[`queue.withoutSessions.connectionString`]!,
     "PeekLock"
@@ -25,16 +26,19 @@ export async function receiveMessagesUsingPeekLock() {
 
   receiverClient.streamMessages({
     async processMessage(message: Message, context: ContextWithSettlementMethods): Promise<void> {
-      console.log(`Message body: ${message.body}`);
+      log(`Message body: ${message.body}`);
       await context.complete(message);
     },
     async processError(err: Error): Promise<void> {
-      console.log(`Error thrown: ${err}`);
+      log(`Error thrown: ${err}`);
     }
   });
 }
 
 export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
+  const log = (...args: any[]) =>
+    console.log(`receiveMessagesUsingReceiveAndDeleteAndSessions:`, ...args);
+  log(`Listening, receiveAndDelete for queue with session ID \`helloworld\``);
   const sessionConnections = new SessionConnections();
 
   const receiverClient = new ReceiverClient(
@@ -51,7 +55,7 @@ export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
 
   // note that this method is now available - only shows up in auto-complete
   // if you construct this object with a session.
-  receiverClient.renewSessionLock();
+  await receiverClient.renewSessionLock();
 
   receiverClient.streamMessages({
     async processMessage(
@@ -59,12 +63,21 @@ export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
       context: UselessEmptyContextThatMaybeShouldBeRemoved
     ): Promise<void> {
       // process message here - it's basically a ServiceBusMessage minus any settlement related methods
-      console.log(message.body);
+      log(message.body);
     },
     async processError(err: Error): Promise<void> {
-      console.log(`Error thrown: ${err}`);
+      log(`Error thrown: ${err}`);
     }
   });
 }
 
-receiveMessagesUsingPeekLock();
+async function runAll() {
+  const promises = [
+    receiveMessagesUsingPeekLock(),
+    receiveMessagesUsingReceiveAndDeleteAndSessions()
+  ];
+
+  await Promise.all(promises);
+}
+
+runAll();
