@@ -30,7 +30,7 @@ describe("Certificates client - lro - delete", () => {
 
   // The tests follow
 
-  it.only("can wait until a certificate is deleted", async function() {
+  it("can wait until a certificate is deleted", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -59,7 +59,7 @@ describe("Certificates client - lro - delete", () => {
     await testClient.purgeCertificate(certificateName);
   });
 
-  it.only("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
