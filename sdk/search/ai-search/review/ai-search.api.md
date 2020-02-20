@@ -45,10 +45,66 @@ export interface AutocompleteResult {
 // @public (undocumented)
 export type CountOptions = OperationOptions;
 
+// @public (undocumented)
+export type DeleteDocumentsOptions = ModifyIndexOptions;
+
 // @public
 export interface FacetResult {
     [property: string]: any;
     readonly count?: number;
+}
+
+// @public
+export interface GeneratedSearchDocumentsResult {
+    readonly count?: number;
+    readonly coverage?: number;
+    readonly facets?: {
+        [propertyName: string]: FacetResult[];
+    };
+    readonly nextLink?: string;
+    readonly nextPageParameters?: SearchRequest;
+    readonly results?: GeneratedSearchResult[];
+}
+
+// @public
+export interface GeneratedSearchResult {
+    [property: string]: any;
+    readonly highlights?: {
+        [propertyName: string]: string[];
+    };
+    readonly score?: number;
+}
+
+// @public
+export interface GeneratedSuggestDocumentsResult {
+    readonly coverage?: number;
+    readonly results?: GeneratedSuggestResult[];
+}
+
+// @public
+export interface GeneratedSuggestResult {
+    [property: string]: any;
+    readonly text?: string;
+}
+
+// @public (undocumented)
+export class GeographyPoint {
+    constructor(latitude: number, longitude: number);
+    // (undocumented)
+    latitude: number;
+    // (undocumented)
+    longitude: number;
+    // (undocumented)
+    toJSON(): {
+        type: string;
+        coordinates: number[];
+        crs: {
+            type: string;
+            properties: {
+                name: string;
+            };
+        };
+    };
 }
 
 // @public (undocumented)
@@ -79,16 +135,33 @@ export interface IndexingResult {
 }
 
 // @public (undocumented)
+export type KnownKeys<T> = {
+    [K in keyof T]: string extends K ? never : number extends K ? never : K;
+} extends {
+    [_ in keyof T]: infer U;
+} ? U : never;
+
+// @public (undocumented)
 export interface ListSearchResultsPageSettings {
     nextLink?: string;
     nextPageParameters?: SearchRequest;
 }
 
 // @public (undocumented)
-export type ModifyIndexOptions = OperationOptions;
+export interface ModifyIndexOptions extends OperationOptions {
+    throwOnAnyFailure?: boolean;
+}
+
+// @public (undocumented)
+export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
 
 // @public
 export type QueryType = 'simple' | 'full';
+
+// @public (undocumented)
+export type ReplaceProperties<T, From, To> = {
+    [K in keyof T]: K extends keyof From ? T[K] extends From[K] ? K extends keyof To ? To[K] : T[K] : T[K] : T[K];
+};
 
 // @public
 export class SearchApiKeyCredential implements ServiceClientCredentials {
@@ -97,51 +170,48 @@ export class SearchApiKeyCredential implements ServiceClientCredentials {
     updateKey(apiKey: string): void;
 }
 
-// @public
-export interface SearchDocumentsResult {
-    readonly count?: number;
-    readonly coverage?: number;
-    readonly facets?: {
-        [propertyName: string]: FacetResult[];
-    };
-    readonly nextLink?: string;
-    readonly nextPageParameters?: SearchRequest;
-    readonly results?: SearchResult[];
-}
+// @public (undocumented)
+export type SearchDocumentsResult<T> = ReplaceProperties<GeneratedSearchDocumentsResult, {
+    readonly results?: GeneratedSearchResult[];
+}, {
+    readonly results?: Array<SearchResult<T>>;
+}>;
 
 // @public (undocumented)
-export class SearchIndexClient {
-    constructor(searchServiceName: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
+export class SearchIndexClient<T> {
+    constructor(endpoint: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
     readonly apiVersion: string;
     // (undocumented)
     autocomplete(suggesterName: string, searchText: string, options?: AutocompleteOptions): Promise<AutocompleteResult>;
     // (undocumented)
     count(options?: CountOptions): Promise<number>;
     // (undocumented)
-    getDocument(key: string, options?: GetDocumentOptions): Promise<import("./generated/data/models").DocumentsGetResponse>;
+    deleteDocuments(keyName: string, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    readonly endpoint: string;
+    // (undocumented)
+    getDocument(key: string, options?: GetDocumentOptions): Promise<T>;
     readonly indexName: string;
     // (undocumented)
-    listSearchResults(searchText: string, options?: SearchOptions): PagedAsyncIterableIterator<SearchResult, SearchDocumentsResult, ListSearchResultsPageSettings>;
+    listSearchResults<Fields extends keyof T>(searchText: string, options?: SearchOptions<T, Fields>): PagedAsyncIterableIterator<SearchResult<Pick<T, Fields>>, SearchDocumentsResult<Pick<T, Fields>>, ListSearchResultsPageSettings>;
     // (undocumented)
-    listSearchResultsAll(searchText: string, options?: SearchOptions): AsyncIterableIterator<SearchResult>;
-    // (undocumented)
+    listSearchResultsAll<Fields extends keyof T>(searchText: string, options?: SearchOptions<T, Fields>): AsyncIterableIterator<SearchResult<T>>;
     modifyIndex(batch: IndexAction[], options?: ModifyIndexOptions): Promise<IndexDocumentsResult>;
-    searchDnsSuffix: string;
-    readonly searchServiceName: string;
     // (undocumented)
-    suggest(suggesterName: string, searchText: string, options?: SuggestOptions): Promise<import("./generated/data/models").DocumentsSuggestPostResponse>;
+    suggest<Fields extends keyof T>(suggesterName: string, searchText: string, options?: SuggestOptions<T, Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
+    // (undocumented)
+    updateDocuments<T>(documents: T[], options?: UpdateDocumentsOptions): Promise<IndexDocumentsResult>;
+    // (undocumented)
+    uploadDocuments<T>(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
 // @public
-export interface SearchIndexClientOptions extends PipelineOptions {
-    searchDnsSuffix?: string;
-}
+export type SearchIndexClientOptions = PipelineOptions;
 
 // @public
 export type SearchMode = 'any' | 'all';
 
 // @public (undocumented)
-export type SearchOptions = OperationOptions & Omit<SearchRequest, "searchText">;
+export type SearchOptions<T, Fields extends keyof T> = OperationOptions & SelectedFields<T, Fields> & Omit<SearchRequest, "searchText" | "select">;
 
 // @public
 export interface SearchRequest {
@@ -164,17 +234,23 @@ export interface SearchRequest {
     top?: number;
 }
 
-// @public
-export interface SearchResult {
-    [property: string]: any;
-    readonly highlights?: {
-        [propertyName: string]: string[];
-    };
-    readonly score?: number;
+// @public (undocumented)
+export type SearchResult<T> = Pick<GeneratedSearchResult, KnownKeys<GeneratedSearchResult>> & T;
+
+// @public (undocumented)
+export interface SelectedFields<T, Fields extends keyof T> {
+    select?: Fields[];
 }
 
 // @public (undocumented)
-export type SuggestOptions = OperationOptions & Omit<SuggestRequest, "searchText" | "suggesterName">;
+export type SuggestDocumentsResult<T> = ReplaceProperties<GeneratedSuggestDocumentsResult, {
+    readonly results?: GeneratedSuggestResult[];
+}, {
+    readonly results?: Array<Pick<GeneratedSuggestResult, KnownKeys<GeneratedSuggestResult>> & T>;
+}>;
+
+// @public (undocumented)
+export type SuggestOptions<T, Fields extends keyof T> = OperationOptions & SelectedFields<T, Fields> & Omit<SuggestRequest, "searchText" | "suggesterName" | "select">;
 
 // @public
 export interface SuggestRequest {
@@ -189,6 +265,18 @@ export interface SuggestRequest {
     suggesterName?: string;
     top?: number;
     useFuzzyMatching?: boolean;
+}
+
+// @public (undocumented)
+export interface UpdateDocumentsOptions extends ModifyIndexOptions {
+    // (undocumented)
+    uploadIfNotExists?: boolean;
+}
+
+// @public (undocumented)
+export interface UploadDocumentsOptions extends ModifyIndexOptions {
+    // (undocumented)
+    mergeIfExists?: boolean;
 }
 
 

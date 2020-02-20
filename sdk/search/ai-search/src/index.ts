@@ -6,15 +6,23 @@ export {
   SearchIndexClientOptions,
   AutocompleteOptions,
   CountOptions,
+  DeleteDocumentsOptions,
   GetDocumentOptions,
   ListSearchResultsPageSettings,
   ModifyIndexOptions,
+  SearchDocumentsResult,
   SearchOptions,
-  SuggestOptions
+  SearchResult,
+  SelectedFields,
+  SuggestDocumentsResult,
+  SuggestOptions,
+  UpdateDocumentsOptions,
+  UploadDocumentsOptions
 } from "./searchIndexClient";
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
+export { KnownKeys, ReplaceProperties } from "./util";
 export {
   AutocompleteRequest,
   AutocompleteResult,
@@ -26,9 +34,11 @@ export {
   IndexDocumentsResult,
   IndexingResult,
   QueryType,
+  SearchDocumentsResult as GeneratedSearchDocumentsResult,
   SearchRequest,
-  SearchDocumentsResult,
-  SearchResult,
+  SearchResult as GeneratedSearchResult,
   SearchMode,
-  SuggestRequest
+  SuggestRequest,
+  SuggestResult as GeneratedSuggestResult,
+  SuggestDocumentsResult as GeneratedSuggestDocumentsResult
 } from "./generated/data/models";
