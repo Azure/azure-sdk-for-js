@@ -7,7 +7,6 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "stream": "./node_modules/stream-browserify/index.js",
-    "./dist/index.js": "./dist-browser/index.js",
     "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js"
   },
   "types": "types/azure-template.d.ts",
@@ -39,7 +38,6 @@
   },
   "files": [
     "dist/",
-    "dist-browser/*.js*",
     "dist-esm/src/",
     "src/",
     "types/azure-template.d.ts"

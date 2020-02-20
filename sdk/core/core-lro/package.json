@@ -38,7 +38,6 @@
     "README.md"
   ],
   "browser": {
-    "./dist/index.js": "./browser/azure-core-lro.min.js",
     "os": false,
     "process": false
   },
