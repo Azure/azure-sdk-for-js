@@ -272,20 +272,31 @@ describe("Certificates client - create, read, update and delete", () => {
     );
   });
 
-  it("can get a deleted certificate", async function() {
+  it.only("can get a deleted certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
       testPollerProperties
     );
+
+    // Using the poller
     const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
-    const deletedCertificate = await deletePoller.pollUntilDone();
+    let deletedCertificate = await deletePoller.pollUntilDone();
     assert.equal(
-      deletedCertificate.properties.name,
+      deletedCertificate.name,
       certificateName,
       "Unexpected certificate name in result from getCertificate()."
     );
+
+    // Retrieving it without the poller
+    deletedCertificate = await client.getDeletedCertificate(certificateName);
+    assert.equal(
+      deletedCertificate.name,
+      certificateName,
+      "Unexpected certificate name in result from getCertificate()."
+    );
+
     await testClient.purgeCertificate(certificateName);
   });
 
