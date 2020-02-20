@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/tagsMappers";
+import * as Mappers from "../models/tagsOperationsMappers";
 import * as Parameters from "../models/parameters";
 import { ResourceManagementClientContext } from "../resourceManagementClientContext";
 
-/** Class representing a Tags. */
-export class Tags {
+/** Class representing a TagsOperations. */
+export class TagsOperations {
   private readonly client: ResourceManagementClientContext;
 
   /**
-   * Create a Tags.
+   * Create a TagsOperations.
    * @param {ResourceManagementClientContext} client Reference to the service client.
    */
   constructor(client: ResourceManagementClientContext) {
@@ -27,7 +27,10 @@ export class Tags {
   }
 
   /**
-   * Deletes a tag value.
+   * This operation allows deleting a value from the list of predefined values for an existing
+   * predefined tag name. The value being deleted must not be in use as a tag value for the given tag
+   * name for any resource.
+   * @summary Deletes a predefined tag value for a predefined tag name.
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to delete.
    * @param [options] The optional parameters
@@ -59,7 +62,9 @@ export class Tags {
   }
 
   /**
-   * Creates a tag value. The name of the tag must already exist.
+   * This operation allows adding a value to the list of predefined values for an existing predefined
+   * tag name. A tag value can have a maximum of 256 characters.
+   * @summary Creates a predefined value for a predefined tag name.
    * @param tagName The name of the tag.
    * @param tagValue The value of the tag to create.
    * @param [options] The optional parameters
@@ -91,10 +96,11 @@ export class Tags {
   }
 
   /**
-   * The tag name can have a maximum of 512 characters and is case insensitive. Tag names created by
-   * Azure have prefixes of microsoft, azure, or windows. You cannot create tags with one of these
-   * prefixes.
-   * @summary Creates a tag in the subscription.
+   * This operation allows adding a name to the list of predefined tag names for the given
+   * subscription. A tag name can have a maximum of 512 characters and is case-insensitive. Tag names
+   * cannot have the following prefixes which are reserved for Azure use: 'microsoft', 'azure',
+   * 'windows'.
+   * @summary Creates a predefined tag name.
    * @param tagName The name of the tag to create.
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsCreateOrUpdateResponse>
@@ -122,8 +128,10 @@ export class Tags {
   }
 
   /**
-   * You must remove all values from a resource tag before you can delete it.
-   * @summary Deletes a tag from the subscription.
+   * This operation allows deleting a name from the list of predefined tag names for the given
+   * subscription. The name being deleted must not be in use as a tag name for any resource. All
+   * predefined values for the given name must have already been deleted.
+   * @summary Deletes a predefined tag name.
    * @param tagName The name of the tag.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -151,7 +159,11 @@ export class Tags {
   }
 
   /**
-   * Gets the names and values of all resource tags that are defined in a subscription.
+   * This operation performs a union of predefined tags, resource tags, resource group tags and
+   * subscription tags, and returns a summary of usage for each tag name and value under the given
+   * subscription. In case of a large number of tags, this operation may return a previously cached
+   * result.
+   * @summary Gets a summary of tag usage under the subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsListResponse>
    */
@@ -175,7 +187,138 @@ export class Tags {
   }
 
   /**
-   * Gets the names and values of all resource tags that are defined in a subscription.
+   * This operation allows adding or replacing the entire set of tags on the specified resource or
+   * subscription. The specified entity can have a maximum of 50 tags.
+   * @summary Creates or updates the entire set of tags on a resource or subscription.
+   * @param scope The resource scope.
+   * @param parameters
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagsCreateOrUpdateAtScopeResponse>
+   */
+  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, options?: msRest.RequestOptionsBase): Promise<Models.TagsCreateOrUpdateAtScopeResponse>;
+  /**
+   * @param scope The resource scope.
+   * @param parameters
+   * @param callback The callback
+   */
+  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  /**
+   * @param scope The resource scope.
+   * @param parameters
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  createOrUpdateAtScope(scope: string, parameters: Models.TagsResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsCreateOrUpdateAtScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        parameters,
+        options
+      },
+      createOrUpdateAtScopeOperationSpec,
+      callback) as Promise<Models.TagsCreateOrUpdateAtScopeResponse>;
+  }
+
+  /**
+   * This operation allows replacing, merging or selectively deleting tags on the specified resource
+   * or subscription. The specified entity can have a maximum of 50 tags at the end of the operation.
+   * The 'replace' option replaces the entire set of existing tags with a new set. The 'merge' option
+   * allows adding tags with new names and updating the values of tags with existing names. The
+   * 'delete' option allows selectively deleting tags based on given names or name/value pairs.
+   * @summary Selectively updates the set of tags on a resource or subscription.
+   * @param scope The resource scope.
+   * @param parameters
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagsUpdateAtScopeResponse>
+   */
+  updateAtScope(scope: string, parameters: Models.TagsPatchResource, options?: msRest.RequestOptionsBase): Promise<Models.TagsUpdateAtScopeResponse>;
+  /**
+   * @param scope The resource scope.
+   * @param parameters
+   * @param callback The callback
+   */
+  updateAtScope(scope: string, parameters: Models.TagsPatchResource, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  /**
+   * @param scope The resource scope.
+   * @param parameters
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateAtScope(scope: string, parameters: Models.TagsPatchResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  updateAtScope(scope: string, parameters: Models.TagsPatchResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsUpdateAtScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        parameters,
+        options
+      },
+      updateAtScopeOperationSpec,
+      callback) as Promise<Models.TagsUpdateAtScopeResponse>;
+  }
+
+  /**
+   * @summary Gets the entire set of tags on a resource or subscription.
+   * @param scope The resource scope.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TagsGetAtScopeResponse>
+   */
+  getAtScope(scope: string, options?: msRest.RequestOptionsBase): Promise<Models.TagsGetAtScopeResponse>;
+  /**
+   * @param scope The resource scope.
+   * @param callback The callback
+   */
+  getAtScope(scope: string, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  /**
+   * @param scope The resource scope.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAtScope(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TagsResource>): void;
+  getAtScope(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TagsResource>, callback?: msRest.ServiceCallback<Models.TagsResource>): Promise<Models.TagsGetAtScopeResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        options
+      },
+      getAtScopeOperationSpec,
+      callback) as Promise<Models.TagsGetAtScopeResponse>;
+  }
+
+  /**
+   * @summary Deletes the entire set of tags on a resource or subscription.
+   * @param scope The resource scope.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteAtScope(scope: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param scope The resource scope.
+   * @param callback The callback
+   */
+  deleteAtScope(scope: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param scope The resource scope.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteAtScope(scope: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteAtScope(scope: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        scope,
+        options
+      },
+      deleteAtScopeOperationSpec,
+      callback);
+  }
+
+  /**
+   * This operation performs a union of predefined tags, resource tags, resource group tags and
+   * subscription tags, and returns a summary of usage for each tag name and value under the given
+   * subscription. In case of a large number of tags, this operation may return a previously cached
+   * result.
+   * @summary Gets a summary of tag usage under the subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.TagsListNextResponse>
@@ -323,6 +466,110 @@ const listOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.TagsListResult
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const createOrUpdateAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{scope}/providers/Microsoft.Resources/tags/default",
+  urlParameters: [
+    Parameters.scope
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagsResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "{scope}/providers/Microsoft.Resources/tags/default",
+  urlParameters: [
+    Parameters.scope
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsPatchResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagsResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "{scope}/providers/Microsoft.Resources/tags/default",
+  urlParameters: [
+    Parameters.scope
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagsResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const deleteAtScopeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "{scope}/providers/Microsoft.Resources/tags/default",
+  urlParameters: [
+    Parameters.scope
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
