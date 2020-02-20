@@ -23,7 +23,15 @@ export interface Session {
 
 // the "action" methods here are on the context object instead.
 export interface Message
-  extends Omit<typeof ServiceBusMessage, "complete" | "abandon" | "defer" | "deadletter"> {}
+  extends Omit<
+    typeof ServiceBusMessage,
+    | "complete"
+    | "abandon"
+    | "defer"
+    | "deadletter"
+    // Um..am I doing something odd here or is this a normal thing to exclude?
+    | "prototype"
+  > {}
 
 export interface ContextWithSettlement {
   complete(m: Message): Promise<void>;
@@ -43,7 +51,7 @@ export interface Closeable {
   close(): Promise<void>;
 }
 
-export interface MessageIterator<ContextT> extends AsyncIterable<Message>, Closeable {
+export interface MessageIterator<ContextT> extends AsyncIterable<Message> {
   context: ContextT;
 }
 
@@ -103,7 +111,7 @@ function getEntityPath(
   return entityPath;
 }
 
-export interface ReceiverConstructors {
+export interface ReceiverClient {
   new (
     queueConnectionString: string,
     receiveMode?: "PeekLock",
@@ -153,7 +161,7 @@ function convertToInternalReceiveMode(receiveMode: "PeekLock" | "ReceiveAndDelet
   }
 }
 
-export const Track2ReceiverClient: ReceiverConstructors = class {
+export const ReceiverClient: ReceiverClient = class {
   // non sessions
   constructor(
     queueConnectionString: string,
@@ -235,12 +243,7 @@ export const Track2ReceiverClient: ReceiverConstructors = class {
     // this is so goofy that I apologize in advance:
     if (this._receiveMode === ReceiveMode.peekLock) {
       const onMessage = async (sbMessage: ServiceBusMessage) => {
-        await handlers.processMessage(sbMessage, {
-          abandon: (message) => ((message as unknown) as ServiceBusMessage).abandon(),
-          complete: (message) => ((message as unknown) as ServiceBusMessage).complete(),
-          defer: (message) => ((message as unknown) as ServiceBusMessage).defer(),
-          deadLetter: (message) => ((message as unknown) as ServiceBusMessage).deadLetter()
-        });
+        await handlers.processMessage(sbMessage, settlementContext);
       };
 
       this._receiver.registerMessageHandler(onMessage, (err) => {
@@ -264,8 +267,32 @@ export const Track2ReceiverClient: ReceiverConstructors = class {
     }
   }
 
-  iterateMessages(): MessageIterator<ContextType<LockModeT>> {}
-  iterateMessages(): MessageIterator<ContextType<LockModeT>> {}
+  iterateMessages(): MessageIterator<ContextType<"PeekLock">>;
+  iterateMessages(): MessageIterator<ContextType<"ReceiveAndDelete">>;
+  iterateMessages():
+    | MessageIterator<ContextType<"PeekLock">>
+    | MessageIterator<ContextType<"ReceiveAndDelete">> {
+    // TODO: this needs to be more configurable - at least with timeouts, etc...
+    const messageIterator = this._receiver.getMessageIterator();
+
+    if (this._receiveMode === ReceiveMode.peekLock) {
+      const actualMessageIterator = (messageIterator as any) as MessageIterator<
+        ContextType<"PeekLock">
+      >;
+
+      actualMessageIterator.context = settlementContext;
+      return actualMessageIterator;
+    } else if (this._receiveMode === ReceiveMode.receiveAndDelete) {
+      const actualMessageIterator = (messageIterator as any) as MessageIterator<
+        ContextType<"ReceiveAndDelete">
+      >;
+
+      actualMessageIterator.context = {};
+      return actualMessageIterator;
+    } else {
+      throw new Error("Unknown receive mode");
+    }
+  }
 
   renewSessionLock(): Promise<Date> {
     if (!this.isSessionReceiver(this._receiver)) {
@@ -282,4 +309,13 @@ export const Track2ReceiverClient: ReceiverConstructors = class {
   private _receiver: SessionReceiver | Receiver;
   private _sessionEnabled: boolean;
   private _receiveMode: ReceiveMode;
+};
+
+const settlementContext: ContextWithSettlement = {
+  // TODO: need to move the settlement methods out of sb message -
+  // we don't need to have this runtime dependency.
+  abandon: (message) => ((message as unknown) as ServiceBusMessage).abandon(),
+  complete: (message) => ((message as unknown) as ServiceBusMessage).complete(),
+  defer: (message) => ((message as unknown) as ServiceBusMessage).defer(),
+  deadLetter: (message) => ((message as unknown) as ServiceBusMessage).deadLetter()
 };

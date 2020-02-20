@@ -18,7 +18,7 @@ import { MessageSession } from "./session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
 
-// TODO: it'd be nice to make this @internal/@ignore if we can in favor of just using the string enum.
+// TODO: it'd be nice to make this internal/ignore if we can in favor of just using the string enum.
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
  */
