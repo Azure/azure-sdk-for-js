@@ -77,6 +77,19 @@ export interface MessageHandlerOptions {
 
 export { MessagingError }
 
+// @public (undocumented)
+export interface NonSessionReceiverClient<LockModeT extends "PeekLock" | "ReceiveAndDelete"> {
+    // Warning: (ae-forgotten-export) The symbol "MessageIterator" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    iterateMessages(): MessageIterator<ContextType<LockModeT>>;
+    // Warning: (ae-forgotten-export) The symbol "MessageHandlers" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "ContextType" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
+}
+
 // @public
 export interface OnError {
     (error: MessagingError | Error): void;
@@ -156,6 +169,25 @@ export enum ReceiveMode {
     peekLock = 1,
     receiveAndDelete = 2
 }
+
+// @public (undocumented)
+export interface ReceiverClient {
+    // Warning: (ae-forgotten-export) The symbol "ServiceBusClientReceiverOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    new (queueConnectionString: string, receiveMode?: "PeekLock", options?: ServiceBusClientReceiverOptions): NonSessionReceiverClient<"PeekLock">;
+    // (undocumented)
+    new (queueConnectionString: string, receiveMode: "ReceiveAndDelete", options?: ServiceBusClientReceiverOptions): NonSessionReceiverClient<"ReceiveAndDelete">;
+    // Warning: (ae-forgotten-export) The symbol "Session" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    new (queueConnectionString: string, session: Session, receiveMode?: "PeekLock", options?: ServiceBusClientReceiverOptions): SessionReceiverClient<"PeekLock">;
+    // (undocumented)
+    new (queueConnectionString: string, session: Session, receiveMode: "ReceiveAndDelete", options?: ServiceBusClientReceiverOptions): SessionReceiverClient<"ReceiveAndDelete">;
+}
+
+// @public (undocumented)
+export const ReceiverClient: ReceiverClient;
 
 export { RetryOptions }
 
@@ -246,7 +278,6 @@ export class ServiceBusMessage implements ReceivedMessage {
 
 // @public (undocumented)
 export class ServiceBusReceiverClient {
-    // Warning: (ae-forgotten-export) The symbol "ServiceBusClientReceiverOptions" needs to be exported by the entry point index.d.ts
     constructor(entityConnectionString: string, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions);
     constructor(serviceBusConnectionString: string, entityName: string, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions);
     constructor(host: string, entityName: string, credential: TokenCredential, receiveMode?: ReceiveMode, options?: ServiceBusClientReceiverOptions);
@@ -330,6 +361,16 @@ export class ServiceBusSenderClient {
 export interface SessionMessageHandlerOptions {
     autoComplete?: boolean;
     maxConcurrentCalls?: number;
+}
+
+// @public (undocumented)
+export interface SessionReceiverClient<LockModeT extends "PeekLock" | "ReceiveAndDelete"> {
+    // (undocumented)
+    iterateMessages(): MessageIterator<ContextType<LockModeT>>;
+    // (undocumented)
+    renewSessionLock(): Promise<Date>;
+    // (undocumented)
+    streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
 }
 
 // @public

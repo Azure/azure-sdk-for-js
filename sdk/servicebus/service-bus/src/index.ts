@@ -58,3 +58,4 @@ export {
 } from "./serializers/ruleResourceSerializer";
 
 export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
+export { ReceiverClient, NonSessionReceiverClient, SessionReceiverClient } from "./receiverClient2";

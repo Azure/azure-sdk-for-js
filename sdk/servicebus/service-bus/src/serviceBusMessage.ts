@@ -12,12 +12,13 @@ import {
 import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/core-amqp";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-import { reorderLockToken } from "../src/util/utils";
-import { MessageReceiver } from "../src/core/messageReceiver";
-import { MessageSession } from "../src/session/messageSession";
+import { reorderLockToken } from "./util/utils";
+import { MessageReceiver } from "./core/messageReceiver";
+import { MessageSession } from "./session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
 
+// TODO: it'd be nice to make this internal/ignore if we can in favor of just using the string enum.
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
  */

@@ -16,6 +16,49 @@ import { SubscriptionClient } from "./subscriptionClient";
 import { WebSocketOptions } from "@azure/core-amqp";
 
 /**
+ * @param connectionString
+ * @param options
+ * @internal
+ * @ignore
+ */
+export function createConnectionContextForConnectionString(
+  connectionString: string,
+  options: ServiceBusClientOptions = {}
+): ConnectionContext {
+  const config = ConnectionConfig.create(connectionString);
+
+  config.webSocket = options?.webSocketOptions?.webSocket;
+  config.webSocketEndpointPath = "$servicebus/websocket";
+  config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
+
+  const credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+  ConnectionConfig.validate(config);
+  return ConnectionContext.create(config, credential, options);
+}
+
+/**
+ *
+ * @param credential
+ * @param host
+ * @param options
+ * @internal
+ * @ignore
+ */
+export function createConnectionContextForTokenCredential(
+  credential: TokenCredential,
+  host: string,
+  options: ServiceBusClientOptions = {}
+): ConnectionContext {
+  // host, credential and options based constructor was invoked
+  if (!host.endsWith("/")) {
+    host += "/";
+  }
+  const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
+  const config = ConnectionConfig.create(connectionString);
+  return ConnectionContext.create(config, credential, options);
+}
+
+/**
  * Describes the options that can be provided while creating the ServiceBusClient.
  * @interface ServiceBusClientOptions
  */
@@ -79,40 +122,33 @@ export class ServiceBusClient {
     credentialOrServiceBusClientOptions?: TokenCredential | ServiceBusClientOptions,
     options?: ServiceBusClientOptions
   ) {
-    let config;
-    let credential;
-
     if (!isTokenCredential(credentialOrServiceBusClientOptions)) {
-      // connectionString and options based constructor was invoked
-      config = ConnectionConfig.create(hostOrConnectionString);
-
-      options = credentialOrServiceBusClientOptions as ServiceBusClientOptions;
-      config.webSocket = options?.webSocketOptions?.webSocket;
-      config.webSocketEndpointPath = "$servicebus/websocket";
-      config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
-
-      // Since connectionstring was passed, create a SharedKeyCredential
-      credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
-
-      ConnectionConfig.validate(config);
+      // // connectionString and options based constructor was invoked
+      // config = ConnectionConfig.create(hostOrConnectionString);
+      // options = credentialOrServiceBusClientOptions as ServiceBusClientOptions;
+      // config.webSocket = options?.webSocketOptions?.webSocket;
+      // config.webSocketEndpointPath = "$servicebus/websocket";
+      // config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
+      // // Since connectionstring was passed, create a SharedKeyCredential
+      // credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+      // ConnectionConfig.validate(config);
+      this._context = createConnectionContextForConnectionString(hostOrConnectionString);
     } else {
       // host, credential and options based constructor was invoked
-      credential = credentialOrServiceBusClientOptions as TokenCredential;
-
-      hostOrConnectionString = String(hostOrConnectionString);
-      if (!hostOrConnectionString.endsWith("/")) {
-        hostOrConnectionString += "/";
-      }
-      const connectionString = `Endpoint=sb://${hostOrConnectionString};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
-      config = ConnectionConfig.create(connectionString);
+      // credential = credentialOrServiceBusClientOptions as TokenCredential;
+      // hostOrConnectionString = String(hostOrConnectionString);
+      // if (!hostOrConnectionString.endsWith("/")) {
+      //   hostOrConnectionString += "/";
+      // }
+      // const connectionString = `Endpoint=sb://${hostOrConnectionString};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
+      // config = ConnectionConfig.create(connectionString);
+      this._context = createConnectionContextForTokenCredential(
+        credentialOrServiceBusClientOptions,
+        hostOrConnectionString
+      );
     }
 
-    if (!options) {
-      options = {};
-    }
-
-    this.name = config.endpoint;
-    this._context = ConnectionContext.create(config, credential, options);
+    this.name = this._context.config.endpoint;
   }
 
   /**
