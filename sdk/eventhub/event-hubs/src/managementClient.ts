@@ -141,7 +141,9 @@ export class ManagementClient extends LinkEntity {
   async getSecurityToken() {
     if (this._context.tokenCredential instanceof SharedKeyCredential) {
       // the security_token has the $management address removed from the end of the audience
+      // expected audience: sb://fully.qualified.namespace/event-hub-name/$management
       const audienceParts = this.audience.split("/");
+      // for management links, address should be '$management'
       if (audienceParts[audienceParts.length - 1] === this.address) {
         audienceParts.pop();
       }
