@@ -157,7 +157,7 @@ jobs:
       - task: PublishCodeCoverageResults@1
         displayName: 'Publish Browser Code Coverage to DevOps'
         continueOnError: true
-        condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'default'),eq(variables['PublishCodeCoverage'], true))
         inputs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(PackagePath)/coverage-browser/cobertura-coverage.xml'
