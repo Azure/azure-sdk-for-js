@@ -32,6 +32,7 @@
   "files": [
     "dist/**/*.node.js",
     "dist/**/*.node.js.map",
+    "dom-shim.d.ts",
     "es/lib/**/*.js",
     "es/lib/**/*.js.map",
     "es/lib/**/*.d.ts",
