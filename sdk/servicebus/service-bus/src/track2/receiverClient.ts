@@ -62,7 +62,7 @@ export interface ReceiverClient {
   ): SessionReceiverClient<"ReceiveAndDelete">;
 }
 
-export const ReceiverClient: ReceiverClient = class {
+export class ReceiverClient {
   // non sessions
   constructor(
     queueConnectionString: string,
@@ -212,7 +212,7 @@ export const ReceiverClient: ReceiverClient = class {
   private _receiver: SessionReceiver | Receiver;
   private _sessionEnabled: boolean;
   private _receiveMode: ReceiveMode;
-};
+}
 
 const settlementContext: ContextWithSettlement = {
   // TODO: need to move the settlement methods out of sb message -

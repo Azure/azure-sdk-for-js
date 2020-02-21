@@ -241,7 +241,22 @@ export interface ReceiverClient {
 }
 
 // @public (undocumented)
-export const ReceiverClient: ReceiverClient;
+export class ReceiverClient {
+    constructor(queueConnectionString: string, receiveMode?: "PeekLock", options?: ServiceBusClientReceiverOptions);
+    constructor(queueConnectionString: string, receiveMode: "ReceiveAndDelete", options?: ServiceBusClientReceiverOptions);
+    constructor(queueConnectionString: string, session: Session, receiveMode?: "PeekLock", options?: ServiceBusClientReceiverOptions);
+    constructor(queueConnectionString: string, session: Session, receiveMode: "ReceiveAndDelete", options?: ServiceBusClientReceiverOptions);
+    // (undocumented)
+    iterateMessages(): MessageIterator<ContextType<"PeekLock">>;
+    // (undocumented)
+    iterateMessages(): MessageIterator<ContextType<"ReceiveAndDelete">>;
+    // (undocumented)
+    renewSessionLock(): Promise<Date>;
+    // (undocumented)
+    streamMessages(handlers: MessageHandlers<ContextWithSettlement>): void;
+    // (undocumented)
+    streamMessages(handlers: MessageHandlers<UselessEmptyContextThatMaybeShouldBeRemoved>): void;
+}
 
 export { RetryOptions }
 
