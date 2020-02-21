@@ -1,5 +1,6 @@
-import { assert } from "chai";
+import chai from "chai";
 import { retry } from "../src/test/utils/retry";
+const assert = chai.assert;
 
 describe("retry utility function", function() {
   it("throws an exception if we reach the maximum retries", async () => {

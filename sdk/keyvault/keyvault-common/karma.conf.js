@@ -1,11 +1,5 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode
-} = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -22,7 +16,6 @@ module.exports = function(config) {
       "karma-coverage",
       "karma-remap-coverage",
       "karma-junit-reporter",
-      "karma-json-to-file-reporter",
       "karma-json-preprocessor"
     ],
 
@@ -31,7 +24,7 @@ module.exports = function(config) {
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "dist-test/index.browser.js"
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+    ],
 
     exclude: [],
 
@@ -40,7 +33,7 @@ module.exports = function(config) {
       "recordings/browsers/**/*.json": ["json"]
     },
 
-    reporters: ["mocha", "coverage", "remap-coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "remap-coverage", "junit"],
 
     coverageReporter: { type: "in-memory" },
 
@@ -64,12 +57,6 @@ module.exports = function(config) {
       properties: {}
     },
 
-    jsonToFileReporter: {
-      // required - to save the recordings of browser tests
-      filter: jsonRecordingFilterFunction,
-      outputPath: "."
-    },
-
     port: 9328,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -91,10 +78,6 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
-    browserConsoleLogOptions: {
-      // IMPORTANT: COMMENT the following line if you want to print debug logs in your browsers in record mode!!
-      terminal: !isRecordMode()
-    },
 
     client: {
       mocha: {
