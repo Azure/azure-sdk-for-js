@@ -17,6 +17,8 @@ interface FetchError extends Error {
   type?: string;
 }
 
+export type FetchInput = Request | string;
+
 export class ReportTransform extends Transform {
   private loadedBytes: number = 0;
   _transform(chunk: string | Buffer, _encoding: string, callback: Function) {
@@ -188,7 +190,7 @@ export abstract class FetchHttpClient implements HttpClient {
 
   abstract async prepareRequest(httpRequest: WebResource): Promise<Partial<RequestInit>>;
   abstract async processRequest(operationResponse: HttpOperationResponse): Promise<void>;
-  abstract async fetch(input: RequestInfo, init?: RequestInit): Promise<Response>;
+  abstract async fetch(input: FetchInput, init?: RequestInit): Promise<Response>;
 }
 
 function isReadableStream(body: any): body is Readable {
