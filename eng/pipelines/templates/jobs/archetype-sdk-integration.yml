@@ -155,7 +155,7 @@ jobs:
           summaryFileLocation: '$(PackagePath)/coverage/cobertura-coverage.xml'
 
       - task: PublishPipelineArtifact@1
-        displayName: 'Publish Browser Code Coverage Report to DevOps'
+        displayName: 'Publish Browser Code Coverage Report Artifact'
         continueOnError: true
         condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
         inputs:
