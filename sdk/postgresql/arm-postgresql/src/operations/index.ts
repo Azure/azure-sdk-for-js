@@ -19,3 +19,5 @@ export * from "./locationBasedPerformanceTier";
 export * from "./checkNameAvailability";
 export * from "./serverSecurityAlertPolicies";
 export * from "./operations";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";

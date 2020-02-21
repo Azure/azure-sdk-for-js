@@ -8,6 +8,7 @@
 
 export {
   discriminators,
+  AzureEntityResource,
   BaseResource,
   CloudError,
   Configuration,
@@ -15,7 +16,13 @@ export {
   FirewallRule,
   LogFile,
   LogFileListResult,
+  PrivateEndpointConnection,
+  PrivateEndpointProperty,
+  PrivateLinkResource,
+  PrivateLinkResourceProperties,
+  PrivateLinkServiceConnectionStateProperty,
   ProxyResource,
+  Resource,
   Server,
   ServerSecurityAlertPolicy,
   Sku,

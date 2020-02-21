@@ -29,8 +29,7 @@ export class Servers {
 
   /**
    * Creates a new server, or will overwrite an existing server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param parameters The required parameters for creating or updating a server.
    * @param [options] The optional parameters
@@ -44,8 +43,7 @@ export class Servers {
   /**
    * Updates an existing server. The request body can contain one to many of the properties present
    * in the normal server definition.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param parameters The required parameters for updating a server.
    * @param [options] The optional parameters
@@ -58,8 +56,7 @@ export class Servers {
 
   /**
    * Deletes a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -71,23 +68,20 @@ export class Servers {
 
   /**
    * Gets information about a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersGetResponse>
    */
   get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServersGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.Server>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param options The optional parameters
    * @param callback The callback
@@ -106,21 +100,18 @@ export class Servers {
 
   /**
    * List all the servers in a given resource group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersListByResourceGroupResponse>
    */
   listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServersListByResourceGroupResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -161,8 +152,7 @@ export class Servers {
 
   /**
    * Restarts a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -174,8 +164,7 @@ export class Servers {
 
   /**
    * Creates a new server, or will overwrite an existing server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param parameters The required parameters for creating or updating a server.
    * @param [options] The optional parameters
@@ -196,8 +185,7 @@ export class Servers {
   /**
    * Updates an existing server. The request body can contain one to many of the properties present
    * in the normal server definition.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param parameters The required parameters for updating a server.
    * @param [options] The optional parameters
@@ -217,8 +205,7 @@ export class Servers {
 
   /**
    * Deletes a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -236,8 +223,7 @@ export class Servers {
 
   /**
    * Restarts a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -265,7 +251,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -289,7 +275,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -312,7 +298,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -337,7 +323,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -373,7 +359,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -406,7 +392,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -431,7 +417,7 @@ const beginRestartOperationSpec: msRest.OperationSpec = {
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

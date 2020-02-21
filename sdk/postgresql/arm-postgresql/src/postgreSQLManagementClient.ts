@@ -28,11 +28,13 @@ class PostgreSQLManagementClient extends PostgreSQLManagementClientContext {
   checkNameAvailability: operations.CheckNameAvailability;
   serverSecurityAlertPolicies: operations.ServerSecurityAlertPolicies;
   operations: operations.Operations;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkResources: operations.PrivateLinkResources;
 
   /**
    * Initializes a new instance of the PostgreSQLManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The subscription ID that identifies an Azure subscription.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.PostgreSQLManagementClientOptions) {
@@ -48,6 +50,8 @@ class PostgreSQLManagementClient extends PostgreSQLManagementClientContext {
     this.checkNameAvailability = new operations.CheckNameAvailability(this);
     this.serverSecurityAlertPolicies = new operations.ServerSecurityAlertPolicies(this);
     this.operations = new operations.Operations(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
   }
 }
 
