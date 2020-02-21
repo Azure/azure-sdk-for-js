@@ -16,7 +16,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-coverage",
+      "karma-remap-istanbul",
       "karma-junit-reporter"
     ],
 

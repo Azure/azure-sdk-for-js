@@ -20,7 +20,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-coverage",
+      "karma-remap-istanbul",
       "karma-junit-reporter"
     ],
 
@@ -47,7 +47,11 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["EVENTHUB_CONNECTION_STRING", "EVENTHUB_NAME", "IOTHUB_EH_COMPATIBLE_CONNECTION_STRING"],
+    envPreprocessor: [
+      "EVENTHUB_CONNECTION_STRING",
+      "EVENTHUB_NAME",
+      "IOTHUB_EH_COMPATIBLE_CONNECTION_STRING"
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
