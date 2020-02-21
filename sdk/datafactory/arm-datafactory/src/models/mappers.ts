@@ -1289,6 +1289,35 @@ export const TriggerResource: msRest.CompositeMapper = {
   }
 };
 
+export const TriggerQueryResponse: msRest.CompositeMapper = {
+  serializedName: "TriggerQueryResponse",
+  type: {
+    name: "Composite",
+    className: "TriggerQueryResponse",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TriggerResource"
+            }
+          }
+        }
+      },
+      continuationToken: {
+        serializedName: "continuationToken",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CreateRunResponse: msRest.CompositeMapper = {
   serializedName: "CreateRunResponse",
   type: {
@@ -1682,6 +1711,28 @@ export const LinkedServiceDebugResource: msRest.CompositeMapper = {
               name: "Object"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const TriggerFilterParameters: msRest.CompositeMapper = {
+  serializedName: "TriggerFilterParameters",
+  type: {
+    name: "Composite",
+    className: "TriggerFilterParameters",
+    modelProperties: {
+      continuationToken: {
+        serializedName: "continuationToken",
+        type: {
+          name: "String"
+        }
+      },
+      parentTriggerName: {
+        serializedName: "parentTriggerName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2257,106 +2308,6 @@ export const TriggerRunsQueryResponse: msRest.CompositeMapper = {
         serializedName: "continuationToken",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RerunTumblingWindowTriggerActionParameters: msRest.CompositeMapper = {
-  serializedName: "RerunTumblingWindowTriggerActionParameters",
-  type: {
-    name: "Composite",
-    className: "RerunTumblingWindowTriggerActionParameters",
-    modelProperties: {
-      startTime: {
-        required: true,
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      endTime: {
-        required: true,
-        serializedName: "endTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      maxConcurrency: {
-        required: true,
-        serializedName: "maxConcurrency",
-        constraints: {
-          InclusiveMaximum: 50,
-          InclusiveMinimum: 1
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const RerunTumblingWindowTrigger: msRest.CompositeMapper = {
-  serializedName: "RerunTumblingWindowTrigger",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
-    uberParent: "Trigger",
-    className: "RerunTumblingWindowTrigger",
-    modelProperties: {
-      ...Trigger.type.modelProperties,
-      parentTrigger: {
-        serializedName: "typeProperties.parentTrigger",
-        type: {
-          name: "Object"
-        }
-      },
-      requestedStartTime: {
-        required: true,
-        serializedName: "typeProperties.requestedStartTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      requestedEndTime: {
-        required: true,
-        serializedName: "typeProperties.requestedEndTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      maxConcurrency: {
-        required: true,
-        serializedName: "typeProperties.maxConcurrency",
-        constraints: {
-          InclusiveMaximum: 50,
-          InclusiveMinimum: 1
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    additionalProperties: Trigger.type.additionalProperties
-  }
-};
-
-export const RerunTriggerResource: msRest.CompositeMapper = {
-  serializedName: "RerunTriggerResource",
-  type: {
-    name: "Composite",
-    className: "RerunTriggerResource",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      properties: {
-        required: true,
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "RerunTumblingWindowTrigger",
-          additionalProperties: Trigger.type.additionalProperties
         }
       }
     }
@@ -3401,621 +3352,6 @@ export const MappingDataFlow: msRest.CompositeMapper = {
         }
       }
     }
-  }
-};
-
-export const ChainingTrigger: msRest.CompositeMapper = {
-  serializedName: "ChainingTrigger",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
-    uberParent: "Trigger",
-    className: "ChainingTrigger",
-    modelProperties: {
-      ...Trigger.type.modelProperties,
-      pipelineProperty: {
-        required: true,
-        serializedName: "pipeline",
-        defaultValue: {},
-        type: {
-          name: "Composite",
-          className: "TriggerPipelineReference"
-        }
-      },
-      dependsOn: {
-        required: true,
-        serializedName: "typeProperties.dependsOn",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PipelineReference"
-            }
-          }
-        }
-      },
-      runDimension: {
-        required: true,
-        serializedName: "typeProperties.runDimension",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    additionalProperties: Trigger.type.additionalProperties
-  }
-};
-
-export const DependencyReference: msRest.CompositeMapper = {
-  serializedName: "DependencyReference",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
-    },
-    uberParent: "DependencyReference",
-    className: "DependencyReference",
-    modelProperties: {
-      type: {
-        required: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SelfDependencyTumblingWindowTriggerReference: msRest.CompositeMapper = {
-  serializedName: "SelfDependencyTumblingWindowTriggerReference",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DependencyReference.type.polymorphicDiscriminator,
-    uberParent: "DependencyReference",
-    className: "SelfDependencyTumblingWindowTriggerReference",
-    modelProperties: {
-      ...DependencyReference.type.modelProperties,
-      offset: {
-        required: true,
-        serializedName: "offset",
-        constraints: {
-          MaxLength: 15,
-          MinLength: 8,
-          Pattern: /-((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))/
-        },
-        type: {
-          name: "String"
-        }
-      },
-      size: {
-        serializedName: "size",
-        constraints: {
-          MaxLength: 15,
-          MinLength: 8,
-          Pattern: /((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))/
-        },
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const TriggerReference: msRest.CompositeMapper = {
-  serializedName: "TriggerReference",
-  type: {
-    name: "Composite",
-    className: "TriggerReference",
-    modelProperties: {
-      type: {
-        required: true,
-        isConstant: true,
-        serializedName: "type",
-        defaultValue: 'TriggerReference',
-        type: {
-          name: "String"
-        }
-      },
-      referenceName: {
-        required: true,
-        serializedName: "referenceName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const TriggerDependencyReference: msRest.CompositeMapper = {
-  serializedName: "TriggerDependencyReference",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DependencyReference.type.polymorphicDiscriminator,
-    uberParent: "DependencyReference",
-    className: "TriggerDependencyReference",
-    modelProperties: {
-      ...DependencyReference.type.modelProperties,
-      referenceTrigger: {
-        required: true,
-        serializedName: "referenceTrigger",
-        defaultValue: {},
-        type: {
-          name: "Composite",
-          className: "TriggerReference"
-        }
-      }
-    }
-  }
-};
-
-export const TumblingWindowTriggerDependencyReference: msRest.CompositeMapper = {
-  serializedName: "TumblingWindowTriggerDependencyReference",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DependencyReference.type.polymorphicDiscriminator,
-    uberParent: "DependencyReference",
-    className: "TumblingWindowTriggerDependencyReference",
-    modelProperties: {
-      ...TriggerDependencyReference.type.modelProperties,
-      offset: {
-        serializedName: "offset",
-        constraints: {
-          MaxLength: 15,
-          MinLength: 8,
-          Pattern: /-?((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))/
-        },
-        type: {
-          name: "String"
-        }
-      },
-      size: {
-        serializedName: "size",
-        constraints: {
-          MaxLength: 15,
-          MinLength: 8,
-          Pattern: /((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))/
-        },
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RetryPolicy: msRest.CompositeMapper = {
-  serializedName: "RetryPolicy",
-  type: {
-    name: "Composite",
-    className: "RetryPolicy",
-    modelProperties: {
-      count: {
-        serializedName: "count",
-        type: {
-          name: "Object"
-        }
-      },
-      intervalInSeconds: {
-        serializedName: "intervalInSeconds",
-        constraints: {
-          InclusiveMaximum: 86400,
-          InclusiveMinimum: 30
-        },
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const TumblingWindowTrigger: msRest.CompositeMapper = {
-  serializedName: "TumblingWindowTrigger",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
-    uberParent: "Trigger",
-    className: "TumblingWindowTrigger",
-    modelProperties: {
-      ...Trigger.type.modelProperties,
-      pipelineProperty: {
-        required: true,
-        serializedName: "pipeline",
-        defaultValue: {},
-        type: {
-          name: "Composite",
-          className: "TriggerPipelineReference"
-        }
-      },
-      frequency: {
-        required: true,
-        serializedName: "typeProperties.frequency",
-        type: {
-          name: "String"
-        }
-      },
-      interval: {
-        required: true,
-        serializedName: "typeProperties.interval",
-        type: {
-          name: "Number"
-        }
-      },
-      startTime: {
-        required: true,
-        serializedName: "typeProperties.startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      endTime: {
-        serializedName: "typeProperties.endTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      delay: {
-        serializedName: "typeProperties.delay",
-        type: {
-          name: "Object"
-        }
-      },
-      maxConcurrency: {
-        required: true,
-        serializedName: "typeProperties.maxConcurrency",
-        constraints: {
-          InclusiveMaximum: 50,
-          InclusiveMinimum: 1
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      retryPolicy: {
-        serializedName: "typeProperties.retryPolicy",
-        type: {
-          name: "Composite",
-          className: "RetryPolicy"
-        }
-      },
-      dependsOn: {
-        serializedName: "typeProperties.dependsOn",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DependencyReference"
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: Trigger.type.additionalProperties
-  }
-};
-
-export const MultiplePipelineTrigger: msRest.CompositeMapper = {
-  serializedName: "MultiplePipelineTrigger",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
-    uberParent: "Trigger",
-    className: "MultiplePipelineTrigger",
-    modelProperties: {
-      ...Trigger.type.modelProperties,
-      pipelines: {
-        serializedName: "pipelines",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TriggerPipelineReference"
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: Trigger.type.additionalProperties
-  }
-};
-
-export const BlobEventsTrigger: msRest.CompositeMapper = {
-  serializedName: "BlobEventsTrigger",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
-    uberParent: "Trigger",
-    className: "BlobEventsTrigger",
-    modelProperties: {
-      ...MultiplePipelineTrigger.type.modelProperties,
-      blobPathBeginsWith: {
-        serializedName: "typeProperties.blobPathBeginsWith",
-        type: {
-          name: "String"
-        }
-      },
-      blobPathEndsWith: {
-        serializedName: "typeProperties.blobPathEndsWith",
-        type: {
-          name: "String"
-        }
-      },
-      ignoreEmptyBlobs: {
-        serializedName: "typeProperties.ignoreEmptyBlobs",
-        type: {
-          name: "Boolean"
-        }
-      },
-      events: {
-        required: true,
-        serializedName: "typeProperties.events",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      scope: {
-        required: true,
-        serializedName: "typeProperties.scope",
-        type: {
-          name: "String"
-        }
-      }
-    },
-    additionalProperties: Trigger.type.additionalProperties
-  }
-};
-
-export const BlobTrigger: msRest.CompositeMapper = {
-  serializedName: "BlobTrigger",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
-    uberParent: "Trigger",
-    className: "BlobTrigger",
-    modelProperties: {
-      ...MultiplePipelineTrigger.type.modelProperties,
-      folderPath: {
-        required: true,
-        serializedName: "typeProperties.folderPath",
-        type: {
-          name: "String"
-        }
-      },
-      maxConcurrency: {
-        required: true,
-        serializedName: "typeProperties.maxConcurrency",
-        type: {
-          name: "Number"
-        }
-      },
-      linkedService: {
-        required: true,
-        serializedName: "typeProperties.linkedService",
-        defaultValue: {},
-        type: {
-          name: "Composite",
-          className: "LinkedServiceReference"
-        }
-      }
-    },
-    additionalProperties: Trigger.type.additionalProperties
-  }
-};
-
-export const RecurrenceScheduleOccurrence: msRest.CompositeMapper = {
-  serializedName: "RecurrenceScheduleOccurrence",
-  type: {
-    name: "Composite",
-    className: "RecurrenceScheduleOccurrence",
-    modelProperties: {
-      day: {
-        serializedName: "day",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"
-          ]
-        }
-      },
-      occurrence: {
-        serializedName: "occurrence",
-        type: {
-          name: "Number"
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
-  }
-};
-
-export const RecurrenceSchedule: msRest.CompositeMapper = {
-  serializedName: "RecurrenceSchedule",
-  type: {
-    name: "Composite",
-    className: "RecurrenceSchedule",
-    modelProperties: {
-      minutes: {
-        serializedName: "minutes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      hours: {
-        serializedName: "hours",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      weekDays: {
-        serializedName: "weekDays",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Enum",
-              allowedValues: [
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday"
-              ]
-            }
-          }
-        }
-      },
-      monthDays: {
-        serializedName: "monthDays",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      monthlyOccurrences: {
-        serializedName: "monthlyOccurrences",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RecurrenceScheduleOccurrence",
-              additionalProperties: {
-                type: {
-                  name: "Object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
-  }
-};
-
-export const ScheduleTriggerRecurrence: msRest.CompositeMapper = {
-  serializedName: "ScheduleTriggerRecurrence",
-  type: {
-    name: "Composite",
-    className: "ScheduleTriggerRecurrence",
-    modelProperties: {
-      frequency: {
-        serializedName: "frequency",
-        type: {
-          name: "String"
-        }
-      },
-      interval: {
-        serializedName: "interval",
-        type: {
-          name: "Number"
-        }
-      },
-      startTime: {
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      endTime: {
-        serializedName: "endTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      timeZone: {
-        serializedName: "timeZone",
-        type: {
-          name: "String"
-        }
-      },
-      schedule: {
-        serializedName: "schedule",
-        type: {
-          name: "Composite",
-          className: "RecurrenceSchedule",
-          additionalProperties: {
-            type: {
-              name: "Object"
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "Object"
-      }
-    }
-  }
-};
-
-export const ScheduleTrigger: msRest.CompositeMapper = {
-  serializedName: "ScheduleTrigger",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
-    uberParent: "Trigger",
-    className: "ScheduleTrigger",
-    modelProperties: {
-      ...MultiplePipelineTrigger.type.modelProperties,
-      recurrence: {
-        required: true,
-        serializedName: "typeProperties.recurrence",
-        type: {
-          name: "Composite",
-          className: "ScheduleTriggerRecurrence",
-          additionalProperties: {
-            type: {
-              name: "Object"
-            }
-          }
-        }
-      }
-    },
-    additionalProperties: Trigger.type.additionalProperties
   }
 };
 
@@ -7510,6 +6846,12 @@ export const SalesforceServiceCloudLinkedService: msRest.CompositeMapper = {
           className: "SecretBase"
         }
       },
+      apiVersion: {
+        serializedName: "typeProperties.apiVersion",
+        type: {
+          name: "Object"
+        }
+      },
       extendedProperties: {
         serializedName: "typeProperties.extendedProperties",
         type: {
@@ -7560,6 +6902,12 @@ export const SalesforceLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase"
+        }
+      },
+      apiVersion: {
+        serializedName: "typeProperties.apiVersion",
+        type: {
+          name: "Object"
         }
       },
       encryptedCredential: {
@@ -8520,15 +7868,19 @@ export const Db2LinkedService: msRest.CompositeMapper = {
     className: "Db2LinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionString: {
+        serializedName: "typeProperties.connectionString",
+        type: {
+          name: "Object"
+        }
+      },
       server: {
-        required: true,
         serializedName: "typeProperties.server",
         type: {
           name: "Object"
         }
       },
       database: {
-        required: true,
         serializedName: "typeProperties.database",
         type: {
           name: "Object"
@@ -12692,6 +12044,667 @@ export const AmazonS3Dataset: msRest.CompositeMapper = {
       }
     },
     additionalProperties: Dataset.type.additionalProperties
+  }
+};
+
+export const ChainingTrigger: msRest.CompositeMapper = {
+  serializedName: "ChainingTrigger",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    className: "ChainingTrigger",
+    modelProperties: {
+      ...Trigger.type.modelProperties,
+      pipelineProperty: {
+        required: true,
+        serializedName: "pipeline",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "TriggerPipelineReference"
+        }
+      },
+      dependsOn: {
+        required: true,
+        serializedName: "typeProperties.dependsOn",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PipelineReference"
+            }
+          }
+        }
+      },
+      runDimension: {
+        required: true,
+        serializedName: "typeProperties.runDimension",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: Trigger.type.additionalProperties
+  }
+};
+
+export const RerunTumblingWindowTrigger: msRest.CompositeMapper = {
+  serializedName: "RerunTumblingWindowTrigger",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    className: "RerunTumblingWindowTrigger",
+    modelProperties: {
+      ...Trigger.type.modelProperties,
+      parentTrigger: {
+        required: true,
+        serializedName: "typeProperties.parentTrigger",
+        type: {
+          name: "Object"
+        }
+      },
+      requestedStartTime: {
+        required: true,
+        serializedName: "typeProperties.requestedStartTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      requestedEndTime: {
+        required: true,
+        serializedName: "typeProperties.requestedEndTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      rerunConcurrency: {
+        required: true,
+        serializedName: "typeProperties.rerunConcurrency",
+        constraints: {
+          InclusiveMaximum: 50,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    additionalProperties: Trigger.type.additionalProperties
+  }
+};
+
+export const DependencyReference: msRest.CompositeMapper = {
+  serializedName: "DependencyReference",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    uberParent: "DependencyReference",
+    className: "DependencyReference",
+    modelProperties: {
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SelfDependencyTumblingWindowTriggerReference: msRest.CompositeMapper = {
+  serializedName: "SelfDependencyTumblingWindowTriggerReference",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DependencyReference.type.polymorphicDiscriminator,
+    uberParent: "DependencyReference",
+    className: "SelfDependencyTumblingWindowTriggerReference",
+    modelProperties: {
+      ...DependencyReference.type.modelProperties,
+      offset: {
+        required: true,
+        serializedName: "offset",
+        constraints: {
+          MaxLength: 15,
+          MinLength: 8,
+          Pattern: /-((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "size",
+        constraints: {
+          MaxLength: 15,
+          MinLength: 8,
+          Pattern: /((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))/
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TriggerReference: msRest.CompositeMapper = {
+  serializedName: "TriggerReference",
+  type: {
+    name: "Composite",
+    className: "TriggerReference",
+    modelProperties: {
+      type: {
+        required: true,
+        isConstant: true,
+        serializedName: "type",
+        defaultValue: 'TriggerReference',
+        type: {
+          name: "String"
+        }
+      },
+      referenceName: {
+        required: true,
+        serializedName: "referenceName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TriggerDependencyReference: msRest.CompositeMapper = {
+  serializedName: "TriggerDependencyReference",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DependencyReference.type.polymorphicDiscriminator,
+    uberParent: "DependencyReference",
+    className: "TriggerDependencyReference",
+    modelProperties: {
+      ...DependencyReference.type.modelProperties,
+      referenceTrigger: {
+        required: true,
+        serializedName: "referenceTrigger",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "TriggerReference"
+        }
+      }
+    }
+  }
+};
+
+export const TumblingWindowTriggerDependencyReference: msRest.CompositeMapper = {
+  serializedName: "TumblingWindowTriggerDependencyReference",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DependencyReference.type.polymorphicDiscriminator,
+    uberParent: "DependencyReference",
+    className: "TumblingWindowTriggerDependencyReference",
+    modelProperties: {
+      ...TriggerDependencyReference.type.modelProperties,
+      offset: {
+        serializedName: "offset",
+        constraints: {
+          MaxLength: 15,
+          MinLength: 8,
+          Pattern: /-?((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "size",
+        constraints: {
+          MaxLength: 15,
+          MinLength: 8,
+          Pattern: /((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))/
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RetryPolicy: msRest.CompositeMapper = {
+  serializedName: "RetryPolicy",
+  type: {
+    name: "Composite",
+    className: "RetryPolicy",
+    modelProperties: {
+      count: {
+        serializedName: "count",
+        type: {
+          name: "Object"
+        }
+      },
+      intervalInSeconds: {
+        serializedName: "intervalInSeconds",
+        constraints: {
+          InclusiveMaximum: 86400,
+          InclusiveMinimum: 30
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TumblingWindowTrigger: msRest.CompositeMapper = {
+  serializedName: "TumblingWindowTrigger",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    className: "TumblingWindowTrigger",
+    modelProperties: {
+      ...Trigger.type.modelProperties,
+      pipelineProperty: {
+        required: true,
+        serializedName: "pipeline",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "TriggerPipelineReference"
+        }
+      },
+      frequency: {
+        required: true,
+        serializedName: "typeProperties.frequency",
+        type: {
+          name: "String"
+        }
+      },
+      interval: {
+        required: true,
+        serializedName: "typeProperties.interval",
+        type: {
+          name: "Number"
+        }
+      },
+      startTime: {
+        required: true,
+        serializedName: "typeProperties.startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        serializedName: "typeProperties.endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      delay: {
+        serializedName: "typeProperties.delay",
+        type: {
+          name: "Object"
+        }
+      },
+      maxConcurrency: {
+        required: true,
+        serializedName: "typeProperties.maxConcurrency",
+        constraints: {
+          InclusiveMaximum: 50,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      retryPolicy: {
+        serializedName: "typeProperties.retryPolicy",
+        type: {
+          name: "Composite",
+          className: "RetryPolicy"
+        }
+      },
+      dependsOn: {
+        serializedName: "typeProperties.dependsOn",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DependencyReference"
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: Trigger.type.additionalProperties
+  }
+};
+
+export const MultiplePipelineTrigger: msRest.CompositeMapper = {
+  serializedName: "MultiplePipelineTrigger",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    className: "MultiplePipelineTrigger",
+    modelProperties: {
+      ...Trigger.type.modelProperties,
+      pipelines: {
+        serializedName: "pipelines",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TriggerPipelineReference"
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: Trigger.type.additionalProperties
+  }
+};
+
+export const BlobEventsTrigger: msRest.CompositeMapper = {
+  serializedName: "BlobEventsTrigger",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    className: "BlobEventsTrigger",
+    modelProperties: {
+      ...MultiplePipelineTrigger.type.modelProperties,
+      blobPathBeginsWith: {
+        serializedName: "typeProperties.blobPathBeginsWith",
+        type: {
+          name: "String"
+        }
+      },
+      blobPathEndsWith: {
+        serializedName: "typeProperties.blobPathEndsWith",
+        type: {
+          name: "String"
+        }
+      },
+      ignoreEmptyBlobs: {
+        serializedName: "typeProperties.ignoreEmptyBlobs",
+        type: {
+          name: "Boolean"
+        }
+      },
+      events: {
+        required: true,
+        serializedName: "typeProperties.events",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      scope: {
+        required: true,
+        serializedName: "typeProperties.scope",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: Trigger.type.additionalProperties
+  }
+};
+
+export const BlobTrigger: msRest.CompositeMapper = {
+  serializedName: "BlobTrigger",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    className: "BlobTrigger",
+    modelProperties: {
+      ...MultiplePipelineTrigger.type.modelProperties,
+      folderPath: {
+        required: true,
+        serializedName: "typeProperties.folderPath",
+        type: {
+          name: "String"
+        }
+      },
+      maxConcurrency: {
+        required: true,
+        serializedName: "typeProperties.maxConcurrency",
+        type: {
+          name: "Number"
+        }
+      },
+      linkedService: {
+        required: true,
+        serializedName: "typeProperties.linkedService",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      }
+    },
+    additionalProperties: Trigger.type.additionalProperties
+  }
+};
+
+export const RecurrenceScheduleOccurrence: msRest.CompositeMapper = {
+  serializedName: "RecurrenceScheduleOccurrence",
+  type: {
+    name: "Composite",
+    className: "RecurrenceScheduleOccurrence",
+    modelProperties: {
+      day: {
+        serializedName: "day",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ]
+        }
+      },
+      occurrence: {
+        serializedName: "occurrence",
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const RecurrenceSchedule: msRest.CompositeMapper = {
+  serializedName: "RecurrenceSchedule",
+  type: {
+    name: "Composite",
+    className: "RecurrenceSchedule",
+    modelProperties: {
+      minutes: {
+        serializedName: "minutes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      hours: {
+        serializedName: "hours",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      weekDays: {
+        serializedName: "weekDays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ]
+            }
+          }
+        }
+      },
+      monthDays: {
+        serializedName: "monthDays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      monthlyOccurrences: {
+        serializedName: "monthlyOccurrences",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RecurrenceScheduleOccurrence",
+              additionalProperties: {
+                type: {
+                  name: "Object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const ScheduleTriggerRecurrence: msRest.CompositeMapper = {
+  serializedName: "ScheduleTriggerRecurrence",
+  type: {
+    name: "Composite",
+    className: "ScheduleTriggerRecurrence",
+    modelProperties: {
+      frequency: {
+        serializedName: "frequency",
+        type: {
+          name: "String"
+        }
+      },
+      interval: {
+        serializedName: "interval",
+        type: {
+          name: "Number"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      timeZone: {
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "RecurrenceSchedule",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const ScheduleTrigger: msRest.CompositeMapper = {
+  serializedName: "ScheduleTrigger",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    className: "ScheduleTrigger",
+    modelProperties: {
+      ...MultiplePipelineTrigger.type.modelProperties,
+      recurrence: {
+        required: true,
+        serializedName: "typeProperties.recurrence",
+        type: {
+          name: "Composite",
+          className: "ScheduleTriggerRecurrence",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    },
+    additionalProperties: Trigger.type.additionalProperties
   }
 };
 
@@ -18713,6 +18726,12 @@ export const SftpWriteSettings: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      useTempFileRename: {
+        serializedName: "useTempFileRename",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: StoreWriteSettings.type.additionalProperties
@@ -21730,36 +21749,6 @@ export const TriggerListResponse: msRest.CompositeMapper = {
   }
 };
 
-export const RerunTriggerListResponse: msRest.CompositeMapper = {
-  serializedName: "RerunTriggerListResponse",
-  type: {
-    name: "Composite",
-    className: "RerunTriggerListResponse",
-    modelProperties: {
-      value: {
-        required: true,
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RerunTriggerResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DataFlowListResponse: msRest.CompositeMapper = {
   serializedName: "DataFlowListResponse",
   type: {
@@ -21835,19 +21824,8 @@ export const discriminators = {
   'Trigger' : Trigger,
   'FactoryRepoConfiguration.FactoryVSTSConfiguration' : FactoryVSTSConfiguration,
   'FactoryRepoConfiguration.FactoryGitHubConfiguration' : FactoryGitHubConfiguration,
-  'Trigger.RerunTumblingWindowTrigger' : RerunTumblingWindowTrigger,
   'DataFlow' : DataFlow,
   'DataFlow.MappingDataFlow' : MappingDataFlow,
-  'Trigger.ChainingTrigger' : ChainingTrigger,
-  'DependencyReference.SelfDependencyTumblingWindowTriggerReference' : SelfDependencyTumblingWindowTriggerReference,
-  'DependencyReference.TumblingWindowTriggerDependencyReference' : TumblingWindowTriggerDependencyReference,
-  'DependencyReference.TriggerDependencyReference' : TriggerDependencyReference,
-  'DependencyReference' : DependencyReference,
-  'Trigger.TumblingWindowTrigger' : TumblingWindowTrigger,
-  'Trigger.BlobEventsTrigger' : BlobEventsTrigger,
-  'Trigger.BlobTrigger' : BlobTrigger,
-  'Trigger.ScheduleTrigger' : ScheduleTrigger,
-  'Trigger.MultiplePipelineTrigger' : MultiplePipelineTrigger,
   'LinkedService.AzureFunction' : AzureFunctionLinkedService,
   'LinkedService.AzureDataExplorer' : AzureDataExplorerLinkedService,
   'LinkedService.SapTable' : SapTableLinkedService,
@@ -22056,6 +22034,17 @@ export const discriminators = {
   'Dataset.Parquet' : ParquetDataset,
   'Dataset.Avro' : AvroDataset,
   'Dataset.AmazonS3Object' : AmazonS3Dataset,
+  'Trigger.ChainingTrigger' : ChainingTrigger,
+  'Trigger.RerunTumblingWindowTrigger' : RerunTumblingWindowTrigger,
+  'DependencyReference.SelfDependencyTumblingWindowTriggerReference' : SelfDependencyTumblingWindowTriggerReference,
+  'DependencyReference.TumblingWindowTriggerDependencyReference' : TumblingWindowTriggerDependencyReference,
+  'DependencyReference.TriggerDependencyReference' : TriggerDependencyReference,
+  'DependencyReference' : DependencyReference,
+  'Trigger.TumblingWindowTrigger' : TumblingWindowTrigger,
+  'Trigger.BlobEventsTrigger' : BlobEventsTrigger,
+  'Trigger.BlobTrigger' : BlobTrigger,
+  'Trigger.ScheduleTrigger' : ScheduleTrigger,
+  'Trigger.MultiplePipelineTrigger' : MultiplePipelineTrigger,
   'Activity.ExecuteDataFlow' : ExecuteDataFlowActivity,
   'Activity.AzureFunctionActivity' : AzureFunctionActivity,
   'Activity.DatabricksSparkPython' : DatabricksSparkPythonActivity,
