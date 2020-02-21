@@ -51,7 +51,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 // @public
 export class CryptographyClient {
     constructor(key: string | KeyVaultKey, // keyUrl or KeyVaultKey
-    credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
@@ -61,6 +61,10 @@ export class CryptographyClient {
     verify(algorithm: SignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     verifyData(algorithm: SignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapKeyOptions): Promise<WrapResult>;
+}
+
+// @public
+export interface CryptographyClientOptions extends KeyClientOptions {
 }
 
 // @public
@@ -151,7 +155,7 @@ export interface JsonWebKey {
 
 // @public
 export class KeyClient {
-    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: KeyClientOptions);
     backupKey(name: string, options?: BackupKeyOptions): Promise<Uint8Array | undefined>;
     beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
@@ -168,6 +172,12 @@ export class KeyClient {
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     readonly vaultUrl: string;
+}
+
+// @public
+export interface KeyClientOptions extends coreHttp.PipelineOptions {
+    // (undocumented)
+    serviceAPIVersion?: "7.0" | "7.1" | "7.2-preview";
 }
 
 // @public
@@ -214,6 +224,9 @@ export interface KeyVaultKey {
 
 // @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+
+// @public
+export const LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION = "7.1";
 
 // @public
 export interface ListDeletedKeysOptions extends coreHttp.OperationOptions {
