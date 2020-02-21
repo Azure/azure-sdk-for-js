@@ -21,9 +21,6 @@ import {
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
-import { setLogLevel } from '@azure/logger';
-setLogLevel("info");
-
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
   let containerName: string;
@@ -232,7 +229,7 @@ describe("BlobClient", () => {
     assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
   });
 
-  it.only("undelete", async () => {
+  it("undelete", async () => {
     let properties = await blobServiceClient.getProperties();
     if (!properties.deleteRetentionPolicy!.enabled) {
       await blobServiceClient.setProperties({
@@ -243,7 +240,7 @@ describe("BlobClient", () => {
       });
       // await delay(15 * 1000);
       properties = await blobServiceClient.getProperties();
-      assert.ok(properties.deleteRetentionPolicy!.enabled, "deleteRetentionPolicy should be enabled immediately.");
+      assert.ok(properties.deleteRetentionPolicy!.enabled, "deleteRetentionPolicy should be enabled.");
     }
 
     await blobClient.delete();
@@ -256,14 +253,12 @@ describe("BlobClient", () => {
 
     let res = await iter.next();
     let result = res.value;
-    console.log(res);
     while (!res.done) {
       if (!!result && !!result.segment && !!result.segment.blobItems &&
         result.segment.blobItems.length > 0) {
         break;
       }
       res = await iter.next();
-      console.log(res);
       result = res.value;
     }
 
