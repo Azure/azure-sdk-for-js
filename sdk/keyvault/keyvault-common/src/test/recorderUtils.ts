@@ -26,6 +26,6 @@ export function uniqueString(): string {
         .slice(2);
 }
 
-export const testPollerProperties = {
+export const pollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined
 };
