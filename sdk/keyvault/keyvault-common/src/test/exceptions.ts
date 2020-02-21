@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 
 export async function assertThrowsAbortError(cb: () => Promise<any>) {

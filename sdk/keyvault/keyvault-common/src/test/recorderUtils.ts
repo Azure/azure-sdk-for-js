@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { retry as realRetry } from "./utils/retry";
 
 function isPlaybackMode(): boolean {

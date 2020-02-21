@@ -11,9 +11,15 @@ export function assertThrowsAbortError(cb: () => Promise<any>): Promise<void>;
 export function retry<T>(target: () => Promise<T>, delay?: number, timeout?: number, increaseFactor?: number): Promise<T>;
 
 // @public (undocumented)
+export function stringToUint8Array(str: string): Uint8Array;
+
+// @public (undocumented)
 export const testPollerProperties: {
     intervalInMs: number | undefined;
 };
+
+// @public (undocumented)
+export function uint8ArrayToString(ab: Uint8Array): string;
 
 // @public (undocumented)
 export function uniqueString(): string;
