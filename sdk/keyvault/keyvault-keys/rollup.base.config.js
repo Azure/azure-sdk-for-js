@@ -93,7 +93,7 @@ export function browserConfig(test = false) {
       globals: {
         "@azure/core-http": "Azure.Core.HTTP",
         "@azure/core-arm": "Azure.Core.ARM",
-        "@azure/core-common": "Azure.Core.Common",
+        "@azure/core-common": "Azure.Core.Common"
       },
       sourcemap: true
     },
