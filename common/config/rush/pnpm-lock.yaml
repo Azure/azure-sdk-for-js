@@ -17,6 +17,7 @@ dependencies:
   '@rush-temp/eventhubs-checkpointstore-blob': 'file:projects/eventhubs-checkpointstore-blob.tgz'
   '@rush-temp/identity': 'file:projects/identity.tgz'
   '@rush-temp/keyvault-certificates': 'file:projects/keyvault-certificates.tgz'
+  '@rush-temp/keyvault-common': 'file:projects/keyvault-common.tgz'
   '@rush-temp/keyvault-keys': 'file:projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:projects/keyvault-secrets.tgz'
   '@rush-temp/logger': 'file:projects/logger.tgz'
@@ -8688,14 +8689,17 @@ packages:
       glob: 7.1.6
       markdownlint-cli: 0.17.0
       mocha: 6.2.2
+      mocha-junit-reporter: 1.23.3_mocha@6.2.2
+      mocha-multi: 1.1.3_mocha@6.2.2
       prettier: 1.19.1
       rimraf: 3.0.2
+      source-map-support: 0.5.16
       tslib: 1.10.0
       typescript: 3.7.5
     dev: false
     name: '@rush-temp/eslint-plugin-azure-sdk'
     resolution:
-      integrity: sha512-tOA7kZ3CCtf9AWaroV9Ylqd5WFBVsdXUWuJe/+x7BSJhAJE1qzRIaACvr21wIniMJ3WQGXSiR7vijorRaGru5Q==
+      integrity: sha512-1CaUvNZv+HRjckZMq9hPxUDIlhiYfUjMA0pr68DVJpfo8rW2CPmD1kPvMhQa7qRzfvdgXZY+ZTU5dO3SiaOknQ==
       tarball: 'file:projects/eslint-plugin-azure-sdk.tgz'
     version: 0.0.0
   'file:projects/event-hubs.tgz':
@@ -9022,6 +9026,23 @@ packages:
     resolution:
       integrity: sha512-HWTB3OFSaGPknGpAlUsMwPtznCjrGmQvyi5nwOPFLOGNklQTZIChUu3xlv7u/mm9woH7GDPIHJgFEf1N9kmTmg==
       tarball: 'file:projects/keyvault-certificates.tgz'
+    version: 0.0.0
+  'file:projects/keyvault-common.tgz':
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 2.19.2_3e3f891f1aa9f45d3bcb4ff18cecf61d
+      '@typescript-eslint/parser': 2.19.2_eslint@6.8.0+typescript@3.7.5
+      dotenv: 8.2.0
+      eslint: 6.8.0
+      eslint-config-prettier: 6.10.0_eslint@6.8.0
+      eslint-plugin-no-null: 1.0.2_eslint@6.8.0
+      eslint-plugin-no-only-tests: 2.4.0
+      eslint-plugin-promise: 4.2.1
+      typescript: 3.7.5
+    dev: false
+    name: '@rush-temp/keyvault-common'
+    resolution:
+      integrity: sha512-1a3SlMS6/f9LWnzq4MGcENl/2QzjI7atXFGu9+1WP+5wG2CDe+CUMykSKg9kTGebup7ZGYT4TIYSyg2QuceZyg==
+      tarball: 'file:projects/keyvault-common.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
     dependencies:
@@ -9698,6 +9719,7 @@ specifiers:
   '@rush-temp/eventhubs-checkpointstore-blob': 'file:./projects/eventhubs-checkpointstore-blob.tgz'
   '@rush-temp/identity': 'file:./projects/identity.tgz'
   '@rush-temp/keyvault-certificates': 'file:./projects/keyvault-certificates.tgz'
+  '@rush-temp/keyvault-common': 'file:./projects/keyvault-common.tgz'
   '@rush-temp/keyvault-keys': 'file:./projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:./projects/keyvault-secrets.tgz'
   '@rush-temp/logger': 'file:./projects/logger.tgz'
