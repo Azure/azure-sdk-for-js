@@ -53,16 +53,19 @@ module.exports = function(config) {
 
     reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit", "json-to-file"],
 
-    coverageReporter: { type: "in-memory" },
-
-    remapCoverageReporter: {
-      "text-summary": null,
-      html: "./coverage-browser",
-      cobertura: "./coverage-browser/cobertura-coverage.xml"
+    coverageReporter: {
+      // specify a common output directory
+      dir: "coverage-browser/",
+      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
     },
 
-    remapOptions: {
-      exclude: /node_modules|test/g
+    remapIstanbulReporter: {
+      src: "coverage-browser/coverage.json",
+      reports: {
+        lcovonly: "coverage-browser/lcov.info",
+        html: "coverage-browser/html/report",
+        "text-summary": null
+      }
     },
 
     junitReporter: {

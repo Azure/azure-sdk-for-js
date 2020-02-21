@@ -53,18 +53,19 @@ module.exports = function(config) {
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit"],
 
-    coverageReporter: { type: "in-memory" },
-
-    // Coverage report settings
-    remapCoverageReporter: {
-      "text-summary": null, // to show summary in console
-      html: "./coverage-browser",
-      cobertura: "./coverage-browser/cobertura-coverage.xml"
+    coverageReporter: {
+      // specify a common output directory
+      dir: "coverage-browser/",
+      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
     },
 
-    // Exclude coverage calculation for following files
-    remapOptions: {
-      exclude: /node_modules|test/g
+    remapIstanbulReporter: {
+      src: "coverage-browser/coverage.json",
+      reports: {
+        lcovonly: "coverage-browser/lcov.info",
+        html: "coverage-browser/html/report",
+        "text-summary": null
+      }
     },
 
     junitReporter: {
