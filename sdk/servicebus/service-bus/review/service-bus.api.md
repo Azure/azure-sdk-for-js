@@ -29,7 +29,7 @@ export type AuthorizationRule = {
     secondaryKey?: string;
 };
 
-// @public (undocumented)
+// @public
 export interface ContextWithSettlement {
     // (undocumented)
     abandon(m: Message): Promise<void>;
@@ -92,7 +92,7 @@ export interface MessageHandlerOptions {
 
 export { MessagingError }
 
-// @public (undocumented)
+// @public
 export interface NonSessionReceiverClient<LockModeT extends "PeekLock" | "ReceiveAndDelete"> {
     // Warning: (ae-forgotten-export) The symbol "MessageIterator" needs to be exported by the entry point index.d.ts
     //
@@ -224,7 +224,7 @@ export class Receiver {
     renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date>;
     }
 
-// @public (undocumented)
+// @public
 export interface ReceiverClient {
     // Warning: (ae-forgotten-export) The symbol "ServiceBusClientReceiverOptions" needs to be exported by the entry point index.d.ts
     //
@@ -475,7 +475,7 @@ export class SessionReceiver {
     setState(state: any): Promise<void>;
     }
 
-// @public (undocumented)
+// @public
 export interface SessionReceiverClient<LockModeT extends "PeekLock" | "ReceiveAndDelete"> {
     // (undocumented)
     iterateMessages(): MessageIterator<ContextType<LockModeT>>;
@@ -628,7 +628,7 @@ export interface TopicOptions {
     userMetadata?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UselessEmptyContextThatMaybeShouldBeRemoved {
 }
 

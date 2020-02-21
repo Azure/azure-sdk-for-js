@@ -1,10 +1,10 @@
 import {
-  ReceiverClient,
   SessionConnections,
   Message,
   ContextWithSettlement as ContextWithSettlementMethods,
   UselessEmptyContextThatMaybeShouldBeRemoved
-} from "../receiverClient2";
+} from "./models";
+import { ReceiverClient } from "./receiverClient";
 import { env } from "process";
 import * as dotenv from "dotenv";
 

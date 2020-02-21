@@ -61,9 +61,12 @@ export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/uti
 export {
   ReceiverClient,
   NonSessionReceiverClient,
-  SessionReceiverClient,
+  SessionReceiverClient
+} from "./track2/receiverClient";
+
+export {
   SessionConnections,
   Message,
   UselessEmptyContextThatMaybeShouldBeRemoved,
   ContextWithSettlement
-} from "./receiverClient2";
+} from "./track2/models";

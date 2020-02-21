@@ -1,115 +1,42 @@
-import { ServiceBusMessage, ReceiveMode } from "./serviceBusMessage";
-import { ServiceBusClientReceiverOptions } from "./receiverClient";
-import { ClientEntityContext } from "./clientEntityContext";
-import { createConnectionContextForConnectionString } from "./serviceBusClient";
+import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
+import { ServiceBusClientReceiverOptions } from "../receiverClient";
+import { ClientEntityContext } from "../clientEntityContext";
+import { createConnectionContextForConnectionString } from "../serviceBusClient";
 import { generate_uuid } from "rhea-promise";
-import { ClientType } from "./client";
-import { SessionReceiver, Receiver } from "./receiver";
+import { ClientType } from "../client";
+import { SessionReceiver, Receiver } from "../receiver";
+import {
+  MessageHandlers,
+  MessageIterator,
+  Session,
+  ContextType,
+  ContextWithSettlement,
+  UselessEmptyContextThatMaybeShouldBeRemoved
+} from "./models";
+import { getEntityPath, isReceiveMode, convertToInternalReceiveMode } from "./constructorHelpers";
 
 /**
- * An opaque class, used internally to manage AMQP connections for sessions.
+ *A receiver client that handles sessions, including renewing the session lock.
  */
-export class SessionConnections {}
-
-// function isSession(possibleSession: Session | any): session is Session {
-//   const session = possibleSession as Session;
-//   return session.connections != null;
-// }
-
-export interface Session {
-  id: string;
-  connections: SessionConnections;
-}
-
-// the "action" methods here are on the context object instead.
-export type Message = Omit<
-  ServiceBusMessage,
-  | "complete"
-  | "abandon"
-  | "defer"
-  | "deadletter"
-  // Um..am I doing something odd here or is this a normal thing to exclude?
-  | "prototype"
->;
-
-export interface ContextWithSettlement {
-  complete(m: Message): Promise<void>;
-  abandon(m: Message): Promise<void>;
-  defer(m: Message): Promise<void>;
-  deadLetter(m: Message): Promise<void>;
-}
-
-export interface UselessEmptyContextThatMaybeShouldBeRemoved {}
-
-export interface MessageHandlers<ContextT> {
-  processMessage(message: Message, context: ContextT): Promise<void>;
-  processError(err: Error): Promise<void>;
-}
-
-export interface Closeable {
-  close(): Promise<void>;
-}
-
-export interface MessageIterator<ContextT> extends AsyncIterable<Message> {
-  context: ContextT;
-}
-
-export type ContextType<LockModeT> = LockModeT extends "PeekLock"
-  ? ContextWithSettlement
-  : LockModeT extends "ReceiveAndDelete"
-  ? UselessEmptyContextThatMaybeShouldBeRemoved
-  : never;
-
-// TODO: could extend NonSessionReceiverClient
+// TODO: could extend NonSessionReceiverClient...?
 export interface SessionReceiverClient<LockModeT extends "PeekLock" | "ReceiveAndDelete"> {
   streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
   iterateMessages(): MessageIterator<ContextType<LockModeT>>;
   renewSessionLock(): Promise<Date>;
 }
 
+/**
+ * A receiver client that does not handle sessions.
+ */
 export interface NonSessionReceiverClient<LockModeT extends "PeekLock" | "ReceiveAndDelete"> {
   streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
   iterateMessages(): MessageIterator<ContextType<LockModeT>>;
 }
 
-function getEntityPath(
-  connectionString: string,
-  optionalQueueOrSubscriptionOrTopicName?: string,
-  optionalSubscriptionName?: string
-): string {
-  const entityPathMatch = connectionString.match(/^.+EntityPath=(.+?);{0,1}$/);
-  let entityPath: string;
-
-  if (entityPathMatch!.length !== 2) {
-    if (optionalQueueOrSubscriptionOrTopicName == null) {
-      throw new Error("No entity in conection string - queue/topic parameter is required");
-    }
-
-    let queueOrTopicName = optionalQueueOrSubscriptionOrTopicName;
-
-    // servicebus connection string only (ie, no entity name)
-    if (optionalSubscriptionName != null) {
-      // topic + sub
-      entityPath = `${queueOrTopicName}/Subscriptions/${optionalSubscriptionName}`;
-    } else {
-      // queue only
-      entityPath = queueOrTopicName!;
-    }
-  } else {
-    const baseEntityPath = entityPathMatch![1]!;
-
-    if (optionalQueueOrSubscriptionOrTopicName != null) {
-      // topic (from connection string) + sub
-      entityPath = `${baseEntityPath}/Subscriptions/${optionalQueueOrSubscriptionOrTopicName}`;
-    } else {
-      // queue
-      entityPath = baseEntityPath;
-    }
-  }
-
-  return entityPath;
-}
-
+/**
+ * The base ReceiverClient interface which shows which constructors
+ * correspond to which interfaces.
+ */
 export interface ReceiverClient {
   new (
     queueConnectionString: string,
@@ -133,31 +60,6 @@ export interface ReceiverClient {
     receiveMode: "ReceiveAndDelete",
     options?: ServiceBusClientReceiverOptions
   ): SessionReceiverClient<"ReceiveAndDelete">;
-}
-
-function isReceiveMode(
-  possibleReceiveMode:
-    | "PeekLock"
-    | "ReceiveAndDelete"
-    | Session
-    | ServiceBusClientReceiverOptions
-    | undefined
-): possibleReceiveMode is "PeekLock" | "ReceiveAndDelete" {
-  return (
-    possibleReceiveMode != null &&
-    typeof possibleReceiveMode === "string" &&
-    (possibleReceiveMode === "PeekLock" || possibleReceiveMode === "ReceiveAndDelete")
-  );
-}
-
-function convertToInternalReceiveMode(receiveMode: "PeekLock" | "ReceiveAndDelete"): ReceiveMode {
-  switch (receiveMode) {
-    case "PeekLock":
-      return ReceiveMode.peekLock;
-    case "ReceiveAndDelete":
-      return ReceiveMode.receiveAndDelete;
-    // TODO: this is just a compile error if someone adds another string enum value, right?
-  }
 }
 
 export const ReceiverClient: ReceiverClient = class {
@@ -197,12 +99,10 @@ export const ReceiverClient: ReceiverClient = class {
     let session: Session | undefined;
 
     if (isReceiveMode(receiveModeOrSession2)) {
-      // no sessions
       this._receiveMode = convertToInternalReceiveMode(receiveModeOrSession2);
       clientOptions = optionsOrReceiveMode3 as ServiceBusClientReceiverOptions | undefined;
       session = undefined;
     } else if (isReceiveMode(optionsOrReceiveMode3)) {
-      // sessions, yo
       this._receiveMode = convertToInternalReceiveMode(optionsOrReceiveMode3);
       clientOptions = options4;
       session = receiveModeOrSession2;
