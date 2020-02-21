@@ -6,7 +6,9 @@ import {
   GetKeyOptions,
   CryptographyOptions,
   KeyVaultKey,
-  EncryptionAlgorithm
+  EncryptionAlgorithm,
+  CryptographyClientOptions,
+  LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION
 } from "./keysModels";
 import {
   TokenCredential,
@@ -676,7 +678,7 @@ export class CryptographyClient {
   constructor(
     key: string | KeyVaultKey, // keyUrl or KeyVaultKey
     credential: TokenCredential,
-    pipelineOptions: PipelineOptions = {}
+    pipelineOptions: CryptographyClientOptions = {}
   ) {
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
     if (pipelineOptions.userAgentOptions) {
@@ -710,7 +712,11 @@ export class CryptographyClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(credential, SERVICE_API_VERSION, pipeline);
+    this.client = new KeyVaultClient(
+      credential,
+      pipelineOptions.serviceAPIVersion || LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION,
+      pipeline
+    );
 
     let parsed;
     if (typeof key === "string") {
