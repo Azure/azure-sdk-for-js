@@ -16,4 +16,4 @@ export async function assertThrowsAbortError(cb: () => Promise<any>) {
   if (passed) {
     throw new Error("Expected cb to throw an AbortError");
   }
-}  
+}
