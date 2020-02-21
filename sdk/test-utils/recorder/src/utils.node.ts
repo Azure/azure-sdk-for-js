@@ -55,7 +55,7 @@ export function fakeOutDelaysForNewRequests(nock: any, recordingPath: string) {
         // Initiating all the interceptors...
         // This makes the recorder match with any new request that is not present in the recording but with the base urls from the current recording.
         // If a request is matched, it delays for the specified amount of time and then replies with an error saying "RecordingNotFound"
-        interceptor.delay(10000).reply(401, {
+        interceptor.delay(2).reply(401, {
           error: {
             code: "RecordingNotFound",
             message:
