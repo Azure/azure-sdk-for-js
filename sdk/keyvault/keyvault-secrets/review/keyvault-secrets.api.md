@@ -55,6 +55,9 @@ export interface KeyVaultSecret {
 }
 
 // @public
+export const LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION = "7.1";
+
+// @public
 export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
 }
 
@@ -89,7 +92,7 @@ export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {
 
 // @public
 export class SecretClient {
-    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: SecretClientOptions);
     backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
     beginDeleteSecret(name: string, options?: BeginDeleteSecretOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
     beginRecoverDeletedSecret(name: string, options?: BeginRecoverDeletedSecretOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
@@ -103,6 +106,12 @@ export class SecretClient {
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
     updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
     readonly vaultUrl: string;
+}
+
+// @public
+export interface SecretClientOptions extends coreHttp.PipelineOptions {
+    // (undocumented)
+    serviceAPIVersion?: "7.0" | "7.1" | "7.2-preview";
 }
 
 // @public
