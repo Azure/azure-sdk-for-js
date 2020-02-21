@@ -73,7 +73,8 @@ import {
   RestoreKeyBackupOptions,
   UpdateKeyPropertiesOptions,
   KeyClientOptions,
-  LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION
+  LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION,
+  CryptographyClientOptions
 } from "./keysModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
@@ -96,6 +97,8 @@ import {
 } from "./cryptographyClient";
 
 export {
+  LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION,
+  CryptographyClientOptions,
   KeyClientOptions,
   BackupKeyOptions,
   CreateEcKeyOptions,
