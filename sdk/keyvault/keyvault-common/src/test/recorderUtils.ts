@@ -1,11 +1,7 @@
-import { isPlaybackMode } from "@azure/test-utils-recorder";
-import { retry as realRetry } from "./retry";
-import { isNode } from "@azure/core-http";
-import * as dotenv from "dotenv";
-import * as path from "path";
+import { retry as realRetry } from "./utils/retry";
 
-if (isNode) {
-  dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+function isPlaybackMode(): boolean {
+  return process.env.TEST_MODE === "playback";
 }
 
 export async function retry<T>(
