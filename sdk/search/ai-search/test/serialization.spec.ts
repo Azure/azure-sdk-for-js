@@ -68,8 +68,8 @@ describe("serialization.deserialize", () => {
   });
 
   it("Date", () => {
-    const result = deserialize({ a: "1975-04-04T07:00:00.000Z" });
-    assert.deepEqual(result, { a: new Date(1975, 3, 4) });
+    const result = deserialize({ a: "1975-04-04T00:00:00.000Z" });
+    assert.deepEqual(result, { a: new Date(Date.UTC(1975, 3, 4)) });
   });
 
   it("GeographyPoint", () => {
