@@ -160,7 +160,7 @@ jobs:
         condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
         inputs:
           codeCoverageTool: Cobertura
-          summaryFileLocation: '$(PackagePath)/coverage-browser/cobertura-coverage.xml'
+          summaryFileLocation: '$(PackagePath)/coverage-browser/cobertura-coverage-browser.xml'
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
