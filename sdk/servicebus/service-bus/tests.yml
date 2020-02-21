@@ -21,11 +21,11 @@ jobs:
         Linux_Node10:
           OSVmImage: "ubuntu-16.04"
           TestType: "node"
-          UploadCodeCoverage: true
+          PublishCodeCoverage: true
         Browser_Windows_Node10:
           OSVmImage: "windows-2019"
           TestType: "browser"
-          UploadCodeCoverage: true
+          PublishCodeCoverage: true
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
