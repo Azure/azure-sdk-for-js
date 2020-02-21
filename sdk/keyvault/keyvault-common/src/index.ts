@@ -1,5 +1,1 @@
-import * as test from "./test";
-
-export {
-  test
-};
+export * from "./test";

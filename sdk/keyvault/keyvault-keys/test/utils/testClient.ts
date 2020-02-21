@@ -1,4 +1,4 @@
-import { test } from "@azure/keyvault-common";
+import { testPollerProperties, retry } from "@azure/keyvault-common";
 import { KeyClient } from "../../src";
 
 export default class TestClient {
@@ -11,7 +11,7 @@ export default class TestClient {
   }
   public async purgeKey(keyName: string): Promise<void> {
     const that = this;
-    await test.retry(async () => {
+    await retry(async () => {
       try {
         await that.client.purgeDeletedKey(keyName);
       } catch (e) {
@@ -22,7 +22,7 @@ export default class TestClient {
   }
   public async flushKey(keyName: string): Promise<void> {
     const that = this;
-    const poller = await that.client.beginDeleteKey(keyName, test.pollerProperties);
+    const poller = await that.client.beginDeleteKey(keyName, testPollerProperties);
     await poller.pollUntilDone();
     await this.purgeKey(keyName);
   }
