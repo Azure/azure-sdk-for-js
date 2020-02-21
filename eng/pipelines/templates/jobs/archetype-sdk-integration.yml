@@ -6,10 +6,12 @@ parameters:
   EnvVars: {}
   MaxParallel: 0
   TimeoutInMinutes: 60
+  PublishCodeCoverage: false
   Matrix:
     Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "node"
+      PublishCodeCoverage: true
     Windows_Node10:
       OSVmImage: "windows-2019"
       TestType: "node"
@@ -19,6 +21,7 @@ parameters:
     Browser_Linux_Node10:
       OSVmImage: "ubuntu-16.04"
       TestType: "browser"
+      PublishCodeCoverage: true
     Browser_Windows_Node10:
       OSVmImage: "windows-2019"
       TestType: "browser"
@@ -132,6 +135,32 @@ jobs:
             displayName: Remove Test Resources
             condition: ne(variables['AZURE_RESOURCEGROUP_NAME'], '')
             continueOnError: true
+
+      - script: |
+            npm install
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
+        displayName: "Install script dependencies"
+
+      - script: |
+          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
+        displayName: "Get package path"
+
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish Code Coverage to DevOps'
+        continueOnError: true
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], true))
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(PackagePath)/coverage/cobertura-coverage.xml'
+
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish Code Coverage to DevOps'
+        continueOnError: true
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(PackagePath)/coverage-browser/cobertura-coverage.xml'
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).

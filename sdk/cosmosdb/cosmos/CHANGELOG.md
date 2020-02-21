@@ -1,7 +1,11 @@
 # Release History
 
-## 3.6.2 (Unreleased)
+## 3.6.3 (Unreleased)
 
+
+## 3.6.2 (2020-2-20)
+
+- BUG FIX: Support signing in web workers where this === self
 
 ## 3.6.1 (2020-2-11)
 
