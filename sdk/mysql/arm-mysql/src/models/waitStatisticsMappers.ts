@@ -27,18 +27,12 @@ export {
   RecommendationAction,
   Resource,
   Server,
-  ServerForCreate,
-  ServerListResult,
-  ServerPropertiesForCreate,
-  ServerPropertiesForDefaultCreate,
-  ServerPropertiesForGeoRestore,
-  ServerPropertiesForReplica,
-  ServerPropertiesForRestore,
   ServerSecurityAlertPolicy,
-  ServerUpdateParameters,
   Sku,
   StorageProfile,
   TrackedResource,
   VirtualNetworkRule,
-  WaitStatistic
+  WaitStatistic,
+  WaitStatisticsInput,
+  WaitStatisticsResultList
 } from "../models/mappers";
