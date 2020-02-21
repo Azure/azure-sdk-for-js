@@ -386,6 +386,12 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      keyVaultKeyUri: {
+        serializedName: "properties.keyVaultKeyUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1993,6 +1999,12 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      keyVaultKeyUri: {
+        serializedName: "properties.keyVaultKeyUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2104,6 +2116,12 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.disableKeyBasedMetadataWriteAccess",
         type: {
           name: "Boolean"
+        }
+      },
+      keyVaultKeyUri: {
+        serializedName: "properties.keyVaultKeyUri",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2289,6 +2307,27 @@ export const SqlDatabaseResource: msRest.CompositeMapper = {
   }
 };
 
+export const CreateUpdateOptions: msRest.CompositeMapper = {
+  serializedName: "CreateUpdateOptions",
+  type: {
+    name: "Composite",
+    className: "CreateUpdateOptions",
+    modelProperties: {
+      throughput: {
+        serializedName: "throughput",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "String"
+      }
+    }
+  }
+};
+
 export const SqlDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
   serializedName: "SqlDatabaseCreateUpdateParameters",
   type: {
@@ -2308,8 +2347,9 @@ export const SqlDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2390,8 +2430,9 @@ export const SqlContainerCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2444,8 +2485,9 @@ export const SqlStoredProcedureCreateUpdateParameters: msRest.CompositeMapper = 
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2498,8 +2540,9 @@ export const SqlUserDefinedFunctionCreateUpdateParameters: msRest.CompositeMappe
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2564,8 +2607,9 @@ export const SqlTriggerCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2612,8 +2656,9 @@ export const MongoDBDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2683,8 +2728,9 @@ export const MongoDBCollectionCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2731,8 +2777,9 @@ export const TableCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2779,8 +2826,9 @@ export const CassandraKeyspaceCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2840,8 +2888,9 @@ export const CassandraTableCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2888,8 +2937,9 @@ export const GremlinDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }
@@ -2970,8 +3020,9 @@ export const GremlinGraphCreateUpdateParameters: msRest.CompositeMapper = {
         required: true,
         serializedName: "properties.options",
         type: {
-          name: "Dictionary",
-          value: {
+          name: "Composite",
+          className: "CreateUpdateOptions",
+          additionalProperties: {
             type: {
               name: "String"
             }

@@ -229,6 +229,10 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
 }
 
 /**
@@ -1162,6 +1166,10 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
 }
 
 /**
@@ -1223,6 +1231,10 @@ export interface DatabaseAccountUpdateParameters {
    * keys
    */
   disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
 }
 
 /**
@@ -1335,6 +1347,22 @@ export interface SqlDatabaseResource {
 }
 
 /**
+ * CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are
+ * "If-Match", "If-None-Match", "Session-Token" and "Throughput"
+ */
+export interface CreateUpdateOptions {
+  /**
+   * Request Units per second. For example, "throughput": "10000".
+   */
+  throughput?: string;
+  /**
+   * Describes unknown properties. The value of an unknown property MUST be of type "string". Due
+   * to valid TS constraints we have modeled this as a union of `string | any`.
+   */
+  [property: string]: string | any;
+}
+
+/**
  * Parameters to create and update Cosmos DB SQL database.
  */
 export interface SqlDatabaseCreateUpdateParameters extends ARMResourceProperties {
@@ -1346,7 +1374,7 @@ export interface SqlDatabaseCreateUpdateParameters extends ARMResourceProperties
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1394,7 +1422,7 @@ export interface SqlContainerCreateUpdateParameters extends ARMResourcePropertie
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1423,7 +1451,7 @@ export interface SqlStoredProcedureCreateUpdateParameters extends ARMResourcePro
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1452,7 +1480,7 @@ export interface SqlUserDefinedFunctionCreateUpdateParameters extends ARMResourc
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1490,7 +1518,7 @@ export interface SqlTriggerCreateUpdateParameters extends ARMResourceProperties 
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1515,7 +1543,7 @@ export interface MongoDBDatabaseCreateUpdateParameters extends ARMResourceProper
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1548,7 +1576,7 @@ export interface MongoDBCollectionCreateUpdateParameters extends ARMResourceProp
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1573,7 +1601,7 @@ export interface TableCreateUpdateParameters extends ARMResourceProperties {
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1598,7 +1626,7 @@ export interface CassandraKeyspaceCreateUpdateParameters extends ARMResourceProp
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1631,7 +1659,7 @@ export interface CassandraTableCreateUpdateParameters extends ARMResourcePropert
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1656,7 +1684,7 @@ export interface GremlinDatabaseCreateUpdateParameters extends ARMResourceProper
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**
@@ -1704,7 +1732,7 @@ export interface GremlinGraphCreateUpdateParameters extends ARMResourcePropertie
    * A key-value pair of options to be applied for the request. This corresponds to the headers
    * sent with the request.
    */
-  options: { [propertyName: string]: string };
+  options: CreateUpdateOptions;
 }
 
 /**

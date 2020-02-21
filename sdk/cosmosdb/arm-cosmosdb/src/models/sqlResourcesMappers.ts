@@ -29,6 +29,7 @@ export {
   ConflictResolutionPolicy,
   ConsistencyPolicy,
   ContainerPartitionKey,
+  CreateUpdateOptions,
   DatabaseAccountCreateUpdateParameters,
   DatabaseAccountGetResults,
   ExcludedPath,
