@@ -1,0 +1,45 @@
+{
+  "name": "@azure/keyvault-common",
+  "version": "1.0.0",
+  "description": "This private library provides a place to store common code for the Azure KeyVault libraries for JavaScript/TypeScript",
+  "scripts": {
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\""
+  },
+  "files": [
+    "src/",
+    "test/"
+  ],
+  "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": [
+    "azure",
+    "keyvault",
+    "common"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+  },
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-common",
+  "sideEffects": false,
+  "private": true,
+  "dependencies": {
+    "@azure/core-http": "^1.0.0",
+    "@azure/test-utils-recorder": "^1.0.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-no-null": "^1.0.2",
+    "eslint-plugin-no-only-tests": "^2.3.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "typescript": "~3.7.5"
+  }
+}
