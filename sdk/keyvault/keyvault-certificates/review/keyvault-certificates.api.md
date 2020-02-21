@@ -48,7 +48,7 @@ export type BeginRecoverDeletedCertificateOptions = CertificatePollerOptions;
 
 // @public
 export class CertificateClient {
-    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: CertificateClientOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
     beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<CreateCertificateState, KeyVaultCertificateWithPolicy>>;
     beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<DeleteCertificateState, DeletedCertificate>>;
@@ -77,6 +77,12 @@ export class CertificateClient {
     updateCertificateProperties(certificateName: string, version: string, options?: UpdateCertificateOptions): Promise<KeyVaultCertificate>;
     updateIssuer(issuerName: string, options?: UpdateIssuerOptions): Promise<CertificateIssuer>;
     readonly vaultUrl: string;
+}
+
+// @public
+export interface CertificateClientOptions extends coreHttp.PipelineOptions {
+    // (undocumented)
+    serviceAPIVersion?: "7.0" | "7.1" | "7.2-preview";
 }
 
 // @public
@@ -344,6 +350,9 @@ export interface KVPollerLike<TState extends PollOperationState<TResult>, TResul
     stopPolling(): void;
     toString(): string;
 }
+
+// @public
+export const LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION = "7.1";
 
 // @public
 export interface LifetimeAction {

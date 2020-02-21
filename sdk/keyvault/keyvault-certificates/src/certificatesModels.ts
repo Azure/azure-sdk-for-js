@@ -78,6 +78,18 @@ export interface CertificateClientInterface {
 }
 
 /**
+ * The latest stable KeyVault service API version
+ */
+export const LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION = "7.1";
+
+/**
+ * The optional parameters accepted by the KeyVault's KeyClient
+ */
+export interface CertificateClientOptions extends coreHttp.PipelineOptions {
+  serviceAPIVersion?: "7.0" | "7.1" | "7.2-preview";
+}
+
+/**
  * The key vault server error.
  */
 export interface CertificateOperationError {
