@@ -685,7 +685,7 @@ export interface PipelineResource extends SubResource {
 /**
  * Contains the possible cases for Trigger.
  */
-export type TriggerUnion = Trigger | RerunTumblingWindowTrigger | ChainingTrigger | TumblingWindowTrigger | MultiplePipelineTriggerUnion;
+export type TriggerUnion = Trigger | ChainingTrigger | RerunTumblingWindowTrigger | TumblingWindowTrigger | MultiplePipelineTriggerUnion;
 
 /**
  * Azure data factory nested object which contains information about creating pipeline run
@@ -723,6 +723,21 @@ export interface TriggerResource extends SubResource {
    * Properties of the trigger.
    */
   properties: TriggerUnion;
+}
+
+/**
+ * A query of triggers.
+ */
+export interface TriggerQueryResponse {
+  /**
+   * List of triggers.
+   */
+  value: TriggerResource[];
+  /**
+   * The continuation token for getting the next page of results, if any remaining results exist,
+   * null otherwise.
+   */
+  continuationToken?: string;
 }
 
 /**
@@ -988,6 +1003,20 @@ export interface LinkedServiceDebugResource extends SubResourceDebugResource {
    * Properties of linked service.
    */
   properties: LinkedServiceUnion;
+}
+
+/**
+ * Query parameters for triggers.
+ */
+export interface TriggerFilterParameters {
+  /**
+   * The continuation token for getting the next page of results. Null for first page.
+   */
+  continuationToken?: string;
+  /**
+   * The name of the parent TumblingWindowTrigger to get the child rerun triggers
+   */
+  parentTriggerName?: string;
 }
 
 /**
@@ -1333,79 +1362,6 @@ export interface TriggerRunsQueryResponse {
    * null otherwise.
    */
   continuationToken?: string;
-}
-
-/**
- * Rerun tumbling window trigger Parameters.
- */
-export interface RerunTumblingWindowTriggerActionParameters {
-  /**
-   * The start time for the time period for which restatement is initiated. Only UTC time is
-   * currently supported.
-   */
-  startTime: Date;
-  /**
-   * The end time for the time period for which restatement is initiated. Only UTC time is
-   * currently supported.
-   */
-  endTime: Date;
-  /**
-   * The max number of parallel time windows (ready for execution) for which a rerun is triggered.
-   */
-  maxConcurrency: number;
-}
-
-/**
- * Trigger that schedules pipeline reruns for all fixed time interval windows from a requested
- * start time to requested end time.
- */
-export interface RerunTumblingWindowTrigger {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "RerunTumblingWindowTrigger";
-  /**
-   * Trigger description.
-   */
-  description?: string;
-  /**
-   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
-   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly runtimeState?: TriggerRuntimeState;
-  /**
-   * List of tags that can be used for describing the trigger.
-   */
-  annotations?: any[];
-  /**
-   * The parent trigger reference.
-   */
-  parentTrigger?: any;
-  /**
-   * The start time for the time period for which restatement is initiated. Only UTC time is
-   * currently supported.
-   */
-  requestedStartTime: Date;
-  /**
-   * The end time for the time period for which restatement is initiated. Only UTC time is
-   * currently supported.
-   */
-  requestedEndTime: Date;
-  /**
-   * The max number of parallel time windows (ready for execution) for which a rerun is triggered.
-   */
-  maxConcurrency: number;
-}
-
-/**
- * RerunTrigger resource type.
- */
-export interface RerunTriggerResource extends SubResource {
-  /**
-   * Properties of the rerun trigger.
-   */
-  properties: RerunTumblingWindowTrigger;
 }
 
 /**
@@ -2028,454 +1984,6 @@ export interface MappingDataFlow {
    * DataFlow script.
    */
   script?: string;
-}
-
-/**
- * Trigger that allows the referenced pipeline to depend on other pipeline runs based on
- * runDimension Name/Value pairs. Upstream pipelines should declare the same runDimension Name and
- * their runs should have the values for those runDimensions. The referenced pipeline run would be
- * triggered if the values for the runDimension match for all upstream pipeline runs.
- */
-export interface ChainingTrigger {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "ChainingTrigger";
-  /**
-   * Trigger description.
-   */
-  description?: string;
-  /**
-   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
-   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly runtimeState?: TriggerRuntimeState;
-  /**
-   * List of tags that can be used for describing the trigger.
-   */
-  annotations?: any[];
-  /**
-   * Pipeline for which runs are created when all upstream pipelines complete successfully.
-   */
-  pipelineProperty: TriggerPipelineReference;
-  /**
-   * Upstream Pipelines.
-   */
-  dependsOn: PipelineReference[];
-  /**
-   * Run Dimension property that needs to be emitted by upstream pipelines.
-   */
-  runDimension: string;
-}
-
-/**
- * Contains the possible cases for DependencyReference.
- */
-export type DependencyReferenceUnion = DependencyReference | SelfDependencyTumblingWindowTriggerReference | TriggerDependencyReferenceUnion;
-
-/**
- * Referenced dependency.
- */
-export interface DependencyReference {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "DependencyReference";
-}
-
-/**
- * Self referenced tumbling window trigger dependency.
- */
-export interface SelfDependencyTumblingWindowTriggerReference {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "SelfDependencyTumblingWindowTriggerReference";
-  /**
-   * Timespan applied to the start time of a tumbling window when evaluating dependency.
-   */
-  offset: string;
-  /**
-   * The size of the window when evaluating the dependency. If undefined the frequency of the
-   * tumbling window will be used.
-   */
-  size?: string;
-}
-
-/**
- * Trigger reference type.
- */
-export interface TriggerReference {
-  /**
-   * Reference trigger name.
-   */
-  referenceName: string;
-}
-
-/**
- * Contains the possible cases for TriggerDependencyReference.
- */
-export type TriggerDependencyReferenceUnion = TriggerDependencyReference | TumblingWindowTriggerDependencyReference;
-
-/**
- * Trigger referenced dependency.
- */
-export interface TriggerDependencyReference {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "TriggerDependencyReference";
-  /**
-   * Referenced trigger.
-   */
-  referenceTrigger: TriggerReference;
-}
-
-/**
- * Referenced tumbling window trigger dependency.
- */
-export interface TumblingWindowTriggerDependencyReference {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "TumblingWindowTriggerDependencyReference";
-  /**
-   * Referenced trigger.
-   */
-  referenceTrigger: TriggerReference;
-  /**
-   * Timespan applied to the start time of a tumbling window when evaluating dependency.
-   */
-  offset?: string;
-  /**
-   * The size of the window when evaluating the dependency. If undefined the frequency of the
-   * tumbling window will be used.
-   */
-  size?: string;
-}
-
-/**
- * Execution policy for an activity.
- */
-export interface RetryPolicy {
-  /**
-   * Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with resultType
-   * integer), minimum: 0.
-   */
-  count?: any;
-  /**
-   * Interval between retries in seconds. Default is 30.
-   */
-  intervalInSeconds?: number;
-}
-
-/**
- * Trigger that schedules pipeline runs for all fixed time interval windows from a start time
- * without gaps and also supports backfill scenarios (when start time is in the past).
- */
-export interface TumblingWindowTrigger {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "TumblingWindowTrigger";
-  /**
-   * Trigger description.
-   */
-  description?: string;
-  /**
-   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
-   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly runtimeState?: TriggerRuntimeState;
-  /**
-   * List of tags that can be used for describing the trigger.
-   */
-  annotations?: any[];
-  /**
-   * Pipeline for which runs are created when an event is fired for trigger window that is ready.
-   */
-  pipelineProperty: TriggerPipelineReference;
-  /**
-   * The frequency of the time windows. Possible values include: 'Minute', 'Hour'
-   */
-  frequency: TumblingWindowFrequency;
-  /**
-   * The interval of the time windows. The minimum interval allowed is 15 Minutes.
-   */
-  interval: number;
-  /**
-   * The start time for the time period for the trigger during which events are fired for windows
-   * that are ready. Only UTC time is currently supported.
-   */
-  startTime: Date;
-  /**
-   * The end time for the time period for the trigger during which events are fired for windows
-   * that are ready. Only UTC time is currently supported.
-   */
-  endTime?: Date;
-  /**
-   * Specifies how long the trigger waits past due time before triggering new run. It doesn't alter
-   * window start and end time. The default is 0. Type: string (or Expression with resultType
-   * string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  delay?: any;
-  /**
-   * The max number of parallel time windows (ready for execution) for which a new run is
-   * triggered.
-   */
-  maxConcurrency: number;
-  /**
-   * Retry policy that will be applied for failed pipeline runs.
-   */
-  retryPolicy?: RetryPolicy;
-  /**
-   * Triggers that this trigger depends on. Only tumbling window triggers are supported.
-   */
-  dependsOn?: DependencyReferenceUnion[];
-}
-
-/**
- * Contains the possible cases for MultiplePipelineTrigger.
- */
-export type MultiplePipelineTriggerUnion = MultiplePipelineTrigger | BlobEventsTrigger | BlobTrigger | ScheduleTrigger;
-
-/**
- * Base class for all triggers that support one to many model for trigger to pipeline.
- */
-export interface MultiplePipelineTrigger {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "MultiplePipelineTrigger";
-  /**
-   * Trigger description.
-   */
-  description?: string;
-  /**
-   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
-   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly runtimeState?: TriggerRuntimeState;
-  /**
-   * List of tags that can be used for describing the trigger.
-   */
-  annotations?: any[];
-  /**
-   * Pipelines that need to be started.
-   */
-  pipelines?: TriggerPipelineReference[];
-}
-
-/**
- * Trigger that runs every time a Blob event occurs.
- */
-export interface BlobEventsTrigger {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "BlobEventsTrigger";
-  /**
-   * Trigger description.
-   */
-  description?: string;
-  /**
-   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
-   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly runtimeState?: TriggerRuntimeState;
-  /**
-   * List of tags that can be used for describing the trigger.
-   */
-  annotations?: any[];
-  /**
-   * Pipelines that need to be started.
-   */
-  pipelines?: TriggerPipelineReference[];
-  /**
-   * The blob path must begin with the pattern provided for trigger to fire. For example,
-   * '/records/blobs/december/' will only fire the trigger for blobs in the december folder under
-   * the records container. At least one of these must be provided: blobPathBeginsWith,
-   * blobPathEndsWith.
-   */
-  blobPathBeginsWith?: string;
-  /**
-   * The blob path must end with the pattern provided for trigger to fire. For example,
-   * 'december/boxes.csv' will only fire the trigger for blobs named boxes in a december folder. At
-   * least one of these must be provided: blobPathBeginsWith, blobPathEndsWith.
-   */
-  blobPathEndsWith?: string;
-  /**
-   * If set to true, blobs with zero bytes will be ignored.
-   */
-  ignoreEmptyBlobs?: boolean;
-  /**
-   * The type of events that cause this trigger to fire.
-   */
-  events: BlobEventTypes[];
-  /**
-   * The ARM resource ID of the Storage Account.
-   */
-  scope: string;
-}
-
-/**
- * Trigger that runs every time the selected Blob container changes.
- */
-export interface BlobTrigger {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "BlobTrigger";
-  /**
-   * Trigger description.
-   */
-  description?: string;
-  /**
-   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
-   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly runtimeState?: TriggerRuntimeState;
-  /**
-   * List of tags that can be used for describing the trigger.
-   */
-  annotations?: any[];
-  /**
-   * Pipelines that need to be started.
-   */
-  pipelines?: TriggerPipelineReference[];
-  /**
-   * The path of the container/folder that will trigger the pipeline.
-   */
-  folderPath: string;
-  /**
-   * The max number of parallel files to handle when it is triggered.
-   */
-  maxConcurrency: number;
-  /**
-   * The Azure Storage linked service reference.
-   */
-  linkedService: LinkedServiceReference;
-}
-
-/**
- * The recurrence schedule occurrence.
- */
-export interface RecurrenceScheduleOccurrence {
-  /**
-   * The day of the week. Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
-   * 'Thursday', 'Friday', 'Saturday'
-   */
-  day?: DayOfWeek;
-  /**
-   * The occurrence.
-   */
-  occurrence?: number;
-  /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * The recurrence schedule.
- */
-export interface RecurrenceSchedule {
-  /**
-   * The minutes.
-   */
-  minutes?: number[];
-  /**
-   * The hours.
-   */
-  hours?: number[];
-  /**
-   * The days of the week.
-   */
-  weekDays?: DaysOfWeek[];
-  /**
-   * The month days.
-   */
-  monthDays?: number[];
-  /**
-   * The monthly occurrences.
-   */
-  monthlyOccurrences?: RecurrenceScheduleOccurrence[];
-  /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * The workflow trigger recurrence.
- */
-export interface ScheduleTriggerRecurrence {
-  /**
-   * The frequency. Possible values include: 'NotSpecified', 'Minute', 'Hour', 'Day', 'Week',
-   * 'Month', 'Year'
-   */
-  frequency?: RecurrenceFrequency;
-  /**
-   * The interval.
-   */
-  interval?: number;
-  /**
-   * The start time.
-   */
-  startTime?: Date;
-  /**
-   * The end time.
-   */
-  endTime?: Date;
-  /**
-   * The time zone.
-   */
-  timeZone?: string;
-  /**
-   * The recurrence schedule.
-   */
-  schedule?: RecurrenceSchedule;
-  /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * Trigger that creates pipeline runs periodically, on schedule.
- */
-export interface ScheduleTrigger {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "ScheduleTrigger";
-  /**
-   * Trigger description.
-   */
-  description?: string;
-  /**
-   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
-   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly runtimeState?: TriggerRuntimeState;
-  /**
-   * List of tags that can be used for describing the trigger.
-   */
-  annotations?: any[];
-  /**
-   * Pipelines that need to be started.
-   */
-  pipelines?: TriggerPipelineReference[];
-  /**
-   * Recurrence schedule configuration.
-   */
-  recurrence: ScheduleTriggerRecurrence;
 }
 
 /**
@@ -6912,19 +6420,29 @@ export interface Db2LinkedService {
    */
   annotations?: any[];
   /**
-   * Server name for connection. Type: string (or Expression with resultType string).
+   * The connection string. It is mutually exclusive with server, database, authenticationType,
+   * userName, packageCollection and certificateCommonName property. Type: string, SecureString or
+   * AzureKeyVaultSecretReference.
    */
-  server: any;
+  connectionString?: any;
   /**
-   * Database name for connection. Type: string (or Expression with resultType string).
+   * Server name for connection. It is mutually exclusive with connectionString property. Type:
+   * string (or Expression with resultType string).
    */
-  database: any;
+  server?: any;
   /**
-   * AuthenticationType to be used for connection. Possible values include: 'Basic'
+   * Database name for connection. It is mutually exclusive with connectionString property. Type:
+   * string (or Expression with resultType string).
+   */
+  database?: any;
+  /**
+   * AuthenticationType to be used for connection. It is mutually exclusive with connectionString
+   * property. Possible values include: 'Basic'
    */
   authenticationType?: Db2AuthenticationType;
   /**
-   * Username for authentication. Type: string (or Expression with resultType string).
+   * Username for authentication. It is mutually exclusive with connectionString property. Type:
+   * string (or Expression with resultType string).
    */
   username?: any;
   /**
@@ -6932,18 +6450,19 @@ export interface Db2LinkedService {
    */
   password?: SecretBaseUnion;
   /**
-   * Under where packages are created when querying database. Type: string (or Expression with
-   * resultType string).
+   * Under where packages are created when querying database. It is mutually exclusive with
+   * connectionString property. Type: string (or Expression with resultType string).
    */
   packageCollection?: any;
   /**
-   * Certificate Common Name when TLS is enabled. Type: string (or Expression with resultType
-   * string).
+   * Certificate Common Name when TLS is enabled. It is mutually exclusive with connectionString
+   * property. Type: string (or Expression with resultType string).
    */
   certificateCommonName?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
-   * integration runtime credential manager. Type: string (or Expression with resultType string).
+   * integration runtime credential manager. It is mutually exclusive with connectionString
+   * property. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
 }
@@ -12896,6 +12415,497 @@ export interface AmazonS3Dataset {
    * The data compression method used for the Amazon S3 object.
    */
   compression?: DatasetCompressionUnion;
+}
+
+/**
+ * Trigger that allows the referenced pipeline to depend on other pipeline runs based on
+ * runDimension Name/Value pairs. Upstream pipelines should declare the same runDimension Name and
+ * their runs should have the values for those runDimensions. The referenced pipeline run would be
+ * triggered if the values for the runDimension match for all upstream pipeline runs.
+ */
+export interface ChainingTrigger {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ChainingTrigger";
+  /**
+   * Trigger description.
+   */
+  description?: string;
+  /**
+   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
+   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runtimeState?: TriggerRuntimeState;
+  /**
+   * List of tags that can be used for describing the trigger.
+   */
+  annotations?: any[];
+  /**
+   * Pipeline for which runs are created when all upstream pipelines complete successfully.
+   */
+  pipelineProperty: TriggerPipelineReference;
+  /**
+   * Upstream Pipelines.
+   */
+  dependsOn: PipelineReference[];
+  /**
+   * Run Dimension property that needs to be emitted by upstream pipelines.
+   */
+  runDimension: string;
+}
+
+/**
+ * Trigger that schedules pipeline reruns for all fixed time interval windows from a requested
+ * start time to requested end time.
+ */
+export interface RerunTumblingWindowTrigger {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "RerunTumblingWindowTrigger";
+  /**
+   * Trigger description.
+   */
+  description?: string;
+  /**
+   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
+   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runtimeState?: TriggerRuntimeState;
+  /**
+   * List of tags that can be used for describing the trigger.
+   */
+  annotations?: any[];
+  /**
+   * The parent trigger reference.
+   */
+  parentTrigger: any;
+  /**
+   * The start time for the time period for which restatement is initiated. Only UTC time is
+   * currently supported.
+   */
+  requestedStartTime: Date;
+  /**
+   * The end time for the time period for which restatement is initiated. Only UTC time is
+   * currently supported.
+   */
+  requestedEndTime: Date;
+  /**
+   * The max number of parallel time windows (ready for execution) for which a rerun is triggered.
+   */
+  rerunConcurrency: number;
+}
+
+/**
+ * Contains the possible cases for DependencyReference.
+ */
+export type DependencyReferenceUnion = DependencyReference | SelfDependencyTumblingWindowTriggerReference | TriggerDependencyReferenceUnion;
+
+/**
+ * Referenced dependency.
+ */
+export interface DependencyReference {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "DependencyReference";
+}
+
+/**
+ * Self referenced tumbling window trigger dependency.
+ */
+export interface SelfDependencyTumblingWindowTriggerReference {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "SelfDependencyTumblingWindowTriggerReference";
+  /**
+   * Timespan applied to the start time of a tumbling window when evaluating dependency.
+   */
+  offset: string;
+  /**
+   * The size of the window when evaluating the dependency. If undefined the frequency of the
+   * tumbling window will be used.
+   */
+  size?: string;
+}
+
+/**
+ * Trigger reference type.
+ */
+export interface TriggerReference {
+  /**
+   * Reference trigger name.
+   */
+  referenceName: string;
+}
+
+/**
+ * Contains the possible cases for TriggerDependencyReference.
+ */
+export type TriggerDependencyReferenceUnion = TriggerDependencyReference | TumblingWindowTriggerDependencyReference;
+
+/**
+ * Trigger referenced dependency.
+ */
+export interface TriggerDependencyReference {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TriggerDependencyReference";
+  /**
+   * Referenced trigger.
+   */
+  referenceTrigger: TriggerReference;
+}
+
+/**
+ * Referenced tumbling window trigger dependency.
+ */
+export interface TumblingWindowTriggerDependencyReference {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TumblingWindowTriggerDependencyReference";
+  /**
+   * Referenced trigger.
+   */
+  referenceTrigger: TriggerReference;
+  /**
+   * Timespan applied to the start time of a tumbling window when evaluating dependency.
+   */
+  offset?: string;
+  /**
+   * The size of the window when evaluating the dependency. If undefined the frequency of the
+   * tumbling window will be used.
+   */
+  size?: string;
+}
+
+/**
+ * Execution policy for an activity.
+ */
+export interface RetryPolicy {
+  /**
+   * Maximum ordinary retry attempts. Default is 0. Type: integer (or Expression with resultType
+   * integer), minimum: 0.
+   */
+  count?: any;
+  /**
+   * Interval between retries in seconds. Default is 30.
+   */
+  intervalInSeconds?: number;
+}
+
+/**
+ * Trigger that schedules pipeline runs for all fixed time interval windows from a start time
+ * without gaps and also supports backfill scenarios (when start time is in the past).
+ */
+export interface TumblingWindowTrigger {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TumblingWindowTrigger";
+  /**
+   * Trigger description.
+   */
+  description?: string;
+  /**
+   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
+   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runtimeState?: TriggerRuntimeState;
+  /**
+   * List of tags that can be used for describing the trigger.
+   */
+  annotations?: any[];
+  /**
+   * Pipeline for which runs are created when an event is fired for trigger window that is ready.
+   */
+  pipelineProperty: TriggerPipelineReference;
+  /**
+   * The frequency of the time windows. Possible values include: 'Minute', 'Hour'
+   */
+  frequency: TumblingWindowFrequency;
+  /**
+   * The interval of the time windows. The minimum interval allowed is 15 Minutes.
+   */
+  interval: number;
+  /**
+   * The start time for the time period for the trigger during which events are fired for windows
+   * that are ready. Only UTC time is currently supported.
+   */
+  startTime: Date;
+  /**
+   * The end time for the time period for the trigger during which events are fired for windows
+   * that are ready. Only UTC time is currently supported.
+   */
+  endTime?: Date;
+  /**
+   * Specifies how long the trigger waits past due time before triggering new run. It doesn't alter
+   * window start and end time. The default is 0. Type: string (or Expression with resultType
+   * string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  delay?: any;
+  /**
+   * The max number of parallel time windows (ready for execution) for which a new run is
+   * triggered.
+   */
+  maxConcurrency: number;
+  /**
+   * Retry policy that will be applied for failed pipeline runs.
+   */
+  retryPolicy?: RetryPolicy;
+  /**
+   * Triggers that this trigger depends on. Only tumbling window triggers are supported.
+   */
+  dependsOn?: DependencyReferenceUnion[];
+}
+
+/**
+ * Contains the possible cases for MultiplePipelineTrigger.
+ */
+export type MultiplePipelineTriggerUnion = MultiplePipelineTrigger | BlobEventsTrigger | BlobTrigger | ScheduleTrigger;
+
+/**
+ * Base class for all triggers that support one to many model for trigger to pipeline.
+ */
+export interface MultiplePipelineTrigger {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "MultiplePipelineTrigger";
+  /**
+   * Trigger description.
+   */
+  description?: string;
+  /**
+   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
+   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runtimeState?: TriggerRuntimeState;
+  /**
+   * List of tags that can be used for describing the trigger.
+   */
+  annotations?: any[];
+  /**
+   * Pipelines that need to be started.
+   */
+  pipelines?: TriggerPipelineReference[];
+}
+
+/**
+ * Trigger that runs every time a Blob event occurs.
+ */
+export interface BlobEventsTrigger {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "BlobEventsTrigger";
+  /**
+   * Trigger description.
+   */
+  description?: string;
+  /**
+   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
+   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runtimeState?: TriggerRuntimeState;
+  /**
+   * List of tags that can be used for describing the trigger.
+   */
+  annotations?: any[];
+  /**
+   * Pipelines that need to be started.
+   */
+  pipelines?: TriggerPipelineReference[];
+  /**
+   * The blob path must begin with the pattern provided for trigger to fire. For example,
+   * '/records/blobs/december/' will only fire the trigger for blobs in the december folder under
+   * the records container. At least one of these must be provided: blobPathBeginsWith,
+   * blobPathEndsWith.
+   */
+  blobPathBeginsWith?: string;
+  /**
+   * The blob path must end with the pattern provided for trigger to fire. For example,
+   * 'december/boxes.csv' will only fire the trigger for blobs named boxes in a december folder. At
+   * least one of these must be provided: blobPathBeginsWith, blobPathEndsWith.
+   */
+  blobPathEndsWith?: string;
+  /**
+   * If set to true, blobs with zero bytes will be ignored.
+   */
+  ignoreEmptyBlobs?: boolean;
+  /**
+   * The type of events that cause this trigger to fire.
+   */
+  events: BlobEventTypes[];
+  /**
+   * The ARM resource ID of the Storage Account.
+   */
+  scope: string;
+}
+
+/**
+ * Trigger that runs every time the selected Blob container changes.
+ */
+export interface BlobTrigger {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "BlobTrigger";
+  /**
+   * Trigger description.
+   */
+  description?: string;
+  /**
+   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
+   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runtimeState?: TriggerRuntimeState;
+  /**
+   * List of tags that can be used for describing the trigger.
+   */
+  annotations?: any[];
+  /**
+   * Pipelines that need to be started.
+   */
+  pipelines?: TriggerPipelineReference[];
+  /**
+   * The path of the container/folder that will trigger the pipeline.
+   */
+  folderPath: string;
+  /**
+   * The max number of parallel files to handle when it is triggered.
+   */
+  maxConcurrency: number;
+  /**
+   * The Azure Storage linked service reference.
+   */
+  linkedService: LinkedServiceReference;
+}
+
+/**
+ * The recurrence schedule occurrence.
+ */
+export interface RecurrenceScheduleOccurrence {
+  /**
+   * The day of the week. Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+   * 'Thursday', 'Friday', 'Saturday'
+   */
+  day?: DayOfWeek;
+  /**
+   * The occurrence.
+   */
+  occurrence?: number;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * The recurrence schedule.
+ */
+export interface RecurrenceSchedule {
+  /**
+   * The minutes.
+   */
+  minutes?: number[];
+  /**
+   * The hours.
+   */
+  hours?: number[];
+  /**
+   * The days of the week.
+   */
+  weekDays?: DaysOfWeek[];
+  /**
+   * The month days.
+   */
+  monthDays?: number[];
+  /**
+   * The monthly occurrences.
+   */
+  monthlyOccurrences?: RecurrenceScheduleOccurrence[];
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * The workflow trigger recurrence.
+ */
+export interface ScheduleTriggerRecurrence {
+  /**
+   * The frequency. Possible values include: 'NotSpecified', 'Minute', 'Hour', 'Day', 'Week',
+   * 'Month', 'Year'
+   */
+  frequency?: RecurrenceFrequency;
+  /**
+   * The interval.
+   */
+  interval?: number;
+  /**
+   * The start time.
+   */
+  startTime?: Date;
+  /**
+   * The end time.
+   */
+  endTime?: Date;
+  /**
+   * The time zone.
+   */
+  timeZone?: string;
+  /**
+   * The recurrence schedule.
+   */
+  schedule?: RecurrenceSchedule;
+  /**
+   * Describes unknown properties. The value of an unknown property can be of "any" type.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Trigger that creates pipeline runs periodically, on schedule.
+ */
+export interface ScheduleTrigger {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ScheduleTrigger";
+  /**
+   * Trigger description.
+   */
+  description?: string;
+  /**
+   * Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the
+   * Trigger. Possible values include: 'Started', 'Stopped', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runtimeState?: TriggerRuntimeState;
+  /**
+   * List of tags that can be used for describing the trigger.
+   */
+  annotations?: any[];
+  /**
+   * Pipelines that need to be started.
+   */
+  pipelines?: TriggerPipelineReference[];
+  /**
+   * Recurrence schedule configuration.
+   */
+  recurrence: ScheduleTriggerRecurrence;
 }
 
 /**
@@ -19595,6 +19605,11 @@ export interface SftpWriteSettings {
    * hour). Type: string (or Expression with resultType string).
    */
   operationTimeout?: any;
+  /**
+   * Upload to temporary file(s) and rename. Disable this option if your SFTP server doesn't
+   * support rename operation. Type: boolean (or Expression with resultType boolean).
+   */
+  useTempFileRename?: any;
 }
 
 /**
@@ -21976,6 +21991,11 @@ export interface PipelinesCreateRunOptionalParams extends msRest.RequestOptionsB
    */
   startActivityName?: string;
   /**
+   * In recovery mode, if set to true, the rerun will start from failed activities. The property
+   * will be used only if startActivityName is not specified.
+   */
+  startFromFailure?: boolean;
+  /**
    * Parameters of the pipeline run. These parameters will be used only if the runId is not
    * specified.
    */
@@ -22149,20 +22169,6 @@ export interface TriggerListResponse extends Array<TriggerResource> {
 
 /**
  * @interface
- * A list of rerun triggers.
- * @extends Array<RerunTriggerResource>
- */
-export interface RerunTriggerListResponse extends Array<RerunTriggerResource> {
-  /**
-   * The continuation token for getting the next page of results, if any remaining results exist,
-   * null otherwise.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * A list of data flow resources.
  * @extends Array<DataFlowResource>
  */
@@ -22293,48 +22299,6 @@ export type TriggerRunStatus = 'Succeeded' | 'Failed' | 'Inprogress';
  * @enum {string}
  */
 export type DataFlowDebugCommandType = 'executePreviewQuery' | 'executeStatisticsQuery' | 'executeExpressionQuery';
-
-/**
- * Defines values for TumblingWindowFrequency.
- * Possible values include: 'Minute', 'Hour'
- * @readonly
- * @enum {string}
- */
-export type TumblingWindowFrequency = 'Minute' | 'Hour';
-
-/**
- * Defines values for BlobEventTypes.
- * Possible values include: 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobDeleted'
- * @readonly
- * @enum {string}
- */
-export type BlobEventTypes = 'Microsoft.Storage.BlobCreated' | 'Microsoft.Storage.BlobDeleted';
-
-/**
- * Defines values for DayOfWeek.
- * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
- * 'Saturday'
- * @readonly
- * @enum {string}
- */
-export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
-
-/**
- * Defines values for DaysOfWeek.
- * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
- * 'Saturday'
- * @readonly
- * @enum {string}
- */
-export type DaysOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
-
-/**
- * Defines values for RecurrenceFrequency.
- * Possible values include: 'NotSpecified', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'
- * @readonly
- * @enum {string}
- */
-export type RecurrenceFrequency = 'NotSpecified' | 'Minute' | 'Hour' | 'Day' | 'Week' | 'Month' | 'Year';
 
 /**
  * Defines values for GoogleAdWordsAuthenticationType.
@@ -22562,6 +22526,48 @@ export type OrcCompressionCodec = 'none' | 'zlib' | 'snappy';
  * @enum {string}
  */
 export type AvroCompressionCodec = 'none' | 'deflate' | 'snappy' | 'xz' | 'bzip2';
+
+/**
+ * Defines values for TumblingWindowFrequency.
+ * Possible values include: 'Minute', 'Hour'
+ * @readonly
+ * @enum {string}
+ */
+export type TumblingWindowFrequency = 'Minute' | 'Hour';
+
+/**
+ * Defines values for BlobEventTypes.
+ * Possible values include: 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobDeleted'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobEventTypes = 'Microsoft.Storage.BlobCreated' | 'Microsoft.Storage.BlobDeleted';
+
+/**
+ * Defines values for DayOfWeek.
+ * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+ * 'Saturday'
+ * @readonly
+ * @enum {string}
+ */
+export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+
+/**
+ * Defines values for DaysOfWeek.
+ * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+ * 'Saturday'
+ * @readonly
+ * @enum {string}
+ */
+export type DaysOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+
+/**
+ * Defines values for RecurrenceFrequency.
+ * Possible values include: 'NotSpecified', 'Minute', 'Hour', 'Day', 'Week', 'Month', 'Year'
+ * @readonly
+ * @enum {string}
+ */
+export type RecurrenceFrequency = 'NotSpecified' | 'Minute' | 'Hour' | 'Day' | 'Week' | 'Month' | 'Year';
 
 /**
  * Defines values for DataFlowComputeType.
@@ -23807,6 +23813,26 @@ export type TriggersListByFactoryResponse = TriggerListResponse & {
 };
 
 /**
+ * Contains response data for the queryByFactory operation.
+ */
+export type TriggersQueryByFactoryResponse = TriggerQueryResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TriggerQueryResponse;
+    };
+};
+
+/**
  * Contains response data for the createOrUpdate operation.
  */
 export type TriggersCreateOrUpdateResponse = TriggerResource & {
@@ -23983,66 +24009,6 @@ export type TriggerRunsQueryByFactoryResponse = TriggerRunsQueryResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: TriggerRunsQueryResponse;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type RerunTriggersCreateResponse = TriggerResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TriggerResource;
-    };
-};
-
-/**
- * Contains response data for the listByTrigger operation.
- */
-export type RerunTriggersListByTriggerResponse = RerunTriggerListResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RerunTriggerListResponse;
-    };
-};
-
-/**
- * Contains response data for the listByTriggerNext operation.
- */
-export type RerunTriggersListByTriggerNextResponse = RerunTriggerListResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RerunTriggerListResponse;
     };
 };
 
