@@ -3,12 +3,11 @@
 
 import * as assert from "assert";
 import { KeyClient, DeletedKey } from "../src";
-import { testPollerProperties } from "./utils/recorderUtils";
+import { testPollerProperties, assertThrowsAbortError } from "@azure/keyvault-common";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
-import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Keys client - Long Running Operations - recoverDelete", () => {
   const keyPrefix = `recover${env.CERTIFICATE_NAME || "KeyName"}`;

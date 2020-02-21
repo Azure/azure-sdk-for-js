@@ -4,12 +4,10 @@
 import * as assert from "assert";
 import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { retry } from "./utils/recorderUtils";
+import { retry, testPollerProperties, assertThrowsAbortError } from "@azure/keyvault-common";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Keys client - restore keys and recover backups", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;

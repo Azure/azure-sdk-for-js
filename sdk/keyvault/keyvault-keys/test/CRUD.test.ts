@@ -4,12 +4,11 @@
 import * as assert from "assert";
 import { KeyClient, CreateEcKeyOptions, UpdateKeyPropertiesOptions, GetKeyOptions } from "../src";
 import { RestError } from "@azure/core-http";
-import { test } from "@azure/keyvault-common";
+import { testPollerProperties, assertThrowsAbortError } from "@azure/keyvault-common";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
-import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
@@ -233,7 +232,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can delete a key", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
-    const poller = await client.beginDeleteKey(keyName, test.pollerProperties);
+    const poller = await client.beginDeleteKey(keyName, testPollerProperties);
     await poller.pollUntilDone();
 
     try {

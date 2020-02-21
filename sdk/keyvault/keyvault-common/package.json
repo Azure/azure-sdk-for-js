@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "This private library provides a place to store common code for the Azure KeyVault libraries for JavaScript/TypeScript",
   "scripts": {
-    "build": "npm run build:es6 && npm run build:nodebrowser",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "build": "npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
@@ -17,6 +18,7 @@
     "prebuild": "npm run clean"
   },
   "files": [
+    "types/",
     "dist/",
     "dist-esm/",
     "src/"
@@ -35,6 +37,9 @@
   "engine": {
     "node": ">=8.0.0"
   },
+  "main": "./dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "types": "./types/keyvault-common.d.ts",
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-common",
   "sideEffects": false,
   "private": true,
@@ -44,6 +49,7 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
