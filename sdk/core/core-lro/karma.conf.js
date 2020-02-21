@@ -34,7 +34,7 @@ module.exports = function(config) {
       "dist-test/index.browser.js": ["coverage"]
     },
 
-    reporters: ["mocha", "coverage", "remap-coverage", "junit"],
+    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit"],
 
     coverageReporter: { type: "in-memory" },
 

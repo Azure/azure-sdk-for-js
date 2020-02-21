@@ -51,7 +51,7 @@ module.exports = function(config) {
       "TEST_MODE"
     ],
 
-    reporters: ["mocha", "coverage", "remap-coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit", "json-to-file"],
 
     coverageReporter: { type: "in-memory" },
 
