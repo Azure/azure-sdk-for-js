@@ -6,11 +6,20 @@ import { DeletionRecoveryLevel } from "./core/models";
 
 /**
  * Defines values for EncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
+ * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
  * @readonly
  * @enum {string}
  */
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type EncryptionAlgorithm =
+  | "RSA-OAEP"
+  | "RSA-OAEP-256"
+  | "RSA1_5"
+  | "A128GCM"
+  | "A192GCM"
+  | "A256GCM"
+  | "A128KW"
+  | "A192KW"
+  | "A256KW";
 
 /**
  * Defines values for KeyCurveName.
@@ -26,7 +35,14 @@ export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
  * @readonly
  * @enum {string}
  */
-export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
+export type KeyOperation =
+  | "encrypt"
+  | "decrypt"
+  | "sign"
+  | "verify"
+  | "wrapKey"
+  | "unwrapKey"
+  | "import";
 
 /**
  * Defines values for KeyType.
@@ -34,7 +50,7 @@ export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey"
  * @readonly
  * @enum {string}
  */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
 
 /**
  * @internal
@@ -249,6 +265,12 @@ export interface KeyProperties {
    * the server.**
    */
   readonly recoveryLevel?: DeletionRecoveryLevel;
+  /**
+   * The retention dates of the softDelete data.
+   * The value should be >=7 and <=90 when softDelete enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  recoverableDays?: number;
 }
 
 /**
@@ -331,6 +353,12 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    * Size of the key
    */
   keySize?: number;
+  /**
+   * The retention dates of the softDelete data.
+   * The value should be >=7 and <=90 when softDelete enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  recoverableDays?: number;
 }
 
 /**
@@ -416,6 +444,12 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
    * Expiry date in UTC.
    */
   expiresOn?: Date;
+  /**
+   * The retention dates of the softDelete data.
+   * The value should be >=7 and <=90 when softDelete enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  recoverableDays?: number;
 }
 
 /**
@@ -443,6 +477,12 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * The retention dates of the softDelete data.
+   * The value should be >=7 and <=90 when softDelete enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  recoverableDays?: number;
 }
 
 /**
@@ -513,4 +553,18 @@ export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {}
 /**
  * An interface representing the options of the cryptography API methods, go to the {@link CryptographyClient} for more information.
  */
-export interface CryptographyOptions extends coreHttp.OperationOptions {}
+export interface CryptographyOptions extends coreHttp.OperationOptions {
+  /**
+   * Initialization vector for symmetric algorithms.
+   */
+  iv?: Uint8Array;
+  /**
+   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
+   * algorithms.
+   */
+  aad?: Uint8Array;
+  /**
+   * The tag to authenticate when performing decryption with an authenticated algorithm.
+   */
+  tag?: Uint8Array;
+}
