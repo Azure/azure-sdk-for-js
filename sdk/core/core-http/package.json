@@ -27,26 +27,26 @@
     "clientruntime"
   ],
   "main": "./dist/coreHttp.node.js",
-  "module": "./es/src/coreHttp.js",
-  "types": "./es/src/coreHttp.d.ts",
+  "module": "./es/lib/coreHttp.js",
+  "types": "./es/lib/coreHttp.d.ts",
   "files": [
     "dist/**/*.node.js",
     "dist/**/*.node.js.map",
-    "es/src/**/*.js",
-    "es/src/**/*.js.map",
-    "es/src/**/*.d.ts",
-    "es/src/**/*.d.ts.map",
-    "src/**/*.ts",
+    "es/lib/**/*.js",
+    "es/lib/**/*.js.map",
+    "es/lib/**/*.d.ts",
+    "es/lib/**/*.d.ts.map",
+    "lib/**/*.ts",
     "LICENSE",
     "README.md"
   ],
   "browser": {
-    "./es/src/policies/msRestUserAgentPolicy.js": "./es/src/policies/msRestUserAgentPolicy.browser.js",
-    "./es/src/policies/proxyPolicy.js": "./es/src/policies/proxyPolicy.browser.js",
-    "./es/src/util/base64.js": "./es/src/util/base64.browser.js",
-    "./es/src/util/xml.js": "./es/src/util/xml.browser.js",
-    "./es/src/defaultHttpClient.js": "./es/src/defaultHttpClient.browser.js",
-    "./es/src/util/inspect.js": "./es/src/util/inspect.browser.js"
+    "./es/lib/policies/msRestUserAgentPolicy.js": "./es/lib/policies/msRestUserAgentPolicy.browser.js",
+    "./es/lib/policies/proxyPolicy.js": "./es/lib/policies/proxyPolicy.browser.js",
+    "./es/lib/util/base64.js": "./es/lib/util/base64.browser.js",
+    "./es/lib/util/xml.js": "./es/lib/util/xml.browser.js",
+    "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js",
+    "./es/lib/util/inspect.js": "./es/lib/util/inspect.browser.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-http",
@@ -65,15 +65,15 @@
     "build:tsc": "tsc -p tsconfig.es.json",
     "build:rollup": "rollup -c 2>&1",
     "build:test-browser": "rollup -c rollup.test.config.js 2>&1",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"lib/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf ./es ./dist ./dist-test",
     "execute:samples": "echo skipped",
-    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../.prettierrc.json \"lib/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json tsconfig.json \"src/**/*.ts\" \"test/**/*.ts\" --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json tsconfig.json src test --ext .ts -f html -o core-http-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json tsconfig.json \"lib/**/*.ts\" \"test/**/*.ts\" --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json tsconfig.json lib test --ext .ts -f html -o core-http-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -111,7 +111,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/util/constants.ts",
+        "path": "lib/util/constants.ts",
         "prefix": "coreHttpVersion"
       }
     ]
