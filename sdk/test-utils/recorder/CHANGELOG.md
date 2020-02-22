@@ -8,9 +8,7 @@
 
 - [BUG FIX] Tests leveraging `coreHttp.requestOptions.timeout` with empty recordings(no nock scopes with request-responses defined in the recording) fail during the playback mode when executed along with other tests. Fixed the issue by resetting nock's global state. More info - [#7264](https://github.com/Azure/azure-sdk-for-js/issues/7264)
 
-- [BUG FIX] Tests leveraging `coreHttp.requestOptions.timeout` failure with empty recordings(no nock scopes with request-responses defined) fail in the playback mode when executed along with other tests. Fixed the issue by resetting nock's global state. More info - [#7264](https://github.com/Azure/azure-sdk-for-js/issues/7264)
-
-- [BUG FIX] Tests leveraging `coreHttp.requestOptions.timeout` failure with non-empty recordings fail in the playback mode. Fix here - [#7264](https://github.com/Azure/azure-sdk-for-js/issues/7264)
+- [BUG FIX] Tests leveraging `coreHttp.requestOptions.timeout` with non-empty recordings fail in the playback mode. Fixed the issue by faking out delays while responding to the requests without saved responses in the recording. More info - [#7265](https://github.com/Azure/azure-sdk-for-js/issues/7265)
 
 ## 2020-01-30
 
