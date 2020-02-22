@@ -147,20 +147,20 @@ jobs:
         displayName: "Get package path"
 
       - task: PublishCodeCoverageResults@1
-        displayName: 'Publish Code Coverage to DevOps'
+        displayName: 'Publish NodeJs Code Coverage to DevOps'
         continueOnError: true
         condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], true))
         inputs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(PackagePath)/coverage/cobertura-coverage.xml'
 
-      - task: PublishCodeCoverageResults@1
-        displayName: 'Publish Code Coverage to DevOps'
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Browser Code Coverage Report Artifact'
         continueOnError: true
         condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
         inputs:
-          codeCoverageTool: Cobertura
-          summaryFileLocation: '$(PackagePath)/coverage-browser/cobertura-coverage.xml'
+          path: '$(PackagePath)/coverage-browser'
+          artifact: BrowserCodeCoverageReport
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
