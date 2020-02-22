@@ -38,8 +38,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/core-tracing.d.ts",
-    "ThirdPartyNotices.txt"
+    "types/core-tracing.d.ts"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
