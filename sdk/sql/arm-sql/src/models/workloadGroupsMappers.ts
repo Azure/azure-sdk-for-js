@@ -108,16 +108,11 @@ export {
   SubscriptionUsage,
   SyncAgent,
   SyncAgentLinkedDatabase,
-  SyncFullSchemaProperties,
-  SyncFullSchemaPropertiesListResult,
-  SyncFullSchemaTable,
-  SyncFullSchemaTableColumn,
   SyncGroup,
   SyncGroupSchema,
   SyncGroupSchemaTable,
   SyncGroupSchemaTableColumn,
   SyncMember,
-  SyncMemberListResult,
   TdeCertificate,
   TrackedResource,
   TransparentDataEncryption,
@@ -128,5 +123,6 @@ export {
   VulnerabilityAssessmentScanError,
   VulnerabilityAssessmentScanRecord,
   WorkloadClassifier,
-  WorkloadGroup
+  WorkloadGroup,
+  WorkloadGroupListResult
 } from "../models/mappers";
