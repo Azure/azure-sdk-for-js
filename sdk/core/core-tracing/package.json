@@ -38,8 +38,6 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
-    "src/",
     "types/core-tracing.d.ts",
     "ThirdPartyNotices.txt"
   ],
