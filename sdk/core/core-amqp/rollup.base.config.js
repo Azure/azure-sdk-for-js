@@ -88,7 +88,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "browser/index.js",
+      file: "dist-browser/index.js",
       format: "umd",
       name: "Azure.AMQPCommon",
       sourcemap: true

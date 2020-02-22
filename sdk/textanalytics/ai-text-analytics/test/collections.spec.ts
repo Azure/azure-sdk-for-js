@@ -55,7 +55,7 @@ describe("SentimentResultCollection", () => {
         {
           id: "B",
           error: {
-            code: "internalServerError",
+            code: "InternalServerError",
             message: "test error"
           }
         }
@@ -118,7 +118,7 @@ describe("DetectLanguageResultCollection", () => {
         {
           id: "B",
           error: {
-            code: "internalServerError",
+            code: "InternalServerError",
             message: "test error"
           }
         }
@@ -164,7 +164,7 @@ describe("ExtractKeyPhrasesResultCollection", () => {
         {
           id: "B",
           error: {
-            code: "internalServerError",
+            code: "InternalServerError",
             message: "test error"
           }
         }
@@ -227,7 +227,7 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
         {
           id: "B",
           error: {
-            code: "internalServerError",
+            code: "InternalServerError",
             message: "test error"
           }
         }
@@ -290,7 +290,7 @@ describe("RecognizePiiEntitiesResultCollection", () => {
         {
           id: "B",
           error: {
-            code: "internalServerError",
+            code: "InternalServerError",
             message: "test error"
           }
         }
@@ -368,7 +368,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
         {
           id: "B",
           error: {
-            code: "internalServerError",
+            code: "InternalServerError",
             message: "test error"
           }
         }

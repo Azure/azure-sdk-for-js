@@ -177,3 +177,13 @@ directive:
       $["x-ms-enum"].name = "SentenceSentimentLabel";
 ```
 
+### Fix capitalization of Code enum values
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.code
+    transform: >
+      $.enum = $.enum.map((val) => val.charAt(0).toUpperCase() + val.slice(1));
+```
+

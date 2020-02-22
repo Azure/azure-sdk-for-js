@@ -10,7 +10,7 @@ import {
   RetryConfig,
   ConditionErrorNameMapper,
   ErrorNameConditionMapper
-} from "@azure/amqp-common";
+} from "@azure/core-amqp";
 import {
   Receiver,
   OnAmqpEvent,
@@ -474,11 +474,11 @@ export class MessageReceiver extends LinkEntity {
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
         this._clearMessageLockRenewTimer(bMessage.messageId as string);
-        const error = translate(err);
+        const error = translate(err) as MessagingError;
         // Nothing much to do if user's message handler throws. Let us try abandoning the message.
         if (
           !bMessage.delivery.remote_settled &&
-          error.name !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
+          error.code !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
           this.receiveMode === ReceiveMode.peekLock &&
           this.isOpen() // only try to abandon the messages if the connection is still open
         ) {
@@ -547,7 +547,7 @@ export class MessageReceiver extends LinkEntity {
       const receiver = this._receiver || context.receiver!;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
-        const sbError = translate(receiverError);
+        const sbError = translate(receiverError) as MessagingError;
         log.error(
           "[%s] An error occurred for Receiver '%s': %O.",
           connectionId,
@@ -587,7 +587,7 @@ export class MessageReceiver extends LinkEntity {
       const receiver = this._receiver || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
-        const sbError = translate(sessionError);
+        const sbError = translate(sessionError) as MessagingError;
         log.error(
           "[%s] An error occurred on the session for Receiver '%s': %O.",
           connectionId,
@@ -875,7 +875,7 @@ export class MessageReceiver extends LinkEntity {
       // We should attempt to reopen only when the receiver(sdk) did not initiate the close
       let shouldReopen = false;
       if (receiverError && !wasCloseInitiated) {
-        const translatedError = translate(receiverError);
+        const translatedError = translate(receiverError) as MessagingError;
         if (translatedError.retryable) {
           shouldReopen = true;
           log.error(
@@ -948,9 +948,11 @@ export class MessageReceiver extends LinkEntity {
             }),
           connectionId: connectionId,
           operationType: RetryOperationType.receiverLink,
-          times: Constants.defaultConnectionRetryAttempts,
-          connectionHost: this._context.namespace.config.host,
-          delayInSeconds: 15
+          retryOptions: {
+            maxRetries: Constants.defaultMaxRetriesForConnection,
+            retryDelayInMs: 15000
+          },
+          connectionHost: this._context.namespace.config.host
         };
         if (!this.wasCloseInitiated) {
           await retry<void>(config);
@@ -1031,7 +1033,7 @@ export class MessageReceiver extends LinkEntity {
             "Hence rejecting the promise with timeout error.",
           this._context.namespace.connectionId,
           delivery.id,
-          Constants.defaultOperationTimeoutInSeconds * 1000
+          Constants.defaultOperationTimeoutInMs
         );
 
         const e: AmqpError = {
@@ -1041,7 +1043,7 @@ export class MessageReceiver extends LinkEntity {
             "message may or may not be successful"
         };
         return reject(translate(e));
-      }, Constants.defaultOperationTimeoutInSeconds * 1000);
+      }, Constants.defaultOperationTimeoutInMs);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,

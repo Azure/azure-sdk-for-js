@@ -158,17 +158,28 @@ const constructDeps = (pkgs) => {
   return dependencies;
 };
 
-const dumpRushPackages = (rushPackages) => {
+const dumpRushPackages = (rushPackages, internalPackages, external) => {
   const dumpData = {};
   for (const [pkgName, pkgInfo] of Object.entries(rushPackages)) {
-    const deps = Object.entries(pkgInfo.run || {})
-      .map(([name, version]) => ({ name, version }))
+    var newDep = [];
+    if (external) {
+      newDep = Object.entries(pkgInfo.run || {})
+        .map(([name, version]) => ({ name, version }));
+    }
+    else {
+      for (var name in pkgInfo.run) {
+        if (internalPackages.includes(name)) {
+          version = pkgInfo.run[name];
+          newDep.push({ name, version })
+        }
+      }
+    }
 
     dumpData[`${pkgName}:${pkgInfo.ver}`] = {
       name: pkgName,
       version: pkgInfo.ver,
       type: 'internal',
-      deps: deps
+      deps: newDep
     };
   }
   return dumpData;
@@ -208,8 +219,11 @@ const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId, ext
     } else {
       // Local linked projects are not listed here, so pull the version from the local package.json
       const depInfo = Object.values(packages).find(pkgInfo => pkgInfo.name == dep.name);
-      dep.version = depInfo.version;
+      if (depInfo) {
+        dep.version = depInfo.version;
+      }
     }
+
   }
 };
 
@@ -226,85 +240,94 @@ const main = async () => {
     metavar: "DIR",
     help: "analyze packed tarballs in DIR rather than source packages in this repository"
   });
-  const args = parser.parseArgs();
+  try {
 
-  const context = {
-    packages: {},
-    dependencies: {},
-    external: [],
-    inconsistent: []
-  };
 
-  const rushPackages = await getRushPackages(path.resolve(`${__dirname}/../../../rush.json`));
-  context.packages = args.packdir
-    ? await getTarballPackages(path.resolve(args.packdir))
-    : rushPackages;
-  context.dependencies = constructDeps(context.packages);
-  context.external = Object.keys(context.dependencies).filter((p) => !(p in rushPackages));
-  context.inconsistent = Object.keys(context.dependencies).filter(
-    (p) => Object.keys(context.dependencies[p]).length > 1
-  );
+    const args = parser.parseArgs();
 
-  if (args.verbose) {
-    console.log("Packages analyzed:");
-    for (const package of Object.keys(context.packages).sort()) {
-      const info = context.packages[package];
-      console.log(`${package} ${info.ver}`);
-      console.log(`  from ${info.src}`);
-    }
+    const context = {
+      packages: {},
+      dependencies: {},
+      external: [],
+      inconsistent: []
+    };
 
-    console.log("\nDependencies discovered:");
-    for (const dep of Object.keys(context.dependencies).sort()) {
-      const info = context.dependencies[dep];
-      console.log(`${dep}`);
-      for (const ver of Object.keys(info).sort()) {
-        const pkgs = info[ver];
-        console.log(`${ver}`);
-        for (const pkg of pkgs.sort()) {
-          console.log(`  * ${pkg[0]} (${pkg[1]})`);
-        }
+    const rushPackages = await getRushPackages(path.resolve(`${__dirname}/../../../rush.json`));
+    context.packages = args.packdir
+      ? await getTarballPackages(path.resolve(args.packdir))
+      : rushPackages;
+    context.dependencies = constructDeps(context.packages);
+    context.external = Object.keys(context.dependencies).filter((p) => !(p in rushPackages));
+    context.inconsistent = Object.keys(context.dependencies).filter(
+      (p) => Object.keys(context.dependencies[p]).length > 1
+    );
+
+    if (args.verbose) {
+      console.log("Packages analyzed:");
+      for (const package of Object.keys(context.packages).sort()) {
+        const info = context.packages[package];
+        console.log(`${package} ${info.ver}`);
+        console.log(`  from ${info.src}`);
       }
-      console.log("");
-    }
 
-    for (const inc of context.inconsistent) {
-      const info = context.dependencies[inc];
-      const vers = Object.keys(info).sort();
-      console.log(`\nDependency '${inc}' has ${vers.length} unique specifiers:`);
-      for (const ver of vers.sort()) {
-        const pkgs = info[ver];
-        console.log(`'${ver}'`);
-        console.log(`${"-".repeat(ver.length + 2)}`);
-        for (const pkg of pkgs.sort()) {
-          console.log(`  * ${pkg[0]} (${pkg[1]})`);
+      console.log("\nDependencies discovered:");
+      for (const dep of Object.keys(context.dependencies).sort()) {
+        const info = context.dependencies[dep];
+        console.log(`${dep}`);
+        for (const ver of Object.keys(info).sort()) {
+          const pkgs = info[ver];
+          console.log(`${ver}`);
+          for (const pkg of pkgs.sort()) {
+            console.log(`  * ${pkg[0]} (${pkg[1]})`);
+          }
         }
         console.log("");
       }
+
+      for (const inc of context.inconsistent) {
+        const info = context.dependencies[inc];
+        const vers = Object.keys(info).sort();
+        console.log(`\nDependency '${inc}' has ${vers.length} unique specifiers:`);
+        for (const ver of vers.sort()) {
+          const pkgs = info[ver];
+          console.log(`'${ver}'`);
+          console.log(`${"-".repeat(ver.length + 2)}`);
+          for (const pkg of pkgs.sort()) {
+            console.log(`  * ${pkg[0]} (${pkg[1]})`);
+          }
+          console.log("");
+        }
+      }
+    }
+
+    if (context.inconsistent.length > 0) {
+      if (!args.verbose) {
+        console.log(
+          "Incompatible dependency versions detected in libraries, run this script with --verbose for details"
+        );
+      }
+    } else {
+      console.log("All library dependencies verified, no incompatible versions detected");
+    }
+
+    if (args.out) {
+      await render(context, args.out);
+    }
+
+    if (args.dump) {
+      const internalPackages = Object.keys(rushPackages);
+      const dumpData = dumpRushPackages(context.packages, internalPackages, args.external);
+      const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../common/config/rush/pnpm-lock.yaml`));
+      for (const pkgId of Object.keys(dumpData)) {
+        resolveRushPackageDeps(dumpData, internalPackages, pnpmLock, pkgId, args.external);
+      }
+      await writeFile(args.dump, "const data = " + JSON.stringify(dumpData) + ";");
     }
   }
-
-  if (context.inconsistent.length > 0) {
-    if (!args.verbose) {
-      console.log(
-        "Incompatible dependency versions detected in libraries, run this script with --verbose for details"
-      );
-    }
-  } else {
-    console.log("All library dependencies verified, no incompatible versions detected");
+  catch (ex) {
+    console.error(ex);
   }
-
-  if (args.out) {
-    await render(context, args.out);
-  }
-
-  if (args.dump) {
-    const internalPackages = Object.keys(rushPackages);
-    const dumpData = dumpRushPackages(context.packages);
-    const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../common/config/rush/pnpm-lock.yaml`));
-    for (const pkgId of Object.keys(dumpData)) {
-      resolveRushPackageDeps(dumpData, internalPackages, pnpmLock, pkgId, args.external);
-    }
-    await writeFile(args.dump, "const data = " + JSON.stringify(dumpData) + ";");
+  finally {
   }
 };
 

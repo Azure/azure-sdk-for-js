@@ -13,6 +13,7 @@ jobs:
     parameters:
       PackageName: "@azure/event-processor-host"
       ResourceServiceDirectory: eventhub
+      TimeoutInMinutes: 90
       # Remove Browser tests from matrix since they are currently a no-op
       Matrix:
         Linux_Node10:

@@ -60,7 +60,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "browser/identity.js",
+      file: "dist-browser/identity.js",
       format: "umd",
       name: "Azure.Identity",
       sourcemap: true
@@ -87,7 +87,7 @@ export function browserConfig(test = false) {
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
-      viz({ filename: "browser/browser-stats.html", sourcemap: false })
+      viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
     ]
   };
 

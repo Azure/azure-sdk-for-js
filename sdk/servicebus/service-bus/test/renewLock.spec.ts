@@ -315,7 +315,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 
   let errorWasThrown: boolean = false;
   await msgs[0].complete().catch((err) => {
-    should.equal(err.name, "MessageLockLostError", "ErrorName is different than expected");
+    should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
     errorWasThrown = true;
   });
 
@@ -433,7 +433,7 @@ async function testAutoLockRenewalConfigBehavior(
 
       let errorWasThrown: boolean = false;
       await brokeredMessage.complete().catch((err) => {
-        should.equal(err.name, "MessageLockLostError", "ErrorName is different than expected");
+        should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
         errorWasThrown = true;
       });
 

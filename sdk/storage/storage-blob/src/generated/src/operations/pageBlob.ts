@@ -340,6 +340,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.contentLength,
     Parameters.tier0,
     Parameters.metadata,
+    Parameters.encryptionScope,
     Parameters.blobContentLength,
     Parameters.blobSequenceNumber,
     Parameters.version,
@@ -388,6 +389,7 @@ const uploadPagesOperationSpec: coreHttp.OperationSpec = {
     Parameters.transactionalContentMD5,
     Parameters.transactionalContentCrc64,
     Parameters.range0,
+    Parameters.encryptionScope,
     Parameters.version,
     Parameters.requestId,
     Parameters.pageWrite0,
@@ -440,6 +442,7 @@ const clearPagesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.contentLength,
     Parameters.range0,
+    Parameters.encryptionScope,
     Parameters.version,
     Parameters.requestId,
     Parameters.pageWrite1,
@@ -485,6 +488,7 @@ const uploadPagesFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.sourceContentCrc64,
     Parameters.contentLength,
     Parameters.range1,
+    Parameters.encryptionScope,
     Parameters.version,
     Parameters.requestId,
     Parameters.pageWrite0,
@@ -565,6 +569,7 @@ const getPageRangesDiffOperationSpec: coreHttp.OperationSpec = {
     Parameters.comp13
   ],
   headerParameters: [
+    Parameters.prevSnapshotUrl,
     Parameters.range0,
     Parameters.version,
     Parameters.requestId,
@@ -599,6 +604,7 @@ const resizeOperationSpec: coreHttp.OperationSpec = {
     Parameters.comp0
   ],
   headerParameters: [
+    Parameters.encryptionScope,
     Parameters.blobContentLength,
     Parameters.version,
     Parameters.requestId,

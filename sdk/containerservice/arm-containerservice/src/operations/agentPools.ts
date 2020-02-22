@@ -170,32 +170,28 @@ export class AgentPools {
    * @summary Gets a list of supported versions for the specified agent pool.
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param [options] The optional parameters
    * @returns Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse>
    */
-  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse>;
+  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param callback The callback
    */
-  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, agentPoolName: string, callback: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): void;
+  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, agentPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): void;
-  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolAvailableVersions>, callback?: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse> {
+  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): void;
+  getAvailableAgentPoolVersions(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AgentPoolAvailableVersions>, callback?: msRest.ServiceCallback<Models.AgentPoolAvailableVersions>): Promise<Models.AgentPoolsGetAvailableAgentPoolVersionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         resourceName,
-        agentPoolName,
         options
       },
       getAvailableAgentPoolVersionsOperationSpec,
@@ -288,7 +284,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -314,7 +310,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -340,7 +336,7 @@ const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -358,15 +354,14 @@ const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
 
 const getAvailableAgentPoolVersionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/availableAgentPoolVersions",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/availableAgentPoolVersions",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName0,
-    Parameters.resourceName1,
-    Parameters.agentPoolName
+    Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -392,7 +387,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -428,7 +423,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.agentPoolName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage

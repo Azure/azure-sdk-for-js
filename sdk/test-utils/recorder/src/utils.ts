@@ -54,7 +54,13 @@ export interface RecorderEnvironmentSetup {
 export const env = isBrowser() ? (window as any).__env__ : process.env;
 
 export function isRecordMode() {
-  return env.TEST_MODE === "record";
+  // It should be safe to assume that these two can be considered being in record mode.
+  // For more specific distinctions, one can use isSoftRecordMode.
+  return env.TEST_MODE === "record" || isSoftRecordMode();
+}
+
+export function isSoftRecordMode() {
+  return env.TEST_MODE === "soft-record";
 }
 
 export function isLiveMode() {
@@ -369,3 +375,124 @@ export function findRecordingsFolderPath(filePath: string): string {
     );
   }
 }
+
+export function formatPath(path: string): string {
+  return path
+    .toLowerCase()
+    .replace(/ /g, "_")
+    .replace(/<=/g, "lte")
+    .replace(/>=/g, "gte")
+    .replace(/</g, "lt")
+    .replace(/>/g, "gt")
+    .replace(/=/g, "eq")
+    .replace(/\W/g, "");
+}
+
+/**
+ * Generates a file path with the following structure:
+ *
+ *     `{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
+ *
+ * @param platform A string, either "node" or "browsers".
+ * @param testSuiteTitle The title of the test suite.
+ * @param testTitle The title of the specific test we're running.
+ */
+export function generateTestRecordingFilePath(
+  platform: "node" | "browsers",
+  testSuiteTitle: string,
+  testTitle: string
+): string {
+  // File Extension
+  // nock recordings for node tests - .js extension
+  // recordings are saved in json format for browser tests - .json extension
+  const ext = platform === "node" ? "js" : "json";
+  return `${platform}/${formatPath(testSuiteTitle)}/recording_${formatPath(testTitle)}.${ext}`;
+}
+
+/**
+ * Requires a file if it exists. Only works on NodeJS.
+ */
+export function nodeRequireRecordingIfExists(recordingPath: string, testAbsolutePath: string): any {
+  if (isBrowser()) throw new Error("nodeRequireRecordingIfExists only works on NodeJS");
+  const path = require("path");
+
+  // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
+  const recordingsFolderPath = findRecordingsFolderPath(testAbsolutePath);
+  const absoluteRecordingPath = path.resolve(recordingsFolderPath, recordingPath);
+
+  if (fs.existsSync(absoluteRecordingPath)) {
+    return require(absoluteRecordingPath);
+  } else {
+    throw new Error(`The recording ${recordingPath} was not found in ${recordingsFolderPath}`);
+  }
+}
+
+/**
+ * Checks if a test hasn't changed from the last time it was recorded.
+ * @param testContext
+ * @param testSuiteTitle
+ * @param testTitle
+ * @param currentHash
+ */
+export function testHasChanged(
+  testSuiteTitle: string,
+  testTitle: string,
+  testAbsolutePath: string,
+  currentHash: string
+): boolean {
+  const platform = isBrowser() ? "browsers" : "node";
+  const recordingPath: string = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
+
+  let previousHash: string = "";
+
+  if (platform === "node") {
+    try {
+      previousHash = nodeRequireRecordingIfExists(recordingPath, testAbsolutePath).hash;
+    } catch (e) {}
+  } else if (windowLens.get(["__json__", "recordings/" + recordingPath])) {
+    previousHash = windowLens.get(["__json__", "recordings/" + recordingPath, "hash"]);
+  }
+
+  if (!previousHash) {
+    return true;
+  }
+
+  return previousHash !== currentHash;
+}
+
+/**
+ * Removes new lines from a string.
+ * @param str String with new lines
+ */
+export function stripNewLines(str: string): string {
+  return str.replace(/(\r\n|\n|\r)/gm, "");
+}
+
+/**
+ * A method that allows us to alter and retrieve from the Window object.
+ * This will help us clean up the code later.
+ */
+export const windowLens: {
+  get: (propertyPath: string[], root?: any) => any;
+  set: (propertyPath: string[], propertyValue: any, root?: any) => void;
+} = {
+  get(propertyPath: string[], root = window): any {
+    if (propertyPath.length === 1) {
+      return root[propertyPath[0]];
+    }
+    if (!root[propertyPath[0]]) {
+      return;
+    }
+    return this.get(propertyPath.slice(1), root[propertyPath[0]]);
+  },
+  set(propertyPath: string[], propertyValue: any, root = window): void {
+    if (propertyPath.length === 1) {
+      root[propertyPath[0]] = propertyValue;
+      return;
+    }
+    if (!root[propertyPath[0]]) {
+      root[propertyPath[0]] = {};
+    }
+    return this.set(propertyPath.slice(1), propertyValue, root[propertyPath[0]]);
+  }
+};

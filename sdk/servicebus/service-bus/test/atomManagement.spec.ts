@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import {
-  ServiceBusAtomManagementClient,
-  QueueOptions,
-  TopicOptions,
-  SubscriptionOptions,
-  RuleOptions,
-  EntityStatus
-} from "../src";
+import { QueueOptions, TopicOptions, SubscriptionOptions, RuleOptions, EntityStatus } from "../src";
+import { ServiceBusAtomManagementClient } from "../src/serviceBusAtomManagementClient";
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -26,7 +20,7 @@ const env = getEnvVars();
 
 import { EntityNames } from "./utils/testUtils";
 
-import { parseConnectionString } from "@azure/amqp-common";
+import { parseConnectionString } from "@azure/core-amqp";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./utils/managementUtils";
 
 const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(

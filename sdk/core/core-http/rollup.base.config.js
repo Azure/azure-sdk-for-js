@@ -85,12 +85,12 @@ export function browserConfig(test = false, production = false) {
       }),
       cjs({
         namedExports: {
-          chai: ["assert", "AssertionError", "should"],
+          chai: ["assert", "AssertionError", "should", "expect"],
           events: ["EventEmitter"],
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
-      viz({ filename: "browser/browser-stats.html", sourcemap: false })
+      viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
     ]
   };
 

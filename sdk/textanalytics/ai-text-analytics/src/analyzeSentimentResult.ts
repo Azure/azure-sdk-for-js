@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalysisResult,
+  makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalysisErrorResult
+  makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import {
   TextDocumentStatistics,
@@ -53,7 +53,7 @@ export function makeAnalyzeSentimentResult(
   statistics?: TextDocumentStatistics
 ): AnalyzeSentimentSuccessResult {
   return {
-    ...makeTextAnalysisResult(id, statistics),
+    ...makeTextAnalyticsSuccessResult(id, statistics),
     sentiment,
     sentimentScores,
     sentences
@@ -64,5 +64,5 @@ export function makeAnalyzeSentimentErrorResult(
   id: string,
   error: TextAnalyticsError
 ): AnalyzeSentimentErrorResult {
-  return makeTextAnalysisErrorResult(id, error);
+  return makeTextAnalyticsErrorResult(id, error);
 }

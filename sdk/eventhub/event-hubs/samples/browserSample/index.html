@@ -1,0 +1,79 @@
+<!--
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT License.
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Azure Event Hubs Sample</title>
+    <style>
+      * {
+        font-family: Arial, Helvetica, sans-serif;
+        box-sizing: border-box;
+      }
+
+      .box {
+        display: flex;
+      }
+
+      button.btn {
+        width: 120px;
+        height: 30px;
+      }
+
+      .box > * {
+        flex: 1 1 auto;
+      }
+
+      .box > button.btn:first-child {
+        margin-right: 10px;
+      }
+
+      .content-container {
+        padding: 4px;
+        margin-top: 20px;
+      }
+
+      .input-label {
+        display: inline-block;
+        text-align: right;
+        width: 300px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Event Hubs Sample</h1>
+    <div>
+      This sample uses the
+      <a
+        href="https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/using-azure-identity.md#interactivebrowsercredential"
+      >
+        InteractiveBrowserCredential
+      </a>
+      to authenticate.
+      <ul>
+        <li>Click "Send" to send an event to your Event Hub.</li>
+        <li>Click "Receive" to begin receiving events from your Event Hub.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <button id="send" class="btn" type="button">Send</button>
+      <button id="receive" class="btn" type="button">Receive</button>
+    </div>
+
+    <div class="content-container">
+      <label for="sendContent">Sent events:</label>
+      <div class="box">
+        <textarea id="sendContent" name="sendContent" rows="10" readonly></textarea>
+      </div>
+    </div>
+    <div class="content-container">
+      <label for="receiveContent">Received events:</label>
+      <div class="box">
+        <textarea id="receiveContent" name="receiveContent" rows="10" readonly></textarea>
+      </div>
+    </div>
+  </body>
+  <script src="./dist/app.js"></script>
+</html>
