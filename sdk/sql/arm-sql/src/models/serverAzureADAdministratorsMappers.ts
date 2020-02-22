@@ -7,6 +7,7 @@
  */
 
 export {
+  AdministratorListResult,
   AutomaticTuningOptions,
   AutomaticTuningServerOptions,
   BackupLongTermRetentionPolicy,
@@ -58,12 +59,13 @@ export {
   LongTermRetentionBackup,
   ManagedBackupShortTermRetentionPolicy,
   ManagedDatabase,
-  ManagedDatabaseRestoreDetailsResult,
   ManagedDatabaseSecurityAlertPolicy,
   ManagedInstance,
   ManagedInstanceAdministrator,
   ManagedInstanceEncryptionProtector,
   ManagedInstanceKey,
+  ManagedInstanceLongTermRetentionBackup,
+  ManagedInstanceLongTermRetentionPolicy,
   ManagedInstancePairInfo,
   ManagedInstanceVulnerabilityAssessment,
   ManagedServerSecurityAlertPolicy,
@@ -71,6 +73,7 @@ export {
   PartnerInfo,
   PartnerRegionInfo,
   PrivateEndpointConnection,
+  PrivateEndpointConnectionProperties,
   PrivateEndpointProperty,
   PrivateLinkResource,
   PrivateLinkResourceProperties,
@@ -89,7 +92,6 @@ export {
   RestorePoint,
   SensitivityLabel,
   Server,
-  ServerAdministratorListResult,
   ServerAutomaticTuning,
   ServerAzureADAdministrator,
   ServerBlobAuditingPolicy,
@@ -97,6 +99,7 @@ export {
   ServerConnectionPolicy,
   ServerDnsAlias,
   ServerKey,
+  ServerPrivateEndpointConnection,
   ServerSecurityAlertPolicy,
   ServerVulnerabilityAssessment,
   ServiceObjective,
@@ -119,5 +122,7 @@ export {
   VirtualNetworkRule,
   VulnerabilityAssessmentRecurringScansProperties,
   VulnerabilityAssessmentScanError,
-  VulnerabilityAssessmentScanRecord
+  VulnerabilityAssessmentScanRecord,
+  WorkloadClassifier,
+  WorkloadGroup
 } from "../models/mappers";
