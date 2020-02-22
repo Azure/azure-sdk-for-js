@@ -18,7 +18,7 @@ import {
 } from "./models";
 import { getEntityPath, isReceiveMode, convertToInternalReceiveMode } from "./constructorHelpers";
 import { RuleDescription, CorrelationFilter } from "../core/managementClient";
-i;
+
 /**
  *A receiver client that handles sessions, including renewing the session lock.
  */
