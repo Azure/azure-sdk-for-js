@@ -51,6 +51,67 @@ export interface SubscriptionRuleManagement {
   ): Promise<void>;
 }
 
+interface ReceiverClient {
+    /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new(
+    queueConnectionString: string,
+    receiveMode?: "PeekLock",
+    options?: ServiceBusClientReceiverOptions
+  ): NonSessionReceiverClient<"PeekLock">;
+  /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
+   * @param receiveMode The receiveMode to use (defaults to ReceiveAndDelete).
+   * @param options Options for the client itself.
+   */
+  new(
+    queueConnectionString: string,
+    receiveMode: "ReceiveAndDelete",
+    options?: ServiceBusClientReceiverOptions
+  ): NonSessionReceiverClient<"ReceiveAndDelete">;
+  /**
+   * Creates a client for an Azure Service Bus queue using a session.
+   *
+   * You can read more about Azure Service Bus sessions here:
+   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
+   *
+   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
+   * @param session Information about the session - the id and the shared connections instance.
+   * @param receiveMode The receiveMode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new(
+    queueConnectionString: string,
+    session: Session,
+    receiveMode?: "PeekLock",
+    options?: ServiceBusClientReceiverOptions
+  ): SessionReceiverClient<"PeekLock">;
+  /**
+   * Creates a client for an Azure Service Bus queue using a session.
+   *
+   * You can read more about Azure Service Bus sessions here:
+   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
+   *
+   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
+   * @param session Information about the session - the id and the shared connections instance.
+   * @param receiveMode The receiveMode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new(
+    queueConnectionString: string,
+    session: Session,
+    receiveMode: "ReceiveAndDelete",
+    options?: ServiceBusClientReceiverOptions
+  ): SessionReceiverClient<"ReceiveAndDelete">;
+}
+
 /**
  * Implementation class for receivers.
  */
