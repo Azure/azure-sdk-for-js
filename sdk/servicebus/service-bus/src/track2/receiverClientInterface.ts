@@ -5,6 +5,7 @@ import { ServiceBusClientReceiverOptions } from "../receiverClient";
 
 import { NonSessionReceiverClient, SessionReceiverClient, TokenCredential } from "..";
 import { Session } from "./models";
+import { SubscriptionRuleManagement } from './receiverClient';
 
 export interface ReceiverClient {
   // queue, service bus connection string
@@ -106,14 +107,14 @@ export interface ReceiverClient {
     subscriptionName: string,
     receiveMode?: "PeekLock",
     options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"PeekLock">;
+  ): NonSessionReceiverClient<"PeekLock"> & SubscriptionRuleManagement;
   new (
     serviceBusConnectionString: string,
     topicName: string,
     subscriptionName: string,
     receiveMode: "ReceiveAndDelete",
     options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"ReceiveAndDelete">;
+  ): NonSessionReceiverClient<"ReceiveAndDelete"> & SubscriptionRuleManagement;
 
   // subscription, service bus connection string, with sessions
   new (
@@ -123,7 +124,7 @@ export interface ReceiverClient {
     session: Session,
     receiveMode?: "PeekLock",
     options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"PeekLock">;
+  ): NonSessionReceiverClient<"PeekLock"> & SubscriptionRuleManagement;
   new (
     serviceBusConnectionString: string,
     topicName: string,
@@ -131,7 +132,7 @@ export interface ReceiverClient {
     session: Session,
     receiveMode: "ReceiveAndDelete",
     options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"ReceiveAndDelete">;
+  ): NonSessionReceiverClient<"ReceiveAndDelete"> & SubscriptionRuleManagement;
 
   // subscription, entity connection string, without sessions
   new (
@@ -139,13 +140,13 @@ export interface ReceiverClient {
     subscriptionName: string,
     receiveMode?: "PeekLock",
     options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"PeekLock">;
+  ): NonSessionReceiverClient<"PeekLock"> & SubscriptionRuleManagement;
   new (
     topicConnectionString: string,
     subscriptionName: string,
     receiveMode: "ReceiveAndDelete",
     options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"ReceiveAndDelete">;
+  ): NonSessionReceiverClient<"ReceiveAndDelete"> & SubscriptionRuleManagement;
 
   // subscription, entity connection string, with sessions
   new (
@@ -154,14 +155,14 @@ export interface ReceiverClient {
     session: Session,
     receiveMode?: "PeekLock",
     options?: ServiceBusClientReceiverOptions
-  ): SessionReceiverClient<"PeekLock">;
+  ): SessionReceiverClient<"PeekLock"> & SubscriptionRuleManagement;
   new (
     topicConnectionString: string,
     subscriptionName: string,
     session: Session,
     receiveMode: "ReceiveAndDelete",
     options?: ServiceBusClientReceiverOptions
-  ): SessionReceiverClient<"ReceiveAndDelete">;
+  ): SessionReceiverClient<"ReceiveAndDelete"> & SubscriptionRuleManagement;
 
   // subscription, token credential
   new (
@@ -171,7 +172,7 @@ export interface ReceiverClient {
     tokenCredential: TokenCredential,
     receiveMode: "PeekLock",
     options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"PeekLock">;
+  ): NonSessionReceiverClient<"PeekLock"> & SubscriptionRuleManagement;
   new (
     hostName: string,
     topicName: string,
@@ -179,7 +180,7 @@ export interface ReceiverClient {
     tokenCredential: TokenCredential,
     receiveMode: "ReceiveAndDelete",
     options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"ReceiveAndDelete">;
+  ): NonSessionReceiverClient<"ReceiveAndDelete"> & SubscriptionRuleManagement;
 
   // subscription, token credential, with sessions
   new (
@@ -190,7 +191,7 @@ export interface ReceiverClient {
     session: Session,
     receiveMode: "PeekLock",
     options?: ServiceBusClientReceiverOptions
-  ): SessionReceiverClient<"PeekLock">;
+  ): SessionReceiverClient<"PeekLock"> & SubscriptionRuleManagement;
   new (
     hostName: string,
     topicName: string,
@@ -199,5 +200,5 @@ export interface ReceiverClient {
     session: Session,
     receiveMode: "ReceiveAndDelete",
     options?: ServiceBusClientReceiverOptions
-  ): SessionReceiverClient<"ReceiveAndDelete">;
+  ): SessionReceiverClient<"ReceiveAndDelete"> & SubscriptionRuleManagement;
 }
