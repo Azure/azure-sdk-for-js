@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { expect } from "chai";
-import { isValidUuid } from "../lib/util/utils";
+import { isValidUuid } from "../src/util/utils";
 
 describe("utils", function() {
   describe("isValidUuid()", function() {

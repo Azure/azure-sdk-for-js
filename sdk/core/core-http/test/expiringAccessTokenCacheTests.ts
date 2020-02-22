@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { ExpiringAccessTokenCache } from "../lib/credentials/accessTokenCache";
+import { ExpiringAccessTokenCache } from "../src/credentials/accessTokenCache";
 
 function mockToken(expirationDeltaMs: number) {
   return {

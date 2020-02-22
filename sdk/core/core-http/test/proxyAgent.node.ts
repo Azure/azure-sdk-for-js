@@ -6,8 +6,8 @@ import { should } from "chai";
 import tunnel from "tunnel";
 import https from "https";
 
-import { HttpHeaders } from "../lib/coreHttp";
-import { createProxyAgent, createTunnel } from "../lib/proxyAgent";
+import { HttpHeaders } from "../src/coreHttp";
+import { createProxyAgent, createTunnel } from "../src/proxyAgent";
 
 describe("proxyAgent", () => {
   describe("createProxyAgent", () => {
@@ -97,9 +97,9 @@ describe("proxyAgent", () => {
           createProxyAgent("http://example.com", proxySettings);
         };
         fn.should.throw(
-          testCase.expectInvalidHostError?
-            "Expecting a non-empty host in proxy settings." :
-            "Expecting a valid port number in the range of [0, 65535] in proxy settings."
+          testCase.expectInvalidHostError
+            ? "Expecting a non-empty host in proxy settings."
+            : "Expecting a valid port number in the range of [0, 65535] in proxy settings."
         );
         done();
       });
