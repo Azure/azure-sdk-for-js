@@ -22,7 +22,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-coverage",
+      "karma-remap-istanbul",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
       "karma-json-preprocessor"
@@ -51,18 +51,22 @@ module.exports = function(config) {
       "TEST_MODE"
     ],
 
-    reporters: ["mocha", "coverage", "remap-coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit", "json-to-file"],
 
-    coverageReporter: { type: "in-memory" },
-
-    remapCoverageReporter: {
-      "text-summary": null,
-      html: "./coverage-browser",
-      cobertura: "./coverage-browser/cobertura-coverage.xml"
+    coverageReporter: {
+      // specify a common output directory
+      dir: "coverage-browser/",
+      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
     },
 
-    remapOptions: {
-      exclude: /node_modules|test/g
+    remapIstanbulReporter: {
+      src: "coverage-browser/coverage.json",
+      reports: {
+        lcovonly: "coverage-browser/lcov.info",
+        html: "coverage-browser/html/report",
+        "text-summary": null,
+        cobertura: "./coverage-browser/cobertura-coverage.xml"
+      }
     },
 
     junitReporter: {
