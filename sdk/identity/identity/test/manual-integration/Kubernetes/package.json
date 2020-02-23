@@ -1,5 +1,5 @@
 {
-  "name": "azurevmtest",
+  "name": "kubernetestest",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "yargs": "15.1.0",
+    "@types/yargs": "15.0.3",
     "@azure/identity": "^1.0.0",
     "@azure/keyvault-secrets": "^4.0.2"
   }
