@@ -30,7 +30,7 @@ npm install @azure/storage-queue
 
 ### Authenticate the client
 
-Azure Storage supports several ways to authenticate. In order to interact with the Storage Service you'll need to create an instance of a Storage client - `QueueServiceClient` or `QueueClient` for example. See [Create the queue service client](#create-the-queue-service-client) to learn more about authentication.
+Azure Storage supports several ways to authenticate. In order to interact with the Azure Queue Storage service you'll need to create an instance of a Storage client - `QueueServiceClient` or `QueueClient` for example. See [Create the queue service client](#create-the-queue-service-client) to learn more about authentication.
 
 - [Azure Active Directory](#with-defaultazurecredential-from-azureidentity-package)
 - [Shared Key](#with-storagesharedkeycredential)
@@ -122,7 +122,7 @@ optionally accepts some settings in the `options` parameter.
 
 #### with `DefaultAzureCredential` from `@azure/identity` package
 
-- **Recommended way to instantiate a `QueueServiceClient`**
+**Recommended way to instantiate a `QueueServiceClient`**
 
   Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://docs.microsoft.com/azure/storage/common/storage-auth-aad-app
 

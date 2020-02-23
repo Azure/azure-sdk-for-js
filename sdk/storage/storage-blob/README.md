@@ -32,7 +32,7 @@ npm install @azure/storage-blob
 
 ### Authenticate the client
 
-Azure Storage supports several ways to authenticate. In order to interact with the Storage Service you'll need to create an instance of a Storage client - `BlobServiceClient`, `ContainerClient`, or `BlobClient` for example. See [samples for creating `BlobServiceClient`](#create-the-blob-service-client) to learn more about authentication.
+Azure Storage supports several ways to authenticate. In order to interact with the Azure Blob Storage service you'll need to create an instance of a Storage client - `BlobServiceClient`, `ContainerClient`, or `BlobClient` for example. See [samples for creating `BlobServiceClient`](#create-the-blob-service-client) to learn more about authentication.
 - [Azure Active Directory](#with-defaultazurecredential-from-azureidentity-package)
 - [Shared Key](#with-storagesharedkeycredential)
 - [Shared access signatures](#with-sas-token)
@@ -138,6 +138,7 @@ const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storag
 Use the constructor to create a instance of `BlobServiceClient`.
 
 #### with `DefaultAzureCredential` from `@azure/identity` package
+
 **Recommended way to instantiate a `BlobServiceClient`**
 
   Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://docs.microsoft.com/azure/storage/common/storage-auth-aad-app
@@ -176,7 +177,8 @@ Use the constructor to create a instance of `BlobServiceClient`.
   [Note - Above steps are only for Node.js]
 
 #### with StorageSharedKeyCredential
- Alternatively, you instantiate a `BlobServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
+
+Alternatively, you instantiate a `BlobServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
   [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
   ```javascript
@@ -208,6 +210,7 @@ const blobServiceClient = new BlobServiceClient(
   `https://${account}.blob.core.windows.net${sas}`
 );
 ```
+
 ### Create a new container
 
 Use `BlobServiceClient.getContainerClient()` to get a container client instance then create a new container resource.
