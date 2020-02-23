@@ -32,7 +32,7 @@ npm install @azure/storage-blob
 
 ### Authenticate the client
 
-Azure Storage supports several ways to authenticate. In order to interact with the Azure Blob Storage service you'll need to create an instance of a Storage client - `BlobServiceClient`, `ContainerClient`, or `BlobClient` for example. See [samples for creating `BlobServiceClient`](#create-the-blob-service-client) to learn more about authentication.
+Azure Storage supports several ways to authenticate. In order to interact with the Azure Blob Storage service you'll need to create an instance of a Storage client - `BlobServiceClient`, `ContainerClient`, or `BlobClient` for example. See [samples for creating the `BlobServiceClient`](#create-the-blob-service-client) to learn more about authentication.
 - [Azure Active Directory](#with-defaultazurecredential-from-azureidentity-package)
 - [Shared Key](#with-storagesharedkeycredential)
 - [Shared access signatures](#with-sas-token)
@@ -178,7 +178,7 @@ Use the constructor to create a instance of `BlobServiceClient`.
 
 #### with StorageSharedKeyCredential
 
-Alternatively, you instantiate a `BlobServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
+Alternatively, you instantiate a `BlobServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
   [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
   ```javascript
@@ -198,6 +198,7 @@ Alternatively, you instantiate a `BlobServiceClient` with a `StorageSharedKeyCre
   ```
 
 #### with SAS Token
+
 Also, You can instantiate a `BlobServiceClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal or generate one using `generateAccountSASQueryParameters()`.
 
 ```javascript

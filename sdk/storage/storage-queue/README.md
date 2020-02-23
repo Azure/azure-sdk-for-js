@@ -30,7 +30,7 @@ npm install @azure/storage-queue
 
 ### Authenticate the client
 
-Azure Storage supports several ways to authenticate. In order to interact with the Azure Queue Storage service you'll need to create an instance of a Storage client - `QueueServiceClient` or `QueueClient` for example. See [Create the queue service client](#create-the-queue-service-client) to learn more about authentication.
+Azure Storage supports several ways to authenticate. In order to interact with the Azure Queue Storage service you'll need to create an instance of a Storage client - `QueueServiceClient` or `QueueClient` for example. See [samples for creating the `QueueServiceClient`](#create-the-queue-service-client) to learn more about authentication.
 
 - [Azure Active Directory](#with-defaultazurecredential-from-azureidentity-package)
 - [Shared Key](#with-storagesharedkeycredential)
@@ -158,7 +158,7 @@ optionally accepts some settings in the `options` parameter.
 
 #### with StorageSharedKeyCredential
 
-Alternatively, you instantiate a `QueueServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
+Alternatively, you instantiate a `QueueServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
   [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
   ```javascript
@@ -183,6 +183,7 @@ Alternatively, you instantiate a `QueueServiceClient` with a `StorageSharedKeyCr
   ```
 
 #### with SAS Token
+
 Also, You can instantiate a `QueueServiceClient` with a shared access signatures (SAS). You can get the SAS token from the Azure Portal or generate one using `generateAccountSASQueryParameters()`.
 
 ```javascript

@@ -29,7 +29,7 @@ npm install @azure/storage-file-datalake
 
 ### Authenticate the client
 
-Azure Storage supports several ways to authenticate. In order to interact with the Azure Data Lake Storage service you'll need to create an instance of a Storage client - `DataLakeServiceClient`, `DataLakeFileSystemClient`, or `DataLakePathClient` for example. See [Create the data lake service client](#create-the-data-lake-service-client) to learn more about authentication.
+Azure Storage supports several ways to authenticate. In order to interact with the Azure Data Lake Storage service you'll need to create an instance of a Storage client - `DataLakeServiceClient`, `DataLakeFileSystemClient`, or `DataLakePathClient` for example. See [samples for creating the `DataLakeServiceClient`](#create-the-data-lake-service-client) to learn more about authentication.
 
 - [Azure Active Directory](#with-defaultazurecredential-from-azureidentity-package)
 - [Shared Key](#with-storagesharedkeycredential)
@@ -192,7 +192,7 @@ Use the constructor to create a instance of `DataLakeServiceClient`.
 
 #### with StorageSharedKeyCredential
 
-Alternatively, you instantiate a `DataLakeServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (account-name and account-key can be obtained from the azure portal)
+Alternatively, you instantiate a `DataLakeServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
   [ONLY AVAILABLE IN NODE.JS RUNTIME]
 
   ```javascript
