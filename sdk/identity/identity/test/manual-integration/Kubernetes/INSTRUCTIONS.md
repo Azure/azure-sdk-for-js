@@ -117,7 +117,7 @@ $NODE_VERSION=10
 
 Build an image:
 ```sh
-docker build --no-cache --build-arg NODE_VERSION=$NODE_VERSION -t "$($REPOSITORY)/$($IMAGE_NAME):$($NODE_VERSION)" ./managed-identity-live
+docker build --no-cache --build-arg NODE_VERSION=$NODE_VERSION -t "$($REPOSITORY)/$($IMAGE_NAME):$($NODE_VERSION)" ./kubernetes
 ```
 
 Push it to ACR:

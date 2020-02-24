@@ -6,7 +6,7 @@ ARG NODE_VERSION=10
 
 # docker can't tell when the repo has changed and will therefore cache this layer
 FROM alpine/git as repo
-RUN git clone https://github.com/jonathandturner/azure-sdk-for-js --single-branch --branch manual_integration_test_1 --depth 1 /azure-sdk-for-js
+RUN git clone https://github.com/jonathandturner/azure-sdk-for-js --single-branch --branch manual_integration_tests_1 --depth 1 /azure-sdk-for-js
 
 FROM node:${NODE_VERSION}-slim
 
