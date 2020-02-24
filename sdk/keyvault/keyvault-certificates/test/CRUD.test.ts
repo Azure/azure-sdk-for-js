@@ -272,48 +272,63 @@ describe("Certificates client - create, read, update and delete", () => {
     );
   });
 
-  it("can get a deleted certificate", async function() {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.beginCreateCertificate(
-      certificateName,
-      basicCertificatePolicy,
-      testPollerProperties
-    );
+  describe("can get a deleted certificate", () => {
+    it("can get a deleted certificate using beginDeleteCertificate's poller", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+      await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
+  
+      const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
+      let deletedCertificate = await deletePoller.pollUntilDone();
+      assert.equal(
+        deletedCertificate.name,
+        certificateName,
+        "Unexpected certificate name in result from getCertificate()."
+      );
+  
+      await testClient.purgeCertificate(certificateName);
+    });
 
-    // Using the poller
-    const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
-    let deletedCertificate = await deletePoller.pollUntilDone();
-    assert.equal(
-      deletedCertificate.name,
-      certificateName,
-      "Unexpected certificate name in result from getCertificate()."
-    );
+    it("can get a deleted certificate by using getDeletedCertificate", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+      await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
+  
+      const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
+      await deletePoller.pollUntilDone();
 
-    // Retrieving it without the poller
-    deletedCertificate = await client.getDeletedCertificate(certificateName);
-    assert.equal(
-      deletedCertificate.name,
-      certificateName,
-      "Unexpected certificate name in result from getCertificate()."
-    );
+      const deletedCertificate = await client.getDeletedCertificate(certificateName);
+      assert.equal(
+        deletedCertificate.name,
+        certificateName,
+        "Unexpected certificate name in result from getCertificate()."
+      );
+  
+      await testClient.purgeCertificate(certificateName);
+    });
 
-    await testClient.purgeCertificate(certificateName);
-  });
 
-  it("can get a deleted certificate (Non Existing)", async function() {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    let error;
-    try {
-      await client.beginDeleteCertificate(certificateName, testPollerProperties);
-      throw Error("Expecting an error but not catching one.");
-    } catch (e) {
-      error = e;
-    }
-    assert.equal(
-      error.message,
-      `Certificate not found: ${certificateName}`,
-      "Unexpected certificate name in result from getKey()."
-    );
+    it("can get a deleted certificate (Non Existing)", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+      let error;
+      try {
+        await client.beginDeleteCertificate(certificateName, testPollerProperties);
+        throw Error("Expecting an error but not catching one.");
+      } catch (e) {
+        error = e;
+      }
+      assert.equal(
+        error.message,
+        `Certificate not found: ${certificateName}`,
+        "Unexpected certificate name in result from getKey()."
+      );
+    });  
   });
 
   it("can create, read, and delete a certificate issuer", async function() {
