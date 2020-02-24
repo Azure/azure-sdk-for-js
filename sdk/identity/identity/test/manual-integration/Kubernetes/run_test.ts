@@ -71,7 +71,7 @@ async function main(): Promise<void> {
     let helm_install = [
         "helm",
         "install",
-        path.resolve(__dirname, "test-pod-identity"),
+        __dirname,
         "-n",
         HELM_APP_NAME,
         "--set",

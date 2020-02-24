@@ -144,13 +144,15 @@ helm init --wait
 
 ### run the test script
 ```sh
-node ./index.js \
- --client-id $MANAGED_IDENTITY_CLIENT_ID \
- --resource-id $MANAGED_IDENTITY_ID \
- --vault-url https://$KEY_VAULT_NAME.vault.azure.net \
- --repository $REPOSITORY \
- --image-name $IMAGE_NAME \
- --image-tag $NODE_VERSION
+npm install
+```
+
+```sh
+tsc -p .
+```
+
+```sh
+node ./run_test.js --client-id $MANAGED_IDENTITY_CLIENT_ID --resource-id $MANAGED_IDENTITY_ID --vault-url https://$KEY_VAULT_NAME.vault.azure.net --repository $REPOSITORY --image-name $IMAGE_NAME --image-tag $NODE_VERSION
 ```
 
 ### delete Azure resources
