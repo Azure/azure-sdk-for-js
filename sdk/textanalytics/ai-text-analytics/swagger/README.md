@@ -187,3 +187,13 @@ directive:
       $.enum = $.enum.map((val) => val.charAt(0).toUpperCase() + val.slice(1));
 ```
 
+### Rename LinkedEntity id -> dataSourceEntityId
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.LinkedEntity.properties.id
+    transform: >
+      $["x-ms-client-name"] = "dataSourceEntityId";
+```
+

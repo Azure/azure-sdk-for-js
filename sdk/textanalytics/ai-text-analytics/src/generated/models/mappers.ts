@@ -666,7 +666,7 @@ export const LinkedEntity: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      id: {
+      dataSourceEntityId: {
         serializedName: "id",
         type: {
           name: "String"

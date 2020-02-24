@@ -337,7 +337,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
                 }
               ],
               language: "en",
-              id: "Seattle",
+              dataSourceEntityId: "Seattle",
               url: "https://en.wikipedia.org/wiki/Seattle",
               dataSource: "Wikipedia"
             }
@@ -357,7 +357,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
                 }
               ],
               language: "en",
-              id: "Microsoft",
+              dataSourceEntityId: "Microsoft",
               url: "https://en.wikipedia.org/wiki/Microsoft",
               dataSource: "Wikipedia"
             }

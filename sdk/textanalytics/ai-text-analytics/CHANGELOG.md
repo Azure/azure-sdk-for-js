@@ -1,7 +1,7 @@
 # Release History
 
 ## 1.0.0-preview.3 (Unreleased)
-
+- [Breaking] Renamed `id` to `dataSourceEntityId` in the `LinkedEntity` type.
 
 ## 1.0.0-preview.2 (2020-02-11)
 

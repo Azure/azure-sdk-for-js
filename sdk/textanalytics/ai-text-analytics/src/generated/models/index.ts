@@ -337,7 +337,7 @@ export interface LinkedEntity {
   /**
    * Unique identifier of the recognized entity from the data source.
    */
-  id?: string;
+  dataSourceEntityId?: string;
   /**
    * URL for the entity's page from the data source.
    */

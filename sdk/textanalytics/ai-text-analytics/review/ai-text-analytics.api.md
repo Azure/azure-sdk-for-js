@@ -117,7 +117,7 @@ export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyF
 // @public
 export interface LinkedEntity {
     dataSource: string;
-    id?: string;
+    dataSourceEntityId?: string;
     language: string;
     matches: Match[];
     name: string;
