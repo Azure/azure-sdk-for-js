@@ -11,16 +11,16 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
-import * as Mappers from "../models/backupShortTermRetentionPoliciesMappers";
+import * as Mappers from "../models/workloadGroupsMappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClientContext } from "../sqlManagementClientContext";
 
-/** Class representing a BackupShortTermRetentionPolicies. */
-export class BackupShortTermRetentionPolicies {
+/** Class representing a WorkloadGroups. */
+export class WorkloadGroups {
   private readonly client: SqlManagementClientContext;
 
   /**
-   * Create a BackupShortTermRetentionPolicies.
+   * Create a WorkloadGroups.
    * @param {SqlManagementClientContext} client Reference to the service client.
    */
   constructor(client: SqlManagementClientContext) {
@@ -28,84 +28,89 @@ export class BackupShortTermRetentionPolicies {
   }
 
   /**
-   * Gets a database's short term retention policy.
+   * Gets a workload group
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
+   * @param workloadGroupName The name of the workload group.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BackupShortTermRetentionPoliciesGetResponse>
+   * @returns Promise<Models.WorkloadGroupsGetResponse>
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupShortTermRetentionPoliciesGetResponse>;
+  get(resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkloadGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
+   * @param workloadGroupName The name of the workload group.
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicy>): void;
+  get(resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, callback: msRest.ServiceCallback<Models.WorkloadGroup>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
+   * @param workloadGroupName The name of the workload group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicy>): void;
-  get(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupShortTermRetentionPolicy>, callback?: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicy>): Promise<Models.BackupShortTermRetentionPoliciesGetResponse> {
+  get(resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkloadGroup>): void;
+  get(resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkloadGroup>, callback?: msRest.ServiceCallback<Models.WorkloadGroup>): Promise<Models.WorkloadGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serverName,
         databaseName,
+        workloadGroupName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BackupShortTermRetentionPoliciesGetResponse>;
+      callback) as Promise<Models.WorkloadGroupsGetResponse>;
   }
 
   /**
-   * Updates a database's short term retention policy.
+   * Creates or updates a workload group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
-   * @param parameters The short term retention policy info.
+   * @param workloadGroupName The name of the workload group.
+   * @param parameters The requested workload group state.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BackupShortTermRetentionPoliciesCreateOrUpdateResponse>
+   * @returns Promise<Models.WorkloadGroupsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.BackupShortTermRetentionPolicy, options?: msRest.RequestOptionsBase): Promise<Models.BackupShortTermRetentionPoliciesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,serverName,databaseName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BackupShortTermRetentionPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, parameters: Models.WorkloadGroup, options?: msRest.RequestOptionsBase): Promise<Models.WorkloadGroupsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,serverName,databaseName,workloadGroupName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WorkloadGroupsCreateOrUpdateResponse>;
   }
 
   /**
-   * Updates a database's short term retention policy.
+   * Deletes a workload group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
-   * @param parameters The short term retention policy info.
+   * @param workloadGroupName The name of the workload group to delete.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BackupShortTermRetentionPoliciesUpdateResponse>
+   * @returns Promise<msRest.RestResponse>
    */
-  update(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.BackupShortTermRetentionPolicy, options?: msRest.RequestOptionsBase): Promise<Models.BackupShortTermRetentionPoliciesUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,serverName,databaseName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BackupShortTermRetentionPoliciesUpdateResponse>;
+  deleteMethod(resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,serverName,databaseName,workloadGroupName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
-   * Gets a database's short term retention policy.
+   * Gets the list of workload groups
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseResponse>
+   * @returns Promise<Models.WorkloadGroupsListByDatabaseResponse>
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseResponse>;
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkloadGroupsListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -113,7 +118,7 @@ export class BackupShortTermRetentionPolicies {
    * @param databaseName The name of the database.
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): void;
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, callback: msRest.ServiceCallback<Models.WorkloadGroupListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -122,8 +127,8 @@ export class BackupShortTermRetentionPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): void;
-  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>, callback?: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseResponse> {
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkloadGroupListResult>): void;
+  listByDatabase(resourceGroupName: string, serverName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkloadGroupListResult>, callback?: msRest.ServiceCallback<Models.WorkloadGroupListResult>): Promise<Models.WorkloadGroupsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -132,25 +137,27 @@ export class BackupShortTermRetentionPolicies {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseResponse>;
+      callback) as Promise<Models.WorkloadGroupsListByDatabaseResponse>;
   }
 
   /**
-   * Updates a database's short term retention policy.
+   * Creates or updates a workload group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
-   * @param parameters The short term retention policy info.
+   * @param workloadGroupName The name of the workload group.
+   * @param parameters The requested workload group state.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.BackupShortTermRetentionPolicy, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, parameters: Models.WorkloadGroup, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         serverName,
         databaseName,
+        workloadGroupName,
         parameters,
         options
       },
@@ -159,54 +166,54 @@ export class BackupShortTermRetentionPolicies {
   }
 
   /**
-   * Updates a database's short term retention policy.
+   * Deletes a workload group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
-   * @param parameters The short term retention policy info.
+   * @param workloadGroupName The name of the workload group to delete.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, serverName: string, databaseName: string, parameters: Models.BackupShortTermRetentionPolicy, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, serverName: string, databaseName: string, workloadGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         serverName,
         databaseName,
-        parameters,
+        workloadGroupName,
         options
       },
-      beginUpdateOperationSpec,
+      beginDeleteMethodOperationSpec,
       options);
   }
 
   /**
-   * Gets a database's short term retention policy.
+   * Gets the list of workload groups
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseNextResponse>
+   * @returns Promise<Models.WorkloadGroupsListByDatabaseNextResponse>
    */
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseNextResponse>;
+  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkloadGroupsListByDatabaseNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByDatabaseNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): void;
+  listByDatabaseNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.WorkloadGroupListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): void;
-  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>, callback?: msRest.ServiceCallback<Models.BackupShortTermRetentionPolicyListResult>): Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseNextResponse> {
+  listByDatabaseNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.WorkloadGroupListResult>): void;
+  listByDatabaseNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.WorkloadGroupListResult>, callback?: msRest.ServiceCallback<Models.WorkloadGroupListResult>): Promise<Models.WorkloadGroupsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByDatabaseNextOperationSpec,
-      callback) as Promise<Models.BackupShortTermRetentionPoliciesListByDatabaseNextResponse>;
+      callback) as Promise<Models.WorkloadGroupsListByDatabaseNextResponse>;
   }
 }
 
@@ -214,23 +221,23 @@ export class BackupShortTermRetentionPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/{policyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.policyName,
+    Parameters.workloadGroupName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.BackupShortTermRetentionPolicy
+      bodyMapper: Mappers.WorkloadGroup
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -241,7 +248,7 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
@@ -249,14 +256,14 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.BackupShortTermRetentionPolicyListResult
+      bodyMapper: Mappers.WorkloadGroupListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -267,16 +274,16 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/{policyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.policyName,
+    Parameters.workloadGroupName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -284,13 +291,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.BackupShortTermRetentionPolicy,
+      ...Mappers.WorkloadGroup,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.BackupShortTermRetentionPolicy
+      bodyMapper: Mappers.WorkloadGroup
+    },
+    201: {
+      bodyMapper: Mappers.WorkloadGroup
     },
     202: {},
     default: {
@@ -300,34 +310,26 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/{policyName}",
+const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
-    Parameters.policyName,
+    Parameters.workloadGroupName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.BackupShortTermRetentionPolicy,
-      required: true
-    }
-  },
   responses: {
-    200: {
-      bodyMapper: Mappers.BackupShortTermRetentionPolicy
-    },
+    200: {},
     202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -347,7 +349,7 @@ const listByDatabaseNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.BackupShortTermRetentionPolicyListResult
+      bodyMapper: Mappers.WorkloadGroupListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
