@@ -174,20 +174,27 @@ describe("Simple Send Batch", function(): void {
   });
 
   async function testSimpleSendBatch(useSessions: boolean, usePartitions: boolean): Promise<void> {
-    const testMessages = [];
+    // const testMessages = [];
     // testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
     // testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
     useSessions;
     usePartitions;
-    const sender = senderClient.createSender();
-    sender.createBatch();
-    for (let index = 0; index < (10000 / 488910) * 202144; index++) {
-      testMessages.push({
-        body: `message body ${index}`
-      });
+    // const sender = senderClient.createSender();
+    // for (let index = 0; index < (10000 / 488910) * 202144; index++) {
+    //   testMessages.push({
+    //     body: `message body ${index}`
+    //   });
+    // }
+    // console.log(Buffer.from(testMessages).byteLength);
+    // await sender.sendBatch(testMessages);
+
+    const sender2 = senderClient.createSender();
+    const batchMessage = await sender2.createBatch({ maxSizeInBytes: 1000 });
+    for (let i = 0; i < 2; i++) {
+      batchMessage.tryAdd({ body: `message ${i}` });
     }
-    console.log(Buffer.from(testMessages).byteLength);
-    await sender.sendBatch(testMessages);
+    await sender2.sendBatch2(batchMessage);
+
     // const msgs = await receiver.receiveMessages(2);
 
     // should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");

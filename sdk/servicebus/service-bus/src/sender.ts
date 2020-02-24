@@ -13,6 +13,7 @@ import {
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
+import { SendableMessageInfoBatch } from "./sendableMessageInfoBatch";
 
 /**
  * The Sender class can be used to send messages, schedule messages to be sent at a later time
@@ -30,6 +31,7 @@ export class Sender {
    * @property Denotes if close() was called on this sender
    */
   private _isClosed: boolean = false;
+  private _batchSender: MessageSender | undefined = undefined;
 
   /**
    * @internal
@@ -81,47 +83,6 @@ export class Sender {
   }
 
   /**
-   * Creates an instance of `EventDataBatch` to which one can add events until the maximum supported size is reached.
-   * The batch can be passed to the `send()` method of the `EventHubProducer` to be sent to Azure Event Hubs.
-   * @param options  A set of options to configure the behavior of the batch.
-   * - `partitionKey`  : A value that is hashed to produce a partition assignment.
-   * Not applicable if the `EventHubProducer` was created using a `partitionId`.
-   * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
-   * - `abortSignal`   : A signal the request to cancel the send operation.
-   * @returns Promise<EventDataBatch>
-   */
-  async createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch> {
-    this._throwIfSenderOrConnectionClosed();
-    if (!options) {
-      options = {};
-    }
-
-    let maxMessageSize = await this._eventHubSender!.getMaxMessageSize({
-      retryOptions: this._senderOptions.retryOptions,
-      abortSignal: options.abortSignal
-    });
-    if (options.maxSizeInBytes) {
-      if (options.maxSizeInBytes > maxMessageSize) {
-        const error = new Error(
-          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
-        );
-        logger.warning(
-          `[${this._context.connectionId}] Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
-        );
-        logErrorStackTrace(error);
-        throw error;
-      }
-      maxMessageSize = options.maxSizeInBytes;
-    }
-    return new EventDataBatchImpl(
-      this._context,
-      maxMessageSize,
-      options.partitionKey,
-      options.partitionId
-    );
-  }
-
-  /**
    * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
    * Sender link if it doesnt already exists.
    *
@@ -136,7 +97,7 @@ export class Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while sending messages to the service.
    */
-  async sendBatch(messages: SendableMessageInfo[] | SendableMessageInfoBatch): Promise<void> {
+  async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
     if (!Array.isArray(messages)) {
@@ -144,6 +105,25 @@ export class Sender {
     }
     const sender = MessageSender.create(this._context);
     return sender.sendBatch(messages);
+  }
+
+  async createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch> {
+    this._throwIfSenderOrConnectionClosed();
+    if (!options) {
+      options = {};
+    }
+    this._batchSender = MessageSender.create(this._context);
+    return this._batchSender.createBatch(options);
+  }
+
+  async sendBatch2(messageBatch: SendableMessageInfoBatch): Promise<void> {
+    this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "messageBatch",
+      messageBatch
+    );
+    return this._batchSender!.sendBatch2(messageBatch);
   }
 
   /**

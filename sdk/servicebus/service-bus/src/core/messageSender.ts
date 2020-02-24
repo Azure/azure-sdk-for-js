@@ -36,6 +36,10 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
+import {
+  SendableMessageInfoBatch,
+  SendableMessageInfoBatchImpl
+} from "../sendableMessageInfoBatch";
 
 /**
  * @internal
@@ -670,7 +674,7 @@ export class MessageSender extends LinkEntity {
    * Batch message.
    * @return {Promise<void>}
    */
-  async sendBatch(inputMessages: SendableMessageInfo[] | SendableMessageInfoBatch): Promise<void> {
+  async sendBatch(inputMessages: SendableMessageInfo[]): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!Array.isArray(inputMessages)) {
@@ -750,6 +754,48 @@ export class MessageSender extends LinkEntity {
         this._context.namespace.connectionId,
         this.name,
         inputMessages,
+        err
+      );
+      throw err;
+    }
+  }
+
+  async createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch> {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (!options) {
+      options = {};
+    }
+
+    let maxMessageSize = this._sender?.maxMessageSize;
+
+    if (options.maxSizeInBytes) {
+      if (options.maxSizeInBytes > maxMessageSize!) {
+        const error = new Error(
+          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
+        );
+        throw error;
+      }
+      maxMessageSize = options.maxSizeInBytes;
+    }
+    return new SendableMessageInfoBatchImpl(this._context, maxMessageSize!);
+  }
+
+  async sendBatch2(batchMessage: SendableMessageInfoBatch): Promise<void> {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    try {
+      log.sender(
+        "[%s]Sender '%s', sending encoded batch message.",
+        this._context.namespace.connectionId,
+        this.name,
+        batchMessage
+      );
+      return await this._trySend(batchMessage._message!, true);
+    } catch (err) {
+      log.error(
+        "[%s] Sender '%s': An error occurred while sending the messages: %O\nError: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        batchMessage,
         err
       );
       throw err;
