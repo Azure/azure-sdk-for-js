@@ -2420,6 +2420,13 @@ export class AppendBlobClient extends BlobClient {
    * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
    * @returns {Promise<AppendBlobCreateResponse>}
    * @memberof AppendBlobClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const appendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * await appendBlobClient.create();
+   * ```
    */
   public async create(options: AppendBlobCreateOptions = {}): Promise<AppendBlobCreateResponse> {
     const { span, spanOptions } = createSpan("AppendBlobClient-create", options.tracingOptions);
@@ -2457,6 +2464,21 @@ export class AppendBlobClient extends BlobClient {
    * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
    * @returns {Promise<AppendBlobAppendBlockResponse>}
    * @memberof AppendBlobClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const content = "Hello World!";
+   *
+   * // Create a new append blob and append data to the blob.
+   * const newAppendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * await newAppendBlobClient.create();
+   * await newAppendBlobClient.appendBlock(content, content.length);
+   *
+   * // Append data to an existing append blob.
+   * const existingAppendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * await existingAppendBlobClient.appendBlock(content, content.length);
+   * ```
    */
   public async appendBlock(
     body: HttpRequestBody,
