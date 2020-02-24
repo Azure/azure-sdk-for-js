@@ -15,5 +15,5 @@ COPY --from=repo /azure-sdk-for-js/sdk/core /sdk/core
 COPY --from=repo /azure-sdk-for-js/sdk/keyvault/keyvault-secrets /sdk/keyvault/keyvault-secrets
 
 WORKDIR /sdk/identity/identity/tests/manual_integration/kubernetes
-RUN node install
+RUN npm install
 CMD ["node", "index"]
