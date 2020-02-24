@@ -207,7 +207,7 @@ export class CustomRecognizerClient {
     );
 
     try {
-      return await this.client.deleteCustomModel(modelId, finalOptions);
+      return await this.client.deleteCustomModel(modelId, operationOptionsToRequestOptionsBase(finalOptions));
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -227,7 +227,7 @@ export class CustomRecognizerClient {
     );
 
     try {
-      return await this.client.getCustomModel(modelId, finalOptions);
+      return await this.client.getCustomModel(modelId, operationOptionsToRequestOptionsBase(finalOptions));
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -307,7 +307,7 @@ export class CustomRecognizerClient {
     customHeaders["Content-Type"] = contentType;
     try {
       const result = await this.client.analyzeReceiptAsync({
-        ...finalOptions,
+        ...operationOptionsToRequestOptionsBase(finalOptions),
         body,
         customHeaders
       });
@@ -354,7 +354,7 @@ export class CustomRecognizerClient {
     });
     try {
       const result = await this.client.analyzeReceiptAsync({
-        ...finalOptions,
+        ...operationOptionsToRequestOptionsBase(finalOptions),
         body,
         customHeaders
       });
@@ -391,7 +391,7 @@ export class CustomRecognizerClient {
     );
 
     try {
-      const result = await this.client.getAnalyzeReceiptResult(resultId, finalOptions);
+      const result = await this.client.getAnalyzeReceiptResult(resultId, operationOptionsToRequestOptionsBase(finalOptions));
       return result;
     } catch (e) {
       span.setStatus({
@@ -420,7 +420,7 @@ export class CustomRecognizerClient {
     customHeaders["Content-Type"] = contentType;
     try {
       const result = await this.client.analyzeLayoutAsync({
-        ...finalOptions,
+        ...operationOptionsToRequestOptionsBase(finalOptions),
         body,
         customHeaders
       });
@@ -467,7 +467,7 @@ export class CustomRecognizerClient {
     });
     try {
       const result = await this.client.analyzeLayoutAsync({
-        ...finalOptions,
+        ...operationOptionsToRequestOptionsBase(finalOptions),
         body,
         customHeaders
       });
@@ -504,7 +504,7 @@ export class CustomRecognizerClient {
     );
 
     try {
-      const result = await this.client.getAnalyzeLayoutResult(resultId, finalOptions);
+      const result = await this.client.getAnalyzeLayoutResult(resultId, operationOptionsToRequestOptionsBase(finalOptions));
       return result;
     } catch (e) {
       span.setStatus({
@@ -532,7 +532,7 @@ export class CustomRecognizerClient {
     customHeaders["Content-Type"] = contentType;
     try {
       const result = await this.client.analyzeWithCustomModel(modelId, {
-        ...finalOptions,
+        ...operationOptionsToRequestOptionsBase(finalOptions),
         body,
         customHeaders
       });
@@ -570,7 +570,7 @@ export class CustomRecognizerClient {
     );
 
     try {
-      const result = await this.client.getAnalyzeFormResult(modelId, resultId, finalOptions);
+      const result = await this.client.getAnalyzeFormResult(modelId, resultId, operationOptionsToRequestOptionsBase(finalOptions));
       return result;
     } catch (e) {
       span.setStatus({
@@ -602,12 +602,11 @@ async function trainCustomModelInternal(
         source: source,
         sourceFilter: {
           prefix: "",
-          includeSubFolders: false,
-          ...finalOptions
+          includeSubFolders: false
         },
         useLabelFile
       },
-      finalOptions
+      operationOptionsToRequestOptionsBase(finalOptions)
     );
   } catch (e) {
     span.setStatus({

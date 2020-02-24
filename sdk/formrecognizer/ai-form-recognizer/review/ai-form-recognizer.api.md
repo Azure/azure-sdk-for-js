@@ -57,7 +57,7 @@ export class CustomRecognizerClient {
     // Warning: (ae-forgotten-export) The symbol "GetExtractedLayoutResultOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    getExtractedLayoutResult(resultId: string, options?: GetExtractedLayoutResultOptions): Promise<GetAnalyzeLayoutResultResponse>;
+    getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions): Promise<GetAnalyzeLayoutResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "GetExtractedReceiptResultOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
