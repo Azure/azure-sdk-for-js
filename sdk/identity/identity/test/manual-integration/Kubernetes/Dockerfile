@@ -16,4 +16,5 @@ COPY --from=repo /azure-sdk-for-js/sdk/keyvault/keyvault-secrets /sdk/keyvault/k
 
 WORKDIR /sdk/identity/identity/tests/manual_integration/kubernetes
 RUN npm install
+RUN tsc -p .
 CMD ["node", "index"]

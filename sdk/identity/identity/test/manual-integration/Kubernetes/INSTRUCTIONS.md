@@ -104,7 +104,7 @@ git clone https://github.com/Azure/azure-sdk-for-js/ --branch master --single-br
 
 The rest of this section assumes this working directory:
 ```sh
-cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration
+cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration/kubernetes
 ```
 
 ### build images and push them to the container registry
@@ -117,17 +117,13 @@ $NODE_VERSION=10
 
 Build an image:
 ```sh
-docker build --no-cache --build-arg NODE_VERSION=$NODE_VERSION -t "$($REPOSITORY)/$($IMAGE_NAME):$($NODE_VERSION)" ./kubernetes
+docker build --no-cache --build-arg NODE_VERSION=$NODE_VERSION -t "$($REPOSITORY)/$($IMAGE_NAME):$($NODE_VERSION)" .
 ```
 
 Push it to ACR:
 ```sh
-docker push $REPOSITORY/$IMAGE_NAME:$NODE_VERSION
+docker push "$($REPOSITORY)/$($IMAGE_NAME):$($NODE_VERSION)"
 ```
-
-Then set `NODE_VERSION` to the latest 10.x (10.19 at time of writing) and run the
-above `docker build` and `docker push` commands again. (It's safe--and faster--
-to omit `--no-cache` from `docker build` the second time.)
 
 # run the test
 
