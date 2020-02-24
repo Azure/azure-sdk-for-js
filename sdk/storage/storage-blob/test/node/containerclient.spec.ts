@@ -19,7 +19,7 @@ describe("ContainerClient Node.js only", () => {
   let recorder: any;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -27,7 +27,7 @@ describe("ContainerClient Node.js only", () => {
     await containerClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     recorder.stop();
   });
@@ -61,7 +61,7 @@ describe("ContainerClient Node.js only", () => {
     assert.deepEqual(result.blobPublicAccess, access);
   });
 
-  it("setAccessPolicy should work when expiry and start undefined", async () => {
+  it("setAccessPolicy should work when permissions, expiry and start undefined", async () => {
     const access: PublicAccessType = "blob";
     const containerAcl = [
       {
@@ -76,6 +76,18 @@ describe("ContainerClient Node.js only", () => {
     const result = await containerClient.getAccessPolicy();
     assert.deepEqual(result.signedIdentifiers, containerAcl);
     assert.deepEqual(result.blobPublicAccess, access);
+
+    const containerAclEmpty = [
+      {
+        accessPolicy: {},
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
+      }
+    ];
+
+    await containerClient.setAccessPolicy(access, containerAclEmpty);
+    const resultEmpty = await containerClient.getAccessPolicy();
+    assert.deepEqual(resultEmpty.signedIdentifiers[0].accessPolicy, undefined);
+    assert.deepEqual(resultEmpty.blobPublicAccess, access);
   });
 
   it("can be created with a url and a credential", async () => {

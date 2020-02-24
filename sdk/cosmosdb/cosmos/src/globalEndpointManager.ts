@@ -127,7 +127,9 @@ export class GlobalEndpointManager {
     if (this.preferredLocations && this.preferredLocations.length > 0) {
       for (const preferredLocation of this.preferredLocations) {
         location = locations.find(
-          (loc) => loc.unavailable !== true && loc.name === preferredLocation
+          (loc) =>
+            loc.unavailable !== true &&
+            normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation)
         );
         if (location) {
           break;
@@ -257,4 +259,11 @@ export class GlobalEndpointManager {
 
     return null;
   }
+}
+
+function normalizeEndpoint(endpoint: string) {
+  return endpoint
+    .split(" ")
+    .join("")
+    .toLowerCase();
 }

@@ -72,6 +72,14 @@ export class Sanitizer {
   }
 
   private replacer(key: string, value: unknown) {
+    // Ensure Errors include their interesting non-enumerable members
+    if (value instanceof Error) {
+      return {
+        ...value,
+        name: value.name,
+        message: value.message
+      };
+    }
     if (key === "_headersMap") {
       return this.sanitizeHeaders(key, value as {});
     } else if (key === "url") {

@@ -1285,6 +1285,34 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
           name: "String"
         }
       },
+      spotMaxPrice: {
+        serializedName: "spotMaxPrice",
+        type: {
+          name: "Number"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      nodeLabels: {
+        serializedName: "nodeLabels",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       nodeTaints: {
         serializedName: "nodeTaints",
         type: {
@@ -1438,6 +1466,34 @@ export const AgentPool: msRest.CompositeMapper = {
         defaultValue: 'Delete',
         type: {
           name: "String"
+        }
+      },
+      spotMaxPrice: {
+        serializedName: "properties.spotMaxPrice",
+        type: {
+          name: "Number"
+        }
+      },
+      tags: {
+        serializedName: "properties.tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      nodeLabels: {
+        serializedName: "properties.nodeLabels",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       nodeTaints: {
@@ -1603,6 +1659,28 @@ export const ManagedClusterLoadBalancerProfile: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      allocatedOutboundPorts: {
+        serializedName: "allocatedOutboundPorts",
+        defaultValue: 0,
+        constraints: {
+          InclusiveMaximum: 64000,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      idleTimeoutInMinutes: {
+        serializedName: "idleTimeoutInMinutes",
+        defaultValue: 30,
+        constraints: {
+          InclusiveMaximum: 120,
+          InclusiveMinimum: 4
+        },
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -1623,6 +1701,12 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
       },
       networkPolicy: {
         serializedName: "networkPolicy",
+        type: {
+          name: "String"
+        }
+      },
+      networkMode: {
+        serializedName: "networkMode",
         type: {
           name: "String"
         }
@@ -1667,6 +1751,13 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      outboundType: {
+        serializedName: "outboundType",
+        defaultValue: 'loadBalancer',
+        type: {
+          name: "String"
+        }
+      },
       loadBalancerSku: {
         serializedName: "loadBalancerSku",
         type: {
@@ -1680,6 +1771,45 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
           className: "ManagedClusterLoadBalancerProfile"
         }
       }
+    }
+  }
+};
+
+export const UserAssignedIdentity: msRest.CompositeMapper = {
+  serializedName: "UserAssignedIdentity",
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      },
+      objectId: {
+        serializedName: "objectId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAddonProfileIdentity: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterAddonProfile_identity",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAddonProfileIdentity",
+    modelProperties: {
+      ...UserAssignedIdentity.type.modelProperties
     }
   }
 };
@@ -1706,6 +1836,14 @@ export const ManagedClusterAddonProfile: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      identity: {
+        readOnly: true,
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterAddonProfileIdentity"
         }
       }
     }
@@ -1748,6 +1886,64 @@ export const ManagedClusterAADProfile: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedClusterPropertiesAutoScalerProfile: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterProperties_autoScalerProfile",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterPropertiesAutoScalerProfile",
+    modelProperties: {
+      scanInterval: {
+        serializedName: "scan-interval",
+        type: {
+          name: "String"
+        }
+      },
+      scaleDownDelayAfterAdd: {
+        serializedName: "scale-down-delay-after-add",
+        type: {
+          name: "String"
+        }
+      },
+      scaleDownDelayAfterDelete: {
+        serializedName: "scale-down-delay-after-delete",
+        type: {
+          name: "String"
+        }
+      },
+      scaleDownDelayAfterFailure: {
+        serializedName: "scale-down-delay-after-failure",
+        type: {
+          name: "String"
+        }
+      },
+      scaleDownUnneededTime: {
+        serializedName: "scale-down-unneeded-time",
+        type: {
+          name: "String"
+        }
+      },
+      scaleDownUnreadyTime: {
+        serializedName: "scale-down-unready-time",
+        type: {
+          name: "String"
+        }
+      },
+      scaleDownUtilizationThreshold: {
+        serializedName: "scale-down-utilization-threshold",
+        type: {
+          name: "String"
+        }
+      },
+      maxGracefulTerminationSec: {
+        serializedName: "max-graceful-termination-sec",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterAPIServerAccessProfile: msRest.CompositeMapper = {
   serializedName: "ManagedClusterAPIServerAccessProfile",
   type: {
@@ -1771,6 +1967,17 @@ export const ManagedClusterAPIServerAccessProfile: msRest.CompositeMapper = {
           name: "Boolean"
         }
       }
+    }
+  }
+};
+
+export const ManagedClusterPropertiesIdentityProfileValue: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterProperties_identityProfileValue",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterPropertiesIdentityProfileValue",
+    modelProperties: {
+      ...UserAssignedIdentity.type.modelProperties
     }
   }
 };
@@ -1845,6 +2052,13 @@ export const ManagedCluster: msRest.CompositeMapper = {
       fqdn: {
         readOnly: true,
         serializedName: "properties.fqdn",
+        type: {
+          name: "String"
+        }
+      },
+      privateFQDN: {
+        readOnly: true,
+        serializedName: "properties.privateFQDN",
         type: {
           name: "String"
         }
@@ -1926,11 +2140,36 @@ export const ManagedCluster: msRest.CompositeMapper = {
           className: "ManagedClusterAADProfile"
         }
       },
+      autoScalerProfile: {
+        serializedName: "properties.autoScalerProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterPropertiesAutoScalerProfile"
+        }
+      },
       apiServerAccessProfile: {
         serializedName: "properties.apiServerAccessProfile",
         type: {
           name: "Composite",
           className: "ManagedClusterAPIServerAccessProfile"
+        }
+      },
+      diskEncryptionSetID: {
+        serializedName: "properties.diskEncryptionSetID",
+        type: {
+          name: "String"
+        }
+      },
+      identityProfile: {
+        serializedName: "properties.identityProfile",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ManagedClusterPropertiesIdentityProfileValue"
+            }
+          }
         }
       },
       identity: {

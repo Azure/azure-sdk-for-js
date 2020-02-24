@@ -7,12 +7,12 @@
 export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
 export {
   TokenType,
-  DefaultDataTransformer,
   TokenCredential,
   DataTransformer,
   delay,
   MessagingError,
-  RetryOptions
+  RetryOptions,
+  WebSocketOptions
 } from "@azure/core-amqp";
 
 export { QueueClient } from "./queueClient";

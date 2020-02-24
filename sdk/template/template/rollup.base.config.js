@@ -59,7 +59,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "browser/azure-template.js",
+      file: "dist-browser/azure-template.js",
       format: "umd",
       name: "ExampleClient",
       sourcemap: true,
@@ -87,7 +87,7 @@ export function browserConfig(test = false) {
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
-      viz({ filename: "browser/browser-stats.html", sourcemap: false })
+      viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
     ]
   };
 

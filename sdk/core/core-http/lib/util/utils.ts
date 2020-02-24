@@ -7,7 +7,7 @@ import { RestError } from "../restError";
 import { WebResource } from "../webResource";
 import { Constants } from "./constants";
 
-const validUuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/gi;
+const validUuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/i;
 
 /**
  * A constant that indicates whether the environment is node.js or browser based.

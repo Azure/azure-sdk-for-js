@@ -135,7 +135,6 @@ import { ETagNone } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -949,13 +948,7 @@ export class BlobClient extends StorageClient {
     blobNameOrOptions?: string | StoragePipelineOptions,
     options?: StoragePipelineOptions
   ) {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
-
+    options = options || {};
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
@@ -969,13 +962,8 @@ export class BlobClient extends StorageClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-      // avoid each client creating its own http client.
-      const newOptions: StoragePipelineOptions = {
-        httpClient: getCachedDefaultHttpClient(),
-        ...(blobNameOrOptions as StoragePipelineOptions)
-      };
-      pipeline = newPipeline(credentialOrPipelineOrContainerName, newOptions);
+      options = blobNameOrOptions as StoragePipelineOptions;
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
@@ -983,7 +971,7 @@ export class BlobClient extends StorageClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string" &&
@@ -1006,8 +994,8 @@ export class BlobClient extends StorageClient {
             encodeURIComponent(blobName)
           );
 
-          newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          pipeline = newPipeline(sharedKeyCredential, newOptions);
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
@@ -1019,7 +1007,7 @@ export class BlobClient extends StorageClient {
           ) +
           "?" +
           extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), newOptions);
+        pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
@@ -5403,7 +5391,7 @@ export interface SignedIdentifier {
      * @member {string} permissions The permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
      */
-    permissions: string;
+    permissions?: string;
   };
 }
 
@@ -5411,7 +5399,7 @@ export interface SignedIdentifier {
  * Contains response data for the {@link ContainerClient.getAccessPolicy} operation.
  */
 export declare type ContainerGetAccessPolicyResponse = {
-  signedIdentifiers: SignedIdentifierModel[];
+  signedIdentifiers: SignedIdentifier[];
 } & ContainerGetAccessPolicyHeaders & {
   /**
    * The underlying HTTP response.
@@ -5760,13 +5748,7 @@ export class ContainerClient extends StorageClient {
   ) {
     let pipeline: Pipeline;
     let url: string;
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
-
+    options = options || {};
     if (credentialOrPipelineOrContainerName instanceof Pipeline) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
@@ -5778,7 +5760,7 @@ export class ContainerClient extends StorageClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      pipeline = newPipeline(credentialOrPipelineOrContainerName, newOptions);
+      pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName !== "string"
@@ -5786,7 +5768,7 @@ export class ContainerClient extends StorageClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
       typeof credentialOrPipelineOrContainerName === "string"
@@ -5802,8 +5784,8 @@ export class ContainerClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, encodeURIComponent(containerName));
-          newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          pipeline = newPipeline(sharedKeyCredential, newOptions);
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
@@ -5812,7 +5794,7 @@ export class ContainerClient extends StorageClient {
           appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)) +
           "?" +
           extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), newOptions);
+        pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
@@ -6150,16 +6132,19 @@ export class ContainerClient extends StorageClient {
       };
 
       for (const identifier of response) {
-        const accessPolicy: any = {
-          permissions: identifier.accessPolicy.permissions
-        };
+        let accessPolicy: any = undefined;
+        if (identifier.accessPolicy) {
+          accessPolicy = {
+            permissions: identifier.accessPolicy.permissions
+          };
 
-        if (identifier.accessPolicy.expiresOn) {
-          accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
-        }
+          if (identifier.accessPolicy.expiresOn) {
+            accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+          }
 
-        if (identifier.accessPolicy.startsOn) {
-          accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+          if (identifier.accessPolicy.startsOn) {
+            accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+          }
         }
 
         res.signedIdentifiers.push({
@@ -6517,7 +6502,7 @@ export class ContainerClient extends StorageClient {
    *
    * // Gets next marker
    * let marker = response.continuationToken;
-   *
+   * 
    * // Passing next marker as continuationToken
    *
    * iterator = containerClient.listBlobsFlat().byPage({ continuationToken: marker, maxPageSize: 10 });

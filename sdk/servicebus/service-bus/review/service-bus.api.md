@@ -6,7 +6,6 @@
 
 import { AmqpMessage } from '@azure/core-amqp';
 import { DataTransformer } from '@azure/core-amqp';
-import { DefaultDataTransformer } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
@@ -16,6 +15,7 @@ import { RetryOptions } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
+import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
 export type AuthorizationRule = {
@@ -49,8 +49,6 @@ export interface DeadLetterOptions {
     deadLetterErrorDescription: string;
     deadletterReason: string;
 }
-
-export { DefaultDataTransformer }
 
 export { delay }
 
@@ -259,8 +257,7 @@ export class ServiceBusClient {
 // @public
 export interface ServiceBusClientOptions {
     dataTransformer?: DataTransformer;
-    webSocket?: WebSocketImpl;
-    webSocketConstructorOptions?: any;
+    webSocketOptions?: WebSocketOptions;
 }
 
 // Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
@@ -475,6 +472,8 @@ export interface TopicOptions {
 }
 
 export { WebSocketImpl }
+
+export { WebSocketOptions }
 
 
 // (No @packageDocumentation comment for this package)

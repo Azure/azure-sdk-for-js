@@ -2,6 +2,7 @@
 
 ## 1.0.2 (Unreleased)
 
+- Exports `WebSocketOptions` interface to configure the channelling of the AMQP connection over Web Sockets. [PR 7368](https://github.com/Azure/azure-sdk-for-js/pull/7368)
 
 ## 1.0.1 (2020-02-06)
 
@@ -21,8 +22,6 @@
     The name property henceforth will always be "MessagingError" on this error class.
 
 ## 1.0.0-preview.6 (2019-12-03)
-
-- Treat ETIMEOUT error from dns.resolve as network disconnected.
 
 - Treat ETIMEOUT error from dns.resolve as network disconnected.
 

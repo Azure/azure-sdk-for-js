@@ -57,7 +57,7 @@ export function browserConfig(test = false) {
     input: input,
     external: ["fs-extra", "nock", "path"],
     output: {
-      file: "browser/azure-test-utils-recorder.js",
+      file: "dist-browser/azure-test-utils-recorder.js",
       format: "umd",
       name: "testUtilsRecorder",
       sourcemap: true
@@ -87,7 +87,7 @@ export function browserConfig(test = false) {
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
-      viz({ filename: "browser/browser-stats.html", sourcemap: false })
+      viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
     ]
   };
 
