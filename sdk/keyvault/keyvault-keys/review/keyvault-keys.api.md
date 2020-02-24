@@ -176,8 +176,7 @@ export class KeyClient {
 
 // @public
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
-    // (undocumented)
-    serviceAPIVersion?: "7.0" | "7.1" | "7.2-preview";
+    apiVersion?: "7.0" | "7.1" | "7.2-preview";
 }
 
 // @public
@@ -224,9 +223,6 @@ export interface KeyVaultKey {
 
 // @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
-
-// @public
-export const LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION = "7.1";
 
 // @public
 export interface ListDeletedKeysOptions extends coreHttp.OperationOptions {
