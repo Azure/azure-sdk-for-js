@@ -56,9 +56,9 @@ az identity create -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME
 
 Save its `clientId`, `id` (ARM URI), and `principalId` (object ID) for later:
 ```sh
-MANAGED_IDENTITY_CLIENT_ID=az identity show -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME --query clientId -o tsv
-MANAGED_IDENTITY_ID=az identity show -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME --query id -o tsv
-MANAGED_IDENTITY_PRINCIPAL_ID=$(az identity show -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME --query principalId -o tsv
+$MANAGED_IDENTITY_CLIENT_ID=az identity show -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME --query clientId -o tsv
+$MANAGED_IDENTITY_ID=az identity show -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME --query id -o tsv
+$MANAGED_IDENTITY_PRINCIPAL_ID=az identity show -g $RESOURCE_GROUP -n $MANAGED_IDENTITY_NAME --query principalId -o tsv
 ```
 
 ### Key Vault
@@ -85,9 +85,7 @@ az aks create -g $RESOURCE_GROUP -n $AKS_NAME --generate-ssh-keys --node-count 1
 
 Grant the cluster's service principal permission to use the managed identity:
 ```sh
-az role assignment create --role "Managed Identity Operator" \
-  --assignee $(az aks show -g $RESOURCE_GROUP -n $AKS_NAME --query servicePrincipalProfile.clientId -o tsv) \
-  --scope $MANAGED_IDENTITY_ID
+az role assignment create --role "Managed Identity Operator" --assignee $(az aks show -g $RESOURCE_GROUP -n $AKS_NAME --query servicePrincipalProfile.clientId -o tsv) --scope $MANAGED_IDENTITY_ID
 ```
 
 
@@ -106,20 +104,20 @@ git clone https://github.com/Azure/azure-sdk-for-js/ --branch master --single-br
 
 The rest of this section assumes this working directory:
 ```sh
-cd azure-sdk-for-js/sdk/identity/identity/test/integration-test
+cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration
 ```
 
 ### build images and push them to the container registry
 Set environment variables:
 ```sh
-REPOSITORY=$ACR_NAME.azurecr.io
-IMAGE_NAME=test-pod-identity
-NODE_VERSION=10
+$REPOSITORY="$($ACR_NAME).azurecr.io"
+$IMAGE_NAME="test-pod-identity"
+$NODE_VERSION=10
 ```
 
 Build an image:
 ```sh
-docker build --no-cache --build-arg NODE_VERSION=$NODE_VERSION -t $REPOSITORY/$IMAGE_NAME:$NODE_VERSION ./managed-identity-live
+docker build --no-cache --build-arg NODE_VERSION=$NODE_VERSION -t "$($REPOSITORY)/$($IMAGE_NAME):$($NODE_VERSION)" ./managed-identity-live
 ```
 
 Push it to ACR:
@@ -150,7 +148,7 @@ helm init --wait
 
 ### run the test script
 ```sh
-node ./pod-identity/run-test.js \
+node ./index.js \
  --client-id $MANAGED_IDENTITY_CLIENT_ID \
  --resource-id $MANAGED_IDENTITY_ID \
  --vault-url https://$KEY_VAULT_NAME.vault.azure.net \
