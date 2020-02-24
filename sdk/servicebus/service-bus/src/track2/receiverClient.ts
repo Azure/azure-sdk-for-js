@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
 import { ServiceBusClientReceiverOptions } from "../receiverClient";
 import { ClientEntityContext } from "../clientEntityContext";
@@ -14,7 +17,8 @@ import {
   UselessEmptyContextThatMaybeShouldBeRemoved
 } from "./models";
 import { getEntityPath, isReceiveMode, convertToInternalReceiveMode } from "./constructorHelpers";
-
+import { RuleDescription, CorrelationFilter } from "../core/managementClient";
+i;
 /**
  *A receiver client that handles sessions, including renewing the session lock.
  */
@@ -34,53 +38,75 @@ export interface NonSessionReceiverClient<LockModeT extends "PeekLock" | "Receiv
 }
 
 /**
- * The base ReceiverClient interface which shows which constructors
- * correspond to which interfaces.
+ * Methods to manage rules for subscriptions. More information about subscription rules
+ * can be found here: https://docs.microsoft.com/en-us/azure/service-bus-messaging/topic-filters
  */
-export interface ReceiverClient {
-  new (
-    queueConnectionString: string,
-    receiveMode?: "PeekLock",
-    options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"PeekLock">;
-  new (
-    queueConnectionString: string,
-    receiveMode: "ReceiveAndDelete",
-    options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"ReceiveAndDelete">;
-  new (
-    queueConnectionString: string,
-    session: Session,
-    receiveMode?: "PeekLock",
-    options?: ServiceBusClientReceiverOptions
-  ): SessionReceiverClient<"PeekLock">;
-  new (
-    queueConnectionString: string,
-    session: Session,
-    receiveMode: "ReceiveAndDelete",
-    options?: ServiceBusClientReceiverOptions
-  ): SessionReceiverClient<"ReceiveAndDelete">;
+export interface SubscriptionRuleManagement {
+  getRules(): Promise<RuleDescription[]>;
+  removeRule(ruleName: string): Promise<void>;
+  addRule(
+    ruleName: string,
+    filter: boolean | string | CorrelationFilter,
+    sqlRuleActionExpression?: string
+  ): Promise<void>;
 }
 
-export class ReceiverClient {
-  // non sessions
+/**
+ * Implementation class for receivers.
+ */
+export class ReceiverClientImplementation {
+  /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
   constructor(
     queueConnectionString: string,
     receiveMode?: "PeekLock",
     options?: ServiceBusClientReceiverOptions
   );
+  /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
+   * @param receiveMode The receiveMode to use (defaults to ReceiveAndDelete).
+   * @param options Options for the client itself.
+   */
   constructor(
     queueConnectionString: string,
     receiveMode: "ReceiveAndDelete",
     options?: ServiceBusClientReceiverOptions
   );
-  // sessions
+  /**
+   * Creates a client for an Azure Service Bus queue using a session.
+   *
+   * You can read more about Azure Service Bus sessions here:
+   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
+   *
+   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
+   * @param session Information about the session - the id and the shared connections instance.
+   * @param receiveMode The receiveMode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
   constructor(
     queueConnectionString: string,
     session: Session,
     receiveMode?: "PeekLock",
     options?: ServiceBusClientReceiverOptions
   );
+  /**
+   * Creates a client for an Azure Service Bus queue using a session.
+   *
+   * You can read more about Azure Service Bus sessions here:
+   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
+   *
+   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
+   * @param session Information about the session - the id and the shared connections instance.
+   * @param receiveMode The receiveMode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
   constructor(
     queueConnectionString: string,
     session: Session,
@@ -134,7 +160,15 @@ export class ReceiverClient {
     }
   }
 
+  /**
+   * Streams messages to the passed in handlers.
+   * @param handlers message handlers that receive events as well as errors.
+   */
   streamMessages(handlers: MessageHandlers<ContextWithSettlement>): void;
+  /**
+   * Streams messages to the passed in handlers.
+   * @param handlers message handlers that receive events as well as errors.
+   */
   streamMessages(handlers: MessageHandlers<UselessEmptyContextThatMaybeShouldBeRemoved>): void;
   streamMessages(
     handlers:
@@ -170,7 +204,14 @@ export class ReceiverClient {
     }
   }
 
+  /**
+   * Gets an iterator of messages that also contains a context that can be used to
+   * settle messages.
+   */
   iterateMessages(): MessageIterator<ContextType<"PeekLock">>;
+  /**
+   * Gets an iterator of messages
+   */
   iterateMessages(): MessageIterator<ContextType<"ReceiveAndDelete">>;
   iterateMessages():
     | MessageIterator<ContextType<"PeekLock">>
@@ -214,6 +255,15 @@ export class ReceiverClient {
   private _receiveMode: ReceiveMode;
 }
 
+/**
+ * A client that can receive messages from Service Bus Queues or Service Bus Subscriptions.
+ */
+export const ReceiverClient: ReceiverClient = ReceiverClientImplementation;
+
+/**
+ * @internal
+ * @ignore
+ */
 const settlementContext: ContextWithSettlement = {
   // TODO: need to move the settlement methods out of sb message -
   // we don't need to have this runtime dependency.

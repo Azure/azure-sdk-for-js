@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { ServiceBusClientReceiverOptions } from "../receiverClient";
 import { NonSessionReceiverClient } from "./receiverClient";
 import { TokenCredential } from "@azure/identity";
