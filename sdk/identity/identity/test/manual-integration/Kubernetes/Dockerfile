@@ -14,7 +14,7 @@ COPY --from=repo /azure-sdk-for-js/sdk/identity /sdk/identity
 COPY --from=repo /azure-sdk-for-js/sdk/core /sdk/core
 COPY --from=repo /azure-sdk-for-js/sdk/keyvault/keyvault-secrets /sdk/keyvault/keyvault-secrets
 
-WORKDIR /sdk/identity/identity/test/manual_integration/kubernetes
+WORKDIR /sdk/identity/identity/test/manual-integration/Kubernetes
 RUN npm install
 RUN npm install -g typescript
 RUN tsc -p .
