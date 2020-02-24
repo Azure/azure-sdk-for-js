@@ -280,15 +280,18 @@ describe("Certificates client - create, read, update and delete", () => {
         basicCertificatePolicy,
         testPollerProperties
       );
-  
-      const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
+
+      const deletePoller = await client.beginDeleteCertificate(
+        certificateName,
+        testPollerProperties
+      );
       let deletedCertificate = await deletePoller.pollUntilDone();
       assert.equal(
         deletedCertificate.name,
         certificateName,
         "Unexpected certificate name in result from getCertificate()."
       );
-  
+
       await testClient.purgeCertificate(certificateName);
     });
 
@@ -299,8 +302,11 @@ describe("Certificates client - create, read, update and delete", () => {
         basicCertificatePolicy,
         testPollerProperties
       );
-  
-      const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
+
+      const deletePoller = await client.beginDeleteCertificate(
+        certificateName,
+        testPollerProperties
+      );
       await deletePoller.pollUntilDone();
 
       const deletedCertificate = await client.getDeletedCertificate(certificateName);
@@ -309,10 +315,9 @@ describe("Certificates client - create, read, update and delete", () => {
         certificateName,
         "Unexpected certificate name in result from getCertificate()."
       );
-  
+
       await testClient.purgeCertificate(certificateName);
     });
-
 
     it("can get a deleted certificate (Non Existing)", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -328,7 +333,7 @@ describe("Certificates client - create, read, update and delete", () => {
         `Certificate not found: ${certificateName}`,
         "Unexpected certificate name in result from getKey()."
       );
-    });  
+    });
   });
 
   it("can create, read, and delete a certificate issuer", async function() {
