@@ -25,9 +25,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'beff39aa-c61f-4713-a130-ab7e2c61410b',
+  'a2d74361-d4ea-483e-a47a-fadca4c8ed4a',
   'x-ms-keyvault-service-version',
-  '1.1.0.893',
+  '1.1.0.897',
   'x-ms-keyvault-network-info',
   'addr=52.250.15.102;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
@@ -39,7 +39,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 24 Feb 2020 17:04:36 GMT'
+  'Mon, 24 Feb 2020 20:09:11 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -58,19 +58,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '449b4081-db85-4f9c-8142-d9fe6c71fe00',
+  'e7e1829c-a2e2-4c07-abb3-34c7cf18f300',
   'x-ms-ests-server',
-  '2.1.10067.11 - EUS ProdSlices',
+  '2.1.10067.11 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AmPqZZwWsltPgKZWfgVX_FM_aSJHAQAAACX55dUOAAAA; expires=Wed, 25-Mar-2020 17:04:37 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Arn5elQajmZGlJFXU5q1ccs_aSJHAQAAAGgk5tUOAAAA; expires=Wed, 25-Mar-2020 20:09:13 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Mon, 24 Feb 2020 17:04:36 GMT',
+  'Mon, 24 Feb 2020 20:09:13 GMT',
   'Content-Length',
   '1231'
 ]);
@@ -94,9 +94,9 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'd74fe1bd-1e99-42d8-b0f5-b003be7e65a1',
+  '7018dd55-2ba3-43b3-93e2-c90e15be88d7',
   'x-ms-keyvault-service-version',
-  '1.1.0.893',
+  '1.1.0.897',
   'x-ms-keyvault-network-info',
   'addr=52.250.15.102;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
@@ -108,5 +108,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Mon, 24 Feb 2020 17:04:36 GMT'
+  'Mon, 24 Feb 2020 20:09:12 GMT'
 ]);

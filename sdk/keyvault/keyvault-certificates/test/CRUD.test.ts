@@ -273,7 +273,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   describe("can get a deleted certificate", () => {
-    it("can get a deleted certificate using beginDeleteCertificate's poller", async function() {
+    it("using beginDeleteCertificate's poller", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       await client.beginCreateCertificate(
         certificateName,
@@ -295,7 +295,7 @@ describe("Certificates client - create, read, update and delete", () => {
       await testClient.purgeCertificate(certificateName);
     });
 
-    it("can get a deleted certificate by using getDeletedCertificate", async function() {
+    it("using getDeletedCertificate", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       await client.beginCreateCertificate(
         certificateName,
