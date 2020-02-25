@@ -189,9 +189,16 @@ describe("Simple Send Batch", function(): void {
     // await sender.sendBatch(testMessages);
 
     const sender2 = senderClient.createSender();
-    const batchMessage = await sender2.createBatch({ maxSizeInBytes: 1000 });
-    for (let i = 0; i < 2; i++) {
-      batchMessage.tryAdd({ body: `message ${i}` });
+    // const batchMessage = await sender2.createBatch({ maxSizeInBytes: 10000 });
+    const batchMessage = await sender2.createBatch();
+    for (let i = 0; i < 1000000; i++) {
+      const bool = batchMessage.tryAdd({
+        body: new Buffer(2000),
+        sessionId: `message ${i}`
+      });
+      if (!bool) {
+        break;
+      }
     }
     await sender2.sendBatch2(batchMessage);
 
@@ -214,7 +221,7 @@ describe("Simple Send Batch", function(): void {
     // await testPeekMsgsLength(receiverClient, 0);
   }
 
-  it.only("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
+  it("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
     await testSimpleSendBatch(false, true);
   });
@@ -255,7 +262,7 @@ describe("Simple Send Batch", function(): void {
     await testSimpleSendBatch(true, true);
   });
 
-  it("Unpartitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
+  it.only("Unpartitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
       TestClientType.UnpartitionedQueueWithSessions,
