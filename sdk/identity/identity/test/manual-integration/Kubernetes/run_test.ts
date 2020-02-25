@@ -56,10 +56,10 @@ async function runCommand(command: string[], exitOnError = true) {
             console.log(stdout);
             console.log(stderr);
         }
-        return stdout;
+        return stdout + stderr;
     } catch (e) {
         if (exitOnError) {
-            console.log(e);
+            console.log("Error: " + e);
             process.exit(1);
         }
         return e;
