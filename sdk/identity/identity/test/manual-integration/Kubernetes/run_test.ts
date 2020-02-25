@@ -1,6 +1,6 @@
 import * as yargs from "yargs";
 import * as path from "path";
-import { execSync, ExecSyncOptionsWithStringEncoding } from 'child_process';
+import { execSync } from 'child_process';
 
 function sleep (time: number) {
     return new Promise((resolve) => setTimeout(resolve, time));
