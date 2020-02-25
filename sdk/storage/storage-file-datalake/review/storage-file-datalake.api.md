@@ -161,8 +161,8 @@ export class DataLakeFileSystemClient extends StorageClient {
     getDirectoryClient(directoryName: string): DataLakeDirectoryClient;
     getFileClient(fileName: string): DataLakeFileClient;
     getProperties(options?: FileSystemGetPropertiesOptions): Promise<FileSystemGetPropertiesResponse>;
-    listPaths(options?: ListPathsOptions): PagedAsyncIterableIterator<Path, ListPathsSegmentResponse>;
-    readonly name: string;
+    listPaths(options?: ListPathsOptions): PagedAsyncIterableIterator<Path, FileSystemListPathsResponse>;
+    get name(): string;
     setAccessPolicy(access?: PublicAccessType, fileSystemAcl?: SignedIdentifier<AccessPolicy>[], options?: FileSystemSetAccessPolicyOptions): Promise<FileSystemSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: FileSystemSetMetadataOptions): Promise<FileSystemSetMetadataResponse>;
 }
@@ -177,13 +177,13 @@ export class DataLakeLeaseClient {
     // (undocumented)
     changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     // (undocumented)
-    readonly leaseId: string;
+    get leaseId(): string;
     // (undocumented)
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     // (undocumented)
     renewLease(options?: LeaseOperationOptions): Promise<Lease>;
     // (undocumented)
-    readonly url: string;
+    get url(): string;
 }
 
 // @public
@@ -192,13 +192,13 @@ export class DataLakePathClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
-    readonly fileSystemName: string;
+    get fileSystemName(): string;
     getAccessControl(options?: PathGetAccessControlOptions): Promise<PathGetAccessControlResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getProperties(options?: PathGetPropertiesOptions): Promise<PathGetPropertiesResponse>;
     move(destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     move(destinationFileSystem: string, destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
-    readonly name: string;
+    get name(): string;
     setAccessControl(acl: PathAccessControlItem[], options?: PathSetAccessControlOptions): Promise<PathSetAccessControlResponse>;
     setHttpHeaders(httpHeaders: PathHttpHeaders, options?: PathSetHttpHeadersOptions): Promise<PathSetHttpHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: PathSetMetadataOptions): Promise<PathSetMetadataResponse>;
@@ -546,6 +546,15 @@ export interface FileSystemListPathsHeaders {
 }
 
 // @public (undocumented)
+export type FileSystemListPathsResponse = PathList & FileSystemListPathsHeaders & {
+    _response: HttpResponse & {
+        parsedHeaders: FileSystemListPathsHeaders;
+        bodyAsText: string;
+        parsedBody: PathListModel;
+    };
+};
+
+// @public (undocumented)
 export interface FileSystemProperties {
     // (undocumented)
     etag: string;
@@ -708,11 +717,11 @@ export interface ListPathsSegmentOptions extends ListPathsOptions {
 }
 
 // @public
-export type ListPathsSegmentResponse = PathList & FileSystemListPathsHeaders & {
+export type ListPathsSegmentResponse = PathListModel & FileSystemListPathsHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: FileSystemListPathsHeaders;
         bodyAsText: string;
-        parsedBody: PathList;
+        parsedBody: PathListModel;
     };
 };
 
@@ -728,7 +737,7 @@ export interface Metadata {
 // @public
 export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
-// @public
+// @public (undocumented)
 export interface Path {
     // (undocumented)
     contentLength?: number;
@@ -736,6 +745,7 @@ export interface Path {
     eTag?: string;
     // (undocumented)
     group?: string;
+    // (undocumented)
     isDirectory?: boolean;
     // (undocumented)
     lastModified?: Date;
@@ -744,7 +754,7 @@ export interface Path {
     // (undocumented)
     owner?: string;
     // (undocumented)
-    permissions?: string;
+    permissions?: PathPermissions;
 }
 
 // @public (undocumented)
@@ -990,10 +1000,18 @@ export interface PathHttpHeaders {
     contentType?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface PathList {
     // (undocumented)
     pathItems?: Path[];
+}
+
+// @public
+export interface PathListModel {
+    // Warning: (ae-forgotten-export) The symbol "Path" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    paths?: Path_2[];
 }
 
 // @public (undocumented)
@@ -1241,7 +1259,7 @@ export class SASQueryParameters {
     readonly contentType?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
-    readonly ipRange: SasIPRange | undefined;
+    get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;
@@ -1417,7 +1435,7 @@ export { WebResource }
 
 // Warnings were encountered during analysis:
 //
-// src/models.ts:372:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
+// src/models.ts:403:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
