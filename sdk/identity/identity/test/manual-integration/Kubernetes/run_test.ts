@@ -1,6 +1,6 @@
 import * as yargs from "yargs";
 import * as path from "path";
-import { spawn } from 'child_process';
+import { execSync, ExecSyncOptionsWithStringEncoding } from 'child_process';
 
 function sleep (time: number) {
     return new Promise((resolve) => setTimeout(resolve, time));
@@ -44,32 +44,18 @@ const argv = yargs
     .alias('help', 'h')
     .argv;
 
-async function runCommand(command: string, args: string[], exitOnError = true) {
+async function runCommand(command: string[], exitOnError = true) {
     try {
         if (argv.verbose) {
             console.log(command)
-            console.log(args);
         }
-        //let commandString = command.join(" ");
-        const child = spawn(command, args);
-        let stdout = "";
-        for await (const chunk of child.stdout) {
-            console.log('stdout chunk: '+chunk);
-            stdout += chunk;
-        }
-        let stderr = "";
-        for await (const chunk of child.stderr) {
-            console.error('stderr chunk: '+chunk);
-            stderr += chunk;
-        }
-        await new Promise( (resolve, ) => {
-            child.on('close', resolve);
-        });
+        let commandString = command.join(" ");
+        const child = execSync(commandString, {encoding: "utf-8"});
+
         if (argv.verbose) {
-            console.log(stdout);
-            console.log(stderr);
+            console.log(child);
         }
-        return stdout + stderr;
+        return child;
     } catch (e) {
         if (exitOnError) {
             console.log("Error: " + e);
@@ -82,6 +68,7 @@ async function runCommand(command: string, args: string[], exitOnError = true) {
 async function main(): Promise<void> {
     // install the chart
     let helm_install = [
+        "helm",
         "install",
         path.resolve(__dirname, "test-pod-identity"),
         "-n",
@@ -94,21 +81,21 @@ async function main(): Promise<void> {
         `image.repository=${argv.repository},image.name=${argv["image-name"]},image.tag=${argv["image-tag"]}`
     ];
 
-    runCommand("helm", helm_install);
+    runCommand(helm_install);
 
     // get the name of the test pod
     let podName = await runCommand(
-        "kubectl", ["get", "pods", "--selector=job-name=" + JOB_NAME, "--output=jsonpath='{.items[*].metadata.name}'"]
+        ["kubectl", "get", "pods", "--selector=job-name=" + JOB_NAME, "--output=jsonpath='{.items[*].metadata.name}'"]
     );
 
     let logs = ""
 
     // poll the number of active pods to determine when the test has finished
-    let count_active_pods = ["get", "job", JOB_NAME, "--output=jsonpath='{.status.active}'"]
+    let count_active_pods = ["kubectl", "get", "job", JOB_NAME, "--output=jsonpath='{.status.active}'"]
     for (let x = 0; x < 10; ++x) {
         // kubectl will return '' when there are no active pods
-        let active_pods = runCommand("kubectl", count_active_pods)
-        logs = await runCommand("kubectl", ["logs", "-f", podName], false)
+        let active_pods = runCommand(count_active_pods)
+        logs = await runCommand(["kubectl", "logs", "-f", podName], false)
         if (!active_pods)
             break
         await sleep(30)
@@ -118,7 +105,7 @@ async function main(): Promise<void> {
     console.log(logs)
 
     // uninstall the chart
-    runCommand("helm", ["del", "--purge", HELM_APP_NAME])
+    runCommand(["helm", "del", "--purge", HELM_APP_NAME])
 
     // delete CRDs because Helm didn't
     let pod_identity_CRDs = [
@@ -127,7 +114,7 @@ async function main(): Promise<void> {
         "azureidentitybindings.aadpodidentity.k8s.io",
         "azurepodidentityexceptions.aadpodidentity.k8s.io",
     ]
-    runCommand("kubectl", ["delete", "crd"].concat(pod_identity_CRDs))
+    runCommand(["kubectl", "delete", "crd"].concat(pod_identity_CRDs))
 }
 main().catch((err) => {
     console.log("error code: ", err.code);
