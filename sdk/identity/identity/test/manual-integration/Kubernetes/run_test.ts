@@ -77,7 +77,7 @@ async function main(): Promise<void> {
         "--set",
         `aad-pod-identity.azureIdentity.resourceID=${argv["resource-id"]},aad-pod-identity.azureIdentity.clientID=${argv["client-id"]}`,
         "--set",
-        "vaultUrl=" + argv.vault_url,
+        `vaultUrl=${argv["vault-url"]}`,
         "--set",
         `image.repository=${argv.repository},image.name=${argv["image-name"]},image.tag=${argv["image-tag"]}`
     ];
