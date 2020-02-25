@@ -36,13 +36,16 @@ export interface SecretClientInterface {
 /**
  * The latest stable KeyVault service API version
  */
-export const LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION = "7.1";
+export const LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION = "7.0";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
  */
 export interface SecretClientOptions extends coreHttp.PipelineOptions {
-  serviceAPIVersion?: "7.0" | "7.1" | "7.2-preview";
+  /**
+   * The accepted versions of the KeyVault's service API.
+   */
+  apiVersion?: "7.0" | "7.1-preview";
 }
 
 /**

@@ -182,7 +182,11 @@ export class SecretClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(credential, pipelineOptions.serviceAPIVersion || LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION, pipeline);
+    this.client = new KeyVaultClient(
+      credential,
+      pipelineOptions.apiVersion || LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION,
+      pipeline
+    );
   }
 
   /**

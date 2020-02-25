@@ -92,7 +92,7 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  apiVersion?: "7.0" | "7.1" | "7.2-preview";
+  apiVersion?: "7.0" | "7.1-preview";
 }
 
 /**

@@ -81,8 +81,7 @@ export class CertificateClient {
 
 // @public
 export interface CertificateClientOptions extends coreHttp.PipelineOptions {
-    // (undocumented)
-    serviceAPIVersion?: "7.0" | "7.1" | "7.2-preview";
+    apiVersion?: "7.0" | "7.1-preview";
 }
 
 // @public

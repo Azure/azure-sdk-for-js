@@ -55,7 +55,7 @@ export interface KeyVaultSecret {
 }
 
 // @public
-export const LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION = "7.1";
+export const LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION = "7.0";
 
 // @public
 export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
@@ -110,8 +110,7 @@ export class SecretClient {
 
 // @public
 export interface SecretClientOptions extends coreHttp.PipelineOptions {
-    // (undocumented)
-    serviceAPIVersion?: "7.0" | "7.1" | "7.2-preview";
+    apiVersion?: "7.0" | "7.1-preview";
 }
 
 // @public
