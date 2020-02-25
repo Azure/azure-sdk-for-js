@@ -89,7 +89,6 @@ async function main(): Promise<void> {
     );
 
     if (podName[0] == "\'") {
-        console.log("Trimming podName");
         podName = podName.slice(1, -1);   
     }
 

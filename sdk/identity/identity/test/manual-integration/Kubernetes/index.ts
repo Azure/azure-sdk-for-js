@@ -1,12 +1,12 @@
 import { SecretClient } from "@azure/keyvault-secrets";
-import { DefaultAzureCredential } from "@azure/identity";
+import { ManagedIdentityCredential } from "@azure/identity";
 
 async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  const credential = new DefaultAzureCredential();
+  const credential = new ManagedIdentityCredential(process.env.AZURE_IDENTITY_TEST_MANAGED_IDENTITY_CLIENT_ID!);
 
   const url = "https://" + process.env.KEY_VAULT_NAME + ".vault.azure.net";
   const client = new SecretClient(url, credential);
