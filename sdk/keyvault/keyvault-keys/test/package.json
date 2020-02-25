@@ -29,6 +29,7 @@
     "@azure/identity": "latest",
     "@azure/keyvault-keys": "latest",
     "dotenv": "^8.2.0",
+    "mocha": "^7.0.1",
     "typescript": "~3.7.5"
   },
   "devDependencies": {
