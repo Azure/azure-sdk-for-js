@@ -289,7 +289,7 @@ describe("Certificates client - create, read, update and delete", () => {
       assert.equal(
         deletedCertificate.name,
         certificateName,
-        "Unexpected certificate name in result from getCertificate()."
+        "Unexpected certificate name in result from pollUntilDone()."
       );
 
       await testClient.purgeCertificate(certificateName);
@@ -313,7 +313,7 @@ describe("Certificates client - create, read, update and delete", () => {
       assert.equal(
         deletedCertificate.name,
         certificateName,
-        "Unexpected certificate name in result from getCertificate()."
+        "Unexpected certificate name in result from getDeletedCertificate()."
       );
 
       await testClient.purgeCertificate(certificateName);
