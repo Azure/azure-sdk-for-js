@@ -22,7 +22,8 @@ import {
   RetryOperationType,
   Constants,
   delay,
-  MessagingError
+  MessagingError,
+  RetryOptions
 } from "@azure/core-amqp";
 import {
   SendableMessageInfo,
@@ -680,14 +681,48 @@ export class MessageSender extends LinkEntity {
     }
   }
 
+  /**
+   * Returns maximum message size on the AMQP sender link.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   * @returns Promise<number>
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   */
+  async getMaxMessageSize(
+    options: {
+      retryOptions?: RetryOptions;
+    } = {}
+  ): Promise<number> {
+    const retryOptions = options.retryOptions || {};
+    if (this.isOpen()) {
+      return this._sender!.maxMessageSize;
+    }
+    return new Promise<number>(async (resolve, reject) => {
+      try {
+        const senderOptions = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
+        await defaultLock.acquire(this.senderLock, () => {
+          const config: RetryConfig<void> = {
+            operation: () => this._init(senderOptions),
+            connectionId: this._context.namespace.connectionId,
+            operationType: RetryOperationType.senderLink,
+            retryOptions: retryOptions
+          };
+
+          return retry<void>(config);
+        });
+        resolve(this._sender!.maxMessageSize);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
   async createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) {
       options = {};
     }
-
-    let maxMessageSize = this._sender?.maxMessageSize;
-
+    let maxMessageSize = await this.getMaxMessageSize();
     if (options.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {
         const error = new Error(
