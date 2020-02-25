@@ -24,7 +24,7 @@ function createServiceBusClient(): void {
   sbClient = getServiceBusClient();
 }
 
-describe("Invalid parameters in QueueClient #RunInBrowser", function(): void {
+describe("Invalid parameters in QueueClient", function(): void {
   let queueClient: QueueClient;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -115,7 +115,7 @@ describe("Invalid parameters in QueueClient #RunInBrowser", function(): void {
   });
 });
 
-describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): void {
+describe("Invalid parameters in SubscriptionClient", function(): void {
   let subscriptionClient: SubscriptionClient;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -308,7 +308,7 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
   });
 });
 
-describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void {
+describe("Invalid parameters in SessionReceiver", function(): void {
   let sessionReceiver: SessionReceiver;
   let receiverClient: QueueClient;
 
@@ -549,7 +549,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   });
 });
 
-describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
+describe("Invalid parameters in Receiver", function(): void {
   let receiver: Receiver;
   let receiverClient: QueueClient;
 
@@ -749,7 +749,7 @@ describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
   });
 });
 
-describe("Invalid parameters in Sender #RunInBrowser", function(): void {
+describe("Invalid parameters in Sender", function(): void {
   let sender: Sender;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create

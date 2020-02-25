@@ -171,7 +171,7 @@ async function addRules(
   }
 }
 
-describe("addRule() #RunInBrowser", function(): void {
+describe("addRule()", function(): void {
   beforeEach(async () => {
     await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
@@ -293,7 +293,7 @@ describe("removeRule()", function(): void {
   });
 });
 
-describe("getRules() #RunInBrowser", function(): void {
+describe("getRules()", function(): void {
   beforeEach(async () => {
     await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });

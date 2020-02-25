@@ -303,7 +303,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     await testComplete_batching();
   });
 
-  it("Unpartitioned Queue: complete() removes message from random session #RunInBrowser", async function(): Promise<
+  it("Unpartitioned Queue: complete() removes message from random session", async function(): Promise<
     void
   > {
     await beforeEachTest(
@@ -479,9 +479,7 @@ describe("Session State", function(): void {
     await purge(receiverClient, testSessionId2);
     await testGetSetState();
   });
-  it("Unpartitioned Queue - Testing getState and setState #RunInBrowser", async function(): Promise<
-    void
-  > {
+  it("Unpartitioned Queue - Testing getState and setState", async function(): Promise<void> {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
       TestClientType.UnpartitionedQueueWithSessions
@@ -552,9 +550,7 @@ describe("Peek session", function(): void {
     );
     await peekSession(true);
   });
-  it("Unpartitioned Queue - Peek Session with sessionId #RunInBrowser", async function(): Promise<
-    void
-  > {
+  it("Unpartitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
       TestClientType.UnpartitionedQueueWithSessions
@@ -583,9 +579,7 @@ describe("Peek session", function(): void {
     );
     await peekSession(false);
   });
-  it("Unpartitioned Queue - Peek Session without sessionId #RunInBrowser", async function(): Promise<
-    void
-  > {
+  it("Unpartitioned Queue - Peek Session without sessionId", async function(): Promise<void> {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
       TestClientType.UnpartitionedQueueWithSessions

@@ -53,7 +53,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
-    describe(`Atom management - List on "${entityType}" entities #RunInBrowser`, function(): void {
+    describe(`Atom management - List on "${entityType}" entities`, function(): void {
       beforeEach(async () => {
         switch (entityType) {
           case EntityType.QUEUE:
@@ -186,7 +186,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     alwaysBeExistingEntity: managementRule1
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Get on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
+  describe(`Atom management - Get on "${testCase.entityType}" entities`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -268,7 +268,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     alwaysBeExistingEntity: managementRule1
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Update on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
+  describe(`Atom management - Update on "${testCase.entityType}" entities`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -334,7 +334,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
-    describe(`Atom management - Delete on "${entityType}" entities #RunInBrowser`, function(): void {
+    describe(`Atom management - Delete on "${entityType}" entities`, function(): void {
       beforeEach(async () => {
         switch (entityType) {
           case EntityType.QUEUE:
@@ -410,7 +410,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     alwaysBeExistingEntity: managementRule1
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Create on "${testCase.entityType}" entities #RunInBrowser`, function(): void {
+  describe(`Atom management - Create on "${testCase.entityType}" entities`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -487,7 +487,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
-    describe(`Atom management - CRUD on non-existent entities for type "${entityType}" #RunInBrowser`, function(): void {
+    describe(`Atom management - CRUD on non-existent entities for type "${entityType}"`, function(): void {
       beforeEach(async () => {
         switch (entityType) {
           case EntityType.QUEUE:
@@ -716,7 +716,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`createTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
+  describe(`createTopic() using different variations to the input parameter "topicOptions"`, function(): void {
     afterEach(async () => {
       await deleteEntity(EntityType.TOPIC, managementTopic1);
     });
@@ -814,7 +814,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
+  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await createEntity(EntityType.TOPIC, managementTopic1);
     });
@@ -898,7 +898,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`createSubscription() using different variations to message forwarding related parameters in "subscriptionOptions" #RunInBrowser`, function(): void {
+  describe(`createSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
@@ -1058,7 +1058,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`createQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
+  describe(`createQueue() using different variations to the input parameter "queueOptions"`, function(): void {
     afterEach(async () => {
       await deleteEntity(EntityType.QUEUE, managementQueue1);
     });
@@ -1109,7 +1109,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`createQueue() using different variations to message forwarding related parameters in "queueOptions" #RunInBrowser`, function(): void {
+  describe(`createQueue() using different variations to message forwarding related parameters in "queueOptions"`, function(): void {
     beforeEach(async () => {
       await createEntity(EntityType.TOPIC, managementTopic1);
     });
@@ -1230,7 +1230,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`createRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
+  describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);
@@ -1362,7 +1362,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`updateQueue() using different variations to the input parameter "queueOptions" #RunInBrowser`, function(): void {
+  describe(`updateQueue() using different variations to the input parameter "queueOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1, {
         lockDuration: "PT45S",
@@ -1501,7 +1501,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`updateQueue() using different variations to message forwarding related parameters in "queueOptions" #RunInBrowser`, function(): void {
+  describe(`updateQueue() using different variations to message forwarding related parameters in "queueOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateQueue(managementQueue1);
@@ -1584,7 +1584,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`updateTopic() using different variations to the input parameter "topicOptions" #RunInBrowser`, function(): void {
+  describe(`updateTopic() using different variations to the input parameter "topicOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
     });
@@ -1670,7 +1670,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions" #RunInBrowser`, function(): void {
+  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
@@ -1732,7 +1732,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to message forwarding related parameters in "subscriptionOptions" #RunInBrowser`, function(): void {
+  describe(`updateSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
@@ -1840,7 +1840,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
     }
   }
 ].forEach((testCase) => {
-  describe(`updateRule() using different variations to the input parameter "ruleOptions" #RunInBrowser`, function(): void {
+  describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);

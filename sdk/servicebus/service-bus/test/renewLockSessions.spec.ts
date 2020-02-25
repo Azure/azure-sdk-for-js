@@ -52,7 +52,7 @@ async function afterEachTest(): Promise<void> {
   await sbClient.close();
 }
 
-describe("Unpartitioned Queue - Lock Renewal for Sessions #RunInBrowser", function(): void {
+describe("Unpartitioned Queue - Lock Renewal for Sessions", function(): void {
   beforeEach(async () => {
     await beforeEachTest(
       TestClientType.UnpartitionedQueueWithSessions,
