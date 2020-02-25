@@ -65,10 +65,7 @@ so that you can easily find them later.
 This field gets automatically generated for us through our
 CI pipelines. It is **required** to replace this default value
 with any combination of alphanumeric characters that you might
-prefer. Keep in mind that if you have previously generated
-resources with the same alphanumeric combination that you're
-providing, Azure will likely fail, requiring you to insert
-a different value.
+prefer.
 
 ### The "Tenant Id" field.
 

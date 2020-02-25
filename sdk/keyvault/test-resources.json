@@ -6,19 +6,19 @@
       "type": "string",
       "defaultValue": "[resourceGroup().name]",
       "metadata": {
-          "description": "The base resource name."
+          "description": "The base resource name. This field gets automatically generated for us through our CI pipelines. It is required to replace this default value with any combination of alphanumeric characters that you might prefer."
       }
     },
     "tenantId": {
       "type": "string",
       "metadata": {
-        "description": "The tenant ID to which the application and resources belong."
+        "description": "The tenant ID to which the application and resources belong. You may copy it from the one available on the overview page of the Azure Active Directory section of the Azure portal, or obtain it from the overview page of a recently created Azure Application."
       }
     },
     "testApplicationOid": {
       "type": "string",
       "metadata": {
-        "description": "The application client ID used to run tests."
+        "description": "The application client ID used to run tests. You may get it from the overview page of a recently created Azure application."
       }
     }
   },
