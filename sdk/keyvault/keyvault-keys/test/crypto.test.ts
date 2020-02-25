@@ -9,7 +9,7 @@ import { CryptographyClient, KeyVaultKey, KeyClient } from "../src";
 import { convertJWKtoPEM } from "../src/cryptographyClient";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { stringToUint8Array, uint8ArrayToString } from "@azure/keyvault-common";
+import { stringToUint8Array, uint8ArrayToString } from "../../keyvault-common/src";
 import { isRecordMode, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 

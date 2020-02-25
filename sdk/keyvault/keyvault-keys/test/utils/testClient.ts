@@ -1,4 +1,4 @@
-import { testPollerProperties, retry } from "@azure/keyvault-common";
+import { testPollerProperties, retry } from "../../../keyvault-common/src";
 import { KeyClient } from "../../src";
 
 export default class TestClient {

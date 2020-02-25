@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeyClient, CreateEcKeyOptions, UpdateKeyPropertiesOptions, GetKeyOptions } from "../src";
 import { RestError } from "@azure/core-http";
-import { testPollerProperties, assertThrowsAbortError } from "@azure/keyvault-common";
+import { testPollerProperties, assertThrowsAbortError } from "../../keyvault-common/src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
