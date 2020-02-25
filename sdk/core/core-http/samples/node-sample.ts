@@ -3,7 +3,7 @@
 
 "use strict";
 
-import * as coreHttp from "../src/coreHttp";
+import * as coreHttp from "../lib/coreHttp";
 const clientOptions: coreHttp.ServiceClientOptions = {
   requestPolicyFactories: [coreHttp.logPolicy()]
 };
