@@ -2,8 +2,8 @@ import * as yargs from "yargs";
 import * as path from "path";
 import { execSync } from 'child_process';
 
-function sleep (time: number) {
-    return new Promise((resolve) => setTimeout(resolve, time));
+function sleep (secs: number) {
+    return new Promise((resolve) => setTimeout(resolve, secs * 1000));
 }
 
 const JOB_NAME = "test"
@@ -87,6 +87,11 @@ async function main(): Promise<void> {
     let podName = await runCommand(
         ["kubectl", "get", "pods", "--selector=job-name=" + JOB_NAME, "--output=jsonpath='{.items[*].metadata.name}'"]
     );
+
+    if (podName[0] == "\'") {
+        console.log("Trimming podName");
+        podName = podName.slice(1, -1);   
+    }
 
     let logs = ""
 
