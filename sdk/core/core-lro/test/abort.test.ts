@@ -83,7 +83,7 @@ describe("Long Running Operations - working with abort signals", function() {
     const abortController = new AbortController();
     const poller = await client.startLRO();
 
-    const donePromise = poller.pollUntilDone()
+    const donePromise = poller.pollUntilDone();
 
     await poller.poll();
     assert.equal(client.totalSentRequests, 2);
