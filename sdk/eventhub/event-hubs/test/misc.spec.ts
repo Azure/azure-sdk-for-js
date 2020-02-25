@@ -27,7 +27,7 @@ import { EventHubConsumer } from "../src/receiver";
 import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
 const env = getEnvVars();
 
-describe("Misc tests #RunnableInBrowser", function(): void {
+describe("Misc tests", function(): void {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]

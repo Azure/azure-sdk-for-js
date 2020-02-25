@@ -422,9 +422,7 @@ describe("EventHubConsumerClient", () => {
       });
     });
 
-    it("Receive from specific partitions, no coordination #RunnableInBrowser", async function(): Promise<
-      void
-    > {
+    it("Receive from specific partitions, no coordination", async function(): Promise<void> {
       const logTester = new LogTester(
         [
           "EventHubConsumerClient subscribing to specific partition (0), no checkpoint store.",
@@ -460,9 +458,7 @@ describe("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
-    it("Receive from all partitions, no coordination #RunnableInBrowser", async function(): Promise<
-      void
-    > {
+    it("Receive from all partitions, no coordination", async function(): Promise<void> {
       const logTester = new LogTester(
         [
           "EventHubConsumerClient subscribing to all partitions, no checkpoint store.",
@@ -495,7 +491,7 @@ describe("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
-    it("Receive from all partitions, no coordination but through multiple subscribe() calls #RunnableInBrowser", async function(): Promise<
+    it("Receive from all partitions, no coordination but through multiple subscribe() calls", async function(): Promise<
       void
     > {
       const logTester = new LogTester(
@@ -536,7 +532,7 @@ describe("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
-    it("Receive from all partitions, coordinating with the same partition manager and using the FairPartitionLoadBalancer #RunnableInBrowser", async function(): Promise<
+    it("Receive from all partitions, coordinating with the same partition manager and using the FairPartitionLoadBalancer", async function(): Promise<
       void
     > {
       // fast forward our partition manager so it starts reading from the latest offset
@@ -597,7 +593,7 @@ describe("EventHubConsumerClient", () => {
       logTester.assert();
     });
 
-    it("Stops receiving events if close is immediately called, single partition. #RunnableInBrowser", async function(): Promise<
+    it("Stops receiving events if close is immediately called, single partition.", async function(): Promise<
       void
     > {
       const partitionId = "0";
@@ -642,7 +638,7 @@ describe("EventHubConsumerClient", () => {
       );
     });
 
-    it("Stops receiving events if close is immediately called, multiple partitions. #RunnableInBrowser", async function(): Promise<
+    it("Stops receiving events if close is immediately called, multiple partitions.", async function(): Promise<
       void
     > {
       const client = new EventHubConsumerClient(

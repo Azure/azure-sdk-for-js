@@ -38,7 +38,7 @@ const testSourceEventData: EventData = {
 const testEventData = fromAmqpMessage(testMessage);
 const messageFromED = toAmqpMessage(testSourceEventData);
 
-describe("EventData #RunnableInBrowser", function(): void {
+describe("EventData", function(): void {
   describe("fromAmqpMessage", function(): void {
     it("populates body with the message body", function(): void {
       testEventData.body.should.equal(testBody);
