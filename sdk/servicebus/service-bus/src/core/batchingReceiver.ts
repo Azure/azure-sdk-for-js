@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as log from "../log";
-import { Constants, translate, MessagingError } from "@azure/amqp-common";
+import { Constants, translate, MessagingError } from "@azure/core-amqp";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
 import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
 import {
@@ -77,7 +77,7 @@ export class BatchingReceiver extends MessageReceiver {
     throwErrorIfConnectionClosed(this._context.namespace);
 
     if (maxWaitTimeInSeconds == null) {
-      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
+      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
     }
 
     const brokeredMessages: ServiceBusMessage[] = [];
@@ -95,7 +95,7 @@ export class BatchingReceiver extends MessageReceiver {
         receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
 
         const sessionError = context.session && context.session.error;
-        let error = new MessagingError("An error occurred while receiving messages.");
+        let error: Error | MessagingError;
         if (sessionError) {
           error = translate(sessionError);
           log.error(
@@ -104,6 +104,8 @@ export class BatchingReceiver extends MessageReceiver {
             this.name,
             error
           );
+        } else {
+          error = new MessagingError("An error occurred while receiving messages.");
         }
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);
@@ -276,7 +278,7 @@ export class BatchingReceiver extends MessageReceiver {
         receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
 
         const receiverError = context.receiver && context.receiver.error;
-        let error = new MessagingError("An error occurred while receiving messages.");
+        let error: Error | MessagingError;
         if (receiverError) {
           error = translate(receiverError);
           log.error(
@@ -285,6 +287,8 @@ export class BatchingReceiver extends MessageReceiver {
             this.name,
             error
           );
+        } else {
+          error = new MessagingError("An error occurred while receiving messages.");
         }
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);

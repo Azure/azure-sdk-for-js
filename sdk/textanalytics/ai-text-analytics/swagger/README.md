@@ -122,3 +122,68 @@ directive:
         $["x-ms-client-name"] = "includeStatistics";
       }
 ```
+
+### Rename type, subtype -> category, subCategory
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Entity.properties
+    transform: >
+      $.type["x-ms-client-name"] = "category";
+      $.subtype["x-ms-client-name"] = "subCategory";
+```
+
+### Rename sentenceScores -> sentimentScores
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SentenceSentiment.properties.sentenceScores
+    transform: >
+      $["x-ms-client-name"] = "sentimentScores";
+```
+
+### Rename SentimentConfidenceScorePerLabel -> SentimentScorePerLabel 
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.SentimentScorePerLabel) {
+          $.SentimentScorePerLabel = $.SentimentConfidenceScorePerLabel;
+          delete $.SentimentConfidenceScorePerLabel;
+      }
+  - from: swagger-document
+    where: $.definitions..properties[*]
+    transform: >
+      if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
+          $["$ref"] = "#/definitions/SentimentScorePerLabel";
+      }
+```
+
+### Rename {Document,Sentence}SentimentValue -> Label 
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DocumentSentiment.properties.sentiment
+    transform: >
+      $["x-ms-enum"].name = "DocumentSentimentLabel";
+  - from: swagger-document
+    where: $.definitions.SentenceSentiment.properties.sentiment
+    transform: >
+      $["x-ms-enum"].name = "SentenceSentimentLabel";
+```
+
+### Fix capitalization of Code enum values
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.code
+    transform: >
+      $.enum = $.enum.map((val) => val.charAt(0).toUpperCase() + val.slice(1));
+```
+

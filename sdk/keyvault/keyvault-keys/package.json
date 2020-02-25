@@ -46,7 +46,7 @@
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
     "build": "npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm dist-test types *.tgz *.log browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
+    "clean": "rimraf dist dist-esm dist-test types *.tgz *.log dist-browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
     "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
     "execute:ts-samples": "node ../../../common/scripts/run-samples.js samples/typescript/dist/samples/typescript/src/",
     "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
@@ -130,7 +130,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-coverage": "^0.1.5",
+    "karma-remap-istanbul": "^0.6.0",
     "mocha": "^6.2.2",
     "mocha-junit-reporter": "^1.18.0",
     "mocha-multi": "^1.1.3",
@@ -145,7 +145,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^3.1.1",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.6.4",
+    "typescript": "~3.7.5",
     "uglify-js": "^3.4.9",
     "url": "^0.11.0"
   }

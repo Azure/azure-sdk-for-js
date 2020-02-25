@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { FetchHttpClient } from "./fetchHttpClient";
+import { FetchHttpClient, CommonRequestInfo } from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResource } from "./webResource";
 
@@ -14,7 +14,7 @@ export class BrowserFetchHttpClient extends FetchHttpClient {
     return Promise.resolve();
   }
 
-  fetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
+  fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response> {
     return fetch(input, init);
   }
 }

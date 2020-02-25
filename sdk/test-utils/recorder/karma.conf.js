@@ -66,7 +66,8 @@ module.exports = function(config) {
       reports: {
         lcovonly: "coverage-browser/lcov.info",
         html: "coverage-browser/html/report",
-        "text-summary": null
+        "text-summary": null,
+        cobertura: "./coverage-browser/cobertura-coverage.xml"
       }
     },
 
@@ -96,7 +97,15 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    // --no-sandbox allows our tests to run in Linux without having to change the system.
+    // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
+    browsers: ["ChromeHeadlessNoSandbox"],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox", "--disable-web-security"]
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -110,7 +119,8 @@ module.exports = function(config) {
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
-      terminal: process.env.TEST_MODE !== "record"
+      // We would usually hide the logs from the tests, but we don't need to do this inside of the recorder package because we are not recording the tests.
+      // // terminal: process.env.TEST_MODE !== "record"
     },
 
     client: {

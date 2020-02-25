@@ -96,4 +96,9 @@ export {
   ShareSetMetadataHeaders,
   ShareSetQuotaHeaders,
   AccessPolicy,
+  LeaseAccessConditions,
+  LeaseDurationType,
+  LeaseStateType,
+  LeaseStatusType,
+  CopyFileSmbInfo,
 } from "./generated/src/models";

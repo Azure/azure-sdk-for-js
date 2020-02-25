@@ -6,13 +6,13 @@ import * as http from "http";
 import * as https from "https";
 import "node-fetch";
 
-import { FetchHttpClient } from "./fetchHttpClient";
+import { FetchHttpClient, CommonRequestInfo } from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResource } from "./webResource";
 import { createProxyAgent, ProxyAgent, isUrlHttps } from "./proxyAgent";
 
 interface GlobalWithFetch extends NodeJS.Global {
-  fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+  fetch: typeof import("node-fetch")["default"];
 }
 
 const globalWithFetch = global as GlobalWithFetch;
@@ -87,7 +87,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     }
   }
 
-  async fetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
+  async fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response> {
     return fetch(input, init);
   }
 

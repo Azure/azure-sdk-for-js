@@ -35,9 +35,9 @@ Go through the following setup in order to correctly setup the AAD credentials f
 
 Populate the following variables along with the above mentioned environment variables in the `.env`.
 ```
-AAD_CLIENT_ID=""
-AAD_CLIENT_SECRET=""
-AAD_TENANT_ID=""
+AZURE_CLIENT_ID=""
+AZURE_CLIENT_SECRET=""
+AZURE_TENANT_ID=""
 ```
 
 ## Run all tests

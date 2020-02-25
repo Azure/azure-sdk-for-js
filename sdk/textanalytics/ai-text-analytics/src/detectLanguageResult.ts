@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalysisResult,
+  makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalysisErrorResult
+  makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import { DetectedLanguage, TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
 
@@ -19,10 +19,6 @@ export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageE
  * containing a prediction of what language the document is written in.
  */
 export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
-  /**
-   * All detected languages in the document.
-   */
-  readonly detectedLanguages: DetectedLanguage[];
   /**
    * The top detected language by confidence score.
    */
@@ -40,8 +36,7 @@ export function makeDetectLanguageResult(
   statistics?: TextDocumentStatistics
 ): DetectLanguageSuccessResult {
   return {
-    ...makeTextAnalysisResult(id, statistics),
-    detectedLanguages,
+    ...makeTextAnalyticsSuccessResult(id, statistics),
     primaryLanguage: primaryLanguage(detectedLanguages)
   };
 }
@@ -50,7 +45,7 @@ export function makeDetectLanguageErrorResult(
   id: string,
   error: TextAnalyticsError
 ): DetectLanguageErrorResult {
-  return makeTextAnalysisErrorResult(id, error);
+  return makeTextAnalyticsErrorResult(id, error);
 }
 
 function primaryLanguage(languages: DetectedLanguage[]): DetectedLanguage {

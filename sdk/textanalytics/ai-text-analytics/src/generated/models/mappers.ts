@@ -74,15 +74,15 @@ export const InnerError: coreHttp.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "invalidParameterValue",
-            "invalidRequestBodyFormat",
-            "emptyRequest",
-            "missingInputRecords",
-            "invalidDocument",
-            "modelVersionIncorrect",
-            "invalidDocumentBatch",
-            "unsupportedLanguageCode",
-            "invalidCountryHint"
+            "InvalidParameterValue",
+            "InvalidRequestBodyFormat",
+            "EmptyRequest",
+            "MissingInputRecords",
+            "InvalidDocument",
+            "ModelVersionIncorrect",
+            "InvalidDocumentBatch",
+            "UnsupportedLanguageCode",
+            "InvalidCountryHint"
           ]
         }
       },
@@ -133,10 +133,10 @@ export const TextAnalyticsError: coreHttp.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "invalidRequest",
-            "invalidArgument",
-            "internalServerError",
-            "serviceUnavailable"
+            "InvalidRequest",
+            "InvalidArgument",
+            "InternalServerError",
+            "ServiceUnavailable"
           ]
         }
       },
@@ -225,11 +225,11 @@ export const TextDocumentStatistics: coreHttp.CompositeMapper = {
   }
 };
 
-export const SentimentConfidenceScorePerLabel: coreHttp.CompositeMapper = {
-  serializedName: "SentimentConfidenceScorePerLabel",
+export const SentimentScorePerLabel: coreHttp.CompositeMapper = {
+  serializedName: "SentimentScorePerLabel",
   type: {
     name: "Composite",
-    className: "SentimentConfidenceScorePerLabel",
+    className: "SentimentScorePerLabel",
     modelProperties: {
       positive: {
         required: true,
@@ -274,12 +274,12 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
           ]
         }
       },
-      sentenceScores: {
+      sentimentScores: {
         required: true,
         serializedName: "sentenceScores",
         type: {
           name: "Composite",
-          className: "SentimentConfidenceScorePerLabel"
+          className: "SentimentScorePerLabel"
         }
       },
       offset: {
@@ -349,7 +349,7 @@ export const DocumentSentiment: coreHttp.CompositeMapper = {
         serializedName: "documentScores",
         type: {
           name: "Composite",
-          className: "SentimentConfidenceScorePerLabel"
+          className: "SentimentScorePerLabel"
         }
       },
       sentenceSentiments: {
@@ -470,14 +470,14 @@ export const Entity: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      type: {
+      category: {
         required: true,
         serializedName: "type",
         type: {
           name: "String"
         }
       },
-      subtype: {
+      subCategory: {
         serializedName: "subtype",
         type: {
           name: "String"

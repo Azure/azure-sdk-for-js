@@ -6,14 +6,14 @@
 
 export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
 export {
-  TokenInfo,
   TokenType,
-  TokenProvider,
-  DefaultDataTransformer,
+  TokenCredential,
   DataTransformer,
   delay,
-  MessagingError
-} from "@azure/amqp-common";
+  MessagingError,
+  RetryOptions,
+  WebSocketOptions
+} from "@azure/core-amqp";
 
 export { QueueClient } from "./queueClient";
 export { TopicClient } from "./topicClient";
@@ -38,36 +38,6 @@ export {
 export { Delivery, WebSocketImpl } from "rhea-promise";
 
 export { HttpOperationResponse } from "@azure/core-http";
-
-export {
-  ServiceBusAtomManagementClient,
-  ServiceBusAtomManagementClientOptions,
-  ListRequestOptions,
-  QueueResponse,
-  CreateQueueResponse,
-  GetQueueResponse,
-  ListQueuesResponse,
-  UpdateQueueResponse,
-  DeleteQueueResponse,
-  TopicResponse,
-  CreateTopicResponse,
-  GetTopicResponse,
-  ListTopicsResponse,
-  UpdateTopicResponse,
-  DeleteTopicResponse,
-  SubscriptionResponse,
-  CreateSubscriptionResponse,
-  GetSubscriptionResponse,
-  ListSubscriptionsResponse,
-  UpdateSubscriptionResponse,
-  DeleteSubscriptionResponse,
-  RuleResponse,
-  CreateRuleResponse,
-  GetRuleResponse,
-  ListRulesResponse,
-  UpdateRuleResponse,
-  DeleteRuleResponse
-} from "./serviceBusAtomManagementClient";
 
 export { QueueDetails, QueueOptions } from "./serializers/queueResourceSerializer";
 export { TopicDetails, TopicOptions } from "./serializers/topicResourceSerializer";

@@ -1,8 +1,11 @@
 # Release History
 
-## 12.0.3 (Unreleased)
+## 12.0.4 (Unreleased)
 
-- Exposed the interface `OperationTracingOptions` in the API surface to support tracing features. [PR #7174](https://github.com/Azure/azure-sdk-for-js/pull/7174)
+
+## 12.0.3 (2020.02)
+
+- Updated Azure Storage Service API version to 2019-07-07.
 
 ## 12.0.2 (2020.01)
 

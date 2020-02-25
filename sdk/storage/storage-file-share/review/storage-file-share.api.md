@@ -95,12 +95,24 @@ export { BaseRequestPolicy }
 export interface CloseHandlesInfo {
     // (undocumented)
     closedHandlesCount: number;
+    closeFailureCount?: number;
 }
 
 // @public
 export interface CommonOptions {
     // (undocumented)
     tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export interface CopyFileSmbInfo {
+    fileAttributes?: string;
+    fileCreationTime?: string;
+    fileLastWriteTime?: string;
+    // Warning: (ae-forgotten-export) The symbol "PermissionCopyModeType" needs to be exported by the entry point index.d.ts
+    filePermissionCopyMode?: PermissionCopyModeType;
+    ignoreReadOnly?: boolean;
+    setArchiveAttribute?: boolean;
 }
 
 // @public
@@ -202,6 +214,7 @@ export interface DirectoryForceCloseHandlesHeaders {
     errorCode?: string;
     marker?: string;
     numberOfHandlesClosed?: number;
+    numberOfHandlesFailedToClose?: number;
     requestId?: string;
     version?: string;
 }
@@ -379,6 +392,7 @@ export type DirectorySetPropertiesResponse = DirectorySetPropertiesHeaders & {
 // @public
 export interface FileAbortCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -421,6 +435,7 @@ export type FileAttributesPreserveType = "preserve";
 // @public
 export interface FileClearRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -454,6 +469,7 @@ export interface FileCreateHeaders {
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
     fileHttpHeaders?: FileHttpHeaders;
+    leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
 }
 
@@ -476,6 +492,7 @@ export interface FileDeleteHeaders {
 // @public
 export interface FileDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -516,6 +533,9 @@ export interface FileDownloadHeaders {
     filePermissionKey?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -526,6 +546,7 @@ export interface FileDownloadHeaders {
 
 // @public
 export interface FileDownloadOptionalParams extends coreHttp.RequestOptionsBase {
+    leaseAccessConditions?: LeaseAccessConditions;
     range?: string;
     rangeGetContentMD5?: boolean;
     timeoutInSeconds?: number;
@@ -534,6 +555,7 @@ export interface FileDownloadOptionalParams extends coreHttp.RequestOptionsBase 
 // @public
 export interface FileDownloadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequests?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
     rangeGetContentMD5?: boolean;
@@ -552,6 +574,7 @@ export type FileDownloadResponseModel = FileDownloadHeaders & {
 export interface FileDownloadToBufferOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
+    leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequestsPerRange?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
     rangeSize?: number;
@@ -564,6 +587,7 @@ export interface FileForceCloseHandlesHeaders {
     errorCode?: string;
     marker?: string;
     numberOfHandlesClosed?: number;
+    numberOfHandlesFailedToClose?: number;
     requestId?: string;
     version?: string;
 }
@@ -609,6 +633,9 @@ export interface FileGetPropertiesHeaders {
     fileType?: FileType;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -620,6 +647,7 @@ export interface FileGetPropertiesHeaders {
 // @public
 export interface FileGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -644,6 +672,7 @@ export interface FileGetRangeListHeaders {
 // @public
 export interface FileGetRangeListOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
     range?: Range;
 }
 
@@ -710,6 +739,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
     fileHttpHeaders?: FileHttpHeaders;
+    leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
     rangeSize?: number;
@@ -725,6 +755,7 @@ export type FilePermissionPreserveType = "preserve";
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
     fileHttpHeaders?: FileHttpHeaders;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -735,6 +766,7 @@ export interface FileProperty {
 // @public
 export interface FileResizeOptions extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -802,6 +834,7 @@ export interface FileSetHTTPHeadersHeaders {
 // @public
 export interface FileSetHttpHeadersOptions extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -825,6 +858,7 @@ export interface FileSetMetadataHeaders {
 // @public
 export interface FileSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -850,6 +884,10 @@ export interface FileStartCopyHeaders {
 // @public
 export interface FileStartCopyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    copyFileSmbInfo?: CopyFileSmbInfo;
+    filePermission?: string;
+    filePermissionKey?: string;
+    leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
 }
 
@@ -894,6 +932,7 @@ export interface FileUploadRangeFromURLHeaders {
 
 // @public
 export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOptionsBase {
+    leaseAccessConditions?: LeaseAccessConditions;
     sourceContentCrc64?: Uint8Array;
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
     sourceRange?: string;
@@ -903,6 +942,7 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOp
 // @public
 export interface FileUploadRangeFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
     sourceConditions?: SourceModifiedAccessConditions;
     sourceContentCrc64?: Uint8Array;
     timeoutInSeconds?: number;
@@ -932,6 +972,7 @@ export interface FileUploadRangeHeaders {
 export interface FileUploadRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     contentMD5?: Uint8Array;
+    leaseAccessConditions?: LeaseAccessConditions;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
 
@@ -946,6 +987,7 @@ export type FileUploadRangeResponse = FileUploadRangeHeaders & {
 export interface FileUploadStreamOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     fileHttpHeaders?: FileHttpHeaders;
+    leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
@@ -975,6 +1017,44 @@ export { HttpOperationResponse }
 export { HttpRequestBody }
 
 export { IHttpClient }
+
+// @public
+export interface LeaseAccessConditions {
+    leaseId?: string;
+}
+
+// @public
+export type LeaseDurationType = 'infinite' | 'fixed';
+
+// @public
+export interface LeaseOperationOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type LeaseOperationResponse = LeaseOperationResponseHeaders & {
+    _response: HttpResponse & {
+        parsedHeaders: LeaseOperationResponseHeaders;
+    };
+};
+
+// @public
+export interface LeaseOperationResponseHeaders {
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    leaseId?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
+
+// @public
+export type LeaseStatusType = 'locked' | 'unlocked';
 
 // @public
 export interface ListFilesAndDirectoriesSegmentResponse {
@@ -1112,7 +1192,7 @@ export class SASQueryParameters {
     readonly contentType?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
-    readonly ipRange: SasIPRange | undefined;
+    get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;
@@ -1221,8 +1301,8 @@ export class ShareClient extends StorageClient {
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
     getProperties(options?: ShareGetPropertiesOptions): Promise<ShareGetPropertiesResponse>;
     getStatistics(options?: ShareGetStatisticsOptions): Promise<ShareGetStatisticsResponse>;
-    readonly name: string;
-    readonly rootDirectoryClient: ShareDirectoryClient;
+    get name(): string;
+    get rootDirectoryClient(): ShareDirectoryClient;
     setAccessPolicy(shareAcl?: SignedIdentifier[], options?: ShareSetAccessPolicyOptions): Promise<ShareSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: ShareSetMetadataOptions): Promise<ShareSetMetadataResponse>;
     setQuota(quotaInGB: number, options?: ShareSetQuotaOptions): Promise<ShareSetQuotaResponse>;
@@ -1354,11 +1434,11 @@ export class ShareDirectoryClient extends StorageClient {
         kind: "directory";
     } & DirectoryItem), DirectoryListFilesAndDirectoriesSegmentResponse>;
     listHandles(options?: DirectoryListHandlesOptions): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>;
-    readonly name: string;
-    readonly path: string;
+    get name(): string;
+    get path(): string;
     setMetadata(metadata?: Metadata, options?: DirectorySetMetadataOptions): Promise<DirectorySetMetadataResponse>;
     setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
-    readonly shareName: string;
+    get shareName(): string;
     }
 
 // @public
@@ -1377,14 +1457,15 @@ export class ShareFileClient extends StorageClient {
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
+    getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
-    readonly name: string;
-    readonly path: string;
+    get name(): string;
+    get path(): string;
     resize(length: number, options?: FileResizeOptions): Promise<FileSetHTTPHeadersResponse>;
     setHttpHeaders(fileHttpHeaders?: FileHttpHeaders, options?: FileSetHttpHeadersOptions): Promise<FileSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: FileSetMetadataOptions): Promise<FileSetMetadataResponse>;
     setProperties(properties?: FileProperties): Promise<SetPropertiesResponse>;
-    readonly shareName: string;
+    get shareName(): string;
     startCopyFromURL(copySource: string, options?: FileStartCopyOptions): Promise<FileStartCopyResponse>;
     uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<void>;
     uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<void>;
@@ -1456,6 +1537,10 @@ export interface ShareGetPropertiesHeaders {
     metadata?: {
         [propertyName: string]: string;
     };
+    nextAllowedQuotaDowngradeTime?: Date;
+    provisionedEgressMBps?: number;
+    provisionedIngressMBps?: number;
+    provisionedIops?: number;
     quota?: number;
     requestId?: string;
     version?: string;
@@ -1518,6 +1603,17 @@ export interface ShareItem {
 }
 
 // @public
+export class ShareLeaseClient {
+    constructor(client: ShareFileClient, leaseId?: string);
+    acquireLease(duration?: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    breakLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    get leaseId(): string;
+    releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    get url(): string;
+    }
+
+// @public
 export interface SharePermission {
     permission: string;
 }
@@ -1528,6 +1624,14 @@ export interface ShareProperties {
     etag: string;
     // (undocumented)
     lastModified: Date;
+    // (undocumented)
+    nextAllowedQuotaDowngradeTime?: Date;
+    // (undocumented)
+    provisionedEgressMBps?: number;
+    // (undocumented)
+    provisionedIngressMBps?: number;
+    // (undocumented)
+    provisionedIops?: number;
     // (undocumented)
     quota: number;
 }

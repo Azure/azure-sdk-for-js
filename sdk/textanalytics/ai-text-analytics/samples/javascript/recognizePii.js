@@ -23,7 +23,7 @@ async function main() {
 
   if (!result.error) {
     for (const entity of result.entities) {
-      console.log(`Found PII entity ${entity.text} of type ${entity.type}`);
+      console.log(`Found PII entity ${entity.text} of type ${entity.category}`);
     }
   }
 }

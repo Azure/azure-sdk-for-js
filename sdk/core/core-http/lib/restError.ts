@@ -25,6 +25,7 @@ export class RestError extends Error {
     response?: HttpOperationResponse
   ) {
     super(message);
+    this.name = "RestError";
     this.code = code;
     this.statusCode = statusCode;
     this.request = request;
@@ -37,6 +38,6 @@ export class RestError extends Error {
    * Logging method for util.inspect in Node
    */
   [custom](): string {
-    return errorSanitizer.sanitize(this);
+    return `RestError: ${this.message} \n ${errorSanitizer.sanitize(this)}`;
   }
 }

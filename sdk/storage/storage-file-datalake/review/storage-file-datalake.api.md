@@ -161,7 +161,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     getFileClient(fileName: string): DataLakeFileClient;
     getProperties(options?: FileSystemGetPropertiesOptions): Promise<FileSystemGetPropertiesResponse>;
     listPaths(options?: ListPathsOptions): PagedAsyncIterableIterator<Path, FileSystemListPathsResponse>;
-    readonly name: string;
+    get name(): string;
     setAccessPolicy(access?: PublicAccessType, fileSystemAcl?: SignedIdentifier<AccessPolicy>[], options?: FileSystemSetAccessPolicyOptions): Promise<FileSystemSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: FileSystemSetMetadataOptions): Promise<FileSystemSetMetadataResponse>;
 }
@@ -176,13 +176,13 @@ export class DataLakeLeaseClient {
     // (undocumented)
     changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     // (undocumented)
-    readonly leaseId: string;
+    get leaseId(): string;
     // (undocumented)
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     // (undocumented)
     renewLease(options?: LeaseOperationOptions): Promise<Lease>;
     // (undocumented)
-    readonly url: string;
+    get url(): string;
 }
 
 // @public
@@ -191,13 +191,13 @@ export class DataLakePathClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
-    readonly fileSystemName: string;
+    get fileSystemName(): string;
     getAccessControl(options?: PathGetAccessControlOptions): Promise<PathGetAccessControlResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getProperties(options?: PathGetPropertiesOptions): Promise<PathGetPropertiesResponse>;
     move(destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     move(destinationFileSystem: string, destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
-    readonly name: string;
+    get name(): string;
     setAccessControl(acl: PathAccessControlItem[], options?: PathSetAccessControlOptions): Promise<PathSetAccessControlResponse>;
     setHttpHeaders(httpHeaders: PathHttpHeaders, options?: PathSetHttpHeadersOptions): Promise<PathSetHttpHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: PathSetMetadataOptions): Promise<PathSetMetadataResponse>;
@@ -1263,7 +1263,7 @@ export class SASQueryParameters {
     readonly contentType?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
-    readonly ipRange: SasIPRange | undefined;
+    get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;
