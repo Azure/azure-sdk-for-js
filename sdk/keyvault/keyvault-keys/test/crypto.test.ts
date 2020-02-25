@@ -5,7 +5,7 @@ import * as assert from "assert";
 import { createHash, publicEncrypt } from "crypto";
 import * as constants from "constants";
 import { ClientSecretCredential } from "@azure/identity";
-import { CryptographyClient, KeyVaultKey, KeyClient } from "../src";
+import { CryptographyClient, KeyVaultKey, KeyClient } from "@azure/keyvault-keys";
 import { convertJWKtoPEM } from "../src/cryptographyClient";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";

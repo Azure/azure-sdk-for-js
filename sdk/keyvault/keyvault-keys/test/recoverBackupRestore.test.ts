@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { KeyClient } from "../src";
+import { KeyClient } from "@azure/keyvault-keys";
 import { isNode } from "@azure/core-http";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";

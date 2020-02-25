@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { KeyClient, DeletedKey } from "../src";
+import { KeyClient, DeletedKey } from "@azure/keyvault-keys";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";

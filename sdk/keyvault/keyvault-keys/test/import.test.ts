@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { KeyClient, JsonWebKey } from "../src";
+import { KeyClient, JsonWebKey } from "@azure/keyvault-keys";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
