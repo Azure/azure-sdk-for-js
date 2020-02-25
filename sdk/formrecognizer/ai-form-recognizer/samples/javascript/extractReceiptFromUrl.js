@@ -19,10 +19,19 @@ async function main() {
   const imageUrl = "http://images2.wikia.nocookie.net/__cb20111106201150/groceryreceipts/images/8/80/Grocery_receipts_001.jpg";
 
   const client = new CustomRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const result = await client.extractReceiptFromUrl(imageUrl, {
-  });
-  console.log(result);
 
+  let result;
+
+  result = await client.getExtractedReceipt("5bff970a-d950-4aac-873d-883b513f1f0b");
+
+  if (result.status !== "succeeded") {
+    console.log(result);
+    console.log("extracting...");
+    result = await client.extractReceiptFromUrl(imageUrl, {
+    });
+  }
+  console.log(result);
+  console.log(result.analyzeResult.receiptResults);
 }
 
 main().catch((err) => {

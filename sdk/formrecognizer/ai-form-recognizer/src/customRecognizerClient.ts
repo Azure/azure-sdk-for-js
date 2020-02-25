@@ -19,10 +19,11 @@ import { logger } from "./logger";
 import {
   GetCustomModelsResponse,
   Model,
-  GetAnalyzeReceiptResultResponse,
   GetAnalyzeLayoutResultResponse,
-  GetAnalyzeFormResultResponse
+  GetAnalyzeFormResultResponse,
+  GetAnalyzeReceiptResultResponse
 } from "./generated/models";
+import { AnalyzeReceiptOperationResult, ReceiptResult } from "./models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -102,7 +103,6 @@ export type GetExtractedReceiptResultOptions = FormRecognizerOperationOptions;
 export type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
 
 export type GetExtractedCustomFormOptions = FormRecognizerOperationOptions;
-
 
 export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff";
 
@@ -207,7 +207,10 @@ export class CustomRecognizerClient {
     );
 
     try {
-      return await this.client.deleteCustomModel(modelId, operationOptionsToRequestOptionsBase(finalOptions));
+      return await this.client.deleteCustomModel(
+        modelId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -227,7 +230,10 @@ export class CustomRecognizerClient {
     );
 
     try {
-      return await this.client.getCustomModel(modelId, operationOptionsToRequestOptionsBase(finalOptions));
+      return await this.client.getCustomModel(
+        modelId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -295,7 +301,7 @@ export class CustomRecognizerClient {
     body: HttpRequestBody,
     contentType: SupportedContentType,
     options?: ExtractReceiptOptions
-  ): Promise<GetAnalyzeReceiptResultResponse> {
+  ): Promise<AnalyzeReceiptOperationResult> {
     const realOptions = options || { includeTextDetails: false };
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-extractReceipt",
@@ -306,25 +312,36 @@ export class CustomRecognizerClient {
       finalOptions.requestOptions?.customHeaders || {};
     customHeaders["Content-Type"] = contentType;
     try {
-      const result = await this.client.analyzeReceiptAsync({
+      const analyzeResult = await this.client.analyzeReceiptAsync({
         ...operationOptionsToRequestOptionsBase(finalOptions),
         body,
         customHeaders
       });
-      const lastSlashIndex = result.operationLocation.lastIndexOf("/");
-      const resultId = result.operationLocation.substring(lastSlashIndex + 1);
+      const lastSlashIndex = analyzeResult.operationLocation.lastIndexOf("/");
+      const resultId = analyzeResult.operationLocation.substring(lastSlashIndex + 1);
 
-      let analyzeResult: GetAnalyzeReceiptResultResponse;
+      let result: GetAnalyzeReceiptResultResponse;
       do {
-        analyzeResult = await this.client.getAnalyzeReceiptResult(resultId, {
+        result = await this.client.getAnalyzeReceiptResult(resultId, {
           abortSignal: finalOptions.abortSignal
         });
-        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
+        if (result.status !== "succeeded" && result.status !== "failed") {
           delay(2000); // TODO: internal polling or LRO
         }
-      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
+      } while (result.status !== "succeeded" && result.status !== "failed");
 
-      return analyzeResult;
+      return {
+        status: result.status,
+        createdOn: result.createdDateTime,
+        lastUpdatedOn: result.lastUpdatedDateTime,
+        // TODO: _response: result._response,
+        analyzeResult: {
+          version: result.analyzeResult!.version,
+          readResults: result.analyzeResult!.readResults,
+          pageResults: result.analyzeResult!.pageResults,
+          receiptResults: result.analyzeResult!.documentResults!.map(r => r as unknown as ReceiptResult)
+        }
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -339,7 +356,7 @@ export class CustomRecognizerClient {
   public async extractReceiptFromUrl(
     imageSourceUrl: string,
     options?: ExtractReceiptOptions
-  ): Promise<GetAnalyzeReceiptResultResponse> {
+  ): Promise<AnalyzeReceiptOperationResult> {
     const realOptions = options || { includeTextDetails: false };
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-extractReceiptFromUrl",
@@ -353,25 +370,36 @@ export class CustomRecognizerClient {
       source: imageSourceUrl
     });
     try {
-      const result = await this.client.analyzeReceiptAsync({
+      const analyzeResult = await this.client.analyzeReceiptAsync({
         ...operationOptionsToRequestOptionsBase(finalOptions),
         body,
         customHeaders
       });
-      const lastSlashIndex = result.operationLocation.lastIndexOf("/");
-      const resultId = result.operationLocation.substring(lastSlashIndex + 1);
+      const lastSlashIndex = analyzeResult.operationLocation.lastIndexOf("/");
+      const resultId = analyzeResult.operationLocation.substring(lastSlashIndex + 1);
 
-      let analyzeResult: GetAnalyzeReceiptResultResponse;
+      let result: GetAnalyzeReceiptResultResponse;
       do {
-        analyzeResult = await this.client.getAnalyzeReceiptResult(resultId, {
+        result = await this.client.getAnalyzeReceiptResult(resultId, {
           abortSignal: finalOptions.abortSignal
         });
-        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
+        if (result.status !== "succeeded" && result.status !== "failed") {
           delay(2000); // TODO: internal polling or LRO
         }
-      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
+      } while (result.status !== "succeeded" && result.status !== "failed");
 
-      return analyzeResult;
+      return {
+        status: result.status,
+        createdOn: result.createdDateTime,
+        lastUpdatedOn: result.lastUpdatedDateTime,
+        // TODO: _response: result._response,
+        analyzeResult: {
+          version: result.analyzeResult!.version,
+          readResults: result.analyzeResult!.readResults,
+          pageResults: result.analyzeResult!.pageResults,
+          receiptResults: result!.analyzeResult!.documentResults!.map(r => r as unknown as ReceiptResult)
+        }
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -383,7 +411,10 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async getExtractedReceipt(resultId: string, options?: GetExtractedReceiptResultOptions) {
+  public async getExtractedReceipt(
+    resultId: string,
+    options?: GetExtractedReceiptResultOptions
+  ): Promise<AnalyzeReceiptOperationResult> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-getExtractedReceipt",
@@ -391,8 +422,22 @@ export class CustomRecognizerClient {
     );
 
     try {
-      const result = await this.client.getAnalyzeReceiptResult(resultId, operationOptionsToRequestOptionsBase(finalOptions));
-      return result;
+      const result = await this.client.getAnalyzeReceiptResult(
+        resultId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+      return {
+        status: result.status,
+        createdOn: result.createdDateTime,
+        lastUpdatedOn: result.lastUpdatedDateTime,
+        // TODO: _response: result._response,
+        analyzeResult: {
+          version: result.analyzeResult!.version,
+          readResults: result.analyzeResult!.readResults,
+          pageResults: result.analyzeResult!.pageResults,
+          receiptResults: result!.analyzeResult!.documentResults!.map(r => r as unknown as ReceiptResult)
+        }
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -449,10 +494,7 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async extractLayoutFromUrl(
-    imageSourceUrl: string,
-    options?: ExtractLayoutOptions
-  ) {
+  public async extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-extractLayoutFromUrl",
@@ -504,7 +546,10 @@ export class CustomRecognizerClient {
     );
 
     try {
-      const result = await this.client.getAnalyzeLayoutResult(resultId, operationOptionsToRequestOptionsBase(finalOptions));
+      const result = await this.client.getAnalyzeLayoutResult(
+        resultId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
       return result;
     } catch (e) {
       span.setStatus({
@@ -521,7 +566,8 @@ export class CustomRecognizerClient {
     modelId: string,
     body: HttpRequestBody,
     contentType: string,
-    options: ExtractCustomFormOptions) {
+    options: ExtractCustomFormOptions
+  ) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-extractCustomForm",
@@ -559,10 +605,13 @@ export class CustomRecognizerClient {
     } finally {
       span.end();
     }
-
   }
 
-  public async getExtractedCustomForm(modelId: string, resultId: string, options?: GetExtractedCustomFormOptions) {
+  public async getExtractedCustomForm(
+    modelId: string,
+    resultId: string,
+    options?: GetExtractedCustomFormOptions
+  ) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-getExtractedCustomFormResult",
@@ -570,7 +619,11 @@ export class CustomRecognizerClient {
     );
 
     try {
-      const result = await this.client.getAnalyzeFormResult(modelId, resultId, operationOptionsToRequestOptionsBase(finalOptions));
+      const result = await this.client.getAnalyzeFormResult(
+        modelId,
+        resultId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
       return result;
     } catch (e) {
       span.setStatus({

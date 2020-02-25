@@ -6,3 +6,5 @@ export { CustomRecognizerClient } from "./customRecognizerClient";
 export { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 
 export { GetCustomModelsResponse } from "./generated/models";
+
+export * from "./models";

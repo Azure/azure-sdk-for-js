@@ -15,10 +15,55 @@ import { TokenCredential } from '@azure/identity';
 import { WebResource } from '@azure/core-http';
 
 // @public
+export interface AnalyzeReceiptOperationResult {
+    analyzeResult?: AnalyzeReceiptResult;
+    createdOn: Date;
+    lastUpdatedOn: Date;
+    // Warning: (ae-forgotten-export) The symbol "OperationStatus" needs to be exported by the entry point index.d.ts
+    status: OperationStatus;
+}
+
+// @public
+export interface AnalyzeReceiptResult {
+    // Warning: (ae-forgotten-export) The symbol "ErrorInformation" needs to be exported by the entry point index.d.ts
+    errors?: ErrorInformation[];
+    // Warning: (ae-forgotten-export) The symbol "PageResult" needs to be exported by the entry point index.d.ts
+    pageResults?: PageResult[];
+    // Warning: (ae-forgotten-export) The symbol "ReadResult" needs to be exported by the entry point index.d.ts
+    readResults: ReadResult[];
+    receiptResults?: ReceiptResult[];
+    version: string;
+}
+
+// @public
+export interface AnalyzeResult {
+    documentResults?: DocumentResult[];
+    errors?: ErrorInformation[];
+    pageResults?: PageResult[];
+    readResults: ReadResult[];
+    version: string;
+}
+
+// @public (undocumented)
+export type ArrayFieldValue = {
+    type: "array";
+    valueArray: FieldValue[];
+} & CommonFieldValue;
+
+// @public
 export class CognitiveKeyCredential implements ServiceClientCredentials {
     constructor(apiKey: string);
     signRequest(webResource: WebResource): Promise<WebResource>;
     updateKey(apiKey: string): void;
+}
+
+// @public (undocumented)
+export interface CommonFieldValue {
+    boundingBox?: number[];
+    confidence?: number;
+    elements?: string[];
+    page?: number;
+    text?: string;
 }
 
 // @public
@@ -44,12 +89,11 @@ export class CustomRecognizerClient {
     extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "SupportedContentType" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ExtractReceiptOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeReceiptResultResponse" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractReceiptOptions): Promise<GetAnalyzeReceiptResultResponse>;
+    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptOperationResult>;
     // (undocumented)
-    extractReceiptFromUrl(imageSourceUrl: string, options?: ExtractReceiptOptions): Promise<GetAnalyzeReceiptResultResponse>;
+    extractReceiptFromUrl(imageSourceUrl: string, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptOperationResult>;
     // Warning: (ae-forgotten-export) The symbol "GetExtractedCustomFormOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -61,7 +105,7 @@ export class CustomRecognizerClient {
     // Warning: (ae-forgotten-export) The symbol "GetExtractedReceiptResultOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    getExtractedReceipt(resultId: string, options?: GetExtractedReceiptResultOptions): Promise<GetAnalyzeReceiptResultResponse>;
+    getExtractedReceipt(resultId: string, options?: GetExtractedReceiptResultOptions): Promise<AnalyzeReceiptOperationResult>;
     // Warning: (ae-forgotten-export) The symbol "GetModelOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -80,6 +124,24 @@ export class CustomRecognizerClient {
     // (undocumented)
     startTraining(source: string, options?: StartTrainingOptions): Promise<PollerLike<PollOperationState<Model>, Model>>;
 }
+
+// @public (undocumented)
+export type DateFieldValue = {
+    type: "date";
+    valueDate: string;
+} & CommonFieldValue;
+
+// @public
+export interface DocumentResult {
+    docType: string;
+    fields: {
+        [propertyName: string]: FieldValue;
+    };
+    pageRange: number[];
+}
+
+// @public (undocumented)
+export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
 
 // @public
 export class FormRecognizerClient {
@@ -104,6 +166,94 @@ export type GetCustomModelsResponse = ModelsModel & {
         parsedBody: ModelsModel;
     };
 };
+
+// @public (undocumented)
+export type IntegerFieldValue = {
+    type: "integer";
+    valueInteger: number;
+} & CommonFieldValue;
+
+// @public (undocumented)
+export type NumberFieldValue = {
+    type: "number";
+    valueNumber: string;
+} & CommonFieldValue;
+
+// @public (undocumented)
+export type ObjectFieldValue = {
+    type: "object";
+    valueObject: {
+        [propertyName: string]: FieldValue;
+    };
+} & CommonFieldValue;
+
+// @public (undocumented)
+export type PhoneNumberFieldValue = {
+    type: "phoneNumber";
+    valuePhoneNumber: string;
+} & CommonFieldValue;
+
+// @public
+export interface Receipt {
+    // (undocumented)
+    Items: ReceiptItemArrayField;
+    // (undocumented)
+    MerchantAddress: StringFieldValue;
+    // (undocumented)
+    MerchantName: StringFieldValue;
+    // (undocumented)
+    MerchantPhoneNumber: PhoneNumberFieldValue;
+    // (undocumented)
+    ReceiptType: StringFieldValue;
+    // (undocumented)
+    Subtotal: NumberFieldValue;
+    // (undocumented)
+    Tax: NumberFieldValue;
+    // (undocumented)
+    Total: NumberFieldValue;
+    // (undocumented)
+    TransactionDate: DateFieldValue;
+    // (undocumented)
+    TransactionTime: TimeFieldValue;
+}
+
+// @public
+export interface ReceiptItemArrayField {
+    // (undocumented)
+    type: "array";
+    // (undocumented)
+    valueArray: ReceiptItemField;
+}
+
+// @public
+export interface ReceiptItemField {
+    // (undocumented)
+    type: "object";
+    // (undocumented)
+    valueObject: {
+        Name: StringFieldValue;
+        TotalPrice: NumberFieldValue;
+    };
+}
+
+// @public (undocumented)
+export interface ReceiptResult {
+    docType: "prebuilt:receipt";
+    fields: Receipt;
+    pageRange: number[];
+}
+
+// @public (undocumented)
+export type StringFieldValue = {
+    type: "string";
+    valueString: string;
+} & CommonFieldValue;
+
+// @public (undocumented)
+export type TimeFieldValue = {
+    type: "time";
+    valueTime: string;
+} & CommonFieldValue;
 
 
 // (No @packageDocumentation comment for this package)
