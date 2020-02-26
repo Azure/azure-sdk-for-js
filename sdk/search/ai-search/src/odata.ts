@@ -7,7 +7,7 @@ function escapeQuotesIfString(input: unknown, previous: string): string | unknow
   if (typeof input === "string") {
     result = input.replace(/'/g, "''");
     // check if we need to escape this literal
-    if (!previous.trimEnd().endsWith("'")) {
+    if (!previous.trim().endsWith("'")) {
       result = `'${result}'`;
     }
   }
