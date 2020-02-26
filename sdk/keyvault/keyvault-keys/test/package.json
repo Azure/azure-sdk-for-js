@@ -37,13 +37,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/identity": "latest",
-    "@azure/keyvault-keys": "latest",
-    "dotenv": "^8.2.0",
-    "fs.realpath": "^1.0.0",
-    "minimatch": "^3.0.4",
-    "mocha": "^7.0.1",
-    "typescript": "~3.7.5"
+    "@azure/keyvault-keys": "latest"
   },
   "devDependencies": {
     "@azure/abort-controller": "^1.0.0",
