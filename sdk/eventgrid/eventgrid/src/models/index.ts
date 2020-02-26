@@ -2582,6 +2582,80 @@ export interface MachineLearningServicesDatasetDriftDetectedEventData {
 }
 
 /**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Cache.PatchingCompleted event.
+ */
+export interface RedisPatchingCompletedEventData {
+  /**
+   * The time at which the event occurred.
+   */
+  timestamp?: Date;
+  /**
+   * The name of this event.
+   */
+  name?: string;
+  /**
+   * The status of this event. Failed or  succeeded
+   */
+  status?: string;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Cache.ScalingCompleted event.
+ */
+export interface RedisScalingCompletedEventData {
+  /**
+   * The time at which the event occurred.
+   */
+  timestamp?: Date;
+  /**
+   * The name of this event.
+   */
+  name?: string;
+  /**
+   * The status of this event. Failed or  succeeded
+   */
+  status?: string;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Cache.ExportRDBCompleted
+ * event.
+ */
+export interface RedisExportRDBCompletedEventData {
+  /**
+   * The time at which the event occurred.
+   */
+  timestamp?: Date;
+  /**
+   * The name of this event.
+   */
+  name?: string;
+  /**
+   * The status of this event. Failed or  succeeded
+   */
+  status?: string;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Cache.ImportRDBCompleted
+ * event.
+ */
+export interface RedisImportRDBCompletedEventData {
+  /**
+   * The time at which the event occurred.
+   */
+  timestamp?: Date;
+  /**
+   * The name of this event.
+   */
+  name?: string;
+  /**
+   * The status of this event. Failed or  succeeded
+   */
+  status?: string;
+}
+
+/**
  * Defines values for MediaJobState.
  * Possible values include: 'Canceled', 'Canceling', 'Error', 'Finished', 'Processing', 'Queued',
  * 'Scheduled'

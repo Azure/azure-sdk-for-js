@@ -3891,6 +3891,118 @@ export const MachineLearningServicesDatasetDriftDetectedEventData: msRest.Compos
   }
 };
 
+export const RedisPatchingCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisPatchingCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisPatchingCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedisScalingCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisScalingCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisScalingCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedisExportRDBCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisExportRDBCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisExportRDBCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedisImportRDBCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisImportRDBCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisImportRDBCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const discriminators = {
   'MediaJobOutput' : MediaJobOutput,
   'MediaJobOutput.#Microsoft.Media.JobOutputAsset' : MediaJobOutputAsset
