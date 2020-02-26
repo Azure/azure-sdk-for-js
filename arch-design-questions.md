@@ -10,6 +10,8 @@
 - Sessions have two different methods for interacting with them:
   1. [single-use](#single-use-clients)
   2. [session manager](#sessions-design)
+- Different message types will be used for sending messages vs receiving messages. This is less confusing for
+  the user since we can remove fields that are non-sensical for sending (for instance, `locktoken`).
 
 # Single use clients
 
