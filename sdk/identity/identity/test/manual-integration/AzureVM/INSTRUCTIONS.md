@@ -77,7 +77,6 @@ az keyvault set-policy -n $KEY_VAULT_NAME --object-id $(az identity show -g $RES
 ```sh
 $VM_ID_SYSTEM_ASSIGNED = az vm show -g $RESOURCE_GROUP -n $VM_NAME_SYSTEM_ASSIGNED -o tsv --query id
 $VM_ID_USER_ASSIGNED = az vm show -g $RESOURCE_GROUP -n $VM_NAME_USER_ASSIGNED -o tsv --query id
-$VM_IDS="$($VM_ID_SYSTEM_ASSIGNED) $($VM_ID_USER_ASSIGNED)"
 ```
 
 ### Build the webapp
@@ -99,8 +98,12 @@ tsc -p .
 
 ## install prerequisites
 ```sh
-echo -e `az vm run-command invoke --ids $VM_IDS --command-id RunShellScript --scripts "sudo apt update && sudo apt install typescript && git clone https://github.com/jonathandturner/azure-sdk-for-js --single-branch --branch manual_integration_tests_1 --depth 1 && cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration/AzureVM && node install && tsc -p .`
+ az vm run-command invoke -g $RESOURCE_GROUP -n $VM_NAME_USER_ASSIGNED --command-id RunShellScript --scripts '"sudo apt update && (yes | sudo apt install npm) && npm install -g typescript && git clone https://github.com/jonathandturner/azure-sdk-for-js --single-branch --branch manual_integration_tests_1 --depth 1 && cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration/AzureVM && npm install && tsc -p ."'
 ```
+
+```sh
+ az vm run-command invoke -g $RESOURCE_GROUP -n $VM_NAME_SYSTEM_ASSIGNED --command-id RunShellScript --scripts '"sudo apt update && (yes | sudo apt install npm) && npm install -g typescript && git clone https://github.com/jonathandturner/azure-sdk-for-js --single-branch --branch manual_integration_tests_1 --depth 1 && cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration/AzureVM && npm install && tsc -p ."'
+ ```
 
 # Run tests
 Do this for each VM, that is to say, once passing `--ids $VM_ID_SYSTEM_ASSIGNED` and again
