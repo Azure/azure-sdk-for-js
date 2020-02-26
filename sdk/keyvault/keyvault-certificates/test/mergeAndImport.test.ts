@@ -11,6 +11,7 @@ import TestClient from "./utils/testClient";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
 import { base64ToUint8Array, stringToUint8Array } from "../src/utils";
+import { isNode } from '@azure/core-http';
 
 describe("Certificates client - merge and import certificates", () => {
   const prefix = `merge${env.CERTIFICATE_NAME || "CertificateName"}`;
