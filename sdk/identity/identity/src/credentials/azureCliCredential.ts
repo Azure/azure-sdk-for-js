@@ -64,7 +64,7 @@ export class AzureCliCredential implements TokenCredential {
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
             if (isNotInstallError) {
-              throw new Error("Azure Cli not Installed");
+              throw new Error("Azure CLI not Installed");
             } else if (isLoginError) {
               throw new Error("Azure user is not logged in");
             }
