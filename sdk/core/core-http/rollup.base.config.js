@@ -10,7 +10,7 @@ import viz from "rollup-plugin-visualizer";
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
 const devDepNames = Object.keys(pkg.devDependencies);
-const input = "./es/lib/coreHttp.js";
+const input = "./es/src/coreHttp.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {

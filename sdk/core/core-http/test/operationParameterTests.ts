@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { getPathStringFromParameter, OperationParameter } from "../lib/operationParameter";
+import { getPathStringFromParameter, OperationParameter } from "../src/operationParameter";
 
 describe("getParameterPathString()", () => {
   it("should throw when given undefined", () => {
