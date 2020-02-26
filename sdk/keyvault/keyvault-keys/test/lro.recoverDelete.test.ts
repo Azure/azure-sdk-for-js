@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeyClient, DeletedKey } from "@azure/keyvault-keys";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "../../../test-utils/recorder/src/index";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";

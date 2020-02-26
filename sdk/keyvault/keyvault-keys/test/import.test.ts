@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { KeyClient, JsonWebKey } from "@azure/keyvault-keys";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "../../../test-utils/recorder/src/index";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { isNode } from "@azure/core-http";
