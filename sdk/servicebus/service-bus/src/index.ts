@@ -4,7 +4,7 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
+export { ServiceBusClientOptions } from "./old/serviceBusClient";
 export {
   TokenType,
   TokenCredential,
@@ -14,17 +14,6 @@ export {
   RetryOptions,
   WebSocketOptions
 } from "@azure/core-amqp";
-
-export { QueueClient } from "./queueClient";
-export { TopicClient } from "./topicClient";
-export { SubscriptionClient } from "./subscriptionClient";
-export { ServiceBusSenderClient } from "./senderClient";
-export { ServiceBusReceiverClient } from "./receiverClient";
-// export { ServiceBusReceiverQueueClient } from "./queueReceiverClient";
-// export { ServiceBusReceiverSubscriptionClient } from "./subscriptionReceiverClient";
-
-export { Sender } from "./sender";
-export { Receiver, SessionReceiver } from "./receiver";
 
 export { MessageHandlerOptions } from "./core/streamingReceiver";
 export { OnError, OnMessage } from "./core/messageReceiver";
@@ -58,15 +47,22 @@ export {
 } from "./serializers/ruleResourceSerializer";
 
 export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
+
+export { ServiceBusSenderClient } from "./senderClient";
+  
 export {
-  ReceiverClient,
-  NonSessionReceiverClient,
-  SessionReceiverClient
-} from "./track2/receiverClient";
+  ServiceBusReceiverClient,
+  NonSessionReceiverTrack2,
+  SessionReceiverTrack2, 
+  ClientTypeT
+} from "./track2/serviceBusReceiverClient";
 
 export {
   SessionConnections,
   Message,
   UselessEmptyContextThatMaybeShouldBeRemoved,
-  ContextWithSettlement
+  ContextWithSettlement,
+  Session,
+  QueueAuth,
+  SubscriptionAuth
 } from "./track2/models";

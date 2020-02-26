@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "./log";
-import { ConnectionContext } from "./connectionContext";
+import * as log from "../log";
+import { ConnectionContext } from "../connectionContext";
 import { QueueClient } from "./queueClient";
 import { TopicClient } from "./topicClient";
 import {
@@ -81,6 +81,8 @@ export interface ServiceBusClientOptions {
  * Describes the client that allows interacting with a Service Bus instance.
  * Holds the AMQP connection to the Service Bus Namespace and is the entry point for using Queues,
  * Topics and Subscriptions.
+ * @internal
+ * @ignore
  */
 export class ServiceBusClient {
   /**

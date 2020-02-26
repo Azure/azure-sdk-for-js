@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { ServiceBusMessage } from "../serviceBusMessage";
+import { TokenCredential } from "@azure/core-amqp";
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
@@ -30,6 +31,10 @@ export interface Session {
    * ReceiverClient you create that processes a session.
    */
   connections: SessionConnections;
+}
+
+export function isSession(possibleSession: Session | any) : possibleSession is Session {
+  return (possibleSession as Session).connections && typeof (possibleSession as Session).connections === "object";
 }
 
 // TODO: make this an actual interface that's not just in terms of what's
@@ -91,8 +96,63 @@ export interface MessageIterator<ContextT> extends AsyncIterable<Message> {
 /**
  * Type that converts PeekLock/ReceiveAndDelete into the proper Context type
  */
-export type ContextType<LockModeT> = LockModeT extends "PeekLock"
+export type ContextType<LockModeT> = LockModeT extends "peekLock"
   ? ContextWithSettlement
-  : LockModeT extends "ReceiveAndDelete"
+  : LockModeT extends "receiveAndDelete"
   ? UselessEmptyContextThatMaybeShouldBeRemoved
   : never;
+
+/**
+ * Authentication methods for queues.
+ * TODO: consider inlining inside constructors
+ */
+export type QueueAuth =
+  | {
+      /**
+       * A connection string that points to a service bus (ie: does not contain an EntityName value).
+       */
+      connectionString: string;
+      /**
+       * The name of the queue to connect to.
+       */
+      queueName: string;
+    }
+  | {
+      /**
+       * A connection string that points to a queue (contains EntityName=<queue-name>).
+       */
+      queueConnectionString: string;
+    }
+  | {
+      tokenCredential: TokenCredential;
+      host: string;
+      queueName: string;
+    };
+
+export function isQueueAuth(
+  possibleQueueAuth: QueueAuth | SubscriptionAuth
+): possibleQueueAuth is QueueAuth {
+  const queueAuth = possibleQueueAuth as any;
+  return queueAuth.queueName != null || queueAuth.queueConnectionString != null;
+}
+
+/**
+ * Authentication methods for subscriptions.
+ * TODO: consider inlining inside constructors
+ */
+export type SubscriptionAuth =
+  | {
+      connectionString: string;
+      topicName: string;
+      subscriptionName: string;
+    }
+  | {
+      topicConnectionString: string;
+      subscriptionName: string;
+    }
+  | {
+      tokenCredential: TokenCredential;
+      host: string;
+      topicName: string;
+      subscriptionName: string;
+    };

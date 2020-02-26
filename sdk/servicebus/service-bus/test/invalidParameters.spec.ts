@@ -6,8 +6,10 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusClient, QueueClient, SubscriptionClient, ReceiveMode } from "../src";
-
+import { ReceiveMode } from "../src";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+import { QueueClient } from "../src/old/queueClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
 import {
   TestMessage,
   getSenderReceiverClients,

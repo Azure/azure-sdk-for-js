@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Session } from "./models";
-import { ServiceBusClientReceiverOptions } from "../receiverClient";
+import { Session, QueueAuth, SubscriptionAuth } from "./models";
+import { ServiceBusClientReceiverOptions } from "../old/oldServiceBusReceiverClient";
 import { ReceiveMode } from "../serviceBusMessage";
+import { isTokenCredential, TokenCredential } from '@azure/core-amqp';
+import { ConnectionContext } from '../connectionContext';
+import { createConnectionContextForTokenCredential, createConnectionContextForConnectionString, ServiceBusClientOptions } from '../old/serviceBusClient';
 
 // The methods in this file are all here just to make handling
 // the _large_ number of constructor overloads for ReceiverClient.
@@ -22,16 +25,16 @@ import { ReceiveMode } from "../serviceBusMessage";
  */
 export function isReceiveMode(
   possibleReceiveMode:
-    | "PeekLock"
-    | "ReceiveAndDelete"
+    | "peekLock"
+    | "receiveAndDelete"
     | Session
     | ServiceBusClientReceiverOptions
     | undefined
-): possibleReceiveMode is "PeekLock" | "ReceiveAndDelete" {
+): possibleReceiveMode is "peekLock" | "receiveAndDelete" {
   return (
     possibleReceiveMode != null &&
     typeof possibleReceiveMode === "string" &&
-    (possibleReceiveMode === "PeekLock" || possibleReceiveMode === "ReceiveAndDelete")
+    (possibleReceiveMode === "peekLock" || possibleReceiveMode === "receiveAndDelete")
   );
 }
 
@@ -53,42 +56,73 @@ export function isReceiveMode(
  * @internal
  * @ignore
  */
-export function getEntityPath(
-  connectionString: string,
-  optionalQueueOrSubscriptionOrTopicName?: string,
-  optionalSubscriptionName?: string
-): string {
-  const entityPathMatch = connectionString.match(/^.+EntityPath=(.+?);{0,1}$/);
-  let entityPath: string;
+export function createConnectionContext(
+  auth: QueueAuth | SubscriptionAuth,
+  options: ServiceBusClientOptions
+): { context: ConnectionContext, entityPath: string } {
 
-  if (entityPathMatch!.length !== 2) {
-    if (optionalQueueOrSubscriptionOrTopicName == null) {
-      throw new Error("No entity in conection string - queue/topic parameter is required");
+  // TODO: replace with actual typeguards
+  const auth2 = auth as any;
+
+  if (auth2.tokenCredential != null && isTokenCredential(auth2.tokenCredential)) {
+    let entityPath: string;
+
+    // TODO: this isn't quite right - we don't need just the entity path. We
+    // also form a different connection string.
+    if (auth2.queueName && typeof auth2.queueName === "string") {
+      const queueName: string = auth2.queueName;
+      entityPath = queueName;
+    } else if (auth2.topicName && typeof auth2.topicName === "string" 
+      && auth2.subscriptionName && typeof auth2.subscriptionName === "string") {
+      const topicName = auth2.topicName;
+      const subscriptionName = auth2.subscriptionName;
+      entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
+    } else {
+      throw new Error("Missing fields when using TokenCredential authentication");
     }
 
-    let queueOrTopicName = optionalQueueOrSubscriptionOrTopicName;
+    const host: string = auth2.host;
+    const tokenCredential: TokenCredential = auth2.tokenCredential;
 
-    // servicebus connection string only (ie, no entity name)
-    if (optionalSubscriptionName != null) {
-      // topic + sub
-      entityPath = `${queueOrTopicName}/Subscriptions/${optionalSubscriptionName}`;
+    return {
+      context: createConnectionContextForTokenCredential(tokenCredential, host, options),
+      entityPath: entityPath
+    };
+  } else if (auth2.queueConnectionString != null && typeof auth2.queueConnectionString === "string") {
+    // connection string based authentication
+    const entityPathMatch = (auth2.queueConnectionString as string).match(/^.+EntityPath=(.+?);{0,1}$/);
+
+    if (entityPathMatch != null && entityPathMatch.length === 2) {
+      return {
+        context: createConnectionContextForConnectionString(auth2.queueConnectionString, options),
+        entityPath: entityPathMatch[1]
+      };
     } else {
-      // queue only
-      entityPath = queueOrTopicName!;
+      throw new Error("No entity name present in the connection string");
+    }
+
+  } else if (auth2.topicConnectionString != null && typeof auth2.topicConnectionString === "string") {
+    // connection string based authentication
+    const entityPathMatch = (auth2.topicConnectionString as string).match(/^.+EntityPath=(.+?);{0,1}$/);
+
+    if (entityPathMatch != null && entityPathMatch.length === 2) {
+      const baseEntityPath = entityPathMatch![1]!;
+    
+      if (auth2.subscriptionName != null && typeof auth2.subscriptionName === "string") {
+        // topic (from connection string) + sub
+        return {
+          context: createConnectionContextForConnectionString(auth2.topicConnectionString, options),
+          entityPath: `${baseEntityPath}/Subscriptions/${auth2.subscriptionName as string}`
+        };
+      } else {
+        throw new Error("Misisng subscription name, required as part of connecting to a topic");
+      }     
+    } else {
+      throw new Error("No entity name present in the connection string");
     }
   } else {
-    const baseEntityPath = entityPathMatch![1]!;
-
-    if (optionalQueueOrSubscriptionOrTopicName != null) {
-      // topic (from connection string) + sub
-      entityPath = `${baseEntityPath}/Subscriptions/${optionalQueueOrSubscriptionOrTopicName}`;
-    } else {
-      // queue
-      entityPath = baseEntityPath;
-    }
+    throw new Error("Unhandled set of parameters");
   }
-
-  return entityPath;
 }
 
 /**
@@ -99,12 +133,12 @@ export function getEntityPath(
  * @ignore
  */
 export function convertToInternalReceiveMode(
-  receiveMode: "PeekLock" | "ReceiveAndDelete"
+  receiveMode: "peekLock" | "receiveAndDelete"
 ): ReceiveMode {
   switch (receiveMode) {
-    case "PeekLock":
+    case "peekLock":
       return ReceiveMode.peekLock;
-    case "ReceiveAndDelete":
+    case "receiveAndDelete":
       return ReceiveMode.receiveAndDelete;
     // TODO: this is just a compile error if someone adds another string enum value, right?
   }

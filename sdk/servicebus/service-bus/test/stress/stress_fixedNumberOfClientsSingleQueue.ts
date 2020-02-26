@@ -11,7 +11,10 @@ For running this test, connection string of the Service Bus namespace and queue 
 must be supplied.
 */
 
-import { ServiceBusClient, SendableMessageInfo, ReceiveMode, Sender, Receiver } from "../../src";
+import { SendableMessageInfo, ReceiveMode } from "../../src";
+import { Sender } from "../../src/sender";
+import { Receiver } from "../../src/receiver";
+import { ServiceBusClient } from "../../src/old/serviceBusClient";
 
 const connectionString = "";
 const queueName = "";

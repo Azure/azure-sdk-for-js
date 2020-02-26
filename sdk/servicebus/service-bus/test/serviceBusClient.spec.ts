@@ -6,17 +6,16 @@ import chaiAsPromised from "chai-as-promised";
 import long from "long";
 import {
   delay,
-  QueueClient,
   ReceiveMode,
-  Receiver,
-  Sender,
-  ServiceBusClient,
-  SessionReceiver,
-  SubscriptionClient,
-  TopicClient,
   ServiceBusMessage,
   MessagingError
 } from "../src";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+import { Receiver, SessionReceiver } from "../src/receiver";
+import { Sender } from "../src/sender";
+import { QueueClient } from "../src/old/queueClient";
+import { TopicClient } from "../src/old/topicClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
 import {
   getClientClosedErrorMsg,
   getOpenReceiverErrorMsg,

@@ -5,13 +5,14 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import {
   delay,
-  QueueClient,
-  ServiceBusClient,
   ServiceBusMessage,
-  SubscriptionClient,
   OnMessage,
-  TopicClient
 } from "../src";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+import { TopicClient } from "../src/old/topicClient";
+import { QueueClient } from "../src/old/queueClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
+
 import { SessionReceiver } from "../src/receiver";
 import { Sender } from "../src/sender";
 import { DispositionType, ReceiveMode } from "../src/serviceBusMessage";

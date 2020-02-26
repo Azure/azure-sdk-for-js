@@ -30,6 +30,8 @@ import { RuleDescription, CorrelationFilter } from ".";
  * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
  * The Receiver class is an abstraction over the underlying AMQP receiver link.
  * @class Receiver
+ * @internal
+ * @ignore
  */
 export class Receiver {
   /**
@@ -43,7 +45,6 @@ export class Receiver {
   private _isClosed: boolean = false;
 
   /**
-   * @internal
    * @throws Error if the underlying connection is closed.
    */
   constructor(context: ClientEntityContext, receiveMode: ReceiveMode) {
@@ -433,6 +434,8 @@ export class Receiver {
  * SessionReceiver.
  * The SessionReceiver class is an abstraction over the underlying AMQP receiver link.
  * @class SessionReceiver
+ * @internal
+ * @ignore
  */
 export class SessionReceiver {
   /**

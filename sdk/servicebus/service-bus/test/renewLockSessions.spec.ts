@@ -6,18 +6,18 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import {
-  ServiceBusClient,
-  QueueClient,
-  TopicClient,
-  SubscriptionClient,
   ServiceBusMessage,
   MessagingError,
   OnError,
   delay,
   ReceiveMode,
-  SessionReceiver,
   OnMessage
 } from "../src";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+import { QueueClient } from "../src/old/queueClient";
+import { TopicClient } from "../src/old/topicClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
+import { SessionReceiver } from "../src/receiver";
 import {
   purge,
   getSenderReceiverClients,

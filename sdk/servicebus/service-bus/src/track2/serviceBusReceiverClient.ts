@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
-import { ServiceBusClientReceiverOptions } from "../receiverClient";
 import { ClientEntityContext } from "../clientEntityContext";
-import { createConnectionContextForConnectionString } from "../serviceBusClient";
 import { generate_uuid } from "rhea-promise";
 import { ClientType } from "../client";
 import { SessionReceiver, Receiver } from "../receiver";
@@ -14,16 +12,20 @@ import {
   Session,
   ContextType,
   ContextWithSettlement,
-  UselessEmptyContextThatMaybeShouldBeRemoved
+  UselessEmptyContextThatMaybeShouldBeRemoved,
+  QueueAuth,
+  SubscriptionAuth,
+  isSession
 } from "./models";
-import { getEntityPath, isReceiveMode, convertToInternalReceiveMode } from "./constructorHelpers";
+import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
 import { RuleDescription, CorrelationFilter } from "../core/managementClient";
+import { ServiceBusClientOptions } from '../old/serviceBusClient';
 
 /**
  *A receiver client that handles sessions, including renewing the session lock.
  */
 // TODO: could extend NonSessionReceiverClient...?
-export interface SessionReceiverClient<LockModeT extends "PeekLock" | "ReceiveAndDelete"> {
+export interface SessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAndDelete"> {
   streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
   iterateMessages(): MessageIterator<ContextType<LockModeT>>;
   renewSessionLock(): Promise<Date>;
@@ -32,7 +34,7 @@ export interface SessionReceiverClient<LockModeT extends "PeekLock" | "ReceiveAn
 /**
  * A receiver client that does not handle sessions.
  */
-export interface NonSessionReceiverClient<LockModeT extends "PeekLock" | "ReceiveAndDelete"> {
+export interface NonSessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAndDelete"> {
   streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
   iterateMessages(): MessageIterator<ContextType<LockModeT>>;
 }
@@ -51,157 +53,161 @@ export interface SubscriptionRuleManagement {
   ): Promise<void>;
 }
 
-interface ReceiverClient {
-    /**
+// TODO: merge more? Or maybe this is okay...
+export type ClientTypeT<ReceiveModeT extends "peekLock" | "receiveAndDelete", EntityTypeT extends "queue" | "subscription", SessionsEnabledT extends "sessions" | "nosessions"> =
+  SessionsEnabledT extends "nosessions"
+  ? EntityTypeT extends "queue"
+  ? NonSessionReceiverTrack2<ReceiveModeT>
+  : NonSessionReceiverTrack2<ReceiveModeT> & SubscriptionRuleManagement
+  : EntityTypeT extends "queue"
+  ? SessionReceiverTrack2<ReceiveModeT>
+  : SessionReceiverTrack2<ReceiveModeT> & SubscriptionRuleManagement;
+
+export interface ServiceBusReceiverClient {
+  /**
    * Creates a client for an Azure Service Bus queue.
    *
-   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
+   * @param queueAuth Data needed to connect to a queue.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
   new(
-    queueConnectionString: string,
-    receiveMode?: "PeekLock",
-    options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"PeekLock">;
+    queueAuth: QueueAuth,
+    receiveMode: "peekLock",
+    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ): ClientTypeT<"peekLock", "queue", "nosessions">;
+
+      /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param queueAuth Data needed to connect to a queue.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new(
+    queueAuth: QueueAuth,
+    receiveMode: "receiveAndDelete",
+    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ): ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
+
+      /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param queueAuth Data needed to connect to a queue.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new(
+    queueAuth: QueueAuth,
+    receiveMode: "peekLock",
+    session: Session,
+    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ): ClientTypeT<"peekLock", "queue", "sessions">;
+
+      /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param queueAuth Data needed to connect to a queue.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new(
+    queueAuths: QueueAuth,
+    receiveMode: "receiveAndDelete",
+    session: Session,
+    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ): ClientTypeT<"receiveAndDelete", "queue", "sessions">;
+
+     /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param subscriptionAuth Data needed to connect to a subscription.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new(
+    subscriptionAuth: SubscriptionAuth,
+    receiveMode: "peekLock",
+    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ): ClientTypeT<"peekLock", "subscription", "nosessions">;
+
+      /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param subscriptionAuth Data needed to connect to a subscription.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new(
+    subscriptionAuth: SubscriptionAuth,
+    receiveMode: "receiveAndDelete",
+    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ): ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
+
+      /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param subscriptionAuth Data needed to connect to a subscription.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new(
+    subscriptionAuth: SubscriptionAuth,
+    receiveMode: "peekLock",
+    session: Session,
+    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ): ClientTypeT<"peekLock", "subscription", "sessions">;
+
   /**
    * Creates a client for an Azure Service Bus queue.
    *
-   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
-   * @param receiveMode The receiveMode to use (defaults to ReceiveAndDelete).
+   * @param subscriptionAuth Data needed to connect to a subscription.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
   new(
-    queueConnectionString: string,
-    receiveMode: "ReceiveAndDelete",
-    options?: ServiceBusClientReceiverOptions
-  ): NonSessionReceiverClient<"ReceiveAndDelete">;
-  /**
-   * Creates a client for an Azure Service Bus queue using a session.
-   *
-   * You can read more about Azure Service Bus sessions here:
-   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
-   *
-   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
-   * @param session Information about the session - the id and the shared connections instance.
-   * @param receiveMode The receiveMode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new(
-    queueConnectionString: string,
+    subscriptionAuth: SubscriptionAuth,
+    receiveMode: "receiveAndDelete",
     session: Session,
-    receiveMode?: "PeekLock",
-    options?: ServiceBusClientReceiverOptions
-  ): SessionReceiverClient<"PeekLock">;
-  /**
-   * Creates a client for an Azure Service Bus queue using a session.
-   *
-   * You can read more about Azure Service Bus sessions here:
-   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
-   *
-   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
-   * @param session Information about the session - the id and the shared connections instance.
-   * @param receiveMode The receiveMode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new(
-    queueConnectionString: string,
-    session: Session,
-    receiveMode: "ReceiveAndDelete",
-    options?: ServiceBusClientReceiverOptions
-  ): SessionReceiverClient<"ReceiveAndDelete">;
+    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ): ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
 }
 
 /**
  * Implementation class for receivers.
+ * @internal
+ * @ignore
  */
 export class ReceiverClientImplementation {
-  /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
   constructor(
-    queueConnectionString: string,
-    receiveMode?: "PeekLock",
-    options?: ServiceBusClientReceiverOptions
-  );
-  /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
-   * @param receiveMode The receiveMode to use (defaults to ReceiveAndDelete).
-   * @param options Options for the client itself.
-   */
-  constructor(
-    queueConnectionString: string,
-    receiveMode: "ReceiveAndDelete",
-    options?: ServiceBusClientReceiverOptions
-  );
-  /**
-   * Creates a client for an Azure Service Bus queue using a session.
-   *
-   * You can read more about Azure Service Bus sessions here:
-   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
-   *
-   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
-   * @param session Information about the session - the id and the shared connections instance.
-   * @param receiveMode The receiveMode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  constructor(
-    queueConnectionString: string,
-    session: Session,
-    receiveMode?: "PeekLock",
-    options?: ServiceBusClientReceiverOptions
-  );
-  /**
-   * Creates a client for an Azure Service Bus queue using a session.
-   *
-   * You can read more about Azure Service Bus sessions here:
-   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions
-   *
-   * @param queueConnectionString A connection string that points to a queue (contains EntityName=<queue-name>).
-   * @param session Information about the session - the id and the shared connections instance.
-   * @param receiveMode The receiveMode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  constructor(
-    queueConnectionString: string,
-    session: Session,
-    receiveMode: "ReceiveAndDelete",
-    options?: ServiceBusClientReceiverOptions
-  ); // connect directly to queue, with sessions
-  constructor(
-    queueConnectionString1: string,
-    receiveModeOrSession2?: "PeekLock" | "ReceiveAndDelete" | Session,
-    optionsOrReceiveMode3?: "PeekLock" | "ReceiveAndDelete" | ServiceBusClientReceiverOptions,
-    options4?: ServiceBusClientReceiverOptions
+    auth1: QueueAuth | SubscriptionAuth,
+    receiveMode2: "peekLock" | "receiveAndDelete",
+    options4?: ServiceBusClientOptions
   ) {
-    // TODO: handle the other types of connection strings + other combinations
-    const entityPath = getEntityPath(queueConnectionString1);
-    let clientOptions: ServiceBusClientReceiverOptions | undefined;
+    let options: ServiceBusClientOptions;
     let session: Session | undefined;
 
-    if (isReceiveMode(receiveModeOrSession2)) {
-      this._receiveMode = convertToInternalReceiveMode(receiveModeOrSession2);
-      clientOptions = optionsOrReceiveMode3 as ServiceBusClientReceiverOptions | undefined;
-      session = undefined;
-    } else if (isReceiveMode(optionsOrReceiveMode3)) {
-      this._receiveMode = convertToInternalReceiveMode(optionsOrReceiveMode3);
-      clientOptions = options4;
-      session = receiveModeOrSession2;
+    if (sessionOrOptions3 != null && isSession(sessionOrOptions3)) {
+      session = sessionOrOptions3;
+      options = options4 || {};
     } else {
-      // unknown?
-      throw new Error("No receive mode specified (or it's in the wrong argument)");
+      options = sessionOrOptions3 || {};
     }
 
-    const context = createConnectionContextForConnectionString(
-      queueConnectionString1,
-      clientOptions
-    );
+    const { context, entityPath } = createConnectionContext(auth1, options);
+
+    console.log(`receiveMode == ${receiveMode2}`);
+    this._receiveMode = convertToInternalReceiveMode(receiveMode2);
+    console.log(`receiveMode == ${this._receiveMode}`);
+
     const clientEntityContext = ClientEntityContext.create(
       entityPath,
       ClientType.ServiceBusReceiverClient,
@@ -269,27 +275,27 @@ export class ReceiverClientImplementation {
    * Gets an iterator of messages that also contains a context that can be used to
    * settle messages.
    */
-  iterateMessages(): MessageIterator<ContextType<"PeekLock">>;
+  iterateMessages(): MessageIterator<ContextType<"peekLock">>;
   /**
    * Gets an iterator of messages
    */
-  iterateMessages(): MessageIterator<ContextType<"ReceiveAndDelete">>;
+  iterateMessages(): MessageIterator<ContextType<"receiveAndDelete">>;
   iterateMessages():
-    | MessageIterator<ContextType<"PeekLock">>
-    | MessageIterator<ContextType<"ReceiveAndDelete">> {
+    | MessageIterator<ContextType<"peekLock">>
+    | MessageIterator<ContextType<"receiveAndDelete">> {
     // TODO: this needs to be more configurable - at least with timeouts, etc...
     const messageIterator = this._receiver.getMessageIterator();
 
     if (this._receiveMode === ReceiveMode.peekLock) {
       const actualMessageIterator = (messageIterator as any) as MessageIterator<
-        ContextType<"PeekLock">
+        ContextType<"peekLock">
       >;
 
       actualMessageIterator.context = settlementContext;
       return actualMessageIterator;
     } else if (this._receiveMode === ReceiveMode.receiveAndDelete) {
       const actualMessageIterator = (messageIterator as any) as MessageIterator<
-        ContextType<"ReceiveAndDelete">
+        ContextType<"receiveAndDelete">
       >;
 
       actualMessageIterator.context = {};
@@ -311,6 +317,20 @@ export class ReceiverClientImplementation {
     return this._sessionEnabled;
   }
 
+  getRules(): Promise<RuleDescription[]> {
+    throw new Error("Not yet implemented");
+  }
+  removeRule(ruleName: string): Promise<void> {
+    throw new Error("Not yet implemented");
+  }
+  addRule(
+    ruleName: string,
+    filter: boolean | string | CorrelationFilter,
+    sqlRuleActionExpression?: string
+  ): Promise<void> {
+    throw new Error("Not yet implemented");
+  }
+
   private _receiver: SessionReceiver | Receiver;
   private _sessionEnabled: boolean;
   private _receiveMode: ReceiveMode;
@@ -319,7 +339,7 @@ export class ReceiverClientImplementation {
 /**
  * A client that can receive messages from Service Bus Queues or Service Bus Subscriptions.
  */
-export const ReceiverClient: ReceiverClient = ReceiverClientImplementation;
+export const ServiceBusReceiverClient: ServiceBusReceiverClient = ReceiverClientImplementation;
 
 /**
  * @internal

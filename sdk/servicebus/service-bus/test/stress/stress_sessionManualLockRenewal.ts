@@ -12,15 +12,15 @@ must be supplied.
 */
 
 import {
-  ServiceBusClient,
   SendableMessageInfo,
   OnMessage,
   OnError,
   delay,
   ReceiveMode,
   ServiceBusMessage,
-  SessionReceiver
 } from "../../src";
+import { SessionReceiver } from "../../src/receiver";
+import { ServiceBusClient } from "../../src/old/serviceBusClient";
 
 const connectionString = "";
 const queueName = "";

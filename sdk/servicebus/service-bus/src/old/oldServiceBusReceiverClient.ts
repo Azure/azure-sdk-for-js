@@ -1,10 +1,10 @@
 import Long from "long";
-import { Receiver, SessionReceiver } from "./receiver";
+import { Receiver, SessionReceiver } from "../receiver";
 import {
   ServiceBusClientOptions,
   createConnectionContextForConnectionString,
   createConnectionContextForTokenCredential
-} from "./serviceBusClient";
+} from "../old/serviceBusClient";
 import {
   TokenCredential,
   OnMessage,
@@ -12,17 +12,21 @@ import {
   MessageHandlerOptions,
   CorrelationFilter,
   RuleDescription
-} from ".";
+} from "..";
 import { isTokenCredential } from "@azure/core-amqp";
-import { ClientEntityContext } from "./clientEntityContext";
-import { ClientType } from "./client";
-import { ReceiveMode, ServiceBusMessage, ReceivedMessageInfo } from "./serviceBusMessage";
-import { SessionReceiverOptions } from "./session/messageSession";
+import { ClientEntityContext } from "../clientEntityContext";
+import { ClientType } from "../client";
+import { ReceiveMode, ServiceBusMessage, ReceivedMessageInfo } from "../serviceBusMessage";
+import { SessionReceiverOptions } from "../session/messageSession";
 import { generate_uuid } from "rhea-promise";
-import { ConnectionContext } from "./connectionContext";
+import { ConnectionContext } from "../connectionContext";
 
 export type ServiceBusClientReceiverOptions = ServiceBusClientOptions & SessionReceiverOptions;
 
+/**
+ * @internal
+ * @ignore
+ */
 export class ServiceBusReceiverClient {
   public _receiveMode: ReceiveMode;
   public _entityPath: string;

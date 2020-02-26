@@ -2,26 +2,28 @@
 // Licensed under the MIT License.
 
 import Long from "long";
-import * as log from "./log";
-import { ConnectionContext } from "./connectionContext";
-import { ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
-import { Client, ClientType } from "./client";
-import { SessionReceiverOptions } from "./session/messageSession";
-import { Sender } from "./sender";
-import { Receiver, SessionReceiver } from "./receiver";
+import * as log from "../log";
+import { ConnectionContext } from "../connectionContext";
+import { ReceivedMessageInfo, ReceiveMode } from "../serviceBusMessage";
+import { Client, ClientType } from "../client";
+import { SessionReceiverOptions } from "../session/messageSession";
+import { Sender } from "../sender";
+import { Receiver, SessionReceiver } from "../receiver";
 import {
   getOpenReceiverErrorMsg,
   getOpenSenderErrorMsg,
   throwErrorIfClientOrConnectionClosed,
   throwErrorIfConnectionClosed
-} from "./util/errors";
+} from "../util/errors";
 import { generate_uuid } from "rhea-promise";
-import { ClientEntityContext } from "./clientEntityContext";
+import { ClientEntityContext } from "../clientEntityContext";
 
 /**
  * Describes the client that allows interacting with a Service Bus Queue.
  * Use the `createQueueClient` function on the ServiceBusClient object to instantiate a QueueClient
  * @class QueueClient
+ * @internal
+ * @ignore
  */
 export class QueueClient implements Client {
   /**

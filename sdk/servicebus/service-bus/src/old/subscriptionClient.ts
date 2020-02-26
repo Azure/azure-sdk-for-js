@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "./log";
-import { ConnectionContext } from "./connectionContext";
-import { Receiver, SessionReceiver } from "./receiver";
-import { ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
-import { Client, ClientType } from "./client";
-import { CorrelationFilter, RuleDescription } from "./core/managementClient";
-import { SessionReceiverOptions } from "./session/messageSession";
+import * as log from "../log";
+import { ConnectionContext } from "../connectionContext";
+import { Receiver, SessionReceiver } from "../receiver";
+import { ReceivedMessageInfo, ReceiveMode } from "../serviceBusMessage";
+import { Client, ClientType } from "../client";
+import { CorrelationFilter, RuleDescription } from "../core/managementClient";
+import { SessionReceiverOptions } from "../session/messageSession";
 import {
   getOpenReceiverErrorMsg,
   throwErrorIfClientOrConnectionClosed,
   throwErrorIfConnectionClosed
-} from "./util/errors";
+} from "../util/errors";
 import { generate_uuid } from "rhea-promise";
-import { ClientEntityContext } from "./clientEntityContext";
+import { ClientEntityContext } from "../clientEntityContext";
 import Long from "long";
 
 /**
@@ -22,6 +22,8 @@ import Long from "long";
  * Use the `createSubscriptionClient` function on the ServiceBusClient object to instantiate a
  * SubscriptionClient
  * @class SubscriptionClient
+ * @internal
+ * @ignore
  */
 export class SubscriptionClient implements Client {
   /**

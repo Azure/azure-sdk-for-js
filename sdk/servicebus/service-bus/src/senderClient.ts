@@ -5,7 +5,7 @@ import {
   ServiceBusClientOptions,
   createConnectionContextForTokenCredential,
   createConnectionContextForConnectionString
-} from "./serviceBusClient";
+} from "./old/serviceBusClient";
 import { TokenCredential, SendableMessageInfo } from ".";
 import { isTokenCredential } from "@azure/core-amqp";
 import { ClientType } from "./client";
