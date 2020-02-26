@@ -1,4 +1,4 @@
-# Azure Storage TypeScript Protocol Layer
+# Azure Cognitive Search TypeScript Protocol Layer
 
 > see https://aka.ms/autorest
 

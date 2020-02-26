@@ -4,11 +4,10 @@
 
 Azure Cognitive Search is well suited for the following application scenarios:
 
-- Consolidation of heterogeneous content types into a private, single, searchable index. Queries are always over an index that you create and load with documents, and the index always resides in the cloud on your Azure Cognitive Search service. You can populate an index with streams of JSON documents from any source or platform. Alternatively, for content sourced on Azure, you can use an indexer to pull data into an index. Index definition and management/ownership is a key reason for using Azure Cognitive Search.
-- Raw content is large undifferentiated text, image files, or application files such as Office content types on an Azure data source such as Azure Blob storage or Cosmos DB. You can apply cognitive skills during indexing to add structure or extract meaning from image and application files.
-- Easy implementation of search-related features. Azure Cognitive Search APIs simplify query construction, faceted navigation, filters (including geo-spatial search), synonym mapping, typeahead queries, and relevance tuning. Using built-in features, you can satisfy end-user expectations for a search experience similar to commercial web search engines.
-- Indexing unstructured text, or extracting text and information from image files. The AI enrichment feature of Azure Cognitive Search adds AI processing to an indexing pipeline. Some common use-cases include OCR over scanned document, entity recognition and key phrase extraction over large documents, language detection and text translation, and sentiment analysis.
-- Linguistic requirements satisfied using the custom and language analyzers of Azure Cognitive Search. If you have non-English content, Azure Cognitive Search supports both Lucene analyzers and Microsoft's natural language processors. You can also configure analyzers to achieve specialized processing of raw content, such as filtering out diacritics.
+- Consolidate varied content types into a single searchable index. Populate the index with your own JSON documents or, if your content is already in Azure, you can create an indexer to pull in data automatically.
+- Import raw content such as text, images, or Office files from Azure Blob storage or Cosmos DB.
+- Easily implement your own search capabilities similar to commercial web search engines. Azure Cognitive Search APIs simplify query construction, faceted navigation, filters (including geo-spatial search), synonym mapping, typeahead queries, and relevance tuning.
+- Index unstructured text and extract both text and information from images. AI enrichment enables capabilities such as OCR, entity recognition, key phrase extraction, language detection, text translation, and sentiment analysis.
 
 Use the client library to:
 
@@ -88,6 +87,14 @@ const client = new SearchIndexClient(
 To list all results of a particular query, you can use `listSearchResults` with a search string that uses [simple query syntax](https://docs.microsoft.com/en-us/azure/search/query-simple-syntax):
 
 ```js
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
 for await (const result of client.listSearchResults("wifi -luxury")) {
   console.log(result);
 }
@@ -96,6 +103,14 @@ for await (const result of client.listSearchResults("wifi -luxury")) {
 For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/en-us/azure/search/query-lucene-syntax), specify `queryType` to be `all`:
 
 ```js
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
 for await (const result of client.listSearchResults('category:budget AND "recently renovated"^3', {
   queryType: "full",
   searchMode: "all"
@@ -109,15 +124,22 @@ for await (const result of client.listSearchResults('category:budget AND "recent
 Using the `filter` query parameter allows you to query an index using the syntax of an [OData \$filter expression](https://docs.microsoft.com/en-us/azure/search/search-query-odata-filter).
 
 ```js
-const { odata } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential, odata } = require("@azure/ai-search");
 
-let baseRateMax = 200;
-let ratingMin = 4;
-for await (const result of client.listSearchResults("WiFi", {
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
+const baseRateMax = 200;
+const ratingMin = 4;
+const iterator = client.listSearchResults("WiFi", {
   filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
-  orderBy: "Rating desc"
+  orderBy: "Rating desc",
   select: ["HotelId", "HotelName", "Rating"]
-})) {
+});
+for await (const result of iterator) {
   // Each result will have "HotelId", "HotelName", and "Rating"
   // in addition to the standard search result property "score"
   console.log(result);
@@ -129,15 +151,23 @@ for await (const result of client.listSearchResults("WiFi", {
 [Facets](https://docs.microsoft.com/en-us/azure/search/search-filters-facets) are used to help a user of your application refine a search along pre-configured dimensions. [Facet syntax](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents#facetstring-zero-or-more) provides the options to sort and bucket facet values.
 
 ```js
-const page = (
-  await client
-    .listSearchResults("WiFi", {
-      facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
-    })
-    .byPage()
-    .next()
-).value;
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
 
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
+const iterator = await client
+  .listSearchResults("WiFi", {
+    facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
+  })
+  .byPage();
+const page = (await iterator.next()).value;
+
+console.log(page.facets);
+// Output will look like:
 // {
 //   Rating: [
 //     { count: 4, value: 2 },
@@ -155,16 +185,23 @@ const page = (
 //     { count: 5, value: 'Resort and Spa' }
 //   ]
 // }
-console.log(page.facets);
 ```
 
-When retrieving results, an `facets` property will be available that will indicate the number of results that fall into each facet bucket. This can be used to drive refinement (e.g. issuing a follow-up search that filters on the `Rating` being greater than 3 and less than 4.)
+When retrieving results, a `facets` property will be available that will indicate the number of results that fall into each facet bucket. This can be used to drive refinement (e.g. issuing a follow-up search that filters on the `Rating` being greater than or equal to 3 and less than 4.)
 
 ### Retrieving documents by id
 
 A specific document can be retrieved by its primary key value:
 
 ```js
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
 const result = await client.getDocument("1234");
 console.log(result);
 ```
@@ -176,6 +213,14 @@ If you [created a suggester](https://docs.microsoft.com/en-us/azure/search/index
 This example shows returning the top three suggestions for the input "wifi" from the suggester "sg":
 
 ```js
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
 const suggestResult = await client.suggest("sg", "wifi", {
   select: ["HotelId", "HotelName"],
   highlightPreTag: "<em>",
@@ -195,6 +240,14 @@ To implement type-ahead behavior in your application, you can query the index wi
 The below example tries to complete the string "de" using the suggester named "sg" on the index:
 
 ```js
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
 const autocompleteResult = await client.autocomplete("sg", "de");
 
 for (const result of autocompleteResult.results || []) {
@@ -205,6 +258,14 @@ for (const result of autocompleteResult.results || []) {
 ### Return the count of documents in an index
 
 ```js
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
 const count = await client.count();
 console.log(`${count} documents in index ${client.indexName}`);
 ```
@@ -214,6 +275,15 @@ console.log(`${count} documents in index ${client.indexName}`);
 Given the name of a primary key and a list of indexes, you can delete multiple documents from the index at the same time:
 
 ```js
+
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
 const deleteResult = await client.deleteDocuments("HotelId", ["1", "2", "3"]);
 for (const result of deleteResult.results) {
   console.log(`Deleting ${result.key}; succeeded? ${result.succeeded}`);
@@ -225,6 +295,15 @@ for (const result of deleteResult.results) {
 You can upload multiple documents into index inside a batch:
 
 ```js
+
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
 const uploadResult = await client.uploadDocuments([
   { ... },
   { ... },
@@ -240,6 +319,15 @@ for (const result of uploadResult.results) {
 You can update multiple documents in an index at once, or create them if they do not exist. For more details about how merging works, see: https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
 
 ```js
+
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+
+const client = new SearchIndexClient(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
 const updateResult = await client.updateDocuments([
   { ... },
   { ... },
