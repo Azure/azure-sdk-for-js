@@ -319,7 +319,7 @@ describe("Certificates client - create, read, update and delete", () => {
       await testClient.purgeCertificate(certificateName);
     });
 
-    it("can get a deleted certificate (Non Existing)", async function() {
+    it("can not get a certificate that never existed", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       let error;
       try {
