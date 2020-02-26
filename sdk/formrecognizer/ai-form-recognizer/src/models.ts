@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as coreHttp from "@azure/core-http";
+
 import {
   ReadResult,
   PageResult,
   ErrorInformation,
-  OperationStatus
+  OperationStatus,
+  AnalyzeOperationResult
 } from "./generated/models/index";
 
 export interface CommonFieldValue {
@@ -223,3 +226,23 @@ export interface AnalyzeReceiptOperationResult {
    */
   analyzeResult?: AnalyzeReceiptResult;
 }
+
+/**
+ * Contains response data for the getAnalyzeReceiptResult operation.
+ */
+export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalyzeOperationResult;
+  };
+};

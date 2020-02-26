@@ -36,6 +36,14 @@ export interface AnalyzeReceiptResult {
 }
 
 // @public
+export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResult;
+    };
+};
+
+// @public
 export interface AnalyzeResult {
     documentResults?: DocumentResult[];
     errors?: ErrorInformation[];
@@ -91,9 +99,9 @@ export class CustomRecognizerClient {
     // Warning: (ae-forgotten-export) The symbol "ExtractReceiptOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptOperationResult>;
+    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptResultResponse>;
     // (undocumented)
-    extractReceiptFromUrl(imageSourceUrl: string, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptOperationResult>;
+    extractReceiptFromUrl(imageSourceUrl: string, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "GetExtractedCustomFormOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -105,7 +113,7 @@ export class CustomRecognizerClient {
     // Warning: (ae-forgotten-export) The symbol "GetExtractedReceiptResultOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    getExtractedReceipt(resultId: string, options?: GetExtractedReceiptResultOptions): Promise<AnalyzeReceiptOperationResult>;
+    getExtractedReceipt(resultId: string, options?: GetExtractedReceiptResultOptions): Promise<AnalyzeReceiptResultResponse>;
     // Warning: (ae-forgotten-export) The symbol "GetModelOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -255,6 +263,10 @@ export type TimeFieldValue = {
     valueTime: string;
 } & CommonFieldValue;
 
+
+// Warnings were encountered during analysis:
+//
+// src/models.ts:246:5 - (ae-forgotten-export) The symbol "AnalyzeOperationResult" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

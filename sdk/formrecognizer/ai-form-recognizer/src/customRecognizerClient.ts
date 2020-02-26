@@ -21,9 +21,10 @@ import {
   Model,
   GetAnalyzeLayoutResultResponse,
   GetAnalyzeFormResultResponse,
+  GetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponseModel,
   GetAnalyzeReceiptResultResponse
 } from "./generated/models";
-import { AnalyzeReceiptOperationResult, ReceiptResult } from "./models";
+import { AnalyzeReceiptResultResponse, ReceiptResult } from "./models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -301,7 +302,7 @@ export class CustomRecognizerClient {
     body: HttpRequestBody,
     contentType: SupportedContentType,
     options?: ExtractReceiptOptions
-  ): Promise<AnalyzeReceiptOperationResult> {
+  ): Promise<AnalyzeReceiptResultResponse> {
     const realOptions = options || { includeTextDetails: false };
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-extractReceipt",
@@ -320,7 +321,7 @@ export class CustomRecognizerClient {
       const lastSlashIndex = analyzeResult.operationLocation.lastIndexOf("/");
       const resultId = analyzeResult.operationLocation.substring(lastSlashIndex + 1);
 
-      let result: GetAnalyzeReceiptResultResponse;
+      let result: GetAnalyzeReceiptResultResponseModel;
       do {
         result = await this.client.getAnalyzeReceiptResult(resultId, {
           abortSignal: finalOptions.abortSignal
@@ -330,18 +331,7 @@ export class CustomRecognizerClient {
         }
       } while (result.status !== "succeeded" && result.status !== "failed");
 
-      return {
-        status: result.status,
-        createdOn: result.createdDateTime,
-        lastUpdatedOn: result.lastUpdatedDateTime,
-        // TODO: _response: result._response,
-        analyzeResult: {
-          version: result.analyzeResult!.version,
-          readResults: result.analyzeResult!.readResults,
-          pageResults: result.analyzeResult!.pageResults,
-          receiptResults: result.analyzeResult!.documentResults!.map(r => r as unknown as ReceiptResult)
-        }
-      };
+      return this.toReceiptResultResponse(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -356,7 +346,7 @@ export class CustomRecognizerClient {
   public async extractReceiptFromUrl(
     imageSourceUrl: string,
     options?: ExtractReceiptOptions
-  ): Promise<AnalyzeReceiptOperationResult> {
+  ): Promise<AnalyzeReceiptResultResponse> {
     const realOptions = options || { includeTextDetails: false };
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-extractReceiptFromUrl",
@@ -378,7 +368,7 @@ export class CustomRecognizerClient {
       const lastSlashIndex = analyzeResult.operationLocation.lastIndexOf("/");
       const resultId = analyzeResult.operationLocation.substring(lastSlashIndex + 1);
 
-      let result: GetAnalyzeReceiptResultResponse;
+      let result: GetAnalyzeReceiptResultResponseModel;
       do {
         result = await this.client.getAnalyzeReceiptResult(resultId, {
           abortSignal: finalOptions.abortSignal
@@ -388,18 +378,7 @@ export class CustomRecognizerClient {
         }
       } while (result.status !== "succeeded" && result.status !== "failed");
 
-      return {
-        status: result.status,
-        createdOn: result.createdDateTime,
-        lastUpdatedOn: result.lastUpdatedDateTime,
-        // TODO: _response: result._response,
-        analyzeResult: {
-          version: result.analyzeResult!.version,
-          readResults: result.analyzeResult!.readResults,
-          pageResults: result.analyzeResult!.pageResults,
-          receiptResults: result!.analyzeResult!.documentResults!.map(r => r as unknown as ReceiptResult)
-        }
-      };
+      return this.toReceiptResultResponse(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -414,7 +393,7 @@ export class CustomRecognizerClient {
   public async getExtractedReceipt(
     resultId: string,
     options?: GetExtractedReceiptResultOptions
-  ): Promise<AnalyzeReceiptOperationResult> {
+  ): Promise<AnalyzeReceiptResultResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-getExtractedReceipt",
@@ -426,18 +405,7 @@ export class CustomRecognizerClient {
         resultId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      return {
-        status: result.status,
-        createdOn: result.createdDateTime,
-        lastUpdatedOn: result.lastUpdatedDateTime,
-        // TODO: _response: result._response,
-        analyzeResult: {
-          version: result.analyzeResult!.version,
-          readResults: result.analyzeResult!.readResults,
-          pageResults: result.analyzeResult!.pageResults,
-          receiptResults: result!.analyzeResult!.documentResults!.map(r => r as unknown as ReceiptResult)
-        }
-      };
+      return this.toReceiptResultResponse(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -447,6 +415,21 @@ export class CustomRecognizerClient {
     } finally {
       span.end();
     }
+  }
+
+  private toReceiptResultResponse(result: GetAnalyzeReceiptResultResponse): AnalyzeReceiptResultResponse {
+    return {
+      status: result.status,
+      createdOn: result.createdDateTime,
+      lastUpdatedOn: result.lastUpdatedDateTime,
+      _response: result._response,
+      analyzeResult: {
+        version: result.analyzeResult!.version,
+        readResults: result.analyzeResult!.readResults,
+        pageResults: result.analyzeResult!.pageResults,
+        receiptResults: result!.analyzeResult!.documentResults!.map(r => r as unknown as ReceiptResult)
+      }
+    };
   }
 
   public async extractLayout(
