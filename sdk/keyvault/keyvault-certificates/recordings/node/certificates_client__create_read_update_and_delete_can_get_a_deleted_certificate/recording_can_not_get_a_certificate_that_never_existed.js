@@ -1,9 +1,11 @@
 let nock = require('nock');
 
+module.exports.hash = "8be7c129c02da9f899c06533c6a9491f";
+
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/certificates/recoverCertificateName-cangetadeletedcertificateNonExisting-')
+  .delete('/certificates/recoverCertificateName-cannotgetacertificatethatneverexisted-')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -23,11 +25,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '53aa4dcb-ccdc-4bd5-a908-0621f04a0892',
+  '0d702cb4-736a-4e37-82a7-bc92b369345b',
   'x-ms-keyvault-service-version',
-  '1.1.0.891',
+  '1.1.0.897',
   'x-ms-keyvault-network-info',
-  'addr=52.137.64.184;act_addr_fam=InterNetwork;',
+  'addr=51.143.20.105;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -37,7 +39,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 31 Jan 2020 19:20:11 GMT'
+  'Wed, 26 Feb 2020 19:08:15 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -56,33 +58,33 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '9b1fe44f-27bf-4a5e-8906-03b050640200',
+  '5055dd3a-cab3-45e0-9602-9e6fd41f1200',
   'x-ms-ests-server',
-  '2.1.9987.9 - NCUS ProdSlices',
+  '2.1.10104.13 - WUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqSiOt8IkNJIrVN3CxQN9as_aSJHAQAAAOt0xtUOAAAA; expires=Sun, 01-Mar-2020 19:20:11 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AgWuoFa1MgNJjeq4dphYINE_aSJHAQAAAB-56NUOAAAA; expires=Fri, 27-Mar-2020 19:08:16 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Fri, 31 Jan 2020 19:20:11 GMT',
+  'Wed, 26 Feb 2020 19:08:15 GMT',
   'Content-Length',
   '1231'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/certificates/recoverCertificateName-cangetadeletedcertificateNonExisting-')
+  .delete('/certificates/recoverCertificateName-cannotgetacertificatethatneverexisted-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-cangetadeletedcertificateNonExisting-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-cannotgetacertificatethatneverexisted-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '152',
+  '153',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -92,11 +94,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '05bd6b76-e263-422d-bbbb-45a1885dffbc',
+  '7f0b5554-c20d-4908-9133-f9aac27220f9',
   'x-ms-keyvault-service-version',
-  '1.1.0.891',
+  '1.1.0.897',
   'x-ms-keyvault-network-info',
-  'addr=52.137.64.184;act_addr_fam=InterNetwork;',
+  'addr=51.143.20.105;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -106,5 +108,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 31 Jan 2020 19:20:11 GMT'
+  'Wed, 26 Feb 2020 19:08:16 GMT'
 ]);
