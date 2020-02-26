@@ -3,8 +3,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "dist",
-    "target": "es5",
-    "lib": ["dom"]
+    "target": "es5"
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],

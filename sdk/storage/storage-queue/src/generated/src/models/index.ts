@@ -18,17 +18,17 @@ export interface AccessPolicy {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  startsOn: string;
+  startsOn?: string;
   /**
    * the date-time the policy expires
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  expiresOn: string;
+  expiresOn?: string;
   /**
    * the permissions for the acl policy
    */
-  permissions: string;
+  permissions?: string;
 }
 
 /**

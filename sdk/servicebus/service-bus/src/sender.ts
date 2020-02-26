@@ -108,17 +108,6 @@ export class Sender {
   /**
    * Schedules given message to appear on Service Bus Queue/Subscription at a later time.
    *
-   * Please note that you need to explicitly encode the message body if you intend to receive the message using a tool or library other than this library.
-   * For example:
-   *  1. Import DefaultDataTransformer and instantiate.
-   *      ```js
-   *        const dt = new DefaultDataTransformer();
-   *      ```
-   *  2. Use the `encode` method on the transformer to encode the message body before calling the scheduleMessage() method
-   *      ```js
-   *        message.body = dt.encode(message.body);
-   *      ```
-   *
    * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be enqueued.
    * @param message - The message that needs to be scheduled.
    * @returns Promise<Long> - The sequence number of the message that was scheduled.
@@ -150,17 +139,6 @@ export class Sender {
 
   /**
    * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
-   *
-   * Please note that you need to explicitly encode the message body if you intend to receive the message using a tool or library other than this library.
-   * For example:
-   *  1. Import DefaultDataTransformer and instantiate.
-   *      ```js
-   *        const dt = new DefaultDataTransformer();
-   *      ```
-   *  2. Use the `encode` method on the transformer to encode the message body before calling the scheduleMessage() method
-   *      ```js
-   *        message.body = dt.encode(message.body);
-   *      ```
    *
    * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
    * @param messages - Array of Messages that need to be scheduled.

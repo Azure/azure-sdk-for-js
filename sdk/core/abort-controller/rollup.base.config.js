@@ -68,7 +68,7 @@ export function browserConfig(test = false) {
     input: input,
     external: ["ms-rest-js"],
     output: {
-      file: "browser/index.js",
+      file: "dist-browser/index.js",
       format: "umd",
       name: "Aborter",
       sourcemap: true,

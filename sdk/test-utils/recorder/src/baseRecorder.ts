@@ -10,10 +10,12 @@ import {
   parseUrl,
   isPlaybackMode,
   isRecordMode,
-  findRecordingsFolderPath,
   RecorderEnvironmentSetup,
   filterSecretsFromStrings,
-  filterSecretsRecursivelyFromJSON
+  filterSecretsRecursivelyFromJSON,
+  generateTestRecordingFilePath,
+  nodeRequireRecordingIfExists,
+  windowLens
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -60,33 +62,20 @@ export abstract class BaseRecorder {
     customizationsOnRecordings: [],
     queryParametersToSkip: []
   };
+  protected hash: string;
 
-  constructor(platform: "node" | "browsers", testSuiteTitle: string, testTitle: string) {
-    // File Extension
-    // nock recordings for node tests - .js extension
-    // recordings are saved in json format for browser tests - .json extension
-    const ext = platform === "node" ? "js" : "json";
-    // Filepath - `{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
-    this.relativeTestRecordingFilePath =
-      platform +
-      "/" +
-      this.formatPath(testSuiteTitle) +
-      "/recording_" +
-      this.formatPath(testTitle) +
-      "." +
-      ext;
-  }
-
-  protected formatPath(path: string): string {
-    return path
-      .toLowerCase()
-      .replace(/ /g, "_")
-      .replace(/<=/g, "lte")
-      .replace(/>=/g, "gte")
-      .replace(/</g, "lt")
-      .replace(/>/g, "gt")
-      .replace(/=/g, "eq")
-      .replace(/\W/g, "");
+  constructor(
+    platform: "node" | "browsers",
+    hash: string,
+    testSuiteTitle: string,
+    testTitle: string
+  ) {
+    this.hash = hash;
+    this.relativeTestRecordingFilePath = generateTestRecordingFilePath(
+      platform,
+      testSuiteTitle,
+      testTitle
+    );
   }
 
   /**
@@ -122,8 +111,8 @@ export abstract class BaseRecorder {
 }
 
 export class NockRecorder extends BaseRecorder {
-  constructor(testSuiteTitle: string, testTitle: string) {
-    super("node", testSuiteTitle, testTitle);
+  constructor(hash: string, testSuiteTitle: string, testTitle: string) {
+    super("node", hash, testSuiteTitle, testTitle);
   }
 
   public record(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
@@ -133,7 +122,7 @@ export class NockRecorder extends BaseRecorder {
     });
   }
 
-  public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup, filePath: string): void {
+  public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup, testFilePath: string): void {
     this.environmentSetup = recorderEnvironmentSetup;
     /**
      * `@azure/test-utils-recorder` package is used for both the browser and node tests
@@ -142,19 +131,12 @@ export class NockRecorder extends BaseRecorder {
      *  `path` module is leveraged to import the node test recordings and `path` module can't be imported in the browser.
      *  So, instead of `import`-ing the `path` library, `require` is being used and this code path is never executed in the browser.
      *
-     * [A diiferent strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
+     * [A different strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
      */
-    let path = require("path");
-    // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
-    const recordingsFolderPath = findRecordingsFolderPath(filePath);
-    const recordingPath = path.resolve(recordingsFolderPath, this.relativeTestRecordingFilePath);
-    if (fs.existsSync(recordingPath)) {
-      this.uniqueTestInfo = require(recordingPath).testInfo;
-    } else {
-      throw new Error(
-        `Recording (${this.relativeTestRecordingFilePath}) is not found at ${recordingsFolderPath}`
-      );
-    }
+    this.uniqueTestInfo = nodeRequireRecordingIfExists(
+      this.relativeTestRecordingFilePath,
+      testFilePath
+    ).testInfo;
   }
 
   public stop(): void {
@@ -162,6 +144,8 @@ export class NockRecorder extends BaseRecorder {
       // Importing "nock" library in the recording and appending the testInfo part in the recording
       const importNockStatement =
         "let nock = require('nock');\n" +
+        "\n" +
+        `module.exports.hash = "${this.hash}";\n` +
         "\n" +
         "module.exports.testInfo = " +
         JSON.stringify(this.uniqueTestInfo) +
@@ -231,9 +215,10 @@ export class NockRecorder extends BaseRecorder {
 // This class overrides requests' 'open', 'send' and 'onreadystatechange' functions, adding our own code to them to deal with requests
 export class NiseRecorder extends BaseRecorder {
   private recordings: any[] = [];
+  private xhr: nise.FakeXMLHttpRequestStatic | undefined;
 
-  constructor(testSuiteTitle: string, testTitle: string) {
-    super("browsers", testSuiteTitle, testTitle);
+  constructor(hash: string, testSuiteTitle: string, testTitle: string) {
+    super("browsers", hash, testSuiteTitle, testTitle);
   }
 
   // Inserts a request/response pair into the recordings array
@@ -301,6 +286,7 @@ export class NiseRecorder extends BaseRecorder {
     this.environmentSetup = recorderEnvironmentSetup;
     const self = this;
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
+    this.xhr = xhr;
 
     // The following filter allows every request to be sent to the server without being mocked
     xhr.useFilters = true;
@@ -308,7 +294,7 @@ export class NiseRecorder extends BaseRecorder {
 
     // 'onCreate' function is called when a new fake XMLHttpRequest object (req) is created
     // Our intent is to override the request's 'onreadystatechange' function so we can create a recording once the response is ready
-    // We can only override 'onreadystatechange' AFTER the 'send' function is called because we need to make sure our implementation won't be overriden by the client
+    // We can only override 'onreadystatechange' AFTER the 'send' function is called because we need to make sure our implementation won't be overridden by the client
     // But we can only override 'send' AFTER the 'open' function is called because the filter we set above makes Nise override it in 'open' body
     xhr.onCreate = function(req: any) {
       // We'll override the 'open' function, so we need to store a handle to its original implementation
@@ -339,7 +325,7 @@ export class NiseRecorder extends BaseRecorder {
             }
           };
 
-          // Now that we have overriden 'onreadystatechange', we can send the request to the server
+          // Now that we have overridden 'onreadystatechange', we can send the request to the server
           reqSend.apply(req, arguments);
         };
       };
@@ -352,14 +338,19 @@ export class NiseRecorder extends BaseRecorder {
     this.environmentSetup = recorderEnvironmentSetup;
     const self = this;
     const xhr = nise.fakeXhr.useFakeXMLHttpRequest();
+    this.xhr = xhr;
 
     // 'karma-json-preprocessor' helps us to retrieve recordings
-    this.recordings = (window as any).__json__[
-      "recordings/" + this.relativeTestRecordingFilePath
-    ].recordings;
-    this.uniqueTestInfo = (window as any).__json__[
-      "recordings/" + this.relativeTestRecordingFilePath
-    ].uniqueTestInfo;
+    this.recordings = windowLens.get([
+      "__json__",
+      "recordings/" + this.relativeTestRecordingFilePath,
+      "recordings"
+    ]);
+    this.uniqueTestInfo = windowLens.get([
+      "__json__",
+      "recordings/" + this.relativeTestRecordingFilePath,
+      "uniqueTestInfo"
+    ]);
 
     // 'onCreate' function is called when a new fake XMLHttpRequest object (req) is created
     xhr.onCreate = function(req: any) {
@@ -424,12 +415,20 @@ export class NiseRecorder extends BaseRecorder {
           path: "./recordings/" + this.relativeTestRecordingFilePath,
           content: {
             recordings: this.recordings,
-            uniqueTestInfo: this.uniqueTestInfo
+            uniqueTestInfo: this.uniqueTestInfo,
+            hash: this.hash
           }
         })
       );
     } else if (isPlaybackMode()) {
       // TO DO - playback cleanup if any necessary
+    }
+
+    // Resetting the XHR behavior to it's original state.
+    // Necessary if any code wants to use the browser outside of the recorder once the recorder is stopped.
+    if (this.xhr) {
+      this.xhr.useFilters = false;
+      this.xhr.restore();
     }
   }
 }

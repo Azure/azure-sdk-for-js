@@ -1,6 +1,13 @@
 # Release History
 
-## 5.0.1 (TBD)
+## 5.0.2 (Unreleased)
+
+- Fixes an issue that caused `getPartitionIds`, `getEventHubProperties`,
+  and `getPartitionProperties` to throw an error when run against an
+  Event Hub in Azure Stack.
+  ([PR #7463](https://github.com/Azure/azure-sdk-for-js/pull/7463))
+
+## 5.0.1 (2020-02-11)
 
 - Fixed a potential issue with deadlock where greedy consumers could
   starve out other consumers, preventing us from properly balancing.

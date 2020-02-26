@@ -1,5 +1,12 @@
 # Release History
 
+## 12.0.4 (Unreleased)
+
+
+## 12.0.3 (2020.02)
+
+- Updated Azure Storage Service API version to 2019-07-07.
+
 ## 12.0.2 (2020.01)
 
 - Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6694](https://github.com/Azure/azure-sdk-for-js/pull/6694)

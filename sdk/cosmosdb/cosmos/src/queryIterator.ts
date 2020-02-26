@@ -256,7 +256,7 @@ export class QueryIterator<T> {
     return this.initPromise;
   }
   private async _init() {
-    if (this.options.forceQueryPlan === true) {
+    if (this.options.forceQueryPlan === true && this.resourceType === ResourceType.item) {
       await this.createPipelinedExecutionContext();
     }
     this.isInitialized = true;
