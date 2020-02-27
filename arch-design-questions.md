@@ -6,7 +6,7 @@
 - Clients are [single-use](#single-use-clients) - they are created with a receive mode, session ID (if applicable), queue/topic-subscription
   baked in and cannot be changed.
 - The user can choose between two different methods of message delivery - push (via registered message handlers)
-  or push (via an iterator/reactor pattern or .receiveBatch()-style)
+  or pull (via an iterator/reactor pattern or .receiveBatch()-style)
 - Sessions have two different methods for interacting with them:
   1. [single-use](#single-use-clients)
   2. [session manager](#sessions-design)
