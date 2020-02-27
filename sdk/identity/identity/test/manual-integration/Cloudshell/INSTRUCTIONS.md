@@ -43,7 +43,7 @@ cd azure-sdk-for-js\sdk\identity\identity\test\manual-integration\webjobs\App_Da
 
 Install the requirements:
 ```
-node install
+npm install
 ```
 
 Build the job:
@@ -51,16 +51,11 @@ Build the job:
 tsc -p .
 ```
 
-## For each virtual environment:
-
-### Install packages
-```sh
-npm install
-```
+## In virtual environment:
 
 ### Run tests
 ```sh
-pytest ./tests -vrs -m cloudshell
+node index
 ```
 
 ### Deactivate
