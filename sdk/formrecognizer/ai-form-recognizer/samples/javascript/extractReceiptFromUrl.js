@@ -39,11 +39,14 @@ async function main() {
   console.log(result.status);
   console.log("first receipt:")
   console.log(result.analyzeResult.receiptResults[0]);
-  console.log("\titems:")
+  console.log("Items:")
   let i = 1;
-  for (const item of result.analyzeResult.receiptResults[0].fields.items) {
-    console.log(`\t${i++}) ${item.name} ${item.totalPrice}`);
+  for (const item of result.analyzeResult.receiptResults[0].items) {
+    console.log(`\t${i++}) ${item.name} $${item.totalPrice}`);
   }
+  console.log("Raw fields");
+  console.log(result.analyzeResult.receiptResults[0].rawReciptFields)
+  console.log(result.analyzeResult.receiptResults[0].rawReciptFields["MerchantAddress"])
 }
 
 main().catch((err) => {

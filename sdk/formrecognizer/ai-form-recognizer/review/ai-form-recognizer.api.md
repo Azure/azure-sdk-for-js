@@ -372,11 +372,13 @@ export interface ReceiptItemField {
 }
 
 // @public (undocumented)
-export interface ReceiptResult {
+export type ReceiptResult = {
     docType: "prebuilt:receipt";
-    fields: Receipt;
     pageRange: number[];
-}
+    rawReciptFields: {
+        [propertyName: string]: FieldValue;
+    };
+} & Receipt;
 
 // @public (undocumented)
 export type StringFieldValue = {

@@ -25,7 +25,7 @@ import {
   GetAnalyzeReceiptResultResponse,
   DocumentResult
 } from "./generated/models";
-import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField } from "./models";
+import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, FieldValue } from "./models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -424,22 +424,22 @@ export class CustomRecognizerClient {
     return {
       docType: rawReceipt.docType,
       pageRange: rawReceipt.pageRange,
-      fields: {
-        receiptType: rawReceipt.fields.ReceiptType.valueString,
-        merchantName: rawReceipt.fields.MerchantName.valueString,
-        merchantPhoneNumber: rawReceipt.fields.MerchantPhoneNumber.valuePhoneNumber,
-        merchantAddress: rawReceipt.fields.MerchantAddress.valueString,
-        items: rawReceipt.fields.Items.valueArray.map(i => {
-          return {
-            name: (i as ReceiptItemField).valueObject.Name.valueString,
-            totalPrice: (i as ReceiptItemField).valueObject.TotalPrice.valueNumber
-          };}),
-        subtotal: rawReceipt.fields.Subtotal.valueNumber,
-        tax: rawReceipt.fields.Tax.valueNumber,
-        total: rawReceipt.fields.Total.valueNumber,
-        transactionDate: rawReceipt.fields.TransactionDate.valueDate,
-        transactionTime: rawReceipt.fields.TransactionTime.valueTime
-      }
+      receiptType: rawReceipt.fields.ReceiptType.valueString,
+      merchantName: rawReceipt.fields.MerchantName.valueString,
+      merchantPhoneNumber: rawReceipt.fields.MerchantPhoneNumber.valuePhoneNumber,
+      merchantAddress: rawReceipt.fields.MerchantAddress.valueString,
+      items: rawReceipt.fields.Items.valueArray.map(i => {
+        return {
+          name: (i as ReceiptItemField).valueObject.Name.valueString,
+          //quantity: (i as ReceiptItemField).valueObject.Quantity.valueNumber,
+          totalPrice: (i as ReceiptItemField).valueObject.TotalPrice.valueNumber
+        };}),
+      subtotal: rawReceipt.fields.Subtotal.valueNumber,
+      tax: rawReceipt.fields.Tax.valueNumber,
+      total: rawReceipt.fields.Total.valueNumber,
+      transactionDate: rawReceipt.fields.TransactionDate.valueDate,
+      transactionTime: rawReceipt.fields.TransactionTime.valueTime,
+      rawReciptFields: result.fields as { [propertyName: string]: FieldValue }
     }
   }
   return {

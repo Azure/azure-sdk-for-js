@@ -94,12 +94,14 @@ export interface ReceiptItemField {
   type: "object";
   valueObject: {
     Name: StringFieldValue;
+    //Quantity: NumberFieldValue;
     TotalPrice: NumberFieldValue;
   };
 }
 
 export interface ReceiptItem {
   name: string;
+  //quantity: number;
   totalPrice: number;
 }
 
@@ -155,7 +157,7 @@ export interface RawReceiptResult {
   fields: RawReceipt;
 }
 
-export interface ReceiptResult {
+export type ReceiptResult = {
   /**
    * Document type.
    */
@@ -164,11 +166,9 @@ export interface ReceiptResult {
    * First and last page number where the document is found.
    */
   pageRange: number[];
-  /**
-   * Dictionary of named field values.
-   */
-  fields: Receipt;
-}
+
+  rawReciptFields: { [propertyName: string]: FieldValue };
+} & Receipt
 
 /**
  * Analyze Receipt result.
