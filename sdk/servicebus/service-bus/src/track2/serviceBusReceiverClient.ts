@@ -15,7 +15,8 @@ import {
   UselessEmptyContextThatMaybeShouldBeRemoved,
   QueueAuth,
   SubscriptionAuth,
-  isSession
+  isSession,
+  MessageAndContext
 } from "./models";
 import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
 import { RuleDescription, CorrelationFilter } from "../core/managementClient";
@@ -190,6 +191,7 @@ export class ReceiverClientImplementation {
   constructor(
     auth1: QueueAuth | SubscriptionAuth,
     receiveMode2: "peekLock" | "receiveAndDelete",
+    sessionOrOptions3?: Session| ServiceBusClientOptions,
     options4?: ServiceBusClientOptions
   ) {
     let options: ServiceBusClientOptions;
@@ -203,10 +205,7 @@ export class ReceiverClientImplementation {
     }
 
     const { context, entityPath } = createConnectionContext(auth1, options);
-
-    console.log(`receiveMode == ${receiveMode2}`);
     this._receiveMode = convertToInternalReceiveMode(receiveMode2);
-    console.log(`receiveMode == ${this._receiveMode}`);
 
     const clientEntityContext = ClientEntityContext.create(
       entityPath,
@@ -289,17 +288,27 @@ export class ReceiverClientImplementation {
     if (this._receiveMode === ReceiveMode.peekLock) {
       const actualMessageIterator = (messageIterator as any) as MessageIterator<
         ContextType<"peekLock">
-      >;
+        >;
+      
+      const f = async function * (originalMessageIterator: AsyncIterableIterator<ServiceBusMessage>) : AsyncIterableIterator<MessageAndContext < ContextType < "peekLock" >>> {
+        for await(const message of originalMessageIterator) {
+        yield { message, context: settlementContext };
+        }
+      };
 
-      actualMessageIterator.context = settlementContext;
+      // actualMessageIterator.context = settlementContext;
+      return f(messageIterator);
       return actualMessageIterator;
     } else if (this._receiveMode === ReceiveMode.receiveAndDelete) {
-      const actualMessageIterator = (messageIterator as any) as MessageIterator<
-        ContextType<"receiveAndDelete">
-      >;
+        const f = async function * (originalMessageIterator: AsyncIterableIterator<ServiceBusMessage>) : AsyncIterableIterator<MessageAndContext < ContextType < "receiveAndDelete" >>> {
+          for await(const message of originalMessageIterator) {
+            yield { message, context: { } };
+          }
+        };  
 
-      actualMessageIterator.context = {};
-      return actualMessageIterator;
+      // actualMessageIterator.context = {};
+      // return actualMessageIterator;
+      return f(messageIterator);
     } else {
       throw new Error("Unknown receive mode");
     }

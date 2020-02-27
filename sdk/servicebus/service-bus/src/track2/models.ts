@@ -86,12 +86,15 @@ export interface Closeable {
   close(): Promise<void>;
 }
 
+export interface MessageAndContext<ContextT> {
+  message: Message;
+  context: ContextT;
+}
+
 /**
  * An iterator that can also contain a context for settling messages.
  */
-export interface MessageIterator<ContextT> extends AsyncIterable<Message> {
-  context: ContextT;
-}
+export type MessageIterator<ContextT> = AsyncIterable<MessageAndContext<ContextT>>;
 
 /**
  * Type that converts PeekLock/ReceiveAndDelete into the proper Context type

@@ -48,6 +48,9 @@ export async function receiveMessagesUsingPeekLockSubscription() {
     "peekLock"
   );
 
+  // etc...
+  // receiverClient.getRules();
+
   receiverClient.streamMessages({
     async processMessage(message: Message, context: ContextWithSettlementMethods): Promise<void> {
       log(`Message body: ${message.body}`);
@@ -57,6 +60,37 @@ export async function receiveMessagesUsingPeekLockSubscription() {
       log(`Error thrown: ${err}`);
     }
   });  
+}
+
+export async function iterateMessageFromSubscription() {
+  const log = (...args: any[]) => console.log(`iterateMessages using peekLock:`, ...args);
+  log(`Listening, peeklock for subscription`);
+
+  const receiverClient = new ServiceBusReceiverClient(
+    {
+      topicConnectionString: env[`topic.all.connectionString`]!,
+      subscriptionName: env["subscription.withoutsessions.foriteration.name"]!
+    },
+    "peekLock"
+  );
+
+  // TODO: error handling? Does the iterate just terminate?
+  for await (const { message, context } of receiverClient.iterateMessages()) {
+
+    if (message == null) {
+      // user has the option of handling "no messages arrived by the maximum wait time"
+      console.log(`No message arrived within our max wait time`);
+      continue;
+    }
+
+    try {
+      log(`Message body: ${message.body}`);
+      await context.complete(message);
+    } catch (err) {
+      log(`Error: ${err}. Will abandon message`);
+      await context.abandon(message);
+    }
+  }
 }
 
 export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
@@ -99,7 +133,8 @@ async function runAll() {
   const promises = [
     receiveMessagesUsingPeekLock(),
     receiveMessagesUsingPeekLockSubscription(),
-    receiveMessagesUsingReceiveAndDeleteAndSessions()
+    receiveMessagesUsingReceiveAndDeleteAndSessions(),
+    iterateMessageFromSubscription()
   ];
 
   await Promise.all(promises);

@@ -297,15 +297,14 @@ export class ServiceBusMessage implements ReceivedMessage {
 
 // @public (undocumented)
 export interface ServiceBusReceiverClient {
-    // Warning: (ae-forgotten-export) The symbol "ServiceBusClientReceiverOptions" needs to be exported by the entry point index.d.ts
-    new (queueAuth: QueueAuth, receiveMode: "peekLock", options?: ServiceBusClientReceiverOptions): ClientTypeT<"peekLock", "queue", "nosessions">;
-    new (queueAuth: QueueAuth, receiveMode: "receiveAndDelete", options?: ServiceBusClientReceiverOptions): ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
-    new (queueAuth: QueueAuth, receiveMode: "peekLock", session: Session, options?: ServiceBusClientReceiverOptions): ClientTypeT<"peekLock", "queue", "sessions">;
-    new (queueAuths: QueueAuth, receiveMode: "receiveAndDelete", session: Session, options?: ServiceBusClientReceiverOptions): ClientTypeT<"receiveAndDelete", "queue", "sessions">;
-    new (subscriptionAuth: SubscriptionAuth, receiveMode: "peekLock", options?: ServiceBusClientReceiverOptions): ClientTypeT<"peekLock", "subscription", "nosessions">;
-    new (subscriptionAuth: SubscriptionAuth, receiveMode: "receiveAndDelete", options?: ServiceBusClientReceiverOptions): ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
-    new (subscriptionAuth: SubscriptionAuth, receiveMode: "peekLock", session: Session, options?: ServiceBusClientReceiverOptions): ClientTypeT<"peekLock", "subscription", "sessions">;
-    new (subscriptionAuth: SubscriptionAuth, receiveMode: "receiveAndDelete", session: Session, options?: ServiceBusClientReceiverOptions): ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
+    new (queueAuth: QueueAuth, receiveMode: "peekLock"): ClientTypeT<"peekLock", "queue", "nosessions">;
+    new (queueAuth: QueueAuth, receiveMode: "receiveAndDelete"): ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
+    new (queueAuth: QueueAuth, receiveMode: "peekLock", session: Session): ClientTypeT<"peekLock", "queue", "sessions">;
+    new (queueAuths: QueueAuth, receiveMode: "receiveAndDelete", session: Session): ClientTypeT<"receiveAndDelete", "queue", "sessions">;
+    new (subscriptionAuth: SubscriptionAuth, receiveMode: "peekLock"): ClientTypeT<"peekLock", "subscription", "nosessions">;
+    new (subscriptionAuth: SubscriptionAuth, receiveMode: "receiveAndDelete"): ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
+    new (subscriptionAuth: SubscriptionAuth, receiveMode: "peekLock", session: Session): ClientTypeT<"peekLock", "subscription", "sessions">;
+    new (subscriptionAuth: SubscriptionAuth, receiveMode: "receiveAndDelete", session: Session): ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
 }
 
 // @public
