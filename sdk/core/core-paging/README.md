@@ -26,7 +26,7 @@ Example of building with the types:
 ```typescript
   public listSecrets(
     options: ListSecretsOptions = {}
-  ): PagedAsyncIterableIterator<SecretAttributes, SecretAttributes[]> {
+  ): PagedAsyncIterableIterator<SecretAttributes> {
     const iter = this.listSecretsAll(options);
     return {
       async next() { return iter.next(); },

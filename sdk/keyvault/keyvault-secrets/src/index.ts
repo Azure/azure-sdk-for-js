@@ -717,7 +717,7 @@ export class SecretClient {
   public listPropertiesOfSecretVersions(
     secretName: string,
     options: ListPropertiesOfSecretVersionsOptions = {}
-  ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
+  ): PagedAsyncIterableIterator<SecretProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfSecretVersions", requestOptions);
     const updatedOptions: ListPropertiesOfSecretVersionsOptions = {
@@ -815,7 +815,7 @@ export class SecretClient {
    */
   public listPropertiesOfSecrets(
     options: ListPropertiesOfSecretsOptions = {}
-  ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
+  ): PagedAsyncIterableIterator<SecretProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfSecrets", requestOptions);
     const updatedOptions: ListPropertiesOfSecretsOptions = {
@@ -912,7 +912,7 @@ export class SecretClient {
    */
   public listDeletedSecrets(
     options: ListDeletedSecretsOptions = {}
-  ): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]> {
+  ): PagedAsyncIterableIterator<DeletedSecret> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listDeletedSecrets", requestOptions);
     const updatedOptions: ListDeletedSecretsOptions = {
