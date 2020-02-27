@@ -6,7 +6,7 @@
       "type": "string",
       "defaultValue": "[resourceGroup().name]",
       "metadata": {
-          "description": "The base resource name. This field gets automatically generated for us through our CI pipelines. It is required to replace this default value with any combination of alphanumeric characters that you might prefer."
+          "description": "The base resource name that is used to ensure the generated resources have unique names. This field gets automatically generated on our CI pipelines. It's possible to use non-alphanumeric characters in some resource names, like dashes in KV names, but keeping it simple will reduce confusion. A safe upper limit on the number of characters is 17 characters."
       }
     },
     "tenantId": {

@@ -60,12 +60,15 @@ You can read more about Azure locations [here][AzureLocations].
 
 Under "Settings", the "Base Name" will serve us as a prefix
 to determine the name of the resources that we will create,
-so that you can easily find them later.
+so that you can easily find them later. It is **required**
+to replace the default value that will appear on the website.
+`[resourceGroup().name]` is used by our CI pipelines for automation purposes.
 
-This field gets automatically generated for us through our
-CI pipelines. It is **required** to replace this default value
-with any combination of alphanumeric characters that you might
-prefer.
+Even though it is possible to use non-alphanumeric characters in some resource names,
+like dashes in KV names, we recommended writing something simple to reduce confusion.
+
+The constraints on the length of the names are different for every template depending on the resources used,
+but a safe upper limit on the number of characters to use on the `baseName` field is: 17 characters.
 
 ### The "Tenant Id" field.
 
