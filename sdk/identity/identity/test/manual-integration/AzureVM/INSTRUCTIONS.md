@@ -101,11 +101,11 @@ tsc -p .
 
 ## Build and run the tests
 ```sh
- az vm run-command invoke -g $RESOURCE_GROUP -n $VM_NAME_USER_ASSIGNED --command-id RunShellScript --parameters "KEY_VAULT_NAME=$($KEY_VAULT_NAME) VM_ID_USER_ASSIGNED=$($VM_ID_USER_ASSIGNED)"--scripts '"sudo apt update && (yes | sudo apt install npm) && npm install -g typescript && git clone https://github.com/jonathandturner/azure-sdk-for-js --single-branch --branch manual_integration_tests_1 --depth 1 && cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration/AzureVM && npm install && tsc -p ."'
+ az vm run-command invoke -g $RESOURCE_GROUP -n $VM_NAME_USER_ASSIGNED --command-id RunShellScript --parameters "KEY_VAULT_NAME=$($KEY_VAULT_NAME) VM_ID_USER_ASSIGNED=$($VM_ID_USER_ASSIGNED)"--scripts '"sudo apt update && (yes | sudo apt install npm) && npm install -g typescript && git clone https://github.com/azure/azure-sdk-for-js --single-branch --branch master --depth 1 && cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration/AzureVM && npm install && tsc -p ."'
 ```
 
 ```sh
-az vm run-command invoke -g $RESOURCE_GROUP -n $VM_NAME_SYSTEM_ASSIGNED --command-id RunShellScript --parameters "KEY_VAULT_NAME=$($KEY_VAULT_NAME)" --scripts '"sudo apt update && (yes | sudo apt install npm) && sudo npm install -g typescript && git clone https://github.com/jonathandturner/azure-sdk-for-js --single-branch --branch manual_integration_tests_1 --depth 1 && cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration/AzureVM && npm install && tsc -p . && node index"'
+az vm run-command invoke -g $RESOURCE_GROUP -n $VM_NAME_SYSTEM_ASSIGNED --command-id RunShellScript --parameters "KEY_VAULT_NAME=$($KEY_VAULT_NAME)" --scripts '"sudo apt update && (yes | sudo apt install npm) && sudo npm install -g typescript && git clone https://github.com/azure/azure-sdk-for-js --single-branch --branch master --depth 1 && cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration/AzureVM && npm install && tsc -p . && node index"'
  ```
 
 Note, if you see a message like "Could not get lock /var/lib/apt/lists/lock - open", you may need to re-run the command.
