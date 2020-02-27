@@ -22,9 +22,10 @@ import {
   GetAnalyzeLayoutResultResponse,
   GetAnalyzeFormResultResponse,
   GetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponseModel,
-  GetAnalyzeReceiptResultResponse
+  GetAnalyzeReceiptResultResponse,
+  DocumentResult
 } from "./generated/models";
-import { AnalyzeReceiptResultResponse, ReceiptResult } from "./models";
+import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField } from "./models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -418,18 +419,40 @@ export class CustomRecognizerClient {
   }
 
   private toReceiptResultResponse(result: GetAnalyzeReceiptResultResponse): AnalyzeReceiptResultResponse {
+    function toReceiptResult(result: DocumentResult): ReceiptResult {
+    const rawReceipt = result as unknown as RawReceiptResult;
     return {
-      status: result.status,
-      createdOn: result.createdDateTime,
-      lastUpdatedOn: result.lastUpdatedDateTime,
-      _response: result._response,
-      analyzeResult: {
-        version: result.analyzeResult!.version,
-        readResults: result.analyzeResult!.readResults,
-        pageResults: result.analyzeResult!.pageResults,
-        receiptResults: result!.analyzeResult!.documentResults!.map(r => r as unknown as ReceiptResult)
+      docType: rawReceipt.docType,
+      pageRange: rawReceipt.pageRange,
+      fields: {
+        receiptType: rawReceipt.fields.ReceiptType.valueString,
+        merchantName: rawReceipt.fields.MerchantName.valueString,
+        merchantPhoneNumber: rawReceipt.fields.MerchantPhoneNumber.valuePhoneNumber,
+        merchantAddress: rawReceipt.fields.MerchantAddress.valueString,
+        items: rawReceipt.fields.Items.valueArray.map(i => {
+          return {
+            name: (i as ReceiptItemField).valueObject.Name.valueString,
+            totalPrice: (i as ReceiptItemField).valueObject.TotalPrice.valueNumber
+          };}),
+        subtotal: rawReceipt.fields.Subtotal.valueNumber,
+        tax: rawReceipt.fields.Tax.valueNumber,
+        total: rawReceipt.fields.Total.valueNumber,
+        transactionDate: rawReceipt.fields.TransactionDate.valueDate,
+        transactionTime: rawReceipt.fields.TransactionTime.valueTime
       }
-    };
+    }
+  }
+  return {
+    status: result.status,
+    createdDateTime: result.createdDateTime,
+    lastUpdatedDateTime: result.lastUpdatedDateTime,
+    _response: result._response,
+    analyzeResult: {
+      version: result.analyzeResult!.version,
+      readResults: result.analyzeResult!.readResults,
+      pageResults: result.analyzeResult!.pageResults,
+      receiptResults: result!.analyzeResult!.documentResults!.map(toReceiptResult)
+    }};
   }
 
   public async extractLayout(

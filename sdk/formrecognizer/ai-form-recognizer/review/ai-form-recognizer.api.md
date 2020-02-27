@@ -14,26 +14,39 @@ import { ServiceClientCredentials } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
 import { WebResource } from '@azure/core-http';
 
+// @public (undocumented)
+export type AnalyzeLayoutOperationResult = Omit<AnalyzeOperationResult, 'analyzeResult'> & {
+    analyzeResult?: AnalyzeLayoutResult;
+};
+
+// @public (undocumented)
+export type AnalyzeLayoutResult = Omit<AnalyzeResult, 'documentResults'>;
+
+// @public (undocumented)
+export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResult;
+    };
+};
+
 // @public
-export interface AnalyzeReceiptOperationResult {
-    analyzeResult?: AnalyzeReceiptResult;
-    createdOn: Date;
-    lastUpdatedOn: Date;
-    // Warning: (ae-forgotten-export) The symbol "OperationStatus" needs to be exported by the entry point index.d.ts
+export interface AnalyzeOperationResult {
+    analyzeResult?: AnalyzeResult;
+    createdDateTime: Date;
+    lastUpdatedDateTime: Date;
     status: OperationStatus;
 }
 
 // @public
-export interface AnalyzeReceiptResult {
-    // Warning: (ae-forgotten-export) The symbol "ErrorInformation" needs to be exported by the entry point index.d.ts
-    errors?: ErrorInformation[];
-    // Warning: (ae-forgotten-export) The symbol "PageResult" needs to be exported by the entry point index.d.ts
-    pageResults?: PageResult[];
-    // Warning: (ae-forgotten-export) The symbol "ReadResult" needs to be exported by the entry point index.d.ts
-    readResults: ReadResult[];
+export type AnalyzeReceiptOperationResult = Omit<AnalyzeOperationResult, 'analyzeResult'> & {
+    analyzeResult?: AnalyzeReceiptResult;
+};
+
+// @public
+export type AnalyzeReceiptResult = Omit<AnalyzeResult, 'documentResults'> & {
     receiptResults?: ReceiptResult[];
-    version: string;
-}
+};
 
 // @public
 export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
@@ -131,6 +144,27 @@ export class CustomRecognizerClient {
     //
     // (undocumented)
     startTraining(source: string, options?: StartTrainingOptions): Promise<PollerLike<PollOperationState<Model>, Model>>;
+    }
+
+// @public
+export interface DataTable {
+    cells: DataTableCell[];
+    columns: number;
+    rows: number;
+}
+
+// @public
+export interface DataTableCell {
+    boundingBox: number[];
+    columnIndex: number;
+    columnSpan?: number;
+    confidence: number;
+    elements?: string[];
+    isFooter?: boolean;
+    isHeader?: boolean;
+    rowIndex: number;
+    rowSpan?: number;
+    text: string;
 }
 
 // @public (undocumented)
@@ -143,13 +177,24 @@ export type DateFieldValue = {
 export interface DocumentResult {
     docType: string;
     fields: {
-        [propertyName: string]: FieldValue;
+        [propertyName: string]: FieldValue_2;
     };
     pageRange: number[];
 }
 
+// @public
+export interface ErrorInformation {
+    // (undocumented)
+    code: string;
+    // (undocumented)
+    message: string;
+}
+
 // @public (undocumented)
 export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
+
+// @public
+export type FieldValueType = 'string' | 'date' | 'time' | 'phoneNumber' | 'number' | 'integer' | 'array' | 'object';
 
 // @public
 export class FormRecognizerClient {
@@ -181,10 +226,31 @@ export type IntegerFieldValue = {
     valueInteger: number;
 } & CommonFieldValue;
 
+// @public
+export interface KeyValueElement {
+    boundingBox?: number[];
+    elements?: string[];
+    text: string;
+}
+
+// @public
+export interface KeyValuePair {
+    confidence: number;
+    key: KeyValueElement;
+    label?: string;
+    value: KeyValueElement;
+}
+
+// @public
+export type Language = 'en' | 'es';
+
+// @public
+export type LengthUnit = 'pixel' | 'inch';
+
 // @public (undocumented)
 export type NumberFieldValue = {
     type: "number";
-    valueNumber: string;
+    valueNumber: number;
 } & CommonFieldValue;
 
 // @public (undocumented)
@@ -195,6 +261,17 @@ export type ObjectFieldValue = {
     };
 } & CommonFieldValue;
 
+// @public
+export type OperationStatus = 'notStarted' | 'running' | 'succeeded' | 'failed';
+
+// @public
+export interface PageResult {
+    clusterId?: number;
+    keyValuePairs?: KeyValuePair[];
+    page: number;
+    tables?: DataTable[];
+}
+
 // @public (undocumented)
 export type PhoneNumberFieldValue = {
     type: "phoneNumber";
@@ -202,7 +279,7 @@ export type PhoneNumberFieldValue = {
 } & CommonFieldValue;
 
 // @public
-export interface Receipt {
+export interface RawReceipt {
     // (undocumented)
     Items: ReceiptItemArrayField;
     // (undocumented)
@@ -225,12 +302,62 @@ export interface Receipt {
     TransactionTime: TimeFieldValue;
 }
 
+// @public (undocumented)
+export interface RawReceiptResult {
+    docType: "prebuilt:receipt";
+    fields: RawReceipt;
+    pageRange: number[];
+}
+
+// @public
+export interface ReadResult {
+    angle: number;
+    height: number;
+    language?: Language;
+    lines?: TextLine[];
+    page: number;
+    unit: LengthUnit;
+    width: number;
+}
+
+// @public (undocumented)
+export interface Receipt {
+    // (undocumented)
+    items: ReceiptItem[];
+    // (undocumented)
+    merchantAddress: string;
+    // (undocumented)
+    merchantName: string;
+    // (undocumented)
+    merchantPhoneNumber: string;
+    // (undocumented)
+    receiptType: string;
+    // (undocumented)
+    subtotal: number;
+    // (undocumented)
+    tax: number;
+    // (undocumented)
+    total: number;
+    // (undocumented)
+    transactionDate: string;
+    // (undocumented)
+    transactionTime: string;
+}
+
+// @public (undocumented)
+export interface ReceiptItem {
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    totalPrice: number;
+}
+
 // @public
 export interface ReceiptItemArrayField {
     // (undocumented)
     type: "array";
     // (undocumented)
-    valueArray: ReceiptItemField;
+    valueArray: ReceiptItemField[];
 }
 
 // @public
@@ -257,6 +384,21 @@ export type StringFieldValue = {
     valueString: string;
 } & CommonFieldValue;
 
+// @public
+export interface TextLine {
+    boundingBox: number[];
+    language?: Language;
+    text: string;
+    words: TextWord[];
+}
+
+// @public
+export interface TextWord {
+    boundingBox: number[];
+    confidence?: number;
+    text: string;
+}
+
 // @public (undocumented)
 export type TimeFieldValue = {
     type: "time";
@@ -266,7 +408,7 @@ export type TimeFieldValue = {
 
 // Warnings were encountered during analysis:
 //
-// src/models.ts:246:5 - (ae-forgotten-export) The symbol "AnalyzeOperationResult" needs to be exported by the entry point index.d.ts
+// src/generated/models/index.ts:496:13 - (ae-forgotten-export) The symbol "FieldValue" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

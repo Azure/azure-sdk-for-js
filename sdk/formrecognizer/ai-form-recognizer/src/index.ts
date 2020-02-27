@@ -5,6 +5,22 @@ export { FormRecognizerClient, FormRecognizerClientOptions } from "./formRecogni
 export { CustomRecognizerClient } from "./customRecognizerClient";
 export { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 
-export { GetCustomModelsResponse } from "./generated/models";
+export {
+  DocumentResult,
+  ErrorInformation,
+  KeyValuePair,
+  KeyValueElement,
+  DataTable,
+  DataTableCell,
+  Language,
+  TextLine,
+  TextWord,
+  LengthUnit,
+  OperationStatus,
+  FieldValueType,
+  PageResult,
+  ReadResult,
+  GetCustomModelsResponse
+} from "./generated/models";
 
 export * from "./models";

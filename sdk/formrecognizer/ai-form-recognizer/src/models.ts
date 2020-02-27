@@ -4,12 +4,14 @@
 import * as coreHttp from "@azure/core-http";
 
 import {
-  ReadResult,
-  PageResult,
-  ErrorInformation,
-  OperationStatus,
-  AnalyzeOperationResult
+  AnalyzeOperationResult,
+  AnalyzeResult
 } from "./generated/models/index";
+
+export {
+  AnalyzeOperationResult,
+  AnalyzeResult
+}
 
 export interface CommonFieldValue {
   /**
@@ -57,7 +59,7 @@ export type PhoneNumberFieldValue = {
 
 export type NumberFieldValue = {
   type: "number";
-  valueNumber: string;
+  valueNumber: number;
 } & CommonFieldValue;
 
 export type IntegerFieldValue = {
@@ -86,50 +88,6 @@ export type FieldValue =
   | ObjectFieldValue;
 
 /**
- * A set of extracted fields corresponding to the input document.
- */
-export interface DocumentResult {
-  /**
-   * Document type.
-   */
-  docType: string;
-  /**
-   * First and last page number where the document is found.
-   */
-  pageRange: number[];
-  /**
-   * Dictionary of named field values.
-   */
-  fields: { [propertyName: string]: FieldValue };
-}
-
-/**
- * Analyze operation result.
- */
-export interface AnalyzeResult {
-  /**
-   * Version of schema used for this result.
-   */
-  version: string;
-  /**
-   * Text extracted from the input.
-   */
-  readResults: ReadResult[];
-  /**
-   * Page-level information extracted from the input.
-   */
-  pageResults?: PageResult[];
-  /**
-   * Document-level information extracted from the input.
-   */
-  documentResults?: DocumentResult[];
-  /**
-   * List of errors reported during the analyze operation.
-   */
-  errors?: ErrorInformation[];
-}
-
-/**
  * Represents an item in a receipt.
  */
 export interface ReceiptItemField {
@@ -140,18 +98,23 @@ export interface ReceiptItemField {
   };
 }
 
+export interface ReceiptItem {
+  name: string;
+  totalPrice: number;
+}
+
 /**
  * Represents all the items in a receipt.
  */
 export interface ReceiptItemArrayField {
   type: "array";
-  valueArray: ReceiptItemField;
+  valueArray: ReceiptItemField[];
 }
 
 /**
- * Receipt
+ * Raw Receipt from the response
  */
-export interface Receipt {
+export interface RawReceipt {
   ReceiptType: StringFieldValue;
   MerchantName: StringFieldValue;
   MerchantPhoneNumber: PhoneNumberFieldValue;
@@ -162,6 +125,34 @@ export interface Receipt {
   Total: NumberFieldValue;
   TransactionDate: DateFieldValue;
   TransactionTime: TimeFieldValue;
+}
+
+export interface Receipt {
+  receiptType: string;
+  merchantName: string;
+  merchantPhoneNumber: string;
+  merchantAddress: string;
+  items: ReceiptItem[];
+  subtotal: number;
+  tax: number;
+  total: number;
+  transactionDate: string;
+  transactionTime: string;
+}
+
+export interface RawReceiptResult {
+  /**
+   * Document type.
+   */
+  docType: "prebuilt:receipt";
+  /**
+   * First and last page number where the document is found.
+   */
+  pageRange: number[];
+  /**
+   * Dictionary of named field values.
+   */
+  fields: RawReceipt;
 }
 
 export interface ReceiptResult {
@@ -182,47 +173,16 @@ export interface ReceiptResult {
 /**
  * Analyze Receipt result.
  */
-export interface AnalyzeReceiptResult {
-  /**
-   * Version of schema used for this result.
-   */
-  version: string;
-  /**
-   * Text extracted from the input.
-   */
-  readResults: ReadResult[];
-  /**
-   * Page-level information extracted from the input.
-   */
-  pageResults?: PageResult[];
-  /**
-   * Receipt information extracted from the input.
-   */
+export type AnalyzeReceiptResult = Omit<AnalyzeResult, 'documentResults'> & {
   receiptResults?: ReceiptResult[];
-  /**
-   * List of errors reported during the analyze operation.
-   */
-  errors?: ErrorInformation[];
 }
 
 /**
- * Status and result of the queued analyze operation.
+ * Status and result of the queued analyze receipt operation.
  */
-export interface AnalyzeReceiptOperationResult {
+export type AnalyzeReceiptOperationResult = Omit<AnalyzeOperationResult, 'analyzeResult'> & {
   /**
-   * Operation status. Possible values include: 'notStarted', 'running', 'succeeded', 'failed'
-   */
-  status: OperationStatus;
-  /**
-   * Date and time (UTC) when the analyze operation was submitted.
-   */
-  createdOn: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
-  lastUpdatedOn: Date;
-  /**
-   * Results of the analyze operation.
+   * Results of the analyze receipt operation.
    */
   analyzeResult?: AnalyzeReceiptResult;
 }
@@ -231,6 +191,29 @@ export interface AnalyzeReceiptOperationResult {
  * Contains response data for the getAnalyzeReceiptResult operation.
  */
 export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalyzeOperationResult;
+  };
+};
+
+export type AnalyzeLayoutResult = Omit<AnalyzeResult, 'documentResults'>;
+
+export type AnalyzeLayoutOperationResult = Omit<AnalyzeOperationResult, 'analyzeResult'> & {
+  analyzeResult?: AnalyzeLayoutResult;
+}
+
+export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
   /**
    * The underlying HTTP response.
    */

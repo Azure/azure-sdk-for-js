@@ -22,7 +22,12 @@ async function main() {
 
   let result;
 
-  result = await client.getExtractedReceipt("5bff970a-d950-4aac-873d-883b513f1f0b");
+  try {
+    result = await client.getExtractedReceipt("1864e01a-5bcc-40f3-aac3-d69c6d9a123c");
+  } catch (e) {
+    console.log(e);
+    result = { status: "failed" };
+  }
 
   if (result.status !== "succeeded") {
     console.log(result);
@@ -30,8 +35,15 @@ async function main() {
     result = await client.extractReceiptFromUrl(imageUrl, {
     });
   }
-  console.log(result);
-  console.log(result.analyzeResult.receiptResults);
+
+  console.log(result.status);
+  console.log("first receipt:")
+  console.log(result.analyzeResult.receiptResults[0]);
+  console.log("\titems:")
+  let i = 1;
+  for (const item of result.analyzeResult.receiptResults[0].fields.items) {
+    console.log(`\t${i++}) ${item.name} ${item.totalPrice}`);
+  }
 }
 
 main().catch((err) => {
