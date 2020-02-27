@@ -6,7 +6,7 @@ import { KeyClient } from "@azure/keyvault-keys";
 import { isNode } from "@azure/core-http";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { retry } from "./utils/recorderUtils";
-import { env, Recorder } from "../../../test-utils/recorder/src/index";
+import { env, Recorder } from "@azure/test-utils-recorder";
 //sdk\test-utils\recorder\src\index.ts
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
