@@ -25,12 +25,7 @@ az group create -n $RESOURCE_GROUP --location westus2
 az keyvault create -g $RESOURCE_GROUP -n $KEY_VAULT_NAME --sku standard
 ```
 
-The tests expect the vault's URI in an environment variable:
-```sh
-$AZURE_IDENTITY_TEST_VAULT_URL=az keyvault show -g $RESOURCE_GROUP -n $KEY_VAULT_NAME --query properties.vaultUri | tr -d '"'
-```
-
-# Run the tests
+# Run the tests (from inside Cloudshell)
 
 ### Build the webapp
 ```
@@ -38,7 +33,7 @@ git clone https://github.com/azure/azure-sdk-for-js --single-branch --branch mas
 ```
 
 ```
-cd azure-sdk-for-js\sdk\identity\identity\test\manual-integration\webjobs\App_Data
+cd azure-sdk-for-js/sdk/identity/identity/test/manual-integration/Cloudshell
 ```
 
 Install the requirements:
@@ -46,14 +41,21 @@ Install the requirements:
 npm install
 ```
 
+```
+npm install typescript
+```
+
 Build the job:
 ```
-tsc -p .
+node_modules/typescript/bin/tsc -p .
 ```
 
-## In virtual environment:
+### Run test
+The tests expect the vault's URI in an environment variable. Replace `<put key vault name here>` with the name of the keyvault you created earlier :
+```sh
+export KEY_VAULT_NAME=<put key vault name here>
+```
 
-### Run tests
 ```sh
 node index
 ```
@@ -61,6 +63,12 @@ node index
 ### Deactivate
 ```sh
 deactivate
+```
+
+# Verify success
+
+```
+az keyvault secret show -n "secret-name-cloudshell" --vault-name "$($KEY_VAULT_NAME)"
 ```
 
 # Delete Azure resources

@@ -11,7 +11,7 @@ async function main(): Promise<void> {
   const url = "https://" + process.env.KEY_VAULT_NAME + ".vault.azure.net";
   const client = new SecretClient(url, credential);
 
-  await client.setSecret("secret-name130", "secret-value130");
+  await client.setSecret("secret-name-cloudshell", "secret-value-cloudshell");
 }
 
 main().catch((err) => {
