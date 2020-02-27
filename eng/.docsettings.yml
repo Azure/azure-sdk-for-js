@@ -83,6 +83,7 @@ known_content_issues:
   - ["sdk/storage/storage-file-datalake/test/README.md", "#1583"]
   - ["sdk/storage/storage-file-share/test/README.md", "#1583"]
   - ["sdk/storage/storage-queue/test/README.md", "#1583"]
+  - ["sdk/synapse/synapse/README.md", "#1583"]
   - ["sdk/template/template/README.md", "#1583"]
   - ["sdk/test-utils/recorder/README.md", "#1583"]
 
