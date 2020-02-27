@@ -155,6 +155,12 @@ tsc -p .
 node ./run_test.js --client-id $MANAGED_IDENTITY_CLIENT_ID --resource-id $MANAGED_IDENTITY_ID --vault-url "https://$($KEY_VAULT_NAME).vault.azure.net" --repository $REPOSITORY --image-name $IMAGE_NAME --image-tag $NODE_VERSION
 ```
 
+### verify success
+
+```
+az keyvault secret show -n "secret-name-pod" --vault-name "$($KEY_VAULT_NAME)"
+```
+
 ### delete Azure resources
 ```sh
 az group delete -n $RESOURCE_GROUP -y --no-wait
