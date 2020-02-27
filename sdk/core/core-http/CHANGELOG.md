@@ -1,8 +1,10 @@
 # Release History
 
-## 1.0.4 (Unreleased)
+## 1.0.4 (2020-02-28)
 
 - When an operation times out based on the `timeout` configured in the `OperationRequestOptions`, it gets terminated with an error. In this update, the error that is thrown in browser for such cases is updated to match what is thrown in node i.e an `AbortError` is thrown instead of the previous `RestError`. [PR #7159](https://github.com/Azure/azure-sdk-for-js/pull/7159)
+- User name and password in proxy url string are now supported [PR #7211](https://github.com/Azure/azure-sdk-for-js/pull/7211)
+- Consumers of this library no longer need to reference lib "dom" or add shims for types from `lib.dom.d.ts` when they don't use those types directly. [PR #7500](https://github.com/Azure/azure-sdk-for-js/pull/7500)
 
 ## 1.0.3 (2020-01-02)
 - Added `x-ms-useragent` to the list of allowed headers in request logs.
