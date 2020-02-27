@@ -34,9 +34,9 @@ export interface SecretClientInterface {
 }
 
 /**
- * The latest stable KeyVault service API version
+ * The latest supported KeyVault service API version
  */
-export const LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION = "7.0";
+export const LATEST_API_VERSION = "7.1-preview";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient

@@ -60,12 +60,11 @@ import {
   ListDeletedSecretsOptions,
   SecretProperties,
   SecretClientOptions,
-  LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION
+  LATEST_API_VERSION
 } from "./secretsModels";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 
 export {
-  LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION,
   SecretClientOptions,
   DeletedSecret,
   DeletionRecoveryLevel,
@@ -184,7 +183,7 @@ export class SecretClient {
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
       credential,
-      pipelineOptions.apiVersion || LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION,
+      pipelineOptions.apiVersion || LATEST_API_VERSION,
       pipeline
     );
   }

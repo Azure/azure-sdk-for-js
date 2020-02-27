@@ -85,7 +85,7 @@ import {
   PolicySubjectProperties,
   DefaultCertificatePolicy,
   CertificateClientOptions,
-  LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION
+  LATEST_API_VERSION
 } from "./certificatesModels";
 import {
   CertificateBundle,
@@ -153,7 +153,6 @@ import { CreateCertificateState } from "./lro/create/operation";
 import { RecoverDeletedCertificateState } from "./lro/recover/operation";
 
 export {
-  LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION,
   CertificateClientOptions,
   ActionType,
   AdministratorContact,
@@ -466,7 +465,7 @@ export class CertificateClient {
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
       credential,
-      pipelineOptions.apiVersion || LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION,
+      pipelineOptions.apiVersion || LATEST_API_VERSION,
       pipeline
     );
   }
