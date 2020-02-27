@@ -38,6 +38,11 @@ class LogicManagementClient extends LogicManagementClientContext {
   integrationAccountAgreements: operations.IntegrationAccountAgreements;
   integrationAccountCertificates: operations.IntegrationAccountCertificates;
   integrationAccountSessions: operations.IntegrationAccountSessions;
+  integrationServiceEnvironments: operations.IntegrationServiceEnvironments;
+  integrationServiceEnvironmentSkus: operations.IntegrationServiceEnvironmentSkus;
+  integrationServiceEnvironmentNetworkHealth: operations.IntegrationServiceEnvironmentNetworkHealth;
+  integrationServiceEnvironmentManagedApis: operations.IntegrationServiceEnvironmentManagedApis;
+  integrationServiceEnvironmentManagedApiOperations: operations.IntegrationServiceEnvironmentManagedApiOperations;
   operations: operations.Operations;
 
   /**
@@ -69,6 +74,11 @@ class LogicManagementClient extends LogicManagementClientContext {
     this.integrationAccountAgreements = new operations.IntegrationAccountAgreements(this);
     this.integrationAccountCertificates = new operations.IntegrationAccountCertificates(this);
     this.integrationAccountSessions = new operations.IntegrationAccountSessions(this);
+    this.integrationServiceEnvironments = new operations.IntegrationServiceEnvironments(this);
+    this.integrationServiceEnvironmentSkus = new operations.IntegrationServiceEnvironmentSkus(this);
+    this.integrationServiceEnvironmentNetworkHealth = new operations.IntegrationServiceEnvironmentNetworkHealth(this);
+    this.integrationServiceEnvironmentManagedApis = new operations.IntegrationServiceEnvironmentManagedApis(this);
+    this.integrationServiceEnvironmentManagedApiOperations = new operations.IntegrationServiceEnvironmentManagedApiOperations(this);
     this.operations = new operations.Operations(this);
   }
 }

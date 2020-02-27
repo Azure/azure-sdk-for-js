@@ -72,6 +72,44 @@ export interface ResourceReference {
 }
 
 /**
+ * The ip address.
+ */
+export interface IpAddress {
+  /**
+   * The address.
+   */
+  address?: string;
+}
+
+/**
+ * The flow endpoints configuration.
+ */
+export interface FlowEndpoints {
+  /**
+   * The outgoing ip address.
+   */
+  outgoingIpAddresses?: IpAddress[];
+  /**
+   * The access endpoint ip address.
+   */
+  accessEndpointIpAddresses?: IpAddress[];
+}
+
+/**
+ * The endpoints configuration.
+ */
+export interface FlowEndpointsConfiguration {
+  /**
+   * The workflow endpoints.
+   */
+  workflow?: FlowEndpoints;
+  /**
+   * The connector endpoints.
+   */
+  connector?: FlowEndpoints;
+}
+
+/**
  * The sku type.
  */
 export interface Sku {
@@ -147,6 +185,10 @@ export interface Workflow extends Resource {
    */
   readonly accessEndpoint?: string;
   /**
+   * The endpoints configuration.
+   */
+  endpointsConfiguration?: FlowEndpointsConfiguration;
+  /**
    * The sku.
    */
   sku?: Sku;
@@ -154,6 +196,10 @@ export interface Workflow extends Resource {
    * The integration account.
    */
   integrationAccount?: ResourceReference;
+  /**
+   * The integration service environment.
+   */
+  integrationServiceEnvironment?: ResourceReference;
   /**
    * The definition.
    */
@@ -533,7 +579,7 @@ export interface WorkflowTriggerHistory extends SubResource {
    */
   readonly outputsLink?: ContentLink;
   /**
-   * Gets a value indicating whether trigger was fired.
+   * The value indicating whether trigger was fired.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly fired?: boolean;
@@ -903,6 +949,892 @@ export interface GenerateUpgradedDefinitionParameters {
 }
 
 /**
+ * The Api Operation Annotation.
+ */
+export interface ApiOperationAnnotation {
+  /**
+   * Possible values include: 'NotSpecified', 'Preview', 'Production'
+   */
+  status?: StatusAnnotation;
+  /**
+   * The family.
+   */
+  family?: string;
+  /**
+   * The revision.
+   */
+  revision?: number;
+}
+
+/**
+ * The Swagger XML.
+ */
+export interface SwaggerXml {
+  /**
+   * The xml element or attribute name.
+   */
+  name?: string;
+  /**
+   * The xml namespace.
+   */
+  namespace?: string;
+  /**
+   * The name prefix.
+   */
+  prefix?: string;
+  /**
+   * Indicates whether the property should be an attribute instead of an element.
+   */
+  attribute?: boolean;
+  /**
+   * Indicates whether the array elements are wrapped in a container element.
+   */
+  wrapped?: boolean;
+  /**
+   * The vendor extensions.
+   */
+  extensions?: { [propertyName: string]: any };
+}
+
+/**
+ * The swagger external documentation
+ */
+export interface SwaggerExternalDocumentation {
+  /**
+   * The document description.
+   */
+  description?: string;
+  /**
+   * The documentation Uri.
+   */
+  uri?: string;
+  /**
+   * The vendor extensions.
+   */
+  extensions?: { [propertyName: string]: any };
+}
+
+/**
+ * The swagger custom dynamic schema.
+ */
+export interface SwaggerCustomDynamicSchema {
+  /**
+   * The operation id to fetch dynamic schema.
+   */
+  operationId?: string;
+  /**
+   * Json pointer to the dynamic schema on the response body.
+   */
+  valuePath?: string;
+  /**
+   * The operation parameters.
+   */
+  parameters?: { [propertyName: string]: any };
+}
+
+/**
+ * The swagger custom dynamic properties.
+ */
+export interface SwaggerCustomDynamicProperties {
+  /**
+   * The operation id to fetch dynamic schema.
+   */
+  operationId?: string;
+  /**
+   * Json pointer to the dynamic schema on the response body.
+   */
+  valuePath?: string;
+  /**
+   * The operation parameters.
+   */
+  parameters?: { [propertyName: string]: SwaggerCustomDynamicProperties };
+}
+
+/**
+ * The swagger custom dynamic list.
+ */
+export interface SwaggerCustomDynamicList {
+  /**
+   * The operation id to fetch dynamic schema.
+   */
+  operationId?: string;
+  /**
+   * The built in operation.
+   */
+  builtInOperation?: string;
+  /**
+   * The path to a response property (relative to the response object, not the response body) which
+   * contains an array of dynamic value items.
+   */
+  itemsPath?: string;
+  /**
+   * The path to a property which defines the value which should be used.
+   */
+  itemValuePath?: string;
+  /**
+   * The path to an item property which defines the display name of the item.
+   */
+  itemTitlePath?: string;
+  /**
+   * The parameters.
+   */
+  parameters?: { [propertyName: string]: SwaggerCustomDynamicProperties };
+}
+
+/**
+ * The swagger custom dynamic tree settings.
+ */
+export interface SwaggerCustomDynamicTreeSettings {
+  /**
+   * Indicates whether parent nodes can be selected.
+   */
+  canSelectParentNodes?: boolean;
+  /**
+   * Indicates whether leaf nodes can be selected.
+   */
+  canSelectLeafNodes?: boolean;
+}
+
+/**
+ * The swagger custom dynamic tree parameter.
+ */
+export interface SwaggerCustomDynamicTreeParameter {
+  /**
+   * Gets or sets a path to a property in the currently selected item to pass as a value to a
+   * parameter for the given operation.
+   */
+  selectedItemValuePath?: string;
+  /**
+   * The parameter value.
+   */
+  value?: any;
+  /**
+   * The parameter reference.
+   */
+  parameterReference?: string;
+  /**
+   * Indicates whether the parameter is required.
+   */
+  required?: boolean;
+}
+
+/**
+ * The swagger tree command.
+ */
+export interface SwaggerCustomDynamicTreeCommand {
+  /**
+   * The path to an item property which defines the display name of the item.
+   */
+  operationId?: string;
+  /**
+   * The path to an item property which defines the display name of the item.
+   */
+  itemsPath?: string;
+  /**
+   * The path to an item property which defines the display name of the item.
+   */
+  itemValuePath?: string;
+  /**
+   * The path to an item property which defines the display name of the item.
+   */
+  itemTitlePath?: string;
+  /**
+   * The path to an item property which defines the display name of the item.
+   */
+  itemFullTitlePath?: string;
+  /**
+   * The path to an item property which defines the display name of the item.
+   */
+  itemIsParent?: string;
+  /**
+   * The path to an item property which defines the display name of the item.
+   */
+  selectableFilter?: string;
+  parameters?: { [propertyName: string]: SwaggerCustomDynamicTreeParameter };
+}
+
+/**
+ * The swagger custom dynamic tree.
+ */
+export interface SwaggerCustomDynamicTree {
+  /**
+   * The tree settings
+   */
+  settings?: SwaggerCustomDynamicTreeSettings;
+  /**
+   * The tree on-open configuration
+   */
+  open?: SwaggerCustomDynamicTreeCommand;
+  /**
+   * The tree on-browse configuration
+   */
+  browse?: SwaggerCustomDynamicTreeCommand;
+}
+
+/**
+ * The swagger schema.
+ */
+export interface SwaggerSchema {
+  /**
+   * The reference.
+   */
+  ref?: string;
+  /**
+   * The type. Possible values include: 'String', 'Number', 'Integer', 'Boolean', 'Array', 'File',
+   * 'Object', 'Null'
+   */
+  type?: SwaggerSchemaType;
+  /**
+   * The title.
+   */
+  title?: string;
+  /**
+   * The items schema.
+   */
+  items?: SwaggerSchema;
+  /**
+   * The object properties
+   */
+  properties?: { [propertyName: string]: SwaggerSchema };
+  /**
+   * The additional properties.
+   */
+  additionalProperties?: any;
+  /**
+   * The object required properties.
+   */
+  required?: string[];
+  /**
+   * The maximum number of allowed properties.
+   */
+  maxProperties?: number;
+  /**
+   * The minimum number of allowed properties.
+   */
+  minProperties?: number;
+  /**
+   * The schemas which must pass validation when this schema is used.
+   */
+  allOf?: SwaggerSchema[];
+  /**
+   * The discriminator.
+   */
+  discriminator?: string;
+  /**
+   * Indicates whether this property must be present in the a request.
+   */
+  readOnly?: boolean;
+  /**
+   * The xml representation format for a property.
+   */
+  xml?: SwaggerXml;
+  /**
+   * The external documentation.
+   */
+  externalDocs?: SwaggerExternalDocumentation;
+  /**
+   * The example value.
+   */
+  example?: any;
+  /**
+   * Indicates the notification url extension. If this is set, the property's value should be a
+   * callback url for a webhook.
+   */
+  notificationUrlExtension?: boolean;
+  /**
+   * The dynamic schema configuration.
+   */
+  dynamicSchemaOld?: SwaggerCustomDynamicSchema;
+  /**
+   * The dynamic schema configuration.
+   */
+  dynamicSchemaNew?: SwaggerCustomDynamicProperties;
+  /**
+   * The dynamic list.
+   */
+  dynamicListNew?: SwaggerCustomDynamicList;
+  /**
+   * The dynamic values tree configuration.
+   */
+  dynamicTree?: SwaggerCustomDynamicTree;
+}
+
+/**
+ * The Api reference.
+ */
+export interface ApiReference extends ResourceReference {
+  /**
+   * The display name of the api.
+   */
+  displayName?: string;
+  /**
+   * The description of the api.
+   */
+  description?: string;
+  /**
+   * The icon uri of the api.
+   */
+  iconUri?: string;
+  /**
+   * The swagger of the api.
+   */
+  swagger?: any;
+  /**
+   * The brand color of the api.
+   */
+  brandColor?: string;
+  /**
+   * The tier. Possible values include: 'NotSpecified', 'Enterprise', 'Standard', 'Premium'
+   */
+  category?: ApiTier;
+  /**
+   * The integration service environment reference.
+   */
+  integrationServiceEnvironment?: ResourceReference;
+}
+
+/**
+ * The api operations properties
+ */
+export interface ApiOperationPropertiesDefinition {
+  /**
+   * The summary of the api operation.
+   */
+  summary?: string;
+  /**
+   * The description of the api operation.
+   */
+  description?: string;
+  /**
+   * The visibility of the api operation.
+   */
+  visibility?: string;
+  /**
+   * The trigger type of api operation.
+   */
+  trigger?: string;
+  /**
+   * The trigger hint for the api operation.
+   */
+  triggerHint?: string;
+  /**
+   * Indicates whether the api operation is pageable.
+   */
+  pageable?: boolean;
+  /**
+   * The annotation of api operation.
+   */
+  annotation?: ApiOperationAnnotation;
+  /**
+   * The api reference.
+   */
+  api?: ApiReference;
+  /**
+   * The operation inputs definition schema.
+   */
+  inputsDefinition?: SwaggerSchema;
+  /**
+   * The operation responses definition schemas.
+   */
+  responsesDefinition?: { [propertyName: string]: SwaggerSchema };
+  /**
+   * Indicates whether the API operation is webhook or not.
+   */
+  isWebhook?: boolean;
+  /**
+   * Indicates whether the API operation is notification or not.
+   */
+  isNotification?: boolean;
+}
+
+/**
+ * The api operation.
+ */
+export interface ApiOperation extends Resource {
+  properties?: ApiOperationPropertiesDefinition;
+}
+
+/**
+ * The WSDL service.
+ */
+export interface WsdlService {
+  /**
+   * The qualified name.
+   */
+  qualifiedName?: string;
+  /**
+   * The list of endpoints' qualified names.
+   */
+  endpointQualifiedNames?: string[];
+}
+
+/**
+ * The API deployment parameter metadata.
+ */
+export interface ApiDeploymentParameterMetadata {
+  /**
+   * The type.
+   */
+  type?: string;
+  /**
+   * Indicates whether its required.
+   */
+  isRequired?: boolean;
+  /**
+   * The display name.
+   */
+  displayName?: string;
+  /**
+   * The description.
+   */
+  description?: string;
+  /**
+   * The visibility. Possible values include: 'NotSpecified', 'Default', 'Internal'
+   */
+  visibility?: ApiDeploymentParameterVisibility;
+}
+
+/**
+ * The API deployment parameters metadata.
+ */
+export interface ApiDeploymentParameterMetadataSet {
+  /**
+   * The package content link parameter.
+   */
+  packageContentLink?: ApiDeploymentParameterMetadata;
+  /**
+   * The package content link parameter.
+   */
+  redisCacheConnectionString?: ApiDeploymentParameterMetadata;
+}
+
+/**
+ * The api resource metadata.
+ */
+export interface ApiResourceMetadata {
+  /**
+   * The source.
+   */
+  source?: string;
+  /**
+   * The brand color.
+   */
+  brandColor?: string;
+  /**
+   * The hide key.
+   */
+  hideKey?: string;
+  /**
+   * The tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The api type. Possible values include: 'NotSpecified', 'Rest', 'Soap'
+   */
+  apiType?: ApiType;
+  /**
+   * The WSDL service.
+   */
+  wsdlService?: WsdlService;
+  /**
+   * The WSDL import method. Possible values include: 'NotSpecified', 'SoapToRest',
+   * 'SoapPassThrough'
+   */
+  wsdlImportMethod?: WsdlImportMethod;
+  /**
+   * The connection type.
+   */
+  connectionType?: string;
+  /**
+   * The provisioning state. Possible values include: 'NotSpecified', 'Accepted', 'Running',
+   * 'Ready', 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded',
+   * 'Moving', 'Updating', 'Registering', 'Registered', 'Unregistering', 'Unregistered',
+   * 'Completed'
+   */
+  provisioningState?: WorkflowProvisioningState;
+  /**
+   * The connector deployment parameters metadata.
+   */
+  deploymentParameters?: ApiDeploymentParameterMetadataSet;
+}
+
+/**
+ * The API general information.
+ */
+export interface ApiResourceGeneralInformation {
+  /**
+   * The icon url.
+   */
+  iconUrl?: string;
+  /**
+   * The display name.
+   */
+  displayName?: string;
+  /**
+   * The description.
+   */
+  description?: string;
+  /**
+   * The terms of use url.
+   */
+  termsOfUseUrl?: string;
+  /**
+   * The release tag.
+   */
+  releaseTag?: string;
+  /**
+   * The tier. Possible values include: 'NotSpecified', 'Enterprise', 'Standard', 'Premium'
+   */
+  tier?: ApiTier;
+}
+
+/**
+ * The API backend service.
+ */
+export interface ApiResourceBackendService {
+  /**
+   * The service URL.
+   */
+  serviceUrl?: string;
+}
+
+/**
+ * The API resource policies.
+ */
+export interface ApiResourcePolicies {
+  /**
+   * The API level only policies XML as embedded content.
+   */
+  content?: string;
+  /**
+   * The content link to the policies.
+   */
+  contentLink?: string;
+}
+
+/**
+ * The Api resource definition.
+ */
+export interface ApiResourceDefinitions {
+  /**
+   * The original swagger url.
+   */
+  originalSwaggerUrl?: string;
+  /**
+   * The modified swagger url.
+   */
+  modifiedSwaggerUrl?: string;
+}
+
+/**
+ * The API resource properties.
+ */
+export interface ApiResourceProperties {
+  /**
+   * The name
+   */
+  name?: string;
+  /**
+   * The connection parameters.
+   */
+  connectionParameters?: { [propertyName: string]: any };
+  /**
+   * The metadata.
+   */
+  metadata?: ApiResourceMetadata;
+  /**
+   * The runtime urls.
+   */
+  runtimeUrls?: string[];
+  /**
+   * The api general information.
+   */
+  generalInformation?: ApiResourceGeneralInformation;
+  /**
+   * The capabilities.
+   */
+  capabilities?: string[];
+  /**
+   * The backend service.
+   */
+  backendService?: ApiResourceBackendService;
+  /**
+   * The policies for the API.
+   */
+  policies?: ApiResourcePolicies;
+  /**
+   * The API definition.
+   */
+  apiDefinitionUrl?: string;
+  /**
+   * The api definitions.
+   */
+  apiDefinitions?: ApiResourceDefinitions;
+  /**
+   * The integration service environment reference.
+   */
+  integrationServiceEnvironment?: ResourceReference;
+  /**
+   * The provisioning state. Possible values include: 'NotSpecified', 'Accepted', 'Running',
+   * 'Ready', 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded',
+   * 'Moving', 'Updating', 'Registering', 'Registered', 'Unregistering', 'Unregistered',
+   * 'Completed'
+   */
+  provisioningState?: WorkflowProvisioningState;
+  /**
+   * The category. Possible values include: 'NotSpecified', 'Enterprise', 'Standard', 'Premium'
+   */
+  category?: ApiTier;
+}
+
+/**
+ * The managed api definition.
+ */
+export interface ManagedApi extends Resource {
+  /**
+   * The api resource properties.
+   */
+  properties?: ApiResourceProperties;
+}
+
+/**
+ * The network endpoint.
+ */
+export interface IntegrationServiceEnvironmentNetworkEndpoint {
+  /**
+   * The accessibility state. Possible values include: 'NotSpecified', 'Unknown', 'Available',
+   * 'NotAvailable'
+   */
+  accessibility?: IntegrationServiceEnvironmentNetworkEndPointAccessibilityState;
+  /**
+   * The domain name.
+   */
+  domainName?: string;
+  /**
+   * The ports.
+   */
+  ports?: string[];
+}
+
+/**
+ * The azure async operation resource.
+ */
+export interface IntegrationServiceEnvironmentNetworkDependency {
+  /**
+   * The network dependency category type. Possible values include: 'NotSpecified', 'AzureStorage',
+   * 'AzureManagement', 'AzureActiveDirectory', 'SSLCertificateVerification',
+   * 'DiagnosticLogsAndMetrics', 'IntegrationServiceEnvironmentConnectors', 'RedisCache',
+   * 'AccessEndpoints', 'RecoveryService', 'SQL', 'RegionalService'
+   */
+  category?: IntegrationServiceEnvironmentNetworkDependencyCategoryType;
+  /**
+   * The display name.
+   */
+  displayName?: string;
+  /**
+   * The endpoints.
+   */
+  endpoints?: IntegrationServiceEnvironmentNetworkEndpoint[];
+}
+
+/**
+ * The extended error info.
+ */
+export interface ExtendedErrorInfo {
+  /**
+   * The error code. Possible values include: 'NotSpecified',
+   * 'IntegrationServiceEnvironmentNotFound', 'InternalServerError', 'InvalidOperationId'
+   */
+  code: ErrorResponseCode;
+  /**
+   * The error message.
+   */
+  message: string;
+  /**
+   * The error message details.
+   */
+  details?: ExtendedErrorInfo[];
+  /**
+   * The inner error.
+   */
+  innerError?: any;
+}
+
+/**
+ * The integration service environment subnet network health.
+ */
+export interface IntegrationServiceEnvironmentNetworkDependencyHealth {
+  /**
+   * The error if any occurred during the operation.
+   */
+  error?: ExtendedErrorInfo;
+  /**
+   * The network dependency health state. Possible values include: 'NotSpecified', 'Healthy',
+   * 'Unhealthy', 'Unknown'
+   */
+  state?: IntegrationServiceEnvironmentNetworkDependencyHealthState;
+}
+
+/**
+ * The integration service environment subnet network health.
+ */
+export interface IntegrationServiceEnvironmentSubnetNetworkHealth {
+  /**
+   * The outbound network dependencies.
+   */
+  outboundNetworkDependencies?: IntegrationServiceEnvironmentNetworkDependency[];
+  /**
+   * The integration service environment network health.
+   */
+  outboundNetworkHealth?: IntegrationServiceEnvironmentNetworkDependencyHealth;
+  /**
+   * The integration service environment network health state. Possible values include:
+   * 'NotSpecified', 'Unknown', 'Available', 'NotAvailable'
+   */
+  networkDependencyHealthState: IntegrationServiceEnvironmentNetworkEndPointAccessibilityState;
+}
+
+/**
+ * The integration service environment access endpoint.
+ */
+export interface IntegrationServiceEnvironmentAccessEndpoint {
+  /**
+   * The access endpoint type. Possible values include: 'NotSpecified', 'External', 'Internal'
+   */
+  type?: IntegrationServiceEnvironmentAccessEndpointType;
+}
+
+/**
+ * The network configuration.
+ */
+export interface NetworkConfiguration {
+  /**
+   * Gets the virtual network address space.
+   */
+  virtualNetworkAddressSpace?: string;
+  /**
+   * The access endpoint.
+   */
+  accessEndpoint?: IntegrationServiceEnvironmentAccessEndpoint;
+  /**
+   * The subnets.
+   */
+  subnets?: ResourceReference[];
+}
+
+/**
+ * The integration service environment properties.
+ */
+export interface IntegrationServiceEnvironmentProperties {
+  /**
+   * The provisioning state. Possible values include: 'NotSpecified', 'Accepted', 'Running',
+   * 'Ready', 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded',
+   * 'Moving', 'Updating', 'Registering', 'Registered', 'Unregistering', 'Unregistered',
+   * 'Completed'
+   */
+  provisioningState?: WorkflowProvisioningState;
+  /**
+   * The integration service environment state. Possible values include: 'NotSpecified',
+   * 'Completed', 'Enabled', 'Disabled', 'Deleted', 'Suspended'
+   */
+  state?: WorkflowState;
+  /**
+   * Gets the tracking id.
+   */
+  integrationServiceEnvironmentId?: string;
+  /**
+   * The endpoints configuration.
+   */
+  endpointsConfiguration?: FlowEndpointsConfiguration;
+  /**
+   * The network configuration.
+   */
+  networkConfiguration?: NetworkConfiguration;
+}
+
+/**
+ * The integration service environment sku.
+ */
+export interface IntegrationServiceEnvironmentSku {
+  /**
+   * The sku name. Possible values include: 'NotSpecified', 'Premium', 'Developer'
+   */
+  name?: IntegrationServiceEnvironmentSkuName;
+  /**
+   * The sku capacity.
+   */
+  capacity?: number;
+}
+
+/**
+ * The integration service environment.
+ */
+export interface IntegrationServiceEnvironment extends Resource {
+  /**
+   * The integration service environment properties.
+   */
+  properties?: IntegrationServiceEnvironmentProperties;
+  /**
+   * The sku.
+   */
+  sku?: IntegrationServiceEnvironmentSku;
+}
+
+/**
+ * The sku.
+ */
+export interface IntegrationServiceEnvironmentSkuDefinitionSku {
+  /**
+   * The sku name. Possible values include: 'NotSpecified', 'Premium', 'Developer'
+   */
+  name?: IntegrationServiceEnvironmentSkuName;
+  /**
+   * The sku tier.
+   */
+  tier?: string;
+}
+
+/**
+ * The integration service environment sku capacity.
+ */
+export interface IntegrationServiceEnvironmentSkuCapacity {
+  /**
+   * The minimum capacity.
+   */
+  minimum?: number;
+  /**
+   * The maximum capacity.
+   */
+  maximum?: number;
+  /**
+   * The default capacity.
+   */
+  default?: number;
+  /**
+   * The sku scale type. Possible values include: 'Manual', 'Automatic', 'None'
+   */
+  scaleType?: IntegrationServiceEnvironmentSkuScaleType;
+}
+
+/**
+ * The integration service environment sku definition.
+ */
+export interface IntegrationServiceEnvironmentSkuDefinition {
+  /**
+   * The resource type.
+   */
+  resourceType?: string;
+  /**
+   * The sku.
+   */
+  sku?: IntegrationServiceEnvironmentSkuDefinitionSku;
+  /**
+   * The sku capacity.
+   */
+  capacity?: IntegrationServiceEnvironmentSkuCapacity;
+}
+
+/**
  * The integration account sku.
  */
 export interface IntegrationAccountSku {
@@ -917,9 +1849,14 @@ export interface IntegrationAccountSku {
  */
 export interface IntegrationAccount extends Resource {
   /**
-   * The integration account properties.
+   * The integration service environment.
    */
-  properties?: any;
+  integrationServiceEnvironment?: IntegrationServiceEnvironment;
+  /**
+   * The workflow state. Possible values include: 'NotSpecified', 'Completed', 'Enabled',
+   * 'Disabled', 'Deleted', 'Suspended'
+   */
+  state?: WorkflowState;
   /**
    * The sku.
    */
@@ -1171,19 +2108,19 @@ export interface AS2MessageConnectionSettings {
  */
 export interface AS2AcknowledgementConnectionSettings {
   /**
-   * The value indicating whether to ignore mismatch in certificate name.
+   * Indicates whether to ignore mismatch in certificate name.
    */
   ignoreCertificateNameMismatch: boolean;
   /**
-   * The value indicating whether to support HTTP status code 'CONTINUE'.
+   * Indicates whether to support HTTP status code 'CONTINUE'.
    */
   supportHttpStatusCodeContinue: boolean;
   /**
-   * The value indicating whether to keep the connection alive.
+   * Indicates whether to keep the connection alive.
    */
   keepHttpConnectionAlive: boolean;
   /**
-   * The value indicating whether to unfold the HTTP headers.
+   * Indicates whether to unfold the HTTP headers.
    */
   unfoldHttpHeaders: boolean;
 }
@@ -2882,65 +3819,92 @@ export interface KeyVaultKey {
 }
 
 /**
- * An interface representing TrackingEventErrorInfo.
+ * The tracking event error info.
  */
 export interface TrackingEventErrorInfo {
+  /**
+   * The message.
+   */
   message?: string;
+  /**
+   * The code.
+   */
   code?: string;
 }
 
 /**
- * An interface representing TrackingEvent.
+ * The tracking event.
  */
 export interface TrackingEvent {
   /**
-   * Possible values include: 'LogAlways', 'Critical', 'Error', 'Warning', 'Informational',
-   * 'Verbose'
+   * The event level. Possible values include: 'LogAlways', 'Critical', 'Error', 'Warning',
+   * 'Informational', 'Verbose'
    */
   eventLevel: EventLevel;
+  /**
+   * The event time.
+   */
   eventTime: Date;
   /**
-   * Possible values include: 'NotSpecified', 'Custom', 'AS2Message', 'AS2MDN', 'X12Interchange',
-   * 'X12FunctionalGroup', 'X12TransactionSet', 'X12InterchangeAcknowledgment',
+   * The record type. Possible values include: 'NotSpecified', 'Custom', 'AS2Message', 'AS2MDN',
+   * 'X12Interchange', 'X12FunctionalGroup', 'X12TransactionSet', 'X12InterchangeAcknowledgment',
    * 'X12FunctionalGroupAcknowledgment', 'X12TransactionSetAcknowledgment', 'EdifactInterchange',
    * 'EdifactFunctionalGroup', 'EdifactTransactionSet', 'EdifactInterchangeAcknowledgment',
    * 'EdifactFunctionalGroupAcknowledgment', 'EdifactTransactionSetAcknowledgment'
    */
   recordType: TrackingRecordType;
+  /**
+   * The error.
+   */
   error?: TrackingEventErrorInfo;
 }
 
 /**
- * An interface representing TrackingEventsDefinition.
+ * The tracking events definition.
  */
 export interface TrackingEventsDefinition {
+  /**
+   * The source type.
+   */
   sourceType: string;
   /**
-   * Possible values include: 'None', 'DisableSourceInfoEnrich'
+   * The track events options. Possible values include: 'None', 'DisableSourceInfoEnrich'
    */
   trackEventsOptions?: TrackEventsOperationOptions;
+  /**
+   * The events.
+   */
   events: TrackingEvent[];
 }
 
 /**
- * An interface representing SetTriggerStateActionDefinition.
+ * The set trigger state action definition.
  */
 export interface SetTriggerStateActionDefinition {
+  /**
+   * The source.
+   */
   source: WorkflowTrigger;
 }
 
 /**
- * An interface representing Expression.
+ * The expression.
  */
 export interface Expression {
+  /**
+   * The text.
+   */
   text?: string;
   value?: any;
+  /**
+   * The sub expressions.
+   */
   subexpressions?: Expression[];
   error?: AzureResourceErrorInfo;
 }
 
 /**
- * An interface representing ExpressionRoot.
+ * The expression root.
  */
 export interface ExpressionRoot extends Expression {
   /**
@@ -3544,6 +4508,26 @@ export interface IntegrationAccountSessionsListOptionalParams extends msRest.Req
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface IntegrationServiceEnvironmentsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The number of items to be included in the result.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationServiceEnvironmentsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The number of items to be included in the result.
+   */
+  top?: number;
+}
+
+/**
  * An interface representing LogicManagementClientOptions.
  */
 export interface LogicManagementClientOptions extends AzureServiceClientOptions {
@@ -3624,7 +4608,7 @@ export interface WorkflowRunActionListResult extends Array<WorkflowRunAction> {
 
 /**
  * @interface
- * An interface representing the ExpressionTraces.
+ * The expression traces.
  * @extends Array<ExpressionRoot>
  */
 export interface ExpressionTraces extends Array<ExpressionRoot> {
@@ -3637,6 +4621,10 @@ export interface ExpressionTraces extends Array<ExpressionRoot> {
  * @extends Array<WorkflowRunActionRepetitionDefinition>
  */
 export interface WorkflowRunActionRepetitionDefinitionCollection extends Array<WorkflowRunActionRepetitionDefinition> {
+  /**
+   * The link used to get the next page of recommendations.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -3765,6 +4753,54 @@ export interface IntegrationAccountSessionListResult extends Array<IntegrationAc
 
 /**
  * @interface
+ * The list of integration service environments.
+ * @extends Array<IntegrationServiceEnvironment>
+ */
+export interface IntegrationServiceEnvironmentListResult extends Array<IntegrationServiceEnvironment> {
+  /**
+   * The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The list of integration service environment skus.
+ * @extends Array<IntegrationServiceEnvironmentSkuDefinition>
+ */
+export interface IntegrationServiceEnvironmentSkuList extends Array<IntegrationServiceEnvironmentSkuDefinition> {
+  /**
+   * The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The list of managed APIs.
+ * @extends Array<ManagedApi>
+ */
+export interface ManagedApiListResult extends Array<ManagedApi> {
+  /**
+   * The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The list of managed API operations.
+ * @extends Array<ApiOperation>
+ */
+export interface ApiOperationListResult extends Array<ApiOperation> {
+  /**
+   * The URL to get the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Result of the request to list Logic operations. It contains a list of operations and a URL link
  * to get the next set of results.
  * @extends Array<Operation>
@@ -3865,6 +4901,123 @@ export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursda
  * @enum {string}
  */
 export type KeyType = 'NotSpecified' | 'Primary' | 'Secondary';
+
+/**
+ * Defines values for ApiTier.
+ * Possible values include: 'NotSpecified', 'Enterprise', 'Standard', 'Premium'
+ * @readonly
+ * @enum {string}
+ */
+export type ApiTier = 'NotSpecified' | 'Enterprise' | 'Standard' | 'Premium';
+
+/**
+ * Defines values for StatusAnnotation.
+ * Possible values include: 'NotSpecified', 'Preview', 'Production'
+ * @readonly
+ * @enum {string}
+ */
+export type StatusAnnotation = 'NotSpecified' | 'Preview' | 'Production';
+
+/**
+ * Defines values for SwaggerSchemaType.
+ * Possible values include: 'String', 'Number', 'Integer', 'Boolean', 'Array', 'File', 'Object',
+ * 'Null'
+ * @readonly
+ * @enum {string}
+ */
+export type SwaggerSchemaType = 'String' | 'Number' | 'Integer' | 'Boolean' | 'Array' | 'File' | 'Object' | 'Null';
+
+/**
+ * Defines values for ApiType.
+ * Possible values include: 'NotSpecified', 'Rest', 'Soap'
+ * @readonly
+ * @enum {string}
+ */
+export type ApiType = 'NotSpecified' | 'Rest' | 'Soap';
+
+/**
+ * Defines values for WsdlImportMethod.
+ * Possible values include: 'NotSpecified', 'SoapToRest', 'SoapPassThrough'
+ * @readonly
+ * @enum {string}
+ */
+export type WsdlImportMethod = 'NotSpecified' | 'SoapToRest' | 'SoapPassThrough';
+
+/**
+ * Defines values for ApiDeploymentParameterVisibility.
+ * Possible values include: 'NotSpecified', 'Default', 'Internal'
+ * @readonly
+ * @enum {string}
+ */
+export type ApiDeploymentParameterVisibility = 'NotSpecified' | 'Default' | 'Internal';
+
+/**
+ * Defines values for IntegrationServiceEnvironmentNetworkEndPointAccessibilityState.
+ * Possible values include: 'NotSpecified', 'Unknown', 'Available', 'NotAvailable'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationServiceEnvironmentNetworkEndPointAccessibilityState = 'NotSpecified' | 'Unknown' | 'Available' | 'NotAvailable';
+
+/**
+ * Defines values for IntegrationServiceEnvironmentNetworkDependencyCategoryType.
+ * Possible values include: 'NotSpecified', 'AzureStorage', 'AzureManagement',
+ * 'AzureActiveDirectory', 'SSLCertificateVerification', 'DiagnosticLogsAndMetrics',
+ * 'IntegrationServiceEnvironmentConnectors', 'RedisCache', 'AccessEndpoints', 'RecoveryService',
+ * 'SQL', 'RegionalService'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationServiceEnvironmentNetworkDependencyCategoryType = 'NotSpecified' | 'AzureStorage' | 'AzureManagement' | 'AzureActiveDirectory' | 'SSLCertificateVerification' | 'DiagnosticLogsAndMetrics' | 'IntegrationServiceEnvironmentConnectors' | 'RedisCache' | 'AccessEndpoints' | 'RecoveryService' | 'SQL' | 'RegionalService';
+
+/**
+ * Defines values for IntegrationServiceEnvironmentNetworkDependencyHealthState.
+ * Possible values include: 'NotSpecified', 'Healthy', 'Unhealthy', 'Unknown'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationServiceEnvironmentNetworkDependencyHealthState = 'NotSpecified' | 'Healthy' | 'Unhealthy' | 'Unknown';
+
+/**
+ * Defines values for ErrorResponseCode.
+ * Possible values include: 'NotSpecified', 'IntegrationServiceEnvironmentNotFound',
+ * 'InternalServerError', 'InvalidOperationId'
+ * @readonly
+ * @enum {string}
+ */
+export type ErrorResponseCode = 'NotSpecified' | 'IntegrationServiceEnvironmentNotFound' | 'InternalServerError' | 'InvalidOperationId';
+
+/**
+ * Defines values for AzureAsyncOperationState.
+ * Possible values include: 'Failed', 'Succeeded', 'Pending', 'Canceled'
+ * @readonly
+ * @enum {string}
+ */
+export type AzureAsyncOperationState = 'Failed' | 'Succeeded' | 'Pending' | 'Canceled';
+
+/**
+ * Defines values for IntegrationServiceEnvironmentAccessEndpointType.
+ * Possible values include: 'NotSpecified', 'External', 'Internal'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationServiceEnvironmentAccessEndpointType = 'NotSpecified' | 'External' | 'Internal';
+
+/**
+ * Defines values for IntegrationServiceEnvironmentSkuName.
+ * Possible values include: 'NotSpecified', 'Premium', 'Developer'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationServiceEnvironmentSkuName = 'NotSpecified' | 'Premium' | 'Developer';
+
+/**
+ * Defines values for IntegrationServiceEnvironmentSkuScaleType.
+ * Possible values include: 'Manual', 'Automatic', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type IntegrationServiceEnvironmentSkuScaleType = 'Manual' | 'Automatic' | 'None';
 
 /**
  * Defines values for IntegrationAccountSkuName.
@@ -5783,6 +6936,391 @@ export type IntegrationAccountSessionsListNextResponse = IntegrationAccountSessi
        * The response body as parsed JSON or XML
        */
       parsedBody: IntegrationAccountSessionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type IntegrationServiceEnvironmentsListBySubscriptionResponse = IntegrationServiceEnvironmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationServiceEnvironmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type IntegrationServiceEnvironmentsListByResourceGroupResponse = IntegrationServiceEnvironmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationServiceEnvironmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationServiceEnvironmentsGetResponse = IntegrationServiceEnvironment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationServiceEnvironment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type IntegrationServiceEnvironmentsCreateOrUpdateResponse = IntegrationServiceEnvironment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationServiceEnvironment;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type IntegrationServiceEnvironmentsUpdateResponse = IntegrationServiceEnvironment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationServiceEnvironment;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type IntegrationServiceEnvironmentsBeginCreateOrUpdateResponse = IntegrationServiceEnvironment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationServiceEnvironment;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type IntegrationServiceEnvironmentsBeginUpdateResponse = IntegrationServiceEnvironment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationServiceEnvironment;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type IntegrationServiceEnvironmentsListBySubscriptionNextResponse = IntegrationServiceEnvironmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationServiceEnvironmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type IntegrationServiceEnvironmentsListByResourceGroupNextResponse = IntegrationServiceEnvironmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationServiceEnvironmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IntegrationServiceEnvironmentSkusListResponse = IntegrationServiceEnvironmentSkuList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationServiceEnvironmentSkuList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IntegrationServiceEnvironmentSkusListNextResponse = IntegrationServiceEnvironmentSkuList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationServiceEnvironmentSkuList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationServiceEnvironmentNetworkHealthGetResponse = {
+  /**
+   * The response body properties.
+   */
+  [propertyName: string]: IntegrationServiceEnvironmentSubnetNetworkHealth;
+} & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: { [propertyName: string]: IntegrationServiceEnvironmentSubnetNetworkHealth };
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IntegrationServiceEnvironmentManagedApisListResponse = ManagedApiListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedApiListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationServiceEnvironmentManagedApisGetResponse = ManagedApi & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedApi;
+    };
+};
+
+/**
+ * Contains response data for the put operation.
+ */
+export type IntegrationServiceEnvironmentManagedApisPutResponse = ManagedApi & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedApi;
+    };
+};
+
+/**
+ * Contains response data for the beginPut operation.
+ */
+export type IntegrationServiceEnvironmentManagedApisBeginPutResponse = ManagedApi & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedApi;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IntegrationServiceEnvironmentManagedApisListNextResponse = ManagedApiListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ManagedApiListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IntegrationServiceEnvironmentManagedApiOperationsListResponse = ApiOperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiOperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IntegrationServiceEnvironmentManagedApiOperationsListNextResponse = ApiOperationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiOperationListResult;
     };
 };
 

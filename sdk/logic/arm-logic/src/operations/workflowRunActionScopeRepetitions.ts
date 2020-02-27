@@ -134,7 +134,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowRunActionRepetitionDefinitionCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -162,7 +162,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowRunActionRepetitionDefinition
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
