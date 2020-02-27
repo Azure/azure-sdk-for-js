@@ -15,6 +15,5 @@ export {
   ProxyResource,
   Resource,
   SystemAssignedIdentity,
-  TrackedResource,
-  UserAssignedIdentitiesListResult
+  TrackedResource
 } from "../models/mappers";
