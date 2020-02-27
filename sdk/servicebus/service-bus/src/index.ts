@@ -52,8 +52,8 @@ export { ServiceBusSenderClient } from "./senderClient";
   
 export {
   ServiceBusReceiverClient,
-  NonSessionReceiverTrack2,
-  SessionReceiverTrack2, 
+  NonSessionReceiver as NonSessionReceiverTrack2,
+  SessionReceiver as SessionReceiverTrack2, 
   ClientTypeT
 } from "./track2/serviceBusReceiverClient";
 

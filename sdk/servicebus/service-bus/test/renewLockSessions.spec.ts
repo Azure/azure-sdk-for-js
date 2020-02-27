@@ -17,7 +17,7 @@ import { ServiceBusClient } from "../src/old/serviceBusClient";
 import { QueueClient } from "../src/old/queueClient";
 import { TopicClient } from "../src/old/topicClient";
 import { SubscriptionClient } from "../src/old/subscriptionClient";
-import { SessionReceiver } from "../src/receiver";
+import { InternalSessionReceiver } from "../src/internalReceivers";
 import {
   purge,
   getSenderReceiverClients,
@@ -264,7 +264,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   const testMessage = TestMessage.getSessionSample();
   await senderClient.createSender().send(testMessage);
 
-  const sessionClient = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+  const sessionClient = <InternalSessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
@@ -354,7 +354,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSessionSample();
   await senderClient.createSender().send(testMessage);
-  const sessionClient = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+  const sessionClient = <InternalSessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });

@@ -8,7 +8,7 @@ import { ReceivedMessageInfo, ReceiveMode } from "../serviceBusMessage";
 import { Client, ClientType } from "../client";
 import { SessionReceiverOptions } from "../session/messageSession";
 import { Sender } from "../sender";
-import { Receiver, SessionReceiver } from "../receiver";
+import { InternalReceiver, InternalSessionReceiver } from "../internalReceivers";
 import {
   getOpenReceiverErrorMsg,
   getOpenSenderErrorMsg,
@@ -41,7 +41,7 @@ export class QueueClient implements Client {
    */
   private _context: ClientEntityContext;
 
-  private _currentReceiver: Receiver | undefined;
+  private _currentReceiver: InternalReceiver | undefined;
   private _currentSender: Sender | undefined;
 
   /**
@@ -130,7 +130,7 @@ export class QueueClient implements Client {
    * (in which case, use the overload of this method which takes
    * `sessionOptions` argument)
    */
-  public createReceiver(receiveMode: ReceiveMode): Receiver;
+  public createReceiver(receiveMode: ReceiveMode): InternalReceiver;
 
   /**
    * Creates a Receiver for receiving messages from a session enabled Queue. When no sessionId is
@@ -156,12 +156,12 @@ export class QueueClient implements Client {
   public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions: SessionReceiverOptions
-  ): SessionReceiver;
+  ): InternalSessionReceiver;
 
   public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions?: SessionReceiverOptions
-  ): Receiver | SessionReceiver {
+  ): InternalReceiver | InternalSessionReceiver {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
       this.entityPath,
@@ -171,7 +171,7 @@ export class QueueClient implements Client {
     // Receiver for Queue where sessions are not enabled
     if (!sessionOptions) {
       if (!this._currentReceiver || this._currentReceiver.isClosed) {
-        this._currentReceiver = new Receiver(this._context, receiveMode);
+        this._currentReceiver = new InternalReceiver(this._context, receiveMode);
         return this._currentReceiver;
       }
       const errorMessage = getOpenReceiverErrorMsg(ClientType.QueueClient, this.entityPath);
@@ -180,7 +180,7 @@ export class QueueClient implements Client {
       throw error;
     }
 
-    return new SessionReceiver(this._context, receiveMode, sessionOptions);
+    return new InternalSessionReceiver(this._context, receiveMode, sessionOptions);
   }
 
   /**

@@ -13,7 +13,7 @@ import { ServiceBusClient } from "../src/old/serviceBusClient";
 import { QueueClient } from "../src/old/queueClient";
 import { TopicClient } from "../src/old/topicClient";
 import { SubscriptionClient } from "../src/old/subscriptionClient";
-import { Receiver, SessionReceiver } from "../src/receiver";
+import { InternalReceiver, InternalSessionReceiver } from "../src/internalReceivers";
 import { Sender } from "../src/sender";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import {
@@ -46,7 +46,7 @@ let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let deadLetterClient: QueueClient | SubscriptionClient;
 let sender: Sender;
-let receiver: Receiver | SessionReceiver;
+let receiver: InternalReceiver | InternalSessionReceiver;
 const maxDeliveryCount = 10;
 
 async function beforeEachTest(
@@ -617,7 +617,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     await afterEachTest();
   });
 
-  let deadletterReceiver: Receiver;
+  let deadletterReceiver: InternalReceiver;
 
   async function deadLetterMessage(testMessage: SendableMessageInfo): Promise<ServiceBusMessage> {
     await sender.send(testMessage);

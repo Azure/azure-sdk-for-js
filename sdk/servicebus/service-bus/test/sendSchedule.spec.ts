@@ -24,7 +24,7 @@ import {
   purge,
   getServiceBusClient
 } from "./utils/testUtils";
-import { Receiver, SessionReceiver } from "../src/receiver";
+import { InternalReceiver, InternalSessionReceiver } from "../src/internalReceivers";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -39,7 +39,7 @@ async function testPeekMsgsLength(
 }
 
 async function testReceivedMsgsLength(
-  receiver: Receiver | SessionReceiver,
+  receiver: InternalReceiver | InternalSessionReceiver,
   expectedReceivedMsgsLength: number
 ): Promise<void> {
   const receivedMsgs = await receiver.receiveMessages(expectedReceivedMsgsLength + 1, 5);
@@ -55,7 +55,7 @@ let sbClient: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
-let receiver: Receiver | SessionReceiver;
+let receiver: InternalReceiver | InternalSessionReceiver;
 
 async function beforeEachTest(
   senderType: TestClientType,

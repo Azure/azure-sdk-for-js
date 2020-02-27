@@ -13,7 +13,7 @@ must be supplied.
 
 import { SendableMessageInfo, ReceiveMode } from "../../src";
 import { Sender } from "../../src/sender";
-import { Receiver } from "../../src/receiver";
+import { InternalReceiver } from "../../src/internalReceivers";
 import { ServiceBusClient } from "../../src/old/serviceBusClient";
 
 const connectionString = "";
@@ -68,7 +68,7 @@ async function sendReceiveMessages(): Promise<void> {
   }
 }
 
-async function sendReceiveMessagesPerClient(sender: Sender, receiver: Receiver): Promise<void> {
+async function sendReceiveMessagesPerClient(sender: Sender, receiver: InternalReceiver): Promise<void> {
   while (!isJobDone) {
     const message: SendableMessageInfo = {
       messageId: msgId,

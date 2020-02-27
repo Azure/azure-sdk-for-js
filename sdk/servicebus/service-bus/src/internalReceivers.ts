@@ -33,7 +33,7 @@ import { RuleDescription, CorrelationFilter } from ".";
  * @internal
  * @ignore
  */
-export class Receiver {
+export class InternalReceiver {
   /**
    * @property Describes the amqp connection context for the QueueClient.
    */
@@ -437,7 +437,7 @@ export class Receiver {
  * @internal
  * @ignore
  */
-export class SessionReceiver {
+export class InternalSessionReceiver {
   /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
    */

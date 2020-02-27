@@ -1,5 +1,5 @@
 import Long from "long";
-import { Receiver, SessionReceiver } from "../receiver";
+import { InternalReceiver, InternalSessionReceiver } from "../internalReceivers";
 import {
   ServiceBusClientOptions,
   createConnectionContextForConnectionString,
@@ -30,7 +30,7 @@ export type ServiceBusClientReceiverOptions = ServiceBusClientOptions & SessionR
 export class ServiceBusReceiverClient {
   public _receiveMode: ReceiveMode;
   public _entityPath: string;
-  private _currentReceiver: Receiver | SessionReceiver;
+  private _currentReceiver: InternalReceiver | InternalSessionReceiver;
   readonly defaultRuleName: string = "$Default";
 
   // Queue
@@ -177,9 +177,9 @@ export class ServiceBusReceiverClient {
 
     if (!options?.sessionId) {
       // Receiver for the subscription where sessions are not enabled
-      this._currentReceiver = new Receiver(clientEntityContext, receiveMode);
+      this._currentReceiver = new InternalReceiver(clientEntityContext, receiveMode);
     } else {
-      this._currentReceiver = new SessionReceiver(clientEntityContext, receiveMode, options);
+      this._currentReceiver = new InternalSessionReceiver(clientEntityContext, receiveMode, options);
     }
   }
 
@@ -214,7 +214,7 @@ export class ServiceBusReceiverClient {
   }
 
   async renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
-    if (!(this._currentReceiver instanceof SessionReceiver)) {
+    if (!(this._currentReceiver instanceof InternalSessionReceiver)) {
       return this._currentReceiver.renewMessageLock(lockTokenOrMessage);
     } else {
       throw new Error("'renewMessageLock' does not exist on 'SessionReceiver'");
@@ -239,7 +239,7 @@ export class ServiceBusReceiverClient {
 
   // Session methods # Begin
   public get sessionId(): string | undefined {
-    if (this._currentReceiver instanceof SessionReceiver) {
+    if (this._currentReceiver instanceof InternalSessionReceiver) {
       return this._currentReceiver.sessionId;
     } else {
       throw new Error("Only available on sessionful Receiver");
@@ -247,7 +247,7 @@ export class ServiceBusReceiverClient {
   }
 
   public get sessionLockedUntilUtc(): Date | undefined {
-    if (this._currentReceiver instanceof SessionReceiver) {
+    if (this._currentReceiver instanceof InternalSessionReceiver) {
       return this._currentReceiver.sessionLockedUntilUtc;
     } else {
       throw new Error("Only available on sessionful Receiver");
@@ -255,7 +255,7 @@ export class ServiceBusReceiverClient {
   }
 
   async renewSessionLock(): Promise<Date> {
-    if (this._currentReceiver instanceof SessionReceiver) {
+    if (this._currentReceiver instanceof InternalSessionReceiver) {
       return this._currentReceiver.renewSessionLock();
     } else {
       throw new Error("Only available on sessionful Receiver");
@@ -263,7 +263,7 @@ export class ServiceBusReceiverClient {
   }
 
   async setState(state: any): Promise<void> {
-    if (this._currentReceiver instanceof SessionReceiver) {
+    if (this._currentReceiver instanceof InternalSessionReceiver) {
       return this._currentReceiver.setState(state);
     } else {
       throw new Error("Only available on sessionful Receiver");
@@ -271,7 +271,7 @@ export class ServiceBusReceiverClient {
   }
 
   async getState(): Promise<any> {
-    if (this._currentReceiver instanceof SessionReceiver) {
+    if (this._currentReceiver instanceof InternalSessionReceiver) {
       return this._currentReceiver.getState();
     } else {
       throw new Error("Only available on sessionful Receiver");
@@ -281,7 +281,7 @@ export class ServiceBusReceiverClient {
 
   // ManagementClient methods # Begin
   async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
-    if (this._currentReceiver instanceof SessionReceiver) {
+    if (this._currentReceiver instanceof InternalSessionReceiver) {
       return this._currentReceiver.peek(maxMessageCount);
     } else {
       return this._currentReceiver.peek(this._entityPath, maxMessageCount);
@@ -292,7 +292,7 @@ export class ServiceBusReceiverClient {
     fromSequenceNumber: Long,
     maxMessageCount?: number
   ): Promise<ReceivedMessageInfo[]> {
-    if (this._currentReceiver instanceof SessionReceiver) {
+    if (this._currentReceiver instanceof InternalSessionReceiver) {
       return this._currentReceiver.peekBySequenceNumber(fromSequenceNumber, maxMessageCount);
     } else {
       return this._currentReceiver.peekBySequenceNumber(

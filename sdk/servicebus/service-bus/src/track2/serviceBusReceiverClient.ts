@@ -5,7 +5,7 @@ import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { generate_uuid } from "rhea-promise";
 import { ClientType } from "../client";
-import { SessionReceiver, Receiver } from "../receiver";
+import { InternalSessionReceiver, InternalReceiver } from "../internalReceivers";
 import {
   MessageHandlers,
   MessageIterator,
@@ -25,7 +25,7 @@ import { ServiceBusClientOptions } from '../old/serviceBusClient';
  *A receiver client that handles sessions, including renewing the session lock.
  */
 // TODO: could extend NonSessionReceiverClient...?
-export interface SessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAndDelete"> {
+export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
   streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
   iterateMessages(): MessageIterator<ContextType<LockModeT>>;
   renewSessionLock(): Promise<Date>;
@@ -34,7 +34,7 @@ export interface SessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAn
 /**
  * A receiver client that does not handle sessions.
  */
-export interface NonSessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAndDelete"> {
+export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
   streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
   iterateMessages(): MessageIterator<ContextType<LockModeT>>;
 }
@@ -57,11 +57,11 @@ export interface SubscriptionRuleManagement {
 export type ClientTypeT<ReceiveModeT extends "peekLock" | "receiveAndDelete", EntityTypeT extends "queue" | "subscription", SessionsEnabledT extends "sessions" | "nosessions"> =
   SessionsEnabledT extends "nosessions"
   ? EntityTypeT extends "queue"
-  ? NonSessionReceiverTrack2<ReceiveModeT>
-  : NonSessionReceiverTrack2<ReceiveModeT> & SubscriptionRuleManagement
+  ? NonSessionReceiver<ReceiveModeT>
+  : NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement
   : EntityTypeT extends "queue"
-  ? SessionReceiverTrack2<ReceiveModeT>
-  : SessionReceiverTrack2<ReceiveModeT> & SubscriptionRuleManagement;
+  ? SessionReceiver<ReceiveModeT>
+  : SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement;
 
 export interface ServiceBusReceiverClient {
   /**
@@ -217,12 +217,12 @@ export class ReceiverClientImplementation {
 
     // TODO: use the session connections object to "cache" the client entity context
     if (session != null) {
-      this._receiver = new SessionReceiver(clientEntityContext, this._receiveMode, {
+      this._receiver = new InternalSessionReceiver(clientEntityContext, this._receiveMode, {
         sessionId: session.id
       });
       this._sessionEnabled = true;
     } else {
-      this._receiver = new Receiver(clientEntityContext, this._receiveMode);
+      this._receiver = new InternalReceiver(clientEntityContext, this._receiveMode);
       this._sessionEnabled = false;
     }
   }
@@ -313,7 +313,7 @@ export class ReceiverClientImplementation {
     return this._receiver.renewSessionLock();
   }
 
-  private isSessionReceiver(receiver: SessionReceiver | Receiver): receiver is SessionReceiver {
+  private isSessionReceiver(receiver: InternalSessionReceiver | InternalReceiver): receiver is InternalSessionReceiver {
     return this._sessionEnabled;
   }
 
@@ -331,7 +331,7 @@ export class ReceiverClientImplementation {
     throw new Error("Not yet implemented");
   }
 
-  private _receiver: SessionReceiver | Receiver;
+  private _receiver: InternalSessionReceiver | InternalReceiver;
   private _sessionEnabled: boolean;
   private _receiveMode: ReceiveMode;
 }
