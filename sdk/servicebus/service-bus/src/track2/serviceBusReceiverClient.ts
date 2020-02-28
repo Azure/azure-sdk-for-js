@@ -20,7 +20,7 @@ import {
 } from "./models";
 import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
 import { RuleDescription, CorrelationFilter } from "../core/managementClient";
-import { ServiceBusClientOptions } from '../old/serviceBusClient';
+import { ServiceBusClientOptions } from "../old/serviceBusClient";
 
 /**
  *A receiver client that handles sessions, including renewing the session lock.
@@ -55,14 +55,23 @@ export interface SubscriptionRuleManagement {
 }
 
 // TODO: merge more? Or maybe this is okay...
-export type ClientTypeT<ReceiveModeT extends "peekLock" | "receiveAndDelete", EntityTypeT extends "queue" | "subscription", SessionsEnabledT extends "sessions" | "nosessions"> =
-  SessionsEnabledT extends "nosessions"
+export type ClientTypeT<
+  ReceiveModeT extends "peekLock" | "receiveAndDelete",
+  EntityTypeT extends "queue" | "subscription",
+  SessionsEnabledT extends "sessions" | "nosessions"
+> = SessionsEnabledT extends "nosessions"
   ? EntityTypeT extends "queue"
-  ? NonSessionReceiver<ReceiveModeT>
-  : NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement
+    ? NonSessionReceiver<ReceiveModeT>
+    : NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement
   : EntityTypeT extends "queue"
   ? SessionReceiver<ReceiveModeT>
   : SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement;
+
+export type ReceiverClientTypeForUser = ClientTypeT<
+  "peekLock" | "receiveAndDelete",
+  "queue" | "subscription",
+  "sessions" | "nosessions"
+>;
 
 export interface ServiceBusReceiverClient {
   /**
@@ -72,99 +81,60 @@ export interface ServiceBusReceiverClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new(
+  new (
     queueAuth: QueueAuth,
     receiveMode: "peekLock",
-    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ): ClientTypeT<"peekLock", "queue", "nosessions">;
+    options?: ServiceBusClientOptions
+  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ClientTypeT<"peekLock", "queue", "nosessions">;
 
-      /**
+  /**
    * Creates a client for an Azure Service Bus queue.
    *
    * @param queueAuth Data needed to connect to a queue.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new(
+  new (
     queueAuth: QueueAuth,
     receiveMode: "receiveAndDelete",
-    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ): ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
+    options?: ServiceBusClientOptions
+  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
 
-      /**
+  /**
    * Creates a client for an Azure Service Bus queue.
    *
    * @param queueAuth Data needed to connect to a queue.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new(
+  new (
     queueAuth: QueueAuth,
     receiveMode: "peekLock",
     session: Session,
-    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ): ClientTypeT<"peekLock", "queue", "sessions">;
+    options?: ServiceBusClientOptions
+  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ClientTypeT<"peekLock", "queue", "sessions">;
 
-      /**
+  /**
    * Creates a client for an Azure Service Bus queue.
    *
    * @param queueAuth Data needed to connect to a queue.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new(
-    queueAuths: QueueAuth,
+  new (
+    queueAuth: QueueAuth,
     receiveMode: "receiveAndDelete",
     session: Session,
-    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ): ClientTypeT<"receiveAndDelete", "queue", "sessions">;
-
-     /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param subscriptionAuth Data needed to connect to a subscription.
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new(
-    subscriptionAuth: SubscriptionAuth,
-    receiveMode: "peekLock",
-    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ): ClientTypeT<"peekLock", "subscription", "nosessions">;
-
-      /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param subscriptionAuth Data needed to connect to a subscription.
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new(
-    subscriptionAuth: SubscriptionAuth,
-    receiveMode: "receiveAndDelete",
-    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ): ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
-
-      /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param subscriptionAuth Data needed to connect to a subscription.
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new(
-    subscriptionAuth: SubscriptionAuth,
-    receiveMode: "peekLock",
-    session: Session,
-    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ): ClientTypeT<"peekLock", "subscription", "sessions">;
+    options?: ServiceBusClientOptions
+  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ClientTypeT<"receiveAndDelete", "queue", "sessions">;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -173,13 +143,60 @@ export interface ServiceBusReceiverClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new(
+  new (
+    subscriptionAuth: SubscriptionAuth,
+    receiveMode: "peekLock",
+    options?: ServiceBusClientOptions
+  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ClientTypeT<"peekLock", "subscription", "nosessions">;
+
+  /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param subscriptionAuth Data needed to connect to a subscription.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new (
+    subscriptionAuth: SubscriptionAuth,
+    receiveMode: "receiveAndDelete",
+    options?: ServiceBusClientOptions
+  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
+
+  /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param subscriptionAuth Data needed to connect to a subscription.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new (
+    subscriptionAuth: SubscriptionAuth,
+    receiveMode: "peekLock",
+    session: Session,
+    options?: ServiceBusClientOptions
+  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ClientTypeT<"peekLock", "subscription", "sessions">;
+
+  /**
+   * Creates a client for an Azure Service Bus queue.
+   *
+   * @param subscriptionAuth Data needed to connect to a subscription.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the client itself.
+   */
+  new (
     subscriptionAuth: SubscriptionAuth,
     receiveMode: "receiveAndDelete",
     session: Session,
-    // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-    // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ): ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
+    options?: ServiceBusClientOptions
+  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
+  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
 }
 
 /**
@@ -191,7 +208,7 @@ export class ReceiverClientImplementation {
   constructor(
     auth1: QueueAuth | SubscriptionAuth,
     receiveMode2: "peekLock" | "receiveAndDelete",
-    sessionOrOptions3?: Session| ServiceBusClientOptions,
+    sessionOrOptions3?: Session | ServiceBusClientOptions,
     options4?: ServiceBusClientOptions
   ) {
     let options: ServiceBusClientOptions;
@@ -288,11 +305,13 @@ export class ReceiverClientImplementation {
     if (this._receiveMode === ReceiveMode.peekLock) {
       const actualMessageIterator = (messageIterator as any) as MessageIterator<
         ContextType<"peekLock">
-        >;
-      
-      const f = async function * (originalMessageIterator: AsyncIterableIterator<ServiceBusMessage>) : AsyncIterableIterator<MessageAndContext < ContextType < "peekLock" >>> {
-        for await(const message of originalMessageIterator) {
-        yield { message, context: settlementContext };
+      >;
+
+      const f = async function*(
+        originalMessageIterator: AsyncIterableIterator<ServiceBusMessage>
+      ): AsyncIterableIterator<MessageAndContext<ContextType<"peekLock">>> {
+        for await (const message of originalMessageIterator) {
+          yield { message, context: settlementContext };
         }
       };
 
@@ -300,11 +319,13 @@ export class ReceiverClientImplementation {
       return f(messageIterator);
       return actualMessageIterator;
     } else if (this._receiveMode === ReceiveMode.receiveAndDelete) {
-        const f = async function * (originalMessageIterator: AsyncIterableIterator<ServiceBusMessage>) : AsyncIterableIterator<MessageAndContext < ContextType < "receiveAndDelete" >>> {
-          for await(const message of originalMessageIterator) {
-            yield { message, context: { } };
-          }
-        };  
+      const f = async function*(
+        originalMessageIterator: AsyncIterableIterator<ServiceBusMessage>
+      ): AsyncIterableIterator<MessageAndContext<ContextType<"receiveAndDelete">>> {
+        for await (const message of originalMessageIterator) {
+          yield { message, context: {} };
+        }
+      };
 
       // actualMessageIterator.context = {};
       // return actualMessageIterator;
@@ -322,7 +343,9 @@ export class ReceiverClientImplementation {
     return this._receiver.renewSessionLock();
   }
 
-  private isSessionReceiver(receiver: InternalSessionReceiver | InternalReceiver): receiver is InternalSessionReceiver {
+  private isSessionReceiver(
+    receiver: InternalSessionReceiver | InternalReceiver
+  ): receiver is InternalSessionReceiver {
     return this._sessionEnabled;
   }
 
