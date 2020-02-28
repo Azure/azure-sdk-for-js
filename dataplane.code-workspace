@@ -72,7 +72,7 @@
     },
     {
       "name": "search",
-      "path": "sdk\\search\\ai-search"
+      "path": "sdk\\search\\search"
     }
     {
       "path": "sdk\\servicebus\\service-bus"

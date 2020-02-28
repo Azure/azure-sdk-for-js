@@ -338,8 +338,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/ai-search",
-      "projectFolder": "sdk/search/ai-search",
+      "packageName": "@azure/search",
+      "projectFolder": "sdk/search/search",
       "versionPolicyName": "client"
     },
     {

@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 
-const packageName = "@azure/ai-search";
+const packageName = "@azure/search";
 const packageVersion = "1.0.0-preview.1";
 
 export class SearchServiceClientContext extends coreHttp.ServiceClient {
@@ -27,7 +27,12 @@ export class SearchServiceClientContext extends coreHttp.ServiceClient {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, searchServiceName: string, options?: Models.SearchServiceClientOptions) {
+  constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    apiVersion: string,
+    searchServiceName: string,
+    options?: Models.SearchServiceClientOptions
+  ) {
     if (apiVersion == undefined) {
       throw new Error("'apiVersion' cannot be null.");
     }
@@ -49,7 +54,7 @@ export class SearchServiceClientContext extends coreHttp.ServiceClient {
 
     super(credentials, options);
 
-    this.searchDnsSuffix = 'search.windows.net';
+    this.searchDnsSuffix = "search.windows.net";
     this.baseUri = "https://{searchServiceName}.{searchDnsSuffix}";
     this.requestContentType = "application/json; charset=utf-8";
     this.apiVersion = apiVersion;

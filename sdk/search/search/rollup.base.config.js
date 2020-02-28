@@ -61,7 +61,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "dist-browser/azure-ai-search.js",
+      file: "dist-browser/azure-search.js",
       format: "umd",
       name: "SearchClient",
       sourcemap: true,

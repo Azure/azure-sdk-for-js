@@ -17,11 +17,11 @@ Use the client library to:
 - Query documents in the index with a powerful set of search APIs that support faceted navigation, typeahead queries, suggestions, and geo-spatial search.
 - Enrich your search index with AI skills that add structure or extract meaning from raw documents during indexing.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/ai-search/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/ai-search) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/search/) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/search) |
 [API reference documentation](https://aka.ms/azsdk-js-search-ref-docs) |
 [Product documentation](https://docs.microsoft.com/en-us/azure/search/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/ai-search/samples)
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples)
 
 ## Getting started
 
@@ -42,10 +42,10 @@ az search service create --resource-group <your-resource-group-name> --name <you
 
 The above creates a resource with the "Standard" pricing tier. See [choosing a pricing tier](https://docs.microsoft.com/en-us/azure/search/search-sku-tier) for more information.
 
-### 1. Install the `@azure/ai-search` package
+### 1. Install the `@azure/search` package
 
 ```bash
-npm install @azure/ai-search
+npm install @azure/search
 ```
 
 ### 2. Create and authenticate a `SearchIndexClient`
@@ -65,7 +65,7 @@ Alternatively, you can get the endpoint and Admin Key from the resource informat
 Once you have an Admin Key, you can use it as follows:
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -87,7 +87,7 @@ const client = new SearchIndexClient(
 To list all results of a particular query, you can use `listSearchResults` with a search string that uses [simple query syntax](https://docs.microsoft.com/en-us/azure/search/query-simple-syntax):
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -103,7 +103,7 @@ for await (const result of client.listSearchResults("wifi -luxury")) {
 For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/en-us/azure/search/query-lucene-syntax), specify `queryType` to be `all`:
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -124,7 +124,7 @@ for await (const result of client.listSearchResults('category:budget AND "recent
 Using the `filter` query parameter allows you to query an index using the syntax of an [OData \$filter expression](https://docs.microsoft.com/en-us/azure/search/search-query-odata-filter).
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential, odata } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential, odata } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -151,7 +151,7 @@ for await (const result of iterator) {
 [Facets](https://docs.microsoft.com/en-us/azure/search/search-filters-facets) are used to help a user of your application refine a search along pre-configured dimensions. [Facet syntax](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents#facetstring-zero-or-more) provides the options to sort and bucket facet values.
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -194,7 +194,7 @@ When retrieving results, a `facets` property will be available that will indicat
 A specific document can be retrieved by its primary key value:
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -213,7 +213,7 @@ If you [created a suggester](https://docs.microsoft.com/en-us/azure/search/index
 This example shows returning the top three suggestions for the input "wifi" from the suggester "sg":
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -241,7 +241,7 @@ To implement type-ahead behavior in your application, you can query the index wi
 The below example tries to complete the string "de" using the suggester named "sg" on the index:
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -259,7 +259,7 @@ for (const result of autocompleteResult.results || []) {
 ### Return the count of documents in an index
 
 ```js
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -277,7 +277,7 @@ Given the name of a primary key and a list of indexes, you can delete multiple d
 
 ```js
 
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -297,7 +297,7 @@ You can upload multiple documents into index inside a batch:
 
 ```js
 
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -322,7 +322,7 @@ You can update multiple documents in an index at once, or create them if they do
 
 ```js
 
-const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/ai-search");
+const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
@@ -361,7 +361,7 @@ export AZURE_LOG_LEVEL=verbose*
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/ai-search/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
@@ -384,7 +384,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fsearch%2Fai-search%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fsearch%2Fsearch%2FREADME.png)
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

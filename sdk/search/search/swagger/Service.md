@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: "@azure/ai-search"
+package-name: "@azure/search"
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
