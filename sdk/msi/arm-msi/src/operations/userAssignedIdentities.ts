@@ -122,14 +122,14 @@ export class UserAssignedIdentities {
    * @param [options] The optional parameters
    * @returns Promise<Models.UserAssignedIdentitiesUpdateResponse>
    */
-  update(resourceGroupName: string, resourceName: string, parameters: Models.Identity, options?: msRest.RequestOptionsBase): Promise<Models.UserAssignedIdentitiesUpdateResponse>;
+  update(resourceGroupName: string, resourceName: string, parameters: Models.IdentityUpdate, options?: msRest.RequestOptionsBase): Promise<Models.UserAssignedIdentitiesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the Resource Group to which the identity belongs.
    * @param resourceName The name of the identity resource.
    * @param parameters Parameters to update the identity
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, parameters: Models.Identity, callback: msRest.ServiceCallback<Models.Identity>): void;
+  update(resourceGroupName: string, resourceName: string, parameters: Models.IdentityUpdate, callback: msRest.ServiceCallback<Models.Identity>): void;
   /**
    * @param resourceGroupName The name of the Resource Group to which the identity belongs.
    * @param resourceName The name of the identity resource.
@@ -137,8 +137,8 @@ export class UserAssignedIdentities {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, resourceName: string, parameters: Models.Identity, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Identity>): void;
-  update(resourceGroupName: string, resourceName: string, parameters: Models.Identity, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Identity>, callback?: msRest.ServiceCallback<Models.Identity>): Promise<Models.UserAssignedIdentitiesUpdateResponse> {
+  update(resourceGroupName: string, resourceName: string, parameters: Models.IdentityUpdate, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Identity>): void;
+  update(resourceGroupName: string, resourceName: string, parameters: Models.IdentityUpdate, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Identity>, callback?: msRest.ServiceCallback<Models.Identity>): Promise<Models.UserAssignedIdentitiesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -372,7 +372,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.Identity,
+      ...Mappers.IdentityUpdate,
       required: true
     }
   },

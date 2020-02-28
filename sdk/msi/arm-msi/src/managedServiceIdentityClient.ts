@@ -17,6 +17,7 @@ import { ManagedServiceIdentityClientContext } from "./managedServiceIdentityCli
 
 class ManagedServiceIdentityClient extends ManagedServiceIdentityClientContext {
   // Operation groups
+  systemAssignedIdentities: operations.SystemAssignedIdentities;
   operations: operations.Operations;
   userAssignedIdentities: operations.UserAssignedIdentities;
 
@@ -28,6 +29,7 @@ class ManagedServiceIdentityClient extends ManagedServiceIdentityClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ManagedServiceIdentityClientOptions) {
     super(credentials, subscriptionId, options);
+    this.systemAssignedIdentities = new operations.SystemAssignedIdentities(this);
     this.operations = new operations.Operations(this);
     this.userAssignedIdentities = new operations.UserAssignedIdentities(this);
   }

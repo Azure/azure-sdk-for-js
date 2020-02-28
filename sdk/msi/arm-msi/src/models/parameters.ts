@@ -61,6 +61,17 @@ export const resourceName: msRest.OperationURLParameter = {
     }
   }
 };
+export const scope: msRest.OperationURLParameter = {
+  parameterPath: "scope",
+  mapper: {
+    required: true,
+    serializedName: "scope",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
