@@ -16,6 +16,8 @@ export {
   TextLine,
   TextWord,
   LengthUnit,
+  ModelInfo,
+  ModelStatus,
   OperationStatus,
   FieldValueType,
   PageResult,

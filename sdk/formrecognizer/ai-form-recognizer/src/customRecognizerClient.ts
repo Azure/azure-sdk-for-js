@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/// <reference lib="esnext.asynciterable" />
+
 import {
   PipelineOptions,
   createPipelineFromOptions,
@@ -14,6 +16,7 @@ import {
   delay
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import {
@@ -23,7 +26,8 @@ import {
   GetAnalyzeFormResultResponse,
   GetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponseModel,
   GetAnalyzeReceiptResultResponse,
-  DocumentResult
+  DocumentResult,
+  ModelInfo
 } from "./generated/models";
 import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, FieldValue } from "./models";
 import { createSpan } from "./tracing";
@@ -247,7 +251,42 @@ export class CustomRecognizerClient {
     }
   }
 
-  public async listModels(options?: ListModelsOptions): Promise<GetCustomModelsResponse> {
+  private async *listModelsPage(_settings: PageSettings, options: ListModelsOptions = {}): AsyncIterableIterator<GetCustomModelsResponse> {
+    let result = await this.list(options);
+    yield result;
+
+    // we should use nextLink, however, it's not supported by the generated code.
+    while (!result.nextLink) {
+      result = await this.list(options);
+      yield result;
+    }
+  }
+
+  public async *listModelsAll(settings: PageSettings, options: ListModelsOptions = {}): AsyncIterableIterator<ModelInfo> {
+    for await (const page of this.listModelsPage(settings, options)) {
+      yield* page.modelList || [];
+    }
+  }
+
+  public listModels(options: ListModelsOptions = {}): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse> {
+    const iter = this.listModelsAll({}, options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+
+      byPage: (settings: PageSettings = {}) => {
+        return this.listModelsPage(settings, options);
+      }
+    }
+  }
+
+  private async list(options?: ListModelsOptions): Promise<GetCustomModelsResponse> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-listModels",

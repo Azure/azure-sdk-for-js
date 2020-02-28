@@ -7,6 +7,8 @@
 import * as coreHttp from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
@@ -135,10 +137,12 @@ export class CustomRecognizerClient {
     //
     // (undocumented)
     getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
+    // (undocumented)
+    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse>;
     // Warning: (ae-forgotten-export) The symbol "ListModelsOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    listModels(options?: ListModelsOptions): Promise<GetCustomModelsResponse>;
+    listModelsAll(settings: PageSettings, options?: ListModelsOptions): AsyncIterableIterator<ModelInfo>;
     // Warning: (ae-forgotten-export) The symbol "StartTrainingOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "Model" needs to be exported by the entry point index.d.ts
     //
@@ -246,6 +250,17 @@ export type Language = 'en' | 'es';
 
 // @public
 export type LengthUnit = 'pixel' | 'inch';
+
+// @public
+export interface ModelInfo {
+    createdDateTime: Date;
+    lastUpdatedDateTime: Date;
+    modelId: string;
+    status: ModelStatus;
+}
+
+// @public
+export type ModelStatus = 'creating' | 'ready' | 'invalid';
 
 // @public (undocumented)
 export type NumberFieldValue = {
