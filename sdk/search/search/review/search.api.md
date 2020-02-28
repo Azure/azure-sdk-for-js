@@ -55,27 +55,6 @@ export interface FacetResult {
 }
 
 // @public
-export interface GeneratedSearchDocumentsResult {
-    readonly count?: number;
-    readonly coverage?: number;
-    readonly facets?: {
-        [propertyName: string]: FacetResult[];
-    };
-    readonly nextLink?: string;
-    readonly nextPageParameters?: SearchRequest;
-    readonly results?: GeneratedSearchResult[];
-}
-
-// @public
-export interface GeneratedSearchResult {
-    [property: string]: any;
-    readonly highlights?: {
-        [propertyName: string]: string[];
-    };
-    readonly score?: number;
-}
-
-// @public
 export interface GeneratedSuggestDocumentsResult {
     readonly coverage?: number;
     readonly results?: GeneratedSuggestResult[];
@@ -144,7 +123,7 @@ export type KnownKeys<T> = {
 // @public (undocumented)
 export interface ListSearchResultsPageSettings {
     nextLink?: string;
-    nextPageParameters?: SearchRequest;
+    nextPageParameters?: SearchRequest<string>;
 }
 
 // @public (undocumented)
@@ -170,12 +149,17 @@ export class SearchApiKeyCredential implements ServiceClientCredentials {
     updateKey(apiKey: string): void;
 }
 
-// @public (undocumented)
-export type SearchDocumentsResult<T> = ReplaceProperties<GeneratedSearchDocumentsResult, {
-    readonly results?: GeneratedSearchResult[];
-}, {
-    readonly results?: Array<SearchResult<T>>;
-}>;
+// @public
+export interface SearchDocumentsResult<T> {
+    readonly count?: number;
+    readonly coverage?: number;
+    readonly facets?: {
+        [propertyName: string]: FacetResult[];
+    };
+    readonly nextLink?: string;
+    readonly nextPageParameters?: SearchRequest<string>;
+    readonly results?: SearchResult<T>[];
+}
 
 // @public (undocumented)
 export class SearchIndexClient<T> {
@@ -192,9 +176,9 @@ export class SearchIndexClient<T> {
     getDocument(key: string, options?: GetDocumentOptions): Promise<T>;
     readonly indexName: string;
     // (undocumented)
-    listSearchResults<Fields extends keyof T>(options?: SearchOptions<T, Fields>): PagedAsyncIterableIterator<SearchResult<Pick<T, Fields>>, SearchDocumentsResult<Pick<T, Fields>>, ListSearchResultsPageSettings>;
+    listSearchResults<Fields extends keyof T>(options?: SearchOptions<Fields>): PagedAsyncIterableIterator<SearchResult<Pick<T, Fields>>, SearchDocumentsResult<Pick<T, Fields>>, ListSearchResultsPageSettings>;
     // (undocumented)
-    listSearchResultsAll<Fields extends keyof T>(options?: SearchOptions<T, Fields>): AsyncIterableIterator<SearchResult<T>>;
+    listSearchResultsAll<Fields extends keyof T>(options?: SearchOptions<Fields>): AsyncIterableIterator<SearchResult<T>>;
     modifyIndex(batch: IndexAction[], options?: ModifyIndexOptions): Promise<IndexDocumentsResult>;
     // (undocumented)
     suggest<Fields extends keyof T>(options: SuggestOptions<T, Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
@@ -211,10 +195,10 @@ export type SearchIndexClientOptions = PipelineOptions;
 export type SearchMode = 'any' | 'all';
 
 // @public (undocumented)
-export type SearchOptions<T, Fields extends keyof T> = OperationOptions & SelectedFields<T, Fields> & Omit<SearchRequest, "select">;
+export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
 
 // @public
-export interface SearchRequest {
+export interface SearchRequest<SelectFields> {
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -229,16 +213,21 @@ export interface SearchRequest {
     searchFields?: string;
     searchMode?: SearchMode;
     searchText?: string;
-    select?: string;
+    select?: SelectFields[];
     skip?: number;
     top?: number;
 }
 
-// @public (undocumented)
-export type SearchResult<T> = Pick<GeneratedSearchResult, KnownKeys<GeneratedSearchResult>> & T;
+// @public
+export type SearchResult<T> = {
+    readonly score?: number;
+    readonly highlights?: {
+        [propertyName: string]: string[];
+    };
+} & T;
 
 // @public (undocumented)
-export interface SelectedFields<T, Fields extends keyof T> {
+export interface SelectedFields<Fields> {
     select?: Fields[];
 }
 
@@ -250,7 +239,7 @@ export type SuggestDocumentsResult<T> = ReplaceProperties<GeneratedSuggestDocume
 }>;
 
 // @public (undocumented)
-export type SuggestOptions<T, Fields extends keyof T> = OperationOptions & SelectedFields<T, Fields> & Omit<SuggestRequest, "select">;
+export type SuggestOptions<T, Fields extends keyof T> = OperationOptions & SelectedFields<Fields> & Omit<SuggestRequest, "select">;
 
 // @public
 export interface SuggestRequest {

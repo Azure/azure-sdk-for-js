@@ -4,39 +4,29 @@
 import { OperationOptions } from "@azure/core-http";
 import {
   AutocompleteRequest,
-  SearchRequest,
-  SearchResult as RawSearchResult,
-  SearchDocumentsResult as RawSearchDocumentsResult,
   SuggestDocumentsResult as RawSuggestDocumentsResult,
   SuggestRequest,
-  SuggestResult
+  SuggestResult,
+  QueryType,
+  SearchMode,
+  FacetResult
 } from "./generated/data/models";
 import { ReplaceProperties, KnownKeys } from "./util";
 
 export type CountOptions = OperationOptions;
 export type AutocompleteOptions = OperationOptions & AutocompleteRequest;
 
-export interface SelectedFields<T, Fields extends keyof T> {
+export interface SelectedFields<Fields> {
   /**
    * The list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema
    * are included.
    */
   select?: Fields[];
 }
-export type SearchOptions<T, Fields extends keyof T> = OperationOptions &
-  SelectedFields<T, Fields> &
-  Omit<SearchRequest, "select">;
-
-export type SearchResult<T> = Pick<RawSearchResult, KnownKeys<RawSearchResult>> & T;
-
-export type SearchDocumentsResult<T> = ReplaceProperties<
-  RawSearchDocumentsResult,
-  { readonly results?: RawSearchResult[] },
-  { readonly results?: Array<SearchResult<T>> }
->;
+export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
 
 export type SuggestOptions<T, Fields extends keyof T> = OperationOptions &
-  SelectedFields<T, Fields> &
+  SelectedFields<Fields> &
   Omit<SuggestRequest, "select">;
 
 export type SuggestDocumentsResult<T> = ReplaceProperties<
@@ -78,5 +68,177 @@ export interface ListSearchResultsPageSettings {
   /**
    * When server pagination occurs, this is the set of parameters to include in the POST body.
    */
-  nextPageParameters?: SearchRequest;
+  nextPageParameters?: SearchRequest<string>;
 }
+
+// BEGIN manually modified generated interfaces
+//
+// This section is for places where we have to manually fix issues
+// with interfaces from the generated code.
+// Mostly this is to allow modeling additionalProperties:true as generics.
+
+/**
+ * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
+ */
+export interface SearchRequest<SelectFields> {
+  /**
+   * A value that specifies whether to fetch the total count of results. Default is false. Setting
+   * this value to true may have a performance impact. Note that the count returned is an
+   * approximation.
+   */
+  includeTotalResultCount?: boolean;
+  /**
+   * The list of facet expressions to apply to the search query. Each facet expression contains a
+   * field name, optionally followed by a comma-separated list of name:value pairs.
+   */
+  facets?: string[];
+  /**
+   * The OData $filter expression to apply to the search query.
+   */
+  filter?: string;
+  /**
+   * The comma-separated list of field names to use for hit highlights. Only searchable fields can
+   * be used for hit highlighting.
+   */
+  highlightFields?: string;
+  /**
+   * A string tag that is appended to hit highlights. Must be set with highlightPreTag. Default is
+   * &lt;/em&gt;.
+   */
+  highlightPostTag?: string;
+  /**
+   * A string tag that is prepended to hit highlights. Must be set with highlightPostTag. Default
+   * is &lt;em&gt;.
+   */
+  highlightPreTag?: string;
+  /**
+   * A number between 0 and 100 indicating the percentage of the index that must be covered by a
+   * search query in order for the query to be reported as a success. This parameter can be useful
+   * for ensuring search availability even for services with only one replica. The default is 100.
+   */
+  minimumCoverage?: number;
+  /**
+   * The comma-separated list of OData $orderby expressions by which to sort the results. Each
+   * expression can be either a field name or a call to either the geo.distance() or the
+   * search.score() functions. Each expression can be followed by asc to indicate ascending, or
+   * desc to indicate descending. The default is ascending order. Ties will be broken by the match
+   * scores of documents. If no $orderby is specified, the default sort order is descending by
+   * document match score. There can be at most 32 $orderby clauses.
+   */
+  orderBy?: string;
+  /**
+   * A value that specifies the syntax of the search query. The default is 'simple'. Use 'full' if
+   * your query uses the Lucene query syntax. Possible values include: 'simple', 'full'
+   */
+  queryType?: QueryType;
+  /**
+   * The list of parameter values to be used in scoring functions (for example,
+   * referencePointParameter) using the format name-values. For example, if the scoring profile
+   * defines a function with a parameter called 'mylocation' the parameter string would be
+   * "mylocation--122.2,44.8" (without the quotes).
+   */
+  scoringParameters?: string[];
+  /**
+   * The name of a scoring profile to evaluate match scores for matching documents in order to sort
+   * the results.
+   */
+  scoringProfile?: string;
+  /**
+   * A full-text search query expression; Use "*" or omit this parameter to match all documents.
+   */
+  searchText?: string;
+  /**
+   * The comma-separated list of field names to which to scope the full-text search. When using
+   * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
+   * fielded search expression take precedence over any field names listed in this parameter.
+   */
+  searchFields?: string;
+  /**
+   * A value that specifies whether any or all of the search terms must be matched in order to
+   * count the document as a match. Possible values include: 'any', 'all'
+   */
+  searchMode?: SearchMode;
+  /**
+   * The list of fields to retrieve. If unspecified, all fields marked as
+   * retrievable in the schema are included.
+   */
+  select?: SelectFields[];
+  /**
+   * The number of search results to skip. This value cannot be greater than 100,000. If you need
+   * to scan documents in sequence, but cannot use skip due to this limitation, consider using
+   * orderby on a totally-ordered key and filter with a range query instead.
+   */
+  skip?: number;
+  /**
+   * The number of search results to retrieve. This can be used in conjunction with $skip to
+   * implement client-side paging of search results. If results are truncated due to server-side
+   * paging, the response will include a continuation token that can be used to issue another
+   * Search request for the next page of results.
+   */
+  top?: number;
+}
+
+/**
+ * Contains a document found by a search query, plus associated metadata.
+ */
+export type SearchResult<T> = {
+  /**
+   * The relevance score of the document compared to other documents returned by the query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly score?: number;
+  /**
+   * Text fragments from the document that indicate the matching search terms, organized by each
+   * applicable field; null if hit highlighting was not enabled for the query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly highlights?: { [propertyName: string]: string[] };
+} & T;
+
+/**
+ * Response containing search results from an index.
+ */
+export interface SearchDocumentsResult<T> {
+  /**
+   * The total count of results found by the search operation, or null if the count was not
+   * requested. If present, the count may be greater than the number of results in this response.
+   * This can happen if you use the $top or $skip parameters, or if Azure Cognitive Search can't
+   * return all the requested documents in a single Search response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly count?: number;
+  /**
+   * A value indicating the percentage of the index that was included in the query, or null if
+   * minimumCoverage was not specified in the request.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly coverage?: number;
+  /**
+   * The facet query results for the search operation, organized as a collection of buckets for
+   * each faceted field; null if the query did not include any facet expressions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly facets?: { [propertyName: string]: FacetResult[] };
+  /**
+   * Continuation JSON payload returned when Azure Cognitive Search can't return all the requested
+   * results in a single Search response. You can use this JSON along with @odata.nextLink to
+   * formulate another POST Search request to get the next part of the search response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextPageParameters?: SearchRequest<string>;
+  /**
+   * The sequence of results returned by the query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly results?: SearchResult<T>[];
+  /**
+   * Continuation URL returned when Azure Cognitive Search can't return all the requested results
+   * in a single Search response. You can use this URL to formulate another GET or POST Search
+   * request to get the next part of the search response. Make sure to use the same verb (GET or
+   * POST) as the request that produced this response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+// END manually modified generated interfaces

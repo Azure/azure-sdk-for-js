@@ -183,7 +183,7 @@ export class SearchIndexClient<T> {
   }
 
   private async search<Fields extends keyof T>(
-    options: SearchOptions<T, Fields> = {}
+    options: SearchOptions<Fields> = {}
   ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, ...nonSelectOptions } = restOptions;
@@ -212,7 +212,7 @@ export class SearchIndexClient<T> {
   }
 
   private async *listSearchResultsPage<Fields extends keyof T>(
-    options: SearchOptions<T, Fields> = {},
+    options: SearchOptions<Fields> = {},
     settings: ListSearchResultsPageSettings = {}
   ): AsyncIterableIterator<SearchDocumentsResult<Pick<T, Fields>>> {
     let result = await this.search<Fields>({
@@ -234,7 +234,7 @@ export class SearchIndexClient<T> {
   }
 
   public async *listSearchResultsAll<Fields extends keyof T>(
-    options: SearchOptions<T, Fields> = {}
+    options: SearchOptions<Fields> = {}
   ): AsyncIterableIterator<SearchResult<T>> {
     for await (const page of this.listSearchResultsPage(options)) {
       const results: Array<SearchResult<T>> = (page.results as any) || [];
@@ -243,7 +243,7 @@ export class SearchIndexClient<T> {
   }
 
   public listSearchResults<Fields extends keyof T>(
-    options: SearchOptions<T, Fields> = {}
+    options: SearchOptions<Fields> = {}
   ): PagedAsyncIterableIterator<
     SearchResult<Pick<T, Fields>>,
     SearchDocumentsResult<Pick<T, Fields>>,
