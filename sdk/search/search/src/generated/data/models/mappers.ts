@@ -175,7 +175,6 @@ export const SearchRequest: coreHttp.CompositeMapper = {
         }
       },
       searchText: {
-        required: true,
         serializedName: "search",
         type: {
           name: "String"

@@ -50,7 +50,7 @@ export interface SelectedFields<T, Fields extends keyof T> {
 }
 export type SearchOptions<T, Fields extends keyof T> = OperationOptions &
   SelectedFields<T, Fields> &
-  Omit<SearchRequest, "searchText" | "select">;
+  Omit<SearchRequest, "select">;
 
 export type SearchResult<T> = Pick<RawSearchResult, KnownKeys<RawSearchResult>> & T;
 
@@ -241,13 +241,11 @@ export class SearchIndexClient<T> {
   }
 
   private async search<Fields extends keyof T>(
-    searchText: string,
     options: SearchOptions<T, Fields> = {}
   ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, ...nonSelectOptions } = restOptions;
     const fullOptions: SearchRequest = {
-      searchText,
       select: this.convertSelect<T, Fields>(select),
       ...nonSelectOptions
     };
@@ -272,11 +270,10 @@ export class SearchIndexClient<T> {
   }
 
   private async *listSearchResultsPage<Fields extends keyof T>(
-    searchText: string,
     options: SearchOptions<T, Fields> = {},
     settings: ListSearchResultsPageSettings = {}
   ): AsyncIterableIterator<SearchDocumentsResult<Pick<T, Fields>>> {
-    let result = await this.search<Fields>(searchText, {
+    let result = await this.search<Fields>({
       ...options,
       ...(settings.nextPageParameters as any)
     });
@@ -286,7 +283,7 @@ export class SearchIndexClient<T> {
     // Technically, we should also leverage nextLink, but the generated code
     // doesn't support this yet.
     while (result.nextPageParameters) {
-      result = await this.search(searchText, {
+      result = await this.search({
         ...options,
         ...(result.nextPageParameters as any)
       });
@@ -295,24 +292,22 @@ export class SearchIndexClient<T> {
   }
 
   public async *listSearchResultsAll<Fields extends keyof T>(
-    searchText: string,
     options: SearchOptions<T, Fields> = {}
   ): AsyncIterableIterator<SearchResult<T>> {
-    for await (const page of this.listSearchResultsPage(searchText, options)) {
+    for await (const page of this.listSearchResultsPage(options)) {
       const results: Array<SearchResult<T>> = (page.results as any) || [];
       yield* results;
     }
   }
 
   public listSearchResults<Fields extends keyof T>(
-    searchText: string,
     options: SearchOptions<T, Fields> = {}
   ): PagedAsyncIterableIterator<
     SearchResult<Pick<T, Fields>>,
     SearchDocumentsResult<Pick<T, Fields>>,
     ListSearchResultsPageSettings
   > {
-    const iter = this.listSearchResultsAll(searchText, options);
+    const iter = this.listSearchResultsAll(options);
 
     return {
       next() {
@@ -322,7 +317,7 @@ export class SearchIndexClient<T> {
         return this;
       },
       byPage: (settings: ListSearchResultsPageSettings = {}) => {
-        return this.listSearchResultsPage(searchText, options, settings);
+        return this.listSearchResultsPage(options, settings);
       }
     };
   }

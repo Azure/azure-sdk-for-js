@@ -95,7 +95,7 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-for await (const result of client.listSearchResults("wifi -luxury")) {
+for await (const result of client.listSearchResults({ searchText: "wifi -luxury"})) {
   console.log(result);
 }
 ```
@@ -111,7 +111,8 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-for await (const result of client.listSearchResults('category:budget AND "recently renovated"^3', {
+for await (const result of client.listSearchResults({
+  searchText: 'category:budget AND "recently renovated"^3',
   queryType: "full",
   searchMode: "all"
 })) {
@@ -134,7 +135,8 @@ const client = new SearchIndexClient(
 
 const baseRateMax = 200;
 const ratingMin = 4;
-const iterator = client.listSearchResults("WiFi", {
+const iterator = client.listSearchResults({
+  searchText: "WiFi",
   filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
   orderBy: "Rating desc",
   select: ["HotelId", "HotelName", "Rating"]
@@ -160,7 +162,8 @@ const client = new SearchIndexClient(
 );
 
 const iterator = await client
-  .listSearchResults("WiFi", {
+  .listSearchResults({
+    searchText: "WiFi",
     facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
   })
   .byPage();

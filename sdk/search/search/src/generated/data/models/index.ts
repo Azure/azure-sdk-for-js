@@ -126,7 +126,7 @@ export interface SearchRequest {
   /**
    * A full-text search query expression; Use "*" or omit this parameter to match all documents.
    */
-  searchText: string;
+  searchText?: string;
   /**
    * The comma-separated list of field names to which to scope the full-text search. When using
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each

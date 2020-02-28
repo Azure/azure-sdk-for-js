@@ -76,10 +76,6 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions.SearchRequest
-    transform: >
-      $.required = ["search"]
-  - from: swagger-document
     where: $.definitions.AutocompleteRequest
     transform: >
       $.required = ["search", "suggesterName"]
