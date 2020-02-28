@@ -26,10 +26,6 @@
 Clients are single-use - you cannot change their receive mode or targeted queue/topic/subscription after
 they are created.
 
-This also means that calling .receive() (or registering multiple handlers) isn't a useful activity - the user
-would only be competing against _themselves_ since calling receive() multiple times would just result
-in multiple links, in the same mode, to the same entity, on the same _connection_.
-
 # Sessions design
 
 The primary use case for non-session bus users when receiving is opening
