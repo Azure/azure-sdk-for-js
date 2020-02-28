@@ -224,8 +224,9 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-const suggesterName = "sg";
-const suggestResult = await client.suggest("wifi", suggesterName, {
+const suggestResult = await client.suggest({
+  searchText: "wifi",
+  suggesterName: "sg",
   select: ["HotelId", "HotelName"],
   highlightPreTag: "<em>",
   highlightPostTag: "</em>",
@@ -252,7 +253,10 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 const suggesterName = "sg";
-const autocompleteResult = await client.autocomplete("de", suggesterName);
+const autocompleteResult = await client.autocomplete({
+  searchText: "de",
+  suggesterName: "sg",
+});
 
 for (const result of autocompleteResult.results || []) {
   console.log(result.text);

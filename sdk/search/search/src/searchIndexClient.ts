@@ -38,8 +38,7 @@ import { deserialize, serialize } from "./serialization";
  */
 export type SearchIndexClientOptions = PipelineOptions;
 export type CountOptions = OperationOptions;
-export type AutocompleteOptions = OperationOptions &
-  Omit<AutocompleteRequest, "searchText" | "suggesterName">;
+export type AutocompleteOptions = OperationOptions & AutocompleteRequest;
 
 export interface SelectedFields<T, Fields extends keyof T> {
   /**
@@ -62,7 +61,7 @@ export type SearchDocumentsResult<T> = ReplaceProperties<
 
 export type SuggestOptions<T, Fields extends keyof T> = OperationOptions &
   SelectedFields<T, Fields> &
-  Omit<SuggestRequest, "searchText" | "suggesterName" | "select">;
+  Omit<SuggestRequest, "select">;
 
 export type SuggestDocumentsResult<T> = ReplaceProperties<
   RawSuggestDocumentsResult,
@@ -209,17 +208,19 @@ export class SearchIndexClient<T> {
     }
   }
 
-  public async autocomplete(
-    searchText: string,
-    suggesterName: string,
-    options: AutocompleteOptions = {}
-  ): Promise<AutocompleteResult> {
+  public async autocomplete(options: AutocompleteOptions): Promise<AutocompleteResult> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const fullOptions: AutocompleteRequest = {
-      suggesterName,
-      searchText,
       ...restOptions
     };
+
+    if (!fullOptions.searchText) {
+      throw new RangeError("searchText must be provided.");
+    }
+
+    if (!fullOptions.suggesterName) {
+      throw new RangeError("suggesterName must be provided.");
+    }
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-autocomplete", operationOptions);
 
@@ -323,18 +324,23 @@ export class SearchIndexClient<T> {
   }
 
   public async suggest<Fields extends keyof T>(
-    searchText: string,
-    suggesterName: string,
-    options: SuggestOptions<T, Fields> = {}
+    options: SuggestOptions<T, Fields>
   ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, ...nonSelectOptions } = restOptions;
     const fullOptions: SuggestRequest = {
-      suggesterName,
-      searchText,
       select: this.convertSelect<T, Fields>(select),
       ...nonSelectOptions
     };
+
+    if (!fullOptions.searchText) {
+      throw new RangeError("searchText must be provided.");
+    }
+
+    if (!fullOptions.suggesterName) {
+      throw new RangeError("suggesterName must be provided.");
+    }
+
     const { span, updatedOptions } = createSpan("SearchIndexClient-suggest", operationOptions);
 
     try {
