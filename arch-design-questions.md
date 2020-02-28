@@ -28,7 +28,7 @@ they are created.
 
 # Sessions design
 
-The primary use case for non-session bus users when receiving is opening
+The primary use case for service bus users that are NOT using sessions is opening
 up a single client instance, connecting to a targeted queue (or topic/subscription)
 and receiving from it.
 
