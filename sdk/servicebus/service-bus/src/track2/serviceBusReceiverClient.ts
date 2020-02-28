@@ -16,7 +16,8 @@ import {
   QueueAuth,
   SubscriptionAuth,
   isSession,
-  MessageAndContext
+  MessageAndContext,
+  Message
 } from "./models";
 import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
 import { RuleDescription, CorrelationFilter } from "../core/managementClient";
@@ -32,6 +33,14 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
   iterateMessages(): MessageIterator<ContextType<LockModeT>>;
   renewSessionLock(): Promise<Date>;
   close(): Promise<void>;
+
+  diagnostics: {
+    peek(maxMessageCount?: number): Promise<Message[]>;
+    peekBySequenceNumber(
+      fromSequenceNumber: Long,
+      maxMessageCount?: number
+    ): Promise<Message[]>;
+  }
 }
 
 /**
@@ -41,6 +50,13 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
   streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
   iterateMessages(): MessageIterator<ContextType<LockModeT>>;
   close(): Promise<void>;
+  diagnostics: {
+    peek(maxMessageCount?: number): Promise<Message[]>;
+    peekBySequenceNumber(
+      fromSequenceNumber: Long,
+      maxMessageCount?: number
+    ): Promise<Message[]>;
+  }
 }
 
 /**
@@ -223,13 +239,46 @@ export class ReceiverClientImplementation {
 
     // TODO: use the session connections object to "cache" the client entity context
     if (session != null) {
-      this._receiver = new InternalSessionReceiver(clientEntityContext, this._receiveMode, {
+      const receiver = new InternalSessionReceiver(clientEntityContext, this._receiveMode, {
         sessionId: session.id
       });
       this._sessionEnabled = true;
+      this._receiver = receiver;
+
+      this.diagnostics = {
+        async peek(maxMessageCount?: number): Promise<Message[]> {
+          return (await receiver.peek(maxMessageCount)).map(m => m as Message);
+        },
+        async peekBySequenceNumber(
+          fromSequenceNumber: Long,
+          maxMessageCount?: number
+        ): Promise<Message[]> {
+          return (await receiver.peekBySequenceNumber(
+            fromSequenceNumber,
+            maxMessageCount
+          )).map(m => m as Message);
+        }
+      };  
     } else {
-      this._receiver = new InternalReceiver(clientEntityContext, this._receiveMode);
+      const receiver = new InternalReceiver(clientEntityContext, this._receiveMode);
       this._sessionEnabled = false;
+      this._receiver = receiver;
+
+      this.diagnostics = {
+        async peek(maxMessageCount?: number): Promise<Message[]> {
+          return (await receiver.peek(entityPath, maxMessageCount)).map(m => m as Message);
+        },
+        async peekBySequenceNumber(
+          fromSequenceNumber: Long,
+          maxMessageCount?: number
+        ): Promise<Message[]> {
+          return (await receiver.peekBySequenceNumber(
+            entityPath,
+            fromSequenceNumber,
+            maxMessageCount
+          )).map(m => m as Message);
+        }
+      };  
     }
   }
 
@@ -358,6 +407,14 @@ export class ReceiverClientImplementation {
     // TODO: don't close the entire connection here if we're doing a shared connection
     await ConnectionContext.close(this._context);
   }
+
+  public diagnostics: {
+    peek(maxMessageCount?: number): Promise<Message[]>;
+    peekBySequenceNumber(
+      fromSequenceNumber: Long,
+      maxMessageCount?: number
+    ): Promise<Message[]>;
+  };
 
   private _receiver: InternalSessionReceiver | InternalReceiver;
   private _sessionEnabled: boolean;
