@@ -2,17 +2,19 @@
 
 ## Principles
 
-- There are two top level clients - `ServiceBusReceiverClient` and `ServiceBusSenderClient`.
-- Clients are [single-use](#single-use-clients) - they are created with a receive mode, session ID (if applicable), queue/topic-subscription
-  baked in and cannot be changed.
-- The user can choose between two different methods of message delivery - push (via registered message handlers)
-  or pull (via an iterator/reactor pattern or .receiveBatch()-style)
-- Sessions have two different methods for interacting with them:
-  1. [single-use](#single-use-clients)
-  2. [session manager](#sessions-design)
+- There are two required top level clients - `ServiceBusReceiverClient` and `ServiceBusSenderClient`.
+- Clients are [single-use](#single-use-clients) - they are created with a receive mode, session ID 
+  (if applicable), queue/topic-subscription baked in and cannot be changed.
+- The user can choose between three different methods of message delivery:
+  1. "push" (via registered message handlers)
+  2. Iteration via an actual iterator or Flux
+  3. "pull",  via .receiveBatch()
+- Sessions have two different use cases for interacting with them:
+  1. [single-use with a known session name](#single-use-clients)
+  2. [session manager, ie "round robin sessions"](#sessions-design)
 - Different message types will be used for sending messages vs receiving messages. This is less confusing for
   the user since we can remove fields that are non-sensical for sending (for instance, `locktoken`).
-- [Connection sharing is key to efficiency](connection-sharing)
+- [Connection sharing is a first class scenario](connection-sharing)
 
 # Single use clients
 
@@ -56,10 +58,7 @@ due to the higher likelihood of failure (via connection explosion).
 
 **Existing solutions:**
 
-- Java (keeping the service bus client builder alive + sharedConnection(true). Not required for sessions?
-- .NET (create ServiceBusConnection class, share. Not required though but should be for sessions.)
-- JS - { sessionConnections: } property when client is initialized (required if specifying a session)
-- Python - top level service bus client instance?
+See [connection sharing](#connection-sharing) for brainstorming around current ideas.
 
 ## The user doesn't necessarily know which sessions exist (round-robin sessions)
 
@@ -91,8 +90,9 @@ manage state and is distinct from the [single use clients](single-use-clients).
 
 Existing solutions:
 
-- JS: `SessionManager` class (hasn't been reviewed)
-- .NET: 
+- JS: [`SessionManager` (has not been reviewed for production-readiness)](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/src/session/sessionManager.ts)
+- .NET: [`ServiceBusProcessor`](https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/servicebus/Azure.Messaging.ServiceBus/src/Processor/ServiceBusProcessorClient.cs)
+- Java/Python - no solution currently.
 
 # Connection sharing
 
