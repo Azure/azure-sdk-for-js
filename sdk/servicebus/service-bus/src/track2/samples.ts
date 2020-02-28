@@ -8,10 +8,7 @@ import { env } from "process";
 import * as dotenv from "dotenv";
 import { ServiceBusReceiverClient } from './serviceBusReceiverClient';
 
-dotenv.config({
-  // path: "..\\..\\..\\..\\..\\..\\..\\..\\dev\\temp\\.env"
-  path: "/mnt/c/dev/temp/.env"
-});
+dotenv.config();
 
 /**
  * @ignore

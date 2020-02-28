@@ -15,6 +15,7 @@ import { ConnectionContext } from "./connectionContext";
 export class ServiceBusSenderClient {
   public _entityPath: string;
   private _currentSender: Sender;
+  private _context: ConnectionContext;
 
   /**
    * Creates a ServiceBusClient for the Service Bus Namespace represented in the given connection
@@ -65,7 +66,6 @@ export class ServiceBusSenderClient {
     credentialOrServiceBusClientOptions?: TokenCredential | ServiceBusClientOptions,
     options?: ServiceBusClientOptions
   ) {
-    let context: ConnectionContext;
     if (typeof entityNameOrOptions !== "string") {
       // (entityConnectionString: string, options?: ServiceBusClientOptions)
       const entityConnectionString = hostOrConnectionString;
@@ -79,16 +79,16 @@ export class ServiceBusSenderClient {
         this._entityPath = String(entityPathMatch![0]);
       }
 
-      context = createConnectionContextForConnectionString(entityConnectionString, options);
+      this._context = createConnectionContextForConnectionString(entityConnectionString, options);
     } else if (!isTokenCredential(credentialOrServiceBusClientOptions)) {
       // (serviceBusConnectionString: string, entityName: string, options?: ServiceBusClientOptions)
       this._entityPath = String(entityNameOrOptions);
-      context = createConnectionContextForConnectionString(hostOrConnectionString, options);
+      this._context = createConnectionContextForConnectionString(hostOrConnectionString, options);
     } else {
       // (host: string, entityName: string, credential: TokenCredential, options?: ServiceBusClientOptions)
       const entityName = entityNameOrOptions;
       this._entityPath = String(entityName);
-      context = createConnectionContextForTokenCredential(
+      this._context = createConnectionContextForTokenCredential(
         credentialOrServiceBusClientOptions,
         hostOrConnectionString,
         options
@@ -97,7 +97,7 @@ export class ServiceBusSenderClient {
     const clientEntityContext = ClientEntityContext.create(
       this._entityPath,
       ClientType.ServiceBusSenderClient,
-      context,
+      this._context,
       `${this._entityPath}/${generate_uuid()}`
     );
     this._currentSender = new Sender(clientEntityContext);
@@ -135,5 +135,6 @@ export class ServiceBusSenderClient {
 
   async close(): Promise<void> {
     await this._currentSender.close();
+    await ConnectionContext.close(this._context);
   }
 }

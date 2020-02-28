@@ -115,11 +115,30 @@ export function createConnectionContext(
           entityPath: `${baseEntityPath}/Subscriptions/${auth2.subscriptionName as string}`
         };
       } else {
-        throw new Error("Misisng subscription name, required as part of connecting to a topic");
+        throw new Error("Missing subscription name, required as part of connecting to a topic");
       }     
     } else {
       throw new Error("No entity name present in the connection string");
     }
+  } else if (auth2.connectionString && typeof auth2.connectionString === "string") {
+      let entityPath: string;
+
+      if (auth2.queueName && typeof auth2.queueName === "string") {
+        const queueName: string = auth2.queueName;
+        entityPath = queueName;
+      } else if (auth2.topicName && typeof auth2.topicName === "string" 
+        && auth2.subscriptionName && typeof auth2.subscriptionName === "string") {
+        const topicName = auth2.topicName;
+        const subscriptionName = auth2.subscriptionName;
+        entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
+      } else {
+        throw new Error("Missing fields when using TokenCredential authentication");
+      }
+  
+      return {
+        context: createConnectionContextForConnectionString(auth2.connectionString, options),
+        entityPath: entityPath
+      };
   } else {
     throw new Error("Unhandled set of parameters");
   }
