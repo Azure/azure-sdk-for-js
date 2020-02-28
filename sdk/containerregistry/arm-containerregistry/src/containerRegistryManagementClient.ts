@@ -22,6 +22,7 @@ class ContainerRegistryManagementClient extends ContainerRegistryManagementClien
   replications: operations.Replications;
   webhooks: operations.Webhooks;
   runs: operations.Runs;
+  taskRuns: operations.TaskRuns;
   tasks: operations.Tasks;
   scopeMaps: operations.ScopeMaps;
   tokens: operations.Tokens;
@@ -39,6 +40,7 @@ class ContainerRegistryManagementClient extends ContainerRegistryManagementClien
     this.replications = new operations.Replications(this);
     this.webhooks = new operations.Webhooks(this);
     this.runs = new operations.Runs(this);
+    this.taskRuns = new operations.TaskRuns(this);
     this.tasks = new operations.Tasks(this);
     this.scopeMaps = new operations.ScopeMaps(this);
     this.tokens = new operations.Tokens(this);
