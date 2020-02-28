@@ -19,17 +19,17 @@ export interface AutocompleteItem {
 // @public
 export type AutocompleteMode = 'oneTerm' | 'twoTerms' | 'oneTermWithContext';
 
-// @public (undocumented)
-export type AutocompleteOptions = OperationOptions & AutocompleteRequest;
+// @public
+export type AutocompleteOptions<Fields> = OperationOptions & AutocompleteRequest<Fields>;
 
 // @public
-export interface AutocompleteRequest {
+export interface AutocompleteRequest<Fields> {
     autocompleteMode?: AutocompleteMode;
     filter?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
     minimumCoverage?: number;
-    searchFields?: string;
+    searchFields?: Fields[];
     searchText: string;
     suggesterName: string;
     top?: number;
@@ -42,10 +42,10 @@ export interface AutocompleteResult {
     readonly results?: AutocompleteItem[];
 }
 
-// @public (undocumented)
+// @public
 export type CountOptions = OperationOptions;
 
-// @public (undocumented)
+// @public
 export type DeleteDocumentsOptions = ModifyIndexOptions;
 
 // @public
@@ -74,9 +74,9 @@ export class GeographyPoint {
     };
 }
 
-// @public (undocumented)
-export interface GetDocumentOptions extends OperationOptions {
-    selectedFields?: string[];
+// @public
+export interface GetDocumentOptions<Fields> extends OperationOptions {
+    selectedFields?: Fields[];
 }
 
 // @public
@@ -101,13 +101,13 @@ export interface IndexingResult {
     readonly succeeded?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ListSearchResultsPageSettings {
     nextLink?: string;
     nextPageParameters?: SearchRequest<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ModifyIndexOptions extends OperationOptions {
     throwOnAnyFailure?: boolean;
 }
@@ -142,14 +142,14 @@ export class SearchIndexClient<T> {
     constructor(endpoint: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
     readonly apiVersion: string;
     // (undocumented)
-    autocomplete(options: AutocompleteOptions): Promise<AutocompleteResult>;
+    autocomplete<Fields extends keyof T>(options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     // (undocumented)
     count(options?: CountOptions): Promise<number>;
     // (undocumented)
     deleteDocuments(keyName: string, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
     // (undocumented)
-    getDocument(key: string, options?: GetDocumentOptions): Promise<T>;
+    getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     readonly indexName: string;
     // (undocumented)
     listSearchResults<Fields extends keyof T>(options?: SearchOptions<Fields>): PagedAsyncIterableIterator<SearchResult<Pick<T, Fields>>, SearchDocumentsResult<Pick<T, Fields>>, ListSearchResultsPageSettings>;
@@ -170,7 +170,7 @@ export type SearchIndexClientOptions = PipelineOptions;
 // @public
 export type SearchMode = 'any' | 'all';
 
-// @public (undocumented)
+// @public
 export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
 
 // @public
@@ -186,7 +186,7 @@ export interface SearchRequest<Fields> {
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
-    searchFields?: string;
+    searchFields?: Fields[];
     searchMode?: SearchMode;
     searchText?: string;
     select?: Fields[];
@@ -208,7 +208,7 @@ export interface SuggestDocumentsResult<T> {
     readonly results?: SuggestResult<T>[];
 }
 
-// @public (undocumented)
+// @public
 export type SuggestOptions<Fields> = OperationOptions & SuggestRequest<Fields>;
 
 // @public
@@ -218,7 +218,7 @@ export interface SuggestRequest<Fields> {
     highlightPreTag?: string;
     minimumCoverage?: number;
     orderBy?: string;
-    searchFields?: string;
+    searchFields?: Fields[];
     searchText: string;
     select?: Fields[];
     suggesterName: string;
@@ -231,13 +231,13 @@ export type SuggestResult<T> = {
     readonly text?: string;
 } & T;
 
-// @public (undocumented)
+// @public
 export interface UpdateDocumentsOptions extends ModifyIndexOptions {
     // (undocumented)
     uploadIfNotExists?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface UploadDocumentsOptions extends ModifyIndexOptions {
     // (undocumented)
     mergeIfExists?: boolean;

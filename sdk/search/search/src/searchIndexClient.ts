@@ -149,10 +149,14 @@ export class SearchIndexClient<T> {
     }
   }
 
-  public async autocomplete(options: AutocompleteOptions): Promise<AutocompleteResult> {
+  public async autocomplete<Fields extends keyof T>(
+    options: AutocompleteOptions<Fields>
+  ): Promise<AutocompleteResult> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
+    const { searchFields, ...nonFieldOptions } = restOptions;
     const fullOptions: AutocompleteRequest = {
-      ...restOptions
+      searchFields: this.convertSearchFields<Fields>(searchFields),
+      ...nonFieldOptions
     };
 
     if (!fullOptions.searchText) {
@@ -186,10 +190,11 @@ export class SearchIndexClient<T> {
     options: SearchOptions<Fields> = {}
   ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, ...nonSelectOptions } = restOptions;
+    const { select, searchFields, ...nonFieldOptions } = restOptions;
     const fullOptions: SearchRequest = {
-      select: this.convertSelect<T, Fields>(select),
-      ...nonSelectOptions
+      searchFields: this.convertSearchFields<Fields>(searchFields),
+      select: this.convertSelect<Fields>(select),
+      ...nonFieldOptions
     };
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-search", operationOptions);
@@ -268,10 +273,11 @@ export class SearchIndexClient<T> {
     options: SuggestOptions<Fields>
   ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, ...nonSelectOptions } = restOptions;
+    const { select, searchFields, ...nonFieldOptions } = restOptions;
     const fullOptions: SuggestRequest = {
-      select: this.convertSelect<T, Fields>(select),
-      ...nonSelectOptions
+      searchFields: this.convertSearchFields<Fields>(searchFields),
+      select: this.convertSelect<Fields>(select),
+      ...nonFieldOptions
     };
 
     if (!fullOptions.searchText) {
@@ -301,7 +307,10 @@ export class SearchIndexClient<T> {
     }
   }
 
-  public async getDocument(key: string, options: GetDocumentOptions = {}): Promise<T> {
+  public async getDocument<Fields extends keyof T>(
+    key: string,
+    options: GetDocumentOptions<Fields> = {}
+  ): Promise<T> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getDocument", options);
     try {
       const result = await this.client.documents.get(
@@ -452,10 +461,17 @@ export class SearchIndexClient<T> {
     };
   }
 
-  private convertSelect<T, Fields extends keyof T>(select?: Fields[]): string | undefined {
+  private convertSelect<Fields>(select?: Fields[]): string | undefined {
     if (select) {
       return select.join(",");
     }
     return select;
+  }
+
+  private convertSearchFields<Fields>(searchFields?: Fields[]): string | undefined {
+    if (searchFields) {
+      return searchFields.join(",");
+    }
+    return searchFields;
   }
 }

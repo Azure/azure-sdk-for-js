@@ -3,6 +3,7 @@
 
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
 export {
+  AutocompleteRequest,
   AutocompleteOptions,
   CountOptions,
   DeleteDocumentsOptions,
@@ -24,7 +25,6 @@ export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
 export {
-  AutocompleteRequest,
   AutocompleteResult,
   AutocompleteMode,
   AutocompleteItem,

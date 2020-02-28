@@ -2,20 +2,39 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import { AutocompleteRequest, QueryType, SearchMode, FacetResult } from "./generated/data/models";
+import { QueryType, SearchMode, FacetResult, AutocompleteMode } from "./generated/data/models";
 
+/**
+ * Options for performing the count operation on the index.
+ */
 export type CountOptions = OperationOptions;
-export type AutocompleteOptions = OperationOptions & AutocompleteRequest;
+/**
+ * Options for retrieving completion text for a partial searchText.
+ */
+export type AutocompleteOptions<Fields> = OperationOptions & AutocompleteRequest<Fields>;
+/**
+ * Options for committing a full search request.
+ */
 export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
+/**
+ * Options for retrieving suggestions based on the searchText.
+ */
 export type SuggestOptions<Fields> = OperationOptions & SuggestRequest<Fields>;
 
-export interface GetDocumentOptions extends OperationOptions {
+/**
+ * Options for retrieving a single document.
+ */
+export interface GetDocumentOptions<Fields> extends OperationOptions {
   /**
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
    */
-  selectedFields?: string[];
+  selectedFields?: Fields[];
 }
+
+/**
+ * Options for the modify index batch operation.
+ */
 export interface ModifyIndexOptions extends OperationOptions {
   /**
    * If true, will cause this operation to throw if any document operation
@@ -24,16 +43,28 @@ export interface ModifyIndexOptions extends OperationOptions {
   throwOnAnyFailure?: boolean;
 }
 
+/**
+ * Options for the upload documents operation.
+ */
 export interface UploadDocumentsOptions extends ModifyIndexOptions {
   mergeIfExists?: boolean;
 }
 
+/**
+ * Options for the update documents operation.
+ */
 export interface UpdateDocumentsOptions extends ModifyIndexOptions {
   uploadIfNotExists?: boolean;
 }
 
+/**
+ * Options for the delete documents operation.
+ */
 export type DeleteDocumentsOptions = ModifyIndexOptions;
 
+/**
+ * Arguments for retrieving the next page of search results.
+ */
 export interface ListSearchResultsPageSettings {
   /**
    * When server pagination occurs, this is the URL to the next result page.
@@ -126,7 +157,7 @@ export interface SearchRequest<Fields> {
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
    * fielded search expression take precedence over any field names listed in this parameter.
    */
-  searchFields?: string;
+  searchFields?: Fields[];
   /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
@@ -266,7 +297,7 @@ export interface SuggestRequest<Fields> {
    * The comma-separated list of field names to search for the specified search text. Target fields
    * must be included in the specified suggester.
    */
-  searchFields?: string;
+  searchFields?: Fields[];
   /**
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
@@ -310,6 +341,67 @@ export interface SuggestDocumentsResult<T> {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly coverage?: number;
+}
+
+/**
+ * Parameters for fuzzy matching, and other autocomplete query behaviors.
+ */
+export interface AutocompleteRequest<Fields> {
+  /**
+   * The search text on which to base autocomplete results.
+   */
+  searchText: string;
+  /**
+   * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
+   * and 'oneTermWithContext' to use the current context while producing auto-completed terms.
+   * Possible values include: 'oneTerm', 'twoTerms', 'oneTermWithContext'
+   */
+  autocompleteMode?: AutocompleteMode;
+  /**
+   * An OData expression that filters the documents used to produce completed terms for the
+   * Autocomplete result.
+   */
+  filter?: string;
+  /**
+   * A value indicating whether to use fuzzy matching for the autocomplete query. Default is false.
+   * When set to true, the query will autocomplete terms even if there's a substituted or missing
+   * character in the search text. While this provides a better experience in some scenarios, it
+   * comes at a performance cost as fuzzy autocomplete queries are slower and consume more
+   * resources.
+   */
+  useFuzzyMatching?: boolean;
+  /**
+   * A string tag that is appended to hit highlights. Must be set with highlightPreTag. If omitted,
+   * hit highlighting is disabled.
+   */
+  highlightPostTag?: string;
+  /**
+   * A string tag that is prepended to hit highlights. Must be set with highlightPostTag. If
+   * omitted, hit highlighting is disabled.
+   */
+  highlightPreTag?: string;
+  /**
+   * A number between 0 and 100 indicating the percentage of the index that must be covered by an
+   * autocomplete query in order for the query to be reported as a success. This parameter can be
+   * useful for ensuring search availability even for services with only one replica. The default
+   * is 80.
+   */
+  minimumCoverage?: number;
+  /**
+   * The comma-separated list of field names to consider when querying for auto-completed terms.
+   * Target fields must be included in the specified suggester.
+   */
+  searchFields?: Fields[];
+  /**
+   * The name of the suggester as specified in the suggesters collection that's part of the index
+   * definition.
+   */
+  suggesterName: string;
+  /**
+   * The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The
+   * default is 5.
+   */
+  top?: number;
 }
 
 // END manually modified generated interfaces
