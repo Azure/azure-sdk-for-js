@@ -6,17 +6,16 @@ import chaiAsPromised from "chai-as-promised";
 import long from "long";
 import {
   delay,
-  QueueClient,
   ReceiveMode,
-  Receiver,
-  Sender,
-  ServiceBusClient,
-  SessionReceiver,
-  SubscriptionClient,
-  TopicClient,
   ServiceBusMessage,
   MessagingError
 } from "../src";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+import { InternalReceiver, InternalSessionReceiver } from "../src/internalReceivers";
+import { Sender } from "../src/sender";
+import { QueueClient } from "../src/old/queueClient";
+import { TopicClient } from "../src/old/topicClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
 import {
   getClientClosedErrorMsg,
   getOpenReceiverErrorMsg,
@@ -415,7 +414,7 @@ describe("Errors after close()", function(): void {
   let senderClient: QueueClient | TopicClient;
   let receiverClient: QueueClient | SubscriptionClient;
   let sender: Sender;
-  let receiver: Receiver | SessionReceiver;
+  let receiver: InternalReceiver | InternalSessionReceiver;
   let receivedMessage: ServiceBusMessage;
 
   afterEach(() => {
@@ -645,7 +644,7 @@ describe("Errors after close()", function(): void {
 
     if (!useSessions) {
       let errorRenewLock: string = "";
-      await (<Receiver>receiver).renewMessageLock("randomLockToken").catch((err) => {
+      await (<InternalReceiver>receiver).renewMessageLock("randomLockToken").catch((err) => {
         errorRenewLock = err.message;
       });
       should.equal(errorRenewLock, expectedErrorMsg, "Expected error not thrown for renewLock()");
@@ -713,7 +712,7 @@ describe("Errors after close()", function(): void {
    */
   async function testSessionReceiver(expectedErrorMsg: string): Promise<void> {
     await testReceiver(expectedErrorMsg, true);
-    const sessionReceiver = receiver as SessionReceiver;
+    const sessionReceiver = receiver as InternalSessionReceiver;
 
     let errorPeek: string = "";
     await sessionReceiver.peek().catch((err) => {

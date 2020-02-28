@@ -6,15 +6,16 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import {
-  ServiceBusClient,
-  QueueClient,
-  TopicClient,
-  SubscriptionClient,
   delay,
   SendableMessageInfo,
   ReceiveMode,
-  Sender
 } from "../src";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+
+import { Sender } from "../src/sender";
+import { QueueClient } from "../src/old/queueClient";
+import { TopicClient } from "../src/old/topicClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
 
 import {
   TestMessage,
@@ -23,7 +24,7 @@ import {
   purge,
   getServiceBusClient
 } from "./utils/testUtils";
-import { Receiver, SessionReceiver } from "../src/receiver";
+import { InternalReceiver, InternalSessionReceiver } from "../src/internalReceivers";
 
 async function testPeekMsgsLength(
   client: QueueClient | SubscriptionClient,
@@ -38,7 +39,7 @@ async function testPeekMsgsLength(
 }
 
 async function testReceivedMsgsLength(
-  receiver: Receiver | SessionReceiver,
+  receiver: InternalReceiver | InternalSessionReceiver,
   expectedReceivedMsgsLength: number
 ): Promise<void> {
   const receivedMsgs = await receiver.receiveMessages(expectedReceivedMsgsLength + 1, 5);
@@ -54,7 +55,7 @@ let sbClient: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 
-let receiver: Receiver | SessionReceiver;
+let receiver: InternalReceiver | InternalSessionReceiver;
 
 async function beforeEachTest(
   senderType: TestClientType,

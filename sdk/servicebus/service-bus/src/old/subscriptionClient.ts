@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "./log";
-import { ConnectionContext } from "./connectionContext";
-import { Receiver, SessionReceiver } from "./receiver";
-import { ReceivedMessageInfo, ReceiveMode } from "./serviceBusMessage";
-import { Client, ClientType } from "./client";
-import { CorrelationFilter, RuleDescription } from "./core/managementClient";
-import { SessionReceiverOptions } from "./session/messageSession";
+import * as log from "../log";
+import { ConnectionContext } from "../connectionContext";
+import { InternalReceiver, InternalSessionReceiver } from "../internalReceivers";
+import { ReceivedMessageInfo, ReceiveMode } from "../serviceBusMessage";
+import { Client, ClientType } from "../client";
+import { CorrelationFilter, RuleDescription } from "../core/managementClient";
+import { SessionReceiverOptions } from "../session/messageSession";
 import {
   getOpenReceiverErrorMsg,
   throwErrorIfClientOrConnectionClosed,
   throwErrorIfConnectionClosed
-} from "./util/errors";
+} from "../util/errors";
 import { generate_uuid } from "rhea-promise";
-import { ClientEntityContext } from "./clientEntityContext";
+import { ClientEntityContext } from "../clientEntityContext";
 import Long from "long";
 
 /**
@@ -22,6 +22,8 @@ import Long from "long";
  * Use the `createSubscriptionClient` function on the ServiceBusClient object to instantiate a
  * SubscriptionClient
  * @class SubscriptionClient
+ * @internal
+ * @ignore
  */
 export class SubscriptionClient implements Client {
   /**
@@ -56,7 +58,7 @@ export class SubscriptionClient implements Client {
    */
   private _context: ClientEntityContext;
 
-  private _currentReceiver: Receiver | undefined;
+  private _currentReceiver: InternalReceiver | undefined;
 
   /**
    * Constructor for SubscriptionClient.
@@ -127,7 +129,7 @@ export class SubscriptionClient implements Client {
    * (in which case, use the overload of this method which takes
    * `sessionOptions` argument)
    */
-  public createReceiver(receiveMode: ReceiveMode): Receiver;
+  public createReceiver(receiveMode: ReceiveMode): InternalReceiver;
 
   /**
    * Creates a Receiver for receiving messages from a session enabled Subscription. When no sessionId is
@@ -152,12 +154,12 @@ export class SubscriptionClient implements Client {
   public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions: SessionReceiverOptions
-  ): SessionReceiver;
+  ): InternalSessionReceiver;
 
   public createReceiver(
     receiveMode: ReceiveMode,
     sessionOptions?: SessionReceiverOptions
-  ): Receiver | SessionReceiver {
+  ): InternalReceiver | InternalSessionReceiver {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
       this.entityPath,
@@ -167,7 +169,7 @@ export class SubscriptionClient implements Client {
     // Receiver for Subscription where sessions are not enabled
     if (!sessionOptions) {
       if (!this._currentReceiver || this._currentReceiver.isClosed) {
-        this._currentReceiver = new Receiver(this._context, receiveMode);
+        this._currentReceiver = new InternalReceiver(this._context, receiveMode);
         return this._currentReceiver;
       }
       const errorMessage = getOpenReceiverErrorMsg(ClientType.SubscriptionClient, this.entityPath);
@@ -176,7 +178,7 @@ export class SubscriptionClient implements Client {
       throw error;
     }
 
-    return new SessionReceiver(this._context, receiveMode, sessionOptions);
+    return new InternalSessionReceiver(this._context, receiveMode, sessionOptions);
   }
 
   /**

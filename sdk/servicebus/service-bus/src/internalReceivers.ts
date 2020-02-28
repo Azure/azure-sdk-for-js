@@ -20,16 +20,20 @@ import {
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterNotLongArray,
-  getErrorMessageNotSupportedInReceiveAndDeleteMode
+  getErrorMessageNotSupportedInReceiveAndDeleteMode,
+  throwErrorIfClientOrConnectionClosed
 } from "./util/errors";
+import { RuleDescription, CorrelationFilter } from ".";
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
  * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
  * The Receiver class is an abstraction over the underlying AMQP receiver link.
  * @class Receiver
+ * @internal
+ * @ignore
  */
-export class Receiver {
+export class InternalReceiver {
   /**
    * @property Describes the amqp connection context for the QueueClient.
    */
@@ -41,7 +45,6 @@ export class Receiver {
   private _isClosed: boolean = false;
 
   /**
-   * @internal
    * @throws Error if the underlying connection is closed.
    */
   constructor(context: ClientEntityContext, receiveMode: ReceiveMode) {
@@ -298,6 +301,77 @@ export class Receiver {
     );
   }
 
+  // ManagementClient methods # Begin
+
+  async peek(entityPath: string, maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      entityPath,
+      this._context.isClosed
+    );
+
+    return this._context.managementClient!.peek(maxMessageCount);
+  }
+
+  async peekBySequenceNumber(
+    entityPath: string,
+    fromSequenceNumber: Long,
+    maxMessageCount?: number
+  ): Promise<ReceivedMessageInfo[]> {
+    throwErrorIfClientOrConnectionClosed(
+      this._context.namespace,
+      entityPath,
+      this._context.isClosed
+    );
+
+    return this._context.managementClient!.peekBySequenceNumber(
+      fromSequenceNumber,
+      maxMessageCount
+    );
+  }
+
+  // /**
+  //  * Lists the ids of the sessions on the ServiceBus Queue.
+  //  * @param maxNumberOfSessions Maximum number of sessions.
+  //  * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
+  //  * value is 3 days before the current time.
+  //  */
+  // async listMessageSessions(
+  //   maxNumberOfSessions: number,
+  //   lastUpdatedTime?: Date
+  // ): Promise<string[]> {
+  // TODO: Parameter validation if required
+  // this.throwErrorIfClientOrConnectionClosed();
+  //   return this._context.managementClient!.listMessageSessions(
+  //     0,
+  //     maxNumberOfSessions,
+  //     lastUpdatedTime
+  //   );
+  // }
+
+  // ManagementClient methods # End
+
+  // #region topic-filters
+
+  async getRules(entityPath: string): Promise<RuleDescription[]> {
+    return getRules(this._context, entityPath);
+  }
+
+  async removeRule(entityPath: string, ruleName: string): Promise<void> {
+    return removeRule(this._context, entityPath, ruleName);
+  }
+
+  async addRule(
+    entityPath: string,
+    ruleName: string,
+    filter: boolean | string | CorrelationFilter,
+    sqlRuleActionExpression?: string
+  ): Promise<void> {
+    return addRule(this._context, entityPath, ruleName, filter, sqlRuleActionExpression);
+  }
+
+  // #endregion
+
   /**
    * Closes the underlying AMQP receiver link.
    * Once closed, the receiver cannot be used for any further operations.
@@ -360,8 +434,10 @@ export class Receiver {
  * SessionReceiver.
  * The SessionReceiver class is an abstraction over the underlying AMQP receiver link.
  * @class SessionReceiver
+ * @internal
+ * @ignore
  */
-export class SessionReceiver {
+export class InternalSessionReceiver {
   /**
    * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
    */
@@ -759,6 +835,27 @@ export class SessionReceiver {
     }
   }
 
+  // #region topic-filters
+
+  async getRules(entityPath: string): Promise<RuleDescription[]> {
+    return getRules(this._context, entityPath);
+  }
+
+  async removeRule(entityPath: string, ruleName: string): Promise<void> {
+    return removeRule(this._context, entityPath, ruleName);
+  }
+
+  async addRule(
+    entityPath: string,
+    ruleName: string,
+    filter: boolean | string | CorrelationFilter,
+    sqlRuleActionExpression?: string
+  ): Promise<void> {
+    return addRule(this._context, entityPath, ruleName, filter, sqlRuleActionExpression);
+  }
+
+  // #endregion
+
   /**
    * Closes the underlying AMQP receiver link.
    * Once closed, the receiver cannot be used for any further operations.
@@ -795,3 +892,47 @@ export class SessionReceiver {
     return this._messageSession ? this._messageSession.isReceivingMessages : false;
   }
 }
+
+// #region topic-filters
+
+async function getRules(
+  context: ClientEntityContext,
+  entityPath: string
+): Promise<RuleDescription[]> {
+  if (entityPath.includes("/Subscriptions/")) {
+    throwErrorIfClientOrConnectionClosed(context.namespace, entityPath, context.isClosed);
+    return context.managementClient!.getRules();
+  } else {
+    throw new Error("Only for a subscription");
+  }
+}
+
+async function removeRule(
+  context: ClientEntityContext,
+  entityPath: string,
+  ruleName: string
+): Promise<void> {
+  if (entityPath.includes("/Subscriptions/")) {
+    throwErrorIfClientOrConnectionClosed(context.namespace, entityPath, context.isClosed);
+    return context.managementClient!.removeRule(ruleName);
+  } else {
+    throw new Error("Only for a subscription");
+  }
+}
+
+async function addRule(
+  context: ClientEntityContext,
+  entityPath: string,
+  ruleName: string,
+  filter: boolean | string | CorrelationFilter,
+  sqlRuleActionExpression?: string
+): Promise<void> {
+  if (entityPath.includes("/Subscriptions/")) {
+    throwErrorIfClientOrConnectionClosed(context.namespace, entityPath, context.isClosed);
+    return context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
+  } else {
+    throw new Error("Only for a subscription");
+  }
+}
+
+// #endregion

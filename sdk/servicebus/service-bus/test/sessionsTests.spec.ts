@@ -6,16 +6,18 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import {
-  ServiceBusClient,
-  QueueClient,
-  TopicClient,
-  SubscriptionClient,
   delay,
   ServiceBusMessage,
   SendableMessageInfo,
   ReceiveMode,
-  SessionReceiver
 } from "../src";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+
+import { TopicClient } from "../src/old/topicClient";
+import { QueueClient } from "../src/old/queueClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
+
+import { InternalSessionReceiver } from "../src/internalReceivers";
 
 import {
   TestMessage,
@@ -240,7 +242,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     await sender.send(testMessagesWithDifferentSessionIds[0]);
     await sender.send(testMessagesWithDifferentSessionIds[1]);
 
-    let receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+    let receiver = <InternalSessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: undefined
     });
     let msgs = await receiver.receiveMessages(2);
@@ -260,7 +262,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     await msgs[0].complete();
     await receiver.close();
 
-    receiver = <SessionReceiver>(
+    receiver = <InternalSessionReceiver>(
       receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined })
     );
     msgs = await receiver.receiveMessages(2);
@@ -351,7 +353,7 @@ describe("SessionReceiver with empty string as sessionId", function(): void {
     await sender.send(testMessagesWithDifferentSessionIds[0]);
     await sender.send(testMessagesWithDifferentSessionIds[1]);
 
-    const receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+    const receiver = <InternalSessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: ""
     });
     const msgs = await receiver.receiveMessages(2);
@@ -428,7 +430,7 @@ describe("Session State", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await sender.send(testMessage);
 
-    let receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+    let receiver = <InternalSessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: undefined
     });
     let msgs = await receiver.receiveMessages(2);
@@ -446,7 +448,7 @@ describe("Session State", function(): void {
 
     await receiver.close();
 
-    receiver = <SessionReceiver>(
+    receiver = <InternalSessionReceiver>(
       receiverClient.createReceiver(ReceiveMode.peekLock, { sessionId: undefined })
     );
     msgs = await receiver.receiveMessages(2);
@@ -509,7 +511,7 @@ describe("Peek session", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await sender.send(testMessage);
 
-    const receiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+    const receiver = <InternalSessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: useSessionId ? testMessage.sessionId : undefined
     });
 

@@ -14,7 +14,7 @@ import {
   TokenCredential,
   SharedKeyCredential
 } from "@azure/core-amqp";
-import { ServiceBusClientOptions } from "./serviceBusClient";
+import { ServiceBusClientOptions } from "./old/serviceBusClient";
 import { ClientEntityContext } from "./clientEntityContext";
 import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 

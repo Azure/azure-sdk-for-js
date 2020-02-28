@@ -6,8 +6,10 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusClient, QueueClient, SubscriptionClient, ReceiveMode } from "../src";
-
+import { ReceiveMode } from "../src";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+import { QueueClient } from "../src/old/queueClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
 import {
   TestMessage,
   getSenderReceiverClients,
@@ -15,7 +17,7 @@ import {
   getServiceBusClient
 } from "./utils/testUtils";
 
-import { Receiver, SessionReceiver } from "../src/receiver";
+import { InternalReceiver, InternalSessionReceiver } from "../src/internalReceivers";
 import { Sender } from "../src/sender";
 
 let sbClient: ServiceBusClient;
@@ -309,7 +311,7 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
 });
 
 describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void {
-  let sessionReceiver: SessionReceiver;
+  let sessionReceiver: InternalSessionReceiver;
   let receiverClient: QueueClient;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -550,7 +552,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
 });
 
 describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
-  let receiver: Receiver;
+  let receiver: InternalReceiver;
   let receiverClient: QueueClient;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -709,7 +711,7 @@ describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
   it("RenewMessageLock: Missing lockTokenOrMessage in Receiver", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await (<Receiver>receiver).renewMessageLock(undefined as any);
+      await (<InternalReceiver>receiver).renewMessageLock(undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -720,7 +722,7 @@ describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
   it("RenewMessageLock: Invalid string lockToken in Receiver", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await (<Receiver>receiver).renewMessageLock("string-which-is-not-uuid");
+      await (<InternalReceiver>receiver).renewMessageLock("string-which-is-not-uuid");
     } catch (error) {
       caughtError = error;
     }
@@ -738,7 +740,7 @@ describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
         throw new Error("Message not received to renew lock on.");
       }
       (<any>receivedMsg).lockToken = "string-which-is-not-uuid";
-      await (<Receiver>receiver).renewMessageLock(receivedMsg);
+      await (<InternalReceiver>receiver).renewMessageLock(receivedMsg);
     } catch (error) {
       caughtError = error;
     }
