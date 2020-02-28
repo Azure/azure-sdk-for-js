@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.1 (Unreleased)
+
+
 ## 1.1.0 (2020-02-28)
 
 - Added new generic argument to `PagedAsyncIterableIterator` for custom `PageSettings` for services that use client-driven paging or other paging patterns.
