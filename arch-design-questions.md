@@ -6,9 +6,14 @@
 - Clients are [single-use](#single-use-clients) - they are created with a receive mode, session ID 
   (if applicable), queue/topic-subscription baked in and cannot be changed.
 - The user can choose between three different methods of message delivery:
-  1. "push" (via registered message handlers)
-  2. Iteration via an actual iterator or Flux
+  1. "push" (via registered message handlers). This is an "eternal" push - it keeps running until the
+    receiver link is terminated (or the client is closed).
+  2. Iteration via an actual iterator or Flux. This can be an "eternal" operation as well. 
+    * In JS it will be (via an async iterable)
+    * In Java you can choose to either .take() off the Flux<> or .subscribe(). `subscribe` is the
+      version referenced here.
   3. "pull",  via .receiveBatch()
+    * In Java choosing to .take() off the returned Flux<> will act as a finite receive, similar to this.
 - Sessions have two different use cases for interacting with them:
   1. [single-use with a known session name](#single-use-clients)
   2. [session manager, ie "round robin sessions"](#sessions-design)
