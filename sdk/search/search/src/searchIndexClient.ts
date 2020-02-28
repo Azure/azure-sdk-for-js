@@ -265,7 +265,7 @@ export class SearchIndexClient<T> {
   }
 
   public async suggest<Fields extends keyof T>(
-    options: SuggestOptions<T, Fields>
+    options: SuggestOptions<Fields>
   ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, ...nonSelectOptions } = restOptions;

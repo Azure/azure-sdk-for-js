@@ -2,38 +2,12 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import {
-  AutocompleteRequest,
-  SuggestDocumentsResult as RawSuggestDocumentsResult,
-  SuggestRequest,
-  SuggestResult,
-  QueryType,
-  SearchMode,
-  FacetResult
-} from "./generated/data/models";
-import { ReplaceProperties, KnownKeys } from "./util";
+import { AutocompleteRequest, QueryType, SearchMode, FacetResult } from "./generated/data/models";
 
 export type CountOptions = OperationOptions;
 export type AutocompleteOptions = OperationOptions & AutocompleteRequest;
-
-export interface SelectedFields<Fields> {
-  /**
-   * The list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema
-   * are included.
-   */
-  select?: Fields[];
-}
 export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
-
-export type SuggestOptions<T, Fields extends keyof T> = OperationOptions &
-  SelectedFields<Fields> &
-  Omit<SuggestRequest, "select">;
-
-export type SuggestDocumentsResult<T> = ReplaceProperties<
-  RawSuggestDocumentsResult,
-  { readonly results?: SuggestResult[] },
-  { readonly results?: Array<Pick<SuggestResult, KnownKeys<SuggestResult>> & T> }
->;
+export type SuggestOptions<Fields> = OperationOptions & SuggestRequest<Fields>;
 
 export interface GetDocumentOptions extends OperationOptions {
   /**
@@ -80,7 +54,7 @@ export interface ListSearchResultsPageSettings {
 /**
  * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
  */
-export interface SearchRequest<SelectFields> {
+export interface SearchRequest<Fields> {
   /**
    * A value that specifies whether to fetch the total count of results. Default is false. Setting
    * this value to true may have a performance impact. Note that the count returned is an
@@ -162,7 +136,7 @@ export interface SearchRequest<SelectFields> {
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: SelectFields[];
+  select?: Fields[];
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -239,6 +213,103 @@ export interface SearchDocumentsResult<T> {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
+}
+
+/**
+ * Parameters for filtering, sorting, fuzzy matching, and other suggestions query behaviors.
+ */
+export interface SuggestRequest<Fields> {
+  /**
+   * An OData expression that filters the documents considered for suggestions.
+   */
+  filter?: string;
+  /**
+   * A value indicating whether to use fuzzy matching for the suggestion query. Default is false.
+   * When set to true, the query will find suggestions even if there's a substituted or missing
+   * character in the search text. While this provides a better experience in some scenarios, it
+   * comes at a performance cost as fuzzy suggestion searches are slower and consume more
+   * resources.
+   */
+  useFuzzyMatching?: boolean;
+  /**
+   * A string tag that is appended to hit highlights. Must be set with highlightPreTag. If omitted,
+   * hit highlighting of suggestions is disabled.
+   */
+  highlightPostTag?: string;
+  /**
+   * A string tag that is prepended to hit highlights. Must be set with highlightPostTag. If
+   * omitted, hit highlighting of suggestions is disabled.
+   */
+  highlightPreTag?: string;
+  /**
+   * A number between 0 and 100 indicating the percentage of the index that must be covered by a
+   * suggestion query in order for the query to be reported as a success. This parameter can be
+   * useful for ensuring search availability even for services with only one replica. The default
+   * is 80.
+   */
+  minimumCoverage?: number;
+  /**
+   * The comma-separated list of OData $orderby expressions by which to sort the results. Each
+   * expression can be either a field name or a call to either the geo.distance() or the
+   * search.score() functions. Each expression can be followed by asc to indicate ascending, or
+   * desc to indicate descending. The default is ascending order. Ties will be broken by the match
+   * scores of documents. If no $orderby is specified, the default sort order is descending by
+   * document match score. There can be at most 32 $orderby clauses.
+   */
+  orderBy?: string;
+  /**
+   * The search text to use to suggest documents. Must be at least 1 character, and no more than
+   * 100 characters.
+   */
+  searchText: string;
+  /**
+   * The comma-separated list of field names to search for the specified search text. Target fields
+   * must be included in the specified suggester.
+   */
+  searchFields?: string;
+  /**
+   * The list of fields to retrieve. If unspecified, only the key field will be
+   * included in the results.
+   */
+  select?: Fields[];
+  /**
+   * The name of the suggester as specified in the suggesters collection that's part of the index
+   * definition.
+   */
+  suggesterName: string;
+  /**
+   * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
+   * 5.
+   */
+  top?: number;
+}
+
+/**
+ * A result containing a document found by a suggestion query, plus associated metadata.
+ */
+export type SuggestResult<T> = {
+  /**
+   * The text of the suggestion result.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly text?: string;
+} & T;
+
+/**
+ * Response containing suggestion query results from an index.
+ */
+export interface SuggestDocumentsResult<T> {
+  /**
+   * The sequence of results returned by the query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly results?: SuggestResult<T>[];
+  /**
+   * A value indicating the percentage of the index that was included in the query, or null if
+   * minimumCoverage was not set in the request.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly coverage?: number;
 }
 
 // END manually modified generated interfaces

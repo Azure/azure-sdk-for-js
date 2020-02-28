@@ -13,8 +13,9 @@ export {
   SearchOptions,
   SearchRequest,
   SearchResult,
-  SelectedFields,
   SuggestDocumentsResult,
+  SuggestRequest,
+  SuggestResult,
   SuggestOptions,
   UpdateDocumentsOptions,
   UploadDocumentsOptions
@@ -22,7 +23,6 @@ export {
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
-export { KnownKeys, ReplaceProperties } from "./util";
 export {
   AutocompleteRequest,
   AutocompleteResult,
@@ -34,8 +34,5 @@ export {
   IndexDocumentsResult,
   IndexingResult,
   QueryType,
-  SearchMode,
-  SuggestRequest,
-  SuggestResult as GeneratedSuggestResult,
-  SuggestDocumentsResult as GeneratedSuggestDocumentsResult
+  SearchMode
 } from "./generated/data/models";

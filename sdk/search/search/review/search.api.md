@@ -54,18 +54,6 @@ export interface FacetResult {
     readonly count?: number;
 }
 
-// @public
-export interface GeneratedSuggestDocumentsResult {
-    readonly coverage?: number;
-    readonly results?: GeneratedSuggestResult[];
-}
-
-// @public
-export interface GeneratedSuggestResult {
-    [property: string]: any;
-    readonly text?: string;
-}
-
 // @public (undocumented)
 export class GeographyPoint {
     constructor(latitude: number, longitude: number);
@@ -114,13 +102,6 @@ export interface IndexingResult {
 }
 
 // @public (undocumented)
-export type KnownKeys<T> = {
-    [K in keyof T]: string extends K ? never : number extends K ? never : K;
-} extends {
-    [_ in keyof T]: infer U;
-} ? U : never;
-
-// @public (undocumented)
 export interface ListSearchResultsPageSettings {
     nextLink?: string;
     nextPageParameters?: SearchRequest<string>;
@@ -136,11 +117,6 @@ export function odata(strings: TemplateStringsArray, ...values: unknown[]): stri
 
 // @public
 export type QueryType = 'simple' | 'full';
-
-// @public (undocumented)
-export type ReplaceProperties<T, From, To> = {
-    [K in keyof T]: K extends keyof From ? T[K] extends From[K] ? K extends keyof To ? To[K] : T[K] : T[K] : T[K];
-};
 
 // @public
 export class SearchApiKeyCredential implements ServiceClientCredentials {
@@ -181,7 +157,7 @@ export class SearchIndexClient<T> {
     listSearchResultsAll<Fields extends keyof T>(options?: SearchOptions<Fields>): AsyncIterableIterator<SearchResult<T>>;
     modifyIndex(batch: IndexAction[], options?: ModifyIndexOptions): Promise<IndexDocumentsResult>;
     // (undocumented)
-    suggest<Fields extends keyof T>(options: SuggestOptions<T, Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
+    suggest<Fields extends keyof T>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     // (undocumented)
     updateDocuments(documents: T[], options?: UpdateDocumentsOptions): Promise<IndexDocumentsResult>;
     // (undocumented)
@@ -198,7 +174,7 @@ export type SearchMode = 'any' | 'all';
 export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
 
 // @public
-export interface SearchRequest<SelectFields> {
+export interface SearchRequest<Fields> {
     facets?: string[];
     filter?: string;
     highlightFields?: string;
@@ -213,7 +189,7 @@ export interface SearchRequest<SelectFields> {
     searchFields?: string;
     searchMode?: SearchMode;
     searchText?: string;
-    select?: SelectFields[];
+    select?: Fields[];
     skip?: number;
     top?: number;
 }
@@ -226,23 +202,17 @@ export type SearchResult<T> = {
     };
 } & T;
 
-// @public (undocumented)
-export interface SelectedFields<Fields> {
-    select?: Fields[];
+// @public
+export interface SuggestDocumentsResult<T> {
+    readonly coverage?: number;
+    readonly results?: SuggestResult<T>[];
 }
 
 // @public (undocumented)
-export type SuggestDocumentsResult<T> = ReplaceProperties<GeneratedSuggestDocumentsResult, {
-    readonly results?: GeneratedSuggestResult[];
-}, {
-    readonly results?: Array<Pick<GeneratedSuggestResult, KnownKeys<GeneratedSuggestResult>> & T>;
-}>;
-
-// @public (undocumented)
-export type SuggestOptions<T, Fields extends keyof T> = OperationOptions & SelectedFields<Fields> & Omit<SuggestRequest, "select">;
+export type SuggestOptions<Fields> = OperationOptions & SuggestRequest<Fields>;
 
 // @public
-export interface SuggestRequest {
+export interface SuggestRequest<Fields> {
     filter?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
@@ -250,11 +220,16 @@ export interface SuggestRequest {
     orderBy?: string;
     searchFields?: string;
     searchText: string;
-    select?: string;
+    select?: Fields[];
     suggesterName: string;
     top?: number;
     useFuzzyMatching?: boolean;
 }
+
+// @public
+export type SuggestResult<T> = {
+    readonly text?: string;
+} & T;
 
 // @public (undocumented)
 export interface UpdateDocumentsOptions extends ModifyIndexOptions {
