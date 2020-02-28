@@ -126,7 +126,7 @@ export interface SearchRequest {
   /**
    * A full-text search query expression; Use "*" or omit this parameter to match all documents.
    */
-  searchText?: string;
+  searchText: string;
   /**
    * The comma-separated list of field names to which to scope the full-text search. When using
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
@@ -338,7 +338,7 @@ export interface SuggestRequest {
    * The search text to use to suggest documents. Must be at least 1 character, and no more than
    * 100 characters.
    */
-  searchText?: string;
+  searchText: string;
   /**
    * The comma-separated list of field names to search for the specified search text. Target fields
    * must be included in the specified suggester.
@@ -353,7 +353,7 @@ export interface SuggestRequest {
    * The name of the suggester as specified in the suggesters collection that's part of the index
    * definition.
    */
-  suggesterName?: string;
+  suggesterName: string;
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
    * 5.
@@ -368,7 +368,7 @@ export interface AutocompleteRequest {
   /**
    * The search text on which to base autocomplete results.
    */
-  searchText?: string;
+  searchText: string;
   /**
    * Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles
    * and 'oneTermWithContext' to use the current context while producing auto-completed terms.
@@ -414,7 +414,7 @@ export interface AutocompleteRequest {
    * The name of the suggester as specified in the suggesters collection that's part of the index
    * definition.
    */
-  suggesterName?: string;
+  suggesterName: string;
   /**
    * The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The
    * default is 5.

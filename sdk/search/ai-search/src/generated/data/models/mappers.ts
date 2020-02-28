@@ -175,6 +175,7 @@ export const SearchRequest: coreHttp.CompositeMapper = {
         }
       },
       searchText: {
+        required: true,
         serializedName: "search",
         type: {
           name: "String"
@@ -500,6 +501,7 @@ export const SuggestRequest: coreHttp.CompositeMapper = {
         }
       },
       searchText: {
+        required: true,
         serializedName: "search",
         type: {
           name: "String"
@@ -518,6 +520,7 @@ export const SuggestRequest: coreHttp.CompositeMapper = {
         }
       },
       suggesterName: {
+        required: true,
         serializedName: "suggesterName",
         type: {
           name: "String"
@@ -540,6 +543,7 @@ export const AutocompleteRequest: coreHttp.CompositeMapper = {
     className: "AutocompleteRequest",
     modelProperties: {
       searchText: {
+        required: true,
         serializedName: "search",
         type: {
           name: "String"
@@ -593,6 +597,7 @@ export const AutocompleteRequest: coreHttp.CompositeMapper = {
         }
       },
       suggesterName: {
+        required: true,
         serializedName: "suggesterName",
         type: {
           name: "String"

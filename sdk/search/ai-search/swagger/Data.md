@@ -70,3 +70,21 @@ directive:
       $["SearchError"].properties.code = { type: "string" };
       $["SearchError"].properties.message = { type: "string" };
 ```
+
+### Mark properties as required
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchRequest
+    transform: >
+      $.required = ["search"]
+  - from: swagger-document
+    where: $.definitions.AutocompleteRequest
+    transform: >
+      $.required = ["search", "suggesterName"]
+  - from: swagger-document
+    where: $.definitions.SuggestRequest
+    transform: >
+      $.required = ["search", "suggesterName"]
+```
