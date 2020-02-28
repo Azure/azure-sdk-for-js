@@ -12,6 +12,7 @@
   2. [session manager](#sessions-design)
 - Different message types will be used for sending messages vs receiving messages. This is less confusing for
   the user since we can remove fields that are non-sensical for sending (for instance, `locktoken`).
+- [Connection sharing is key to efficiency](connection-sharing)
 
 # Single use clients
 
@@ -60,7 +61,7 @@ due to the higher likelihood of failure (via connection explosion).
 - JS - { sessionConnections: } property when client is initialized (required if specifying a session)
 - Python - top level service bus client instance?
 
-## The user doesn't necessarily know which sessions exist
+## The user doesn't necessarily know which sessions exist (round-robin sessions)
 
 **Problem**
 
@@ -83,7 +84,7 @@ An anticipated common pattern is the user will do something like this:
 to take a sentinel value for the session ID, allowing the server to just hand us the next unlocked session.
 
 We anticipate that this will be a fairly common pattern. To simplify the experience for the user each
-language will have some form of a **session manager**..
+language will have some form of a **session manager**.
 
 This client is a higher-level client that internally manages the connection on behalf of the user, does
 manage state and is distinct from the [single use clients](single-use-clients).
@@ -91,3 +92,81 @@ manage state and is distinct from the [single use clients](single-use-clients).
 Existing solutions:
 
 - JS: `SessionManager` class (hasn't been reviewed)
+- .NET: 
+
+# Connection sharing
+
+Connection sharing is tricky for some of the SDKs due to the lack of a top-level object. This means
+that individual clients that are created need to have some method for receiving a "shared" object 
+that can contain an AMQP connection (or equivalent).
+
+There are a few proposals in play, which we will revisit after preview.1:
+
+## Connection sharing via shared object
+
+.NET currently has the ServiceBusConnection class to facilitate connection sharing. 
+The constructor for the individual clients take either the service bus connection object 
+_or_ the individual connection parameters.
+
+This solution allows for the simple path (creating directly via connection string/token credential) while
+also allowing a more savvy user to share connections. 
+
+The downside to this approach (mostly in implementation) is that the same overloads that exist for
+both the sender _and_ receiver must be present on the ServiceBusConnection object. 
+
+As this is considered an advanced scenario (and thus useful for advanced users) this downside 
+is trivial to work around.
+
+## Connection sharing via top level factory
+
+Python, with it's top level ServiceBusClient, is in connection-sharing mode by _default_. 
+
+```python
+client = new ServiceBusClient()
+queueClient = client.createQueueClient()
+topicClient = client.createTopicClient()
+```
+
+All instances spawned from the `client` above would share an AMQP connection implicitly
+without any additional work to the user.
+
+The downsides of this approach is that having a top level object is considered non-idiomatic 
+for the other languages, which makes this a non-universal solution.
+
+## Connection sharing by requiring a shared object
+
+One possibility to address the constructor-pattern duplication of  ["connection sharing via shared object"](#connection-sharing-via-shared-object)
+is to _require_ the `ServiceBusConnection` class as an argument. 
+
+This would mean the individual clients could not be instantiated without first instantiating a connection class.
+
+The downsides to this approach are that users will be forced (even in the "common" case) to create two objects,
+rather than one. 
+
+The positives are that it is consistent - the user has one path thorugh for both advanced and non-advanced 
+scenarios.
+
+## Connection sharing via "cache"
+
+**not recommended via group consensus**
+
+Another option that is a variant of the [connection sharing via shared object](#connection-sharing-via-shared-object)
+pattern above is to treat the connection object as opaque. The connection object would become
+a 'cache' that we use to store a connection in but would require no construction parameters.
+
+Initialization of the cache (and maintenance) would occur through the individual client constructors.
+
+For instance:
+
+```typescript
+const conn = new ServiceBusConnection();
+const client = new ServiceBusReceiverClient(<connection info>, { conn: conn });
+```
+
+A benefit of this approach is that connection information is not duplicated. However, the downside of this
+is that the connection object is now less logically constrained. It could _technically_ contain connections
+from multiple namespaces, multiple topics, multiple queues, etc..
+
+This can cut the other direction as well - the user might believe they are doing the efficient thing by passing
+the cache but, due to criteria that might be less obvious, not realize that aren't. (for instance, using a queue
+specific connection string, but trying to connect to a topic, etc..).
