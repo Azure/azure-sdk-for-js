@@ -87,13 +87,13 @@
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
-    "tslib": "^1.10.0",
-    "@azure/keyvault-common": "~1.0.0"
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
     "@azure/identity": "^1.0.0",
+    "@azure/keyvault-test-utils": "~1.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",

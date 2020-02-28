@@ -1,7 +1,7 @@
 import { ClientSecretCredential } from "@azure/identity";
 import { KeyClient } from "../../src";
 import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { uniqueString } from "@azure/keyvault-common";
+import { uniqueString } from "@azure/keyvault-test-utils";
 import TestClient from "./testClient";
 
 export async function authenticate(that: any): Promise<any> {

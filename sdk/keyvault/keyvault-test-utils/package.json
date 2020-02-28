@@ -1,7 +1,7 @@
 {
-  "name": "@azure/keyvault-common",
+  "name": "@azure/keyvault-test-utils",
   "version": "1.0.0",
-  "description": "This private library provides a place to store common code for the Azure KeyVault libraries for JavaScript/TypeScript",
+  "description": "This private library provides a place to store common code for the tests of the Azure KeyVault libraries for JavaScript/TypeScript",
   "scripts": {
     "extract-api": "tsc -p . && api-extractor run --local",
     "build": "npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
@@ -27,7 +27,7 @@
   "keywords": [
     "azure",
     "keyvault",
-    "common"
+    "test-utils"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -39,8 +39,8 @@
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./types/keyvault-common.d.ts",
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-common",
+  "types": "./types/keyvault-test-utils.d.ts",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-test-utils",
   "sideEffects": false,
   "private": true,
   "dependencies": {
