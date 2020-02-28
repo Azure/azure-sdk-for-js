@@ -210,8 +210,8 @@ export class SearchIndexClient<T> {
   }
 
   public async autocomplete(
-    suggesterName: string,
     searchText: string,
+    suggesterName: string,
     options: AutocompleteOptions = {}
   ): Promise<AutocompleteResult> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
@@ -328,8 +328,8 @@ export class SearchIndexClient<T> {
   }
 
   public async suggest<Fields extends keyof T>(
-    suggesterName: string,
     searchText: string,
+    suggesterName: string,
     options: SuggestOptions<T, Fields> = {}
   ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });

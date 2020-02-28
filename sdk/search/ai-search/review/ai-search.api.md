@@ -30,8 +30,8 @@ export interface AutocompleteRequest {
     highlightPreTag?: string;
     minimumCoverage?: number;
     searchFields?: string;
-    searchText?: string;
-    suggesterName?: string;
+    searchText: string;
+    suggesterName: string;
     top?: number;
     useFuzzyMatching?: boolean;
 }
@@ -182,7 +182,7 @@ export class SearchIndexClient<T> {
     constructor(endpoint: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
     readonly apiVersion: string;
     // (undocumented)
-    autocomplete(suggesterName: string, searchText: string, options?: AutocompleteOptions): Promise<AutocompleteResult>;
+    autocomplete(searchText: string, suggesterName: string, options?: AutocompleteOptions): Promise<AutocompleteResult>;
     // (undocumented)
     count(options?: CountOptions): Promise<number>;
     // (undocumented)
@@ -197,7 +197,7 @@ export class SearchIndexClient<T> {
     listSearchResultsAll<Fields extends keyof T>(searchText: string, options?: SearchOptions<T, Fields>): AsyncIterableIterator<SearchResult<T>>;
     modifyIndex(batch: IndexAction[], options?: ModifyIndexOptions): Promise<IndexDocumentsResult>;
     // (undocumented)
-    suggest<Fields extends keyof T>(suggesterName: string, searchText: string, options?: SuggestOptions<T, Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
+    suggest<Fields extends keyof T>(searchText: string, suggesterName: string, options?: SuggestOptions<T, Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     // (undocumented)
     updateDocuments(documents: T[], options?: UpdateDocumentsOptions): Promise<IndexDocumentsResult>;
     // (undocumented)
@@ -228,7 +228,7 @@ export interface SearchRequest {
     scoringProfile?: string;
     searchFields?: string;
     searchMode?: SearchMode;
-    searchText?: string;
+    searchText: string;
     select?: string;
     skip?: number;
     top?: number;
@@ -260,9 +260,9 @@ export interface SuggestRequest {
     minimumCoverage?: number;
     orderBy?: string;
     searchFields?: string;
-    searchText?: string;
+    searchText: string;
     select?: string;
-    suggesterName?: string;
+    suggesterName: string;
     top?: number;
     useFuzzyMatching?: boolean;
 }

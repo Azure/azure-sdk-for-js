@@ -221,7 +221,8 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-const suggestResult = await client.suggest("sg", "wifi", {
+const suggesterName = "sg";
+const suggestResult = await client.suggest("wifi", suggesterName, {
   select: ["HotelId", "HotelName"],
   highlightPreTag: "<em>",
   highlightPostTag: "</em>",
@@ -235,7 +236,7 @@ for (const result of suggestResult.results) {
 
 ### Autocomplete a partial query using an index
 
-To implement type-ahead behavior in your application, you can query the index with partial user input and return a list of suggested completions.
+To implement type-ahead behavior in your application, you can query the index with partial user input and return a list of suggested completions. You must have [created a suggester](https://docs.microsoft.com/en-us/azure/search/index-add-suggesters) on your index first.
 
 The below example tries to complete the string "de" using the suggester named "sg" on the index:
 
@@ -247,8 +248,8 @@ const client = new SearchIndexClient(
   "<indexName>",
   new SearchApiKeyCredential("<Admin Key>");
 );
-
-const autocompleteResult = await client.autocomplete("sg", "de");
+const suggesterName = "sg";
+const autocompleteResult = await client.autocomplete("de", suggesterName);
 
 for (const result of autocompleteResult.results || []) {
   console.log(result.text);
@@ -305,6 +306,7 @@ const client = new SearchIndexClient(
 );
 
 const uploadResult = await client.uploadDocuments([
+  // JSON objects matching the shape of the client's index
   { ... },
   { ... },
   { ... }
@@ -329,6 +331,7 @@ const client = new SearchIndexClient(
 );
 
 const updateResult = await client.updateDocuments([
+  // JSON objects matching the shape of the client's index
   { ... },
   { ... },
   { ... }
