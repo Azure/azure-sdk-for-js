@@ -54,14 +54,11 @@ export interface FacetResult {
     readonly count?: number;
 }
 
-// @public (undocumented)
+// @public
 export class GeographyPoint {
     constructor(latitude: number, longitude: number);
-    // (undocumented)
     latitude: number;
-    // (undocumented)
     longitude: number;
-    // (undocumented)
     toJSON(): {
         type: string;
         coordinates: number[];
@@ -112,7 +109,7 @@ export interface ModifyIndexOptions extends OperationOptions {
     throwOnAnyFailure?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
 
 // @public
@@ -137,30 +134,20 @@ export interface SearchDocumentsResult<T> {
     readonly results?: SearchResult<T>[];
 }
 
-// @public (undocumented)
+// @public
 export class SearchIndexClient<T> {
     constructor(endpoint: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
     readonly apiVersion: string;
-    // (undocumented)
     autocomplete<Fields extends keyof T>(options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
-    // (undocumented)
     count(options?: CountOptions): Promise<number>;
-    // (undocumented)
     deleteDocuments(keyName: string, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    // (undocumented)
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     readonly indexName: string;
-    // (undocumented)
     listSearchResults<Fields extends keyof T>(options?: SearchOptions<Fields>): PagedAsyncIterableIterator<SearchResult<Pick<T, Fields>>, SearchDocumentsResult<Pick<T, Fields>>, ListSearchResultsPageSettings>;
-    // (undocumented)
-    listSearchResultsAll<Fields extends keyof T>(options?: SearchOptions<Fields>): AsyncIterableIterator<SearchResult<T>>;
     modifyIndex(batch: IndexAction[], options?: ModifyIndexOptions): Promise<IndexDocumentsResult>;
-    // (undocumented)
     suggest<Fields extends keyof T>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
-    // (undocumented)
     updateDocuments(documents: T[], options?: UpdateDocumentsOptions): Promise<IndexDocumentsResult>;
-    // (undocumented)
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -233,13 +220,11 @@ export type SuggestResult<T> = {
 
 // @public
 export interface UpdateDocumentsOptions extends ModifyIndexOptions {
-    // (undocumented)
     uploadIfNotExists?: boolean;
 }
 
 // @public
 export interface UploadDocumentsOptions extends ModifyIndexOptions {
-    // (undocumented)
     mergeIfExists?: boolean;
 }
 

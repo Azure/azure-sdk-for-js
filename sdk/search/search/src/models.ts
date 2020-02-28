@@ -47,6 +47,10 @@ export interface ModifyIndexOptions extends OperationOptions {
  * Options for the upload documents operation.
  */
 export interface UploadDocumentsOptions extends ModifyIndexOptions {
+  /**
+   * If true, any documents in this batch will merge with existing documents
+   * which have the same primary key.
+   */
   mergeIfExists?: boolean;
 }
 
@@ -54,6 +58,10 @@ export interface UploadDocumentsOptions extends ModifyIndexOptions {
  * Options for the update documents operation.
  */
 export interface UpdateDocumentsOptions extends ModifyIndexOptions {
+  /**
+   * If true, any documents in this batch that do not exist on the server
+   * will be treated as an upload instead of an update.
+   */
   uploadIfNotExists?: boolean;
 }
 

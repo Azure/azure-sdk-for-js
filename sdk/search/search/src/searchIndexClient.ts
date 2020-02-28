@@ -48,6 +48,11 @@ import {
  */
 export type SearchIndexClientOptions = PipelineOptions;
 
+/**
+ * Class used to perform operations against a search index,
+ * including querying documents in the index as well as
+ * adding, updating, and removing them.
+ */
 export class SearchIndexClient<T> {
   /**
    * The API version to use when communicating with the service.
@@ -76,7 +81,13 @@ export class SearchIndexClient<T> {
    *
    * Example usage:
    * ```ts
-   * // tbd
+   * const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+   *
+   * const client = new SearchIndexClient(
+   *   "<endpoint>",
+   *   "<indexName>",
+   *   new SearchApiKeyCredential("<Admin Key>");
+   * );
    * ```
    * @param {string} endpoint The endpoint of the search service
    * @param {string} indexName The name of the index
@@ -131,6 +142,10 @@ export class SearchIndexClient<T> {
     );
   }
 
+  /**
+   * Retrieves the number of documents in the index.
+   * @param options Options to the count operation.
+   */
   public async count(options: CountOptions = {}): Promise<number> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-count", options);
     try {
@@ -149,6 +164,11 @@ export class SearchIndexClient<T> {
     }
   }
 
+  /**
+   * Based on a partial searchText from the user, return a list
+   * of potential completion strings based on a specified suggester.
+   * @param options Options to the autocomplete operation.
+   */
   public async autocomplete<Fields extends keyof T>(
     options: AutocompleteOptions<Fields>
   ): Promise<AutocompleteResult> {
@@ -238,7 +258,7 @@ export class SearchIndexClient<T> {
     }
   }
 
-  public async *listSearchResultsAll<Fields extends keyof T>(
+  private async *listSearchResultsAll<Fields extends keyof T>(
     options: SearchOptions<Fields> = {}
   ): AsyncIterableIterator<SearchResult<T>> {
     for await (const page of this.listSearchResultsPage(options)) {
@@ -247,6 +267,11 @@ export class SearchIndexClient<T> {
     }
   }
 
+  /**
+   * Performs a search on the current index given
+   * the specified arguments.
+   * @param options Options for the search operation.
+   */
   public listSearchResults<Fields extends keyof T>(
     options: SearchOptions<Fields> = {}
   ): PagedAsyncIterableIterator<
@@ -269,6 +294,11 @@ export class SearchIndexClient<T> {
     };
   }
 
+  /**
+   * Returns a short list of suggestions based on the searchText
+   * and specified suggester.
+   * @param options Options for the suggest operation
+   */
   public async suggest<Fields extends keyof T>(
     options: SuggestOptions<Fields>
   ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
@@ -307,6 +337,11 @@ export class SearchIndexClient<T> {
     }
   }
 
+  /**
+   * Retrieve a particular document from the index by key.
+   * @param key The primary key value of the document
+   * @param options Additional options
+   */
   public async getDocument<Fields extends keyof T>(
     key: string,
     options: GetDocumentOptions<Fields> = {}
@@ -335,8 +370,9 @@ export class SearchIndexClient<T> {
    * This operation may partially succeed and not all document operations will
    * be reflected in the index. If you would like to treat this as an exception,
    * set the `throwOnAnyFailure` option to true.
-   * @param batch
-   * @param options
+   * For more details about how merging works, see: https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   * @param batch An array of actions to perform on the index.
+   * @param options Additional options.
    */
   public async modifyIndex(
     batch: IndexAction[],
@@ -363,6 +399,11 @@ export class SearchIndexClient<T> {
     }
   }
 
+  /**
+   * Upload an array of documents to the index.
+   * @param documents The documents to upload.
+   * @param options Additional options.
+   */
   public async uploadDocuments(
     documents: T[],
     options: UploadDocumentsOptions = {}
@@ -390,6 +431,12 @@ export class SearchIndexClient<T> {
     }
   }
 
+  /**
+   * Update a set of documents in the index.
+   * For more details about how merging works, see https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   * @param documents The updated documents.
+   * @param options Additional options.
+   */
   public async updateDocuments(
     documents: T[],
     options: UpdateDocumentsOptions = {}
@@ -417,6 +464,12 @@ export class SearchIndexClient<T> {
     }
   }
 
+  /**
+   * Delete a set of documents by their primary key.
+   * @param keyName The name of their primary key in the index.
+   * @param keyValues The primary key values of documents to delete.
+   * @param options Additional options.
+   */
   public async deleteDocuments(
     keyName: string,
     keyValues: string[],
