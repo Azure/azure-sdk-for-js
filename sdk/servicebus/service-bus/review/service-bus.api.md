@@ -99,6 +99,8 @@ export { MessagingError }
 
 // @public
 export interface NonSessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAndDelete"> {
+    // (undocumented)
+    close(): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "MessageIterator" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -357,6 +359,8 @@ export interface SessionReceiverOptions {
 
 // @public
 export interface SessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAndDelete"> {
+    // (undocumented)
+    close(): Promise<void>;
     // (undocumented)
     iterateMessages(): MessageIterator<ContextType<LockModeT>>;
     // (undocumented)
