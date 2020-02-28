@@ -16,7 +16,12 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const imageUrl = "http://images2.wikia.nocookie.net/__cb20111106201150/groceryreceipts/images/8/80/Grocery_receipts_001.jpg";
+  let imageUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
+  const imageNoQuntityUrl = "http://images2.wikia.nocookie.net/__cb20111106201150/groceryreceipts/images/8/80/Grocery_receipts_001.jpg";
+
+  imageUrl = "https://milesaway44105.files.wordpress.com/2011/09/receipt.jpg";
+  imageUrl = "http://2.bp.blogspot.com/_LqCB_lgYPw0/TOpQyM_1PFI/AAAAAAAAACw/Qpx0wZ25GC4/s1600/tesco1receipt.jpg";
+  imageUrl = "http://travelwithgrant.boardingarea.com/wp-content/uploads/2013/06/VR-Receipt.jpg";
 
   const client = new CustomRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
 
@@ -28,6 +33,7 @@ async function main() {
     console.log(e);
     result = { status: "failed" };
   }
+  result = { status: "failed" };
 
   if (result.status !== "succeeded") {
     console.log(result);
@@ -38,15 +44,15 @@ async function main() {
 
   console.log(result.status);
   console.log("first receipt:")
-  console.log(result.analyzeResult.receiptResults[0]);
+  //console.log(result.analyzeResult.receiptResults[0]);
   console.log("Items:")
   let i = 1;
   for (const item of result.analyzeResult.receiptResults[0].items) {
-    console.log(`\t${i++}) ${item.name} $${item.totalPrice}`);
+    console.log(`${i++})\t ${item.quantity || ""} ${item.name} $${item.totalPrice}`);
   }
-  console.log("Raw fields");
-  console.log(result.analyzeResult.receiptResults[0].rawReciptFields)
-  console.log(result.analyzeResult.receiptResults[0].rawReciptFields["MerchantAddress"])
+  //console.log("Raw fields");
+  //console.log(result.analyzeResult.receiptResults[0].rawReciptFields)
+  //console.log(result.analyzeResult.receiptResults[0].rawReciptFields["MerchantAddress"])
 }
 
 main().catch((err) => {

@@ -364,6 +364,8 @@ export interface ReceiptItem {
     // (undocumented)
     name: string;
     // (undocumented)
+    quantity: number;
+    // (undocumented)
     totalPrice: number;
 }
 
@@ -382,6 +384,7 @@ export interface ReceiptItemField {
     // (undocumented)
     valueObject: {
         Name: StringFieldValue;
+        Quantity: NumberFieldValue;
         TotalPrice: NumberFieldValue;
     };
 }

@@ -94,14 +94,14 @@ export interface ReceiptItemField {
   type: "object";
   valueObject: {
     Name: StringFieldValue;
-    //Quantity: NumberFieldValue;
+    Quantity: NumberFieldValue;
     TotalPrice: NumberFieldValue;
   };
 }
 
 export interface ReceiptItem {
   name: string;
-  //quantity: number;
+  quantity: number;
   totalPrice: number;
 }
 

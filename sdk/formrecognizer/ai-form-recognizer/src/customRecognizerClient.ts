@@ -464,20 +464,20 @@ export class CustomRecognizerClient {
       docType: rawReceipt.docType,
       pageRange: rawReceipt.pageRange,
       receiptType: rawReceipt.fields.ReceiptType.valueString,
-      merchantName: rawReceipt.fields.MerchantName.valueString,
-      merchantPhoneNumber: rawReceipt.fields.MerchantPhoneNumber.valuePhoneNumber,
-      merchantAddress: rawReceipt.fields.MerchantAddress.valueString,
-      items: rawReceipt.fields.Items.valueArray.map(i => {
+      merchantName: rawReceipt.fields.MerchantName?.valueString,
+      merchantPhoneNumber: rawReceipt.fields.MerchantPhoneNumber?.valuePhoneNumber,
+      merchantAddress: rawReceipt.fields.MerchantAddress?.valueString,
+      items: rawReceipt.fields.Items.valueArray?.map(i => {
         return {
           name: (i as ReceiptItemField).valueObject.Name.valueString,
-          //quantity: (i as ReceiptItemField).valueObject.Quantity.valueNumber,
-          totalPrice: (i as ReceiptItemField).valueObject.TotalPrice.valueNumber
+          quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
+          totalPrice: (i as ReceiptItemField).valueObject.TotalPrice?.valueNumber
         };}),
-      subtotal: rawReceipt.fields.Subtotal.valueNumber,
-      tax: rawReceipt.fields.Tax.valueNumber,
-      total: rawReceipt.fields.Total.valueNumber,
-      transactionDate: rawReceipt.fields.TransactionDate.valueDate,
-      transactionTime: rawReceipt.fields.TransactionTime.valueTime,
+      subtotal: rawReceipt.fields.Subtotal?.valueNumber,
+      tax: rawReceipt.fields.Tax?.valueNumber,
+      total: rawReceipt.fields.Total?.valueNumber,
+      transactionDate: rawReceipt.fields.TransactionDate?.valueDate,
+      transactionTime: rawReceipt.fields.TransactionTime?.valueTime,
       rawReciptFields: result.fields as { [propertyName: string]: FieldValue }
     }
   }
