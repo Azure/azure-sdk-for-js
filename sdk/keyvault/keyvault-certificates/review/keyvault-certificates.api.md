@@ -351,7 +351,7 @@ export interface KVPollerLike<TState extends PollOperationState<TResult>, TResul
 }
 
 // @public
-export const LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION = "7.1";
+export const LATEST_API_VERSION = "7.1";
 
 // @public
 export interface LifetimeAction {

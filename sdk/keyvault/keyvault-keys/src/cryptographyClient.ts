@@ -8,7 +8,7 @@ import {
   KeyVaultKey,
   EncryptionAlgorithm,
   CryptographyClientOptions,
-  LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION
+  LATEST_API_VERSION
 } from "./keysModels";
 import {
   TokenCredential,
@@ -709,7 +709,7 @@ export class CryptographyClient {
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
       credential,
-      pipelineOptions.apiVersion || LATEST_STABLE_KEYVAULT_SERVICE_API_VERSION,
+      pipelineOptions.apiVersion || LATEST_API_VERSION,
       pipeline
     );
 
