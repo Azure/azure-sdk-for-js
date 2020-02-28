@@ -3,7 +3,7 @@ import {
   Message,
   ContextWithSettlement as ContextWithSettlementMethods,
   UselessEmptyContextThatMaybeShouldBeRemoved
-} from "./models";
+} from "./modelsTrack2";
 import { env } from "process";
 import * as dotenv from "dotenv";
 import { ServiceBusReceiverClient } from './serviceBusReceiverClient';

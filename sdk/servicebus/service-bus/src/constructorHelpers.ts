@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Session, QueueAuth, SubscriptionAuth } from "./models";
-import { ServiceBusClientReceiverOptions } from "../old/oldServiceBusReceiverClient";
-import { ReceiveMode } from "../serviceBusMessage";
-import { isTokenCredential, TokenCredential } from '@azure/core-amqp';
-import { ConnectionContext } from '../connectionContext';
-import { createConnectionContextForTokenCredential, createConnectionContextForConnectionString, ServiceBusClientOptions } from '../old/serviceBusClient';
+import { Session, QueueAuth, SubscriptionAuth } from "./modelsTrack2";
+import { ServiceBusClientReceiverOptions } from "./old/oldServiceBusReceiverClient";
+import { ReceiveMode } from "./serviceBusMessage";
+import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
+import { ConnectionContext } from "./connectionContext";
+import {
+  createConnectionContextForTokenCredential,
+  createConnectionContextForConnectionString,
+  ServiceBusClientOptions
+} from "./old/serviceBusClient";
 
 // The methods in this file are all here just to make handling
 // the _large_ number of constructor overloads for ReceiverClient.
@@ -59,8 +63,7 @@ export function isReceiveMode(
 export function createConnectionContext(
   auth: QueueAuth | SubscriptionAuth,
   options: ServiceBusClientOptions
-): { context: ConnectionContext, entityPath: string } {
-
+): { context: ConnectionContext; entityPath: string } {
   // TODO: replace with actual typeguards
   const auth2 = auth as any;
 
@@ -72,8 +75,12 @@ export function createConnectionContext(
     if (auth2.queueName && typeof auth2.queueName === "string") {
       const queueName: string = auth2.queueName;
       entityPath = queueName;
-    } else if (auth2.topicName && typeof auth2.topicName === "string" 
-      && auth2.subscriptionName && typeof auth2.subscriptionName === "string") {
+    } else if (
+      auth2.topicName &&
+      typeof auth2.topicName === "string" &&
+      auth2.subscriptionName &&
+      typeof auth2.subscriptionName === "string"
+    ) {
       const topicName = auth2.topicName;
       const subscriptionName = auth2.subscriptionName;
       entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
@@ -88,9 +95,14 @@ export function createConnectionContext(
       context: createConnectionContextForTokenCredential(tokenCredential, host, options),
       entityPath: entityPath
     };
-  } else if (auth2.queueConnectionString != null && typeof auth2.queueConnectionString === "string") {
+  } else if (
+    auth2.queueConnectionString != null &&
+    typeof auth2.queueConnectionString === "string"
+  ) {
     // connection string based authentication
-    const entityPathMatch = (auth2.queueConnectionString as string).match(/^.+EntityPath=(.+?);{0,1}$/);
+    const entityPathMatch = (auth2.queueConnectionString as string).match(
+      /^.+EntityPath=(.+?);{0,1}$/
+    );
 
     if (entityPathMatch != null && entityPathMatch.length === 2) {
       return {
@@ -100,14 +112,18 @@ export function createConnectionContext(
     } else {
       throw new Error("No entity name present in the connection string");
     }
-
-  } else if (auth2.topicConnectionString != null && typeof auth2.topicConnectionString === "string") {
+  } else if (
+    auth2.topicConnectionString != null &&
+    typeof auth2.topicConnectionString === "string"
+  ) {
     // connection string based authentication
-    const entityPathMatch = (auth2.topicConnectionString as string).match(/^.+EntityPath=(.+?);{0,1}$/);
+    const entityPathMatch = (auth2.topicConnectionString as string).match(
+      /^.+EntityPath=(.+?);{0,1}$/
+    );
 
     if (entityPathMatch != null && entityPathMatch.length === 2) {
       const baseEntityPath = entityPathMatch![1]!;
-    
+
       if (auth2.subscriptionName != null && typeof auth2.subscriptionName === "string") {
         // topic (from connection string) + sub
         return {
@@ -116,7 +132,7 @@ export function createConnectionContext(
         };
       } else {
         throw new Error("Misisng subscription name, required as part of connecting to a topic");
-      }     
+      }
     } else {
       throw new Error("No entity name present in the connection string");
     }

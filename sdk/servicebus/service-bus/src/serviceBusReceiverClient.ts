@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
-import { ClientEntityContext } from "../clientEntityContext";
+import { ServiceBusMessage, ReceiveMode } from "./serviceBusMessage";
+import { ClientEntityContext } from "./clientEntityContext";
 import { generate_uuid } from "rhea-promise";
-import { ClientType } from "../client";
-import { InternalSessionReceiver, InternalReceiver } from "../internalReceivers";
+import { ClientType } from "./client";
+import { InternalSessionReceiver, InternalReceiver } from "./internalReceivers";
 import {
   MessageHandlers,
   MessageIterator,
@@ -17,10 +17,10 @@ import {
   SubscriptionAuth,
   isSession,
   MessageAndContext
-} from "./models";
+} from "./modelsTrack2";
 import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
-import { RuleDescription, CorrelationFilter } from "../core/managementClient";
-import { ServiceBusClientOptions } from "../old/serviceBusClient";
+import { RuleDescription, CorrelationFilter } from "./core/managementClient";
+import { ServiceBusClientOptions } from "./old/serviceBusClient";
 
 /**
  *A receiver client that handles sessions, including renewing the session lock.

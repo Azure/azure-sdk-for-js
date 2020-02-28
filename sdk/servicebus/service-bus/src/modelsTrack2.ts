@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ServiceBusMessage } from "../serviceBusMessage";
+import { ServiceBusMessage } from "./serviceBusMessage";
 import { TokenCredential } from "@azure/core-amqp";
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
@@ -33,8 +33,11 @@ export interface Session {
   connections: SessionConnections;
 }
 
-export function isSession(possibleSession: Session | any) : possibleSession is Session {
-  return (possibleSession as Session).connections && typeof (possibleSession as Session).connections === "object";
+export function isSession(possibleSession: Session | any): possibleSession is Session {
+  return (
+    (possibleSession as Session).connections &&
+    typeof (possibleSession as Session).connections === "object"
+  );
 }
 
 // TODO: make this an actual interface that's not just in terms of what's
