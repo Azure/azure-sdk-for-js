@@ -20,7 +20,7 @@ export interface AutocompleteItem {
 export type AutocompleteMode = 'oneTerm' | 'twoTerms' | 'oneTermWithContext';
 
 // @public (undocumented)
-export type AutocompleteOptions = OperationOptions & Omit<AutocompleteRequest, "searchText" | "suggesterName">;
+export type AutocompleteOptions = OperationOptions & AutocompleteRequest;
 
 // @public
 export interface AutocompleteRequest {
@@ -182,7 +182,7 @@ export class SearchIndexClient<T> {
     constructor(endpoint: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
     readonly apiVersion: string;
     // (undocumented)
-    autocomplete(searchText: string, suggesterName: string, options?: AutocompleteOptions): Promise<AutocompleteResult>;
+    autocomplete(options: AutocompleteOptions): Promise<AutocompleteResult>;
     // (undocumented)
     count(options?: CountOptions): Promise<number>;
     // (undocumented)
@@ -192,12 +192,12 @@ export class SearchIndexClient<T> {
     getDocument(key: string, options?: GetDocumentOptions): Promise<T>;
     readonly indexName: string;
     // (undocumented)
-    listSearchResults<Fields extends keyof T>(searchText: string, options?: SearchOptions<T, Fields>): PagedAsyncIterableIterator<SearchResult<Pick<T, Fields>>, SearchDocumentsResult<Pick<T, Fields>>, ListSearchResultsPageSettings>;
+    listSearchResults<Fields extends keyof T>(options?: SearchOptions<T, Fields>): PagedAsyncIterableIterator<SearchResult<Pick<T, Fields>>, SearchDocumentsResult<Pick<T, Fields>>, ListSearchResultsPageSettings>;
     // (undocumented)
-    listSearchResultsAll<Fields extends keyof T>(searchText: string, options?: SearchOptions<T, Fields>): AsyncIterableIterator<SearchResult<T>>;
+    listSearchResultsAll<Fields extends keyof T>(options?: SearchOptions<T, Fields>): AsyncIterableIterator<SearchResult<T>>;
     modifyIndex(batch: IndexAction[], options?: ModifyIndexOptions): Promise<IndexDocumentsResult>;
     // (undocumented)
-    suggest<Fields extends keyof T>(searchText: string, suggesterName: string, options?: SuggestOptions<T, Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
+    suggest<Fields extends keyof T>(options: SuggestOptions<T, Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     // (undocumented)
     updateDocuments(documents: T[], options?: UpdateDocumentsOptions): Promise<IndexDocumentsResult>;
     // (undocumented)
@@ -211,7 +211,7 @@ export type SearchIndexClientOptions = PipelineOptions;
 export type SearchMode = 'any' | 'all';
 
 // @public (undocumented)
-export type SearchOptions<T, Fields extends keyof T> = OperationOptions & SelectedFields<T, Fields> & Omit<SearchRequest, "searchText" | "select">;
+export type SearchOptions<T, Fields extends keyof T> = OperationOptions & SelectedFields<T, Fields> & Omit<SearchRequest, "select">;
 
 // @public
 export interface SearchRequest {
@@ -228,7 +228,7 @@ export interface SearchRequest {
     scoringProfile?: string;
     searchFields?: string;
     searchMode?: SearchMode;
-    searchText: string;
+    searchText?: string;
     select?: string;
     skip?: number;
     top?: number;
@@ -250,7 +250,7 @@ export type SuggestDocumentsResult<T> = ReplaceProperties<GeneratedSuggestDocume
 }>;
 
 // @public (undocumented)
-export type SuggestOptions<T, Fields extends keyof T> = OperationOptions & SelectedFields<T, Fields> & Omit<SuggestRequest, "searchText" | "suggesterName" | "select">;
+export type SuggestOptions<T, Fields extends keyof T> = OperationOptions & SelectedFields<T, Fields> & Omit<SuggestRequest, "select">;
 
 // @public
 export interface SuggestRequest {

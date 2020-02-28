@@ -20,92 +20,33 @@ import {
   AutocompleteResult,
   AutocompleteRequest,
   SearchRequest,
-  SearchResult as RawSearchResult,
-  SearchDocumentsResult as RawSearchDocumentsResult,
   SuggestRequest,
   IndexAction,
-  IndexDocumentsResult,
-  SuggestResult,
-  SuggestDocumentsResult as RawSuggestDocumentsResult
+  IndexDocumentsResult
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
-import { KnownKeys, ReplaceProperties } from "./util";
 import { deserialize, serialize } from "./serialization";
+import {
+  CountOptions,
+  AutocompleteOptions,
+  SearchOptions,
+  SearchDocumentsResult,
+  ListSearchResultsPageSettings,
+  SearchResult,
+  SuggestOptions,
+  SuggestDocumentsResult,
+  GetDocumentOptions,
+  ModifyIndexOptions,
+  UploadDocumentsOptions,
+  UpdateDocumentsOptions,
+  DeleteDocumentsOptions
+} from "./models";
 
 /**
  * Client options used to configure Cognitive Search API requests.
  */
 export type SearchIndexClientOptions = PipelineOptions;
-export type CountOptions = OperationOptions;
-export type AutocompleteOptions = OperationOptions & AutocompleteRequest;
-
-export interface SelectedFields<T, Fields extends keyof T> {
-  /**
-   * The list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema
-   * are included.
-   */
-  select?: Fields[];
-}
-export type SearchOptions<T, Fields extends keyof T> = OperationOptions &
-  SelectedFields<T, Fields> &
-  Omit<SearchRequest, "select">;
-
-export type SearchResult<T> = Pick<RawSearchResult, KnownKeys<RawSearchResult>> & T;
-
-export type SearchDocumentsResult<T> = ReplaceProperties<
-  RawSearchDocumentsResult,
-  { readonly results?: RawSearchResult[] },
-  { readonly results?: Array<SearchResult<T>> }
->;
-
-export type SuggestOptions<T, Fields extends keyof T> = OperationOptions &
-  SelectedFields<T, Fields> &
-  Omit<SuggestRequest, "select">;
-
-export type SuggestDocumentsResult<T> = ReplaceProperties<
-  RawSuggestDocumentsResult,
-  { readonly results?: SuggestResult[] },
-  { readonly results?: Array<Pick<SuggestResult, KnownKeys<SuggestResult>> & T> }
->;
-
-export interface GetDocumentOptions extends OperationOptions {
-  /**
-   * List of field names to retrieve for the document; Any field not retrieved will be missing from
-   * the returned document.
-   */
-  selectedFields?: string[];
-}
-export interface ModifyIndexOptions extends OperationOptions {
-  /**
-   * If true, will cause this operation to throw if any document operation
-   * in the batch did not succeed.
-   */
-  throwOnAnyFailure?: boolean;
-}
-
-export interface UploadDocumentsOptions extends ModifyIndexOptions {
-  mergeIfExists?: boolean;
-}
-
-export interface UpdateDocumentsOptions extends ModifyIndexOptions {
-  uploadIfNotExists?: boolean;
-}
-
-export type DeleteDocumentsOptions = ModifyIndexOptions;
-
-export interface ListSearchResultsPageSettings {
-  /**
-   * When server pagination occurs, this is the URL to the next result page.
-   */
-  nextLink?: string;
-  /**
-   * When server pagination occurs, this is the set of parameters to include in the POST body.
-   */
-  nextPageParameters?: SearchRequest;
-}
-
-// something extends OperationOptions
 
 export class SearchIndexClient<T> {
   /**
