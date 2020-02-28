@@ -140,7 +140,7 @@ export const scopeMapName: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 50,
       MinLength: 5,
-      Pattern: /^[a-zA-Z0-9-]*$/
+      Pattern: /^[a-zA-Z0-9-_]*$/
     },
     type: {
       name: "String"
@@ -167,6 +167,16 @@ export const taskName: msRest.OperationURLParameter = {
       MinLength: 5,
       Pattern: /^[a-zA-Z0-9-_]*$/
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const taskRunName: msRest.OperationURLParameter = {
+  parameterPath: "taskRunName",
+  mapper: {
+    required: true,
+    serializedName: "taskRunName",
     type: {
       name: "String"
     }
