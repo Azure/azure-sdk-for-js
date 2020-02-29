@@ -39,7 +39,7 @@ describe.only("Samples scenarios for track 2", () => {
     await Promise.all(closeables.map((closable) => closable.close()));
   });
 
-  it.only("Queue, peek/lock", async () => {
+  it("Queue, peek/lock", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
@@ -77,7 +77,7 @@ describe.only("Samples scenarios for track 2", () => {
       receiverClient);
   });
 
-  it.only("Queue, peek/lock, iterate messages", async () => {
+  it("Queue, peek/lock, iterate messages", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
@@ -125,7 +125,7 @@ describe.only("Samples scenarios for track 2", () => {
       receiverClient);
   });
 
-  it.only("Queue, receive and delete", async () => {
+  it("Queue, receive and delete", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
@@ -162,7 +162,7 @@ describe.only("Samples scenarios for track 2", () => {
       receiverClient);
   });
 
-  it.only("Queue, receive and delete, iterate messages", async () => {
+  it("Queue, receive and delete, iterate messages", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
@@ -210,7 +210,7 @@ describe.only("Samples scenarios for track 2", () => {
       receiverClient);
   });
 
-  it.only("Queue, peek/lock, iterate messages", async () => {
+  it("Queue, peek/lock, iterate messages", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
@@ -258,7 +258,7 @@ describe.only("Samples scenarios for track 2", () => {
       receiverClient);
   });
 
-  it.only("Subscription, peek/lock", async () => {
+  it("Subscription, peek/lock", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
@@ -299,7 +299,7 @@ describe.only("Samples scenarios for track 2", () => {
       receiverClient);
   });
 
-  it.only("Subscription, receive and delete", async () => {
+  it("Subscription, receive and delete", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
@@ -339,7 +339,7 @@ describe.only("Samples scenarios for track 2", () => {
       receiverClient);
   });
 
-  it.only("Subscription, peek/lock, iterate messages", async () => {
+  it("Subscription, peek/lock, iterate messages", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
@@ -388,7 +388,7 @@ describe.only("Samples scenarios for track 2", () => {
       receiverClient);
   });
 
-  it.only("Subscription, receive and delete, iterate messages", async () => {
+  it("Subscription, receive and delete, iterate messages", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
@@ -437,7 +437,7 @@ describe.only("Samples scenarios for track 2", () => {
       receiverClient);
   });
 
-  it.only("Queue, receive and delete, sessions", async () => {
+  it("Queue, receive and delete, sessions", async () => {
     const sessionConnections = new SessionConnections();
     
     const receiverClient = new ServiceBusReceiverClient(
@@ -486,7 +486,7 @@ describe.only("Samples scenarios for track 2", () => {
       receiverClient);
   });
 
-  it.only("Queue, peek/lock, sessions", async () => {
+  it("Queue, peek/lock, sessions", async () => {
     const sessionConnections = new SessionConnections();
     
     const receiverClient = new ServiceBusReceiverClient(
