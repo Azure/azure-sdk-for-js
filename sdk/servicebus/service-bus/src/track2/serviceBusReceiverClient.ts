@@ -31,19 +31,58 @@ import { ConnectionContext } from "../connectionContext";
  */
 // TODO: could extend NonSessionReceiverClient...?
 export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
-  streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+  /**
+   * Streams messages to message handlers.
+   * @param handler A handler that gets called for messages and errors.
+   * @param options Options for streamMessages.
+   */
+  streamMessages(
+    handlers: MessageHandlers<ContextType<LockModeT>>,
+    options?: StreamMessagesOptions
+  ): void;
+  /**
+   * Returns an iterator that can be used to receive messages from Service Bus.
+   * @param options Options for iterateMessages.
+   */
   iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
-  receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
-  renewSessionLock(): Promise<Date>;
-  close(): Promise<void>;
 
+  /**
+   * Receives, at most, `maxMessages` worth of messages.
+   * @param maxMessages The maximum number of messages to accept.
+   * @param maxWaitTimeInSeconds The maximum time to wait, in seconds, for messages to arrive.
+   * @param options Options for receiveBatch.
+   */
+  receiveBatch(
+    maxMessages: number,
+    maxWaitTimeInSeconds?: number,
+    options?: ReceiveBatchOptions
+  ): Promise<Message[]>;
+  /**
+   * Renews the lock on the session.
+   */
+  renewSessionLock(): Promise<Date>;
+  /**
+   * Closes the client.
+   */
+  close(): Promise<void>;
+  /**
+   * Methods related to service bus diagnostics.
+   */
   diagnostics: {
+    /**
+     * Peek within a queue or subscription.
+     * @param maxMessageCount The maximum number of messages to retrieve.
+     */
     peek(maxMessageCount?: number): Promise<Message[]>;
-    peekBySequenceNumber(
-      fromSequenceNumber: Long,
-      maxMessageCount?: number
-    ): Promise<Message[]>;
-  }
+    /**
+     * Peek within a queue or subscription, starting with a specific sequence number.
+     * NOTE: this method does not respect message locks or increment delivery count
+     * for messages.
+     * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
+     * @param maxMessageCount The maximum number of messages to retrieve.
+     */
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
+  };
 }
 
 /**
@@ -55,21 +94,28 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
    * @param handler A handler that gets called for messages and errors.
    * @param options Options for streamMessages.
    */
-  streamMessages(handler: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+  streamMessages(
+    handler: MessageHandlers<ContextType<LockModeT>>,
+    options?: StreamMessagesOptions
+  ): void;
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
    * @param options Options for iterateMessages.
    */
   iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
-  
+
   /**
    * Receives, at most, `maxMessages` worth of messages.
    * @param maxMessages The maximum number of messages to accept.
    * @param maxWaitTimeInSeconds The maximum time to wait, in seconds, for messages to arrive.
    * @param options Options for receiveBatch.
    */
-  receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
+  receiveBatch(
+    maxMessages: number,
+    maxWaitTimeInSeconds?: number,
+    options?: ReceiveBatchOptions
+  ): Promise<Message[]>;
 
   /**
    * Closes the client.
@@ -81,25 +127,22 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
    */
   diagnostics: {
     /**
-     * Peek within a topic. 
-     * NOTE: this method does not lock messages or increment delivery count 
+     * Peek within a queue or subscription.
+     * NOTE: this method does not respect message locks or increment delivery count
      * for messages.
      * @param maxMessageCount The maximum number of messages to retrieve.
      */
     peek(maxMessageCount?: number): Promise<Message[]>;
 
     /**
-     * Peek within a topic, starting with a specific sequence number.
-     * NOTE: this method does not lock messages or increment delivery count 
+     * Peek within a queue or subscription, starting with a specific sequence number.
+     * NOTE: this method does not respect message locks or increment delivery count
      * for messages.
      * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
      * @param maxMessageCount The maximum number of messages to retrieve.
      */
-    peekBySequenceNumber(
-      fromSequenceNumber: Long,
-      maxMessageCount?: number
-    ): Promise<Message[]>;
-  }
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
+  };
 }
 
 /**
@@ -136,11 +179,11 @@ export interface ServiceBusReceiverClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new (
-    queueAuth: QueueAuth,
-    receiveMode: "peekLock"
-  ):
-  ClientTypeT<"peekLock", "queue", "nosessions">;
+  new (queueAuth: QueueAuth, receiveMode: "peekLock"): ClientTypeT<
+    "peekLock",
+    "queue",
+    "nosessions"
+  >;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -149,11 +192,11 @@ export interface ServiceBusReceiverClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new (
-    queueAuth: QueueAuth,
-    receiveMode: "receiveAndDelete"
-  ):
-  ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
+  new (queueAuth: QueueAuth, receiveMode: "receiveAndDelete"): ClientTypeT<
+    "receiveAndDelete",
+    "queue",
+    "nosessions"
+  >;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -162,12 +205,11 @@ export interface ServiceBusReceiverClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new (
-    queueAuth: QueueAuth,
-    receiveMode: "peekLock",
-    session: Session
-  ):
-  ClientTypeT<"peekLock", "queue", "sessions">;
+  new (queueAuth: QueueAuth, receiveMode: "peekLock", session: Session): ClientTypeT<
+    "peekLock",
+    "queue",
+    "sessions"
+  >;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -176,12 +218,11 @@ export interface ServiceBusReceiverClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new (
-    queueAuths: QueueAuth,
-    receiveMode: "receiveAndDelete",
-    session: Session
-  ):
-  ClientTypeT<"receiveAndDelete", "queue", "sessions">;
+  new (queueAuths: QueueAuth, receiveMode: "receiveAndDelete", session: Session): ClientTypeT<
+    "receiveAndDelete",
+    "queue",
+    "sessions"
+  >;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -190,11 +231,11 @@ export interface ServiceBusReceiverClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new (
-    subscriptionAuth: SubscriptionAuth,
-    receiveMode: "peekLock"
-  ):
-  ClientTypeT<"peekLock", "subscription", "nosessions">;
+  new (subscriptionAuth: SubscriptionAuth, receiveMode: "peekLock"): ClientTypeT<
+    "peekLock",
+    "subscription",
+    "nosessions"
+  >;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -203,11 +244,11 @@ export interface ServiceBusReceiverClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new (
-    subscriptionAuth: SubscriptionAuth,
-    receiveMode: "receiveAndDelete"
-  ):
-  ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
+  new (subscriptionAuth: SubscriptionAuth, receiveMode: "receiveAndDelete"): ClientTypeT<
+    "receiveAndDelete",
+    "subscription",
+    "nosessions"
+  >;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -216,12 +257,11 @@ export interface ServiceBusReceiverClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new (
-    subscriptionAuth: SubscriptionAuth,
-    receiveMode: "peekLock",
-    session: Session
-  ):
-  ClientTypeT<"peekLock", "subscription", "sessions">;
+  new (subscriptionAuth: SubscriptionAuth, receiveMode: "peekLock", session: Session): ClientTypeT<
+    "peekLock",
+    "subscription",
+    "sessions"
+  >;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -234,8 +274,7 @@ export interface ServiceBusReceiverClient {
     subscriptionAuth: SubscriptionAuth,
     receiveMode: "receiveAndDelete",
     session: Session
-  ):
-  ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
+  ): ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
 }
 
 /**
@@ -281,18 +320,17 @@ export class ReceiverClientImplementation {
 
       this.diagnostics = {
         async peek(maxMessageCount?: number): Promise<Message[]> {
-          return (await receiver.peek(maxMessageCount)).map(m => m as Message);
+          return (await receiver.peek(maxMessageCount)).map((m) => m as Message);
         },
         async peekBySequenceNumber(
           fromSequenceNumber: Long,
           maxMessageCount?: number
         ): Promise<Message[]> {
-          return (await receiver.peekBySequenceNumber(
-            fromSequenceNumber,
-            maxMessageCount
-          )).map(m => m as Message);
+          return (await receiver.peekBySequenceNumber(fromSequenceNumber, maxMessageCount)).map(
+            (m) => m as Message
+          );
         }
-      };  
+      };
     } else {
       const receiver = new InternalReceiver(clientEntityContext, this._receiveMode);
       this._sessionEnabled = false;
@@ -300,19 +338,17 @@ export class ReceiverClientImplementation {
 
       this.diagnostics = {
         async peek(maxMessageCount?: number): Promise<Message[]> {
-          return (await receiver.peek(entityPath, maxMessageCount)).map(m => m as Message);
+          return (await receiver.peek(entityPath, maxMessageCount)).map((m) => m as Message);
         },
         async peekBySequenceNumber(
           fromSequenceNumber: Long,
           maxMessageCount?: number
         ): Promise<Message[]> {
-          return (await receiver.peekBySequenceNumber(
-            entityPath,
-            fromSequenceNumber,
-            maxMessageCount
-          )).map(m => m as Message);
+          return (
+            await receiver.peekBySequenceNumber(entityPath, fromSequenceNumber, maxMessageCount)
+          ).map((m) => m as Message);
         }
-      };  
+      };
     }
   }
 
@@ -320,16 +356,17 @@ export class ReceiverClientImplementation {
    * Streams messages to the passed in handlers.
    * @param handlers message handlers that receive events as well as errors.
    */
-  streamMessages(handlers: MessageHandlers<ContextWithSettlement>, options?: StreamMessagesOptions): void;
+  streamMessages(
+    handlers: MessageHandlers<ContextWithSettlement>,
+    options?: StreamMessagesOptions
+  ): void;
   /**
    * Streams messages to the passed in handlers.
    * @param handlers message handlers that receive events as well as errors.
    */
   streamMessages(handlers: MessageHandlers<{}>, options?: StreamMessagesOptions): void;
   streamMessages(
-    handlers:
-      | MessageHandlers<{}>
-      | MessageHandlers<ContextWithSettlement>,
+    handlers: MessageHandlers<{}> | MessageHandlers<ContextWithSettlement>,
     options?: StreamMessagesOptions
   ): void {
     // TODO: use options
@@ -338,14 +375,16 @@ export class ReceiverClientImplementation {
         await handlers.processMessage(sbMessage, settlementContext);
       };
 
-      this._receiver.registerMessageHandler(onMessage, (err) => {
-        // TODO: this isn't right - the receiver's onError  is not async and needs to be fixed.
-        handlers.processError(err);
-      }, options);
+      this._receiver.registerMessageHandler(
+        onMessage,
+        (err) => {
+          // TODO: this isn't right - the receiver's onError  is not async and needs to be fixed.
+          handlers.processError(err);
+        },
+        options
+      );
     } else if (this._receiveMode === ReceiveMode.receiveAndDelete) {
-      const actualHandlers = handlers as MessageHandlers<
-        {}
-      >;
+      const actualHandlers = handlers as MessageHandlers<{}>;
 
       this._receiver.registerMessageHandler(
         (message) => {
@@ -354,8 +393,9 @@ export class ReceiverClientImplementation {
         (err) => {
           // TODO: this isn't right - the receiver's onError  is not async and needs to be fixed.
           handlers.processError(err);
-        }
-      , options);
+        },
+        options
+      );
     } else {
       throw new Error("Invalid receive mode");
     }
@@ -369,10 +409,12 @@ export class ReceiverClientImplementation {
   /**
    * Gets an iterator of messages
    */
-  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<"receiveAndDelete">>;
-  iterateMessages(options?: IterateMessagesOptions):
-    | MessageIterator<ContextType<"peekLock">>
-    | MessageIterator<ContextType<"receiveAndDelete">> {
+  iterateMessages(
+    options?: IterateMessagesOptions
+  ): MessageIterator<ContextType<"receiveAndDelete">>;
+  iterateMessages(
+    options?: IterateMessagesOptions
+  ): MessageIterator<ContextType<"peekLock">> | MessageIterator<ContextType<"receiveAndDelete">> {
     // TODO: this needs to be more configurable - at least with timeouts, etc...
     // TODO: use the options
     const messageIterator = this._receiver.getMessageIterator();
@@ -411,7 +453,11 @@ export class ReceiverClientImplementation {
   }
 
   // TODO: should probably be milliseconds
-  async receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]> {
+  async receiveBatch(
+    maxMessages: number,
+    maxWaitTimeInSeconds?: number,
+    options?: ReceiveBatchOptions
+  ): Promise<Message[]> {
     // TODO: use the options (it contains things like AbortSignal)
     const messages = await this._receiver.receiveMessages(maxMessages, maxWaitTimeInSeconds);
 
@@ -452,10 +498,7 @@ export class ReceiverClientImplementation {
 
   public diagnostics: {
     peek(maxMessageCount?: number): Promise<Message[]>;
-    peekBySequenceNumber(
-      fromSequenceNumber: Long,
-      maxMessageCount?: number
-    ): Promise<Message[]>;
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
   };
 
   private _receiver: InternalSessionReceiver | InternalReceiver;
@@ -481,4 +524,3 @@ const settlementContext: ContextWithSettlement = {
   defer: (message) => ((message as unknown) as ServiceBusMessage).defer(),
   deadLetter: (message) => ((message as unknown) as ServiceBusMessage).deadLetter()
 };
-
