@@ -2,7 +2,6 @@ import {
   SessionConnections,
   Message,
   ContextWithSettlement as ContextWithSettlementMethods,
-  UselessEmptyContextThatMaybeShouldBeRemoved
 } from "../src/track2/models";
 import { env } from "process";
 import { ServiceBusReceiverClient } from "../src/track2/serviceBusReceiverClient";
@@ -14,7 +13,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe.only("Samples scenarios for track 2", () => {
+describe("Samples scenarios for track 2", () => {
   let senderClient: ServiceBusSenderClient | undefined;
   let closeables: { close(): Promise<void> }[];
   const connectionString = env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]!;
@@ -39,6 +38,7 @@ describe.only("Samples scenarios for track 2", () => {
     await Promise.all(closeables.map((closable) => closable.close()));
   });
 
+  
   it("Queue, peek/lock", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
@@ -76,6 +76,39 @@ describe.only("Samples scenarios for track 2", () => {
       errors,
       receiverClient);
   });
+
+  it("Queue, peek/lock, receiveBatch", async () => {
+    const receiverClient = new ServiceBusReceiverClient(
+      {
+        connectionString: connectionString,
+        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
+      },
+      "receiveAndDelete"
+    );
+
+    closeables.push(receiverClient);
+
+    senderClient = new ServiceBusSenderClient(
+      connectionString,
+      EntityNames.QUEUE_NAME_NO_PARTITION
+    );
+
+    await sendSampleMessage("Queue, peek/lock, receiveBatch");
+
+    const receivedBodies: string[] = [];
+
+    for (const message of (await receiverClient.receiveBatch(1, 5))) {
+      receivedBodies.push(message.body);
+    }
+
+    // TODO: this isn't the greatest re-use...
+    await waitAndValidate(
+      "Queue, peek/lock, receiveBatch",
+      receivedBodies,
+      [],
+      receiverClient);
+  });
+
 
   it("Queue, peek/lock, iterate messages", async () => {
     const receiverClient = new ServiceBusReceiverClient(
@@ -471,7 +504,7 @@ describe.only("Samples scenarios for track 2", () => {
     receiverClient.streamMessages({
       async processMessage(
         message: Message,
-        context: UselessEmptyContextThatMaybeShouldBeRemoved
+        context: {}
       ): Promise<void> {
         receivedBodies.push(message.body);
       },
@@ -523,7 +556,7 @@ describe.only("Samples scenarios for track 2", () => {
     receiverClient.streamMessages({
       async processMessage(
         message: Message,
-        context: UselessEmptyContextThatMaybeShouldBeRemoved
+        context: {}
       ): Promise<void> {
         receivedBodies.push(message.body);
       },

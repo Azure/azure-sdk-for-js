@@ -2,7 +2,6 @@ import {
   SessionConnections,
   Message,
   ContextWithSettlement as ContextWithSettlementMethods,
-  UselessEmptyContextThatMaybeShouldBeRemoved
 } from "./models";
 import { env } from "process";
 import * as dotenv from "dotenv";
@@ -115,7 +114,7 @@ export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
   receiverClient.streamMessages({
     async processMessage(
       message: Message,
-      context: UselessEmptyContextThatMaybeShouldBeRemoved
+      context: {}
     ): Promise<void>  {
       // process message here - it's basically a ServiceBusMessage minus any settlement related methods
       log(message.body);

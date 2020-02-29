@@ -12,12 +12,14 @@ import {
   Session,
   ContextType,
   ContextWithSettlement,
-  UselessEmptyContextThatMaybeShouldBeRemoved,
   QueueAuth,
   SubscriptionAuth,
   isSession,
   MessageAndContext,
-  Message
+  Message,
+  ReceiveBatchOptions,
+  IterateMessagesOptions,
+  StreamMessagesOptions
 } from "./models";
 import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
 import { RuleDescription, CorrelationFilter } from "../core/managementClient";
@@ -29,8 +31,9 @@ import { ConnectionContext } from "../connectionContext";
  */
 // TODO: could extend NonSessionReceiverClient...?
 export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
-  streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
-  iterateMessages(): MessageIterator<ContextType<LockModeT>>;
+  streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
+  receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
   renewSessionLock(): Promise<Date>;
   close(): Promise<void>;
 
@@ -47,8 +50,10 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
  * A receiver client that does not handle sessions.
  */
 export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
-  streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
-  iterateMessages(): MessageIterator<ContextType<LockModeT>>;
+  streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
+  // TODO: need to solve the "return a context" compile error.
+  receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
   close(): Promise<void>;
   diagnostics: {
     peek(maxMessageCount?: number): Promise<Message[]>;
@@ -73,7 +78,6 @@ export interface SubscriptionRuleManagement {
   ): Promise<void>;
 }
 
-// TODO: merge more? Or maybe this is okay...
 export type ClientTypeT<
   ReceiveModeT extends "peekLock" | "receiveAndDelete",
   EntityTypeT extends "queue" | "subscription",
@@ -286,18 +290,19 @@ export class ReceiverClientImplementation {
    * Streams messages to the passed in handlers.
    * @param handlers message handlers that receive events as well as errors.
    */
-  streamMessages(handlers: MessageHandlers<ContextWithSettlement>): void;
+  streamMessages(handlers: MessageHandlers<ContextWithSettlement>, options?: StreamMessagesOptions): void;
   /**
    * Streams messages to the passed in handlers.
    * @param handlers message handlers that receive events as well as errors.
    */
-  streamMessages(handlers: MessageHandlers<UselessEmptyContextThatMaybeShouldBeRemoved>): void;
+  streamMessages(handlers: MessageHandlers<{}>, options?: StreamMessagesOptions): void;
   streamMessages(
     handlers:
-      | MessageHandlers<UselessEmptyContextThatMaybeShouldBeRemoved>
-      | MessageHandlers<ContextWithSettlement>
+      | MessageHandlers<{}>
+      | MessageHandlers<ContextWithSettlement>,
+    options?: StreamMessagesOptions
   ): void {
-    // this is so goofy that I apologize in advance:
+    // TODO: use options
     if (this._receiveMode === ReceiveMode.peekLock) {
       const onMessage = async (sbMessage: ServiceBusMessage) => {
         await handlers.processMessage(sbMessage, settlementContext);
@@ -309,7 +314,7 @@ export class ReceiverClientImplementation {
       });
     } else if (this._receiveMode === ReceiveMode.receiveAndDelete) {
       const actualHandlers = handlers as MessageHandlers<
-        UselessEmptyContextThatMaybeShouldBeRemoved
+        {}
       >;
 
       this._receiver.registerMessageHandler(
@@ -330,15 +335,16 @@ export class ReceiverClientImplementation {
    * Gets an iterator of messages that also contains a context that can be used to
    * settle messages.
    */
-  iterateMessages(): MessageIterator<ContextType<"peekLock">>;
+  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<"peekLock">>;
   /**
    * Gets an iterator of messages
    */
-  iterateMessages(): MessageIterator<ContextType<"receiveAndDelete">>;
-  iterateMessages():
+  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<"receiveAndDelete">>;
+  iterateMessages(options?: IterateMessagesOptions):
     | MessageIterator<ContextType<"peekLock">>
     | MessageIterator<ContextType<"receiveAndDelete">> {
     // TODO: this needs to be more configurable - at least with timeouts, etc...
+    // TODO: use the options
     const messageIterator = this._receiver.getMessageIterator();
 
     if (this._receiveMode === ReceiveMode.peekLock) {
@@ -372,6 +378,20 @@ export class ReceiverClientImplementation {
     }
 
     return this._receiver.renewSessionLock();
+  }
+
+  // TODO: should probably be milliseconds
+  async receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]> {
+    // TODO: use the options (it contains things like AbortSignal)
+    const messages = await this._receiver.receiveMessages(maxMessages, maxWaitTimeInSeconds);
+
+    if (this._receiveMode === ReceiveMode.peekLock) {
+      throw new Error("TODO: PeekLock and receiveBatch not yet implemented (context not returned)");
+    } else if (this._receiveMode === ReceiveMode.receiveAndDelete) {
+      return messages;
+    } else {
+      throw new Error("Unhandled receive mode");
+    }
   }
 
   private isSessionReceiver(

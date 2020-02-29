@@ -3,6 +3,7 @@
 
 import { ServiceBusMessage } from "../serviceBusMessage";
 import { TokenCredential } from "@azure/core-amqp";
+import { OperationOptions } from '@azure/core-auth';
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
@@ -64,14 +65,6 @@ export interface ContextWithSettlement {
 }
 
 /**
- * A vestigial context that I can probably eliminate as there's nothing interesting
- * in there _yet_ when you're not doing PeekLock.
- *
- * TODO: probably eliminate this.
- */
-export interface UselessEmptyContextThatMaybeShouldBeRemoved {}
-
-/**
  * The general message handler interface (used for streamMessages).
  */
 export interface MessageHandlers<ContextT> {
@@ -102,7 +95,7 @@ export type MessageIterator<ContextT> = AsyncIterable<MessageAndContext<ContextT
 export type ContextType<LockModeT> = LockModeT extends "peekLock"
   ? ContextWithSettlement
   : LockModeT extends "receiveAndDelete"
-  ? UselessEmptyContextThatMaybeShouldBeRemoved
+  ? {}
   : never;
 
 /**
@@ -159,3 +152,16 @@ export type SubscriptionAuth =
       topicName: string;
       subscriptionName: string;
     };
+
+
+export interface ReceiveBatchOptions extends OperationOptions {
+
+}
+
+export interface IterateMessagesOptions extends OperationOptions {
+
+}
+
+export interface StreamMessagesOptions extends OperationOptions {
+
+}

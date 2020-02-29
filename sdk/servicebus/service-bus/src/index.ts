@@ -60,9 +60,11 @@ export {
 export {
   SessionConnections,
   Message,
-  UselessEmptyContextThatMaybeShouldBeRemoved,
   ContextWithSettlement,
   Session,
   QueueAuth,
-  SubscriptionAuth
+  SubscriptionAuth,
+  IterateMessagesOptions,
+  ReceiveBatchOptions,
+  StreamMessagesOptions
 } from "./track2/models";
