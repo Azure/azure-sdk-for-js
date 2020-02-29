@@ -6,7 +6,7 @@ import {
 } from "../src/track2/models";
 import { env } from "process";
 import { ServiceBusReceiverClient } from "../src/track2/serviceBusReceiverClient";
-import { ServiceBusSenderClient, delay } from "../src";
+import { ServiceBusSenderClient, delay, SendableMessageInfo } from "../src";
 import { EnvVarNames } from "./utils/envVarUtils";
 import { EntityNames } from "./utils/testUtils";
 import chai from "chai";
@@ -349,14 +349,14 @@ describe.only("Samples scenarios for track 2", () => {
       "peekLock"
     );
 
+    closeables.push(receiverClient);
+
     senderClient = new ServiceBusSenderClient(
       connectionString,
       EntityNames.TOPIC_NAME_NO_PARTITION
     );
 
     await sendSampleMessage("Subscription, peek/lock, iterate messages");
-
-    closeables.push(receiverClient);
 
     // etc...
     // receiverClient.getRules();
@@ -398,14 +398,14 @@ describe.only("Samples scenarios for track 2", () => {
       "receiveAndDelete"
     );
 
+    closeables.push(receiverClient);
+
     senderClient = new ServiceBusSenderClient(
       connectionString,
       EntityNames.TOPIC_NAME_NO_PARTITION
     );
 
     await sendSampleMessage("Subscription, receive and delete, iterate messages");
-
-    closeables.push(receiverClient);
 
     // etc...
     // receiverClient.getRules();
@@ -437,17 +437,14 @@ describe.only("Samples scenarios for track 2", () => {
       receiverClient);
   });
 
-  it("receiveMessagesUsingReceiveAndDeleteAndSessions", async () => {
-    const log = (...args: any[]) =>
-      console.log(`receiveMessagesUsingReceiveAndDeleteAndSessions:`, ...args);
-    log(`Listening, receiveAndDelete for queue with session ID \`helloworld\``);
+  it.only("Queue, receive and delete, sessions", async () => {
     const sessionConnections = new SessionConnections();
-
+    
     const receiverClient = new ServiceBusReceiverClient(
-      { queueConnectionString: env[`queue.withSessions.connectionString`]! },
+      { connectionString, queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION },
       "receiveAndDelete",
       {
-        id: "helloworld",
+        id: "my-session",
         // the thinking is that users will (unlike queues or topics) open up
         // lots of individual sessions, so keeping track of and sharing connections
         // is a way to prevent a possible port/connection explosion.
@@ -455,32 +452,106 @@ describe.only("Samples scenarios for track 2", () => {
       }
     );
 
+    closeables.push(receiverClient);
+
+    senderClient = new ServiceBusSenderClient(
+      connectionString,
+      EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
+    );
+
+    sendSampleMessage("Queue, receive and delete, sessions", "my-session");
+
     // note that this method is now available - only shows up in auto-complete
     // if you construct this object with a session.
     await receiverClient.renewSessionLock();
+
+    const errors: string[] = [];
+    const receivedBodies: string[] = [];
 
     receiverClient.streamMessages({
       async processMessage(
         message: Message,
         context: UselessEmptyContextThatMaybeShouldBeRemoved
       ): Promise<void> {
-        // process message here - it's basically a ServiceBusMessage minus any settlement related methods
-        log(message.body);
+        receivedBodies.push(message.body);
       },
       async processError(err: Error): Promise<void> {
-        log(`Error thrown: ${err}`);
+        errors.push(err.message);
       }
     });
+
+    await waitAndValidate("Queue, receive and delete, sessions",
+      receivedBodies,
+      errors,
+      receiverClient);
   });
 
-  async function sendSampleMessage(body: string) {
+  it.only("Queue, peek/lock, sessions", async () => {
+    const sessionConnections = new SessionConnections();
+    
+    const receiverClient = new ServiceBusReceiverClient(
+      {
+        connectionString: connectionString,
+        queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
+      },
+      "peekLock",
+      {
+        id: "my-session",
+        // the thinking is that users will (unlike queues or topics) open up
+        // lots of individual sessions, so keeping track of and sharing connections
+        // is a way to prevent a possible port/connection explosion.
+        connections: sessionConnections
+      }
+    );
+
+    closeables.push(receiverClient);
+
+    senderClient = new ServiceBusSenderClient(
+      connectionString,
+      EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
+    );
+
+    sendSampleMessage("Queue, peek/lock, sessions", "my-session");
+
+    // note that this method is now available - only shows up in auto-complete
+    // if you construct this object with a session.
+    await receiverClient.renewSessionLock();
+
+    const errors: string[] = [];
+    const receivedBodies: string[] = [];
+
+    receiverClient.streamMessages({
+      async processMessage(
+        message: Message,
+        context: UselessEmptyContextThatMaybeShouldBeRemoved
+      ): Promise<void> {
+        receivedBodies.push(message.body);
+      },
+      async processError(err: Error): Promise<void> {
+        errors.push(err.message);
+      }
+    });
+
+    await waitAndValidate("Queue, peek/lock, sessions",
+      receivedBodies,
+      errors,
+      receiverClient);
+  });
+
+  async function sendSampleMessage(body: string, sessionId?: string) {
     if (senderClient == null) {
       throw new Error("Can't send a sample message w/o a client");
     }
 
-    await senderClient.send({
+    const message: SendableMessageInfo = {
       body
-    });
+    };
+
+    if (sessionId) {
+      message.sessionId = sessionId;
+    }
+
+    await senderClient.send(message);
   }
 });
 
