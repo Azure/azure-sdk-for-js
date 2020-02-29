@@ -50,13 +50,51 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
  * A receiver client that does not handle sessions.
  */
 export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
-  streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+  /**
+   * Streams messages to message handlers.
+   * @param handler A handler that gets called for messages and errors.
+   * @param options Options for streamMessages.
+   */
+  streamMessages(handler: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+
+  /**
+   * Returns an iterator that can be used to receive messages from Service Bus.
+   * @param options Options for iterateMessages.
+   */
   iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
-  // TODO: need to solve the "return a context" compile error.
+  
+  /**
+   * Receives, at most, `maxMessages` worth of messages.
+   * @param maxMessages The maximum number of messages to accept.
+   * @param maxWaitTimeInSeconds The maximum time to wait, in seconds, for messages to arrive.
+   * @param options Options for receiveBatch.
+   */
   receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
+
+  /**
+   * Closes the client.
+   */
   close(): Promise<void>;
+
+  /**
+   * Methods related to service bus diagnostics.
+   */
   diagnostics: {
+    /**
+     * Peek within a topic. 
+     * NOTE: this method does not lock messages or increment delivery count 
+     * for messages.
+     * @param maxMessageCount The maximum number of messages to retrieve.
+     */
     peek(maxMessageCount?: number): Promise<Message[]>;
+
+    /**
+     * Peek within a topic, starting with a specific sequence number.
+     * NOTE: this method does not lock messages or increment delivery count 
+     * for messages.
+     * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
+     * @param maxMessageCount The maximum number of messages to retrieve.
+     */
     peekBySequenceNumber(
       fromSequenceNumber: Long,
       maxMessageCount?: number
@@ -101,8 +139,7 @@ export interface ServiceBusReceiverClient {
   new (
     queueAuth: QueueAuth,
     receiveMode: "peekLock"
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ):
   ClientTypeT<"peekLock", "queue", "nosessions">;
 
   /**
@@ -115,8 +152,7 @@ export interface ServiceBusReceiverClient {
   new (
     queueAuth: QueueAuth,
     receiveMode: "receiveAndDelete"
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ):
   ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
 
   /**
@@ -130,8 +166,7 @@ export interface ServiceBusReceiverClient {
     queueAuth: QueueAuth,
     receiveMode: "peekLock",
     session: Session
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ):
   ClientTypeT<"peekLock", "queue", "sessions">;
 
   /**
@@ -145,8 +180,7 @@ export interface ServiceBusReceiverClient {
     queueAuths: QueueAuth,
     receiveMode: "receiveAndDelete",
     session: Session
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ):
   ClientTypeT<"receiveAndDelete", "queue", "sessions">;
 
   /**
@@ -159,8 +193,7 @@ export interface ServiceBusReceiverClient {
   new (
     subscriptionAuth: SubscriptionAuth,
     receiveMode: "peekLock"
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ):
   ClientTypeT<"peekLock", "subscription", "nosessions">;
 
   /**
@@ -173,8 +206,7 @@ export interface ServiceBusReceiverClient {
   new (
     subscriptionAuth: SubscriptionAuth,
     receiveMode: "receiveAndDelete"
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ):
   ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
 
   /**
@@ -188,8 +220,7 @@ export interface ServiceBusReceiverClient {
     subscriptionAuth: SubscriptionAuth,
     receiveMode: "peekLock",
     session: Session
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ):
   ClientTypeT<"peekLock", "subscription", "sessions">;
 
   /**
@@ -203,8 +234,7 @@ export interface ServiceBusReceiverClient {
     subscriptionAuth: SubscriptionAuth,
     receiveMode: "receiveAndDelete",
     session: Session
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
+  ):
   ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
 }
 
