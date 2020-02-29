@@ -24,11 +24,20 @@ export async function receiveMessagesUsingPeekLock() {
   receiverClient.streamMessages({
     async processMessage(message: Message, context: ContextWithSettlementMethods): Promise<void> {
       log(`Message body: ${message.body}`);
+
+      // we don't _have_ to do this because the default behavior (because
+      // of autoComplete below) is to complete the message if we haven't thrown
+      // an error.
       await context.complete(message);
     },
     async processError(err: Error): Promise<void> {
       log(`Error thrown: ${err}`);
     }
+  }, {
+      autoComplete: true,  // default
+      maxConcurrentCalls: 1,   // default 
+      maxMessageAutoRenewLockDurationInSeconds: 300 // default
+        // NOTE: can also set to 0 to say "don't do auto lock renewal"
   });
 }
 
@@ -70,9 +79,7 @@ export async function iterateMessageFromSubscription() {
     "peekLock"
   );
 
-  // TODO: error handling? Does the iterate just terminate?
   for await (const { message, context } of receiverClient.iterateMessages()) {
-
     if (message == null) {
       // user has the option of handling "no messages arrived by the maximum wait time"
       console.log(`No message arrived within our max wait time`);

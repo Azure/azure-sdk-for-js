@@ -311,7 +311,7 @@ export class ReceiverClientImplementation {
       this._receiver.registerMessageHandler(onMessage, (err) => {
         // TODO: this isn't right - the receiver's onError  is not async and needs to be fixed.
         handlers.processError(err);
-      });
+      }, options);
     } else if (this._receiveMode === ReceiveMode.receiveAndDelete) {
       const actualHandlers = handlers as MessageHandlers<
         {}
@@ -325,7 +325,7 @@ export class ReceiverClientImplementation {
           // TODO: this isn't right - the receiver's onError  is not async and needs to be fixed.
           handlers.processError(err);
         }
-      );
+      , options);
     } else {
       throw new Error("Invalid receive mode");
     }

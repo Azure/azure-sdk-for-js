@@ -159,6 +159,5 @@ export function convertToInternalReceiveMode(
       return ReceiveMode.peekLock;
     case "receiveAndDelete":
       return ReceiveMode.receiveAndDelete;
-    // TODO: this is just a compile error if someone adds another string enum value, right?
   }
 }
