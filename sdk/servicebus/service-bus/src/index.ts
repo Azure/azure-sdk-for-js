@@ -49,13 +49,13 @@ export {
 export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
 
 export { ServiceBusSenderClient } from "./senderClient";
-  
+
 export {
   ServiceBusReceiverClient,
   NonSessionReceiver as NonSessionReceiverTrack2,
-  SessionReceiver as SessionReceiverTrack2, 
+  SessionReceiver as SessionReceiverTrack2,
   ClientTypeT
-} from "./track2/serviceBusReceiverClient";
+} from "./serviceBusReceiverClient";
 
 export {
   SessionConnections,
@@ -65,4 +65,4 @@ export {
   Session,
   QueueAuth,
   SubscriptionAuth
-} from "./track2/models";
+} from "./modelsTrack2";

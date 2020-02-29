@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ServiceBusMessage, ReceiveMode } from "./serviceBusMessage";
+import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
 import { ClientEntityContext } from "./clientEntityContext";
 import { generate_uuid } from "rhea-promise";
 import { ClientType } from "./client";
@@ -30,6 +30,10 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
   streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
   iterateMessages(): MessageIterator<ContextType<LockModeT>>;
   renewSessionLock(): Promise<Date>;
+  setState(state: any): Promise<void>;
+  getState(): Promise<any>;
+  sessionId: string | undefined;
+  sessionLockedUntilUtc: Date | undefined;
 }
 
 /**
@@ -52,6 +56,7 @@ export interface SubscriptionRuleManagement {
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void>;
+  readonly defaultRuleName: string;
 }
 
 // TODO: merge more? Or maybe this is okay...
@@ -222,6 +227,7 @@ export class ReceiverClientImplementation {
     }
 
     const { context, entityPath } = createConnectionContext(auth1, options);
+    this._entityPath = entityPath;
     this._receiveMode = convertToInternalReceiveMode(receiveMode2);
 
     const clientEntityContext = ClientEntityContext.create(
@@ -236,11 +242,23 @@ export class ReceiverClientImplementation {
       this._receiver = new InternalSessionReceiver(clientEntityContext, this._receiveMode, {
         sessionId: session.id
       });
-      this._sessionEnabled = true;
+      // this._sessionEnabled = true;
     } else {
       this._receiver = new InternalReceiver(clientEntityContext, this._receiveMode);
-      this._sessionEnabled = false;
+      // this._sessionEnabled = false;
     }
+  }
+
+  public get receiveMode(): ReceiveMode {
+    return this._receiveMode;
+  }
+
+  public get isClosed(): boolean {
+    return this._receiver.isClosed;
+  }
+
+  isReceivingMessages(): boolean {
+    return this._receiver.isReceivingMessages();
   }
 
   /**
@@ -335,19 +353,34 @@ export class ReceiverClientImplementation {
     }
   }
 
-  renewSessionLock(): Promise<Date> {
-    if (!this.isSessionReceiver(this._receiver)) {
-      throw new Error("Can't renew a session lock on a non-session based client");
-    }
-
-    return this._receiver.renewSessionLock();
+  /**
+   *
+   *
+   * @param {number} maxMessageCount
+   * @param {number} [maxWaitTimeInSeconds]
+   * @returns {(Message[] & ContextType<"receiveAndDelete" | "peekLock">)}
+   * @memberof ReceiverClientImplementation
+   */
+  async receiveBatch(
+    maxMessageCount: number,
+    maxWaitTimeInSeconds?: number
+  ): Promise<ServiceBusMessage[]> {
+    return this._receiver.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
   }
 
-  private isSessionReceiver(
-    receiver: InternalSessionReceiver | InternalReceiver
-  ): receiver is InternalSessionReceiver {
-    return this._sessionEnabled;
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+    return this._receiver.receiveDeferredMessage(sequenceNumber);
   }
+
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+    return this._receiver.receiveDeferredMessages(sequenceNumbers);
+  }
+
+  // private isSessionReceiver(
+  //   receiver: InternalSessionReceiver | InternalReceiver
+  // ): receiver is InternalSessionReceiver {
+  //   return this._sessionEnabled;
+  // }
 
   getRules(): Promise<RuleDescription[]> {
     throw new Error("Not yet implemented");
@@ -363,11 +396,114 @@ export class ReceiverClientImplementation {
     throw new Error("Not yet implemented");
   }
 
+  // ManagementClient methods # Begin
+  async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
+    if (this._receiver instanceof InternalSessionReceiver) {
+      return this._receiver.peek(maxMessageCount);
+    } else {
+      return this._receiver.peek(this._entityPath, maxMessageCount);
+    }
+  }
+
+  async peekBySequenceNumber(
+    fromSequenceNumber: Long,
+    maxMessageCount?: number
+  ): Promise<ReceivedMessageInfo[]> {
+    if (this._receiver instanceof InternalSessionReceiver) {
+      return this._receiver.peekBySequenceNumber(fromSequenceNumber, maxMessageCount);
+    } else {
+      return this._receiver.peekBySequenceNumber(
+        this._entityPath,
+        fromSequenceNumber,
+        maxMessageCount
+      );
+    }
+  }
+
+  // /**
+  //  * Lists the ids of the sessions on the ServiceBus Queue.
+  //  * @param maxNumberOfSessions Maximum number of sessions.
+  //  * @param lastUpdateTime Filter to include only sessions updated after a given time. Default
+  //  * value is 3 days before the current time.
+  //  */
+  // async listMessageSessions(
+  //   maxNumberOfSessions: number,
+  //   lastUpdatedTime?: Date
+  // ): Promise<string[]> {
+  // TODO: Parameter validation if required
+  // this.throwErrorIfClientOrConnectionClosed();
+  //   return this._context.managementClient!.listMessageSessions(
+  //     0,
+  //     maxNumberOfSessions,
+  //     lastUpdatedTime
+  //   );
+  // }
+
+  // ManagementClient methods # End
+
+  // Session methods # Begin
+  get sessionId(): string | undefined {
+    if (this._receiver instanceof InternalSessionReceiver) {
+      return this._receiver.sessionId;
+    } else {
+      throw new Error("Only available on sessionful Receiver");
+    }
+  }
+
+  get sessionLockedUntilUtc(): Date | undefined {
+    if (this._receiver instanceof InternalSessionReceiver) {
+      return this._receiver.sessionLockedUntilUtc;
+    } else {
+      throw new Error("Only available on sessionful Receiver");
+    }
+  }
+
+  async renewSessionLock(): Promise<Date> {
+    if (this._receiver instanceof InternalSessionReceiver) {
+      return this._receiver.renewSessionLock();
+    } else {
+      throw new Error("Only available on sessionful Receiver");
+    }
+  }
+
+  async setState(state: any): Promise<void> {
+    if (this._receiver instanceof InternalSessionReceiver) {
+      return this._receiver.setState(state);
+    } else {
+      throw new Error("Only available on sessionful Receiver");
+    }
+  }
+
+  async getState(): Promise<any> {
+    if (this._receiver instanceof InternalSessionReceiver) {
+      return this._receiver.getState();
+    } else {
+      throw new Error("Only available on sessionful Receiver");
+    }
+  }
+  // Session methods # End
+
   private _receiver: InternalSessionReceiver | InternalReceiver;
-  private _sessionEnabled: boolean;
+  // private _sessionEnabled: boolean;
   private _receiveMode: ReceiveMode;
+  public _entityPath: string;
+  /**
+   * @readonly
+   * @property The name of the default rule on the subscription.
+   */
+  readonly defaultRuleName: string = "$Default";
 }
 
+export class ReceiverClientImplementationForSessionMethods extends ReceiverClientImplementation {
+  constructor(
+    auth1: QueueAuth | SubscriptionAuth,
+    receiveMode2: "peekLock" | "receiveAndDelete",
+    sessionOrOptions3?: Session | ServiceBusClientOptions,
+    options4?: ServiceBusClientOptions
+  ) {
+    super(auth1, receiveMode2, sessionOrOptions3, options4);
+  }
+}
 /**
  * A client that can receive messages from Service Bus Queues or Service Bus Subscriptions.
  */
