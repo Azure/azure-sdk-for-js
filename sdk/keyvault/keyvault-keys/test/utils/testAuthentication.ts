@@ -1,8 +1,7 @@
 import { ClientSecretCredential } from "@azure/identity";
-import { getKeyvaultName } from "./utils.common";
+import { uniqueString } from "../../../keyvault-common/test-utils";
 import { KeyClient } from "../../src";
 import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 
 export async function authenticate(that: any): Promise<any> {
@@ -29,7 +28,11 @@ export async function authenticate(that: any): Promise<any> {
     env.AZURE_CLIENT_SECRET
   );
 
-  const keyVaultName = getKeyvaultName();
+  const keyVaultName = env.KEYVAULT_NAME;
+  if (!keyVaultName) {
+    throw new Error(`KEYVAULT_NAME environment variable not specified.`);
+  }
+
   const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
   const client = new KeyClient(keyVaultUrl, credential);
   const testClient = new TestClient(client);

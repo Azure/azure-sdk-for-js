@@ -2,7 +2,7 @@ import { delay as coreDelay } from "@azure/core-http";
 
 /**
  * A simple abstraction to retry, and exponentially de-escalate retrying, a
- * given async function until it is fulfileld.
+ * given async function until it is fulfilled.
  * @param {() => Promise<T>} target The async function you want to retry
  * @param {number} delay The delay between each retry, defaults to 1000
  * @param {number} timeout Maximum time we'll let this lapse before we quit retrying, defaults to Infinity

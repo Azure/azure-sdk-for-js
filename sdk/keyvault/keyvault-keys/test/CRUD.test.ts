@@ -4,12 +4,11 @@
 import * as assert from "assert";
 import { KeyClient, CreateEcKeyOptions, UpdateKeyPropertiesOptions, GetKeyOptions } from "../src";
 import { RestError } from "@azure/core-http";
-import { testPollerProperties } from "./utils/recorderUtils";
+import { testPollerProperties, assertThrowsAbortError } from "../../keyvault-common/test-utils";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
-import { assertThrowsAbortError } from "./utils/utils.common";
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
