@@ -3,6 +3,7 @@
 
 import { OperationOptions } from "@azure/core-http";
 import { QueryType, SearchMode, FacetResult, AutocompleteMode } from "./generated/data/models";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * Options for performing the count operation on the index.
@@ -83,6 +84,16 @@ export interface ListSearchResultsPageSettings {
    */
   nextPageParameters?: SearchRequest<string>;
 }
+
+/**
+ * An iterator for search results of a paticular query. Use .byPage()
+ * to view page-level information such as facet data.
+ */
+export type SearchIterator<Fields> = PagedAsyncIterableIterator<
+  SearchResult<Fields>,
+  SearchDocumentsResult<Fields>,
+  ListSearchResultsPageSettings
+>;
 
 // BEGIN manually modified generated interfaces
 //

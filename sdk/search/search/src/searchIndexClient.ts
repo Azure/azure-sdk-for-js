@@ -11,7 +11,6 @@ import {
   OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SearchIndexClient as GeneratedClient } from "./generated/data/searchIndexClient";
 import { SearchApiKeyCredential } from "./searchApiKeyCredential";
 import { SDK_VERSION } from "./constants";
@@ -32,6 +31,7 @@ import {
   AutocompleteOptions,
   SearchOptions,
   SearchDocumentsResult,
+  SearchIterator,
   ListSearchResultsPageSettings,
   SearchResult,
   SuggestOptions,
@@ -274,11 +274,7 @@ export class SearchIndexClient<T> {
    */
   public listSearchResults<Fields extends keyof T>(
     options: SearchOptions<Fields> = {}
-  ): PagedAsyncIterableIterator<
-    SearchResult<Pick<T, Fields>>,
-    SearchDocumentsResult<Pick<T, Fields>>,
-    ListSearchResultsPageSettings
-  > {
+  ): SearchIterator<Pick<T, Fields>> {
     const iter = this.listSearchResultsAll(options);
 
     return {

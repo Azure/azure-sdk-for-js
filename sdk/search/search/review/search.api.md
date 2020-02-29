@@ -144,7 +144,7 @@ export class SearchIndexClient<T> {
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     readonly indexName: string;
-    listSearchResults<Fields extends keyof T>(options?: SearchOptions<Fields>): PagedAsyncIterableIterator<SearchResult<Pick<T, Fields>>, SearchDocumentsResult<Pick<T, Fields>>, ListSearchResultsPageSettings>;
+    listSearchResults<Fields extends keyof T>(options?: SearchOptions<Fields>): SearchIterator<Pick<T, Fields>>;
     modifyIndex(batch: IndexAction[], options?: ModifyIndexOptions): Promise<IndexDocumentsResult>;
     suggest<Fields extends keyof T>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     updateDocuments(documents: T[], options?: UpdateDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -153,6 +153,9 @@ export class SearchIndexClient<T> {
 
 // @public
 export type SearchIndexClientOptions = PipelineOptions;
+
+// @public
+export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsResult<Fields>, ListSearchResultsPageSettings>;
 
 // @public
 export type SearchMode = 'any' | 'all';

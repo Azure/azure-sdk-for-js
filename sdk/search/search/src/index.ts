@@ -11,6 +11,7 @@ export {
   ListSearchResultsPageSettings,
   ModifyIndexOptions,
   SearchDocumentsResult,
+  SearchIterator,
   SearchOptions,
   SearchRequest,
   SearchResult,
