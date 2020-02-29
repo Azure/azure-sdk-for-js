@@ -95,7 +95,8 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-for await (const result of client.listSearchResults({ searchText: "wifi -luxury"})) {
+const iterator = client.listSearchResults({ searchText: "wifi -luxury"});
+for await (const result of iterator) {
   console.log(result);
 }
 ```
@@ -111,12 +112,50 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-for await (const result of client.listSearchResults({
+const iterator = client.listSearchResults({
   searchText: 'category:budget AND "recently renovated"^3',
   queryType: "full",
   searchMode: "all"
-})) {
+});
+for await (const result of iterator) {
   console.log(result);
+}
+```
+
+### Querying with TypeScript
+
+In TypeScript `SearchIndexClient` takes a generic parameter that is the model shape of your index documents. This allows you to perform strongly typed lookup of fields returned in results. TypeScript is also able to check for fields returned when specifying a `select` parameter.
+
+```ts
+import { SearchIndexClient, SearchApiKeyCredential } from "@azure/search";
+
+// An example schema for documents in the index
+interface Hotel {
+  HotelId: string;
+  HotelName: string;
+  Description: string;
+  ParkingIncluded: boolean;
+  LastRenovationDate: Date;
+  Rating: number;
+}
+
+const client = new SearchIndexClient<Hotel>(
+  "<endpoint>",
+  "<indexName>",
+  new SearchApiKeyCredential("<Admin Key>");
+);
+
+const iterator = client.listSearchResults({
+  searchText: "wifi -luxury",
+  // Only fields in Hotel can be added to this array.
+  // TS will complain if one is misspelled.
+  select: ["HotelId", "HotelName", "Rating"]
+});
+
+for await (const result of iterator) {
+  // result has HotelId, HotelName, and Rating.
+  // Trying to access result.Description would emit a TS error.
+  console.log(result.HotelName);
 }
 ```
 
