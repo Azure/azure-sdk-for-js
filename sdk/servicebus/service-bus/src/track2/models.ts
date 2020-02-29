@@ -5,9 +5,6 @@ import { ServiceBusMessage } from "../serviceBusMessage";
 import { TokenCredential } from "@azure/core-amqp";
 import { OperationOptions } from '@azure/core-auth';
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
 /**
  * An opaque class, used internally to manage AMQP connections for sessions.
  */
