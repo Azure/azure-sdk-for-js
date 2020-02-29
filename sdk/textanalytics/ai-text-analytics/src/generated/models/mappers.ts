@@ -282,7 +282,7 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
           className: "SentimentScorePerLabel"
         }
       },
-      offset: {
+      graphemeOffset: {
         required: true,
         serializedName: "offset",
         type: {
@@ -483,7 +483,7 @@ export const Entity: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      offset: {
+      graphemeOffset: {
         required: true,
         serializedName: "offset",
         type: {
@@ -615,7 +615,7 @@ export const Match: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      offset: {
+      graphemeOffset: {
         required: true,
         serializedName: "offset",
         type: {

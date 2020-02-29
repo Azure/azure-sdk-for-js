@@ -197,3 +197,14 @@ directive:
       $["x-ms-client-name"] = "dataSourceEntityId";
 ```
 
+### Rename Entity/Match offset -> graphemeOffset
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.offset
+    transform: >
+      $["x-ms-client-name"] = "graphemeOffset";
+      $.description = $.description.replace("Unicode characters", "Unicode graphemes");
+```
+

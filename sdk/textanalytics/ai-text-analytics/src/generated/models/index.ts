@@ -148,7 +148,7 @@ export interface SentenceSentiment {
   /**
    * The sentence offset from the start of the document.
    */
-  offset: number;
+  graphemeOffset: number;
   /**
    * The length of the sentence by Unicode standard.
    */
@@ -244,9 +244,9 @@ export interface Entity {
    */
   subCategory?: string;
   /**
-   * Start position (in Unicode characters) for the entity text.
+   * Start position (in Unicode graphemes) for the entity text.
    */
-  offset: number;
+  graphemeOffset: number;
   /**
    * Length (in Unicode characters) for the entity text.
    */
@@ -309,9 +309,9 @@ export interface Match {
    */
   text: string;
   /**
-   * Start position (in Unicode characters) for the entity match text.
+   * Start position (in Unicode graphemes) for the entity match text.
    */
-  offset: number;
+  graphemeOffset: number;
   /**
    * Length (in Unicode characters) for the entity match text.
    */
