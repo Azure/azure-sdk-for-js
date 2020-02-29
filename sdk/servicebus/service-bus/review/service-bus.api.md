@@ -116,7 +116,7 @@ export interface NonSessionReceiverTrack2<LockModeT extends "peekLock" | "receiv
     // (undocumented)
     iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
     // (undocumented)
-    receiveBatch(numMessages?: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
+    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
     // Warning: (ae-forgotten-export) The symbol "MessageHandlers" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ContextType" needs to be exported by the entry point index.d.ts
     //
@@ -385,7 +385,7 @@ export interface SessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAn
     // (undocumented)
     iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
     // (undocumented)
-    receiveBatch(numMessages?: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
+    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
     // (undocumented)
     renewSessionLock(): Promise<Date>;
     // (undocumented)
@@ -411,7 +411,7 @@ export type SqlParameter = {
 };
 
 // @public (undocumented)
-export interface StreamMessagesOptions extends OperationOptions {
+export interface StreamMessagesOptions extends OperationOptions, MessageHandlerOptions {
 }
 
 // @public
@@ -520,10 +520,6 @@ export interface TopicOptions {
     status?: EntityStatus;
     supportOrdering?: boolean;
     userMetadata?: string;
-}
-
-// @public
-export interface UselessEmptyContextThatMaybeShouldBeRemoved {
 }
 
 export { WebSocketImpl }
