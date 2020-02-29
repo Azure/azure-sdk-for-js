@@ -38,6 +38,18 @@
     "src/",
     "types/azure-search.d.ts"
   ],
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/data/searchIndexClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
