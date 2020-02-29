@@ -342,10 +342,6 @@ export class ReceiverClientImplementation {
     const messageIterator = this._receiver.getMessageIterator();
 
     if (this._receiveMode === ReceiveMode.peekLock) {
-      const actualMessageIterator = (messageIterator as any) as MessageIterator<
-        ContextType<"peekLock">
-      >;
-
       const f = async function*(
         originalMessageIterator: AsyncIterableIterator<ServiceBusMessage>
       ): AsyncIterableIterator<MessageAndContext<ContextType<"peekLock">>> {
@@ -354,9 +350,7 @@ export class ReceiverClientImplementation {
         }
       };
 
-      // actualMessageIterator.context = settlementContext;
       return f(messageIterator);
-      return actualMessageIterator;
     } else if (this._receiveMode === ReceiveMode.receiveAndDelete) {
       const f = async function*(
         originalMessageIterator: AsyncIterableIterator<ServiceBusMessage>
@@ -366,8 +360,6 @@ export class ReceiverClientImplementation {
         }
       };
 
-      // actualMessageIterator.context = {};
-      // return actualMessageIterator;
       return f(messageIterator);
     } else {
       throw new Error("Unknown receive mode");
