@@ -225,11 +225,11 @@ export const TextDocumentStatistics: coreHttp.CompositeMapper = {
   }
 };
 
-export const SentimentScorePerLabel: coreHttp.CompositeMapper = {
-  serializedName: "SentimentScorePerLabel",
+export const SentimentConfidenceScorePerLabel: coreHttp.CompositeMapper = {
+  serializedName: "SentimentConfidenceScorePerLabel",
   type: {
     name: "Composite",
-    className: "SentimentScorePerLabel",
+    className: "SentimentConfidenceScorePerLabel",
     modelProperties: {
       positive: {
         required: true,
@@ -274,12 +274,12 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
           ]
         }
       },
-      sentimentScores: {
+      confidenceScores: {
         required: true,
         serializedName: "sentenceScores",
         type: {
           name: "Composite",
-          className: "SentimentScorePerLabel"
+          className: "SentimentConfidenceScorePerLabel"
         }
       },
       graphemeOffset: {
@@ -349,7 +349,7 @@ export const DocumentSentiment: coreHttp.CompositeMapper = {
         serializedName: "documentScores",
         type: {
           name: "Composite",
-          className: "SentimentScorePerLabel"
+          className: "SentimentConfidenceScorePerLabel"
         }
       },
       sentenceSentiments: {

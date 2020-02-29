@@ -134,33 +134,14 @@ directive:
       $.subtype["x-ms-client-name"] = "subCategory";
 ```
 
-### Rename sentenceScores -> sentimentScores
+### Rename sentenceScores -> confidenceScores
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.definitions.SentenceSentiment.properties.sentenceScores
     transform: >
-      $["x-ms-client-name"] = "sentimentScores";
-```
-
-### Rename SentimentConfidenceScorePerLabel -> SentimentScorePerLabel 
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions
-    transform: >
-      if (!$.SentimentScorePerLabel) {
-          $.SentimentScorePerLabel = $.SentimentConfidenceScorePerLabel;
-          delete $.SentimentConfidenceScorePerLabel;
-      }
-  - from: swagger-document
-    where: $.definitions..properties[*]
-    transform: >
-      if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
-          $["$ref"] = "#/definitions/SentimentScorePerLabel";
-      }
+      $["x-ms-client-name"] = "confidenceScores";
 ```
 
 ### Rename {Document,Sentence}SentimentValue -> Label 
