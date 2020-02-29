@@ -14,9 +14,6 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "browser": {
-    "./dist/index.js": "./dist-browser/index.js"
-  },
   "types": "./types/ai-text-analytics.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics",
   "repository": {
@@ -119,7 +116,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-coverage": "^0.1.5",
+    "karma-remap-istanbul": "^0.6.0",
     "mocha": "^6.2.2",
     "mocha-junit-reporter": "^1.18.0",
     "mocha-multi": "^1.1.3",

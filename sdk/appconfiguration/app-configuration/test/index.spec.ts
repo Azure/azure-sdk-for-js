@@ -501,7 +501,7 @@ describe("AppConfigurationClient", () => {
     it("label wildcards", async () => {
       // query with a direct label match
       let byLabelIterator = client.listConfigurationSettings({
-        labelFilter: "*" + uniqueLabel.substring(1)
+        labelFilter: uniqueLabel.substring(0, uniqueLabel.length - 1) + "*"
       });
       const byLabelSettings = await toSortedArray(byLabelIterator);
 
@@ -549,7 +549,10 @@ describe("AppConfigurationClient", () => {
 
     it("key wildcards", async () => {
       // query with a key wildcard
-      let byKeyIterator = client.listConfigurationSettings({ keyFilter: `*istConfigSettingA-${now}` });
+      const keyFilter = `listConfigSettingA-${now}`;
+      let byKeyIterator = client.listConfigurationSettings({
+        keyFilter: keyFilter.substring(0, keyFilter.length - 1) + '*'
+      });
       const byKeySettings = await toSortedArray(byKeyIterator);
 
       assertEqualSettings(
@@ -705,7 +708,7 @@ describe("AppConfigurationClient", () => {
 
     it("label wildcards", async () => {
       const revisionsWithLabelIterator = await client.listRevisions({
-        labelFilter: "*" + labelA.substring(1)
+        labelFilter: labelA.substring(0, labelA.length - 1) + "*"
       });
       const revisions = await toSortedArray(revisionsWithLabelIterator);
 
@@ -735,7 +738,7 @@ describe("AppConfigurationClient", () => {
 
     it("key wildcards", async () => {
       const revisionsWithKeyIterator = await client.listRevisions({
-        keyFilter: "*" + key.substring(1)
+        keyFilter: key.substring(0, key.length - 1) + "*"
       });
       const revisions = await toSortedArray(revisionsWithKeyIterator);
 

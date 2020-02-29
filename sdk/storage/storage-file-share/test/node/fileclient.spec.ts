@@ -25,7 +25,7 @@ describe("FileClient Node.js only", () => {
   let fileName: string;
   let fileClient: ShareFileClient;
   const content = "Hello World";
-  const timeoutForLargeFileUploadingTest = 10 * 60 * 1000;
+  const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
   let recorder: Recorder;
 

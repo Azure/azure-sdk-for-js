@@ -32,7 +32,7 @@ describe("BlobClient", () => {
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -44,7 +44,7 @@ describe("BlobClient", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     recorder.stop();
   });
@@ -230,7 +230,7 @@ describe("BlobClient", () => {
   });
 
   it("undelete", async () => {
-    const properties = await blobServiceClient.getProperties();
+    let properties = await blobServiceClient.getProperties();
     if (!properties.deleteRetentionPolicy!.enabled) {
       await blobServiceClient.setProperties({
         deleteRetentionPolicy: {
@@ -238,34 +238,78 @@ describe("BlobClient", () => {
           enabled: true
         }
       });
-      await delay(15 * 1000);
+      // await delay(15 * 1000);
+      properties = await blobServiceClient.getProperties();
+      assert.ok(properties.deleteRetentionPolicy!.enabled, "deleteRetentionPolicy should be enabled.");
     }
 
     await blobClient.delete();
 
-    const result = (
-      await containerClient
-        .listBlobsFlat({
-          includeDeleted: true
-        })
-        .byPage()
-        .next()
-    ).value;
+    const iter = containerClient
+      .listBlobsFlat({
+        includeDeleted: true
+      })
+      .byPage({ maxPageSize: 1 });
 
-    assert.ok(result.segment.blobItems![0].deleted);
+    let res = await iter.next();
+    let result = res.value;
+    while (!res.done) {
+      if (!!result && !!result.segment && !!result.segment.blobItems &&
+        result.segment.blobItems.length > 0) {
+        break;
+      }
+      res = await iter.next();
+      result = res.value;
+    }
+
+    assert.ok(result, "Expect valid iterator value");
+    assert.ok(result.segment, "Expect valid segment response");
+
+    assert.ok(
+      result.segment.blobItems,
+      "Expect non empty result from list blobs({ includeDeleted: true }) with page size of 1."
+    );
+
+    assert.equal(
+      result.segment.blobItems.length,
+      1,
+      `Expect result.segment.blobItems.length === 1 but got ${result.segment.blobItems.length}.`
+    );
+
+    assert.ok(
+      result.segment.blobItems![0],
+      "Expect a valid element in result array from list blobs({ includeDeleted: true }) with page size of 1."
+    );
+
+    assert.ok(result.segment.blobItems![0].deleted, "Expect that the blob is marked for deletion");
 
     await blobClient.undelete();
 
-    const result2 = (
-      await containerClient
-        .listBlobsFlat({
-          includeDeleted: true
-        })
-        .byPage()
-        .next()
-    ).value;
+    const iter2 = containerClient
+      .listBlobsFlat({
+        includeDeleted: true
+      })
+      .byPage();
 
-    assert.ok(!result2.segment.blobItems![0].deleted);
+    res = await iter2.next();
+    result = res.value;
+    while (!res.done) {
+      if (!!result && !!result.segment && !!result.segment.blobItems &&
+        result.segment.blobItems.length > 0) {
+        break;
+      }
+      res = await iter2.next();
+      result = res.value;
+    }
+
+    assert.ok(result, "Expect valid iterator value");
+    assert.ok(result.segment, "Expect valid segment response");
+
+    assert.ok(result.segment.blobItems, "Expect non empty result from list blobs().");
+    assert.ok(
+      !result.segment.blobItems![0].deleted,
+      "Expect that the blob is NOT marked for deletion"
+    );
   });
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {

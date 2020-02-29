@@ -12,4 +12,3 @@ jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/storage-file-datalake"
-      TimeoutInMinutes: 60
