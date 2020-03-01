@@ -4,6 +4,7 @@ omitted_paths:
   - sdk/*/arm-*
   - sdk/cognitiveservices/*
   - sdk/identity/identity/test/manual/*
+  - sdk/identity/identity/test/manual-integration/*
   - sdk/keyvault/*/test/**
   - sdk/**/samples/*
   - sdk/**/swagger/*
