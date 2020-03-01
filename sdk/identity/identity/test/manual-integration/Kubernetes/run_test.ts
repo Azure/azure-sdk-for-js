@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import * as yargs from "yargs";
 import * as path from "path";
 import { execSync } from 'child_process';

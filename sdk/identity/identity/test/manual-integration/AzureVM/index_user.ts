@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ManagedIdentityCredential } from "@azure/identity";
 
