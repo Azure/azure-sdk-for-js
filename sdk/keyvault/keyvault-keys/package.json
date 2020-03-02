@@ -31,6 +31,7 @@
     "dist/",
     "dist-esm/",
     "src/",
+    "keyvault-common/",
     "tsconfig.json"
   ],
   "browser": {
@@ -58,7 +59,9 @@
     "lint:fix": "eslint package.json tsconfig.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o keyvault-keys-lintReport.html || exit 0",
     "lint:terminal": "eslint package.json tsconfig.json src test samples --ext .ts",
+    "prepack": "bash ../prepack.sh",
     "pack": "npm pack 2>&1",
+    "postpack": "bash ../postpack.sh",
     "prebuild": "npm run clean",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
