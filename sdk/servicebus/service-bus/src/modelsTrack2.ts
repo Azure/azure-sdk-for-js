@@ -31,12 +31,12 @@ export interface Session {
    * A single instance should be created for your application and passed to each
    * ReceiverClient you create that processes a session.
    */
-  connections: SessionConnections;
+  connections?: SessionConnections;
 }
 
 export function isSession(possibleSession: Session | any): possibleSession is Session {
   return (
-    (possibleSession as Session).connections &&
+    ((possibleSession as Session).connections as boolean) &&
     typeof (possibleSession as Session).connections === "object"
   );
 }

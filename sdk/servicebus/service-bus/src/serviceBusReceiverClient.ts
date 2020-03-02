@@ -47,7 +47,7 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
   sessionId: string | undefined;
   sessionLockedUntilUtc: Date | undefined;
   close(): Promise<void>;
-
+  getDeadLetterPath(): string;
   diagnostics: {
     peek(maxMessageCount?: number): Promise<Message[]>;
     peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
@@ -70,6 +70,7 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
     options?: ReceiveBatchOptions
   ): Promise<{ messages: Message[]; context: ContextWithSettlement | {} }>;
   close(): Promise<void>;
+  getDeadLetterPath(): string;
   diagnostics: {
     peek(maxMessageCount?: number): Promise<Message[]>;
     peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
@@ -589,6 +590,13 @@ export class ReceiverClientImplementation {
     await ConnectionContext.close(this._context);
   }
 
+  /**
+   * Returns the corresponding dead letter queue path for the client entity - meant for both queue and subscription.
+   */
+  public getDeadLetterPath(): string {
+    return `${this._entityPath}/$DeadLetterQueue`;
+  }
+
   public diagnostics: {
     peek(maxMessageCount?: number): Promise<Message[]>;
     peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
@@ -606,16 +614,6 @@ export class ReceiverClientImplementation {
   private _context: ConnectionContext;
 }
 
-export class ReceiverClientImplementationForSessionMethods extends ReceiverClientImplementation {
-  constructor(
-    auth1: QueueAuth | SubscriptionAuth,
-    receiveMode2: "peekLock" | "receiveAndDelete",
-    sessionOrOptions3?: Session | ServiceBusClientOptions,
-    options4?: ServiceBusClientOptions
-  ) {
-    super(auth1, receiveMode2, sessionOrOptions3, options4);
-  }
-}
 /**
  * A client that can receive messages from Service Bus Queues or Service Bus Subscriptions.
  */
