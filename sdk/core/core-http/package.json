@@ -28,11 +28,11 @@
   ],
   "main": "./dist/coreHttp.node.js",
   "module": "./es/src/coreHttp.js",
-  "types": "./types/src/coreHttp.d.ts",
+  "types": "./types/latest/src/coreHttp.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "./types3.1/src/coreHttp.d.ts"
+        "./types/3.1/*"
       ]
     }
   },
@@ -44,8 +44,6 @@
     "es/src/**/*.js.map",
     "types/src/**/*.d.ts",
     "types/src/**/*.d.ts.map",
-    "types3.1/src/**/*.d.ts",
-    "types3.1/src/**/*.d.ts.map",
     "src/**/*.ts",
     "LICENSE",
     "README.md"
@@ -73,7 +71,7 @@
     "build:scripts": "tsc -p ./.scripts/",
     "build:test": "run-s build build:test-browser",
     "build:tsc": "tsc -p tsconfig.es.json",
-    "build:types": "downlevel-dts types/ types3.1/",
+    "build:types": "downlevel-dts types/latest/ types/3.1/",
     "build:rollup": "rollup -c 2>&1",
     "build:test-browser": "rollup -c rollup.test.config.js 2>&1",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
