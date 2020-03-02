@@ -3,7 +3,7 @@
 
 import { ServiceBusMessage } from "./serviceBusMessage";
 import { TokenCredential } from "@azure/core-amqp";
-import { OperationOptions } from '@azure/core-auth';
+import { OperationOptions } from "@azure/core-auth";
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
@@ -156,17 +156,11 @@ export type SubscriptionAuth =
       subscriptionName: string;
     };
 
+export interface ReceiveBatchOptions extends OperationOptions {}
 
-export interface ReceiveBatchOptions extends OperationOptions {
+export interface IterateMessagesOptions extends OperationOptions {}
 
-}
-
-export interface IterateMessagesOptions extends OperationOptions {
-
-}
-
-export interface StreamMessagesOptions extends OperationOptions ,MessageHandlerOptions {
-}
+export interface StreamMessagesOptions extends OperationOptions, MessageHandlerOptions {}
 
 /**
  * Describes the options passed to `registerMessageHandler` method when receiving messages from a
