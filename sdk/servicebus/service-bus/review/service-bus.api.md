@@ -38,13 +38,13 @@ export type ClientTypeT<ReceiveModeT extends "peekLock" | "receiveAndDelete", En
 // @public
 export interface ContextWithSettlement {
     // (undocumented)
-    abandon(m: Message): Promise<void>;
+    abandon(m: ReceivedMessage): Promise<void>;
     // (undocumented)
-    complete(m: Message): Promise<void>;
+    complete(m: ReceivedMessage): Promise<void>;
     // (undocumented)
-    deadLetter(m: Message): Promise<void>;
+    deadLetter(m: ReceivedMessage): Promise<void>;
     // (undocumented)
-    defer(m: Message): Promise<void>;
+    defer(m: ReceivedMessage): Promise<void>;
 }
 
 // @public
@@ -81,9 +81,6 @@ export { HttpOperationResponse }
 export interface IterateMessagesOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export type Message = Omit<ServiceBusMessage, "complete" | "abandon" | "defer" | "deadletter" | "prototype">;
-
 // @public
 export type MessageCountDetails = {
     activeMessageCount: number;
@@ -106,12 +103,12 @@ export { MessagingError }
 export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
     close(): Promise<void>;
     diagnostics: {
-        peek(maxMessageCount?: number): Promise<Message[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<Message[]>;
+        peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
     // Warning: (ae-forgotten-export) The symbol "MessageIterator" needs to be exported by the entry point index.d.ts
     iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
-    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
+    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<ReceivedMessage[]>;
     // Warning: (ae-forgotten-export) The symbol "MessageHandlers" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ContextType" needs to be exported by the entry point index.d.ts
     streamMessages(handler: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
@@ -194,6 +191,9 @@ export interface QueueOptions {
 export interface ReceiveBatchOptions extends OperationOptions {
 }
 
+// @public (undocumented)
+export type ReceivedMessage = Omit<ServiceBusMessage, "complete" | "abandon" | "defer" | "deadletter" | "prototype">;
+
 // @public
 export interface ReceivedMessageInfo extends SendableMessageInfo {
     readonly _amqpMessage: AmqpMessage;
@@ -267,7 +267,7 @@ export interface ServiceBusClientOptions {
 // Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
 //
 // @public
-export class ServiceBusMessage implements ReceivedMessage {
+export class ServiceBusMessage implements ReceivedMessage_2 {
     abandon(propertiesToModify?: {
         [key: string]: any;
     }): Promise<void>;
@@ -364,11 +364,11 @@ export interface SessionMessageHandlerOptions {
 export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
     close(): Promise<void>;
     diagnostics: {
-        peek(maxMessageCount?: number): Promise<Message[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<Message[]>;
+        peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
     iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
-    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
+    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<ReceivedMessage[]>;
     renewSessionLock(): Promise<Date>;
     streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
 }

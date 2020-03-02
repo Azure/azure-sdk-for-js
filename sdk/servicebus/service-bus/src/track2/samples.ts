@@ -1,6 +1,6 @@
 import {
   SessionConnections,
-  Message,
+  ReceivedMessage,
   ContextWithSettlement as ContextWithSettlementMethods,
 } from "./models";
 import { env } from "process";
@@ -22,7 +22,7 @@ export async function receiveMessagesUsingPeekLock() {
   );
 
   receiverClient.streamMessages({
-    async processMessage(message: Message, context: ContextWithSettlementMethods): Promise<void> {
+    async processMessage(message: ReceivedMessage, context: ContextWithSettlementMethods): Promise<void> {
       log(`Message body: ${message.body}`);
 
       // we don't _have_ to do this because the default behavior (because
@@ -57,7 +57,7 @@ export async function receiveMessagesUsingPeekLockSubscription() {
   // receiverClient.getRules();
 
   receiverClient.streamMessages({
-    async processMessage(message: Message, context: ContextWithSettlementMethods): Promise<void> {
+    async processMessage(message: ReceivedMessage, context: ContextWithSettlementMethods): Promise<void> {
       log(`Message body: ${message.body}`);
       await context.complete(message);
     },
@@ -120,7 +120,7 @@ export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
 
   receiverClient.streamMessages({
     async processMessage(
-      message: Message,
+      message: ReceivedMessage,
       context: {}
     ): Promise<void>  {
       // process message here - it's basically a ServiceBusMessage minus any settlement related methods

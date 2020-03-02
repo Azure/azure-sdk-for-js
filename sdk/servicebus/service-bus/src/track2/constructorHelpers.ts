@@ -42,17 +42,8 @@ export function isReceiveMode(
  * Attempts to generically figure out what the entity path is from the grab bag of string parameters
  * we get in our constructors.
  *
- * @param connectionString The connection string - could be entity specific (topic, queue) or for the service bus itself.
- * @param optionalQueueOrSubscriptionOrTopicName An optional entity name.
- * There are 3 different options from here:
- * - They passed a service bus connection string in `connectionString`: this parameter will be a topic or queue
- * - They passed an entity specific connection string (topic/queue): this parameter will be undefined _or_ a subscription
- * @param optionalSubscriptionName An optional subscription name.
- * You get here if the user is targeting a subscription but passed:
- * 1. A service bus only connection string for parameter 1
- * 2. A topic name for parameter 2
- * 3. And now a subscription for parameter 3
- *
+ * @param auth Authentication information using connection strings or a TokenCredential.
+ * @param options Options for the service bus client itself.
  * @internal
  * @ignore
  */

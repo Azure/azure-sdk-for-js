@@ -16,7 +16,7 @@ import {
   SubscriptionAuth,
   isSession,
   MessageAndContext,
-  Message,
+  ReceivedMessage,
   ReceiveBatchOptions,
   IterateMessagesOptions,
   StreamMessagesOptions
@@ -56,7 +56,7 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<Message[]>;
+  ): Promise<ReceivedMessage[]>;
   /**
    * Renews the lock on the session.
    */
@@ -73,7 +73,7 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
      * Peek within a queue or subscription.
      * @param maxMessageCount The maximum number of messages to retrieve.
      */
-    peek(maxMessageCount?: number): Promise<Message[]>;
+    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
     /**
      * Peek within a queue or subscription, starting with a specific sequence number.
      * NOTE: this method does not respect message locks or increment delivery count
@@ -81,7 +81,7 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
      * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
      * @param maxMessageCount The maximum number of messages to retrieve.
      */
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
   };
 }
 
@@ -115,7 +115,7 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<Message[]>;
+  ): Promise<ReceivedMessage[]>;
 
   /**
    * Closes the client.
@@ -132,7 +132,7 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
      * for messages.
      * @param maxMessageCount The maximum number of messages to retrieve.
      */
-    peek(maxMessageCount?: number): Promise<Message[]>;
+    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
 
     /**
      * Peek within a queue or subscription, starting with a specific sequence number.
@@ -141,7 +141,7 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
      * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
      * @param maxMessageCount The maximum number of messages to retrieve.
      */
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
   };
 }
 
@@ -319,15 +319,15 @@ export class ReceiverClientImplementation {
       this._receiver = receiver;
 
       this.diagnostics = {
-        async peek(maxMessageCount?: number): Promise<Message[]> {
-          return (await receiver.peek(maxMessageCount)).map((m) => m as Message);
+        async peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
+          return (await receiver.peek(maxMessageCount)).map((m) => m as ReceivedMessage);
         },
         async peekBySequenceNumber(
           fromSequenceNumber: Long,
           maxMessageCount?: number
-        ): Promise<Message[]> {
+        ): Promise<ReceivedMessage[]> {
           return (await receiver.peekBySequenceNumber(fromSequenceNumber, maxMessageCount)).map(
-            (m) => m as Message
+            (m) => m as ReceivedMessage
           );
         }
       };
@@ -337,16 +337,16 @@ export class ReceiverClientImplementation {
       this._receiver = receiver;
 
       this.diagnostics = {
-        async peek(maxMessageCount?: number): Promise<Message[]> {
-          return (await receiver.peek(entityPath, maxMessageCount)).map((m) => m as Message);
+        async peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
+          return (await receiver.peek(entityPath, maxMessageCount)).map((m) => m as ReceivedMessage);
         },
         async peekBySequenceNumber(
           fromSequenceNumber: Long,
           maxMessageCount?: number
-        ): Promise<Message[]> {
+        ): Promise<ReceivedMessage[]> {
           return (
             await receiver.peekBySequenceNumber(entityPath, fromSequenceNumber, maxMessageCount)
-          ).map((m) => m as Message);
+          ).map((m) => m as ReceivedMessage);
         }
       };
     }
@@ -457,7 +457,7 @@ export class ReceiverClientImplementation {
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<Message[]> {
+  ): Promise<ReceivedMessage[]> {
     // TODO: use the options (it contains things like AbortSignal)
     const messages = await this._receiver.receiveMessages(maxMessages, maxWaitTimeInSeconds);
 
@@ -497,8 +497,8 @@ export class ReceiverClientImplementation {
   }
 
   public diagnostics: {
-    peek(maxMessageCount?: number): Promise<Message[]>;
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
+    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
   };
 
   private _receiver: InternalSessionReceiver | InternalReceiver;

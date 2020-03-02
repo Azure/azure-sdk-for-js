@@ -58,7 +58,7 @@ export {
 
 export {
   SessionConnections,
-  Message,
+  ReceivedMessage,
   ContextWithSettlement,
   Session,
   QueueAuth,
@@ -66,5 +66,5 @@ export {
   IterateMessagesOptions,
   ReceiveBatchOptions,
   StreamMessagesOptions,
-  MessageHandlerOptions
+  MessageHandlerOptions,
 } from "./track2/models"; 

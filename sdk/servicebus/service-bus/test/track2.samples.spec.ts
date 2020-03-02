@@ -3,7 +3,7 @@
 
 import {
   SessionConnections,
-  Message,
+  ReceivedMessage,
   ContextWithSettlement as ContextWithSettlementMethods,
 } from "../src/track2/models";
 import { ServiceBusReceiverClient } from "../src/track2/serviceBusReceiverClient";
@@ -63,7 +63,7 @@ describe("Samples scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     receiverClient.streamMessages({
-      async processMessage(message: Message, context: ContextWithSettlementMethods): Promise<void> {
+      async processMessage(message: ReceivedMessage, context: ContextWithSettlementMethods): Promise<void> {
         await context.complete(message);
         receivedBodies.push(message.body);
       },
@@ -182,7 +182,7 @@ describe("Samples scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     receiverClient.streamMessages({
-      async processMessage(message: Message, context: {}): Promise<void> {
+      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
         receivedBodies.push(message.body);
       },
       async processError(err: Error): Promise<void> {
@@ -318,7 +318,7 @@ describe("Samples scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     receiverClient.streamMessages({
-      async processMessage(message: Message, context: ContextWithSettlementMethods): Promise<void> {
+      async processMessage(message: ReceivedMessage, context: ContextWithSettlementMethods): Promise<void> {
         await context.complete(message);
         receivedBodies.push(message.body);
       },
@@ -359,7 +359,7 @@ describe("Samples scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     receiverClient.streamMessages({
-      async processMessage(message: Message, context: {}): Promise<void> {
+      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
         receivedBodies.push(message.body);
       },
       async processError(err: Error): Promise<void> {
@@ -505,7 +505,7 @@ describe("Samples scenarios for track 2", () => {
 
     receiverClient.streamMessages({
       async processMessage(
-        message: Message,
+        message: ReceivedMessage,
         context: {}
       ): Promise<void> {
         receivedBodies.push(message.body);
@@ -557,7 +557,7 @@ describe("Samples scenarios for track 2", () => {
 
     receiverClient.streamMessages({
       async processMessage(
-        message: Message,
+        message: ReceivedMessage,
         context: {}
       ): Promise<void> {
         receivedBodies.push(message.body);
@@ -591,8 +591,8 @@ describe("Samples scenarios for track 2", () => {
 });
 
 interface Diagnostics {
-  peek(maxMessageCount?: number): Promise<Message[]>;
-  peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
+  peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
+  peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
 }
 
 async function waitAndValidate(

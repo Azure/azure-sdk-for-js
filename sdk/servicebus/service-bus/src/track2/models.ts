@@ -39,7 +39,7 @@ export function isSession(possibleSession: Session | any) : possibleSession is S
 // on ServiceBusMessage. There's no reason to advertise that it's actually
 // a concrete class (or is there?)
 // the "action" methods here are on the context object instead.
-export type Message = Omit<
+export type ReceivedMessage = Omit<
   ServiceBusMessage,
   | "complete"
   | "abandon"
@@ -55,17 +55,17 @@ export type Message = Omit<
  * mode.
  */
 export interface ContextWithSettlement {
-  complete(m: Message): Promise<void>;
-  abandon(m: Message): Promise<void>;
-  defer(m: Message): Promise<void>;
-  deadLetter(m: Message): Promise<void>;
+  complete(m: ReceivedMessage): Promise<void>;
+  abandon(m: ReceivedMessage): Promise<void>;
+  defer(m: ReceivedMessage): Promise<void>;
+  deadLetter(m: ReceivedMessage): Promise<void>;
 }
 
 /**
  * The general message handler interface (used for streamMessages).
  */
 export interface MessageHandlers<ContextT> {
-  processMessage(message: Message, context: ContextT): Promise<void>;
+  processMessage(message: ReceivedMessage, context: ContextT): Promise<void>;
   processError(err: Error): Promise<void>;
 }
 
@@ -77,7 +77,7 @@ export interface Closeable {
 }
 
 export interface MessageAndContext<ContextT> {
-  message: Message;
+  message: ReceivedMessage;
   context: ContextT;
 }
 
