@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { retry as realRetry } from "./utils/retry";
-
-function isPlaybackMode(): boolean {
-  return process.env.TEST_MODE === "playback";
-}
+import { retry as realRetry } from "./retry";
+import { isPlaybackMode } from "@azure/test-utils-recorder";
 
 export async function retry<T>(
   target: () => Promise<T>,

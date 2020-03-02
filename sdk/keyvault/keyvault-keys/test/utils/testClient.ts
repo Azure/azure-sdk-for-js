@@ -1,4 +1,4 @@
-import { retry, testPollerProperties } from "../../../keyvault-common/test-utils";
+import { retry, testPollerProperties } from "../../keyvault-common/test-utils";
 import { KeyClient } from "../../src";
 
 export default class TestClient {

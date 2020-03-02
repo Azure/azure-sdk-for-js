@@ -13,7 +13,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:13 GMT",
+    "date": "Mon, 02 Mar 2020 18:56:39 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -22,10 +22,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=13.66.212.194;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "4de14907-5915-40d9-9e05-1adbd4bd9805",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "99f52d77-05d0-4c65-9b00-bfe20ea50ffb",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -40,15 +40,15 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:14 GMT",
+    "date": "Mon, 02 Mar 2020 18:56:39 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - EUS ProdSlices",
-    "x-ms-request-id": "04d1f506-eb43-403b-be7d-92b8aff90900"
+    "x-ms-ests-server": "2.1.10104.13 - SCUS ProdSlices",
+    "x-ms-request-id": "7a1df81d-dbc5-4f77-8e39-78589ac20f00"
    }
   },
   {
@@ -59,12 +59,12 @@
    },
    "requestBody": "{\"kty\":\"RSA\"}",
    "status": 200,
-   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/0ec5c32c42af4e11979161ac123e2ab4\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"k0ix8z_Vt3hKc3BxOeO-Wgz2bZuKozhdEhIW4Mp9bZ1WikizK11ifJHW8RHzm0LqD9vhm6GqXouplOxbzlK5JyCP_rL2aFPjL131VIsAsPTD2n8zwjO5q-g5si5YRw7ZSVz4nbxzt5XdCLuqUiSXQw816ZfFWBt6sNKVE94b-EQVzIjvXA1bz3aAZBMFmq_oocxGkWnMLbyBRvOIkbueib5JIHq-CzcQtFP5uR-B6iCZ4PojZ-UZndxZscsRoWomSXycgzHIPbM_saneV4ZFUldvg6QQQvDRpOT8W7fzUuq7vMGXo_5qbDWEsixeG15kfkltBbqifCUHm6mKAJPjgw\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1580502194,\"updated\":1580502194,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/8576a6213bf743f0b0fbc8c243a3f26f\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"krjcnPrdEHtympyFEI0EMBZYMS_-0scgm4X2ZVzR_BDZy07SyGY5Q54ZwyNu_SDZUhwosvzVADprRPfVrFZQmNTaPAyDeVedF4QAajp2bzS8YXhXoRpyLLgBWquerjHwzWO0wce85Be-2OGnnGD_rY7XYInUZLFyEMkQvudMDe5WF3_RXQR2K9VZIQ-jfmEgs3b6XjSnXTU5xwiCGeYE2cGRrpNalSDONjnN3oNQMsiEZUApiWekY8jOFpiSXhhpzWsnazxuUx2y3DSYsAn17aN-xEzcv3Xcrxm5pJLgG0KK_PpveNyjy4TA9LS158tpqTN0N9Cx0JEL0JFeSTnI3w\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1583175400,\"updated\":1583175400,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "693",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:14 GMT",
+    "date": "Mon, 02 Mar 2020 18:56:40 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -72,10 +72,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=13.66.212.194;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "2d00d365-8ecb-4a7f-854b-d7aeb439b7a0",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "6e6c15bb-7ed9-4d39-8252-5fe28ec2e5b7",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -83,5 +83,6 @@
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
- }
+ },
+ "hash": "45a9ec973b60523169c131b119f6a23b"
 }

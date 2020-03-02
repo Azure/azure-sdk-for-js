@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import { KeyClient } from "../src";
-import { testPollerProperties, retry, assertThrowsAbortError } from "../../keyvault-common/test-utils";
+import { testPollerProperties, retry, assertThrowsAbortError } from "../keyvault-common/test-utils";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";

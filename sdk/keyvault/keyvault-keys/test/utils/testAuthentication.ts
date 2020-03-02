@@ -1,5 +1,5 @@
 import { ClientSecretCredential } from "@azure/identity";
-import { uniqueString } from "../../../keyvault-common/test-utils";
+import { uniqueString } from "../../keyvault-common/test-utils";
 import { KeyClient } from "../../src";
 import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import TestClient from "./testClient";
