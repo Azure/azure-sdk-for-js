@@ -37,13 +37,9 @@ export type ClientTypeT<ReceiveModeT extends "peekLock" | "receiveAndDelete", En
 
 // @public
 export interface ContextWithSettlement {
-    // (undocumented)
     abandon(m: ReceivedMessage): Promise<void>;
-    // (undocumented)
     complete(m: ReceivedMessage): Promise<void>;
-    // (undocumented)
     deadLetter(m: ReceivedMessage): Promise<void>;
-    // (undocumented)
     defer(m: ReceivedMessage): Promise<void>;
 }
 
@@ -264,10 +260,8 @@ export interface ServiceBusClientOptions {
     webSocketOptions?: WebSocketOptions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "OldReceivedMessage" needs to be exported by the entry point index.d.ts
-//
 // @public
-export class ServiceBusMessage implements OldReceivedMessage {
+export class ServiceBusMessage implements ReceivedMessageInfo {
     abandon(propertiesToModify?: {
         [key: string]: any;
     }): Promise<void>;

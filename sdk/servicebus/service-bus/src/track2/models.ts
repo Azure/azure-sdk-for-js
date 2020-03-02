@@ -3,7 +3,7 @@
 
 import { ServiceBusMessage } from "../serviceBusMessage";
 import { TokenCredential } from "@azure/core-amqp";
-import { OperationOptions } from '@azure/core-auth';
+import { OperationOptions } from "@azure/core-auth";
 
 /**
  * An opaque class, used internally to manage AMQP connections for sessions.
@@ -31,8 +31,11 @@ export interface Session {
   connections: SessionConnections;
 }
 
-export function isSession(possibleSession: Session | any) : possibleSession is Session {
-  return (possibleSession as Session).connections && typeof (possibleSession as Session).connections === "object";
+export function isSession(possibleSession: Session | any): possibleSession is Session {
+  return (
+    (possibleSession as Session).connections &&
+    typeof (possibleSession as Session).connections === "object"
+  );
 }
 
 // TODO: make this an actual interface that's not just in terms of what's
@@ -55,9 +58,38 @@ export type ReceivedMessage = Omit<
  * mode.
  */
 export interface ContextWithSettlement {
+  /**
+   * Removes the message from Service Bus.
+   * @returns Promise<void>.
+   */
   complete(m: ReceivedMessage): Promise<void>;
+
+  /**
+   * The lock held on the message by the receiver is let go, making the message available again in
+   * Service Bus for another receive operation.
+   * @param propertiesToModify The properties of the message to modify while abandoning the message.
+   *
+   * @return Promise<void>.
+   */
   abandon(m: ReceivedMessage): Promise<void>;
+
+  /**
+   * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
+   * receive it message again in the future using the `receiveDeferredMessage` method.
+   * @param propertiesToModify The properties of the message to modify while deferring the message
+   *
+   * @returns Promise<void>
+   */
   defer(m: ReceivedMessage): Promise<void>;
+
+  /**
+   * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
+   * QueueClient/SubscriptionClient using the path for the deadletter sub-queue.
+   * @param options The DeadLetter options that can be provided while
+   * rejecting the message.
+   *
+   * @returns Promise<void>
+   */
   deadLetter(m: ReceivedMessage): Promise<void>;
 }
 
@@ -150,17 +182,11 @@ export type SubscriptionAuth =
       subscriptionName: string;
     };
 
+export interface ReceiveBatchOptions extends OperationOptions {}
 
-export interface ReceiveBatchOptions extends OperationOptions {
+export interface IterateMessagesOptions extends OperationOptions {}
 
-}
-
-export interface IterateMessagesOptions extends OperationOptions {
-
-}
-
-export interface StreamMessagesOptions extends OperationOptions ,MessageHandlerOptions {
-}
+export interface StreamMessagesOptions extends OperationOptions, MessageHandlerOptions {}
 
 /**
  * Describes the options passed to `registerMessageHandler` method when receiving messages from a
