@@ -264,10 +264,10 @@ export interface ServiceBusClientOptions {
     webSocketOptions?: WebSocketOptions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "OldReceivedMessage" needs to be exported by the entry point index.d.ts
 //
 // @public
-export class ServiceBusMessage implements ReceivedMessage_2 {
+export class ServiceBusMessage implements OldReceivedMessage {
     abandon(propertiesToModify?: {
         [key: string]: any;
     }): Promise<void>;

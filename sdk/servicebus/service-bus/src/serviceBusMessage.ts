@@ -570,8 +570,14 @@ export function fromAmqpMessage(
 /**
  * Describes the message received from Service Bus.
  * @interface ReceivedMessage
+ * 
+ * TODO: collapse this hierarchy after get some more code merged in
+ * so we don't have to deal with massive conflicts.
+ * 
+ * @internal
+ * @ignore
  */
-interface ReceivedMessage extends ReceivedMessageInfo {
+interface OldReceivedMessage extends ReceivedMessageInfo {
   /**
    * Removes the message from Service Bus.
    * @returns Promise<void>.
@@ -611,7 +617,7 @@ interface ReceivedMessage extends ReceivedMessageInfo {
  * Describes the message received from Service Bus.
  * @class ServiceBusMessage
  */
-export class ServiceBusMessage implements ReceivedMessage {
+export class ServiceBusMessage implements OldReceivedMessage {
   /**
    * @property The message body that needs to be sent or is received.
    */
