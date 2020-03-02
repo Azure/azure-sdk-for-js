@@ -1,12 +1,17 @@
 import {
   SessionConnections,
   Message,
-  ContextWithSettlement as ContextWithSettlementMethods,
-  UselessEmptyContextThatMaybeShouldBeRemoved
+  ContextWithSettlement as ContextWithSettlementMethods
 } from "./modelsTrack2";
 import { env } from "process";
 import * as dotenv from "dotenv";
-import { ServiceBusReceiverClient } from './serviceBusReceiverClient';
+import {
+  ServiceBusReceiverClient,
+  ClientTypeT,
+  NonSessionReceiver,
+  SubscriptionRuleManagement
+} from "./serviceBusReceiverClient";
+import { ServiceBusSenderClient } from "./senderClient";
 
 dotenv.config({
   // path: "..\\..\\..\\..\\..\\..\\..\\..\\dev\\temp\\.env"
@@ -59,8 +64,34 @@ export async function receiveMessagesUsingPeekLockSubscription() {
     async processError(err: Error): Promise<void> {
       log(`Error thrown: ${err}`);
     }
-  });  
+  });
 }
+
+export function getSampleReceiverClient1(): NonSessionReceiver<"peekLock"> {
+  return new ServiceBusReceiverClient({ queueConnectionString: "conn-string" }, "peekLock");
+}
+
+export function getSampleReceiverClient3(): ClientTypeT<
+  "peekLock" | "receiveAndDelete",
+  "queue" | "subscription",
+  "sessions" | "nosessions"
+> {
+  return new ServiceBusReceiverClient(
+    { topicConnectionString: "conn-string", subscriptionName: "name" },
+    "peekLock"
+  );
+}
+
+const sc: ServiceBusSenderClient = new ServiceBusSenderClient("conn-string");
+sc.close();
+
+// const rc = getSampleReceiverClient3();
+const rc: NonSessionReceiver<"peekLock"> &
+  SubscriptionRuleManagement = new ServiceBusReceiverClient(
+  { topicConnectionString: "conn-string", subscriptionName: "name" },
+  "peekLock"
+);
+rc.defaultRuleName;
 
 export async function iterateMessageFromSubscription() {
   const log = (...args: any[]) => console.log(`iterateMessages using peekLock:`, ...args);
@@ -76,7 +107,6 @@ export async function iterateMessageFromSubscription() {
 
   // TODO: error handling? Does the iterate just terminate?
   for await (const { message, context } of receiverClient.iterateMessages()) {
-
     if (message == null) {
       // user has the option of handling "no messages arrived by the maximum wait time"
       console.log(`No message arrived within our max wait time`);
@@ -108,7 +138,7 @@ export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
       // lots of individual sessions, so keeping track of and sharing connections
       // is a way to prevent a possible port/connection explosion.
       connections: sessionConnections
-    }    
+    }
   );
 
   // note that this method is now available - only shows up in auto-complete
@@ -116,10 +146,7 @@ export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
   await receiverClient.renewSessionLock();
 
   receiverClient.streamMessages({
-    async processMessage(
-      message: Message,
-      context: UselessEmptyContextThatMaybeShouldBeRemoved
-    ): Promise<void>  {
+    async processMessage(message: Message): Promise<void> {
       // process message here - it's basically a ServiceBusMessage minus any settlement related methods
       log(message.body);
     },

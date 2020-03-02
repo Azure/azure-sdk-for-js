@@ -15,7 +15,6 @@ export {
   WebSocketOptions
 } from "@azure/core-amqp";
 
-export { MessageHandlerOptions } from "./core/streamingReceiver";
 export { OnError, OnMessage } from "./core/messageReceiver";
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
@@ -60,9 +59,12 @@ export {
 export {
   SessionConnections,
   Message,
-  UselessEmptyContextThatMaybeShouldBeRemoved,
   ContextWithSettlement,
   Session,
   QueueAuth,
-  SubscriptionAuth
+  SubscriptionAuth,
+  IterateMessagesOptions,
+  ReceiveBatchOptions,
+  StreamMessagesOptions,
+  MessageHandlerOptions
 } from "./modelsTrack2";

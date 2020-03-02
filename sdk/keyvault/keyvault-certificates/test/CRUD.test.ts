@@ -66,7 +66,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work - in browsers only
+  // On playback mode, the tests happen too fast for the timeout to work - in browsers
   it("can create a certificate with requestOptions timeout", async function() {
     recorder.skip("browser", "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -272,37 +272,68 @@ describe("Certificates client - create, read, update and delete", () => {
     );
   });
 
-  it("can get a deleted certificate", async function() {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.beginCreateCertificate(
-      certificateName,
-      basicCertificatePolicy,
-      testPollerProperties
-    );
-    const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
-    const deletedCertificate = await deletePoller.pollUntilDone();
-    assert.equal(
-      deletedCertificate.properties.name,
-      certificateName,
-      "Unexpected certificate name in result from getCertificate()."
-    );
-    await testClient.purgeCertificate(certificateName);
-  });
+  describe("can get a deleted certificate", () => {
+    it("using beginDeleteCertificate's poller", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+      await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
 
-  it("can get a deleted certificate (Non Existing)", async function() {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    let error;
-    try {
-      await client.beginDeleteCertificate(certificateName, testPollerProperties);
-      throw Error("Expecting an error but not catching one.");
-    } catch (e) {
-      error = e;
-    }
-    assert.equal(
-      error.message,
-      `Certificate not found: ${certificateName}`,
-      "Unexpected certificate name in result from getKey()."
-    );
+      const deletePoller = await client.beginDeleteCertificate(
+        certificateName,
+        testPollerProperties
+      );
+      let deletedCertificate = await deletePoller.pollUntilDone();
+      assert.equal(
+        deletedCertificate.name,
+        certificateName,
+        "Unexpected certificate name in result from pollUntilDone()."
+      );
+
+      await testClient.purgeCertificate(certificateName);
+    });
+
+    it("using getDeletedCertificate", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+      await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
+
+      const deletePoller = await client.beginDeleteCertificate(
+        certificateName,
+        testPollerProperties
+      );
+      await deletePoller.pollUntilDone();
+
+      const deletedCertificate = await client.getDeletedCertificate(certificateName);
+      assert.equal(
+        deletedCertificate.name,
+        certificateName,
+        "Unexpected certificate name in result from getDeletedCertificate()."
+      );
+
+      await testClient.purgeCertificate(certificateName);
+    });
+
+    it("can not get a certificate that never existed", async function() {
+      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+      let error;
+      try {
+        await client.beginDeleteCertificate(certificateName, testPollerProperties);
+        throw Error("Expecting an error but not catching one.");
+      } catch (e) {
+        error = e;
+      }
+      assert.equal(
+        error.message,
+        `Certificate not found: ${certificateName}`,
+        "Unexpected certificate name in result from getKey()."
+      );
+    });
   });
 
   it("can create, read, and delete a certificate issuer", async function() {

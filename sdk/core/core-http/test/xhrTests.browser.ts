@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { parseHeaders, XhrHttpClient } from "../lib/xhrHttpClient";
-import { WebResource } from "../lib/webResource";
+import { parseHeaders, XhrHttpClient } from "../src/xhrHttpClient";
+import { WebResource } from "../src/webResource";
 
 describe("XhrHttpClient", function() {
   it("parses headers", function() {

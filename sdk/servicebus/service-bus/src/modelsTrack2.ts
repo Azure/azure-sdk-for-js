@@ -3,6 +3,7 @@
 
 import { ServiceBusMessage } from "./serviceBusMessage";
 import { TokenCredential } from "@azure/core-amqp";
+import { OperationOptions } from '@azure/core-auth';
 
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
@@ -67,14 +68,6 @@ export interface ContextWithSettlement {
 }
 
 /**
- * A vestigial context that I can probably eliminate as there's nothing interesting
- * in there _yet_ when you're not doing PeekLock.
- *
- * TODO: probably eliminate this.
- */
-export interface UselessEmptyContextThatMaybeShouldBeRemoved {}
-
-/**
  * The general message handler interface (used for streamMessages).
  */
 export interface MessageHandlers<ContextT> {
@@ -105,7 +98,7 @@ export type MessageIterator<ContextT> = AsyncIterable<MessageAndContext<ContextT
 export type ContextType<LockModeT> = LockModeT extends "peekLock"
   ? ContextWithSettlement
   : LockModeT extends "receiveAndDelete"
-  ? UselessEmptyContextThatMaybeShouldBeRemoved
+  ? {}
   : never;
 
 /**
@@ -162,3 +155,45 @@ export type SubscriptionAuth =
       topicName: string;
       subscriptionName: string;
     };
+
+
+export interface ReceiveBatchOptions extends OperationOptions {
+
+}
+
+export interface IterateMessagesOptions extends OperationOptions {
+
+}
+
+export interface StreamMessagesOptions extends OperationOptions ,MessageHandlerOptions {
+}
+
+/**
+ * Describes the options passed to `registerMessageHandler` method when receiving messages from a
+ * Queue/Subscription which does not have sessions enabled.
+ */
+export interface MessageHandlerOptions {
+  /**
+   * @property Indicates whether the `complete()` method on the message should automatically be
+   * called by the sdk after the user provided onMessage handler has been executed.
+   * Calling `complete()` on a message removes it from the Queue/Subscription.
+   * - **Default**: `true`.
+   */
+  autoComplete?: boolean;
+  /**
+   * @property The maximum duration in seconds until which the lock on the message will be renewed
+   * by the sdk automatically. This auto renewal stops once the message is settled or once the user
+   * provided onMessage handler completes ite execution.
+   *
+   * - **Default**: `300` seconds (5 minutes).
+   * - **To disable autolock renewal**, set this to `0`.
+   */
+  maxMessageAutoRenewLockDurationInSeconds?: number;
+  /**
+   * @property The maximum number of concurrent calls that the sdk can make to the user's message
+   * handler. Once this limit has been reached, further messages will not be received until atleast
+   * one of the calls to the user's message handler has completed.
+   * - **Default**: `1`.
+   */
+  maxConcurrentCalls?: number;
+}

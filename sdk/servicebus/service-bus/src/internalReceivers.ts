@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import Long from "long";
 import * as log from "./log";
-import { StreamingReceiver, MessageHandlerOptions } from "./core/streamingReceiver";
+import { StreamingReceiver } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
@@ -24,6 +24,7 @@ import {
   throwErrorIfClientOrConnectionClosed
 } from "./util/errors";
 import { RuleDescription, CorrelationFilter } from ".";
+import { MessageHandlerOptions } from './track2/models';
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.

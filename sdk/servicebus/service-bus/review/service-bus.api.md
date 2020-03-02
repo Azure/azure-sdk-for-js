@@ -11,6 +11,7 @@ import { Delivery } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
+import { OperationOptions } from '@azure/core-auth';
 import { RetryOptions } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
@@ -77,6 +78,10 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 export { HttpOperationResponse }
 
 // @public (undocumented)
+export interface IterateMessagesOptions extends OperationOptions {
+}
+
+// @public (undocumented)
 export type Message = Omit<ServiceBusMessage, "complete" | "abandon" | "defer" | "deadletter" | "prototype">;
 
 // @public
@@ -99,15 +104,24 @@ export { MessagingError }
 
 // @public
 export interface NonSessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAndDelete"> {
+    // (undocumented)
+    close(): Promise<void>;
+    // (undocumented)
+    diagnostics: {
+        peek(maxMessageCount?: number): Promise<Message[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<Message[]>;
+    };
     // Warning: (ae-forgotten-export) The symbol "MessageIterator" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    iterateMessages(): MessageIterator<ContextType<LockModeT>>;
+    iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
+    // (undocumented)
+    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
     // Warning: (ae-forgotten-export) The symbol "MessageHandlers" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ContextType" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
+    streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
 }
 
 // @public
@@ -181,6 +195,10 @@ export interface QueueOptions {
     requiresSession?: boolean;
     status?: EntityStatus;
     userMetadata?: string;
+}
+
+// @public (undocumented)
+export interface ReceiveBatchOptions extends OperationOptions {
 }
 
 // @public
@@ -358,11 +376,20 @@ export interface SessionReceiverOptions {
 // @public
 export interface SessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAndDelete"> {
     // (undocumented)
-    iterateMessages(): MessageIterator<ContextType<LockModeT>>;
+    close(): Promise<void>;
+    // (undocumented)
+    diagnostics: {
+        peek(maxMessageCount?: number): Promise<Message[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<Message[]>;
+    };
+    // (undocumented)
+    iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
+    // (undocumented)
+    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
     // (undocumented)
     renewSessionLock(): Promise<Date>;
     // (undocumented)
-    streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>): void;
+    streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
 }
 
 // @public
@@ -382,6 +409,10 @@ export type SqlParameter = {
     value: string | number;
     type: string;
 };
+
+// @public (undocumented)
+export interface StreamMessagesOptions extends OperationOptions, MessageHandlerOptions {
+}
 
 // @public
 export type SubscriptionAuth = {
@@ -491,14 +522,14 @@ export interface TopicOptions {
     userMetadata?: string;
 }
 
-// @public
-export interface UselessEmptyContextThatMaybeShouldBeRemoved {
-}
-
 export { WebSocketImpl }
 
 export { WebSocketOptions }
 
+
+// Warnings were encountered during analysis:
+//
+// src/track2/serviceBusReceiverClient.ts:60:5 - (ae-forgotten-export) The symbol "Long" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
