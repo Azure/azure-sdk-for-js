@@ -4,8 +4,7 @@
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {
-  },
+  "browser": {},
   "types": "./typings/src/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -64,6 +63,15 @@
     "tslib": "^1.10.0",
     "md5": "^2.2.1"
   },
+  "bundledDependencies": [
+    "@azure/core-http",
+    "@opentelemetry/types",
+    "fs-extra",
+    "nise",
+    "nock",
+    "tslib",
+    "md5"
+  ],
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-multi-entry": "^3.0.0",
