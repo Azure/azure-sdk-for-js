@@ -40,7 +40,7 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<Message[]>;
+  ): Promise<{ messages: Message[]; context: ContextWithSettlement | {} }>;
   renewSessionLock(): Promise<Date>;
   setState(state: any): Promise<void>;
   getState(): Promise<any>;
@@ -68,7 +68,7 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<Message[]>;
+  ): Promise<{ messages: Message[]; context: ContextWithSettlement | {} }>;
   close(): Promise<void>;
   diagnostics: {
     peek(maxMessageCount?: number): Promise<Message[]>;
@@ -103,11 +103,11 @@ export type ClientTypeT<
   ? SessionReceiver<ReceiveModeT>
   : SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement;
 
-export type ReceiverClientTypeForUser = ClientTypeT<
-  "peekLock" | "receiveAndDelete",
-  "queue" | "subscription",
-  "sessions" | "nosessions"
->;
+export type ReceiverClientTypeForUser =
+  | NonSessionReceiver<"peekLock" | "receiveAndDelete">
+  | (NonSessionReceiver<"peekLock" | "receiveAndDelete"> & SubscriptionRuleManagement)
+  | SessionReceiver<"peekLock" | "receiveAndDelete">
+  | (SessionReceiver<"peekLock" | "receiveAndDelete"> & SubscriptionRuleManagement);
 
 export interface ServiceBusReceiverClient {
   /**
@@ -444,19 +444,28 @@ export class ReceiverClientImplementation {
   async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     return this._receiver.receiveDeferredMessages(sequenceNumbers);
   }
+
   // TODO: should probably be milliseconds
   async receiveBatch(
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<Message[]> {
+  ): Promise<{ messages: Message[]; context: ContextWithSettlement | {} }> {
     // TODO: use the options (it contains things like AbortSignal)
     const messages = await this._receiver.receiveMessages(maxMessages, maxWaitTimeInSeconds);
 
     if (this._receiveMode === ReceiveMode.peekLock) {
-      throw new Error("TODO: PeekLock and receiveBatch not yet implemented (context not returned)");
+      return {
+        messages,
+        context: settlementContext
+      };
+      // throw new Error("TODO: PeekLock and receiveBatch not yet implemented (context not returned)");
+      // return messages;
     } else if (this._receiveMode === ReceiveMode.receiveAndDelete) {
-      return messages;
+      return {
+        messages,
+        context: {}
+      };
     } else {
       throw new Error("Unhandled receive mode");
     }
