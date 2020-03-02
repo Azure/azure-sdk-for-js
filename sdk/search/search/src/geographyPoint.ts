@@ -30,7 +30,7 @@ export default class GeographyPoint {
   /**
    * Used to serialize to a GeoJSON Point.
    */
-  public toJSON() {
+  public toJSON(): object {
     return {
       type: "Point",
       coordinates: [this.latitude, this.longitude],

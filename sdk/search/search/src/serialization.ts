@@ -9,7 +9,7 @@ const WorldGeodeticSystem1984 = "EPSG:4326"; // See https://epsg.io/4326
 
 export function serialize<OutputT>(obj: unknown): OutputT {
   return walk(obj, (value) => {
-    let result = serializeSpecialNumbers(value);
+    const result = serializeSpecialNumbers(value);
     return result;
   });
 }
@@ -31,7 +31,7 @@ function walk(start: unknown, mapper: (val: any) => any): any {
   ];
 
   while (queue.length) {
-    let current = queue.shift()!;
+    const current = queue.shift()!;
 
     if (typeof current.value === "object" && current.value !== null) {
       if (seenMarker.has(current.value)) {
@@ -41,7 +41,7 @@ function walk(start: unknown, mapper: (val: any) => any): any {
       }
     }
 
-    let mapped = mapper(current.value);
+    const mapped = mapper(current.value);
     if (current?.parent && current.key) {
       current.parent[current.key] = mapped;
     }

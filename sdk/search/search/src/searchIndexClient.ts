@@ -97,6 +97,7 @@ export class SearchIndexClient<T> {
   constructor(
     endpoint: string,
     indexName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     credential: SearchApiKeyCredential,
     options: SearchIndexClientOptions = {}
   ) {

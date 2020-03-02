@@ -5,7 +5,7 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "types/azure-search.d.ts",
+  "types": "types/search.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -21,8 +21,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
-    "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f html -o search-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o template-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -36,7 +36,7 @@
     "dist/",
     "dist-esm/src/",
     "src/",
-    "types/azure-search.d.ts"
+    "types/search.d.ts"
   ],
   "//metadata": {
     "constantPaths": [
@@ -52,18 +52,18 @@
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
-    "azure",
+    "Azure",
     "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/search/search",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/",
   "sideEffects": false,
   "dependencies": {
     "@azure/core-http": "^1.0.0",
@@ -74,6 +74,7 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",

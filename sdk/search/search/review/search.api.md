@@ -59,16 +59,7 @@ export class GeographyPoint {
     constructor(latitude: number, longitude: number);
     latitude: number;
     longitude: number;
-    toJSON(): {
-        type: string;
-        coordinates: number[];
-        crs: {
-            type: string;
-            properties: {
-                name: string;
-            };
-        };
-    };
+    toJSON(): object;
 }
 
 // @public

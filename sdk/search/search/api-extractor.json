@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/azure-search.d.ts"
+    "publicTrimmedFilePath": "./types/search.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
