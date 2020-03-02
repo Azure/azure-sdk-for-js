@@ -289,7 +289,7 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      length: {
+      graphemeLength: {
         required: true,
         serializedName: "length",
         type: {
@@ -490,7 +490,7 @@ export const Entity: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      length: {
+      graphemeLength: {
         required: true,
         serializedName: "length",
         type: {
@@ -622,7 +622,7 @@ export const Match: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      length: {
+      graphemeLength: {
         required: true,
         serializedName: "length",
         type: {

@@ -152,7 +152,7 @@ export interface SentenceSentiment {
   /**
    * The length of the sentence by Unicode standard.
    */
-  length: number;
+  graphemeLength: number;
   /**
    * The warnings generated for the sentence.
    */
@@ -248,9 +248,9 @@ export interface Entity {
    */
   graphemeOffset: number;
   /**
-   * Length (in Unicode characters) for the entity text.
+   * Length (in Unicode graphemes) for the entity text.
    */
-  length: number;
+  graphemeLength: number;
   /**
    * Confidence score between 0 and 1 of the extracted entity.
    */
@@ -313,9 +313,9 @@ export interface Match {
    */
   graphemeOffset: number;
   /**
-   * Length (in Unicode characters) for the entity match text.
+   * Length (in Unicode graphemes) for the entity match text.
    */
-  length: number;
+  graphemeLength: number;
 }
 
 /**

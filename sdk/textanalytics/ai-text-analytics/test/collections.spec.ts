@@ -204,7 +204,7 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
               text: "Microsoft",
               category: "Organization",
               graphemeOffset: 10,
-              length: 9,
+              graphemeLength: 9,
               score: 0.9989
             }
           ]
@@ -217,7 +217,7 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
               category: "DateTime",
               subCategory: "DateRange",
               graphemeOffset: 34,
-              length: 9,
+              graphemeLength: 9,
               score: 0.8
             }
           ]
@@ -267,7 +267,7 @@ describe("RecognizePiiEntitiesResultCollection", () => {
               text: "(555) 555-5555",
               category: "US Phone Number",
               graphemeOffset: 10,
-              length: 9,
+              graphemeLength: 9,
               score: 0.9989
             }
           ]
@@ -280,7 +280,7 @@ describe("RecognizePiiEntitiesResultCollection", () => {
               category: "US Address",
               subCategory: "",
               graphemeOffset: 34,
-              length: 9,
+              graphemeLength: 9,
               score: 0.8
             }
           ]
@@ -332,7 +332,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
                 {
                   text: "Seattle",
                   graphemeOffset: 26,
-                  length: 7,
+                  graphemeLength: 7,
                   score: 0.15046201222847677
                 }
               ],
@@ -352,7 +352,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
                 {
                   text: "Microsoft",
                   graphemeOffset: 10,
-                  length: 9,
+                  graphemeLength: 9,
                   score: 0.1869365971673207
                 }
               ],

@@ -78,8 +78,8 @@ export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixe
 // @public
 export interface Entity {
     category: string;
+    graphemeLength: number;
     graphemeOffset: number;
-    length: number;
     score: number;
     subCategory?: string;
     text: string;
@@ -126,8 +126,8 @@ export interface LinkedEntity {
 
 // @public
 export interface Match {
+    graphemeLength: number;
     graphemeOffset: number;
-    length: number;
     score: number;
     text: string;
 }
@@ -199,8 +199,8 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
 // @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScorePerLabel;
+    graphemeLength: number;
     graphemeOffset: number;
-    length: number;
     sentiment: SentenceSentimentLabel;
     warnings?: string[];
 }

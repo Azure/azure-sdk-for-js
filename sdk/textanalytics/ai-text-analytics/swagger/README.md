@@ -187,5 +187,10 @@ directive:
     transform: >
       $["x-ms-client-name"] = "graphemeOffset";
       $.description = $.description.replace("Unicode characters", "Unicode graphemes");
+  - from: swagger-document
+    where: $.definitions..properties.length
+    transform: >
+      $["x-ms-client-name"] = "graphemeLength";
+      $.description = $.description.replace("Unicode characters", "Unicode graphemes");
 ```
 
