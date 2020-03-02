@@ -6,10 +6,9 @@ import {
   Message,
   ContextWithSettlement as ContextWithSettlementMethods,
 } from "../src/track2/models";
-import { env } from "process";
 import { ServiceBusReceiverClient } from "../src/track2/serviceBusReceiverClient";
 import { ServiceBusSenderClient, delay, SendableMessageInfo } from "../src";
-import { EnvVarNames } from "./utils/envVarUtils";
+import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { EntityNames } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -19,7 +18,7 @@ const assert = chai.assert;
 describe("Samples scenarios for track 2", () => {
   let senderClient: ServiceBusSenderClient | undefined;
   let closeables: { close(): Promise<void> }[];
-  const connectionString = env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]!;
+  const connectionString = getEnvVars()[EnvVarNames.SERVICEBUS_CONNECTION_STRING]!;
 
   before(() => {
     assert.ok(
