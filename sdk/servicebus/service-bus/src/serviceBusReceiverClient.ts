@@ -19,7 +19,8 @@ import {
   IterateMessagesOptions,
   StreamMessagesOptions,
   ReceiveBatchOptions,
-  Message
+  Message,
+  isQueueAuth
 } from "./modelsTrack2";
 import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
 import { RuleDescription, CorrelationFilter } from "./core/managementClient";
@@ -48,6 +49,8 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
   sessionLockedUntilUtc: Date | undefined;
   close(): Promise<void>;
   getDeadLetterPath(): string;
+  entityType: "queue" | "subscription";
+  entityPath: string;
   diagnostics: {
     peek(maxMessageCount?: number): Promise<Message[]>;
     peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
@@ -71,6 +74,8 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
   ): Promise<{ messages: Message[]; context: ContextWithSettlement | {} }>;
   close(): Promise<void>;
   getDeadLetterPath(): string;
+  entityType: "queue" | "subscription";
+  entityPath: string;
   diagnostics: {
     peek(maxMessageCount?: number): Promise<Message[]>;
     peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
@@ -258,9 +263,9 @@ export class ReceiverClientImplementation {
     } else {
       options = sessionOrOptions3 || {};
     }
-
+    this.entityType = isQueueAuth(auth1) ? "queue" : "subscription";
     const { context, entityPath } = createConnectionContext(auth1, options);
-    this._entityPath = entityPath;
+    this.entityPath = entityPath;
     this._context = context;
     this._receiveMode = convertToInternalReceiveMode(receiveMode2);
 
@@ -478,12 +483,6 @@ export class ReceiverClientImplementation {
   //   return this._sessionEnabled;
   // }
 
-  // private isSessionReceiver(
-  //   receiver: InternalSessionReceiver | InternalReceiver
-  // ): receiver is InternalSessionReceiver {
-  //   return this._sessionEnabled;
-  // }
-
   getRules(): Promise<RuleDescription[]> {
     throw new Error("Not yet implemented");
   }
@@ -503,7 +502,7 @@ export class ReceiverClientImplementation {
     if (this._receiver instanceof InternalSessionReceiver) {
       return this._receiver.peek(maxMessageCount);
     } else {
-      return this._receiver.peek(this._entityPath, maxMessageCount);
+      return this._receiver.peek(this.entityPath, maxMessageCount);
     }
   }
 
@@ -515,7 +514,7 @@ export class ReceiverClientImplementation {
       return this._receiver.peekBySequenceNumber(fromSequenceNumber, maxMessageCount);
     } else {
       return this._receiver.peekBySequenceNumber(
-        this._entityPath,
+        this.entityPath,
         fromSequenceNumber,
         maxMessageCount
       );
@@ -594,7 +593,7 @@ export class ReceiverClientImplementation {
    * Returns the corresponding dead letter queue path for the client entity - meant for both queue and subscription.
    */
   public getDeadLetterPath(): string {
-    return `${this._entityPath}/$DeadLetterQueue`;
+    return `${this.entityPath}/$DeadLetterQueue`;
   }
 
   public diagnostics: {
@@ -605,13 +604,14 @@ export class ReceiverClientImplementation {
   private _receiver: InternalSessionReceiver | InternalReceiver;
   // private _sessionEnabled: boolean;
   private _receiveMode: ReceiveMode;
-  public _entityPath: string;
+  public entityPath: string;
   /**
    * @readonly
    * @property The name of the default rule on the subscription.
    */
   readonly defaultRuleName: string = "$Default";
   private _context: ConnectionContext;
+  public entityType: "queue" | "subscription";
 }
 
 /**
