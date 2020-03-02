@@ -9,3 +9,5 @@
  */
 
 export * from "./query";
+export * from "./get";
+export * from "./post";
