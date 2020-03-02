@@ -42,8 +42,8 @@
     "dom-shim.d.ts",
     "es/src/**/*.js",
     "es/src/**/*.js.map",
-    "types/src/**/*.d.ts",
-    "types/src/**/*.d.ts.map",
+    "types/*/src/**/*.d.ts",
+    "types/*/src/**/*.d.ts.map",
     "src/**/*.ts",
     "LICENSE",
     "README.md"
