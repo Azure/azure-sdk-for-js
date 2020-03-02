@@ -66,6 +66,8 @@ export {
   ManagedInstanceAdministrator,
   ManagedInstanceEncryptionProtector,
   ManagedInstanceKey,
+  ManagedInstanceLongTermRetentionBackup,
+  ManagedInstanceLongTermRetentionPolicy,
   ManagedInstancePairInfo,
   ManagedInstanceVulnerabilityAssessment,
   ManagedServerSecurityAlertPolicy,
@@ -73,6 +75,7 @@ export {
   PartnerInfo,
   PartnerRegionInfo,
   PrivateEndpointConnection,
+  PrivateEndpointConnectionProperties,
   PrivateEndpointProperty,
   PrivateLinkResource,
   PrivateLinkResourceProperties,
@@ -99,6 +102,7 @@ export {
   ServerDnsAlias,
   ServerKey,
   ServerListResult,
+  ServerPrivateEndpointConnection,
   ServerSecurityAlertPolicy,
   ServerUpdate,
   ServerVulnerabilityAssessment,
@@ -122,5 +126,7 @@ export {
   VirtualNetworkRule,
   VulnerabilityAssessmentRecurringScansProperties,
   VulnerabilityAssessmentScanError,
-  VulnerabilityAssessmentScanRecord
+  VulnerabilityAssessmentScanRecord,
+  WorkloadClassifier,
+  WorkloadGroup
 } from "../models/mappers";
