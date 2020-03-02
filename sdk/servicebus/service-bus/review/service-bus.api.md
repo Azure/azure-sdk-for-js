@@ -37,10 +37,14 @@ export type ClientTypeT<ReceiveModeT extends "peekLock" | "receiveAndDelete", En
 
 // @public
 export interface ContextWithSettlement {
-    abandon(m: ReceivedMessage): Promise<void>;
-    complete(m: ReceivedMessage): Promise<void>;
-    deadLetter(m: ReceivedMessage): Promise<void>;
-    defer(m: ReceivedMessage): Promise<void>;
+    abandon(message: ReceivedMessage, propertiesToModify?: {
+        [key: string]: any;
+    }): Promise<void>;
+    complete(message: ReceivedMessage): Promise<void>;
+    deadLetter(message: ReceivedMessage, options?: DeadLetterOptions): Promise<void>;
+    defer(message: ReceivedMessage, propertiesToModify?: {
+        [key: string]: any;
+    }): Promise<void>;
 }
 
 // @public
@@ -510,7 +514,7 @@ export { WebSocketOptions }
 
 // Warnings were encountered during analysis:
 //
-// src/track2/serviceBusReceiverClient.ts:144:5 - (ae-forgotten-export) The symbol "Long" needs to be exported by the entry point index.d.ts
+// src/track2/serviceBusReceiverClient.ts:147:5 - (ae-forgotten-export) The symbol "Long" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

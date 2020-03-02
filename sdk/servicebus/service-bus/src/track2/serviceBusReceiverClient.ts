@@ -81,7 +81,10 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
      * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
      * @param maxMessageCount The maximum number of messages to retrieve.
      */
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+    peekBySequenceNumber(
+      fromSequenceNumber: Long,
+      maxMessageCount?: number
+    ): Promise<ReceivedMessage[]>;
   };
 }
 
@@ -141,7 +144,10 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
      * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
      * @param maxMessageCount The maximum number of messages to retrieve.
      */
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+    peekBySequenceNumber(
+      fromSequenceNumber: Long,
+      maxMessageCount?: number
+    ): Promise<ReceivedMessage[]>;
   };
 }
 
@@ -338,7 +344,9 @@ export class ReceiverClientImplementation {
 
       this.diagnostics = {
         async peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
-          return (await receiver.peek(entityPath, maxMessageCount)).map((m) => m as ReceivedMessage);
+          return (await receiver.peek(entityPath, maxMessageCount)).map(
+            (m) => m as ReceivedMessage
+          );
         },
         async peekBySequenceNumber(
           fromSequenceNumber: Long,
@@ -498,7 +506,10 @@ export class ReceiverClientImplementation {
 
   public diagnostics: {
     peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+    peekBySequenceNumber(
+      fromSequenceNumber: Long,
+      maxMessageCount?: number
+    ): Promise<ReceivedMessage[]>;
   };
 
   private _receiver: InternalSessionReceiver | InternalReceiver;
@@ -519,8 +530,8 @@ export const ServiceBusReceiverClient: ServiceBusReceiverClient = ReceiverClient
 const settlementContext: ContextWithSettlement = {
   // TODO: need to move the settlement methods out of sb message -
   // we don't need to have this runtime dependency.
-  abandon: (message) => ((message as unknown) as ServiceBusMessage).abandon(),
+  abandon: (message, propertiesToModify) => ((message as unknown) as ServiceBusMessage).abandon(propertiesToModify),
   complete: (message) => ((message as unknown) as ServiceBusMessage).complete(),
-  defer: (message) => ((message as unknown) as ServiceBusMessage).defer(),
-  deadLetter: (message) => ((message as unknown) as ServiceBusMessage).deadLetter()
+  defer: (message, propertiesToModify) => ((message as unknown) as ServiceBusMessage).defer(propertiesToModify),
+  deadLetter: (message, options) => ((message as unknown) as ServiceBusMessage).deadLetter(options)
 };

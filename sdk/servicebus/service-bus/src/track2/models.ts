@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ServiceBusMessage } from "../serviceBusMessage";
+import { ServiceBusMessage, DeadLetterOptions } from "../serviceBusMessage";
 import { TokenCredential } from "@azure/core-amqp";
 import { OperationOptions } from "@azure/core-auth";
 
@@ -62,7 +62,7 @@ export interface ContextWithSettlement {
    * Removes the message from Service Bus.
    * @returns Promise<void>.
    */
-  complete(m: ReceivedMessage): Promise<void>;
+  complete(message: ReceivedMessage): Promise<void>;
 
   /**
    * The lock held on the message by the receiver is let go, making the message available again in
@@ -71,7 +71,7 @@ export interface ContextWithSettlement {
    *
    * @return Promise<void>.
    */
-  abandon(m: ReceivedMessage): Promise<void>;
+  abandon(message: ReceivedMessage, propertiesToModify?: { [key: string]: any }): Promise<void>;
 
   /**
    * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
@@ -80,17 +80,19 @@ export interface ContextWithSettlement {
    *
    * @returns Promise<void>
    */
-  defer(m: ReceivedMessage): Promise<void>;
+  defer(message: ReceivedMessage, propertiesToModify?: { [key: string]: any }): Promise<void>;
 
   /**
-   * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
-   * QueueClient/SubscriptionClient using the path for the deadletter sub-queue.
+   * Moves the message to the deadletter sub-queue. To receive a 
+   * deadlettered message, create a new ServiceBusReceiver client 
+   * using the path for the deadletter sub-queue.
+   * 
    * @param options The DeadLetter options that can be provided while
    * rejecting the message.
    *
    * @returns Promise<void>
    */
-  deadLetter(m: ReceivedMessage): Promise<void>;
+  deadLetter(message: ReceivedMessage, options?: DeadLetterOptions): Promise<void>;
 }
 
 /**
