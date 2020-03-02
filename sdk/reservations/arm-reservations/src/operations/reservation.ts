@@ -326,7 +326,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.reservationOrderId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -350,7 +350,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.reservationOrderId
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.expand0
   ],
   headerParameters: [
@@ -375,7 +375,7 @@ const listRevisionsOperationSpec: msRest.OperationSpec = {
     Parameters.reservationOrderId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -399,7 +399,7 @@ const beginAvailableScopesOperationSpec: msRest.OperationSpec = {
     Parameters.reservationId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -437,7 +437,7 @@ const beginSplitOperationSpec: msRest.OperationSpec = {
     Parameters.reservationOrderId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -479,7 +479,7 @@ const beginMergeOperationSpec: msRest.OperationSpec = {
     Parameters.reservationOrderId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -522,7 +522,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.reservationId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
