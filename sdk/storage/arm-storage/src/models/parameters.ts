@@ -73,6 +73,20 @@ export const containerName: msRest.OperationURLParameter = {
     }
   }
 };
+export const encryptionScopeName: msRest.OperationURLParameter = {
+  parameterPath: "encryptionScopeName",
+  mapper: {
+    required: true,
+    serializedName: "encryptionScopeName",
+    constraints: {
+      MaxLength: 63,
+      MinLength: 3
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const expand0: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
