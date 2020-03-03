@@ -7,6 +7,7 @@
   "ignorePatterns": ["src/core"],
   "rules": {
     "@typescript-eslint/no-this-alias": "off",
-    "no-invalid-this": "off"
+    "no-invalid-this": "off",
+    "@azure/azure-sdk/ts-package-json-files-required": "off"
   }
 }
