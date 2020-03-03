@@ -120,8 +120,11 @@ vs messages that are received (`ReceivedMessage`).
 This allows us to avoid including fields or actions (like settling, that only applies 
 to received messages).
 
-Messages returned from the peek() API should not contain methods for 
-message settlement. (ie, complete(), abandon()).
+Messages returned from the peek() API should are not settleable. Either handle this
+via:
+- runtime exception on the client itself (.net, java)
+- runtime exception on the message object (python)
+- Compile time restriction by not offering it externally (typescript).
 
 TBD: do we make this a:
 - compile time constraint (ie, new type `PeekMessage`)
