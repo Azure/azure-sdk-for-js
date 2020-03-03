@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Plan for the appliance.
+ * Plan for the managed application.
  */
 export interface Plan {
   /**
@@ -85,49 +85,46 @@ export interface GenericResource extends Resource {
 }
 
 /**
- * Information about appliance.
+ * Information about managed application.
  */
-export interface Appliance extends GenericResource {
+export interface Application extends GenericResource {
   /**
    * The managed resource group Id.
    */
   managedResourceGroupId: string;
   /**
-   * The fully qualified path of appliance definition Id.
+   * The fully qualified path of managed application definition Id.
    */
-  applianceDefinitionId?: string;
+  applicationDefinitionId?: string;
   /**
-   * Name and value pairs that define the appliance parameters. It can be a JObject or a well
-   * formed JSON string.
+   * Name and value pairs that define the managed application parameters. It can be a JObject or a
+   * well formed JSON string.
    */
   parameters?: any;
   /**
-   * Name and value pairs that define the appliance outputs.
+   * Name and value pairs that define the managed application outputs.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly outputs?: any;
   /**
-   * The appliance provisioning state. Possible values include: 'Accepted', 'Running', 'Ready',
-   * 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded', 'Updating'
+   * The managed application provisioning state. Possible values include: 'Accepted', 'Running',
+   * 'Ready', 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded',
+   * 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
-  /**
-   * The blob URI where the UI definition file is located.
-   */
-  uiDefinitionUri?: string;
   /**
    * The plan information.
    */
   plan?: Plan;
   /**
-   * The kind of the appliance. Allowed values are MarketPlace and ServiceCatalog.
+   * The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog.
    */
-  kind?: string;
+  kind: string;
 }
 
 /**
- * Plan for the appliance.
+ * Plan for the managed application.
  */
 export interface PlanPatchable {
   /**
@@ -153,111 +150,124 @@ export interface PlanPatchable {
 }
 
 /**
- * Information about appliance.
+ * Information about managed application.
  */
-export interface AppliancePatchable extends GenericResource {
+export interface ApplicationPatchable extends GenericResource {
   /**
    * The managed resource group Id.
    */
   managedResourceGroupId?: string;
   /**
-   * The fully qualified path of appliance definition Id.
+   * The fully qualified path of managed application definition Id.
    */
-  applianceDefinitionId?: string;
+  applicationDefinitionId?: string;
   /**
-   * Name and value pairs that define the appliance parameters. It can be a JObject or a well
-   * formed JSON string.
+   * Name and value pairs that define the managed application parameters. It can be a JObject or a
+   * well formed JSON string.
    */
   parameters?: any;
   /**
-   * Name and value pairs that define the appliance outputs.
+   * Name and value pairs that define the managed application outputs.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly outputs?: any;
   /**
-   * The appliance provisioning state. Possible values include: 'Accepted', 'Running', 'Ready',
-   * 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded', 'Updating'
+   * The managed application provisioning state. Possible values include: 'Accepted', 'Running',
+   * 'Ready', 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded',
+   * 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
-  /**
-   * The blob URI where the UI definition file is located.
-   */
-  uiDefinitionUri?: string;
   /**
    * The plan information.
    */
   plan?: PlanPatchable;
   /**
-   * The kind of the appliance. Allowed values are MarketPlace and ServiceCatalog.
+   * The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog.
    */
   kind?: string;
 }
 
 /**
- * The appliance provider authorization.
+ * The managed application provider authorization.
  */
-export interface ApplianceProviderAuthorization {
+export interface ApplicationProviderAuthorization {
   /**
    * The provider's principal identifier. This is the identity that the provider will use to call
-   * ARM to manage the appliance resources.
+   * ARM to manage the managed application resources.
    */
   principalId: string;
   /**
    * The provider's role definition identifier. This role will define all the permissions that the
-   * provider must have on the appliance's container resource group. This role definition cannot
-   * have permission to delete the resource group.
+   * provider must have on the managed application's container resource group. This role definition
+   * cannot have permission to delete the resource group.
    */
   roleDefinitionId: string;
 }
 
 /**
- * Appliance artifact.
+ * Managed application artifact.
  */
-export interface ApplianceArtifact {
+export interface ApplicationArtifact {
   /**
-   * The appliance artifact name.
+   * The managed application artifact name.
    */
   name?: string;
   /**
-   * The appliance artifact blob uri.
+   * The managed application artifact blob uri.
    */
   uri?: string;
   /**
-   * The the appliance artifact type. Possible values include: 'Template', 'Custom'
+   * The managed application artifact type. Possible values include: 'Template', 'Custom'
    */
-  type?: ApplianceArtifactType;
+  type?: ApplicationArtifactType;
 }
 
 /**
- * Information about appliance definition.
+ * Information about managed application definition.
  */
-export interface ApplianceDefinition extends GenericResource {
+export interface ApplicationDefinition extends GenericResource {
   /**
-   * The appliance lock level. Possible values include: 'CanNotDelete', 'ReadOnly', 'None'
+   * The managed application lock level. Possible values include: 'CanNotDelete', 'ReadOnly',
+   * 'None'
    */
-  lockLevel: ApplianceLockLevel;
+  lockLevel: ApplicationLockLevel;
   /**
-   * The appliance definition display name.
+   * The managed application definition display name.
    */
   displayName?: string;
   /**
-   * The appliance provider authorizations.
+   * A value indicating whether the package is enabled or not.
    */
-  authorizations: ApplianceProviderAuthorization[];
+  isEnabled?: string;
   /**
-   * The collection of appliance artifacts. The portal will use the files specified as artifacts to
-   * construct the user experience of creating an appliance from an appliance definition.
+   * The managed application provider authorizations.
    */
-  artifacts?: ApplianceArtifact[];
+  authorizations: ApplicationProviderAuthorization[];
   /**
-   * The appliance definition description.
+   * The collection of managed application artifacts. The portal will use the files specified as
+   * artifacts to construct the user experience of creating a managed application from a managed
+   * application definition.
+   */
+  artifacts?: ApplicationArtifact[];
+  /**
+   * The managed application definition description.
    */
   description?: string;
   /**
-   * The appliance definition package file Uri.
+   * The managed application definition package file Uri. Use this element
    */
-  packageFileUri: string;
+  packageFileUri?: string;
+  /**
+   * The inline main template json which has resources to be provisioned. It can be a JObject or
+   * well-formed JSON string.
+   */
+  mainTemplate?: any;
+  /**
+   * The createUiDefinition json for the backing template with Microsoft.Solutions/applications
+   * resource. It can be a JObject or well-formed JSON string.
+   */
+  createUiDefinition?: any;
 }
 
 /**
@@ -311,8 +321,8 @@ export interface Identity {
 }
 
 /**
- * Error response indicates ARM appliance is not able to process the incoming request. The reason
- * is provided in the error message.
+ * Error response indicates managed application is not able to process the incoming request. The
+ * reason is provided in the error message.
  */
 export interface ErrorResponse {
   /**
@@ -330,83 +340,38 @@ export interface ErrorResponse {
 }
 
 /**
- * The object that represents the operation.
+ * Optional Parameters.
  */
-export interface OperationDisplay {
+export interface ApplicationsUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Service provider: Microsoft.Solutions
+   * Parameters supplied to update an existing managed application.
    */
-  provider?: string;
-  /**
-   * Resource on which the operation is performed: Profile, endpoint, etc.
-   */
-  resource?: string;
-  /**
-   * Operation type: Read, write, delete, etc.
-   */
-  operation?: string;
-}
-
-/**
- * Microsoft.Solutions operation
- */
-export interface Operation {
-  /**
-   * Operation name: {provider}/{resource}/{operation}
-   */
-  name?: string;
-  /**
-   * The object that represents the operation.
-   */
-  display?: OperationDisplay;
+  parameters?: Application;
 }
 
 /**
  * Optional Parameters.
  */
-export interface AppliancesUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface ApplicationsUpdateByIdOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Parameters supplied to update an existing appliance.
+   * Parameters supplied to update an existing managed application.
    */
-  parameters?: Appliance;
+  parameters?: Application;
 }
 
 /**
- * Optional Parameters.
+ * An interface representing ApplicationClientOptions.
  */
-export interface AppliancesUpdateByIdOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters supplied to update an existing appliance.
-   */
-  parameters?: Appliance;
-}
-
-/**
- * An interface representing ManagedApplicationClientOptions.
- */
-export interface ManagedApplicationClientOptions extends AzureServiceClientOptions {
+export interface ApplicationClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
 }
 
 /**
  * @interface
- * Result of the request to list Microsoft.Solutions operations. It contains a list of operations
- * and a URL link to get the next set of results.
- * @extends Array<Operation>
+ * List of managed applications.
+ * @extends Array<Application>
  */
-export interface OperationListResult extends Array<Operation> {
-  /**
-   * URL to get the next set of operation list results if there are any.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * List of appliances.
- * @extends Array<Appliance>
- */
-export interface ApplianceListResult extends Array<Appliance> {
+export interface ApplicationListResult extends Array<Application> {
   /**
    * The URL to use for getting the next set of results.
    */
@@ -415,10 +380,10 @@ export interface ApplianceListResult extends Array<Appliance> {
 
 /**
  * @interface
- * List of appliance definitions.
- * @extends Array<ApplianceDefinition>
+ * List of managed application definitions.
+ * @extends Array<ApplicationDefinition>
  */
-export interface ApplianceDefinitionListResult extends Array<ApplianceDefinition> {
+export interface ApplicationDefinitionListResult extends Array<ApplicationDefinition> {
   /**
    * The URL to use for getting the next set of results.
    */
@@ -435,20 +400,20 @@ export interface ApplianceDefinitionListResult extends Array<ApplianceDefinition
 export type ProvisioningState = 'Accepted' | 'Running' | 'Ready' | 'Creating' | 'Created' | 'Deleting' | 'Deleted' | 'Canceled' | 'Failed' | 'Succeeded' | 'Updating';
 
 /**
- * Defines values for ApplianceLockLevel.
+ * Defines values for ApplicationLockLevel.
  * Possible values include: 'CanNotDelete', 'ReadOnly', 'None'
  * @readonly
  * @enum {string}
  */
-export type ApplianceLockLevel = 'CanNotDelete' | 'ReadOnly' | 'None';
+export type ApplicationLockLevel = 'CanNotDelete' | 'ReadOnly' | 'None';
 
 /**
- * Defines values for ApplianceArtifactType.
+ * Defines values for ApplicationArtifactType.
  * Possible values include: 'Template', 'Custom'
  * @readonly
  * @enum {string}
  */
-export type ApplianceArtifactType = 'Template' | 'Custom';
+export type ApplicationArtifactType = 'Template' | 'Custom';
 
 /**
  * Defines values for ResourceIdentityType.
@@ -459,49 +424,9 @@ export type ApplianceArtifactType = 'Template' | 'Custom';
 export type ResourceIdentityType = 'SystemAssigned';
 
 /**
- * Contains response data for the listOperations operation.
- */
-export type ListOperationsResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
- * Contains response data for the listOperationsNext operation.
- */
-export type ListOperationsNextResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
  * Contains response data for the get operation.
  */
-export type AppliancesGetResponse = Appliance & {
+export type ApplicationsGetResponse = Application & {
   /**
    * The underlying HTTP response.
    */
@@ -514,14 +439,14 @@ export type AppliancesGetResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
+      parsedBody: Application;
     };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type AppliancesCreateOrUpdateResponse = Appliance & {
+export type ApplicationsCreateOrUpdateResponse = Application & {
   /**
    * The underlying HTTP response.
    */
@@ -534,14 +459,14 @@ export type AppliancesCreateOrUpdateResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
+      parsedBody: Application;
     };
 };
 
 /**
  * Contains response data for the update operation.
  */
-export type AppliancesUpdateResponse = Appliance & {
+export type ApplicationsUpdateResponse = Application & {
   /**
    * The underlying HTTP response.
    */
@@ -554,14 +479,14 @@ export type AppliancesUpdateResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
+      parsedBody: Application;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroup operation.
  */
-export type AppliancesListByResourceGroupResponse = ApplianceListResult & {
+export type ApplicationsListByResourceGroupResponse = ApplicationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -574,14 +499,14 @@ export type AppliancesListByResourceGroupResponse = ApplianceListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceListResult;
+      parsedBody: ApplicationListResult;
     };
 };
 
 /**
  * Contains response data for the listBySubscription operation.
  */
-export type AppliancesListBySubscriptionResponse = ApplianceListResult & {
+export type ApplicationsListBySubscriptionResponse = ApplicationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -594,14 +519,14 @@ export type AppliancesListBySubscriptionResponse = ApplianceListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceListResult;
+      parsedBody: ApplicationListResult;
     };
 };
 
 /**
  * Contains response data for the getById operation.
  */
-export type AppliancesGetByIdResponse = Appliance & {
+export type ApplicationsGetByIdResponse = Application & {
   /**
    * The underlying HTTP response.
    */
@@ -614,14 +539,14 @@ export type AppliancesGetByIdResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
+      parsedBody: Application;
     };
 };
 
 /**
  * Contains response data for the createOrUpdateById operation.
  */
-export type AppliancesCreateOrUpdateByIdResponse = Appliance & {
+export type ApplicationsCreateOrUpdateByIdResponse = Application & {
   /**
    * The underlying HTTP response.
    */
@@ -634,14 +559,14 @@ export type AppliancesCreateOrUpdateByIdResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
+      parsedBody: Application;
     };
 };
 
 /**
  * Contains response data for the updateById operation.
  */
-export type AppliancesUpdateByIdResponse = Appliance & {
+export type ApplicationsUpdateByIdResponse = Application & {
   /**
    * The underlying HTTP response.
    */
@@ -654,14 +579,14 @@ export type AppliancesUpdateByIdResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
+      parsedBody: Application;
     };
 };
 
 /**
  * Contains response data for the beginCreateOrUpdate operation.
  */
-export type AppliancesBeginCreateOrUpdateResponse = Appliance & {
+export type ApplicationsBeginCreateOrUpdateResponse = Application & {
   /**
    * The underlying HTTP response.
    */
@@ -674,14 +599,14 @@ export type AppliancesBeginCreateOrUpdateResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
+      parsedBody: Application;
     };
 };
 
 /**
  * Contains response data for the beginCreateOrUpdateById operation.
  */
-export type AppliancesBeginCreateOrUpdateByIdResponse = Appliance & {
+export type ApplicationsBeginCreateOrUpdateByIdResponse = Application & {
   /**
    * The underlying HTTP response.
    */
@@ -694,14 +619,14 @@ export type AppliancesBeginCreateOrUpdateByIdResponse = Appliance & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Appliance;
+      parsedBody: Application;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroupNext operation.
  */
-export type AppliancesListByResourceGroupNextResponse = ApplianceListResult & {
+export type ApplicationsListByResourceGroupNextResponse = ApplicationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -714,14 +639,14 @@ export type AppliancesListByResourceGroupNextResponse = ApplianceListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceListResult;
+      parsedBody: ApplicationListResult;
     };
 };
 
 /**
  * Contains response data for the listBySubscriptionNext operation.
  */
-export type AppliancesListBySubscriptionNextResponse = ApplianceListResult & {
+export type ApplicationsListBySubscriptionNextResponse = ApplicationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -734,14 +659,14 @@ export type AppliancesListBySubscriptionNextResponse = ApplianceListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceListResult;
+      parsedBody: ApplicationListResult;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type ApplianceDefinitionsGetResponse = ApplianceDefinition & {
+export type ApplicationDefinitionsGetResponse = ApplicationDefinition & {
   /**
    * The underlying HTTP response.
    */
@@ -754,14 +679,14 @@ export type ApplianceDefinitionsGetResponse = ApplianceDefinition & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: ApplicationDefinition;
     };
 };
 
 /**
  * Contains response data for the createOrUpdate operation.
  */
-export type ApplianceDefinitionsCreateOrUpdateResponse = ApplianceDefinition & {
+export type ApplicationDefinitionsCreateOrUpdateResponse = ApplicationDefinition & {
   /**
    * The underlying HTTP response.
    */
@@ -774,14 +699,14 @@ export type ApplianceDefinitionsCreateOrUpdateResponse = ApplianceDefinition & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: ApplicationDefinition;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroup operation.
  */
-export type ApplianceDefinitionsListByResourceGroupResponse = ApplianceDefinitionListResult & {
+export type ApplicationDefinitionsListByResourceGroupResponse = ApplicationDefinitionListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -794,14 +719,14 @@ export type ApplianceDefinitionsListByResourceGroupResponse = ApplianceDefinitio
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinitionListResult;
+      parsedBody: ApplicationDefinitionListResult;
     };
 };
 
 /**
  * Contains response data for the getById operation.
  */
-export type ApplianceDefinitionsGetByIdResponse = ApplianceDefinition & {
+export type ApplicationDefinitionsGetByIdResponse = ApplicationDefinition & {
   /**
    * The underlying HTTP response.
    */
@@ -814,14 +739,14 @@ export type ApplianceDefinitionsGetByIdResponse = ApplianceDefinition & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: ApplicationDefinition;
     };
 };
 
 /**
  * Contains response data for the createOrUpdateById operation.
  */
-export type ApplianceDefinitionsCreateOrUpdateByIdResponse = ApplianceDefinition & {
+export type ApplicationDefinitionsCreateOrUpdateByIdResponse = ApplicationDefinition & {
   /**
    * The underlying HTTP response.
    */
@@ -834,14 +759,14 @@ export type ApplianceDefinitionsCreateOrUpdateByIdResponse = ApplianceDefinition
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: ApplicationDefinition;
     };
 };
 
 /**
  * Contains response data for the beginCreateOrUpdate operation.
  */
-export type ApplianceDefinitionsBeginCreateOrUpdateResponse = ApplianceDefinition & {
+export type ApplicationDefinitionsBeginCreateOrUpdateResponse = ApplicationDefinition & {
   /**
    * The underlying HTTP response.
    */
@@ -854,14 +779,14 @@ export type ApplianceDefinitionsBeginCreateOrUpdateResponse = ApplianceDefinitio
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: ApplicationDefinition;
     };
 };
 
 /**
  * Contains response data for the beginCreateOrUpdateById operation.
  */
-export type ApplianceDefinitionsBeginCreateOrUpdateByIdResponse = ApplianceDefinition & {
+export type ApplicationDefinitionsBeginCreateOrUpdateByIdResponse = ApplicationDefinition & {
   /**
    * The underlying HTTP response.
    */
@@ -874,14 +799,14 @@ export type ApplianceDefinitionsBeginCreateOrUpdateByIdResponse = ApplianceDefin
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinition;
+      parsedBody: ApplicationDefinition;
     };
 };
 
 /**
  * Contains response data for the listByResourceGroupNext operation.
  */
-export type ApplianceDefinitionsListByResourceGroupNextResponse = ApplianceDefinitionListResult & {
+export type ApplicationDefinitionsListByResourceGroupNextResponse = ApplicationDefinitionListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -894,6 +819,6 @@ export type ApplianceDefinitionsListByResourceGroupNextResponse = ApplianceDefin
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ApplianceDefinitionListResult;
+      parsedBody: ApplicationDefinitionListResult;
     };
 };
