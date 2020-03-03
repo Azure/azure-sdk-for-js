@@ -30,10 +30,16 @@ export type AuthorizationRule = {
     secondaryKey?: string;
 };
 
-// Warning: (ae-forgotten-export) The symbol "SubscriptionRuleManagement" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export type ClientTypeT<ReceiveModeT extends "peekLock" | "receiveAndDelete", EntityTypeT extends "queue" | "subscription", SessionsEnabledT extends "sessions" | "nosessions"> = SessionsEnabledT extends "nosessions" ? EntityTypeT extends "queue" ? NonSessionReceiver<ReceiveModeT> : NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement : EntityTypeT extends "queue" ? SessionReceiver<ReceiveModeT> : SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement;
+
+// @public
+export interface Closeable {
+    close(): Promise<void>;
+}
+
+// @public
+export type ContextType<LockModeT> = LockModeT extends "peekLock" ? ContextWithSettlement : LockModeT extends "receiveAndDelete" ? {} : never;
 
 // @public
 export interface ContextWithSettlement {
@@ -82,6 +88,12 @@ export interface IterateMessagesOptions extends OperationOptions {
 }
 
 // @public
+export interface MessageAndContext<ContextT> {
+    context: ContextT;
+    message: ReceivedMessage;
+}
+
+// @public
 export type MessageCountDetails = {
     activeMessageCount: number;
     deadLetterMessageCount: number;
@@ -97,6 +109,15 @@ export interface MessageHandlerOptions {
     maxMessageAutoRenewLockDurationInSeconds?: number;
 }
 
+// @public
+export interface MessageHandlers<ContextT> {
+    processError(err: Error): Promise<void>;
+    processMessage(message: ReceivedMessage, context: ContextT): Promise<void>;
+}
+
+// @public
+export type MessageIterator<ContextT> = AsyncIterable<MessageAndContext<ContextT>>;
+
 export { MessagingError }
 
 // @public
@@ -104,14 +125,11 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
     close(): Promise<void>;
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
-    // Warning: (ae-forgotten-export) The symbol "MessageIterator" needs to be exported by the entry point index.d.ts
     iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
     receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<ReceivedMessage[]>;
-    // Warning: (ae-forgotten-export) The symbol "MessageHandlers" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "ContextType" needs to be exported by the entry point index.d.ts
-    streamMessages(handler: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+    subscribe(handler: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
 }
 
 // @public
@@ -363,12 +381,12 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
     close(): Promise<void>;
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
     iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
     receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<ReceivedMessage[]>;
     renewSessionLock(): Promise<Date>;
-    streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+    subscribe(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
 }
 
 // @public
@@ -458,6 +476,13 @@ export interface SubscriptionOptions {
     userMetadata?: string;
 }
 
+// @public
+export interface SubscriptionRuleManagement {
+    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
+    getRules(): Promise<RuleDescription[]>;
+    removeRule(ruleName: string): Promise<void>;
+}
+
 export { TokenCredential }
 
 export { TokenType }
@@ -511,10 +536,6 @@ export { WebSocketImpl }
 
 export { WebSocketOptions }
 
-
-// Warnings were encountered during analysis:
-//
-// src/track2/serviceBusReceiverClient.ts:147:5 - (ae-forgotten-export) The symbol "Long" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

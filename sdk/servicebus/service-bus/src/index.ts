@@ -53,7 +53,8 @@ export {
   ServiceBusReceiverClient,
   NonSessionReceiver,
   SessionReceiver, 
-  ClientTypeT
+  ClientTypeT,
+  SubscriptionRuleManagement
 } from "./track2/serviceBusReceiverClient";
 
 export {
@@ -67,4 +68,9 @@ export {
   ReceiveBatchOptions,
   StreamMessagesOptions,
   MessageHandlerOptions,
+  MessageHandlers,
+  ContextType,
+  Closeable,
+  MessageAndContext,
+  MessageIterator
 } from "./track2/models"; 
