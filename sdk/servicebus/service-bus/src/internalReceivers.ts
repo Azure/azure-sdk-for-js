@@ -896,7 +896,7 @@ export class InternalSessionReceiver {
 
 // #region topic-filters
 
-async function getRules(
+function getRules(
   context: ClientEntityContext,
   entityPath: string
 ): Promise<RuleDescription[]> {
@@ -908,7 +908,7 @@ async function getRules(
   }
 }
 
-async function removeRule(
+function removeRule(
   context: ClientEntityContext,
   entityPath: string,
   ruleName: string
@@ -921,7 +921,7 @@ async function removeRule(
   }
 }
 
-async function addRule(
+function addRule(
   context: ClientEntityContext,
   entityPath: string,
   ruleName: string,
