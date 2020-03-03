@@ -401,6 +401,21 @@ export function getNamespace(serviceBusConnectionString: string): string {
  * Enum to abstract away string values used for referencing the Service Bus entity names.
  */
 export enum EntityNames {
+  QUEUE_NAME = "partitioned-queue",
+  QUEUE_NAME_NO_PARTITION = "unpartitioned-queue",
+  QUEUE_NAME_SESSION = "partitioned-queue-sessions",
+  QUEUE_NAME_NO_PARTITION_SESSION = "unpartitioned-queue-sessions",
+  TOPIC_NAME = "partitioned-topic",
+  TOPIC_NAME_NO_PARTITION = "unpartitioned-topic",
+  TOPIC_NAME_SESSION = "partitioned-topic-sessions",
+  TOPIC_NAME_NO_PARTITION_SESSION = "unpartitioned-topic-sessions",
+  SUBSCRIPTION_NAME = "partitioned-topic-subscription",
+  SUBSCRIPTION_NAME_NO_PARTITION = "unpartitioned-topic-subscription",
+  SUBSCRIPTION_NAME_SESSION = "partitioned-topic-sessions-subscription",
+  SUBSCRIPTION_NAME_NO_PARTITION_SESSION = "unpartitioned-topic-sessions-subscription",
+  TOPIC_FILTER_NAME = "topic-filter",
+  TOPIC_FILTER_SUBSCRIPTION_NAME = "topic-filter-subscription",
+  TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME = "topic-filter-default-subscription",
   MANAGEMENT_QUEUE_1 = "management-queue-1",
   MANAGEMENT_TOPIC_1 = "management-topic-1",
   MANAGEMENT_SUBSCRIPTION_1 = "management-subscription-1",
