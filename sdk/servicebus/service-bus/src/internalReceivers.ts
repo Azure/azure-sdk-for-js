@@ -24,7 +24,7 @@ import {
   throwErrorIfClientOrConnectionClosed
 } from "./util/errors";
 import { RuleDescription, CorrelationFilter } from ".";
-import { MessageHandlerOptions, Message } from "./modelsTrack2";
+import { MessageHandlerOptions, ReceivedMessage } from "./modelsTrack2";
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
@@ -221,7 +221,7 @@ export class InternalReceiver {
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
-  async renewMessageLock(lockTokenOrMessage: string | Message): Promise<Date> {
+  async renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error(getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"));

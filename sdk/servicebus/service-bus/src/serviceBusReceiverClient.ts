@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import Long from "long";
-import { ServiceBusMessage, ReceiveMode } from "./serviceBusMessage";
+import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
 import { ClientEntityContext } from "./clientEntityContext";
 import { generate_uuid } from "rhea-promise";
 import { ClientType } from "./client";
