@@ -8,13 +8,10 @@ chai.use(chaiAsPromised);
 import {
   ServiceBusMessage,
   SendableMessageInfo,
-  ReceiveMode,
+  ServiceBusSenderClient,
+  Message,
+  ContextWithSettlement
 } from "../src";
-import { ServiceBusClient } from "../src/old/serviceBusClient";
-import { Sender } from "../src/sender";
-import { QueueClient } from "../src/old/queueClient";
-import { TopicClient } from "../src/old/topicClient";
-import { SubscriptionClient } from "../src/old/subscriptionClient";
 import { DispositionType } from "../src/serviceBusMessage";
 
 import {
@@ -22,18 +19,21 @@ import {
   getSenderReceiverClients,
   TestClientType,
   purge,
-  checkWithTimeout,
-  getServiceBusClient
+  checkWithTimeout
 } from "./utils/testUtils";
 
-import { InternalReceiver, InternalSessionReceiver } from "../src/internalReceivers";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
+import {
+  ReceiverClientTypeForUser,
+  ReceiverClientTypeForUserT,
+  NonSessionReceiver
+} from "../src/serviceBusReceiverClient";
 
 async function testPeekMsgsLength(
-  client: QueueClient | SubscriptionClient,
+  client: ReceiverClientTypeForUser,
   expectedPeekLength: number
 ): Promise<void> {
-  const peekedMsgs = await client.peek(expectedPeekLength + 1);
+  const peekedMsgs = await client.diagnostics.peek(expectedPeekLength + 1);
   should.equal(
     peekedMsgs.length,
     expectedPeekLength,
@@ -41,54 +41,28 @@ async function testPeekMsgsLength(
   );
 }
 
-let sbClient: ServiceBusClient;
-
 let errorWasThrown: boolean;
 
-let senderClient: QueueClient | TopicClient;
-let receiverClient: QueueClient | SubscriptionClient;
-let receiver: InternalReceiver | InternalSessionReceiver;
-let sender: Sender;
+let senderClient: ServiceBusSenderClient;
+let receiverClient: ReceiverClientTypeForUserT<"receiveAndDelete">;
 
-async function beforeEachTest(
-  senderType: TestClientType,
-  receiverType: TestClientType,
-  useSessions?: boolean,
-  receiveMode?: ReceiveMode
-): Promise<void> {
-  sbClient = getServiceBusClient();
-
-  const clients = await getSenderReceiverClients(sbClient, senderType, receiverType);
+async function beforeEachTest(entityType: TestClientType): Promise<void> {
+  const clients = await getSenderReceiverClients(entityType, "receiveAndDelete");
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
-  await purge(receiverClient, useSessions ? TestMessage.sessionId : undefined);
-  const peekedMsgs = await receiverClient.peek();
-  const receiverEntityType = receiverClient instanceof QueueClient ? "queue" : "topic";
+  await purge(receiverClient);
+  const peekedMsgs = await receiverClient.diagnostics.peek();
+  const receiverEntityType = receiverClient.entityType;
   if (peekedMsgs.length) {
     chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
   }
-
-  sender = senderClient.createSender();
-
-  if (!receiveMode) {
-    receiveMode = ReceiveMode.receiveAndDelete;
-  }
-  if (useSessions) {
-    receiver = receiverClient.createReceiver(receiveMode, {
-      sessionId: TestMessage.sessionId
-    });
-  } else {
-    receiver = receiverClient.createReceiver(receiveMode);
-  }
-
   errorWasThrown = false;
 }
 
 async function afterEachTest(): Promise<void> {
-  await receiver.close();
-  await sender.close();
-  await sbClient.close();
+  await receiverClient.close();
+  await senderClient.close();
 }
 
 describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
@@ -97,8 +71,8 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
   });
 
   async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<void> {
-    await sender.send(testMessages);
-    const msgs = await receiver.receiveMessages(1);
+    await senderClient.send(testMessages);
+    const msgs = (await receiverClient.receiveBatch(1)).messages;
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -117,14 +91,14 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue: No settlement of the message removes message #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue);
     await testNoSettlement();
   });
 
   it("Partitioned Subscription: No settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedSubscription);
     await testNoSettlement();
   });
 
@@ -145,44 +119,28 @@ describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue with Sessions: No settlement of the message removes message #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
     await testNoSettlement(true);
   });
 
   it("Partitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedTopicWithSessions,
-      TestClientType.PartitionedSubscriptionWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
     await testNoSettlement(true);
   });
 
   it("Unpartitioned Queue with Sessions: No settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
     await testNoSettlement(true);
   });
 
   it("Unpartitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
     await testNoSettlement(true);
   });
 });
@@ -198,17 +156,18 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     testMessages: SendableMessageInfo,
     autoCompleteFlag: boolean
   ): Promise<void> {
-    await sender.send(testMessages);
-    const receivedMsgs: ServiceBusMessage[] = [];
+    await senderClient.send(testMessages);
 
-    receiver.registerMessageHandler(
-      (msg: ServiceBusMessage) => {
-        receivedMsgs.push(msg);
-        return Promise.resolve();
-      },
-      (err: Error) => {
-        if (err) {
-          errorFromErrorHandler = err;
+    const errors: string[] = [];
+    const receivedMsgs: Message[] = [];
+
+    receiverClient.streamMessages(
+      {
+        async processMessage(message: Message, context: {}): Promise<void> {
+          receivedMsgs.push(message);
+        },
+        async processError(err: Error): Promise<void> {
+          errors.push(err.message);
         }
       },
       { autoComplete: autoCompleteFlag }
@@ -244,14 +203,14 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue);
     await testNoSettlement(true);
   });
 
   it("Partitioned Subscription: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedSubscription);
     await testNoSettlement(true);
   });
 
@@ -272,58 +231,42 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue with Sessions: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
     await testNoSettlement(true, true);
   });
 
   it("Partitioned Subscription with Sessions: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedTopicWithSessions,
-      TestClientType.PartitionedSubscriptionWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
     await testNoSettlement(true, true);
   });
 
   it("Unpartitioned Queue with Sessions: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
     await testNoSettlement(true, true);
   });
 
   it("Unpartitioned Subscription with Sessions: With auto-complete enabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
     await testNoSettlement(true, true);
   });
 
   it("Partitioned Queue: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue);
     await testNoSettlement(false);
   });
 
   it("Partitioned Subscription: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedSubscription);
     await testNoSettlement(false);
   });
 
@@ -344,44 +287,28 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue with Sessions: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
     await testNoSettlement(false, true);
   });
 
   it("Partitioned Subscription with Sessions: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedTopicWithSessions,
-      TestClientType.PartitionedSubscriptionWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
     await testNoSettlement(false, true);
   });
 
   it("Unpartitioned Queue with Sessions: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
     await testNoSettlement(false, true);
   });
 
   it("Unpartitioned Subscription with Sessions: With auto-complete disabled, no settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
     await testNoSettlement(false, true);
   });
 });
@@ -390,9 +317,11 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   afterEach(async () => {
     await afterEachTest();
   });
-  async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<ServiceBusMessage> {
-    await sender.send(testMessages);
-    const msgs = await receiver.receiveMessages(1);
+  async function sendReceiveMsg(
+    testMessages: SendableMessageInfo
+  ): Promise<{ message: Message; context: ContextWithSettlement }> {
+    await senderClient.send(testMessages);
+    const msgs = (await receiverClient.receiveBatch(1)).messages;
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -400,7 +329,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
-    return msgs[0];
+    return { message: msgs[0], context: {} as ContextWithSettlement };
   }
 
   const testError = (err: Error, operation: DispositionType): void => {
@@ -417,13 +346,13 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     const msg = await sendReceiveMsg(testMessages);
 
     if (operation === DispositionType.complete) {
-      await msg.complete().catch((err) => testError(err, operation));
+      await msg.context.complete(msg.message).catch((err) => testError(err, operation));
     } else if (operation === DispositionType.abandon) {
-      await msg.abandon().catch((err) => testError(err, operation));
+      await msg.context.abandon(msg.message).catch((err) => testError(err, operation));
     } else if (operation === DispositionType.deadletter) {
-      await msg.deadLetter().catch((err) => testError(err, operation));
+      await msg.context.deadLetter(msg.message).catch((err) => testError(err, operation));
     } else if (operation === DispositionType.defer) {
-      await msg.defer().catch((err) => testError(err, operation));
+      await msg.context.defer(msg.message).catch((err) => testError(err, operation));
     }
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -432,12 +361,12 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   }
 
   it("Partitioned Queue: complete() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue);
     await testSettlement(DispositionType.complete);
   });
 
   it("Partitioned Subscription: complete() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedSubscription);
     await testSettlement(DispositionType.complete);
   });
 
@@ -456,32 +385,24 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue with Sessions: complete() throws error #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
     await testSettlement(DispositionType.complete, true);
   });
 
   it("Partitioned Subscription with Sessions: complete() throws error", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedTopicWithSessions,
-      TestClientType.PartitionedSubscriptionWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
     await testSettlement(DispositionType.complete, true);
   });
 
   it("Partitioned Queue: abandon() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue);
     await testSettlement(DispositionType.abandon);
   });
 
   it("Partitioned Subscription: abandon() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedSubscription);
     await testSettlement(DispositionType.abandon);
   });
 
@@ -500,32 +421,24 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue with Sessions: abandon() throws error #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
     await testSettlement(DispositionType.abandon, true);
   });
 
   it("Partitioned Subscription with Sessions: abandon() throws error", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedTopicWithSessions,
-      TestClientType.PartitionedSubscriptionWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
     await testSettlement(DispositionType.abandon, true);
   });
 
   it("Partitioned Queue: defer() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue);
     await testSettlement(DispositionType.defer);
   });
 
   it("Partitioned Subscription: defer() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedSubscription);
     await testSettlement(DispositionType.defer);
   });
 
@@ -544,32 +457,24 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue with Sessions: defer() throws error #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
     await testSettlement(DispositionType.defer, true);
   });
 
   it("Partitioned Subscription with Sessions: defer() throws error", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedTopicWithSessions,
-      TestClientType.PartitionedSubscriptionWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
     await testSettlement(DispositionType.defer, true);
   });
 
   it("Partitioned Queue: deadLetter() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue);
     await testSettlement(DispositionType.deadletter);
   });
 
   it("Partitioned Subscription: deadLetter() throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedSubscription);
     await testSettlement(DispositionType.deadletter);
   });
 
@@ -588,36 +493,30 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue with Sessions: deadLetter() throws error #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
     await testSettlement(DispositionType.deadletter, true);
   });
 
   it("Partitioned Subscription with Sessions: deadLetter() throws error", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedTopicWithSessions,
-      TestClientType.PartitionedSubscriptionWithSessions,
-      true
-    );
+    await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
     await testSettlement(DispositionType.deadletter, true);
   });
 
   async function testRenewLock(): Promise<void> {
     const msg = await sendReceiveMsg(TestMessage.getSample());
 
-    await (<InternalReceiver>receiver).renewMessageLock(msg).catch((err) => {
-      should.equal(
-        err.message,
-        getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"),
-        "ErrorMessage is different than expected"
-      );
-      errorWasThrown = true;
-    });
+    await (receiverClient as NonSessionReceiver<"receiveAndDelete">)
+      .renewMessageLock(msg.message)
+      .catch((err) => {
+        should.equal(
+          err.message,
+          getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"),
+          "ErrorMessage is different than expected"
+        );
+        errorWasThrown = true;
+      });
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   }
@@ -625,12 +524,12 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   it("Partitioned Queue: Renew message lock throws error #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(TestClientType.PartitionedQueue, TestClientType.PartitionedQueue);
+    await beforeEachTest(TestClientType.PartitionedQueue);
     await testRenewLock();
   });
 
   it("Partitioned Subscription: Renew message lock throws error", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedTopic, TestClientType.PartitionedSubscription);
+    await beforeEachTest(TestClientType.PartitionedSubscription);
     await testRenewLock();
   });
 
@@ -655,8 +554,9 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
   });
   async function deferMessage(useSessions?: boolean): Promise<void> {
     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-    await sender.send(testMessages);
-    const msgs = await receiver.receiveMessages(1);
+    await senderClient.send(testMessages);
+    const batch = await await receiverClient.receiveBatch(1);
+    const msgs = batch.messages;
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -665,11 +565,11 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
     sequenceNumber = msgs[0].sequenceNumber!;
-    await msgs[0].defer();
+    await (batch.context as ContextWithSettlement).defer(msgs[0]);
   }
 
   async function receiveDeferredMessage(): Promise<void> {
-    const deferredMsgs: ServiceBusMessage | undefined = await receiver.receiveDeferredMessage(
+    const deferredMsgs: ServiceBusMessage | undefined = await receiverClient.receiveDeferredMessage(
       sequenceNumber
     );
     if (!deferredMsgs) {
@@ -713,98 +613,54 @@ describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void 
   it("Unpartitioned Queue: No settlement of the message removes message #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueue,
-      TestClientType.UnpartitionedQueue,
-      undefined,
-      ReceiveMode.peekLock
-    );
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
     await deferMessage();
-    await receiver.close();
-    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
+    await receiverClient.close();
     await receiveDeferredMessage();
   });
 
   it("Unpartitioned Subscription: No settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopic,
-      TestClientType.UnpartitionedSubscription,
-      undefined,
-      ReceiveMode.peekLock
-    );
+    await beforeEachTest(TestClientType.UnpartitionedSubscription);
     await deferMessage();
-    await receiver.close();
-    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
+    await receiverClient.close();
     await receiveDeferredMessage();
   });
 
   it("Partitioned Queue with Sessions: No settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions,
-      true,
-      ReceiveMode.peekLock
-    );
+    await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
     await deferMessage(true);
-    await receiver.close();
-    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
-      sessionId: TestMessage.sessionId
-    });
+    await receiverClient.close();
     await receiveDeferredMessage();
   });
 
   it("Partitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.PartitionedTopicWithSessions,
-      TestClientType.PartitionedSubscriptionWithSessions,
-      true,
-      ReceiveMode.peekLock
-    );
+    await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
     await deferMessage(true);
-    await receiver.close();
-    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
-      sessionId: TestMessage.sessionId
-    });
+    await receiverClient.close();
     await receiveDeferredMessage();
   });
 
   it("Unpartitioned Queue with Sessions: No settlement of the message removes message #RunInBrowser", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedQueueWithSessions,
-      TestClientType.UnpartitionedQueueWithSessions,
-      true,
-      ReceiveMode.peekLock
-    );
+    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
     await deferMessage(true);
-    await receiver.close();
-    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
-      sessionId: TestMessage.sessionId
-    });
+    await receiverClient.close();
     await receiveDeferredMessage();
   });
 
   it("Unpartitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
     void
   > {
-    await beforeEachTest(
-      TestClientType.UnpartitionedTopicWithSessions,
-      TestClientType.UnpartitionedSubscriptionWithSessions,
-      true,
-      ReceiveMode.peekLock
-    );
+    await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
     await deferMessage(true);
-    await receiver.close();
-    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete, {
-      sessionId: TestMessage.sessionId
-    });
+    await receiverClient.close();
     await receiveDeferredMessage();
   });
 });
