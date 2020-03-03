@@ -415,7 +415,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.App
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -438,7 +438,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -462,7 +462,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -492,7 +492,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AppAvailabilityInfo
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -522,7 +522,7 @@ const checkSubdomainAvailabilityOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AppAvailabilityInfo
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -545,7 +545,7 @@ const listTemplatesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AppTemplatesResult
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -581,7 +581,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -614,7 +614,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -639,7 +639,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -660,7 +660,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -681,7 +681,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -702,7 +702,7 @@ const listTemplatesNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AppTemplatesResult
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
