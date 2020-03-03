@@ -19,7 +19,7 @@ import {
   ReceivedMessage,
   ReceiveBatchOptions,
   IterateMessagesOptions,
-  StreamMessagesOptions as SubscribeOptions
+   SubscribeOptions
 } from "./models";
 import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
 import { RuleDescription, CorrelationFilter } from "../core/managementClient";
@@ -189,6 +189,12 @@ export interface SubscriptionRuleManagement {
   ): Promise<void>;
 }
 
+/**
+ * Dynamic type that represents the proper receiver based on:
+ * - The lock mode (peekLock or receiveAndDelete).
+ * - Whether sessions are enabled or not on this particular receiver.
+ * - The entity type (queue or subscription).
+ */
 export type ClientTypeT<
   ReceiveModeT extends "peekLock" | "receiveAndDelete",
   EntityTypeT extends "queue" | "subscription",
@@ -201,6 +207,9 @@ export type ClientTypeT<
   ? SessionReceiver<ReceiveModeT>
   : SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement;
 
+  /**
+   * A client that can send to queues or topics.
+   */
 export interface ServiceBusReceiverClient {
   /**
    * Creates a client for an Azure Service Bus queue.

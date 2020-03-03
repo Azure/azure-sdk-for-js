@@ -66,7 +66,7 @@ export {
   SubscriptionAuth,
   IterateMessagesOptions,
   ReceiveBatchOptions,
-  StreamMessagesOptions,
+  SubscribeOptions,
   MessageHandlerOptions,
   MessageHandlers,
   ContextType,

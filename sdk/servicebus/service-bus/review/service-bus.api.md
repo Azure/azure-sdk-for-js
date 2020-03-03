@@ -30,7 +30,7 @@ export type AuthorizationRule = {
     secondaryKey?: string;
 };
 
-// @public (undocumented)
+// @public
 export type ClientTypeT<ReceiveModeT extends "peekLock" | "receiveAndDelete", EntityTypeT extends "queue" | "subscription", SessionsEnabledT extends "sessions" | "nosessions"> = SessionsEnabledT extends "nosessions" ? EntityTypeT extends "queue" ? NonSessionReceiver<ReceiveModeT> : NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement : EntityTypeT extends "queue" ? SessionReceiver<ReceiveModeT> : SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement;
 
 // @public
@@ -83,7 +83,7 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 
 export { HttpOperationResponse }
 
-// @public (undocumented)
+// @public
 export interface IterateMessagesOptions extends OperationOptions {
 }
 
@@ -129,7 +129,7 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
     };
     iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
     receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<ReceivedMessage[]>;
-    subscribe(handler: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+    subscribe(handler: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
 }
 
 // @public
@@ -205,11 +205,11 @@ export interface QueueOptions {
     userMetadata?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ReceiveBatchOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export type ReceivedMessage = Omit<ServiceBusMessage, "complete" | "abandon" | "defer" | "deadletter" | "prototype">;
 
 // @public
@@ -322,7 +322,7 @@ export class ServiceBusMessage implements ReceivedMessageInfo {
     viaPartitionKey?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceBusReceiverClient {
     new (queueAuth: QueueAuth, receiveMode: "peekLock"): ClientTypeT<"peekLock", "queue", "nosessions">;
     new (queueAuth: QueueAuth, receiveMode: "receiveAndDelete"): ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
@@ -337,26 +337,17 @@ export interface ServiceBusReceiverClient {
 // @public
 export const ServiceBusReceiverClient: ServiceBusReceiverClient;
 
-// @public (undocumented)
+// @public
 export class ServiceBusSenderClient {
     constructor(entityConnectionString: string, options?: ServiceBusClientOptions);
     constructor(serviceBusConnectionString: string, entityName: string, options?: ServiceBusClientOptions);
     constructor(host: string, entityName: string, credential: TokenCredential, options?: ServiceBusClientOptions);
-    // (undocumented)
     cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
-    // (undocumented)
     cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
-    // (undocumented)
     close(): Promise<void>;
-    // (undocumented)
-    _entityPath: string;
-    // (undocumented)
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
-    // (undocumented)
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
-    // (undocumented)
     send(message: SendableMessageInfo): Promise<void>;
-    // (undocumented)
     sendBatch(messages: SendableMessageInfo[]): Promise<void>;
 }
 
@@ -386,7 +377,7 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
     iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
     receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<ReceivedMessage[]>;
     renewSessionLock(): Promise<Date>;
-    subscribe(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+    subscribe(handlers: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
 }
 
 // @public
@@ -413,8 +404,8 @@ export type SqlParameter = {
     type: string;
 };
 
-// @public (undocumented)
-export interface StreamMessagesOptions extends OperationOptions, MessageHandlerOptions {
+// @public
+export interface SubscribeOptions extends OperationOptions, MessageHandlerOptions {
 }
 
 // @public
