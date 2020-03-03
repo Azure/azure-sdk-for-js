@@ -7,8 +7,8 @@ import {
   delay,
   SendableMessageInfo,
   ServiceBusSenderClient,
-  Message,
-  ContextWithSettlement
+  ContextWithSettlement,
+  ReceivedMessage
 } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, getSenderReceiverClients, purge, TestMessage } from "./utils/testUtils";
@@ -72,6 +72,7 @@ async function afterEachTest(): Promise<void> {
   await senderClient.close();
   await receiverClient.close();
 }
+
 describe("Batch Receiver - Settle message", function(): void {
   afterEach(async () => {
     await afterEachTest();
@@ -79,7 +80,7 @@ describe("Batch Receiver - Settle message", function(): void {
 
   async function sendReceiveMsg(
     testMessages: SendableMessageInfo
-  ): Promise<{ message: Message; context: ContextWithSettlement }> {
+  ): Promise<{ message: ReceivedMessage; context: ContextWithSettlement }> {
     await senderClient.send(testMessages);
     const msgs = await receiverClient.receiveBatch(1);
 
@@ -523,7 +524,7 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
 
   async function deadLetterMessage(
     testMessage: SendableMessageInfo
-  ): Promise<{ message: Message; context: ContextWithSettlement }> {
+  ): Promise<{ message: ReceivedMessage; context: ContextWithSettlement }> {
     await senderClient.send(testMessage);
     const batch = await receiverClient.receiveBatch(1);
 
@@ -758,7 +759,7 @@ describe("Batch Receiver - Multiple Receiver Operations", function(): void {
     let unexpectedError;
     try {
       receiverClient.streamMessages({
-        async processMessage(message: Message): Promise<void> {
+        async processMessage(message: ReceivedMessage): Promise<void> {
           // process message here - it's basically a ServiceBusMessage minus any settlement related methods
         },
         async processError(err: Error): Promise<void> {
