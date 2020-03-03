@@ -51,6 +51,7 @@
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "track2-minimal-test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" ts-node src/samples-harsha.ts",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 120000 --full-trace dist-esm/test/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
