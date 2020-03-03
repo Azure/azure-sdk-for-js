@@ -130,8 +130,10 @@ TBD: do we make this a:
 - compile time constraint (ie, new type `PeekMessage`)
 - or do we do we just throw an exception at runtime?
 
-We can also omit the following fields:
-- TBD
+We can also omit the following fields for sending messages (and peeked
+messages, if we decide to split that out):
+- LockToken
+- Others?
 
 # Message batching
 
