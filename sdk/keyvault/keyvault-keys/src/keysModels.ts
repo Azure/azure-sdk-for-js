@@ -6,20 +6,14 @@ import { DeletionRecoveryLevel } from "./core/models";
 
 /**
  * Defines values for EncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+ * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
  * @readonly
  * @enum {string}
  */
 export type EncryptionAlgorithm =
   | "RSA-OAEP"
   | "RSA-OAEP-256"
-  | "RSA1_5"
-  | "A128GCM"
-  | "A192GCM"
-  | "A256GCM"
-  | "A128KW"
-  | "A192KW"
-  | "A256KW";
+  | "RSA1_5";
 
 /**
  * Defines values for KeyCurveName.
@@ -31,7 +25,7 @@ export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
  * Defines values for KeyOperation.
- * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
+ * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey', 'import'
  * @readonly
  * @enum {string}
  */
@@ -50,7 +44,7 @@ export type KeyOperation =
  * @readonly
  * @enum {string}
  */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 /**
  * @internal
@@ -553,18 +547,4 @@ export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {}
 /**
  * An interface representing the options of the cryptography API methods, go to the {@link CryptographyClient} for more information.
  */
-export interface CryptographyOptions extends coreHttp.OperationOptions {
-  /**
-   * Initialization vector for symmetric algorithms.
-   */
-  iv?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
-   * algorithms.
-   */
-  aad?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated algorithm.
-   */
-  tag?: Uint8Array;
-}
+export interface CryptographyOptions extends coreHttp.OperationOptions {}
