@@ -74,6 +74,7 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
   ): Promise<{ messages: Message[]; context: ContextType<LockModeT> }>;
+  renewMessageLock(lockTokenOrMessage: string | Message): Promise<Date>;
   receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
   receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
   close(): Promise<void>;
@@ -386,6 +387,14 @@ export class ReceiverClientImplementation {
       );
     } else {
       throw new Error("Invalid receive mode");
+    }
+  }
+
+  async renewMessageLock(lockTokenOrMessage: string | Message): Promise<Date> {
+    if (!(this._receiver instanceof InternalSessionReceiver)) {
+      return this._receiver.renewMessageLock(lockTokenOrMessage);
+    } else {
+      throw new Error("'renewMessageLock' does not exist on 'SessionReceiver'");
     }
   }
 
