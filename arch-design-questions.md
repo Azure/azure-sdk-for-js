@@ -120,6 +120,13 @@ vs messages that are received (`ReceivedMessage`).
 This allows us to avoid including fields or actions (like settling, that only applies 
 to received messages).
 
+Messages returned from the peek() API should not contain methods for 
+message settlement. (ie, complete(), abandon()).
+
+TBD: do we make this a:
+- compile time constraint (ie, new type `PeekMessage`)
+- or do we do we just throw an exception at runtime?
+
 We can also omit the following fields:
 - TBD
 
