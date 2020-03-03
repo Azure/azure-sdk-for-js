@@ -125,5 +125,7 @@ We can also omit the following fields:
 
 # Message batching
 
-Batching of messages is done via `ServiceBusMessageBatch`, similar to what we use
-in EventHubs.
+- Batching of messages is done via `ServiceBusMessageBatch`, similar to what we use
+in [EventHubs]()
+- The message batch is only used for sending. Receiving a fixed set of messages is 
+  still done using the equivalent of a IList<T> (either an array, a Flux<T> ,etc...)
