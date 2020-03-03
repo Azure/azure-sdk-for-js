@@ -19,6 +19,7 @@ export {
   ErrorAdditionalInfo,
   ErrorResponse,
   GenericResource,
+  GenericResourceExpanded,
   Identity,
   IdentityUserAssignedIdentitiesValue,
   OnErrorDeploymentExtended,
@@ -30,10 +31,14 @@ export {
   ResourceGroup,
   ResourceGroupProperties,
   ResourceListResult,
+  ResourceReference,
   ResourcesMoveInfo,
   Sku,
   SubResource,
   TagCount,
+  TagDetails,
+  Tags,
+  TagsResource,
   TagValue,
   TemplateLink
 } from "../models/mappers";
