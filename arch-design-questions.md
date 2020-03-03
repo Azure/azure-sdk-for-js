@@ -124,7 +124,7 @@ Messages returned from the peek() API should are not settleable. Either handle t
 via:
 - runtime exception on the client itself (.net, java)
 - runtime exception on the message object (python)
-- Compile time restriction by not offering it externally (typescript).
+- Compile time restriction by not offering it at all (typescript).
 
 TBD: do we make this a:
 - compile time constraint (ie, new type `PeekMessage`)
