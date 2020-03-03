@@ -29,6 +29,13 @@ export interface Session {
    * ReceiverClient you create that processes a session.
    */
   connections?: SessionConnections;
+  /**
+   * @property The maximum duration in seconds
+   * until which, the lock on the session will be renewed automatically by the sdk.
+   * - **Default**: `300` seconds (5 minutes).
+   * - **To disable autolock renewal**, set this to `0`.
+   */
+  maxSessionAutoRenewLockDurationInSeconds?: number;
 }
 
 export function isSession(possibleSession: Session | any): possibleSession is Session {
