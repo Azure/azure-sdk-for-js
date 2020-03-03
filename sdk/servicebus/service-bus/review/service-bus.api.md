@@ -345,7 +345,7 @@ export class ServiceBusSenderClient {
 // @public
 export interface Session {
     connections: SessionConnections;
-    id: string | undefined;
+    id?: string;
 }
 
 // @public
