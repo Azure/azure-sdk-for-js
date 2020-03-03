@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { resolve, CONNREFUSED, TIMEOUT } from "dns";
-import { retry as logRetry } from "../log";
+import { logger } from "../log";
 
 /**
  * Checks whether a network connection is detected.
@@ -11,10 +11,10 @@ import { retry as logRetry } from "../log";
  */
 export function checkNetworkConnection(host: string): Promise<boolean> {
   return new Promise((res) => {
-    logRetry("Calling dns.resolve to determine network connection status.");
+    logger.verbose("Calling dns.resolve to determine network connection status.");
     resolve(host, function(err: any): void {
       if (err) {
-        logRetry(
+        logger.verbose(
           "Error thrown from dns.resolve in network connection check: '%s', %O",
           err.code || err.name,
           err
@@ -25,7 +25,7 @@ export function checkNetworkConnection(host: string): Promise<boolean> {
           return res(false);
         }
       } else {
-        logRetry("Successfully resolved host via dns.resolve in network connection check.");
+        logger.verbose("Successfully resolved host via dns.resolve in network connection check.");
       }
 
       return res(true);

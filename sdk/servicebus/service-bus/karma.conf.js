@@ -20,7 +20,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-coverage",
+      "karma-remap-istanbul",
       "karma-junit-reporter"
     ],
 
@@ -49,46 +49,30 @@ module.exports = function(config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "SERVICEBUS_CONNECTION_STRING",
-      "QUEUE_NAME_BROWSER",
-      "QUEUE_NAME_NO_PARTITION_BROWSER",
-      "QUEUE_NAME_SESSION_BROWSER",
-      "QUEUE_NAME_NO_PARTITION_SESSION_BROWSER",
-      "TOPIC_NAME_BROWSER",
-      "TOPIC_NAME_NO_PARTITION_BROWSER",
-      "TOPIC_NAME_SESSION_BROWSER",
-      "TOPIC_NAME_NO_PARTITION_SESSION_BROWSER",
-      "SUBSCRIPTION_NAME_BROWSER",
-      "SUBSCRIPTION_NAME_NO_PARTITION_BROWSER",
-      "SUBSCRIPTION_NAME_SESSION_BROWSER",
-      "SUBSCRIPTION_NAME_NO_PARTITION_SESSION_BROWSER",
-      "TOPIC_FILTER_NAME_BROWSER",
-      "TOPIC_FILTER_SUBSCRIPTION_NAME_BROWSER",
-      "TOPIC_FILTER_DEFAULT_SUBSCRIPTION_NAME_BROWSER",
-      "AAD_CLIENT_ID",
-      "AAD_CLIENT_SECRET",
-      "AAD_TENANT_ID",
-      "RESOURCE_GROUP",
-      "AZURE_SUBSCRIPTION_ID",
-      "CLEAN_NAMESPACE"
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TENANT_ID"
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "remap-coverage", "junit"],
+    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit"],
 
-    coverageReporter: { type: "in-memory" },
-
-    // Coverage report settings
-    remapCoverageReporter: {
-      "text-summary": null, // to show summary in console
-      html: "./coverage-browser",
-      cobertura: "./coverage-browser/cobertura-coverage.xml"
+    coverageReporter: {
+      // specify a common output directory
+      dir: "coverage-browser/",
+      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
     },
 
-    // Exclude coverage calculation for following files
-    remapOptions: {
-      exclude: /node_modules|tests/g
+    remapIstanbulReporter: {
+      src: "coverage-browser/coverage.json",
+      reports: {
+        lcovonly: "coverage-browser/lcov.info",
+        html: "coverage-browser/html/report",
+        "text-summary": null,
+        cobertura: "./coverage-browser/cobertura-coverage.xml"
+      }
     },
 
     junitReporter: {

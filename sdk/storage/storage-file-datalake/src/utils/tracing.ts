@@ -5,7 +5,6 @@ import { Span, SpanKind, SpanOptions } from "@opentelemetry/types";
 
 import { OperationTracingOptions } from "../StorageClient";
 
-
 /**
  * Creates a span using the global tracer.
  * @param name The name of the operation being performed.
@@ -18,17 +17,21 @@ export function createSpan(
   const tracer = getTracer();
   const spanOptions: SpanOptions = {
     ...tracingOptions.spanOptions,
-    kind: SpanKind.CLIENT
+    kind: SpanKind.INTERNAL
   };
 
   const span = tracer.startSpan(`Azure.Storage.DataLake.${operationName}`, spanOptions);
-  span.setAttribute("component", "storage");
+  span.setAttribute("az.namespace", "Microsoft.Storage");
 
   let newOptions = tracingOptions.spanOptions || {};
   if (span.isRecording()) {
     newOptions = {
-      ...tracingOptions,
-      parent: span
+      ...tracingOptions.spanOptions,
+      parent: span,
+      attributes: {
+        ...spanOptions.attributes,
+        "az.namespace": "Microsoft.Storage"
+      }
     };
   }
 

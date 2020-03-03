@@ -1,14 +1,21 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name, SAS and a path pointing to local file in main()
 */
 
 const fs = require("fs");
+
 const { AbortController } = require("@azure/abort-controller");
 const {
   AnonymousCredential,
   ShareServiceClient,
   newPipeline
 } = require("@azure/storage-file-share");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
@@ -21,7 +28,7 @@ async function main() {
   // Fill in following settings before running this sample
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
-  const localFilePath = "../README.md";
+  const localFilePath = "README.md";
 
   const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
@@ -99,11 +106,6 @@ async function main() {
   console.log("deleted share");
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});

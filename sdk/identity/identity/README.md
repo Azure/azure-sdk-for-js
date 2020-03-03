@@ -1,4 +1,4 @@
-## Azure Identity client library for JS
+## Azure Identity client library for JavaScript
 
 This library simplifies authentication against Azure Active Directory for Azure SDK libraries.
 It provides a set of `TokenCredential` implementations which can be passed into SDK libraries

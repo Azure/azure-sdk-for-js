@@ -59,5 +59,7 @@ export {
   isIotHubConnectionString,
   randomNumberFromInterval,
   AsyncLock,
-  isNode
+  isNode,
+  WebSocketOptions
 } from "./util/utils";
+export { logger } from "./log";

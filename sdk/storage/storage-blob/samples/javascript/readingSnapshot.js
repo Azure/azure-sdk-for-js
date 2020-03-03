@@ -1,24 +1,30 @@
-/* 
-  If you use BlobClient.download() to download an append blob which is being actively appended, 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+/*
+  If you use BlobClient.download() to download an append blob which is being actively appended,
   you may get a 412 HTTP error, just like this issue: https://github.com/Azure/azure-storage-js/issues/51
 
   Recommend solution is to snapshot the append blob, and read from the snapshot blob.
 
   Reason
-  - blobClient.download() will try to download a blob with a HTTP Get request into a stream. 
-  - When a stream unexpectedly ends because of an unreliable network, retry will resume the stream read 
+  - blobClient.download() will try to download a blob with a HTTP Get request into a stream.
+  - When a stream unexpectedly ends because of an unreliable network, retry will resume the stream read
     from that broken point with a new HTTP Get request.
-  - The second HTTP request will use conditional header `IfMatch` with the blob's `ETag` 
-    returned in first request to make sure the blob doesn't change when the 2nd retry happens. 
+  - The second HTTP request will use conditional header `IfMatch` with the blob's `ETag`
+    returned in first request to make sure the blob doesn't change when the 2nd retry happens.
     Otherwise, a 412 conditional header doesn't match error will be returned.
-  - This strict strategy is used to avoid data integrity issues, such as the blob maybe totally over written by someone others. 
+  - This strict strategy is used to avoid data integrity issues, such as the blob maybe totally over written by someone others.
     However, this strategy seems avoiding reading from reading a constantly updated log file when a retry happens.
 
 
   Setup: Enter your storage account name and shared key in main()
 */
 
-const { BlobServiceClient, StorageSharedKeyCredential } = require("../.."); // Change to "@azure/storage-blob" in your package
+const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -29,14 +35,12 @@ async function main() {
   // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
-  const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
-  );
-
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.getContainerClient(containerName);
+  const containerClient = new ContainerClient(
+    `https://${account}.blob.core.windows.net/${containerName}`,
+    sharedKeyCredential
+  );
 
   const createContainerResponse = await containerClient.create();
   console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
@@ -46,7 +50,7 @@ async function main() {
   const blobName = "newblob" + new Date().getTime();
   const blobClient = containerClient.getBlobClient(blobName);
   const blockBlobClient = blobClient.getBlockBlobClient();
-  const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  const uploadBlobResponse = await blockBlobClient.upload(content, Buffer.byteLength(content));
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // Downloading blob from the snapshot
@@ -82,11 +86,6 @@ async function streamToString(readableStream) {
   });
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});

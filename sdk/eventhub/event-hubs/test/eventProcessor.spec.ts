@@ -14,7 +14,8 @@ import {
   ReceivedEventData,
   LastEnqueuedEventProperties,
   SubscriptionEventHandlers,
-  EventPosition,
+  earliestEventPosition,
+  latestEventPosition,
   CheckpointStore
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
@@ -23,17 +24,19 @@ import { generate_uuid, Dictionary } from "rhea-promise";
 import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
 import { Checkpoint } from "../src/partitionProcessor";
 import { delay } from "@azure/core-amqp";
-import { InitializationContext, PartitionContext } from "../src/eventHubConsumerClientModels";
+import { PartitionContext } from "../src/eventHubConsumerClientModels";
 import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
 import { loggerForTest } from "./utils/logHelpers";
 import {
   SubscriptionHandlerForTests,
   sendOneMessagePerPartition
 } from "./utils/subscriptionHandlerForTests";
-import { GreedyPartitionLoadBalancer } from "../src/partitionLoadBalancer";
+import { GreedyPartitionLoadBalancer, PartitionLoadBalancer } from "../src/partitionLoadBalancer";
 import { AbortError } from "@azure/abort-controller";
-import { FakeSubscriptionEventHandlers } from './utils/fakeSubscriptionEventHandlers';
-import sinon from 'sinon';
+import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
+import sinon from "sinon";
+import { isLatestPosition } from "../src/eventPosition";
+import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
@@ -68,66 +71,126 @@ describe("Event Processor", function(): void {
   });
 
   describe("unit tests", () => {
-    it("_getStartingPosition", async () => {
-      let checkpoints: Checkpoint[] = [
-        {
-          fullyQualifiedNamespace: "not-used-for-this-test",
-          consumerGroup: "not-used-for-this-test",
-          eventHubName: "not-used-for-this-test",
-          offset: 1009,
-          sequenceNumber: 1010,
-          partitionId: "0"
-        },
-        {
-          fullyQualifiedNamespace: "not-used-for-this-test",
-          consumerGroup: "not-used-for-this-test",
-          eventHubName: "not-used-for-this-test",
-          // this caused a bug for us before - it's a perfectly valid offset
-          // but we were thrown off by its falsy-ness. (actually it was
-          // sequence number before but the concept is the same)
-          offset: 0,
-          sequenceNumber: 0,
-          partitionId: "1"
-        }
-      ];
+    describe("_getStartingPosition", () => {
+      before(() => {
+        client["getPartitionIds"] = async () => ["0", "1"];
+      });
 
-        const checkpointStore: CheckpointStore = {
+      it("no checkpoint or user specified default", async () => {
+        const processor = createEventProcessor(emptyCheckpointStore);
+
+        let eventPosition = await processor["_getStartingPosition"]("0");
+        isLatestPosition(eventPosition).should.be.ok;
+      });
+
+      it("has a checkpoint", async () => {
+        const checkpointStore = createCheckpointStore([
+          {
+            offset: 1009,
+            sequenceNumber: 1010,
+            partitionId: "0"
+          }
+        ]);
+
+        const processor = createEventProcessor(
+          checkpointStore,
+          // checkpoints always win over the user's specified position
+          latestEventPosition
+        );
+
+        let eventPosition = await processor["_getStartingPosition"]("0");
+        eventPosition!.offset!.should.equal(1009);
+        should.not.exist(eventPosition!.sequenceNumber);
+      });
+
+      it("checkpoint with falsy values", async () => {
+        // this caused a bug for us before - it's a perfectly valid offset
+        // but we were thrown off by its falsy-ness. (actually it was
+        // sequence number before but the concept is the same)
+        const checkpointStore = createCheckpointStore([
+          {
+            offset: 0,
+            sequenceNumber: 0,
+            partitionId: "0"
+          }
+        ]);
+
+        const processor = createEventProcessor(checkpointStore);
+
+        let eventPosition = await processor["_getStartingPosition"]("0");
+        eventPosition!.offset!.should.equal(0);
+        should.not.exist(eventPosition!.sequenceNumber);
+      });
+
+      it("using a single default event position for any partition", async () => {
+        const processor = createEventProcessor(emptyCheckpointStore, { offset: 1009 });
+
+        let eventPosition = await processor["_getStartingPosition"]("0");
+        eventPosition!.offset!.should.equal(1009);
+        should.not.exist(eventPosition!.sequenceNumber);
+      });
+
+      it("using a fallback map", async () => {
+        const fallbackPositions = { "0": { offset: 2001 } };
+        // we'll purposefully omit "1" which should act as "fallback to the fallback" which is earliest()
+
+        const processor = createEventProcessor(emptyCheckpointStore, fallbackPositions);
+
+        let eventPositionForPartitionZero = await processor["_getStartingPosition"]("0");
+        eventPositionForPartitionZero!.offset!.should.equal(2001);
+        should.not.exist(eventPositionForPartitionZero!.sequenceNumber);
+
+        let eventPositionForPartitionOne = await processor["_getStartingPosition"]("1");
+        isLatestPosition(eventPositionForPartitionOne).should.be.ok;
+      });
+
+      function createEventProcessor(
+        checkpointStore: CheckpointStore,
+        startPosition?: FullEventProcessorOptions["startPosition"]
+      ) {
+        return new EventProcessor(
+          EventHubClient.defaultConsumerGroupName,
+          client,
+          {
+            processEvents: async () => {},
+            processError: async () => {}
+          },
+          checkpointStore,
+          {
+            startPosition,
+            maxBatchSize: 1,
+            maxWaitTimeInSeconds: 1
+          }
+        );
+      }
+
+      const emptyCheckpointStore = createCheckpointStore([]);
+
+      function createCheckpointStore(
+        checkpointsForTest: Pick<Checkpoint, "offset" | "sequenceNumber" | "partitionId">[]
+      ): CheckpointStore {
+        return {
           claimOwnership: async () => {
             return [];
           },
           listCheckpoints: async () => {
-            return checkpoints;
+            return checkpointsForTest.map((cp) => {
+              return {
+                fullyQualifiedNamespace: "not-used-for-this-test",
+                consumerGroup: "not-used-for-this-test",
+                eventHubName: "not-used-for-this-test",
+                offset: cp.offset,
+                sequenceNumber: cp.sequenceNumber,
+                partitionId: cp.partitionId
+              };
+            });
           },
           listOwnership: async () => {
             return [];
           },
-          updateCheckpoint: async () => { }
+          updateCheckpoint: async () => {}
         };
-
-      // we're not actually going to start anything here so there's nothing
-      // to stop
-      const processor = new EventProcessor(EventHubClient.defaultConsumerGroupName, client, {
-        processEvents: async () => { },
-        processError: async () => { },
-      }, checkpointStore, {
-          maxBatchSize: 1,
-          maxWaitTimeInSeconds: 1
-        }
-      );
-
-      // checkpoint is available for partition 0
-      let eventPosition = await processor['_getStartingPosition']("0");
-      eventPosition!.offset!.should.equal(1009);
-      should.not.exist(eventPosition!.sequenceNumber);
-
-      //checkpoint is available for partition 1
-      eventPosition = await processor['_getStartingPosition']("1");
-      eventPosition!.offset!.should.equal(0);
-      should.not.exist(eventPosition!.sequenceNumber);
-
-      // no checkpoint available for partition 2
-      eventPosition = await processor['_getStartingPosition']("2");
-      should.not.exist(eventPosition);
+      }
     });
 
     describe("_handleSubscriptionError", () => {
@@ -143,11 +206,11 @@ describe("Event Processor", function(): void {
 
         // note: we're not starting this event processor so there's nothing to stop()
         // it's only here so we can call a few private methods on it.
-        eventProcessor = new EventProcessor(        
+        eventProcessor = new EventProcessor(
           EventHubClient.defaultConsumerGroupName,
           client,
           {
-            processEvents: async () => { },
+            processEvents: async () => {},
             processError: async (err, context) => {
               // simulate the user messing up and accidentally throwing an error
               // we should just log it and not kill anything.
@@ -157,7 +220,7 @@ describe("Event Processor", function(): void {
               if (userCallback) {
                 userCallback();
               }
-            },
+            }
           },
           new InMemoryCheckpointStore(),
           defaultOptions
@@ -199,27 +262,35 @@ describe("Event Processor", function(): void {
         },
 
         // (these aren't used for this test)
-        async listOwnership(): Promise<PartitionOwnership[]> { return []; },
-        async updateCheckpoint(): Promise<void> { },
-        async listCheckpoints(): Promise<Checkpoint[]> { return []; }        
+        async listOwnership(): Promise<PartitionOwnership[]> {
+          return [];
+        },
+        async updateCheckpoint(): Promise<void> {},
+        async listCheckpoints(): Promise<Checkpoint[]> {
+          return [];
+        }
       };
 
       const pumpManager = {
         createPumpCalled: false,
-          
+
         async createPump() {
           pumpManager.createPumpCalled = true;
         },
 
-        async removeAllPumps() { }
-      }
+        async removeAllPumps() {},
+
+        isReceivingFromPartition() {
+          return false;
+        }
+      };
 
       const eventProcessor = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         {
-          processEvents: async () => { },
-          processError: async () => { },
+          processEvents: async () => {},
+          processError: async () => {}
         },
         checkpointStore,
         {
@@ -228,13 +299,16 @@ describe("Event Processor", function(): void {
         }
       );
 
-      await eventProcessor['_claimOwnership']({
-        consumerGroup: "cgname",
-        eventHubName: "ehname",
-        fullyQualifiedNamespace: "fqdn",
-        ownerId: "owner",
-        partitionId: "0"
-      });
+      await eventProcessor["_claimOwnership"](
+        {
+          consumerGroup: "cgname",
+          eventHubName: "ehname",
+          fullyQualifiedNamespace: "fqdn",
+          ownerId: "owner",
+          partitionId: "0"
+        },
+        new AbortController().signal
+      );
 
       // when we fail to claim a partition we should _definitely_
       // not attempt to start a pump.
@@ -258,7 +332,7 @@ describe("Event Processor", function(): void {
         // abandoned claim
         { ...commonFields, partitionId: "1001", ownerId: "", etag: "abandoned etag" },
         // normally owned claim
-        { ...commonFields, partitionId: "1002", ownerId: "owned partition", etag: "owned etag" },
+        { ...commonFields, partitionId: "1002", ownerId: "owned partition", etag: "owned etag" }
         // 1003 - completely unowned
       ]);
 
@@ -268,61 +342,121 @@ describe("Event Processor", function(): void {
       const partitionIds = ["1001", "1002", "1003"];
 
       fakeEventHubClient.getPartitionIds.resolves(partitionIds);
-      sinon.replaceGetter(fakeEventHubClient, 'eventHubName', () => commonFields.eventHubName);
-      sinon.replaceGetter(fakeEventHubClient, 'fullyQualifiedNamespace', () => commonFields.fullyQualifiedNamespace);
+      sinon.replaceGetter(fakeEventHubClient, "eventHubName", () => commonFields.eventHubName);
+      sinon.replaceGetter(
+        fakeEventHubClient,
+        "fullyQualifiedNamespace",
+        () => commonFields.fullyQualifiedNamespace
+      );
 
-      const ep = new EventProcessor(commonFields.consumerGroup, fakeEventHubClient as any, handlers, checkpointStore, {
-        maxBatchSize: 1,
-        loopIntervalInMs: 1,
-        maxWaitTimeInSeconds: 1,
-        pumpManager: {
-          async createPump() { },
-          async removeAllPumps(): Promise<void> { }
+      const ep = new EventProcessor(
+        commonFields.consumerGroup,
+        fakeEventHubClient as any,
+        handlers,
+        checkpointStore,
+        {
+          maxBatchSize: 1,
+          loopIntervalInMs: 1,
+          maxWaitTimeInSeconds: 1,
+          pumpManager: {
+            async createPump() {},
+            async removeAllPumps(): Promise<void> {},
+            isReceivingFromPartition() {
+              return false;
+            }
+          }
         }
-      });
+      );
 
-      // allow three iterations through the loop - one for each partition that 
+      // allow three iterations through the loop - one for each partition that
       // we expect to be claimed
       //
-      // we'll let one more go through just to make sure we're not going to 
+      // we'll let one more go through just to make sure we're not going to
       // pick up an extra surprise partition
       //
       // This particular behavior is really specific to the FairPartitionLoadBalancer but that's okay for now.
-      const numTimesAbortedIsCheckedInLoop = 3;
-      await ep['_runLoop'](triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop));
+      const numTimesAbortedIsCheckedInLoop = 4;
+      await ep["_runLoopWithLoadBalancing"](
+        ep["_processingTarget"] as PartitionLoadBalancer,
+        triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop)
+      );
 
       handlers.errors.should.be.empty;
 
-      const currentOwnerships = await checkpointStore.listOwnership(commonFields.fullyQualifiedNamespace, commonFields.eventHubName, commonFields.consumerGroup);
+      const currentOwnerships = await checkpointStore.listOwnership(
+        commonFields.fullyQualifiedNamespace,
+        commonFields.eventHubName,
+        commonFields.consumerGroup
+      );
       currentOwnerships.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
 
       currentOwnerships.should.deep.equal([
-        { ...commonFields, partitionId: "1001", ownerId: ep.id, etag: currentOwnerships[0].etag, lastModifiedTimeInMs: currentOwnerships[0].lastModifiedTimeInMs },
+        {
+          ...commonFields,
+          partitionId: "1001",
+          ownerId: ep.id,
+          etag: currentOwnerships[0].etag,
+          lastModifiedTimeInMs: currentOwnerships[0].lastModifiedTimeInMs
+        },
         // 1002 is not going to be claimed since it's already owned so it should be untouched
         originalClaimedPartitions[1],
-        { ...commonFields, partitionId: "1003", ownerId: ep.id, etag: currentOwnerships[2].etag,  lastModifiedTimeInMs: currentOwnerships[2].lastModifiedTimeInMs }
+        {
+          ...commonFields,
+          partitionId: "1003",
+          ownerId: ep.id,
+          etag: currentOwnerships[2].etag,
+          lastModifiedTimeInMs: currentOwnerships[2].lastModifiedTimeInMs
+        }
       ]);
 
       // now let's "unclaim" everything by stopping our event processor
       await ep.stop();
-      
+
       // sanity check - we were previously modifying the original instances
       // in place which...isn't right.
       currentOwnerships.should.deep.equal([
-        { ...commonFields, partitionId: "1001", ownerId: ep.id, etag: currentOwnerships[0].etag, lastModifiedTimeInMs: currentOwnerships[0].lastModifiedTimeInMs },
+        {
+          ...commonFields,
+          partitionId: "1001",
+          ownerId: ep.id,
+          etag: currentOwnerships[0].etag,
+          lastModifiedTimeInMs: currentOwnerships[0].lastModifiedTimeInMs
+        },
         // 1002 is not going to be claimed since it's already owned so it should be untouched
         originalClaimedPartitions[1],
-        { ...commonFields, partitionId: "1003", ownerId: ep.id, etag: currentOwnerships[2].etag,  lastModifiedTimeInMs: currentOwnerships[2].lastModifiedTimeInMs }
+        {
+          ...commonFields,
+          partitionId: "1003",
+          ownerId: ep.id,
+          etag: currentOwnerships[2].etag,
+          lastModifiedTimeInMs: currentOwnerships[2].lastModifiedTimeInMs
+        }
       ]);
 
-      const ownershipsAfterStop = await checkpointStore.listOwnership(commonFields.fullyQualifiedNamespace, commonFields.eventHubName, commonFields.consumerGroup);
+      const ownershipsAfterStop = await checkpointStore.listOwnership(
+        commonFields.fullyQualifiedNamespace,
+        commonFields.eventHubName,
+        commonFields.consumerGroup
+      );
       ownershipsAfterStop.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
 
       ownershipsAfterStop.should.deep.equal([
-        { ...commonFields, partitionId: "1001", ownerId: "", etag: ownershipsAfterStop[0].etag, lastModifiedTimeInMs: ownershipsAfterStop[0].lastModifiedTimeInMs },
+        {
+          ...commonFields,
+          partitionId: "1001",
+          ownerId: "",
+          etag: ownershipsAfterStop[0].etag,
+          lastModifiedTimeInMs: ownershipsAfterStop[0].lastModifiedTimeInMs
+        },
         // 1002 is not going to be claimed since it's already owned so it should be untouched
         originalClaimedPartitions[1],
-        { ...commonFields, partitionId: "1003", ownerId: "", etag: ownershipsAfterStop[2].etag,  lastModifiedTimeInMs: ownershipsAfterStop[2].lastModifiedTimeInMs }
+        {
+          ...commonFields,
+          partitionId: "1003",
+          ownerId: "",
+          etag: ownershipsAfterStop[2].etag,
+          lastModifiedTimeInMs: ownershipsAfterStop[2].lastModifiedTimeInMs
+        }
       ]);
     });
   });
@@ -351,7 +485,7 @@ describe("Event Processor", function(): void {
       faultyCheckpointStore,
       {
         ...defaultOptions,
-        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+        processingTarget: new GreedyPartitionLoadBalancer(["0"])
       }
     );
 
@@ -387,9 +521,15 @@ describe("Event Processor", function(): void {
       EventHubClient.defaultConsumerGroupName,
       client,
       {
-        processClose: async () => { throw new Error("processClose() error") },
-        processEvents: async () => { throw new Error("processEvents() error"); },
-        processInitialize: async () => { throw new Error("processInitialize() error") },
+        processClose: async () => {
+          throw new Error("processClose() error");
+        },
+        processEvents: async () => {
+          throw new Error("processEvents() error");
+        },
+        processInitialize: async () => {
+          throw new Error("processInitialize() error");
+        },
         processError: async (err, _) => {
           errors.add(err);
           throw new Error("These are logged but ignored");
@@ -398,7 +538,8 @@ describe("Event Processor", function(): void {
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        partitionLoadBalancer: new GreedyPartitionLoadBalancer(["0"])
+        processingTarget: new GreedyPartitionLoadBalancer(["0"]),
+        startPosition: earliestEventPosition
       }
     );
 
@@ -414,7 +555,7 @@ describe("Event Processor", function(): void {
         until: async () => errors.size >= 3
       });
 
-      const messages = [...errors].map(e => e.message);
+      const messages = [...errors].map((e) => e.message);
       messages.sort();
 
       messages.should.deep.equal([
@@ -433,11 +574,13 @@ describe("Event Processor", function(): void {
       client,
       {
         processEvents: async () => {},
-        processInitialize: async (context) => context.setStartingPosition(EventPosition.latest()),
-        processError: async () => { },
+        processError: async () => {}
       },
       new InMemoryCheckpointStore(),
-      defaultOptions
+      {
+        ...defaultOptions,
+        startPosition: latestEventPosition
+      }
     );
 
     const id = processor.id;
@@ -450,11 +593,10 @@ describe("Event Processor", function(): void {
       client,
       {
         processEvents: async () => {},
-        processInitialize: async (context) => context.setStartingPosition(EventPosition.latest()),
-        processError: async () => { },
+        processError: async () => {}
       },
       new InMemoryCheckpointStore(),
-      { ...defaultOptions, ownerId: "hello" }
+      { ...defaultOptions, ownerId: "hello", startPosition: latestEventPosition }
     );
 
     processor.id.should.equal("hello");
@@ -468,14 +610,21 @@ describe("Event Processor", function(): void {
     // ensure we have at least 2 partitions
     partitionIds.length.should.gte(2);
 
-    const subscriptionEventHandler = await SubscriptionHandlerForTests.startingFromHere(client);
+    const {
+      subscriptionEventHandler,
+      startPosition
+    } = await SubscriptionHandlerForTests.startingFromHere(client);
 
     const processor = new EventProcessor(
       EventHubClient.defaultConsumerGroupName,
       client,
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
-      { ...defaultOptions, partitionLoadBalancer: new GreedyPartitionLoadBalancer() }
+      {
+        ...defaultOptions,
+        processingTarget: new GreedyPartitionLoadBalancer(),
+        startPosition: startPosition
+      }
     );
 
     processor.start();
@@ -505,13 +654,15 @@ describe("Event Processor", function(): void {
       {
         processInitialize: async (context) => {
           didPartitionProcessorStart = true;
-          context.setStartingPosition(EventPosition.latest());
         },
-        processEvents: async (event, context) => { },
-        processError: async () => { },
+        processEvents: async (event, context) => {},
+        processError: async () => {}
       },
       new InMemoryCheckpointStore(),
-      defaultOptions
+      {
+        ...defaultOptions,
+        startPosition: latestEventPosition
+      }
     );
 
     // shutdown the processor
@@ -526,7 +677,10 @@ describe("Event Processor", function(): void {
     // ensure we have at least 2 partitions
     partitionIds.length.should.gte(2);
 
-    let subscriptionEventHandler = await SubscriptionHandlerForTests.startingFromHere(client);
+    let {
+      subscriptionEventHandler,
+      startPosition
+    } = await SubscriptionHandlerForTests.startingFromHere(client);
     const partitionLoadBalancer = new GreedyPartitionLoadBalancer();
 
     const processor = new EventProcessor(
@@ -535,8 +689,9 @@ describe("Event Processor", function(): void {
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
       {
-        partitionLoadBalancer,
-        ...defaultOptions
+        processingTarget: partitionLoadBalancer,
+        ...defaultOptions,
+        startPosition: startPosition
       }
     );
 
@@ -559,7 +714,6 @@ describe("Event Processor", function(): void {
     // start it again
     loggerForTest(`Starting processor again`);
     subscriptionEventHandler.clear();
-    partitionLoadBalancer.expireAll();
 
     processor.start();
 
@@ -577,7 +731,10 @@ describe("Event Processor", function(): void {
       void
     > {
       const partitionIds = await client.getPartitionIds({});
-      const subscriptionEventHandler = await SubscriptionHandlerForTests.startingFromHere(client);
+      const {
+        subscriptionEventHandler,
+        startPosition
+      } = await SubscriptionHandlerForTests.startingFromHere(client);
 
       const processor = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
@@ -586,7 +743,8 @@ describe("Event Processor", function(): void {
         new InMemoryCheckpointStore(),
         {
           ...defaultOptions,
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+          processingTarget: new GreedyPartitionLoadBalancer(),
+          startPosition: startPosition
         }
       );
 
@@ -677,10 +835,6 @@ describe("Event Processor", function(): void {
       let partionCount: { [x: string]: number } = {};
 
       class FooPartitionProcessor {
-        async processInitialize(context: InitializationContext) {
-          context.setStartingPosition(EventPosition.earliest());
-        }
-
         async processEvents(events: ReceivedEventData[], context: PartitionContext) {
           processedAtLeastOneEvent.add(context.partitionId);
 
@@ -711,7 +865,10 @@ describe("Event Processor", function(): void {
         client,
         new FooPartitionProcessor(),
         inMemoryCheckpointStore,
-        defaultOptions
+        {
+          ...defaultOptions,
+          startPosition: earliestEventPosition
+        }
       );
 
       // start first processor
@@ -756,7 +913,7 @@ describe("Event Processor", function(): void {
         client,
         new FooPartitionProcessor(),
         inMemoryCheckpointStore,
-        defaultOptions
+        { ...defaultOptions, startPosition: earliestEventPosition }
       );
 
       const checkpoints = await inMemoryCheckpointStore.listCheckpoints(
@@ -820,7 +977,7 @@ describe("Event Processor", function(): void {
       const basicProperties = {
         consumerGroup: "initial consumer group",
         eventHubName: "initial event hub name",
-        fullyQualifiedNamespace: "initial fully qualified namespace",
+        fullyQualifiedNamespace: "initial fully qualified namespace"
       };
 
       const originalPartitionOwnership = {
@@ -832,13 +989,11 @@ describe("Event Processor", function(): void {
       const copyOfPartitionOwnership = {
         ...originalPartitionOwnership
       };
-      
+
       assertUnique(originalPartitionOwnership);
 
       for (let i = 0; i < 2; ++i) {
-        const ownerships = await checkpointStore.claimOwnership([
-          originalPartitionOwnership
-        ]);
+        const ownerships = await checkpointStore.claimOwnership([originalPartitionOwnership]);
 
         // second sanity check - we were also modifying the input parameter
         // (which was also bad)
@@ -848,11 +1003,15 @@ describe("Event Processor", function(): void {
       }
 
       for (let i = 0; i < 2; ++i) {
-        const ownerships = await checkpointStore.listOwnership(basicProperties.fullyQualifiedNamespace, basicProperties.eventHubName, basicProperties.consumerGroup);
+        const ownerships = await checkpointStore.listOwnership(
+          basicProperties.fullyQualifiedNamespace,
+          basicProperties.eventHubName,
+          basicProperties.consumerGroup
+        );
         assertUnique(...ownerships);
       }
 
-      const originalCheckpoint : Checkpoint = {
+      const originalCheckpoint: Checkpoint = {
         ...basicProperties,
         sequenceNumber: 1,
         partitionId: "1",
@@ -869,7 +1028,11 @@ describe("Event Processor", function(): void {
       copyOfOriginalCheckpoint.should.deep.equal(originalCheckpoint);
 
       for (let i = 0; i < 2; ++i) {
-        const checkpoints = await checkpointStore.listCheckpoints(basicProperties.fullyQualifiedNamespace, basicProperties.eventHubName, basicProperties.consumerGroup);
+        const checkpoints = await checkpointStore.listCheckpoints(
+          basicProperties.fullyQualifiedNamespace,
+          basicProperties.eventHubName,
+          basicProperties.consumerGroup
+        );
         assertUnique(...checkpoints);
       }
     });
@@ -900,15 +1063,13 @@ describe("Event Processor", function(): void {
         { events: string[]; initialized: boolean; closeReason?: CloseReason }
       >();
       partitionIds.forEach((id) => partitionResultsMap.set(id, { events: [], initialized: false }));
-      let didError = false;
-      let errorName = "";
+      let didGetReceiverDisconnectedError = false;
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor implements Required<SubscriptionEventHandlers> {
-        async processInitialize(context: InitializationContext) {
+        async processInitialize(context: PartitionContext) {
           loggerForTest(`processInitialize(${context.partitionId})`);
           partitionResultsMap.get(context.partitionId)!.initialized = true;
-          context.setStartingPosition(EventPosition.earliest());
         }
         async processClose(reason: CloseReason, context: PartitionContext) {
           loggerForTest(`processClose(${context.partitionId})`);
@@ -917,12 +1078,14 @@ describe("Event Processor", function(): void {
         async processEvents(events: ReceivedEventData[], context: PartitionContext) {
           partitionOwnershipArr.add(context.partitionId);
           const existingEvents = partitionResultsMap.get(context.partitionId)!.events;
-          existingEvents.push(...events.map(event => event.body));
+          existingEvents.push(...events.map((event) => event.body));
         }
         async processError(err: Error, context: PartitionContext) {
           loggerForTest(`processError(${context.partitionId})`);
-          didError = true;
-          errorName = err.name;
+          const errorName = (err as any).code;
+          if (errorName === "ReceiverDisconnectedError") {
+            didGetReceiverDisconnectedError = true;
+          }
         }
       }
 
@@ -934,65 +1097,104 @@ describe("Event Processor", function(): void {
         await producer.close();
       }
 
+      const processor1LoadBalancingInterval = {
+        loopIntervalInMs: 1000
+      };
+
+      // working around a potential deadlock - this allows `processor-2` to more
+      // aggressively pursue getting its required partitions and avoid being in
+      // lockstep with `processor-1`
+      const processor2LoadBalancingInterval = {
+        loopIntervalInMs: processor1LoadBalancingInterval.loopIntervalInMs / 2
+      };
+
       processorByName[`processor-1`] = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        { ...defaultOptions }
+        {
+          ...defaultOptions,
+          startPosition: earliestEventPosition,
+          ...processor1LoadBalancingInterval
+        }
       );
 
       processorByName[`processor-1`].start();
 
-      while (partitionOwnershipArr.size !== partitionIds.length) {
-        loggerForTest("Waiting for partition ownership");
-        await delay(5000);
-      }
+      await loopUntil({
+        name: "All partitions are owned",
+        maxTimes: 60,
+        timeBetweenRunsMs: 1000,
+        until: async () => partitionOwnershipArr.size === partitionIds.length,
+        errorMessageFn: () => `${partitionOwnershipArr.size}/${partitionIds.length}`
+      });
 
       processorByName[`processor-2`] = new EventProcessor(
         EventHubClient.defaultConsumerGroupName,
         client,
         new FooPartitionProcessor(),
         checkpointStore,
-        defaultOptions
+        {
+          ...defaultOptions,
+          startPosition: earliestEventPosition,
+          ...processor2LoadBalancingInterval
+        }
       );
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
       processorByName[`processor-2`].start();
 
-      loggerForTest(`Just before the big arbitrary delay`);
-      await delay(12000);
-      loggerForTest(`Just after the big arbitrary delay`);
+      await loopUntil({
+        name: "Processors are balanced",
+        maxTimes: 60,
+        timeBetweenRunsMs: 1000,
+        until: async () => {
+          // it should be impossible for 'processor-2' to have obtained the number of
+          // partitions it needed without having stolen some from 'processor-1'
+          // so if we haven't see any `ReceiverDisconnectedError`'s then that stealing
+          // hasn't occurred yet.
+          if (!didGetReceiverDisconnectedError) {
+            return false;
+          }
 
-      // map of ownerId as a key and partitionIds as a value
-      const partitionOwnershipMap: Map<string, string[]> = new Map();
+          const partitionOwnership = await checkpointStore.listOwnership(
+            client.fullyQualifiedNamespace,
+            client.eventHubName,
+            EventHubClient.defaultConsumerGroupName
+          );
 
-      const partitionOwnership = await checkpointStore.listOwnership(
-        client.fullyQualifiedNamespace,
-        client.eventHubName,
-        EventHubClient.defaultConsumerGroupName
-      );
+          // map of ownerId as a key and partitionIds as a value
+          const partitionOwnershipMap: Map<string, string[]> = ownershipListToMap(
+            partitionOwnership
+          );
+
+          // if stealing has occurred we just want to make sure that _all_
+          // the stealing has completed.
+          const isBalanced = (friendlyName: string) => {
+            const n = Math.floor(partitionIds.length / 2);
+            const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!
+              .length;
+            return numPartitions == n || numPartitions == n + 1;
+          };
+
+          if (!isBalanced(`processor-1`) || !isBalanced(`processor-2`)) {
+            return false;
+          }
+
+          return true;
+        }
+      });
 
       for (const processor in processorByName) {
         await processorByName[processor].stop();
       }
 
-      for (const ownership of partitionOwnership) {
-        if (!partitionOwnershipMap.has(ownership.ownerId)) {
-          partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
-        } else {
-          let arr = partitionOwnershipMap.get(ownership.ownerId);
-          arr!.push(ownership.partitionId);
-          partitionOwnershipMap.set(ownership.ownerId, arr!);
-        }
-      }
-
-      didError.should.be.true;
-      errorName.should.equal("ReceiverDisconnectedError");
-      const n = Math.floor(partitionIds.length / 2);
-      partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
-      partitionOwnershipMap.get(processorByName[`processor-2`].id)!.length.should.oneOf([n, n + 1]);
-
+      // now that all the dust has settled let's make sure that
+      // a. we received some events from each partition (doesn't matter which processor)
+      //    did the work
+      // b. each partition was initialized
+      // c. each partition should have received at least one shutdown event
       for (const partitionId of partitionIds) {
         const results = partitionResultsMap.get(partitionId)!;
         results.events.length.should.be.gte(1);
@@ -1012,9 +1214,6 @@ describe("Event Processor", function(): void {
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor {
-        async processInitialization(context: InitializationContext) {
-          context.setStartingPosition(EventPosition.earliest());
-        }
         async processEvents(events: ReceivedEventData[], context: PartitionContext) {
           partitionOwnershipArr.add(context.partitionId);
         }
@@ -1038,7 +1237,7 @@ describe("Event Processor", function(): void {
           client,
           new FooPartitionProcessor(),
           checkpointStore,
-          defaultOptions
+          { ...defaultOptions, startPosition: earliestEventPosition }
         );
         processorByName[processorName].start();
         await delay(12000);
@@ -1088,15 +1287,18 @@ describe("Event Processor", function(): void {
       const checkpointStore = new InMemoryCheckpointStore();
       const claimedPartitionsMap = {} as { [eventProcessorId: string]: Set<string> };
 
+      const partitionOwnershipHistory: string[] = [];
+
       let allPartitionsClaimed = false;
       let thrashAfterSettling = false;
       const handlers: SubscriptionEventHandlers = {
         async processInitialize(context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
+
+          partitionOwnershipHistory.push(`${eventProcessorId}: init ${partitionId}`);
+
           loggerForTest(`[${eventProcessorId}] Claimed partition ${partitionId}`);
-          // For this test we don't want to actually checkpoint, just test ownership.
-          context.setStartingPosition(EventPosition.latest());
           if (allPartitionsClaimed) {
             thrashAfterSettling = true;
             return;
@@ -1106,8 +1308,8 @@ describe("Event Processor", function(): void {
           claimedPartitions.add(partitionId);
           claimedPartitionsMap[eventProcessorId] = claimedPartitions;
         },
-        async processEvents() { },
-        async processError() { },
+        async processEvents() {},
+        async processError() {},
         async processClose(reason, context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
@@ -1132,7 +1334,9 @@ describe("Event Processor", function(): void {
         maxWaitTimeInSeconds: 5,
         loopIntervalInMs: 1000,
         inactiveTimeLimitInMs: 3000,
-        ownerLevel: 0
+        ownerLevel: 0,
+        // For this test we don't want to actually checkpoint, just test ownership.
+        startPosition: latestEventPosition
       };
 
       const processor1 = new EventProcessor(
@@ -1156,28 +1360,57 @@ describe("Event Processor", function(): void {
 
       // loop until all partitions are claimed
       try {
+        let lastLoopError: Record<string, any> = {};
+
         await loopUntil({
           name: "partitionOwnership",
           maxTimes: 30,
           timeBetweenRunsMs: 10000,
+
+          errorMessageFn: () => JSON.stringify(lastLoopError, undefined, "  "),
           until: async () => {
             // Ensure the partition ownerships are balanced.
             const eventProcessorIds = Object.keys(claimedPartitionsMap);
 
             // There are 2 processors, so we should see 2 entries.
             if (eventProcessorIds.length !== 2) {
+              lastLoopError = {
+                reason: "Not all event processors have shown up",
+                eventProcessorIds,
+                partitionOwnershipHistory
+              };
               return false;
             }
 
             const aProcessorPartitions = claimedPartitionsMap[eventProcessorIds[0]];
             const bProcessorPartitions = claimedPartitionsMap[eventProcessorIds[1]];
+
             // The delta between number of partitions each processor owns can't be more than 1.
             if (Math.abs(aProcessorPartitions.size - bProcessorPartitions.size) > 1) {
+              lastLoopError = {
+                reason: "Delta between partitions is greater than 1",
+                a: Array.from(aProcessorPartitions),
+                b: Array.from(bProcessorPartitions),
+                partitionOwnershipHistory
+              };
               return false;
             }
 
             // All partitions must be claimed.
-            return aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
+            const allPartitionsClaimed =
+              aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
+
+            if (!allPartitionsClaimed) {
+              lastLoopError = {
+                reason: "All partitions not claimed",
+                partitionIds,
+                a: Array.from(aProcessorPartitions),
+                b: Array.from(bProcessorPartitions),
+                partitionOwnershipHistory
+              };
+            }
+
+            return allPartitionsClaimed;
           }
         });
       } catch (err) {
@@ -1213,7 +1446,8 @@ describe("Event Processor", function(): void {
   describe("with trackLastEnqueuedEventProperties #RunnableInBrowser", function(): void {
     it("should have lastEnqueuedEventProperties populated when trackLastEnqueuedEventProperties is set to true", async function(): Promise<
       void
-      > {
+    > {
+      const { startPosition } = await SubscriptionHandlerForTests.startingFromHere(client);
       const partitionIds = await client.getPartitionIds({});
       for (const partitionId of partitionIds) {
         const producer = client.createProducer({ partitionId: `${partitionId}` });
@@ -1224,9 +1458,6 @@ describe("Event Processor", function(): void {
       let partitionIdsSet = new Set();
       const lastEnqueuedEventPropertiesMap: Map<string, LastEnqueuedEventProperties> = new Map();
       class SimpleEventProcessor implements SubscriptionEventHandlers {
-        async processInitialization(context: InitializationContext) {
-          context.setStartingPosition(EventPosition.latest());
-        }
         async processEvents(events: ReceivedEventData[], context: PartitionContext) {
           partitionIdsSet.add(context.partitionId);
           lastEnqueuedEventPropertiesMap.set(
@@ -1234,8 +1465,7 @@ describe("Event Processor", function(): void {
             context.lastEnqueuedEventProperties!
           );
         }
-        async processError(err: Error, context: PartitionContext) {          
-        }
+        async processError(err: Error, context: PartitionContext) {}
       }
 
       const processor = new EventProcessor(
@@ -1246,7 +1476,8 @@ describe("Event Processor", function(): void {
         {
           ...defaultOptions,
           trackLastEnqueuedEventProperties: true,
-          partitionLoadBalancer: new GreedyPartitionLoadBalancer()
+          processingTarget: new GreedyPartitionLoadBalancer(),
+          startPosition
         }
       );
 
@@ -1279,6 +1510,22 @@ describe("Event Processor", function(): void {
   });
 }).timeout(90000);
 
+function ownershipListToMap(partitionOwnership: PartitionOwnership[]): Map<string, string[]> {
+  const partitionOwnershipMap: Map<string, string[]> = new Map();
+
+  for (const ownership of partitionOwnership) {
+    if (!partitionOwnershipMap.has(ownership.ownerId)) {
+      partitionOwnershipMap.set(ownership.ownerId, [ownership.partitionId]);
+    } else {
+      let arr = partitionOwnershipMap.get(ownership.ownerId);
+      arr!.push(ownership.partitionId);
+      partitionOwnershipMap.set(ownership.ownerId, arr!);
+    }
+  }
+
+  return partitionOwnershipMap;
+}
+
 function triggerAbortedSignalAfterNumCalls(maxCalls: number): AbortSignal {
   let count = 0;
 
@@ -1292,9 +1539,9 @@ function triggerAbortedSignalAfterNumCalls(maxCalls: number): AbortSignal {
 
       return false;
     },
-    addEventListener: () => { },
-    removeEventListener: () => { },
-    onabort: () => { },
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    onabort: () => {},
     dispatchEvent: () => true
   };
 

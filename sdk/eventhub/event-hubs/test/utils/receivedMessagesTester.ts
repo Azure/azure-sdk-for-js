@@ -1,8 +1,7 @@
-import { CloseReason, ReceivedEventData, EventHubProducerClient, EventPosition } from "../../src/";
+import { CloseReason, ReceivedEventData, EventHubProducerClient } from "../../src/";
 import {
   SubscriptionEventHandlers,
-  PartitionContext,
-  InitializationContext
+  PartitionContext
 } from "../../src/eventHubConsumerClientModels";
 import chai from "chai";
 import { delay } from "@azure/core-amqp";
@@ -44,7 +43,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     for (const event of events) {
       await context.updateCheckpoint(event);
       this.expectedMessageBodies.delete(event.body);
-    }   
+    }
 
     if (this.expectedMessageBodies.size === 0) {
       this.done = true;
@@ -56,7 +55,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
 
     // this can happen when multiple consumers are spinning up and load balancing. We'll ignore it for multi-consumers
     // only.
-    if (this.multipleConsumers && error.name === "ReceiverDisconnectedError") {
+    if (this.multipleConsumers && (error as any).code === "ReceiverDisconnectedError") {
       return;
     }
 
@@ -73,10 +72,8 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     }
   }
 
-  async processInitialize(context: InitializationContext): Promise<void> {
+  async processInitialize(context: PartitionContext): Promise<void> {
     this.contextIsOk(context);
-
-    context.setStartingPosition(EventPosition.latest());
 
     if (!this.multipleConsumers) {
       // this'll happen because for our multi-consumer tests we share the same

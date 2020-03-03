@@ -10,7 +10,9 @@
 
 export * from "./operations";
 export * from "./factories";
+export * from "./exposureControl";
 export * from "./integrationRuntimes";
+export * from "./integrationRuntimeObjectMetadata";
 export * from "./integrationRuntimeNodes";
 export * from "./linkedServices";
 export * from "./datasets";
@@ -18,5 +20,7 @@ export * from "./pipelines";
 export * from "./pipelineRuns";
 export * from "./activityRuns";
 export * from "./triggers";
-export * from "./rerunTriggers";
 export * from "./triggerRuns";
+export * from "./rerunTriggers";
+export * from "./dataFlows";
+export * from "./dataFlowDebugSession";

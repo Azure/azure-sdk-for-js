@@ -169,7 +169,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.protectedItemName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion0,
     Parameters.filter
   ],
   headerParameters: [
@@ -199,7 +199,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.recoveryPointId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

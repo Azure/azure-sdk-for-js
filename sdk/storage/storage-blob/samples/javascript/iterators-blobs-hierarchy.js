@@ -1,8 +1,14 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { BlobServiceClient, StorageSharedKeyCredential } = require("../.."); // Change to "@azure/storage-blob" in your package
+const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -13,53 +19,52 @@ async function main() {
   // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
-  const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
-  );
-
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.getContainerClient(containerName);
+  const containerClient = new ContainerClient(
+    `https://${account}.blob.core.windows.net/${containerName}`,
+    sharedKeyCredential
+  );
 
   const createContainerResponse = await containerClient.create();
   console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
 
   // create some blobs with delimiters in names
   const content = "hello";
+  const contentByteLength = Buffer.byteLength(content);
   let blobName = "a1";
   let blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  let uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  let uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "a2";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "prefix1/b1";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "prefix1/b2";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "prefix2/sub1/c";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "prefix2/sub1/d";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   blobName = "prefix2/sub1/e";
   blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, content.length);
+  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
   console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
   // 1. List blobs by hierarchy
@@ -131,11 +136,6 @@ async function main() {
   console.log("deleted container");
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed the sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});

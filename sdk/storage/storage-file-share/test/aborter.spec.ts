@@ -1,7 +1,7 @@
 import * as assert from "assert";
 
 import { AbortController } from "@azure/abort-controller";
-import { getBSU, setupEnvironment } from "./utils";
+import { getBSU, recorderEnvSetup } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareClient } from "../src";
@@ -9,15 +9,14 @@ dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
   });
@@ -27,10 +26,6 @@ describe("Aborter", () => {
   });
 
   it("Should abort after aborter timeout", async () => {
-    recorder.skip(
-      "browser",
-      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
-    );
     try {
       await shareClient.create({ abortSignal: AbortController.timeout(1) });
       assert.fail();
@@ -46,10 +41,6 @@ describe("Aborter", () => {
   });
 
   it("Should abort when calling abort() before request finishes", async () => {
-    recorder.skip(
-      "browser",
-      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
-    );
     const aborter = new AbortController();
     const response = shareClient.create({ abortSignal: aborter.signal });
     aborter.abort();
@@ -69,10 +60,6 @@ describe("Aborter", () => {
   });
 
   it("Should abort after parent aborter calls abort()", async () => {
-    recorder.skip(
-      "browser",
-      "Abort: browser testing unexpectedly finishes when a request is aborted during playback, shortcomings of `nise` library"
-    );
     try {
       const aborter = new AbortController();
       const childAborter = new AbortController(aborter.signal, AbortController.timeout(100));

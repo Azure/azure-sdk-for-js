@@ -193,7 +193,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.protectedItemName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion0,
     Parameters.filter
   ],
   headerParameters: [
@@ -222,7 +222,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.protectedItemName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -258,7 +258,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.protectedItemName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

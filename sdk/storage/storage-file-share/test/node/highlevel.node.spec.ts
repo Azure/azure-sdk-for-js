@@ -3,17 +3,15 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
-import { createRandomLocalFile, getBSU, setupEnvironment } from "../utils";
+import { createRandomLocalFile, getBSU, recorderEnvSetup } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
-import { readStreamToLocalFile } from "../../src/utils/utils.node";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 // tslint:disable:no-empty
 describe("Highlevel Node.js only", () => {
-  setupEnvironment();
-  const serviceClient = getBSU();
   let shareName: string;
   let shareClient: ShareClient;
   let dirName: string;
@@ -25,11 +23,13 @@ describe("Highlevel Node.js only", () => {
   let tempFileLarge: string;
   let tempFileLargeLength: number;
   const tempFolderPath = "temp";
+  const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();
@@ -69,14 +69,14 @@ describe("Highlevel Node.js only", () => {
 
     const downloadResponse = await fileClient.download(0);
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileLarge);
 
     fs.unlinkSync(downloadedFile);
     assert.ok(downloadedData.equals(uploadedData));
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("uploadFile should success for small data", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -87,7 +87,7 @@ describe("Highlevel Node.js only", () => {
 
     const downloadResponse = await fileClient.download(0);
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -180,14 +180,14 @@ describe("Highlevel Node.js only", () => {
     const downloadResponse = await fileClient.download(0);
 
     const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
     assert.ok(uploadedBuffer.equals(downloadedBuffer));
 
     fs.unlinkSync(downloadFilePath);
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("uploadStream should abort", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -216,7 +216,7 @@ describe("Highlevel Node.js only", () => {
       }
     });
     assert.ok(eventTriggered);
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("downloadToBuffer should success", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -231,7 +231,7 @@ describe("Highlevel Node.js only", () => {
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("downloadToBuffer should succeed - without passing the buffer", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -245,7 +245,7 @@ describe("Highlevel Node.js only", () => {
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("downloadToBuffer should throw an error if the count (size in bytes) is too large", async () => {
     let error;
@@ -317,7 +317,7 @@ describe("Highlevel Node.js only", () => {
     } catch (err) {
       assert.equal(err.name, "AbortError");
     }
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("downloadToBuffer should update progress event", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -363,7 +363,7 @@ describe("Highlevel Node.js only", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -393,7 +393,7 @@ describe("Highlevel Node.js only", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -425,7 +425,7 @@ describe("Highlevel Node.js only", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -457,7 +457,7 @@ describe("Highlevel Node.js only", () => {
         }
       });
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
-      await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
     } catch (error) {
       expectedError = true;
     }
@@ -494,7 +494,7 @@ describe("Highlevel Node.js only", () => {
         }
       });
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
-      await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
     } catch (error) {
       assert.equal(error.name, "AbortError", "Unexpected error caught: " + error);
     }

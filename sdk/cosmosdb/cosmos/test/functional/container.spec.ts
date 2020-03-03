@@ -11,7 +11,9 @@ import {
   IndexingPolicy,
   IndexKind
 } from "../../dist-esm/documents";
-import { getTestDatabase, removeAllDatabases, getTestContainer } from "../common/TestHelpers";
+import { SpatialType } from "../../dist-esm/documents/IndexingPolicy";
+import { GeospatialType } from "../../dist-esm/documents/GeospatialType";
+import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("Containers", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -64,6 +66,19 @@ describe("Containers", function() {
 
       // Replacing indexing policy is allowed.
       containerDef.indexingPolicy.indexingMode = IndexingMode.lazy;
+      containerDef.indexingPolicy.spatialIndexes = [
+        {
+          path: "/region/?",
+          types: [SpatialType.Polygon],
+          boundingBox: {
+            xmin: 0,
+            ymin: 0,
+            xmax: 10,
+            ymax: 10
+          }
+        }
+      ];
+      containerDef.geospatialConfig.type = GeospatialType.Geometry;
       const { resource: replacedContainer } = await container.replace(containerDef);
       assert.equal("lazy", replacedContainer.indexingPolicy.indexingMode);
 
@@ -343,7 +358,7 @@ describe("Containers", function() {
       database: Database,
       definition: ContainerDefinition
     ) {
-      const { container: createdcontainer, headers } = await database.containers.create(definition);
+      const { container: createdcontainer } = await database.containers.create(definition);
       const response = await database
         .container(createdcontainer.id)
         .read({ populateQuotaInfo: true });

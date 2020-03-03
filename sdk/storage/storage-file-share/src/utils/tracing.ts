@@ -17,17 +17,21 @@ export function createSpan(
   const tracer = getTracer();
   const spanOptions: SpanOptions = {
     ...tracingOptions.spanOptions,
-    kind: SpanKind.CLIENT
+    kind: SpanKind.INTERNAL
   };
 
   const span = tracer.startSpan(`Azure.Storage.File.${operationName}`, spanOptions);
-  span.setAttribute("component", "storage");
+  span.setAttribute("az.namespace", "Microsoft.Storage");
 
   let newOptions = tracingOptions.spanOptions || {};
   if (span.isRecording()) {
     newOptions = {
-      ...tracingOptions,
-      parent: span
+      ...tracingOptions.spanOptions,
+      parent: span,
+      attributes: {
+        ...spanOptions.attributes,
+        "az.namespace": "Microsoft.Storage"
+      }
     };
   }
 

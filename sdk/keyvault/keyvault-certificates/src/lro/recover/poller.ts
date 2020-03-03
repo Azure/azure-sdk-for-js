@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { delay, RequestOptionsBase } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
@@ -7,7 +7,10 @@ import {
   RecoverDeletedCertificatePollOperationState,
   makeRecoverDeletedCertificatePollOperation
 } from "./operation";
-import { KeyVaultCertificate, CertificateClientInterface } from "../../certificatesModels";
+import {
+  KeyVaultCertificateWithPolicy,
+  CertificateClientInterface
+} from "../../certificatesModels";
 
 export interface RecoverDeletedCertificatePollerOptions {
   client: CertificateClientInterface;
@@ -19,10 +22,11 @@ export interface RecoverDeletedCertificatePollerOptions {
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
+ * @internal
  */
 export class RecoverDeletedCertificatePoller extends Poller<
   RecoverDeletedCertificatePollOperationState,
-  KeyVaultCertificate
+  KeyVaultCertificateWithPolicy
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "../log";
-import { WebSocketImpl } from "rhea-promise";
+import { logger, logErrorStackTrace } from "../log";
 import {
   TokenCredential,
   EventHubConnectionConfig,
@@ -23,132 +22,14 @@ import { EventHubConsumer } from "../receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "../util/error";
 import { getTracer } from "@azure/core-tracing";
 import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/types";
-import { getParentSpan, OperationOptions } from "../util/operationOptions";
-
-type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties";
-
-/**
- * @internal
- * @ignore
- */
-export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
-  const timeoutInMs =
-    retryOptions == undefined ||
-    typeof retryOptions.timeoutInMs !== "number" ||
-    !isFinite(retryOptions.timeoutInMs) ||
-    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs
-      ? Constants.defaultOperationTimeoutInMs
-      : retryOptions.timeoutInMs;
-  return timeoutInMs;
-}
-
-/**
- * The set of options to configure the behavior of `getEventHubProperties`.
- * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
- * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
- */
-export interface GetEventHubPropertiesOptions extends OperationOptions {}
-
-/**
- * The set of options to configure the behavior of `getPartitionProperties`.
- * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
- * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
- */
-export interface GetPartitionPropertiesOptions extends OperationOptions {}
-
-/**
- * The set of options to configure the behavior of `getPartitionIds`.
- * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
- * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
- */
-export interface GetPartitionIdsOptions extends OperationOptions {}
-
-/**
- * The set of options to configure the behavior of an `EventHubProducer`.
- * These can be specified when creating the producer via the `createProducer` method.
- * - `partitionId`  : The string identifier of the partition that the producer can be bound to.
- * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
- * A simple usage can be `{ "maxRetries": 4 }`.
- */
-export interface EventHubProducerOptions {
-  /**
-   * @property
-   * The identifier of the partition that the producer will be bound to.
-   * If a value is provided, all events sent using the producer will reach the same partition.
-   * If no value is provided, the service will determine the partition to which the event will be sent.
-   */
-  partitionId?: string;
-  /**
-   * @property
-   * The retry options used to govern retry attempts when an issue is encountered while sending events.
-   * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
-   */
-  retryOptions?: RetryOptions;
-}
-
-/**
- * The set of options to configure the `send` operation on the `EventHubProducerClient`.
- * - `abortSignal`  : A signal used to cancel the send operation.
- */
-export interface SendBatchOptions extends OperationOptions {}
-
-/**
- * The set of options to configure the `send` operation on the `EventHubProducer`.
- * - `partitionKey` : A value that is hashed to produce a partition assignment.
- * - `abortSignal`  : A signal used to cancel the send operation.
- *
- * Example usage:
- * ```js
- * {
- *     partitionKey: 'foo'
- * }
- * ```
- *
- * @internal
- */
-export interface SendOptions extends SendBatchOptions {
-  /**
-   * @property
-   * A value that is hashed to produce a partition assignment.
-   * It guarantees that messages with the same partitionKey end up in the same partition.
-   * Specifying this will throw an error if the producer was created using a `paritionId`.
-   */
-  partitionKey?: string | null;
-}
-
-/**
- * The set of options to configure the `createBatch` operation on the `EventProducer`.
- * - `partitionKey`  : A value that is hashed to produce a partition assignment.
- * Not applicable if the `EventHubProducer` was created using a `partitionId`.
- * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
- * - `abortSignal`   : A signal the request to cancel the send operation.
- *
- * Example usage:
- * ```js
- * {
- *     partitionKey: 'foo',
- *     maxSizeInBytes: 1024 * 1024 // 1 MB
- * }
- * ```
- */
-export interface CreateBatchOptions extends OperationOptions {
-  /**
-   * A value that is hashed to produce a partition assignment. It guarantees that messages
-   * with the same partitionKey end up in the same partition.
-   * If this value is set then partitionId can not be set.
-   */
-  partitionKey?: string;
-  /**
-   * The partition this batch will be sent to.
-   * If this value is set then partitionKey can not be set.
-   */
-  partitionId?: string;
-  /**
-   * @property
-   * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
-   */
-  maxSizeInBytes?: number;
-}
+import { getParentSpan } from "../util/operationOptions";
+import { OperationNames, EventHubProducerOptions } from "../models/private";
+import {
+  GetEventHubPropertiesOptions,
+  GetPartitionIdsOptions,
+  GetPartitionPropertiesOptions,
+  EventHubClientOptions
+} from "../models/public";
 
 /**
  * The set of options to configure the behavior of an `EventHubConsumer`.
@@ -167,6 +48,8 @@ export interface CreateBatchOptions extends OperationOptions {
  *     trackLastEnqueuedEventProperties: false
  * }
  * ```
+ * @internal
+ * @ignore
  */
 export interface EventHubConsumerOptions {
   /**
@@ -199,86 +82,6 @@ export interface EventHubConsumerOptions {
 }
 
 /**
- * Describes the options that can be provided while creating the EventHubClient.
- * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
- * and to decode the event received from the service
- * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
- * to the service.
- * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
- * over a WebSocket.
- * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
- * over a WebSocket.
- * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
- * A simple usage can be `{ "maxRetries": 4 }`.
- *
- * Example usage:
- * ```js
- * {
- *     retryOptions: {
- *         maxRetries: 4
- *     }
- * }
- * ```
- * @interface ClientOptions
- */
-export interface EventHubClientOptions {
-  /**
-   * @property
-   * The data transformer that will be used to encode and decode the sent and received messages respectively.
-   * If not provided then the `DefaultDataTransformer` is used which has the below `encode` & `decode` features
-   * - `encode`:
-   *    - If event body is a Buffer, then the event is sent without any data transformation
-   *    - Else, JSON.stringfy() is run on the body, and then converted to Buffer before sending the event
-   *    - If JSON.stringify() fails at this point, the send operation fails too.
-   * - `decode`
-   *    - The body receivied via the AMQP protocol is always of type Buffer
-   *    - UTF-8 encoding is used to convert Buffer to string, and then JSON.parse() is run on it to get the event body
-   *    - If the JSON.parse() fails at this point, then the originally received Buffer object is returned in the event body.
-   */
-  // re-enabling this will be a post-GA discussion.
-  //dataTransformer?: DataTransformer;
-  /**
-   * @property
-   * The user agent that will be appended to the built in user agent string that is passed as a
-   * connection property to the Event Hubs service.
-   */
-  userAgent?: string;
-  /**
-   * @property
-   * Options related to websockets
-   */
-  webSocketOptions?: WebSocketOptions;
-  /**
-   * @property
-   * The retry options for all the operations on the client/producer/consumer.
-   * This can be overridden by the retry options set on the producer and consumer.
-   */
-  retryOptions?: RetryOptions;
-}
-
-/**
- * Options for the websocket implementation used for AMQP.
- */
-export interface WebSocketOptions {
-  /**
-   * @property
-   * The WebSocket constructor used to create an AMQP connection over a WebSocket.
-   * This option should be provided in the below scenarios:
-   * - The TCP port 5671 which is that is used by the AMQP connection to Event Hubs is blocked in your environment.
-   * - Your application needs to be run behind a proxy server
-   * - Your application needs to run in the browser and you want to provide your own choice of Websocket implementation
-   *   instead of the built-in WebSocket in the browser.
-   */
-  webSocket?: WebSocketImpl;
-  /**
-   * @property
-   * Options to be passed to the WebSocket constructor when the underlying `rhea` library instantiates
-   * the WebSocket.
-   */
-  webSocketConstructorOptions?: any;
-}
-
-/**
  * @class
  * The client is the main point of interaction with Azure Event Hubs service.
  * It offers connection to a specific Event Hub within the Event Hubs namespace along with
@@ -307,8 +110,10 @@ export class EventHubClient {
 
   /**
    * The Service Bus endpoint.
+   * @internal
+   * @ignore
    */
-  private _endpoint: string;
+  public readonly endpoint: string;
 
   /**
    * @property
@@ -401,22 +206,26 @@ export class EventHubClient {
 
     ConnectionConfig.validate(config);
 
-    this._endpoint = config.endpoint;
+    this.endpoint = config.endpoint;
 
     this._clientOptions = options || {};
     this._context = ConnectionContext.create(config, credential, this._clientOptions);
   }
 
-  private _createClientSpan(operationName: OperationNames, parentSpan?: Span | SpanContext): Span {
+  private _createClientSpan(
+    operationName: OperationNames,
+    parentSpan?: Span | SpanContext,
+    internal: boolean = false
+  ): Span {
     const tracer = getTracer();
     const span = tracer.startSpan(`Azure.EventHubs.${operationName}`, {
-      kind: SpanKind.CLIENT,
+      kind: internal ? SpanKind.INTERNAL : SpanKind.CLIENT,
       parent: parentSpan
     });
 
-    span.setAttribute("component", "eventhubs");
+    span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this.eventHubName);
-    span.setAttribute("peer.address", this._endpoint);
+    span.setAttribute("peer.address", this.endpoint);
 
     return span;
   }
@@ -425,7 +234,7 @@ export class EventHubClient {
    * Closes the AMQP connection to the Event Hub instance,
    * returning a promise that will be resolved when disconnection is completed.
    * @returns Promise<void>
-   * @throws {Error} Thrown if the underlying connection encounters an error while closing.
+   * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
     try {
@@ -444,13 +253,14 @@ export class EventHubClient {
         await this._context.managementSession!.close();
         await this._context.connection.close();
         this._context.wasConnectionCloseCalled = true;
-        log.client("Closed the amqp connection '%s' on the client.", this._context.connectionId);
+        logger.info("Closed the amqp connection '%s' on the client.", this._context.connectionId);
       }
     } catch (err) {
       err = err instanceof Error ? err : JSON.stringify(err);
-      log.error(
+      logger.warning(
         `An error occurred while closing the connection "${this._context.connectionId}":\n${err}`
       );
+      logErrorStackTrace(err);
       throw err;
     }
   }
@@ -470,7 +280,7 @@ export class EventHubClient {
    * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
    * A simple usage can be `{ "maxRetries": 4 }`.
    *
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
    * @returns EventHubProducer
    */
   createProducer(options?: EventHubProducerOptions): EventHubProducer {
@@ -481,7 +291,7 @@ export class EventHubClient {
       options.retryOptions = this._clientOptions.retryOptions;
     }
     throwErrorIfConnectionClosed(this._context);
-    return new EventHubProducer(this.eventHubName, this._endpoint, this._context, options);
+    return new EventHubProducer(this.eventHubName, this.endpoint, this._context, options);
   }
 
   /**
@@ -498,20 +308,14 @@ export class EventHubClient {
    * @param partitionId The identifier of the Event Hub partition from which events will be received.
    * You can get identifiers for all partitions by using the `getPartitionProperties` method on the `EventHubClient`.
    * @param eventPosition The position within the partition where the consumer should begin reading events.
-   * The easiest way to create an instance of EventPosition is to use the static helpers on it like
-   * - `EventPosition.fromOffset()`
-   * - `EventPosition.fromSequenceNumber()`
-   * - `EventPosition.fromEnqueuedTime()`
-   * - `EventPosition.earliest()`
-   * - `EventPosition.latest()`
    * @param options The set of options to apply when creating the consumer.
    * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
    * consumers to fail if their `ownerLevel` is lower or doesn't exist.
    * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
    * A simple usage can be `{ "maxRetries": 4 }`.
    *
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {TypeError} Thrown if a required parameter is missing.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws TypeError if a required parameter is missing.
    */
   createConsumer(
     consumerGroup: string,
@@ -552,8 +356,8 @@ export class EventHubClient {
    * Provides the Event Hub runtime information.
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resolves with EventHubProperties.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal3.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal3.
    */
   async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
@@ -570,7 +374,8 @@ export class EventHubClient {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      log.error("An error occurred while getting the hub runtime information: %O", err);
+      logger.warning("An error occurred while getting the hub runtime information: %O", err);
+      logErrorStackTrace(err);
       throw err;
     } finally {
       clientSpan.end();
@@ -581,12 +386,12 @@ export class EventHubClient {
    * Provides an array of partitionIds.
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resolves with an Array of strings.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan("getPartitionIds", getParentSpan(options));
+    const clientSpan = this._createClientSpan("getPartitionIds", getParentSpan(options), true);
     try {
       const runtimeInfo = await this.getProperties({
         ...options,
@@ -603,7 +408,8 @@ export class EventHubClient {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      log.error("An error occurred while getting the partition ids: %O", err);
+      logger.warning("An error occurred while getting the partition ids: %O", err);
+      logErrorStackTrace(err);
       throw err;
     } finally {
       clientSpan.end();
@@ -615,8 +421,8 @@ export class EventHubClient {
    * @param partitionId Partition ID for which partition information is required.
    * @param [options] The set of options to apply to the operation call.
    * @returns A promise that resoloves with PartitionProperties.
-   * @throws {Error} Thrown if the underlying connection has been closed, create a new EventHubClient.
-   * @throws {AbortError} Thrown if the operation is cancelled via the abortSignal.
+   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
+   * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   async getPartitionProperties(
     partitionId: string,
@@ -643,7 +449,8 @@ export class EventHubClient {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      log.error("An error occurred while getting the partition information: %O", err);
+      logger.warning("An error occurred while getting the partition information: %O", err);
+      logErrorStackTrace(err);
       throw err;
     } finally {
       clientSpan.end();

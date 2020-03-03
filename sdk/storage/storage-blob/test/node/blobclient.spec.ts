@@ -9,13 +9,14 @@ import {
   ContainerClient,
   BlockBlobClient,
   generateBlobSASQueryParameters,
-  BlobSASPermissions
+  BlobSASPermissions,
+  BlobServiceClient
 } from "../../src";
 import {
   bodyToString,
   getBSU,
   getConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "../utils";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -23,8 +24,6 @@ import { record, delay } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient Node.js only", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -34,8 +33,10 @@ describe("BlobClient Node.js only", () => {
 
   let recorder: any;
 
+  let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -139,12 +140,14 @@ describe("BlobClient Node.js only", () => {
     await blobSnapshotClient.delete();
     await blobClient.delete();
 
-    const result2 = (await containerClient
-      .listBlobsFlat({
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    const result2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     // Verify that the snapshot is deleted
     assert.equal(result2.segment.blobItems!.length, 0);
@@ -157,12 +160,14 @@ describe("BlobClient Node.js only", () => {
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
     await blobSnapshotClient.getProperties();
 
-    const result3 = (await containerClient
-      .listBlobsFlat({
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    const result3 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
@@ -180,41 +185,6 @@ describe("BlobClient Node.js only", () => {
       result3.segment.blobItems![1].properties
     );
     assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
-  });
-
-  it("undelete", async () => {
-    const properties = await blobServiceClient.getProperties();
-    if (!properties.deleteRetentionPolicy!.enabled) {
-      await blobServiceClient.setProperties({
-        deleteRetentionPolicy: {
-          days: 7,
-          enabled: true
-        }
-      });
-      await delay(15 * 1000);
-    }
-
-    await blobClient.delete();
-
-    const result = (await containerClient
-      .listBlobsFlat({
-        includeDeleted: true
-      })
-      .byPage()
-      .next()).value;
-
-    assert.ok(result.segment.blobItems![0].deleted);
-
-    await blobClient.undelete();
-
-    const result2 = (await containerClient
-      .listBlobsFlat({
-        includeDeleted: true
-      })
-      .byPage()
-      .next()).value;
-
-    assert.ok(!result2.segment.blobItems![0].deleted);
   });
 
   it("syncCopyFromURL", async () => {

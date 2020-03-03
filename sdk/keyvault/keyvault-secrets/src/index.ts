@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 /* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
@@ -717,7 +717,7 @@ export class SecretClient {
   public listPropertiesOfSecretVersions(
     secretName: string,
     options: ListPropertiesOfSecretVersionsOptions = {}
-  ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
+  ): PagedAsyncIterableIterator<SecretProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfSecretVersions", requestOptions);
     const updatedOptions: ListPropertiesOfSecretVersionsOptions = {
@@ -815,7 +815,7 @@ export class SecretClient {
    */
   public listPropertiesOfSecrets(
     options: ListPropertiesOfSecretsOptions = {}
-  ): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]> {
+  ): PagedAsyncIterableIterator<SecretProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfSecrets", requestOptions);
     const updatedOptions: ListPropertiesOfSecretsOptions = {
@@ -912,7 +912,7 @@ export class SecretClient {
    */
   public listDeletedSecrets(
     options: ListDeletedSecretsOptions = {}
-  ): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]> {
+  ): PagedAsyncIterableIterator<DeletedSecret> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listDeletedSecrets", requestOptions);
     const updatedOptions: ListDeletedSecretsOptions = {
@@ -996,7 +996,9 @@ export class SecretClient {
    */
   private createSpan(methodName: string, requestOptions: RequestOptionsBase = {}): Span {
     const tracer = getTracer();
-    return tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+    const span = tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+    span.setAttribute("az.namespace", "Microsoft.KeyVault");
+    return span;
   }
 
   /**
@@ -1009,11 +1011,16 @@ export class SecretClient {
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
     if (span.isRecording()) {
+      const spanOptions = options.spanOptions || {};
       return {
         ...options,
         spanOptions: {
-          ...options.spanOptions,
-          parent: span
+          ...spanOptions,
+          parent: span,
+          attributes: {
+            ...spanOptions.attributes,
+            "az.namespace": "Microsoft.KeyVault"
+          }
         }
       };
     } else {

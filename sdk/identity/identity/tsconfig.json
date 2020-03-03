@@ -53,6 +53,6 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*", "test/**/*"],
+  "include": ["src/**/*", "test/*", "test/manual/**/*", "test/node/**/*"],
   "exclude": ["test/manual"]
 }

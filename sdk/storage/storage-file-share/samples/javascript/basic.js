@@ -1,8 +1,14 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name and shared key in main()
 */
 
 const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-share");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -43,13 +49,14 @@ async function main() {
 
   // Create a file
   const content = "Hello World!";
+  const contentByteLength = Buffer.byteLength(content);
   const fileName = "newfile" + new Date().getTime();
   const fileClient = directoryClient.getFileClient(fileName);
-  await fileClient.create(content.length);
+  await fileClient.create(contentByteLength);
   console.log(`Create file ${fileName} successfully`);
 
   // Upload file range
-  await fileClient.uploadRange(content, 0, content.length);
+  await fileClient.uploadRange(content, 0, contentByteLength);
   console.log(`Upload file range "${content}" to ${fileName} successfully`);
 
   // List directories and files
@@ -68,7 +75,7 @@ async function main() {
   // In browsers, get downloaded data by accessing downloadFileResponse.contentAsBlob
   const downloadFileResponse = await fileClient.download(0);
   console.log(
-    `Downloaded file content${await streamToString(downloadFileResponse.readableStreamBody)}`
+    `Downloaded file content: ${await streamToString(downloadFileResponse.readableStreamBody)}`
   );
 
   // Delete share
@@ -90,11 +97,6 @@ async function streamToString(readableStream) {
   });
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});

@@ -1,8 +1,14 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { QueueServiceClient, StorageSharedKeyCredential } = require("../.."); // Change to "@azure/storage-queue" in your package
+const { QueueServiceClient, StorageSharedKeyCredential } = require("@azure/storage-queue");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -91,22 +97,21 @@ async function main() {
   }
   // Gets next marker
   let marker = response.value.continuationToken;
-  // Passing next marker as continuationToken
-  iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
-  response = await iterator.next();
-  // Prints 10 queue names
-  if (response.value.queueItems) {
-    for (const queueItem of response.value.queueItems) {
-      console.log(`Queue ${i++}: ${queueItem.name}`);
+  if (marker) {
+    // Passing next marker as continuationToken
+    iterator = queueServiceClient
+      .listQueues()
+      .byPage({ continuationToken: marker, maxPageSize: 10 });
+    response = await iterator.next();
+    // Prints 10 queue names
+    if (response.value.queueItems) {
+      for (const queueItem of response.value.queueItems) {
+        console.log(`Queue ${i++}: ${queueItem.name}`);
+      }
     }
   }
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});

@@ -5,11 +5,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { Span, SpanContext, SpanOptions } from "@opentelemetry/types";
 
 /**
- * Options for configuring tracing and the abortSignal.
+ * Options for configuring tracing.
  */
-// NOTE: This class is intended to mirror the relevant fields and structure from
-// @azure/core-http OperationOptions
-export interface OperationOptions {
+export interface TracingOptions {
   /**
    * Options for configuring tracing.
    */
@@ -19,13 +17,24 @@ export interface OperationOptions {
      */
     spanOptions?: SpanOptions;
   };
+}
 
+/**
+ * Options for configuring tracing and the abortSignal.
+ */
+// NOTE: This class is intended to mirror the relevant fields and structure from
+// @azure/core-http OperationOptions
+export interface OperationOptions extends TracingOptions {
   /**
    * The signal which can be used to abort requests.
    */
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 export function getParentSpan(
   options: Pick<OperationOptions, "tracingOptions">
 ): Span | SpanContext | undefined {

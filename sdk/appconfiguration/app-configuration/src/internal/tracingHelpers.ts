@@ -53,10 +53,9 @@ export class Spanner<TClient> {
   private createSpan<T extends Spannable>(options: T, operationName: keyof TClient) {
     const span = getTracer().startSpan(`${this.baseOperationName}.${operationName}`, {
       ...options.spanOptions,
-      kind: SpanKind.CLIENT
+      kind: SpanKind.INTERNAL
     });
-
-    span.setAttribute("component", this.componentName);
+    span.setAttribute("az.namespace", "Microsoft.AppConfiguration");
 
     let newOptions = options;
 
@@ -85,12 +84,17 @@ export class Spanner<TClient> {
     return err instanceof RestError;
   }
 
-  static addParentToOptions<T extends Spannable>(options: T, span: Span) {
+  static addParentToOptions<T extends Spannable>(options: T, span: Span): T {
+    const spanOptions = options.spanOptions || {};
     return {
       ...options,
       spanOptions: {
-        ...options.spanOptions,
-        parent: span
+        ...spanOptions,
+        parent: span,
+        attributes: {
+          ...spanOptions.attributes,
+          "az.namespace": "Microsoft.AppConfiguration"
+        }
       }
     };
   }

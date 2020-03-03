@@ -1,6 +1,6 @@
-import nodeResolve from "rollup-plugin-node-resolve";
-import multiEntry from "rollup-plugin-multi-entry";
-import cjs from "rollup-plugin-commonjs";
+import nodeResolve from "@rollup/plugin-node-resolve";
+import multiEntry from "@rollup/plugin-multi-entry";
+import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
@@ -55,11 +55,11 @@ export function nodeConfig(test = false) {
   return baseConfig;
 }
 
-export function browserConfig(test = false, production = false) {
+export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "browser/azure-template.js",
+      file: "dist-browser/azure-template.js",
       format: "umd",
       name: "ExampleClient",
       sourcemap: true,
@@ -87,7 +87,7 @@ export function browserConfig(test = false, production = false) {
           "@opentelemetry/types": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
-      viz({ filename: "browser/browser-stats.html", sourcemap: false })
+      viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
     ]
   };
 
@@ -101,9 +101,6 @@ export function browserConfig(test = false, production = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (production) {
-    baseConfig.output.file = "browser/azure-template.min.js";
-    baseConfig.plugins.push(terser());
   }
 
   return baseConfig;

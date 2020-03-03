@@ -15,13 +15,14 @@ trigger:
   branches:
     include:
       - master
-      - feature/*
       - release/*
       - hotfix/*
   paths:
     include:
       - sdk/core/
       - eng/
+      - common/config/rush/
+      - rush.json
 
 pr:
   branches:
@@ -34,11 +35,13 @@ pr:
     include:
       - sdk/core/
       - eng/
+      - common/config/rush/
+      - rush.json
 
 stages:
   - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
     parameters:
-      ServiceDirectory: "core"
+      ServiceDirectory: core
       Artifacts:
         - name: azure-abort-controller
           safeName: azureabortcontroller

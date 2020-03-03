@@ -1,4 +1,4 @@
-import nodeResolve from "rollup-plugin-node-resolve";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import visualizer from "rollup-plugin-visualizer";
 import sourcemaps from "rollup-plugin-sourcemaps";
 
@@ -11,7 +11,7 @@ const banner = `/** @license @azure/core-arm
  * @type {import('rollup').RollupFileOptions}
  */
 const config = {
-  input: './es/lib/coreArm.js',
+  input: './es/src/coreArm.js',
   external: ["@azure/core-http"],
   output: {
     file: "./dist/coreArm.js",

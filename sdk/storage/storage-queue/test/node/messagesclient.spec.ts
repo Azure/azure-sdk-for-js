@@ -6,11 +6,9 @@ import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedK
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { newPipeline } from "../../src";
-import { setupEnvironment } from "../utils/testutils.common";
+import { recorderEnvSetup } from "../utils/index.browser";
 
 describe("QueueClient message methods, Node.js only", () => {
-  setupEnvironment();
-  const queueServiceClient = getQSU();
   let queueName: string;
   let queueClient: QueueClient;
   const messageContent = "Hello World";
@@ -18,7 +16,8 @@ describe("QueueClient message methods, Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();

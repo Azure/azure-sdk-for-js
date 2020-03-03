@@ -5,25 +5,20 @@ import * as dotenv from "dotenv";
 
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { appendToURLPath } from "../src/utils/utils.common";
-import { getDataLakeServiceClient, setupEnvironment } from "./utils";
+import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
 // import { appendToURLPath } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
 describe("Special Naming Tests", () => {
-  setupEnvironment();
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
 
   let recorder: Recorder;
 
-  before(async function() {});
-
-  after(async function() {});
-
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("1container-with-dash");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();

@@ -153,37 +153,6 @@ describe("Partitioned Queue - Lock Renewal", function(): void {
       delayBeforeAttemptingToCompleteMessageInSeconds: 31,
       willCompleteFail: true
     });
-    // Complete fails as expected
-  });
-
-  it("Streaming Receiver: lock will not expire until configured time", async function(): Promise<
-    void
-  > {
-    await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-      maxAutoRenewDurationInSeconds: 38,
-      delayBeforeAttemptingToCompleteMessageInSeconds: 35,
-      willCompleteFail: false
-    });
-  });
-
-  it("Streaming Receiver: lock expires sometime after configured time", async function(): Promise<
-    void
-  > {
-    await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-      maxAutoRenewDurationInSeconds: 35,
-      delayBeforeAttemptingToCompleteMessageInSeconds: 55,
-      willCompleteFail: true
-    });
-  }).timeout(95000);
-
-  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
-    void
-  > {
-    await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-      maxAutoRenewDurationInSeconds: 15,
-      delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-      willCompleteFail: true
-    });
   });
 });
 
@@ -225,37 +194,6 @@ describe("Unpartitioned Subscription - Lock Renewal", function(): void {
       delayBeforeAttemptingToCompleteMessageInSeconds: 31,
       willCompleteFail: true
     });
-    // Complete fails as expected
-  });
-
-  it("Streaming Receiver: lock will not expire until configured time", async function(): Promise<
-    void
-  > {
-    await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-      maxAutoRenewDurationInSeconds: 38,
-      delayBeforeAttemptingToCompleteMessageInSeconds: 35,
-      willCompleteFail: false
-    });
-  });
-
-  it("Streaming Receiver: lock expires sometime after configured time", async function(): Promise<
-    void
-  > {
-    await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-      maxAutoRenewDurationInSeconds: 35,
-      delayBeforeAttemptingToCompleteMessageInSeconds: 55,
-      willCompleteFail: true
-    });
-  }).timeout(95000);
-
-  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
-    void
-  > {
-    await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-      maxAutoRenewDurationInSeconds: 15,
-      delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-      willCompleteFail: true
-    });
   });
 });
 
@@ -291,37 +229,6 @@ describe("Partitioned Subscription - Lock Renewal", function(): void {
   > {
     await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
       maxAutoRenewDurationInSeconds: 0,
-      delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-      willCompleteFail: true
-    });
-    // Complete fails as expected
-  });
-
-  it("Streaming Receiver: lock will not expire until configured time", async function(): Promise<
-    void
-  > {
-    await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-      maxAutoRenewDurationInSeconds: 38,
-      delayBeforeAttemptingToCompleteMessageInSeconds: 35,
-      willCompleteFail: false
-    });
-  });
-
-  it("Streaming Receiver: lock expires sometime after configured time", async function(): Promise<
-    void
-  > {
-    await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-      maxAutoRenewDurationInSeconds: 35,
-      delayBeforeAttemptingToCompleteMessageInSeconds: 55,
-      willCompleteFail: true
-    });
-  }).timeout(95000);
-
-  it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
-    void
-  > {
-    await testAutoLockRenewalConfigBehavior(senderClient, receiverClient, {
-      maxAutoRenewDurationInSeconds: 15,
       delayBeforeAttemptingToCompleteMessageInSeconds: 31,
       willCompleteFail: true
     });
@@ -408,7 +315,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 
   let errorWasThrown: boolean = false;
   await msgs[0].complete().catch((err) => {
-    should.equal(err.name, "MessageLockLostError", "ErrorName is different than expected");
+    should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
     errorWasThrown = true;
   });
 
@@ -526,7 +433,7 @@ async function testAutoLockRenewalConfigBehavior(
 
       let errorWasThrown: boolean = false;
       await brokeredMessage.complete().catch((err) => {
-        should.equal(err.name, "MessageLockLostError", "ErrorName is different than expected");
+        should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
         errorWasThrown = true;
       });
 

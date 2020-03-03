@@ -2,22 +2,27 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-http";
+import { isNode, URLBuilder } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
 import { record, delay } from "@azure/test-utils-recorder";
-import { BlobClient, BlockBlobClient, ContainerClient, BlockBlobTier } from "../src";
+import {
+  BlobClient,
+  BlockBlobClient,
+  ContainerClient,
+  BlockBlobTier,
+  BlobServiceClient
+} from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("BlobClient", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
+  let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -27,8 +32,9 @@ describe("BlobClient", () => {
 
   let recorder: any;
 
-  beforeEach(async function() {
-    recorder = record(this);
+  beforeEach(async function () {
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -38,7 +44,7 @@ describe("BlobClient", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     recorder.stop();
   });
@@ -176,12 +182,14 @@ describe("BlobClient", () => {
     await blobSnapshotClient.delete();
     await blobClient.delete();
 
-    const result2 = (await containerClient
-      .listBlobsFlat({
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    const result2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     // Verify that the snapshot is deleted
     assert.equal(result2.segment.blobItems!.length, 0);
@@ -194,12 +202,14 @@ describe("BlobClient", () => {
     const blobSnapshotClient = blobClient.withSnapshot(result.snapshot!);
     await blobSnapshotClient.getProperties();
 
-    const result3 = (await containerClient
-      .listBlobsFlat({
-        includeSnapshots: true
-      })
-      .byPage()
-      .next()).value;
+    const result3 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true
+        })
+        .byPage()
+        .next()
+    ).value;
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
@@ -220,7 +230,7 @@ describe("BlobClient", () => {
   });
 
   it("undelete", async () => {
-    const properties = await blobServiceClient.getProperties();
+    let properties = await blobServiceClient.getProperties();
     if (!properties.deleteRetentionPolicy!.enabled) {
       await blobServiceClient.setProperties({
         deleteRetentionPolicy: {
@@ -228,30 +238,78 @@ describe("BlobClient", () => {
           enabled: true
         }
       });
-      await delay(15 * 1000);
+      // await delay(15 * 1000);
+      properties = await blobServiceClient.getProperties();
+      assert.ok(properties.deleteRetentionPolicy!.enabled, "deleteRetentionPolicy should be enabled.");
     }
 
     await blobClient.delete();
 
-    const result = (await containerClient
+    const iter = containerClient
       .listBlobsFlat({
         includeDeleted: true
       })
-      .byPage()
-      .next()).value;
+      .byPage({ maxPageSize: 1 });
 
-    assert.ok(result.segment.blobItems![0].deleted);
+    let res = await iter.next();
+    let result = res.value;
+    while (!res.done) {
+      if (!!result && !!result.segment && !!result.segment.blobItems &&
+        result.segment.blobItems.length > 0) {
+        break;
+      }
+      res = await iter.next();
+      result = res.value;
+    }
+
+    assert.ok(result, "Expect valid iterator value");
+    assert.ok(result.segment, "Expect valid segment response");
+
+    assert.ok(
+      result.segment.blobItems,
+      "Expect non empty result from list blobs({ includeDeleted: true }) with page size of 1."
+    );
+
+    assert.equal(
+      result.segment.blobItems.length,
+      1,
+      `Expect result.segment.blobItems.length === 1 but got ${result.segment.blobItems.length}.`
+    );
+
+    assert.ok(
+      result.segment.blobItems![0],
+      "Expect a valid element in result array from list blobs({ includeDeleted: true }) with page size of 1."
+    );
+
+    assert.ok(result.segment.blobItems![0].deleted, "Expect that the blob is marked for deletion");
 
     await blobClient.undelete();
 
-    const result2 = (await containerClient
+    const iter2 = containerClient
       .listBlobsFlat({
         includeDeleted: true
       })
-      .byPage()
-      .next()).value;
+      .byPage();
 
-    assert.ok(!result2.segment.blobItems![0].deleted);
+    res = await iter2.next();
+    result = res.value;
+    while (!res.done) {
+      if (!!result && !!result.segment && !!result.segment.blobItems &&
+        result.segment.blobItems.length > 0) {
+        break;
+      }
+      res = await iter2.next();
+      result = res.value;
+    }
+
+    assert.ok(result, "Expect valid iterator value");
+    assert.ok(result.segment, "Expect valid segment response");
+
+    assert.ok(result.segment.blobItems, "Expect non empty result from list blobs().");
+    assert.ok(
+      !result.segment.blobItems![0].deleted,
+      "Expect that the blob is NOT marked for deletion"
+    );
   });
 
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
@@ -413,10 +471,12 @@ describe("BlobClient", () => {
     recorder.skip("browser");
     const newBlobURL = containerClient.getBlobClient(recorder.getUniqueName("copiedblobrehydrate"));
     const initialTier = BlockBlobTier.Archive;
-    const result = await (await newBlobURL.beginCopyFromURL(blobClient.url, {
-      tier: initialTier,
-      rehydratePriority: "Standard"
-    })).pollUntilDone();
+    const result = await (
+      await newBlobURL.beginCopyFromURL(blobClient.url, {
+        tier: initialTier,
+        rehydratePriority: "Standard"
+      })
+    ).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
 
@@ -460,6 +520,7 @@ describe("BlobClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
+    const urlPath = URLBuilder.parse(blobClient.url).getPath() || "";
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -469,7 +530,7 @@ describe("BlobClient", () => {
               name: "Azure.Storage.Blob.BlobClient-download",
               children: [
                 {
-                  name: "core-http",
+                  name: urlPath,
                   children: []
                 }
               ]
@@ -536,13 +597,15 @@ describe("BlobClient", () => {
     }
     assert.ok(exceptionCaught);
   });
+});
 
-  it("verify blobName and containerName passed to the client", async () => {
-    const accountName = "myaccount";
-    const blobName = "blob/part/1.txt";
-    const newClient = new BlobClient(
-      `https://${accountName}.blob.core.windows.net/` + containerName + "/" + blobName
-    );
+describe("BlobClient - Verify Name Properties", () => {
+  const accountName = "myaccount";
+  const blobName = "blob/part/1.txt";
+  const containerName = "containername";
+
+  function verifyNameProperties(url: string) {
+    const newClient = new BlobClient(url);
     assert.equal(
       newClient.containerName,
       containerName,
@@ -554,5 +617,25 @@ describe("BlobClient", () => {
       accountName,
       "Account name is not the same as the one provided."
     );
+  }
+
+  it("verify endpoint from the portal", async () => {
+    verifyNameProperties(
+      `https://${accountName}.blob.core.windows.net/${containerName}/${blobName}`
+    );
+  });
+
+  it("verify IPv4 host address as Endpoint", async () => {
+    verifyNameProperties(`https://192.0.0.10:1900/${accountName}/${containerName}/${blobName}`);
+  });
+
+  it("verify IPv6 host address as Endpoint", async () => {
+    verifyNameProperties(
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${containerName}/${blobName}`
+    );
+  });
+
+  it("verify endpoint without dots", async () => {
+    verifyNameProperties(`https://localhost:80/${accountName}/${containerName}/${blobName}`);
   });
 });

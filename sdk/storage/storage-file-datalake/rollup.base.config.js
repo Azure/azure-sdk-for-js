@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import replace from "@rollup/plugin-replace";
-import cjs from "rollup-plugin-commonjs";
-import multiEntry from "rollup-plugin-multi-entry";
-import nodeResolve from "rollup-plugin-node-resolve";
+import cjs from "@rollup/plugin-commonjs";
+import multiEntry from "@rollup/plugin-multi-entry";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import shim from "rollup-plugin-shim";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import { terser } from "rollup-plugin-terser";
-
 
 // import visualizer from "rollup-plugin-visualizer";
 
@@ -80,8 +79,8 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
-    baseConfig.plugins.unshift(multiEntry({ exports: false }));
+    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js", "dist-esm/src/index.js"];
+    baseConfig.plugins.unshift(multiEntry());
 
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
@@ -102,11 +101,11 @@ export function nodeConfig(test = false) {
   return baseConfig;
 }
 
-export function browserConfig(test = false, production = false) {
+export function browserConfig(test = false) {
   const baseConfig = {
     input: "dist-esm/src/index.browser.js",
     output: {
-      file: "browser/azure-storage-file-datalake.js",
+      file: "dist-browser/azure-storage-file-datalake.js",
       banner: banner,
       format: "umd",
       name: "azdatalake",
@@ -183,20 +182,6 @@ export function browserConfig(test = false, production = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (production) {
-    baseConfig.output.file = "browser/azure-storage-file-datalake.min.js";
-    baseConfig.plugins.push(
-      terser({
-        output: {
-          preamble: banner
-        }
-      })
-      // Comment visualizer because it only works on Node.js 8+; Uncomment it to get bundle analysis report
-      // visualizer({
-      //   filename: "./statistics.html",
-      //   sourcemap: true
-      // })
-    );
   }
 
   return baseConfig;

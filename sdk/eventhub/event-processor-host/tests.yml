@@ -12,6 +12,8 @@ jobs:
   - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/event-processor-host"
+      ResourceServiceDirectory: eventhub
+      TimeoutInMinutes: 90
       # Remove Browser tests from matrix since they are currently a no-op
       Matrix:
         Linux_Node10:
@@ -24,9 +26,9 @@ jobs:
           OSVmImage: "macOS-10.13"
           TestType: "node"
       EnvVars:
-        EVENTHUB_CONNECTION_STRING: $(js-event-hubs-test-connection-string)
-        EVENTHUB_NAME: $(js-event-hubs-test-name)
-        IOTHUB_CONNECTION_STRING: $(js-event-processor-host-test-iothub-connection-string)
-        STORAGE_CONNECTION_STRING: $(js-event-hubs-test-storage-connection-string)
+        EVENTHUB_NAME: $(EVENTHUB_NAME)
+        EVENTHUB_CONNECTION_STRING: $(EVENTHUB_CONNECTION_STRING)
+        IOTHUB_CONNECTION_STRING: $(IOTHUB_CONNECTION_STRING)
+        STORAGE_CONNECTION_STRING: $(STORAGE_CONNECTION_STRING)
       # Event Hubs tests do not support concurrent execution
       MaxParallel: 1

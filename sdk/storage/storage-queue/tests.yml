@@ -9,6 +9,62 @@ resources:
       name: Azure/azure-sdk-tools
       endpoint: azure
 jobs:
-  - template: ../archetype-sdk-tests-storage.yml
+  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/storage-queue"
+      ResourceServiceDirectory: storage
+      Matrix:
+        Linux_Node8:
+          OSVmImage: "ubuntu-16.04"
+          NodeVersion: "8.x"
+          TestType: "node"
+        Linux_Node10:
+          OSVmImage: "ubuntu-16.04"
+          NodeVersion: "10.x"
+          TestType: "node"
+          PublishCodeCoverage: true
+        Linux_Node12:
+          OSVmImage: "ubuntu-16.04"
+          NodeVersion: "12.x"
+          TestType: "node"
+        Windows_Node8:
+          OSVmImage: "windows-2019"
+          NodeVersion: "8.x"
+          TestType: "node"
+        Windows_Node10:
+          OSVmImage: "windows-2019"
+          NodeVersion: "10.x"
+          TestType: "node"
+        Windows_Node12:
+          OSVmImage: "windows-2019"
+          NodeVersion: "12.x"
+          TestType: "node"
+        macOS_Node8:
+          OSVmImage: "macOS-10.15"
+          NodeVersion: "8.x"
+          TestType: "node"
+        macOS_Node10:
+          OSVmImage: "macOS-10.15"
+          NodeVersion: "10.x"
+          TestType: "node"
+        macOS_Node12:
+          OSVmImage: "macOS-10.15"
+          NodeVersion: "12.x"
+          TestType: "node"
+        Browser_Linux_Node10:
+          OSVmImage: "ubuntu-16.04"
+          NodeVersion: "10.x"
+          TestType: "browser"
+          PublishCodeCoverage: true
+        Browser_Windows_Node10:
+          OSVmImage: "windows-2019"
+          NodeVersion: "10.x"
+          TestType: "browser"
+        Browser_macOS_Node10:
+          OSVmImage: "macOS-10.15"
+          NodeVersion: "10.x"
+          TestType: "browser"
+        Linux_Sample10:
+          OSVmImage: "ubuntu-16.04"
+          NodeVersion: "10.x"
+          TestType: "sample"

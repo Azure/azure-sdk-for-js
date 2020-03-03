@@ -1,5 +1,5 @@
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-http";
+import { isNode, URLBuilder } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
 import { record } from "@azure/test-utils-recorder";
 import * as assert from "assert";
@@ -7,13 +7,11 @@ import * as dotenv from "dotenv";
 
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
-import { bodyToString, getDataLakeServiceClient, setupEnvironment } from "./utils";
+import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
 dotenv.config({ path: "../.env" });
 
 describe("DataLakePathClient", () => {
-  setupEnvironment();
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
   let fileName: string;
@@ -23,7 +21,8 @@ describe("DataLakePathClient", () => {
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
@@ -164,6 +163,7 @@ describe("DataLakePathClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
+    const urlPath = URLBuilder.parse(fileClient.url).getPath() || "";
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -176,7 +176,7 @@ describe("DataLakePathClient", () => {
                   name: "Azure.Storage.Blob.BlobClient-download",
                   children: [
                     {
-                      name: "core-http",
+                      name: urlPath,
                       children: []
                     }
                   ]

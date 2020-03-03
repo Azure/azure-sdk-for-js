@@ -99,12 +99,12 @@ export class Container {
    * Use `.items` for creating new items, or querying/reading all items.
    *
    * @param id The id of the {@link Item}.
-   * @param partitionKey The partition key of the {@link Item}
+   * @param partitionKeyValue The value of the {@link Item} partition key
    * @example Replace an item
-   * const {body: replacedItem} = await container.item("<item id>").replace({id: "<item id>", title: "Updated post", authorID: 5});
+   * const {body: replacedItem} = await container.item("<item id>", "<partition key value>").replace({id: "<item id>", title: "Updated post", authorID: 5});
    */
-  public item(id: string, partitionKey: any): Item {
-    return new Item(this, id, partitionKey, this.clientContext);
+  public item(id: string, partitionKeyValue?: any): Item {
+    return new Item(this, id, partitionKeyValue, this.clientContext);
   }
 
   /**

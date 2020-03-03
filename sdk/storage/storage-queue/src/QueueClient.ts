@@ -6,7 +6,8 @@ import {
   TokenCredential,
   isTokenCredential,
   isNode,
-  getDefaultProxySettings
+  getDefaultProxySettings,
+  URLBuilder
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/types";
 import {
@@ -38,13 +39,11 @@ import {
   appendToURLPath,
   extractConnectionStringParts,
   truncatedISO8061Date,
-  getValueInConnString,
   getStorageClientContext
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
-import { DevelopmentConnectionString } from "./utils/constants";
 import { Metadata } from "./models";
 
 /**
@@ -175,16 +174,16 @@ export interface SignedIdentifier {
     /**
      * @member {Date} startsOn the date-time the policy is active.
      */
-    startsOn: Date;
+    startsOn?: Date;
     /**
      * @member {string} expiresOn the date-time the policy expires.
      */
-    expiresOn: Date;
+    expiresOn?: Date;
     /**
      * @member {string} permission the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
      */
-    permissions: string;
+    permissions?: string;
   };
 }
 
@@ -194,24 +193,24 @@ export interface SignedIdentifier {
 export declare type QueueGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & QueueGetAccessPolicyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QueueGetAccessPolicyHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SignedIdentifierModel[];
-    };
+    parsedHeaders: QueueGetAccessPolicyHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SignedIdentifierModel[];
   };
+};
 
 /**
  * Options to configure {@link QueueClient.clearMessages} operation
@@ -237,7 +236,7 @@ export interface QueueClearMessagesOptions extends CommonOptions {
  * @interface QueueSendMessageOptions
  * @extends {MessagesEnqueueOptionalParams}
  */
-export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {}
+export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions { }
 
 /**
  * Options to configure {@link QueueClient.receiveMessages} operation
@@ -246,7 +245,7 @@ export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, 
  * @interface QueueReceiveMessageOptions
  * @extends {MessagesDequeueOptionalParams}
  */
-export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {}
+export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions { }
 
 /**
  * Options to configure {@link QueueClient.peekMessages} operation
@@ -255,7 +254,7 @@ export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParam
  * @interface QueuePeekMessagesOptions
  * @extends {MessagesPeekOptionalParams}
  */
-export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {}
+export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions { }
 
 /**
  * Contains the response data for the {@link QueueClient.sendMessage} operation.
@@ -287,24 +286,24 @@ export declare type QueueSendMessageResponse = {
    */
   nextVisibleOn: Date;
 } & MessagesEnqueueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesEnqueueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EnqueuedMessage[];
-    };
+    parsedHeaders: MessagesEnqueueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EnqueuedMessage[];
   };
+};
 
 /**
  * The object returned in the `receivedMessageItems` array when calling {@link QueueClient.receiveMessages}.
@@ -319,24 +318,24 @@ export declare type ReceivedMessageItem = DequeuedMessageItem;
 export declare type QueueReceiveMessageResponse = {
   receivedMessageItems: ReceivedMessageItem[];
 } & MessagesDequeueHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesDequeueHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReceivedMessageItem[];
-    };
+    parsedHeaders: MessagesDequeueHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReceivedMessageItem[];
   };
+};
 
 /**
  * Contains the response data for the {@link QueueClient.peekMessages} operation.
@@ -344,24 +343,24 @@ export declare type QueueReceiveMessageResponse = {
 export declare type QueuePeekMessagesResponse = {
   peekedMessageItems: PeekedMessageItem[];
 } & MessagesPeekHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The parsed HTTP response headers.
      */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MessagesPeekHeaders;
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PeekedMessageItem[];
-    };
+    parsedHeaders: MessagesPeekHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: PeekedMessageItem[];
   };
+};
 
 /**
  * Options to configure the {@link QueueClient.deleteMessage} operation
@@ -745,12 +744,23 @@ export class QueueClient extends StorageClient {
       };
 
       for (const identifier of response) {
+        let accessPolicy: any = undefined;
+        if (identifier.accessPolicy) {
+          accessPolicy = {
+            permissions: identifier.accessPolicy.permissions
+          };
+
+          if (identifier.accessPolicy.expiresOn) {
+            accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+          }
+
+          if (identifier.accessPolicy.startsOn) {
+            accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+          }
+        }
+
         res.signedIdentifiers.push({
-          accessPolicy: {
-            expiresOn: new Date(identifier.accessPolicy.expiresOn),
-            permissions: identifier.accessPolicy.permissions,
-            startsOn: new Date(identifier.accessPolicy.startsOn)
-          },
+          accessPolicy,
           id: identifier.id
         });
       }
@@ -786,9 +796,9 @@ export class QueueClient extends StorageClient {
       for (const identifier of queueAcl || []) {
         acl.push({
           accessPolicy: {
-            expiresOn: truncatedISO8061Date(identifier.accessPolicy.expiresOn),
+            expiresOn: identifier.accessPolicy.expiresOn ? truncatedISO8061Date(identifier.accessPolicy.expiresOn) : undefined,
             permissions: identifier.accessPolicy.permissions,
-            startsOn: truncatedISO8061Date(identifier.accessPolicy.startsOn)
+            startsOn: identifier.accessPolicy.startsOn ? truncatedISO8061Date(identifier.accessPolicy.startsOn) : undefined
           },
           id: identifier.id
         });
@@ -1103,29 +1113,27 @@ export class QueueClient extends StorageClient {
       //  URL may look like the following
       // "https://myaccount.queue.core.windows.net/myqueue?sasString".
       // "https://myaccount.queue.core.windows.net/myqueue".
-      // or an emulator URL that starts with the endpoint `http://127.0.0.1:10001/devstoreaccount1`
+      // IPv4/IPv6 address hosts, Endpoints - `http://127.0.0.1:10001/devstoreaccount1/myqueue`
+      // http://localhost:10001/devstoreaccount1/queuename
 
-      let urlWithoutSAS = this.url.split("?")[0]; // removing the sas part of url if present
-      urlWithoutSAS = urlWithoutSAS.endsWith("/") ? urlWithoutSAS.slice(0, -1) : urlWithoutSAS; // Slicing off '/' at the end if exists
+      const parsedUrl = URLBuilder.parse(this.url);
 
-      // http://127.0.0.1:10001/devstoreaccount1
-      const emulatorQueueEndpoint = getValueInConnString(
-        DevelopmentConnectionString,
-        "QueueEndpoint"
-      );
-
-      if (this.url.startsWith(emulatorQueueEndpoint)) {
-        // Emulator URL starts with `http://127.0.0.1:10001/devstoreaccount1`
-        queueName = urlWithoutSAS.match(emulatorQueueEndpoint + "/([^/]*)")![1];
+      if (parsedUrl.getHost()!.split(".")[1] === "queue") {
+        // "https://myaccount.queue.core.windows.net/queuename".
+        // .getPath() -> /queuename
+        queueName = parsedUrl.getPath()!.split("/")[1];
       } else {
-        queueName = urlWithoutSAS.match("([^/]*)://([^/]*)/([^/]*)")![3];
+        // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/queuename
+        // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/queuename
+        // .getPath() -> /devstoreaccount1/queuename
+        queueName = parsedUrl.getPath()!.split("/")[2];
       }
 
       if (!queueName) {
         throw new Error("Provided queueName is invalid.");
-      } else {
-        return queueName;
       }
+
+      return queueName;
     } catch (error) {
       throw new Error("Unable to extract queueName with provided information.");
     }

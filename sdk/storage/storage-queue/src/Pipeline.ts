@@ -38,6 +38,7 @@ import {
   StorageQueueLoggingAllowedHeaderNames,
   StorageQueueLoggingAllowedQueryParameters
 } from "./utils/constants";
+import { getCachedDefaultHttpClient } from "./utils/cache";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -106,7 +107,12 @@ export class Pipeline {
    */
   constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
     this.factories = factories;
-    this.options = options;
+    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
+    // avoid each client creating its own http client.
+    this.options = {
+      ...options,
+      httpClient: options.httpClient || getCachedDefaultHttpClient()
+    };
   }
 
   /**
@@ -182,10 +188,11 @@ export function newPipeline(
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
+  const telemetryPolicy = new TelemetryPolicyFactory(pipelineOptions.userAgentOptions);
   const factories: RequestPolicyFactory[] = [
-    tracingPolicy(),
+    tracingPolicy({ userAgent: telemetryPolicy.telemetryString }),
     keepAlivePolicy(pipelineOptions.keepAliveOptions),
-    new TelemetryPolicyFactory(pipelineOptions.userAgentOptions),
+    telemetryPolicy,
     generateClientRequestIdPolicy(),
     new StorageBrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
@@ -207,7 +214,5 @@ export function newPipeline(
       : credential
   );
 
-  return new Pipeline(factories, {
-    httpClient: pipelineOptions.httpClient
-  });
+  return new Pipeline(factories, pipelineOptions);
 }

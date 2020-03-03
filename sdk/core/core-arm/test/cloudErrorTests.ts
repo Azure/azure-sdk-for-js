@@ -1,5 +1,5 @@
 import { Serializer } from "@azure/core-http";
-import { CloudErrorMapper, CloudError } from "../lib/cloudError";
+import { CloudErrorMapper, CloudError } from "../src/cloudError";
 import { expect } from "chai";
 
 

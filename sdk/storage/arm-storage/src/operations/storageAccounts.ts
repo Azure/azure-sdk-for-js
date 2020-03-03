@@ -465,6 +465,23 @@ export class StorageAccounts {
   }
 
   /**
+   * Restore blobs in the specified blob ranges
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param timeToRestore Restore blob to the specified time.
+   * @param blobRanges Blob ranges to restore.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StorageAccountsRestoreBlobRangesResponse>
+   */
+  restoreBlobRanges(resourceGroupName: string, accountName: string, timeToRestore: Date | string, blobRanges: Models.BlobRestoreRange[], options?: msRest.RequestOptionsBase): Promise<Models.StorageAccountsRestoreBlobRangesResponse> {
+    return this.beginRestoreBlobRanges(resourceGroupName,accountName,timeToRestore,blobRanges,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StorageAccountsRestoreBlobRangesResponse>;
+  }
+
+  /**
    * Revoke user delegation keys.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -551,6 +568,31 @@ export class StorageAccounts {
         options
       },
       beginFailoverOperationSpec,
+      options);
+  }
+
+  /**
+   * Restore blobs in the specified blob ranges
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param timeToRestore Restore blob to the specified time.
+   * @param blobRanges Blob ranges to restore.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRestoreBlobRanges(resourceGroupName: string, accountName: string, timeToRestore: Date | string, blobRanges: Models.BlobRestoreRange[], options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        timeToRestore,
+        blobRanges,
+        options
+      },
+      beginRestoreBlobRangesOperationSpec,
       options);
   }
 
@@ -944,6 +986,44 @@ const beginFailoverOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRestoreBlobRangesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/restoreBlobRanges",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      timeToRestore: "timeToRestore",
+      blobRanges: "blobRanges"
+    },
+    mapper: {
+      ...Mappers.BlobRestoreParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.BlobRestoreStatus
+    },
+    202: {
+      bodyMapper: Mappers.BlobRestoreStatus
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

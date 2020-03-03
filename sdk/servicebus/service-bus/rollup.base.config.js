@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import nodeResolve from "rollup-plugin-node-resolve";
-import multiEntry from "rollup-plugin-multi-entry";
-import cjs from "rollup-plugin-commonjs";
+import nodeResolve from "@rollup/plugin-node-resolve";
+import multiEntry from "@rollup/plugin-multi-entry";
+import cjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
 import path from "path";
-import inject from "rollup-plugin-inject";
+import inject from "@rollup/plugin-inject";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -97,12 +97,12 @@ export function nodeConfig({ test = false, production = false } = {}) {
   return baseConfig;
 }
 
-export function browserConfig({ test = false, production = false } = {}) {
+export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     external: [],
     output: {
-      file: "browser/service-bus.js",
+      file: "dist-browser/service-bus.js",
       format: "umd",
       name: "Azure.Messaging.ServiceBus",
       sourcemap: true
@@ -136,7 +136,8 @@ export function browserConfig({ test = false, production = false } = {}) {
           export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
         `,
         path: `export default {}`,
-        dns: `export function resolve() { }`
+        dns: `export function resolve() { }`,
+        glob: `export default {}`
       }),
 
       nodeResolve({
@@ -176,15 +177,6 @@ export function browserConfig({ test = false, production = false } = {}) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (production) {
-    baseConfig.output.file = "browser/service-bus.min.js";
-    baseConfig.plugins.push(
-      terser({
-        output: {
-          preamble: banner
-        }
-      })
-    );
   }
 
   return baseConfig;

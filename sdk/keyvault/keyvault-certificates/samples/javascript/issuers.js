@@ -1,5 +1,11 @@
-const { CertificateClient } = require("../../dist");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 // This sample creates, updates and deletes certificate issuers.
 
@@ -15,8 +21,9 @@ async function main() {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificate6892342";
-  const issuerName = "issuerName";
+  const uniqueString = new Date().getTime();
+  const certificateName = `cert${uniqueString}`;
+  const issuerName = `issuer${uniqueString}`;
 
   // Create
   await client.createIssuer(issuerName, "Test", {
@@ -31,14 +38,8 @@ async function main() {
     ]
   });
 
-  // We can create a certificate with that issuer's name.
-  await client.createCertificate(certificateName, {
-    issuerName,
-    subject: "cn=MyCert"
-  });
-
   // Reading the certificate will give us back the issuer name, but no other information.
-  const createPoller = await client.beginCreateCertificate("MyCertificate", {
+  const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName,
     subject: "cn=MyCert"
   });

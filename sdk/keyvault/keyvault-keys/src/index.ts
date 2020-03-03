@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 /* eslint @typescript-eslint/member-ordering: 0 */
 
 import {
@@ -903,7 +903,7 @@ export class KeyClient {
   public listPropertiesOfKeyVersions(
     name: string,
     options: ListPropertiesOfKeyVersionsOptions = {}
-  ): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]> {
+  ): PagedAsyncIterableIterator<KeyProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfKeyVersions", requestOptions);
     const updatedOptions: ListPropertiesOfKeyVersionsOptions = {
@@ -997,7 +997,7 @@ export class KeyClient {
    */
   public listPropertiesOfKeys(
     options: ListPropertiesOfKeysOptions = {}
-  ): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]> {
+  ): PagedAsyncIterableIterator<KeyProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfKeys", requestOptions);
     const updatedOptions: ListPropertiesOfKeysOptions = {
@@ -1091,7 +1091,7 @@ export class KeyClient {
    */
   public listDeletedKeys(
     options: ListDeletedKeysOptions = {}
-  ): PagedAsyncIterableIterator<DeletedKey, DeletedKey[]> {
+  ): PagedAsyncIterableIterator<DeletedKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listDeletedKeys", requestOptions);
 
@@ -1253,7 +1253,9 @@ export class KeyClient {
    */
   private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
     const tracer = getTracer();
-    return tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+    const span = tracer.startSpan(methodName, requestOptions && requestOptions.spanOptions);
+    span.setAttribute("az.namespace", "Microsoft.KeyVault");
+    return span;
   }
 
   /**
@@ -1266,11 +1268,16 @@ export class KeyClient {
    */
   private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
     if (span.isRecording()) {
+      const spanOptions = options.spanOptions || {};
       return {
         ...options,
         spanOptions: {
-          ...options.spanOptions,
-          parent: span
+          ...spanOptions,
+          parent: span,
+          attributes: {
+            ...spanOptions.attributes,
+            "az.namespace": "Microsoft.KeyVault"
+          }
         }
       };
     } else {

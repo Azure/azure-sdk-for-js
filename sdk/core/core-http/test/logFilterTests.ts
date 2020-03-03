@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { HttpHeaders, RawHttpHeaders } from "../lib/httpHeaders";
-import { HttpOperationResponse } from "../lib/httpOperationResponse";
-import { LogPolicy, LogPolicyOptions } from "../lib/policies/logPolicy";
-import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
-import { WebResource } from "../lib/webResource";
+import { HttpHeaders, RawHttpHeaders } from "../src/httpHeaders";
+import { HttpOperationResponse } from "../src/httpOperationResponse";
+import { LogPolicy, LogPolicyOptions } from "../src/policies/logPolicy";
+import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";
+import { WebResource } from "../src/webResource";
 import { getLogLevel, setLogLevel, AzureLogLevel, Debugger } from "@azure/logger";
 
 function getNextPolicy(responseHeaders?: RawHttpHeaders): RequestPolicy {
@@ -96,6 +96,7 @@ Headers: {
       "x-ms-safe-header": "It me",
       "x-ms-oh-noes": ":-p"
     });
+    delete request.requestId;
     assertLog(request, expected, done);
   });
 
@@ -119,6 +120,7 @@ Headers: {
 `;
 
     const request = new WebResource("https://foo.com", "PUT", { a: 1 });
+    delete request.requestId;
     assertLog(request, expected, done, {
       "x-ms-safe-header": "It me",
       "x-ms-oh-noes": ":-p"
@@ -146,11 +148,11 @@ Headers: {
 
     const request = new WebResource("https://foo.com", "PUT", { a: 1 }, undefined, {
       "Capitalized-Header": "Don't redact me, bro",
-      "x-ms-safe-header": "It me",
+      "x-ms-safe-header": "It me"
     });
+    delete request.requestId;
     assertLog(request, expected, done);
   });
-
 
   it("redacts query parameters in the query field", (done) => {
     const expected = `Request: {
@@ -178,6 +180,7 @@ Headers: {
       { a: 1 },
       { "api-version": "1.0", secret: "goose" }
     );
+    delete request.requestId;
     assertLog(request, expected, done);
   });
 
@@ -200,6 +203,7 @@ Headers: {
     const request = new WebResource("https://foo.com?api-version=1.0&secret=goose", "PUT", {
       a: 1
     });
+    delete request.requestId;
     assertLog(request, expected, done);
   });
 });

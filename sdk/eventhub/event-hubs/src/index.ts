@@ -6,20 +6,18 @@
 export { EventData, ReceivedEventData } from "./eventData";
 export { WebSocketImpl } from "rhea-promise";
 export { LastEnqueuedEventProperties } from "./eventHubReceiver";
-export { OperationOptions } from "./util/operationOptions";
+export { OperationOptions, TracingOptions } from "./util/operationOptions";
 export {
   EventHubClientOptions,
   SendBatchOptions,
   CreateBatchOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  GetEventHubPropertiesOptions,
-  WebSocketOptions
-} from "./impl/eventHubClient";
+  GetEventHubPropertiesOptions
+} from "./models/public";
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {
-  InitializationContext,
   SubscribeOptions,
   Subscription,
   SubscriptionEventHandlers,
@@ -29,9 +27,11 @@ export {
   ProcessCloseHandler,
   ProcessEventsHandler
 } from "./eventHubConsumerClientModels";
-export { EventPosition } from "./eventPosition";
+export { EventPosition, latestEventPosition, earliestEventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";
 export { EventDataBatch, TryAddOptions } from "./eventDataBatch";
 export { Checkpoint } from "./partitionProcessor";
-export { CloseReason, CheckpointStore, PartitionOwnership } from "./eventProcessor";
-export { MessagingError, RetryOptions, TokenCredential } from "@azure/core-amqp";
+export { CheckpointStore, PartitionOwnership } from "./eventProcessor";
+export { CloseReason } from "./models/public";
+export { MessagingError, RetryOptions, TokenCredential, WebSocketOptions } from "@azure/core-amqp";
+export { logger } from "./log";
