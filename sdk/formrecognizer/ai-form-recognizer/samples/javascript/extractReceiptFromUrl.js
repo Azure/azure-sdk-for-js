@@ -5,7 +5,7 @@
  * Extract receipt
  */
 
-const { CustomRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+const { FormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -23,7 +23,7 @@ async function main() {
   imageUrl = "http://2.bp.blogspot.com/_LqCB_lgYPw0/TOpQyM_1PFI/AAAAAAAAACw/Qpx0wZ25GC4/s1600/tesco1receipt.jpg";
   imageUrl = "http://travelwithgrant.boardingarea.com/wp-content/uploads/2013/06/VR-Receipt.jpg";
 
-  const client = new CustomRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
 
   let result;
 

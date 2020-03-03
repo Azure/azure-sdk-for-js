@@ -10,6 +10,7 @@ import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { Poller } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { ServiceClientCredentials } from '@azure/core-http';
@@ -90,65 +91,30 @@ export interface CommonFieldValue {
 }
 
 // @public
-export class CustomRecognizerClient {
-    // Warning: (ae-forgotten-export) The symbol "FormRecognizerClientOptions" needs to be exported by the entry point index.d.ts
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions_2);
-    // Warning: (ae-forgotten-export) The symbol "DeleteModelOptions" needs to be exported by the entry point index.d.ts
-    //
+export class CustomFormRecognizerClient {
+    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     // (undocumented)
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<import("@azure/core-http").RestResponse>;
     readonly endpointUrl: string;
-    // Warning: (ae-forgotten-export) The symbol "ExtractCustomFormOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "GetAnalyzeFormResultResponse" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     extractCustomForm(modelId: string, body: HttpRequestBody, contentType: string, options: ExtractCustomFormOptions): Promise<GetAnalyzeFormResultResponse>;
-    // Warning: (ae-forgotten-export) The symbol "ExtractLayoutOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeLayoutResultResponse" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    extractLayout(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
-    // (undocumented)
-    extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
-    // Warning: (ae-forgotten-export) The symbol "SupportedContentType" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "ExtractReceiptOptions" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptResultResponse>;
-    // (undocumented)
-    extractReceiptFromUrl(imageSourceUrl: string, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptResultResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetExtractedCustomFormOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     getExtractedCustomForm(modelId: string, resultId: string, options?: GetExtractedCustomFormOptions): Promise<GetAnalyzeFormResultResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetExtractedLayoutResultOptions" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions): Promise<GetAnalyzeLayoutResultResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetExtractedReceiptResultOptions" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    getExtractedReceipt(resultId: string, options?: GetExtractedReceiptResultOptions): Promise<AnalyzeReceiptResultResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetModelOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     getModel(modelId: string, options: GetModelOptions): Promise<import("./generated/models").GetCustomModelResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetSummaryOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
     // (undocumented)
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse>;
-    // Warning: (ae-forgotten-export) The symbol "ListModelsOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     listModelsAll(settings: PageSettings, options?: ListModelsOptions): AsyncIterableIterator<ModelInfo>;
-    // Warning: (ae-forgotten-export) The symbol "StartTrainingOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "Model" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     startTraining(source: string, options?: StartTrainingOptions): Promise<PollerLike<PollOperationState<Model>, Model>>;
-    }
+}
 
 // @public
 export interface DataTable {
@@ -178,6 +144,9 @@ export type DateFieldValue = {
 } & CommonFieldValue;
 
 // @public
+export type DeleteModelOptions = FormRecognizerOperationOptions;
+
+// @public
 export interface DocumentResult {
     docType: string;
     fields: {
@@ -195,6 +164,19 @@ export interface ErrorInformation {
 }
 
 // @public (undocumented)
+export type ExtractCustomFormOptions = FormRecognizerOperationOptions & {
+    includeTextDetails?: boolean;
+};
+
+// @public (undocumented)
+export type ExtractLayoutOptions = FormRecognizerOperationOptions & {};
+
+// @public (undocumented)
+export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
+    includeTextDetails?: boolean;
+};
+
+// @public (undocumented)
 export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
 
 // @public
@@ -204,18 +186,44 @@ export type FieldValueType = 'string' | 'date' | 'time' | 'phoneNumber' | 'numbe
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
-    // Warning: (ae-forgotten-export) The symbol "ListCustomModelsOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    listCustomModels(includingFullList?: boolean, options?: ListCustomModelsOptions): Promise<GetCustomModelsResponse>;
-}
+    extractLayout(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
+    // (undocumented)
+    extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
+    // (undocumented)
+    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptResultResponse>;
+    // (undocumented)
+    extractReceiptFromUrl(imageSourceUrl: string, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptResultResponse>;
+    // (undocumented)
+    getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions): Promise<GetAnalyzeLayoutResultResponse>;
+    // (undocumented)
+    getExtractedReceipt(resultId: string, options?: GetExtractedReceiptResultOptions): Promise<AnalyzeReceiptResultResponse>;
+    }
 
 // @public
 export interface FormRecognizerClientOptions extends PipelineOptions {
 }
 
-// Warning: (ae-forgotten-export) The symbol "ModelsModel" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface FormRecognizerOperationOptions extends OperationOptions {
+}
+
+// @public
+export type GetAnalyzeLayoutResultResponse = AnalyzeOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResult;
+    };
+};
+
+// @public
+export type GetAnalyzeReceiptResultResponse = AnalyzeOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResult;
+    };
+};
+
 // @public
 export type GetCustomModelsResponse = ModelsModel & {
     _response: coreHttp.HttpResponse & {
@@ -223,6 +231,23 @@ export type GetCustomModelsResponse = ModelsModel & {
         parsedBody: ModelsModel;
     };
 };
+
+// @public (undocumented)
+export type GetExtractedCustomFormOptions = FormRecognizerOperationOptions;
+
+// @public (undocumented)
+export type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
+
+// @public (undocumented)
+export type GetExtractedReceiptResultOptions = FormRecognizerOperationOptions;
+
+// @public
+export type GetModelOptions = FormRecognizerOperationOptions & {
+    includeKeys?: boolean;
+};
+
+// @public
+export type GetSummaryOptions = FormRecognizerOperationOptions;
 
 // @public (undocumented)
 export type IntegerFieldValue = {
@@ -252,11 +277,22 @@ export type Language = 'en' | 'es';
 export type LengthUnit = 'pixel' | 'inch';
 
 // @public
+export type ListModelsOptions = FormRecognizerOperationOptions;
+
+// @public
 export interface ModelInfo {
     createdDateTime: Date;
     lastUpdatedDateTime: Date;
     modelId: string;
     status: ModelStatus;
+}
+
+// @public
+export interface ModelsModel {
+    modelList?: ModelInfo[];
+    nextLink?: string;
+    // Warning: (ae-forgotten-export) The symbol "ModelsSummary" needs to be exported by the entry point index.d.ts
+    summary?: ModelsSummary;
 }
 
 // @public
@@ -292,6 +328,10 @@ export type PhoneNumberFieldValue = {
     type: "phoneNumber";
     valuePhoneNumber: string;
 } & CommonFieldValue;
+
+export { PollerLike }
+
+export { PollOperationState }
 
 // @public
 export interface RawReceipt {
@@ -398,11 +438,37 @@ export type ReceiptResult = {
     };
 } & Receipt;
 
+// @public
+export type StartTrainingOptions = TrainCustomModelOptions & {
+    intervalInMs?: number;
+    onProgress?: (state: StartTrainingPollState) => void;
+    resumeFrom?: string;
+};
+
+// @public
+export class StartTrainingPoller extends Poller<StartTrainingPollState, Model> {
+    // Warning: (ae-forgotten-export) The symbol "StartTrainingPollerOptions" needs to be exported by the entry point index.d.ts
+    constructor(options: StartTrainingPollerOptions);
+    // (undocumented)
+    delay(): Promise<void>;
+    // (undocumented)
+    intervalInMs: number;
+}
+
+// @public
+export type StartTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
+    prefix?: string;
+    includeSubFolders?: boolean;
+};
+
 // @public (undocumented)
 export type StringFieldValue = {
     type: "string";
     valueString: string;
 } & CommonFieldValue;
+
+// @public (undocumented)
+export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff";
 
 // @public
 export interface TextLine {
@@ -425,9 +491,16 @@ export type TimeFieldValue = {
     valueTime: string;
 } & CommonFieldValue;
 
+// @public (undocumented)
+export type TrainCustomModelOptions = FormRecognizerOperationOptions & {
+    prefix?: string;
+    includeSubFolders?: boolean;
+};
+
 
 // Warnings were encountered during analysis:
 //
+// src/customRecognizerClient.ts:73:3 - (ae-forgotten-export) The symbol "StartTrainingPollState" needs to be exported by the entry point index.d.ts
 // src/generated/models/index.ts:496:13 - (ae-forgotten-export) The symbol "FieldValue" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

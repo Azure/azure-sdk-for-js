@@ -5,7 +5,7 @@
  * Extract receipt
  */
 
-const { CustomRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+const { FormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
 const fs = require("fs");
 
 // Load the .env file if it exists
@@ -21,7 +21,7 @@ async function main() {
 
   const readStream = fs.createReadStream(path);
 
-  const client = new CustomRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
   const result = await client.extractReceipt(readStream, "image/png", {
   });
   console.log(result);

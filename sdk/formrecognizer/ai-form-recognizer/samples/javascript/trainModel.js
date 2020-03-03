@@ -5,7 +5,7 @@
  * Train Form Recognizer custom models
  */
 
-const { CustomRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+const { CustomFormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -18,7 +18,7 @@ async function main() {
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
   const trainingDataSource = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
 
-  const client = new CustomRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
 
   const poller = await client.startTraining(trainingDataSource, {
     onProgress: (state) => { console.log("training status: "); console.log(state); }

@@ -3,7 +3,7 @@
 
 import { delay } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { CustomRecognizerClient, TrainCustomModelOptions } from "../../customRecognizerClient";
+import { CustomFormRecognizerClient, TrainCustomModelOptions } from "../../customRecognizerClient";
 
 import { Model, ModelStatus, TrainCustomModelAsyncResponse } from "../../generated/models";
 
@@ -11,7 +11,7 @@ import { Model, ModelStatus, TrainCustomModelAsyncResponse } from "../../generat
  * Defines the operations from a {@link CustomRecognizerClient} that are needed for the poller
  * returned by {@link CustomRecognizerClient.startTraining} to work.
  */
-export type TrainPollerClient = Pick<CustomRecognizerClient, "getModel"> & {
+export type TrainPollerClient = Pick<CustomFormRecognizerClient, "getModel"> & {
   trainCustomModelInternal: (
     source: string,
     useLabelFile?: boolean,

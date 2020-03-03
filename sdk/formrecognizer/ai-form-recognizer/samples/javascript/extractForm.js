@@ -5,7 +5,7 @@
  * Extract Custom Form
  */
 
-const { CustomRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+const { CustomFormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
 const fs = require("fs");
 
 // Load the .env file if it exists
@@ -22,7 +22,7 @@ async function main() {
 
   const readStream = fs.createReadStream(path);
 
-  const client = new CustomRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
   const result = await client.extractCustomForm(modelId, readStream, "application/pdf", {
   });
   console.log(result);

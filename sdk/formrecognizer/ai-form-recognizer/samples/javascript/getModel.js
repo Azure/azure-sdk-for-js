@@ -5,7 +5,7 @@
  * Get Model
  */
 
-const { CustomRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+const { CustomFormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
 const fs = require("fs");
 
 // Load the .env file if it exists
@@ -19,7 +19,7 @@ async function main() {
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
   const modelId = "207683fc-b070-4731-a953-91bebbacb42b";
 
-  const client = new CustomRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
   const result = await client.getModel(modelId, { includeKeys: true });
   console.log(result);
 

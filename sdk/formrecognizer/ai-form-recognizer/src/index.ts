@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { FormRecognizerClient, FormRecognizerClientOptions } from "./formRecognizerClient";
-export { CustomRecognizerClient } from "./customRecognizerClient";
+export * from "./common";
+export * from "./formRecognizerClient";
+export * from "./customRecognizerClient";
 export { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 
 export {
@@ -17,11 +18,14 @@ export {
   TextWord,
   LengthUnit,
   ModelInfo,
+  ModelsModel,
   ModelStatus,
   OperationStatus,
   FieldValueType,
   PageResult,
   ReadResult,
+  GetAnalyzeLayoutResultResponse,
+  GetAnalyzeReceiptResultResponse,
   GetCustomModelsResponse
 } from "./generated/models";
 
