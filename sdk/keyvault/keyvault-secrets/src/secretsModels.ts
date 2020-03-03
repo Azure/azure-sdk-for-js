@@ -146,6 +146,12 @@ export interface SecretProperties {
    * the server.**
    */
   readonly recoveryLevel?: DeletionRecoveryLevel;
+  /**
+   * The retention dates of the softDelete data.
+   * The value should be >=7 and <=90 when softDelete enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  recoverableDays?: number;
 }
 
 /**

@@ -1,5 +1,11 @@
 # Release History
 
+## 4.1.0-preview (Unreleased)
+
+- Added the optional `apiVersion` property to the `CertificateClient` optional parameters.
+  It defaults to the latest supported API version, which currently is `7.1-preview`.
+- Added `recoverableDays` as an optional property to `KeyProperties`.
+
 ## 4.0.0 (2020-01-07)
 
 This release marks the general availability of the `@azure/keyvault-certificates` package.

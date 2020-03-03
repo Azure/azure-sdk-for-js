@@ -347,12 +347,6 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    * Size of the key
    */
   keySize?: number;
-  /**
-   * The retention dates of the softDelete data.
-   * The value should be >=7 and <=90 when softDelete enabled.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  recoverableDays?: number;
 }
 
 /**
@@ -438,12 +432,6 @@ export interface ImportKeyOptions extends coreHttp.OperationOptions {
    * Expiry date in UTC.
    */
   expiresOn?: Date;
-  /**
-   * The retention dates of the softDelete data.
-   * The value should be >=7 and <=90 when softDelete enabled.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  recoverableDays?: number;
 }
 
 /**
@@ -471,12 +459,6 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
-  /**
-   * The retention dates of the softDelete data.
-   * The value should be >=7 and <=90 when softDelete enabled.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  recoverableDays?: number;
 }
 
 /**

@@ -2016,7 +2016,8 @@ export class CertificateClient {
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,
       tags: certificateBundle.tags,
-      x509Thumbprint: certificateBundle.x509Thumbprint
+      x509Thumbprint: certificateBundle.x509Thumbprint,
+      recoverableDays: certificateBundle.recoverableDays
     };
 
     return abstractProperties;
@@ -2074,7 +2075,8 @@ export class CertificateClient {
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,
       tags: certificateBundle.tags,
-      x509Thumbprint: certificateBundle.x509Thumbprint
+      x509Thumbprint: certificateBundle.x509Thumbprint,
+      recoverableDays: certificateBundle.recoverableDays
     };
 
     return {
@@ -2106,7 +2108,8 @@ export class CertificateClient {
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,
       tags: certificateBundle.tags,
-      x509Thumbprint: certificateBundle.x509Thumbprint
+      x509Thumbprint: certificateBundle.x509Thumbprint,
+      recoverableDays: certificateBundle.recoverableDays
     };
 
     return {

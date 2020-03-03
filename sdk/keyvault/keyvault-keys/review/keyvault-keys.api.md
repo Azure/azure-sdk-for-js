@@ -199,6 +199,7 @@ export interface KeyProperties {
     id?: string;
     name: string;
     notBefore?: Date;
+    recoverableDays?: number;
     readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: {
         [propertyName: string]: string;

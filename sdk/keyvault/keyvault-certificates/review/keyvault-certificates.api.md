@@ -184,6 +184,7 @@ export interface CertificateProperties {
     readonly id?: string;
     readonly name?: string;
     notBefore?: Date;
+    recoverableDays?: number;
     readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: CertificateTags;
     readonly updatedOn?: Date;
