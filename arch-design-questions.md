@@ -132,7 +132,31 @@ We can also omit the following fields:
 
 # Message batching
 
-- Batching of messages is done via `ServiceBusMessageBatch`, similar to what we use
-in [EventHubs]()
-- The message batch is only used for sending. Receiving a fixed set of messages is 
+Message batching affects sending _only_. Receiving a fixed set of messages is 
   still done using the equivalent of a IList<T> (either an array, a Flux<T> ,etc...)
+
+To use a message batch (borrowing from what we've done already in EventHubs):
+
+1. The user creates a message batch. This is done as an async operation today
+  since we queried EventHubs for the maximum allowed size of the batch.
+2. User adds messages via the `tryAdd` method which returns a boolean to indicate
+  if the add worked or if the message was too big. This is critical - it allows the user
+  a simple way of knowing which message caused the batch to overflow so they
+  can decide how to properly split it (or throw it away).
+3. User sends the entire message batch object via `sender.sendBatch()`
+
+Sample code:
+
+```javascript
+const serviceBusSender= <acquire ServiceBusSender>;
+
+const batch: ServiceBusMessageBatch = await serviceBusSender.createBatch();
+
+const isAdded: boolean = batch.tryAdd(sendable message);
+
+if (!isAdded) {
+  console.log(`Message is too big, can't add it`);
+}
+
+await serviceBusSender.sendBatch(batch);
+```
