@@ -5,9 +5,9 @@ import chai from "chai";
 import {
   SendableMessageInfo,
   delay,
-  ServiceBusMessage,
   MessagingError,
-  ContextWithSettlement
+  ContextWithSettlement,
+  ReceivedMessage
 } from "../../src";
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
@@ -76,7 +76,7 @@ export class TestMessage {
    */
   static checkMessageContents(
     sent: SendableMessageInfo,
-    received: ServiceBusMessage,
+    received: ReceivedMessage,
     useSessions?: boolean,
     usePartitions?: boolean
   ): void {
