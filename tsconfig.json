@@ -5,6 +5,7 @@
     "lib": [],
     "declaration": true,
     "declarationMap": true,
+    "inlineSources": true,
     "sourceMap": true,
     "importHelpers": true,
     "strict": true,

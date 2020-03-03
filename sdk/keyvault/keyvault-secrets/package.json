@@ -25,13 +25,10 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "LICENSE.txt",
     "README.md",
     "types/keyvault-secrets.d.ts",
     "dist/",
-    "dist-esm/",
-    "src/",
-    "tsconfig.json"
+    "dist-esm/"
   ],
   "browser": {
     "os": false,

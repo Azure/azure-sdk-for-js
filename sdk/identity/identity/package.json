@@ -46,7 +46,6 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
     "types/identity.d.ts"
   ],
   "repository": "github:Azure/azure-sdk-for-js",

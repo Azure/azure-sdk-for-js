@@ -39,7 +39,6 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
     "types/template.d.ts"
   ],
   "repository": "github:Azure/azure-sdk-for-js",

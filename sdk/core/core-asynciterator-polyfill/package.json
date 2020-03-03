@@ -19,9 +19,7 @@
   "main": "./dist-esm/index.js",
   "files": [
     "dist-esm/**/*.js",
-    "LICENSE",
-    "README.md",
-    "ThirdPartyNotices.txt"
+    "README.md"
   ],
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-asynciterator-polyfill",

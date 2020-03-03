@@ -29,7 +29,6 @@
     "dist/",
     "dist-esm/",
     "LICENSE",
-    "src/",
     "tsconfig.json"
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos#readme",

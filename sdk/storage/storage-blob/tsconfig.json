@@ -4,6 +4,7 @@
     "noImplicitAny": true,
     "preserveConstEnums": true,
     "sourceMap": true,
+    "inlineSources": true,
     "newLine": "LF",
     "target": "es5",
     "moduleResolution": "node",

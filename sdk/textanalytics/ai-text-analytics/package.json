@@ -27,7 +27,6 @@
     "dist/",
     "dist-esm/src/",
     "types/ai-text-analytics.d.ts",
-    "src/",
     "README.md"
   ],
   "//metadata": {

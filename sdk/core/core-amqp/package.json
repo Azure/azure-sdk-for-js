@@ -17,7 +17,6 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
     "typings/src/",
     "tsconfig.json",
     "ThirdPartyNotices.txt"

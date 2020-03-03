@@ -59,7 +59,6 @@
     "dist/",
     "dist-esm/src/",
     "LICENSE",
-    "src/",
     "typings/latest/src",
     "typings/3.1/src",
     "tsconfig.json"
