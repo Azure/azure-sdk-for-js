@@ -10,10 +10,7 @@ import { DeletionRecoveryLevel } from "./core/models";
  * @readonly
  * @enum {string}
  */
-export type EncryptionAlgorithm =
-  | "RSA-OAEP"
-  | "RSA-OAEP-256"
-  | "RSA1_5";
+export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 /**
  * Defines values for KeyCurveName.
