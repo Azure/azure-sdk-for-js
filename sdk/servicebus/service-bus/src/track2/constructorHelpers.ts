@@ -12,6 +12,22 @@ import {
 } from "../old/serviceBusClient";
 
 /**
+ * Parses a connection string and extracts the EntityPath named entity out.
+ * @param connectionString An entity specific Service Bus connection string.
+ * @internal
+ * @ignore
+ */
+export function getEntityNameFromConnectionString(connectionString: string): string {
+  const entityPathMatch = connectionString.match(/^.+EntityPath=(.+?);{0,1}$/);
+
+  if (entityPathMatch != null && entityPathMatch.length === 2) {
+    return entityPathMatch[1];
+  } else {
+    throw new Error("No entity name present in the connection string");
+  }
+}
+
+/**
  * Attempts to generically figure out what the entity path is from the grab bag of string parameters
  * we get in our constructors.
  *
@@ -27,9 +43,6 @@ export function createConnectionContext(
   if (hasTokenCredentialAndHost(auth)) {
     let entityPath: string;
 
-    // TODO: this isn't quite right - we don't need just the entity path. We
-    // also form a different connection string.
-    //if (auth2.queueName && typeof auth2.queueName === "string") {
     if (hasQueueName(auth)) {
       entityPath = auth.queueName;
     } else if (hasTopicName(auth) && hasSubscriptionName(auth)) {
@@ -44,36 +57,23 @@ export function createConnectionContext(
     };
   } else if (hasQueueConnectionString(auth)) {
     // connection string based authentication
-    const entityPathMatch = auth.queueConnectionString.match(/^.+EntityPath=(.+?);{0,1}$/);
+    const queueName = getEntityNameFromConnectionString(auth.queueConnectionString);
 
-    if (entityPathMatch != null && entityPathMatch.length === 2) {
+    return {
+      context: createConnectionContextForConnectionString(auth.queueConnectionString, options),
+      entityPath: queueName
+    };
+  } else if (hasTopicConnectionString(auth)) {
+    const topicName = getEntityNameFromConnectionString(auth.topicConnectionString);
+
+    if (hasSubscriptionName(auth)) {
+      // topic (from connection string) + sub
       return {
-        context: createConnectionContextForConnectionString(auth.queueConnectionString, options),
-        entityPath: entityPathMatch[1]
+        context: createConnectionContextForConnectionString(auth.topicConnectionString, options),
+        entityPath: `${topicName}/Subscriptions/${auth.subscriptionName as string}`
       };
     } else {
-      throw new Error("No entity name present in the connection string");
-    }
-  } else if (hasTopicConnectionString(auth)) {
-    // connection string based authentication
-    const entityPathMatch = auth.topicConnectionString.match(
-      /^.+EntityPath=(.+?);{0,1}$/
-    );
-
-    if (entityPathMatch != null && entityPathMatch.length === 2) {
-      const baseEntityPath = entityPathMatch![1]!;
-
-      if (hasSubscriptionName(auth)) {
-        // topic (from connection string) + sub
-        return {
-          context: createConnectionContextForConnectionString(auth.topicConnectionString, options),
-          entityPath: `${baseEntityPath}/Subscriptions/${auth.subscriptionName as string}`
-        };
-      } else {
-        throw new TypeError("Missing subscription name, required as part of connecting to a topic");
-      }
-    } else {
-      throw new TypeError("No entity name present in the connection string");
+      throw new TypeError("Missing subscription name, required as part of connecting to a topic");
     }
   } else if (hasConnectionString(auth)) {
     let entityPath: string;
@@ -136,7 +136,7 @@ function hasTopicName(auth: any): auth is { topicName: string } {
 }
 
 function hasQueueConnectionString(auth: any): auth is { queueConnectionString: string } {
-  return auth.queueConnectionString != null && typeof auth.queueConnectionString === "string";
+  return auth.queueConnectionString && typeof auth.queueConnectionString === "string";
 }
 
 function hasConnectionString(auth: any): auth is { connectionString: string } {
@@ -148,5 +148,5 @@ function hasTopicConnectionString(
 ): auth is {
   topicConnectionString: string;
 } {
-  return auth.topicConnectionString != null && typeof auth.topicConnectionString === "string";
+  return auth.topicConnectionString && typeof auth.topicConnectionString === "string";
 }

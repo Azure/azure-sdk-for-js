@@ -11,6 +11,7 @@ import { isTokenCredential } from "@azure/core-amqp";
 import { ClientType } from "./client";
 import { generate_uuid } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
+import { getEntityNameFromConnectionString } from './track2/constructorHelpers';
 
 /**
  * Client for sending messages to a topic or queue.
@@ -73,15 +74,8 @@ export class ServiceBusSenderClient {
       // (entityConnectionString: string, options?: ServiceBusClientOptions)
       const entityConnectionString = hostOrConnectionString;
       const options = entityNameOrOptions;
-      // get the entity name from the connection string
-      const entityPathMatch = entityConnectionString.match(/^.+EntityPath=(.+?);{0,1}$/);
 
-      if (entityPathMatch!.length !== 2) {
-        throw new Error("Invalid entity connection string - no EntityPath");
-      } else {
-        this._entityPath = String(entityPathMatch![0]);
-      }
-
+      this._entityPath = getEntityNameFromConnectionString(entityConnectionString);
       this._context = createConnectionContextForConnectionString(entityConnectionString, options);
     } else if (!isTokenCredential(credentialOrServiceBusClientOptions)) {
       // (serviceBusConnectionString: string, entityName: string, options?: ServiceBusClientOptions)

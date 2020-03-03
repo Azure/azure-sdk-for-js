@@ -14,11 +14,11 @@ import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { EntityNames } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { createConnectionContext } from '../src/track2/constructorHelpers';
+import { createConnectionContext, getEntityNameFromConnectionString } from '../src/track2/constructorHelpers';
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe("Samples scenarios for track 2", () => {
+describe("Sample scenarios for track 2", () => {
   let senderClient: ServiceBusSenderClient | undefined;
   let closeables: { close(): Promise<void> }[];
   const connectionString = getEnvVars()[EnvVarNames.SERVICEBUS_CONNECTION_STRING]!;
@@ -669,6 +669,11 @@ describe("ConstructorHelpers for track 2", () => {
         createConnectionContext(badAuth, {});
       });
     })
+  });
+
+  it("getEntityNameFromConnectionString", () => {
+    assert.equal("myentity", getEntityNameFromConnectionString(entityConnectionString));
+    assert.throws(() => getEntityNameFromConnectionString(serviceBusConnectionString));
   });
 });
 
