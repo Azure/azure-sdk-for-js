@@ -314,7 +314,7 @@ export class InternalReceiver {
     return this._context.managementClient!.peek(maxMessageCount);
   }
 
-  async peekBySequenceNumber(
+  peekBySequenceNumber(
     entityPath: string,
     fromSequenceNumber: Long,
     maxMessageCount?: number
