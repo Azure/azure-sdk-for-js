@@ -42,7 +42,9 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/logger.d.ts"
+    "types/logger.d.ts",
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",

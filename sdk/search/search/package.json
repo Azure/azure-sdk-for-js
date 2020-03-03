@@ -35,7 +35,9 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/search.d.ts"
+    "types/search.d.ts",
+    "README.md",
+    "LICENSE"
   ],
   "//metadata": {
     "constantPaths": [

@@ -38,7 +38,9 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/core-tracing.d.ts"
+    "types/core-tracing.d.ts",
+    "README.md",
+    "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [

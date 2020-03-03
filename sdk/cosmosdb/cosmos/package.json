@@ -28,6 +28,7 @@
     "changelog.md",
     "dist/",
     "dist-esm/",
+    "README.md",
     "LICENSE",
     "tsconfig.json"
   ],

@@ -60,10 +60,11 @@
     "BreakingChanges.md",
     "dist/",
     "dist-esm/src/",
-    "LICENSE",
     "typings/latest/src",
     "typings/3.1/src",
-    "tsconfig.json"
+    "tsconfig.json",
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",

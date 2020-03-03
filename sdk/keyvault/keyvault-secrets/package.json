@@ -25,10 +25,11 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "README.md",
     "types/keyvault-secrets.d.ts",
     "dist/",
-    "dist-esm/"
+    "dist-esm/",
+    "README.md",
+    "LICENSE"
   ],
   "browser": {
     "os": false,

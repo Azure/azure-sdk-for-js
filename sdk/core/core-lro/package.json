@@ -33,7 +33,8 @@
     "types/core-lro.d.ts",
     "dist/",
     "dist-esm/",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "browser": {
     "os": false,

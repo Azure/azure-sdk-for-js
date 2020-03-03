@@ -26,10 +26,11 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "README.md",
     "types/keyvault-certificates.d.ts",
     "dist/",
-    "dist-esm/src"
+    "dist-esm/src",
+    "README.md",
+    "LICENSE"
   ],
   "browser": {
     "os": false,
