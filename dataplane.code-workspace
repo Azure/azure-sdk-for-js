@@ -123,7 +123,11 @@
       "**/test-dist/*": true,
       "**/node_modules": true,
       "**/bower_components": true,
-      "**/*.code-search": true
+      "**/*.code-search": true,
+      "**/types/*": true,
+      "**/coverage/*": true,
+      "**/*.d.ts": true,
+      "**/test-browser/*": true
     },
     
   },
