@@ -29,7 +29,6 @@ import { ConnectionContext } from "../connectionContext";
 /**
  *A receiver client that handles sessions, including renewing the session lock.
  */
-// TODO: could extend NonSessionReceiverClient...?
 export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
   /**
    * Streams messages to message handlers.
