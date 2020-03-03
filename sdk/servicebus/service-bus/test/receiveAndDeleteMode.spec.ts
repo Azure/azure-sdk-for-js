@@ -161,7 +161,7 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     const errors: string[] = [];
     const receivedMsgs: ReceivedMessage[] = [];
 
-    receiverClient.streamMessages(
+    receiverClient.subscribe(
       {
         async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
           receivedMsgs.push(message);

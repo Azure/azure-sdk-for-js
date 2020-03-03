@@ -758,7 +758,7 @@ describe("Batch Receiver - Multiple Receiver Operations", function(): void {
 
     let unexpectedError;
     try {
-      receiverClient.streamMessages({
+      receiverClient.subscribe({
         async processMessage(message: ReceivedMessage): Promise<void> {
           // process message here - it's basically a ServiceBusMessage minus any settlement related methods
         },

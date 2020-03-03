@@ -368,7 +368,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
     }
   }
 
-  receiverClient.streamMessages(
+  receiverClient.subscribe(
     { processMessage, processError },
     {
       autoComplete: false,
@@ -428,7 +428,7 @@ async function testAutoLockRenewalConfigBehavior(
     }
   }
 
-  receiverClient.streamMessages(
+  receiverClient.subscribe(
     { processMessage, processError },
     {
       autoComplete: false,
