@@ -19,6 +19,8 @@
   3. "pull",  via .receiveBatch()
     * In Java choosing to .take() off the returned Flux<> will act as a finite receive, similar to this.
 - [Sessions](#sessions-complications)
+- [Different messages for sending vs receiving](#different-messages-for-sending-vs-receiving)
+- [Message batching](#message-batching)
 
 # Single use receivers or senders
 
@@ -109,3 +111,19 @@ await topicSender.CloseAsync();
 // closes the AMQP connection
 await client.CloseAsync();
 ```
+
+# Different messages for sending vs receiving
+
+Messages will have separate classes/interfaces for messages that are sent (`Message`)
+vs messages that are received (`ReceivedMessage`). 
+
+This allows us to avoid including fields or actions (like settling, that only applies 
+to received messages).
+
+We can also omit the following fields:
+- TBD
+
+# Message batching
+
+Batching of messages is done via `ServiceBusMessageBatch`, similar to what we use
+in EventHubs.
