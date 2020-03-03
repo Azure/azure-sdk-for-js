@@ -17,8 +17,7 @@ import { newPipeline } from "../../src/Pipeline";
 import { ShareClient } from "../../src/ShareClient";
 import { ShareSASPermissions } from "../../src/ShareSASPermissions";
 import { getBSU, recorderEnvSetup } from "../utils";
-import { env, record, Recorder } from "@azure/test-utils-recorder";
-import { delay } from "../../src/utils/utils.common";
+import { delay, record, Recorder } from "@azure/test-utils-recorder";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
@@ -311,9 +310,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       }
     ]);
 
-    if (env.TEST_MODE && (env.TEST_MODE.startsWith("live") || env.TEST_MODE.startsWith("record"))) {
-      await delay(30 * 1000);
-    }
+    await delay(30 * 1000);
 
     const shareSAS = generateFileSASQueryParameters(
       {

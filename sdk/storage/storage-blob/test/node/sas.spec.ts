@@ -17,9 +17,8 @@ import {
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getBSU, getTokenBSU, recorderEnvSetup } from "../utils";
-import { env, record } from "@azure/test-utils-recorder";
+import { delay, record } from "@azure/test-utils-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
-import { delay } from "../../src/utils/utils.common";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: any;
@@ -468,9 +467,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       }
     ]);
 
-    if (env.TEST_MODE && (env.TEST_MODE.startsWith("live") || env.TEST_MODE.startsWith("record"))) {
-      await delay(30 * 1000);
-    }
+    await delay(30 * 1000);
 
     const blobSAS = generateBlobSASQueryParameters(
       {
@@ -519,9 +516,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       }
     ]);
 
-    if (env.TEST_MODE && (env.TEST_MODE.startsWith("live") || env.TEST_MODE.startsWith("record"))) {
-      await delay(30 * 1000);
-    }
+    await delay(30 * 1000);
 
     const blobSAS = generateBlobSASQueryParameters(
       {
