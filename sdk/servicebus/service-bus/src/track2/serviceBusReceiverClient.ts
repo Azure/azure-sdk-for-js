@@ -256,7 +256,7 @@ export interface ServiceBusReceiverClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the client itself.
    */
-  new (queueAuths: QueueAuth, receiveMode: "receiveAndDelete", session: Session): ClientTypeT<
+  new (queueAuth: QueueAuth, receiveMode: "receiveAndDelete", session: Session): ClientTypeT<
     "receiveAndDelete",
     "queue",
     "sessions"
