@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.4 (2020-02-28)
+## 1.0.4 (2020-03-03)
 
 - When an operation times out based on the `timeout` configured in the `OperationRequestOptions`, it gets terminated with an error. In this update, the error that is thrown in browser for such cases is updated to match what is thrown in node i.e an `AbortError` is thrown instead of the previous `RestError`. [PR #7159](https://github.com/Azure/azure-sdk-for-js/pull/7159)
 - Support for username and password in the proxy url [PR #7211](https://github.com/Azure/azure-sdk-for-js/pull/7211)
