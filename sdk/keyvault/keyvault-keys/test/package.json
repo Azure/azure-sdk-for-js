@@ -37,8 +37,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/keyvault-keys": "latest",
-    "@azure/test-utils-recorder": "file:../../../test-utils/recorder/azure-test-utils-recorder-1.0.0.tgz"
+    "@azure/keyvault-keys": "latest"
   },
   "devDependencies": {
     "@azure/abort-controller": "^1.0.0",
