@@ -3,9 +3,13 @@
 
 import { QueueAuth, SubscriptionAuth } from "./models";
 import { ReceiveMode } from "../serviceBusMessage";
-import { isTokenCredential, TokenCredential } from '@azure/core-amqp';
-import { ConnectionContext } from '../connectionContext';
-import { createConnectionContextForTokenCredential, createConnectionContextForConnectionString, ServiceBusClientOptions } from '../old/serviceBusClient';
+import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
+import { ConnectionContext } from "../connectionContext";
+import {
+  createConnectionContextForTokenCredential,
+  createConnectionContextForConnectionString,
+  ServiceBusClientOptions
+} from "../old/serviceBusClient";
 
 /**
  * Attempts to generically figure out what the entity path is from the grab bag of string parameters
@@ -19,86 +23,73 @@ import { createConnectionContextForTokenCredential, createConnectionContextForCo
 export function createConnectionContext(
   auth: QueueAuth | SubscriptionAuth,
   options: ServiceBusClientOptions
-): { context: ConnectionContext, entityPath: string } {
-
-  // TODO: replace with actual typeguards
-  const auth2 = auth as any;
-
-  if (auth2.tokenCredential != null && isTokenCredential(auth2.tokenCredential)) {
+): { context: ConnectionContext; entityPath: string } {
+  if (hasTokenCredentialAndHost(auth)) {
     let entityPath: string;
 
     // TODO: this isn't quite right - we don't need just the entity path. We
     // also form a different connection string.
-    if (auth2.queueName && typeof auth2.queueName === "string") {
-      const queueName: string = auth2.queueName;
-      entityPath = queueName;
-    } else if (auth2.topicName && typeof auth2.topicName === "string" 
-      && auth2.subscriptionName && typeof auth2.subscriptionName === "string") {
-      const topicName = auth2.topicName;
-      const subscriptionName = auth2.subscriptionName;
-      entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
+    //if (auth2.queueName && typeof auth2.queueName === "string") {
+    if (hasQueueName(auth)) {
+      entityPath = auth.queueName;
+    } else if (hasTopicName(auth) && hasSubscriptionName(auth)) {
+      entityPath = `${auth.topicName}/Subscriptions/${auth.subscriptionName}`;
     } else {
       throw new TypeError("Missing fields when using TokenCredential authentication");
     }
 
-    const host: string = auth2.host;
-    const tokenCredential: TokenCredential = auth2.tokenCredential;
-
     return {
-      context: createConnectionContextForTokenCredential(tokenCredential, host, options),
+      context: createConnectionContextForTokenCredential(auth.tokenCredential, auth.host, options),
       entityPath: entityPath
     };
-  } else if (auth2.queueConnectionString != null && typeof auth2.queueConnectionString === "string") {
+  } else if (hasQueueConnectionString(auth)) {
     // connection string based authentication
-    const entityPathMatch = (auth2.queueConnectionString as string).match(/^.+EntityPath=(.+?);{0,1}$/);
+    const entityPathMatch = auth.queueConnectionString.match(/^.+EntityPath=(.+?);{0,1}$/);
 
     if (entityPathMatch != null && entityPathMatch.length === 2) {
       return {
-        context: createConnectionContextForConnectionString(auth2.queueConnectionString, options),
+        context: createConnectionContextForConnectionString(auth.queueConnectionString, options),
         entityPath: entityPathMatch[1]
       };
     } else {
       throw new Error("No entity name present in the connection string");
     }
-
-  } else if (auth2.topicConnectionString != null && typeof auth2.topicConnectionString === "string") {
+  } else if (hasTopicConnectionString(auth)) {
     // connection string based authentication
-    const entityPathMatch = (auth2.topicConnectionString as string).match(/^.+EntityPath=(.+?);{0,1}$/);
+    const entityPathMatch = auth.topicConnectionString.match(
+      /^.+EntityPath=(.+?);{0,1}$/
+    );
 
     if (entityPathMatch != null && entityPathMatch.length === 2) {
       const baseEntityPath = entityPathMatch![1]!;
-    
-      if (auth2.subscriptionName != null && typeof auth2.subscriptionName === "string") {
+
+      if (hasSubscriptionName(auth)) {
         // topic (from connection string) + sub
         return {
-          context: createConnectionContextForConnectionString(auth2.topicConnectionString, options),
-          entityPath: `${baseEntityPath}/Subscriptions/${auth2.subscriptionName as string}`
+          context: createConnectionContextForConnectionString(auth.topicConnectionString, options),
+          entityPath: `${baseEntityPath}/Subscriptions/${auth.subscriptionName as string}`
         };
       } else {
         throw new TypeError("Missing subscription name, required as part of connecting to a topic");
-      }     
+      }
     } else {
       throw new TypeError("No entity name present in the connection string");
     }
-  } else if (auth2.connectionString && typeof auth2.connectionString === "string") {
-      let entityPath: string;
+  } else if (hasConnectionString(auth)) {
+    let entityPath: string;
 
-      if (auth2.queueName && typeof auth2.queueName === "string") {
-        const queueName: string = auth2.queueName;
-        entityPath = queueName;
-      } else if (auth2.topicName && typeof auth2.topicName === "string" 
-        && auth2.subscriptionName && typeof auth2.subscriptionName === "string") {
-        const topicName = auth2.topicName;
-        const subscriptionName = auth2.subscriptionName;
-        entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
-      } else {
-        throw new TypeError("Missing fields when using TokenCredential authentication");
-      }
-  
-      return {
-        context: createConnectionContextForConnectionString(auth2.connectionString, options),
-        entityPath: entityPath
-      };
+    if (hasQueueName(auth)) {
+      entityPath = auth.queueName;
+    } else if (hasTopicName(auth) && hasSubscriptionName(auth)) {
+      entityPath = `${auth.topicName}/Subscriptions/${auth.subscriptionName}`;
+    } else {
+      throw new TypeError("Missing fields when using TokenCredential authentication");
+    }
+
+    return {
+      context: createConnectionContextForConnectionString(auth.connectionString, options),
+      entityPath: entityPath
+    };
   } else {
     throw new TypeError("Unhandled set of parameters");
   }
@@ -120,4 +111,42 @@ export function convertToInternalReceiveMode(
     case "receiveAndDelete":
       return ReceiveMode.receiveAndDelete;
   }
+}
+
+function hasHost(auth: any): auth is { host: string } {
+  return auth.host && typeof auth.host === "string";
+}
+
+function hasTokenCredentialAndHost(
+  auth: any
+): auth is { tokenCredential: TokenCredential; host: string } {
+  return isTokenCredential(auth.tokenCredential) && hasHost(auth);
+}
+
+function hasSubscriptionName(auth: any): auth is { subscriptionName: string } {
+  return auth.subscriptionName && typeof auth.subscriptionName === "string";
+}
+
+function hasQueueName(auth: any): auth is { queueName: string } {
+  return auth.queueName && typeof auth.queueName === "string";
+}
+
+function hasTopicName(auth: any): auth is { topicName: string } {
+  return auth.topicName && typeof auth.topicName === "string";
+}
+
+function hasQueueConnectionString(auth: any): auth is { queueConnectionString: string } {
+  return auth.queueConnectionString != null && typeof auth.queueConnectionString === "string";
+}
+
+function hasConnectionString(auth: any): auth is { connectionString: string } {
+  return auth.connectionString && typeof auth.connectionString === "string";
+}
+
+function hasTopicConnectionString(
+  auth: any
+): auth is {
+  topicConnectionString: string;
+} {
+  return auth.topicConnectionString != null && typeof auth.topicConnectionString === "string";
 }
