@@ -42,6 +42,7 @@ import {
   UpdateDocumentsOptions,
   DeleteDocumentsOptions
 } from "./models";
+import { odataMetadataPolicy } from "./odataMetadataPolicy";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -134,6 +135,9 @@ export class SearchIndexClient<T> {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, signingPolicy(credential));
+    if (Array.isArray(pipeline.requestPolicyFactories)) {
+      pipeline.requestPolicyFactories.unshift(odataMetadataPolicy());
+    }
     this.client = new GeneratedClient(
       credential,
       this.apiVersion,
