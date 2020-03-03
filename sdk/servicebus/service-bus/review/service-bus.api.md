@@ -327,7 +327,7 @@ export interface ServiceBusReceiverClient {
     new (queueAuth: QueueAuth, receiveMode: "peekLock"): ClientTypeT<"peekLock", "queue", "nosessions">;
     new (queueAuth: QueueAuth, receiveMode: "receiveAndDelete"): ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
     new (queueAuth: QueueAuth, receiveMode: "peekLock", session: Session): ClientTypeT<"peekLock", "queue", "sessions">;
-    new (queueAuths: QueueAuth, receiveMode: "receiveAndDelete", session: Session): ClientTypeT<"receiveAndDelete", "queue", "sessions">;
+    new (queueAuth: QueueAuth, receiveMode: "receiveAndDelete", session: Session): ClientTypeT<"receiveAndDelete", "queue", "sessions">;
     new (subscriptionAuth: SubscriptionAuth, receiveMode: "peekLock"): ClientTypeT<"peekLock", "subscription", "nosessions">;
     new (subscriptionAuth: SubscriptionAuth, receiveMode: "receiveAndDelete"): ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
     new (subscriptionAuth: SubscriptionAuth, receiveMode: "peekLock", session: Session): ClientTypeT<"peekLock", "subscription", "sessions">;
