@@ -304,7 +304,7 @@ export class InternalReceiver {
 
   // ManagementClient methods # Begin
 
-  async peek(entityPath: string, maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
+  peek(entityPath: string, maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
       entityPath,
