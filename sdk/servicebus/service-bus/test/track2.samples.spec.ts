@@ -5,6 +5,8 @@ import {
   SessionConnections,
   ReceivedMessage,
   ContextWithSettlement as ContextWithSettlementMethods,
+  QueueAuth,
+  SubscriptionAuth,
 } from "../src/track2/models";
 import { ServiceBusReceiverClient } from "../src/track2/serviceBusReceiverClient";
 import { ServiceBusSenderClient, delay, SendableMessageInfo } from "../src";
@@ -12,6 +14,7 @@ import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { EntityNames } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
+import { createConnectionContext } from '../src/track2/constructorHelpers';
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -588,6 +591,85 @@ describe("Samples scenarios for track 2", () => {
 
     await senderClient.send(message);
   }
+});
+
+describe("ConstructorHelpers for track 2", () => {
+  const entityConnectionString = "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=;EntityPath=myentity";
+
+  const serviceBusConnectionString = "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
+  
+  const fakeTokenCredential = {
+    getToken: async () => null,
+    sentinel: "test token credential"
+  };
+
+  it("createConnectionContext for queues", () => {
+    const queueAuths: QueueAuth[] = [
+      { connectionString: entityConnectionString, queueName: "myentity" },
+      { connectionString: serviceBusConnectionString, queueName: "myentity" },
+      { queueConnectionString: entityConnectionString },
+      { tokenCredential: fakeTokenCredential, host: "ahost", queueName: "myentity"}
+    ];
+
+    for (const queueAuth of queueAuths) {
+      const contextAndEntityPath = createConnectionContext(queueAuth, {});
+      assert.equal("myentity", contextAndEntityPath.entityPath);
+
+      if ((queueAuth as any).tokenCredential) {
+        assert.equal("test token credential", (contextAndEntityPath.context.tokenCredential as any).sentinel);
+      } else {
+        assert.equal("SharedKeyCredential", contextAndEntityPath.context.tokenCredential.constructor.name);
+      }
+    }
+  });
+
+  it("createConnectionContext for subscriptions", () => {
+    const subscriptionAuths: SubscriptionAuth[] = [
+      { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: "mysubscription" },
+      { topicConnectionString: entityConnectionString, subscriptionName: "mysubscription" },
+      { tokenCredential: fakeTokenCredential, host: "ahost", topicName: "myentity", subscriptionName: "mysubscription"}
+    ];
+
+    for (const subAuth of subscriptionAuths) {
+      const contextAndEntityPath = createConnectionContext(subAuth, {});
+      assert.equal("myentity/Subscriptions/mysubscription", contextAndEntityPath.entityPath);
+
+      if ((subAuth as any).tokenCredential) {
+        assert.equal("test token credential", (contextAndEntityPath.context.tokenCredential as any).sentinel);
+      } else {
+        assert.equal("SharedKeyCredential", contextAndEntityPath.context.tokenCredential.constructor.name);
+      }
+    }
+  });
+
+  const badAuths = [
+    // missing required fields
+    { connectionString: serviceBusConnectionString },
+    { topicConnectionString: entityConnectionString },
+    { tokenCredential: fakeTokenCredential } as any,
+
+    // wrong types
+    { connectionString: 4, topicName: "myentity", subscriptionName: "mysubscription" },
+    { connectionString: serviceBusConnectionString, topicName: 4, subscriptionName: "mysubscription" },
+    { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: 4 },
+    { connectionString: 4, queueName: "myentity" },
+    { connectionString: serviceBusConnectionString, queueName: 4 },
+    { queueConnectionString: 4 },
+    { topicConnectionString: 4, subscriptionName: "mysubscription" },
+    { topicConnectionString: entityConnectionString, subscriptionName: 4 },
+
+    // no entity name present for entity connection string types
+    { topicConnectionString: "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=", subscriptionName: "mysubscription" },
+    { queueConnectionString: "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=" },
+  ];
+
+  badAuths.forEach(badAuth => {
+    it(`createConnectionContext - bad auth ${JSON.stringify(badAuth)}`, () => {
+      assert.throws(() => {
+        createConnectionContext(badAuth, {});
+      });
+    })
+  });
 });
 
 interface Diagnostics {

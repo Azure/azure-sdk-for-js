@@ -1,42 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Session, QueueAuth, SubscriptionAuth } from "./models";
-import { ServiceBusClientReceiverOptions } from "../old/oldServiceBusReceiverClient";
+import { QueueAuth, SubscriptionAuth } from "./models";
 import { ReceiveMode } from "../serviceBusMessage";
 import { isTokenCredential, TokenCredential } from '@azure/core-amqp';
 import { ConnectionContext } from '../connectionContext';
 import { createConnectionContextForTokenCredential, createConnectionContextForConnectionString, ServiceBusClientOptions } from '../old/serviceBusClient';
-
-// The methods in this file are all here just to make handling
-// the _large_ number of constructor overloads for ReceiverClient.
-//
-// As a result you'll see that some of the type-overloaded-craziness
-// bleeds into these methods. They're not pretty, but at least they're
-// factored out.
-
-/**
- * Checks the receiveMode parameter to see if it's an actual receiveMode
- * or one of the multitude of constructor options available to the user.
- *
- * @param possibleReceiveMode
- * @internal
- * @ignore
- */
-export function isReceiveMode(
-  possibleReceiveMode:
-    | "peekLock"
-    | "receiveAndDelete"
-    | Session
-    | ServiceBusClientReceiverOptions
-    | undefined
-): possibleReceiveMode is "peekLock" | "receiveAndDelete" {
-  return (
-    possibleReceiveMode != null &&
-    typeof possibleReceiveMode === "string" &&
-    (possibleReceiveMode === "peekLock" || possibleReceiveMode === "receiveAndDelete")
-  );
-}
 
 /**
  * Attempts to generically figure out what the entity path is from the grab bag of string parameters
@@ -69,7 +38,7 @@ export function createConnectionContext(
       const subscriptionName = auth2.subscriptionName;
       entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
     } else {
-      throw new Error("Missing fields when using TokenCredential authentication");
+      throw new TypeError("Missing fields when using TokenCredential authentication");
     }
 
     const host: string = auth2.host;
@@ -106,10 +75,10 @@ export function createConnectionContext(
           entityPath: `${baseEntityPath}/Subscriptions/${auth2.subscriptionName as string}`
         };
       } else {
-        throw new Error("Missing subscription name, required as part of connecting to a topic");
+        throw new TypeError("Missing subscription name, required as part of connecting to a topic");
       }     
     } else {
-      throw new Error("No entity name present in the connection string");
+      throw new TypeError("No entity name present in the connection string");
     }
   } else if (auth2.connectionString && typeof auth2.connectionString === "string") {
       let entityPath: string;
@@ -123,7 +92,7 @@ export function createConnectionContext(
         const subscriptionName = auth2.subscriptionName;
         entityPath = `${topicName}/Subscriptions/${subscriptionName}`;
       } else {
-        throw new Error("Missing fields when using TokenCredential authentication");
+        throw new TypeError("Missing fields when using TokenCredential authentication");
       }
   
       return {
@@ -131,7 +100,7 @@ export function createConnectionContext(
         entityPath: entityPath
       };
   } else {
-    throw new Error("Unhandled set of parameters");
+    throw new TypeError("Unhandled set of parameters");
   }
 }
 
