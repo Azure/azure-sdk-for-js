@@ -531,7 +531,7 @@ export class CertificateClient {
    */
   public listPropertiesOfCertificates(
     options: ListPropertiesOfCertificatesOptions = {}
-  ): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]> {
+  ): PagedAsyncIterableIterator<CertificateProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     const span = this.createSpan("listPropertiesOfCertificates", requestOptions);
@@ -624,7 +624,7 @@ export class CertificateClient {
   public listPropertiesOfCertificateVersions(
     certificateName: string,
     options: ListPropertiesOfCertificateVersionsOptions = {}
-  ): PagedAsyncIterableIterator<CertificateProperties, CertificateProperties[]> {
+  ): PagedAsyncIterableIterator<CertificateProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfCertificateVersions", requestOptions);
     const updatedOptions = this.setParentSpan(span, requestOptions);
@@ -877,7 +877,7 @@ export class CertificateClient {
    */
   public listPropertiesOfIssuers(
     options: ListPropertiesOfIssuersOptions = {}
-  ): PagedAsyncIterableIterator<IssuerProperties, IssuerProperties[]> {
+  ): PagedAsyncIterableIterator<IssuerProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listIssuers", requestOptions);
     const updatedOptions = this.setParentSpan(span, requestOptions);
@@ -1756,7 +1756,7 @@ export class CertificateClient {
    */
   public listDeletedCertificates(
     options: ListDeletedCertificatesOptions = {}
-  ): PagedAsyncIterableIterator<DeletedCertificate, DeletedCertificate[]> {
+  ): PagedAsyncIterableIterator<DeletedCertificate> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfDeletedCertificates", requestOptions);
     const updatedOptions = this.setParentSpan(span, requestOptions);
