@@ -204,7 +204,7 @@ export namespace ConnectionContext {
  * - this ServiceBusClient cannot be used to create any new queues/topics/subscriptions clients.
  * @returns {Promise<any>}
  */
-export async function close(context: ConnectionContext): Promise<any> {
+export async function close(context: ConnectionContext): Promise<void> {
   try {
     if (context.connection.isOpen()) {
       log.ns("Closing the amqp connection '%s' on the client.", context.connectionId);
