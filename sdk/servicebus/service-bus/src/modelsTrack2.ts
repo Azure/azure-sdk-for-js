@@ -20,7 +20,7 @@ export interface Session {
    * The ID of a session to target or `undefined` to pick an session that is not currently
    * owned.
    */
-  id: string | undefined;
+  id?: string;
   /**
    * A shared instance that allows multiple sessions to share the same underlying AMQP
    * connection.
@@ -99,19 +99,41 @@ export interface ContextWithSettlement {
  * The general message handler interface (used for streamMessages).
  */
 export interface MessageHandlers<ContextT> {
+  /**
+   * Handler that processes messages from service bus.
+   *
+   * @param message A message received from Service Bus.
+   * @param context A context that can be used to settle messages when in peekLock mode.
+   */
   processMessage(message: ReceivedMessage, context: ContextT): Promise<void>;
+  /**
+   * Handler that processes errors that occur during receiving.
+   * @param err An error from Service Bus.
+   */
   processError(err: Error): Promise<void>;
 }
 
 /**
- * Indicates the object should be close()'d.This is typically used with
+ * Used when an object must be explicitly closed to release resources.
  */
 export interface Closeable {
+  /**
+   * Close the object, releasing any resources.
+   */
   close(): Promise<void>;
 }
 
+/**
+ * A message along with an associated context.
+ */
 export interface MessageAndContext<ContextT> {
+  /**
+   * A message received from service bus.
+   */
   message: ReceivedMessage;
+  /**
+   * A context used to settle messages, when applicable.
+   */
   context: ContextT;
 }
 

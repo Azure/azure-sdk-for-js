@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
-import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
+import Long from "long";
+import { ServiceBusMessage, ReceiveMode } from "./serviceBusMessage";
 import { ClientEntityContext } from "./clientEntityContext";
 import { generate_uuid } from "rhea-promise";
 import { ClientType } from "./client";
@@ -19,7 +19,7 @@ import {
   ReceivedMessage,
   ReceiveBatchOptions,
   IterateMessagesOptions,
-  StreamMessagesOptions,
+  StreamMessagesOptions as SubscribeOptions,
   isQueueAuth
 } from "./modelsTrack2";
 import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
@@ -35,12 +35,9 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
   /**
    * Streams messages to message handlers.
    * @param handler A handler that gets called for messages and errors.
-   * @param options Options for streamMessages.
+   * @param options Options for subscribe.
    */
-  streamMessages(
-    handlers: MessageHandlers<ContextType<LockModeT>>,
-    options?: StreamMessagesOptions
-  ): void;
+  subscribe(handlers: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
    * @param options Options for iterateMessages.
@@ -108,12 +105,9 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
   /**
    * Streams messages to message handlers.
    * @param handler A handler that gets called for messages and errors.
-   * @param options Options for streamMessages.
+   * @param options Options for subscribe.
    */
-  streamMessages(
-    handler: MessageHandlers<ContextType<LockModeT>>,
-    options?: StreamMessagesOptions
-  ): void;
+  subscribe(handler: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
@@ -176,8 +170,38 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
  * can be found here: https://docs.microsoft.com/en-us/azure/service-bus-messaging/topic-filters
  */
 export interface SubscriptionRuleManagement {
+  /**
+   * Gets all rules associated with the subscription
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error while retrieving rules.
+   */
   getRules(): Promise<RuleDescription[]>;
+
+  /**
+   * Removes the rule on the subscription identified by the given rule name.
+   *
+   * **Caution**: If all rules on a subscription are removed, then the subscription will not receive
+   * any more messages.
+   * @param ruleName
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error while removing rules.
+   */
+
   removeRule(ruleName: string): Promise<void>;
+  /**
+   * Adds a rule on the subscription as defined by the given rule name, filter and action.
+   *
+   * **Note**: Remove the default true filter on the subscription before adding a rule.
+   * Otherwise, the added rule will have no affect as the true filter will always result in
+   * the subscription receiving all messages.
+   * @param ruleName Name of the rule
+   * @param filter A Boolean, SQL expression or a Correlation filter. For SQL Filter syntax, see
+   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-filter SQLFilter syntax}.
+   * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression. For SQL Rule Action syntax,
+   * see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-rule-action SQLRuleAction syntax}.
+   * @throws Error if the SubscriptionClient or the underlying connection is closed.
+   * @throws MessagingError if the service returns an error while adding rules.
+   */
   addRule(
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
@@ -415,18 +439,15 @@ export class ReceiverClientImplementation {
    * Streams messages to the passed in handlers.
    * @param handlers message handlers that receive events as well as errors.
    */
-  streamMessages(
-    handlers: MessageHandlers<ContextWithSettlement>,
-    options?: StreamMessagesOptions
-  ): void;
+  subscribe(handlers: MessageHandlers<ContextWithSettlement>, options?: SubscribeOptions): void;
   /**
    * Streams messages to the passed in handlers.
    * @param handlers message handlers that receive events as well as errors.
    */
-  streamMessages(handlers: MessageHandlers<{}>, options?: StreamMessagesOptions): void;
-  streamMessages(
+  subscribe(handlers: MessageHandlers<{}>, options?: SubscribeOptions): void;
+  subscribe(
     handlers: MessageHandlers<{}> | MessageHandlers<ContextWithSettlement>,
-    options?: StreamMessagesOptions
+    options?: SubscribeOptions
   ): void {
     // TODO: use options
     if (this._receiveMode === ReceiveMode.peekLock) {

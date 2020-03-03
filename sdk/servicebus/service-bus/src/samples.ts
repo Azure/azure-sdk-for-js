@@ -30,7 +30,7 @@ export async function receiveMessagesUsingPeekLock() {
     "peekLock"
   );
 
-  receiverClient.streamMessages({
+  receiverClient.subscribe({
     async processMessage(
       message: ReceivedMessage,
       context: ContextWithSettlementMethods
@@ -89,7 +89,7 @@ export async function receiveMessagesUsingPeekLockSubscription() {
   // etc...
   // receiverClient.getRules();
 
-  receiverClient.streamMessages({
+  receiverClient.subscribe({
     async processMessage(
       message: ReceivedMessage,
       context: ContextWithSettlementMethods
@@ -181,8 +181,8 @@ export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
   // if you construct this object with a session.
   await receiverClient.renewSessionLock();
 
-  receiverClient.streamMessages({
-    async processMessage(message: ReceivedMessage): Promise<void> {
+  receiverClient.subscribe({
+    async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
       // process message here - it's basically a ServiceBusMessage minus any settlement related methods
       log(message.body);
     },

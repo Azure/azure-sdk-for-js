@@ -62,7 +62,7 @@ describe("Samples scenarios for track 2", () => {
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.streamMessages({
+    receiverClient.subscribe({
       async processMessage(message: ReceivedMessage, context: ContextWithSettlementMethods): Promise<void> {
         await context.complete(message);
         receivedBodies.push(message.body);
@@ -181,7 +181,7 @@ describe("Samples scenarios for track 2", () => {
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.streamMessages({
+    receiverClient.subscribe({
       async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
         receivedBodies.push(message.body);
       },
@@ -317,7 +317,7 @@ describe("Samples scenarios for track 2", () => {
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.streamMessages({
+    receiverClient.subscribe({
       async processMessage(message: ReceivedMessage, context: ContextWithSettlementMethods): Promise<void> {
         await context.complete(message);
         receivedBodies.push(message.body);
@@ -358,7 +358,7 @@ describe("Samples scenarios for track 2", () => {
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.streamMessages({
+    receiverClient.subscribe({
       async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
         receivedBodies.push(message.body);
       },
@@ -503,7 +503,7 @@ describe("Samples scenarios for track 2", () => {
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.streamMessages({
+    receiverClient.subscribe({
       async processMessage(
         message: ReceivedMessage,
         context: {}
@@ -555,7 +555,7 @@ describe("Samples scenarios for track 2", () => {
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.streamMessages({
+    receiverClient.subscribe({
       async processMessage(
         message: ReceivedMessage,
         context: {}
