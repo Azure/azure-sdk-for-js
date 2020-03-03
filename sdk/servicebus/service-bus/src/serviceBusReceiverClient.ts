@@ -41,7 +41,9 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: Message[]; context: ContextWithSettlement | {} }>;
+  ): Promise<{ messages: Message[]; context: ContextType<LockModeT> }>;
+  receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
+  receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
   renewSessionLock(): Promise<Date>;
   setState(state: any): Promise<void>;
   getState(): Promise<any>;
@@ -71,7 +73,9 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: Message[]; context: ContextWithSettlement | {} }>;
+  ): Promise<{ messages: Message[]; context: ContextType<LockModeT> }>;
+  receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
+  receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
   close(): Promise<void>;
   getDeadLetterPath(): string;
   entityType: "queue" | "subscription";
@@ -114,6 +118,12 @@ export type ReceiverClientTypeForUser =
   | (NonSessionReceiver<"peekLock" | "receiveAndDelete"> & SubscriptionRuleManagement)
   | SessionReceiver<"peekLock" | "receiveAndDelete">
   | (SessionReceiver<"peekLock" | "receiveAndDelete"> & SubscriptionRuleManagement);
+
+export type ReceiverClientTypeForUserT<ReceiveModeT extends "peekLock" | "receiveAndDelete"> =
+  | NonSessionReceiver<ReceiveModeT>
+  | (NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement)
+  | SessionReceiver<ReceiveModeT>
+  | (SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement);
 
 export interface ServiceBusReceiverClient {
   /**
@@ -456,7 +466,22 @@ export class ReceiverClientImplementation {
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: Message[]; context: ContextWithSettlement | {} }> {
+  ): Promise<{ messages: Message[]; context: ContextType<"peekLock"> }>;
+  // TODO: should probably be milliseconds
+  async receiveBatch(
+    maxMessages: number,
+    maxWaitTimeInSeconds?: number,
+    options?: ReceiveBatchOptions
+  ): Promise<{ messages: Message[]; context: ContextType<"receiveAndDelete"> }>;
+  // TODO: should probably be milliseconds
+  async receiveBatch(
+    maxMessages: number,
+    maxWaitTimeInSeconds?: number,
+    options?: ReceiveBatchOptions
+  ): Promise<{
+    messages: Message[];
+    context: ContextType<"receiveAndDelete"> | ContextType<"peekLock">;
+  }> {
     // TODO: use the options (it contains things like AbortSignal)
     const messages = await this._receiver.receiveMessages(maxMessages, maxWaitTimeInSeconds);
 
