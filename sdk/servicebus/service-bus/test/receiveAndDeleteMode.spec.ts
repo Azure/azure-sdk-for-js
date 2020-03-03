@@ -9,8 +9,8 @@ import {
   ServiceBusMessage,
   SendableMessageInfo,
   ServiceBusSenderClient,
-  Message,
-  ContextWithSettlement
+  ContextWithSettlement,
+  ReceivedMessage
 } from "../src";
 import { DispositionType } from "../src/serviceBusMessage";
 
@@ -159,11 +159,11 @@ describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
     await senderClient.send(testMessages);
 
     const errors: string[] = [];
-    const receivedMsgs: Message[] = [];
+    const receivedMsgs: ReceivedMessage[] = [];
 
     receiverClient.streamMessages(
       {
-        async processMessage(message: Message, context: {}): Promise<void> {
+        async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
           receivedMsgs.push(message);
         },
         async processError(err: Error): Promise<void> {
@@ -319,7 +319,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   });
   async function sendReceiveMsg(
     testMessages: SendableMessageInfo
-  ): Promise<{ message: Message; context: ContextWithSettlement }> {
+  ): Promise<{ message: ReceivedMessage; context: ContextWithSettlement }> {
     await senderClient.send(testMessages);
     const msgs = (await receiverClient.receiveBatch(1)).messages;
 

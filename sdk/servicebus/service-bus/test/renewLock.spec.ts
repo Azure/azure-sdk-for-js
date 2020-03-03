@@ -5,7 +5,12 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, ServiceBusSenderClient, Message, ContextWithSettlement } from "../src";
+import {
+  ServiceBusMessage,
+  ServiceBusSenderClient,
+  ReceivedMessage,
+  ContextWithSettlement
+} from "../src";
 import { delay } from "rhea-promise";
 import { purge, getSenderReceiverClients, TestClientType, TestMessage } from "./utils/testUtils";
 import { NonSessionReceiver } from "../src/serviceBusReceiverClient";
@@ -316,7 +321,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   await senderClient.send(testMessage);
 
   async function processMessage(
-    brokeredMessage: Message,
+    brokeredMessage: ReceivedMessage,
     context: ContextWithSettlement
   ): Promise<void> {
     if (numOfMessagesReceived < 1) {
