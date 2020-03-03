@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ServiceBusMessage } from "./serviceBusMessage";
+import { ServiceBusMessage, DeadLetterOptions } from "./serviceBusMessage";
 import { TokenCredential } from "@azure/core-amqp";
 import { OperationOptions } from "@azure/core-auth";
-
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
 
 /**
  * An opaque class, used internally to manage AMQP connections for sessions.
@@ -45,7 +42,7 @@ export function isSession(possibleSession: Session | any): possibleSession is Se
 // on ServiceBusMessage. There's no reason to advertise that it's actually
 // a concrete class (or is there?)
 // the "action" methods here are on the context object instead.
-export type Message = Omit<
+export type ReceivedMessage = Omit<
   ServiceBusMessage,
   | "complete"
   | "abandon"
@@ -61,17 +58,48 @@ export type Message = Omit<
  * mode.
  */
 export interface ContextWithSettlement {
-  complete(m: Message): Promise<void>;
-  abandon(m: Message): Promise<void>;
-  defer(m: Message): Promise<void>;
-  deadLetter(m: Message): Promise<void>;
+  /**
+   * Removes the message from Service Bus.
+   * @returns Promise<void>.
+   */
+  complete(message: ReceivedMessage): Promise<void>;
+
+  /**
+   * The lock held on the message by the receiver is let go, making the message available again in
+   * Service Bus for another receive operation.
+   * @param propertiesToModify The properties of the message to modify while abandoning the message.
+   *
+   * @return Promise<void>.
+   */
+  abandon(message: ReceivedMessage, propertiesToModify?: { [key: string]: any }): Promise<void>;
+
+  /**
+   * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
+   * receive it message again in the future using the `receiveDeferredMessage` method.
+   * @param propertiesToModify The properties of the message to modify while deferring the message
+   *
+   * @returns Promise<void>
+   */
+  defer(message: ReceivedMessage, propertiesToModify?: { [key: string]: any }): Promise<void>;
+
+  /**
+   * Moves the message to the deadletter sub-queue. To receive a
+   * deadlettered message, create a new ServiceBusReceiver client
+   * using the path for the deadletter sub-queue.
+   *
+   * @param options The DeadLetter options that can be provided while
+   * rejecting the message.
+   *
+   * @returns Promise<void>
+   */
+  deadLetter(message: ReceivedMessage, options?: DeadLetterOptions): Promise<void>;
 }
 
 /**
  * The general message handler interface (used for streamMessages).
  */
 export interface MessageHandlers<ContextT> {
-  processMessage(message: Message, context: ContextT): Promise<void>;
+  processMessage(message: ReceivedMessage, context: ContextT): Promise<void>;
   processError(err: Error): Promise<void>;
 }
 
@@ -83,7 +111,7 @@ export interface Closeable {
 }
 
 export interface MessageAndContext<ContextT> {
-  message: Message;
+  message: ReceivedMessage;
   context: ContextT;
 }
 

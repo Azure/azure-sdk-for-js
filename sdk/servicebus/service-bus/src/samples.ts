@@ -1,7 +1,7 @@
 import {
   SessionConnections,
-  Message,
-  ContextWithSettlement as ContextWithSettlementMethods
+  ContextWithSettlement as ContextWithSettlementMethods,
+  ReceivedMessage
 } from "./modelsTrack2";
 import { env } from "process";
 import * as dotenv from "dotenv";
@@ -31,7 +31,10 @@ export async function receiveMessagesUsingPeekLock() {
   );
 
   receiverClient.streamMessages({
-    async processMessage(message: Message, context: ContextWithSettlementMethods): Promise<void> {
+    async processMessage(
+      message: ReceivedMessage,
+      context: ContextWithSettlementMethods
+    ): Promise<void> {
       log(`Message body: ${message.body}`);
       await context.complete(message);
     },
@@ -39,6 +42,36 @@ export async function receiveMessagesUsingPeekLock() {
       log(`Error thrown: ${err}`);
     }
   });
+}
+
+export async function createReceiverWithReceiveMode(receiveMode: "peekLock" | "receiveAndDelete") {
+  // 1. This doesn't work
+  // return new ServiceBusReceiverClient(
+  //   {
+  //     connectionString: "conn-string",
+  //     queueName: "queue-name"
+  //   },
+  //   receiveMode
+  // );
+
+  // 2. This works
+  if (receiveMode === "peekLock") {
+    return new ServiceBusReceiverClient(
+      {
+        connectionString: "conn-string",
+        queueName: "queue-name"
+      },
+      receiveMode
+    );
+  } else {
+    return new ServiceBusReceiverClient(
+      {
+        connectionString: "conn-string",
+        queueName: "queue-name"
+      },
+      receiveMode
+    );
+  }
 }
 
 export async function receiveMessagesUsingPeekLockSubscription() {
@@ -57,7 +90,10 @@ export async function receiveMessagesUsingPeekLockSubscription() {
   // receiverClient.getRules();
 
   receiverClient.streamMessages({
-    async processMessage(message: Message, context: ContextWithSettlementMethods): Promise<void> {
+    async processMessage(
+      message: ReceivedMessage,
+      context: ContextWithSettlementMethods
+    ): Promise<void> {
       log(`Message body: ${message.body}`);
       await context.complete(message);
     },
@@ -146,7 +182,7 @@ export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
   await receiverClient.renewSessionLock();
 
   receiverClient.streamMessages({
-    async processMessage(message: Message): Promise<void> {
+    async processMessage(message: ReceivedMessage): Promise<void> {
       // process message here - it's basically a ServiceBusMessage minus any settlement related methods
       log(message.body);
     },

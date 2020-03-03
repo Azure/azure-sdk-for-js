@@ -16,10 +16,10 @@ import {
   SubscriptionAuth,
   isSession,
   MessageAndContext,
+  ReceivedMessage,
+  ReceiveBatchOptions,
   IterateMessagesOptions,
   StreamMessagesOptions,
-  ReceiveBatchOptions,
-  Message,
   isQueueAuth
 } from "./modelsTrack2";
 import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
@@ -32,16 +32,32 @@ import { ConnectionContext } from "./connectionContext";
  */
 // TODO: could extend NonSessionReceiverClient...?
 export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
+  /**
+   * Streams messages to message handlers.
+   * @param handler A handler that gets called for messages and errors.
+   * @param options Options for streamMessages.
+   */
   streamMessages(
     handlers: MessageHandlers<ContextType<LockModeT>>,
     options?: StreamMessagesOptions
   ): void;
+  /**
+   * Returns an iterator that can be used to receive messages from Service Bus.
+   * @param options Options for iterateMessages.
+   */
   iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
+
+  /**
+   * Receives, at most, `maxMessages` worth of messages.
+   * @param maxMessages The maximum number of messages to accept.
+   * @param maxWaitTimeInSeconds The maximum time to wait, in seconds, for messages to arrive.
+   * @param options Options for receiveBatch.
+   */
   receiveBatch(
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: Message[]; context: ContextType<LockModeT> }>;
+  ): Promise<{ messages: ReceivedMessage[]; context: ContextType<LockModeT> }>;
   receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
   receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
   renewSessionLock(): Promise<Date>;
@@ -53,9 +69,35 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
   getDeadLetterPath(): string;
   entityType: "queue" | "subscription";
   entityPath: string;
+
+  /**
+   * Renews the lock on the session.
+   */
+  renewSessionLock(): Promise<Date>;
+  /**
+   * Closes the client.
+   */
+  close(): Promise<void>;
+  /**
+   * Methods related to service bus diagnostics.
+   */
   diagnostics: {
-    peek(maxMessageCount?: number): Promise<Message[]>;
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
+    /**
+     * Peek within a queue or subscription.
+     * @param maxMessageCount The maximum number of messages to retrieve.
+     */
+    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
+    /**
+     * Peek within a queue or subscription, starting with a specific sequence number.
+     * NOTE: this method does not respect message locks or increment delivery count
+     * for messages.
+     * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
+     * @param maxMessageCount The maximum number of messages to retrieve.
+     */
+    peekBySequenceNumber(
+      fromSequenceNumber: Long,
+      maxMessageCount?: number
+    ): Promise<ReceivedMessage[]>;
   };
 }
 
@@ -63,27 +105,69 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
  * A receiver client that does not handle sessions.
  */
 export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
+  /**
+   * Streams messages to message handlers.
+   * @param handler A handler that gets called for messages and errors.
+   * @param options Options for streamMessages.
+   */
   streamMessages(
-    handlers: MessageHandlers<ContextType<LockModeT>>,
+    handler: MessageHandlers<ContextType<LockModeT>>,
     options?: StreamMessagesOptions
   ): void;
+
+  /**
+   * Returns an iterator that can be used to receive messages from Service Bus.
+   * @param options Options for iterateMessages.
+   */
   iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
-  // TODO: need to solve the "return a context" compile error.
+
+  /**
+   * Receives, at most, `maxMessages` worth of messages.
+   * @param maxMessages The maximum number of messages to accept.
+   * @param maxWaitTimeInSeconds The maximum time to wait, in seconds, for messages to arrive.
+   * @param options Options for receiveBatch.
+   */
   receiveBatch(
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: Message[]; context: ContextType<LockModeT> }>;
-  renewMessageLock(lockTokenOrMessage: string | Message): Promise<Date>;
+  ): Promise<{ messages: ReceivedMessage[]; context: ContextType<LockModeT> }>;
+  renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
   receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
   receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
   close(): Promise<void>;
   getDeadLetterPath(): string;
   entityType: "queue" | "subscription";
   entityPath: string;
+
+  /**
+   * Closes the client.
+   */
+  close(): Promise<void>;
+
+  /**
+   * Methods related to service bus diagnostics.
+   */
   diagnostics: {
-    peek(maxMessageCount?: number): Promise<Message[]>;
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
+    /**
+     * Peek within a queue or subscription.
+     * NOTE: this method does not respect message locks or increment delivery count
+     * for messages.
+     * @param maxMessageCount The maximum number of messages to retrieve.
+     */
+    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
+
+    /**
+     * Peek within a queue or subscription, starting with a specific sequence number.
+     * NOTE: this method does not respect message locks or increment delivery count
+     * for messages.
+     * @param fromSequenceNumber The sequence number to start peeking from (inclusive).
+     * @param maxMessageCount The maximum number of messages to retrieve.
+     */
+    peekBySequenceNumber(
+      fromSequenceNumber: Long,
+      maxMessageCount?: number
+    ): Promise<ReceivedMessage[]>;
   };
 }
 
@@ -138,9 +222,7 @@ export interface ServiceBusReceiverClient {
     queueAuth: QueueAuth,
     receiveMode: "peekLock",
     options?: ServiceBusClientOptions
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ClientTypeT<"peekLock", "queue", "nosessions">;
+  ): ClientTypeT<"peekLock", "queue", "nosessions">;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -153,9 +235,7 @@ export interface ServiceBusReceiverClient {
     queueAuth: QueueAuth,
     receiveMode: "receiveAndDelete",
     options?: ServiceBusClientOptions
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
+  ): ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -169,9 +249,7 @@ export interface ServiceBusReceiverClient {
     receiveMode: "peekLock",
     session: Session,
     options?: ServiceBusClientOptions
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ClientTypeT<"peekLock", "queue", "sessions">;
+  ): ClientTypeT<"peekLock", "queue", "sessions">;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -181,13 +259,11 @@ export interface ServiceBusReceiverClient {
    * @param options Options for the client itself.
    */
   new (
-    queueAuth: QueueAuth,
+    queueAuths: QueueAuth,
     receiveMode: "receiveAndDelete",
     session: Session,
     options?: ServiceBusClientOptions
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ClientTypeT<"receiveAndDelete", "queue", "sessions">;
+  ): ClientTypeT<"receiveAndDelete", "queue", "sessions">;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -200,9 +276,7 @@ export interface ServiceBusReceiverClient {
     subscriptionAuth: SubscriptionAuth,
     receiveMode: "peekLock",
     options?: ServiceBusClientOptions
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ClientTypeT<"peekLock", "subscription", "nosessions">;
+  ): ClientTypeT<"peekLock", "subscription", "nosessions">;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -215,9 +289,7 @@ export interface ServiceBusReceiverClient {
     subscriptionAuth: SubscriptionAuth,
     receiveMode: "receiveAndDelete",
     options?: ServiceBusClientOptions
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
+  ): ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -231,9 +303,7 @@ export interface ServiceBusReceiverClient {
     receiveMode: "peekLock",
     session: Session,
     options?: ServiceBusClientOptions
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ClientTypeT<"peekLock", "subscription", "sessions">;
+  ): ClientTypeT<"peekLock", "subscription", "sessions">;
 
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -247,9 +317,7 @@ export interface ServiceBusReceiverClient {
     receiveMode: "receiveAndDelete",
     session: Session,
     options?: ServiceBusClientOptions
-  ): // TODO: can I make receiveMode generic here and have that carry through to the constructor of the other classs?
-  // I'm guessing 'no' because what would that look like!? Maybe I can? Do it at the class level?
-  ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
+  ): ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
 }
 
 /**
@@ -296,15 +364,15 @@ export class ReceiverClientImplementation {
       this._receiver = receiver;
 
       this.diagnostics = {
-        async peek(maxMessageCount?: number): Promise<Message[]> {
-          return (await receiver.peek(maxMessageCount)).map((m) => m as Message);
+        async peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
+          return (await receiver.peek(maxMessageCount)).map((m) => m as ReceivedMessage);
         },
         async peekBySequenceNumber(
           fromSequenceNumber: Long,
           maxMessageCount?: number
-        ): Promise<Message[]> {
+        ): Promise<ReceivedMessage[]> {
           return (await receiver.peekBySequenceNumber(fromSequenceNumber, maxMessageCount)).map(
-            (m) => m as Message
+            (m) => m as ReceivedMessage
           );
         }
       };
@@ -314,16 +382,18 @@ export class ReceiverClientImplementation {
       this._receiver = receiver;
 
       this.diagnostics = {
-        async peek(maxMessageCount?: number): Promise<Message[]> {
-          return (await receiver.peek(entityPath, maxMessageCount)).map((m) => m as Message);
+        async peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
+          return (await receiver.peek(entityPath, maxMessageCount)).map(
+            (m) => m as ReceivedMessage
+          );
         },
         async peekBySequenceNumber(
           fromSequenceNumber: Long,
           maxMessageCount?: number
-        ): Promise<Message[]> {
+        ): Promise<ReceivedMessage[]> {
           return (
             await receiver.peekBySequenceNumber(entityPath, fromSequenceNumber, maxMessageCount)
-          ).map((m) => m as Message);
+          ).map((m) => m as ReceivedMessage);
         }
       };
     }
@@ -390,7 +460,7 @@ export class ReceiverClientImplementation {
     }
   }
 
-  async renewMessageLock(lockTokenOrMessage: string | Message): Promise<Date> {
+  async renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date> {
     if (!(this._receiver instanceof InternalSessionReceiver)) {
       return this._receiver.renewMessageLock(lockTokenOrMessage);
     } else {
@@ -475,20 +545,20 @@ export class ReceiverClientImplementation {
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: Message[]; context: ContextType<"peekLock"> }>;
+  ): Promise<{ messages: ReceivedMessage[]; context: ContextType<"peekLock"> }>;
   // TODO: should probably be milliseconds
   async receiveBatch(
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: Message[]; context: ContextType<"receiveAndDelete"> }>;
+  ): Promise<{ messages: ReceivedMessage[]; context: ContextType<"receiveAndDelete"> }>;
   // TODO: should probably be milliseconds
   async receiveBatch(
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
   ): Promise<{
-    messages: Message[];
+    messages: ReceivedMessage[];
     context: ContextType<"receiveAndDelete"> | ContextType<"peekLock">;
   }> {
     // TODO: use the options (it contains things like AbortSignal)
@@ -631,8 +701,11 @@ export class ReceiverClientImplementation {
   }
 
   public diagnostics: {
-    peek(maxMessageCount?: number): Promise<Message[]>;
-    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<Message[]>;
+    peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
+    peekBySequenceNumber(
+      fromSequenceNumber: Long,
+      maxMessageCount?: number
+    ): Promise<ReceivedMessage[]>;
   };
 
   private _receiver: InternalSessionReceiver | InternalReceiver;
@@ -660,8 +733,10 @@ export const ServiceBusReceiverClient: ServiceBusReceiverClient = ReceiverClient
 const settlementContext: ContextWithSettlement = {
   // TODO: need to move the settlement methods out of sb message -
   // we don't need to have this runtime dependency.
-  abandon: (message) => ((message as unknown) as ServiceBusMessage).abandon(),
+  abandon: (message, propertiesToModify) =>
+    ((message as unknown) as ServiceBusMessage).abandon(propertiesToModify),
   complete: (message) => ((message as unknown) as ServiceBusMessage).complete(),
-  defer: (message) => ((message as unknown) as ServiceBusMessage).defer(),
-  deadLetter: (message) => ((message as unknown) as ServiceBusMessage).deadLetter()
+  defer: (message, propertiesToModify) =>
+    ((message as unknown) as ServiceBusMessage).defer(propertiesToModify),
+  deadLetter: (message, options) => ((message as unknown) as ServiceBusMessage).deadLetter(options)
 };

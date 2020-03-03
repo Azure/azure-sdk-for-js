@@ -33,18 +33,18 @@ export type AuthorizationRule = {
 // Warning: (ae-forgotten-export) The symbol "SubscriptionRuleManagement" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export type ClientTypeT<ReceiveModeT extends "peekLock" | "receiveAndDelete", EntityTypeT extends "queue" | "subscription", SessionsEnabledT extends "sessions" | "nosessions"> = SessionsEnabledT extends "nosessions" ? EntityTypeT extends "queue" ? NonSessionReceiverTrack2<ReceiveModeT> : NonSessionReceiverTrack2<ReceiveModeT> & SubscriptionRuleManagement : EntityTypeT extends "queue" ? SessionReceiverTrack2<ReceiveModeT> : SessionReceiverTrack2<ReceiveModeT> & SubscriptionRuleManagement;
+export type ClientTypeT<ReceiveModeT extends "peekLock" | "receiveAndDelete", EntityTypeT extends "queue" | "subscription", SessionsEnabledT extends "sessions" | "nosessions"> = SessionsEnabledT extends "nosessions" ? EntityTypeT extends "queue" ? NonSessionReceiver<ReceiveModeT> : NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement : EntityTypeT extends "queue" ? SessionReceiver<ReceiveModeT> : SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement;
 
 // @public
 export interface ContextWithSettlement {
-    // (undocumented)
-    abandon(m: Message): Promise<void>;
-    // (undocumented)
-    complete(m: Message): Promise<void>;
-    // (undocumented)
-    deadLetter(m: Message): Promise<void>;
-    // (undocumented)
-    defer(m: Message): Promise<void>;
+    abandon(message: ReceivedMessage, propertiesToModify?: {
+        [key: string]: any;
+    }): Promise<void>;
+    complete(message: ReceivedMessage): Promise<void>;
+    deadLetter(message: ReceivedMessage, options?: DeadLetterOptions): Promise<void>;
+    defer(message: ReceivedMessage, propertiesToModify?: {
+        [key: string]: any;
+    }): Promise<void>;
 }
 
 // @public
@@ -81,9 +81,6 @@ export { HttpOperationResponse }
 export interface IterateMessagesOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export type Message = Omit<ServiceBusMessage, "complete" | "abandon" | "defer" | "deadletter" | "prototype">;
-
 // @public
 export type MessageCountDetails = {
     activeMessageCount: number;
@@ -103,25 +100,18 @@ export interface MessageHandlerOptions {
 export { MessagingError }
 
 // @public
-export interface NonSessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAndDelete"> {
-    // (undocumented)
+export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
     close(): Promise<void>;
-    // (undocumented)
     diagnostics: {
-        peek(maxMessageCount?: number): Promise<Message[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<Message[]>;
+        peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
     // Warning: (ae-forgotten-export) The symbol "MessageIterator" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
-    // (undocumented)
-    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
+    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<ReceivedMessage[]>;
     // Warning: (ae-forgotten-export) The symbol "MessageHandlers" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ContextType" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+    streamMessages(handler: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
 }
 
 // @public
@@ -201,6 +191,9 @@ export interface QueueOptions {
 export interface ReceiveBatchOptions extends OperationOptions {
 }
 
+// @public (undocumented)
+export type ReceivedMessage = Omit<ServiceBusMessage, "complete" | "abandon" | "defer" | "deadletter" | "prototype">;
+
 // @public
 export interface ReceivedMessageInfo extends SendableMessageInfo {
     readonly _amqpMessage: AmqpMessage;
@@ -271,10 +264,8 @@ export interface ServiceBusClientOptions {
     webSocketOptions?: WebSocketOptions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ReceivedMessage" needs to be exported by the entry point index.d.ts
-//
 // @public
-export class ServiceBusMessage implements ReceivedMessage {
+export class ServiceBusMessage implements ReceivedMessageInfo {
     abandon(propertiesToModify?: {
         [key: string]: any;
     }): Promise<void>;
@@ -354,7 +345,7 @@ export class ServiceBusSenderClient {
 // @public
 export interface Session {
     connections: SessionConnections;
-    id: string | undefined;
+    id?: string;
 }
 
 // @public
@@ -368,28 +359,22 @@ export interface SessionMessageHandlerOptions {
 }
 
 // @public
-export interface SessionReceiverOptions {
-    maxSessionAutoRenewLockDurationInSeconds?: number;
-    sessionId: string | undefined;
+export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
+    close(): Promise<void>;
+    diagnostics: {
+        peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+    };
+    iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
+    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<ReceivedMessage[]>;
+    renewSessionLock(): Promise<Date>;
+    streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
 }
 
 // @public
-export interface SessionReceiverTrack2<LockModeT extends "peekLock" | "receiveAndDelete"> {
-    // (undocumented)
-    close(): Promise<void>;
-    // (undocumented)
-    diagnostics: {
-        peek(maxMessageCount?: number): Promise<Message[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<Message[]>;
-    };
-    // (undocumented)
-    iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
-    // (undocumented)
-    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<Message[]>;
-    // (undocumented)
-    renewSessionLock(): Promise<Date>;
-    // (undocumented)
-    streamMessages(handlers: MessageHandlers<ContextType<LockModeT>>, options?: StreamMessagesOptions): void;
+export interface SessionReceiverOptions {
+    maxSessionAutoRenewLockDurationInSeconds?: number;
+    sessionId: string | undefined;
 }
 
 // @public
@@ -529,7 +514,7 @@ export { WebSocketOptions }
 
 // Warnings were encountered during analysis:
 //
-// src/track2/serviceBusReceiverClient.ts:60:5 - (ae-forgotten-export) The symbol "Long" needs to be exported by the entry point index.d.ts
+// src/track2/serviceBusReceiverClient.ts:147:5 - (ae-forgotten-export) The symbol "Long" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
