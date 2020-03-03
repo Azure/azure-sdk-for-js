@@ -7,7 +7,9 @@ import {
   delay,
   MessagingError,
   ContextWithSettlement,
-  ReceivedMessage
+  ReceivedMessage,
+  ServiceBusClientOptions,
+  Session
 } from "../../src";
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
@@ -165,7 +167,9 @@ async function recreateResources(
     partitioned: boolean;
   },
   connectionString: string,
-  receiveMode: "peekLock" | "receiveAndDelete"
+  receiveMode: "peekLock" | "receiveAndDelete",
+  senderOptions?: ServiceBusClientOptions,
+  receiverOptions?: ServiceBusClientOptions & Session
 ): Promise<{
   senderClient: ServiceBusSenderClient;
   receiverClient: ReceiverClientTypeForUser;
@@ -211,140 +215,132 @@ async function recreateResources(
   const receiverClient = () => {
     if (entity.session) {
       if (receiveMode === "peekLock") {
-        return new ServiceBusReceiverClient(auth, receiveMode, {
-          id: TestMessage.sessionId
-        });
+        return new ServiceBusReceiverClient(
+          auth,
+          receiveMode,
+          {
+            id: TestMessage.sessionId,
+            maxSessionAutoRenewLockDurationInSeconds:
+              receiverOptions?.maxSessionAutoRenewLockDurationInSeconds
+          },
+          receiverOptions
+        );
       } else {
-        return new ServiceBusReceiverClient(auth, receiveMode, {
-          id: TestMessage.sessionId
-        });
+        return new ServiceBusReceiverClient(
+          auth,
+          receiveMode,
+          {
+            id: TestMessage.sessionId,
+            maxSessionAutoRenewLockDurationInSeconds:
+              receiverOptions?.maxSessionAutoRenewLockDurationInSeconds
+          },
+          receiverOptions
+        );
       }
     } else {
       if (receiveMode === "peekLock") {
-        return new ServiceBusReceiverClient(auth, receiveMode);
+        return new ServiceBusReceiverClient(auth, receiveMode, receiverOptions);
       } else {
-        return new ServiceBusReceiverClient(auth, receiveMode);
+        return new ServiceBusReceiverClient(auth, receiveMode, receiverOptions);
       }
     }
   };
   return {
-    senderClient: new ServiceBusSenderClient(connectionString, entityName),
+    senderClient: new ServiceBusSenderClient(connectionString, entityName, senderOptions),
     receiverClient: receiverClient()
   };
 }
 
 export async function getSenderReceiverClients(
   entityType: TestClientType,
-  receiveMode: "peekLock" | "receiveAndDelete"
+  receiveMode: "peekLock" | "receiveAndDelete",
+  senderOptions?: ServiceBusClientOptions,
+  receiverOptions?: ServiceBusClientOptions & Session
 ): Promise<{
   senderClient: ServiceBusSenderClient;
   receiverClient: ReceiverClientTypeForUser;
 }> {
   const connectionString = env[EnvVarNames.SERVICEBUS_CONNECTION_STRING];
+  let type: "queue" | "subscription";
+  let partitioned: boolean;
+  let session: boolean;
   switch (entityType) {
     case TestClientType.PartitionedQueue: {
-      return recreateResources(
-        {
-          type: "queue",
-          partitioned: true,
-          session: false
-        },
-        connectionString,
-        receiveMode
-      );
+      type = "queue";
+      partitioned = true;
+      session = false;
+      break;
     }
 
     case TestClientType.PartitionedSubscription: {
-      return recreateResources(
-        {
-          type: "subscription",
-          partitioned: true,
-          session: false
-        },
-        connectionString,
-        receiveMode
-      );
+      type = "subscription";
+      partitioned = true;
+      session = false;
+      break;
     }
 
     case TestClientType.UnpartitionedQueue: {
-      return recreateResources(
-        {
-          type: "queue",
-          partitioned: false,
-          session: false
-        },
-        connectionString,
-        receiveMode
-      );
+      type = "queue";
+      partitioned = false;
+      session = false;
+      break;
     }
 
     case TestClientType.UnpartitionedSubscription:
     case TestClientType.TopicFilterTestDefaultSubscription:
     case TestClientType.TopicFilterTestSubscription: {
-      return recreateResources(
-        {
-          type: "subscription",
-          partitioned: false,
-          session: false
-        },
-        connectionString,
-        receiveMode
-      );
+      type = "subscription";
+      partitioned = false;
+      session = false;
+      break;
     }
 
     case TestClientType.PartitionedQueueWithSessions: {
-      return recreateResources(
-        {
-          type: "queue",
-          partitioned: true,
-          session: true
-        },
-        connectionString,
-        receiveMode
-      );
+      type = "queue";
+      partitioned = true;
+      session = true;
+      break;
     }
 
     case TestClientType.PartitionedSubscriptionWithSessions: {
-      return recreateResources(
-        {
-          type: "subscription",
-          partitioned: true,
-          session: true
-        },
-        connectionString,
-        receiveMode
-      );
+      type = "subscription";
+      partitioned = true;
+      session = true;
+      break;
     }
 
     case TestClientType.UnpartitionedQueueWithSessions: {
-      return recreateResources(
-        {
-          type: "queue",
-          partitioned: false,
-          session: true
-        },
-        connectionString,
-        receiveMode
-      );
+      type = "queue";
+      partitioned = false;
+      session = true;
+      break;
     }
 
     case TestClientType.UnpartitionedSubscriptionWithSessions: {
-      return recreateResources(
-        {
-          type: "subscription",
-          partitioned: false,
-          session: true
-        },
-        connectionString,
-        receiveMode
-      );
+      type = "subscription";
+      partitioned = false;
+      session = true;
+      break;
     }
 
     default:
+      type = "queue";
+      partitioned = false;
+      session = false;
       break;
   }
 
-  throw new Error("Cannot create sender/receiver clients for given client types");
+  return recreateResources(
+    {
+      type: type,
+      partitioned: partitioned,
+      session: session
+    },
+    connectionString,
+    receiveMode,
+    senderOptions,
+    receiverOptions
+  );
 }
 
 /**
