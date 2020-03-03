@@ -18,7 +18,7 @@ describe("AzureCliCredential", function() {
       new MockAzureCliCredentialClientOptions(mockCliCredentialClient)
     );
     let actualToken = await credential.getToken("https://service/.default");
-    assert.equal(actualToken.token, "token");
+    assert.equal(actualToken!.token, "token");
   });
 
   it("get access token when azure cli not installed", async () => {

@@ -6,11 +6,33 @@ import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
-import {
-  CredentialClient,
-  AzureCliCredentialClient,
-  AzureCliCredentialOptions
-} from "../client/AzureCliCredentialClient";
+
+import * as child_process from "child_process";
+
+export interface CredentialClient {
+  getAzureCliAccessToken(resource: string): Promise<any>;
+}
+
+class AzureCliCredentialClient implements CredentialClient {
+  public getAzureCliAccessToken(resource: string) {
+    return new Promise((resolve, reject) => {
+      try {
+        child_process.exec(
+          `az account get-access-token --output json --resource ${resource}`,
+          (error, stdout, stderr) => {
+            resolve({ stdout: stdout, stderr: stderr });
+          }
+        );
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+}
+
+export interface AzureCliCredentialOptions {
+  azureCliCredentialClient?: CredentialClient;
+}
 
 /**
  * Provides the user access token and expire time

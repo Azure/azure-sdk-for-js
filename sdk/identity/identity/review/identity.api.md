@@ -38,6 +38,13 @@ export class AuthorizationCodeCredential implements TokenCredential {
     }
 
 // @public
+export class AzureCliCredential implements TokenCredential {
+    // Warning: (ae-forgotten-export) The symbol "AzureCliCredentialOptions" needs to be exported by the entry point index.d.ts
+    constructor(options?: AzureCliCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
+// @public
 export type BrowserLoginStyle = "redirect" | "popup";
 
 // @public

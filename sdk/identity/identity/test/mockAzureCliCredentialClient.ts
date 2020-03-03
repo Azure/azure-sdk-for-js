@@ -1,7 +1,7 @@
 import {
   CredentialClient,
   AzureCliCredentialOptions
-} from "../src/client/AzureCliCredentialClient";
+} from "../src/credentials/azureCliCredential";
 
 interface MockCredentialClient {
   stdout: string;
@@ -16,10 +16,10 @@ export class MockAzureCliCredentialClientOptions implements AzureCliCredentialOp
 }
 
 export class MockAzureCliCredentialClient implements CredentialClient {
-  private stdout;
-  private stderr;
+  private stdout: string;
+  private stderr: string;
 
-  constructor(options?: MockCredentialClient) {
+  constructor(options: MockCredentialClient) {
     this.stdout = options.stdout;
     this.stderr = options.stderr;
   }
