@@ -23,7 +23,7 @@ You must have an [Azure Subscription][azure_sub], [Cosmos DB account][cosmos_acc
 If you need a Cosmos DB SQL API account, you can use the Azure [Cloud Shell][cloud_shell_bash] to create one with this Azure CLI command:
 
 ```Bash
-az cosmosdb create --resource-group <resource-group-name> --name <cosmos-account-name>
+az cosmosdb create --resource-group <resource-group-name> --name <cosmos-database-account-name>
 ```
 
 Or you can create an account in the [Azure Portal](https://portal.azure.com/#create/microsoft.documentdb)
@@ -67,7 +67,7 @@ main().catch((error) => {
 });
 ```
 
-For simplicity we have included the `key` and `endpoint` directly in the code but you will likely want to load these from a file not in source control using a project such as [dotenv](https://www.npmjs.com/package/dotenv)
+For simplicity we have included the `key` and `endpoint` directly in the code but you will likely want to load these from a file not in source control using a project such as [dotenv](https://www.npmjs.com/package/dotenv) or loading from environment variables
 
 In production environments, secrets like keys should be stored in [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/)
 
