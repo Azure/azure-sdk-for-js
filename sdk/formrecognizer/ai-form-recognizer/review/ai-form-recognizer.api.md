@@ -63,7 +63,8 @@ export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
 export interface AnalyzeResult {
     documentResults?: DocumentResult[];
     errors?: ErrorInformation[];
-    pageResults?: PageResult[];
+    // Warning: (ae-forgotten-export) The symbol "PageResult" needs to be exported by the entry point index.d.ts
+    pageResults?: PageResult_2[];
     readResults: ReadResult[];
     version: string;
 }
@@ -118,9 +119,8 @@ export class CustomFormRecognizerClient {
 
 // @public
 export interface DataTable {
-    cells: DataTableCell[];
-    columns: number;
-    rows: number;
+    // (undocumented)
+    rows: DataTableRow[];
 }
 
 // @public
@@ -129,12 +129,18 @@ export interface DataTableCell {
     columnIndex: number;
     columnSpan?: number;
     confidence: number;
-    elements?: string[];
+    elements?: TextElement[];
     isFooter?: boolean;
     isHeader?: boolean;
     rowIndex: number;
     rowSpan?: number;
     text: string;
+}
+
+// @public (undocumented)
+export interface DataTableRow {
+    // (undocumented)
+    cells: DataTableCell[];
 }
 
 // @public (undocumented)
@@ -255,14 +261,14 @@ export type IntegerFieldValue = {
     valueInteger: number;
 } & CommonFieldValue;
 
-// @public
+// @public (undocumented)
 export interface KeyValueElement {
     boundingBox?: number[];
-    elements?: string[];
+    elements?: TextElement[];
     text: string;
 }
 
-// @public
+// @public (undocumented)
 export interface KeyValuePair {
     confidence: number;
     key: KeyValueElement;
@@ -402,11 +408,11 @@ export interface Receipt {
 // @public (undocumented)
 export interface ReceiptItem {
     // (undocumented)
-    name: string;
+    name?: string;
     // (undocumented)
-    quantity: number;
+    quantity?: number;
     // (undocumented)
-    totalPrice: number;
+    totalPrice?: number;
 }
 
 // @public
@@ -469,6 +475,9 @@ export type StringFieldValue = {
 
 // @public (undocumented)
 export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff";
+
+// @public (undocumented)
+export type TextElement = TextWord;
 
 // @public
 export interface TextLine {

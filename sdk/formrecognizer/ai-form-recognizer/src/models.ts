@@ -5,13 +5,14 @@ import * as coreHttp from "@azure/core-http";
 
 import {
   AnalyzeOperationResult,
-  AnalyzeResult,
+  DocumentResult,
+  ErrorInformation,
+  ReadResult,
   TextWord
 } from "./generated/models/index";
 
 export {
-  AnalyzeOperationResult,
-  AnalyzeResult
+  AnalyzeOperationResult
 }
 
 export interface CommonFieldValue {
@@ -346,4 +347,27 @@ export interface PageResult {
    * List of data tables extracted from the page.
    */
   tables?: DataTable[];
+}
+
+export interface AnalyzeResult {
+  /**
+   * Version of schema used for this result.
+   */
+  version: string;
+  /**
+   * Text extracted from the input.
+   */
+  readResults: ReadResult[];
+  /**
+   * Page-level information extracted from the input.
+   */
+  pageResults?: PageResult[];
+  /**
+   * Document-level information extracted from the input.
+   */
+  documentResults?: DocumentResult[];
+  /**
+   * List of errors reported during the analyze operation.
+   */
+  errors?: ErrorInformation[];
 }
