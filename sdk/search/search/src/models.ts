@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import { QueryType, SearchMode, FacetResult, AutocompleteMode } from "./generated/data/models";
+import {
+  QueryType,
+  SearchMode,
+  FacetResult,
+  AutocompleteMode,
+  IndexActionType
+} from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
@@ -422,5 +428,16 @@ export interface AutocompleteRequest<Fields> {
    */
   top?: number;
 }
+
+/**
+ * Represents an index action that operates on a document.
+ */
+export type IndexAction<T> = {
+  /**
+   * The operation to perform on a document in an indexing batch. Possible values include:
+   * 'upload', 'merge', 'mergeOrUpload', 'delete'
+   */
+  actionType: IndexActionType;
+} & Partial<T>;
 
 // END manually modified generated interfaces

@@ -20,13 +20,13 @@ import {
   AutocompleteRequest,
   SearchRequest,
   SuggestRequest,
-  IndexAction,
   IndexDocumentsResult
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 import { deserialize, serialize } from "./serialization";
 import {
+  IndexAction,
   CountOptions,
   AutocompleteOptions,
   SearchOptions,
@@ -376,7 +376,7 @@ export class SearchIndexClient<T> {
    * @param options Additional options.
    */
   public async modifyIndex(
-    batch: IndexAction[],
+    batch: IndexAction<T>[],
     options: ModifyIndexOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-modifyIndex", options);
@@ -412,7 +412,7 @@ export class SearchIndexClient<T> {
     const actionType = options.mergeIfExists ? "mergeOrUpload" : "upload";
     const { span, updatedOptions } = createSpan("SearchIndexClient-uploadDocuments", options);
 
-    const batch = documents.map<IndexAction>((doc) => {
+    const batch = documents.map<IndexAction<T>>((doc) => {
       return {
         ...doc,
         actionType
@@ -445,7 +445,7 @@ export class SearchIndexClient<T> {
     const actionType = options.uploadIfNotExists ? "mergeOrUpload" : "merge";
     const { span, updatedOptions } = createSpan("SearchIndexClient-updateDocuments", options);
 
-    const batch = documents.map<IndexAction>((doc) => {
+    const batch = documents.map<IndexAction<T>>((doc) => {
       return {
         ...doc,
         actionType
@@ -472,16 +472,16 @@ export class SearchIndexClient<T> {
    * @param options Additional options.
    */
   public async deleteDocuments(
-    keyName: string,
+    keyName: keyof T,
     keyValues: string[],
     options: DeleteDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteDocuments", options);
-    const batch = keyValues.map<IndexAction>((keyValue) => {
+    const batch = keyValues.map<IndexAction<T>>((keyValue) => {
       return {
         actionType: "delete",
         [keyName]: keyValue
-      };
+      } as IndexAction<T>;
     });
 
     try {
