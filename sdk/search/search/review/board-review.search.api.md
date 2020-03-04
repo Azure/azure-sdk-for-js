@@ -39,7 +39,7 @@ export interface AutocompleteRequest<Fields> {
 // @public
 export interface AutocompleteResult {
     readonly coverage?: number;
-    readonly results?: AutocompleteItem[];
+    readonly results: AutocompleteItem[];
 }
 
 // @public
@@ -77,7 +77,7 @@ export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
 
 // @public
 export interface IndexDocumentsResult {
-    readonly results?: IndexingResult[];
+    readonly results: IndexingResult[];
 }
 
 // @public
@@ -121,7 +121,7 @@ export interface SearchDocumentsResult<T> {
     };
     readonly nextLink?: string;
     readonly nextPageParameters?: SearchRequest<string>;
-    readonly results?: SearchResult<T>[];
+    readonly results: SearchResult<T>[];
 }
 
 // @public
@@ -185,7 +185,7 @@ export type SearchResult<T> = {
 // @public
 export interface SuggestDocumentsResult<T> {
     readonly coverage?: number;
-    readonly results?: SuggestResult<T>[];
+    readonly results: SuggestResult<T>[];
 }
 
 // @public
