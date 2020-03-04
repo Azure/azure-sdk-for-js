@@ -19,7 +19,7 @@ import {
   ReceivedMessage,
   ReceiveBatchOptions,
   IterateMessagesOptions,
-  StreamMessagesOptions as SubscribeOptions,
+  SubscribeOptions,
   isQueueAuth
 } from "./modelsTrack2";
 import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
@@ -30,7 +30,6 @@ import { ConnectionContext } from "./connectionContext";
 /**
  *A receiver client that handles sessions, including renewing the session lock.
  */
-// TODO: could extend NonSessionReceiverClient...?
 export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
   /**
    * Streams messages to message handlers.
@@ -210,6 +209,12 @@ export interface SubscriptionRuleManagement {
   readonly defaultRuleName: string;
 }
 
+/**
+ * Dynamic type that represents the proper receiver based on:
+ * - The lock mode (peekLock or receiveAndDelete).
+ * - Whether sessions are enabled or not on this particular receiver.
+ * - The entity type (queue or subscription).
+ */
 export type ClientTypeT<
   ReceiveModeT extends "peekLock" | "receiveAndDelete",
   EntityTypeT extends "queue" | "subscription",
@@ -234,6 +239,9 @@ export type ReceiverClientTypeForUserT<ReceiveModeT extends "peekLock" | "receiv
   | SessionReceiver<ReceiveModeT>
   | (SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement);
 
+/**
+ * A client that can send to queues or topics.
+ */
 export interface ServiceBusReceiverClient {
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -360,7 +368,7 @@ export class ReceiverClientImplementation {
     let options: ServiceBusClientOptions;
     let session: Session | undefined;
 
-    if (sessionOrOptions3 != null && isSession(sessionOrOptions3)) {
+    if (isSession(sessionOrOptions3)) {
       session = sessionOrOptions3;
       options = options4 || {};
     } else {
@@ -452,7 +460,7 @@ export class ReceiverClientImplementation {
     // TODO: use options
     if (this._receiveMode === ReceiveMode.peekLock) {
       const onMessage = async (sbMessage: ServiceBusMessage) => {
-        await handlers.processMessage(sbMessage, settlementContext);
+        return handlers.processMessage(sbMessage, settlementContext);
       };
 
       this._receiver.registerMessageHandler(

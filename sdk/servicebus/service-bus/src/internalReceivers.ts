@@ -314,7 +314,7 @@ export class InternalReceiver {
     return this._context.managementClient!.peek(maxMessageCount);
   }
 
-  async peekBySequenceNumber(
+  peekBySequenceNumber(
     entityPath: string,
     fromSequenceNumber: Long,
     maxMessageCount?: number
@@ -354,15 +354,15 @@ export class InternalReceiver {
 
   // #region topic-filters
 
-  async getRules(entityPath: string): Promise<RuleDescription[]> {
+  getRules(entityPath: string): Promise<RuleDescription[]> {
     return getRules(this._context, entityPath);
   }
 
-  async removeRule(entityPath: string, ruleName: string): Promise<void> {
+  removeRule(entityPath: string, ruleName: string): Promise<void> {
     return removeRule(this._context, entityPath, ruleName);
   }
 
-  async addRule(
+  addRule(
     entityPath: string,
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
@@ -838,15 +838,15 @@ export class InternalSessionReceiver {
 
   // #region topic-filters
 
-  async getRules(entityPath: string): Promise<RuleDescription[]> {
+  getRules(entityPath: string): Promise<RuleDescription[]> {
     return getRules(this._context, entityPath);
   }
 
-  async removeRule(entityPath: string, ruleName: string): Promise<void> {
+  removeRule(entityPath: string, ruleName: string): Promise<void> {
     return removeRule(this._context, entityPath, ruleName);
   }
 
-  async addRule(
+  addRule(
     entityPath: string,
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
@@ -896,7 +896,7 @@ export class InternalSessionReceiver {
 
 // #region topic-filters
 
-async function getRules(
+function getRules(
   context: ClientEntityContext,
   entityPath: string
 ): Promise<RuleDescription[]> {
@@ -908,7 +908,7 @@ async function getRules(
   }
 }
 
-async function removeRule(
+function removeRule(
   context: ClientEntityContext,
   entityPath: string,
   ruleName: string
@@ -921,7 +921,7 @@ async function removeRule(
   }
 }
 
-async function addRule(
+function addRule(
   context: ClientEntityContext,
   entityPath: string,
   ruleName: string,

@@ -49,6 +49,10 @@ export function createConnectionContextForTokenCredential(
   host: string,
   options: ServiceBusClientOptions = {}
 ): ConnectionContext {
+  if (typeof host !== "string") {
+    throw new TypeError("`host` parameter is not a string");
+  }
+
   // host, credential and options based constructor was invoked
   if (!host.endsWith("/")) {
     host += "/";

@@ -4,27 +4,60 @@
 import {
   SessionConnections,
   ReceivedMessage,
-  ContextWithSettlement as ContextWithSettlementMethods
+  ContextWithSettlement as ContextWithSettlementMethods,
+  QueueAuth,
+  SubscriptionAuth,
+  isQueueAuth
 } from "../src/modelsTrack2";
-import { ServiceBusReceiverClient } from "../src/serviceBusReceiverClient";
+import {
+  ServiceBusReceiverClient,
+  NonSessionReceiver,
+  SessionReceiver
+} from "../src/serviceBusReceiverClient";
 import { ServiceBusSenderClient, delay, SendableMessageInfo } from "../src";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { EntityNames } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
+import {
+  createConnectionContext,
+  getEntityNameFromConnectionString
+} from "../src/constructorHelpers";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe("Samples scenarios for track 2", () => {
+describe("Sample scenarios for track 2", () => {
   let senderClient: ServiceBusSenderClient | undefined;
   let closeables: { close(): Promise<void> }[];
   const connectionString = getEnvVars()[EnvVarNames.SERVICEBUS_CONNECTION_STRING]!;
 
-  before(() => {
+  before(async () => {
     assert.ok(
       connectionString,
       `${EnvVarNames.SERVICEBUS_CONNECTION_STRING} needs to be set in the environment`
     );
+
+    const nonSessionPurges = [
+      {
+        connectionString: connectionString,
+        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
+      },
+      {
+        connectionString: connectionString,
+        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
+        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
+      }
+    ].map((auth) => purge(auth));
+
+    const sessionPurge = purge(
+      {
+        connectionString: connectionString,
+        queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
+      },
+      "my-session"
+    );
+
+    await Promise.all([...nonSessionPurges, sessionPurge]);
   });
 
   beforeEach(() => {
@@ -97,7 +130,7 @@ describe("Samples scenarios for track 2", () => {
 
     const receivedBodies: string[] = [];
 
-    for (const message of await receiverClient.receiveBatch(1, 5)) {
+    for (const message of (await receiverClient.receiveBatch(1, 5)).messages) {
       receivedBodies.push(message.body);
     }
 
@@ -577,6 +610,134 @@ describe("Samples scenarios for track 2", () => {
   }
 });
 
+describe("ConstructorHelpers for track 2", () => {
+  const entityConnectionString =
+    "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=;EntityPath=myentity";
+
+  const serviceBusConnectionString =
+    "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
+
+  const fakeTokenCredential = {
+    getToken: async () => null,
+    sentinel: "test token credential"
+  };
+
+  it("createConnectionContext for queues", () => {
+    const queueAuths: QueueAuth[] = [
+      { connectionString: entityConnectionString, queueName: "myentity" },
+      { connectionString: serviceBusConnectionString, queueName: "myentity" },
+      { queueConnectionString: entityConnectionString },
+      { tokenCredential: fakeTokenCredential, host: "ahost", queueName: "myentity" }
+    ];
+
+    for (const queueAuth of queueAuths) {
+      const contextAndEntityPath = createConnectionContext(queueAuth, {});
+      assert.equal("myentity", contextAndEntityPath.entityPath);
+
+      if ((queueAuth as any).tokenCredential) {
+        assert.equal(
+          "test token credential",
+          (contextAndEntityPath.context.tokenCredential as any).sentinel
+        );
+      } else {
+        assert.equal(
+          "SharedKeyCredential",
+          contextAndEntityPath.context.tokenCredential.constructor.name
+        );
+      }
+    }
+  });
+
+  it("createConnectionContext for subscriptions", () => {
+    const subscriptionAuths: SubscriptionAuth[] = [
+      {
+        connectionString: serviceBusConnectionString,
+        topicName: "myentity",
+        subscriptionName: "mysubscription"
+      },
+      { topicConnectionString: entityConnectionString, subscriptionName: "mysubscription" },
+      {
+        tokenCredential: fakeTokenCredential,
+        host: "ahost",
+        topicName: "myentity",
+        subscriptionName: "mysubscription"
+      }
+    ];
+
+    for (const subAuth of subscriptionAuths) {
+      const contextAndEntityPath = createConnectionContext(subAuth, {});
+      assert.equal("myentity/Subscriptions/mysubscription", contextAndEntityPath.entityPath);
+
+      if ((subAuth as any).tokenCredential) {
+        assert.equal(
+          "test token credential",
+          (contextAndEntityPath.context.tokenCredential as any).sentinel
+        );
+      } else {
+        assert.equal(
+          "SharedKeyCredential",
+          contextAndEntityPath.context.tokenCredential.constructor.name
+        );
+      }
+    }
+  });
+
+  const badAuths = [
+    // missing required fields
+    { connectionString: serviceBusConnectionString },
+    { topicConnectionString: entityConnectionString },
+    { tokenCredential: fakeTokenCredential } as any,
+
+    // wrong types
+    { connectionString: 4, topicName: "myentity", subscriptionName: "mysubscription" },
+    {
+      connectionString: serviceBusConnectionString,
+      topicName: 4,
+      subscriptionName: "mysubscription"
+    },
+    { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: 4 },
+    { connectionString: "", topicName: "myentity", subscriptionName: "mysubscription" },
+    {
+      connectionString: serviceBusConnectionString,
+      topicName: "",
+      subscriptionName: "mysubscription"
+    },
+    { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: "" },
+    { connectionString: 4, queueName: "myentity" },
+    { connectionString: serviceBusConnectionString, queueName: 4 },
+    { queueConnectionString: 4 },
+    { queueConnectionString: "" },
+    { topicConnectionString: 4, subscriptionName: "mysubscription" },
+    { topicConnectionString: entityConnectionString, subscriptionName: 4 },
+    { topicConnectionString: "", subscriptionName: "mysubscription" },
+    { topicConnectionString: entityConnectionString, subscriptionName: "" },
+
+    // no entity name present for entity connection string types
+    {
+      topicConnectionString:
+        "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=",
+      subscriptionName: "mysubscription"
+    },
+    {
+      queueConnectionString:
+        "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey="
+    }
+  ];
+
+  badAuths.forEach((badAuth) => {
+    it(`createConnectionContext - bad auth ${JSON.stringify(badAuth)}`, () => {
+      assert.throws(() => {
+        createConnectionContext(badAuth, {});
+      });
+    });
+  });
+
+  it("getEntityNameFromConnectionString", () => {
+    assert.equal("myentity", getEntityNameFromConnectionString(entityConnectionString));
+    assert.throws(() => getEntityNameFromConnectionString(serviceBusConnectionString));
+  });
+});
+
 interface Diagnostics {
   peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
   peekBySequenceNumber(
@@ -605,4 +766,38 @@ async function waitAndValidate(
   assert.isEmpty(errors);
   assert.isEmpty(remainingMessages);
   assert.deepEqual([expectedMessage], receivedBodies);
+}
+
+async function purge(auth: QueueAuth | SubscriptionAuth, sessionId?: string): Promise<void> {
+  let receiverClient: NonSessionReceiver<"receiveAndDelete"> | SessionReceiver<"receiveAndDelete">;
+
+  if (sessionId) {
+    if (isQueueAuth(auth)) {
+      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", {
+        id: sessionId,
+        connections: new SessionConnections()
+      });
+    } else {
+      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", {
+        id: sessionId,
+        connections: new SessionConnections()
+      });
+    }
+  } else {
+    if (isQueueAuth(auth)) {
+      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete");
+    } else {
+      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete");
+    }
+  }
+
+  while (true) {
+    const messages = await receiverClient.receiveBatch(10, 1);
+
+    if (messages.messages.length === 0) {
+      break;
+    }
+  }
+
+  await receiverClient.close();
 }

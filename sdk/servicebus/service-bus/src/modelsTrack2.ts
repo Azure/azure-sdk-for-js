@@ -45,10 +45,9 @@ export function isSession(possibleSession: Session | any): possibleSession is Se
   );
 }
 
-// TODO: make this an actual interface that's not just in terms of what's
-// on ServiceBusMessage. There's no reason to advertise that it's actually
-// a concrete class (or is there?)
-// the "action" methods here are on the context object instead.
+/**
+ * A message that has been received via  ServiceBusReceiver.
+ */
 export type ReceivedMessage = Omit<
   ServiceBusMessage,
   | "complete"
@@ -213,11 +212,20 @@ export type SubscriptionAuth =
       subscriptionName: string;
     };
 
+/**
+ * Options when receiving a batch of messages from Service Bus.
+ */
 export interface ReceiveBatchOptions extends OperationOptions {}
 
+/**
+ * Options when getting an iterable iterator from Service Bus.
+ */
 export interface IterateMessagesOptions extends OperationOptions {}
 
-export interface StreamMessagesOptions extends OperationOptions, MessageHandlerOptions {}
+/**
+ * Options used when subscribing to a Service Bus queue or subscription.
+ */
+export interface SubscribeOptions extends OperationOptions, MessageHandlerOptions {}
 
 /**
  * Describes the options passed to `registerMessageHandler` method when receiving messages from a
