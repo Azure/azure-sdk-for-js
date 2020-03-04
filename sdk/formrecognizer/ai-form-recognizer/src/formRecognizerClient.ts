@@ -237,7 +237,7 @@ export class FormRecognizerClient {
       merchantAddress: rawReceipt.fields.MerchantAddress?.valueString,
       items: rawReceipt.fields.Items.valueArray?.map(i => {
         return {
-          name: (i as ReceiptItemField).valueObject.Name.valueString,
+          name: (i as ReceiptItemField).valueObject.Name?.valueString,
           quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
           totalPrice: (i as ReceiptItemField).valueObject.TotalPrice?.valueNumber
         };}),

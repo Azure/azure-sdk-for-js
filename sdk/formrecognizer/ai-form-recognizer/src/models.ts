@@ -5,7 +5,8 @@ import * as coreHttp from "@azure/core-http";
 
 import {
   AnalyzeOperationResult,
-  AnalyzeResult
+  AnalyzeResult,
+  TextWord
 } from "./generated/models/index";
 
 export {
@@ -100,9 +101,9 @@ export interface ReceiptItemField {
 }
 
 export interface ReceiptItem {
-  name: string;
-  quantity: number;
-  totalPrice: number;
+  name?: string;
+  quantity?: number;
+  totalPrice?: number;
 }
 
 /**
@@ -229,3 +230,120 @@ export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
     parsedBody: AnalyzeOperationResult;
   };
 };
+
+export type TextElement = TextWord;
+
+export interface KeyValueElement {
+  /**
+   * The text content of the key or value.
+   */
+  text: string;
+  /**
+   * Bounding box of the key or value.
+   */
+  boundingBox?: number[];
+  /**
+   * When includeTextDetails is set to true, a list of references to the text elements constituting
+   * this key or value.
+   */
+  elements?: TextElement[];
+}
+
+export interface KeyValuePair {
+  /**
+   * A user defined label for the key/value pair entry.
+   */
+  label?: string;
+  /**
+   * Information about the extracted key in a key-value pair.
+   */
+  key: KeyValueElement;
+  /**
+   * Information about the extracted value in a key-value pair.
+   */
+  value: KeyValueElement;
+  /**
+   * Confidence value.
+   */
+  confidence: number;
+}
+
+/**
+ * Information about the extracted cell in a table.
+ */
+export interface DataTableCell {
+  /**
+   * Row index of the cell.
+   */
+  rowIndex: number;
+  /**
+   * Column index of the cell.
+   */
+  columnIndex: number;
+  /**
+   * Number of rows spanned by this cell. Default value: 1.
+   */
+  rowSpan?: number;
+  /**
+   * Number of columns spanned by this cell. Default value: 1.
+   */
+  columnSpan?: number;
+  /**
+   * Text content of the cell.
+   */
+  text: string;
+  /**
+   * Bounding box of the cell.
+   */
+  boundingBox: number[];
+  /**
+   * Confidence value.
+   */
+  confidence: number;
+  /**
+   * When includeTextDetails is set to true, a list of references to the text elements constituting
+   * this table cell.
+   */
+  elements?: TextElement[];
+  /**
+   * Is the current cell a header cell?. Default value: false.
+   */
+  isHeader?: boolean;
+  /**
+   * Is the current cell a footer cell?. Default value: false.
+   */
+  isFooter?: boolean;
+}
+
+/**
+ * Information about the extracted table contained in a page.
+ */
+export interface DataTable {
+  rows: DataTableRow[];
+}
+
+export interface DataTableRow {
+  cells: DataTableCell[]
+}
+
+/**
+ * Extracted information from a single page.
+ */
+export interface PageResult {
+  /**
+   * Page number.
+   */
+  page: number;
+  /**
+   * Cluster identifier.
+   */
+  clusterId?: number;
+  /**
+   * List of key-value pairs extracted from the page.
+   */
+  keyValuePairs?: KeyValuePair[];
+  /**
+   * List of data tables extracted from the page.
+   */
+  tables?: DataTable[];
+}

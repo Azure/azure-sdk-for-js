@@ -306,7 +306,6 @@ export class CustomFormRecognizerClient {
     });
 
     await poller.poll();
-
     return poller;
   }
 
