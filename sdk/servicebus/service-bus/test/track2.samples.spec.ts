@@ -18,7 +18,7 @@ import { createConnectionContext, getEntityNameFromConnectionString } from '../s
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe("Sample scenarios for track 2", () => {
+describe.only("Sample scenarios for track 2", () => {
   let senderClient: ServiceBusSenderClient | undefined;
   let closeables: { close(): Promise<void> }[];
   const connectionString = getEnvVars()[EnvVarNames.SERVICEBUS_CONNECTION_STRING]!;
@@ -593,7 +593,7 @@ describe("Sample scenarios for track 2", () => {
   }
 });
 
-describe("ConstructorHelpers for track 2", () => {
+describe.only("ConstructorHelpers for track 2", () => {
   const entityConnectionString = "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=;EntityPath=myentity";
 
   const serviceBusConnectionString = "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
@@ -652,11 +652,17 @@ describe("ConstructorHelpers for track 2", () => {
     { connectionString: 4, topicName: "myentity", subscriptionName: "mysubscription" },
     { connectionString: serviceBusConnectionString, topicName: 4, subscriptionName: "mysubscription" },
     { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: 4 },
+    { connectionString: "", topicName: "myentity", subscriptionName: "mysubscription" },
+    { connectionString: serviceBusConnectionString, topicName: "", subscriptionName: "mysubscription" },
+    { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: "" },
     { connectionString: 4, queueName: "myentity" },
     { connectionString: serviceBusConnectionString, queueName: 4 },
     { queueConnectionString: 4 },
+    { queueConnectionString: "" },
     { topicConnectionString: 4, subscriptionName: "mysubscription" },
     { topicConnectionString: entityConnectionString, subscriptionName: 4 },
+    { topicConnectionString: "", subscriptionName: "mysubscription" },
+    { topicConnectionString: entityConnectionString, subscriptionName: "" },
 
     // no entity name present for entity connection string types
     { topicConnectionString: "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=", subscriptionName: "mysubscription" },
