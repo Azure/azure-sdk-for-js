@@ -84,3 +84,25 @@ directive:
     transform: >
       $.required = ["search", "suggesterName"]
 ```
+
+### Results are always returned
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SuggestDocumentsResult
+    transform: >
+      $.required = ["value"];
+  - from: swagger-document
+    where: $.definitions.SearchDocumentsResult
+    transform: >
+      $.required = ["value"];
+  - from: swagger-document
+    where: $.definitions.IndexDocumentsResult
+    transform: >
+      $.required = ["value"];
+  - from: swagger-document
+    where: $.definitions.AutocompleteResult
+    transform: >
+      $.required = ["value"];
+```

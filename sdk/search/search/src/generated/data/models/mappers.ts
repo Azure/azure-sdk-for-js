@@ -38,6 +38,7 @@ export const SuggestDocumentsResult: coreHttp.CompositeMapper = {
     className: "SuggestDocumentsResult",
     modelProperties: {
       results: {
+        required: true,
         readOnly: true,
         serializedName: "value",
         type: {
@@ -310,6 +311,7 @@ export const SearchDocumentsResult: coreHttp.CompositeMapper = {
         }
       },
       results: {
+        required: true,
         readOnly: true,
         serializedName: "value",
         type: {
@@ -441,6 +443,7 @@ export const IndexDocumentsResult: coreHttp.CompositeMapper = {
     className: "IndexDocumentsResult",
     modelProperties: {
       results: {
+        required: true,
         readOnly: true,
         serializedName: "value",
         type: {
@@ -650,6 +653,7 @@ export const AutocompleteResult: coreHttp.CompositeMapper = {
         }
       },
       results: {
+        required: true,
         readOnly: true,
         serializedName: "value",
         type: {

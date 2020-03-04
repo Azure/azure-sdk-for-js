@@ -260,7 +260,7 @@ export interface SearchDocumentsResult<T> {
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results?: SearchResult<T>[];
+  readonly results: SearchResult<T>[];
   /**
    * Continuation URL returned when Azure Cognitive Search can't return all the requested results
    * in a single Search response. You can use this URL to formulate another GET or POST Search
@@ -359,7 +359,7 @@ export interface SuggestDocumentsResult<T> {
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results?: SuggestResult<T>[];
+  readonly results: SuggestResult<T>[];
   /**
    * A value indicating the percentage of the index that was included in the query, or null if
    * minimumCoverage was not set in the request.
