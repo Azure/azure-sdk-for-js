@@ -120,9 +120,13 @@ export class SearchIndexClient<T> {
         loggingOptions: {
           logger: logger.info,
           allowedHeaderNames: [
-            "x-ms-correlation-request-id",
-            "x-ms-request-id",
-            "client-request-id"
+            "elapsed-time",
+            "Location",
+            "OData-MaxVersion",
+            "OData-Version",
+            "Origin",
+            "Prefer",
+            "throttle-reason"
           ]
         },
         deserializationOptions: {
