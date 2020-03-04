@@ -67,8 +67,6 @@ export class AzureCliCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span } = createSpan("AzureCliCredential-getToken", options);
-
     return new Promise((resolve, reject) => {
       let scope: string;
       scope = typeof scopes === "string" ? scopes : scopes[0];
