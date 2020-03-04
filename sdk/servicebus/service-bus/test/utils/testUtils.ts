@@ -161,7 +161,7 @@ export enum TestClientType {
   TopicFilterTestSubscription
 }
 
-async function recreateResources(
+async function manageResourcesAndCreateClients(
   entity: { type: "queue" | "subscription" } & {
     session: boolean;
     partitioned: boolean;
@@ -169,7 +169,9 @@ async function recreateResources(
   connectionString: string,
   receiveMode: "peekLock" | "receiveAndDelete",
   senderOptions?: ServiceBusClientOptions,
-  receiverOptions?: ServiceBusClientOptions & Session
+  receiverOptions?: ServiceBusClientOptions & Session,
+  // If freshResource flag is false, sender/receiver clients are provided without creating a new resource
+  freshResource: boolean = true
 ): Promise<{
   senderClient: ServiceBusSenderClient;
   receiverClient: ReceiverClientTypeForUser;
@@ -180,12 +182,14 @@ async function recreateResources(
   let entityName: string;
   if (entity.type === "queue") {
     const queueName = prefix + "queue" + suffix;
-    await recreateQueue(queueName, {
-      lockDuration: defaultLockDuration,
-      enableBatchedOperations: true,
-      enablePartitioning: entity.partitioned,
-      requiresSession: entity.session
-    });
+    if (freshResource) {
+      await recreateQueue(queueName, {
+        lockDuration: defaultLockDuration,
+        enableBatchedOperations: true,
+        enablePartitioning: entity.partitioned,
+        requiresSession: entity.session
+      });
+    }
     auth = {
       connectionString,
       queueName: queueName
@@ -194,16 +198,17 @@ async function recreateResources(
   } else {
     const topicName = prefix + "topic" + suffix;
     const subscriptionName = prefix + "topic-subscription" + suffix;
-    await recreateTopic(topicName, {
-      enablePartitioning: entity.partitioned,
-      enableBatchedOperations: true
-    });
-    await recreateSubscription(topicName, subscriptionName, {
-      lockDuration: defaultLockDuration,
-      enableBatchedOperations: true,
-      requiresSession: entity.session
-    });
-
+    if (freshResource) {
+      await recreateTopic(topicName, {
+        enablePartitioning: entity.partitioned,
+        enableBatchedOperations: true
+      });
+      await recreateSubscription(topicName, subscriptionName, {
+        lockDuration: defaultLockDuration,
+        enableBatchedOperations: true,
+        requiresSession: entity.session
+      });
+    }
     auth = {
       connectionString,
       topicName: topicName,
@@ -212,7 +217,7 @@ async function recreateResources(
     entityName = topicName;
   }
 
-  const receiverClient = () => {
+  const returnReceiverClient = () => {
     if (entity.session) {
       if (receiveMode === "peekLock") {
         return new ServiceBusReceiverClient(
@@ -247,7 +252,7 @@ async function recreateResources(
   };
   return {
     senderClient: new ServiceBusSenderClient(connectionString, entityName, senderOptions),
-    receiverClient: receiverClient()
+    receiverClient: returnReceiverClient()
   };
 }
 
@@ -255,7 +260,9 @@ export async function getSenderReceiverClients(
   entityType: TestClientType,
   receiveMode: "peekLock" | "receiveAndDelete",
   senderOptions?: ServiceBusClientOptions,
-  receiverOptions?: ServiceBusClientOptions & Session
+  receiverOptions?: ServiceBusClientOptions & Session,
+  // If freshResource flag is false, sender/receiver clients are provided without creating a new resource
+  freshResource: boolean = true
 ): Promise<{
   senderClient: ServiceBusSenderClient;
   receiverClient: ReceiverClientTypeForUser;
@@ -330,7 +337,7 @@ export async function getSenderReceiverClients(
       break;
   }
 
-  return recreateResources(
+  return manageResourcesAndCreateClients(
     {
       type: type,
       partitioned: partitioned,
@@ -339,7 +346,8 @@ export async function getSenderReceiverClients(
     connectionString,
     receiveMode,
     senderOptions,
-    receiverOptions
+    receiverOptions,
+    freshResource
   );
 }
 
