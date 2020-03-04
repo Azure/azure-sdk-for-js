@@ -3,7 +3,7 @@
 [![latest npm badge](https://img.shields.io/npm/v/%40azure%2Fcosmos/latest.svg)][npm]
 [![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/js/js%20-%20cosmosdb%20-%20ci?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=850&branchName=master)
 
-Azure Cosmos DB is a globally distributed, multi-model database service that supports document, key-value, wide-column, and graph databases. This package is intended for JavaScript/Typescript applications to interact with **SQL API** databases and the JSON documents they containe:
+Azure Cosmos DB is a globally distributed, multi-model database service that supports document, key-value, wide-column, and graph databases. This package is intended for JavaScript/Typescript applications to interact with **SQL API** databases and the JSON documents they contain:
 
 - Create Cosmos DB databases and modify their settings
 - Create and modify containers to store collections of JSON documents
@@ -79,7 +79,7 @@ Once you've initialized a [CosmosClient](https://docs.microsoft.com/en-us/javasc
 
 - [Container](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/container?view=azure-node-latest): A container is a collection of JSON documents. You create (insert), read, update, and delete items in a container by using methods on the [Container](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/container?view=azure-node-latest) object.
 
-- [Item](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/item?view=azure-node-latest): An Item is a JSON document stored in a container. Each Item you add to a container must include an `id` key with a value that uniquely identifies the item within the container.
+- [Item](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/item?view=azure-node-latest): An Item is a JSON document stored in a container. Each Item must include an `id` key with a value that uniquely identifies the item within the container. If you do not provide an `id`, the SDK will generate one automatically.
 
 For more information about these resources, see [Working with Azure Cosmos databases, containers and items][cosmos_resources].
 
@@ -120,13 +120,30 @@ This example inserts several items into the container
 
 ```js
 const cities = [
-  { name: "Olympia", state: "WA", isCapitol: true },
-  { name: "Redmond", state: "WA", isCapitol: false },
-  { name: "Chicago", state: "IL", isCapitol: false }
+  { id: "1", name: "Olympia", state: "WA", isCapitol: true },
+  { id: "2", name: "Redmond", state: "WA", isCapitol: false },
+  { id: "3", name: "Chicago", state: "IL", isCapitol: false }
 ];
 for (const city of cities) {
   container.items.create(city);
 }
+```
+
+### Read an item
+
+To read a single item from a container, use [Item.read](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/item?view=azure-node-latest#read-requestoptions-). This is a less expensive operation than using SQL to query by `id`.
+
+```js
+await container.item("1").read();
+```
+
+### Delete an item
+
+To delete items from a container, use [Item.delete](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/item?view=azure-node-latest#delete-requestoptions-).
+
+```js
+// Delete the first item returned by the query above
+await container.item("1").delete();
 ```
 
 ### Query the database
@@ -158,24 +175,6 @@ for (const city of resources) {
 
 For more information on querying Cosmos DB databases using the SQL API, see [Query Azure Cosmos DB data with SQL queries][cosmos_sql_queries].
 
-### Read an item
-
-To read a single item from a container, use [Item.read](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/item?view=azure-node-latest#read-requestoptions-). This is a less expensive operation than using SQL to query by `id`.
-
-```js
-// Read the first item returned by the query above
-await container.item(resources[0].id).read();
-```
-
-### Delete an item
-
-To delete items from a container, use [Item.delete](https://docs.microsoft.com/en-us/javascript/api/@azure/cosmos/item?view=azure-node-latest#delete-requestoptions-). The SQL API in Cosmos DB does not support the SQL `DELETE` statement.
-
-```js
-// Delete the first item returned by the query above
-await container.item(resources[0].id).delete();
-```
-
 ## Troubleshooting
 
 ### General
@@ -186,7 +185,7 @@ When you interact with Cosmos DB errors returned by the service correspond to th
 
 #### Conflicts
 
-For example, if you try to create a container using an ID (name) that's already in use in your Cosmos DB database, a `409` error is returned, indicating the conflict. In the following snippet, the error is handled gracefully by catching the exception and displaying additional information about the error.
+For example, if you try to create an item using an `id` that's already in use in your Cosmos DB database, a `409` error is returned, indicating the conflict. In the following snippet, the error is handled gracefully by catching the exception and displaying additional information about the error.
 
 ```js
 try {
