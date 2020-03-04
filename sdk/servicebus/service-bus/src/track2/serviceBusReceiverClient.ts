@@ -330,7 +330,7 @@ export class ReceiverClientImplementation {
     let options: ServiceBusClientOptions;
     let session: Session | undefined;
 
-    if (sessionOrOptions3 != null && isSession(sessionOrOptions3)) {
+    if (isSession(sessionOrOptions3)) {
       session = sessionOrOptions3;
       options = options4 || {};
     } else {
@@ -409,7 +409,7 @@ export class ReceiverClientImplementation {
     // TODO: use options
     if (this._receiveMode === ReceiveMode.peekLock) {
       const onMessage = async (sbMessage: ServiceBusMessage) => {
-        await handlers.processMessage(sbMessage, settlementContext);
+        return handlers.processMessage(sbMessage, settlementContext);
       };
 
       this._receiver.registerMessageHandler(
