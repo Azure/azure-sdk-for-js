@@ -38,21 +38,10 @@ export class AuthorizationCodeCredential implements TokenCredential {
     }
 
 // @public
-export interface AzureCliAccessTokenClient {
-    // (undocumented)
-    getAzureCliAccessToken(resource: string): Promise<any>;
-}
-
-// @public
 export class AzureCliCredential implements TokenCredential {
-    constructor(options?: AzureCliCredentialOptions);
+    constructor();
+    protected getAzureCliAccessToken(resource: string): Promise<unknown>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-}
-
-// @public
-export interface AzureCliCredentialOptions {
-    // (undocumented)
-    azureCliCredentialClient?: AzureCliAccessTokenClient;
 }
 
 // @public
