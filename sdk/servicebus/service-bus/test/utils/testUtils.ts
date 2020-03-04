@@ -377,6 +377,20 @@ export async function purge(receiverClient: ReceiverClientTypeForUser): Promise<
 }
 
 /**
+ * Purges the content in the Queue/Subscription corresponding to the entityType: TestClientType
+ * @param receiverClient
+ */
+export async function purgeEntity(
+  entityType: TestClientType,
+  sessionId: string | undefined = undefined
+): Promise<void> {
+  return purge(
+    (await getSenderReceiverClients(entityType, "peekLock", undefined, { id: sessionId }, false))
+      .receiverClient
+  );
+}
+
+/**
  * Maximum wait duration for the expected event to happen = `10000 ms`(default value is 10 seconds)(= maxWaitTimeInMilliseconds)
  * Keep checking whether the predicate is true after every `1000 ms`(default value is 1 second) (= delayBetweenRetriesInMilliseconds)
  */
