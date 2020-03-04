@@ -9,12 +9,21 @@ import { logger } from "../util/logging";
 
 import * as child_process from "child_process";
 
-export interface CredentialClient {
-  getAzureCliAccessToken(resource: string): Promise<any>;
-}
+/**
+ * Provides the user access token and expire time
+ * with Azure CLI command "az account get-access-token".
+ */
+export class AzureCliCredential implements TokenCredential {
+  /**
+   * Creates an instance of the AzureCliCredential class.
+   */
+  constructor() {}
 
-class AzureCliCredentialClient implements CredentialClient {
-  public getAzureCliAccessToken(resource: string) {
+  /**
+   * Gets the access token from Azure CLI
+   * @param resource The resource to use when getting the token
+   */
+  protected async getAzureCliAccessToken(resource: string) {
     return new Promise((resolve, reject) => {
       try {
         child_process.exec(
@@ -27,30 +36,6 @@ class AzureCliCredentialClient implements CredentialClient {
         reject(err);
       }
     });
-  }
-}
-
-export interface AzureCliCredentialOptions {
-  azureCliCredentialClient?: CredentialClient;
-}
-
-/**
- * Provides the user access token and expire time
- * with azure cli command "az account get-access-token" in powershell.
- */
-export class AzureCliCredential implements TokenCredential {
-  private client: CredentialClient;
-  /**
-   * Creates an instance of the AzureCliCredential class.
-   *
-   * @param options Options for configuring the client which makes the authentication request.
-   */
-  constructor(options?: AzureCliCredentialOptions) {
-    if (options && options.azureCliCredentialClient) {
-      this.client = options.azureCliCredentialClient;
-    } else {
-      this.client = new AzureCliCredentialClient();
-    }
   }
 
   /**
@@ -75,18 +60,17 @@ export class AzureCliCredential implements TokenCredential {
       let responseData = "";
 
       const { span } = createSpan("AzureCliCredential-getToken", options);
-      this.client
-        .getAzureCliAccessToken(resource)
+      this.getAzureCliAccessToken(resource)
         .then((obj: any) => {
           if (obj.stderr) {
-            let isLoginError = obj.stderr.match("Please run 'az login' to setup account");
+            let isLoginError = obj.stderr.match("Please run 'az login' from a command prompt to authenticate before using this credential.");
             let isNotInstallError =
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
             if (isNotInstallError) {
-              throw new Error("Azure CLI not Installed");
+              throw new Error("Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.");
             } else if (isLoginError) {
-              throw new Error("Azure user is not logged in");
+              throw new Error("Please run 'az login' from a command prompt to authenticate before using this credential.");
             }
             throw new Error(obj.stderr);
           } else {

@@ -38,15 +38,21 @@ export class AuthorizationCodeCredential implements TokenCredential {
     }
 
 // @public
+export interface AzureCliAccessTokenClient {
+    // (undocumented)
+    getAzureCliAccessToken(resource: string): Promise<any>;
+}
+
+// @public
 export class AzureCliCredential implements TokenCredential {
     constructor(options?: AzureCliCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
-// @public (undocumented)
+// @public
 export interface AzureCliCredentialOptions {
     // (undocumented)
-    azureCliCredentialClient?: CredentialClient;
+    azureCliCredentialClient?: AzureCliAccessTokenClient;
 }
 
 // @public
@@ -69,12 +75,6 @@ export class ClientSecretCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, clientSecret: string, options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
-
-// @public (undocumented)
-export interface CredentialClient {
-    // (undocumented)
-    getAzureCliAccessToken(resource: string): Promise<any>;
-}
 
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {

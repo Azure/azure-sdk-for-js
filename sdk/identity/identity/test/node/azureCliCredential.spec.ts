@@ -3,10 +3,8 @@
 
 import assert from "assert";
 import {
-  MockAzureCliCredentialClient,
-  MockAzureCliCredentialClientOptions
+  MockAzureCliCredentialClient
 } from "../mockAzureCliCredentialClient";
-import { AzureCliCredential } from "../../src/credentials/azureCliCredential";
 
 describe("AzureCliCredential", function() {
   it("get access token without error", async function() {
@@ -14,10 +12,7 @@ describe("AzureCliCredential", function() {
       stdout: '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}',
       stderr: ""
     });
-    let credential = new AzureCliCredential(
-      new MockAzureCliCredentialClientOptions(mockCliCredentialClient)
-    );
-    let actualToken = await credential.getToken("https://service/.default");
+    let actualToken = await mockCliCredentialClient.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
   });
 
@@ -27,28 +22,22 @@ describe("AzureCliCredential", function() {
         stdout: "",
         stderr: "az: command not found"
       });
-      let credential = new AzureCliCredential(
-        new MockAzureCliCredentialClientOptions(mockCliCredentialClient)
-      );
 
       try {
-        await credential.getToken("https://service/.default");
+        await mockCliCredentialClient.getToken("https://service/.default");
       } catch (error) {
-        assert.equal(error.message, "Azure CLI not Installed");
+        assert.equal(error.message, "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.");
       }
     } else {
       var mockCliCredentialClient = new MockAzureCliCredentialClient({
         stdout: "",
         stderr: "'az' is not recognized"
       });
-      let credential = new AzureCliCredential(
-        new MockAzureCliCredentialClientOptions(mockCliCredentialClient)
-      );
 
       try {
-        await credential.getToken("https://service/.default");
+        await mockCliCredentialClient.getToken("https://service/.default");
       } catch (error) {
-        assert.equal(error.message, "Azure CLI not Installed");
+        assert.equal(error.message, "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.");
       }
     }
   });
@@ -56,15 +45,12 @@ describe("AzureCliCredential", function() {
   it("get access token when azure cli not login in", async () => {
     var mockCliCredentialClient = new MockAzureCliCredentialClient({
       stdout: "",
-      stderr: "Please run 'az login' to setup account"
+      stderr: "Please run 'az login' from a command prompt to authenticate before using this credential."
     });
-    let credential = new AzureCliCredential(
-      new MockAzureCliCredentialClientOptions(mockCliCredentialClient)
-    );
     try {
-      await credential.getToken("https://service/.default");
+      await mockCliCredentialClient.getToken("https://service/.default");
     } catch (error) {
-      assert.equal(error.message, "Azure user is not logged in");
+      assert.equal(error.message, "Please run 'az login' from a command prompt to authenticate before using this credential.");
     }
   });
 
@@ -73,11 +59,8 @@ describe("AzureCliCredential", function() {
       stdout: "",
       stderr: "mock other access token error"
     });
-    let credential = new AzureCliCredential(
-      new MockAzureCliCredentialClientOptions(mockCliCredentialClient)
-    );
     try {
-      await credential.getToken("https://service/.default");
+      await mockCliCredentialClient.getToken("https://service/.default");
     } catch (error) {
       assert.equal(error.message, "mock other access token error");
     }
