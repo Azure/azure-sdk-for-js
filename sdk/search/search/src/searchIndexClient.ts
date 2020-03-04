@@ -124,7 +124,6 @@ export class SearchIndexClient<T> {
             "Location",
             "OData-MaxVersion",
             "OData-Version",
-            "Origin",
             "Prefer",
             "throttle-reason"
           ]

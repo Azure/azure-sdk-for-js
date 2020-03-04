@@ -28,6 +28,7 @@ const defaultAllowedHeaderNames = [
   "x-ms-correlation-request-id",
   "x-ms-request-id",
   "client-request-id",
+  "return-client-request-id",
   "traceparent",
 
   "Access-Control-Allow-Credentials",
@@ -38,6 +39,7 @@ const defaultAllowedHeaderNames = [
   "Access-Control-Max-Age",
   "Access-Control-Request-Headers",
   "Access-Control-Request-Method",
+  "Origin",
 
   "Accept",
   "Cache-Control",
