@@ -6,7 +6,12 @@ import { assert } from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient } from "./utils/recordedClient";
-import { TextAnalyticsClient, TextDocumentInput, DetectLanguageInput } from "../src/index";
+import {
+  TextAnalyticsClient,
+  TextDocumentInput,
+  DetectLanguageInput,
+  DetectLanguageSuccessResult
+} from "../src/index";
 import { isSuccess, assertAllSuccess } from "./utils/resultHelper";
 
 const testDataEn = [
@@ -121,6 +126,30 @@ describe("[AAD] TextAnalyticsClient", function() {
     it("client accepts a countryHint", async () => {
       const results = await client.detectLanguage(["impossible"], "fr");
       assert.equal(results.length, 1);
+      assertAllSuccess(results);
+    });
+
+    it('client accepts "none" country hint with string[] input', async () => {
+      const results = await client.detectLanguage(
+        ["I use Azure Functions to develop my service."],
+        "none"
+      );
+      assert.equal(results.length, 1);
+      assertAllSuccess(results);
+      const result = results[0] as DetectLanguageSuccessResult;
+      assert.equal(result.primaryLanguage.iso6391Name, "en");
+    });
+
+    it('client accepts "none" country hint with DetectLanguageInput[] input', async () => {
+      const results = await client.detectLanguage(
+        testDataEn.concat(testDataEs).map(
+          (input): DetectLanguageInput => ({
+            id: getId(),
+            countryHint: "none",
+            text: input
+          })
+        )
+      );
       assertAllSuccess(results);
     });
 
