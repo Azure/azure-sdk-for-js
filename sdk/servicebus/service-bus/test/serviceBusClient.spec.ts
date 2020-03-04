@@ -314,7 +314,6 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
 });
 
 describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
-  let sbClient: ServiceBusClient;
   let errorWasThrown: boolean = false;
 
   const env = getEnvVars();
@@ -378,10 +377,12 @@ describe("Test ServiceBusClient creation #RunInBrowser", function(): void {
   if (isNode) {
     it("Coerces input to string for host in credential based constructor", async function(): Promise<
       void
-    > {
-      const tokenCreds = getDefaultTokenCredential();
-      sbClient = new ServiceBusClient(123 as any, tokenCreds);
-      should.equal(sbClient.name, "sb://123/", "Name of the namespace is different than expected");
+      > {
+      // we used to allow this but now we just throw a TypeError
+      should.throw(() => {
+        const tokenCreds = getDefaultTokenCredential();
+        new ServiceBusClient(123 as any, tokenCreds);
+      });
     });
 
     it("sends a message to the ServiceBus entity", async function(): Promise<void> {
