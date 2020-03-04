@@ -903,7 +903,7 @@ export class KeyClient {
   public listPropertiesOfKeyVersions(
     name: string,
     options: ListPropertiesOfKeyVersionsOptions = {}
-  ): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]> {
+  ): PagedAsyncIterableIterator<KeyProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfKeyVersions", requestOptions);
     const updatedOptions: ListPropertiesOfKeyVersionsOptions = {
@@ -997,7 +997,7 @@ export class KeyClient {
    */
   public listPropertiesOfKeys(
     options: ListPropertiesOfKeysOptions = {}
-  ): PagedAsyncIterableIterator<KeyProperties, KeyProperties[]> {
+  ): PagedAsyncIterableIterator<KeyProperties> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listPropertiesOfKeys", requestOptions);
     const updatedOptions: ListPropertiesOfKeysOptions = {
@@ -1091,7 +1091,7 @@ export class KeyClient {
    */
   public listDeletedKeys(
     options: ListDeletedKeysOptions = {}
-  ): PagedAsyncIterableIterator<DeletedKey, DeletedKey[]> {
+  ): PagedAsyncIterableIterator<DeletedKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("listDeletedKeys", requestOptions);
 

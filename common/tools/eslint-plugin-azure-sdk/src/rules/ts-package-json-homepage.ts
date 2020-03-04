@@ -37,7 +37,7 @@ export = {
             const nodeValue = node.value as Literal;
 
             if (
-              !/^https:\/\/github.com\/Azure\/azure-sdk-for-js\/blob\/master\/sdk\/(([a-z]+-)*[a-z]+\/)+(README\.md)?$/.test(
+              !/^https:\/\/github.com\/Azure\/azure-sdk-for-js\/(blob|tree)\/master\/sdk\/(([a-z]+-)*[a-z]+\/)+(README\.md)?$/.test(
                 nodeValue.value as string
               )
             ) {

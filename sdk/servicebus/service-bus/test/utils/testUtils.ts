@@ -14,6 +14,11 @@ import {
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
 
+import { TopicClient } from "../../src/old/topicClient";
+import { QueueClient } from "../../src/old/queueClient";
+import { SubscriptionClient } from "../../src/old/subscriptionClient";
+import { ServiceBusClient } from "../../src/old/serviceBusClient";
+
 import * as dotenv from "dotenv";
 import { ServiceBusSenderClient } from "../../src/senderClient";
 import {

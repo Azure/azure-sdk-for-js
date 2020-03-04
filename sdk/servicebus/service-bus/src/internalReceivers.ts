@@ -896,10 +896,7 @@ export class InternalSessionReceiver {
 
 // #region topic-filters
 
-function getRules(
-  context: ClientEntityContext,
-  entityPath: string
-): Promise<RuleDescription[]> {
+function getRules(context: ClientEntityContext, entityPath: string): Promise<RuleDescription[]> {
   if (entityPath.includes("/Subscriptions/")) {
     throwErrorIfClientOrConnectionClosed(context.namespace, entityPath, context.isClosed);
     return context.managementClient!.getRules();

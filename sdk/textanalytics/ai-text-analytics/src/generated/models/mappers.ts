@@ -225,11 +225,11 @@ export const TextDocumentStatistics: coreHttp.CompositeMapper = {
   }
 };
 
-export const SentimentScorePerLabel: coreHttp.CompositeMapper = {
-  serializedName: "SentimentScorePerLabel",
+export const SentimentConfidenceScorePerLabel: coreHttp.CompositeMapper = {
+  serializedName: "SentimentConfidenceScorePerLabel",
   type: {
     name: "Composite",
-    className: "SentimentScorePerLabel",
+    className: "SentimentConfidenceScorePerLabel",
     modelProperties: {
       positive: {
         required: true,
@@ -274,22 +274,22 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
           ]
         }
       },
-      sentimentScores: {
+      confidenceScores: {
         required: true,
         serializedName: "sentenceScores",
         type: {
           name: "Composite",
-          className: "SentimentScorePerLabel"
+          className: "SentimentConfidenceScorePerLabel"
         }
       },
-      offset: {
+      graphemeOffset: {
         required: true,
         serializedName: "offset",
         type: {
           name: "Number"
         }
       },
-      length: {
+      graphemeLength: {
         required: true,
         serializedName: "length",
         type: {
@@ -349,7 +349,7 @@ export const DocumentSentiment: coreHttp.CompositeMapper = {
         serializedName: "documentScores",
         type: {
           name: "Composite",
-          className: "SentimentScorePerLabel"
+          className: "SentimentConfidenceScorePerLabel"
         }
       },
       sentenceSentiments: {
@@ -483,14 +483,14 @@ export const Entity: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      offset: {
+      graphemeOffset: {
         required: true,
         serializedName: "offset",
         type: {
           name: "Number"
         }
       },
-      length: {
+      graphemeLength: {
         required: true,
         serializedName: "length",
         type: {
@@ -615,14 +615,14 @@ export const Match: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      offset: {
+      graphemeOffset: {
         required: true,
         serializedName: "offset",
         type: {
           name: "Number"
         }
       },
-      length: {
+      graphemeLength: {
         required: true,
         serializedName: "length",
         type: {
@@ -666,7 +666,7 @@ export const LinkedEntity: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      id: {
+      dataSourceEntityId: {
         serializedName: "id",
         type: {
           name: "String"
