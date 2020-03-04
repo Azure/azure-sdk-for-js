@@ -7,14 +7,22 @@ import {
   ContextWithSettlement as ContextWithSettlementMethods,
   QueueAuth,
   SubscriptionAuth,
+  isQueueAuth
 } from "../src/track2/models";
-import { ServiceBusReceiverClient } from "../src/track2/serviceBusReceiverClient";
+import {
+  ServiceBusReceiverClient,
+  NonSessionReceiver,
+  SessionReceiver
+} from "../src/track2/serviceBusReceiverClient";
 import { ServiceBusSenderClient, delay, SendableMessageInfo } from "../src";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { EntityNames } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { createConnectionContext, getEntityNameFromConnectionString } from '../src/track2/constructorHelpers';
+import {
+  createConnectionContext,
+  getEntityNameFromConnectionString
+} from "../src/track2/constructorHelpers";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -23,11 +31,30 @@ describe("Sample scenarios for track 2", () => {
   let closeables: { close(): Promise<void> }[];
   const connectionString = getEnvVars()[EnvVarNames.SERVICEBUS_CONNECTION_STRING]!;
 
-  before(() => {
+  before(async () => {
     assert.ok(
       connectionString,
       `${EnvVarNames.SERVICEBUS_CONNECTION_STRING} needs to be set in the environment`
     );
+
+    const nonSessionPurges = [
+      {
+        connectionString: connectionString,
+        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
+      },
+      {
+        connectionString: connectionString,
+        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
+        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
+      }
+    ].map((auth) => purge(auth));
+
+    const sessionPurge = purge({
+      connectionString: connectionString,
+      queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
+    }, "my-session");
+
+    await Promise.all([...nonSessionPurges, sessionPurge]);
   });
 
   beforeEach(() => {
@@ -43,7 +70,6 @@ describe("Sample scenarios for track 2", () => {
     await Promise.all(closeables.map((closable) => closable.close()));
   });
 
-  
   it("Queue, peek/lock", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
@@ -66,7 +92,10 @@ describe("Sample scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     receiverClient.subscribe({
-      async processMessage(message: ReceivedMessage, context: ContextWithSettlementMethods): Promise<void> {
+      async processMessage(
+        message: ReceivedMessage,
+        context: ContextWithSettlementMethods
+      ): Promise<void> {
         await context.complete(message);
         receivedBodies.push(message.body);
       },
@@ -75,11 +104,7 @@ describe("Sample scenarios for track 2", () => {
       }
     });
 
-    await waitAndValidate(
-      "Queue, peek/lock",
-      receivedBodies,
-      errors,
-      receiverClient);
+    await waitAndValidate("Queue, peek/lock", receivedBodies, errors, receiverClient);
   });
 
   it("Queue, peek/lock, receiveBatch", async () => {
@@ -102,24 +127,19 @@ describe("Sample scenarios for track 2", () => {
 
     const receivedBodies: string[] = [];
 
-    for (const message of (await receiverClient.receiveBatch(1, 5))) {
+    for (const message of await receiverClient.receiveBatch(1, 5)) {
       receivedBodies.push(message.body);
     }
 
     // TODO: this isn't the greatest re-use...
-    await waitAndValidate(
-      "Queue, peek/lock, receiveBatch",
-      receivedBodies,
-      [],
-      receiverClient);
+    await waitAndValidate("Queue, peek/lock, receiveBatch", receivedBodies, [], receiverClient);
   });
-
 
   it("Queue, peek/lock, iterate messages", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION,
+        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
       },
       "peekLock"
     );
@@ -155,12 +175,13 @@ describe("Sample scenarios for track 2", () => {
         throw err;
       }
     }
-    
+
     await waitAndValidate(
       "Queue, peek/lock, iterate messages",
       receivedBodies,
       errors,
-      receiverClient);
+      receiverClient
+    );
   });
 
   it("Queue, receive and delete", async () => {
@@ -193,18 +214,14 @@ describe("Sample scenarios for track 2", () => {
       }
     });
 
-    await waitAndValidate(
-      "Queue, receiveAndDelete",
-      receivedBodies,
-      errors,
-      receiverClient);
+    await waitAndValidate("Queue, receiveAndDelete", receivedBodies, errors, receiverClient);
   });
 
   it("Queue, receive and delete, iterate messages", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION,
+        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
       },
       "receiveAndDelete"
     );
@@ -226,7 +243,7 @@ describe("Sample scenarios for track 2", () => {
     // TODO: error handling? Does the iterate just terminate?
     for await (const { message, context } of receiverClient.iterateMessages()) {
       assert.notOk((context as any).complete);
-      
+
       if (message == null) {
         // user has the option of handling "no messages arrived by the maximum wait time"
         console.log(`No message arrived within our max wait time`);
@@ -240,19 +257,20 @@ describe("Sample scenarios for track 2", () => {
         throw err;
       }
     }
-    
+
     await waitAndValidate(
       "Queue, peek/lock, iterate messages",
       receivedBodies,
       errors,
-      receiverClient);
+      receiverClient
+    );
   });
 
   it("Queue, peek/lock, iterate messages", async () => {
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION,
+        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
       },
       "peekLock"
     );
@@ -288,12 +306,13 @@ describe("Sample scenarios for track 2", () => {
         throw err;
       }
     }
-    
+
     await waitAndValidate(
       "Queue, peek/lock, iterate messages",
       receivedBodies,
       errors,
-      receiverClient);
+      receiverClient
+    );
   });
 
   it("Subscription, peek/lock", async () => {
@@ -321,7 +340,10 @@ describe("Sample scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     receiverClient.subscribe({
-      async processMessage(message: ReceivedMessage, context: ContextWithSettlementMethods): Promise<void> {
+      async processMessage(
+        message: ReceivedMessage,
+        context: ContextWithSettlementMethods
+      ): Promise<void> {
         await context.complete(message);
         receivedBodies.push(message.body);
       },
@@ -330,11 +352,7 @@ describe("Sample scenarios for track 2", () => {
       }
     });
 
-    await waitAndValidate(
-      "Subscription, peek/lock",
-      receivedBodies,
-      errors,
-      receiverClient);
+    await waitAndValidate("Subscription, peek/lock", receivedBodies, errors, receiverClient);
   });
 
   it("Subscription, receive and delete", async () => {
@@ -374,7 +392,8 @@ describe("Sample scenarios for track 2", () => {
       "Subscription, receive and delete",
       receivedBodies,
       errors,
-      receiverClient);
+      receiverClient
+    );
   });
 
   it("Subscription, peek/lock, iterate messages", async () => {
@@ -418,12 +437,13 @@ describe("Sample scenarios for track 2", () => {
         throw err;
       }
     }
-    
+
     await waitAndValidate(
       "Subscription, peek/lock, iterate messages",
       receivedBodies,
       errors,
-      receiverClient);
+      receiverClient
+    );
   });
 
   it("Subscription, receive and delete, iterate messages", async () => {
@@ -467,17 +487,18 @@ describe("Sample scenarios for track 2", () => {
         throw err;
       }
     }
-    
+
     await waitAndValidate(
       "Subscription, receive and delete, iterate messages",
       receivedBodies,
       errors,
-      receiverClient);
+      receiverClient
+    );
   });
 
   it("Queue, receive and delete, sessions", async () => {
     const sessionConnections = new SessionConnections();
-    
+
     const receiverClient = new ServiceBusReceiverClient(
       { connectionString, queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION },
       "receiveAndDelete",
@@ -507,10 +528,7 @@ describe("Sample scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     receiverClient.subscribe({
-      async processMessage(
-        message: ReceivedMessage,
-        context: {}
-      ): Promise<void> {
+      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
         receivedBodies.push(message.body);
       },
       async processError(err: Error): Promise<void> {
@@ -518,15 +536,17 @@ describe("Sample scenarios for track 2", () => {
       }
     });
 
-    await waitAndValidate("Queue, receive and delete, sessions",
+    await waitAndValidate(
+      "Queue, receive and delete, sessions",
       receivedBodies,
       errors,
-      receiverClient);
+      receiverClient
+    );
   });
 
   it("Queue, peek/lock, sessions", async () => {
     const sessionConnections = new SessionConnections();
-    
+
     const receiverClient = new ServiceBusReceiverClient(
       {
         connectionString: connectionString,
@@ -559,10 +579,7 @@ describe("Sample scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     receiverClient.subscribe({
-      async processMessage(
-        message: ReceivedMessage,
-        context: {}
-      ): Promise<void> {
+      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
         receivedBodies.push(message.body);
       },
       async processError(err: Error): Promise<void> {
@@ -570,10 +587,7 @@ describe("Sample scenarios for track 2", () => {
       }
     });
 
-    await waitAndValidate("Queue, peek/lock, sessions",
-      receivedBodies,
-      errors,
-      receiverClient);
+    await waitAndValidate("Queue, peek/lock, sessions", receivedBodies, errors, receiverClient);
   });
 
   async function sendSampleMessage(body: string, sessionId?: string) {
@@ -594,10 +608,12 @@ describe("Sample scenarios for track 2", () => {
 });
 
 describe("ConstructorHelpers for track 2", () => {
-  const entityConnectionString = "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=;EntityPath=myentity";
+  const entityConnectionString =
+    "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=;EntityPath=myentity";
 
-  const serviceBusConnectionString = "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
-  
+  const serviceBusConnectionString =
+    "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
+
   const fakeTokenCredential = {
     getToken: async () => null,
     sentinel: "test token credential"
@@ -608,7 +624,7 @@ describe("ConstructorHelpers for track 2", () => {
       { connectionString: entityConnectionString, queueName: "myentity" },
       { connectionString: serviceBusConnectionString, queueName: "myentity" },
       { queueConnectionString: entityConnectionString },
-      { tokenCredential: fakeTokenCredential, host: "ahost", queueName: "myentity"}
+      { tokenCredential: fakeTokenCredential, host: "ahost", queueName: "myentity" }
     ];
 
     for (const queueAuth of queueAuths) {
@@ -616,18 +632,33 @@ describe("ConstructorHelpers for track 2", () => {
       assert.equal("myentity", contextAndEntityPath.entityPath);
 
       if ((queueAuth as any).tokenCredential) {
-        assert.equal("test token credential", (contextAndEntityPath.context.tokenCredential as any).sentinel);
+        assert.equal(
+          "test token credential",
+          (contextAndEntityPath.context.tokenCredential as any).sentinel
+        );
       } else {
-        assert.equal("SharedKeyCredential", contextAndEntityPath.context.tokenCredential.constructor.name);
+        assert.equal(
+          "SharedKeyCredential",
+          contextAndEntityPath.context.tokenCredential.constructor.name
+        );
       }
     }
   });
 
   it("createConnectionContext for subscriptions", () => {
     const subscriptionAuths: SubscriptionAuth[] = [
-      { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: "mysubscription" },
+      {
+        connectionString: serviceBusConnectionString,
+        topicName: "myentity",
+        subscriptionName: "mysubscription"
+      },
       { topicConnectionString: entityConnectionString, subscriptionName: "mysubscription" },
-      { tokenCredential: fakeTokenCredential, host: "ahost", topicName: "myentity", subscriptionName: "mysubscription"}
+      {
+        tokenCredential: fakeTokenCredential,
+        host: "ahost",
+        topicName: "myentity",
+        subscriptionName: "mysubscription"
+      }
     ];
 
     for (const subAuth of subscriptionAuths) {
@@ -635,9 +666,15 @@ describe("ConstructorHelpers for track 2", () => {
       assert.equal("myentity/Subscriptions/mysubscription", contextAndEntityPath.entityPath);
 
       if ((subAuth as any).tokenCredential) {
-        assert.equal("test token credential", (contextAndEntityPath.context.tokenCredential as any).sentinel);
+        assert.equal(
+          "test token credential",
+          (contextAndEntityPath.context.tokenCredential as any).sentinel
+        );
       } else {
-        assert.equal("SharedKeyCredential", contextAndEntityPath.context.tokenCredential.constructor.name);
+        assert.equal(
+          "SharedKeyCredential",
+          contextAndEntityPath.context.tokenCredential.constructor.name
+        );
       }
     }
   });
@@ -650,10 +687,18 @@ describe("ConstructorHelpers for track 2", () => {
 
     // wrong types
     { connectionString: 4, topicName: "myentity", subscriptionName: "mysubscription" },
-    { connectionString: serviceBusConnectionString, topicName: 4, subscriptionName: "mysubscription" },
+    {
+      connectionString: serviceBusConnectionString,
+      topicName: 4,
+      subscriptionName: "mysubscription"
+    },
     { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: 4 },
     { connectionString: "", topicName: "myentity", subscriptionName: "mysubscription" },
-    { connectionString: serviceBusConnectionString, topicName: "", subscriptionName: "mysubscription" },
+    {
+      connectionString: serviceBusConnectionString,
+      topicName: "",
+      subscriptionName: "mysubscription"
+    },
     { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: "" },
     { connectionString: 4, queueName: "myentity" },
     { connectionString: serviceBusConnectionString, queueName: 4 },
@@ -665,16 +710,23 @@ describe("ConstructorHelpers for track 2", () => {
     { topicConnectionString: entityConnectionString, subscriptionName: "" },
 
     // no entity name present for entity connection string types
-    { topicConnectionString: "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=", subscriptionName: "mysubscription" },
-    { queueConnectionString: "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=" },
+    {
+      topicConnectionString:
+        "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=",
+      subscriptionName: "mysubscription"
+    },
+    {
+      queueConnectionString:
+        "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey="
+    }
   ];
 
-  badAuths.forEach(badAuth => {
+  badAuths.forEach((badAuth) => {
     it(`createConnectionContext - bad auth ${JSON.stringify(badAuth)}`, () => {
       assert.throws(() => {
         createConnectionContext(badAuth, {});
       });
-    })
+    });
   });
 
   it("getEntityNameFromConnectionString", () => {
@@ -685,7 +737,10 @@ describe("ConstructorHelpers for track 2", () => {
 
 interface Diagnostics {
   peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-  peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+  peekBySequenceNumber(
+    fromSequenceNumber: Long,
+    maxMessageCount?: number
+  ): Promise<ReceivedMessage[]>;
 }
 
 async function waitAndValidate(
@@ -696,7 +751,7 @@ async function waitAndValidate(
 ) {
   const maxChecks = 20;
   let numChecks = 0;
-  
+
   while (receivedBodies.length === 0 && errors.length === 0) {
     if (++numChecks >= maxChecks) {
       throw new Error("Messages/errors never arrived.");
@@ -708,4 +763,32 @@ async function waitAndValidate(
   assert.isEmpty(errors);
   assert.isEmpty(remainingMessages);
   assert.deepEqual([expectedMessage], receivedBodies);
+}
+
+async function purge(auth: QueueAuth | SubscriptionAuth, sessionId?: string): Promise<void> {
+  let receiverClient: NonSessionReceiver<"receiveAndDelete"> | SessionReceiver<"receiveAndDelete">;
+
+  if (sessionId) {
+    if (isQueueAuth(auth)) {
+      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", { id: sessionId, connections: new SessionConnections() });
+    } else {
+      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", { id: sessionId, connections: new SessionConnections() });
+    }
+  } else {
+    if (isQueueAuth(auth)) {
+      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete");
+    } else {
+      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete");
+    }
+  }
+
+  while (true) {
+    const messages = await receiverClient.receiveBatch(10, 1);
+
+    if (messages.length === 0) {
+      break;
+    }
+  }
+
+  await receiverClient.close();
 }
