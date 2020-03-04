@@ -18,7 +18,7 @@ import { createConnectionContext, getEntityNameFromConnectionString } from '../s
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe.only("Sample scenarios for track 2", () => {
+describe("Sample scenarios for track 2", () => {
   let senderClient: ServiceBusSenderClient | undefined;
   let closeables: { close(): Promise<void> }[];
   const connectionString = getEnvVars()[EnvVarNames.SERVICEBUS_CONNECTION_STRING]!;
@@ -593,7 +593,7 @@ describe.only("Sample scenarios for track 2", () => {
   }
 });
 
-describe.only("ConstructorHelpers for track 2", () => {
+describe("ConstructorHelpers for track 2", () => {
   const entityConnectionString = "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=;EntityPath=myentity";
 
   const serviceBusConnectionString = "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
