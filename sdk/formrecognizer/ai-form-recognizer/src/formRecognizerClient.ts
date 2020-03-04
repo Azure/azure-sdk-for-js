@@ -12,7 +12,7 @@ import {
   delay
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
-import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
+import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
 import {
   GetAnalyzeLayoutResultResponse,
@@ -78,14 +78,13 @@ export class FormRecognizerClient {
     this.endpointUrl = endpointUrl;
     const { ...pipelineOptions } = options;
 
-    const libInfo = `azsdk-js-ai-formrecognizer/${SDK_VERSION}`;
     if (!pipelineOptions.userAgentOptions) {
       pipelineOptions.userAgentOptions = {};
     }
     if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
+      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
     } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
+      pipelineOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
     const authPolicy = isTokenCredential(credential)

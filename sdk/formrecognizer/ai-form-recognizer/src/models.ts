@@ -5,14 +5,81 @@ import * as coreHttp from "@azure/core-http";
 
 import {
   AnalyzeOperationResult,
-  DocumentResult,
-  ErrorInformation,
-  ReadResult,
-  TextWord
+  AnalyzeResult as AnalyzeResultModel,
+  DataTableCell as DataTableCellModel,
+  KeyValueElement as KeyValueElementModel,
+  KeyValuePair as KeyValuePairModel,
+  PageResult as PageResultModel,
+  TextWord,
+  Model
 } from "./generated/models/index";
 
 export {
   AnalyzeOperationResult
+}
+
+export type TextElement = TextWord;
+
+/**
+ * Information about the extracted cell in a table.
+ */
+export type DataTableCell = Omit<DataTableCellModel, "elements"> & {
+  /**
+   * When includeTextDetails is set to true, a list of references to the text elements constituting
+   * this table cell.
+   */
+  elements?: TextElement[];
+}
+
+/**
+ * Information about the extracted table contained in a page.
+ */
+export interface DataTable {
+  rows: DataTableRow[];
+}
+
+export interface DataTableRow {
+  cells: DataTableCell[]
+}
+
+export type KeyValueElement = Omit<KeyValueElementModel, "elements"> & {
+  /**
+   * When includeTextDetails is set to true, a list of references to the text elements constituting
+   * this key or value.
+   */
+  elements?: TextElement[];
+}
+
+export type KeyValuePair = Omit<KeyValuePairModel, "key" | "value"> & {
+  /**
+   * Information about the extracted key in a key-value pair.
+   */
+  key: KeyValueElement;
+  /**
+   * Information about the extracted value in a key-value pair.
+   */
+  value: KeyValueElement;
+}
+
+/**
+ * Extracted information from a single page.
+ */
+export type PageResult = Omit<PageResultModel, "tables" | "keyValuePairs"> & {
+  /**
+   * List of key-value pairs extracted from the page.
+   */
+  keyValuePairs?: KeyValuePair[];
+  /**
+   * List of data tables extracted from the page.
+   */
+  tables?: DataTable[];
+}
+
+export type AnalyzeResult = Omit<AnalyzeResultModel, "pageResults"> & {
+  /**
+   * Page-level information extracted from the input.
+   */
+  pageResults?: PageResult[];
 }
 
 export interface CommonFieldValue {
@@ -32,7 +99,7 @@ export interface CommonFieldValue {
    * When includeTextDetails is set to true, a list of references to the text elements constituting
    * this field.
    */
-  elements?: string[];
+  elements?: TextElement[];
   /**
    * The 1-based page number in the input document.
    */
@@ -98,7 +165,7 @@ export interface ReceiptItemField {
     Name: StringFieldValue;
     Quantity: NumberFieldValue;
     TotalPrice: NumberFieldValue;
-  };
+  }
 }
 
 export interface ReceiptItem {
@@ -159,16 +226,7 @@ export interface RawReceiptResult {
   fields: RawReceipt;
 }
 
-export type ReceiptResult = {
-  /**
-   * Document type.
-   */
-  docType: "prebuilt:receipt";
-  /**
-   * First and last page number where the document is found.
-   */
-  pageRange: number[];
-
+export type ReceiptResult = Omit<RawReceiptResult, "fields"> & {
   rawReciptFields: { [propertyName: string]: FieldValue };
 } & Receipt
 
@@ -206,8 +264,8 @@ export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
      * The response body as parsed JSON or XML
      */
     parsedBody: AnalyzeOperationResult;
-  };
-};
+  }
+}
 
 export type AnalyzeLayoutResult = Omit<AnalyzeResult, 'documentResults'>;
 
@@ -215,6 +273,9 @@ export type AnalyzeLayoutOperationResult = Omit<AnalyzeOperationResult, 'analyze
   analyzeResult?: AnalyzeLayoutResult;
 }
 
+/**
+ * Contains response data for the getAnalyzeLayoutResult operation.
+ */
 export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
   /**
    * The underlying HTTP response.
@@ -229,145 +290,9 @@ export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
      * The response body as parsed JSON or XML
      */
     parsedBody: AnalyzeOperationResult;
-  };
-};
-
-export type TextElement = TextWord;
-
-export interface KeyValueElement {
-  /**
-   * The text content of the key or value.
-   */
-  text: string;
-  /**
-   * Bounding box of the key or value.
-   */
-  boundingBox?: number[];
-  /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting
-   * this key or value.
-   */
-  elements?: TextElement[];
+  }
 }
 
-export interface KeyValuePair {
-  /**
-   * A user defined label for the key/value pair entry.
-   */
-  label?: string;
-  /**
-   * Information about the extracted key in a key-value pair.
-   */
-  key: KeyValueElement;
-  /**
-   * Information about the extracted value in a key-value pair.
-   */
-  value: KeyValueElement;
-  /**
-   * Confidence value.
-   */
-  confidence: number;
-}
+export type AnalyzeFormResult = Omit<AnalyzeResult, "documentResults">
 
-/**
- * Information about the extracted cell in a table.
- */
-export interface DataTableCell {
-  /**
-   * Row index of the cell.
-   */
-  rowIndex: number;
-  /**
-   * Column index of the cell.
-   */
-  columnIndex: number;
-  /**
-   * Number of rows spanned by this cell. Default value: 1.
-   */
-  rowSpan?: number;
-  /**
-   * Number of columns spanned by this cell. Default value: 1.
-   */
-  columnSpan?: number;
-  /**
-   * Text content of the cell.
-   */
-  text: string;
-  /**
-   * Bounding box of the cell.
-   */
-  boundingBox: number[];
-  /**
-   * Confidence value.
-   */
-  confidence: number;
-  /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting
-   * this table cell.
-   */
-  elements?: TextElement[];
-  /**
-   * Is the current cell a header cell?. Default value: false.
-   */
-  isHeader?: boolean;
-  /**
-   * Is the current cell a footer cell?. Default value: false.
-   */
-  isFooter?: boolean;
-}
-
-/**
- * Information about the extracted table contained in a page.
- */
-export interface DataTable {
-  rows: DataTableRow[];
-}
-
-export interface DataTableRow {
-  cells: DataTableCell[]
-}
-
-/**
- * Extracted information from a single page.
- */
-export interface PageResult {
-  /**
-   * Page number.
-   */
-  page: number;
-  /**
-   * Cluster identifier.
-   */
-  clusterId?: number;
-  /**
-   * List of key-value pairs extracted from the page.
-   */
-  keyValuePairs?: KeyValuePair[];
-  /**
-   * List of data tables extracted from the page.
-   */
-  tables?: DataTable[];
-}
-
-export interface AnalyzeResult {
-  /**
-   * Version of schema used for this result.
-   */
-  version: string;
-  /**
-   * Text extracted from the input.
-   */
-  readResults: ReadResult[];
-  /**
-   * Page-level information extracted from the input.
-   */
-  pageResults?: PageResult[];
-  /**
-   * Document-level information extracted from the input.
-   */
-  documentResults?: DocumentResult[];
-  /**
-   * List of errors reported during the analyze operation.
-   */
-  errors?: ErrorInformation[];
-}
+export type LabeledFormModel = Omit<Model, "keys">;
