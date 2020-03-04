@@ -300,7 +300,7 @@ export class SearchIndexClient<T> {
    * and specified suggester.
    * @param options Options for the suggest operation
    */
-  public async suggest<Fields extends keyof T>(
+  public async suggest<Fields extends keyof T = never>(
     options: SuggestOptions<Fields>
   ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
