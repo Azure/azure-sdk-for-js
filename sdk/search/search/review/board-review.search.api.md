@@ -68,10 +68,9 @@ export interface GetDocumentOptions<Fields> extends OperationOptions {
 }
 
 // @public
-export interface IndexAction {
-    [property: string]: any;
-    actionType?: IndexActionType;
-}
+export type IndexAction<T> = {
+    actionType: IndexActionType;
+} & Partial<T>;
 
 // @public
 export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
@@ -131,13 +130,13 @@ export class SearchIndexClient<T> {
     readonly apiVersion: string;
     autocomplete<Fields extends keyof T>(options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     count(options?: CountOptions): Promise<number>;
-    deleteDocuments(keyName: string, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     readonly indexName: string;
     listSearchResults<Fields extends keyof T>(options?: SearchOptions<Fields>): SearchIterator<Pick<T, Fields>>;
-    modifyIndex(batch: IndexAction[], options?: ModifyIndexOptions): Promise<IndexDocumentsResult>;
-    suggest<Fields extends keyof T>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
+    modifyIndex(batch: IndexAction<T>[], options?: ModifyIndexOptions): Promise<IndexDocumentsResult>;
+    suggest<Fields extends keyof T = never>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     updateDocuments(documents: T[], options?: UpdateDocumentsOptions): Promise<IndexDocumentsResult>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
