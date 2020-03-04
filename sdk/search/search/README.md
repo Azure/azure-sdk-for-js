@@ -404,6 +404,8 @@ You can set the following environment variable to get the debug logs when using 
 export AZURE_LOG_LEVEL=verbose*
 ```
 
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+
 ## Next steps
 
 Please take a look at the
