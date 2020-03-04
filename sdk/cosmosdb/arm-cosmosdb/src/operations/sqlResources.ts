@@ -1134,7 +1134,7 @@ const getSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
 
 const listSqlStoredProceduresOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures",
   urlParameters: [
     Parameters.subscriptionId0,
     Parameters.resourceGroupName,
@@ -1189,7 +1189,7 @@ const getSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
 
 const listSqlUserDefinedFunctionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions",
   urlParameters: [
     Parameters.subscriptionId0,
     Parameters.resourceGroupName,
@@ -1244,7 +1244,7 @@ const getSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
 
 const listSqlTriggersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers",
   urlParameters: [
     Parameters.subscriptionId0,
     Parameters.resourceGroupName,
