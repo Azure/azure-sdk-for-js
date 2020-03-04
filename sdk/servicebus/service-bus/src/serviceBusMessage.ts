@@ -12,12 +12,13 @@ import {
 import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/core-amqp";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
-import { reorderLockToken } from "../src/util/utils";
-import { MessageReceiver } from "../src/core/messageReceiver";
-import { MessageSession } from "../src/session/messageSession";
+import { reorderLockToken } from "./util/utils";
+import { MessageReceiver } from "./core/messageReceiver";
+import { MessageSession } from "./session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
 
+// TODO: it'd be nice to make this internal/ignore if we can in favor of just using the string enum.
 /**
  * The mode in which messages should be received. The 2 modes are `peekLock` and `receiveAndDelete`.
  */
@@ -568,49 +569,9 @@ export function fromAmqpMessage(
 
 /**
  * Describes the message received from Service Bus.
- * @interface ReceivedMessage
- */
-interface ReceivedMessage extends ReceivedMessageInfo {
-  /**
-   * Removes the message from Service Bus.
-   * @returns Promise<void>.
-   */
-  complete(): Promise<void>;
-
-  /**
-   * The lock held on the message by the receiver is let go, making the message available again in
-   * Service Bus for another receive operation.
-   * @param propertiesToModify The properties of the message to modify while abandoning the message.
-   *
-   * @return Promise<void>.
-   */
-  abandon(propertiesToModify?: { [key: string]: any }): Promise<void>;
-
-  /**
-   * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
-   * receive it message again in the future using the `receiveDeferredMessage` method.
-   * @param propertiesToModify The properties of the message to modify while deferring the message
-   *
-   * @returns Promise<void>
-   */
-  defer(propertiesToModify?: { [key: string]: any }): Promise<void>;
-
-  /**
-   * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
-   * QueueClient/SubscriptionClient using the path for the deadletter sub-queue.
-   * @param options The DeadLetter options that can be provided while
-   * rejecting the message.
-   *
-   * @returns Promise<void>
-   */
-  deadLetter(options?: DeadLetterOptions): Promise<void>;
-}
-
-/**
- * Describes the message received from Service Bus.
  * @class ServiceBusMessage
  */
-export class ServiceBusMessage implements ReceivedMessage {
+export class ServiceBusMessage implements ReceivedMessageInfo {
   /**
    * @property The message body that needs to be sent or is received.
    */

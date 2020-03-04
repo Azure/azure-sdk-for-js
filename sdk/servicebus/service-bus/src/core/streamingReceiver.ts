@@ -15,36 +15,6 @@ import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 
 /**
- * Describes the options passed to `registerMessageHandler` method when receiving messages from a
- * Queue/Subscription which does not have sessions enabled.
- */
-export interface MessageHandlerOptions {
-  /**
-   * @property Indicates whether the `complete()` method on the message should automatically be
-   * called by the sdk after the user provided onMessage handler has been executed.
-   * Calling `complete()` on a message removes it from the Queue/Subscription.
-   * - **Default**: `true`.
-   */
-  autoComplete?: boolean;
-  /**
-   * @property The maximum duration in seconds until which the lock on the message will be renewed
-   * by the sdk automatically. This auto renewal stops once the message is settled or once the user
-   * provided onMessage handler completes ite execution.
-   *
-   * - **Default**: `300` seconds (5 minutes).
-   * - **To disable autolock renewal**, set this to `0`.
-   */
-  maxMessageAutoRenewLockDurationInSeconds?: number;
-  /**
-   * @property The maximum number of concurrent calls that the sdk can make to the user's message
-   * handler. Once this limit has been reached, further messages will not be received until atleast
-   * one of the calls to the user's message handler has completed.
-   * - **Default**: `1`.
-   */
-  maxConcurrentCalls?: number;
-}
-
-/**
  * @internal
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
