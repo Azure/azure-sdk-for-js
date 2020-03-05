@@ -8,6 +8,7 @@
   - It has instance methods to get receivers and senders (getReceiver, getSender) for
     both session and non-session cases.
   - Receivers and senders are [single-use](#single-use-receivers-or-senders) - they are created with a receive mode, session ID 
+  - Open question: will any of these clients do some sort of "ref-counting" to track if the overall AMQP connection should be closed?
   (if applicable), queue/topic-subscription baked in and cannot be changed.
 - The user can choose between three different methods of message delivery:
   1. "push" (via registered message handlers). This is an "eternal" push - it keeps running until the
