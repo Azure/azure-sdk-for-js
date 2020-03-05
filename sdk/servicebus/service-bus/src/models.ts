@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ServiceBusMessage, DeadLetterOptions } from "../serviceBusMessage";
+import { ServiceBusMessage, DeadLetterOptions } from "./serviceBusMessage";
 import { TokenCredential } from "@azure/core-amqp";
 import { OperationOptions } from "@azure/core-auth";
 
@@ -28,13 +28,20 @@ export interface Session {
    * A single instance should be created for your application and passed to each
    * ReceiverClient you create that processes a session.
    */
-  connections: SessionConnections;
+  connections?: SessionConnections;
+  /**
+   * @property The maximum duration in seconds
+   * until which, the lock on the session will be renewed automatically by the sdk.
+   * - **Default**: `300` seconds (5 minutes).
+   * - **To disable autolock renewal**, set this to `0`.
+   */
+  maxSessionAutoRenewLockDurationInSeconds?: number;
 }
 
 export function isSession(possibleSession: Session | any): possibleSession is Session {
   return (
     possibleSession != null &&
-    (possibleSession as Session).connections &&
+    ((possibleSession as Session).connections as boolean) &&
     typeof (possibleSession as Session).connections === "object"
   );
 }
@@ -206,9 +213,9 @@ export type SubscriptionAuth =
       subscriptionName: string;
     };
 
-    /**
-     * Options when receiving a batch of messages from Service Bus.
-     */
+/**
+ * Options when receiving a batch of messages from Service Bus.
+ */
 export interface ReceiveBatchOptions extends OperationOptions {}
 
 /**

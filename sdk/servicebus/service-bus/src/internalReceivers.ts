@@ -24,7 +24,7 @@ import {
   throwErrorIfClientOrConnectionClosed
 } from "./util/errors";
 import { RuleDescription, CorrelationFilter } from ".";
-import { MessageHandlerOptions, ReceivedMessage } from "./modelsTrack2";
+import { MessageHandlerOptions, ReceivedMessage } from "./models";
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.

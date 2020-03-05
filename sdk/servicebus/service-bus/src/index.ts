@@ -4,7 +4,7 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export { ServiceBusClientOptions } from "./old/serviceBusClient";
+export { ServiceBusClientOptions } from "./constructorHelpers";
 export {
   TokenType,
   TokenCredential,
@@ -73,4 +73,4 @@ export {
   Closeable,
   MessageAndContext,
   MessageIterator
-} from "./modelsTrack2";
+} from "./models";

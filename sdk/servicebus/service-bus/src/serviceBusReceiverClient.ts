@@ -21,10 +21,13 @@ import {
   IterateMessagesOptions,
   SubscribeOptions,
   isQueueAuth
-} from "./modelsTrack2";
-import { createConnectionContext, convertToInternalReceiveMode } from "./constructorHelpers";
+} from "./models";
+import {
+  createConnectionContext,
+  convertToInternalReceiveMode,
+  ServiceBusClientOptions
+} from "./constructorHelpers";
 import { RuleDescription, CorrelationFilter } from "./core/managementClient";
-import { ServiceBusClientOptions } from "./old/serviceBusClient";
 import { ConnectionContext } from "./connectionContext";
 
 /**
