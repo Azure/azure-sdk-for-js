@@ -9,6 +9,21 @@ import { logger } from "../util/logging";
 
 import * as child_process from "child_process";
 
+
+function get_safe_working_dir(): string {
+    let path = process.env.PATH;
+
+    if (!path) {
+      return ".";
+    }
+
+    if (process.platform === "win32") {
+      return path.split(";")[0];
+    } else {
+      return path.split(":")[0];
+    }
+}
+
 /**
  * Provides the user access token and expire time
  * with Azure CLI command "az account get-access-token".
@@ -28,6 +43,7 @@ export class AzureCliCredential implements TokenCredential {
       try {
         child_process.exec(
           `az account get-access-token --output json --resource ${resource}`,
+          {cwd: get_safe_working_dir()},
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr });
           }
