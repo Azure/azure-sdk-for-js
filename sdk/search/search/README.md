@@ -78,7 +78,19 @@ const client = new SearchIndexClient(
 
 ### SearchIndexClient
 
-`SearchIndexClient` is one of the primary interface for developers using the Cognitive Search client library. It provides asynchronous methods for working with documents in an index.
+`SearchIndexClient` is one of the primary interface for developers using the Cognitive Search client library. It provides asynchronous methods for working with documents in an index. These methods allow you to query, upload, update, and delete documents. It also provides methods for building completion and suggestion experiences based on partial queries.
+
+### Pagination
+
+Typically you will only wish to [show a subset of search results](https://docs.microsoft.com/en-us/azure/search/search-pagination-page-layout#total-hits-and-page-counts) to a user at one time. To support this, you can use the `top`, `skip` and `includeTotalResultCount` parameters to provide a paged experience on top of search results.
+
+### Document field encoding
+
+[Supported data types](https://docs.microsoft.com/en-us/rest/api/searchservice/Supported-data-types) in an index are mapped to JSON types in API requests/responses. The JS client library keeps these mostly the same, with some exceptions:
+
+- `Edm.DateTimeOffset` is converted to a JS `Date`.
+- `Edm.GeographyPoint` is converted to a `GeographyPoint` type exported by the client library.
+- Special values of the `number` type (NaN, Infinity, -Infinity) are serialized as strings in the REST API, but are converted back to `number` by the client library.
 
 ## Examples
 
