@@ -307,15 +307,12 @@ export interface FileFlushOptions extends CommonOptions {
 export interface FileParallelUploadOptions extends CommonOptions {
     // (undocumented)
     abortSignal?: AbortSignalLike;
-    // (undocumented)
     chunkSize?: number;
     // (undocumented)
     close?: boolean;
     // (undocumented)
     conditions?: DataLakeRequestConditions;
-    // (undocumented)
     initialTransferSize?: number;
-    // (undocumented)
     maxConcurrency?: number;
     // (undocumented)
     metadata?: Metadata;
@@ -432,7 +429,6 @@ export interface FileReadToBufferOptions extends CommonOptions {
     concurrency?: number;
     // (undocumented)
     conditions?: DataLakeRequestConditions;
-    // (undocumented)
     maxRetryRequestsPerChunk?: number;
     // (undocumented)
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -1500,7 +1496,7 @@ export { WebResource }
 
 // Warnings were encountered during analysis:
 //
-// src/models.ts:409:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
+// src/models.ts:408:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
