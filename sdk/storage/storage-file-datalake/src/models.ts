@@ -653,12 +653,31 @@ export interface FileParallelUploadOptions extends CommonOptions {
   close?: boolean;
 
   // For parallel transfer control.
-  // The size of the first range request in bytes. Data smaller than this limit will
-  // be transferred in a single request. Data larger than this limit will continue being
-  // transferred in chunks of size chunkSize.
+
+  /**
+   * The size of the first range request in bytes. Data smaller than this limit will
+   * be transferred in a single request. Data larger than this limit will be transferred
+   * in chunks of size chunkSize. Its default and max value is FILE_MAX_INITIAL_TRANSFER_SIZE.
+   *
+   * @type {number}
+   * @memberof FileParallelUploadOptions
+   */
   initialTransferSize?: number;
+
+  /**
+   * The size of data that will be transferred in parallel. Its default value is FILE_UPLOAD_DEFAULT_CHUNK_SIZE.
+   * Its max value is FILE_UPLOAD_MAX_CHUNK_SIZE.
+   *
+   * @type {number}
+   * @memberof FileParallelUploadOptions
+   */
   chunkSize?: number;
-  // Max concurrency of parallel uploading. Must be >= 0.
+  /**
+   * Max concurrency of parallel uploading. Must be >= 0. Its default value is DEFAULT_HIGH_LEVEL_CONCURRENCY.
+   * 
+   * @type {number}
+   * @memberof FileParallelUploadOptions
+   */
   maxConcurrency?: number;
 }
 
@@ -668,6 +687,14 @@ export interface FileReadToBufferOptions extends CommonOptions {
 
   onProgress?: (progress: TransferProgressEvent) => void;
 
+  /**
+   * How many retries will perform for each read when the original chunk read stream ends unexpectedly.
+   * Above kind of ends will not trigger retry policy defined in a pipeline,
+   * because they doesn't emit network errors.
+   *
+   * @type {number}
+   * @memberof FileReadToBufferOptions
+   */
   maxRetryRequestsPerChunk?: number;
   chunkSize?: number;
   concurrency?: number;
