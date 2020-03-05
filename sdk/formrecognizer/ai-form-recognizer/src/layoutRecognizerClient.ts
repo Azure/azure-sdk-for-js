@@ -26,7 +26,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { AnalyzeLayoutResultResponse, AnalyzeLayoutResult } from './models';
-import { StartAnalyzePollerOptions, AnalyzePollerClient, StartAnalyzePoller, ResultResponse } from './lro/analyze/poller';
+import { StartAnalyzePollerOptions, AnalyzePollerClient, StartAnalyzePoller } from './lro/analyze/poller';
 import { PollerLike, PollOperationState } from '.';
 
 export type ExtractLayoutOptions = FormRecognizerOperationOptions & {};
@@ -103,15 +103,15 @@ export class LayoutRecognizerClient {
   public async extractLayout(
     body: HttpRequestBody,
     contentType: SupportedContentType,
-    options: StartAnalyzePollerOptions
-  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
+    options: StartAnalyzePollerOptions<AnalyzeLayoutResultResponse>
+  ): Promise<PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>> {
 
-    const analyzePollerClient: AnalyzePollerClient = {
+    const analyzePollerClient: AnalyzePollerClient<AnalyzeLayoutResultResponse> = {
       startAnalyze: (...args) => analyzeLayoutInternal(this.client, ...args),
       getAnalyzeResult: (...args) => this.getExtractedLayout(...args)
     }
 
-    const poller = new StartAnalyzePoller({
+    const poller = new StartAnalyzePoller<AnalyzeLayoutResultResponse>({
       client: analyzePollerClient,
       body,
       contentType,
@@ -122,11 +122,13 @@ export class LayoutRecognizerClient {
     return poller;
   }
 
-  public async extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions) {
+  public async extractLayoutFromUrl(imageSourceUrl: string,
+    options: StartAnalyzePollerOptions<AnalyzeLayoutResultResponse>
+  ): Promise<PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>> {
     const body = JSON.stringify({
       source: imageSourceUrl
     });
-    const analyzePollerClient: AnalyzePollerClient = {
+    const analyzePollerClient: AnalyzePollerClient<AnalyzeLayoutResultResponse> = {
       startAnalyze: (...args) => analyzeLayoutInternal(this.client, ...args),
       getAnalyzeResult: (...args) => this.getExtractedLayout(...args)
     }

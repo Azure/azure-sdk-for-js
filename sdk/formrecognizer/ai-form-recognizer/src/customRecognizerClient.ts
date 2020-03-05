@@ -20,7 +20,8 @@ import { logger } from "./logger";
 import {
   GetCustomModelsResponse,
   Model,
-  ModelInfo
+  ModelInfo,
+  GetAnalyzeFormResultResponse
 } from "./generated/models";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
@@ -30,7 +31,7 @@ import { FormRecognizerClient as GeneratedClient } from "./generated/formRecogni
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { StartAnalyzePollerOptions, ResultResponse, AnalyzePollerClient, StartAnalyzePoller, StartAnalyzeOptions } from './lro/analyze/poller';
+import { StartAnalyzePollerOptions, AnalyzePollerClient, StartAnalyzePoller, StartAnalyzeOptions } from './lro/analyze/poller';
 import { LabeledFormModelResponse, CustomFormModelResponse } from './models';
 
 export { PollOperationState, PollerLike, StartTrainingPoller };
@@ -320,12 +321,12 @@ export class CustomFormRecognizerClient {
     modelId: string,
     body: HttpRequestBody,
     contentType: string,
-    options: StartAnalyzePollerOptions
-  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
+    options: StartAnalyzePollerOptions<GetAnalyzeFormResultResponse>
+  ): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>> {
     if (!modelId) {
       throw new RangeError("Invalid modelId")
     }
-    const analyzePollerClient: AnalyzePollerClient = {
+    const analyzePollerClient: AnalyzePollerClient<GetAnalyzeFormResultResponse> = {
       startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: StartAnalyzeOptions, modelId?: string) =>
        analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getAnalyzeResult: (resultId: string,
@@ -346,15 +347,15 @@ export class CustomFormRecognizerClient {
   public async extractCustomFormFromUrl(
     modelId: string,
     imageSourceUrl: string,
-    options: StartAnalyzePollerOptions
-  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
+    options: StartAnalyzePollerOptions<GetAnalyzeFormResultResponse>
+  ): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>> {
     if (!modelId) {
       throw new RangeError("Invalid modelId")
     }
     const body = JSON.stringify({
       source: imageSourceUrl
     });
-    const analyzePollerClient: AnalyzePollerClient = {
+    const analyzePollerClient: AnalyzePollerClient<GetAnalyzeFormResultResponse> = {
       startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: StartAnalyzeOptions, modelId?: string) =>
        analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getAnalyzeResult: (resultId: string,

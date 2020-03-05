@@ -24,7 +24,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, ResultResponse, StartAnalyzePollerOptions } from './lro/analyze/poller';
+import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, StartAnalyzePollerOptions } from './lro/analyze/poller';
 import { PollOperationState, PollerLike } from '@azure/core-lro';
 
 export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
@@ -35,7 +35,7 @@ export type GetExtractedReceiptResultOptions = FormRecognizerOperationOptions;
 
 export type StartAnalyzeOptions = ExtractReceiptOptions & {
   intervalInMs?: number;
-  onProgress?: (state: StartAnalyzePollState) => void;
+  onProgress?: (state: StartAnalyzePollState<AnalyzeReceiptResultResponse>) => void;
   resumeFrom?: string;
 }
 /**
@@ -108,10 +108,10 @@ export class ReceiptRecognizerClient {
   public async extractReceipt(
     body: HttpRequestBody,
     contentType: SupportedContentType,
-    options: StartAnalyzePollerOptions
-  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
+    options: StartAnalyzePollerOptions<AnalyzeReceiptResultResponse>
+  ): Promise<PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>> {
 
-    const analyzePollerClient: AnalyzePollerClient = {
+    const analyzePollerClient: AnalyzePollerClient<AnalyzeReceiptResultResponse> = {
       startAnalyze: (...args) => analyzeReceiptInternal(this.client, ...args),
       getAnalyzeResult: (...args) => this.getExtractedReceipt(...args)
     }
@@ -129,13 +129,13 @@ export class ReceiptRecognizerClient {
 
   public async extractReceiptFromUrl(
     imageSourceUrl: string,
-    options: StartAnalyzePollerOptions
-  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
+    options: StartAnalyzePollerOptions<AnalyzeReceiptResultResponse>
+  ): Promise<PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>> {
     const body = JSON.stringify({
       source: imageSourceUrl
     });
 
-    const analyzePollerClient: AnalyzePollerClient = {
+    const analyzePollerClient: AnalyzePollerClient<AnalyzeReceiptResultResponse> = {
       startAnalyze: (...args) => analyzeReceiptInternal(this.client, ...args),
       getAnalyzeResult: (...args) => this.getExtractedReceipt(...args)
     }
