@@ -109,7 +109,6 @@ export { BaseRequestPolicy }
 
 // @public
 export interface CommonOptions {
-    // Warning: (ae-forgotten-export) The symbol "OperationTracingOptions" needs to be exported by the entry point index.d.ts
     tracingOptions?: OperationTracingOptions;
 }
 
@@ -797,6 +796,11 @@ export interface Metadata {
 export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public (undocumented)
+export interface OperationTracingOptions {
+    spanOptions?: SpanOptions;
+}
+
+// @public (undocumented)
 export interface Path {
     // (undocumented)
     contentLength?: number;
@@ -1136,6 +1140,16 @@ export enum PathResourceType {
     File = "file"
 }
 
+// @public
+export interface PathSetAccessControlHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    eTag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
 // @public (undocumented)
 export interface PathSetAccessControlOptions extends CommonOptions {
     // (undocumented)
@@ -1148,8 +1162,6 @@ export interface PathSetAccessControlOptions extends CommonOptions {
     owner?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PathSetAccessControlHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 type PathSetAccessControlResponse = PathSetAccessControlHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1239,8 +1251,27 @@ export interface PathSetPermissionsOptions extends CommonOptions {
     owner?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "PathUpdateHeaders" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface PathUpdateHeaders {
+    acceptRanges?: string;
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentLength?: number;
+    contentMD5?: string;
+    contentRange?: string;
+    contentType?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    eTag?: string;
+    lastModified?: Date;
+    properties?: string;
+    requestId?: string;
+    version?: string;
+}
+
 // @public
 type PathUpdateResponse = PathUpdateHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -1496,7 +1527,7 @@ export { WebResource }
 
 // Warnings were encountered during analysis:
 //
-// src/models.ts:408:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
+// src/models.ts:410:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
