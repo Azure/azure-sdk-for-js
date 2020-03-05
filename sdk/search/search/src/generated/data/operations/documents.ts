@@ -301,7 +301,7 @@ const countOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.clientRequestId
+    Parameters.xMsClientRequestId
   ],
   responses: {
     200: {
@@ -347,7 +347,7 @@ const searchGetOperationSpec: coreHttp.OperationSpec = {
     Parameters.top0
   ],
   headerParameters: [
-    Parameters.clientRequestId
+    Parameters.xMsClientRequestId
   ],
   responses: {
     200: {
@@ -371,7 +371,7 @@ const searchPostOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.clientRequestId
+    Parameters.xMsClientRequestId
   ],
   requestBody: {
     parameterPath: "searchRequest",
@@ -404,7 +404,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.clientRequestId
+    Parameters.xMsClientRequestId
   ],
   responses: {
     200: {
@@ -444,7 +444,7 @@ const suggestGetOperationSpec: coreHttp.OperationSpec = {
     Parameters.top1
   ],
   headerParameters: [
-    Parameters.clientRequestId
+    Parameters.xMsClientRequestId
   ],
   responses: {
     200: {
@@ -468,7 +468,7 @@ const suggestPostOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.clientRequestId
+    Parameters.xMsClientRequestId
   ],
   requestBody: {
     parameterPath: "suggestRequest",
@@ -499,7 +499,7 @@ const indexOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.clientRequestId
+    Parameters.xMsClientRequestId
   ],
   requestBody: {
     parameterPath: "batch",
@@ -543,7 +543,7 @@ const autocompleteGetOperationSpec: coreHttp.OperationSpec = {
     Parameters.top2
   ],
   headerParameters: [
-    Parameters.clientRequestId
+    Parameters.xMsClientRequestId
   ],
   responses: {
     200: {
@@ -567,7 +567,7 @@ const autocompletePostOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.clientRequestId
+    Parameters.xMsClientRequestId
   ],
   requestBody: {
     parameterPath: "autocompleteRequest",

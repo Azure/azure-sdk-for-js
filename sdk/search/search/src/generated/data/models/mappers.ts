@@ -16,6 +16,7 @@ export const SuggestResult: coreHttp.CompositeMapper = {
     className: "SuggestResult",
     modelProperties: {
       text: {
+        required: true,
         readOnly: true,
         serializedName: "@search\\.text",
         type: {
@@ -226,6 +227,7 @@ export const SearchResult: coreHttp.CompositeMapper = {
     className: "SearchResult",
     modelProperties: {
       score: {
+        required: true,
         nullable: false,
         readOnly: true,
         serializedName: "@search\\.score",
@@ -403,6 +405,7 @@ export const IndexingResult: coreHttp.CompositeMapper = {
     className: "IndexingResult",
     modelProperties: {
       key: {
+        required: true,
         readOnly: true,
         serializedName: "key",
         type: {
@@ -417,6 +420,7 @@ export const IndexingResult: coreHttp.CompositeMapper = {
         }
       },
       succeeded: {
+        required: true,
         nullable: false,
         readOnly: true,
         serializedName: "status",
@@ -425,6 +429,7 @@ export const IndexingResult: coreHttp.CompositeMapper = {
         }
       },
       statusCode: {
+        required: true,
         nullable: false,
         readOnly: true,
         serializedName: "statusCode",
@@ -622,6 +627,7 @@ export const AutocompleteItem: coreHttp.CompositeMapper = {
     className: "AutocompleteItem",
     modelProperties: {
       text: {
+        required: true,
         readOnly: true,
         serializedName: "text",
         type: {
@@ -629,6 +635,7 @@ export const AutocompleteItem: coreHttp.CompositeMapper = {
         }
       },
       queryPlusText: {
+        required: true,
         readOnly: true,
         serializedName: "queryPlusText",
         type: {
@@ -677,7 +684,7 @@ export const SearchError: coreHttp.CompositeMapper = {
     className: "SearchError",
     modelProperties: {
       code: {
-        required: true,
+        readOnly: true,
         serializedName: "code",
         type: {
           name: "String"
@@ -685,9 +692,23 @@ export const SearchError: coreHttp.CompositeMapper = {
       },
       message: {
         required: true,
+        readOnly: true,
         serializedName: "message",
         type: {
           name: "String"
+        }
+      },
+      details: {
+        readOnly: true,
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SearchError"
+            }
+          }
         }
       }
     }
@@ -699,7 +720,7 @@ export const RequestOptions: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "RequestOptions",
     modelProperties: {
-      clientRequestId: {
+      xMsClientRequestId: {
         type: {
           name: "Uuid"
         }

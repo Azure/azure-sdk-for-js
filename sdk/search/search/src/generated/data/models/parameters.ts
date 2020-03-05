@@ -38,24 +38,11 @@ export const autocompleteMode: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const clientRequestId: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "requestOptions",
-    "clientRequestId"
-  ],
-  mapper: {
-    serializedName: "client-request-id",
-    type: {
-      name: "Uuid"
-    }
-  }
-};
 export const endpoint: coreHttp.OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
     required: true,
-    serializedName: "Endpoint",
+    serializedName: "endpoint",
     defaultValue: '',
     type: {
       name: "String"
@@ -615,6 +602,19 @@ export const useFuzzyMatching1: coreHttp.OperationQueryParameter = {
     serializedName: "fuzzy",
     type: {
       name: "Boolean"
+    }
+  }
+};
+export const xMsClientRequestId: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "requestOptions",
+    "xMsClientRequestId"
+  ],
+  mapper: {
+    serializedName: "x-ms-client-request-id",
+    type: {
+      name: "Uuid"
     }
   }
 };

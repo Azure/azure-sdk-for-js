@@ -12,8 +12,8 @@ import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AutocompleteItem {
-    readonly queryPlusText?: string;
-    readonly text?: string;
+    readonly queryPlusText: string;
+    readonly text: string;
 }
 
 // @public
@@ -83,9 +83,9 @@ export interface IndexDocumentsResult {
 // @public
 export interface IndexingResult {
     readonly errorMessage?: string;
-    readonly key?: string;
-    readonly statusCode?: number;
-    readonly succeeded?: boolean;
+    readonly key: string;
+    readonly statusCode: number;
+    readonly succeeded: boolean;
 }
 
 // @public
@@ -176,7 +176,7 @@ export interface SearchRequest<Fields> {
 
 // @public
 export type SearchResult<T> = {
-    readonly score?: number;
+    readonly score: number;
     readonly highlights?: {
         [propertyName: string]: string[];
     };
@@ -208,7 +208,7 @@ export interface SuggestRequest<Fields> {
 
 // @public
 export type SuggestResult<T> = {
-    readonly text?: string;
+    readonly text: string;
 } & T;
 
 // @public

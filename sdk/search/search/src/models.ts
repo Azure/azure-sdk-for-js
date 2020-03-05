@@ -216,7 +216,7 @@ export type SearchResult<T> = {
    * The relevance score of the document compared to other documents returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly score?: number;
+  readonly score: number;
   /**
    * Text fragments from the document that indicate the matching search terms, organized by each
    * applicable field; null if hit highlighting was not enabled for the query.
@@ -348,7 +348,7 @@ export type SuggestResult<T> = {
    * The text of the suggestion result.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly text?: string;
+  readonly text: string;
 } & T;
 
 /**
