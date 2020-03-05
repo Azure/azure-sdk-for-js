@@ -12,7 +12,6 @@ import {
   ContextWithSettlement,
   ReceivedMessage
 } from "../src";
-import { DispositionType } from "../src/serviceBusMessage";
 
 import {
   TestMessage,
