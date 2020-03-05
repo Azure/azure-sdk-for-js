@@ -9,15 +9,10 @@ encryption keys that encrypt your data.
 Use the client library for Azure Key Vault Keys in your Node.js application to
 
 - Create keys using elliptic curve or RSA encryption, optionally backed by Hardware Security Modules (HSM).
-- Import keys.
-- Delete keys.
-- Update keys.
-- Get one or more keys.
-- Get one or more deleted keys.
-- Recover a deleted key.
-- Restore a backed up key.
+- Import, Delete, and Update keys.
+- Get one or more keys and deleted keys, with their attributes.
+- Recover a deleted key and restore a backed up key.
 - Get the versions of a key.
-- As well as obtaining the attributes of a key.
 
 Using the cryptography client available in this library you also have access to
 
