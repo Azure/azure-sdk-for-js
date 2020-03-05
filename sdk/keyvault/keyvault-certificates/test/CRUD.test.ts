@@ -174,7 +174,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can get a certificate's secret in PKCS 12 format", async function() {
-    recorder.skip("browser", "This test uses the file system.");
+    recorder.skip(undefined, "This test uses the file system, and uses OpenSSL with parameters not available on Windows.");
     // Skipping this test from the live browser test runs, because we use the file system.
     if (!isNode) {
       this.skip();
