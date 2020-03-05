@@ -63,7 +63,7 @@ export class AzureCliCredential implements TokenCredential {
       this.getAzureCliAccessToken(resource)
         .then((obj: any) => {
           if (obj.stderr) {
-            let isLoginError = obj.stderr.match("Please run 'az login' from a command prompt to authenticate before using this credential.");
+            let isLoginError = obj.stderr.match("(.*)az login(.*)");
             let isNotInstallError =
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
