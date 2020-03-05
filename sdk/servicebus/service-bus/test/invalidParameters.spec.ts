@@ -342,7 +342,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
       {
         id: TestMessage.sessionId
       }
-    );
+    ) as any;
     should.equal(
       receiverClient.receiveMode,
       ReceiveMode.peekLock,
@@ -360,7 +360,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
       {
         id: TestMessage.sessionId
       }
-    );
+    ) as any;
     should.equal(
       receiverClient.receiveMode,
       ReceiveMode.peekLock,
