@@ -28,7 +28,7 @@ import {
   PathCreateResponse,
   PathDeleteOptions,
   PathDeleteResponse,
-  FilePathExistsOptions,
+  PathExistsOptions,
   PathGetAccessControlOptions,
   PathGetAccessControlResponse,
   PathGetPropertiesAction,
@@ -249,11 +249,11 @@ export class DataLakePathClient extends StorageClient {
    * applications. Vice versa new files might be added by other clients or applications after this
    * function completes.
    *
-   * @param {FilePathExistsOptions} [options] options to Exists operation.
+   * @param {PathExistsOptions} [options] options to Exists operation.
    * @returns {Promise<boolean>}
    * @memberof DataLakePathClient
    */
-  public async exists(options: FilePathExistsOptions = {}): Promise<boolean> {
+  public async exists(options: PathExistsOptions = {}): Promise<boolean> {
     const { span, spanOptions } = createSpan("DataLakeFileClient-exists", options.tracingOptions);
     try {
       return await this.blobClient.exists({ ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } });
@@ -1502,13 +1502,23 @@ export class DataLakeFileClient extends DataLakePathClient {
           buffer,
           offset,
           count,
-          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+          {
+            ...options,
+            maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
+            blockSize: options.chunkSize,
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
+          }
         );
       } else {
         return await this.blobClientInternal.downloadToBuffer(
           offset,
           count,
-          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+          {
+            ...options,
+            maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
+            blockSize: options.chunkSize,
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
+          }
         );
       }
     } catch (e) {

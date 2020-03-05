@@ -320,7 +320,23 @@ export type FileSystemListPathsResponse = PathList &
     };
   };
 
+/**
+ * Option interface for Data Lake file system exists operations
+ *
+ * See:
+ * - {@link DataLakeFileSystemClient.exists}
+ *
+ * @export
+ * @interface FileSystemExistsOptions
+ */
 export interface FileSystemExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileSystemExistsOptions
+   */
   abortSignal?: AbortSignalLike;
 }
 
@@ -548,7 +564,23 @@ export type PathMoveResponse = PathRemoveHeaders & {
   };
 };
 
-export interface FilePathExistsOptions extends CommonOptions {
+/**
+ * Option interface for Data Lake directory/file exists operations
+ *
+ * See:
+ * - {@link DataLakePathClient.exists}
+ *
+ * @export
+ * @interface PathExistsOptions
+ */
+export interface PathExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof PathExistsOptions
+   */
   abortSignal?: AbortSignalLike;
   // customerProvidedKey?: CpkInfo; not supported yet
 }
@@ -635,23 +667,95 @@ export interface FileCreateOptions extends PathCreateOptions { }
 
 export interface FileCreateResponse extends PathCreateResponse { }
 
+/**
+ * Option interface for Data Lake file - Upload operations
+ *
+ * See:
+ * - {@link DataLakeFileClient.upload}
+ * - {@link DataLakeFileClient.uploadFile}
+ * - {@link DataLakeFileClient.uploadStream}
+ *
+ * @export
+ * @interface FileParallelUploadOptions
+ */
 export interface FileParallelUploadOptions extends CommonOptions {
   // For all.
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileParallelUploadOptions
+   */
   abortSignal?: AbortSignalLike;
+
+  /**
+   * Access conditions headers.
+   *
+   * @type {DataLakeRequestConditions}
+   * @memberof FileParallelUploadOptions
+   */
   conditions?: DataLakeRequestConditions;
 
   // For create and flush.
+  /**
+   * Http headers.
+   *
+   * @type {PathCreateHttpHeaders}
+   * @memberof FileParallelUploadOptions
+   */
   pathHttpHeaders?: PathCreateHttpHeaders;
 
   // For create.
+  /**
+   * A collection of key-value string pair to associate with the Data Lake file.
+   *
+   * @type {Metadata}
+   * @memberof FileParallelUploadOptions
+   */
   metadata?: Metadata;
+
+  /**
+   * Sets POSIX access permissions for the file owner, the file owning group, and others.
+   * Each class may be granted read, write, or execute permission. The sticky bit is also supported.
+   * Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported.
+   *
+   * @type {string}
+   * @memberof FileParallelUploadOptions
+   */
   permissions?: string; // TODO: model or string?
+
+  /**
+   * The umask restricts the permissions of the file to be created.
+   * The resulting permission is given by p & ^u, where p is the permission and u is the umask.
+   * For example, if p is 0777 and u is 0057, then the resulting permission is 0720.
+   * The default permission is 0666 for a file. The default umask is 0027.
+   * The umask must be specified in 4-digit octal notation (e.g. 0766).
+   *
+   * @type {string}
+   * @memberof FileParallelUploadOptions
+   */
   umask?: string; // TODO: model or string?
 
   // For append.
+  /**
+   * Progress updater.
+   *
+   * @type {(progress: TransferProgressEvent) => void}
+   * @memberof FileParallelUploadOptions
+   */
   onProgress?: (progress: TransferProgressEvent) => void;
 
   // For flush.
+  /**
+   * When Azure Storage Events are enabled, a file changed event is raised.
+   * This event has a property indicating whether this is the final change
+   * to distinguish the difference between an intermediate flush to a file stream (when close set to "false")
+   * and the final close of a file stream (when close set to "true").
+   *
+   * @type {boolean}
+   * @memberof FileParallelUploadOptions
+   */
   close?: boolean;
 
   // For parallel transfer control.
@@ -667,7 +771,8 @@ export interface FileParallelUploadOptions extends CommonOptions {
   initialTransferSize?: number;
 
   /**
-   * The size of data that will be transferred in parallel. Its default value is FILE_UPLOAD_DEFAULT_CHUNK_SIZE.
+   * The size of data in bytes that will be transferred in parallel.
+   * Its default value is FILE_UPLOAD_DEFAULT_CHUNK_SIZE.
    * Its max value is FILE_UPLOAD_MAX_CHUNK_SIZE.
    *
    * @type {number}
@@ -683,10 +788,39 @@ export interface FileParallelUploadOptions extends CommonOptions {
   maxConcurrency?: number;
 }
 
+/**
+ * Option interface for Data Lake file - readToBuffer operations
+ *
+ * See:
+ * - {@link DataLakeFileClient.readToBuffer}
+ *
+ * @export
+ * @interface FileReadToBufferOptions
+ */
 export interface FileReadToBufferOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileParallelUploadOptions
+   */
   abortSignal?: AbortSignalLike;
+
+  /**
+   * Access conditions headers.
+   *
+   * @type {DataLakeRequestConditions}
+   * @memberof FileReadToBufferOptions
+   */
   conditions?: DataLakeRequestConditions;
 
+  /**
+   * Progress updater.
+   *
+   * @type {(progress: TransferProgressEvent) => void}
+   * @memberof FileReadToBufferOptions
+   */
   onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
@@ -698,7 +832,23 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * @memberof FileReadToBufferOptions
    */
   maxRetryRequestsPerChunk?: number;
+
+  /**
+   * chunkSize is size of data every request trying to read.
+   * Must be >= 0, if set to 0 or undefined, it will automatically calculated according
+   * to the file size.
+   *
+   * @type {number}
+   * @memberof FileReadToBufferOptions
+   */
   chunkSize?: number;
+
+  /**
+   * Concurrency of parallel read.
+   *
+   * @type {number}
+   * @memberof FileReadToBufferOptions
+   */
   concurrency?: number;
 }
 

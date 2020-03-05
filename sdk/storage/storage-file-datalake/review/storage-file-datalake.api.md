@@ -199,7 +199,7 @@ export class DataLakePathClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
-    exists(options?: FilePathExistsOptions): Promise<boolean>;
+    exists(options?: PathExistsOptions): Promise<boolean>;
     get fileSystemName(): string;
     getAccessControl(options?: PathGetAccessControlOptions): Promise<PathGetAccessControlResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
@@ -302,33 +302,19 @@ export interface FileFlushOptions extends CommonOptions {
     retainUncommittedData?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface FileParallelUploadOptions extends CommonOptions {
-    // (undocumented)
     abortSignal?: AbortSignalLike;
     chunkSize?: number;
-    // (undocumented)
     close?: boolean;
-    // (undocumented)
     conditions?: DataLakeRequestConditions;
     initialTransferSize?: number;
     maxConcurrency?: number;
-    // (undocumented)
     metadata?: Metadata;
-    // (undocumented)
     onProgress?: (progress: TransferProgressEvent) => void;
-    // (undocumented)
     pathHttpHeaders?: PathCreateHttpHeaders;
-    // (undocumented)
     permissions?: string;
-    // (undocumented)
     umask?: string;
-}
-
-// @public (undocumented)
-export interface FilePathExistsOptions extends CommonOptions {
-    // (undocumented)
-    abortSignal?: AbortSignalLike;
 }
 
 // @public (undocumented)
@@ -418,18 +404,13 @@ export type FileReadResponse = FileReadHeaders & {
     };
 };
 
-// @public (undocumented)
+// @public
 export interface FileReadToBufferOptions extends CommonOptions {
-    // (undocumented)
     abortSignal?: AbortSignalLike;
-    // (undocumented)
     chunkSize?: number;
-    // (undocumented)
     concurrency?: number;
-    // (undocumented)
     conditions?: DataLakeRequestConditions;
     maxRetryRequestsPerChunk?: number;
-    // (undocumented)
     onProgress?: (progress: TransferProgressEvent) => void;
 }
 
@@ -493,9 +474,8 @@ export type FileSystemDeleteResponse = FileSystemDeleteHeaders & {
     };
 };
 
-// @public (undocumented)
+// @public
 export interface FileSystemExistsOptions extends CommonOptions {
-    // (undocumented)
     abortSignal?: AbortSignalLike;
 }
 
@@ -918,6 +898,11 @@ export type PathDeleteResponse = PathDeleteHeaders & {
         parsedHeaders: PathDeleteHeaders;
     };
 };
+
+// @public
+export interface PathExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
 
 // @public (undocumented)
 export interface PathGetAccessControlHeaders {
@@ -1527,7 +1512,7 @@ export { WebResource }
 
 // Warnings were encountered during analysis:
 //
-// src/models.ts:410:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
+// src/models.ts:426:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
