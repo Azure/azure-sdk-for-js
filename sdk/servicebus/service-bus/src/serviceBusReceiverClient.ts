@@ -124,6 +124,8 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
   isReceivingMessages(): boolean;
   close(): Promise<void>;
   getDeadLetterPath(): string;
+
+  // TODO: not sure these need to be on the interface
   entityType: "queue" | "subscription";
   entityPath: string;
   receiveMode: "peekLock" | "receiveAndDelete";
@@ -224,11 +226,12 @@ export type ReceiverClientTypeForUserT<ReceiveModeT extends "peekLock" | "receiv
 export class ReceiverClientImplementation {
   _sessionEnabled: boolean;
   constructor(
-    private _receiveMode: "peekLock" | "receiveAndDelete",
+    public receiveMode: "peekLock" | "receiveAndDelete",
     private _clientEntityContext: ClientEntityContext,
+    public entityType: "queue" | "subscription",
     sessionId?: string | false
   ) {
-    this._internalReceiveMode = convertToInternalReceiveMode(this._receiveMode);
+    this._internalReceiveMode = convertToInternalReceiveMode(this.receiveMode);
     this.entityPath = _clientEntityContext.entityPath;
 
     if (typeof sessionId === "boolean" && sessionId === false) {
@@ -309,7 +312,7 @@ export class ReceiverClientImplementation {
     options?: SubscribeOptions
   ): void {
     // TODO: use options
-    if (this._receiveMode === "peekLock") {
+    if (this.receiveMode === "peekLock") {
       const onMessage = async (sbMessage: ServiceBusMessage) => {
         return handlers.processMessage(sbMessage, settlementContext);
       };
@@ -322,7 +325,7 @@ export class ReceiverClientImplementation {
         },
         options
       );
-    } else if (this._receiveMode === "receiveAndDelete") {
+    } else if (this.receiveMode === "receiveAndDelete") {
       const actualHandlers = handlers as MessageHandlers<{}>;
 
       this._receiver.registerMessageHandler(
@@ -366,7 +369,7 @@ export class ReceiverClientImplementation {
     // TODO: use the options
     const messageIterator = this._receiver.getMessageIterator();
 
-    if (this._receiveMode === "peekLock") {
+    if (this.receiveMode === "peekLock") {
       // const actualMessageIterator = (messageIterator as any) as MessageIterator<
       //   ContextType<"peekLock">
       // >;
@@ -380,7 +383,7 @@ export class ReceiverClientImplementation {
       };
 
       return f(messageIterator);
-    } else if (this._receiveMode === "receiveAndDelete") {
+    } else if (this.receiveMode === "receiveAndDelete") {
       const f = async function*(
         originalMessageIterator: AsyncIterableIterator<ServiceBusMessage>
       ): AsyncIterableIterator<MessageAndContext<ContextType<"receiveAndDelete">>> {
@@ -444,14 +447,14 @@ export class ReceiverClientImplementation {
     // TODO: use the options (it contains things like AbortSignal)
     const messages = await this._receiver.receiveMessages(maxMessages, maxWaitTimeInSeconds);
 
-    if (this._receiveMode === "peekLock") {
+    if (this.receiveMode === "peekLock") {
       return {
         messages,
         context: settlementContext
       };
       // throw new Error("TODO: PeekLock and receiveBatch not yet implemented (context not returned)");
       // return messages;
-    } else if (this._receiveMode === "receiveAndDelete") {
+    } else if (this.receiveMode === "receiveAndDelete") {
       return {
         messages,
         context: {}

@@ -120,14 +120,16 @@ export class ServiceBusClient {
     | (NonSessionReceiver<"receiveAndDelete"> & SubscriptionRuleManagement) {
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
+    let entityType: "queue" | "subscription";
 
     if (isReceiveMode(receiveMode3)) {
+      entityType = "subscription";
       const topic = queueOrTopicName1;
       const subscription = receiveModeOrSubscriptionName2;
       entityPath = `${topic}/Subscriptions/${subscription}`;
-
       receiveMode = receiveMode3;
     } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
+      entityType = "queue";
       entityPath = queueOrTopicName1;
       receiveMode = receiveModeOrSubscriptionName2;
     } else {
@@ -141,7 +143,7 @@ export class ServiceBusClient {
       `${entityPath}/${generate_uuid()}`
     );
 
-    return new ReceiverClientImplementation(receiveMode, clientEntityContext, false);
+    return new ReceiverClientImplementation(receiveMode, clientEntityContext, entityType, false);
   }
 
   /**
@@ -180,6 +182,7 @@ export class ServiceBusClient {
     subscriptionName: string,
     receiveMode: "peekLock",
     sessionId: string | ""
+    // TODO: missing options that should be passable here.
   ): SessionReceiver<"peekLock"> & SubscriptionRuleManagement;
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -198,6 +201,7 @@ export class ServiceBusClient {
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveModeOrSessionId3?: "peekLock" | "receiveAndDelete" | string | "",
+    // TODO: these are the wrong option types
     sessionIdOrOptions4?: string | "" | ServiceBusClientOptions,
     options5?: ServiceBusClientOptions
   ):
@@ -208,8 +212,10 @@ export class ServiceBusClient {
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
     let sessionId: string;
+    let entityType: "queue" | "subscription";
 
     if (isReceiveMode(receiveModeOrSessionId3) && typeof sessionIdOrOptions4 === "string") {
+      entityType = "subscription";
       const topic = queueOrTopicName1;
       const subscription = receiveModeOrSubscriptionName2;
       entityPath = `${topic}/Subscriptions/${subscription}`;
@@ -219,6 +225,7 @@ export class ServiceBusClient {
       isReceiveMode(receiveModeOrSubscriptionName2) &&
       typeof receiveModeOrSessionId3 === "string"
     ) {
+      entityType = "queue";
       entityPath = queueOrTopicName1;
       receiveMode = receiveModeOrSubscriptionName2;
       sessionId = receiveModeOrSessionId3;
@@ -237,6 +244,7 @@ export class ServiceBusClient {
     return new ReceiverClientImplementation(
       receiveMode,
       clientEntityContext,
+      entityType,
       sessionId === "" ? undefined : sessionId
     );
   }
