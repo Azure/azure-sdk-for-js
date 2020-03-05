@@ -9,7 +9,7 @@ and other secrets.
 
 Use the client library for Azure Key Vault Secrets in your Node.js application to
 
-- Get, set and delete a secret.
+- Get, set and delete secrets.
 - Update a secret and it's attributes.
 - Backup and restore a secret.
 - Get, purge or recover a deleted secret.
@@ -492,21 +492,21 @@ main();
 
 ## Troubleshooting
 
-### Enable logs
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-You can set the following environment variable to get the debug logs when using this library.
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-- Getting debug logs from the Key Vault Secrets SDK
-
-```bash
-export DEBUG=azure*
+setLogLevel("info");
 ```
 
 ## Next steps
 
-Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
-directory for detailed examples on how to use this library.
+You can find more code samples through the following links:
+
+- [KeyVault Secrets Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/javascript)
+- [KeyVault Secrets Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/typescript)
+- [KeyVault Secrets Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/test/)
 
 ## Contributing
 
