@@ -6,20 +6,14 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ReceiveMode } from "../src";
-import {
-  TestMessage,
-  getSenderReceiverClients,
-  TestClientType,
-  EntityNames
-} from "./utils/testUtils";
+import { ServiceBusClient } from "../src";
+import { TestMessage, getSenderReceiverClients, TestClientType } from "./utils/testUtils";
 import {
   ReceiverClientTypeForUserT,
   NonSessionReceiver,
   SubscriptionRuleManagement,
   SessionReceiver
 } from "../src/serviceBusReceiverClient";
-import { getEnvVars } from "./utils/envVarUtils";
 import { Sender } from "../src/sender";
 
 describe("Invalid parameters in Sender/ReceiverClients for PartitionedQueue #RunInBrowser", function(): void {
@@ -312,6 +306,7 @@ describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscripti
 describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void {
   let senderClient: Sender;
   let receiverClient: SessionReceiver<"peekLock">;
+  let serviceBusClient: ServiceBusClient;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
@@ -325,48 +320,34 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
     await senderClient.send(TestMessage.getSessionSample());
 
     receiverClient = clients.receiverClient as SessionReceiver<"peekLock">;
+
+    serviceBusClient = clients.serviceBusClient;
   });
 
   after(async () => {
     await senderClient.close();
     await receiverClient.close();
+    await serviceBusClient.close();
   });
 
-  it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
-    receiverClient = new Sender(
-      {
-        queueName: EntityNames.QUEUE_NAME_SESSION,
-        connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
-      },
-      undefined as any,
-      {
-        id: TestMessage.sessionId
-      }
-    ) as any;
-    should.equal(
-      receiverClient.receiveMode,
-      ReceiveMode.peekLock,
-      "Default receiveMode not set when receiveMode not provided to constructor."
-    );
-  });
+  // TODO: this should just throw.
+  // it("SessionReceiver: Invalid ReceiveMode", async function(): Promise<void> {
+  //   receiverClient = serviceBusClient.createSessionReceiver(
+  //     EntityNames.QUEUE_NAME_SESSION,
+  //     "peekLock",
+  //     TestMessage.sessionId
+  //   );
 
-  it("SessionReceiver: Invalid ReceiveMode", async function(): Promise<void> {
-    receiverClient = new Sender(
-      {
-        queueName: EntityNames.QUEUE_NAME_SESSION,
-        connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
-      },
-      123 as any,
-      {
-        id: TestMessage.sessionId
-      }
-    ) as any;
-    should.equal(
-      receiverClient.receiveMode,
-      ReceiveMode.peekLock,
-      "Default receiveMode not set when receiveMode not provided to constructor."
-    );
-  });
+  //     {
+  //       id: TestMessage.sessionId
+  //     }
+  //   ) as any;
+  //   should.equal(
+  //     receiverClient.receiveMode,
+  //     ReceiveMode.peekLock,
+  //     "Default receiveMode not set when receiveMode not provided to constructor."
+  //   );
+  // });
 
   it("Peek: Invalid maxMessageCount in SessionReceiver", async function(): Promise<void> {
     const peekedResults = await receiverClient.diagnostics.peek(-100);
