@@ -25,34 +25,33 @@ async function main() {
 
   const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
 
-  let result;
+  let response;
 
   try {
-    result = await client.getExtractedReceipt("1864e01a-5bcc-40f3-aac3-d69c6d9a123c");
+    response = await client.getExtractedReceipt("bce24b30-49a1-4bb1-9e54-206194aa8665");
   } catch (e) {
     console.log(e);
-    result = { status: "failed" };
+    response = { status: "failed" };
   }
-  result = { status: "failed" };
 
-  if (result.status !== "succeeded") {
-    console.log(result);
+  if (response.status !== "succeeded") {
+    console.log(response);
     console.log("extracting...");
-    result = await client.extractReceiptFromUrl(imageUrl, {
+    response = await client.extractReceiptFromUrl(imageUrl, {
     });
   }
 
-  console.log(result.status);
+  console.log(response.status);
   console.log("first receipt:")
-  //console.log(result.analyzeResult.receiptResults[0]);
+  //console.log(response.analyzeResult.receiptResults[0]);
   console.log("Items:")
   let i = 1;
-  for (const item of result.analyzeResult.receiptResults[0].items) {
+  for (const item of response.analyzeResult.receiptResults[0].items) {
     console.log(`${i++})\t ${item.quantity || ""} ${item.name} $${item.totalPrice}`);
   }
   //console.log("Raw fields");
-  //console.log(result.analyzeResult.receiptResults[0].rawReciptFields)
-  //console.log(result.analyzeResult.receiptResults[0].rawReciptFields["MerchantAddress"])
+  //console.log(response.analyzeResult.receiptResults[0].rawReciptFields)
+  console.log(response.analyzeResult.receiptResults[0].fields["MerchantAddress"])
 }
 
 main().catch((err) => {

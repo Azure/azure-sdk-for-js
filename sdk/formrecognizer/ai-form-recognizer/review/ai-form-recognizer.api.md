@@ -18,6 +18,11 @@ import { TokenCredential } from '@azure/identity';
 import { WebResource } from '@azure/core-http';
 
 // @public (undocumented)
+export type AnalyzeFormResult = Omit<AnalyzeResult, "documentResults">;
+
+// Warning: (ae-forgotten-export) The symbol "AnalyzeOperationResult" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
 export type AnalyzeLayoutOperationResult = Omit<AnalyzeOperationResult, 'analyzeResult'> & {
     analyzeResult?: AnalyzeLayoutResult;
 };
@@ -25,21 +30,13 @@ export type AnalyzeLayoutOperationResult = Omit<AnalyzeOperationResult, 'analyze
 // @public (undocumented)
 export type AnalyzeLayoutResult = Omit<AnalyzeResult, 'documentResults'>;
 
-// @public (undocumented)
+// @public
 export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: AnalyzeOperationResult;
     };
 };
-
-// @public
-export interface AnalyzeOperationResult {
-    analyzeResult?: AnalyzeResult;
-    createdDateTime: Date;
-    lastUpdatedDateTime: Date;
-    status: OperationStatus;
-}
 
 // @public
 export type AnalyzeReceiptOperationResult = Omit<AnalyzeOperationResult, 'analyzeResult'> & {
@@ -59,15 +56,12 @@ export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
     };
 };
 
-// @public
-export interface AnalyzeResult {
-    documentResults?: DocumentResult[];
-    errors?: ErrorInformation[];
-    // Warning: (ae-forgotten-export) The symbol "PageResult" needs to be exported by the entry point index.d.ts
-    pageResults?: PageResult_2[];
-    readResults: ReadResult[];
-    version: string;
-}
+// Warning: (ae-forgotten-export) The symbol "AnalyzeResult" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type AnalyzeResult = Omit<AnalyzeResult_2, "pageResults"> & {
+    pageResults?: PageResult[];
+};
 
 // @public (undocumented)
 export type ArrayFieldValue = {
@@ -86,10 +80,23 @@ export class CognitiveKeyCredential implements ServiceClientCredentials {
 export interface CommonFieldValue {
     boundingBox?: number[];
     confidence?: number;
-    elements?: string[];
+    elements?: TextElement[];
     page?: number;
     text?: string;
 }
+
+// Warning: (ae-forgotten-export) The symbol "Model" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type CustomFormModel = Omit<Model, "trainResult"> & {
+    kind: "unlabeled";
+    trainResult?: CustomFormModelTrainResult;
+};
+
+// Warning: (ae-forgotten-export) The symbol "TrainResult" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type CustomFormModelTrainResult = Omit<TrainResult, "averageModelAccuracy" | "fields">;
 
 // @public
 export class CustomFormRecognizerClient {
@@ -111,8 +118,6 @@ export class CustomFormRecognizerClient {
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse>;
     // (undocumented)
     listModelsAll(settings: PageSettings, options?: ListModelsOptions): AsyncIterableIterator<ModelInfo>;
-    // Warning: (ae-forgotten-export) The symbol "Model" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     startTraining(source: string, options?: StartTrainingOptions): Promise<PollerLike<PollOperationState<Model>, Model>>;
 }
@@ -123,19 +128,12 @@ export interface DataTable {
     rows: DataTableRow[];
 }
 
+// Warning: (ae-forgotten-export) The symbol "DataTableCell" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface DataTableCell {
-    boundingBox: number[];
-    columnIndex: number;
-    columnSpan?: number;
-    confidence: number;
+export type DataTableCell = Omit<DataTableCell_2, "elements"> & {
     elements?: TextElement[];
-    isFooter?: boolean;
-    isHeader?: boolean;
-    rowIndex: number;
-    rowSpan?: number;
-    text: string;
-}
+};
 
 // @public (undocumented)
 export interface DataTableRow {
@@ -261,20 +259,25 @@ export type IntegerFieldValue = {
     valueInteger: number;
 } & CommonFieldValue;
 
+// Warning: (ae-forgotten-export) The symbol "KeyValueElement" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export interface KeyValueElement {
-    boundingBox?: number[];
+export type KeyValueElement = Omit<KeyValueElement_2, "elements"> & {
     elements?: TextElement[];
-    text: string;
-}
+};
+
+// Warning: (ae-forgotten-export) The symbol "KeyValuePair" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type KeyValuePair = Omit<KeyValuePair_2, "key" | "value"> & {
+    key: KeyValueElement;
+    value: KeyValueElement;
+};
 
 // @public (undocumented)
-export interface KeyValuePair {
-    confidence: number;
-    key: KeyValueElement;
-    label?: string;
-    value: KeyValueElement;
-}
+export type LabeledFormModel = Omit<Model, "keys"> & {
+    kind: "labeled";
+};
 
 // @public
 export type Language = 'en' | 'es';
@@ -321,13 +324,13 @@ export type ObjectFieldValue = {
 // @public
 export type OperationStatus = 'notStarted' | 'running' | 'succeeded' | 'failed';
 
+// Warning: (ae-forgotten-export) The symbol "PageResult" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface PageResult {
-    clusterId?: number;
+export type PageResult = Omit<PageResult_2, "tables" | "keyValuePairs"> & {
     keyValuePairs?: KeyValuePair[];
-    page: number;
     tables?: DataTable[];
-}
+};
 
 // @public (undocumented)
 export type PhoneNumberFieldValue = {
@@ -436,13 +439,7 @@ export interface ReceiptItemField {
 }
 
 // @public (undocumented)
-export type ReceiptResult = {
-    docType: "prebuilt:receipt";
-    pageRange: number[];
-    rawReciptFields: {
-        [propertyName: string]: FieldValue;
-    };
-} & Receipt;
+export type ReceiptResult = RawReceiptResult & Receipt;
 
 // @public
 export type StartTrainingOptions = TrainCustomModelOptions & {

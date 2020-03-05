@@ -19,13 +19,15 @@ import {
   GetAnalyzeReceiptResultResponse,
   DocumentResult
 } from "./generated/models";
-import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, FieldValue } from "./models";
+import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField } from "./models";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
+import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState } from './lro/analyze/poller';
+import { PollOperationState, PollerLike } from '@azure/core-lro';
 
 export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
   includeTextDetails?: boolean;
@@ -33,6 +35,11 @@ export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
 
 export type GetExtractedReceiptResultOptions = FormRecognizerOperationOptions;
 
+export type StartAnalyzeOptions = ExtractReceiptOptions & {
+  intervalInMs?: number;
+  onProgress?: (state: StartAnalyzePollState) => void;
+  resumeFrom?: string;
+}
 /**
  * Client class for interacting with Azure Form Recognizer.
  */
@@ -103,46 +110,25 @@ export class ReceiptRecognizerClient {
   public async extractReceipt(
     body: HttpRequestBody,
     contentType: SupportedContentType,
-    options?: ExtractReceiptOptions
-  ): Promise<AnalyzeReceiptResultResponse> {
-    const realOptions = options || { includeTextDetails: false };
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "ReceiptRecognizerClient-extractReceipt",
-      realOptions
-    );
+    options: StartAnalyzeOptions = {}
+  ): Promise<PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>> {
 
-    const customHeaders: { [key: string]: string } =
-      finalOptions.requestOptions?.customHeaders || {};
-    customHeaders["Content-Type"] = contentType;
-    try {
-      const analyzeResult = await this.client.analyzeReceiptAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        body,
-        customHeaders
-      });
-      const lastSlashIndex = analyzeResult.operationLocation.lastIndexOf("/");
-      const resultId = analyzeResult.operationLocation.substring(lastSlashIndex + 1);
-
-      let result: GetAnalyzeReceiptResultResponseModel;
-      do {
-        result = await this.client.getAnalyzeReceiptResult(resultId, {
-          abortSignal: finalOptions.abortSignal
-        });
-        if (result.status !== "succeeded" && result.status !== "failed") {
-          delay(2000); // TODO: internal polling or LRO
-        }
-      } while (result.status !== "succeeded" && result.status !== "failed");
-
-      return this.toReceiptResultResponse(result);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
+    const analyzePollerClient: AnalyzePollerClient = {
+      startAnalyze: (...args) => analyzeReceiptInternal(this.client, ...args),
+      getAnalyzeResult: (...args) => this.getExtractedReceipt(...args)
     }
+
+    const poller = new StartAnalyzePoller({
+      client: analyzePollerClient,
+      body,
+      contentType,
+      intervalInMs: options.intervalInMs,
+      resumeFrom: options.resumeFrom,
+      analyzeOptions: options
+    });
+
+    await poller.poll();
+    return poller;
   }
 
   public async extractReceiptFromUrl(
@@ -221,28 +207,28 @@ export class ReceiptRecognizerClient {
 
   private toReceiptResultResponse(result: GetAnalyzeReceiptResultResponse): AnalyzeReceiptResultResponse {
     function toReceiptResult(result: DocumentResult): ReceiptResult {
-    const rawReceipt = result as unknown as RawReceiptResult;
-    return {
-      docType: rawReceipt.docType,
-      pageRange: rawReceipt.pageRange,
-      receiptType: rawReceipt.fields.ReceiptType.valueString,
-      merchantName: rawReceipt.fields.MerchantName?.valueString,
-      merchantPhoneNumber: rawReceipt.fields.MerchantPhoneNumber?.valuePhoneNumber,
-      merchantAddress: rawReceipt.fields.MerchantAddress?.valueString,
-      items: rawReceipt.fields.Items.valueArray?.map(i => {
-        return {
-          name: (i as ReceiptItemField).valueObject.Name?.valueString,
-          quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
-          totalPrice: (i as ReceiptItemField).valueObject.TotalPrice?.valueNumber
-        };}),
-      subtotal: rawReceipt.fields.Subtotal?.valueNumber,
-      tax: rawReceipt.fields.Tax?.valueNumber,
-      total: rawReceipt.fields.Total?.valueNumber,
-      transactionDate: rawReceipt.fields.TransactionDate?.valueDate,
-      transactionTime: rawReceipt.fields.TransactionTime?.valueTime,
-      rawReciptFields: result.fields as { [propertyName: string]: FieldValue }
+      const rawReceipt = result as unknown as RawReceiptResult;
+      return {
+        docType: rawReceipt.docType,
+        pageRange: rawReceipt.pageRange,
+        receiptType: rawReceipt.fields.ReceiptType.valueString,
+        merchantName: rawReceipt.fields.MerchantName?.valueString,
+        merchantPhoneNumber: rawReceipt.fields.MerchantPhoneNumber?.valuePhoneNumber,
+        merchantAddress: rawReceipt.fields.MerchantAddress?.valueString,
+        items: rawReceipt.fields.Items.valueArray?.map(i => {
+          return {
+            name: (i as ReceiptItemField).valueObject.Name?.valueString,
+            quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
+            totalPrice: (i as ReceiptItemField).valueObject.TotalPrice?.valueNumber
+          };}),
+        subtotal: rawReceipt.fields.Subtotal?.valueNumber,
+        tax: rawReceipt.fields.Tax?.valueNumber,
+        total: rawReceipt.fields.Total?.valueNumber,
+        transactionDate: rawReceipt.fields.TransactionDate?.valueDate,
+        transactionTime: rawReceipt.fields.TransactionTime?.valueTime,
+        fields: rawReceipt.fields
+      }
     }
-  }
   return {
     status: result.status,
     createdDateTime: result.createdDateTime,
@@ -251,8 +237,40 @@ export class ReceiptRecognizerClient {
     analyzeResult: {
       version: result.analyzeResult!.version,
       readResults: result.analyzeResult!.readResults,
-      pageResults: result.analyzeResult!.pageResults,
+      pageResults: [], // TODO: transform result.analyzeResult!.pageResults,
       receiptResults: result!.analyzeResult!.documentResults!.map(toReceiptResult)
     }};
+  }
+}
+
+async function analyzeReceiptInternal(
+  client: GeneratedClient,
+  body: HttpRequestBody,
+  contentType: SupportedContentType,
+  options?: ExtractReceiptOptions
+) {
+  const realOptions = options || { includeTextDetails: false };
+  const { span, updatedOptions: finalOptions } = createSpan(
+    "analyzeReceiptInternal",
+    realOptions
+  );
+
+  const customHeaders: { [key: string]: string } =
+    finalOptions.requestOptions?.customHeaders || {};
+  customHeaders["Content-Type"] = contentType;
+  try {
+      return await client.analyzeReceiptAsync({
+      ...operationOptionsToRequestOptionsBase(finalOptions),
+      body,
+      customHeaders
+    });
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
   }
 }

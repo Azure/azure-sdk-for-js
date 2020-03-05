@@ -4,19 +4,16 @@
 import * as coreHttp from "@azure/core-http";
 
 import {
-  AnalyzeOperationResult,
+  AnalyzeOperationResult as AnalyzeOperationResultModel,
   AnalyzeResult as AnalyzeResultModel,
   DataTableCell as DataTableCellModel,
   KeyValueElement as KeyValueElementModel,
   KeyValuePair as KeyValuePairModel,
   PageResult as PageResultModel,
   TextWord,
-  Model
+  Model,
+  TrainResult
 } from "./generated/models/index";
-
-export {
-  AnalyzeOperationResult
-}
 
 export type TextElement = TextWord;
 
@@ -226,9 +223,7 @@ export interface RawReceiptResult {
   fields: RawReceipt;
 }
 
-export type ReceiptResult = Omit<RawReceiptResult, "fields"> & {
-  rawReciptFields: { [propertyName: string]: FieldValue };
-} & Receipt
+export type ReceiptResult = RawReceiptResult & Receipt
 
 /**
  * Analyze Receipt result.
@@ -240,7 +235,7 @@ export type AnalyzeReceiptResult = Omit<AnalyzeResult, 'documentResults'> & {
 /**
  * Status and result of the queued analyze receipt operation.
  */
-export type AnalyzeReceiptOperationResult = Omit<AnalyzeOperationResult, 'analyzeResult'> & {
+export type AnalyzeReceiptOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
   /**
    * Results of the analyze receipt operation.
    */
@@ -263,13 +258,13 @@ export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: AnalyzeOperationResult;
+    parsedBody: AnalyzeOperationResultModel;
   }
 }
 
 export type AnalyzeLayoutResult = Omit<AnalyzeResult, 'documentResults'>;
 
-export type AnalyzeLayoutOperationResult = Omit<AnalyzeOperationResult, 'analyzeResult'> & {
+export type AnalyzeLayoutOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
   analyzeResult?: AnalyzeLayoutResult;
 }
 
@@ -289,10 +284,19 @@ export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: AnalyzeOperationResult;
+    parsedBody: AnalyzeOperationResultModel;
   }
 }
 
 export type AnalyzeFormResult = Omit<AnalyzeResult, "documentResults">
 
-export type LabeledFormModel = Omit<Model, "keys">;
+export type CustomFormModelTrainResult = Omit<TrainResult, "averageModelAccuracy" | "fields">;
+
+export type CustomFormModel = Omit<Model, "trainResult"> & {
+  kind: "unlabeled";
+  trainResult?: CustomFormModelTrainResult;
+}
+
+export type LabeledFormModel = Omit<Model, "keys"> & {
+  kind: "labeled";
+};
