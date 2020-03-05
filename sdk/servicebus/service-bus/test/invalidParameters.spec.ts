@@ -474,7 +474,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
       caughtError = error;
     }
     should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(caughtError && caughtError.message, `Missing parameter "onMessage"`);
+    should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
   });
 
   it("RegisterMessageHandler: Wrong type for onMessage in SessionReceiver", async function(): Promise<
@@ -487,10 +487,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
       caughtError = error;
     }
     should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(
-      caughtError && caughtError.message,
-      `The parameter 'onMessage' must be of type 'function'.`
-    );
+    should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
   });
 
   // it("RegisterMessageHandler: Missing onError in SessionReceiver", async function(): Promise<void> {
