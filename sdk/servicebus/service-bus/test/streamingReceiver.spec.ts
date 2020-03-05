@@ -826,7 +826,7 @@ describe("Streaming - User Error", function(): void {
 
     should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages.`);
     should.equal(
-      !!(receiverClient as any)._context.streamingReceiver,
+      !!(receiverClient as any)._receiver._context.streamingReceiver,
       true,
       "Expected streaming receiver not to be cached."
     );
