@@ -39,11 +39,7 @@ export interface Session {
 }
 
 export function isSession(possibleSession: Session | any): possibleSession is Session {
-  return (
-    possibleSession != null &&
-    ((possibleSession as Session).connections as boolean) &&
-    typeof (possibleSession as Session).connections === "object"
-  );
+  return possibleSession != null;
 }
 
 /**
