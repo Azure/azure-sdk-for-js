@@ -38,6 +38,13 @@ export class AuthorizationCodeCredential implements TokenCredential {
     }
 
 // @public
+export class AzureCliCredential implements TokenCredential {
+    constructor();
+    protected getAzureCliAccessToken(resource: string): Promise<unknown>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
+// @public
 export type BrowserLoginStyle = "redirect" | "popup";
 
 // @public
