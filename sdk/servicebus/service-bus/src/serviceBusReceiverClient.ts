@@ -621,17 +621,17 @@ export class ReceiverClientImplementation {
   // }
 
   getRules(): Promise<RuleDescription[]> {
-    throw new Error("Not yet implemented");
+    return this._receiver.getRules(this.entityPath);
   }
   removeRule(ruleName: string): Promise<void> {
-    throw new Error("Not yet implemented");
+    return this._receiver.removeRule(this.entityPath, ruleName);
   }
   addRule(
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    throw new Error("Not yet implemented");
+    return this._receiver.addRule(this.entityPath, ruleName, filter, sqlRuleActionExpression);
   }
 
   // ManagementClient methods # Begin
