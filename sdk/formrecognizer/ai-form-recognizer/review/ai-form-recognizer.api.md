@@ -471,7 +471,7 @@ export type StringFieldValue = {
 } & CommonFieldValue;
 
 // @public (undocumented)
-export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff";
+export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff" | "application/json";
 
 // @public (undocumented)
 export type TextElement = TextWord;

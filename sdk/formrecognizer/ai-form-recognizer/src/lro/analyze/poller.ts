@@ -6,13 +6,13 @@ import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { ExtractReceiptOptions } from "../../receiptRecognizerClient";
 import { ExtractLayoutOptions } from "../../layoutRecognizerClient";
 import { ExtractCustomFormOptions } from "../../customRecognizerClient";
-import { AnalyzeReceiptResultResponse } from "../../models";
-import { OperationStatus } from "../../generated/models";
+import { AnalyzeLayoutResultResponse, AnalyzeReceiptResultResponse } from "../../models";
+import { GetAnalyzeFormResultResponse, OperationStatus } from "../../generated/models";
 import { SupportedContentType } from '../../common';
 
 export type StartAnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | ExtractCustomFormOptions;
 
-export type ResultResponse = AnalyzeReceiptResultResponse // | AnalyzeLayoutResultResponse | GetAnalyzeFormResultResponse;
+export type ResultResponse = AnalyzeReceiptResultResponse | AnalyzeLayoutResultResponse | GetAnalyzeFormResultResponse;
 
 /**
  * Defines the operations from a analyze client that are needed for the poller

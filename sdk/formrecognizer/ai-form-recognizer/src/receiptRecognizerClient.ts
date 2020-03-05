@@ -8,14 +8,12 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  HttpRequestBody,
-  delay
+  HttpRequestBody
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
 import {
-  GetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponseModel,
   GetAnalyzeReceiptResultResponse,
   DocumentResult
 } from "./generated/models";
@@ -26,7 +24,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState } from './lro/analyze/poller';
+import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, ResultResponse } from './lro/analyze/poller';
 import { PollOperationState, PollerLike } from '@azure/core-lro';
 
 export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
@@ -111,7 +109,7 @@ export class ReceiptRecognizerClient {
     body: HttpRequestBody,
     contentType: SupportedContentType,
     options: StartAnalyzeOptions = {}
-  ): Promise<PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>> {
+  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
 
     const analyzePollerClient: AnalyzePollerClient = {
       startAnalyze: (...args) => analyzeReceiptInternal(this.client, ...args),
@@ -133,52 +131,32 @@ export class ReceiptRecognizerClient {
 
   public async extractReceiptFromUrl(
     imageSourceUrl: string,
-    options?: ExtractReceiptOptions
-  ): Promise<AnalyzeReceiptResultResponse> {
-    const realOptions = options || { includeTextDetails: false };
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "ReceiptRecognizerClient-extractReceiptFromUrl",
-      realOptions
-    );
-
-    const customHeaders: { [key: string]: string } =
-      finalOptions.requestOptions?.customHeaders || {};
-    customHeaders["Content-Type"] = "application/json";
+    options: StartAnalyzeOptions = {}
+  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
+    const contentType = "application/json";
     const body = JSON.stringify({
       source: imageSourceUrl
     });
-    try {
-      const analyzeResult = await this.client.analyzeReceiptAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        body,
-        customHeaders
-      });
-      const lastSlashIndex = analyzeResult.operationLocation.lastIndexOf("/");
-      const resultId = analyzeResult.operationLocation.substring(lastSlashIndex + 1);
 
-      let result: GetAnalyzeReceiptResultResponseModel;
-      do {
-        result = await this.client.getAnalyzeReceiptResult(resultId, {
-          abortSignal: finalOptions.abortSignal
-        });
-        if (result.status !== "succeeded" && result.status !== "failed") {
-          delay(2000); // TODO: internal polling or LRO
-        }
-      } while (result.status !== "succeeded" && result.status !== "failed");
-
-      return this.toReceiptResultResponse(result);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
+    const analyzePollerClient: AnalyzePollerClient = {
+      startAnalyze: (...args) => analyzeReceiptInternal(this.client, ...args),
+      getAnalyzeResult: (...args) => this.getExtractedReceipt(...args)
     }
+
+    const poller = new StartAnalyzePoller({
+      client: analyzePollerClient,
+      body,
+      contentType,
+      intervalInMs: options.intervalInMs,
+      resumeFrom: options.resumeFrom,
+      analyzeOptions: options
+    });
+
+    await poller.poll();
+    return poller;
   }
 
-  public async getExtractedReceipt(
+  private async getExtractedReceipt(
     resultId: string,
     options?: GetExtractedReceiptResultOptions
   ): Promise<AnalyzeReceiptResultResponse> {

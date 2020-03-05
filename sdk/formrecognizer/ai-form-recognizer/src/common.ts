@@ -16,5 +16,5 @@ export interface FormRecognizerClientOptions extends PipelineOptions {}
  */
 export interface FormRecognizerOperationOptions extends OperationOptions {}
 
-export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff";
+export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff" | "application/json";
 
