@@ -105,12 +105,15 @@ export class CustomFormRecognizerClient {
     // (undocumented)
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<import("@azure/core-http").RestResponse>;
     readonly endpointUrl: string;
-    // Warning: (ae-forgotten-export) The symbol "GetAnalyzeFormResultResponse" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "StartAnalyzePollerOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "ResultResponse" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    extractCustomForm(modelId: string, body: HttpRequestBody, contentType: string, options: ExtractCustomFormOptions): Promise<GetAnalyzeFormResultResponse>;
+    extractCustomForm(modelId: string, body: HttpRequestBody, contentType: string, options: StartAnalyzePollerOptions): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>>;
     // (undocumented)
-    getExtractedCustomForm(modelId: string, resultId: string, options?: GetExtractedCustomFormOptions): Promise<GetAnalyzeFormResultResponse>;
+    extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options: StartAnalyzePollerOptions): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>>;
+    // (undocumented)
+    getExtractedCustomForm(modelId: string, resultId: string, options?: GetExtractedCustomFormOptions): Promise<import("./generated/models").GetAnalyzeFormResultResponse>;
     // (undocumented)
     getModel(modelId: string, options: GetModelOptions): Promise<import("./generated/models").GetCustomModelResponse>;
     // (undocumented)
@@ -270,11 +273,13 @@ export class LayoutRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractLayout(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractLayoutOptions): Promise<AnalyzeLayoutResultResponse>;
+    extractLayout(body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzePollerOptions): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>>;
+    // Warning: (ae-forgotten-export) The symbol "StartAnalyzePoller" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
+    extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions): Promise<StartAnalyzePoller>;
     // (undocumented)
-    getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions): Promise<GetAnalyzeLayoutResultResponse>;
+    getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions): Promise<AnalyzeLayoutResultResponse>;
 }
 
 // @public
@@ -354,6 +359,8 @@ export interface RawReceipt {
     // (undocumented)
     Tax: NumberFieldValue;
     // (undocumented)
+    Tip: NumberFieldValue;
+    // (undocumented)
     Total: NumberFieldValue;
     // (undocumented)
     TransactionDate: DateFieldValue;
@@ -396,6 +403,8 @@ export interface Receipt {
     // (undocumented)
     tax: number;
     // (undocumented)
+    tip: number;
+    // (undocumented)
     total: number;
     // (undocumented)
     transactionDate: string;
@@ -422,27 +431,23 @@ export interface ReceiptItemArrayField {
 }
 
 // @public
-export interface ReceiptItemField {
-    // (undocumented)
+export type ReceiptItemField = {
     type: "object";
-    // (undocumented)
     valueObject: {
         Name: StringFieldValue;
         Quantity: NumberFieldValue;
         TotalPrice: NumberFieldValue;
     };
-}
+} & CommonFieldValue;
 
 // @public
 export class ReceiptRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
-    // Warning: (ae-forgotten-export) The symbol "ResultResponse" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options?: StartAnalyzeOptions): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>>;
+    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzePollerOptions): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>>;
     // (undocumented)
-    extractReceiptFromUrl(imageSourceUrl: string, options?: StartAnalyzeOptions): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>>;
+    extractReceiptFromUrl(imageSourceUrl: string, options: StartAnalyzePollerOptions): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>>;
     }
 
 // @public (undocumented)

@@ -156,14 +156,14 @@ export type FieldValue =
 /**
  * Represents an item in a receipt.
  */
-export interface ReceiptItemField {
+export type ReceiptItemField = {
   type: "object";
   valueObject: {
     Name: StringFieldValue;
     Quantity: NumberFieldValue;
     TotalPrice: NumberFieldValue;
   }
-}
+} & CommonFieldValue
 
 export interface ReceiptItem {
   name?: string;
@@ -190,6 +190,7 @@ export interface RawReceipt {
   Items: ReceiptItemArrayField;
   Subtotal: NumberFieldValue;
   Tax: NumberFieldValue;
+  Tip: NumberFieldValue;
   Total: NumberFieldValue;
   TransactionDate: DateFieldValue;
   TransactionTime: TimeFieldValue;
@@ -203,6 +204,7 @@ export interface Receipt {
   items: ReceiptItem[];
   subtotal: number;
   tax: number;
+  tip: number;
   total: number;
   transactionDate: string;
   transactionTime: string;

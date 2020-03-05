@@ -20,7 +20,7 @@ export type ResultResponse = AnalyzeReceiptResultResponse | AnalyzeLayoutResultR
  */
 export type AnalyzePollerClient = {
   // returns a result id to retrieve results
-  startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: StartAnalyzeOptions) => Promise<{ operationLocation: string }>;
+  startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: StartAnalyzeOptions, modelId?: string) => Promise<{ operationLocation: string }>;
   // retrieves analyze result
   getAnalyzeResult: (
     resultId: string,
@@ -32,6 +32,7 @@ export interface StartAnalyzePollState extends PollOperationState<ResultResponse
   readonly client: AnalyzePollerClient;
   body?: HttpRequestBody;
   contentType: SupportedContentType;
+  modelId?: string;
   resultId?: string;
   status: OperationStatus;
   readonly analyzeOptions?: StartAnalyzeOptions;
@@ -40,16 +41,16 @@ export interface StartAnalyzePollState extends PollOperationState<ResultResponse
 export interface StartAnalyzePollerOperation
 extends PollOperation<StartAnalyzePollState, ResultResponse> {}
 
-export interface StartAnalyzePollerOptions {
+export type StartAnalyzePollerOptions = {
   client: AnalyzePollerClient;
   body: HttpRequestBody;
   contentType: SupportedContentType;
+  modelId?: string;
   intervalInMs?: number;
   resultId?: string;
   onProgress?: (state: StartAnalyzePollState) => void;
   resumeFrom?: string;
-  analyzeOptions?: StartAnalyzeOptions;
-}
+} & StartAnalyzeOptions;
 
 /**
  * Class that represents a poller that waits until a model has been trained.
@@ -65,8 +66,7 @@ export class StartAnalyzePoller extends Poller<StartAnalyzePollState, ResultResp
       intervalInMs = 1000,
       resultId,
       onProgress,
-      resumeFrom,
-      analyzeOptions
+      resumeFrom
     } = options;
 
     let state: StartAnalyzePollState | undefined;
@@ -82,7 +82,7 @@ export class StartAnalyzePoller extends Poller<StartAnalyzePollState, ResultResp
       contentType,
       resultId,
       status: "notStarted",
-      analyzeOptions
+      analyzeOptions: options
     });
 
     super(operation);
@@ -111,13 +111,19 @@ const update: StartAnalyzePollerOperation["update"] = async function update(
   options = {}
 ): Promise<StartAnalyzePollerOperation> {
   const state = this.state;
-  const { client, body, contentType, analyzeOptions } = state;
+  const { client, body, contentType, analyzeOptions, modelId } = state;
 
-  if (!state.isStarted && body) {
+  if (!state.isStarted) {
+    if (!body) {
+      throw new Error("Expect a valid 'body'");
+    }
+
     state.isStarted = true;
-    const result = await client.startAnalyze(body, contentType, analyzeOptions || {});
+    const result = await client.startAnalyze(body, contentType, analyzeOptions || {}, modelId);
     const lastSlashIndex = result.operationLocation.lastIndexOf("/");
     state.resultId = result.operationLocation.substring(lastSlashIndex + 1);
+    // body is no longer needed
+    state.body = undefined;
   }
 
   const response = await client.getAnalyzeResult(state.resultId!, {
@@ -125,7 +131,6 @@ const update: StartAnalyzePollerOperation["update"] = async function update(
   });
 
   state.status = response.status;
-
   if (!state.isCompleted) {
     if (response.status === "running" && typeof options.fireProgress === "function") {
       options.fireProgress(state);

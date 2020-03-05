@@ -28,7 +28,7 @@ async function main() {
   let response;
 
   try {
-    response = await client.getExtractedReceipt("bce24b30-49a1-4bb1-9e54-206194aa8665");
+    //response = await client.getExtractedReceipt("bce24b30-49a1-4bb1-9e54-206194aa8665");
   } catch (e) {
     console.log(e);
     response = { status: "failed" };
@@ -40,7 +40,8 @@ async function main() {
     console.log("extracting...");
 
     const poller = await client.extractReceiptFromUrl(imageUrl, {
-      onProgress: (state) => { console.log(`analyzing status: ${state}`); }
+      includeTextDetails: true,
+      onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
     });
     await poller.pollUntilDone();
     response = poller.getResult();

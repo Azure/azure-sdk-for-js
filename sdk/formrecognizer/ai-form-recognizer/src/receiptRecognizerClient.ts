@@ -24,7 +24,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, ResultResponse } from './lro/analyze/poller';
+import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, ResultResponse, StartAnalyzePollerOptions } from './lro/analyze/poller';
 import { PollOperationState, PollerLike } from '@azure/core-lro';
 
 export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
@@ -108,7 +108,7 @@ export class ReceiptRecognizerClient {
   public async extractReceipt(
     body: HttpRequestBody,
     contentType: SupportedContentType,
-    options: StartAnalyzeOptions = {}
+    options: StartAnalyzePollerOptions
   ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
 
     const analyzePollerClient: AnalyzePollerClient = {
@@ -120,9 +120,7 @@ export class ReceiptRecognizerClient {
       client: analyzePollerClient,
       body,
       contentType,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      analyzeOptions: options
+      ...options
     });
 
     await poller.poll();
@@ -131,9 +129,8 @@ export class ReceiptRecognizerClient {
 
   public async extractReceiptFromUrl(
     imageSourceUrl: string,
-    options: StartAnalyzeOptions = {}
+    options: StartAnalyzePollerOptions
   ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
-    const contentType = "application/json";
     const body = JSON.stringify({
       source: imageSourceUrl
     });
@@ -146,10 +143,8 @@ export class ReceiptRecognizerClient {
     const poller = new StartAnalyzePoller({
       client: analyzePollerClient,
       body,
-      contentType,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      analyzeOptions: options
+      contentType: "application/json",
+      ...options
     });
 
     await poller.poll();
@@ -198,26 +193,39 @@ export class ReceiptRecognizerClient {
             name: (i as ReceiptItemField).valueObject.Name?.valueString,
             quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
             totalPrice: (i as ReceiptItemField).valueObject.TotalPrice?.valueNumber
-          };}),
+          };
+        }),
         subtotal: rawReceipt.fields.Subtotal?.valueNumber,
         tax: rawReceipt.fields.Tax?.valueNumber,
+        tip: rawReceipt.fields.Tip?.valueNumber,
         total: rawReceipt.fields.Total?.valueNumber,
         transactionDate: rawReceipt.fields.TransactionDate?.valueDate,
         transactionTime: rawReceipt.fields.TransactionTime?.valueTime,
         fields: rawReceipt.fields
       }
     }
-  return {
-    status: result.status,
-    createdDateTime: result.createdDateTime,
-    lastUpdatedDateTime: result.lastUpdatedDateTime,
-    _response: result._response,
-    analyzeResult: {
-      version: result.analyzeResult!.version,
-      readResults: result.analyzeResult!.readResults,
-      pageResults: [], // TODO: transform result.analyzeResult!.pageResults,
-      receiptResults: result!.analyzeResult!.documentResults!.map(toReceiptResult)
-    }};
+
+    if (result.status === "succeeded") {
+      return {
+        status: result.status,
+        createdDateTime: result.createdDateTime,
+        lastUpdatedDateTime: result.lastUpdatedDateTime,
+        _response: result._response,
+        analyzeResult:  {
+          version: result.analyzeResult!.version,
+          readResults: result.analyzeResult!.readResults,
+          pageResults: [], // TODO: transform result.analyzeResult!.pageResults,
+          receiptResults: result!.analyzeResult!.documentResults!.map(toReceiptResult)
+        }
+      }
+    } else {
+      return {
+        status: result.status,
+        createdDateTime: result.createdDateTime,
+        lastUpdatedDateTime: result.lastUpdatedDateTime,
+        _response: result._response,
+      }
+    };
   }
 }
 
@@ -225,7 +233,8 @@ async function analyzeReceiptInternal(
   client: GeneratedClient,
   body: HttpRequestBody,
   contentType: SupportedContentType,
-  options?: ExtractReceiptOptions
+  options?: ExtractReceiptOptions,
+  _modelId?: string
 ) {
   const realOptions = options || { includeTextDetails: false };
   const { span, updatedOptions: finalOptions } = createSpan(

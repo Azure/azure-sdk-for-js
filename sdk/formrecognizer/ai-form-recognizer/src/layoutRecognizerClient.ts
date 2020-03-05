@@ -16,6 +16,7 @@ import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
 import {
   AnalyzeResult as AnalyzeResultModel,
+  AnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   GetAnalyzeLayoutResultResponse,
 } from "./generated/models";
 import { createSpan } from "./tracing";
@@ -25,6 +26,8 @@ import { CanonicalCode } from "@opentelemetry/types";
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { AnalyzeLayoutResultResponse, AnalyzeLayoutResult } from './models';
+import { StartAnalyzePollerOptions, AnalyzePollerClient, StartAnalyzePoller, ResultResponse } from './lro/analyze/poller';
+import { PollerLike, PollOperationState } from '.';
 
 export type ExtractLayoutOptions = FormRecognizerOperationOptions & {};
 
@@ -100,90 +103,43 @@ export class LayoutRecognizerClient {
   public async extractLayout(
     body: HttpRequestBody,
     contentType: SupportedContentType,
-    options?: ExtractLayoutOptions
-  ): Promise<AnalyzeLayoutResultResponse> {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "LayoutRecognizerClient-extractLayout",
-      realOptions
-    );
+    options: StartAnalyzePollerOptions
+  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
 
-    const customHeaders: { [key: string]: string } =
-      finalOptions.requestOptions?.customHeaders || {};
-    customHeaders["Content-Type"] = contentType;
-    try {
-      const result = await this.client.analyzeLayoutAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        body,
-        customHeaders
-      });
-      const lastSlashIndex = result.operationLocation.lastIndexOf("/");
-      const resultId = result.operationLocation.substring(lastSlashIndex + 1);
-
-      let analyzeResult: GetAnalyzeLayoutResultResponse;
-      do {
-        analyzeResult = await this.client.getAnalyzeLayoutResult(resultId, {
-          abortSignal: finalOptions.abortSignal
-        });
-        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
-          delay(2000); // TODO: internal polling or LRO
-        }
-      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
-
-      return toAnalyzeLayoutResultResponse(analyzeResult);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
+    const analyzePollerClient: AnalyzePollerClient = {
+      startAnalyze: (...args) => analyzeLayoutInternal(this.client, ...args),
+      getAnalyzeResult: (...args) => this.getExtractedLayout(...args)
     }
+
+    const poller = new StartAnalyzePoller({
+      client: analyzePollerClient,
+      body,
+      contentType,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
   }
 
   public async extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions) {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "LayoutRecognizerClient-extractLayoutFromUrl",
-      realOptions
-    );
-
-    const customHeaders: { [key: string]: string } =
-      finalOptions.requestOptions?.customHeaders || {};
-    customHeaders["Content-Type"] = "application/json";
     const body = JSON.stringify({
       source: imageSourceUrl
     });
-    try {
-      const result = await this.client.analyzeLayoutAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        body,
-        customHeaders
-      });
-      const lastSlashIndex = result.operationLocation.lastIndexOf("/");
-      const resultId = result.operationLocation.substring(lastSlashIndex + 1);
-
-      let analyzeResult: GetAnalyzeLayoutResultResponse;
-      do {
-        analyzeResult = await this.client.getAnalyzeLayoutResult(resultId, {
-          abortSignal: finalOptions.abortSignal
-        });
-        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
-          delay(2000); // TODO: internal polling or LRO
-        }
-      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
-
-      return analyzeResult;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
+    const analyzePollerClient: AnalyzePollerClient = {
+      startAnalyze: (...args) => analyzeLayoutInternal(this.client, ...args),
+      getAnalyzeResult: (...args) => this.getExtractedLayout(...args)
     }
+
+    const poller = new StartAnalyzePoller({
+      client: analyzePollerClient,
+      body,
+      contentType: "application/json",
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
   }
 
   public async getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions) {
@@ -203,7 +159,7 @@ export class LayoutRecognizerClient {
         }
       } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
 
-      return analyzeResult;
+      return toAnalyzeLayoutResultResponse(analyzeResult);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -228,11 +184,54 @@ function  toAnalyzeLayoutResultResponse(original: GetAnalyzeLayoutResultResponse
       errors: model.errors
     }
   }
-  return {
-    status: original.status,
-    createdDateTime: original.createdDateTime,
-    lastUpdatedDateTime: original.lastUpdatedDateTime,
-    analyzeResult: toAnalyzeLayoutResult(original?.analyzeResult),
-    _response: original._response
+
+  if (original.status === "succeeded") {
+    return {
+      status: original.status,
+      createdDateTime: original.createdDateTime,
+      lastUpdatedDateTime: original.lastUpdatedDateTime,
+      analyzeResult: toAnalyzeLayoutResult(original?.analyzeResult),
+      _response: original._response
+    }
+  } else {
+    return {
+      status: original.status,
+      createdDateTime: original.createdDateTime,
+      lastUpdatedDateTime: original.lastUpdatedDateTime,
+      _response: original._response
+    }
+  }
+}
+
+async function analyzeLayoutInternal(
+  client: GeneratedClient,
+  body: HttpRequestBody,
+  contentType: SupportedContentType,
+  options?: ExtractLayoutOptions,
+  _modelId?: string
+): Promise<AnalyzeLayoutAsyncResponseModel> {
+  const realOptions = options || {};
+  const { span, updatedOptions: finalOptions } = createSpan(
+    "analyzeLayoutInternal",
+    realOptions
+  );
+
+  const customHeaders: { [key: string]: string } =
+    finalOptions.requestOptions?.customHeaders || {};
+  customHeaders["Content-Type"] = contentType;
+  try {
+    return await client.analyzeLayoutAsync({
+      ...operationOptionsToRequestOptionsBase(finalOptions),
+      body,
+      customHeaders
+    });
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
   }
 }

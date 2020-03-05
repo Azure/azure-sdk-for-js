@@ -16,7 +16,6 @@ import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
 import {
   GetAnalyzeLayoutResultResponse,
-  GetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponseModel,
   GetAnalyzeReceiptResultResponse,
   DocumentResult
 } from "./generated/models";
@@ -27,6 +26,8 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
+import { StartAnalyzePollerOptions, ResultResponse, AnalyzePollerClient, StartAnalyzePoller } from './lro/analyze/poller';
+import { PollerLike, PollOperationState } from '@azure/core-lro';
 
 export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
   includeTextDetails?: boolean;
@@ -108,93 +109,48 @@ export class FormRecognizerClient {
   public async extractReceipt(
     body: HttpRequestBody,
     contentType: SupportedContentType,
-    options?: ExtractReceiptOptions
-  ): Promise<AnalyzeReceiptResultResponse> {
-    const realOptions = options || { includeTextDetails: false };
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-extractReceipt",
-      realOptions
-    );
+    options: StartAnalyzePollerOptions
+  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
 
-    const customHeaders: { [key: string]: string } =
-      finalOptions.requestOptions?.customHeaders || {};
-    customHeaders["Content-Type"] = contentType;
-    try {
-      const analyzeResult = await this.client.analyzeReceiptAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        body,
-        customHeaders
-      });
-      const lastSlashIndex = analyzeResult.operationLocation.lastIndexOf("/");
-      const resultId = analyzeResult.operationLocation.substring(lastSlashIndex + 1);
-
-      let result: GetAnalyzeReceiptResultResponseModel;
-      do {
-        result = await this.client.getAnalyzeReceiptResult(resultId, {
-          abortSignal: finalOptions.abortSignal
-        });
-        if (result.status !== "succeeded" && result.status !== "failed") {
-          delay(2000); // TODO: internal polling or LRO
-        }
-      } while (result.status !== "succeeded" && result.status !== "failed");
-
-      return this.toReceiptResultResponse(result);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
+    const analyzePollerClient: AnalyzePollerClient = {
+      startAnalyze: (...args) => analyzeReceiptInternal(this.client, ...args),
+      getAnalyzeResult: (...args) => this.getExtractedReceipt(...args)
     }
+
+    const poller = new StartAnalyzePoller({
+      client: analyzePollerClient,
+      body,
+      contentType,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
   }
 
   public async extractReceiptFromUrl(
     imageSourceUrl: string,
-    options?: ExtractReceiptOptions
-  ): Promise<AnalyzeReceiptResultResponse> {
-    const realOptions = options || { includeTextDetails: false };
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-extractReceiptFromUrl",
-      realOptions
-    );
-
-    const customHeaders: { [key: string]: string } =
-      finalOptions.requestOptions?.customHeaders || {};
-    customHeaders["Content-Type"] = "application/json";
+    options: StartAnalyzePollerOptions
+  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
+    const contentType = "application/json";
     const body = JSON.stringify({
       source: imageSourceUrl
     });
-    try {
-      const analyzeResult = await this.client.analyzeReceiptAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        body,
-        customHeaders
-      });
-      const lastSlashIndex = analyzeResult.operationLocation.lastIndexOf("/");
-      const resultId = analyzeResult.operationLocation.substring(lastSlashIndex + 1);
 
-      let result: GetAnalyzeReceiptResultResponseModel;
-      do {
-        result = await this.client.getAnalyzeReceiptResult(resultId, {
-          abortSignal: finalOptions.abortSignal
-        });
-        if (result.status !== "succeeded" && result.status !== "failed") {
-          delay(2000); // TODO: internal polling or LRO
-        }
-      } while (result.status !== "succeeded" && result.status !== "failed");
-
-      return this.toReceiptResultResponse(result);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
+    const analyzePollerClient: AnalyzePollerClient = {
+      startAnalyze: (...args) => analyzeReceiptInternal(this.client, ...args),
+      getAnalyzeResult: (...args) => this.getExtractedReceipt(...args)
     }
+
+    const poller = new StartAnalyzePoller({
+      client: analyzePollerClient,
+      body,
+      contentType,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
   }
 
   public async getExtractedReceipt(
@@ -242,6 +198,7 @@ export class FormRecognizerClient {
           };}),
         subtotal: rawReceipt.fields.Subtotal?.valueNumber,
         tax: rawReceipt.fields.Tax?.valueNumber,
+        tip: rawReceipt.fields.Tip?.valueNumber,
         total: rawReceipt.fields.Total?.valueNumber,
         transactionDate: rawReceipt.fields.TransactionDate?.valueDate,
         transactionTime: rawReceipt.fields.TransactionTime?.valueTime,
@@ -372,5 +329,38 @@ export class FormRecognizerClient {
     } finally {
       span.end();
     }
+  }
+}
+
+async function analyzeReceiptInternal(
+  client: GeneratedClient,
+  body: HttpRequestBody,
+  contentType: SupportedContentType,
+  options?: ExtractReceiptOptions,
+  _modelId?: string
+) {
+  const realOptions = options || { includeTextDetails: false };
+  const { span, updatedOptions: finalOptions } = createSpan(
+    "analyzeReceiptInternal",
+    realOptions
+  );
+
+  const customHeaders: { [key: string]: string } =
+    finalOptions.requestOptions?.customHeaders || {};
+  customHeaders["Content-Type"] = contentType;
+  try {
+      return await client.analyzeReceiptAsync({
+      ...operationOptionsToRequestOptionsBase(finalOptions),
+      body,
+      customHeaders
+    });
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
   }
 }

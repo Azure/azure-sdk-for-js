@@ -11,7 +11,7 @@ import {
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
   HttpRequestBody,
-  delay
+  AbortSignalLike
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -20,17 +20,17 @@ import { logger } from "./logger";
 import {
   GetCustomModelsResponse,
   Model,
-  GetAnalyzeFormResultResponse,
   ModelInfo
 } from "./generated/models";
 import { createSpan } from "./tracing";
-import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
+import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { StartAnalyzePollerOptions, ResultResponse, AnalyzePollerClient, StartAnalyzePoller, StartAnalyzeOptions } from './lro/analyze/poller';
 
 export { PollOperationState, PollerLike, StartTrainingPoller };
 
@@ -313,45 +313,56 @@ export class CustomFormRecognizerClient {
     modelId: string,
     body: HttpRequestBody,
     contentType: string,
-    options: ExtractCustomFormOptions
-  ) {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-extractCustomForm",
-      realOptions
-    );
-    const customHeaders: { [key: string]: string } =
-      finalOptions.requestOptions?.customHeaders || {};
-    customHeaders["Content-Type"] = contentType;
-    try {
-      const result = await this.client.analyzeWithCustomModel(modelId, {
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        body,
-        customHeaders
-      });
-      const lastSlashIndex = result.operationLocation.lastIndexOf("/");
-      const resultId = result.operationLocation.substring(lastSlashIndex + 1);
-
-      let analyzeResult: GetAnalyzeFormResultResponse;
-      do {
-        analyzeResult = await this.client.getAnalyzeFormResult(modelId, resultId, {
-          abortSignal: finalOptions.abortSignal
-        });
-        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
-          delay(2000); // TODO: internal polling or LRO
-        }
-      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
-
-      return analyzeResult;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
+    options: StartAnalyzePollerOptions
+  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
+    if (!modelId) {
+      throw new RangeError("Invalid modelId")
     }
+    const analyzePollerClient: AnalyzePollerClient = {
+      startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: StartAnalyzeOptions, modelId?: string) =>
+       analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
+      getAnalyzeResult: (resultId: string,
+        options: { abortSignal?: AbortSignalLike }) => this.getExtractedCustomForm(modelId, resultId, options)
+    }
+
+    const poller = new StartAnalyzePoller({
+      client: analyzePollerClient,
+      body,
+      contentType,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  public async extractCustomFormFromUrl(
+    modelId: string,
+    imageSourceUrl: string,
+    options: StartAnalyzePollerOptions
+  ): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>> {
+    if (!modelId) {
+      throw new RangeError("Invalid modelId")
+    }
+    const body = JSON.stringify({
+      source: imageSourceUrl
+    });
+    const analyzePollerClient: AnalyzePollerClient = {
+      startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: StartAnalyzeOptions, modelId?: string) =>
+       analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
+      getAnalyzeResult: (resultId: string,
+        options: { abortSignal?: AbortSignalLike }) => this.getExtractedCustomForm(modelId, resultId, options)
+    }
+
+    const poller = new StartAnalyzePoller({
+      client: analyzePollerClient,
+      body,
+      contentType: "application/json",
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
   }
 
   public async getExtractedCustomForm(
@@ -371,7 +382,7 @@ export class CustomFormRecognizerClient {
         resultId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      return result;
+      return result; // TODO: transform to custom form result response defined in model.ts
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -408,6 +419,38 @@ async function trainCustomModelInternal(
       },
       operationOptionsToRequestOptionsBase(finalOptions)
     );
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
+  }
+}
+
+async function analyzeCustomFormInternal(
+  client: GeneratedClient,
+  body: HttpRequestBody,
+  contentType: string,
+  options: ExtractCustomFormOptions,
+  modelId: string
+) {
+  const realOptions = options || {};
+  const { span, updatedOptions: finalOptions } = createSpan(
+    "analyzeCustomFormInternal",
+    realOptions
+  );
+  const customHeaders: { [key: string]: string } =
+    finalOptions.requestOptions?.customHeaders || {};
+  customHeaders["Content-Type"] = contentType;
+  try {
+    return await client.analyzeWithCustomModel(modelId, {
+      ...operationOptionsToRequestOptionsBase(finalOptions),
+      body,
+      customHeaders
+    });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,
