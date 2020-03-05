@@ -13,7 +13,6 @@ import {
   ReceivedMessage,
   ContextWithSettlement
 } from "../src";
-import { ServiceBusClient } from "../src/old/serviceBusClient";
 
 import {
   TestMessage,
@@ -36,8 +35,6 @@ async function testPeekMsgsLength(
     "Unexpected number of msgs found when peeking"
   );
 }
-
-let sbClient: ServiceBusClient;
 
 let senderClient: ServiceBusSenderClient;
 let receiverClient: SessionReceiver<"peekLock">;
@@ -70,9 +67,7 @@ async function beforeEachTest(
   }
 }
 
-async function afterEachTest(): Promise<void> {
-  await sbClient.close();
-}
+async function afterEachTest(): Promise<void> {}
 
 describe("SessionReceiver with invalid sessionId", function(): void {
   let sessionId: string;

@@ -8,7 +8,7 @@ import {
   QueueAuth,
   SubscriptionAuth,
   isQueueAuth
-} from "../src/modelsTrack2";
+} from "../src/models";
 import {
   ServiceBusReceiverClient,
   NonSessionReceiver,
