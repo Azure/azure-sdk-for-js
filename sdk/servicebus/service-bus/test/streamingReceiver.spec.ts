@@ -134,7 +134,6 @@ describe("Streaming - Misc Tests", function(): void {
         ? `Expected 1, received ${receivedMsgs.length} messages`
         : "Message didnt get auto-completed in time"
     );
-    await receiverClient.close();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
@@ -151,7 +150,7 @@ describe("Streaming - Misc Tests", function(): void {
     await testAutoComplete();
   });
 
-  it("UnPartitioned Queue: AutoComplete removes the message #RunInBrowser", async function(): Promise<
+  it.only("UnPartitioned Queue: AutoComplete removes the message #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
