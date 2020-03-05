@@ -194,3 +194,22 @@ directive:
       $.description = $.description.replace("Unicode characters", "Unicode graphemes");
 ```
 
+### Rename SentimentConfidenceScorePerLabel -> SentimentConfidenceScores
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.SentimentConfidenceScores) {
+          $.SentimentConfidenceScores = $.SentimentConfidenceScorePerLabel;
+          delete $.SentimentConfidenceScorePerLabel;
+      }
+  - from: swagger-document
+    where: $.definitions..properties[*]
+    transform: >
+      if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
+          $["$ref"] = "#/definitions/SentimentConfidenceScores";
+      }
+```
+
