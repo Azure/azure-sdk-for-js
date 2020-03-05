@@ -14,7 +14,7 @@ import {
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
 import * as dotenv from "dotenv";
-import { ServiceBusSenderClient } from "../../src/senderClient";
+import { ServiceBusSenderClient } from "../../src/serviceBusSenderClient";
 import {
   ServiceBusReceiverClient,
   ReceiverClientTypeForUser

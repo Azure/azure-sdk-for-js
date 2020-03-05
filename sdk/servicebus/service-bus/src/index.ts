@@ -47,7 +47,7 @@ export {
 
 export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
 
-export { ServiceBusSenderClient } from "./senderClient";
+export { ServiceBusSenderClient } from "./serviceBusSenderClient";
 
 export {
   ServiceBusReceiverClient,
