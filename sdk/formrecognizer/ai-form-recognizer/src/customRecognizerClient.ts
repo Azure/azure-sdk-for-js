@@ -31,6 +31,7 @@ import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { StartAnalyzePollerOptions, ResultResponse, AnalyzePollerClient, StartAnalyzePoller, StartAnalyzeOptions } from './lro/analyze/poller';
+import { LabeledFormModelResponse, CustomFormModelResponse } from './models';
 
 export { PollOperationState, PollerLike, StartTrainingPoller };
 
@@ -200,7 +201,8 @@ export class CustomFormRecognizerClient {
     }
   }
 
-  public async getModel(modelId: string, options: GetModelOptions) {
+  public async getModel(modelId: string, options: GetModelOptions)
+  : Promise<LabeledFormModelResponse | CustomFormModelResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-getModel",
@@ -208,10 +210,15 @@ export class CustomFormRecognizerClient {
     );
 
     try {
-      return await this.client.getCustomModel(
+      const respnose = await this.client.getCustomModel(
         modelId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
+      if (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields) {
+        return { kind: "labeled", ...respnose }
+      } else {
+        return { kind: "unlabeled", ...respnose }
+      }
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -365,7 +372,7 @@ export class CustomFormRecognizerClient {
     return poller;
   }
 
-  public async getExtractedCustomForm(
+  private async getExtractedCustomForm(
     modelId: string,
     resultId: string,
     options?: GetExtractedCustomFormOptions

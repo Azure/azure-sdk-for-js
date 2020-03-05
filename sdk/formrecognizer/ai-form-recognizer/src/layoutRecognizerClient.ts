@@ -142,7 +142,7 @@ export class LayoutRecognizerClient {
     return poller;
   }
 
-  public async getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions) {
+  private async getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "LayoutRecognizerClient-getExtractedLayoutResult",

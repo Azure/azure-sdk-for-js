@@ -299,6 +299,40 @@ export type CustomFormModel = Omit<Model, "trainResult"> & {
   trainResult?: CustomFormModelTrainResult;
 }
 
+export type CustomFormModelResponse = CustomFormModel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Model;
+    };
+};
+
 export type LabeledFormModel = Omit<Model, "keys"> & {
   kind: "labeled";
+};
+
+export type LabeledFormModelResponse = LabeledFormModel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Model;
+    };
 };
