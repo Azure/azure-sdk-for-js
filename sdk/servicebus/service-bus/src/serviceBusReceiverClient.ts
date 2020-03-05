@@ -215,24 +215,6 @@ export interface SubscriptionRuleManagement {
   readonly defaultRuleName: string;
 }
 
-/**
- * Dynamic type that represents the proper receiver based on:
- * - The lock mode (peekLock or receiveAndDelete).
- * - Whether sessions are enabled or not on this particular receiver.
- * - The entity type (queue or subscription).
- */
-export type ClientTypeT<
-  ReceiveModeT extends "peekLock" | "receiveAndDelete",
-  EntityTypeT extends "queue" | "subscription",
-  SessionsEnabledT extends "sessions" | "nosessions"
-> = SessionsEnabledT extends "nosessions"
-  ? EntityTypeT extends "queue"
-    ? NonSessionReceiver<ReceiveModeT>
-    : NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement
-  : EntityTypeT extends "queue"
-  ? SessionReceiver<ReceiveModeT>
-  : SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement;
-
 export type ReceiverClientTypeForUser =
   | NonSessionReceiver<"peekLock" | "receiveAndDelete">
   | (NonSessionReceiver<"peekLock" | "receiveAndDelete"> & SubscriptionRuleManagement)

@@ -50,7 +50,6 @@ export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/uti
 export {
   NonSessionReceiver,
   SessionReceiver,
-  ClientTypeT,
   SubscriptionRuleManagement
 } from "./serviceBusReceiverClient";
 
