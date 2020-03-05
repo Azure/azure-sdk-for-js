@@ -1,46 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { ServiceBusMessage, DeadLetterOptions } from "../serviceBusMessage";
 import { ServiceBusMessage, DeadLetterOptions } from "./serviceBusMessage";
 import { TokenCredential } from "@azure/core-amqp";
 import { OperationOptions } from "@azure/core-auth";
-
-/**
- * An opaque class, used internally to manage AMQP connections for sessions.
- */
-// TODO: should probably implement Closeable so the user can just shut down all
-// connections when their app is done processing.
-export class SessionConnections {}
-
-/**
- * Information needed to target a session.
- */
-export interface Session {
-  /**
-   * The ID of a session to target or `undefined` to pick an session that is not currently
-   * owned.
-   */
-  id?: string;
-  /**
-   * A shared instance that allows multiple sessions to share the same underlying AMQP
-   * connection.
-   *
-   * A single instance should be created for your application and passed to each
-   * ReceiverClient you create that processes a session.
-   */
-  connections?: SessionConnections;
-  /**
-   * @property The maximum duration in seconds
-   * until which, the lock on the session will be renewed automatically by the sdk.
-   * - **Default**: `300` seconds (5 minutes).
-   * - **To disable autolock renewal**, set this to `0`.
-   */
-  maxSessionAutoRenewLockDurationInSeconds?: number;
-}
-
-export function isSession(possibleSession: Session | any): possibleSession is Session {
-  return possibleSession != null;
-}
 
 /**
  * A message that has been received via  ServiceBusReceiver.
@@ -153,61 +117,6 @@ export type ContextType<LockModeT> = LockModeT extends "peekLock"
   : LockModeT extends "receiveAndDelete"
   ? {}
   : never;
-
-/**
- * Authentication methods for queues.
- * TODO: consider inlining inside constructors
- */
-export type QueueAuth =
-  | {
-      /**
-       * A connection string that points to a service bus (ie: does not contain an EntityName value).
-       */
-      connectionString: string;
-      /**
-       * The name of the queue to connect to.
-       */
-      queueName: string;
-    }
-  | {
-      /**
-       * A connection string that points to a queue (contains EntityName=<queue-name>).
-       */
-      queueConnectionString: string;
-    }
-  | {
-      tokenCredential: TokenCredential;
-      host: string;
-      queueName: string;
-    };
-
-export function isQueueAuth(
-  possibleQueueAuth: QueueAuth | SubscriptionAuth
-): possibleQueueAuth is QueueAuth {
-  const queueAuth = possibleQueueAuth as any;
-  return queueAuth.queueName != null || queueAuth.queueConnectionString != null;
-}
-
-/**
- * Authentication methods for subscriptions.
- * TODO: consider inlining inside constructors
- */
-export type SubscriptionAuth =
-  | {
-      connectionString: string;
-      topicName: string;
-      subscriptionName: string;
-    }
-  | {
-      topicConnectionString: string;
-      subscriptionName: string;
-    }
-  | {
-      tokenCredential: TokenCredential;
-      host: string;
-      topicName: string;
-      subscriptionName: string;
-    };
 
 /**
  * Options when receiving a batch of messages from Service Bus.

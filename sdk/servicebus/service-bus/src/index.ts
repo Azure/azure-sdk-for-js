@@ -47,23 +47,18 @@ export {
 
 export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
 
-export { ServiceBusSenderClient } from "./serviceBusSenderClient";
-
 export {
-  ServiceBusReceiverClient,
   NonSessionReceiver,
   SessionReceiver,
   ClientTypeT,
   SubscriptionRuleManagement
 } from "./serviceBusReceiverClient";
 
+export { ServiceBusClient } from "./track2/serviceBusClient";
+
 export {
-  SessionConnections,
   ReceivedMessage,
   ContextWithSettlement,
-  Session,
-  QueueAuth,
-  SubscriptionAuth,
   IterateMessagesOptions,
   ReceiveBatchOptions,
   SubscribeOptions,

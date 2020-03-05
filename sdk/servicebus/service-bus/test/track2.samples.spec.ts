@@ -2,739 +2,559 @@
 // Licensed under the MIT License.
 
 import {
-  SessionConnections,
   ReceivedMessage,
-  ContextWithSettlement as ContextWithSettlementMethods,
-  QueueAuth,
-  SubscriptionAuth,
-  isQueueAuth
-} from "../src/models";
-import {
-  ServiceBusReceiverClient,
-  NonSessionReceiver,
-  SessionReceiver
-} from "../src/serviceBusReceiverClient";
-import { ServiceBusSenderClient, delay, SendableMessageInfo } from "../src";
+  ContextWithSettlement as ContextWithSettlementMethods
+} from "../src/track2/models";
+import { NonSessionReceiver, SessionReceiver } from "../src/track2/serviceBusReceiverClient";
+import { delay, SendableMessageInfo, ServiceBusClient } from "../src";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { EntityNames } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import {
-  createConnectionContext,
-  getEntityNameFromConnectionString
-} from "../src/constructorHelpers";
+import { getEntityNameFromConnectionString } from "../src/track2/constructorHelpers";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe("Sample scenarios for track 2", () => {
-  let senderClient: ServiceBusSenderClient | undefined;
-  let closeables: { close(): Promise<void> }[];
-  const connectionString = getEnvVars()[EnvVarNames.SERVICEBUS_CONNECTION_STRING]!;
+describe("track2", () => {
+  describe("Sample scenarios", () => {
+    let closeables: { close(): Promise<void> }[];
+    const connectionString = getEnvVars()[EnvVarNames.SERVICEBUS_CONNECTION_STRING]!;
+    let serviceBusClient: ServiceBusClient;
 
-  before(async () => {
-    assert.ok(
-      connectionString,
-      `${EnvVarNames.SERVICEBUS_CONNECTION_STRING} needs to be set in the environment`
-    );
+    before(async () => {
+      assert.ok(
+        connectionString,
+        `${EnvVarNames.SERVICEBUS_CONNECTION_STRING} needs to be set in the environment`
+      );
 
-    const nonSessionPurges = [
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
-      {
-        connectionString: connectionString,
-        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
-        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
-      }
-    ].map((auth) => purge(auth));
+      serviceBusClient = new ServiceBusClient(connectionString);
 
-    const sessionPurge = purge(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
-      },
-      "my-session"
-    );
+      const nonSessionPurges = [
+        EntityNames.QUEUE_NAME_NO_PARTITION,
+        {
+          topic: EntityNames.TOPIC_NAME_NO_PARTITION,
+          subscription: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
+        }
+      ].map((auth) => purge(auth));
 
-    await Promise.all([...nonSessionPurges, sessionPurge]);
-  });
-
-  beforeEach(() => {
-    closeables = [];
-  });
-
-  afterEach(async () => {
-    if (senderClient != null) {
-      closeables.push(senderClient);
-      senderClient = undefined;
-    }
-
-    await Promise.all(closeables.map((closable) => closable.close()));
-  });
-
-  it("Queue, peek/lock", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
-      "peekLock"
-    );
-
-    closeables.push(receiverClient);
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, peek/lock");
-
-    const errors: string[] = [];
-    const receivedBodies: string[] = [];
-
-    receiverClient.subscribe({
-      async processMessage(
-        message: ReceivedMessage,
-        context: ContextWithSettlementMethods
-      ): Promise<void> {
-        await context.complete(message);
-        receivedBodies.push(message.body);
-      },
-      async processError(err: Error): Promise<void> {
-        errors.push(err.message);
-      }
+      const sessionPurge = purge(EntityNames.QUEUE_NAME_NO_PARTITION_SESSION, "my-session");
+      await Promise.all([...nonSessionPurges, sessionPurge]);
     });
 
-    await waitAndValidate("Queue, peek/lock", receivedBodies, errors, receiverClient);
-  });
-
-  it("Queue, peek/lock, receiveBatch", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
-      "receiveAndDelete"
-    );
-
-    closeables.push(receiverClient);
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, peek/lock, receiveBatch");
-
-    const receivedBodies: string[] = [];
-
-    for (const message of (await receiverClient.receiveBatch(1, 5)).messages) {
-      receivedBodies.push(message.body);
-    }
-
-    // TODO: this isn't the greatest re-use...
-    await waitAndValidate("Queue, peek/lock, receiveBatch", receivedBodies, [], receiverClient);
-  });
-
-  it("Queue, peek/lock, iterate messages", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
-      "peekLock"
-    );
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, peek/lock, iterate messages");
-
-    closeables.push(receiverClient);
-
-    // etc...
-    // receiverClient.getRules();
-    const errors: string[] = [];
-    const receivedBodies: string[] = [];
-
-    // TODO: error handling? Does the iterate just terminate?
-    for await (const { message, context } of receiverClient.iterateMessages()) {
-      if (message == null) {
-        // user has the option of handling "no messages arrived by the maximum wait time"
-        console.log(`No message arrived within our max wait time`);
-        continue;
-      }
-
-      try {
-        await context.complete(message);
-        receivedBodies.push(message.body);
-        break;
-      } catch (err) {
-        await context.abandon(message);
-        throw err;
-      }
-    }
-
-    await waitAndValidate(
-      "Queue, peek/lock, iterate messages",
-      receivedBodies,
-      errors,
-      receiverClient
-    );
-  });
-
-  it("Queue, receive and delete", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
-      "receiveAndDelete"
-    );
-
-    closeables.push(receiverClient);
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, receiveAndDelete");
-
-    const errors: string[] = [];
-    const receivedBodies: string[] = [];
-
-    receiverClient.subscribe({
-      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
-        receivedBodies.push(message.body);
-      },
-      async processError(err: Error): Promise<void> {
-        errors.push(err.message);
-      }
+    after(async () => {
+      await serviceBusClient.close();
     });
 
-    await waitAndValidate("Queue, receiveAndDelete", receivedBodies, errors, receiverClient);
-  });
-
-  it("Queue, receive and delete, iterate messages", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
-      "receiveAndDelete"
-    );
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, peek/lock, iterate messages");
-
-    closeables.push(receiverClient);
-
-    // etc...
-    // receiverClient.getRules();
-    const errors: string[] = [];
-    const receivedBodies: string[] = [];
-
-    // TODO: error handling? Does the iterate just terminate?
-    for await (const { message, context } of receiverClient.iterateMessages()) {
-      assert.notOk((context as any).complete);
-
-      if (message == null) {
-        // user has the option of handling "no messages arrived by the maximum wait time"
-        console.log(`No message arrived within our max wait time`);
-        continue;
-      }
-
-      try {
-        receivedBodies.push(message.body);
-        break;
-      } catch (err) {
-        throw err;
-      }
-    }
-
-    await waitAndValidate(
-      "Queue, peek/lock, iterate messages",
-      receivedBodies,
-      errors,
-      receiverClient
-    );
-  });
-
-  it("Queue, peek/lock, iterate messages", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
-      "peekLock"
-    );
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, peek/lock, iterate messages");
-
-    closeables.push(receiverClient);
-
-    // etc...
-    // receiverClient.getRules();
-    const errors: string[] = [];
-    const receivedBodies: string[] = [];
-
-    // TODO: error handling? Does the iterate just terminate?
-    for await (const { message, context } of receiverClient.iterateMessages()) {
-      if (message == null) {
-        // user has the option of handling "no messages arrived by the maximum wait time"
-        console.log(`No message arrived within our max wait time`);
-        continue;
-      }
-
-      try {
-        await context.complete(message);
-        receivedBodies.push(message.body);
-        break;
-      } catch (err) {
-        await context.abandon(message);
-        throw err;
-      }
-    }
-
-    await waitAndValidate(
-      "Queue, peek/lock, iterate messages",
-      receivedBodies,
-      errors,
-      receiverClient
-    );
-  });
-
-  it("Subscription, peek/lock", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
-        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
-      },
-      "peekLock"
-    );
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.TOPIC_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Subscription, peek/lock");
-
-    closeables.push(receiverClient);
-
-    // etc...
-    // receiverClient.getRules();
-    const errors: string[] = [];
-    const receivedBodies: string[] = [];
-
-    receiverClient.subscribe({
-      async processMessage(
-        message: ReceivedMessage,
-        context: ContextWithSettlementMethods
-      ): Promise<void> {
-        await context.complete(message);
-        receivedBodies.push(message.body);
-      },
-      async processError(err: Error): Promise<void> {
-        errors.push(err.message);
-      }
+    beforeEach(() => {
+      closeables = [];
     });
 
-    await waitAndValidate("Subscription, peek/lock", receivedBodies, errors, receiverClient);
-  });
-
-  it("Subscription, receive and delete", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
-        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
-      },
-      "receiveAndDelete"
-    );
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.TOPIC_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Subscription, receive and delete");
-
-    closeables.push(receiverClient);
-
-    // etc...
-    // receiverClient.getRules();
-    const errors: string[] = [];
-    const receivedBodies: string[] = [];
-
-    receiverClient.subscribe({
-      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
-        receivedBodies.push(message.body);
-      },
-      async processError(err: Error): Promise<void> {
-        errors.push(err.message);
-      }
+    afterEach(async () => {
+      return Promise.all(closeables.map((closable) => closable.close()));
     });
 
-    await waitAndValidate(
-      "Subscription, receive and delete",
-      receivedBodies,
-      errors,
-      receiverClient
-    );
-  });
+    it("Queue, peek/lock", async () => {
+      const receiverClient = serviceBusClient.createReceiver(
+        EntityNames.QUEUE_NAME_NO_PARTITION,
+        "peekLock"
+      );
 
-  it("Subscription, peek/lock, iterate messages", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
-        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
-      },
-      "peekLock"
-    );
+      closeables.push(receiverClient);
 
-    closeables.push(receiverClient);
+      await sendSampleMessage(EntityNames.QUEUE_NAME_NO_PARTITION, "Queue, peek/lock");
 
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.TOPIC_NAME_NO_PARTITION
-    );
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
 
-    await sendSampleMessage("Subscription, peek/lock, iterate messages");
-
-    // etc...
-    // receiverClient.getRules();
-    const errors: string[] = [];
-    const receivedBodies: string[] = [];
-
-    // TODO: error handling? Does the iterate just terminate?
-    for await (const { message, context } of receiverClient.iterateMessages()) {
-      if (message == null) {
-        // user has the option of handling "no messages arrived by the maximum wait time"
-        console.log(`No message arrived within our max wait time`);
-        continue;
-      }
-
-      try {
-        await context.complete(message);
-        receivedBodies.push(message.body);
-        break;
-      } catch (err) {
-        await context.abandon(message);
-        throw err;
-      }
-    }
-
-    await waitAndValidate(
-      "Subscription, peek/lock, iterate messages",
-      receivedBodies,
-      errors,
-      receiverClient
-    );
-  });
-
-  it("Subscription, receive and delete, iterate messages", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
-        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
-      },
-      "receiveAndDelete"
-    );
-
-    closeables.push(receiverClient);
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.TOPIC_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Subscription, receive and delete, iterate messages");
-
-    // etc...
-    // receiverClient.getRules();
-    const errors: string[] = [];
-    const receivedBodies: string[] = [];
-
-    // TODO: error handling? Does the iterate just terminate?
-    for await (const { message, context } of receiverClient.iterateMessages()) {
-      assert.notOk((context as any).complete);
-
-      if (message == null) {
-        // user has the option of handling "no messages arrived by the maximum wait time"
-        console.log(`No message arrived within our max wait time`);
-        continue;
-      }
-
-      try {
-        receivedBodies.push(message.body);
-        break;
-      } catch (err) {
-        throw err;
-      }
-    }
-
-    await waitAndValidate(
-      "Subscription, receive and delete, iterate messages",
-      receivedBodies,
-      errors,
-      receiverClient
-    );
-  });
-
-  it("Queue, receive and delete, sessions", async () => {
-    const sessionConnections = new SessionConnections();
-
-    const receiverClient = new ServiceBusReceiverClient(
-      { connectionString, queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION },
-      "receiveAndDelete",
-      {
-        id: "my-session",
-        // the thinking is that users will (unlike queues or topics) open up
-        // lots of individual sessions, so keeping track of and sharing connections
-        // is a way to prevent a possible port/connection explosion.
-        connections: sessionConnections
-      }
-    );
-
-    closeables.push(receiverClient);
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
-    );
-
-    sendSampleMessage("Queue, receive and delete, sessions", "my-session");
-
-    // note that this method is now available - only shows up in auto-complete
-    // if you construct this object with a session.
-    await receiverClient.renewSessionLock();
-
-    const errors: string[] = [];
-    const receivedBodies: string[] = [];
-
-    receiverClient.subscribe({
-      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
-        receivedBodies.push(message.body);
-      },
-      async processError(err: Error): Promise<void> {
-        errors.push(err.message);
-      }
-    });
-
-    await waitAndValidate(
-      "Queue, receive and delete, sessions",
-      receivedBodies,
-      errors,
-      receiverClient
-    );
-  });
-
-  it("Queue, peek/lock, sessions", async () => {
-    const sessionConnections = new SessionConnections();
-
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
-      },
-      "peekLock",
-      {
-        id: "my-session",
-        // the thinking is that users will (unlike queues or topics) open up
-        // lots of individual sessions, so keeping track of and sharing connections
-        // is a way to prevent a possible port/connection explosion.
-        connections: sessionConnections
-      }
-    );
-
-    closeables.push(receiverClient);
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
-    );
-
-    sendSampleMessage("Queue, peek/lock, sessions", "my-session");
-
-    // note that this method is now available - only shows up in auto-complete
-    // if you construct this object with a session.
-    await receiverClient.renewSessionLock();
-
-    const errors: string[] = [];
-    const receivedBodies: string[] = [];
-
-    receiverClient.subscribe({
-      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
-        receivedBodies.push(message.body);
-      },
-      async processError(err: Error): Promise<void> {
-        errors.push(err.message);
-      }
-    });
-
-    await waitAndValidate("Queue, peek/lock, sessions", receivedBodies, errors, receiverClient);
-  });
-
-  async function sendSampleMessage(body: string, sessionId?: string) {
-    if (senderClient == null) {
-      throw new Error("Can't send a sample message w/o a client");
-    }
-
-    const message: SendableMessageInfo = {
-      body
-    };
-
-    if (sessionId) {
-      message.sessionId = sessionId;
-    }
-
-    await senderClient.send(message);
-  }
-});
-
-describe("ConstructorHelpers for track 2", () => {
-  const entityConnectionString =
-    "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=;EntityPath=myentity";
-
-  const serviceBusConnectionString =
-    "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
-
-  const fakeTokenCredential = {
-    getToken: async () => null,
-    sentinel: "test token credential"
-  };
-
-  it("createConnectionContext for queues", () => {
-    const queueAuths: QueueAuth[] = [
-      { connectionString: entityConnectionString, queueName: "myentity" },
-      { connectionString: serviceBusConnectionString, queueName: "myentity" },
-      { queueConnectionString: entityConnectionString },
-      { tokenCredential: fakeTokenCredential, host: "ahost", queueName: "myentity" }
-    ];
-
-    for (const queueAuth of queueAuths) {
-      const contextAndEntityPath = createConnectionContext(queueAuth, {});
-      assert.equal("myentity", contextAndEntityPath.entityPath);
-
-      if ((queueAuth as any).tokenCredential) {
-        assert.equal(
-          "test token credential",
-          (contextAndEntityPath.context.tokenCredential as any).sentinel
-        );
-      } else {
-        assert.equal(
-          "SharedKeyCredential",
-          contextAndEntityPath.context.tokenCredential.constructor.name
-        );
-      }
-    }
-  });
-
-  it("createConnectionContext for subscriptions", () => {
-    const subscriptionAuths: SubscriptionAuth[] = [
-      {
-        connectionString: serviceBusConnectionString,
-        topicName: "myentity",
-        subscriptionName: "mysubscription"
-      },
-      { topicConnectionString: entityConnectionString, subscriptionName: "mysubscription" },
-      {
-        tokenCredential: fakeTokenCredential,
-        host: "ahost",
-        topicName: "myentity",
-        subscriptionName: "mysubscription"
-      }
-    ];
-
-    for (const subAuth of subscriptionAuths) {
-      const contextAndEntityPath = createConnectionContext(subAuth, {});
-      assert.equal("myentity/Subscriptions/mysubscription", contextAndEntityPath.entityPath);
-
-      if ((subAuth as any).tokenCredential) {
-        assert.equal(
-          "test token credential",
-          (contextAndEntityPath.context.tokenCredential as any).sentinel
-        );
-      } else {
-        assert.equal(
-          "SharedKeyCredential",
-          contextAndEntityPath.context.tokenCredential.constructor.name
-        );
-      }
-    }
-  });
-
-  const badAuths = [
-    // missing required fields
-    { connectionString: serviceBusConnectionString },
-    { topicConnectionString: entityConnectionString },
-    { tokenCredential: fakeTokenCredential } as any,
-
-    // wrong types
-    { connectionString: 4, topicName: "myentity", subscriptionName: "mysubscription" },
-    {
-      connectionString: serviceBusConnectionString,
-      topicName: 4,
-      subscriptionName: "mysubscription"
-    },
-    { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: 4 },
-    { connectionString: "", topicName: "myentity", subscriptionName: "mysubscription" },
-    {
-      connectionString: serviceBusConnectionString,
-      topicName: "",
-      subscriptionName: "mysubscription"
-    },
-    { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: "" },
-    { connectionString: 4, queueName: "myentity" },
-    { connectionString: serviceBusConnectionString, queueName: 4 },
-    { queueConnectionString: 4 },
-    { queueConnectionString: "" },
-    { topicConnectionString: 4, subscriptionName: "mysubscription" },
-    { topicConnectionString: entityConnectionString, subscriptionName: 4 },
-    { topicConnectionString: "", subscriptionName: "mysubscription" },
-    { topicConnectionString: entityConnectionString, subscriptionName: "" },
-
-    // no entity name present for entity connection string types
-    {
-      topicConnectionString:
-        "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=",
-      subscriptionName: "mysubscription"
-    },
-    {
-      queueConnectionString:
-        "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey="
-    }
-  ];
-
-  badAuths.forEach((badAuth) => {
-    it(`createConnectionContext - bad auth ${JSON.stringify(badAuth)}`, () => {
-      assert.throws(() => {
-        createConnectionContext(badAuth, {});
+      receiverClient.subscribe({
+        async processMessage(
+          message: ReceivedMessage,
+          context: ContextWithSettlementMethods
+        ): Promise<void> {
+          await context.complete(message);
+          receivedBodies.push(message.body);
+        },
+        async processError(err: Error): Promise<void> {
+          errors.push(err.message);
+        }
       });
+
+      await waitAndValidate("Queue, peek/lock", receivedBodies, errors, receiverClient);
     });
+
+    it("Queue, peek/lock, receiveBatch", async () => {
+      const receiver = serviceBusClient.createReceiver(
+        EntityNames.QUEUE_NAME_NO_PARTITION,
+        "receiveAndDelete"
+      );
+
+      closeables.push(receiver);
+
+      await sendSampleMessage(
+        EntityNames.QUEUE_NAME_NO_PARTITION,
+        "Queue, peek/lock, receiveBatch"
+      );
+
+      const receivedBodies: string[] = [];
+
+      for (const message of await receiver.receiveBatch(1, 5)) {
+        receivedBodies.push(message.body);
+      }
+
+      // TODO: this isn't the greatest re-use...
+      await waitAndValidate("Queue, peek/lock, receiveBatch", receivedBodies, [], receiver);
+    });
+
+    it("Queue, peek/lock, iterate messages", async () => {
+      const receiverClient = serviceBusClient.createReceiver(
+        EntityNames.QUEUE_NAME_NO_PARTITION,
+        "peekLock"
+      );
+
+      await sendSampleMessage(
+        EntityNames.QUEUE_NAME_NO_PARTITION,
+        "Queue, peek/lock, iterate messages"
+      );
+
+      closeables.push(receiverClient);
+
+      // etc...
+      // receiverClient.getRules();
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
+
+      // TODO: error handling? Does the iterate just terminate?
+      for await (const { message, context } of receiverClient.iterateMessages()) {
+        if (message == null) {
+          // user has the option of handling "no messages arrived by the maximum wait time"
+          console.log(`No message arrived within our max wait time`);
+          continue;
+        }
+
+        try {
+          await context.complete(message);
+          receivedBodies.push(message.body);
+          break;
+        } catch (err) {
+          await context.abandon(message);
+          throw err;
+        }
+      }
+
+      await waitAndValidate(
+        "Queue, peek/lock, iterate messages",
+        receivedBodies,
+        errors,
+        receiverClient
+      );
+    });
+
+    it("Queue, receive and delete", async () => {
+      const receiver = serviceBusClient.createReceiver(
+        EntityNames.QUEUE_NAME_NO_PARTITION,
+        "receiveAndDelete"
+      );
+
+      closeables.push(receiver);
+
+      await sendSampleMessage(EntityNames.QUEUE_NAME_NO_PARTITION, "Queue, receiveAndDelete");
+
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
+
+      receiver.subscribe({
+        async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
+          receivedBodies.push(message.body);
+        },
+        async processError(err: Error): Promise<void> {
+          errors.push(err.message);
+        }
+      });
+
+      await waitAndValidate("Queue, receiveAndDelete", receivedBodies, errors, receiver);
+    });
+
+    it("Queue, receive and delete, iterate messages", async () => {
+      const receiver = serviceBusClient.createReceiver(
+        EntityNames.QUEUE_NAME_NO_PARTITION,
+        "receiveAndDelete"
+      );
+
+      await sendSampleMessage(
+        EntityNames.QUEUE_NAME_NO_PARTITION,
+        "Queue, peek/lock, iterate messages"
+      );
+
+      closeables.push(receiver);
+
+      // etc...
+      // receiverClient.getRules();
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
+
+      // TODO: error handling? Does the iterate just terminate?
+      for await (const { message, context } of receiver.iterateMessages()) {
+        assert.notOk((context as any).complete);
+
+        if (message == null) {
+          // user has the option of handling "no messages arrived by the maximum wait time"
+          console.log(`No message arrived within our max wait time`);
+          continue;
+        }
+
+        try {
+          receivedBodies.push(message.body);
+          break;
+        } catch (err) {
+          throw err;
+        }
+      }
+
+      await waitAndValidate("Queue, peek/lock, iterate messages", receivedBodies, errors, receiver);
+    });
+
+    it("Queue, peek/lock, iterate messages", async () => {
+      const receiver = serviceBusClient.createReceiver(
+        EntityNames.QUEUE_NAME_NO_PARTITION,
+        "peekLock"
+      );
+      closeables.push(receiver);
+
+      await sendSampleMessage(
+        EntityNames.QUEUE_NAME_NO_PARTITION,
+        "Queue, peek/lock, iterate messages"
+      );
+
+      // etc...
+      // receiverClient.getRules();
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
+
+      // TODO: error handling? Does the iterate just terminate?
+      for await (const { message, context } of receiver.iterateMessages()) {
+        if (message == null) {
+          // user has the option of handling "no messages arrived by the maximum wait time"
+          console.log(`No message arrived within our max wait time`);
+          continue;
+        }
+
+        try {
+          await context.complete(message);
+          receivedBodies.push(message.body);
+          break;
+        } catch (err) {
+          await context.abandon(message);
+          throw err;
+        }
+      }
+
+      await waitAndValidate("Queue, peek/lock, iterate messages", receivedBodies, errors, receiver);
+    });
+
+    it("Subscription, peek/lock", async () => {
+      const receiverClient = serviceBusClient.createReceiver(
+        EntityNames.TOPIC_NAME_NO_PARTITION,
+        EntityNames.SUBSCRIPTION_NAME_NO_PARTITION,
+        "peekLock"
+      );
+
+      closeables.push(receiverClient);
+      await sendSampleMessage(EntityNames.TOPIC_NAME_NO_PARTITION, "Subscription, peek/lock");
+
+      // etc...
+      // receiverClient.getRules();
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
+
+      receiverClient.subscribe({
+        async processMessage(
+          message: ReceivedMessage,
+          context: ContextWithSettlementMethods
+        ): Promise<void> {
+          await context.complete(message);
+          receivedBodies.push(message.body);
+        },
+        async processError(err: Error): Promise<void> {
+          errors.push(err.message);
+        }
+      });
+
+      await waitAndValidate("Subscription, peek/lock", receivedBodies, errors, receiverClient);
+    });
+
+    it("Subscription, receive and delete", async () => {
+      const receiverClient = serviceBusClient.createReceiver(
+        EntityNames.TOPIC_NAME_NO_PARTITION,
+        EntityNames.SUBSCRIPTION_NAME_NO_PARTITION,
+        "receiveAndDelete"
+      );
+
+      await sendSampleMessage(
+        EntityNames.TOPIC_NAME_NO_PARTITION,
+        "Subscription, receive and delete"
+      );
+
+      closeables.push(receiverClient);
+
+      // etc...
+      // receiverClient.getRules();
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
+
+      receiverClient.subscribe({
+        async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
+          receivedBodies.push(message.body);
+        },
+        async processError(err: Error): Promise<void> {
+          errors.push(err.message);
+        }
+      });
+
+      await waitAndValidate(
+        "Subscription, receive and delete",
+        receivedBodies,
+        errors,
+        receiverClient
+      );
+    });
+
+    it("Subscription, peek/lock, iterate messages", async () => {
+      const receiverClient = serviceBusClient.createReceiver(
+        EntityNames.TOPIC_NAME_NO_PARTITION,
+        EntityNames.SUBSCRIPTION_NAME_NO_PARTITION,
+        "peekLock"
+      );
+
+      closeables.push(receiverClient);
+
+      await sendSampleMessage(
+        EntityNames.TOPIC_NAME_NO_PARTITION,
+        "Subscription, peek/lock, iterate messages"
+      );
+
+      // etc...
+      // receiverClient.getRules();
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
+
+      // TODO: error handling? Does the iterate just terminate?
+      for await (const { message, context } of receiverClient.iterateMessages()) {
+        if (message == null) {
+          // user has the option of handling "no messages arrived by the maximum wait time"
+          console.log(`No message arrived within our max wait time`);
+          continue;
+        }
+
+        try {
+          await context.complete(message);
+          receivedBodies.push(message.body);
+          break;
+        } catch (err) {
+          await context.abandon(message);
+          throw err;
+        }
+      }
+
+      await waitAndValidate(
+        "Subscription, peek/lock, iterate messages",
+        receivedBodies,
+        errors,
+        receiverClient
+      );
+    });
+
+    it("Subscription, receive and delete, iterate messages", async () => {
+      const receiver = serviceBusClient.createReceiver(
+        EntityNames.TOPIC_NAME_NO_PARTITION,
+        EntityNames.SUBSCRIPTION_NAME_NO_PARTITION,
+        "receiveAndDelete"
+      );
+
+      closeables.push(receiver);
+
+      await sendSampleMessage(
+        EntityNames.TOPIC_NAME_NO_PARTITION,
+        "Subscription, receive and delete, iterate messages"
+      );
+
+      // etc...
+      // receiverClient.getRules();
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
+
+      // TODO: error handling? Does the iterate just terminate?
+      for await (const { message, context } of receiver.iterateMessages()) {
+        assert.notOk((context as any).complete);
+
+        if (message == null) {
+          // user has the option of handling "no messages arrived by the maximum wait time"
+          console.log(`No message arrived within our max wait time`);
+          continue;
+        }
+
+        try {
+          receivedBodies.push(message.body);
+          break;
+        } catch (err) {
+          throw err;
+        }
+      }
+
+      await waitAndValidate(
+        "Subscription, receive and delete, iterate messages",
+        receivedBodies,
+        errors,
+        receiver
+      );
+    });
+
+    it("Queue, receive and delete, sessions", async () => {
+      const receiver = serviceBusClient.createSessionReceiver(
+        EntityNames.QUEUE_NAME_NO_PARTITION_SESSION,
+        "receiveAndDelete",
+        "my-session"
+      );
+
+      closeables.push(receiver);
+
+      sendSampleMessage(
+        EntityNames.QUEUE_NAME_NO_PARTITION_SESSION,
+        "Queue, receive and delete, sessions",
+        "my-session"
+      );
+
+      // note that this method is now available - only shows up in auto-complete
+      // if you construct this object with a session.
+      await receiver.renewSessionLock();
+
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
+
+      receiver.subscribe({
+        async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
+          receivedBodies.push(message.body);
+        },
+        async processError(err: Error): Promise<void> {
+          errors.push(err.message);
+        }
+      });
+
+      await waitAndValidate(
+        "Queue, receive and delete, sessions",
+        receivedBodies,
+        errors,
+        receiver
+      );
+    });
+
+    it("Queue, peek/lock, sessions", async () => {
+      const receiver = serviceBusClient.createSessionReceiver(
+        EntityNames.QUEUE_NAME_NO_PARTITION_SESSION,
+        "peekLock",
+        "my-session"
+      );
+
+      closeables.push(receiver);
+
+      sendSampleMessage(
+        EntityNames.QUEUE_NAME_NO_PARTITION_SESSION,
+        "Queue, peek/lock, sessions",
+        "my-session"
+      );
+
+      // note that this method is now available - only shows up in auto-complete
+      // if you construct this object with a session.
+      await receiver.renewSessionLock();
+
+      const errors: string[] = [];
+      const receivedBodies: string[] = [];
+
+      receiver.subscribe({
+        async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
+          receivedBodies.push(message.body);
+        },
+        async processError(err: Error): Promise<void> {
+          errors.push(err.message);
+        }
+      });
+
+      await waitAndValidate("Queue, peek/lock, sessions", receivedBodies, errors, receiver);
+    });
+
+    async function purge(
+      entity: string | { topic: string; subscription: string },
+      sessionId?: string
+    ): Promise<void> {
+      let receiver: NonSessionReceiver<"receiveAndDelete"> | SessionReceiver<"receiveAndDelete">;
+
+      if (sessionId) {
+        if (typeof entity === "string") {
+          receiver = serviceBusClient.createSessionReceiver(
+            entity,
+            "receiveAndDelete",
+            sessionId ?? ""
+          );
+        } else {
+          receiver = serviceBusClient.createSessionReceiver(
+            entity.topic,
+            entity.subscription,
+            "receiveAndDelete",
+            sessionId ?? ""
+          );
+        }
+      } else {
+        if (typeof entity === "string") {
+          receiver = serviceBusClient.createReceiver(entity, "receiveAndDelete");
+        } else {
+          receiver = serviceBusClient.createReceiver(
+            entity.topic,
+            entity.subscription,
+            "receiveAndDelete"
+          );
+        }
+      }
+
+      while (true) {
+        const messages = await receiver.receiveBatch(10, 1);
+
+        if (messages.length === 0) {
+          break;
+        }
+      }
+
+      await receiver.close();
+    }
+
+    async function sendSampleMessage(entityName: string, body: string, sessionId?: string) {
+      const sender = serviceBusClient.createSender(entityName);
+
+      try {
+        const message: SendableMessageInfo = {
+          body
+        };
+
+        if (sessionId) {
+          message.sessionId = sessionId;
+        }
+
+        await sender.send(message);
+      } finally {
+        await sender.close();
+      }
+    }
   });
 
-  it("getEntityNameFromConnectionString", () => {
-    assert.equal("myentity", getEntityNameFromConnectionString(entityConnectionString));
-    assert.throws(() => getEntityNameFromConnectionString(serviceBusConnectionString));
+  describe("ConstructorHelpers", () => {
+    const entityConnectionString =
+      "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=;EntityPath=myentity";
+
+    const serviceBusConnectionString =
+      "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
+
+    it("getEntityNameFromConnectionString", () => {
+      assert.equal("myentity", getEntityNameFromConnectionString(entityConnectionString));
+      assert.throws(() => getEntityNameFromConnectionString(serviceBusConnectionString));
+    });
   });
 });
 
@@ -766,38 +586,4 @@ async function waitAndValidate(
   assert.isEmpty(errors);
   assert.isEmpty(remainingMessages);
   assert.deepEqual([expectedMessage], receivedBodies);
-}
-
-async function purge(auth: QueueAuth | SubscriptionAuth, sessionId?: string): Promise<void> {
-  let receiverClient: NonSessionReceiver<"receiveAndDelete"> | SessionReceiver<"receiveAndDelete">;
-
-  if (sessionId) {
-    if (isQueueAuth(auth)) {
-      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", {
-        id: sessionId,
-        connections: new SessionConnections()
-      });
-    } else {
-      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", {
-        id: sessionId,
-        connections: new SessionConnections()
-      });
-    }
-  } else {
-    if (isQueueAuth(auth)) {
-      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete");
-    } else {
-      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete");
-    }
-  }
-
-  while (true) {
-    const messages = await receiverClient.receiveBatch(10, 1);
-
-    if (messages.messages.length === 0) {
-      break;
-    }
-  }
-
-  await receiverClient.close();
 }

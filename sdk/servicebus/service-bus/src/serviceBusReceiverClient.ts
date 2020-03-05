@@ -6,15 +6,14 @@ import { ClientEntityContext } from "./clientEntityContext";
 import { generate_uuid } from "rhea-promise";
 import { ClientType } from "./client";
 import { InternalSessionReceiver, InternalReceiver } from "./internalReceivers";
+import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
+import { ClientEntityContext } from "../clientEntityContext";
+import { InternalSessionReceiver, InternalReceiver } from "../internalReceivers";
 import {
   MessageHandlers,
   MessageIterator,
-  Session,
   ContextType,
   ContextWithSettlement,
-  QueueAuth,
-  SubscriptionAuth,
-  isSession,
   MessageAndContext,
   ReceivedMessage,
   ReceiveBatchOptions,
@@ -367,42 +366,37 @@ export interface ServiceBusReceiverClient {
 export class ReceiverClientImplementation {
   _sessionEnabled: boolean;
   constructor(
-    auth1: QueueAuth | SubscriptionAuth,
-    receiveMode2: "peekLock" | "receiveAndDelete",
-    sessionOrOptions3?: Session | ServiceBusClientOptions,
-    options4?: ServiceBusClientOptions
+    receiveMode: "peekLock" | "receiveAndDelete",
+    clientEntityContext: ClientEntityContext,    
+    sessionId?: string | false
   ) {
-    let options: ServiceBusClientOptions;
-    let session: Session | undefined;
+    this._receiveMode = convertToInternalReceiveMode(receiveMode);
 
-    if (isSession(sessionOrOptions3)) {
-      session = sessionOrOptions3;
-      options = options4 || {};
-    } else {
-      options = sessionOrOptions3 || {};
-    }
-    this.entityType = isQueueAuth(auth1) ? "queue" : "subscription";
-    const { context, entityPath } = createConnectionContext(auth1, options);
-    this.entityPath = entityPath;
-    this._context = context;
-    this.receiveMode = receiveMode2;
-    this._internalReceiveMode = convertToInternalReceiveMode(receiveMode2);
+    if (typeof sessionId === "boolean" && sessionId === false) {
+      this._receiver = new InternalReceiver(clientEntityContext, this._receiveMode);
+      const receiver = this._receiver;
 
-    const clientEntityContext = ClientEntityContext.create(
-      entityPath,
-      ClientType.ServiceBusReceiverClient,
-      context,
-      `${entityPath}/${generate_uuid()}`
-    );
-
-    // TODO: use the session connections object to "cache" the client entity context
-    if (session != null) {
-      const receiver = new InternalSessionReceiver(clientEntityContext, this._internalReceiveMode, {
-        sessionId: session.id
+      this._sessionEnabled = false;
+      this.diagnostics = {
+        async peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
+          return (await receiver.peek(clientEntityContext.entityPath, maxMessageCount)).map((m) => m as ReceivedMessage);
+        },
+        async peekBySequenceNumber(
+          fromSequenceNumber: Long,
+          maxMessageCount?: number
+        ): Promise<ReceivedMessage[]> {
+          return (await receiver.peekBySequenceNumber(clientEntityContext.entityPath, fromSequenceNumber, maxMessageCount)).map(
+            (m) => m as ReceivedMessage
+          );
+        }
+      };
+    } else if (typeof sessionId === "string") {
+      this._receiver = new InternalSessionReceiver(clientEntityContext, this._receiveMode, {
+        sessionId
       });
-      this._sessionEnabled = true;
-      this._receiver = receiver;
+      const receiver = this._receiver;
 
+      this._sessionEnabled = true;
       this.diagnostics = {
         async peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
           return (await receiver.peek(maxMessageCount)).map((m) => m as ReceivedMessage);
@@ -415,27 +409,9 @@ export class ReceiverClientImplementation {
             (m) => m as ReceivedMessage
           );
         }
-      };
+      };      
     } else {
-      const receiver = new InternalReceiver(clientEntityContext, this._internalReceiveMode);
-      this._sessionEnabled = false;
-      this._receiver = receiver;
-
-      this.diagnostics = {
-        async peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
-          return (await receiver.peek(entityPath, maxMessageCount)).map(
-            (m) => m as ReceivedMessage
-          );
-        },
-        async peekBySequenceNumber(
-          fromSequenceNumber: Long,
-          maxMessageCount?: number
-        ): Promise<ReceivedMessage[]> {
-          return (
-            await receiver.peekBySequenceNumber(entityPath, fromSequenceNumber, maxMessageCount)
-          ).map((m) => m as ReceivedMessage);
-        }
-      };
+      throw new TypeError("Invalid constructor parameters for receiver");
     }
   }
 
@@ -513,7 +489,6 @@ export class ReceiverClientImplementation {
     options?: IterateMessagesOptions
   ): MessageIterator<ContextType<"receiveAndDelete">>;
   iterateMessages(
-    options?: IterateMessagesOptions
   ): MessageIterator<ContextType<"peekLock">> | MessageIterator<ContextType<"receiveAndDelete">> {
     // TODO: this needs to be more configurable - at least with timeouts, etc...
     // TODO: use the options
@@ -743,7 +718,8 @@ export class ReceiverClientImplementation {
 
   private _receiver: InternalSessionReceiver | InternalReceiver;
   // private _sessionEnabled: boolean;
-  public receiveMode: "peekLock" | "receiveAndDelete";
+  // TODO: not sure why this had to be public
+  private receiveMode: "peekLock" | "receiveAndDelete";
   private _internalReceiveMode: ReceiveMode;
   public entityPath: string;
   /**
@@ -754,11 +730,6 @@ export class ReceiverClientImplementation {
   private _context: ConnectionContext;
   public entityType: "queue" | "subscription";
 }
-
-/**
- * A client that can receive messages from Service Bus Queues or Service Bus Subscriptions.
- */
-export const ServiceBusReceiverClient: ServiceBusReceiverClient = ReceiverClientImplementation;
 
 /**
  * @internal

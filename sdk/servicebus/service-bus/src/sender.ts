@@ -17,7 +17,7 @@ import {
 /**
  * The Sender class can be used to send messages, schedule messages to be sent at a later time
  * and cancel such scheduled messages.
- * Use the `createSender` function on the QueueClient or TopicClient to instantiate a Sender.
+ * Use the `createSender` function on the ServiceBusClient to instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
  * @class Sender
  */
