@@ -154,7 +154,6 @@ async function receiveOrders(
     `Expected ${expectedMessageCount}, but received ${receivedMsgs.length} messages`
   );
 
-  await client.close();
   should.equal(
     errorFromErrorHandler,
     undefined,
@@ -181,7 +180,7 @@ async function addRules(
   }
 }
 
-describe.only("addRule() #RunInBrowser", function(): void {
+describe("addRule() #RunInBrowser", function(): void {
   beforeEach(async () => {
     await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
