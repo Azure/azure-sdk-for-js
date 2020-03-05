@@ -27,23 +27,39 @@ export class ReservationRecommendations {
   }
 
   /**
-   * List of recomendations for purchasing reserved instances.
+   * List of recommendations for purchasing reserved instances.
+   * @param scope The scope associated with reservation recommendations operations. This includes
+   * '/subscriptions/{subscriptionId}/' for subscription scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   * for billingProfile scope
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationRecommendationsListResponse>
    */
-  list(options?: Models.ReservationRecommendationsListOptionalParams): Promise<Models.ReservationRecommendationsListResponse>;
+  list(scope: string, options?: Models.ReservationRecommendationsListOptionalParams): Promise<Models.ReservationRecommendationsListResponse>;
   /**
+   * @param scope The scope associated with reservation recommendations operations. This includes
+   * '/subscriptions/{subscriptionId}/' for subscription scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   * for billingProfile scope
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): void;
+  list(scope: string, callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): void;
   /**
+   * @param scope The scope associated with reservation recommendations operations. This includes
+   * '/subscriptions/{subscriptionId}/' for subscription scope,
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
+   * '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   * for billingProfile scope
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.ReservationRecommendationsListOptionalParams, callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): void;
-  list(options?: Models.ReservationRecommendationsListOptionalParams | msRest.ServiceCallback<Models.ReservationRecommendationsListResult>, callback?: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): Promise<Models.ReservationRecommendationsListResponse> {
+  list(scope: string, options: Models.ReservationRecommendationsListOptionalParams, callback: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): void;
+  list(scope: string, options?: Models.ReservationRecommendationsListOptionalParams | msRest.ServiceCallback<Models.ReservationRecommendationsListResult>, callback?: msRest.ServiceCallback<Models.ReservationRecommendationsListResult>): Promise<Models.ReservationRecommendationsListResponse> {
     return this.client.sendOperationRequest(
       {
+        scope,
         options
       },
       listOperationSpec,
@@ -51,7 +67,7 @@ export class ReservationRecommendations {
   }
 
   /**
-   * List of recomendations for purchasing reserved instances.
+   * List of recommendations for purchasing reserved instances.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ReservationRecommendationsListNextResponse>
@@ -83,9 +99,9 @@ export class ReservationRecommendations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Consumption/reservationRecommendations",
+  path: "{scope}/providers/Microsoft.Consumption/reservationRecommendations",
   urlParameters: [
-    Parameters.subscriptionId
+    Parameters.scope
   ],
   queryParameters: [
     Parameters.filter0,

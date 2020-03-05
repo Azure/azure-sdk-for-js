@@ -41,6 +41,7 @@ export {
   ReservationDetail,
   ReservationSummary,
   ReservationTransaction,
+  ReservationTransactionsListResult,
   Resource,
   Tag,
   TagsResult,
