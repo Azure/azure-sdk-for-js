@@ -195,7 +195,6 @@ describe("Streaming - Misc Tests", function(): void {
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
     await contextToSettle!.complete(receivedMsgs[0]);
-    await receiverClient.close();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     await testPeekMsgsLength(receiverClient, 0);
