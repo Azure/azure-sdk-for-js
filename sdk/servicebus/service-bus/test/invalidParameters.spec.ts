@@ -6,7 +6,7 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ReceiveMode, ServiceBusSenderClient } from "../src";
+import { ServiceBusSenderClient } from "../src";
 import {
   TestMessage,
   getSenderReceiverClients,
@@ -332,39 +332,64 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
     await receiverClient.close();
   });
 
-  it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
-    receiverClient = new ServiceBusReceiverClient(
-      {
-        queueName: EntityNames.QUEUE_NAME_SESSION,
-        connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
-      },
-      undefined as any,
-      {
-        id: TestMessage.sessionId
-      }
-    ) as any;
-    should.equal(
-      receiverClient.receiveMode,
-      ReceiveMode.peekLock,
-      "Default receiveMode not set when receiveMode not provided to constructor."
-    );
-  });
+  // it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
+  //   receiverClient = new ServiceBusReceiverClient(
+  //     {
+  //       queueName: EntityNames.QUEUE_NAME_SESSION,
+  //       connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
+  //     },
+  //     undefined as any,
+  //     {
+  //       id: TestMessage.sessionId
+  //     }
+  //   ) as any;
+  //   should.equal(
+  //     receiverClient.receiveMode,
+  //     ReceiveMode.peekLock,
+  //     "Default receiveMode not set when receiveMode not provided to constructor."
+  //   );
+  // });
 
-  it("SessionReceiver: Invalid ReceiveMode", async function(): Promise<void> {
-    receiverClient = new ServiceBusReceiverClient(
-      {
-        queueName: EntityNames.QUEUE_NAME_SESSION,
-        connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
-      },
-      123 as any,
-      {
-        id: TestMessage.sessionId
-      }
-    ) as any;
+  // it("SessionReceiver: Invalid ReceiveMode", async function(): Promise<void> {
+  //   receiverClient = new ServiceBusReceiverClient(
+  //     {
+  //       queueName: EntityNames.QUEUE_NAME_SESSION,
+  //       connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
+  //     },
+  //     123 as any,
+  //     {
+  //       id: TestMessage.sessionId
+  //     }
+  //   ) as any;
+  //   should.equal(
+  //     receiverClient.receiveMode,
+  //     ReceiveMode.peekLock,
+  //     "Default receiveMode not set when receiveMode not provided to constructor."
+  //   );
+  // });
+
+  it("SessionReceiver: Throws error if created a client with invalid receiveMode", async function(): Promise<
+    void
+  > {
+    let errorCaught: string = "";
+    try {
+      receiverClient = new ServiceBusReceiverClient(
+        {
+          queueName: EntityNames.QUEUE_NAME_SESSION,
+          connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
+        },
+        123 as any,
+        {
+          id: TestMessage.sessionId
+        }
+      ) as any;
+    } catch (error) {
+      errorCaught = error.message;
+    }
     should.equal(
-      receiverClient.receiveMode,
-      ReceiveMode.peekLock,
-      "Default receiveMode not set when receiveMode not provided to constructor."
+      errorCaught,
+      "Invalid receiveMode provided",
+      "Did not throw error if created a client with invalid receiveMode."
     );
   });
 
