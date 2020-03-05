@@ -6,8 +6,8 @@ export * from "./common";
 export * from "./customRecognizerClient";
 export * from "./receiptRecognizerClient";
 export * from "./layoutRecognizerClient";
-export * from "./lro/analyze/poller";
-export * from "./lro/train/poller";
+export { AnalyzeOptions, AnalyzePollerClient, OperationStatus, StartAnalyzePoller, StartAnalyzePollerOptions, StartAnalyzePollState } from "./lro/analyze/poller";
+export { ModelStatus, TrainPollerClient, StartTrainingPoller, StartTrainingPollerOptions, StartTrainingPollState, TrainCustomModelAsyncResponse } from "./lro/train/poller";
 export { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 
 export * from "./models";

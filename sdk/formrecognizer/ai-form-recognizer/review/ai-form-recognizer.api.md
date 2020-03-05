@@ -13,7 +13,6 @@ import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { Poller } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
-import { PollOperation } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { ServiceClientCredentials } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
@@ -61,6 +60,8 @@ export interface AnalyzeOperationResultModel {
 // @public (undocumented)
 export type AnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | ExtractCustomFormOptions;
 
+// Warning: (ae-forgotten-export) The symbol "ICanHazStatus" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type AnalyzePollerClient<T extends ICanHazStatus> = {
     startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) => Promise<{
@@ -298,12 +299,6 @@ export type GetModelOptions = FormRecognizerOperationOptions & {
 
 // @public
 export type GetSummaryOptions = FormRecognizerOperationOptions;
-
-// @public (undocumented)
-export interface ICanHazStatus {
-    // (undocumented)
-    status: OperationStatus;
-}
 
 // @public (undocumented)
 export type IntegerFieldValue = {
@@ -580,10 +575,6 @@ export class StartAnalyzePoller<T extends ICanHazStatus> extends Poller<StartAna
 }
 
 // @public (undocumented)
-export interface StartAnalyzePollerOperation<T extends ICanHazStatus> extends PollOperation<StartAnalyzePollState<T>, T> {
-}
-
-// @public (undocumented)
 export type StartAnalyzePollerOptions<T extends ICanHazStatus> = {
     client: AnalyzePollerClient<T>;
     body: HttpRequestBody;
@@ -627,10 +618,6 @@ export class StartTrainingPoller extends Poller<StartTrainingPollState, Model> {
     delay(): Promise<void>;
     // (undocumented)
     intervalInMs: number;
-}
-
-// @public (undocumented)
-export interface StartTrainingPollerOperation extends PollOperation<StartTrainingPollState, Model> {
 }
 
 // @public (undocumented)

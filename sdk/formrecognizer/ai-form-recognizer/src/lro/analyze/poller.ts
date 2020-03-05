@@ -15,6 +15,10 @@ export type AnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | Extr
 
 //export type T = AnalyzeReceiptResultResponse | AnalyzeLayoutResultResponse | GetAnalyzeFormResultResponse;
 
+/**
+ * Defines an interface to query for operation status
+ * @internal
+ */
 export interface ICanHazStatus { status: OperationStatus }
 
 /**

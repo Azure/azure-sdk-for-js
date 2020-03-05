@@ -6,7 +6,7 @@ import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { CustomFormRecognizerClient, TrainCustomModelOptions } from "../../customRecognizerClient";
 
 import { Model, ModelStatus, TrainCustomModelAsyncResponse } from "../../generated/models";
-export { Model, ModelStatus, TrainCustomModelAsyncResponse };
+export { ModelStatus, TrainCustomModelAsyncResponse };
 
 /**
  * Defines the operations from a {@link CustomRecognizerClient} that are needed for the poller
