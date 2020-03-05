@@ -150,7 +150,7 @@ describe("Streaming - Misc Tests", function(): void {
     await testAutoComplete();
   });
 
-  it.only("UnPartitioned Queue: AutoComplete removes the message #RunInBrowser", async function(): Promise<
+  it("UnPartitioned Queue: AutoComplete removes the message #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
