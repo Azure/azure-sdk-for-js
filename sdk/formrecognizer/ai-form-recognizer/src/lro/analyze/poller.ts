@@ -13,7 +13,20 @@ export { OperationStatus };
 
 export type AnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | ExtractCustomFormOptions;
 
-//export type T = AnalyzeReceiptResultResponse | AnalyzeLayoutResultResponse | GetAnalyzeFormResultResponse;
+export interface PollerOperationOptions<T extends ICanHazStatus> {
+  /**
+   * Time between each polling in milliseconds.
+   */
+  intervalInMs?: number;
+  /**
+   * callback to receive events on the progress of download operation.
+   */
+  onProgress?: (state: StartAnalyzePollState<T>) => void;
+  /**
+   * A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
+}
 
 /**
  * Defines an interface to query for operation status
@@ -48,6 +61,9 @@ export interface StartAnalyzePollState<T extends ICanHazStatus> extends PollOper
 export interface StartAnalyzePollerOperation<T extends ICanHazStatus>
 extends PollOperation<StartAnalyzePollState<T>, T> {}
 
+/**
+ * @internal
+ */
 export type StartAnalyzePollerOptions<T extends ICanHazStatus> = {
   client: AnalyzePollerClient<T>;
   body: HttpRequestBody;

@@ -31,6 +31,9 @@ export interface StartTrainingPollState extends PollOperationState<Model> {
 export interface StartTrainingPollerOperation
   extends PollOperation<StartTrainingPollState, Model> {}
 
+/**
+ * @internal
+ */
 export interface StartTrainingPollerOptions {
   client: TrainPollerClient;
   source: string;

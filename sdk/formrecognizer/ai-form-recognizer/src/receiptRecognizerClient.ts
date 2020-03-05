@@ -20,7 +20,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, StartAnalyzePollerOptions } from './lro/analyze/poller';
+import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState } from './lro/analyze/poller';
 import { PollOperationState, PollerLike } from '@azure/core-lro';
 
 import {
@@ -33,17 +33,26 @@ export {
   DocumentResult
 }
 
+/**
+ * Options for analyzing receipts
+ */
 export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
   includeTextDetails?: boolean;
 };
 
-export type GetExtractedReceiptResultOptions = FormRecognizerOperationOptions;
+type GetExtractedReceiptResultOptions = FormRecognizerOperationOptions;
 
-export type StartAnalyzeOptions = ExtractReceiptOptions & {
+/**
+ * Options for the start analyzing receipt operation
+ */
+export type StartAnalyzeReceiptOptions = ExtractReceiptOptions & {
   intervalInMs?: number;
   onProgress?: (state: StartAnalyzePollState<AnalyzeReceiptResultResponse>) => void;
   resumeFrom?: string;
 }
+
+export type ReceiptPollerLike = PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>
+
 /**
  * Client class for interacting with Azure Form Recognizer.
  */
@@ -114,8 +123,8 @@ export class ReceiptRecognizerClient {
   public async extractReceipt(
     body: HttpRequestBody,
     contentType: SupportedContentType,
-    options: StartAnalyzePollerOptions<AnalyzeReceiptResultResponse>
-  ): Promise<PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>> {
+    options: StartAnalyzeReceiptOptions
+  ): Promise<ReceiptPollerLike> {
 
     const analyzePollerClient: AnalyzePollerClient<AnalyzeReceiptResultResponse> = {
       startAnalyze: (...args) => analyzeReceiptInternal(this.client, ...args),
@@ -135,26 +144,13 @@ export class ReceiptRecognizerClient {
 
   public async extractReceiptFromUrl(
     imageSourceUrl: string,
-    options: StartAnalyzePollerOptions<AnalyzeReceiptResultResponse>
-  ): Promise<PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>> {
+    options: StartAnalyzeReceiptOptions
+  ): Promise<ReceiptPollerLike> {
     const body = JSON.stringify({
       source: imageSourceUrl
     });
 
-    const analyzePollerClient: AnalyzePollerClient<AnalyzeReceiptResultResponse> = {
-      startAnalyze: (...args) => analyzeReceiptInternal(this.client, ...args),
-      getAnalyzeResult: (...args) => this.getExtractedReceipt(...args)
-    }
-
-    const poller = new StartAnalyzePoller({
-      client: analyzePollerClient,
-      body,
-      contentType: "application/json",
-      ...options
-    });
-
-    await poller.poll();
-    return poller;
+    return this.extractReceipt(body, "application/json", options);
   }
 
   private async getExtractedReceipt(

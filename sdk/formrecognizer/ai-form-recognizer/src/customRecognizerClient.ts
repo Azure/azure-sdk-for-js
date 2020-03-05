@@ -11,7 +11,8 @@ import {
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
   HttpRequestBody,
-  AbortSignalLike
+  AbortSignalLike,
+  RestResponse
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -25,7 +26,7 @@ import { FormRecognizerClient as GeneratedClient } from "./generated/formRecogni
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { StartAnalyzePollerOptions, AnalyzePollerClient, StartAnalyzePoller, AnalyzeOptions } from './lro/analyze/poller';
+import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, AnalyzeOptions } from './lro/analyze/poller';
 import { LabeledFormModelResponse, CustomFormModelResponse } from './models';
 
 import {
@@ -39,10 +40,11 @@ export {
   GetCustomModelsResponse,
   Model,
   ModelInfo,
-  GetAnalyzeFormResultResponse
+  GetAnalyzeFormResultResponse,
+  RestResponse
 }
 
-export { PollOperationState, PollerLike };
+export { PollOperationState, PollerLike }
 
 /**
  * Options for the list models operation.
@@ -64,25 +66,24 @@ export type DeleteModelOptions = FormRecognizerOperationOptions;
  */
 export type GetModelOptions = FormRecognizerOperationOptions & {
   includeKeys?: boolean;
-};
+}
 
+/**
+ * Options for traing models
+ */
 export type TrainCustomModelOptions = FormRecognizerOperationOptions & {
   prefix?: string;
   includeSubFolders?: boolean;
-};
-
-export type ExtractCustomFormOptions = FormRecognizerOperationOptions & {
-  includeTextDetails?: boolean;
-};
+}
 
 /**
- * Options for the start training operation.
+ * Options for the start training model operation.
  */
 export type StartTrainingOptions = TrainCustomModelOptions & {
   intervalInMs?: number;
   onProgress?: (state: StartTrainingPollState) => void;
   resumeFrom?: string;
-};
+}
 
 /**
  * Options for the start training with labels operation.
@@ -90,9 +91,28 @@ export type StartTrainingOptions = TrainCustomModelOptions & {
 export type StartTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
   prefix?: string;
   includeSubFolders?: boolean;
-};
+}
 
-export type GetExtractedCustomFormOptions = FormRecognizerOperationOptions;
+/**
+ * Options for analyzing of forms
+ */
+export type ExtractCustomFormOptions = FormRecognizerOperationOptions & {
+  includeTextDetails?: boolean;
+}
+
+
+/**
+ * Options for starting analyzing form operation
+ */
+export type StartAnalyzeFormOptions = ExtractCustomFormOptions & {
+  intervalInMs?: number;
+  onProgress?: (state: StartAnalyzePollState<GetAnalyzeFormResultResponse>) => void;
+  resumeFrom?: string;
+}
+
+export type FormPollerLike = PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>
+
+type GetExtractedCustomFormOptions = FormRecognizerOperationOptions;
 
 /**
  * Client class for interacting with Azure Form Recognizer.
@@ -187,7 +207,7 @@ export class CustomFormRecognizerClient {
     }
   }
 
-  public async deleteModel(modelId: string, options?: DeleteModelOptions) {
+  public async deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-deleteModel",
@@ -328,9 +348,9 @@ export class CustomFormRecognizerClient {
   public async extractCustomForm(
     modelId: string,
     body: HttpRequestBody,
-    contentType: string,
-    options: StartAnalyzePollerOptions<GetAnalyzeFormResultResponse>
-  ): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>> {
+    contentType: SupportedContentType,
+    options: StartAnalyzeFormOptions
+  ): Promise<FormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid modelId")
     }
@@ -355,7 +375,7 @@ export class CustomFormRecognizerClient {
   public async extractCustomFormFromUrl(
     modelId: string,
     imageSourceUrl: string,
-    options: StartAnalyzePollerOptions<GetAnalyzeFormResultResponse>
+    options: StartAnalyzeFormOptions
   ): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>> {
     if (!modelId) {
       throw new RangeError("Invalid modelId")
@@ -363,22 +383,8 @@ export class CustomFormRecognizerClient {
     const body = JSON.stringify({
       source: imageSourceUrl
     });
-    const analyzePollerClient: AnalyzePollerClient<GetAnalyzeFormResultResponse> = {
-      startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) =>
-       analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
-      getAnalyzeResult: (resultId: string,
-        options: { abortSignal?: AbortSignalLike }) => this.getExtractedCustomForm(modelId, resultId, options)
-    }
 
-    const poller = new StartAnalyzePoller({
-      client: analyzePollerClient,
-      body,
-      contentType: "application/json",
-      ...options
-    });
-
-    await poller.poll();
-    return poller;
+    return this.extractCustomForm(modelId, body, "application/json", options);
   }
 
   private async getExtractedCustomForm(

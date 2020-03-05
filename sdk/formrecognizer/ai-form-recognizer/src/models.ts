@@ -54,6 +54,9 @@ export {
   TextLine
 }
 
+/**
+ * Information about extracted text elements  in documents
+ */
 export type TextElement = TextWord | TextLine;
 
 /**
@@ -74,6 +77,9 @@ export interface DataTable {
   rows: DataTableRow[];
 }
 
+/**
+ * Represents a row of data table cells in extracted table.
+ */
 export interface DataTableRow {
   cells: DataTableCell[]
 }
@@ -126,11 +132,11 @@ export interface CommonFieldValue {
   /**
    * Bounding box of the field value, if appropriate.
    */
-  boundingBox?: number[];
+  boundingBox: number[];
   /**
    * Confidence score.
    */
-  confidence?: number;
+  confidence: number;
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting
    * this field.
@@ -139,7 +145,7 @@ export interface CommonFieldValue {
   /**
    * The 1-based page number in the input document.
    */
-  page?: number;
+  page: number;
 }
 
 export type StringFieldValue = {

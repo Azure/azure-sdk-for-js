@@ -21,7 +21,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { AnalyzeLayoutResultResponse, AnalyzeLayoutResult } from './models';
-import { StartAnalyzePollerOptions, AnalyzePollerClient, StartAnalyzePoller } from './lro/analyze/poller';
+import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState } from './lro/analyze/poller';
 import { PollerLike, PollOperationState } from '.';
 
 import {
@@ -35,9 +35,23 @@ export {
   AnalyzeLayoutAsyncResponseModel
 }
 
-export type ExtractLayoutOptions = FormRecognizerOperationOptions & {};
+/**
+ * Options for analyzing layout
+ */
+export type ExtractLayoutOptions = FormRecognizerOperationOptions;
 
-export type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
+/**
+ * Options for the start analyzing layout operation
+ */
+export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
+  intervalInMs?: number;
+  onProgress?: (state: StartAnalyzePollState<AnalyzeLayoutResultResponse>) => void;
+  resumeFrom?: string;
+}
+
+export type LayoutPollerLike = PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>
+
+type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
 
 /**
  * Client class for interacting with Azure Form Recognizer.
@@ -109,8 +123,8 @@ export class LayoutRecognizerClient {
   public async extractLayout(
     body: HttpRequestBody,
     contentType: SupportedContentType,
-    options: StartAnalyzePollerOptions<AnalyzeLayoutResultResponse>
-  ): Promise<PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>> {
+    options: StartAnalyzeLayoutOptions
+  ): Promise<LayoutPollerLike> {
 
     const analyzePollerClient: AnalyzePollerClient<AnalyzeLayoutResultResponse> = {
       startAnalyze: (...args) => analyzeLayoutInternal(this.client, ...args),
@@ -129,25 +143,13 @@ export class LayoutRecognizerClient {
   }
 
   public async extractLayoutFromUrl(imageSourceUrl: string,
-    options: StartAnalyzePollerOptions<AnalyzeLayoutResultResponse>
-  ): Promise<PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>> {
+    options: StartAnalyzeLayoutOptions
+  ): Promise<LayoutPollerLike> {
     const body = JSON.stringify({
       source: imageSourceUrl
     });
-    const analyzePollerClient: AnalyzePollerClient<AnalyzeLayoutResultResponse> = {
-      startAnalyze: (...args) => analyzeLayoutInternal(this.client, ...args),
-      getAnalyzeResult: (...args) => this.getExtractedLayout(...args)
-    }
 
-    const poller = new StartAnalyzePoller({
-      client: analyzePollerClient,
-      body,
-      contentType: "application/json",
-      ...options
-    });
-
-    await poller.poll();
-    return poller;
+    return this.extractLayout(body, "application/json", options);
   }
 
   private async getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions) {

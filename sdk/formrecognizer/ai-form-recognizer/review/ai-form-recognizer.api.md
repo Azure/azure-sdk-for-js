@@ -14,6 +14,7 @@ import { PipelineOptions } from '@azure/core-http';
 import { Poller } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
+import { RestResponse } from '@azure/core-http';
 import { ServiceClientCredentials } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
 import { WebResource } from '@azure/core-http';
@@ -119,10 +120,10 @@ export class CognitiveKeyCredential implements ServiceClientCredentials {
 
 // @public (undocumented)
 export interface CommonFieldValue {
-    boundingBox?: number[];
-    confidence?: number;
+    boundingBox: number[];
+    confidence: number;
     elements?: TextElement[];
-    page?: number;
+    page: number;
     text?: string;
 }
 
@@ -147,12 +148,12 @@ export type CustomFormModelTrainResult = Omit<TrainResult, "averageModelAccuracy
 export class CustomFormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     // (undocumented)
-    deleteModel(modelId: string, options?: DeleteModelOptions): Promise<import("@azure/core-http").RestResponse>;
+    deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     // (undocumented)
-    extractCustomForm(modelId: string, body: HttpRequestBody, contentType: string, options: StartAnalyzePollerOptions<GetAnalyzeFormResultResponse>): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
+    extractCustomForm(modelId: string, body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeFormOptions): Promise<FormPollerLike>;
     // (undocumented)
-    extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options: StartAnalyzePollerOptions<GetAnalyzeFormResultResponse>): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
+    extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
     // (undocumented)
     getModel(modelId: string, options: GetModelOptions): Promise<LabeledFormModelResponse | CustomFormModelResponse>;
     // (undocumented)
@@ -197,7 +198,7 @@ export interface DataTableModel {
     rows: number;
 }
 
-// @public (undocumented)
+// @public
 export interface DataTableRow {
     // (undocumented)
     cells: DataTableCell[];
@@ -229,15 +230,15 @@ export interface ErrorInformation {
     message: string;
 }
 
-// @public (undocumented)
+// @public
 export type ExtractCustomFormOptions = FormRecognizerOperationOptions & {
     includeTextDetails?: boolean;
 };
 
-// @public (undocumented)
-export type ExtractLayoutOptions = FormRecognizerOperationOptions & {};
+// @public
+export type ExtractLayoutOptions = FormRecognizerOperationOptions;
 
-// @public (undocumented)
+// @public
 export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
     includeTextDetails?: boolean;
 };
@@ -250,6 +251,9 @@ export interface FormFieldsReport {
     accuracy: number;
     fieldName: string;
 }
+
+// @public (undocumented)
+export type FormPollerLike = PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>;
 
 // @public
 export interface FormRecognizerClientOptions extends PipelineOptions {
@@ -282,15 +286,6 @@ export type GetCustomModelsResponse = ModelsModel & {
         parsedBody: ModelsModel;
     };
 };
-
-// @public (undocumented)
-export type GetExtractedCustomFormOptions = FormRecognizerOperationOptions;
-
-// @public (undocumented)
-export type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
-
-// @public (undocumented)
-export type GetExtractedReceiptResultOptions = FormRecognizerOperationOptions;
 
 // @public
 export type GetModelOptions = FormRecognizerOperationOptions & {
@@ -355,14 +350,17 @@ export type LabeledFormModelResponse = LabeledFormModel & {
 // @public
 export type Language = 'en' | 'es';
 
+// @public (undocumented)
+export type LayoutPollerLike = PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>;
+
 // @public
 export class LayoutRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractLayout(body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzePollerOptions<AnalyzeLayoutResultResponse>): Promise<PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>>;
+    extractLayout(body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
     // (undocumented)
-    extractLayoutFromUrl(imageSourceUrl: string, options: StartAnalyzePollerOptions<AnalyzeLayoutResultResponse>): Promise<PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>>;
+    extractLayoutFromUrl(imageSourceUrl: string, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
     }
 
 // @public
@@ -545,46 +543,47 @@ export type ReceiptItemField = {
     };
 } & CommonFieldValue;
 
+// @public (undocumented)
+export type ReceiptPollerLike = PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>;
+
 // @public
 export class ReceiptRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzePollerOptions<AnalyzeReceiptResultResponse>): Promise<PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>>;
+    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
     // (undocumented)
-    extractReceiptFromUrl(imageSourceUrl: string, options: StartAnalyzePollerOptions<AnalyzeReceiptResultResponse>): Promise<PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>>;
+    extractReceiptFromUrl(imageSourceUrl: string, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
     }
 
 // @public (undocumented)
 export type ReceiptResult = RawReceiptResult & Receipt;
 
-// @public (undocumented)
-export type StartAnalyzeOptions = ExtractReceiptOptions & {
+export { RestResponse }
+
+// @public
+export type StartAnalyzeFormOptions = ExtractCustomFormOptions & {
     intervalInMs?: number;
-    onProgress?: (state: StartAnalyzePollState<AnalyzeReceiptResultResponse>) => void;
+    onProgress?: (state: StartAnalyzePollState<GetAnalyzeFormResultResponse>) => void;
+    resumeFrom?: string;
+};
+
+// @public
+export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
+    intervalInMs?: number;
+    onProgress?: (state: StartAnalyzePollState<AnalyzeLayoutResultResponse>) => void;
     resumeFrom?: string;
 };
 
 // @public
 export class StartAnalyzePoller<T extends ICanHazStatus> extends Poller<StartAnalyzePollState<T>, T> {
+    // Warning: (ae-forgotten-export) The symbol "StartAnalyzePollerOptions" needs to be exported by the entry point index.d.ts
     constructor(options: StartAnalyzePollerOptions<T>);
     // (undocumented)
     delay(): Promise<void>;
     // (undocumented)
     intervalInMs: number;
 }
-
-// @public (undocumented)
-export type StartAnalyzePollerOptions<T extends ICanHazStatus> = {
-    client: AnalyzePollerClient<T>;
-    body: HttpRequestBody;
-    contentType: SupportedContentType;
-    modelId?: string;
-    intervalInMs?: number;
-    resultId?: string;
-    onProgress?: (state: StartAnalyzePollState<T>) => void;
-    resumeFrom?: string;
-} & AnalyzeOptions;
 
 // @public (undocumented)
 export interface StartAnalyzePollState<T extends ICanHazStatus> extends PollOperationState<T> {
@@ -605,6 +604,13 @@ export interface StartAnalyzePollState<T extends ICanHazStatus> extends PollOper
 }
 
 // @public
+export type StartAnalyzeReceiptOptions = ExtractReceiptOptions & {
+    intervalInMs?: number;
+    onProgress?: (state: StartAnalyzePollState<AnalyzeReceiptResultResponse>) => void;
+    resumeFrom?: string;
+};
+
+// @public
 export type StartTrainingOptions = TrainCustomModelOptions & {
     intervalInMs?: number;
     onProgress?: (state: StartTrainingPollState) => void;
@@ -613,27 +619,12 @@ export type StartTrainingOptions = TrainCustomModelOptions & {
 
 // @public
 export class StartTrainingPoller extends Poller<StartTrainingPollState, Model> {
+    // Warning: (ae-forgotten-export) The symbol "StartTrainingPollerOptions" needs to be exported by the entry point index.d.ts
     constructor(options: StartTrainingPollerOptions);
     // (undocumented)
     delay(): Promise<void>;
     // (undocumented)
     intervalInMs: number;
-}
-
-// @public (undocumented)
-export interface StartTrainingPollerOptions {
-    // (undocumented)
-    client: TrainPollerClient;
-    // (undocumented)
-    intervalInMs?: number;
-    // (undocumented)
-    onProgress?: (state: StartTrainingPollState) => void;
-    // (undocumented)
-    resumeFrom?: string;
-    // (undocumented)
-    source: string;
-    // (undocumented)
-    trainModelOptions?: TrainCustomModelOptions;
 }
 
 // @public (undocumented)
@@ -665,7 +656,7 @@ export type StringFieldValue = {
 // @public (undocumented)
 export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff" | "application/json";
 
-// @public (undocumented)
+// @public
 export type TextElement = TextWord | TextLine;
 
 // @public
@@ -701,7 +692,7 @@ export type TrainCustomModelAsyncResponse = TrainCustomModelAsyncHeaders & {
     };
 };
 
-// @public (undocumented)
+// @public
 export type TrainCustomModelOptions = FormRecognizerOperationOptions & {
     prefix?: string;
     includeSubFolders?: boolean;
