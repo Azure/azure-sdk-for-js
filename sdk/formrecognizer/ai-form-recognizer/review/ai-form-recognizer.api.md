@@ -4,6 +4,7 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
@@ -187,24 +188,6 @@ export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | Ph
 export type FieldValueType = 'string' | 'date' | 'time' | 'phoneNumber' | 'number' | 'integer' | 'array' | 'object';
 
 // @public
-export class FormRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
-    readonly endpointUrl: string;
-    // (undocumented)
-    extractLayout(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
-    // (undocumented)
-    extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
-    // (undocumented)
-    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptResultResponse>;
-    // (undocumented)
-    extractReceiptFromUrl(imageSourceUrl: string, options?: ExtractReceiptOptions): Promise<AnalyzeReceiptResultResponse>;
-    // (undocumented)
-    getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions): Promise<GetAnalyzeLayoutResultResponse>;
-    // (undocumented)
-    getExtractedReceipt(resultId: string, options?: GetExtractedReceiptResultOptions): Promise<AnalyzeReceiptResultResponse>;
-    }
-
-// @public
 export interface FormRecognizerClientOptions extends PipelineOptions {
 }
 
@@ -281,6 +264,18 @@ export type LabeledFormModel = Omit<Model, "keys"> & {
 
 // @public
 export type Language = 'en' | 'es';
+
+// @public
+export class LayoutRecognizerClient {
+    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
+    readonly endpointUrl: string;
+    // (undocumented)
+    extractLayout(body: HttpRequestBody, contentType: SupportedContentType, options?: ExtractLayoutOptions): Promise<AnalyzeLayoutResultResponse>;
+    // (undocumented)
+    extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions): Promise<GetAnalyzeLayoutResultResponse>;
+    // (undocumented)
+    getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions): Promise<GetAnalyzeLayoutResultResponse>;
+}
 
 // @public
 export type LengthUnit = 'pixel' | 'inch';
@@ -438,8 +433,27 @@ export interface ReceiptItemField {
     };
 }
 
+// @public
+export class ReceiptRecognizerClient {
+    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
+    readonly endpointUrl: string;
+    // Warning: (ae-forgotten-export) The symbol "ResultResponse" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options?: StartAnalyzeOptions): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>>;
+    // (undocumented)
+    extractReceiptFromUrl(imageSourceUrl: string, options?: StartAnalyzeOptions): Promise<PollerLike<PollOperationState<ResultResponse>, ResultResponse>>;
+    }
+
 // @public (undocumented)
 export type ReceiptResult = RawReceiptResult & Receipt;
+
+// @public (undocumented)
+export type StartAnalyzeOptions = ExtractReceiptOptions & {
+    intervalInMs?: number;
+    onProgress?: (state: StartAnalyzePollState) => void;
+    resumeFrom?: string;
+};
 
 // @public
 export type StartTrainingOptions = TrainCustomModelOptions & {
@@ -508,6 +522,7 @@ export type TrainCustomModelOptions = FormRecognizerOperationOptions & {
 //
 // src/customRecognizerClient.ts:73:3 - (ae-forgotten-export) The symbol "StartTrainingPollState" needs to be exported by the entry point index.d.ts
 // src/generated/models/index.ts:496:13 - (ae-forgotten-export) The symbol "FieldValue" needs to be exported by the entry point index.d.ts
+// src/receiptRecognizerClient.ts:38:3 - (ae-forgotten-export) The symbol "StartAnalyzePollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

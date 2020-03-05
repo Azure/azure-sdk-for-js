@@ -5,7 +5,7 @@
  * Extract receipt
  */
 
-const { FormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+const { ReceiptRecognizerClient, CognitiveKeyCredential } = require("../../dist");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -23,7 +23,7 @@ async function main() {
   imageUrl = "http://2.bp.blogspot.com/_LqCB_lgYPw0/TOpQyM_1PFI/AAAAAAAAACw/Qpx0wZ25GC4/s1600/tesco1receipt.jpg";
   imageUrl = "http://travelwithgrant.boardingarea.com/wp-content/uploads/2013/06/VR-Receipt.jpg";
 
-  const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new ReceiptRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
 
   let response;
 
@@ -33,12 +33,17 @@ async function main() {
     console.log(e);
     response = { status: "failed" };
   }
+  response = { status: "failed" };
 
   if (response.status !== "succeeded") {
     console.log(response);
     console.log("extracting...");
-    response = await client.extractReceiptFromUrl(imageUrl, {
+
+    const poller = await client.extractReceiptFromUrl(imageUrl, {
+      onProgress: (state) => { console.log(`analyzing status: ${state}`); }
     });
+    await poller.pollUntilDone();
+    response = poller.getResult();
   }
 
   console.log(response.status);

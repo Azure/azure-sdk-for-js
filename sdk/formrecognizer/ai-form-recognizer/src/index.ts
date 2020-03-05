@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 export * from "./common";
-export * from "./formRecognizerClient";
+//export * from "./formRecognizerClient";
 export * from "./customRecognizerClient";
+export * from "./receiptRecognizerClient";
+export * from "./layoutRecognizerClient";
 export { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 
 export {
