@@ -303,7 +303,7 @@ describe("Streaming - Complete message", function(): void {
 
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
     should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
-    await receiverClient.close();
+
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     await testPeekMsgsLength(receiverClient, 0);
@@ -387,7 +387,6 @@ describe("Streaming - Abandon message", function(): void {
     const deliveryCountFlag = await checkWithTimeout(() => checkDeliveryCount === maxDeliveryCount);
     should.equal(deliveryCountFlag, true, "DeliveryCount is different than expected");
 
-    await receiverClient.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
@@ -567,7 +566,6 @@ describe("Streaming - Deadletter message", function(): void {
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
     should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
 
-    await receiverClient.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
@@ -833,8 +831,6 @@ describe("Streaming - User Error", function(): void {
       "Expected streaming receiver not to be cached."
     );
 
-    await receiverClient.close();
-
     should.equal(
       unexpectedError && unexpectedError.message,
       errorMessage,
@@ -924,8 +920,6 @@ describe("Streaming - Failed init should not cache receiver", function(): void {
       false,
       "Expected Streaming receiver to not be cached"
     );
-
-    await receiverClient.close();
   });
 });
 
@@ -969,8 +963,6 @@ describe("Streaming - maxConcurrentCalls", function(): void {
     );
 
     await checkWithTimeout(() => settledMsgs.length === 2);
-    await receiverClient.close();
-
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     should.equal(settledMsgs.length, 2, `Expected 2, received ${settledMsgs.length} messages.`);
   }
@@ -1077,7 +1069,6 @@ describe("Streaming - Not receive messages after receiver is closed", function()
         autoComplete: false
       }
     );
-    await receiverClient.close();
 
     await delay(5000);
     should.equal(
