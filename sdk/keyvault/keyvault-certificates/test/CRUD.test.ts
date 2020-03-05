@@ -174,7 +174,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can get a certificate's secret in PKCS 12 format", async function() {
-    recorder.skip(undefined, "This test uses the file system, and uses OpenSSL with parameters not available on Windows.");
+    recorder.skip("browser", "This test uses the file system.");
     // Skipping this test from the live browser test runs, because we use the file system.
     if (!isNode) {
       this.skip();
@@ -197,7 +197,7 @@ describe("Certificates client - create, read, update and delete", () => {
     // Obtaining only the public certificate.
     // We send "-passin 'pass:'" because our self-signed certificate doesn't specify a password on its issuer.
     childProcess.execSync(
-      "openssl pkcs12 -in pkcs12.p12 -out pkcs12.crt.pem -clcerts -nokeys -passin 'pass:'"
+      "openssl pkcs12 -in pkcs12.p12 -out pkcs12.crt.pem -clcerts -nokeys -passin pass:"
     );
 
     // To generate a PEM private key out of a KeyVault Certificate
