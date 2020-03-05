@@ -385,7 +385,12 @@ export class ReceiverClientImplementation {
     const { context, entityPath } = createConnectionContext(auth1, options);
     this.entityPath = entityPath;
     this._context = context;
-    this.receiveMode = receiveMode2;
+
+    if (receiveMode2 === "peekLock" || receiveMode2 === "receiveAndDelete") {
+      this.receiveMode = receiveMode2;
+    } else {
+      throw new Error("Invalid receiveMode provided");
+    }
     this._internalReceiveMode = convertToInternalReceiveMode(receiveMode2);
 
     const clientEntityContext = ClientEntityContext.create(
@@ -462,6 +467,13 @@ export class ReceiverClientImplementation {
     options?: SubscribeOptions
   ): void {
     // TODO: use options
+    if (
+      !handlers ||
+      !(handlers.processMessage instanceof Function && handlers.processMessage instanceof Function)
+    ) {
+      throw new TypeError('Invalid "MessageHandlers" provided.');
+    }
+
     if (this.receiveMode === "peekLock") {
       const onMessage = async (sbMessage: ServiceBusMessage) => {
         return handlers.processMessage(sbMessage, settlementContext);
