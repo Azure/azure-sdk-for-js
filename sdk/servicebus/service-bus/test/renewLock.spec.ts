@@ -5,12 +5,13 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusSenderClient, ReceivedMessage, ContextWithSettlement } from "../src";
+import { ReceivedMessage, ContextWithSettlement } from "../src";
 import { delay } from "rhea-promise";
 import { purge, getSenderReceiverClients, TestClientType, TestMessage } from "./utils/testUtils";
 import { NonSessionReceiver } from "../src/serviceBusReceiverClient";
+import { Sender } from "../src/sender";
 
-let senderClient: ServiceBusSenderClient;
+let senderClient: Sender;
 let receiverClient: NonSessionReceiver<"peekLock">;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {
@@ -260,7 +261,7 @@ async function processError(err: Error): Promise<void> {
  * Test renewLock() after receiving a message using Batch Receiver
  */
 async function testBatchReceiverManualLockRenewalHappyCase(
-  senderClient: ServiceBusSenderClient,
+  senderClient: Sender,
   receiverClient: NonSessionReceiver<"peekLock">
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
@@ -309,7 +310,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
  * Test settling of message from Batch Receiver fails after message lock expires
  */
 async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
-  senderClient: ServiceBusSenderClient,
+  senderClient: Sender,
   receiverClient: NonSessionReceiver<"peekLock">
 ): Promise<void> {
   const testMessage = TestMessage.getSample();
@@ -343,7 +344,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
  * Test renewLock() after receiving a message using Streaming Receiver with autoLockRenewal disabled
  */
 async function testStreamingReceiverManualLockRenewalHappyCase(
-  senderClient: ServiceBusSenderClient,
+  senderClient: Sender,
   receiverClient: NonSessionReceiver<"peekLock">
 ): Promise<void> {
   let numOfMessagesReceived = 0;
@@ -422,7 +423,7 @@ interface AutoLockRenewalTestOptions {
 }
 
 async function testAutoLockRenewalConfigBehavior(
-  senderClient: ServiceBusSenderClient,
+  senderClient: Sender,
   receiverClient: NonSessionReceiver<"peekLock">,
   options: AutoLockRenewalTestOptions,
   entityType: TestClientType

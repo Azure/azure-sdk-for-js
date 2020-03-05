@@ -8,7 +8,6 @@ chai.use(chaiAsPromised);
 import {
   delay,
   SendableMessageInfo,
-  ServiceBusSenderClient,
   SessionReceiver,
   ReceivedMessage,
   ContextWithSettlement
@@ -23,6 +22,7 @@ import {
   purgeEntity
 } from "./utils/testUtils";
 import { ReceiverClientTypeForUser } from "../src/serviceBusReceiverClient";
+import { Sender } from "../src/sender";
 
 async function testPeekMsgsLength(
   client: ReceiverClientTypeForUser,
@@ -36,7 +36,7 @@ async function testPeekMsgsLength(
   );
 }
 
-let senderClient: ServiceBusSenderClient;
+let senderClient: Sender;
 let receiverClient: SessionReceiver<"peekLock">;
 
 let unexpectedError: Error | undefined;

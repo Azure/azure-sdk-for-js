@@ -14,7 +14,6 @@ import {
 } from "./models";
 import { convertToInternalReceiveMode } from "./constructorHelpers";
 import { RuleDescription, CorrelationFilter } from "./core/managementClient";
-import { ConnectionContext } from "./connectionContext";
 import { ServiceBusMessage, ReceivedMessageInfo, ReceiveMode } from ".";
 import { ClientEntityContext } from "./clientEntityContext";
 import { InternalReceiver, InternalSessionReceiver } from "./internalReceivers";
@@ -310,7 +309,7 @@ export class ReceiverClientImplementation {
     options?: SubscribeOptions
   ): void {
     // TODO: use options
-    if (this.receiveMode === "peekLock") {
+    if (this._receiveMode === "peekLock") {
       const onMessage = async (sbMessage: ServiceBusMessage) => {
         return handlers.processMessage(sbMessage, settlementContext);
       };

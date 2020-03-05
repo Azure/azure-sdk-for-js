@@ -8,7 +8,6 @@ chai.use(chaiAsPromised);
 import {
   MessagingError,
   delay,
-  ServiceBusSenderClient,
   SessionReceiver,
   ReceivedMessage,
   ContextWithSettlement
@@ -20,8 +19,9 @@ import {
   TestMessage,
   isMessagingError
 } from "./utils/testUtils";
+import { Sender } from "../src/sender";
 
-let senderClient: ServiceBusSenderClient;
+let senderClient: Sender;
 let receiverClient: SessionReceiver<"peekLock">;
 let maxSessionAutoRenewLockDurationInSeconds: number;
 async function beforeEachTest(
@@ -296,7 +296,7 @@ async function processError(err: MessagingError | Error) {
  * Test manual renewLock() using Batch Receiver, with autoLockRenewal disabled
  */
 async function testBatchReceiverManualLockRenewalHappyCase(
-  senderClient: ServiceBusSenderClient,
+  senderClient: Sender,
   receiverClient: SessionReceiver<"peekLock">
 ): Promise<void> {
   const testMessage = TestMessage.getSessionSample();
@@ -343,7 +343,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
  * Test settling of message from Batch Receiver fails after session lock expires
  */
 async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
-  senderClient: ServiceBusSenderClient,
+  senderClient: Sender,
   receiverClient: SessionReceiver<"peekLock">
 ): Promise<void> {
   const testMessage = TestMessage.getSessionSample();
@@ -377,7 +377,7 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
  * Test manual renewLock() using Streaming Receiver with autoLockRenewal disabled
  */
 async function testStreamingReceiverManualLockRenewalHappyCase(
-  senderClient: ServiceBusSenderClient,
+  senderClient: Sender,
   receiverClient: SessionReceiver<"peekLock">
 ): Promise<void> {
   let numOfMessagesReceived = 0;
@@ -452,7 +452,7 @@ interface AutoLockRenewalTestOptions {
 }
 
 async function testAutoLockRenewalConfigBehavior(
-  senderClient: ServiceBusSenderClient,
+  senderClient: Sender,
   receiverClient: SessionReceiver<"peekLock">,
   options: AutoLockRenewalTestOptions
 ): Promise<void> {

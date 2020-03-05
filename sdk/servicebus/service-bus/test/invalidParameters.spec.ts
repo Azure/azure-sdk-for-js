@@ -6,7 +6,7 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ReceiveMode, ServiceBusSenderClient } from "../src";
+import { ReceiveMode } from "../src";
 import {
   TestMessage,
   getSenderReceiverClients,
@@ -17,13 +17,13 @@ import {
   ReceiverClientTypeForUserT,
   NonSessionReceiver,
   SubscriptionRuleManagement,
-  SessionReceiver,
-  ServiceBusReceiverClient
+  SessionReceiver
 } from "../src/serviceBusReceiverClient";
 import { getEnvVars } from "./utils/envVarUtils";
+import { Sender } from "../src/sender";
 
 describe("Invalid parameters in Sender/ReceiverClients for PartitionedQueue #RunInBrowser", function(): void {
-  let senderClient: ServiceBusSenderClient;
+  let senderClient: Sender;
   let queueReceiverClient: ReceiverClientTypeForUserT<"peekLock">;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -109,7 +109,7 @@ describe("Invalid parameters in Sender/ReceiverClients for PartitionedQueue #Run
 });
 
 describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscription #RunInBrowser", function(): void {
-  let senderClient: ServiceBusSenderClient;
+  let senderClient: Sender;
   let subscriptionReceiverClient: NonSessionReceiver<"peekLock"> & SubscriptionRuleManagement;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -310,7 +310,7 @@ describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscripti
 });
 
 describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void {
-  let senderClient: ServiceBusSenderClient;
+  let senderClient: Sender;
   let receiverClient: SessionReceiver<"peekLock">;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
@@ -333,7 +333,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   });
 
   it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
-    receiverClient = new ServiceBusReceiverClient(
+    receiverClient = new Sender(
       {
         queueName: EntityNames.QUEUE_NAME_SESSION,
         connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
@@ -351,7 +351,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   });
 
   it("SessionReceiver: Invalid ReceiveMode", async function(): Promise<void> {
-    receiverClient = new ServiceBusReceiverClient(
+    receiverClient = new Sender(
       {
         queueName: EntityNames.QUEUE_NAME_SESSION,
         connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
@@ -760,7 +760,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
 // });
 
 describe("Invalid parameters in Sender #RunInBrowser", function(): void {
-  let sender: ServiceBusSenderClient;
+  let sender: Sender;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.

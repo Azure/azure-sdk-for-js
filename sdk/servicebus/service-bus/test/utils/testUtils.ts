@@ -8,13 +8,19 @@ import {
   MessagingError,
   ContextWithSettlement,
   ReceivedMessage,
-  ServiceBusClientOptions
+  ServiceBusClientOptions,
+  ServiceBusClient
 } from "../../src";
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
 import * as dotenv from "dotenv";
 import { ServiceBusSenderClient } from "../../src/serviceBusSenderClient";
-import { ReceiverClientTypeForUser } from "../../src/serviceBusReceiverClient";
+import {
+  ReceiverClientTypeForUser,
+  NonSessionReceiver,
+  SessionReceiver
+} from "../../src/serviceBusReceiverClient";
+import { Sender } from "../../src/sender";
 dotenv.config();
 
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
@@ -259,8 +265,9 @@ export async function getSenderReceiverClients(
   // If freshResource flag is false, sender/receiver clients are provided without creating a new resource
   freshResource: boolean = true
 ): Promise<{
-  senderClient: ServiceBusSenderClient;
+  senderClient: Sender;
   receiverClient: ReceiverClientTypeForUser;
+  serviceBusClient: ServiceBusClient;
 }> {
   const connectionString = env[EnvVarNames.SERVICEBUS_CONNECTION_STRING];
   let type: "queue" | "subscription";

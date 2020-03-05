@@ -8,7 +8,6 @@ chai.use(chaiAsPromised);
 import {
   ServiceBusMessage,
   SendableMessageInfo,
-  ServiceBusSenderClient,
   ContextWithSettlement,
   ReceivedMessage
 } from "../src";
@@ -28,6 +27,7 @@ import {
   ReceiverClientTypeForUserT,
   NonSessionReceiver
 } from "../src/serviceBusReceiverClient";
+import { Sender } from "../src/sender";
 
 async function testPeekMsgsLength(
   client: ReceiverClientTypeForUser,
@@ -43,7 +43,7 @@ async function testPeekMsgsLength(
 
 let errorWasThrown: boolean;
 
-let senderClient: ServiceBusSenderClient;
+let senderClient: Sender;
 let receiverClient: ReceiverClientTypeForUserT<"receiveAndDelete">;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {

@@ -5,12 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import {
-  ServiceBusMessage,
-  SendableMessageInfo,
-  CorrelationFilter,
-  ServiceBusSenderClient
-} from "../src";
+import { ServiceBusMessage, SendableMessageInfo, CorrelationFilter } from "../src";
 
 import {
   getSenderReceiverClients,
@@ -24,6 +19,7 @@ import {
   SessionReceiver,
   ReceiverClientTypeForUserT
 } from "../src/serviceBusReceiverClient";
+import { Sender } from "../src/sender";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
 async function removeAllRules(client: SubscriptionRuleManagement): Promise<void> {
@@ -51,7 +47,7 @@ let subscriptionClient: (
   | SessionReceiver<"peekLock" | "receiveAndDelete">
 ) &
   SubscriptionRuleManagement;
-let topicClient: ServiceBusSenderClient;
+let topicClient: Sender;
 
 async function beforeEachTest(receiverType: TestClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and

@@ -5,12 +5,13 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { delay, SendableMessageInfo, ServiceBusSenderClient } from "../src";
+import { delay, SendableMessageInfo } from "../src";
 import { TestMessage, getSenderReceiverClients, TestClientType, purge } from "./utils/testUtils";
 import {
   ReceiverClientTypeForUser,
   ReceiverClientTypeForUserT
 } from "../src/serviceBusReceiverClient";
+import { Sender } from "../src/sender";
 
 async function testPeekMsgsLength(
   client: ReceiverClientTypeForUser,
@@ -37,7 +38,7 @@ async function testReceivedMsgsLength(
   );
 }
 
-let senderClient: ServiceBusSenderClient;
+let senderClient: Sender;
 let receiverClient: ReceiverClientTypeForUserT<"peekLock">;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {

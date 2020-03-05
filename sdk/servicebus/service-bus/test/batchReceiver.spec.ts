@@ -3,21 +3,14 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import {
-  delay,
-  SendableMessageInfo,
-  ServiceBusSenderClient,
-  ContextWithSettlement,
-  ReceivedMessage
-} from "../src";
+import { delay, SendableMessageInfo, ContextWithSettlement, ReceivedMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, getSenderReceiverClients, purge, TestMessage } from "./utils/testUtils";
 import {
   ReceiverClientTypeForUser,
-  ServiceBusReceiverClient,
   ReceiverClientTypeForUserT
 } from "../src/serviceBusReceiverClient";
-import { getEnvVars } from "./utils/envVarUtils";
+import { Sender } from "../src/sender";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -36,7 +29,7 @@ async function testPeekMsgsLength(
 
 let errorWasThrown: boolean;
 
-let senderClient: ServiceBusSenderClient;
+let senderClient: Sender;
 let receiverClient: ReceiverClientTypeForUserT<"peekLock">;
 let deadLetterClient: ReceiverClientTypeForUserT<"peekLock">;
 const maxDeliveryCount = 10;
@@ -45,11 +38,8 @@ async function beforeEachTest(entityType: TestClientType): Promise<void> {
   const clients = await getSenderReceiverClients(entityType, "peekLock");
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
-  deadLetterClient = new ServiceBusReceiverClient(
-    {
-      connectionString: getEnvVars().SERVICEBUS_CONNECTION_STRING,
-      queueName: receiverClient.getDeadLetterPath()
-    },
+  deadLetterClient = clients.serviceBusClient.createReceiver(
+    receiverClient.getDeadLetterPath(),
     "peekLock"
   );
 
