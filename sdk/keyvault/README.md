@@ -20,37 +20,23 @@ This project provides client libraries in JavaScript that makes it easy to consu
 
 - Key Vault Keys
   - Create keys using elliptic curve or RSA encryption, optionally backed by Hardware Security Modules (HSM).
-  - Import keys.
-  - Delete keys.
-  - Update keys.
-  - Get one or more keys.
-  - Get one or more deleted keys.
-  - Recover a deleted key.
-  - Restore a backed up key.
-  - Get the versions of a key.
-  - As well as obtaining the attributes of a key.
-  - Encrypting
-  - Decrypting
-  - Signing
-  - Verifying
-  - Wrapping keys
-  - Unwrapping keys
+  - Import, delete and update keys.
+  - Get one or more keys and deleted keys.
+  - Recover a deleted key and restore a backed up key.
+  - Get the versions and the attributes of a key.
+  - Encrypting, decrypting, signing, verifying, wrapping and unwrapping data with keys.
 - Key Vault Secrets
   - Get, set and delete a secret.
   - Update a secret and it's attributes.
   - Backup and restore a secret.
   - Get, purge or recover a deleted secret.
-  - Get all the versions of a secret.
-  - Get all secrets.
-  - Get all deleted secrets.
+  - Get all the versions of a secret, or secrets, or deleted secrets.
 - Key Vault Certificates
   - Get, set and delete a certificate.
   - Update a certificate, its attributes, issuer, policy, operation and contacts.
   - Backup and restore a certificate.
   - Get, purge or recover a deleted certificate.
-  - Get all the versions of a certificate.
-  - Get all certificates.
-  - Get all deleted certificates.
+  - Get all the versions of a certificate, or certificates, or deleted certificates.
 
 ### Compatibility
 
