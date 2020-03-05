@@ -19,6 +19,7 @@ import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
 import { ClientType } from "./client";
 import { Sender } from "./sender";
+import { CreateSessionReceiverOptions } from "./models";
 
 export class ServiceBusClient {
   private _connectionContext: ConnectionContext;
@@ -156,7 +157,8 @@ export class ServiceBusClient {
   createSessionReceiver(
     queueName: string,
     receiveMode: "peekLock",
-    sessionId: string | ""
+    sessionId: string | "",
+    options?: CreateSessionReceiverOptions
   ): SessionReceiver<"peekLock">;
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -168,7 +170,8 @@ export class ServiceBusClient {
   createSessionReceiver(
     queueName: string,
     receiveMode: "receiveAndDelete",
-    sessionId: string | ""
+    sessionId: string | "",
+    options?: CreateSessionReceiverOptions
   ): SessionReceiver<"receiveAndDelete">;
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -181,8 +184,8 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "peekLock",
-    sessionId: string | ""
-    // TODO: missing options that should be passable here.
+    sessionId: string | "",
+    options?: CreateSessionReceiverOptions
   ): SessionReceiver<"peekLock"> & SubscriptionRuleManagement;
   /**
    * Creates a client for an Azure Service Bus queue.
@@ -195,15 +198,16 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "receiveAndDelete",
-    sessionId: string | ""
+    sessionId: string | "",
+    options?: CreateSessionReceiverOptions
   ): SessionReceiver<"receiveAndDelete"> & SubscriptionRuleManagement;
   createSessionReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveModeOrSessionId3?: "peekLock" | "receiveAndDelete" | string | "",
     // TODO: these are the wrong option types
-    sessionIdOrOptions4?: string | "" | ServiceBusClientOptions,
-    options5?: ServiceBusClientOptions
+    sessionIdOrOptions4?: string | "" | CreateSessionReceiverOptions,
+    options5?: CreateSessionReceiverOptions
   ):
     | SessionReceiver<"peekLock">
     | SessionReceiver<"receiveAndDelete">
@@ -246,6 +250,7 @@ export class ServiceBusClient {
       clientEntityContext,
       entityType,
       sessionId === "" ? undefined : sessionId
+      // TODO: need to pass in create session receiver options
     );
   }
 

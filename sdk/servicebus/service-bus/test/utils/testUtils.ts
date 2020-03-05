@@ -15,12 +15,9 @@ import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
 import * as dotenv from "dotenv";
 import { ServiceBusSenderClient } from "../../src/serviceBusSenderClient";
-import {
-  ReceiverClientTypeForUser,
-  NonSessionReceiver,
-  SessionReceiver
-} from "../../src/serviceBusReceiverClient";
+import { ReceiverClientTypeForUser } from "../../src/serviceBusReceiverClient";
 import { Sender } from "../../src/sender";
+import { CreateSessionReceiverOptions } from "../../src/models";
 dotenv.config();
 
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
@@ -170,7 +167,7 @@ async function manageResourcesAndCreateClients(
   connectionString: string,
   receiveMode: "peekLock" | "receiveAndDelete",
   senderOptions?: ServiceBusClientOptions,
-  receiverOptions?: ServiceBusClientOptions & Session,
+  receiverOptions?: ServiceBusClientOptions & CreateSessionReceiverOptions,
   // If freshResource flag is false, sender/receiver clients are provided without creating a new resource
   freshResource: boolean = true
 ): Promise<{
