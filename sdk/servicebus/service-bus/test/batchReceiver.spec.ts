@@ -832,10 +832,10 @@ describe("Batch Receiver - Multiple Receiver Operations", function(): void {
 
     // Results are checked after both receiveMessages are done to ensure that the second call doesnt
     // affect the result from the first one.
-    should.equal(Array.isArray(msgs1), true, "`ReceivedMessages` is not an array");
+    should.equal(Array.isArray(msgs1.messages), true, "`ReceivedMessages` is not an array");
     should.equal(msgs1.messages.length, 1, "Unexpected number of messages");
 
-    should.equal(Array.isArray(msgs2), true, "`ReceivedMessages` is not an array");
+    should.equal(Array.isArray(msgs2.messages), true, "`ReceivedMessages` is not an array");
     should.equal(msgs2.messages.length, 1, "Unexpected number of messages");
 
     should.equal(
