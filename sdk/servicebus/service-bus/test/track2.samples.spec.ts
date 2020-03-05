@@ -4,14 +4,14 @@
 import {
   ReceivedMessage,
   ContextWithSettlement as ContextWithSettlementMethods
-} from "../src/track2/models";
-import { NonSessionReceiver, SessionReceiver } from "../src/track2/serviceBusReceiverClient";
+} from "../src/models";
+import { NonSessionReceiver, SessionReceiver } from "../src/serviceBusReceiverClient";
 import { delay, SendableMessageInfo, ServiceBusClient } from "../src";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { EntityNames } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { getEntityNameFromConnectionString } from "../src/track2/constructorHelpers";
+import { getEntityNameFromConnectionString } from "../src/constructorHelpers";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -82,7 +82,7 @@ describe("track2", () => {
       await waitAndValidate("Queue, peek/lock", receivedBodies, errors, receiverClient);
     });
 
-    it("Queue, peek/lock, receiveBatch", async () => {
+    it("Queue, receive and delete, receiveBatch", async () => {
       const receiver = serviceBusClient.createReceiver(
         EntityNames.QUEUE_NAME_NO_PARTITION,
         "receiveAndDelete"
@@ -97,7 +97,11 @@ describe("track2", () => {
 
       const receivedBodies: string[] = [];
 
-      for (const message of await receiver.receiveBatch(1, 5)) {
+      // TODO: it might be nice to preserve the ability to just iterate
+      // directly off the result.
+      const { messages } = await receiver.receiveBatch(1, 5);
+
+      for (const message of await messages) {
         receivedBodies.push(message.body);
       }
 
@@ -515,7 +519,7 @@ describe("track2", () => {
       }
 
       while (true) {
-        const messages = await receiver.receiveBatch(10, 1);
+        const { messages } = await receiver.receiveBatch(10, 1);
 
         if (messages.length === 0) {
           break;

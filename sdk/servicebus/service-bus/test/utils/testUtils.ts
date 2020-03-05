@@ -8,17 +8,13 @@ import {
   MessagingError,
   ContextWithSettlement,
   ReceivedMessage,
-  ServiceBusClientOptions,
-  Session
+  ServiceBusClientOptions
 } from "../../src";
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
 import * as dotenv from "dotenv";
 import { ServiceBusSenderClient } from "../../src/serviceBusSenderClient";
-import {
-  ServiceBusReceiverClient,
-  ReceiverClientTypeForUser
-} from "../../src/serviceBusReceiverClient";
+import { ReceiverClientTypeForUser } from "../../src/serviceBusReceiverClient";
 dotenv.config();
 
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
