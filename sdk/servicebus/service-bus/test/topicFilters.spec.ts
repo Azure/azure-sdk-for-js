@@ -57,7 +57,10 @@ async function beforeEachTest(receiverType: TestClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
-  const clients = await getSenderReceiverClients(TestClientType.TopicFilterTestTopic, "peekLock");
+  const clients = await getSenderReceiverClients(
+    TestClientType.TopicFilterTestSubscription,
+    "peekLock"
+  );
   topicClient = clients.senderClient;
   subscriptionClient = clients.receiverClient as (
     | NonSessionReceiver<"peekLock" | "receiveAndDelete">
@@ -178,7 +181,7 @@ async function addRules(
   }
 }
 
-describe("addRule() #RunInBrowser", function(): void {
+describe.only("addRule() #RunInBrowser", function(): void {
   beforeEach(async () => {
     await beforeEachTest(TestClientType.TopicFilterTestSubscription);
   });
