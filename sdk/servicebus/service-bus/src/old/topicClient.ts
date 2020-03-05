@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as log from "./log";
-import { ConnectionContext } from "./connectionContext";
-import { Client, ClientType } from "./client";
-import { Sender } from "./sender";
+import * as log from "../log";
+import { ConnectionContext } from "../connectionContext";
+import { Client, ClientType } from "../client";
+import { Sender } from "../sender";
 import {
   getOpenSenderErrorMsg,
   throwErrorIfClientOrConnectionClosed,
   throwErrorIfConnectionClosed
-} from "./util/errors";
+} from "../util/errors";
 import { generate_uuid } from "rhea-promise";
-import { ClientEntityContext } from "./clientEntityContext";
+import { ClientEntityContext } from "../clientEntityContext";
 
 /**
  * Describes the client that allows interacting with a Service Bus Topic.

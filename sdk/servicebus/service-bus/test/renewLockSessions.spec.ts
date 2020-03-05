@@ -6,18 +6,18 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import {
-  ServiceBusClient,
-  QueueClient,
-  TopicClient,
-  SubscriptionClient,
   ServiceBusMessage,
   MessagingError,
   OnError,
   delay,
   ReceiveMode,
-  SessionReceiver,
   OnMessage
 } from "../src";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+import { QueueClient } from "../src/old/queueClient";
+import { TopicClient } from "../src/old/topicClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
+import { InternalSessionReceiver } from "../src/internalReceivers";
 import {
   purge,
   getSenderReceiverClients,
@@ -264,7 +264,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
   const testMessage = TestMessage.getSessionSample();
   await senderClient.createSender().send(testMessage);
 
-  const sessionClient = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+  const sessionClient = <InternalSessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });
@@ -354,7 +354,7 @@ async function testStreamingReceiverManualLockRenewalHappyCase(
   let numOfMessagesReceived = 0;
   const testMessage = TestMessage.getSessionSample();
   await senderClient.createSender().send(testMessage);
-  const sessionClient = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+  const sessionClient = <InternalSessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds: 0
   });

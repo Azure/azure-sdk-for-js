@@ -6,14 +6,15 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import {
-  ServiceBusClient,
-  SubscriptionClient,
   ServiceBusMessage,
-  TopicClient,
   SendableMessageInfo,
   CorrelationFilter,
   ReceiveMode
 } from "../src";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+import { TopicClient } from "../src/old/topicClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
+
 import {
   getSenderReceiverClients,
   TestClientType,

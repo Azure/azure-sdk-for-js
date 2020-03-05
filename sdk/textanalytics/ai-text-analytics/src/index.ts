@@ -63,7 +63,7 @@ export {
 export {
   DetectedLanguage,
   TextDocumentStatistics,
-  SentimentScorePerLabel,
+  SentimentConfidenceScores,
   MultiLanguageInput as TextDocumentInput,
   LanguageInput as DetectLanguageInput,
   TextDocumentBatchStatistics,

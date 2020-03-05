@@ -6194,6 +6194,10 @@ export class ContainerClient extends StorageClient {
    * When you set permissions for a container, the existing permissions are replaced.
    * If no access or containerAcl provided, the existing container ACL will be
    * removed.
+   *
+   * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
+   * During this interval, a shared access signature that is associated with the stored access policy will
+   * fail with status code 403 (Forbidden), until the access policy becomes active.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
    *
    * @param {PublicAccessType} [access] The level of public access to data in the container.
