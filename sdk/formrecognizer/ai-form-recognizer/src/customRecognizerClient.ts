@@ -17,12 +17,6 @@ import { TokenCredential } from "@azure/identity";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
-import {
-  GetCustomModelsResponse,
-  Model,
-  ModelInfo,
-  GetAnalyzeFormResultResponse
-} from "./generated/models";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
@@ -31,10 +25,24 @@ import { FormRecognizerClient as GeneratedClient } from "./generated/formRecogni
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { StartAnalyzePollerOptions, AnalyzePollerClient, StartAnalyzePoller, StartAnalyzeOptions } from './lro/analyze/poller';
+import { StartAnalyzePollerOptions, AnalyzePollerClient, StartAnalyzePoller, AnalyzeOptions } from './lro/analyze/poller';
 import { LabeledFormModelResponse, CustomFormModelResponse } from './models';
 
-export { PollOperationState, PollerLike, StartTrainingPoller };
+import {
+  GetCustomModelsResponse,
+  Model,
+  ModelInfo,
+  GetAnalyzeFormResultResponse
+} from "./generated/models";
+
+export {
+  GetCustomModelsResponse,
+  Model,
+  ModelInfo,
+  GetAnalyzeFormResultResponse
+}
+
+export { PollOperationState, PollerLike };
 
 /**
  * Options for the list models operation.
@@ -327,7 +335,7 @@ export class CustomFormRecognizerClient {
       throw new RangeError("Invalid modelId")
     }
     const analyzePollerClient: AnalyzePollerClient<GetAnalyzeFormResultResponse> = {
-      startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: StartAnalyzeOptions, modelId?: string) =>
+      startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) =>
        analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getAnalyzeResult: (resultId: string,
         options: { abortSignal?: AbortSignalLike }) => this.getExtractedCustomForm(modelId, resultId, options)
@@ -356,7 +364,7 @@ export class CustomFormRecognizerClient {
       source: imageSourceUrl
     });
     const analyzePollerClient: AnalyzePollerClient<GetAnalyzeFormResultResponse> = {
-      startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: StartAnalyzeOptions, modelId?: string) =>
+      startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) =>
        analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getAnalyzeResult: (resultId: string,
         options: { abortSignal?: AbortSignalLike }) => this.getExtractedCustomForm(modelId, resultId, options)

@@ -14,11 +14,6 @@ import {
 import { TokenCredential } from "@azure/identity";
 import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
-import {
-  AnalyzeResult as AnalyzeResultModel,
-  AnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
-  GetAnalyzeLayoutResultResponse,
-} from "./generated/models";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
@@ -28,6 +23,17 @@ import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { AnalyzeLayoutResultResponse, AnalyzeLayoutResult } from './models';
 import { StartAnalyzePollerOptions, AnalyzePollerClient, StartAnalyzePoller } from './lro/analyze/poller';
 import { PollerLike, PollOperationState } from '.';
+
+import {
+  AnalyzeResult as AnalyzeResultModel,
+  AnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
+  GetAnalyzeLayoutResultResponse,
+} from "./generated/models";
+
+export {
+  AnalyzeResultModel,
+  AnalyzeLayoutAsyncResponseModel
+}
 
 export type ExtractLayoutOptions = FormRecognizerOperationOptions & {};
 
@@ -192,7 +198,7 @@ function  toAnalyzeLayoutResultResponse(original: GetAnalyzeLayoutResultResponse
       status: original.status,
       createdDateTime: original.createdDateTime,
       lastUpdatedDateTime: original.lastUpdatedDateTime,
-      analyzeResult: toAnalyzeLayoutResult(original?.analyzeResult),
+      analyzeResult: toAnalyzeLayoutResult(original.analyzeResult),
       _response: original._response
     }
   } else {

@@ -6,14 +6,16 @@ import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { ExtractReceiptOptions } from "../../receiptRecognizerClient";
 import { ExtractLayoutOptions } from "../../layoutRecognizerClient";
 import { ExtractCustomFormOptions } from "../../customRecognizerClient";
-import { OperationStatus } from "../../generated/models";
 import { SupportedContentType } from '../../common';
 
-export type StartAnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | ExtractCustomFormOptions;
+import { OperationStatus } from "../../generated/models";
+export { OperationStatus };
+
+export type AnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | ExtractCustomFormOptions;
 
 //export type T = AnalyzeReceiptResultResponse | AnalyzeLayoutResultResponse | GetAnalyzeFormResultResponse;
 
-interface ICanHazStatus { status: OperationStatus }
+export interface ICanHazStatus { status: OperationStatus }
 
 /**
  * Defines the operations from a analyze client that are needed for the poller
@@ -21,7 +23,7 @@ interface ICanHazStatus { status: OperationStatus }
  */
 export type AnalyzePollerClient<T extends ICanHazStatus> = {
   // returns a result id to retrieve results
-  startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: StartAnalyzeOptions, modelId?: string) => Promise<{ operationLocation: string }>;
+  startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) => Promise<{ operationLocation: string }>;
   // retrieves analyze result
   getAnalyzeResult: (
     resultId: string,
@@ -36,7 +38,7 @@ export interface StartAnalyzePollState<T extends ICanHazStatus> extends PollOper
   modelId?: string;
   resultId?: string;
   status: OperationStatus;
-  readonly analyzeOptions?: StartAnalyzeOptions;
+  readonly analyzeOptions?: AnalyzeOptions;
 }
 
 export interface StartAnalyzePollerOperation<T extends ICanHazStatus>
@@ -51,7 +53,7 @@ export type StartAnalyzePollerOptions<T extends ICanHazStatus> = {
   resultId?: string;
   onProgress?: (state: StartAnalyzePollState<T>) => void;
   resumeFrom?: string;
-} & StartAnalyzeOptions;
+} & AnalyzeOptions;
 
 /**
  * Class that represents a poller that waits until a model has been trained.

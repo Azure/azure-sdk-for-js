@@ -13,10 +13,6 @@ import {
 import { TokenCredential } from "@azure/identity";
 import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
-import {
-  GetAnalyzeReceiptResultResponse,
-  DocumentResult
-} from "./generated/models";
 import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField } from "./models";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
@@ -26,6 +22,16 @@ import { FormRecognizerClient as GeneratedClient } from "./generated/formRecogni
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, StartAnalyzePollerOptions } from './lro/analyze/poller';
 import { PollOperationState, PollerLike } from '@azure/core-lro';
+
+import {
+  GetAnalyzeReceiptResultResponse,
+  DocumentResult
+} from "./generated/models";
+
+export {
+  GetAnalyzeReceiptResultResponse,
+  DocumentResult
+}
 
 export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
   includeTextDetails?: boolean;
@@ -215,7 +221,7 @@ export class ReceiptRecognizerClient {
           version: result.analyzeResult!.version,
           readResults: result.analyzeResult!.readResults,
           pageResults: [], // TODO: transform result.analyzeResult!.pageResults,
-          receiptResults: result!.analyzeResult!.documentResults!.map(toReceiptResult)
+          receiptResults: result.analyzeResult!.documentResults!.map(toReceiptResult)
         }
       }
     } else {

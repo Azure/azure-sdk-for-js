@@ -4,18 +4,57 @@
 import * as coreHttp from "@azure/core-http";
 
 import {
+  AnalyzeLayoutAsyncHeaders,
   AnalyzeOperationResult as AnalyzeOperationResultModel,
   AnalyzeResult as AnalyzeResultModel,
+  DataTable as DataTableModel,
   DataTableCell as DataTableCellModel,
+  ErrorInformation,
+  FormFieldsReport,
+  KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValuePair as KeyValuePairModel,
-  PageResult as PageResultModel,
-  TextWord,
+  Language,
+  LengthUnit,
   Model,
-  TrainResult
+  ModelsModel,
+  ModelsSummary,
+  PageResult as PageResultModel,
+  ReadResult,
+  TextWord,
+  TrainCustomModelAsyncHeaders,
+  TrainingDocumentInfo,
+  TrainStatus,
+  TrainResult,
+  TextLine
 } from "./generated/models/index";
 
-export type TextElement = TextWord;
+export {
+  AnalyzeLayoutAsyncHeaders,
+  AnalyzeOperationResultModel,
+  AnalyzeResultModel,
+  DataTableModel,
+  DataTableCellModel,
+  ErrorInformation,
+  FormFieldsReport,
+  KeysResult,
+  KeyValueElementModel,
+  KeyValuePairModel,
+  Language,
+  LengthUnit,
+  ModelsModel,
+  ModelsSummary,
+  PageResultModel,
+  ReadResult,
+  TrainCustomModelAsyncHeaders,
+  TrainingDocumentInfo,
+  TrainStatus,
+  TextWord,
+  TrainResult,
+  TextLine
+}
+
+export type TextElement = TextWord | TextLine;
 
 /**
  * Information about the extracted cell in a table.

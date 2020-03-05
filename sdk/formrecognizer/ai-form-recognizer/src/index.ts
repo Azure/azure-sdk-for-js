@@ -6,24 +6,8 @@ export * from "./common";
 export * from "./customRecognizerClient";
 export * from "./receiptRecognizerClient";
 export * from "./layoutRecognizerClient";
+export * from "./lro/analyze/poller";
+export * from "./lro/train/poller";
 export { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-
-export {
-  DocumentResult,
-  ErrorInformation,
-  Language,
-  TextLine,
-  TextWord,
-  LengthUnit,
-  ModelInfo,
-  ModelsModel,
-  ModelStatus,
-  OperationStatus,
-  FieldValueType,
-  ReadResult,
-  GetAnalyzeLayoutResultResponse,
-  GetAnalyzeReceiptResultResponse,
-  GetCustomModelsResponse
-} from "./generated/models";
 
 export * from "./models";
