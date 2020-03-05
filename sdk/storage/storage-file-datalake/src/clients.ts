@@ -1070,7 +1070,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       const size = (await fsStat(filePath)).size;
 
       if (size > FILE_MAX_SIZE_BYTES) {
-        throw new RangeError(`size must be < ${FILE_MAX_SIZE_BYTES}.`);
+        throw new RangeError(`size must be <= ${FILE_MAX_SIZE_BYTES}.`);
       }
 
       // Create the file.
@@ -1182,7 +1182,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   }
 
   /**
-   * Uploads a Buffer(Node)/Blob/ArrayBuffer/ArrayBufferView to a File.
+   * Uploads a Buffer(Node.js)/Blob/ArrayBuffer/ArrayBufferView to a File.
    *
    * @param {Buffer | Blob | ArrayBuffer | ArrayBufferView} data Buffer(Node), Blob, ArrayBuffer or ArrayBufferView
    * @param {FileParallelUploadOptions} [options]
@@ -1339,13 +1339,13 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * Uploads a Node.js Readable stream into a Data Lake file.
    * This method will try to create a file, then starts uploading chunk by chunk.
-   * Please make sure potential size of stream doesn't exceed file size.
+   * Please make sure potential size of stream doesn't exceed FILE_MAX_SIZE_BYTES.
    *
    * PERFORMANCE IMPROVEMENT TIPS:
    * * Input stream highWaterMark is better to set a same value with options.chunkSize
    *   parameter, which will avoid Buffer.concat() operations.
    *
-   * @param {Readable} stream Node.js Readable stream. Must be less or equal than file size.
+   * @param {Readable} stream Node.js Readable stream.
    * @param {FileParallelUploadOptions} [options]
    * @returns {Promise<FileUploadResponse>}
    * @memberof DataLakeFileClient
