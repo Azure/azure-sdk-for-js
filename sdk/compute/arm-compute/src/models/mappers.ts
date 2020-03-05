@@ -280,27 +280,6 @@ export const UpdateResource: msRest.CompositeMapper = {
             }
           }
         }
-      },
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -1081,7 +1060,7 @@ export const VirtualMachineExtensionUpdate: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      virtualMachineExtensionUpdateType: {
+      type: {
         serializedName: "properties.type",
         type: {
           name: "String"
@@ -6823,6 +6802,13 @@ export const CreationData: msRest.CompositeMapper = {
           className: "ImageDiskReference"
         }
       },
+      galleryImageReference: {
+        serializedName: "galleryImageReference",
+        type: {
+          name: "Composite",
+          className: "ImageDiskReference"
+        }
+      },
       sourceUri: {
         serializedName: "sourceUri",
         type: {
@@ -6990,8 +6976,24 @@ export const Encryption: msRest.CompositeMapper = {
         }
       },
       type: {
-        required: true,
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ShareInfoElement: msRest.CompositeMapper = {
+  serializedName: "ShareInfoElement",
+  type: {
+    name: "Composite",
+    className: "ShareInfoElement",
+    modelProperties: {
+      vmUri: {
+        readOnly: true,
+        serializedName: "vmUri",
         type: {
           name: "String"
         }
@@ -7012,6 +7014,18 @@ export const Disk: msRest.CompositeMapper = {
         serializedName: "managedBy",
         type: {
           name: "String"
+        }
+      },
+      managedByExtended: {
+        readOnly: true,
+        serializedName: "managedByExtended",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       sku: {
@@ -7109,6 +7123,18 @@ export const Disk: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      diskIOPSReadOnly: {
+        serializedName: "properties.diskIOPSReadOnly",
+        type: {
+          name: "Number"
+        }
+      },
+      diskMBpsReadOnly: {
+        serializedName: "properties.diskMBpsReadOnly",
+        type: {
+          name: "Number"
+        }
+      },
       diskState: {
         readOnly: true,
         serializedName: "properties.diskState",
@@ -7121,6 +7147,25 @@ export const Disk: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Encryption"
+        }
+      },
+      maxShares: {
+        serializedName: "properties.maxShares",
+        type: {
+          name: "Number"
+        }
+      },
+      shareInfo: {
+        readOnly: true,
+        serializedName: "properties.shareInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ShareInfoElement"
+            }
+          }
         }
       }
     }
@@ -7164,6 +7209,24 @@ export const DiskUpdate: msRest.CompositeMapper = {
       },
       diskMBpsReadWrite: {
         serializedName: "properties.diskMBpsReadWrite",
+        type: {
+          name: "Number"
+        }
+      },
+      diskIOPSReadOnly: {
+        serializedName: "properties.diskIOPSReadOnly",
+        type: {
+          name: "Number"
+        }
+      },
+      diskMBpsReadOnly: {
+        serializedName: "properties.diskMBpsReadOnly",
+        type: {
+          name: "Number"
+        }
+      },
+      maxShares: {
+        serializedName: "properties.maxShares",
         type: {
           name: "Number"
         }
@@ -7573,13 +7636,55 @@ export const Gallery: msRest.CompositeMapper = {
   }
 };
 
+export const UpdateResourceDefinition: msRest.CompositeMapper = {
+  serializedName: "UpdateResourceDefinition",
+  type: {
+    name: "Composite",
+    className: "UpdateResourceDefinition",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const GalleryUpdate: msRest.CompositeMapper = {
   serializedName: "GalleryUpdate",
   type: {
     name: "Composite",
     className: "GalleryUpdate",
     modelProperties: {
-      ...UpdateResource.type.modelProperties,
+      ...UpdateResourceDefinition.type.modelProperties,
       description: {
         serializedName: "properties.description",
         type: {
@@ -7662,7 +7767,7 @@ export const GalleryApplicationUpdate: msRest.CompositeMapper = {
     name: "Composite",
     className: "GalleryApplicationUpdate",
     modelProperties: {
-      ...UpdateResource.type.modelProperties,
+      ...UpdateResourceDefinition.type.modelProperties,
       description: {
         serializedName: "properties.description",
         type: {
@@ -7924,7 +8029,7 @@ export const GalleryApplicationVersionUpdate: msRest.CompositeMapper = {
     name: "Composite",
     className: "GalleryApplicationVersionUpdate",
     modelProperties: {
-      ...UpdateResource.type.modelProperties,
+      ...UpdateResourceDefinition.type.modelProperties,
       publishingProfile: {
         required: true,
         serializedName: "properties.publishingProfile",
@@ -8189,7 +8294,7 @@ export const GalleryImageUpdate: msRest.CompositeMapper = {
     name: "Composite",
     className: "GalleryImageUpdate",
     modelProperties: {
-      ...UpdateResource.type.modelProperties,
+      ...UpdateResourceDefinition.type.modelProperties,
       description: {
         serializedName: "properties.description",
         type: {
@@ -8463,7 +8568,7 @@ export const GalleryImageVersionUpdate: msRest.CompositeMapper = {
     name: "Composite",
     className: "GalleryImageVersionUpdate",
     modelProperties: {
-      ...UpdateResource.type.modelProperties,
+      ...UpdateResourceDefinition.type.modelProperties,
       publishingProfile: {
         serializedName: "properties.publishingProfile",
         type: {
@@ -8498,6 +8603,80 @@ export const GalleryImageVersionUpdate: msRest.CompositeMapper = {
   }
 };
 
+export const DiskImageEncryption: msRest.CompositeMapper = {
+  serializedName: "DiskImageEncryption",
+  type: {
+    name: "Composite",
+    className: "DiskImageEncryption",
+    modelProperties: {
+      diskEncryptionSetId: {
+        serializedName: "diskEncryptionSetId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OSDiskImageEncryption: msRest.CompositeMapper = {
+  serializedName: "OSDiskImageEncryption",
+  type: {
+    name: "Composite",
+    className: "OSDiskImageEncryption",
+    modelProperties: {
+      ...DiskImageEncryption.type.modelProperties
+    }
+  }
+};
+
+export const DataDiskImageEncryption: msRest.CompositeMapper = {
+  serializedName: "DataDiskImageEncryption",
+  type: {
+    name: "Composite",
+    className: "DataDiskImageEncryption",
+    modelProperties: {
+      ...DiskImageEncryption.type.modelProperties,
+      lun: {
+        required: true,
+        serializedName: "lun",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionImages: msRest.CompositeMapper = {
+  serializedName: "EncryptionImages",
+  type: {
+    name: "Composite",
+    className: "EncryptionImages",
+    modelProperties: {
+      osDiskImage: {
+        serializedName: "osDiskImage",
+        type: {
+          name: "Composite",
+          className: "OSDiskImageEncryption"
+        }
+      },
+      dataDiskImages: {
+        serializedName: "dataDiskImages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataDiskImageEncryption"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const TargetRegion: msRest.CompositeMapper = {
   serializedName: "TargetRegion",
   type: {
@@ -8521,6 +8700,13 @@ export const TargetRegion: msRest.CompositeMapper = {
         serializedName: "storageAccountType",
         type: {
           name: "String"
+        }
+      },
+      encryption: {
+        serializedName: "encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionImages"
         }
       }
     }
