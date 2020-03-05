@@ -37,6 +37,7 @@ export {
   PathResourceType,
   PathUpdateResponse as FileAppendResponse,
   PathUpdateResponse as FileFlushResponse,
+  PathUpdateResponse as FileUploadResponse,
   PathGetPropertiesAction,
   PathRenameMode
 } from "./generated/src/models";
@@ -255,12 +256,12 @@ export interface SignedIdentifier<T> {
 export type FileSystemGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier<AccessPolicy>[];
 } & FileSystemGetAccessPolicyHeaders & {
-    _response: HttpResponse & {
-      parsedHeaders: FileSystemGetAccessPolicyHeaders;
-      bodyAsText: string;
-      parsedBody: SignedIdentifier<RawAccessPolicy>[];
-    };
+  _response: HttpResponse & {
+    parsedHeaders: FileSystemGetAccessPolicyHeaders;
+    bodyAsText: string;
+    parsedBody: SignedIdentifier<RawAccessPolicy>[];
   };
+};
 
 export interface FileSystemSetAccessPolicyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -317,6 +318,10 @@ export type FileSystemListPathsResponse = PathList &
     };
   };
 
+export interface FileSystemExistsOptions extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+}
+
 /**********************************************************/
 /** DataLakePathClient option and response related models */
 /**********************************************************/
@@ -327,7 +332,7 @@ export interface Metadata {
 
 export interface DataLakeRequestConditions
   extends ModifiedAccessConditions,
-    LeaseAccessConditions {}
+  LeaseAccessConditions { }
 
 export interface RolePermissions {
   read: boolean;
@@ -541,13 +546,18 @@ export type PathMoveResponse = PathRemoveHeaders & {
   };
 };
 
+export interface FilePathExistsOptions extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+  // customerProvidedKey?: CpkInfo; not supported yet
+}
+
 /****************************************************************/
 /** DataLakeDirectoryClient option and response related models **/
 /****************************************************************/
 
-export interface DirectoryCreateOptions extends PathCreateOptions {}
+export interface DirectoryCreateOptions extends PathCreateOptions { }
 
-export interface DirectoryCreateResponse extends PathCreateResponse {}
+export interface DirectoryCreateResponse extends PathCreateResponse { }
 
 /***********************************************************/
 /** DataLakeFileClient option and response related models **/
@@ -619,9 +629,49 @@ export interface FileFlushOptions extends CommonOptions {
   pathHttpHeaders?: PathHttpHeaders;
 }
 
-export interface FileCreateOptions extends PathCreateOptions {}
+export interface FileCreateOptions extends PathCreateOptions { }
 
-export interface FileCreateResponse extends PathCreateResponse {}
+export interface FileCreateResponse extends PathCreateResponse { }
+
+export interface FileParallelUploadOptions extends CommonOptions {
+  // For all.
+  abortSignal?: AbortSignalLike;
+  conditions?: DataLakeRequestConditions;
+
+  // For create and flush.
+  pathHttpHeaders?: PathCreateHttpHeaders;
+
+  // For create.
+  metadata?: Metadata;
+  permissions?: string; // TODO: model or string?
+  umask?: string; // TODO: model or string?
+
+  // For append.
+  onProgress?: (progress: TransferProgressEvent) => void;
+
+  // For flush.
+  close?: boolean;
+
+  // For parallel transfer control.
+  // The size of the first range request in bytes. Data smaller than this limit will
+  // be transferred in a single request. Data larger than this limit will continue being
+  // transferred in chunks of size chunkSize.
+  initialTransferSize?: number;
+  chunkSize?: number;
+  // Max concurrency of parallel uploading. Must be >= 0.
+  maxConcurrency?: number;
+}
+
+export interface FileReadToBufferOptions extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+  conditions?: DataLakeRequestConditions;
+
+  onProgress?: (progress: TransferProgressEvent) => void;
+
+  maxRetryRequestsPerChunk?: number;
+  chunkSize?: number;
+  concurrency?: number;
+}
 
 /***********************************************************/
 /** DataLakeLeaseClient option and response related models */

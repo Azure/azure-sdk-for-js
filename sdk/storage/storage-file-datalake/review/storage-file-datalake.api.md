@@ -23,6 +23,7 @@ import { ModifiedAccessConditions } from '@azure/storage-blob';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline as Pipeline_2 } from '@azure/storage-blob';
 import { ProxyOptions } from '@azure/core-http';
+import { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
@@ -146,6 +147,12 @@ export class DataLakeFileClient extends DataLakePathClient {
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
     flush(position: number, options?: FileFlushOptions): Promise<PathUpdateResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
+    readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
+    readToBuffer(offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
+    readToFile(filePath: string, offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
+    upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<PathUpdateResponse>;
+    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<PathUpdateResponse>;
+    uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<PathUpdateResponse>;
 }
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
@@ -156,6 +163,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
     delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
+    exists(options?: FileSystemExistsOptions): Promise<boolean>;
     getAccessPolicy(options?: FileSystemGetAccessPolicyOptions): Promise<FileSystemGetAccessPolicyResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getDirectoryClient(directoryName: string): DataLakeDirectoryClient;
@@ -192,6 +200,7 @@ export class DataLakePathClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
+    exists(options?: FilePathExistsOptions): Promise<boolean>;
     get fileSystemName(): string;
     getAccessControl(options?: PathGetAccessControlOptions): Promise<PathGetAccessControlResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
@@ -295,6 +304,38 @@ export interface FileFlushOptions extends CommonOptions {
 }
 
 // @public (undocumented)
+export interface FileParallelUploadOptions extends CommonOptions {
+    // (undocumented)
+    abortSignal?: AbortSignalLike;
+    // (undocumented)
+    chunkSize?: number;
+    // (undocumented)
+    close?: boolean;
+    // (undocumented)
+    conditions?: DataLakeRequestConditions;
+    // (undocumented)
+    initialTransferSize?: number;
+    // (undocumented)
+    maxConcurrency?: number;
+    // (undocumented)
+    metadata?: Metadata;
+    // (undocumented)
+    onProgress?: (progress: TransferProgressEvent) => void;
+    // (undocumented)
+    pathHttpHeaders?: PathCreateHttpHeaders;
+    // (undocumented)
+    permissions?: string;
+    // (undocumented)
+    umask?: string;
+}
+
+// @public (undocumented)
+export interface FilePathExistsOptions extends CommonOptions {
+    // (undocumented)
+    abortSignal?: AbortSignalLike;
+}
+
+// @public (undocumented)
 export interface FileReadHeaders {
     // (undocumented)
     acceptRanges?: string;
@@ -382,6 +423,22 @@ export type FileReadResponse = FileReadHeaders & {
 };
 
 // @public (undocumented)
+export interface FileReadToBufferOptions extends CommonOptions {
+    // (undocumented)
+    abortSignal?: AbortSignalLike;
+    // (undocumented)
+    chunkSize?: number;
+    // (undocumented)
+    concurrency?: number;
+    // (undocumented)
+    conditions?: DataLakeRequestConditions;
+    // (undocumented)
+    maxRetryRequestsPerChunk?: number;
+    // (undocumented)
+    onProgress?: (progress: TransferProgressEvent) => void;
+}
+
+// @public (undocumented)
 export interface FileSystemCreateHeaders {
     // (undocumented)
     clientRequestId?: string;
@@ -440,6 +497,12 @@ export type FileSystemDeleteResponse = FileSystemDeleteHeaders & {
         parsedHeaders: FileSystemDeleteHeaders;
     };
 };
+
+// @public (undocumented)
+export interface FileSystemExistsOptions extends CommonOptions {
+    // (undocumented)
+    abortSignal?: AbortSignalLike;
+}
 
 // @public (undocumented)
 export interface FileSystemGetAccessPolicyHeaders {
@@ -1193,6 +1256,8 @@ export { PathUpdateResponse as FileAppendResponse }
 
 export { PathUpdateResponse as FileFlushResponse }
 
+export { PathUpdateResponse as FileUploadResponse }
+
 // @public
 export class Pipeline extends Pipeline_2 {
     constructor(factories: RequestPolicyFactory[], options?: PipelineOptions);
@@ -1435,7 +1500,7 @@ export { WebResource }
 
 // Warnings were encountered during analysis:
 //
-// src/models.ts:403:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
+// src/models.ts:409:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
