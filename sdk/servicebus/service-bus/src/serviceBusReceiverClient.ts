@@ -246,119 +246,6 @@ export type ReceiverClientTypeForUserT<ReceiveModeT extends "peekLock" | "receiv
   | (SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement);
 
 /**
- * A client that can send to queues or topics.
- */
-export interface ServiceBusReceiverClient {
-  /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param queueAuth Data needed to connect to a queue.
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new (
-    queueAuth: QueueAuth,
-    receiveMode: "peekLock",
-    options?: ServiceBusClientOptions
-  ): ClientTypeT<"peekLock", "queue", "nosessions">;
-
-  /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param queueAuth Data needed to connect to a queue.
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new (
-    queueAuth: QueueAuth,
-    receiveMode: "receiveAndDelete",
-    options?: ServiceBusClientOptions
-  ): ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
-
-  /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param queueAuth Data needed to connect to a queue.
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new (
-    queueAuth: QueueAuth,
-    receiveMode: "peekLock",
-    session: Session,
-    options?: ServiceBusClientOptions
-  ): ClientTypeT<"peekLock", "queue", "sessions">;
-
-  /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param queueAuth Data needed to connect to a queue.
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new (
-    queueAuths: QueueAuth,
-    receiveMode: "receiveAndDelete",
-    session: Session,
-    options?: ServiceBusClientOptions
-  ): ClientTypeT<"receiveAndDelete", "queue", "sessions">;
-
-  /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param subscriptionAuth Data needed to connect to a subscription.
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new (
-    subscriptionAuth: SubscriptionAuth,
-    receiveMode: "peekLock",
-    options?: ServiceBusClientOptions
-  ): ClientTypeT<"peekLock", "subscription", "nosessions">;
-
-  /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param subscriptionAuth Data needed to connect to a subscription.
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new (
-    subscriptionAuth: SubscriptionAuth,
-    receiveMode: "receiveAndDelete",
-    options?: ServiceBusClientOptions
-  ): ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
-
-  /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param subscriptionAuth Data needed to connect to a subscription.
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new (
-    subscriptionAuth: SubscriptionAuth,
-    receiveMode: "peekLock",
-    session: Session,
-    options?: ServiceBusClientOptions
-  ): ClientTypeT<"peekLock", "subscription", "sessions">;
-
-  /**
-   * Creates a client for an Azure Service Bus queue.
-   *
-   * @param subscriptionAuth Data needed to connect to a subscription.
-   * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
-   */
-  new (
-    subscriptionAuth: SubscriptionAuth,
-    receiveMode: "receiveAndDelete",
-    session: Session,
-    options?: ServiceBusClientOptions
-  ): ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
-}
-
-/**
  * Implementation class for receivers.
  * @internal
  * @ignore
@@ -367,7 +254,7 @@ export class ReceiverClientImplementation {
   _sessionEnabled: boolean;
   constructor(
     receiveMode: "peekLock" | "receiveAndDelete",
-    clientEntityContext: ClientEntityContext,    
+    clientEntityContext: ClientEntityContext,
     sessionId?: string | false
   ) {
     this._receiveMode = convertToInternalReceiveMode(receiveMode);
@@ -379,15 +266,21 @@ export class ReceiverClientImplementation {
       this._sessionEnabled = false;
       this.diagnostics = {
         async peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
-          return (await receiver.peek(clientEntityContext.entityPath, maxMessageCount)).map((m) => m as ReceivedMessage);
+          return (await receiver.peek(clientEntityContext.entityPath, maxMessageCount)).map(
+            (m) => m as ReceivedMessage
+          );
         },
         async peekBySequenceNumber(
           fromSequenceNumber: Long,
           maxMessageCount?: number
         ): Promise<ReceivedMessage[]> {
-          return (await receiver.peekBySequenceNumber(clientEntityContext.entityPath, fromSequenceNumber, maxMessageCount)).map(
-            (m) => m as ReceivedMessage
-          );
+          return (
+            await receiver.peekBySequenceNumber(
+              clientEntityContext.entityPath,
+              fromSequenceNumber,
+              maxMessageCount
+            )
+          ).map((m) => m as ReceivedMessage);
         }
       };
     } else if (typeof sessionId === "string") {
@@ -409,7 +302,7 @@ export class ReceiverClientImplementation {
             (m) => m as ReceivedMessage
           );
         }
-      };      
+      };
     } else {
       throw new TypeError("Invalid constructor parameters for receiver");
     }
@@ -488,8 +381,9 @@ export class ReceiverClientImplementation {
   iterateMessages(
     options?: IterateMessagesOptions
   ): MessageIterator<ContextType<"receiveAndDelete">>;
-  iterateMessages(
-  ): MessageIterator<ContextType<"peekLock">> | MessageIterator<ContextType<"receiveAndDelete">> {
+  iterateMessages():
+    | MessageIterator<ContextType<"peekLock">>
+    | MessageIterator<ContextType<"receiveAndDelete">> {
     // TODO: this needs to be more configurable - at least with timeouts, etc...
     // TODO: use the options
     const messageIterator = this._receiver.getMessageIterator();

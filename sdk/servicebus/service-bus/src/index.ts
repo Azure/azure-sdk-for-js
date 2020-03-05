@@ -54,7 +54,7 @@ export {
   SubscriptionRuleManagement
 } from "./serviceBusReceiverClient";
 
-export { ServiceBusClient } from "./track2/serviceBusClient";
+export { ServiceBusClient } from "./serviceBusClient";
 
 export {
   ReceivedMessage,

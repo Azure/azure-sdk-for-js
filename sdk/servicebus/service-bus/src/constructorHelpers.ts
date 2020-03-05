@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { QueueAuth, SubscriptionAuth } from "./models";
 import { ReceiveMode } from "./serviceBusMessage";
 import {
-  isTokenCredential,
   TokenCredential,
   ConnectionConfig,
   SharedKeyCredential,

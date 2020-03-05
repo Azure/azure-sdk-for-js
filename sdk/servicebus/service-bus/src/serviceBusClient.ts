@@ -8,17 +8,17 @@ import {
   ReceiverClientImplementation
 } from "./serviceBusReceiverClient";
 import { generate_uuid } from "rhea-promise";
-import { ServiceBusClientOptions, TokenCredential } from "..";
-import { isTokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import {
+  isReceiveMode,
+  ServiceBusClientOptions,
   createConnectionContextForTokenCredential,
   createConnectionContextForConnectionString
-} from "../old/serviceBusClient";
-import { ConnectionContext } from "../connectionContext";
-import { ClientType } from "../client";
-import { ClientEntityContext } from "../clientEntityContext";
-import { isReceiveMode } from "./constructorHelpers";
-import { Sender } from "../sender";
+} from "./constructorHelpers";
+import { ConnectionContext } from "./connectionContext";
+import { ClientEntityContext } from "./clientEntityContext";
+import { ClientType } from "./client";
+import { Sender } from "./sender";
 
 export class ServiceBusClient {
   private _connectionContext: ConnectionContext;

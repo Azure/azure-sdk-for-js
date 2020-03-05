@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ServiceBusMessage, DeadLetterOptions } from "../serviceBusMessage";
 import { ServiceBusMessage, DeadLetterOptions } from "./serviceBusMessage";
-import { TokenCredential } from "@azure/core-amqp";
 import { OperationOptions } from "@azure/core-auth";
 
 /**
