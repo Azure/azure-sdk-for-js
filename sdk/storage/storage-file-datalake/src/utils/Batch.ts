@@ -132,6 +132,9 @@ export class Batch {
    * @memberof Batch
    */
   public async do(): Promise<void> {
+    if (this.operations.length === 0) {
+      return Promise.resolve();
+    }
     this.parallelExecute();
 
     return new Promise<void>((resolve, reject) => {
