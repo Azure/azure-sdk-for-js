@@ -85,70 +85,15 @@ const KeyVaultSecrets = require("@azure/keyvault-secrets");
 
 ## Code Samples
 
-```typescript
-import { SecretClient } from "@azure/keyvault-secrets";
-import { DefaultAzureCredential } from "@azure/identity";
-
-async function main(): Promise<void> {
-  // DefaultAzureCredential expects the following three environment variables:
-  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-  // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  const credential = new DefaultAzureCredential();
-
-  const vaultName = process.env["KEYVAULT_NAME"] || "<keyvault-name>";
-  const url = `https://${vaultName}.vault.azure.net`;
-
-  const client = new SecretClient(url, credential);
-
-  // Create a secret
-  const secretName = "MySecretName";
-  const result = await client.setSecret(secretName, "MySecretValue");
-  console.log("result: ", result);
-
-  // Read the secret we created
-  const secret = await client.getSecret(secretName);
-  console.log("secret: ", secret);
-
-  // Update the secret with different attributes
-  const updatedSecret = await client.updateSecretProperties(
-    secretName,
-    result.properties.version!,
-    {
-      enabled: false
-    }
-  );
-  console.log("updated secret: ", updatedSecret);
-
-  // Delete the secret
-  // If we don't want to purge the secret later, we don't need to wait until this finishes
-  await client.beginDeleteSecret(secretName);
-}
-
-main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
-});
-```
-
-## Troubleshooting
-
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
-
-```javascript
-import { setLogLevel } from "@azure/logger";
-
-setLogLevel("info");
-```
-
-## Next steps
-
-More samples
-
-- [Key Vault Keys Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
-- [Key Vault Secrets Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
-- [Key Vault Certificates Examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
+- [KeyVault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript)
+- [KeyVault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/typescript)
+- [KeyVault Keys Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/test/)
+- [KeyVault Secrets Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/javascript)
+- [KeyVault Secrets Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/typescript)
+- [KeyVault Secrets Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/test/)
+- [KeyVault Certificates Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/javascript)
+- [KeyVault Certificates Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/typescript)
+- [KeyVault Certificates Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/test/)
 
 ## Contributing
 
