@@ -115,7 +115,7 @@ export interface TextDocumentStatistics {
   /**
    * Number of text elements recognized in the document.
    */
-  characterCount: number;
+  graphemeCount: number;
   /**
    * Number of transactions for the document.
    */
@@ -126,7 +126,7 @@ export interface TextDocumentStatistics {
  * Represents the confidence scores between 0 and 1 across all sentiment classes: positive,
  * neutral, negative.
  */
-export interface SentimentConfidenceScorePerLabel {
+export interface SentimentConfidenceScores {
   positive: number;
   neutral: number;
   negative: number;
@@ -144,7 +144,7 @@ export interface SentenceSentiment {
   /**
    * The sentiment confidence score between 0 and 1 for the sentence for all classes.
    */
-  confidenceScores: SentimentConfidenceScorePerLabel;
+  confidenceScores: SentimentConfidenceScores;
   /**
    * The sentence offset from the start of the document.
    */
@@ -176,7 +176,7 @@ export interface DocumentSentiment {
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
-  documentScores: SentimentConfidenceScorePerLabel;
+  documentScores: SentimentConfidenceScores;
   /**
    * Sentence level sentiment analysis.
    */

@@ -27,7 +27,7 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
 
 // @public
 export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
-    confidenceScores: SentimentConfidenceScorePerLabel;
+    confidenceScores: SentimentConfidenceScores;
     sentences: SentenceSentiment[];
     sentiment: DocumentSentimentLabel;
 }
@@ -198,7 +198,7 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
 
 // @public
 export interface SentenceSentiment {
-    confidenceScores: SentimentConfidenceScorePerLabel;
+    confidenceScores: SentimentConfidenceScores;
     graphemeLength: number;
     graphemeOffset: number;
     sentiment: SentenceSentimentLabel;
@@ -209,7 +209,7 @@ export interface SentenceSentiment {
 export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
 
 // @public
-export interface SentimentConfidenceScorePerLabel {
+export interface SentimentConfidenceScores {
     // (undocumented)
     negative: number;
     // (undocumented)
@@ -297,7 +297,7 @@ export interface TextDocumentInput {
 
 // @public
 export interface TextDocumentStatistics {
-    characterCount: number;
+    graphemeCount: number;
     transactionCount: number;
 }
 
