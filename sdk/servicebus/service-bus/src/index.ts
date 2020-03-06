@@ -15,7 +15,6 @@ export {
   WebSocketOptions
 } from "@azure/core-amqp";
 
-export { OnError, OnMessage } from "./core/messageReceiver";
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
 export { CorrelationFilter, RuleDescription } from "./core/managementClient";
