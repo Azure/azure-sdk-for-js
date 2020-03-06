@@ -10,9 +10,7 @@ import {
   TestClientType,
   getSenderReceiverClients,
   purge,
-  TestMessage,
-  purgeEntity,
-  isSessionfulEntity
+  TestMessage
 } from "./utils/testUtils";
 import {
   ReceiverClientTypeForUserT,
@@ -55,14 +53,9 @@ async function beforeEachTest(
   if (!receiveMode) {
     receiveMode = "peekLock";
   }
-  let clients;
-  if (isSessionfulEntity(testClientType)) {
-    clients = await getSenderReceiverClients(testClientType, receiveMode, undefined, {
-      id: TestMessage.sessionId
-    });
-  } else {
-    clients = await getSenderReceiverClients(testClientType, receiveMode);
-  }
+  let clients = await getSenderReceiverClients(testClientType, receiveMode, undefined, {
+    id: TestMessage.sessionId
+  });
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 
@@ -74,7 +67,7 @@ async function beforeEachTest(
     "peekLock"
   );
 
-  await purgeEntity(testClientType, TestMessage.sessionId);
+  await purge(receiverClient);
   await purge(deadLetterClient);
   const peekedMsgs = await receiverClient.diagnostics.peek();
   const receiverEntityType = receiverClient.entityType;
