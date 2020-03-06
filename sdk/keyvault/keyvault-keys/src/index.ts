@@ -1137,10 +1137,10 @@ export class KeyClient {
     delete keyBundle.attributes;
 
     let resultObject: KeyVaultKey & DeletedKey = {
-      key: keyBundle.key,
+      key: keyBundle.key as JsonWebKey,
       id: keyBundle.key ? keyBundle.key.kid : undefined,
       name: parsedId.name,
-      keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
+      keyOperations: keyBundle.key ? (keyBundle.key.keyOps as KeyOperation[]) : undefined,
       keyType: keyBundle.key ? keyBundle.key.kty : undefined,
       properties: {
         id: keyBundle.key ? keyBundle.key.kid : undefined,

@@ -5,14 +5,15 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import {
   delay,
-  QueueClient,
-  ServiceBusClient,
   ServiceBusMessage,
-  SubscriptionClient,
   OnMessage,
-  TopicClient
 } from "../src";
-import { SessionReceiver } from "../src/receiver";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+import { TopicClient } from "../src/old/topicClient";
+import { QueueClient } from "../src/old/queueClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
+
+import { InternalSessionReceiver } from "../src/internalReceivers";
 import { Sender } from "../src/sender";
 import { DispositionType, ReceiveMode } from "../src/serviceBusMessage";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
@@ -44,7 +45,7 @@ let sbClient: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let deadLetterClient: QueueClient | SubscriptionClient;
-let sessionReceiver: SessionReceiver;
+let sessionReceiver: InternalSessionReceiver;
 let sender: Sender;
 let errorWasThrown: boolean;
 let unexpectedError: Error | undefined;
@@ -92,7 +93,7 @@ async function beforeEachTest(
   if (!receiveMode) {
     receiveMode = ReceiveMode.peekLock;
   }
-  sessionReceiver = <SessionReceiver>receiverClient.createReceiver(receiveMode, {
+  sessionReceiver = <InternalSessionReceiver>receiverClient.createReceiver(receiveMode, {
     sessionId: TestMessage.sessionId
   });
 
@@ -386,7 +387,7 @@ describe("Sessions Streaming - Abandon message", function(): void {
     }
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-    sessionReceiver = <SessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
+    sessionReceiver = <InternalSessionReceiver>receiverClient.createReceiver(ReceiveMode.peekLock, {
       sessionId: TestMessage.sessionId
     });
     const receivedMsgs = await sessionReceiver.receiveMessages(1);

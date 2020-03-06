@@ -60,7 +60,7 @@ export class CryptographyClient {
         options && options.version ? options.version : this.version ? this.version : "",
         this.setParentSpan(span, requestOptions)
       );
-      return key.key!;
+      return key.key! as JsonWebKey;
     } else {
       return this.key;
     }

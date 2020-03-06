@@ -6,11 +6,11 @@ import { DeletionRecoveryLevel, KeyUsageType } from "./core/models";
 
 /**
  * Defines values for CertificateKeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM'
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
  * @readonly
  * @enum {string}
  */
-export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
+export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 /**
  * Defines values for CertificateKeyCurveName.
