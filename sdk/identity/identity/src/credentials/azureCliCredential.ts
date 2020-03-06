@@ -17,7 +17,7 @@ function get_safe_working_dir(): string {
       return ".";
     }
 
-    if (process.platform === "win32") {
+    if (process.platform == "win32") {
       return path.split(";")[0];
     } else {
       return path.split(":")[0];
