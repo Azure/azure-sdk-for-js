@@ -16,7 +16,7 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 - Get all certificates.
 - Get all deleted certificates.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
 ## Getting started
 
@@ -658,9 +658,9 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Certificates Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/javascript)
-- [KeyVault Certificates Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/typescript)
-- [KeyVault Certificates Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/test/)
+- [KeyVault Certificates Samples (JavaScript)](./samples/javascript)
+- [KeyVault Certificates Samples (TypeScript)](./samples/typescript)
+- [KeyVault Certificates Test Cases](./test/)
 
 ## Testing
 

@@ -23,7 +23,7 @@ Using the cryptography client available in this library you also have access to
 - Wrapping keys
 - Unwrapping keys
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
 ## Getting started
 
@@ -784,9 +784,9 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript)
-- [KeyVault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/typescript)
-- [KeyVault Keys Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/test/)
+- [KeyVault Keys Samples (JavaScript)](./samples/javascript)
+- [KeyVault Keys Samples (TypeScript)](./samples/typescript)
+- [KeyVault Keys Test Cases](./test/)
 
 ## Contributing
 

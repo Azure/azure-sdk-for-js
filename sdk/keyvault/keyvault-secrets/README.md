@@ -17,7 +17,7 @@ Use the client library for Azure Key Vault Secrets in your Node.js application t
 - Get all secrets.
 - Get all deleted secrets.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
 ## Getting started
 
@@ -504,9 +504,9 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Secrets Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/javascript)
-- [KeyVault Secrets Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/typescript)
-- [KeyVault Secrets Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/test/)
+- [KeyVault Secrets Samples (JavaScript)](./samples/javascript)
+- [KeyVault Secrets Samples (TypeScript)](./samples/typescript)
+- [KeyVault Secrets Test Cases](./test/)
 
 ## Contributing
 

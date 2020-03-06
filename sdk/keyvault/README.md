@@ -4,9 +4,9 @@ Azure Key Vault is a Microsoft-managed service providing cloud keys, secrets, an
 
 This project provides client libraries in JavaScript that makes it easy to consume Microsoft Azure Key Vault service.
 
-- [Source Code - Keys](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys)
-- [Source Code - Secrets](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets)
-- [Source Code - Certificates](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates)
+- [Source Code - Keys](./keyvault-keys)
+- [Source Code - Secrets](./keyvault-secrets)
+- [Source Code - Certificates](./keyvault-certificates)
 - [Product documentation](https://docs.microsoft.com/en-us/azure/key-vault)
 - @azure/keyvault-keys [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys)
 - @azure/keyvault-secrets [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets)
@@ -85,15 +85,15 @@ const KeyVaultSecrets = require("@azure/keyvault-secrets");
 
 ## Code Samples
 
-- [KeyVault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript)
-- [KeyVault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/typescript)
-- [KeyVault Keys Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/test/)
-- [KeyVault Secrets Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/javascript)
-- [KeyVault Secrets Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples/typescript)
-- [KeyVault Secrets Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/test/)
-- [KeyVault Certificates Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/javascript)
-- [KeyVault Certificates Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/samples/typescript)
-- [KeyVault Certificates Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates/test/)
+- [KeyVault Keys Samples (JavaScript)](./keyvault-keys/samples/javascript)
+- [KeyVault Keys Samples (TypeScript)](./keyvault-keys/samples/typescript)
+- [KeyVault Keys Test Cases](./keyvault-keys/test/)
+- [KeyVault Secrets Samples (JavaScript)](./keyvault-secrets/samples/javascript)
+- [KeyVault Secrets Samples (TypeScript)](./keyvault-secrets/samples/typescript)
+- [KeyVault Secrets Test Cases](./keyvault-secrets/test/)
+- [KeyVault Certificates Samples (JavaScript)](./keyvault-certificates/samples/javascript)
+- [KeyVault Certificates Samples (TypeScript)](./keyvault-certificates/samples/typescript)
+- [KeyVault Certificates Test Cases](./keyvault-certificates/test/)
 
 ## Contributing
 
