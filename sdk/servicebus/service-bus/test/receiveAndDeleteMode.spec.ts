@@ -17,7 +17,8 @@ import {
   getSenderReceiverClients,
   TestClientType,
   purge,
-  checkWithTimeout
+  checkWithTimeout,
+  isSessionfulEntity
 } from "./utils/testUtils";
 
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
@@ -45,7 +46,14 @@ let senderClient: ServiceBusSenderClient;
 let receiverClient: ReceiverClientTypeForUserT<"receiveAndDelete">;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {
-  const clients = await getSenderReceiverClients(entityType, "receiveAndDelete");
+  let clients;
+  if (isSessionfulEntity(entityType)) {
+    clients = await getSenderReceiverClients(entityType, "receiveAndDelete", undefined, {
+      id: TestMessage.sessionId
+    });
+  } else {
+    clients = await getSenderReceiverClients(entityType, "receiveAndDelete");
+  }
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 

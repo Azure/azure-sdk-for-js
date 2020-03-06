@@ -6,7 +6,13 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusMessage, SendableMessageInfo, ServiceBusSenderClient } from "../src";
-import { TestMessage, getSenderReceiverClients, TestClientType, purge } from "./utils/testUtils";
+import {
+  TestMessage,
+  getSenderReceiverClients,
+  TestClientType,
+  purge,
+  isSessionfulEntity
+} from "./utils/testUtils";
 import {
   ReceiverClientTypeForUserT,
   ServiceBusReceiverClient,
@@ -30,8 +36,16 @@ let senderClient: ServiceBusSenderClient;
 let receiverClient: ReceiverClientTypeForUserT<"peekLock">;
 let deadLetterClient: ReceiverClientTypeForUserT<"peekLock">;
 
-async function beforeEachTest(entityType: TestClientType, useSessions?: boolean): Promise<void> {
-  const clients = await getSenderReceiverClients(entityType, "peekLock");
+async function beforeEachTest(entityType: TestClientType): Promise<void> {
+  let clients;
+  if (isSessionfulEntity(entityType)) {
+    clients = await getSenderReceiverClients(entityType, "peekLock", undefined, {
+      id: TestMessage.sessionId
+    });
+  } else {
+    clients = await getSenderReceiverClients(entityType, "peekLock");
+  }
+
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 

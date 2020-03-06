@@ -318,7 +318,9 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   before(async () => {
     const clients = await getSenderReceiverClients(
       TestClientType.PartitionedQueueWithSessions,
-      "peekLock"
+      "peekLock",
+      undefined,
+      { id: TestMessage.sessionId }
     );
 
     senderClient = clients.senderClient;

@@ -11,7 +11,13 @@ import {
   ReceivedMessage
 } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
-import { TestClientType, getSenderReceiverClients, purge, TestMessage } from "./utils/testUtils";
+import {
+  TestClientType,
+  getSenderReceiverClients,
+  purge,
+  TestMessage,
+  isSessionfulEntity
+} from "./utils/testUtils";
 import {
   ReceiverClientTypeForUser,
   ServiceBusReceiverClient,
@@ -42,7 +48,15 @@ let deadLetterClient: ReceiverClientTypeForUserT<"peekLock">;
 const maxDeliveryCount = 10;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {
-  const clients = await getSenderReceiverClients(entityType, "peekLock");
+  let clients;
+  if (isSessionfulEntity(entityType)) {
+    clients = await getSenderReceiverClients(entityType, "peekLock", undefined, {
+      id: TestMessage.sessionId
+    });
+  } else {
+    clients = await getSenderReceiverClients(entityType, "peekLock");
+  }
+
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
   deadLetterClient = new ServiceBusReceiverClient(

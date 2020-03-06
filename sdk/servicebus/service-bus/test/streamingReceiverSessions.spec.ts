@@ -11,7 +11,8 @@ import {
   getSenderReceiverClients,
   purge,
   TestMessage,
-  purgeEntity
+  purgeEntity,
+  isSessionfulEntity
 } from "./utils/testUtils";
 import {
   ReceiverClientTypeForUserT,
@@ -54,7 +55,14 @@ async function beforeEachTest(
   if (!receiveMode) {
     receiveMode = "peekLock";
   }
-  const clients = await getSenderReceiverClients(testClientType, receiveMode);
+  let clients;
+  if (isSessionfulEntity(testClientType)) {
+    clients = await getSenderReceiverClients(testClientType, receiveMode, undefined, {
+      id: TestMessage.sessionId
+    });
+  } else {
+    clients = await getSenderReceiverClients(testClientType, receiveMode);
+  }
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
 

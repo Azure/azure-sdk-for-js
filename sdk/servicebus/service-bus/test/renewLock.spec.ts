@@ -7,14 +7,27 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusSenderClient, ReceivedMessage, ContextWithSettlement } from "../src";
 import { delay } from "rhea-promise";
-import { purge, getSenderReceiverClients, TestClientType, TestMessage } from "./utils/testUtils";
+import {
+  purge,
+  getSenderReceiverClients,
+  TestClientType,
+  TestMessage,
+  isSessionfulEntity
+} from "./utils/testUtils";
 import { NonSessionReceiver } from "../src/serviceBusReceiverClient";
 
 let senderClient: ServiceBusSenderClient;
 let receiverClient: NonSessionReceiver<"peekLock">;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {
-  const clients = await getSenderReceiverClients(entityType, "peekLock");
+  let clients;
+  if (isSessionfulEntity(entityType)) {
+    clients = await getSenderReceiverClients(entityType, "peekLock", undefined, {
+      id: TestMessage.sessionId
+    });
+  } else {
+    clients = await getSenderReceiverClients(entityType, "peekLock");
+  }
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient as NonSessionReceiver<"peekLock">;
 

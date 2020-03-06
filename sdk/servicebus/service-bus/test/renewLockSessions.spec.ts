@@ -29,6 +29,7 @@ async function beforeEachTest(
   maxSessionAutoRenewLockDurationInSeconds: number
 ): Promise<void> {
   const clients = await getSenderReceiverClients(entityType, "peekLock", undefined, {
+    id: TestMessage.sessionId,
     maxSessionAutoRenewLockDurationInSeconds
   });
   senderClient = clients.senderClient;
