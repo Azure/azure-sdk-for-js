@@ -11,7 +11,9 @@ export {
   IndexAction,
   ListSearchResultsPageSettings,
   IndexDocuments,
+  SearchDocumentsResultBase,
   SearchDocumentsResult,
+  SearchDocumentsPageResult,
   SearchIterator,
   SearchOptions,
   SearchRequest,
@@ -35,5 +37,6 @@ export {
   IndexDocumentsResult,
   IndexingResult,
   QueryType,
-  SearchMode
+  SearchMode,
+  SearchRequest as RawSearchRequest
 } from "./generated/data/models";

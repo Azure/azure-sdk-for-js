@@ -7,7 +7,8 @@ import {
   SearchMode,
   FacetResult,
   AutocompleteMode,
-  IndexActionType
+  IndexActionType,
+  SearchRequest as RawSearchRequest
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -88,16 +89,17 @@ export interface ListSearchResultsPageSettings {
   /**
    * When server pagination occurs, this is the set of parameters to include in the POST body.
    */
-  nextPageParameters?: SearchRequest<string>;
+  nextPageParameters?: RawSearchRequest;
 }
 
 /**
- * An iterator for search results of a paticular query. Use .byPage()
- * to view page-level information such as facet data.
+ * An iterator for search results of a paticular query. Will make requests
+ * as needed during iteration. Use .byPage() to make one request to the server
+ * per iteration.
  */
 export type SearchIterator<Fields> = PagedAsyncIterableIterator<
   SearchResult<Fields>,
-  SearchDocumentsResult<Fields>,
+  SearchDocumentsPageResult<Fields>,
   ListSearchResultsPageSettings
 >;
 
@@ -228,7 +230,7 @@ export type SearchResult<T> = {
 /**
  * Response containing search results from an index.
  */
-export interface SearchDocumentsResult<T> {
+export interface SearchDocumentsResultBase {
   /**
    * The total count of results found by the search operation, or null if the count was not
    * requested. If present, the count may be greater than the number of results in this response.
@@ -249,18 +251,29 @@ export interface SearchDocumentsResult<T> {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly facets?: { [propertyName: string]: FacetResult[] };
+}
+
+export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
+  /**
+   * The sequence of results returned by the query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly results: SearchIterator<T>;
+}
+
+export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
+  /**
+   * The sequence of results returned by the query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly results: SearchResult<T>[];
   /**
    * Continuation JSON payload returned when Azure Cognitive Search can't return all the requested
    * results in a single Search response. You can use this JSON along with @odata.nextLink to
    * formulate another POST Search request to get the next part of the search response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly nextPageParameters?: SearchRequest<string>;
-  /**
-   * The sequence of results returned by the query.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly results: SearchResult<T>[];
+  readonly nextPageParameters?: RawSearchRequest;
   /**
    * Continuation URL returned when Azure Cognitive Search can't return all the requested results
    * in a single Search response. You can use this URL to formulate another GET or POST Search

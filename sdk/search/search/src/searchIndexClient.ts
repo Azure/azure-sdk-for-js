@@ -40,7 +40,8 @@ import {
   IndexDocuments,
   UploadDocumentsOptions,
   MergeDocumentsOptions,
-  DeleteDocumentsOptions
+  DeleteDocumentsOptions,
+  SearchDocumentsPageResult
 } from "./models";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 
@@ -214,26 +215,31 @@ export class SearchIndexClient<T> {
     }
   }
 
-  private async search<Fields extends keyof T>(
-    options: SearchOptions<Fields> = {}
-  ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
+  private async searchDocuments<Fields extends keyof T>(
+    options: SearchOptions<Fields> = {},
+    nextPageParameters: SearchRequest = {}
+  ): Promise<SearchDocumentsPageResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
     const fullOptions: SearchRequest = {
       searchFields: this.convertSearchFields<Fields>(searchFields),
       select: this.convertSelect<Fields>(select),
       orderBy: this.convertOrderBy(orderBy),
-      ...nonFieldOptions
+      ...nonFieldOptions,
+      ...nextPageParameters
     };
 
-    const { span, updatedOptions } = createSpan("SearchIndexClient-search", operationOptions);
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexClient-searchDocuments",
+      operationOptions
+    );
 
     try {
       const result = await this.client.documents.searchPost(
         fullOptions,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return deserialize<SearchDocumentsResult<Pick<T, Fields>>>(result);
+      return deserialize<SearchDocumentsPageResult<Pick<T, Fields>>>(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -248,43 +254,39 @@ export class SearchIndexClient<T> {
   private async *listSearchResultsPage<Fields extends keyof T>(
     options: SearchOptions<Fields> = {},
     settings: ListSearchResultsPageSettings = {}
-  ): AsyncIterableIterator<SearchDocumentsResult<Pick<T, Fields>>> {
-    let result = await this.search<Fields>({
-      ...options,
-      ...(settings.nextPageParameters as any)
-    });
+  ): AsyncIterableIterator<SearchDocumentsPageResult<Pick<T, Fields>>> {
+    let result = await this.searchDocuments<Fields>(options, settings.nextPageParameters);
 
     yield result;
 
     // Technically, we should also leverage nextLink, but the generated code
     // doesn't support this yet.
     while (result.nextPageParameters) {
-      result = await this.search({
-        ...options,
-        ...(result.nextPageParameters as any)
-      });
+      result = await this.searchDocuments(options, result.nextPageParameters);
       yield result;
     }
   }
 
   private async *listSearchResultsAll<Fields extends keyof T>(
+    firstPage: SearchDocumentsPageResult<Pick<T, Fields>>,
     options: SearchOptions<Fields> = {}
-  ): AsyncIterableIterator<SearchResult<T>> {
-    for await (const page of this.listSearchResultsPage(options)) {
-      const results: Array<SearchResult<T>> = (page.results as any) || [];
-      yield* results;
+  ): AsyncIterableIterator<SearchResult<Pick<T, Fields>>> {
+    yield* firstPage.results;
+    if (firstPage.nextPageParameters) {
+      for await (const page of this.listSearchResultsPage(options, {
+        nextLink: firstPage.nextLink,
+        nextPageParameters: firstPage.nextPageParameters
+      })) {
+        yield* page.results;
+      }
     }
   }
 
-  /**
-   * Performs a search on the current index given
-   * the specified arguments.
-   * @param options Options for the search operation.
-   */
-  public listSearchResults<Fields extends keyof T>(
+  private listSearchResults<Fields extends keyof T>(
+    firstPage: SearchDocumentsPageResult<Pick<T, Fields>>,
     options: SearchOptions<Fields> = {}
   ): SearchIterator<Pick<T, Fields>> {
-    const iter = this.listSearchResultsAll(options);
+    const iter = this.listSearchResultsAll(firstPage, options);
 
     return {
       next() {
@@ -297,6 +299,37 @@ export class SearchIndexClient<T> {
         return this.listSearchResultsPage(options, settings);
       }
     };
+  }
+
+  /**
+   * Performs a search on the current index given
+   * the specified arguments.
+   * @param options Options for the search operation.
+   */
+  public async search<Fields extends keyof T>(
+    options: SearchOptions<Fields> = {}
+  ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-search", options);
+
+    try {
+      const pageResult = await this.searchDocuments(updatedOptions);
+
+      const { count, coverage, facets } = pageResult;
+      return {
+        count,
+        coverage,
+        facets,
+        results: this.listSearchResults(pageResult, updatedOptions)
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**

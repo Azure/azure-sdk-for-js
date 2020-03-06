@@ -17,7 +17,7 @@ export interface AutocompleteItem {
 }
 
 // @public
-export type AutocompleteMode = 'oneTerm' | 'twoTerms' | 'oneTermWithContext';
+export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
 
 // @public
 export type AutocompleteOptions<Fields> = OperationOptions & AutocompleteRequest<Fields>;
@@ -73,7 +73,7 @@ export type IndexAction<T> = {
 } & Partial<T>;
 
 // @public
-export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
+export type IndexActionType = "upload" | "merge" | "mergeOrUpload" | "delete";
 
 // @public
 export interface IndexDocuments extends OperationOptions {
@@ -96,7 +96,7 @@ export interface IndexingResult {
 // @public
 export interface ListSearchResultsPageSettings {
     nextLink?: string;
-    nextPageParameters?: SearchRequest<string>;
+    nextPageParameters?: RawSearchRequest;
 }
 
 // @public
@@ -108,7 +108,28 @@ export interface MergeDocumentsOptions extends IndexDocuments {
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
 
 // @public
-export type QueryType = 'simple' | 'full';
+export type QueryType = "simple" | "full";
+
+// @public
+export interface RawSearchRequest {
+    facets?: string[];
+    filter?: string;
+    highlightFields?: string;
+    highlightPostTag?: string;
+    highlightPreTag?: string;
+    includeTotalResultCount?: boolean;
+    minimumCoverage?: number;
+    orderBy?: string;
+    queryType?: QueryType;
+    scoringParameters?: string[];
+    scoringProfile?: string;
+    searchFields?: string;
+    searchMode?: SearchMode;
+    searchText?: string;
+    select?: string;
+    skip?: number;
+    top?: number;
+}
 
 // @public
 export class SearchApiKeyCredential implements ServiceClientCredentials {
@@ -117,16 +138,25 @@ export class SearchApiKeyCredential implements ServiceClientCredentials {
     updateKey(apiKey: string): void;
 }
 
+// @public (undocumented)
+export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
+    readonly nextLink?: string;
+    readonly nextPageParameters?: RawSearchRequest;
+    readonly results: SearchResult<T>[];
+}
+
+// @public (undocumented)
+export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
+    readonly results: SearchIterator<T>;
+}
+
 // @public
-export interface SearchDocumentsResult<T> {
+export interface SearchDocumentsResultBase {
     readonly count?: number;
     readonly coverage?: number;
     readonly facets?: {
         [propertyName: string]: FacetResult[];
     };
-    readonly nextLink?: string;
-    readonly nextPageParameters?: SearchRequest<string>;
-    readonly results: SearchResult<T>[];
 }
 
 // @public
@@ -140,8 +170,8 @@ export class SearchIndexClient<T> {
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     indexDocuments(batch: IndexAction<T>[], options?: IndexDocuments): Promise<IndexDocumentsResult>;
     readonly indexName: string;
-    listSearchResults<Fields extends keyof T>(options?: SearchOptions<Fields>): SearchIterator<Pick<T, Fields>>;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
+    search<Fields extends keyof T>(options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
     suggest<Fields extends keyof T = never>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
@@ -150,10 +180,10 @@ export class SearchIndexClient<T> {
 export type SearchIndexClientOptions = PipelineOptions;
 
 // @public
-export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsResult<Fields>, ListSearchResultsPageSettings>;
+export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsPageResult<Fields>, ListSearchResultsPageSettings>;
 
 // @public
-export type SearchMode = 'any' | 'all';
+export type SearchMode = "any" | "all";
 
 // @public
 export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;

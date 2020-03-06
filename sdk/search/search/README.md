@@ -98,7 +98,7 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 
 ### Query documents in an index
 
-To list all results of a particular query, you can use `listSearchResults` with a search string that uses [simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax):
+To list all results of a particular query, you can use `search` with a search string that uses [simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax):
 
 ```js
 const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
@@ -109,8 +109,8 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-const iterator = client.listSearchResults({ searchText: "wifi -luxury"});
-for await (const result of iterator) {
+const searchResults = client.search({ searchText: "wifi -luxury"});
+for await (const result of searchResults.results) {
   console.log(result);
 }
 ```
@@ -126,12 +126,12 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-const iterator = client.listSearchResults({
+const searchResults = client.search({
   searchText: 'category:budget AND "recently renovated"^3',
   queryType: "full",
   searchMode: "all"
 });
-for await (const result of iterator) {
+for await (const result of searchResults.results) {
   console.log(result);
 }
 ```
@@ -159,14 +159,14 @@ const client = new SearchIndexClient<Hotel>(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-const iterator = client.listSearchResults({
+const searchResults = client.search({
   searchText: "wifi -luxury",
   // Only fields in Hotel can be added to this array.
   // TS will complain if one is misspelled.
   select: ["HotelId", "HotelName", "Rating"]
 });
 
-for await (const result of iterator) {
+for await (const result of searchResults.results) {
   // result has HotelId, HotelName, and Rating.
   // Trying to access result.Description would emit a TS error.
   console.log(result.HotelName);
@@ -188,13 +188,13 @@ const client = new SearchIndexClient(
 
 const baseRateMax = 200;
 const ratingMin = 4;
-const iterator = client.listSearchResults({
+const searchResults = client.search({
   searchText: "WiFi",
   filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
   orderBy: ["Rating desc"],
   select: ["HotelId", "HotelName", "Rating"]
 });
-for await (const result of iterator) {
+for await (const result of searchResults.results) {
   // Each result will have "HotelId", "HotelName", and "Rating"
   // in addition to the standard search result property "score"
   console.log(result);
@@ -214,15 +214,12 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-const iterator = await client
-  .listSearchResults({
+const searchResults = await client
+  .search({
     searchText: "WiFi",
     facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
-  })
-  .byPage();
-const page = (await iterator.next()).value;
-
-console.log(page.facets);
+  });
+console.log(searchResults.facets);
 // Output will look like:
 // {
 //   Rating: [
