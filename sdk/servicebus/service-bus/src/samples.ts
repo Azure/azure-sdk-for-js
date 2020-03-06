@@ -3,6 +3,7 @@ import { env } from "process";
 import * as dotenv from "dotenv";
 import { ServiceBusClient } from "./serviceBusClient";
 import { delay } from "@azure/core-amqp";
+import { DefaultAzureCredential } from "@azure/identity";
 
 dotenv.config();
 
@@ -163,12 +164,75 @@ export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
   });
 }
 
+/**
+ * Scheduling messages - a way to pick an arbitrary time for a message
+ * to show up in a queue or subscription.
+ * @internal
+ * @ignore
+ */
+export async function schedulingMessages() {
+  const serviceBusClient = new ServiceBusClient(testParams.connectionString);
+
+  const sender = serviceBusClient.createSender("queue or topic");
+  const anArbitraryOffsetOfTime = 1000;
+
+  const cancellationId = await sender.scheduleMessage(
+    new Date(Date.now() + anArbitraryOffsetOfTime),
+    {
+      body: "hello, I'm scheduling this for....THE FUTURE!"
+    }
+  );
+
+  // wait...and the message would appear!
+  // or...cancel it and nobody will have seen it.
+  await sender.cancelScheduledMessage(cancellationId);
+}
+
+/**
+ * Deferring messages - a way to "hide" messages in a queue or subscription so
+ * they can be retrieved and dealth with later.
+ * @internal
+ * @ignore
+ */
+export async function deferringMessages() {
+  const serviceBusClient = new ServiceBusClient(testParams.connectionString);
+
+  const receiver = serviceBusClient.createReceiver("queue", "peekLock");
+
+  const sequenceNumbersOfMessagesToDefer = [];
+
+  // defer a few messages
+  for await (const { message, context } of receiver.getMessageIterator()) {
+    await context.defer(message);
+
+    // you could store the sequence number  - they aren't nearly as temporary as
+    // the lock token, for example. They do eventually roll over though (it's a
+    // 64-bit number).
+    sequenceNumbersOfMessagesToDefer.push(message.sequenceNumber!);
+    // just defer one for our sample.
+    break;
+  }
+
+  const deferredMessages = await receiver.receiveDeferredMessages(sequenceNumbersOfMessagesToDefer);
+
+  for (const deferredMessage of deferredMessages) {
+    console.log(`Deferred message body: ${deferredMessage.body}`);
+  }
+}
+
+async function variousTokenCredentialMethods() {
+  const tokenCredential = new DefaultAzureCredential();
+  const tokenAuthd = new ServiceBusClient("service-bus-host-name", tokenCredential);
+  await tokenAuthd.close();
+}
+
 async function runAll() {
   const promises = [
     receiveMessagesUsingPeekLock(),
     receiveMessagesUsingPeekLockForSubscription(),
     receiveMessagesUsingReceiveAndDeleteAndSessions(),
-    iterateMessageFromSubscription()
+    iterateMessageFromSubscription(),
+    variousTokenCredentialMethods()
   ];
 
   await Promise.all(promises);
