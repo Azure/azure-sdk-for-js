@@ -53,7 +53,6 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
   getState(): Promise<any>;
   sessionId: string | undefined;
   sessionLockedUntilUtc: Date | undefined;
-  close(): Promise<void>;
   getDeadLetterPath(): string;
   entityType: "queue" | "subscription";
   entityPath: string;
@@ -122,7 +121,6 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
   receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
   receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
   isReceivingMessages(): boolean;
-  close(): Promise<void>;
   getDeadLetterPath(): string;
 
   // TODO: not sure these need to be on the interface
