@@ -312,7 +312,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
     maxConcurrency?: number;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
-    pathHttpHeaders?: PathCreateHttpHeaders;
+    pathHttpHeaders?: PathHttpHeaders;
     permissions?: string;
     umask?: string;
 }
@@ -935,7 +935,7 @@ export interface PathGetAccessControlOptions extends CommonOptions {
 // @public (undocumented)
 export type PathGetAccessControlResponse = PathAccessControl & PathGetAccessControlHeaders & {
     _response: HttpResponse & {
-        parsedHeaders: PathGetPropertiesHeaders_2;
+        parsedHeaders: PathGetPropertiesHeadersModel;
     };
 };
 
@@ -1017,6 +1017,35 @@ export interface PathGetPropertiesHeaders {
     version?: string;
 }
 
+// @public
+export interface PathGetPropertiesHeadersModel {
+    acceptRanges?: string;
+    acl?: string;
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentLength?: number;
+    contentMD5?: string;
+    contentRange?: string;
+    contentType?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    eTag?: string;
+    group?: string;
+    lastModified?: Date;
+    leaseDuration?: string;
+    leaseState?: string;
+    leaseStatus?: string;
+    owner?: string;
+    permissions?: string;
+    properties?: string;
+    requestId?: string;
+    resourceType?: string;
+    version?: string;
+}
+
 // @public (undocumented)
 export interface PathGetPropertiesOptions extends CommonOptions {
     // (undocumented)
@@ -1056,10 +1085,27 @@ export interface PathList {
 
 // @public
 export interface PathListModel {
-    // Warning: (ae-forgotten-export) The symbol "Path" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    paths?: Path_2[];
+    paths?: PathModel[];
+}
+
+// @public
+export interface PathModel {
+    // (undocumented)
+    contentLength?: number;
+    // (undocumented)
+    eTag?: string;
+    // (undocumented)
+    group?: string;
+    isDirectory?: boolean;
+    // (undocumented)
+    lastModified?: Date;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    owner?: string;
+    // (undocumented)
+    permissions?: string;
 }
 
 // @public (undocumented)
@@ -1509,10 +1555,6 @@ export { UserDelegationKeyModel }
 
 export { WebResource }
 
-
-// Warnings were encountered during analysis:
-//
-// src/models.ts:426:7 - (ae-forgotten-export) The symbol "PathGetPropertiesHeaders" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

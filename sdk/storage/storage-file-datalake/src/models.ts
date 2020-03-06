@@ -27,7 +27,9 @@ export {
 
 export {
   FileSystemListPathsHeaders,
+  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   FileSystemListPathsResponse as ListPathsSegmentResponse,
+  Path as PathModel,
   PathList as PathListModel,
   PathCreateHeaders,
   PathDeleteHeaders,
@@ -701,10 +703,10 @@ export interface FileParallelUploadOptions extends CommonOptions {
   /**
    * Http headers.
    *
-   * @type {PathCreateHttpHeaders}
+   * @type {PathHttpHeaders}
    * @memberof FileParallelUploadOptions
    */
-  pathHttpHeaders?: PathCreateHttpHeaders;
+  pathHttpHeaders?: PathHttpHeaders;
 
   // For create.
   /**

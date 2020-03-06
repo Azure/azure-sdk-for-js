@@ -1385,7 +1385,6 @@ export class DataLakeFileClient extends DataLakePathClient {
         throw new RangeError(`maxConcurrency must be > 0.`);
       }
 
-      // TODO: check the stream_size < FILE_MAX_SIZE_BYTES ?
       let transferProgress: number = 0;
       const scheduler = new BufferScheduler(
         stream,
