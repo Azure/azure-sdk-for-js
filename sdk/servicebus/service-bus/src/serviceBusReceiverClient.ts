@@ -312,6 +312,13 @@ export class ReceiverClientImplementation {
     options?: SubscribeOptions
   ): void {
     // TODO: use options
+    if (
+      !handlers ||
+      !(handlers.processMessage instanceof Function && handlers.processMessage instanceof Function)
+    ) {
+      throw new TypeError('Invalid "MessageHandlers" provided.');
+    }
+
     if (this.receiveMode === "peekLock") {
       const onMessage = async (sbMessage: ServiceBusMessage) => {
         return handlers.processMessage(sbMessage, settlementContext);

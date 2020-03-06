@@ -330,14 +330,13 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
     await serviceBusClient.close();
   });
 
-  // TODO: this should just throw.
-  // it("SessionReceiver: Invalid ReceiveMode", async function(): Promise<void> {
-  //   receiverClient = serviceBusClient.createSessionReceiver(
-  //     EntityNames.QUEUE_NAME_SESSION,
-  //     "peekLock",
-  //     TestMessage.sessionId
-  //   );
-
+  // it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
+  //   receiverClient = new ServiceBusReceiverClient(
+  //     {
+  //       queueName: EntityNames.QUEUE_NAME_SESSION,
+  //       connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
+  //     },
+  //     undefined as any,
   //     {
   //       id: TestMessage.sessionId
   //     }
@@ -346,6 +345,50 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   //     receiverClient.receiveMode,
   //     ReceiveMode.peekLock,
   //     "Default receiveMode not set when receiveMode not provided to constructor."
+  //   );
+  // });
+
+  // TODO: this should just throw.
+  // it("SessionReceiver: Invalid ReceiveMode", async function(): Promise<void> {
+  //   receiverClient = new ServiceBusReceiverClient(
+  //     {
+  //       queueName: EntityNames.QUEUE_NAME_SESSION,
+  //       connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
+  //     },
+  //     123 as any,
+  //     {
+  //       id: TestMessage.sessionId
+  //     }
+  //   ) as any;
+  //   should.equal(
+  //     receiverClient.receiveMode,
+  //     ReceiveMode.peekLock,
+  //     "Default receiveMode not set when receiveMode not provided to constructor."
+  //   );
+  // });
+
+  // it("SessionReceiver: Throws error if created a client with invalid receiveMode", async function(): Promise<
+  //   void
+  // > {
+  //   let errorCaught: string = "";
+  //   try {
+  //     receiverClient = new ServiceBusReceiverClient(
+  //       {
+  //         queueName: EntityNames.QUEUE_NAME_SESSION,
+  //         connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
+  //       },
+  //       123 as any,
+  //       {
+  //         id: TestMessage.sessionId
+  //       }
+  //     ) as any;
+  //   } catch (error) {
+  //     errorCaught = error.message;
+  //   }
+  //   should.equal(
+  //     errorCaught,
+  //     "Invalid receiveMode provided",
+  //     "Did not throw error if created a client with invalid receiveMode."
   //   );
   // });
 
@@ -430,7 +473,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
       caughtError = error;
     }
     should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(caughtError && caughtError.message, `Missing parameter "onMessage"`);
+    should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
   });
 
   it("RegisterMessageHandler: Wrong type for onMessage in SessionReceiver", async function(): Promise<
@@ -443,10 +486,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
       caughtError = error;
     }
     should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(
-      caughtError && caughtError.message,
-      `The parameter 'onMessage' must be of type 'function'.`
-    );
+    should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
   });
 
   // it("RegisterMessageHandler: Missing onError in SessionReceiver", async function(): Promise<void> {

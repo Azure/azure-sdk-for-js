@@ -145,7 +145,7 @@ describe("Streaming - Misc Tests", function(): void {
     await testAutoComplete();
   });
 
-  it.only("UnPartitioned Queue: AutoComplete removes the message #RunInBrowser", async function(): Promise<
+  it("UnPartitioned Queue: AutoComplete removes the message #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
@@ -190,7 +190,6 @@ describe("Streaming - Misc Tests", function(): void {
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
     await contextToSettle!.complete(receivedMsgs[0]);
-    await receiverClient.close();
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     await testPeekMsgsLength(receiverClient, 0);
@@ -299,7 +298,7 @@ describe("Streaming - Complete message", function(): void {
 
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
     should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
-    await receiverClient.close();
+
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     await testPeekMsgsLength(receiverClient, 0);
@@ -383,7 +382,6 @@ describe("Streaming - Abandon message", function(): void {
     const deliveryCountFlag = await checkWithTimeout(() => checkDeliveryCount === maxDeliveryCount);
     should.equal(deliveryCountFlag, true, "DeliveryCount is different than expected");
 
-    await receiverClient.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
     await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
@@ -563,7 +561,6 @@ describe("Streaming - Deadletter message", function(): void {
     const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
     should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
 
-    await receiverClient.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
@@ -824,12 +821,10 @@ describe("Streaming - User Error", function(): void {
 
     should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages.`);
     should.equal(
-      !!(receiverClient as any)._context.streamingReceiver,
+      !!(receiverClient as any)._receiver._context.streamingReceiver,
       true,
       "Expected streaming receiver not to be cached."
     );
-
-    await receiverClient.close();
 
     should.equal(
       unexpectedError && unexpectedError.message,
@@ -852,7 +847,22 @@ describe("Streaming - Failed init should not cache receiver", function(): void {
     await afterEachTest();
   });
 
-  // TODO: not sure what this test is actually trying to do.
+  // class TestTokenCredential extends EnvironmentCredential implements TokenCredential {
+  //   private firstCall = true;
+  //   static errorMessage = "This is a faulty token provider.";
+  //   constructor() {
+  //     super();
+  //   }
+
+  //   async getToken(audience: string): Promise<AccessToken | null> {
+  //     if (this.firstCall) {
+  //       this.firstCall = false;
+  //       throw new Error(TestTokenCredential.errorMessage);
+  //     }
+  //     return super.getToken(audience);
+  //   }
+  // }
+
   // it("UnPartitioned Queue: Receiver is not cached when not initialized", async function(): Promise<
   //   void
   // > {
@@ -873,7 +883,6 @@ describe("Streaming - Failed init should not cache receiver", function(): void {
   //     SharedAccessKey: string;
   //   } = parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
   //   const tokenProvider = new TestTokenCredential();
-
   //   receiverClient = new ServiceBusReceiverClient(
   //     {
   //       host: connectionObject.Endpoint.substr(5),
@@ -906,8 +915,6 @@ describe("Streaming - Failed init should not cache receiver", function(): void {
   //     false,
   //     "Expected Streaming receiver to not be cached"
   //   );
-
-  //   await receiverClient.close();
   // });
 });
 
@@ -951,8 +958,6 @@ describe("Streaming - maxConcurrentCalls", function(): void {
     );
 
     await checkWithTimeout(() => settledMsgs.length === 2);
-    await receiverClient.close();
-
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
     should.equal(settledMsgs.length, 2, `Expected 2, received ${settledMsgs.length} messages.`);
   }
@@ -1024,63 +1029,64 @@ describe("Streaming - maxConcurrentCalls", function(): void {
   });
 });
 
-describe("Streaming - Not receive messages after receiver is closed", function(): void {
-  afterEach(async () => {
-    await afterEachTest();
-  });
+// Receiver can't be closed separately with the current API
+// Roll this back once the top level client is implemented
+// describe("Streaming - Not receive messages after receiver is closed", function(): void {
+//   afterEach(async () => {
+//     await afterEachTest();
+//   });
 
-  async function testReceiveMessages(): Promise<void> {
-    const totalNumOfMessages = 5;
-    let num = 1;
-    const messages = [];
-    while (num <= totalNumOfMessages) {
-      const message = {
-        messageId: num,
-        body: "test",
-        label: `${num}`,
-        partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
-      };
-      num++;
-      messages.push(message);
-    }
-    await senderClient.sendBatch(messages);
+//   async function testReceiveMessages(): Promise<void> {
+//     const totalNumOfMessages = 5;
+//     let num = 1;
+//     const messages = [];
+//     while (num <= totalNumOfMessages) {
+//       const message = {
+//         messageId: num,
+//         body: "test",
+//         label: `${num}`,
+//         partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
+//       };
+//       num++;
+//       messages.push(message);
+//     }
+//     await senderClient.sendBatch(messages);
 
-    const receivedMsgs: ReceivedMessage[] = [];
+//     const receivedMsgs: ReceivedMessage[] = [];
 
-    receiverClient.subscribe(
-      {
-        async processMessage(brokeredMessage: ReceivedMessage, context: ContextWithSettlement) {
-          receivedMsgs.push(brokeredMessage);
-          await context.complete(brokeredMessage);
-        },
-        processError
-      },
-      {
-        autoComplete: false
-      }
-    );
-    await receiverClient.close();
+//     receiverClient.subscribe(
+//       {
+//         async processMessage(brokeredMessage: ReceivedMessage, context: ContextWithSettlement) {
+//           receivedMsgs.push(brokeredMessage);
+//           await context.complete(brokeredMessage);
+//         },
+//         processError
+//       },
+//       {
+//         autoComplete: false
+//       }
+//     );
 
-    await delay(5000);
-    should.equal(
-      receivedMsgs.length,
-      0,
-      `Expected 0 messages, but received ${receivedMsgs.length}`
-    );
-    await testPeekMsgsLength(receiverClient, totalNumOfMessages);
-  }
+//     await delay(5000);
+//     should.equal(
+//       receivedMsgs.length,
+//       0,
+//       `Expected 0 messages, but received ${receivedMsgs.length}`
+//     );
+//     await testPeekMsgsLength(receiverClient, totalNumOfMessages);
+//   }
 
-  it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueue);
-    await testReceiveMessages();
-  });
+//   it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(TestClientType.UnpartitionedQueue);
+//     await testReceiveMessages();
+//   });
 
-  it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
-    await testReceiveMessages();
-  });
-});
+//   it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+//     await testReceiveMessages();
+//   });
+// });
