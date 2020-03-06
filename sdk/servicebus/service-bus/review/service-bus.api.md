@@ -73,6 +73,11 @@ export interface CorrelationFilter {
   userProperties?: any;
 }
 
+// @public
+export interface CreateSessionReceiverOptions extends OperationOptions {
+  maxSessionAutoRenewLockDurationInSeconds?: number;
+}
+
 export { DataTransformer };
 
 // @public
@@ -97,10 +102,10 @@ export type EntityStatus =
   | "Restoring"
   | "Unknown";
 
-export { HttpOperationResponse };
-
 // @public
-export interface IterateMessagesOptions extends OperationOptions {}
+export interface GetMessageIteratorOptions extends OperationOptions {}
+
+export { HttpOperationResponse };
 
 // @public
 export interface MessageAndContext<ContextT> {
@@ -153,9 +158,9 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
   entityType: "queue" | "subscription";
   // (undocumented)
   getDeadLetterPath(): string;
+  getMessageIterator(options?: GetMessageIteratorOptions): MessageIterator<ContextType<LockModeT>>;
   // (undocumented)
   isReceivingMessages(): boolean;
-  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
   receiveBatch(
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
@@ -309,6 +314,26 @@ export interface SendableMessageInfo {
   viaPartitionKey?: string;
 }
 
+// @public
+export class Sender {
+  cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
+  cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
+  close(): Promise<void>;
+  get isClosed(): boolean;
+  scheduleMessage(
+    scheduledEnqueueTimeUtc: Date,
+    message: SendableMessageInfo,
+    options?: OperationOptions
+  ): Promise<Long>;
+  scheduleMessages(
+    scheduledEnqueueTimeUtc: Date,
+    messages: SendableMessageInfo[],
+    options?: OperationOptions
+  ): Promise<Long[]>;
+  send(message: SendableMessageInfo, options?: OperationOptions): Promise<void>;
+  sendBatch(messages: SendableMessageInfo[], options?: OperationOptions): Promise<void>;
+}
+
 // @public (undocumented)
 export class ServiceBusClient {
   constructor(connectionString: string, options?: ServiceBusClientOptions);
@@ -334,9 +359,7 @@ export class ServiceBusClient {
     subscriptionName: string,
     receiveMode: "receiveAndDelete"
   ): NonSessionReceiver<"receiveAndDelete"> & SubscriptionRuleManagement;
-  // Warning: (ae-forgotten-export) The symbol "Sender" needs to be exported by the entry point index.d.ts
   createSender(queueOrTopicName: string): Sender;
-  // Warning: (ae-forgotten-export) The symbol "CreateSessionReceiverOptions" needs to be exported by the entry point index.d.ts
   createSessionReceiver(
     queueName: string,
     receiveMode: "peekLock",
@@ -431,11 +454,11 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
   entityType: "queue" | "subscription";
   // (undocumented)
   getDeadLetterPath(): string;
+  getMessageIterator(options?: GetMessageIteratorOptions): MessageIterator<ContextType<LockModeT>>;
   // (undocumented)
   getState(): Promise<any>;
   // (undocumented)
   isReceivingMessages(): boolean;
-  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
   receiveBatch(
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
