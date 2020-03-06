@@ -107,7 +107,7 @@ export interface CertificateIssuer extends IssuerProperties {
 export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
-export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
+export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
 export interface CertificateOperation {
@@ -241,7 +241,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
 export type DeleteIssuerOptions = coreHttp.OperationOptions;
 
 // @public
-export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
+export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription" | "CustomizedRecoverable+Purgeable" | "CustomizedRecoverable" | "CustomizedRecoverable+ProtectedSubscription";
 
 // @public
 export interface ErrorModel {
