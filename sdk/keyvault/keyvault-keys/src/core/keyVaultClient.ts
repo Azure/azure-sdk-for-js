@@ -38,7 +38,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name for the new key. The system will generate the version name for the new
    * key.
    * @param kty The type of key to create. For valid values, see JsonWebKeyType. Possible values
-   * include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
+   * include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateKeyResponse>
    */
@@ -53,7 +53,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name for the new key. The system will generate the version name for the new
    * key.
    * @param kty The type of key to create. For valid values, see JsonWebKeyType. Possible values
-   * include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
+   * include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    * @param callback The callback
    */
   createKey(
@@ -67,7 +67,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name for the new key. The system will generate the version name for the new
    * key.
    * @param kty The type of key to create. For valid values, see JsonWebKeyType. Possible values
-   * include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
+   * include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -584,7 +584,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param [options] The optional parameters
    * @returns Promise<Models.EncryptResponse>
@@ -595,14 +595,14 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?: Models.KeyVaultClientEncryptOptionalParams
+    options?: coreHttp.RequestOptionsBase
   ): Promise<Models.EncryptResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param callback The callback
    */
@@ -619,7 +619,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param options The optional parameters
    * @param callback The callback
@@ -630,7 +630,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options: Models.KeyVaultClientEncryptOptionalParams,
+    options: coreHttp.RequestOptionsBase,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): void;
   encrypt(
@@ -639,9 +639,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?:
-      | Models.KeyVaultClientEncryptOptionalParams
-      | coreHttp.ServiceCallback<Models.KeyOperationResult>,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
     callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): Promise<Models.EncryptResponse> {
     return this.sendOperationRequest(
@@ -670,7 +668,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param [options] The optional parameters
    * @returns Promise<Models.DecryptResponse>
@@ -681,14 +679,14 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?: Models.KeyVaultClientDecryptOptionalParams
+    options?: coreHttp.RequestOptionsBase
   ): Promise<Models.DecryptResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param callback The callback
    */
@@ -705,7 +703,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param options The optional parameters
    * @param callback The callback
@@ -716,7 +714,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options: Models.KeyVaultClientDecryptOptionalParams,
+    options: coreHttp.RequestOptionsBase,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): void;
   decrypt(
@@ -725,9 +723,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?:
-      | Models.KeyVaultClientDecryptOptionalParams
-      | coreHttp.ServiceCallback<Models.KeyOperationResult>,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
     callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): Promise<Models.DecryptResponse> {
     return this.sendOperationRequest(
@@ -934,7 +930,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param [options] The optional parameters
    * @returns Promise<Models.WrapKeyResponse>
@@ -945,14 +941,14 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?: Models.KeyVaultClientWrapKeyOptionalParams
+    options?: coreHttp.RequestOptionsBase
   ): Promise<Models.WrapKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param callback The callback
    */
@@ -969,7 +965,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param options The optional parameters
    * @param callback The callback
@@ -980,7 +976,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options: Models.KeyVaultClientWrapKeyOptionalParams,
+    options: coreHttp.RequestOptionsBase,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): void;
   wrapKey(
@@ -989,9 +985,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?:
-      | Models.KeyVaultClientWrapKeyOptionalParams
-      | coreHttp.ServiceCallback<Models.KeyOperationResult>,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
     callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): Promise<Models.WrapKeyResponse> {
     return this.sendOperationRequest(
@@ -1019,7 +1013,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param [options] The optional parameters
    * @returns Promise<Models.UnwrapKeyResponse>
@@ -1030,14 +1024,14 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?: Models.KeyVaultClientUnwrapKeyOptionalParams
+    options?: coreHttp.RequestOptionsBase
   ): Promise<Models.UnwrapKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param callback The callback
    */
@@ -1054,7 +1048,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key.
    * @param keyVersion The version of the key.
    * @param algorithm algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256',
-   * 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * 'RSA1_5'
    * @param value
    * @param options The optional parameters
    * @param callback The callback
@@ -1065,7 +1059,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options: Models.KeyVaultClientUnwrapKeyOptionalParams,
+    options: coreHttp.RequestOptionsBase,
     callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): void;
   unwrapKey(
@@ -1074,9 +1068,7 @@ class KeyVaultClient extends KeyVaultClientContext {
     keyVersion: string,
     algorithm: Models.JsonWebKeyEncryptionAlgorithm,
     value: Uint8Array,
-    options?:
-      | Models.KeyVaultClientUnwrapKeyOptionalParams
-      | coreHttp.ServiceCallback<Models.KeyOperationResult>,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
     callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
   ): Promise<Models.UnwrapKeyResponse> {
     return this.sendOperationRequest(
@@ -1507,10 +1499,7 @@ const encryptOperationSpec: coreHttp.OperationSpec = {
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
-      value: "value",
-      iv: ["options", "iv"],
-      aad: ["options", "aad"],
-      tag: ["options", "tag"]
+      value: "value"
     },
     mapper: {
       ...Mappers.KeyOperationsParameters,
@@ -1536,10 +1525,7 @@ const decryptOperationSpec: coreHttp.OperationSpec = {
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
-      value: "value",
-      iv: ["options", "iv"],
-      aad: ["options", "aad"],
-      tag: ["options", "tag"]
+      value: "value"
     },
     mapper: {
       ...Mappers.KeyOperationsParameters,
@@ -1618,10 +1604,7 @@ const wrapKeyOperationSpec: coreHttp.OperationSpec = {
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
-      value: "value",
-      iv: ["options", "iv"],
-      aad: ["options", "aad"],
-      tag: ["options", "tag"]
+      value: "value"
     },
     mapper: {
       ...Mappers.KeyOperationsParameters,
@@ -1647,10 +1630,7 @@ const unwrapKeyOperationSpec: coreHttp.OperationSpec = {
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
-      value: "value",
-      iv: ["options", "iv"],
-      aad: ["options", "aad"],
-      tag: ["options", "tag"]
+      value: "value"
     },
     mapper: {
       ...Mappers.KeyOperationsParameters,

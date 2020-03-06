@@ -15,5 +15,3 @@ export interface ParsedKeyVaultEntityIdentifier {
    */
   name: string;
 }
-
-

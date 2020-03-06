@@ -497,24 +497,6 @@ export const KeyOperationsParameters: coreHttp.CompositeMapper = {
         type: {
           name: "Base64Url"
         }
-      },
-      iv: {
-        serializedName: "iv",
-        type: {
-          name: "Base64Url"
-        }
-      },
-      aad: {
-        serializedName: "aad",
-        type: {
-          name: "Base64Url"
-        }
-      },
-      tag: {
-        serializedName: "tag",
-        type: {
-          name: "Base64Url"
-        }
       }
     }
   }

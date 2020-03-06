@@ -19,7 +19,7 @@ export interface JsonWebKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
   kty?: JsonWebKeyType;
   keyOps?: string[];
@@ -226,7 +226,7 @@ export interface KeyProperties {
   exportable?: boolean;
   /**
    * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
-   * 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
+   * 'RSA', 'RSA-HSM', 'oct'
    */
   keyType?: JsonWebKeyType;
   /**
@@ -250,7 +250,7 @@ export interface KeyProperties {
 export interface KeyCreateParameters {
   /**
    * The type of key to create. For valid values, see JsonWebKeyType. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    */
   kty: JsonWebKeyType;
   /**
@@ -297,24 +297,10 @@ export interface KeyImportParameters {
  */
 export interface KeyOperationsParameters {
   /**
-   * algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5',
-   * 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW'
+   * algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
    */
   algorithm: JsonWebKeyEncryptionAlgorithm;
   value: Uint8Array;
-  /**
-   * Initialization vector for symmetric algorithms.
-   */
-  iv?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
-   * algorithms.
-   */
-  aad?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated algorithm.
-   */
-  tag?: Uint8Array;
 }
 
 /**
@@ -557,82 +543,6 @@ export interface KeyVaultClientGetKeysOptionalParams extends coreHttp.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface KeyVaultClientEncryptOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Initialization vector for symmetric algorithms.
-   */
-  iv?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
-   * algorithms.
-   */
-  aad?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated algorithm.
-   */
-  tag?: Uint8Array;
-}
-
-/**
- * Optional Parameters.
- */
-export interface KeyVaultClientDecryptOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Initialization vector for symmetric algorithms.
-   */
-  iv?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
-   * algorithms.
-   */
-  aad?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated algorithm.
-   */
-  tag?: Uint8Array;
-}
-
-/**
- * Optional Parameters.
- */
-export interface KeyVaultClientWrapKeyOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Initialization vector for symmetric algorithms.
-   */
-  iv?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
-   * algorithms.
-   */
-  aad?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated algorithm.
-   */
-  tag?: Uint8Array;
-}
-
-/**
- * Optional Parameters.
- */
-export interface KeyVaultClientUnwrapKeyOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Initialization vector for symmetric algorithms.
-   */
-  iv?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
-   * algorithms.
-   */
-  aad?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated algorithm.
-   */
-  tag?: Uint8Array;
-}
-
-/**
- * Optional Parameters.
- */
 export interface KeyVaultClientGetDeletedKeysOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
@@ -643,11 +553,11 @@ export interface KeyVaultClientGetDeletedKeysOptionalParams extends coreHttp.Req
 
 /**
  * Defines values for JsonWebKeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
+export type JsonWebKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 /**
  * Defines values for JsonWebKeyCurveName.
@@ -692,21 +602,11 @@ export type JsonWebKeyOperation =
 
 /**
  * Defines values for JsonWebKeyEncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM',
- * 'A128KW', 'A192KW', 'A256KW'
+ * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyEncryptionAlgorithm =
-  | "RSA-OAEP"
-  | "RSA-OAEP-256"
-  | "RSA1_5"
-  | "A128GCM"
-  | "A192GCM"
-  | "A256GCM"
-  | "A128KW"
-  | "A192KW"
-  | "A256KW";
+export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 /**
  * Defines values for JsonWebKeySignatureAlgorithm.
