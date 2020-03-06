@@ -5,12 +5,12 @@ export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient
 export {
   AutocompleteRequest,
   AutocompleteOptions,
-  CountOptions,
+  CountDocumentsOptions,
   DeleteDocumentsOptions,
   GetDocumentOptions,
   IndexAction,
   ListSearchResultsPageSettings,
-  ModifyIndexOptions,
+  IndexDocuments,
   SearchDocumentsResult,
   SearchIterator,
   SearchOptions,
@@ -20,7 +20,7 @@ export {
   SuggestRequest,
   SuggestResult,
   SuggestOptions,
-  UpdateDocumentsOptions,
+  ModifyDocumentsOptions,
   UploadDocumentsOptions
 } from "./models";
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";

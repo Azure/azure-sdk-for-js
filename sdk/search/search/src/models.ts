@@ -14,7 +14,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 /**
  * Options for performing the count operation on the index.
  */
-export type CountOptions = OperationOptions;
+export type CountDocumentsOptions = OperationOptions;
 /**
  * Options for retrieving completion text for a partial searchText.
  */
@@ -42,7 +42,7 @@ export interface GetDocumentOptions<Fields> extends OperationOptions {
 /**
  * Options for the modify index batch operation.
  */
-export interface ModifyIndexOptions extends OperationOptions {
+export interface IndexDocuments extends OperationOptions {
   /**
    * If true, will cause this operation to throw if any document operation
    * in the batch did not succeed.
@@ -53,7 +53,7 @@ export interface ModifyIndexOptions extends OperationOptions {
 /**
  * Options for the upload documents operation.
  */
-export interface UploadDocumentsOptions extends ModifyIndexOptions {
+export interface UploadDocumentsOptions extends IndexDocuments {
   /**
    * If true, any documents in this batch will merge with existing documents
    * which have the same primary key.
@@ -64,7 +64,7 @@ export interface UploadDocumentsOptions extends ModifyIndexOptions {
 /**
  * Options for the update documents operation.
  */
-export interface UpdateDocumentsOptions extends ModifyIndexOptions {
+export interface ModifyDocumentsOptions extends IndexDocuments {
   /**
    * If true, any documents in this batch that do not exist on the server
    * will be treated as an upload instead of an update.
@@ -75,7 +75,7 @@ export interface UpdateDocumentsOptions extends ModifyIndexOptions {
 /**
  * Options for the delete documents operation.
  */
-export type DeleteDocumentsOptions = ModifyIndexOptions;
+export type DeleteDocumentsOptions = IndexDocuments;
 
 /**
  * Arguments for retrieving the next page of search results.

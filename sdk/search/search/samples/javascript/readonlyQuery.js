@@ -21,7 +21,7 @@ async function main() {
   const credential = new SearchApiKeyCredential(apiKey);
   const client = new SearchIndexClient(endpoint, indexName, credential);
 
-  const count = await client.count();
+  const count = await client.countDocuments();
   console.log(`${count} documents in index ${client.indexName}`);
 
   const state = "FL";

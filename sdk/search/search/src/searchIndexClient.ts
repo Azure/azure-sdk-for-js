@@ -27,7 +27,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 import { deserialize, serialize } from "./serialization";
 import {
   IndexAction,
-  CountOptions,
+  CountDocumentsOptions,
   AutocompleteOptions,
   SearchOptions,
   SearchDocumentsResult,
@@ -37,9 +37,9 @@ import {
   SuggestOptions,
   SuggestDocumentsResult,
   GetDocumentOptions,
-  ModifyIndexOptions,
+  IndexDocuments,
   UploadDocumentsOptions,
-  UpdateDocumentsOptions,
+  ModifyDocumentsOptions,
   DeleteDocumentsOptions
 } from "./models";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
@@ -154,8 +154,8 @@ export class SearchIndexClient<T> {
    * Retrieves the number of documents in the index.
    * @param options Options to the count operation.
    */
-  public async count(options: CountOptions = {}): Promise<number> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-count", options);
+  public async countDocuments(options: CountDocumentsOptions = {}): Promise<number> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-countDocuments", options);
     try {
       const result = await this.client.documents.count(
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -380,11 +380,11 @@ export class SearchIndexClient<T> {
    * @param batch An array of actions to perform on the index.
    * @param options Additional options.
    */
-  public async modifyIndex(
+  public async indexDocuments(
     batch: IndexAction<T>[],
-    options: ModifyIndexOptions = {}
+    options: IndexDocuments = {}
   ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-modifyIndex", options);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-indexDocuments", options);
     try {
       const result = await this.client.documents.index(
         { actions: serialize(batch) },
@@ -425,7 +425,7 @@ export class SearchIndexClient<T> {
     });
 
     try {
-      return await this.modifyIndex(batch, updatedOptions);
+      return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -443,12 +443,12 @@ export class SearchIndexClient<T> {
    * @param documents The updated documents.
    * @param options Additional options.
    */
-  public async updateDocuments(
+  public async modifyDocuments(
     documents: T[],
-    options: UpdateDocumentsOptions = {}
+    options: ModifyDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const actionType = options.uploadIfNotExists ? "mergeOrUpload" : "merge";
-    const { span, updatedOptions } = createSpan("SearchIndexClient-updateDocuments", options);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-modifyDocuments", options);
 
     const batch = documents.map<IndexAction<T>>((doc) => {
       return {
@@ -458,7 +458,7 @@ export class SearchIndexClient<T> {
     });
 
     try {
-      return await this.modifyIndex(batch, updatedOptions);
+      return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -490,7 +490,7 @@ export class SearchIndexClient<T> {
     });
 
     try {
-      return await this.modifyIndex(batch, updatedOptions);
+      return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
