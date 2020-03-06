@@ -8,13 +8,11 @@ import {
   MessagingError,
   ContextWithSettlement,
   ReceivedMessage,
-  ServiceBusClientOptions,
   ServiceBusClient
 } from "../../src";
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
 import * as dotenv from "dotenv";
-import { ServiceBusSenderClient } from "../../src/serviceBusSenderClient";
 import { ReceiverClientTypeForUser } from "../../src/serviceBusReceiverClient";
 import { Sender } from "../../src/sender";
 import { CreateSessionReceiverOptions } from "../../src/models";
@@ -22,6 +20,12 @@ dotenv.config();
 
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 const env = getEnvVars();
+
+export interface TestClients {
+  senderClient: Sender;
+  receiverClient: ReceiverClientTypeForUser;
+  serviceBusClient: ServiceBusClient;
+}
 
 export class TestMessage {
   static sessionId: string = "my-session";
@@ -166,14 +170,11 @@ async function manageResourcesAndCreateClients(
   },
   connectionString: string,
   receiveMode: "peekLock" | "receiveAndDelete",
-  senderOptions?: ServiceBusClientOptions,
-  receiverOptions?: ServiceBusClientOptions & CreateSessionReceiverOptions,
   // If freshResource flag is false, sender/receiver clients are provided without creating a new resource
   freshResource: boolean = true
-): Promise<{
-  senderClient: ServiceBusSenderClient;
-  receiverClient: ReceiverClientTypeForUser;
-}> {
+): Promise<TestClients> {
+  const serviceBusClient = new ServiceBusClient(connectionString);
+
   const prefix = entity.partitioned ? "partitioned-" : "unpartitioned-";
   const suffix = entity.session ? "-sessions" : "";
   let auth: any;
@@ -218,54 +219,32 @@ async function manageResourcesAndCreateClients(
   const returnReceiverClient = () => {
     if (entity.session) {
       if (receiveMode === "peekLock") {
-        return new ServiceBusReceiverClient(
-          auth,
-          receiveMode,
-          {
-            id: TestMessage.sessionId,
-            maxSessionAutoRenewLockDurationInSeconds:
-              receiverOptions?.maxSessionAutoRenewLockDurationInSeconds
-          },
-          receiverOptions
-        );
+        return serviceBusClient.createSessionReceiver(auth, receiveMode, TestMessage.sessionId);
       } else {
-        return new ServiceBusReceiverClient(
-          auth,
-          receiveMode,
-          {
-            id: TestMessage.sessionId,
-            maxSessionAutoRenewLockDurationInSeconds:
-              receiverOptions?.maxSessionAutoRenewLockDurationInSeconds
-          },
-          receiverOptions
-        );
+        return serviceBusClient.createSessionReceiver(auth, receiveMode, TestMessage.sessionId);
       }
     } else {
       if (receiveMode === "peekLock") {
-        return new ServiceBusReceiverClient(auth, receiveMode, receiverOptions);
+        return serviceBusClient.createReceiver(auth, receiveMode);
       } else {
-        return new ServiceBusReceiverClient(auth, receiveMode, receiverOptions);
+        return serviceBusClient.createReceiver(auth, receiveMode);
       }
     }
   };
   return {
-    senderClient: new ServiceBusSenderClient(connectionString, entityName, senderOptions),
-    receiverClient: returnReceiverClient()
+    senderClient: serviceBusClient.createSender(entityName),
+    receiverClient: returnReceiverClient(),
+    serviceBusClient
   };
 }
 
 export async function getSenderReceiverClients(
   entityType: TestClientType,
   receiveMode: "peekLock" | "receiveAndDelete",
-  senderOptions?: ServiceBusClientOptions,
-  receiverOptions?: ServiceBusClientOptions & Session,
+  sessionOptions?: CreateSessionReceiverOptions,
   // If freshResource flag is false, sender/receiver clients are provided without creating a new resource
   freshResource: boolean = true
-): Promise<{
-  senderClient: Sender;
-  receiverClient: ReceiverClientTypeForUser;
-  serviceBusClient: ServiceBusClient;
-}> {
+): Promise<TestClients> {
   const connectionString = env[EnvVarNames.SERVICEBUS_CONNECTION_STRING];
   let type: "queue" | "subscription";
   let partitioned: boolean;
@@ -344,8 +323,6 @@ export async function getSenderReceiverClients(
     },
     connectionString,
     receiveMode,
-    senderOptions,
-    receiverOptions,
     freshResource
   );
 }
@@ -384,8 +361,7 @@ export async function purgeEntity(
   sessionId: string | undefined = undefined
 ): Promise<void> {
   return purge(
-    (await getSenderReceiverClients(entityType, "peekLock", undefined, { id: sessionId }, false))
-      .receiverClient
+    (await getSenderReceiverClients(entityType, "peekLock", undefined, false)).receiverClient
   );
 }
 

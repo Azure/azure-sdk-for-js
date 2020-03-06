@@ -53,9 +53,11 @@ async function beforeEachTest(
   testClientType: TestClientType,
   sessionId: string | undefined
 ): Promise<void> {
-  const clients = await getSenderReceiverClients(testClientType, "peekLock", undefined, {
-    id: sessionId
-  });
+  // TODO: I don't think this test passed before - we weren't using the passed in session ID at all.
+  // const clients = await getSenderReceiverClients(testClientType, "peekLock", undefined, {
+  //   id: sessionId
+  // });
+  const clients = await getSenderReceiverClients(testClientType, "peekLock");
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient as SessionReceiver<"peekLock">;
 
@@ -88,15 +90,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     should.equal(msgs.length, 0, "Unexpected number of messages received");
 
     await receiverClient.close();
-    receiverClient = (
-      await getSenderReceiverClients(
-        testClientType,
-        "peekLock",
-        undefined,
-        { id: undefined },
-        false
-      )
-    ).receiverClient as SessionReceiver<"peekLock">;
+    receiverClient = (await getSenderReceiverClients(testClientType, "peekLock", undefined, false))
+      .receiverClient as SessionReceiver<"peekLock">;
 
     batch = await receiverClient.receiveBatch(1);
     msgs = batch.messages;
@@ -152,15 +147,8 @@ describe("SessionReceiver with invalid sessionId", function(): void {
     should.equal(receivedMsgs.length, 0, `Expected 0, received ${receivedMsgs.length} messages`);
     await receiverClient.close();
 
-    receiverClient = (
-      await getSenderReceiverClients(
-        testClientType,
-        "peekLock",
-        undefined,
-        { id: undefined },
-        false
-      )
-    ).receiverClient as SessionReceiver<"peekLock">;
+    receiverClient = (await getSenderReceiverClients(testClientType, "peekLock", undefined, false))
+      .receiverClient as SessionReceiver<"peekLock">;
     receivedMsgs = [];
     receiverClient.subscribe(
       {
@@ -259,15 +247,8 @@ describe("SessionReceiver with no sessionId", function(): void {
     await batch.context.complete(msgs[0]);
     await receiverClient.close();
 
-    receiverClient = (
-      await getSenderReceiverClients(
-        testClientType,
-        "peekLock",
-        undefined,
-        { id: undefined },
-        false
-      )
-    ).receiverClient as SessionReceiver<"peekLock">;
+    receiverClient = (await getSenderReceiverClients(testClientType, "peekLock", undefined, false))
+      .receiverClient as SessionReceiver<"peekLock">;
 
     batch = await receiverClient.receiveBatch(2);
     msgs = batch.messages;
@@ -349,15 +330,8 @@ describe("SessionReceiver with empty string as sessionId", function(): void {
     await senderClient.send(testMessagesWithDifferentSessionIds[0]);
     await senderClient.send(testMessagesWithDifferentSessionIds[1]);
 
-    receiverClient = (
-      await getSenderReceiverClients(
-        testClientType,
-        "peekLock",
-        undefined,
-        { id: undefined },
-        false
-      )
-    ).receiverClient as SessionReceiver<"peekLock">;
+    receiverClient = (await getSenderReceiverClients(testClientType, "peekLock", undefined, false))
+      .receiverClient as SessionReceiver<"peekLock">;
     const batch = await receiverClient.receiveBatch(2);
     const msgs = batch.messages;
 
@@ -420,15 +394,8 @@ describe("Session State", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await senderClient.send(testMessage);
 
-    receiverClient = (
-      await getSenderReceiverClients(
-        testClientType,
-        "peekLock",
-        undefined,
-        { id: undefined },
-        false
-      )
-    ).receiverClient as SessionReceiver<"peekLock">;
+    receiverClient = (await getSenderReceiverClients(testClientType, "peekLock", undefined, false))
+      .receiverClient as SessionReceiver<"peekLock">;
 
     let batch = await receiverClient.receiveBatch(2);
     let msgs = batch.messages;
@@ -447,15 +414,8 @@ describe("Session State", function(): void {
 
     await receiverClient.close();
 
-    receiverClient = (
-      await getSenderReceiverClients(
-        testClientType,
-        "peekLock",
-        undefined,
-        { id: undefined },
-        false
-      )
-    ).receiverClient as SessionReceiver<"peekLock">;
+    receiverClient = (await getSenderReceiverClients(testClientType, "peekLock", undefined, false))
+      .receiverClient as SessionReceiver<"peekLock">;
     batch = await receiverClient.receiveBatch(2);
     msgs = batch.messages;
 
@@ -510,15 +470,8 @@ describe("Peek session", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await senderClient.send(testMessage);
 
-    receiverClient = (
-      await getSenderReceiverClients(
-        testClientType,
-        "peekLock",
-        undefined,
-        { id: useSessionId ? testMessage.sessionId : undefined },
-        false
-      )
-    ).receiverClient as SessionReceiver<"peekLock">;
+    receiverClient = (await getSenderReceiverClients(testClientType, "peekLock", undefined, false))
+      .receiverClient as SessionReceiver<"peekLock">;
 
     // At this point AMQP receiver link has not been established.
     // peek() will not establish the link if sessionId was provided

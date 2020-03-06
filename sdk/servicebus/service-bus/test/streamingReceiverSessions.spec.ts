@@ -339,15 +339,8 @@ describe("Sessions Streaming - Abandon message", function(): void {
     }
 
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-    receiverClient = (
-      await getSenderReceiverClients(
-        testClientType,
-        "peekLock",
-        undefined,
-        { id: TestMessage.sessionId },
-        false
-      )
-    ).receiverClient;
+    receiverClient = (await getSenderReceiverClients(testClientType, "peekLock", undefined, false))
+      .receiverClient;
 
     const batch = await receiverClient.receiveBatch(1);
     const receivedMsgs = batch.messages;

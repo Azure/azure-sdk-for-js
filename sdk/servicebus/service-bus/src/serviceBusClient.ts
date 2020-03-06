@@ -28,13 +28,15 @@ export class ServiceBusClient {
    *
    * @param connectionString A connection string for Azure Service Bus.
    * NOTE: this connection string can contain an EntityPath, which is ignored.
+   * @param options Options for the service bus client.
    */
-  constructor(connectionString: string);
+  constructor(connectionString: string, options?: ServiceBusClientOptions);
   /**
    *
    * @param host The hostname of your Azure Service Bus.
    * @param tokenCredential A valid TokenCredential for Service Bus or a
    * Service Bus entity.
+   * @param options Options for the service bus client.
    */
   constructor(
     hostName: string,
