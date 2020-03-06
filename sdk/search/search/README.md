@@ -109,7 +109,7 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-const searchResults = client.search({ searchText: "wifi -luxury"});
+const searchResults = await client.search({ searchText: "wifi -luxury"});
 for await (const result of searchResults.results) {
   console.log(result);
 }
@@ -126,7 +126,7 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-const searchResults = client.search({
+const searchResults = await client.search({
   searchText: 'category:budget AND "recently renovated"^3',
   queryType: "full",
   searchMode: "all"
@@ -159,7 +159,7 @@ const client = new SearchIndexClient<Hotel>(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-const searchResults = client.search({
+const searchResults = await client.search({
   searchText: "wifi -luxury",
   // Only fields in Hotel can be added to this array.
   // TS will complain if one is misspelled.
@@ -188,7 +188,7 @@ const client = new SearchIndexClient(
 
 const baseRateMax = 200;
 const ratingMin = 4;
-const searchResults = client.search({
+const searchResults = await client.search({
   searchText: "WiFi",
   filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
   orderBy: ["Rating desc"],
