@@ -377,7 +377,6 @@ export async function purge(receiverClient: ReceiverClientTypeForUser): Promise<
           );
         }
       }
-      await receiverClient.close();
     }
   }
 }
@@ -390,10 +389,11 @@ export async function purgeEntity(
   entityType: TestClientType,
   sessionId: string | undefined = undefined
 ): Promise<void> {
-  return purge(
-    (await getSenderReceiverClients(entityType, "peekLock", undefined, { id: sessionId }, false))
-      .receiverClient
-  );
+  const newReceiverClient = (
+    await getSenderReceiverClients(entityType, "peekLock", undefined, { id: sessionId }, false)
+  ).receiverClient;
+  await purge(newReceiverClient);
+  await newReceiverClient.close();
 }
 
 /**
