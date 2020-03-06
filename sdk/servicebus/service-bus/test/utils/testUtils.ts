@@ -160,6 +160,13 @@ export enum TestClientType {
   TopicFilterTestSubscription
 }
 
+export function isSessionfulEntity(clientType: TestClientType) {
+  return (
+    clientType >= TestClientType.PartitionedQueueWithSessions &&
+    clientType <= TestClientType.UnpartitionedSubscriptionWithSessions
+  );
+}
+
 async function manageResourcesAndCreateClients(
   entity: { type: "queue" | "subscription" } & {
     session: boolean;
@@ -223,7 +230,7 @@ async function manageResourcesAndCreateClients(
           auth,
           receiveMode,
           {
-            id: TestMessage.sessionId,
+            id: receiverOptions?.id,
             maxSessionAutoRenewLockDurationInSeconds:
               receiverOptions?.maxSessionAutoRenewLockDurationInSeconds
           },
@@ -234,7 +241,7 @@ async function manageResourcesAndCreateClients(
           auth,
           receiveMode,
           {
-            id: TestMessage.sessionId,
+            id: receiverOptions?.id,
             maxSessionAutoRenewLockDurationInSeconds:
               receiverOptions?.maxSessionAutoRenewLockDurationInSeconds
           },
