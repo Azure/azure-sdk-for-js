@@ -177,62 +177,102 @@ async function manageResourcesAndCreateClients(
 
   const prefix = entity.partitioned ? "partitioned-" : "unpartitioned-";
   const suffix = entity.session ? "-sessions" : "";
-  let auth: any;
-  let entityName: string;
+  let entityName: string | { topic: string; subscription: string };
+
   if (entity.type === "queue") {
-    const queueName = prefix + "queue" + suffix;
+    entityName = prefix + "queue" + suffix;
     if (freshResource) {
-      await recreateQueue(queueName, {
+      await recreateQueue(entityName, {
         lockDuration: defaultLockDuration,
         enableBatchedOperations: true,
         enablePartitioning: entity.partitioned,
         requiresSession: entity.session
       });
     }
-    auth = {
-      connectionString,
-      queueName: queueName
-    };
-    entityName = queueName;
   } else {
-    const topicName = prefix + "topic" + suffix;
-    const subscriptionName = prefix + "topic-subscription" + suffix;
+    entityName = {
+      topic: prefix + "topic" + suffix,
+      subscription: prefix + "topic-subscription" + suffix
+    };
+
     if (freshResource) {
-      await recreateTopic(topicName, {
+      await recreateTopic(entityName.topic, {
         enablePartitioning: entity.partitioned,
         enableBatchedOperations: true
       });
-      await recreateSubscription(topicName, subscriptionName, {
+      await recreateSubscription(entityName.topic, entityName.subscription, {
         lockDuration: defaultLockDuration,
         enableBatchedOperations: true,
         requiresSession: entity.session
       });
     }
-    auth = {
-      connectionString,
-      topicName: topicName,
-      subscriptionName: subscriptionName
-    };
-    entityName = topicName;
   }
 
   const returnReceiverClient = () => {
     if (entity.session) {
       if (receiveMode === "peekLock") {
-        return serviceBusClient.createSessionReceiver(auth, receiveMode, TestMessage.sessionId);
+        if (typeof entityName === "string") {
+          return serviceBusClient.createSessionReceiver(
+            entityName,
+            "peekLock",
+            TestMessage.sessionId
+          );
+        } else {
+          return serviceBusClient.createSessionReceiver(
+            entityName.topic,
+            entityName.subscription,
+            "peekLock",
+            TestMessage.sessionId
+          );
+        }
       } else {
-        return serviceBusClient.createSessionReceiver(auth, receiveMode, TestMessage.sessionId);
+        if (typeof entityName === "string") {
+          return serviceBusClient.createSessionReceiver(
+            entityName,
+            "receiveAndDelete",
+            TestMessage.sessionId
+          );
+        } else {
+          return serviceBusClient.createSessionReceiver(
+            entityName.topic,
+            entityName.subscription,
+            "receiveAndDelete",
+            TestMessage.sessionId
+          );
+        }
       }
     } else {
       if (receiveMode === "peekLock") {
-        return serviceBusClient.createReceiver(auth, receiveMode);
+        if (typeof entityName === "string") {
+          return serviceBusClient.createReceiver(entityName, "peekLock");
+        } else {
+          return serviceBusClient.createReceiver(
+            entityName.topic,
+            entityName.subscription,
+            "peekLock"
+          );
+        }
       } else {
-        return serviceBusClient.createReceiver(auth, receiveMode);
+        if (typeof entityName === "string") {
+          return serviceBusClient.createReceiver(entityName, "receiveAndDelete");
+        } else {
+          return serviceBusClient.createReceiver(
+            entityName.topic,
+            entityName.subscription,
+            "receiveAndDelete"
+          );
+        }
       }
     }
   };
+
+  const senderClient =
+    typeof entityName === "string"
+      ? serviceBusClient.createSender(entityName)
+      : serviceBusClient.createSender(entityName.topic);
+
   return {
-    senderClient: serviceBusClient.createSender(entityName),
+    senderClient: senderClient,
     receiverClient: returnReceiverClient(),
     serviceBusClient
   };
