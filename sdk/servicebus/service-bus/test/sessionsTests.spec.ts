@@ -295,7 +295,6 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(TestClientType.PartitionedQueueWithSessions, sessionId);
-    await purge(receiverClient);
     await testComplete_batching(TestClientType.PartitionedQueueWithSessions);
   });
 
@@ -303,7 +302,6 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions, sessionId);
-    await purge(receiverClient);
     await testComplete_batching(TestClientType.PartitionedQueueWithSessions);
   });
 
@@ -311,7 +309,6 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, sessionId);
-    await purge(receiverClient);
     await testComplete_batching(TestClientType.UnpartitionedQueueWithSessions);
   });
 
@@ -319,7 +316,6 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions, sessionId);
-    await purge(receiverClient);
     await testComplete_batching(TestClientType.UnpartitionedSubscriptionWithSessions);
   });
 });
