@@ -148,14 +148,14 @@ export interface SearchRequest<Fields> {
    */
   minimumCoverage?: number;
   /**
-   * The comma-separated list of OData $orderby expressions by which to sort the results. Each
+   * The list of OData $orderby expressions by which to sort the results. Each
    * expression can be either a field name or a call to either the geo.distance() or the
    * search.score() functions. Each expression can be followed by asc to indicate ascending, or
    * desc to indicate descending. The default is ascending order. Ties will be broken by the match
    * scores of documents. If no $orderby is specified, the default sort order is descending by
    * document match score. There can be at most 32 $orderby clauses.
    */
-  orderBy?: string;
+  orderBy?: string[];
   /**
    * A value that specifies the syntax of the search query. The default is 'simple'. Use 'full' if
    * your query uses the Lucene query syntax. Possible values include: 'simple', 'full'
@@ -305,14 +305,14 @@ export interface SuggestRequest<Fields> {
    */
   minimumCoverage?: number;
   /**
-   * The comma-separated list of OData $orderby expressions by which to sort the results. Each
+   * The list of OData $orderby expressions by which to sort the results. Each
    * expression can be either a field name or a call to either the geo.distance() or the
    * search.score() functions. Each expression can be followed by asc to indicate ascending, or
    * desc to indicate descending. The default is ascending order. Ties will be broken by the match
    * scores of documents. If no $orderby is specified, the default sort order is descending by
    * document match score. There can be at most 32 $orderby clauses.
    */
-  orderBy?: string;
+  orderBy?: string[];
   /**
    * The search text to use to suggest documents. Must be at least 1 character, and no more than
    * 100 characters.

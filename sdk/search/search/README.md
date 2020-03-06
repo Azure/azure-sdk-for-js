@@ -189,7 +189,7 @@ const ratingMin = 4;
 const iterator = client.listSearchResults({
   searchText: "WiFi",
   filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
-  orderBy: "Rating desc",
+  orderBy: ["Rating desc"],
   select: ["HotelId", "HotelName", "Rating"]
 });
 for await (const result of iterator) {

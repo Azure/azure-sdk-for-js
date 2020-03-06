@@ -218,10 +218,11 @@ export class SearchIndexClient<T> {
     options: SearchOptions<Fields> = {}
   ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, ...nonFieldOptions } = restOptions;
+    const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
     const fullOptions: SearchRequest = {
       searchFields: this.convertSearchFields<Fields>(searchFields),
       select: this.convertSelect<Fields>(select),
+      orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions
     };
 
@@ -307,10 +308,11 @@ export class SearchIndexClient<T> {
     options: SuggestOptions<Fields>
   ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, ...nonFieldOptions } = restOptions;
+    const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
     const fullOptions: SuggestRequest = {
       searchFields: this.convertSearchFields<Fields>(searchFields),
       select: this.convertSelect<Fields>(select),
+      orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions
     };
 
@@ -530,5 +532,12 @@ export class SearchIndexClient<T> {
       return searchFields.join(",");
     }
     return searchFields;
+  }
+
+  private convertOrderBy(orderBy?: string[]): string | undefined {
+    if (orderBy) {
+      return orderBy.join(",");
+    }
+    return orderBy;
   }
 }

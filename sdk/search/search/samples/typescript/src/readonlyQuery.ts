@@ -60,7 +60,7 @@ export async function main() {
   const iterator = await client.listSearchResults({
     searchText: "WiFi",
     filter: odata`Address/StateProvince eq ${state} and Address/Country eq ${country}`,
-    orderBy: "Rating desc",
+    orderBy: ["Rating desc"],
     select: ["HotelId", "HotelName", "Rating"]
   });
   for await (const result of iterator) {

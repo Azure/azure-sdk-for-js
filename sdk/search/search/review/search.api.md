@@ -162,7 +162,7 @@ export interface SearchRequest<Fields> {
     highlightPreTag?: string;
     includeTotalResultCount?: boolean;
     minimumCoverage?: number;
-    orderBy?: string;
+    orderBy?: string[];
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -197,7 +197,7 @@ export interface SuggestRequest<Fields> {
     highlightPostTag?: string;
     highlightPreTag?: string;
     minimumCoverage?: number;
-    orderBy?: string;
+    orderBy?: string[];
     searchFields?: Fields[];
     searchText: string;
     select?: Fields[];
