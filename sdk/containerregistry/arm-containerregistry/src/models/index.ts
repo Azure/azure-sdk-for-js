@@ -157,7 +157,7 @@ export interface OperationMetricSpecificationDefinition {
 }
 
 /**
- * The definition of Azure Monitoring metrics list.
+ * The definition of Azure Monitoring list.
  */
 export interface OperationServiceSpecificationDefinition {
   /**
@@ -208,7 +208,7 @@ export interface Sku {
 /**
  * The status of an Azure resource at the time the operation was called.
  */
-export interface Status1 {
+export interface Status {
   /**
    * The short label for the status.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -290,7 +290,7 @@ export interface NetworkRuleSet {
 export interface QuarantinePolicy {
   /**
    * The value that indicates whether the policy is enabled or not. Possible values include:
-   * 'enabled', 'disabled'
+   * 'enabled', 'disabled'. Default value: 'disabled'.
    */
   status?: PolicyStatus;
 }
@@ -300,12 +300,12 @@ export interface QuarantinePolicy {
  */
 export interface TrustPolicy {
   /**
-   * The type of trust policy. Possible values include: 'Notary'
+   * The type of trust policy. Possible values include: 'Notary'. Default value: 'Notary'.
    */
   type?: TrustPolicyType;
   /**
    * The value that indicates whether the policy is enabled or not. Possible values include:
-   * 'enabled', 'disabled'
+   * 'enabled', 'disabled'. Default value: 'disabled'.
    */
   status?: PolicyStatus;
 }
@@ -315,7 +315,8 @@ export interface TrustPolicy {
  */
 export interface RetentionPolicy {
   /**
-   * The number of days to retain manifest before it expires.
+   * The number of days to retain an untagged manifest after which it gets purged. Default value:
+   * 7.
    */
   days?: number;
   /**
@@ -325,7 +326,7 @@ export interface RetentionPolicy {
   readonly lastUpdatedTime?: Date;
   /**
    * The value that indicates whether the policy is enabled or not. Possible values include:
-   * 'enabled', 'disabled'
+   * 'enabled', 'disabled'. Default value: 'disabled'.
    */
   status?: PolicyStatus;
 }
@@ -405,7 +406,7 @@ export interface Registry extends Resource {
    * The status of the container registry at the time the operation was called.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: Status1;
+  readonly status?: Status;
   /**
    * The value that indicates whether the admin user is enabled. Default value: false.
    */
@@ -536,7 +537,7 @@ export interface Replication extends Resource {
    * The status of the replication at the time the operation was called.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: Status1;
+  readonly status?: Status;
 }
 
 /**
@@ -870,6 +871,59 @@ export interface Event extends EventInfo {
 }
 
 /**
+ * The agentpool that has the ARM resource and properties.
+ * The agentpool will have all information to create an agent pool.
+ */
+export interface AgentPool extends Resource {
+  /**
+   * The count of agent machine
+   */
+  count?: number;
+  /**
+   * The Tier of agent machine
+   */
+  tier?: string;
+  /**
+   * The OS of agent machine. Possible values include: 'Windows', 'Linux'
+   */
+  os?: OS;
+  /**
+   * The Virtual Network Subnet Resource Id of the agent machine
+   */
+  virtualNetworkSubnetResourceId?: string;
+  /**
+   * The provisioning state of this agent pool. Possible values include: 'Creating', 'Updating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * The parameters for updating an agent pool.
+ */
+export interface AgentPoolUpdateParameters {
+  /**
+   * The count of agent machine
+   */
+  count?: number;
+  /**
+   * The ARM resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * The QueueStatus of Agent Pool
+ */
+export interface AgentPoolQueueStatus {
+  /**
+   * The number of pending runs in the queue
+   */
+  count?: number;
+}
+
+/**
  * Contains the possible cases for RunRequest.
  */
 export type RunRequestUnion = RunRequest | DockerBuildRequest | FileTaskRunRequest | TaskRunRequest | EncodedTaskRunRequest;
@@ -887,6 +941,10 @@ export interface RunRequest {
    * false.
    */
   isArchiveEnabled?: boolean;
+  /**
+   * The dedicated agent pool for the run.
+   */
+  agentPoolName?: string;
 }
 
 /**
@@ -1049,6 +1107,10 @@ export interface Run extends ProxyResource {
    */
   runType?: RunType;
   /**
+   * The dedicated agent pool for the run.
+   */
+  agentPoolName?: string;
+  /**
    * The time the run was scheduled.
    */
   createTime?: Date;
@@ -1171,6 +1233,10 @@ export interface RunFilter {
    * The name of the task that the run corresponds to.
    */
   taskName?: string;
+  /**
+   * The name of the agent pool that the run corresponds to.
+   */
+  agentPoolName?: string;
 }
 
 /**
@@ -1231,6 +1297,58 @@ export interface IdentityProperties {
    * providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    */
   userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
+}
+
+/**
+ * The task run that has the ARM resource and properties.
+ * The task run will have the information of request and result of a run.
+ */
+export interface TaskRun extends Resource {
+  /**
+   * Identity for the resource.
+   */
+  identity?: IdentityProperties;
+  /**
+   * The provisioning state of this task run. Possible values include: 'Creating', 'Updating',
+   * 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The request (parameters) for the run
+   */
+  runRequest?: RunRequestUnion;
+  /**
+   * The result of this task run
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runResult?: Run;
+  /**
+   * How the run should be forced to rerun even if the run request configuration has not changed
+   */
+  forceUpdateTag?: string;
+}
+
+/**
+ * The parameters for updating a task run.
+ */
+export interface TaskRunUpdateParameters {
+  /**
+   * Identity for the resource.
+   */
+  identity?: IdentityProperties;
+  /**
+   * The request (parameters) for the new run
+   */
+  runRequest?: RunRequestUnion;
+  /**
+   * How the run should be forced to rerun even if the run request configuration has not changed
+   */
+  forceUpdateTag?: string;
+  /**
+   * The ARM resource tags.
+   */
+  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -1530,6 +1648,10 @@ export interface Task extends Resource {
    */
   agentConfiguration?: AgentProperties;
   /**
+   * The dedicated agent pool for the task.
+   */
+  agentPoolName?: string;
+  /**
    * Run timeout in seconds. Default value: 3600.
    */
   timeout?: number;
@@ -1749,6 +1871,10 @@ export interface TaskUpdateParameters {
    */
   agentConfiguration?: AgentProperties;
   /**
+   * The dedicated agent pool for the task.
+   */
+  agentPoolName?: string;
+  /**
    * Run timeout in seconds.
    */
   timeout?: number;
@@ -1768,6 +1894,30 @@ export interface TaskUpdateParameters {
    * The ARM resource tags.
    */
   tags?: { [propertyName: string]: string };
+}
+
+/**
+ * An error response from the Azure Container Registry service.
+ */
+export interface ErrorModel {
+  /**
+   * error code.
+   */
+  code: string;
+  /**
+   * error message.
+   */
+  message: string;
+}
+
+/**
+ * An error response from the Azure Container Registry service.
+ */
+export interface ErrorSchema {
+  /**
+   * Azure container registry build API error body.
+   */
+  error?: ErrorModel;
 }
 
 /**
@@ -1802,6 +1952,10 @@ export interface DockerBuildRequest {
    * false.
    */
   isArchiveEnabled?: boolean;
+  /**
+   * The dedicated agent pool for the run.
+   */
+  agentPoolName?: string;
   /**
    * The fully qualified image names including the repository and tag.
    */
@@ -1885,6 +2039,10 @@ export interface FileTaskRunRequest {
    */
   isArchiveEnabled?: boolean;
   /**
+   * The dedicated agent pool for the run.
+   */
+  agentPoolName?: string;
+  /**
    * The template/definition file path relative to the source.
    */
   taskFilePath: string;
@@ -1966,6 +2124,10 @@ export interface TaskRunRequest {
    */
   isArchiveEnabled?: boolean;
   /**
+   * The dedicated agent pool for the run.
+   */
+  agentPoolName?: string;
+  /**
    * The resource ID of task against which run has to be queued.
    */
   taskId: string;
@@ -1988,6 +2150,10 @@ export interface EncodedTaskRunRequest {
    * false.
    */
   isArchiveEnabled?: boolean;
+  /**
+   * The dedicated agent pool for the run.
+   */
+  agentPoolName?: string;
   /**
    * Base64 encoded value of the template/definition file content.
    */
@@ -2279,8 +2445,8 @@ export interface ScopeMap extends ProxyResource {
   readonly provisioningState?: ProvisioningState;
   /**
    * The list of scoped permissions for registry artifacts.
-   * E.g. repositories/repository-name/pull,
-   * repositories/repository-name/delete
+   * E.g. repositories/repository-name/content/read,
+   * repositories/repository-name/metadata/write
    */
   actions: string[];
 }
@@ -2299,6 +2465,23 @@ export interface ScopeMapUpdateParameters {
    * repositories/repository-name/delete
    */
   actions?: string[];
+}
+
+/**
+ * The Active Directory Object that will be used for authenticating the token of a container
+ * registry.
+ */
+export interface ActiveDirectoryObject {
+  /**
+   * The user/group/application object ID for Active Directory Object that will be used for
+   * authenticating the token of a container registry.
+   */
+  objectId?: string;
+  /**
+   * The tenant ID of user/group/application object Active Directory Object that will be used for
+   * authenticating the token of a container registry.
+   */
+  tenantId?: string;
 }
 
 /**
@@ -2329,7 +2512,7 @@ export interface TokenCertificate {
  */
 export interface TokenPassword {
   /**
-   * The password created datetime of the password.
+   * The creation datetime of the password.
    */
   creationTime?: Date;
   /**
@@ -2337,7 +2520,8 @@ export interface TokenPassword {
    */
   expiry?: Date;
   /**
-   * The password name "password" or "password2". Possible values include: 'password1', 'password2'
+   * The password name "password1" or "password2". Possible values include: 'password1',
+   * 'password2'
    */
   name?: TokenPasswordName;
   /**
@@ -2351,6 +2535,7 @@ export interface TokenPassword {
  * The properties of the credentials that can be used for authenticating the token.
  */
 export interface TokenCredentialsProperties {
+  activeDirectoryObject?: ActiveDirectoryObject;
   certificates?: TokenCertificate[];
   passwords?: TokenPassword[];
 }
@@ -2375,10 +2560,6 @@ export interface Token extends ProxyResource {
    */
   scopeMapId?: string;
   /**
-   * The user/group/application object ID for which the token has to be created.
-   */
-  objectId?: string;
-  /**
    * The credentials that can be used for authenticating the token.
    */
   credentials?: TokenCredentialsProperties;
@@ -2386,7 +2567,7 @@ export interface Token extends ProxyResource {
    * The status of the token example enabled or disabled. Possible values include: 'enabled',
    * 'disabled'
    */
-  status?: Status;
+  status?: TokenStatus;
 }
 
 /**
@@ -2401,7 +2582,7 @@ export interface TokenUpdateParameters {
    * The status of the token example enabled or disabled. Possible values include: 'enabled',
    * 'disabled'
    */
-  status?: Status;
+  status?: TokenStatus;
   /**
    * The credentials that can be used for authenticating the token.
    */
@@ -2419,11 +2600,10 @@ export interface GenerateCredentialsParameters {
   tokenId?: string;
   /**
    * The expiry date of the generated credentials after which the credentials become invalid.
-   * Default value: new Date('9999-12-31T15:59:59.9999999-08:00').
    */
   expiry?: Date;
   /**
-   * Specifies name of the password which should be regenerated if any -- password or password2.
+   * Specifies name of the password which should be regenerated if any -- password1 or password2.
    * Possible values include: 'password1', 'password2'
    */
   name?: TokenPasswordName;
@@ -2527,10 +2707,34 @@ export interface EventListResult extends Array<Event> {
 
 /**
  * @interface
+ * The collection of agent pools.
+ * @extends Array<AgentPool>
+ */
+export interface AgentPoolListResult extends Array<AgentPool> {
+  /**
+   * The URI that can be used to request the next set of paged results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Collection of runs.
  * @extends Array<Run>
  */
 export interface RunListResult extends Array<Run> {
+  /**
+   * The URI that can be used to request the next set of paged results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The collection of task runs.
+ * @extends Array<TaskRun>
+ */
+export interface TaskRunListResult extends Array<TaskRun> {
   /**
    * The URI that can be used to request the next set of paged results.
    */
@@ -2670,6 +2874,14 @@ export type WebhookStatus = 'enabled' | 'disabled';
 export type WebhookAction = 'push' | 'delete' | 'quarantine' | 'chart_push' | 'chart_delete';
 
 /**
+ * Defines values for OS.
+ * Possible values include: 'Windows', 'Linux'
+ * @readonly
+ * @enum {string}
+ */
+export type OS = 'Windows' | 'Linux';
+
+/**
  * Defines values for RunStatus.
  * Possible values include: 'Queued', 'Started', 'Running', 'Succeeded', 'Failed', 'Canceled',
  * 'Error', 'Timeout'
@@ -2685,14 +2897,6 @@ export type RunStatus = 'Queued' | 'Started' | 'Running' | 'Succeeded' | 'Failed
  * @enum {string}
  */
 export type RunType = 'QuickBuild' | 'QuickRun' | 'AutoBuild' | 'AutoRun';
-
-/**
- * Defines values for OS.
- * Possible values include: 'Windows', 'Linux'
- * @readonly
- * @enum {string}
- */
-export type OS = 'Windows' | 'Linux';
 
 /**
  * Defines values for Architecture.
@@ -2816,12 +3020,12 @@ export type TokenCertificateName = 'certificate1' | 'certificate2';
 export type TokenPasswordName = 'password1' | 'password2';
 
 /**
- * Defines values for Status.
+ * Defines values for TokenStatus.
  * Possible values include: 'enabled', 'disabled'
  * @readonly
  * @enum {string}
  */
-export type Status = 'enabled' | 'disabled';
+export type TokenStatus = 'enabled' | 'disabled';
 
 /**
  * Contains response data for the checkNameAvailability operation.
@@ -3584,6 +3788,166 @@ export type WebhooksListEventsNextResponse = EventListResult & {
 };
 
 /**
+ * Contains response data for the get operation.
+ */
+export type AgentPoolsGetResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type AgentPoolsCreateResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type AgentPoolsUpdateResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type AgentPoolsListResponse = AgentPoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPoolListResult;
+    };
+};
+
+/**
+ * Contains response data for the getQueueStatus operation.
+ */
+export type AgentPoolsGetQueueStatusResponse = AgentPoolQueueStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPoolQueueStatus;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type AgentPoolsBeginCreateResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type AgentPoolsBeginUpdateResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type AgentPoolsListNextResponse = AgentPoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPoolListResult;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type RunsListResponse = RunListResult & {
@@ -3700,6 +4064,166 @@ export type RunsListNextResponse = RunListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: RunListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type TaskRunsGetResponse = TaskRun & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRun;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type TaskRunsCreateResponse = TaskRun & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRun;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type TaskRunsUpdateResponse = TaskRun & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRun;
+    };
+};
+
+/**
+ * Contains response data for the getDetails operation.
+ */
+export type TaskRunsGetDetailsResponse = TaskRun & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRun;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type TaskRunsListResponse = TaskRunListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRunListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type TaskRunsBeginCreateResponse = TaskRun & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRun;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type TaskRunsBeginUpdateResponse = TaskRun & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRun;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type TaskRunsListNextResponse = TaskRunListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TaskRunListResult;
     };
 };
 

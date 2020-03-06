@@ -20,6 +20,21 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
+export const agentPoolName: msRest.OperationURLParameter = {
+  parameterPath: "agentPoolName",
+  mapper: {
+    required: true,
+    serializedName: "agentPoolName",
+    constraints: {
+      MaxLength: 20,
+      MinLength: 3,
+      Pattern: /^[a-zA-Z0-9-]*$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -140,7 +155,7 @@ export const scopeMapName: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 50,
       MinLength: 5,
-      Pattern: /^[a-zA-Z0-9-]*$/
+      Pattern: /^[a-zA-Z0-9-_]*$/
     },
     type: {
       name: "String"
@@ -167,6 +182,16 @@ export const taskName: msRest.OperationURLParameter = {
       MinLength: 5,
       Pattern: /^[a-zA-Z0-9-_]*$/
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const taskRunName: msRest.OperationURLParameter = {
+  parameterPath: "taskRunName",
+  mapper: {
+    required: true,
+    serializedName: "taskRunName",
     type: {
       name: "String"
     }
