@@ -975,64 +975,66 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
   });
 });
 
-describe("Sessions Streaming - Not receive messages after receiver is closed", function(): void {
-  afterEach(async () => {
-    await afterEachTest();
-  });
+// Cannot close the receiver manually with the current 2-client API
+// Re-visit after the top level client is implemented
+// describe("Sessions Streaming - Not receive messages after receiver is closed", function(): void {
+//   afterEach(async () => {
+//     await afterEachTest();
+//   });
 
-  async function testReceiveMessages(): Promise<void> {
-    const totalNumOfMessages = 5;
-    let num = 1;
-    const messages = [];
-    while (num <= totalNumOfMessages) {
-      const message = {
-        messageId: num,
-        body: "test",
-        label: `${num}`,
-        sessionId: TestMessage.sessionId,
-        partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
-      };
-      num++;
-      messages.push(message);
-    }
-    await senderClient.sendBatch(messages);
+//   async function testReceiveMessages(): Promise<void> {
+//     const totalNumOfMessages = 5;
+//     let num = 1;
+//     const messages = [];
+//     while (num <= totalNumOfMessages) {
+//       const message = {
+//         messageId: num,
+//         body: "test",
+//         label: `${num}`,
+//         sessionId: TestMessage.sessionId,
+//         partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
+//       };
+//       num++;
+//       messages.push(message);
+//     }
+//     await senderClient.sendBatch(messages);
 
-    const receivedMsgs: ReceivedMessage[] = [];
+//     const receivedMsgs: ReceivedMessage[] = [];
 
-    receiverClient.subscribe(
-      {
-        async processMessage(brokeredMessage: ReceivedMessage, context: ContextWithSettlement) {
-          receivedMsgs.push(brokeredMessage);
-          await context.complete(brokeredMessage);
-        },
-        processError
-      },
-      {
-        autoComplete: false
-      }
-    );
-    await receiverClient.close();
+//     receiverClient.subscribe(
+//       {
+//         async processMessage(brokeredMessage: ReceivedMessage, context: ContextWithSettlement) {
+//           receivedMsgs.push(brokeredMessage);
+//           await context.complete(brokeredMessage);
+//         },
+//         processError
+//       },
+//       {
+//         autoComplete: false
+//       }
+//     );
+//     await receiverClient.close();
 
-    await delay(5000);
-    should.equal(
-      receivedMsgs.length,
-      0,
-      `Expected 0 messages, but received ${receivedMsgs.length}`
-    );
-    await testPeekMsgsLength(receiverClient, totalNumOfMessages);
-  }
+//     await delay(5000);
+//     should.equal(
+//       receivedMsgs.length,
+//       0,
+//       `Expected 0 messages, but received ${receivedMsgs.length}`
+//     );
+//     await testPeekMsgsLength(receiverClient, totalNumOfMessages);
+//   }
 
-  it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-    await testReceiveMessages();
-  });
+//   it("UnPartitioned Queue: Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+//     await testReceiveMessages();
+//   });
 
-  it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, "receiveAndDelete");
-    await testReceiveMessages();
-  });
-});
+//   it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed #RunInBrowser", async function(): Promise<
+//     void
+//   > {
+//     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, "receiveAndDelete");
+//     await testReceiveMessages();
+//   });
+// });
