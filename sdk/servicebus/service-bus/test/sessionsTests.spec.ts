@@ -423,16 +423,6 @@ describe("Session State", function(): void {
     const testMessage = TestMessage.getSessionSample();
     await senderClient.send(testMessage);
 
-    receiverClient = (
-      await getSenderReceiverClients(
-        testClientType,
-        "peekLock",
-        undefined,
-        { id: undefined },
-        false
-      )
-    ).receiverClient as SessionReceiver<"peekLock">;
-
     let batch = await receiverClient.receiveBatch(2);
     let msgs = batch.messages;
 
