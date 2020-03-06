@@ -13,12 +13,12 @@ import * as coreHttp from "@azure/core-http";
 const packageName = "@azure/ai-text-analytics";
 const packageVersion = "1.0.0-preview.3";
 
-export class TextAnalyticsClientContext extends coreHttp.ServiceClient {
+export class GeneratedClientContext extends coreHttp.ServiceClient {
   endpoint: string;
   credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
 
   /**
-   * Initializes a new instance of the TextAnalyticsClientContext class.
+   * Initializes a new instance of the GeneratedClientContext class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    * https://westus.api.cognitive.microsoft.com).
    * @param credentials Subscription credentials which uniquely identify client subscription.
