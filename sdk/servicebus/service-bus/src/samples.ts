@@ -1,7 +1,4 @@
-import {
-  ReceivedMessage,
-  ContextWithSettlement as ContextWithSettlementMethods
-} from "./models";
+import { ReceivedMessage, ContextWithSettlement as ContextWithSettlementMethods } from "./models";
 import { env } from "process";
 import * as dotenv from "dotenv";
 import { ServiceBusClient } from "./serviceBusClient";
@@ -110,7 +107,7 @@ export async function iterateMessageFromSubscription() {
 
   let numIntervalsWithoutMessage = 0;
 
-  for await (const { message, context } of receiverClient.iterateMessages()) {
+  for await (const { message, context } of receiverClient.getMessageIterator()) {
     if (message == null) {
       // (no message arrived in our maximum wait time)
       console.log(`No message arrived within our max wait time`);
@@ -142,12 +139,16 @@ export async function receiveMessagesUsingReceiveAndDeleteAndSessions() {
   const serviceBusClient = new ServiceBusClient(testParams.connectionString);
 
   // note we have a new method - "createSessionReceiver"
-  const receiver = serviceBusClient.createSessionReceiver(testParams.withSessions.queueName, "receiveAndDelete", "helloworld");
+  const receiver = serviceBusClient.createSessionReceiver(
+    testParams.withSessions.queueName,
+    "receiveAndDelete",
+    "helloworld"
+  );
 
   // the user can also say "just give me the next session from the server"
   // const nextUnlockedSession  = serviceBusClient.createSessionReceiver(testParams.withSessions.queueName, "receiveAndDelete", "");
 
-  // can be manually triggered by the user but we do this 
+  // can be manually triggered by the user but we do this
   // in the background on their behalf.
   // await receiver.renewSessionLock();
 

@@ -13,6 +13,7 @@ import {
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
+import { OperationOptions } from "@azure/core-auth";
 
 /**
  * The Sender class can be used to send messages, schedule messages to be sent at a later time
@@ -73,7 +74,8 @@ export class Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while sending messages to the service.
    */
-  async send(message: SendableMessageInfo): Promise<void> {
+  async send(message: SendableMessageInfo, options?: OperationOptions): Promise<void> {
+    // TODO: use options and abort signal
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
     const sender = MessageSender.create(this._context);
@@ -95,7 +97,8 @@ export class Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while sending messages to the service.
    */
-  async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
+  async sendBatch(messages: SendableMessageInfo[], options?: OperationOptions): Promise<void> {
+    // TODO: use options and abort signal
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
     if (!Array.isArray(messages)) {
@@ -119,8 +122,10 @@ export class Sender {
    */
   async scheduleMessage(
     scheduledEnqueueTimeUtc: Date,
-    message: SendableMessageInfo
+    message: SendableMessageInfo,
+    options?: OperationOptions
   ): Promise<Long> {
+    // TODO: use options and abort signal
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -151,7 +156,8 @@ export class Sender {
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
-    messages: SendableMessageInfo[]
+    messages: SendableMessageInfo[],
+    options?: OperationOptions
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
@@ -174,7 +180,7 @@ export class Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while canceling a scheduled message.
    */
-  async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
+  async cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -197,7 +203,10 @@ export class Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while canceling scheduled messages.
    */
-  async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
+  async cancelScheduledMessages(
+    sequenceNumbers: Long[],
+    options?: OperationOptions
+  ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,

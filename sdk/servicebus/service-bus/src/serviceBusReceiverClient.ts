@@ -9,7 +9,7 @@ import {
   MessageAndContext,
   ReceivedMessage,
   ReceiveBatchOptions,
-  IterateMessagesOptions,
+  GetMessageIteratorOptions,
   SubscribeOptions
 } from "./models";
 import { convertToInternalReceiveMode } from "./constructorHelpers";
@@ -30,9 +30,9 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
   subscribe(handlers: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
-   * @param options Options for iterateMessages.
+   * @param options Options for getMessageIterator.
    */
-  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
+  getMessageIterator(options?: GetMessageIteratorOptions): MessageIterator<ContextType<LockModeT>>;
 
   /**
    * Receives, at most, `maxMessages` worth of messages.
@@ -103,9 +103,9 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
-   * @param options Options for iterateMessages.
+   * @param options Options for getMessageIterator.
    */
-  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
+  getMessageIterator(options?: GetMessageIteratorOptions): MessageIterator<ContextType<LockModeT>>;
 
   /**
    * Receives, at most, `maxMessages` worth of messages.
@@ -362,14 +362,14 @@ export class ReceiverClientImplementation {
    * Gets an iterator of messages that also contains a context that can be used to
    * settle messages.
    */
-  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<"peekLock">>;
+  getMessageIterator(options?: GetMessageIteratorOptions): MessageIterator<ContextType<"peekLock">>;
   /**
    * Gets an iterator of messages
    */
-  iterateMessages(
-    options?: IterateMessagesOptions
+  getMessageIterator(
+    options?: GetMessageIteratorOptions
   ): MessageIterator<ContextType<"receiveAndDelete">>;
-  iterateMessages():
+  getMessageIterator():
     | MessageIterator<ContextType<"peekLock">>
     | MessageIterator<ContextType<"receiveAndDelete">> {
     // TODO: this needs to be more configurable - at least with timeouts, etc...

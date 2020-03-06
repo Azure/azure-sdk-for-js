@@ -128,7 +128,7 @@ describe("track2", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiverClient.iterateMessages()) {
+      for await (const { message, context } of receiverClient.getMessageIterator()) {
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
           console.log(`No message arrived within our max wait time`);
@@ -197,7 +197,7 @@ describe("track2", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiver.iterateMessages()) {
+      for await (const { message, context } of receiver.getMessageIterator()) {
         assert.notOk((context as any).complete);
 
         if (message == null) {
@@ -235,7 +235,7 @@ describe("track2", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiver.iterateMessages()) {
+      for await (const { message, context } of receiver.getMessageIterator()) {
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
           console.log(`No message arrived within our max wait time`);
@@ -342,7 +342,7 @@ describe("track2", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiverClient.iterateMessages()) {
+      for await (const { message, context } of receiverClient.getMessageIterator()) {
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
           console.log(`No message arrived within our max wait time`);
@@ -387,7 +387,7 @@ describe("track2", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiver.iterateMessages()) {
+      for await (const { message, context } of receiver.getMessageIterator()) {
         assert.notOk((context as any).complete);
 
         if (message == null) {

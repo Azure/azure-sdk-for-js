@@ -58,7 +58,7 @@ export { ServiceBusClient } from "./serviceBusClient";
 export {
   ReceivedMessage,
   ContextWithSettlement,
-  IterateMessagesOptions,
+  GetMessageIteratorOptions,
   ReceiveBatchOptions,
   SubscribeOptions,
   MessageHandlerOptions,
@@ -66,5 +66,8 @@ export {
   ContextType,
   Closeable,
   MessageAndContext,
-  MessageIterator
+  MessageIterator,
+  CreateSessionReceiverOptions
 } from "./models";
+
+export { Sender } from "./sender";
