@@ -815,9 +815,8 @@ describe("Streaming - User Error", function(): void {
     const receivedMsgs: ReceivedMessage[] = [];
     receiverClient.subscribe({
       async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-        context.complete(msg);
+        await context.complete(msg);
         receivedMsgs.push(msg);
-        console.log(`body - ${msg.body}, delivery count - ${msg.deliveryCount}`);
         throw new Error(errorMessage);
       },
       processError
@@ -840,7 +839,7 @@ describe("Streaming - User Error", function(): void {
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
   }
 
-  it.only("UnPartitioned Queue: onError handler is called for user error #RunInBrowser", async function(): Promise<
+  it("UnPartitioned Queue: onError handler is called for user error #RunInBrowser", async function(): Promise<
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
