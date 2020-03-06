@@ -214,7 +214,7 @@ describe("Certificates client - create, read, update and delete", () => {
       base64CER,
       PEMPublicCertificate.toString()
         .split(/-----(BEGIN|END) CERTIFICATE-----/g)[2]
-        .split("\n")
+        .split(/\r?\n/)
         .join("")
     );
 
