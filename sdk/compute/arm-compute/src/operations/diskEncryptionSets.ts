@@ -297,7 +297,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.diskEncryptionSetName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -321,7 +321,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -344,7 +344,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -369,7 +369,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.diskEncryptionSetName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -404,7 +404,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.diskEncryptionSetName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -439,7 +439,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.diskEncryptionSetName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
