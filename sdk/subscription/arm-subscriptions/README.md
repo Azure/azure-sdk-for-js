@@ -34,7 +34,7 @@ import { SubscriptionClient, SubscriptionModels, SubscriptionMappers } from "@az
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new SubscriptionClient(creds, subscriptionId);
+  const client = new SubscriptionClient(creds);
   const subscriptionId = "testsubscriptionId";
   client.subscriptions.listLocations(subscriptionId).then((result) => {
     console.log("The result is:");
