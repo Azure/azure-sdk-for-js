@@ -30,7 +30,7 @@ directive:
   - from: swagger-document
     where: $.definitions.DocumentStatistics.properties.charactersCount
     transform: >
-      $["x-ms-client-name"] = "characterCount";
+      $["x-ms-client-name"] = "graphemeCount";
 ```
 
 ```yaml

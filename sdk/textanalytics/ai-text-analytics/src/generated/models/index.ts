@@ -115,7 +115,7 @@ export interface TextDocumentStatistics {
   /**
    * Number of text elements recognized in the document.
    */
-  characterCount: number;
+  graphemeCount: number;
   /**
    * Number of transactions for the document.
    */
