@@ -297,7 +297,7 @@ export interface TextDocumentInput {
 
 // @public
 export interface TextDocumentStatistics {
-    characterCount: number;
+    graphemeCount: number;
     transactionCount: number;
 }
 

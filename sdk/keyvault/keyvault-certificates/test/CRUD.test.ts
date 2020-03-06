@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import os from "os";
 import fs from "fs";
 import childProcess from "child_process";
 import * as assert from "assert";
@@ -197,7 +198,7 @@ describe("Certificates client - create, read, update and delete", () => {
     // Obtaining only the public certificate.
     // We send "-passin 'pass:'" because our self-signed certificate doesn't specify a password on its issuer.
     childProcess.execSync(
-      "openssl pkcs12 -in pkcs12.p12 -out pkcs12.crt.pem -clcerts -nokeys -passin 'pass:'"
+      "openssl pkcs12 -in pkcs12.p12 -out pkcs12.crt.pem -clcerts -nokeys -passin pass:"
     );
 
     // To generate a PEM private key out of a KeyVault Certificate
@@ -214,7 +215,7 @@ describe("Certificates client - create, read, update and delete", () => {
       base64CER,
       PEMPublicCertificate.toString()
         .split(/-----(BEGIN|END) CERTIFICATE-----/g)[2]
-        .split("\n")
+        .split(os.EOL)
         .join("")
     );
 

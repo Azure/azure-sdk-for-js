@@ -207,7 +207,7 @@ export const TextDocumentStatistics: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TextDocumentStatistics",
     modelProperties: {
-      characterCount: {
+      graphemeCount: {
         required: true,
         serializedName: "charactersCount",
         type: {
