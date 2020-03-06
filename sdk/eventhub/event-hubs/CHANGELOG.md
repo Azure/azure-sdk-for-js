@@ -2,8 +2,8 @@
 
 ## 5.0.2 (Unreleased)
 
-- Fixes an issue that caused `getPartitionIds`, `getEventHubProperties`,
-  and `getPartitionProperties` to throw an error when run against an
+- Fixes an issue that caused the `getPartitionIds`, `getEventHubProperties`,
+  and `getPartitionProperties` methods to throw an error when run against an
   Event Hub in Azure Stack.
   ([PR #7463](https://github.com/Azure/azure-sdk-for-js/pull/7463))
 
