@@ -183,7 +183,7 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
 export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
-export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
+export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey" | "import";
 
 // @public
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
