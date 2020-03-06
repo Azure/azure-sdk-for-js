@@ -21,6 +21,7 @@ export {
   MessageCountDetails,
   MigrationConfigProperties,
   NetworkRuleSet,
+  NetworkRuleSetListResult,
   NWRuleSetIpRules,
   NWRuleSetVirtualNetworkRules,
   PremiumMessagingRegions,
