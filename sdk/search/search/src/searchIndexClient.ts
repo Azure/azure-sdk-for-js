@@ -39,7 +39,7 @@ import {
   GetDocumentOptions,
   IndexDocuments,
   UploadDocumentsOptions,
-  ModifyDocumentsOptions,
+  MergeDocumentsOptions,
   DeleteDocumentsOptions
 } from "./models";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
@@ -443,12 +443,12 @@ export class SearchIndexClient<T> {
    * @param documents The updated documents.
    * @param options Additional options.
    */
-  public async modifyDocuments(
+  public async mergeDocuments(
     documents: T[],
-    options: ModifyDocumentsOptions = {}
+    options: MergeDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const actionType = options.uploadIfNotExists ? "mergeOrUpload" : "merge";
-    const { span, updatedOptions } = createSpan("SearchIndexClient-modifyDocuments", options);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-mergeDocuments", options);
 
     const batch = documents.map<IndexAction<T>>((doc) => {
       return {

@@ -100,7 +100,7 @@ export interface ListSearchResultsPageSettings {
 }
 
 // @public
-export interface ModifyDocumentsOptions extends IndexDocuments {
+export interface MergeDocumentsOptions extends IndexDocuments {
     uploadIfNotExists?: boolean;
 }
 
@@ -141,7 +141,7 @@ export class SearchIndexClient<T> {
     indexDocuments(batch: IndexAction<T>[], options?: IndexDocuments): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     listSearchResults<Fields extends keyof T>(options?: SearchOptions<Fields>): SearchIterator<Pick<T, Fields>>;
-    modifyDocuments(documents: T[], options?: ModifyDocumentsOptions): Promise<IndexDocumentsResult>;
+    mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     suggest<Fields extends keyof T = never>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }

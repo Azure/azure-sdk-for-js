@@ -390,7 +390,7 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>");
 );
 
-const updateResult = await client.modifyDocuments([
+const updateResult = await client.mergeDocuments([
   // JSON objects matching the shape of the client's index
   { ... },
   { ... },

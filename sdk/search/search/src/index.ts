@@ -20,7 +20,7 @@ export {
   SuggestRequest,
   SuggestResult,
   SuggestOptions,
-  ModifyDocumentsOptions,
+  MergeDocumentsOptions,
   UploadDocumentsOptions
 } from "./models";
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";

@@ -64,7 +64,7 @@ export interface UploadDocumentsOptions extends IndexDocuments {
 /**
  * Options for the update documents operation.
  */
-export interface ModifyDocumentsOptions extends IndexDocuments {
+export interface MergeDocumentsOptions extends IndexDocuments {
   /**
    * If true, any documents in this batch that do not exist on the server
    * will be treated as an upload instead of an update.
