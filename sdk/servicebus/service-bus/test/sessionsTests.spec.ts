@@ -67,7 +67,10 @@ async function beforeEachTest(
   }
 }
 
-async function afterEachTest(): Promise<void> {}
+async function afterEachTest(): Promise<void> {
+  await senderClient.close();
+  await receiverClient.close();
+}
 
 describe("SessionReceiver with invalid sessionId", function(): void {
   let sessionId: string;
