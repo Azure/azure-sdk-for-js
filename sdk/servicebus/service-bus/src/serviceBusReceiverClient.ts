@@ -17,6 +17,7 @@ import { RuleDescription, CorrelationFilter } from "./core/managementClient";
 import { ServiceBusMessage, ReceivedMessageInfo, ReceiveMode } from ".";
 import { ClientEntityContext } from "./clientEntityContext";
 import { InternalReceiver, InternalSessionReceiver } from "./internalReceivers";
+import { OperationOptions } from "@azure/core-auth";
 
 /**
  *A receiver client that handles sessions, including renewing the session lock.
@@ -45,12 +46,18 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
   ): Promise<{ messages: ReceivedMessage[]; context: ContextType<LockModeT> }>;
-  receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
-  receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
+  receiveDeferredMessage(
+    sequenceNumber: Long,
+    options?: OperationOptions
+  ): Promise<ServiceBusMessage | undefined>;
+  receiveDeferredMessages(
+    sequenceNumbers: Long[],
+    options?: OperationOptions
+  ): Promise<ServiceBusMessage[]>;
   isReceivingMessages(): boolean;
   renewSessionLock(): Promise<Date>;
-  setState(state: any): Promise<void>;
-  getState(): Promise<any>;
+  setState(state: any, options?: OperationOptions): Promise<void>;
+  getState(options?: OperationOptions): Promise<any>;
   sessionId: string | undefined;
   sessionLockedUntilUtc: Date | undefined;
   getDeadLetterPath(): string;
@@ -118,8 +125,14 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
     options?: ReceiveBatchOptions
   ): Promise<{ messages: ReceivedMessage[]; context: ContextType<LockModeT> }>;
   renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
-  receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
-  receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
+  receiveDeferredMessage(
+    sequenceNumber: Long,
+    options?: OperationOptions
+  ): Promise<ServiceBusMessage | undefined>;
+  receiveDeferredMessages(
+    sequenceNumbers: Long[],
+    options?: OperationOptions
+  ): Promise<ServiceBusMessage[]>;
   isReceivingMessages(): boolean;
   getDeadLetterPath(): string;
 
@@ -420,11 +433,19 @@ export class ReceiverClientImplementation {
   //   return this._receiver.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
   // }
 
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+  async receiveDeferredMessage(
+    sequenceNumber: Long,
+    options?: OperationOptions
+  ): Promise<ServiceBusMessage | undefined> {
+    // TODO: use options
     return this._receiver.receiveDeferredMessage(sequenceNumber);
   }
 
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+  async receiveDeferredMessages(
+    sequenceNumbers: Long[],
+    options?: OperationOptions
+  ): Promise<ServiceBusMessage[]> {
+    // TODO: use options
     return this._receiver.receiveDeferredMessages(sequenceNumbers);
   }
 
