@@ -577,7 +577,7 @@ export interface FileSystemListPathsHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     requestId?: string;
     version?: string;
@@ -785,7 +785,7 @@ export interface Path {
     // (undocumented)
     contentLength?: number;
     // (undocumented)
-    eTag?: string;
+    etag?: string;
     // (undocumented)
     group?: string;
     // (undocumented)
@@ -831,7 +831,7 @@ export interface PathCreateHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     requestId?: string;
     version?: string;
@@ -909,7 +909,7 @@ export interface PathGetAccessControlHeaders {
     // (undocumented)
     date?: Date;
     // (undocumented)
-    eTag?: string;
+    etag?: string;
     // (undocumented)
     group?: string;
     // (undocumented)
@@ -1032,7 +1032,7 @@ export interface PathGetPropertiesHeadersModel {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     group?: string;
     lastModified?: Date;
     leaseDuration?: string;
@@ -1094,7 +1094,7 @@ export interface PathModel {
     // (undocumented)
     contentLength?: number;
     // (undocumented)
-    eTag?: string;
+    etag?: string;
     // (undocumented)
     group?: string;
     isDirectory?: boolean;
@@ -1146,7 +1146,7 @@ export interface PathRemoveHeaders {
     // (undocumented)
     date?: Date;
     // (undocumented)
-    eTag?: string;
+    etag?: string;
     // (undocumented)
     lastModified?: Date;
     // (undocumented)
@@ -1175,7 +1175,7 @@ export enum PathResourceType {
 export interface PathSetAccessControlHeaders {
     clientRequestId?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     requestId?: string;
     version?: string;
@@ -1296,7 +1296,7 @@ export interface PathUpdateHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
-    eTag?: string;
+    etag?: string;
     lastModified?: Date;
     properties?: string;
     requestId?: string;

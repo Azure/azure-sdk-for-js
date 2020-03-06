@@ -302,7 +302,7 @@ export interface Path {
   name?: string;
   isDirectory?: boolean;
   lastModified?: Date;
-  eTag?: string;
+  etag?: string;
   contentLength?: number;
   owner?: string;
   group?: string;
@@ -407,7 +407,7 @@ export interface PathGetAccessControlOptions extends CommonOptions {
 
 export interface PathGetAccessControlHeaders {
   date?: Date;
-  eTag?: string;
+  etag?: string;
   lastModified?: Date;
   owner?: string;
   group?: string;
@@ -553,7 +553,7 @@ export interface PathMoveOptions extends CommonOptions {
 
 export interface PathRemoveHeaders {
   date?: Date;
-  eTag?: string;
+  etag?: string;
   lastModified?: Date;
   requestId?: string;
   version?: string;
