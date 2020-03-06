@@ -309,7 +309,7 @@ describe("SessionReceiver with no sessionId", function(): void {
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, sessionId);
     await purge(receiverClient);
-    await testComplete_batching(TestClientType.PartitionedQueueWithSessions);
+    await testComplete_batching(TestClientType.UnpartitionedQueueWithSessions);
   });
 
   it("Unpartitioned Subscription: complete() removes message from random session", async function(): Promise<
