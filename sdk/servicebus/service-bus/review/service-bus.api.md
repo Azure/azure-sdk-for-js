@@ -155,16 +155,6 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
 }
 
 // @public
-export interface OnError {
-    (error: MessagingError | Error): void;
-}
-
-// @public
-export interface OnMessage {
-    (message: ServiceBusMessage): Promise<void>;
-}
-
-// @public
 export interface QueueDetails {
     accessedOn?: string;
     authorizationRules?: AuthorizationRule[];
