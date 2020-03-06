@@ -110,7 +110,7 @@ async function sendOrders(): Promise<void> {
       messageId: `messageId: ${Math.random()}`,
       correlationId: `${element.Priority}`,
       label: `${element.Color}`,
-      userProperties: {
+      properties: {
         color: `${element.Color}`,
         quantity: element.Quantity,
         priority: `${element.Priority}`
@@ -491,9 +491,9 @@ describe("Sql Filter - Send/Receive", function(): void {
     const dataLength = data.filter((x) => x.Color === "blue").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    if (receivedMsgs[0].userProperties) {
+    if (receivedMsgs[0].properties) {
       should.equal(
-        receivedMsgs[0].userProperties.priority,
+        receivedMsgs[0].properties.priority,
         "High",
         "Priority of the receivedMessage is different than expected"
       );
@@ -573,9 +573,9 @@ describe("Correlation Filter - Send/Receive", function(): void {
     const dataLength = data.filter((x) => x.Color === "blue").length;
     const receivedMsgs = await receiveOrders(subscriptionClient, dataLength);
 
-    if (receivedMsgs[0].userProperties) {
+    if (receivedMsgs[0].properties) {
       should.equal(
-        receivedMsgs[0].userProperties.priority,
+        receivedMsgs[0].properties.priority,
         "High",
         "Priority of the receivedMessage is different than expected"
       );

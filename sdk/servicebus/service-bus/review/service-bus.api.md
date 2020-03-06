@@ -264,15 +264,15 @@ export interface SendableMessageInfo {
     label?: string;
     messageId?: string | number | Buffer;
     partitionKey?: string;
+    properties?: {
+        [key: string]: any;
+    };
     replyTo?: string;
     replyToSessionId?: string;
     scheduledEnqueueTimeUtc?: Date;
     sessionId?: string;
     timeToLive?: number;
     to?: string;
-    userProperties?: {
-        [key: string]: any;
-    };
     viaPartitionKey?: string;
 }
 
@@ -338,6 +338,9 @@ export class ServiceBusMessage implements ReceivedMessageInfo {
     readonly lockToken?: string;
     messageId?: string | number | Buffer;
     partitionKey?: string;
+    properties?: {
+        [key: string]: any;
+    };
     replyTo?: string;
     replyToSessionId?: string;
     scheduledEnqueueTimeUtc?: Date;
@@ -345,9 +348,6 @@ export class ServiceBusMessage implements ReceivedMessageInfo {
     sessionId?: string;
     timeToLive?: number;
     to?: string;
-    userProperties?: {
-        [key: string]: any;
-    };
     viaPartitionKey?: string;
 }
 
