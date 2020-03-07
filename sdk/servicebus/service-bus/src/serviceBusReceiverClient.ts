@@ -298,7 +298,7 @@ export interface ServiceBusReceiverClient {
    * @param options Options for the client itself.
    */
   new (
-    queueAuths: QueueAuth,
+    queueAuth: QueueAuth,
     receiveMode: "receiveAndDelete",
     session: Session,
     options?: ServiceBusClientOptions
