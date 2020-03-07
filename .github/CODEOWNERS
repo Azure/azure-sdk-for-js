@@ -34,6 +34,8 @@
 /sdk/test-utils/ @HarshaNalluru @sadasant
 /sdk/textanalytics/ @xirzec @willmtemple
 
+/sdk/search/ @xirzec
+
 # API review files
 /sdk/**/review/*api.md @bterlson
 
