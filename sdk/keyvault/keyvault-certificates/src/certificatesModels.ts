@@ -78,6 +78,21 @@ export interface CertificateClientInterface {
 }
 
 /**
+ * The latest supported KeyVault service API version
+ */
+export const LATEST_API_VERSION = "7.1-preview";
+
+/**
+ * The optional parameters accepted by the KeyVault's KeyClient
+ */
+export interface CertificateClientOptions extends coreHttp.PipelineOptions {
+  /**
+   * The accepted versions of the KeyVault's service API.
+   */
+  apiVersion?: "7.0" | "7.1-preview";
+}
+
+/**
  * The key vault server error.
  */
 export interface CertificateOperationError {
@@ -468,6 +483,12 @@ export interface CertificateProperties {
    * Thumbprint of the certificate.
    */
   readonly x509Thumbprint?: Uint8Array;
+  /**
+   * The retention dates of the softDelete data.
+   * The value should be >=7 and <=90 when softDelete enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  recoverableDays?: number;
 }
 
 /**

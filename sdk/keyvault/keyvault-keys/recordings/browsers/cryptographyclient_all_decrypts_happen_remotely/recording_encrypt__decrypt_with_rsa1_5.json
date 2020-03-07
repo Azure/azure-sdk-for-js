@@ -4,7 +4,7 @@
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/create",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -13,7 +13,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:56 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:25 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -22,10 +22,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "a215a700-7302-4ad3-bd90-8b6ebae8f7bc",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "d401cab1-110a-4426-99b1-5ffd6295542e",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -40,31 +40,31 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:57 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:24 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - WUS ProdSlices",
-    "x-ms-request-id": "ac47aa66-fd43-4446-9ee1-07e43f424e00"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "48d4ed3a-56c6-4327-954a-c1a627161200"
    }
   },
   {
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/create",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "{\"kty\":\"RSA\"}",
    "status": 200,
-   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/a389e695efc64bbf97914caee2ec76c9\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"yugJ4-7G8fClOE7S_50VXoTZlcW-R6Hx6s9_zl26LC2LWnQRRsnBSaiqEgpc3YPERB6Y7q_nonSULAsKiir9xEbCBiXdeDqDIWCF_24QT6Jed_JP9MG4pJCBdRiC_l20sGMf6Cs94F4DnPGIpjjiAj6_iVhd8L7LDBScvd0-VgmxpjqgshHpJ45Zo0x3Jor__DaUE-71L3CxZLbG_gvZqjLmO_b2F11XQtrnr5TpE-kpwjFafAf4TLGsonTeX8UBYsW5F9dbJSQS5jD4WwZuZ1kUy1XUuLQpKKwi3Gmpu3sypnu_z3MdcMtEQAFlx-NTrWU4iMegEV1e3Ycm-HgyfQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1580502177,\"updated\":1580502177,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/b9059f35361c4523a50fc4a65de62e52\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"tCB0gkpf5IHu76in6PRElkvrHLE-4H9GLqWly_4n9QImC2rCoJAsB3kI6nwN48rqy6uR3IklreoWWJbhM6O2gDdqwaNcg7NgkfV7lahOoXa4VftHTllHUTb8mgkf3A3bgU-O3uKo0KTj8Wq560Sws92NKd2-dBeERUiscEQeUpUdCEEUUU4gRLxmDL8GLpyQc-020EwK2Z-Xj1sdch5mSYKq-kDtdMms8QpvOfjQdiF50yGakQIqrBFeOMrPPfjH-HlPHTsBHB2YLflKQhjOvit_hLESkKfsGOuxXXpgWYNLpfBwL0c_2355K8C1MW2WXin237qe7aKX_lPIIURoRw\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1583535145,\"updated\":1583535145,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "694",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:57 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:25 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -72,18 +72,18 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "98f70692-4c27-470d-8234-b33d0dfbffbe",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "cb2ae307-18d7-458e-a42b-d83ac61fb23a",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/a389e695efc64bbf97914caee2ec76c9/encrypt",
+   "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/b9059f35361c4523a50fc4a65de62e52/encrypt",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -92,7 +92,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:57 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:25 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -101,10 +101,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "2060e2a9-d01b-43be-a1da-b5e59f9fa5eb",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "e16c3c58-b025-4bdd-87c4-8e99ba3c0edf",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -119,31 +119,31 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:58 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:24 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - NCUS ProdSlices",
-    "x-ms-request-id": "6f14ce95-f05b-4901-9a56-aaaa3d570600"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "0e6c58f8-6079-4433-8425-74a559561000"
    }
   },
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/a389e695efc64bbf97914caee2ec76c9/encrypt",
+   "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/b9059f35361c4523a50fc4a65de62e52/encrypt",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "{\"alg\":\"RSA1_5\",\"value\":\"ZW5jcnlwdCAmIGRlY3J5cHQgd2l0aCBSU0ExXzU\"}",
    "status": 200,
-   "response": "{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/a389e695efc64bbf97914caee2ec76c9\",\"value\":\"NznRNbmJFXXfLWh40_glChTk3JKrXi6kqi0i0oMsjJvHfC9VFQPn6UPVSiL1K2b5FX49OWEahG3MDU49plr0BYGnGn_goiCxgkJSZHK_kuV-RAl1mVielEJjz0D2dYM88qqPXt3y7m_vKHTS08ZxFjjisHUdrxfJdVwgZxoAN5uoWCccSKdQPeEmwAXcRqjio2dSIe5IudIJRp-YmFDeqM06Ic6G8XUHs5vg4QfGvZ4j3hJctlKA83osG_nLHtMYJcDuZL-F0xc3WR3nbj4WF-FgX0aqaH7QPFqGooMZZGruGozTUnK3Y1FhbEbqPJfQv6nY4b3XWz68MXJHpcfzDQ\"}",
+   "response": "{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/b9059f35361c4523a50fc4a65de62e52\",\"value\":\"VwFsy5-buMS5Sm2bJYqAzunTp0wlvlY7NZxBABDYA3PPZ08JsEEOKZkOw0HE-9qMpb-drRgjTLsit97-B7TxpxWv_8LBunaVlwmHo_EozX1fx-D4abCuaBRT9qUslcggZl4g6DE2QYY3vTuJW1UVJkBlSsscbOpICm3S4qJVGEp41js472OXYtk39wUrXHdbsXzxjnEsUQTOU2EylIAJcvbVALfiVzo2BKWZOtzLHW_s2cPzRHdJc9XrIV1Y3KIz2GsEJddf37mawhz_DBwb8273OfdOS6BjQpdsOlY4BoLVscYs16Ww08ahYdCWYYYcFYOmOix6AxqgC-XdWavgYg\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "485",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:57 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:25 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -151,18 +151,18 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "fe241637-bf2f-4253-9b42-c6645563a0b6",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "a4dd07c2-557b-4b02-9136-d2a156410040",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/a389e695efc64bbf97914caee2ec76c9/decrypt",
+   "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/b9059f35361c4523a50fc4a65de62e52/decrypt",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -171,7 +171,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:57 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:25 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -180,10 +180,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "3d78f8d6-1d21-4b81-ab77-457efa147072",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "364d471a-c723-475e-b9c4-777ed7bf78eb",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -198,31 +198,31 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:58 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:25 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - SCUS ProdSlices",
-    "x-ms-request-id": "3e3db5e7-bf75-4127-9669-a3e84f2e0300"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "742202ab-8359-49f4-94b4-e3d412fb1300"
    }
   },
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/a389e695efc64bbf97914caee2ec76c9/decrypt",
+   "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test/b9059f35361c4523a50fc4a65de62e52/decrypt",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
-   "requestBody": "{\"alg\":\"RSA1_5\",\"value\":\"NznRNbmJFXXfLWh40_glChTk3JKrXi6kqi0i0oMsjJvHfC9VFQPn6UPVSiL1K2b5FX49OWEahG3MDU49plr0BYGnGn_goiCxgkJSZHK_kuV-RAl1mVielEJjz0D2dYM88qqPXt3y7m_vKHTS08ZxFjjisHUdrxfJdVwgZxoAN5uoWCccSKdQPeEmwAXcRqjio2dSIe5IudIJRp-YmFDeqM06Ic6G8XUHs5vg4QfGvZ4j3hJctlKA83osG_nLHtMYJcDuZL-F0xc3WR3nbj4WF-FgX0aqaH7QPFqGooMZZGruGozTUnK3Y1FhbEbqPJfQv6nY4b3XWz68MXJHpcfzDQ\"}",
+   "requestBody": "{\"alg\":\"RSA1_5\",\"value\":\"VwFsy5-buMS5Sm2bJYqAzunTp0wlvlY7NZxBABDYA3PPZ08JsEEOKZkOw0HE-9qMpb-drRgjTLsit97-B7TxpxWv_8LBunaVlwmHo_EozX1fx-D4abCuaBRT9qUslcggZl4g6DE2QYY3vTuJW1UVJkBlSsscbOpICm3S4qJVGEp41js472OXYtk39wUrXHdbsXzxjnEsUQTOU2EylIAJcvbVALfiVzo2BKWZOtzLHW_s2cPzRHdJc9XrIV1Y3KIz2GsEJddf37mawhz_DBwb8273OfdOS6BjQpdsOlY4BoLVscYs16Ww08ahYdCWYYYcFYOmOix6AxqgC-XdWavgYg\"}",
    "status": 200,
-   "response": "{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/a389e695efc64bbf97914caee2ec76c9\",\"value\":\"ZW5jcnlwdCAmIGRlY3J5cHQgd2l0aCBSU0ExXzU\"}",
+   "response": "{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/b9059f35361c4523a50fc4a65de62e52\",\"value\":\"ZW5jcnlwdCAmIGRlY3J5cHQgd2l0aCBSU0ExXzU\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "182",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:57 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:25 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -230,10 +230,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "9bdd05c7-788f-4f69-a352-317736c61a0c",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "71092f6d-6129-42aa-8211-fb9fb1dd60dd",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -241,7 +241,7 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -250,7 +250,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:57 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:25 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -259,10 +259,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "66b1435e-8ad1-43b7-8d84-230714e18cbb",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "fb9cee00-07d5-4ffc-867a-6b576eea78cd",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -277,31 +277,31 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:58 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:25 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - EUS ProdSlices",
-    "x-ms-request-id": "14543f29-fe32-4aa1-b9a0-51323dac0800"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "04d2ef9d-7b5f-4bd7-81fb-904691651100"
    }
   },
   {
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/keys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test\",\"deletedDate\":1580502178,\"scheduledPurgeDate\":1588278178,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/a389e695efc64bbf97914caee2ec76c9\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"yugJ4-7G8fClOE7S_50VXoTZlcW-R6Hx6s9_zl26LC2LWnQRRsnBSaiqEgpc3YPERB6Y7q_nonSULAsKiir9xEbCBiXdeDqDIWCF_24QT6Jed_JP9MG4pJCBdRiC_l20sGMf6Cs94F4DnPGIpjjiAj6_iVhd8L7LDBScvd0-VgmxpjqgshHpJ45Zo0x3Jor__DaUE-71L3CxZLbG_gvZqjLmO_b2F11XQtrnr5TpE-kpwjFafAf4TLGsonTeX8UBYsW5F9dbJSQS5jD4WwZuZ1kUy1XUuLQpKKwi3Gmpu3sypnu_z3MdcMtEQAFlx-NTrWU4iMegEV1e3Ycm-HgyfQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1580502177,\"updated\":1580502177,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test\",\"deletedDate\":1583535146,\"scheduledPurgeDate\":1591311146,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/b9059f35361c4523a50fc4a65de62e52\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"tCB0gkpf5IHu76in6PRElkvrHLE-4H9GLqWly_4n9QImC2rCoJAsB3kI6nwN48rqy6uR3IklreoWWJbhM6O2gDdqwaNcg7NgkfV7lahOoXa4VftHTllHUTb8mgkf3A3bgU-O3uKo0KTj8Wq560Sws92NKd2-dBeERUiscEQeUpUdCEEUUU4gRLxmDL8GLpyQc-020EwK2Z-Xj1sdch5mSYKq-kDtdMms8QpvOfjQdiF50yGakQIqrBFeOMrPPfjH-HlPHTsBHB2YLflKQhjOvit_hLESkKfsGOuxXXpgWYNLpfBwL0c_2355K8C1MW2WXin237qe7aKX_lPIIURoRw\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1583535145,\"updated\":1583535145,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "863",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:58 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:26 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -309,10 +309,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "809f8b6c-75c6-4950-b796-2d732e3a9838",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "e0143830-cc97-4c92-9f5f-f1bc3f4bc38f",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -320,7 +320,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -329,7 +329,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:58 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:26 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -338,10 +338,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "9abcadce-289f-4004-b8fa-50fc1ff33d9e",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "7a2d962a-9dd0-4ccd-b40a-338dd5c5c4fb",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -356,22 +356,22 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:59 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:25 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - SCUS ProdSlices",
-    "x-ms-request-id": "f3a91ad6-24fb-4df6-b9b6-0361d6e30200"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "ab2587d1-effb-4f04-8526-393f1c391300"
    }
   },
   {
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
@@ -380,7 +380,7 @@
     "cache-control": "no-cache",
     "content-length": "109",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:58 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:26 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -388,10 +388,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "997f7b09-1050-4833-a280-4f4914e42fcb",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "d9cec52d-0dbe-4885-b280-3354cb993339",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -399,7 +399,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -408,7 +408,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:58 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:26 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -417,10 +417,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "f3984483-fa0a-4138-ba31-9cbd65a62e79",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "3b135875-1bc8-4e5a-bf42-5bdbf810f1f8",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -435,22 +435,22 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:59 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:25 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - SCUS ProdSlices",
-    "x-ms-request-id": "c132bfc0-c23d-485f-8d6e-75bca9480300"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "b78575a5-f44d-4bad-a8b2-f899adce1000"
    }
   },
   {
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
@@ -459,7 +459,7 @@
     "cache-control": "no-cache",
     "content-length": "109",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:58 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:26 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -467,10 +467,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "9041d0fb-d232-43ae-8501-9c052d4198c9",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "d0935280-8e8d-4d6f-95df-51027167520a",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -478,7 +478,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -487,7 +487,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:01 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:28 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -496,10 +496,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "43216c84-60f3-44fa-80d1-50c2d0af65ae",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "0603d9d0-94d4-4096-909a-cc968917158c",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -514,22 +514,22 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:01 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:27 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - WUS ProdSlices",
-    "x-ms-request-id": "f55af0e4-afe4-4d22-b177-8caef26f5100"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "d3374d33-1129-4cb5-bc08-99361c5b1100"
    }
   },
   {
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
@@ -538,7 +538,7 @@
     "cache-control": "no-cache",
     "content-length": "109",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:01 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:28 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -546,10 +546,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "f580c821-7d4c-4986-9fb0-1f4d3737b4f5",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "83880559-ebd5-4c33-ae14-e7d93361f8a4",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -557,7 +557,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -566,7 +566,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:03 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:30 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -575,10 +575,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "827f6e46-ed85-4fdc-885f-d5572de1412e",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "37224238-ac30-4a66-a234-dd418f959f84",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -593,22 +593,22 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:04 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:31 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - SCUS ProdSlices",
-    "x-ms-request-id": "f3a91ad6-24fb-4df6-b9b6-0361bce40200"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "f3c2cd4e-738f-4671-b126-a280db4a1000"
    }
   },
   {
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
@@ -617,7 +617,7 @@
     "cache-control": "no-cache",
     "content-length": "109",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:04 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:30 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -625,10 +625,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "62e7bce6-e519-4a10-ac51-da248efb75a2",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "8ba8644d-c474-43a7-ada6-4aa2c2286c5e",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -636,7 +636,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -645,7 +645,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:06 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -654,10 +654,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "e2295998-46d8-42b5-abf3-44db009e7ab8",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "d6832c37-46a1-459e-afeb-8e8bb0dee31b",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -672,22 +672,22 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:06 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:33 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - NCUS ProdSlices",
-    "x-ms-request-id": "14719881-ed83-4758-aa47-a161146e0500"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "765435ef-7930-4fee-89ef-e311e0af1200"
    }
   },
   {
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
@@ -696,7 +696,7 @@
     "cache-control": "no-cache",
     "content-length": "109",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:06 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -704,10 +704,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "c1e9125f-bb5b-4061-9ad3-0e37dcd2dbfe",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "6bac1d22-9374-4314-b471-d42fd2fa486b",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -715,7 +715,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -724,7 +724,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:08 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:34 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -733,10 +733,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "85370da5-5adf-4a7d-b711-772d82f94350",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "b99f982c-d6d1-4470-a2cf-4b4427732fb3",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -751,22 +751,22 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:08 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:35 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - SCUS ProdSlices",
-    "x-ms-request-id": "3e3db5e7-bf75-4127-9669-a3e8d8300300"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "8cdbbafe-0a4e-4540-8521-621caf351000"
    }
   },
   {
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
@@ -775,7 +775,7 @@
     "cache-control": "no-cache",
     "content-length": "109",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:08 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:34 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -783,10 +783,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "bdc8ee27-7df6-49ab-ab3f-82ad0dc20f96",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "1fa0249a-b2c5-47e1-8050-7d4ba4e36b2c",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -794,7 +794,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -803,7 +803,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:10 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:36 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -812,10 +812,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "81869a4b-5440-4175-a87b-3312138c8e89",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "29b25f88-ccf3-4c08-93fe-485c36897e56",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -830,22 +830,22 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:11 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:37 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - SCUS ProdSlices",
-    "x-ms-request-id": "095f2845-2000-42d9-8f02-7d8f5e5d0300"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "765435ef-7930-4fee-89ef-e311aab01200"
    }
   },
   {
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
@@ -854,7 +854,7 @@
     "cache-control": "no-cache",
     "content-length": "109",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:11 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:37 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -862,10 +862,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "edeb8f73-3e9f-4b68-b066-7358ac559aa3",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "bece2d3c-c63d-4ee5-9a96-7e809f734410",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -873,7 +873,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -882,7 +882,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:13 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:39 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -891,10 +891,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "9f38a964-42dd-4043-9349-519eb9485b45",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "07644058-ecc0-4c52-8734-a8722180c341",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -909,31 +909,426 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:13 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:39 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - SCUS ProdSlices",
-    "x-ms-request-id": "9f145dc4-a682-4ace-8977-a60a57d00300"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "6de84a5b-7483-42d6-bdcd-1251a3f32d00"
    }
   },
   {
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: cryptography-client-test\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "109",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:39 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "397252ec-b5ed-47f3-9ba8-ea5059fa6d5e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "87",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:41 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "401",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "97dda0fa-a99d-4f7b-9598-6554e11fe182",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache, no-store",
+    "content-length": "1231",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:41 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "112c8974-824e-43ef-9f44-4de7f7292f00"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: cryptography-client-test\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "109",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:41 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "9e39d20d-256d-495f-839b-eeb45b257cd0",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "87",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:43 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "401",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "86060a3d-e1e3-41d5-8d2b-d77b4d71883d",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache, no-store",
+    "content-length": "1231",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:43 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "3595d074-640b-4a9b-a442-325cebc42c00"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: cryptography-client-test\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "109",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:43 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "b56cf7ca-d872-4d3b-add2-4b6bb785d363",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "87",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:45 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "401",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "de882874-6968-40e2-940f-6e3f04fde076",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache, no-store",
+    "content-length": "1231",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:45 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "04d2ef9d-7b5f-4bd7-81fb-904605681100"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: cryptography-client-test\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "109",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:45 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "3bbbdf61-6892-4042-8529-aa67b19e8308",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "87",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:47 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "401",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "177a9e2d-7f27-445f-a91f-ec0ee077d3e0",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache, no-store",
+    "content-length": "1231",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:48 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "1f11bfb6-875f-47cb-b7cf-2b39b45c1100"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: cryptography-client-test\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "109",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:47 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "0412c923-2f50-4933-b8fc-c28a5e3af731",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.1-preview"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "87",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:49 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "server": "Microsoft-IIS/10.0",
+    "status": "401",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "557fcdf7-2ebf-486d-b2f8-530562828781",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache, no-store",
+    "content-length": "1231",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 06 Mar 2020 22:52:50 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "29373bc1-5c40-4346-8898-7ea94e181200"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test\",\"deletedDate\":1580502178,\"scheduledPurgeDate\":1588278178,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/a389e695efc64bbf97914caee2ec76c9\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"yugJ4-7G8fClOE7S_50VXoTZlcW-R6Hx6s9_zl26LC2LWnQRRsnBSaiqEgpc3YPERB6Y7q_nonSULAsKiir9xEbCBiXdeDqDIWCF_24QT6Jed_JP9MG4pJCBdRiC_l20sGMf6Cs94F4DnPGIpjjiAj6_iVhd8L7LDBScvd0-VgmxpjqgshHpJ45Zo0x3Jor__DaUE-71L3CxZLbG_gvZqjLmO_b2F11XQtrnr5TpE-kpwjFafAf4TLGsonTeX8UBYsW5F9dbJSQS5jD4WwZuZ1kUy1XUuLQpKKwi3Gmpu3sypnu_z3MdcMtEQAFlx-NTrWU4iMegEV1e3Ycm-HgyfQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1580502177,\"updated\":1580502177,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test\",\"deletedDate\":1583535146,\"scheduledPurgeDate\":1591311146,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/cryptography-client-test/b9059f35361c4523a50fc4a65de62e52\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"tCB0gkpf5IHu76in6PRElkvrHLE-4H9GLqWly_4n9QImC2rCoJAsB3kI6nwN48rqy6uR3IklreoWWJbhM6O2gDdqwaNcg7NgkfV7lahOoXa4VftHTllHUTb8mgkf3A3bgU-O3uKo0KTj8Wq560Sws92NKd2-dBeERUiscEQeUpUdCEEUUU4gRLxmDL8GLpyQc-020EwK2Z-Xj1sdch5mSYKq-kDtdMms8QpvOfjQdiF50yGakQIqrBFeOMrPPfjH-HlPHTsBHB2YLflKQhjOvit_hLESkKfsGOuxXXpgWYNLpfBwL0c_2355K8C1MW2WXin237qe7aKX_lPIIURoRw\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1583535145,\"updated\":1583535145,\"recoveryLevel\":\"Recoverable+Purgeable\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "863",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:13 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:49 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -941,10 +1336,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "affe01d2-7e09-4b07-a0fe-5e458badf020",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "2bb3f9c1-b523-4398-9128-730c90b21f89",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -952,7 +1347,7 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -961,7 +1356,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:13 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:49 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -970,10 +1365,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "c0cd4165-8dec-4bcc-b293-c48893114ab4",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "e770f8ed-f8a0-4151-a917-6b78654e9b40",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -988,29 +1383,29 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:23:13 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:50 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - WUS ProdSlices",
-    "x-ms-request-id": "ffd38757-0723-4793-900f-ccbb4cf44f00"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "2051b8a6-cb6b-4dc9-86a7-b1d305071200"
    }
   },
   {
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/cryptography-client-test",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "date": "Fri, 31 Jan 2020 20:23:13 GMT",
+    "date": "Fri, 06 Mar 2020 22:52:50 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -1018,10 +1413,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "1666c9aa-1d2e-4f8b-8846-7afe157284f7",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "3d246cd1-7e85-49e0-afcc-03d5ab5aae4c",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -1029,5 +1424,6 @@
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
- }
+ },
+ "hash": "3c608fadfe00b1017d227a91afc7d31c"
 }

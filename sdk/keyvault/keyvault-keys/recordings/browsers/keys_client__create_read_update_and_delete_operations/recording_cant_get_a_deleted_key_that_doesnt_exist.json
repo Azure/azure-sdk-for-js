@@ -4,7 +4,7 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/keys/recoverKeyName-cantgetadeletedkeythatdoesntexist-",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": "",
    "status": 401,
@@ -13,7 +13,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:33 GMT",
+    "date": "Fri, 06 Mar 2020 22:51:56 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -22,10 +22,10 @@
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "0a0e4bb8-5811-48af-b618-9440e13595d9",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "3e7c041d-411c-4a34-87ca-d6afb3f23cdb",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -40,31 +40,31 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1231",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:33 GMT",
+    "date": "Fri, 06 Mar 2020 22:51:56 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.9 - SCUS ProdSlices",
-    "x-ms-request-id": "095f2845-2000-42d9-8f02-7d8f0f540300"
+    "x-ms-ests-server": "2.1.10155.16 - WST ProdSlices",
+    "x-ms-request-id": "2051b8a6-cb6b-4dc9-86a7-b1d357fe1100"
    }
   },
   {
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/keys/recoverKeyName-cantgetadeletedkeythatdoesntexist-",
    "query": {
-    "api-version": "7.0"
+    "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Key not found: recoverKeyName-cantgetadeletedkeythatdoesntexist-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "126",
+    "content-length": "125",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 31 Jan 2020 20:22:33 GMT",
+    "date": "Fri, 06 Mar 2020 22:51:56 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "server": "Microsoft-IIS/10.0",
@@ -72,10 +72,10 @@
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.137.64.184;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "addr=52.250.6.200;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.891",
-    "x-ms-request-id": "25c254a8-c65f-4731-88ca-579f3364afd6",
+    "x-ms-keyvault-service-version": "1.1.0.897",
+    "x-ms-request-id": "2f3fd9ab-bbef-4db7-8a05-ac8ebcc54449",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -83,5 +83,6 @@
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
- }
+ },
+ "hash": "5f40086b02273ed4b243215d9f6b16c8"
 }
