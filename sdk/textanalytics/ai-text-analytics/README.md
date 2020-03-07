@@ -201,7 +201,7 @@ main();
 
 ### Recognize Entities
 
-Rwecognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc.
+Recognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc.
 
 The `language` parameter is optional. If it is not specified, the default English model will be used.
 
