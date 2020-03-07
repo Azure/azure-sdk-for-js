@@ -1,6 +1,6 @@
 # Release History
 
-## 4.1.0-preview (Unreleased)
+## 4.1.0-preview.1 (Unreleased)
 
 - Added the optional `apiVersion` property to the `KeyClient` and `CryptographyClient` optional parameters.
   It defaults to the latest supported API version, which currently is `7.1-preview`.
