@@ -7,28 +7,21 @@
  */
 
 export {
-  AzureAsyncOperationResults,
   BaseResource,
   CreateManagementGroupChildInfo,
   CreateManagementGroupDetails,
   CreateManagementGroupRequest,
   CreateOrUpdateSettingsRequest,
   CreateParentGroupInfo,
-  DescendantInfo,
-  DescendantListResult,
-  DescendantParentGroupInfo,
   EntityHierarchyItem,
   ErrorDetails,
   ErrorResponse,
   HierarchySettings,
+  HierarchySettingsInfo,
+  HierarchySettingsList,
   ManagementGroup,
   ManagementGroupChildInfo,
   ManagementGroupDetails,
-  ManagementGroupInfo,
-  ManagementGroupListResult,
   ManagementGroupPathElement,
-  ManagementGroupsCreateOrUpdateHeaders,
-  ManagementGroupsDeleteHeaders,
-  ParentGroupInfo,
-  PatchManagementGroupRequest
+  ParentGroupInfo
 } from "../models/mappers";
