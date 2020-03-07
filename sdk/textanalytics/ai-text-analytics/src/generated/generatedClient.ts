@@ -12,11 +12,11 @@ import * as coreHttp from "@azure/core-http";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
-import { TextAnalyticsClientContext } from "./textAnalyticsClientContext";
+import { GeneratedClientContext } from "./generatedClientContext";
 
-class TextAnalyticsClient extends TextAnalyticsClientContext {
+class GeneratedClient extends GeneratedClientContext {
   /**
-   * Initializes a new instance of the TextAnalyticsClient class.
+   * Initializes a new instance of the GeneratedClient class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    * https://westus.api.cognitive.microsoft.com).
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -36,7 +36,7 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.EntitiesRecognitionGeneralResponse>
    */
-  entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, options?: Models.TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams): Promise<Models.EntitiesRecognitionGeneralResponse>;
+  entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesRecognitionGeneralOptionalParams): Promise<Models.EntitiesRecognitionGeneralResponse>;
   /**
    * @param input Collection of documents to analyze.
    * @param callback The callback
@@ -47,8 +47,8 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, options: Models.TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams, callback: coreHttp.ServiceCallback<Models.EntitiesResult>): void;
-  entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, options?: Models.TextAnalyticsClientEntitiesRecognitionGeneralOptionalParams | coreHttp.ServiceCallback<Models.EntitiesResult>, callback?: coreHttp.ServiceCallback<Models.EntitiesResult>): Promise<Models.EntitiesRecognitionGeneralResponse> {
+  entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, options: Models.GeneratedClientEntitiesRecognitionGeneralOptionalParams, callback: coreHttp.ServiceCallback<Models.EntitiesResult>): void;
+  entitiesRecognitionGeneral(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesRecognitionGeneralOptionalParams | coreHttp.ServiceCallback<Models.EntitiesResult>, callback?: coreHttp.ServiceCallback<Models.EntitiesResult>): Promise<Models.EntitiesRecognitionGeneralResponse> {
     return this.sendOperationRequest(
       {
         input,
@@ -69,7 +69,7 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.EntitiesRecognitionPiiResponse>
    */
-  entitiesRecognitionPii(input: Models.MultiLanguageBatchInput, options?: Models.TextAnalyticsClientEntitiesRecognitionPiiOptionalParams): Promise<Models.EntitiesRecognitionPiiResponse>;
+  entitiesRecognitionPii(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesRecognitionPiiOptionalParams): Promise<Models.EntitiesRecognitionPiiResponse>;
   /**
    * @param input Collection of documents to analyze.
    * @param callback The callback
@@ -80,8 +80,8 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  entitiesRecognitionPii(input: Models.MultiLanguageBatchInput, options: Models.TextAnalyticsClientEntitiesRecognitionPiiOptionalParams, callback: coreHttp.ServiceCallback<Models.EntitiesResult>): void;
-  entitiesRecognitionPii(input: Models.MultiLanguageBatchInput, options?: Models.TextAnalyticsClientEntitiesRecognitionPiiOptionalParams | coreHttp.ServiceCallback<Models.EntitiesResult>, callback?: coreHttp.ServiceCallback<Models.EntitiesResult>): Promise<Models.EntitiesRecognitionPiiResponse> {
+  entitiesRecognitionPii(input: Models.MultiLanguageBatchInput, options: Models.GeneratedClientEntitiesRecognitionPiiOptionalParams, callback: coreHttp.ServiceCallback<Models.EntitiesResult>): void;
+  entitiesRecognitionPii(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesRecognitionPiiOptionalParams | coreHttp.ServiceCallback<Models.EntitiesResult>, callback?: coreHttp.ServiceCallback<Models.EntitiesResult>): Promise<Models.EntitiesRecognitionPiiResponse> {
     return this.sendOperationRequest(
       {
         input,
@@ -100,7 +100,7 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.EntitiesLinkingResponse>
    */
-  entitiesLinking(input: Models.MultiLanguageBatchInput, options?: Models.TextAnalyticsClientEntitiesLinkingOptionalParams): Promise<Models.EntitiesLinkingResponse>;
+  entitiesLinking(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesLinkingOptionalParams): Promise<Models.EntitiesLinkingResponse>;
   /**
    * @param input Collection of documents to analyze.
    * @param callback The callback
@@ -111,8 +111,8 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  entitiesLinking(input: Models.MultiLanguageBatchInput, options: Models.TextAnalyticsClientEntitiesLinkingOptionalParams, callback: coreHttp.ServiceCallback<Models.EntityLinkingResult>): void;
-  entitiesLinking(input: Models.MultiLanguageBatchInput, options?: Models.TextAnalyticsClientEntitiesLinkingOptionalParams | coreHttp.ServiceCallback<Models.EntityLinkingResult>, callback?: coreHttp.ServiceCallback<Models.EntityLinkingResult>): Promise<Models.EntitiesLinkingResponse> {
+  entitiesLinking(input: Models.MultiLanguageBatchInput, options: Models.GeneratedClientEntitiesLinkingOptionalParams, callback: coreHttp.ServiceCallback<Models.EntityLinkingResult>): void;
+  entitiesLinking(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientEntitiesLinkingOptionalParams | coreHttp.ServiceCallback<Models.EntityLinkingResult>, callback?: coreHttp.ServiceCallback<Models.EntityLinkingResult>): Promise<Models.EntitiesLinkingResponse> {
     return this.sendOperationRequest(
       {
         input,
@@ -132,7 +132,7 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.KeyPhrasesResponse>
    */
-  keyPhrases(input: Models.MultiLanguageBatchInput, options?: Models.TextAnalyticsClientKeyPhrasesOptionalParams): Promise<Models.KeyPhrasesResponse>;
+  keyPhrases(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientKeyPhrasesOptionalParams): Promise<Models.KeyPhrasesResponse>;
   /**
    * @param input Collection of documents to analyze. Documents can now contain a language field to
    * indicate the text language
@@ -145,8 +145,8 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  keyPhrases(input: Models.MultiLanguageBatchInput, options: Models.TextAnalyticsClientKeyPhrasesOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyPhraseResult>): void;
-  keyPhrases(input: Models.MultiLanguageBatchInput, options?: Models.TextAnalyticsClientKeyPhrasesOptionalParams | coreHttp.ServiceCallback<Models.KeyPhraseResult>, callback?: coreHttp.ServiceCallback<Models.KeyPhraseResult>): Promise<Models.KeyPhrasesResponse> {
+  keyPhrases(input: Models.MultiLanguageBatchInput, options: Models.GeneratedClientKeyPhrasesOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyPhraseResult>): void;
+  keyPhrases(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientKeyPhrasesOptionalParams | coreHttp.ServiceCallback<Models.KeyPhraseResult>, callback?: coreHttp.ServiceCallback<Models.KeyPhraseResult>): Promise<Models.KeyPhrasesResponse> {
     return this.sendOperationRequest(
       {
         input,
@@ -166,7 +166,7 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.LanguagesResponse>
    */
-  languages(input: Models.LanguageBatchInput, options?: Models.TextAnalyticsClientLanguagesOptionalParams): Promise<Models.LanguagesResponse>;
+  languages(input: Models.LanguageBatchInput, options?: Models.GeneratedClientLanguagesOptionalParams): Promise<Models.LanguagesResponse>;
   /**
    * @param input Collection of documents to analyze.
    * @param callback The callback
@@ -177,8 +177,8 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  languages(input: Models.LanguageBatchInput, options: Models.TextAnalyticsClientLanguagesOptionalParams, callback: coreHttp.ServiceCallback<Models.LanguageResult>): void;
-  languages(input: Models.LanguageBatchInput, options?: Models.TextAnalyticsClientLanguagesOptionalParams | coreHttp.ServiceCallback<Models.LanguageResult>, callback?: coreHttp.ServiceCallback<Models.LanguageResult>): Promise<Models.LanguagesResponse> {
+  languages(input: Models.LanguageBatchInput, options: Models.GeneratedClientLanguagesOptionalParams, callback: coreHttp.ServiceCallback<Models.LanguageResult>): void;
+  languages(input: Models.LanguageBatchInput, options?: Models.GeneratedClientLanguagesOptionalParams | coreHttp.ServiceCallback<Models.LanguageResult>, callback?: coreHttp.ServiceCallback<Models.LanguageResult>): Promise<Models.LanguagesResponse> {
     return this.sendOperationRequest(
       {
         input,
@@ -198,7 +198,7 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SentimentResponse2>
    */
-  sentiment(input: Models.MultiLanguageBatchInput, options?: Models.TextAnalyticsClientSentimentOptionalParams): Promise<Models.SentimentResponse2>;
+  sentiment(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientSentimentOptionalParams): Promise<Models.SentimentResponse2>;
   /**
    * @param input Collection of documents to analyze.
    * @param callback The callback
@@ -209,8 +209,8 @@ class TextAnalyticsClient extends TextAnalyticsClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  sentiment(input: Models.MultiLanguageBatchInput, options: Models.TextAnalyticsClientSentimentOptionalParams, callback: coreHttp.ServiceCallback<Models.SentimentResponse>): void;
-  sentiment(input: Models.MultiLanguageBatchInput, options?: Models.TextAnalyticsClientSentimentOptionalParams | coreHttp.ServiceCallback<Models.SentimentResponse>, callback?: coreHttp.ServiceCallback<Models.SentimentResponse>): Promise<Models.SentimentResponse2> {
+  sentiment(input: Models.MultiLanguageBatchInput, options: Models.GeneratedClientSentimentOptionalParams, callback: coreHttp.ServiceCallback<Models.SentimentResponse>): void;
+  sentiment(input: Models.MultiLanguageBatchInput, options?: Models.GeneratedClientSentimentOptionalParams | coreHttp.ServiceCallback<Models.SentimentResponse>, callback?: coreHttp.ServiceCallback<Models.SentimentResponse>): Promise<Models.SentimentResponse2> {
     return this.sendOperationRequest(
       {
         input,
@@ -392,8 +392,8 @@ const sentimentOperationSpec: coreHttp.OperationSpec = {
 };
 
 export {
-  TextAnalyticsClient,
-  TextAnalyticsClientContext,
-  Models as TextAnalyticsModels,
-  Mappers as TextAnalyticsMappers
+  GeneratedClient,
+  GeneratedClientContext,
+  Models as GeneratedModels,
+  Mappers as GeneratedMappers
 };

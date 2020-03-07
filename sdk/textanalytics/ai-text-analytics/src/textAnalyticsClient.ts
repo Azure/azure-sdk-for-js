@@ -13,7 +13,7 @@ import {
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
-import { TextAnalyticsClient as GeneratedClient } from "./generated/textAnalyticsClient";
+import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
   LanguageInput as DetectLanguageInput,

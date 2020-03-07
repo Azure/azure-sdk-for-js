@@ -6,7 +6,7 @@
 
 ```yaml
 package-name: "@azure/ai-text-analytics"
-title: TextAnalyticsClient
+title: GeneratedClient
 description: TextAnalytics Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
