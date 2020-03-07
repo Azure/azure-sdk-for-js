@@ -349,7 +349,7 @@ main();
 
 Determine the language of a piece of text.
 
-The `countryHint` parameter is optional, but can assist the service in providing correct output if the country of origin is known. If it is not provided, or the value `"none"` is given, then a default model that does not assume a country of origin will be used.
+The `countryHint` parameter is optional, but can assist the service in providing correct output if the country of origin is known. If provided, it should be set to an ISO-3166 Alpha-2 two-letter country code (such as "us" for the United States or "jp" for Japan) or to the value `"none"`. If the parameter is not provided, or `"none"` is given, then a default US-based model will be used. The default model gives some extra weight to languages that are common in the USA, but is not the same as passing `"us"` for the `countryHint`. If you do not know the country of origin of the document, then the parameter `"none"` should be used or the parameter should be omitted entirely.
 
 ```javascript
 const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
