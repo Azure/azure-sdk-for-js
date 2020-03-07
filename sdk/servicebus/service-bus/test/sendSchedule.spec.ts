@@ -247,7 +247,6 @@ describe("Schedule single message", function(): void {
     should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
 
     await batch.context.complete(msgs[0]);
-    await batch.context.complete(msgs[1]);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
