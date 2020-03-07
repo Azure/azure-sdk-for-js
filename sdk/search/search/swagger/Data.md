@@ -20,3 +20,29 @@ use-extension:
 
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
+
+### Remove duplicate header parameter
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths..post
+    transform: >
+      const newParameters = [];
+      for (let param of $.parameters) {
+        if (param["$ref"] !== "#/parameters/ClientRequestIdParameter") {
+          newParameters.push(param);
+        }
+      }
+      $.parameters = newParameters;
+  - from: swagger-document
+    where: $.paths..get
+    transform: >
+      const newParameters = [];
+      for (let param of $.parameters) {
+        if (param["$ref"] !== "#/parameters/ClientRequestIdParameter") {
+          newParameters.push(param);
+        }
+      }
+      $.parameters = newParameters;
+```

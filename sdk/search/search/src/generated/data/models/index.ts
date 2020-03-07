@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -476,16 +477,6 @@ export interface SearchError {
 }
 
 /**
- * Additional parameters for a set of operations.
- */
-export interface RequestOptions {
-  /**
-   * The tracking ID sent with the request to help with debugging.
-   */
-  xMsClientRequestId?: string;
-}
-
-/**
  * Additional parameters for searchGet operation.
  */
 export interface SearchOptions {
@@ -694,16 +685,6 @@ export interface AutocompleteOptions {
 /**
  * Optional Parameters.
  */
-export interface DocumentsCountOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
 export interface DocumentsSearchGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * A full-text search query expression; Use "*" or omit this parameter to match all documents.
@@ -713,20 +694,6 @@ export interface DocumentsSearchGetOptionalParams extends coreHttp.RequestOption
    * Additional parameters for the operation
    */
   searchOptions?: SearchOptions;
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface DocumentsSearchPostOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -738,10 +705,6 @@ export interface DocumentsGetOptionalParams extends coreHttp.RequestOptionsBase 
    * the returned document.
    */
   selectedFields?: string[];
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -752,30 +715,6 @@ export interface DocumentsSuggestGetOptionalParams extends coreHttp.RequestOptio
    * Additional parameters for the operation
    */
   suggestOptions?: SuggestOptions;
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface DocumentsSuggestPostOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface DocumentsIndexOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -785,21 +724,7 @@ export interface DocumentsAutocompleteGetOptionalParams extends coreHttp.Request
   /**
    * Additional parameters for the operation
    */
-  requestOptions?: RequestOptions;
-  /**
-   * Additional parameters for the operation
-   */
   autocompleteOptions?: AutocompleteOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface DocumentsAutocompletePostOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -808,7 +733,7 @@ export interface DocumentsAutocompletePostOptionalParams extends coreHttp.Reques
  * @readonly
  * @enum {string}
  */
-export type QueryType = "simple" | "full";
+export type QueryType = 'simple' | 'full';
 
 /**
  * Defines values for SearchMode.
@@ -816,7 +741,7 @@ export type QueryType = "simple" | "full";
  * @readonly
  * @enum {string}
  */
-export type SearchMode = "any" | "all";
+export type SearchMode = 'any' | 'all';
 
 /**
  * Defines values for IndexActionType.
@@ -824,7 +749,7 @@ export type SearchMode = "any" | "all";
  * @readonly
  * @enum {string}
  */
-export type IndexActionType = "upload" | "merge" | "mergeOrUpload" | "delete";
+export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
 
 /**
  * Defines values for AutocompleteMode.
@@ -832,7 +757,7 @@ export type IndexActionType = "upload" | "merge" | "mergeOrUpload" | "delete";
  * @readonly
  * @enum {string}
  */
-export type AutocompleteMode = "oneTerm" | "twoTerms" | "oneTermWithContext";
+export type AutocompleteMode = 'oneTerm' | 'twoTerms' | 'oneTermWithContext';
 
 /**
  * Contains response data for the count operation.
@@ -847,16 +772,16 @@ export type DocumentsCountResponse = {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: number;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: number;
+    };
 };
 
 /**
@@ -867,16 +792,16 @@ export type DocumentsSearchGetResponse = SearchDocumentsResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchDocumentsResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchDocumentsResult;
+    };
 };
 
 /**
@@ -887,16 +812,16 @@ export type DocumentsSearchPostResponse = SearchDocumentsResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SearchDocumentsResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SearchDocumentsResult;
+    };
 };
 
 /**
@@ -912,16 +837,16 @@ export type DocumentsGetResponse = {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
 };
 
 /**
@@ -932,16 +857,16 @@ export type DocumentsSuggestGetResponse = SuggestDocumentsResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SuggestDocumentsResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SuggestDocumentsResult;
+    };
 };
 
 /**
@@ -952,16 +877,16 @@ export type DocumentsSuggestPostResponse = SuggestDocumentsResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SuggestDocumentsResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SuggestDocumentsResult;
+    };
 };
 
 /**
@@ -972,16 +897,16 @@ export type DocumentsIndexResponse = IndexDocumentsResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: IndexDocumentsResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IndexDocumentsResult;
+    };
 };
 
 /**
@@ -992,16 +917,16 @@ export type DocumentsAutocompleteGetResponse = AutocompleteResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AutocompleteResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutocompleteResult;
+    };
 };
 
 /**
@@ -1012,14 +937,14 @@ export type DocumentsAutocompletePostResponse = AutocompleteResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AutocompleteResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AutocompleteResult;
+    };
 };
