@@ -403,7 +403,8 @@ export class ReceiverClientImplementation {
     // TODO: use the session connections object to "cache" the client entity context
     if (session != null) {
       const receiver = new InternalSessionReceiver(clientEntityContext, this._internalReceiveMode, {
-        sessionId: session.id
+        sessionId: session.id,
+        maxSessionAutoRenewLockDurationInSeconds: session.maxSessionAutoRenewLockDurationInSeconds
       });
       this._sessionEnabled = true;
       this._receiver = receiver;
