@@ -467,9 +467,7 @@ describe("Streaming - Defer message", function(): void {
       "Either the message is not received or observed an unexpected SequenceNumber."
     );
 
-    await receiverClient.close();
     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-    receiverClient = (await getSenderReceiverClients(testClientType, "peekLock")).receiverClient;
     const deferredMsgs = await receiverClient.receiveDeferredMessages([sequenceNum]);
     if (!deferredMsgs) {
       throw "No message received for sequence number";
@@ -503,7 +501,7 @@ describe("Streaming - Defer message", function(): void {
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
-    await testDefer(TestClientType.PartitionedSubscription, false);
+    await testDefer(TestClientType.UnpartitionedQueue, false);
   });
 
   it("UnPartitioned Subscription: defer() moves message to deferred queue", async function(): Promise<
