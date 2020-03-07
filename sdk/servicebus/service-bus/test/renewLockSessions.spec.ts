@@ -14,7 +14,6 @@ import {
   ContextWithSettlement
 } from "../src";
 import {
-  purge,
   getSenderReceiverClients,
   TestClientType,
   TestMessage,
@@ -35,12 +34,21 @@ async function beforeEachTest(
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient as SessionReceiver<"peekLock">;
 
-  await purge(receiverClient);
-  const peekedMsgs = await receiverClient.diagnostics.peek();
-  const receiverEntityType = receiverClient.entityType;
-  if (peekedMsgs.length) {
-    chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
-  }
+  // Observation -
+  // Peeking into an empty session-enabled queue would run into either of the following errors..
+  // 1. OperationTimeoutError: Unable to create the amqp receiver 'unpartitioned-queue-sessions-794f89be-3282-8b48-8ae0-a8af43c3ce36'
+  //    on amqp session 'local-1_remote-1_connection-2' due to operation timeout.
+  // 2. MessagingError: Received an incorrect sessionId 'undefined' while creating the receiver 'unpartitioned-queue-sessions-86662b2b-acdc-1045-8ad4-fa3ab8807871'.
+
+  // getSenderReceiverClients creates brand new queues/topic-subscriptions.
+  // Hence, commenting the following code since there is no need to purge/peek into a freshly created entity
+
+  // await purge(receiverClient);
+  // const peekedMsgs = await receiverClient.diagnostics.peek();
+  // const receiverEntityType = receiverClient.entityType;
+  // if (peekedMsgs.length) {
+  //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+  // }
 }
 
 async function afterEachTest(): Promise<void> {
@@ -106,7 +114,11 @@ describe("Batch Receiver: complete() after lock expiry with throws error", funct
       TestClientType.UnpartitionedQueueWithSessions,
       maxSessionAutoRenewLockDurationInSeconds
     );
-    await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+    await testBatchReceiverManualLockRenewalErrorOnLockExpiry(
+      TestClientType.UnpartitionedQueueWithSessions,
+      senderClient,
+      receiverClient
+    );
   });
 
   it("Partitioned Queue With Sessions - Lock Renewal for Sessions", async function(): Promise<
@@ -116,7 +128,11 @@ describe("Batch Receiver: complete() after lock expiry with throws error", funct
       TestClientType.PartitionedQueueWithSessions,
       maxSessionAutoRenewLockDurationInSeconds
     );
-    await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+    await testBatchReceiverManualLockRenewalErrorOnLockExpiry(
+      TestClientType.PartitionedQueueWithSessions,
+      senderClient,
+      receiverClient
+    );
   });
 
   it("Unpartitioned Subscription With Sessions - Lock Renewal for Sessions", async function(): Promise<
@@ -126,7 +142,11 @@ describe("Batch Receiver: complete() after lock expiry with throws error", funct
       TestClientType.UnpartitionedSubscriptionWithSessions,
       maxSessionAutoRenewLockDurationInSeconds
     );
-    await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+    await testBatchReceiverManualLockRenewalErrorOnLockExpiry(
+      TestClientType.PartitionedQueueWithSessions,
+      senderClient,
+      receiverClient
+    );
   });
 
   it("Partitioned Subscription With Sessions - Lock Renewal for Sessions", async function(): Promise<
@@ -136,7 +156,11 @@ describe("Batch Receiver: complete() after lock expiry with throws error", funct
       TestClientType.PartitionedSubscriptionWithSessions,
       maxSessionAutoRenewLockDurationInSeconds
     );
-    await testBatchReceiverManualLockRenewalErrorOnLockExpiry(senderClient, receiverClient);
+    await testBatchReceiverManualLockRenewalErrorOnLockExpiry(
+      TestClientType.PartitionedQueueWithSessions,
+      senderClient,
+      receiverClient
+    );
   });
 });
 
@@ -344,6 +368,7 @@ async function testBatchReceiverManualLockRenewalHappyCase(
  * Test settling of message from Batch Receiver fails after session lock expires
  */
 async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
+  entityType: TestClientType,
   senderClient: ServiceBusSenderClient,
   receiverClient: SessionReceiver<"peekLock">
 ): Promise<void> {
@@ -368,7 +393,19 @@ async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
 
   should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
-  // Subsequent receivers for the same session should work as expected.
+  // Clean up the messages.
+  await receiverClient.close();
+  receiverClient = (
+    await getSenderReceiverClients(
+      entityType,
+      "peekLock",
+      undefined,
+      {
+        id: undefined
+      },
+      false
+    )
+  ).receiverClient as SessionReceiver<"peekLock">;
   const unprocessedMsgsBatch = await receiverClient.receiveBatch(1);
   should.equal(unprocessedMsgsBatch.messages[0].deliveryCount, 1, "Unexpected deliveryCount");
   await unprocessedMsgsBatch.context.complete(unprocessedMsgsBatch.messages[0]);
