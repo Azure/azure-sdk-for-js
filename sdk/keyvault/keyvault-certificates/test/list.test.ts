@@ -12,7 +12,7 @@ import { isNode } from "@azure/core-http";
 import { assertThrowsAbortError } from "./utils/utils.common";
 const { expect } = chai;
 
-describe("Certificates client - list certificates in various ways", () => {
+describe.only("Certificates client - list certificates in various ways", () => {
   const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
   let client: CertificateClient;
