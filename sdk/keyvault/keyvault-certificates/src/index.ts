@@ -148,7 +148,7 @@ import { CertificateOperationState } from "./lro/operation/operation";
 import { DeleteCertificateState } from "./lro/delete/operation";
 import { CreateCertificateState } from "./lro/create/operation";
 import { RecoverDeletedCertificateState } from "./lro/recover/operation";
-import { parsePEMBytes } from "./utils";
+import { parseCertificateBytes } from "./utils";
 
 export {
   ActionType,
@@ -1303,7 +1303,10 @@ export class CertificateClient {
 
     const span = this.createSpan("importCertificate", requestOptions);
 
-    const base64EncodedCertificate = parsePEMBytes(certificateBytes, options.policy?.contentType);
+    const base64EncodedCertificate = parseCertificateBytes(
+      certificateBytes,
+      options.policy?.contentType
+    );
 
     let result: ImportCertificateResponse;
 

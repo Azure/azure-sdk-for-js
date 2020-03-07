@@ -64,7 +64,7 @@ export function base64ToUint8Array(value: string): Uint8Array {
  * @param certificateBytes The PFX or ASCII PEM formatted value of the certificate containing both the X.509 certificates and the private key
  * @param contentType "application/x-pem-file", "application/x-pkcs12" or undefined
  */
-export function parsePEMBytes(
+export function parseCertificateBytes(
   certificateBytes: Uint8Array,
   contentType: CertificateContentType
 ): string {
