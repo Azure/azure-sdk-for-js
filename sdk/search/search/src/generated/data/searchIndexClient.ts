@@ -21,7 +21,7 @@ class SearchIndexClient extends SearchIndexClientContext {
   /**
    * Initializes a new instance of the SearchIndexClient class.
    * @param apiVersion Client Api Version.
-   * @param endpoint Search API endpoint (protocol and hostname)
+   * @param endpoint The endpoint URL of the search service.
    * @param indexName The name of the index.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options

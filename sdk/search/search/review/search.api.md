@@ -12,8 +12,8 @@ import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AutocompleteItem {
-    readonly queryPlusText?: string;
-    readonly text?: string;
+    readonly queryPlusText: string;
+    readonly text: string;
 }
 
 // @public
@@ -39,14 +39,14 @@ export interface AutocompleteRequest<Fields> {
 // @public
 export interface AutocompleteResult {
     readonly coverage?: number;
-    readonly results?: AutocompleteItem[];
+    readonly results: AutocompleteItem[];
 }
 
 // @public
-export type CountOptions = OperationOptions;
+export type CountDocumentsOptions = OperationOptions;
 
 // @public
-export type DeleteDocumentsOptions = ModifyIndexOptions;
+export type DeleteDocumentsOptions = IndexDocuments;
 
 // @public
 export interface FacetResult {
@@ -68,36 +68,40 @@ export interface GetDocumentOptions<Fields> extends OperationOptions {
 }
 
 // @public
-export interface IndexAction {
-    [property: string]: any;
-    actionType?: IndexActionType;
-}
+export type IndexAction<T> = {
+    actionType: IndexActionType;
+} & Partial<T>;
 
 // @public
 export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
 
 // @public
+export interface IndexDocuments extends OperationOptions {
+    throwOnAnyFailure?: boolean;
+}
+
+// @public
 export interface IndexDocumentsResult {
-    readonly results?: IndexingResult[];
+    readonly results: IndexingResult[];
 }
 
 // @public
 export interface IndexingResult {
     readonly errorMessage?: string;
-    readonly key?: string;
-    readonly statusCode?: number;
-    readonly succeeded?: boolean;
+    readonly key: string;
+    readonly statusCode: number;
+    readonly succeeded: boolean;
 }
 
 // @public
 export interface ListSearchResultsPageSettings {
     nextLink?: string;
-    nextPageParameters?: SearchRequest<string>;
+    nextPageParameters?: RawSearchRequest;
 }
 
 // @public
-export interface ModifyIndexOptions extends OperationOptions {
-    throwOnAnyFailure?: boolean;
+export interface MergeDocumentsOptions extends IndexDocuments {
+    uploadIfNotExists?: boolean;
 }
 
 // @public
@@ -107,22 +111,52 @@ export function odata(strings: TemplateStringsArray, ...values: unknown[]): stri
 export type QueryType = 'simple' | 'full';
 
 // @public
+export interface RawSearchRequest {
+    facets?: string[];
+    filter?: string;
+    highlightFields?: string;
+    highlightPostTag?: string;
+    highlightPreTag?: string;
+    includeTotalResultCount?: boolean;
+    minimumCoverage?: number;
+    orderBy?: string;
+    queryType?: QueryType;
+    scoringParameters?: string[];
+    scoringProfile?: string;
+    searchFields?: string;
+    searchMode?: SearchMode;
+    searchText?: string;
+    select?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
 export class SearchApiKeyCredential implements ServiceClientCredentials {
     constructor(apiKey: string);
     signRequest(webResource: WebResource): Promise<WebResource>;
     updateKey(apiKey: string): void;
 }
 
+// @public (undocumented)
+export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
+    readonly nextLink?: string;
+    readonly nextPageParameters?: RawSearchRequest;
+    readonly results: SearchResult<T>[];
+}
+
+// @public (undocumented)
+export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
+    readonly results: SearchIterator<T>;
+}
+
 // @public
-export interface SearchDocumentsResult<T> {
+export interface SearchDocumentsResultBase {
     readonly count?: number;
     readonly coverage?: number;
     readonly facets?: {
         [propertyName: string]: FacetResult[];
     };
-    readonly nextLink?: string;
-    readonly nextPageParameters?: SearchRequest<string>;
-    readonly results?: SearchResult<T>[];
 }
 
 // @public
@@ -130,15 +164,15 @@ export class SearchIndexClient<T> {
     constructor(endpoint: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
     readonly apiVersion: string;
     autocomplete<Fields extends keyof T>(options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
-    count(options?: CountOptions): Promise<number>;
-    deleteDocuments(keyName: string, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    countDocuments(options?: CountDocumentsOptions): Promise<number>;
+    deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
+    indexDocuments(batch: IndexAction<T>[], options?: IndexDocuments): Promise<IndexDocumentsResult>;
     readonly indexName: string;
-    listSearchResults<Fields extends keyof T>(options?: SearchOptions<Fields>): SearchIterator<Pick<T, Fields>>;
-    modifyIndex(batch: IndexAction[], options?: ModifyIndexOptions): Promise<IndexDocumentsResult>;
-    suggest<Fields extends keyof T>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
-    updateDocuments(documents: T[], options?: UpdateDocumentsOptions): Promise<IndexDocumentsResult>;
+    mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
+    search<Fields extends keyof T>(options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
+    suggest<Fields extends keyof T = never>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -146,7 +180,7 @@ export class SearchIndexClient<T> {
 export type SearchIndexClientOptions = PipelineOptions;
 
 // @public
-export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsResult<Fields>, ListSearchResultsPageSettings>;
+export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fields>, SearchDocumentsPageResult<Fields>, ListSearchResultsPageSettings>;
 
 // @public
 export type SearchMode = 'any' | 'all';
@@ -163,7 +197,7 @@ export interface SearchRequest<Fields> {
     highlightPreTag?: string;
     includeTotalResultCount?: boolean;
     minimumCoverage?: number;
-    orderBy?: string;
+    orderBy?: string[];
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -177,7 +211,7 @@ export interface SearchRequest<Fields> {
 
 // @public
 export type SearchResult<T> = {
-    readonly score?: number;
+    readonly score: number;
     readonly highlights?: {
         [propertyName: string]: string[];
     };
@@ -186,7 +220,7 @@ export type SearchResult<T> = {
 // @public
 export interface SuggestDocumentsResult<T> {
     readonly coverage?: number;
-    readonly results?: SuggestResult<T>[];
+    readonly results: SuggestResult<T>[];
 }
 
 // @public
@@ -198,7 +232,7 @@ export interface SuggestRequest<Fields> {
     highlightPostTag?: string;
     highlightPreTag?: string;
     minimumCoverage?: number;
-    orderBy?: string;
+    orderBy?: string[];
     searchFields?: Fields[];
     searchText: string;
     select?: Fields[];
@@ -209,16 +243,11 @@ export interface SuggestRequest<Fields> {
 
 // @public
 export type SuggestResult<T> = {
-    readonly text?: string;
+    readonly text: string;
 } & T;
 
 // @public
-export interface UpdateDocumentsOptions extends ModifyIndexOptions {
-    uploadIfNotExists?: boolean;
-}
-
-// @public
-export interface UploadDocumentsOptions extends ModifyIndexOptions {
+export interface UploadDocumentsOptions extends IndexDocuments {
     mergeIfExists?: boolean;
 }
 

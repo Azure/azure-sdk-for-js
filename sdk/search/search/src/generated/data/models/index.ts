@@ -17,7 +17,7 @@ export interface SuggestResult {
    * The text of the suggestion result.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly text?: string;
+  readonly text: string;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -32,7 +32,7 @@ export interface SuggestDocumentsResult {
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results?: SuggestResult[];
+  readonly results: SuggestResult[];
   /**
    * A value indicating the percentage of the index that was included in the query, or null if
    * minimumCoverage was not set in the request.
@@ -166,7 +166,7 @@ export interface SearchResult {
    * The relevance score of the document compared to other documents returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly score?: number;
+  readonly score: number;
   /**
    * Text fragments from the document that indicate the matching search terms, organized by each
    * applicable field; null if hit highlighting was not enabled for the query.
@@ -214,7 +214,7 @@ export interface SearchDocumentsResult {
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results?: SearchResult[];
+  readonly results: SearchResult[];
   /**
    * Continuation URL returned when Azure Cognitive Search can't return all the requested results
    * in a single Search response. You can use this URL to formulate another GET or POST Search
@@ -258,7 +258,7 @@ export interface IndexingResult {
    * The key of a document that was in the indexing request.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly key?: string;
+  readonly key: string;
   /**
    * The error message explaining why the indexing operation failed for the document identified by
    * the key; null if indexing succeeded.
@@ -270,7 +270,7 @@ export interface IndexingResult {
    * key.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly succeeded?: boolean;
+  readonly succeeded: boolean;
   /**
    * The status code of the indexing operation. Possible values include: 200 for a successful
    * update or delete, 201 for successful document creation, 400 for a malformed input document,
@@ -278,7 +278,7 @@ export interface IndexingResult {
    * unavailable, or 503 for when the service is too busy.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly statusCode?: number;
+  readonly statusCode: number;
 }
 
 /**
@@ -289,7 +289,7 @@ export interface IndexDocumentsResult {
    * The list of status information for each document in the indexing request.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results?: IndexingResult[];
+  readonly results: IndexingResult[];
 }
 
 /**
@@ -430,12 +430,12 @@ export interface AutocompleteItem {
    * The completed term.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly text?: string;
+  readonly text: string;
   /**
    * The query along with the completed term.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly queryPlusText?: string;
+  readonly queryPlusText: string;
 }
 
 /**
@@ -452,25 +452,28 @@ export interface AutocompleteResult {
    * The list of returned Autocompleted items.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results?: AutocompleteItem[];
+  readonly results: AutocompleteItem[];
 }
 
 /**
- * An interface representing SearchError.
+ * Describes an error condition for the Azure Cognitive Search API.
  */
 export interface SearchError {
-  code: string;
-  message: string;
-}
-
-/**
- * Additional parameters for a set of operations.
- */
-export interface RequestOptions {
   /**
-   * The tracking ID sent with the request to help with debugging.
+   * One of a server-defined set of error codes.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  clientRequestId?: string;
+  readonly code?: string;
+  /**
+   * A human-readable representation of the error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message: string;
+  /**
+   * An array of details about specific errors that led to this reported error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: SearchError[];
 }
 
 /**
@@ -682,16 +685,6 @@ export interface AutocompleteOptions {
 /**
  * Optional Parameters.
  */
-export interface DocumentsCountOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
 export interface DocumentsSearchGetOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * A full-text search query expression; Use "*" or omit this parameter to match all documents.
@@ -701,20 +694,6 @@ export interface DocumentsSearchGetOptionalParams extends coreHttp.RequestOption
    * Additional parameters for the operation
    */
   searchOptions?: SearchOptions;
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface DocumentsSearchPostOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -726,10 +705,6 @@ export interface DocumentsGetOptionalParams extends coreHttp.RequestOptionsBase 
    * the returned document.
    */
   selectedFields?: string[];
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -740,30 +715,6 @@ export interface DocumentsSuggestGetOptionalParams extends coreHttp.RequestOptio
    * Additional parameters for the operation
    */
   suggestOptions?: SuggestOptions;
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface DocumentsSuggestPostOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface DocumentsIndexOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -773,21 +724,7 @@ export interface DocumentsAutocompleteGetOptionalParams extends coreHttp.Request
   /**
    * Additional parameters for the operation
    */
-  requestOptions?: RequestOptions;
-  /**
-   * Additional parameters for the operation
-   */
   autocompleteOptions?: AutocompleteOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface DocumentsAutocompletePostOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
