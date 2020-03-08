@@ -11,7 +11,7 @@ const { Readable } = require('stream')
 import { AbortController } from "@azure/abort-controller";
 dotenv.config({ path: "../.env" });
 
-describe.only("Highlevel Node.js only", () => {
+describe("Highlevel Node.js only", () => {
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
   let fileName: string;

@@ -9,7 +9,7 @@ import { AbortController } from "@azure/abort-controller";
 
 dotenv.config({ path: "../.env" });
 
-describe.only("Highlevel browser only", () => {
+describe("Highlevel browser only", () => {
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
   let fileName: string;
