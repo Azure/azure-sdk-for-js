@@ -1097,9 +1097,9 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (!options.chunkSize) {
         options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
       }
-      if (options.chunkSize <= 0 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
+      if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
         throw new RangeError(
-          `chunkSize option must be > 0 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`
+          `chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`
         );
       }
 
@@ -1240,7 +1240,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     const { span, spanOptions } = createSpan("DataLakeFileClient-uploadData", options.tracingOptions);
     try {
       if (size > FILE_MAX_SIZE_BYTES) {
-        throw new RangeError(`size must be < ${FILE_MAX_SIZE_BYTES}.`);
+        throw new RangeError(`size must be <= ${FILE_MAX_SIZE_BYTES}.`);
       }
 
       // Create the file.
@@ -1266,9 +1266,9 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (!options.chunkSize) {
         options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
       }
-      if (options.chunkSize <= 0 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
+      if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
         throw new RangeError(
-          `chunkSize option must be > 0 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`
+          `chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`
         );
       }
 
@@ -1388,9 +1388,9 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (!options.chunkSize) {
         options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
       }
-      if (options.chunkSize <= 0 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
+      if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
         throw new RangeError(
-          `chunkSize option must be > 0 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`
+          `chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`
         );
       }
       if (!options.maxConcurrency) {
