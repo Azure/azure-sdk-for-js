@@ -558,6 +558,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
+    200: {},
     201: {
       bodyMapper: Mappers.Domain
     },
