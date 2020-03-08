@@ -1074,7 +1074,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       }
 
       // Create the file.
-      await this.create({
+      const createRes = this.create({
         abortSignal: options.abortSignal,
         metadata: options.metadata,
         permissions: options.permissions,
@@ -1083,6 +1083,13 @@ export class DataLakeFileClient extends DataLakePathClient {
         pathHttpHeaders: options.pathHttpHeaders,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
+
+      // append() with empty data would return error, so do not continue
+      if (size === 0) {
+        return createRes;
+      } else {
+        await createRes;
+      }
 
       // After the File is Create, Lease ID is the only valid request parameter.
       options.conditions = { leaseId: options.conditions?.leaseId };
@@ -1117,6 +1124,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         await this.append(() => fs.createReadStream(filePath), 0, size, {
           abortSignal: options.abortSignal,
           conditions: options.conditions,
+          onProgress: options.onProgress,
           tracingOptions: { ...options!.tracingOptions, spanOptions }
         });
 
@@ -1285,6 +1293,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         await this.append(contentFactory(0, size), 0, size, {
           abortSignal: options.abortSignal,
           conditions: options.conditions,
+          onProgress: options.onProgress,
           tracingOptions: { ...options!.tracingOptions, spanOptions }
         });
 
@@ -1469,8 +1478,8 @@ export class DataLakeFileClient extends DataLakePathClient {
    * gigabytes on 64-bit systems due to limitations of Node.js/V8. For files larger than this size,
    * consider {@link readToFile}.
    *
-   * @param {number} offset From which position of the Data Lake file to read
-   * @param {number} [count] How much data to be read. Will read to the end when passing undefined
+   * @param {number} offset From which position of the Data Lake file to read(in bytes)
+   * @param {number} [count] How much data(in bytes) to be read. Will read to the end when passing undefined
    * @param {FileReadToBufferOptions} [options]
    * @returns {Promise<Buffer>}
    * @memberof DataLakeFileClient

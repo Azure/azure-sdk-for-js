@@ -766,7 +766,8 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * Data size threshold in bytes to use a single upload operation rather than parallel uploading.
    * Data of smaller size than this limit will be transferred in a single upload. 
    * Data larger than this limit will be transferred in chunks of chunkSize in parallel.
-   * Its default and max value is FILE_MAX_SINGLE_UPLOAD_THRESHOLD
+   * Its default and max value is FILE_MAX_SINGLE_UPLOAD_THRESHOLD.
+   * Note: {@link DataLakeFileClient.uploadStream} do not respect this field and always do parallel uploading.
    *
    * @type {number}
    * @memberof FileParallelUploadOptions
@@ -829,7 +830,7 @@ export interface FileReadToBufferOptions extends CommonOptions {
   /**
    * How many retries will perform for each read when the original chunk read stream ends unexpectedly.
    * Above kind of ends will not trigger retry policy defined in a pipeline,
-   * because they doesn't emit network errors.
+   * because they doesn't emit network errors. Default value is 5.
    *
    * @type {number}
    * @memberof FileReadToBufferOptions
