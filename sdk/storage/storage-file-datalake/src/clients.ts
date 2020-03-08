@@ -1236,7 +1236,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       }
 
       // Create the file.
-      await this.create({
+      const createRes = this.create({
         abortSignal: options.abortSignal,
         metadata: options.metadata,
         permissions: options.permissions,
@@ -1245,6 +1245,12 @@ export class DataLakeFileClient extends DataLakePathClient {
         pathHttpHeaders: options.pathHttpHeaders,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
+      // append() with empty data would return error, so do not continue
+      if (size === 0) {
+        return createRes;
+      } else {
+        await createRes;
+      }
 
       // After the File is Create, Lease ID is the only valid request parameter.
       options.conditions = { leaseId: options.conditions?.leaseId };

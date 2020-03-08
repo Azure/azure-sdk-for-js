@@ -316,12 +316,12 @@ describe("DataLakePathClient", () => {
     await tempFileClient.delete();
   });
 
-  it.only("exists returns true on an existing file", async () => {
+  it("exists returns true on an existing file", async () => {
     const result = await fileClient.exists();
     assert.ok(result, "exists() should return true for an existing file");
   });
 
-  it.only("exists returns false on non-existing file or directory", async () => {
+  it("exists returns false on non-existing file or directory", async () => {
     const newFileClient = fileSystemClient.getFileClient(recorder.getUniqueName("newFile"));
     const result = await newFileClient.exists();
     assert.ok(result === false, "exists() should return false for a non-existing file");

@@ -391,12 +391,12 @@ describe("DataLakeFileSystemClient", () => {
     );
   });
 
-  it.only("exists returns true on an existing file system", async () => {
+  it("exists returns true on an existing file system", async () => {
     const result = await fileSystemClient.exists();
     assert.ok(result, "exists() should return true for an existing file system");
   });
 
-  it.only("exists returns false on non-existing file system", async () => {
+  it("exists returns false on non-existing file system", async () => {
     const newFileSystemClient = serviceClient.getFileSystemClient(
       recorder.getUniqueName("newfilesystem")
     );

@@ -8,7 +8,7 @@ import { MB } from "../../src/utils/constants";
 
 dotenv.config({ path: "../.env" });
 
-describe.only("Highlevel browser only", () => {
+describe("Highlevel browser only", () => {
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
   let fileName: string;
