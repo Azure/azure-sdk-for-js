@@ -10,7 +10,7 @@ export const GB: number = MB * 1024;
 export const TB: number = GB * 1024;
 
 export const DEFAULT_HIGH_LEVEL_CONCURRENCY: number = 5;
-export const FILE_MAX_INITIAL_TRANSFER_SIZE: number = 256 * MB;
+export const FILE_MAX_SINGLE_UPLOAD_THRESHOLD: number = 256 * MB;
 export const FILE_UPLOAD_MAX_CHUNK_SIZE: number = 100 * MB;
 export const FILE_MAX_SIZE_BYTES: number = 5 * TB;
 export const FILE_UPLOAD_DEFAULT_CHUNK_SIZE: number = 8 * MB;

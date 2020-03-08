@@ -62,7 +62,7 @@ import { appendToURLPath, setURLPath } from "./utils/utils.common";
 import { Readable } from "stream";
 import {
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
-  FILE_MAX_INITIAL_TRANSFER_SIZE,
+  FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
   FILE_UPLOAD_MAX_CHUNK_SIZE,
   FILE_MAX_SIZE_BYTES,
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
@@ -1103,17 +1103,17 @@ export class DataLakeFileClient extends DataLakePathClient {
         throw new RangeError(`maxConcurrency must be > 0.`);
       }
 
-      if (!options.initialTransferSize) {
-        options.initialTransferSize = FILE_MAX_INITIAL_TRANSFER_SIZE;
+      if (!options.singleUploadThreshold) {
+        options.singleUploadThreshold = FILE_MAX_SINGLE_UPLOAD_THRESHOLD;
       }
-      if (options.initialTransferSize < 1 || options.initialTransferSize > FILE_MAX_INITIAL_TRANSFER_SIZE) {
+      if (options.singleUploadThreshold < 1 || options.singleUploadThreshold > FILE_MAX_SINGLE_UPLOAD_THRESHOLD) {
         throw new RangeError(
-          `initialTransferSize option must be >= 1 and <= ${FILE_MAX_INITIAL_TRANSFER_SIZE}`
+          `singleUploadThreshold option must be >= 1 and <= ${FILE_MAX_SINGLE_UPLOAD_THRESHOLD}`
         );
       }
 
-      // When buffer length <= initialTransferSize, this method will use one append/flush call to finish the upload.
-      if (size <= options.initialTransferSize) {
+      // When buffer length <= singleUploadThreshold, this method will use one append/flush call to finish the upload.
+      if (size <= options.singleUploadThreshold) {
         await this.append(() => fs.createReadStream(filePath), 0, size, {
           abortSignal: options.abortSignal,
           conditions: options.conditions,
@@ -1271,17 +1271,17 @@ export class DataLakeFileClient extends DataLakePathClient {
         throw new RangeError(`maxConcurrency must be > 0.`);
       }
 
-      if (!options.initialTransferSize) {
-        options.initialTransferSize = FILE_MAX_INITIAL_TRANSFER_SIZE;
+      if (!options.singleUploadThreshold) {
+        options.singleUploadThreshold = FILE_MAX_SINGLE_UPLOAD_THRESHOLD;
       }
-      if (options.initialTransferSize < 1 || options.initialTransferSize > FILE_MAX_INITIAL_TRANSFER_SIZE) {
+      if (options.singleUploadThreshold < 1 || options.singleUploadThreshold > FILE_MAX_SINGLE_UPLOAD_THRESHOLD) {
         throw new RangeError(
-          `initialTransferSize option must be >= 1 and <= ${FILE_MAX_INITIAL_TRANSFER_SIZE}`
+          `singleUploadThreshold option must be >= 1 and <= ${FILE_MAX_SINGLE_UPLOAD_THRESHOLD}`
         );
       }
 
-      // When buffer length <= initialTransferSize, this method will use one append/flush call to finish the upload.
-      if (size <= options.initialTransferSize) {
+      // When buffer length <= singleUploadThreshold, this method will use one append/flush call to finish the upload.
+      if (size <= options.singleUploadThreshold) {
         await this.append(contentFactory(0, size), 0, size, {
           abortSignal: options.abortSignal,
           conditions: options.conditions,

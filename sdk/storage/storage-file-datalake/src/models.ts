@@ -763,14 +763,15 @@ export interface FileParallelUploadOptions extends CommonOptions {
   // For parallel transfer control.
 
   /**
-   * The size of the first range request in bytes. Data smaller than this limit will
-   * be transferred in a single request. Data larger than this limit will be transferred
-   * in chunks of size chunkSize. Its default and max value is FILE_MAX_INITIAL_TRANSFER_SIZE.
+   * Data size threshold in bytes to use a single upload operation rather than parallel uploading.
+   * Data of smaller size than this limit will be transferred in a single upload. 
+   * Data larger than this limit will be transferred in chunks of chunkSize in parallel.
+   * Its default and max value is FILE_MAX_SINGLE_UPLOAD_THRESHOLD
    *
    * @type {number}
    * @memberof FileParallelUploadOptions
    */
-  initialTransferSize?: number;
+  singleUploadThreshold?: number;
 
   /**
    * The size of data in bytes that will be transferred in parallel.

@@ -100,8 +100,6 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.upload(uploadedBuffer, {
         abortSignal: aborter,
-        maxConcurrency: 20,
-        chunkSize: 16 * MB
       });
       assert.fail();
     } catch (err) {
@@ -111,13 +109,13 @@ describe("Highlevel Node.js only", () => {
 
   it.only("upload should abort for parallel upload", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    // Using 1 second hoping the create is done while append and flush haven't.
     const aborter = AbortController.timeout(1000);
-    const uploadedBuffer = fs.readFileSync(tempFileSmall);
+    const uploadedBuffer = fs.readFileSync(tempFileLarge);
     try {
       await fileClient.upload(uploadedBuffer, {
         abortSignal: aborter,
-        maxConcurrency: 20,
-        chunkSize: 8 * MB
+        singleUploadThreshold: 8 * MB
       });
       assert.fail();
     } catch (err) {
