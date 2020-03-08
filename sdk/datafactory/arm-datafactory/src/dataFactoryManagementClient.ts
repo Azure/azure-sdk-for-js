@@ -30,7 +30,6 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
   activityRuns: operations.ActivityRuns;
   triggers: operations.Triggers;
   triggerRuns: operations.TriggerRuns;
-  rerunTriggers: operations.RerunTriggers;
   dataFlows: operations.DataFlows;
   dataFlowDebugSession: operations.DataFlowDebugSession;
 
@@ -55,7 +54,6 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
     this.activityRuns = new operations.ActivityRuns(this);
     this.triggers = new operations.Triggers(this);
     this.triggerRuns = new operations.TriggerRuns(this);
-    this.rerunTriggers = new operations.RerunTriggers(this);
     this.dataFlows = new operations.DataFlows(this);
     this.dataFlowDebugSession = new operations.DataFlowDebugSession(this);
   }
