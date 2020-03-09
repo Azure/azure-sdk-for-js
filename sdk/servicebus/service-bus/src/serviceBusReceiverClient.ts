@@ -718,11 +718,11 @@ export class ReceiverClientImplementation {
     }
   }
 
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+  receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     return this._receiver.receiveDeferredMessage(sequenceNumber);
   }
 
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+  receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
     return this._receiver.receiveDeferredMessages(sequenceNumbers);
   }
 
