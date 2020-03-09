@@ -308,12 +308,12 @@ export interface FileParallelUploadOptions extends CommonOptions {
     chunkSize?: number;
     close?: boolean;
     conditions?: DataLakeRequestConditions;
-    initialTransferSize?: number;
     maxConcurrency?: number;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
     pathHttpHeaders?: PathHttpHeaders;
     permissions?: string;
+    singleUploadThreshold?: number;
     umask?: string;
 }
 
