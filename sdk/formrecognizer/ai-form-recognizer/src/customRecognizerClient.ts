@@ -264,7 +264,7 @@ export class CustomFormRecognizerClient {
     yield result;
 
     // we should use nextLink, however, it's not supported by the generated code.
-    while (!result.nextLink) {
+    while (result.nextLink) {
       result = await this.list(options);
       yield result;
     }
