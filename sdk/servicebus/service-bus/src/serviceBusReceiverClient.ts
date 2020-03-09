@@ -32,53 +32,137 @@ import { ConnectionContext } from "./connectionContext";
 
 /**
  *A receiver client that handles sessions, including renewing the session lock.
+ * @export
+ * @interface SessionReceiver
+ * @template LockModeT
  */
 export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
   /**
    * Streams messages to message handlers.
-   * @param handler A handler that gets called for messages and errors.
-   * @param options Options for subscribe.
+   *
+   * @param {MessageHandlers<ContextType<LockModeT>>} handlers A handler that gets called for messages and errors.
+   * @param {SubscribeOptions} [options] Options for subscribe.
+   * @memberof SessionReceiver
    */
   subscribe(handlers: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
-   * @param options Options for iterateMessages.
+   * @param {IterateMessagesOptions} [options] Options for iterateMessages.
+   * @returns {MessageIterator<ContextType<LockModeT>>}
+   * @memberof SessionReceiver
    */
   iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
-
   /**
    * Receives, at most, `maxMessages` worth of messages.
-   * @param maxMessages The maximum number of messages to accept.
-   * @param maxWaitTimeInSeconds The maximum time to wait, in seconds, for messages to arrive.
-   * @param options Options for receiveBatch.
+   * @param {number} maxMessages The maximum number of messages to accept.
+   * @param {number} [maxWaitTimeInSeconds] The maximum time to wait, in seconds, for messages to arrive.
+   * @param {ReceiveBatchOptions} [options] Options for receiveBatch.
+   * @returns {Promise<{ messages: ReceivedMessage[]; context: ContextType<LockModeT> }>} Message batch object with an array of `ReceivedMessage`s along with the context to settle the messages in "peekLock" mode, context would be empty in "receiveAndDelete" mode
+   * @memberof SessionReceiver
    */
   receiveBatch(
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
   ): Promise<{ messages: ReceivedMessage[]; context: ContextType<LockModeT> }>;
-  receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
-  receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
-  isReceivingMessages(): boolean;
-  renewSessionLock(): Promise<Date>;
-  setState(state: any): Promise<void>;
-  getState(): Promise<any>;
-  sessionId: string | undefined;
-  sessionLockedUntilUtc: Date | undefined;
-  close(): Promise<void>;
-  getDeadLetterPath(): string;
-  entityType: "queue" | "subscription";
-  entityPath: string;
-  receiveMode: "peekLock" | "receiveAndDelete";
-
   /**
-   * Renews the lock on the session.
+   * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
+   * @param {Long} sequenceNumber The sequence number of the message that needs to be received.
+   * @returns {(Promise<ServiceBusMessage | undefined>)}
+   * - Returns `Message` identified by sequence number.
+   * - Returns `undefined` if no such message is found.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while receiving deferred message.
+   * @memberof SessionReceiver
+   */
+  receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
+  /**
+   * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
+   * @param {Long[]} sequenceNumbers An array of sequence numbers for the messages that need to be received.
+   * @returns {Promise<ServiceBusMessage[]>}
+   * - Returns a list of messages identified by the given sequenceNumbers.
+   * - Returns an empty list if no messages are found.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while receiving deferred messages.
+   * @memberof SessionReceiver
+   */
+  receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
+  /**
+   * Indicates whether the receiver is currently receiving messages or not.
+   * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
+   * @returns {boolean}
+   * @memberof SessionReceiver
+   */
+  isReceivingMessages(): boolean;
+  /**
+   * Renews the lock on the session for the duration as specified during the Queue/Subscription
+   * creation.
+   * - Check the `sessionLockedUntilUtc` property on the SessionReceiver for the time when the lock expires.
+   * - When the lock on the session expires
+   *     - No more messages can be received using this receiver
+   *     - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
+   *   before the session lock expires, then the message lands back in the Queue/Subscription for the next
+   *   receive operation.
+   *
+   * @returns {Promise<Date>} - New lock token expiry date and time in UTC format.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while renewing session lock.
+   * @memberof SessionReceiver
    */
   renewSessionLock(): Promise<Date>;
+  /**
+   * Sets the state on the Session. For more on session states, see
+   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * @param state The state that needs to be set.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while setting the session state.
+   *
+   * @param {*} state
+   * @returns {Promise<void>}
+   * @memberof SessionReceiver
+   */
+  setState(state: any): Promise<void>;
+  /**
+   * Gets the state of the Session. For more on session states, see
+   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * @returns {Promise<any>} The state of that session
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while retrieving session state.
+   * @memberof SessionReceiver
+   */
+  getState(): Promise<any>;
+  /**
+   * @property The id of the session from which this receiver will receive messages.
+   * Will return undefined until a AMQP receiver link has been successfully set up for the session.
+   * @readonly
+   * @type {(string | undefined)}
+   * @memberof SessionReceiver
+   */
+  sessionId: string | undefined;
+  /**
+   * @property The time in UTC until which the session is locked.
+   * Everytime `renewSessionLock()` is called, this time gets updated to current time plus the lock
+   * duration as specified during the Queue/Subscription creation.
+   *
+   * Will return undefined until a AMQP receiver link has been successfully set up for the session.
+   *
+   * @readonly
+   * @memberof SessionReceiver
+   */
+  sessionLockedUntilUtc: Date | undefined;
   /**
    * Closes the client.
+   *
+   * @returns {Promise<void>}
+   * @memberof SessionReceiver
    */
   close(): Promise<void>;
+  /**
+   * Returns the corresponding dead letter queue path for the client entity - meant for both queue and subscription.
+   * @returns {string}
+   * @memberof SessionReceiver
+   */
+  getDeadLetterPath(): string;
   /**
    * Methods related to service bus diagnostics.
    */
@@ -100,50 +184,122 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
       maxMessageCount?: number
     ): Promise<ReceivedMessage[]>;
   };
+  /**
+   * Type of the entity with which the client is created.
+   *
+   * @type {("queue" | "subscription")}
+   * @memberof SessionReceiver
+   */
+  entityType: "queue" | "subscription";
+  /**
+   * Path for the client entity.
+   *
+   * @type {string}
+   * @memberof SessionReceiver
+   */
+  entityPath: string;
+  /**
+   * ReceiveMode provided to the client.
+   *
+   * @type {("peekLock" | "receiveAndDelete")}
+   * @memberof SessionReceiver
+   */
+  receiveMode: "peekLock" | "receiveAndDelete";
 }
 
 /**
  * A receiver client that does not handle sessions.
+ *
+ * @export
+ * @interface NonSessionReceiver
+ * @template LockModeT
  */
 export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
   /**
    * Streams messages to message handlers.
-   * @param handler A handler that gets called for messages and errors.
-   * @param options Options for subscribe.
+   *
+   * @param {MessageHandlers<ContextType<LockModeT>>} handlers A handler that gets called for messages and errors.
+   * @param {SubscribeOptions} [options] Options for subscribe.
+   * @memberof NonSessionReceiver
    */
   subscribe(handler: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
-
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
-   * @param options Options for iterateMessages.
+   * @param {IterateMessagesOptions} [options] Options for iterateMessages.
+   * @returns {MessageIterator<ContextType<LockModeT>>}
+   * @memberof NonSessionReceiver
    */
   iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
-
   /**
    * Receives, at most, `maxMessages` worth of messages.
-   * @param maxMessages The maximum number of messages to accept.
-   * @param maxWaitTimeInSeconds The maximum time to wait, in seconds, for messages to arrive.
-   * @param options Options for receiveBatch.
+   * @param {number} maxMessages The maximum number of messages to accept.
+   * @param {number} [maxWaitTimeInSeconds] The maximum time to wait, in seconds, for messages to arrive.
+   * @param {ReceiveBatchOptions} [options] Options for receiveBatch.
+   * @returns {Promise<{ messages: ReceivedMessage[]; context: ContextType<LockModeT> }>} Message batch object with an array of `ReceivedMessage`s along with the context to settle the messages in "peekLock" mode, context would be empty in "receiveAndDelete" mode
+   * @memberof NonSessionReceiver
    */
   receiveBatch(
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
   ): Promise<{ messages: ReceivedMessage[]; context: ContextType<LockModeT> }>;
+  /**
+   * Renews the lock on the message for the duration as specified during the Queue/Subscription
+   * creation.
+   * - Check the `lockedUntilUtc` property on the message for the time when the lock expires.
+   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
+   * before its lock expires, then the message lands back in the Queue/Subscription for the next
+   * receive operation.
+   *
+   * @param {(string | ReceivedMessage)} lockTokenOrMessage - The `lockToken` property of the message or the message itself.
+   * @returns {Promise<Date>} - New lock token expiry date and time in UTC format.
+   * @throws Error if the underlying connection, client or receiver is closed.
+   * @throws MessagingError if the service returns an error while renewing message lock.
+   * @memberof NonSessionReceiver
+   */
   renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
+  /**
+   * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
+   * @param {Long} sequenceNumber The sequence number of the message that needs to be received.
+   * @returns {(Promise<ServiceBusMessage | undefined>)}
+   * - Returns `Message` identified by sequence number.
+   * - Returns `undefined` if no such message is found.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while receiving deferred message.
+   * @memberof NonSessionReceiver
+   */
   receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
+  /**
+   * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
+   * @param {Long[]} sequenceNumbers An array of sequence numbers for the messages that need to be received.
+   * @returns {Promise<ServiceBusMessage[]>}
+   * - Returns a list of messages identified by the given sequenceNumbers.
+   * - Returns an empty list if no messages are found.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while receiving deferred messages.
+   * @memberof NonSessionReceiver
+   */
   receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
+  /**
+   * Indicates whether the receiver is currently receiving messages or not.
+   * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
+   * @returns {boolean}
+   * @memberof NonSessionReceiver
+   */
   isReceivingMessages(): boolean;
-  close(): Promise<void>;
-  getDeadLetterPath(): string;
-  entityType: "queue" | "subscription";
-  entityPath: string;
-  receiveMode: "peekLock" | "receiveAndDelete";
-
   /**
    * Closes the client.
+   *
+   * @returns {Promise<void>}
+   * @memberof NonSessionReceiver
    */
   close(): Promise<void>;
+  /**
+   * Returns the corresponding dead letter queue path for the client entity - meant for both queue and subscription.
+   * @returns {string}
+   * @memberof NonSessionReceiver
+   */
+  getDeadLetterPath(): string;
 
   /**
    * Methods related to service bus diagnostics.
@@ -169,6 +325,27 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
       maxMessageCount?: number
     ): Promise<ReceivedMessage[]>;
   };
+  /**
+   * Type of the entity with which the client is created.
+   *
+   * @type {("queue" | "subscription")}
+   * @memberof NonSessionReceiver
+   */
+  entityType: "queue" | "subscription";
+  /**
+   * Path for the client entity.
+   *
+   * @type {string}
+   * @memberof NonSessionReceiver
+   */
+  entityPath: string;
+  /**
+   * ReceiveMode provided to the client.
+   *
+   * @type {("peekLock" | "receiveAndDelete")}
+   * @memberof NonSessionReceiver
+   */
+  receiveMode: "peekLock" | "receiveAndDelete";
 }
 
 /**
