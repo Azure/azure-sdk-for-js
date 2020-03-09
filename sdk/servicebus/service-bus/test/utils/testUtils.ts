@@ -17,12 +17,26 @@ import * as dotenv from "dotenv";
 import { ServiceBusSenderClient } from "../../src/serviceBusSenderClient";
 import {
   ServiceBusReceiverClient,
-  ReceiverClientTypeForUser
+  NonSessionReceiver,
+  SessionReceiver,
+  SubscriptionRuleManagement
 } from "../../src/serviceBusReceiverClient";
 dotenv.config();
 
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 const env = getEnvVars();
+
+export type ReceiverClientTypeForUser =
+  | NonSessionReceiver<"peekLock" | "receiveAndDelete">
+  | (NonSessionReceiver<"peekLock" | "receiveAndDelete"> & SubscriptionRuleManagement)
+  | SessionReceiver<"peekLock" | "receiveAndDelete">
+  | (SessionReceiver<"peekLock" | "receiveAndDelete"> & SubscriptionRuleManagement);
+
+export type ReceiverClientTypeForUserT<ReceiveModeT extends "peekLock" | "receiveAndDelete"> =
+  | NonSessionReceiver<ReceiveModeT>
+  | (NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement)
+  | SessionReceiver<ReceiveModeT>
+  | (SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement);
 
 export class TestMessage {
   static sessionId: string = "my-session";

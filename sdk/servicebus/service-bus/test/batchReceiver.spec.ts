@@ -16,13 +16,11 @@ import {
   getSenderReceiverClients,
   purge,
   TestMessage,
-  isSessionfulEntity
-} from "./utils/testUtils";
-import {
+  isSessionfulEntity,
   ReceiverClientTypeForUser,
-  ServiceBusReceiverClient,
   ReceiverClientTypeForUserT
-} from "../src/serviceBusReceiverClient";
+} from "./utils/testUtils";
+import { ServiceBusReceiverClient } from "../src/serviceBusReceiverClient";
 import { getEnvVars } from "./utils/envVarUtils";
 
 const should = chai.should();

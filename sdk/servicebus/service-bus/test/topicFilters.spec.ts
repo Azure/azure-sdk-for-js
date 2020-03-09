@@ -16,13 +16,13 @@ import {
   getSenderReceiverClients,
   TestClientType,
   purge,
-  checkWithTimeout
+  checkWithTimeout,
+  ReceiverClientTypeForUserT
 } from "./utils/testUtils";
 import {
   SubscriptionRuleManagement,
   NonSessionReceiver,
-  SessionReceiver,
-  ReceiverClientTypeForUserT
+  SessionReceiver
 } from "../src/serviceBusReceiverClient";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.

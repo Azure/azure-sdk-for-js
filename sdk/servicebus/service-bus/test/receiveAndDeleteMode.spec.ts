@@ -18,15 +18,13 @@ import {
   TestClientType,
   purge,
   checkWithTimeout,
-  isSessionfulEntity
+  isSessionfulEntity,
+  ReceiverClientTypeForUserT,
+  ReceiverClientTypeForUser
 } from "./utils/testUtils";
 
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
-import {
-  ReceiverClientTypeForUser,
-  ReceiverClientTypeForUserT,
-  NonSessionReceiver
-} from "../src/serviceBusReceiverClient";
+import { NonSessionReceiver } from "../src/serviceBusReceiverClient";
 
 async function testPeekMsgsLength(
   client: ReceiverClientTypeForUser,

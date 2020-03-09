@@ -10,13 +10,11 @@ import {
   TestClientType,
   getSenderReceiverClients,
   purge,
-  TestMessage
-} from "./utils/testUtils";
-import {
-  ReceiverClientTypeForUserT,
+  TestMessage,
   ReceiverClientTypeForUser,
-  ServiceBusReceiverClient
-} from "../src/serviceBusReceiverClient";
+  ReceiverClientTypeForUserT
+} from "./utils/testUtils";
+import { ServiceBusReceiverClient } from "../src/serviceBusReceiverClient";
 import { getEnvVars } from "./utils/envVarUtils";
 import { DispositionType } from "../src/serviceBusMessage";
 const should = chai.should();

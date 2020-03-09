@@ -11,13 +11,11 @@ import {
   getSenderReceiverClients,
   TestClientType,
   purge,
-  isSessionfulEntity
-} from "./utils/testUtils";
-import {
+  isSessionfulEntity,
   ReceiverClientTypeForUserT,
-  ServiceBusReceiverClient,
   ReceiverClientTypeForUser
-} from "../src/serviceBusReceiverClient";
+} from "./utils/testUtils";
+import { ServiceBusReceiverClient } from "../src/serviceBusReceiverClient";
 import { getEnvVars } from "./utils/envVarUtils";
 
 async function testPeekMsgsLength(

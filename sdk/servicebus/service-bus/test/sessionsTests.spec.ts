@@ -18,9 +18,9 @@ import {
   TestMessage,
   getSenderReceiverClients,
   TestClientType,
-  checkWithTimeout
+  checkWithTimeout,
+  ReceiverClientTypeForUser
 } from "./utils/testUtils";
-import { ReceiverClientTypeForUser } from "../src/serviceBusReceiverClient";
 
 async function testPeekMsgsLength(
   client: ReceiverClientTypeForUser,

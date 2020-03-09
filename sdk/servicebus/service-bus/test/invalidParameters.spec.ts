@@ -11,10 +11,10 @@ import {
   TestMessage,
   getSenderReceiverClients,
   TestClientType,
-  EntityNames
+  EntityNames,
+  ReceiverClientTypeForUserT
 } from "./utils/testUtils";
 import {
-  ReceiverClientTypeForUserT,
   NonSessionReceiver,
   SubscriptionRuleManagement,
   SessionReceiver,

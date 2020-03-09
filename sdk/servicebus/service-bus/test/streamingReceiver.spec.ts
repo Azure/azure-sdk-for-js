@@ -18,17 +18,15 @@ import {
   getSenderReceiverClients,
   purge,
   TestMessage,
-  EntityNames
+  EntityNames,
+  ReceiverClientTypeForUser,
+  ReceiverClientTypeForUserT
 } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import { AccessToken, parseConnectionString, TokenCredential } from "@azure/core-amqp";
 import { getEnvVars, EnvVarNames } from "./utils/envVarUtils";
 import { EnvironmentCredential } from "@azure/identity";
-import {
-  ReceiverClientTypeForUserT,
-  ReceiverClientTypeForUser
-} from "../src/serviceBusReceiverClient";
 import { DispositionType } from "../src/serviceBusMessage";
 
 const should = chai.should();

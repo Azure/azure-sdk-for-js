@@ -234,18 +234,6 @@ export type ClientTypeT<
   ? SessionReceiver<ReceiveModeT>
   : SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement;
 
-export type ReceiverClientTypeForUser =
-  | NonSessionReceiver<"peekLock" | "receiveAndDelete">
-  | (NonSessionReceiver<"peekLock" | "receiveAndDelete"> & SubscriptionRuleManagement)
-  | SessionReceiver<"peekLock" | "receiveAndDelete">
-  | (SessionReceiver<"peekLock" | "receiveAndDelete"> & SubscriptionRuleManagement);
-
-export type ReceiverClientTypeForUserT<ReceiveModeT extends "peekLock" | "receiveAndDelete"> =
-  | NonSessionReceiver<ReceiveModeT>
-  | (NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement)
-  | SessionReceiver<ReceiveModeT>
-  | (SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement);
-
 /**
  * A client that can send to queues or topics.
  */
