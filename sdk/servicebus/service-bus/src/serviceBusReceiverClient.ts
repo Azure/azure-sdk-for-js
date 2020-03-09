@@ -718,21 +718,6 @@ export class ReceiverClientImplementation {
     }
   }
 
-  // /**
-  //  *
-  //  *
-  //  * @param {number} maxMessageCount
-  //  * @param {number} [maxWaitTimeInSeconds]
-  //  * @returns {(Message[] & ContextType<"receiveAndDelete" | "peekLock">)}
-  //  * @memberof ReceiverClientImplementation
-  //  */
-  // async receiveBatch(
-  //   maxMessageCount: number,
-  //   maxWaitTimeInSeconds?: number
-  // ): Promise<ServiceBusMessage[]> {
-  //   return this._receiver.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
-  // }
-
   async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
     return this._receiver.receiveDeferredMessage(sequenceNumber);
   }
