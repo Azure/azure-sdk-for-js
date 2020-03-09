@@ -55,6 +55,7 @@ async function main() {
   console.log("### First receipt:")
   console.log(response.analyzeResult.receiptResults[0]);
   console.log("### Items:")
+  console.log(`   \t Quantity\tName\tPrice\tTotalPrice`);
   let i = 1;
   for (const item of response.analyzeResult?.receiptResults[0]?.items) {
     console.log(`${i++})\t ${item.quantity || ""}\t${item.name}\t$${item.totalPrice}`);

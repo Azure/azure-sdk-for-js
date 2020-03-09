@@ -5,7 +5,7 @@
  * Extract receipt
  */
 
-const { FormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+const { ReceiptRecognizerClient, CognitiveKeyCredential } = require("../../dist");
 const fs = require("fs");
 
 // Load the .env file if it exists
@@ -49,12 +49,13 @@ async function main() {
   console.log("### First receipt:")
   console.log(response.analyzeResult.receiptResults[0]);
   console.log("### Items:")
+  console.log(`   \t Quantity\tName\tPrice\tTotalPrice`);
   let i = 1;
-  for (const item of response.analyzeResult?.receiptResults[0]?.items) {
-    console.log(`${i++})\t ${item.quantity || ""}\t${item.name}\t$${item.totalPrice}`);
+  for (const item of response.analyzeResult.receiptResults[0].items) {
+    console.log(`${i++})\t ${item.quantity || ""}\t${item.name}\t$${item.price || "<missing>"}\t$${item.totalPrice || "<missing>"}`);
   }
   console.log("### Raw 'MerchantAddress' fields:");
-  console.log(response.analyzeResult?.receiptResults[0]?.fields["MerchantAddress"])
+  console.log(response.analyzeResult.receiptResults[0].fields["MerchantAddress"])
 
 }
 

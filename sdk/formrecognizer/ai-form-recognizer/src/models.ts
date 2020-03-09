@@ -206,12 +206,14 @@ export type ReceiptItemField = {
   valueObject: {
     Name: StringFieldValue;
     Quantity: NumberFieldValue;
+    Price: NumberFieldValue;
     TotalPrice: NumberFieldValue;
   }
 } & CommonFieldValue
 
 export interface ReceiptItem {
   name?: string;
+  price?: number;
   quantity?: number;
   totalPrice?: number;
 }

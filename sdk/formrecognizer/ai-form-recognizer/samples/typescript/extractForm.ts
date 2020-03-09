@@ -39,7 +39,7 @@ async function main() {
 
   console.log(response.status);
   if (response.analyzeResult?.documentResults && response.analyzeResult?.documentResults.length > 0) {
-    console.log(response.analyzeResult?.documentResults[0] ?? "No documents extracted");
+    console.log(response.analyzeResult?.documentResults[0]);
   }
   console.log(response.analyzeResult?.pageResults);
   console.log(response.analyzeResult?.readResults);

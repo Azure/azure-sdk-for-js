@@ -33,12 +33,12 @@ async function main() {
   }
 
   console.log(response.status);
-  if (response.analyzeResult?.documentResults && response.analyzeResult?.documentResults.length > 0) {
-    console.log(response.analyzeResult?.documentResults[0] ?? "No documents extracted");
+  if (response.analyzeResult.documentResults && response.analyzeResult.documentResults.length > 0) {
+    console.log(response.analyzeResult.documentResults[0]);
   }
-  console.log(response.analyzeResult?.pageResults);
-  console.log(response.analyzeResult?.readResults);
-  console.log(response.analyzeResult?.errors);
+  console.log(response.analyzeResult.pageResults);
+  console.log(response.analyzeResult.readResults);
+  console.log(response.analyzeResult.errors);
 }
 
 main().catch((err) => {
