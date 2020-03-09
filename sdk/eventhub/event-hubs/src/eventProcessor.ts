@@ -9,7 +9,7 @@ import { logger, logErrorStackTrace } from "./log";
 import { FairPartitionLoadBalancer, PartitionLoadBalancer } from "./partitionLoadBalancer";
 import { PartitionProcessor, Checkpoint } from "./partitionProcessor";
 import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
-import { EventPosition, latestEventPosition } from "./eventPosition";
+import { EventPosition, latestEventPosition, isEventPosition } from "./eventPosition";
 import { delayWithoutThrow } from "./util/delayWithoutThrow";
 import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
@@ -587,11 +587,7 @@ function getStartPosition(
     return latestEventPosition;
   }
 
-  if (
-    startPositions.offset != undefined ||
-    startPositions.sequenceNumber != undefined ||
-    startPositions.enqueuedOn != undefined
-  ) {
+  if (isEventPosition(startPositions)) {
     return startPositions;
   }
 
