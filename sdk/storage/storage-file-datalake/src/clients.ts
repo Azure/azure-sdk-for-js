@@ -1086,7 +1086,7 @@ export class DataLakeFileClient extends DataLakePathClient {
 
       // append() with empty data would return error, so do not continue
       if (size === 0) {
-        return createRes;
+        return await createRes;
       } else {
         await createRes;
       }
@@ -1255,7 +1255,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       });
       // append() with empty data would return error, so do not continue
       if (size === 0) {
-        return createRes;
+        return await createRes;
       } else {
         await createRes;
       }
