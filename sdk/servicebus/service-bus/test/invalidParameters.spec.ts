@@ -586,7 +586,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   });
 });
 
-// Same as the previous describe block - session vs non-session
+// These tests are exactly same as the previous describe block - session vs non-session
 // describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
 //   let receiver: InternalReceiver;
 //   let receiverClient: QueueClient;
