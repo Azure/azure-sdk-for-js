@@ -309,7 +309,7 @@ describe("SessionReceiver with no sessionId", function(): void {
     void
   > {
     await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions, sessionId);
-    await testComplete_batching(TestClientType.PartitionedQueueWithSessions);
+    await testComplete_batching(TestClientType.PartitionedSubscriptionWithSessions);
   });
 
   it("Unpartitioned Queue: complete() removes message from random session #RunInBrowser", async function(): Promise<
@@ -356,13 +356,7 @@ describe("SessionReceiver with empty string as sessionId", function(): void {
     await senderClient.send(testMessagesWithDifferentSessionIds[1]);
 
     receiverClient = (
-      await getSenderReceiverClients(
-        testClientType,
-        "peekLock",
-        undefined,
-        { id: undefined },
-        false
-      )
+      await getSenderReceiverClients(testClientType, "peekLock", undefined, { id: "" }, false)
     ).receiverClient as SessionReceiver<"peekLock">;
     const batch = await receiverClient.receiveBatch(2);
     const msgs = batch.messages;
@@ -409,7 +403,7 @@ describe("SessionReceiver with empty string as sessionId", function(): void {
     void
   > {
     await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions, sessionId);
-    await testComplete_batching(TestClientType.UnpartitionedQueueWithSessions);
+    await testComplete_batching(TestClientType.UnpartitionedSubscriptionWithSessions);
   });
 });
 
