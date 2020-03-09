@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import Long from "long";
-import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
+import { ServiceBusMessage, ReceiveMode } from "./serviceBusMessage";
 import { ClientEntityContext } from "./clientEntityContext";
 import { generate_uuid } from "rhea-promise";
 import { ClientType } from "./client";
@@ -530,7 +530,6 @@ export interface ServiceBusReceiverClient {
  * @ignore
  */
 export class ReceiverClientImplementation {
-  _sessionEnabled: boolean;
   constructor(
     auth1: QueueAuth | SubscriptionAuth,
     receiveMode2: "peekLock" | "receiveAndDelete",
@@ -571,7 +570,6 @@ export class ReceiverClientImplementation {
         sessionId: session.id,
         maxSessionAutoRenewLockDurationInSeconds: session.maxSessionAutoRenewLockDurationInSeconds
       });
-      this._sessionEnabled = true;
       this._receiver = receiver;
 
       this.diagnostics = {
@@ -589,7 +587,6 @@ export class ReceiverClientImplementation {
       };
     } else {
       const receiver = new InternalReceiver(clientEntityContext, this._internalReceiveMode);
-      this._sessionEnabled = false;
       this._receiver = receiver;
 
       this.diagnostics = {
@@ -811,31 +808,8 @@ export class ReceiverClientImplementation {
   ): Promise<void> {
     return this._receiver.addRule(this.entityPath, ruleName, filter, sqlRuleActionExpression);
   }
-
   // ManagementClient methods # Begin
-  async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
-    if (this._receiver instanceof InternalSessionReceiver) {
-      return this._receiver.peek(maxMessageCount);
-    } else {
-      return this._receiver.peek(this.entityPath, maxMessageCount);
-    }
-  }
-
-  async peekBySequenceNumber(
-    fromSequenceNumber: Long,
-    maxMessageCount?: number
-  ): Promise<ReceivedMessageInfo[]> {
-    if (this._receiver instanceof InternalSessionReceiver) {
-      return this._receiver.peekBySequenceNumber(fromSequenceNumber, maxMessageCount);
-    } else {
-      return this._receiver.peekBySequenceNumber(
-        this.entityPath,
-        fromSequenceNumber,
-        maxMessageCount
-      );
-    }
-  }
-
+  // peek & peekBySequenceNumber are kept under `diagnostics`
   // /**
   //  * Lists the ids of the sessions on the ServiceBus Queue.
   //  * @param maxNumberOfSessions Maximum number of sessions.
