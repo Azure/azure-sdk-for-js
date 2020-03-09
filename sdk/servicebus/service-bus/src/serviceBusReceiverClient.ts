@@ -863,18 +863,17 @@ export class ReceiverClientImplementation {
     ): Promise<ReceivedMessage[]>;
   };
 
-  private _receiver: InternalSessionReceiver | InternalReceiver;
-  // private _sessionEnabled: boolean;
-  public receiveMode: "peekLock" | "receiveAndDelete";
-  private _internalReceiveMode: ReceiveMode;
-  public entityPath: string;
   /**
    * @readonly
    * @property The name of the default rule on the subscription.
    */
   readonly defaultRuleName: string = "$Default";
-  private _context: ConnectionContext;
+  public entityPath: string;
   public entityType: "queue" | "subscription";
+  public receiveMode: "peekLock" | "receiveAndDelete";
+  private _context: ConnectionContext;
+  private _internalReceiveMode: ReceiveMode;
+  private _receiver: InternalSessionReceiver | InternalReceiver;
 }
 
 /**
