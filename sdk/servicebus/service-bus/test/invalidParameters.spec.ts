@@ -586,7 +586,9 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   });
 });
 
-// These tests are exactly same as the previous describe block - session vs non-session
+// These tests are exactly same as the previous describe block - session vs non-session.
+// Since the current 2-client API version doesn't differentiate between session vs session (w.r.t the methods), there is no need for duplication.
+// This is subject to change when the top-level client is implemented.
 // describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
 //   let receiver: InternalReceiver;
 //   let receiverClient: QueueClient;
