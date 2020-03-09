@@ -143,7 +143,7 @@ describe("Batch Receiver: complete() after lock expiry with throws error", funct
       maxSessionAutoRenewLockDurationInSeconds
     );
     await testBatchReceiverManualLockRenewalErrorOnLockExpiry(
-      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions,
       senderClient,
       receiverClient
     );
@@ -157,7 +157,7 @@ describe("Batch Receiver: complete() after lock expiry with throws error", funct
       maxSessionAutoRenewLockDurationInSeconds
     );
     await testBatchReceiverManualLockRenewalErrorOnLockExpiry(
-      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.PartitionedSubscriptionWithSessions,
       senderClient,
       receiverClient
     );
