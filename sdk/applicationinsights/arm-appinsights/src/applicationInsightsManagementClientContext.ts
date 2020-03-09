@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-appinsights";
-const packageVersion = "0.1.0";
+const packageVersion = "2.1.0";
 
 export class ApplicationInsightsManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -23,7 +23,7 @@ export class ApplicationInsightsManagementClientContext extends msRestAzure.Azur
   /**
    * Initializes a new instance of the ApplicationInsightsManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The Azure subscription ID.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ApplicationInsightsManagementClientOptions) {
