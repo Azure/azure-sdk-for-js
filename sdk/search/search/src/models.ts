@@ -2,13 +2,20 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import { QueryType, SearchMode, FacetResult, AutocompleteMode } from "./generated/data/models";
+import {
+  QueryType,
+  SearchMode,
+  FacetResult,
+  AutocompleteMode,
+  IndexActionType,
+  SearchRequest as RawSearchRequest
+} from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * Options for performing the count operation on the index.
  */
-export type CountOptions = OperationOptions;
+export type CountDocumentsOptions = OperationOptions;
 /**
  * Options for retrieving completion text for a partial searchText.
  */
@@ -36,7 +43,7 @@ export interface GetDocumentOptions<Fields> extends OperationOptions {
 /**
  * Options for the modify index batch operation.
  */
-export interface ModifyIndexOptions extends OperationOptions {
+export interface IndexDocuments extends OperationOptions {
   /**
    * If true, will cause this operation to throw if any document operation
    * in the batch did not succeed.
@@ -47,7 +54,7 @@ export interface ModifyIndexOptions extends OperationOptions {
 /**
  * Options for the upload documents operation.
  */
-export interface UploadDocumentsOptions extends ModifyIndexOptions {
+export interface UploadDocumentsOptions extends IndexDocuments {
   /**
    * If true, any documents in this batch will merge with existing documents
    * which have the same primary key.
@@ -58,7 +65,7 @@ export interface UploadDocumentsOptions extends ModifyIndexOptions {
 /**
  * Options for the update documents operation.
  */
-export interface UpdateDocumentsOptions extends ModifyIndexOptions {
+export interface MergeDocumentsOptions extends IndexDocuments {
   /**
    * If true, any documents in this batch that do not exist on the server
    * will be treated as an upload instead of an update.
@@ -69,7 +76,7 @@ export interface UpdateDocumentsOptions extends ModifyIndexOptions {
 /**
  * Options for the delete documents operation.
  */
-export type DeleteDocumentsOptions = ModifyIndexOptions;
+export type DeleteDocumentsOptions = IndexDocuments;
 
 /**
  * Arguments for retrieving the next page of search results.
@@ -82,16 +89,17 @@ export interface ListSearchResultsPageSettings {
   /**
    * When server pagination occurs, this is the set of parameters to include in the POST body.
    */
-  nextPageParameters?: SearchRequest<string>;
+  nextPageParameters?: RawSearchRequest;
 }
 
 /**
- * An iterator for search results of a paticular query. Use .byPage()
- * to view page-level information such as facet data.
+ * An iterator for search results of a paticular query. Will make requests
+ * as needed during iteration. Use .byPage() to make one request to the server
+ * per iteration.
  */
 export type SearchIterator<Fields> = PagedAsyncIterableIterator<
   SearchResult<Fields>,
-  SearchDocumentsResult<Fields>,
+  SearchDocumentsPageResult<Fields>,
   ListSearchResultsPageSettings
 >;
 
@@ -142,14 +150,14 @@ export interface SearchRequest<Fields> {
    */
   minimumCoverage?: number;
   /**
-   * The comma-separated list of OData $orderby expressions by which to sort the results. Each
+   * The list of OData $orderby expressions by which to sort the results. Each
    * expression can be either a field name or a call to either the geo.distance() or the
    * search.score() functions. Each expression can be followed by asc to indicate ascending, or
    * desc to indicate descending. The default is ascending order. Ties will be broken by the match
    * scores of documents. If no $orderby is specified, the default sort order is descending by
    * document match score. There can be at most 32 $orderby clauses.
    */
-  orderBy?: string;
+  orderBy?: string[];
   /**
    * A value that specifies the syntax of the search query. The default is 'simple'. Use 'full' if
    * your query uses the Lucene query syntax. Possible values include: 'simple', 'full'
@@ -210,7 +218,7 @@ export type SearchResult<T> = {
    * The relevance score of the document compared to other documents returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly score?: number;
+  readonly score: number;
   /**
    * Text fragments from the document that indicate the matching search terms, organized by each
    * applicable field; null if hit highlighting was not enabled for the query.
@@ -222,7 +230,7 @@ export type SearchResult<T> = {
 /**
  * Response containing search results from an index.
  */
-export interface SearchDocumentsResult<T> {
+export interface SearchDocumentsResultBase {
   /**
    * The total count of results found by the search operation, or null if the count was not
    * requested. If present, the count may be greater than the number of results in this response.
@@ -243,18 +251,29 @@ export interface SearchDocumentsResult<T> {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly facets?: { [propertyName: string]: FacetResult[] };
+}
+
+export interface SearchDocumentsResult<T> extends SearchDocumentsResultBase {
+  /**
+   * The sequence of results returned by the query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly results: SearchIterator<T>;
+}
+
+export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
+  /**
+   * The sequence of results returned by the query.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly results: SearchResult<T>[];
   /**
    * Continuation JSON payload returned when Azure Cognitive Search can't return all the requested
    * results in a single Search response. You can use this JSON along with @odata.nextLink to
    * formulate another POST Search request to get the next part of the search response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly nextPageParameters?: SearchRequest<string>;
-  /**
-   * The sequence of results returned by the query.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly results?: SearchResult<T>[];
+  readonly nextPageParameters?: RawSearchRequest;
   /**
    * Continuation URL returned when Azure Cognitive Search can't return all the requested results
    * in a single Search response. You can use this URL to formulate another GET or POST Search
@@ -299,14 +318,14 @@ export interface SuggestRequest<Fields> {
    */
   minimumCoverage?: number;
   /**
-   * The comma-separated list of OData $orderby expressions by which to sort the results. Each
+   * The list of OData $orderby expressions by which to sort the results. Each
    * expression can be either a field name or a call to either the geo.distance() or the
    * search.score() functions. Each expression can be followed by asc to indicate ascending, or
    * desc to indicate descending. The default is ascending order. Ties will be broken by the match
    * scores of documents. If no $orderby is specified, the default sort order is descending by
    * document match score. There can be at most 32 $orderby clauses.
    */
-  orderBy?: string;
+  orderBy?: string[];
   /**
    * The search text to use to suggest documents. Must be at least 1 character, and no more than
    * 100 characters.
@@ -342,7 +361,7 @@ export type SuggestResult<T> = {
    * The text of the suggestion result.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly text?: string;
+  readonly text: string;
 } & T;
 
 /**
@@ -353,7 +372,7 @@ export interface SuggestDocumentsResult<T> {
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly results?: SuggestResult<T>[];
+  readonly results: SuggestResult<T>[];
   /**
    * A value indicating the percentage of the index that was included in the query, or null if
    * minimumCoverage was not set in the request.
@@ -422,5 +441,16 @@ export interface AutocompleteRequest<Fields> {
    */
   top?: number;
 }
+
+/**
+ * Represents an index action that operates on a document.
+ */
+export type IndexAction<T> = {
+  /**
+   * The operation to perform on a document in an indexing batch. Possible values include:
+   * 'upload', 'merge', 'mergeOrUpload', 'delete'
+   */
+  actionType: IndexActionType;
+} & Partial<T>;
 
 // END manually modified generated interfaces

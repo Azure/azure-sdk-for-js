@@ -1,6 +1,10 @@
 # Release History
 
-## 4.0.3 (Unreleased)
+## 4.1.0-preview.1 (Unreleased)
+
+- Added the optional `apiVersion` property to the `SecretClient` optional parameters.
+  It defaults to the latest supported API version, which currently is `7.1-preview`.
+- Added `recoverableDays` as an optional property to `SecretProperties`.
 
 ## 4.0.2 (2019-12-04)
 

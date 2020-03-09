@@ -6,7 +6,7 @@
 
 ```yaml
 package-name: "@azure/ai-text-analytics"
-title: TextAnalyticsClient
+title: GeneratedClient
 description: TextAnalytics Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
@@ -30,7 +30,7 @@ directive:
   - from: swagger-document
     where: $.definitions.DocumentStatistics.properties.charactersCount
     transform: >
-      $["x-ms-client-name"] = "characterCount";
+      $["x-ms-client-name"] = "graphemeCount";
 ```
 
 ```yaml
