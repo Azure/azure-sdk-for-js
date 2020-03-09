@@ -632,7 +632,7 @@ export class ReceiverClientImplementation {
     // TODO: use options
     if (
       !handlers ||
-      !(handlers.processMessage instanceof Function && handlers.processMessage instanceof Function)
+      !(handlers.processMessage instanceof Function && handlers.processError instanceof Function)
     ) {
       throw new TypeError('Invalid "MessageHandlers" provided.');
     }
