@@ -15,7 +15,7 @@
     }
   },
   "variables": {
-    "configurationApiVersion": "2019-02-01-preview",
+    "configurationApiVersion": "2019-10-01",
     "accountName": "[parameters('baseName')]",
     "endpoint": "[concat('https://', parameters('baseName'), '.azconfig.io')]"
   },
