@@ -765,12 +765,6 @@ export class ReceiverClientImplementation {
     }
   }
 
-  // private isSessionReceiver(
-  //   receiver: InternalSessionReceiver | InternalReceiver
-  // ): receiver is InternalSessionReceiver {
-  //   return this._sessionEnabled;
-  // }
-
   getRules(): Promise<RuleDescription[]> {
     return this._receiver.getRules(this.entityPath);
   }
