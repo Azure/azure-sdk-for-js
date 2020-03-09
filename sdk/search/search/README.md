@@ -70,7 +70,7 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 ```
 
@@ -106,10 +106,10 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
-const searchResults = await client.search({ searchText: "wifi -luxury"});
+const searchResults = await client.search({ searchText: "wifi -luxury" });
 for await (const result of searchResults.results) {
   console.log(result);
 }
@@ -123,11 +123,11 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const searchResults = await client.search({
-  searchText: 'category:budget AND "recently renovated"^3',
+  searchText: 'Category:budget AND "recently renovated"^3',
   queryType: "full",
   searchMode: "all"
 });
@@ -156,7 +156,7 @@ interface Hotel {
 const client = new SearchIndexClient<Hotel>(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const searchResults = await client.search({
@@ -183,7 +183,7 @@ const { SearchIndexClient, SearchApiKeyCredential, odata } = require("@azure/sea
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const baseRateMax = 200;
@@ -211,14 +211,13 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
-const searchResults = await client
-  .search({
-    searchText: "WiFi",
-    facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
-  });
+const searchResults = await client.search({
+  searchText: "WiFi",
+  facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
+});
 console.log(searchResults.facets);
 // Output will look like:
 // {
@@ -252,7 +251,7 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const result = await client.getDocument("1234");
@@ -271,7 +270,7 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const suggestResult = await client.suggest({
@@ -300,12 +299,12 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
-const suggesterName = "sg";
+
 const autocompleteResult = await client.autocomplete({
   searchText: "de",
-  suggesterName: "sg",
+  suggesterName: "sg"
 });
 
 for (const result of autocompleteResult.results || []) {
@@ -321,7 +320,7 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const count = await client.countDocuments();
@@ -333,13 +332,12 @@ console.log(`${count} documents in index ${client.indexName}`);
 Given the name of a primary key and a list of indexes, you can delete multiple documents from the index at the same time:
 
 ```js
-
 const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const deleteResult = await client.deleteDocuments("HotelId", ["1", "2", "3"]);
@@ -359,7 +357,7 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const uploadResult = await client.uploadDocuments([
@@ -384,7 +382,7 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const updateResult = await client.mergeDocuments([
