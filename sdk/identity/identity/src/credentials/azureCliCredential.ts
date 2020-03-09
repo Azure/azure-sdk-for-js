@@ -9,8 +9,8 @@ import { logger } from "../util/logging";
 
 import * as child_process from "child_process";
 
-function get_safe_working_dir(): string {
-    if (process.platform == "win32") {
+function getSafeWorkingDir(): string {
+    if (process.platform === "win32") {
       if (!process.env.SystemRoot) {
         throw new Error("Azure CLI credential expects a 'SystemRoot' environment variable");
       }
@@ -39,7 +39,7 @@ export class AzureCliCredential implements TokenCredential {
       try {
         child_process.exec(
           `az account get-access-token --output json --resource ${resource}`,
-          {cwd: get_safe_working_dir()},
+          {cwd: getSafeWorkingDir()},
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr });
           }
