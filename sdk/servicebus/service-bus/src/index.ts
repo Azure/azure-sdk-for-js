@@ -64,7 +64,7 @@ export {
   Session,
   QueueAuth,
   SubscriptionAuth,
-  IterateMessagesOptions,
+  GetMessageIteratorOptions,
   ReceiveBatchOptions,
   SubscribeOptions,
   MessageHandlerOptions,

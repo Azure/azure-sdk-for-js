@@ -217,7 +217,7 @@ export interface ReceiveBatchOptions extends OperationOptions {}
 /**
  * Options when getting an iterable iterator from Service Bus.
  */
-export interface IterateMessagesOptions extends OperationOptions {}
+export interface GetMessageIteratorOptions extends OperationOptions {}
 
 /**
  * Options used when subscribing to a Service Bus queue or subscription.
@@ -252,4 +252,18 @@ export interface MessageHandlerOptions {
    * - **Default**: `1`.
    */
   maxConcurrentCalls?: number;
+}
+
+/**
+ * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
+ * has sessions enabled.
+ */
+export interface GetSessionReceiverOptions extends OperationOptions {
+  /**
+   * @property The maximum duration in seconds
+   * until which, the lock on the session will be renewed automatically by the sdk.
+   * - **Default**: `300` seconds (5 minutes).
+   * - **To disable autolock renewal**, set this to `0`.
+   */
+  maxSessionAutoRenewLockDurationInSeconds?: number;
 }
