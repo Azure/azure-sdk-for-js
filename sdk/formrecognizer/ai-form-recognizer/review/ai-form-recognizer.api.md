@@ -20,7 +20,20 @@ import { TokenCredential } from '@azure/identity';
 import { WebResource } from '@azure/core-http';
 
 // @public (undocumented)
+export type AnalyzeFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+    analyzeResult?: AnalyzeFormResult;
+};
+
+// @public (undocumented)
 export type AnalyzeFormResult = Omit<AnalyzeResult, "documentResults">;
+
+// @public (undocumented)
+export type AnalyzeFormResultResponse = AnalyzeFormOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
+};
 
 // @public
 export interface AnalyzeLayoutAsyncHeaders {
@@ -253,7 +266,7 @@ export interface FormFieldsReport {
 }
 
 // @public (undocumented)
-export type FormPollerLike = PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>;
+export type FormPollerLike = PollerLike<PollOperationState<AnalyzeFormResultResponse>, AnalyzeFormResultResponse>;
 
 // @public
 export interface FormRecognizerClientOptions extends PipelineOptions {
@@ -567,7 +580,7 @@ export { RestResponse }
 // @public
 export type StartAnalyzeFormOptions = ExtractCustomFormOptions & {
     intervalInMs?: number;
-    onProgress?: (state: StartAnalyzePollState<GetAnalyzeFormResultResponse>) => void;
+    onProgress?: (state: StartAnalyzePollState<AnalyzeFormResultResponse>) => void;
     resumeFrom?: string;
 };
 

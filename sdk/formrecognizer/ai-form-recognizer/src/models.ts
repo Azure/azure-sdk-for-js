@@ -339,6 +339,27 @@ export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
 
 export type AnalyzeFormResult = Omit<AnalyzeResult, "documentResults">
 
+export type AnalyzeFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+  analyzeResult?: AnalyzeFormResult;
+}
+
+export type AnalyzeFormResultResponse = AnalyzeFormOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalyzeOperationResultModel;
+  };
+}
+
 export type CustomFormModelTrainResult = Omit<TrainResult, "averageModelAccuracy" | "fields">;
 
 export type CustomFormModel = Omit<Model, "trainResult"> & {

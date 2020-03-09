@@ -88,6 +88,7 @@ export class StartAnalyzePoller<T extends ICanHazStatus> extends Poller<StartAna
       contentType,
       intervalInMs = 1000,
       resultId,
+      modelId,
       onProgress,
       resumeFrom
     } = options;
@@ -104,6 +105,7 @@ export class StartAnalyzePoller<T extends ICanHazStatus> extends Poller<StartAna
       body,
       contentType,
       resultId,
+      modelId,
       status: "notStarted",
       analyzeOptions: options
     }, );

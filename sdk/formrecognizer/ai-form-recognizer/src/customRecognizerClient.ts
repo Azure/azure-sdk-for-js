@@ -27,7 +27,7 @@ import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, AnalyzeOptions } from './lro/analyze/poller';
-import { LabeledFormModelResponse, CustomFormModelResponse } from './models';
+import { LabeledFormModelResponse, CustomFormModelResponse, AnalyzeFormResultResponse } from './models';
 
 import {
   GetCustomModelsResponse,
@@ -106,11 +106,11 @@ export type ExtractCustomFormOptions = FormRecognizerOperationOptions & {
  */
 export type StartAnalyzeFormOptions = ExtractCustomFormOptions & {
   intervalInMs?: number;
-  onProgress?: (state: StartAnalyzePollState<GetAnalyzeFormResultResponse>) => void;
+  onProgress?: (state: StartAnalyzePollState<AnalyzeFormResultResponse>) => void;
   resumeFrom?: string;
 }
 
-export type FormPollerLike = PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>
+export type FormPollerLike = PollerLike<PollOperationState<AnalyzeFormResultResponse>, AnalyzeFormResultResponse>
 
 type GetExtractedCustomFormOptions = FormRecognizerOperationOptions;
 
@@ -354,7 +354,7 @@ export class CustomFormRecognizerClient {
     if (!modelId) {
       throw new RangeError("Invalid modelId")
     }
-    const analyzePollerClient: AnalyzePollerClient<GetAnalyzeFormResultResponse> = {
+    const analyzePollerClient: AnalyzePollerClient<AnalyzeFormResultResponse> = {
       startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) =>
        analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getAnalyzeResult: (resultId: string,
@@ -363,6 +363,7 @@ export class CustomFormRecognizerClient {
 
     const poller = new StartAnalyzePoller({
       client: analyzePollerClient,
+      modelId,
       body,
       contentType,
       ...options
@@ -391,7 +392,7 @@ export class CustomFormRecognizerClient {
     modelId: string,
     resultId: string,
     options?: GetExtractedCustomFormOptions
-  ) {
+  ): Promise<AnalyzeFormResultResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-getExtractedCustomFormResult",
@@ -404,7 +405,7 @@ export class CustomFormRecognizerClient {
         resultId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      return result; // TODO: transform to custom form result response defined in model.ts
+      return toCustomFormResultResponse(result); // TODO: transform to custom form result response defined in model.ts
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -414,6 +415,21 @@ export class CustomFormRecognizerClient {
     } finally {
       span.end();
     }
+  }
+}
+
+function toCustomFormResultResponse(original: GetAnalyzeFormResultResponse): AnalyzeFormResultResponse {
+  return {
+    status: original.status,
+    createdDateTime: original.createdDateTime,
+    lastUpdatedDateTime: original.createdDateTime,
+    _response: original._response,
+    analyzeResult: !!original.analyzeResult ? {
+      version: original.analyzeResult.version,
+      readResults: original.analyzeResult?.readResults,
+      pageResults: [], // TODO: transform from original.analyzeResult?.pageResults,
+      errors: original.analyzeResult?.errors,
+    } : undefined
   }
 }
 
