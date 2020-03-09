@@ -69,6 +69,12 @@ export class AzureCliCredential implements TokenCredential {
       scope = typeof scopes === "string" ? scopes : scopes[0];
       logger.info(`use the scope ${scope}`);
       const resource = scope.replace(/\/.default$/, "");
+
+      // Check to make sure the scope we get back is a valid scope
+      if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
+        throw new Error("Azure CLI credential return invalid scope")
+      }
+
       let responseData = "";
 
       const { span } = createSpan("AzureCliCredential-getToken", options);
