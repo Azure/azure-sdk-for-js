@@ -495,6 +495,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
     should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
   });
 
+  // The following 2 tests didn't make sense for the current handler type. That being said, equivalent tests for current API need to be added.
   // it("RegisterMessageHandler: Missing onError in SessionReceiver", async function(): Promise<void> {
   //   let caughtError: Error | undefined;
   //   try {
