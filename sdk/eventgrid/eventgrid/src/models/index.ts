@@ -2473,7 +2473,7 @@ export interface MachineLearningServicesModelRegisteredEventData {
   /**
    * The version of the model that was registered.
    */
-  modelVersion?: number;
+  modelVersion?: string;
   /**
    * The tags of the model that was registered.
    */
@@ -2579,6 +2579,115 @@ export interface MachineLearningServicesDatasetDriftDetectedEventData {
    * The end time of the target dataset time series that resulted in drift detection.
    */
   endTime?: Date;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an
+ * Microsoft.MachineLearningServices.RunStatusChanged event.
+ */
+export interface MachineLearningServicesRunStatusChangedEventData {
+  /**
+   * The ID of the experiment that the Machine Learning Run belongs to.
+   */
+  experimentId?: string;
+  /**
+   * The name of the experiment that the Machine Learning Run belongs to.
+   */
+  experimentName?: string;
+  /**
+   * The ID of the Machine Learning Run.
+   */
+  runId?: string;
+  /**
+   * The Run Type of the Machine Learning Run.
+   */
+  runType?: string;
+  /**
+   * The tags of the Machine Learning Run.
+   */
+  runTags?: any;
+  /**
+   * The properties of the Machine Learning Run.
+   */
+  runProperties?: any;
+  /**
+   * The status of the Machine Learning Run.
+   */
+  runStatus?: string;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Cache.PatchingCompleted event.
+ */
+export interface RedisPatchingCompletedEventData {
+  /**
+   * The time at which the event occurred.
+   */
+  timestamp?: Date;
+  /**
+   * The name of this event.
+   */
+  name?: string;
+  /**
+   * The status of this event. Failed or  succeeded
+   */
+  status?: string;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Cache.ScalingCompleted event.
+ */
+export interface RedisScalingCompletedEventData {
+  /**
+   * The time at which the event occurred.
+   */
+  timestamp?: Date;
+  /**
+   * The name of this event.
+   */
+  name?: string;
+  /**
+   * The status of this event. Failed or  succeeded
+   */
+  status?: string;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Cache.ExportRDBCompleted
+ * event.
+ */
+export interface RedisExportRDBCompletedEventData {
+  /**
+   * The time at which the event occurred.
+   */
+  timestamp?: Date;
+  /**
+   * The name of this event.
+   */
+  name?: string;
+  /**
+   * The status of this event. Failed or  succeeded
+   */
+  status?: string;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Cache.ImportRDBCompleted
+ * event.
+ */
+export interface RedisImportRDBCompletedEventData {
+  /**
+   * The time at which the event occurred.
+   */
+  timestamp?: Date;
+  /**
+   * The name of this event.
+   */
+  name?: string;
+  /**
+   * The status of this event. Failed or  succeeded
+   */
+  status?: string;
 }
 
 /**

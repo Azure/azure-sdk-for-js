@@ -3728,7 +3728,7 @@ export const MachineLearningServicesModelRegisteredEventData: msRest.CompositeMa
       modelVersion: {
         serializedName: "modelVersion",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
       modelTags: {
@@ -3885,6 +3885,170 @@ export const MachineLearningServicesDatasetDriftDetectedEventData: msRest.Compos
         serializedName: "endTime",
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const MachineLearningServicesRunStatusChangedEventData: msRest.CompositeMapper = {
+  serializedName: "MachineLearningServicesRunStatusChangedEventData",
+  type: {
+    name: "Composite",
+    className: "MachineLearningServicesRunStatusChangedEventData",
+    modelProperties: {
+      experimentId: {
+        serializedName: "experimentId",
+        type: {
+          name: "String"
+        }
+      },
+      experimentName: {
+        serializedName: "experimentName",
+        type: {
+          name: "String"
+        }
+      },
+      runId: {
+        serializedName: "runId",
+        type: {
+          name: "String"
+        }
+      },
+      runType: {
+        serializedName: "runType",
+        type: {
+          name: "String"
+        }
+      },
+      runTags: {
+        serializedName: "runTags",
+        type: {
+          name: "Object"
+        }
+      },
+      runProperties: {
+        serializedName: "runProperties",
+        type: {
+          name: "Object"
+        }
+      },
+      runStatus: {
+        serializedName: "runStatus",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedisPatchingCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisPatchingCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisPatchingCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedisScalingCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisScalingCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisScalingCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedisExportRDBCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisExportRDBCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisExportRDBCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedisImportRDBCompletedEventData: msRest.CompositeMapper = {
+  serializedName: "RedisImportRDBCompletedEventData",
+  type: {
+    name: "Composite",
+    className: "RedisImportRDBCompletedEventData",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
         }
       }
     }
