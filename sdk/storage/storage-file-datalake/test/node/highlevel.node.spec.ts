@@ -250,7 +250,7 @@ describe("Highlevel Node.js only", () => {
     assert.ok(errThrown, "upload with a if-not-exist check should have thrown.");
   });
 
-  it.only("upload should work when data size = FILE_MAX_SINGLE_UPLOAD_THRESHOLD", async () => {
+  it("upload should work when data size = FILE_MAX_SINGLE_UPLOAD_THRESHOLD", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const tempFile = await createRandomLocalFile(tempFolderPath, FILE_MAX_SINGLE_UPLOAD_THRESHOLD, MB);
     const uploadedBuffer = fs.readFileSync(tempFile);
