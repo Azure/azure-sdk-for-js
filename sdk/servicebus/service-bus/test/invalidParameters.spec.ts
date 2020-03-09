@@ -334,6 +334,9 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
     await receiverClient.close();
   });
 
+  // Reason for commenting the following 2 tests
+  // `ReceiveMode` is now being passed in the Client - and this test is covered in the newly added `SessionReceiver: Throws error if created a client with invalid receiveMode`
+  // Supposed to be reverted and made changes accordingly once the Toplevel Client is added.
   // it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
   //   receiverClient = new ServiceBusReceiverClient(
   //     {
