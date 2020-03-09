@@ -330,7 +330,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowTriggerListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -356,7 +356,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowTrigger
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -380,7 +380,7 @@ const resetOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -434,7 +434,7 @@ const getSchemaJsonOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.JsonSchema
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -465,7 +465,7 @@ const setStateOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -491,7 +491,7 @@ const listCallbackUrlOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowTriggerCallbackUrl
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -512,7 +512,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkflowTriggerListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
