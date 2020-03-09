@@ -5,7 +5,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
 import { bodyToString, createRandomLocalFile, getDataLakeServiceClient, recorderEnvSetup } from "../utils";
-import { MB, GB } from "../../src/utils/constants";
+import { MB, GB, FILE_MAX_SINGLE_UPLOAD_THRESHOLD } from "../../src/utils/constants";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 const { Readable } = require('stream')
 import { AbortController } from "@azure/abort-controller";
@@ -249,6 +249,21 @@ describe("Highlevel Node.js only", () => {
     }
     assert.ok(errThrown, "upload with a if-not-exist check should have thrown.");
   });
+
+  it.only("upload should work when data size = FILE_MAX_SINGLE_UPLOAD_THRESHOLD", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const tempFile = await createRandomLocalFile(tempFolderPath, FILE_MAX_SINGLE_UPLOAD_THRESHOLD, MB);
+    const uploadedBuffer = fs.readFileSync(tempFile);
+    await fileClient.upload(uploadedBuffer);
+
+    const readResponse = await fileClient.read();
+    const readFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
+    const readBuffer = await fs.readFileSync(readFile);
+    assert.ok(uploadedBuffer.equals(readBuffer));
+
+    fs.unlinkSync(readFile);
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("uploadStream should work", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
