@@ -17,14 +17,44 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const path = "e:/temp/fr-test/receipt-to-analyze.png";
+  const path = "c:/temp/contoso-allinone.jpg";
+
+  if (!fs.existsSync(path)) {
+    throw new Error(`Expecting file ${path} exists`);
+  }
 
   const readStream = fs.createReadStream(path);
 
-  const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const result = await client.extractReceipt(readStream, "image/png", {
+  const client = new ReceiptRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const poller = await client.extractReceipt(() => readStream, "image/jpeg", {
   });
-  console.log(result);
+
+  await poller.pollUntilDone();
+  const response = poller.getResult();
+
+  if (!response) {
+    throw new Error("Expecting valid response!");
+  }
+  console.log(`### Response status ${response.status}`);
+
+  if (!response.analyzeResult) {
+    throw new Error("Expecting analysis result");
+  }
+
+  if (!response.analyzeResult.receiptResults || response.analyzeResult.receiptResults.length <= 0)
+  {
+    throw new Error("Expecting at lease one receipt in analysis result");
+  }
+
+  console.log("### First receipt:")
+  console.log(response.analyzeResult.receiptResults[0]);
+  console.log("### Items:")
+  let i = 1;
+  for (const item of response.analyzeResult?.receiptResults[0]?.items) {
+    console.log(`${i++})\t ${item.quantity || ""}\t${item.name}\t$${item.totalPrice}`);
+  }
+  console.log("### Raw 'MerchantAddress' fields:");
+  console.log(response.analyzeResult?.receiptResults[0]?.fields["MerchantAddress"])
 
 }
 

@@ -5,7 +5,8 @@
  * Train Form Recognizer custom models
  */
 
-const { CustomFormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+//import { CustomFormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
+import { CustomFormRecognizerClient, CognitiveKeyCredential } from "../../src/index";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -16,7 +17,6 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-
   const trainingDataSource = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
 
   const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));

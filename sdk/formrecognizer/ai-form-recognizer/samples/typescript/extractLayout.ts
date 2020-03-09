@@ -5,8 +5,9 @@
  * Extract Layout
  */
 
-const { LayoutRecognizerClient, CognitiveKeyCredential } = require("../../dist");
-const fs = require("fs");
+//import { LayoutRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
+import { LayoutRecognizerClient, CognitiveKeyCredential } from "../../src/index";
+import * as fs from "fs";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -38,7 +39,8 @@ async function main() {
   console.log(response.status);
   console.log(response.analyzeResult?.readResults);
   console.log(response.analyzeResult?.pageResults);
-  console.log(response.analyzeResult?.errors);}
+  console.log(response.analyzeResult?.errors);
+}
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);

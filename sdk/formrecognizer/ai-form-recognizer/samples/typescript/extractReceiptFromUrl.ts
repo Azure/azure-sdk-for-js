@@ -5,7 +5,8 @@
  * Extract receipt
  */
 
-const { ReceiptRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+//import { ReceiptRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
+import { ReceiptRecognizerClient, CognitiveKeyCredential, AnalyzeReceiptResultResponse } from "../../src/index";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -20,7 +21,7 @@ async function main() {
   const client = new ReceiptRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
   const imageUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
 
-  let response;
+  let response: AnalyzeReceiptResultResponse | undefined;
 
   try {
     // response = await client.getExtractedReceipt("bce24b30-49a1-4bb1-9e54-206194aa8665");

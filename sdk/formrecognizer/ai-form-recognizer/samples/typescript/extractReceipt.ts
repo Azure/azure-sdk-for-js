@@ -5,7 +5,10 @@
  * Extract receipt
  */
 
-const { ReceiptRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+//import { ReceiptRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
+import { ReceiptRecognizerClient, CognitiveKeyCredential } from "../../src/index";
+
+import * as fs from "fs";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -16,26 +19,20 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
+  const path = "c:/temp/contoso-allinone.jpg";
+
+  if (!fs.existsSync(path)) {
+    throw new Error(`Expecting file ${path} exists`);
+  }
+
+  const readStream = fs.createReadStream(path);
 
   const client = new ReceiptRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const imageUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
+  const poller = await client.extractReceipt(() => readStream, "image/jpeg", {
+  });
 
-  let response;
-
-  try {
-    // response = await client.getExtractedReceipt("bce24b30-49a1-4bb1-9e54-206194aa8665");
-    throw new Error("no existing receipt");
-  } catch (e) {
-    console.log(response);
-    console.log("extracting...");
-
-    const poller = await client.extractReceiptFromUrl(imageUrl, {
-      includeTextDetails: true,
-      onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
-    });
-    await poller.pollUntilDone();
-    response = poller.getResult();
-  }
+  await poller.pollUntilDone();
+  const response = poller.getResult();
 
   if (!response) {
     throw new Error("Expecting valid response!");

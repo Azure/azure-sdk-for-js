@@ -22,7 +22,6 @@ async function main() {
   const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
   const result = await client.getModel(modelId, { includeKeys: true });
   console.log(result);
-
 }
 
 main().catch((err) => {

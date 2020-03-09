@@ -5,7 +5,7 @@
  * List Form Recognizer custom models
  */
 
-//const { CustomRecognizerClient, CognitiveKeyCredential } = require("@azure/ai-form-recognizer");
+//const { CustomFormRecognizerClient, CognitiveKeyCredential } = require("@azure/ai-form-recognizer");
 const { CustomFormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
 
 // Load the .env file if it exists
