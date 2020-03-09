@@ -1,6 +1,6 @@
 // // Copyright (c) Microsoft Corporation. All rights reserved.
 // // Licensed under the MIT License.
-These tests are commented because the 2-client API version doesn't have the `ServiceBusClient` in it. We should re-viisit and update this once we have the top-level client.
+// These tests are commented because the 2-client API version doesn't have the `ServiceBusClient` in it. We should re-viisit and update this once we have the top-level client.
 // import chai from "chai";
 // import chaiAsPromised from "chai-as-promised";
 // import long from "long";
