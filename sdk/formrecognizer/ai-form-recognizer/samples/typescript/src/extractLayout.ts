@@ -6,7 +6,7 @@
  */
 
 //import { LayoutRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
-import { LayoutRecognizerClient, CognitiveKeyCredential } from "../../src/index";
+import { LayoutRecognizerClient, CognitiveKeyCredential } from "../../../src/index";
 import * as fs from "fs";
 
 // Load the .env file if it exists

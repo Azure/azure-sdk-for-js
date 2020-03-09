@@ -6,7 +6,7 @@
  */
 
 //import { CustomFormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
-import { CustomFormRecognizerClient, CognitiveKeyCredential } from "../../src/index";
+import { CustomFormRecognizerClient, CognitiveKeyCredential } from "../../../src/index";
 import * as fs from "fs";
 
 // Load the .env file if it exists
@@ -38,10 +38,24 @@ async function main() {
   }
 
   console.log(response.status);
-  if (response.analyzeResult?.documentResults && response.analyzeResult?.documentResults.length > 0) {
-    console.log(response.analyzeResult?.documentResults[0]);
+  console.log("### Page results:")
+  for (const page of response.analyzeResult?.pageResults ?? []) {
+    console.log(`Page number: ${page.page}`);
+    console.log(`cluster Id: ${page.clusterId}`);
+    console.log("key-value pairs");
+    for (const pair of page.keyValuePairs || []) {
+      console.log(`\tkey: ${pair.key}, value: ${pair.value}`);
+    }
+    console.log("Tables");
+    for (const table of page.tables || []) {
+      for (const row of table.rows) {
+        for (const cell of row.cells) {
+          console.log(cell);
+        }
+      }
+    }
   }
-  console.log(response.analyzeResult?.pageResults);
+
   console.log(response.analyzeResult?.readResults);
   console.log(response.analyzeResult?.errors);
 }

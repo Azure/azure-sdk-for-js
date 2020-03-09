@@ -6,7 +6,7 @@
  */
 
 //import { CustomFormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
-import { CustomFormRecognizerClient, CognitiveKeyCredential } from "../../src/index";
+import { CustomFormRecognizerClient, CognitiveKeyCredential } from "../../../src/index";
 
 // Load the .env file if it exists
 require("dotenv").config();
