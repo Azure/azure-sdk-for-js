@@ -492,7 +492,7 @@ async function testAutoLockRenewalConfigBehavior(
 
   if (options.willCompleteFail) {
     // Clean up any left over messages
-    receiverClient.close();
+    await receiverClient.close();
     receiverClient = (
       await getSenderReceiverClients(entityType, "peekLock", undefined, undefined, false)
     ).receiverClient as NonSessionReceiver<"peekLock">;
