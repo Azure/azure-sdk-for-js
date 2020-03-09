@@ -9,18 +9,14 @@ import { logger } from "../util/logging";
 
 import * as child_process from "child_process";
 
-
 function get_safe_working_dir(): string {
-    let path = process.env.PATH;
-
-    if (!path) {
-      return ".";
-    }
-
     if (process.platform == "win32") {
-      return path.split(";")[0];
+      if (!process.env.SystemRoot) {
+        throw new Error("Azure CLI credential expects a 'SystemRoot' environment variable");
+      }
+      return process.env.SystemRoot;
     } else {
-      return path.split(":")[0];
+      return "/bin";
     }
 }
 
