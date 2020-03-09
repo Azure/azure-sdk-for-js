@@ -9,7 +9,8 @@ import {
   SendableMessageInfo,
   ServiceBusSenderClient,
   ContextWithSettlement,
-  ReceivedMessage
+  ReceivedMessage,
+  ServiceBusMessage
 } from "../src";
 
 import {
@@ -43,14 +44,18 @@ let errorWasThrown: boolean;
 let senderClient: ServiceBusSenderClient;
 let receiverClient: ReceiverClientTypeForUserT<"receiveAndDelete">;
 
-async function beforeEachTest(entityType: TestClientType): Promise<void> {
+async function beforeEachTest(
+  entityType: TestClientType,
+  receiveMode?: "peekLock" | "receiveAndDelete"
+): Promise<void> {
   let clients;
+  receiveMode = receiveMode === "peekLock" ? "peekLock" : "receiveAndDelete";
   if (isSessionfulEntity(entityType)) {
-    clients = await getSenderReceiverClients(entityType, "receiveAndDelete", undefined, {
+    clients = await getSenderReceiverClients(entityType, receiveMode, undefined, {
       id: TestMessage.sessionId
     });
   } else {
-    clients = await getSenderReceiverClients(entityType, "receiveAndDelete");
+    clients = await getSenderReceiverClients(entityType, receiveMode);
   }
   senderClient = clients.senderClient;
   receiverClient = clients.receiverClient;
@@ -552,123 +557,121 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   });*/
 });
 
-// #RevisitCommentedTestsAfterTheSingleClientAPI
-// Settlement methods(deferring here) don't exist in the received context in ReceiveAndDelete mode
-// describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void {
-//   let sequenceNumber: Long;
+describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void {
+  let sequenceNumber: Long;
 
-//   afterEach(async () => {
-//     await afterEachTest();
-//   });
-//   async function deferMessage(useSessions?: boolean): Promise<void> {
-//     const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-//     await senderClient.send(testMessages);
-//     const batch = await await receiverClient.receiveBatch(1);
-//     const msgs = batch.messages;
+  afterEach(async () => {
+    await afterEachTest();
+  });
+  async function eachTest(testClientType: TestClientType, useSessions?: boolean) {
+    await beforeEachTest(testClientType, "peekLock");
+    await deferMessage(useSessions);
+    await receiverClient.close();
+    await receiveDeferredMessage(testClientType, useSessions);
+  }
+  async function deferMessage(useSessions?: boolean): Promise<void> {
+    const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    await senderClient.send(testMessages);
+    const batch = await receiverClient.receiveBatch(1);
+    const msgs = batch.messages;
 
-//     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-//     should.equal(msgs.length, 1, "Unexpected number of messages");
-//     should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-//     should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
-//     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
-//     sequenceNumber = msgs[0].sequenceNumber!;
-//     await (batch.context as ContextWithSettlement).defer(msgs[0]);
-//   }
+    sequenceNumber = msgs[0].sequenceNumber!;
+    await (batch.context as ContextWithSettlement).defer(msgs[0]);
+  }
 
-//   async function receiveDeferredMessage(): Promise<void> {
-//     const deferredMsgs: ServiceBusMessage | undefined = await receiverClient.receiveDeferredMessage(
-//       sequenceNumber
-//     );
-//     if (!deferredMsgs) {
-//       throw `No message received for sequence number ${sequenceNumber}`;
-//     }
+  async function receiveDeferredMessage(
+    testClientType: TestClientType,
+    useSessions: boolean | undefined
+  ): Promise<void> {
+    receiverClient = (
+      await getSenderReceiverClients(
+        testClientType,
+        "receiveAndDelete",
+        undefined,
+        useSessions ? { id: TestMessage.sessionId } : undefined,
+        false
+      )
+    ).receiverClient;
+    const deferredMsgs: ServiceBusMessage | undefined = await receiverClient.receiveDeferredMessage(
+      sequenceNumber
+    );
+    if (!deferredMsgs) {
+      throw `No message received for sequence number ${sequenceNumber}`;
+    }
 
-//     should.equal(deferredMsgs!.deliveryCount, 1, "DeliveryCount is different than expected");
-//     await testPeekMsgsLength(receiverClient, 0);
-//   }
+    should.equal(deferredMsgs!.deliveryCount, 1, "DeliveryCount is different than expected");
+    await testPeekMsgsLength(receiverClient, 0);
+  }
 
-//   /* it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
-//     void
-//   > {
-//     await beforeEachTest(
-//       TestClientType.PartitionedQueue,
-//       TestClientType.PartitionedQueue,
-//       undefined,
-//       ReceiveMode.peekLock
-//     );
-//     await deferMessage();
-//     await receiver.close();
-//     receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
-//     await receiveDeferredMessage();
-//   });
+  /* it("Partitioned Queue: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.PartitionedQueue,
+      TestClientType.PartitionedQueue,
+      undefined,
+      ReceiveMode.peekLock
+    );
+    await deferMessage();
+    await receiver.close();
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
+    await receiveDeferredMessage();
+  });
 
-//   it("Partitioned Subscription: No settlement of the message removes message", async function(): Promise<
-//     void
-//   > {
-//     await beforeEachTest(
-//       TestClientType.PartitionedTopic,
-//       TestClientType.PartitionedSubscription,
-//       undefined,
-//       ReceiveMode.peekLock
-//     );
-//     await deferMessage();
-//     await receiver.close();
-//     receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
-//     await receiveDeferredMessage();
-//   }); */
+  it("Partitioned Subscription: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(
+      TestClientType.PartitionedTopic,
+      TestClientType.PartitionedSubscription,
+      undefined,
+      ReceiveMode.peekLock
+    );
+    await deferMessage();
+    await receiver.close();
+    receiver = receiverClient.createReceiver(ReceiveMode.receiveAndDelete);
+    await receiveDeferredMessage();
+  }); */
 
-//   it("Unpartitioned Queue: No settlement of the message removes message #RunInBrowser", async function(): Promise<
-//     void
-//   > {
-//     await beforeEachTest(TestClientType.UnpartitionedQueue);
-//     await deferMessage();
-//     await receiverClient.close();
-//     await receiveDeferredMessage();
-//   });
+  it("Unpartitioned Queue: No settlement of the message removes message #RunInBrowser", async function(): Promise<
+    void
+  > {
+    await eachTest(TestClientType.UnpartitionedQueue);
+  });
 
-//   it("Unpartitioned Subscription: No settlement of the message removes message", async function(): Promise<
-//     void
-//   > {
-//     await beforeEachTest(TestClientType.UnpartitionedSubscription);
-//     await deferMessage();
-//     await receiverClient.close();
-//     await receiveDeferredMessage();
-//   });
+  it("Unpartitioned Subscription: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await eachTest(TestClientType.UnpartitionedSubscription);
+  });
 
-//   it("Partitioned Queue with Sessions: No settlement of the message removes message", async function(): Promise<
-//     void
-//   > {
-//     await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-//     await deferMessage(true);
-//     await receiverClient.close();
-//     await receiveDeferredMessage();
-//   });
+  it("Partitioned Queue with Sessions: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await eachTest(TestClientType.PartitionedQueueWithSessions, true);
+  });
 
-//   it("Partitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
-//     void
-//   > {
-//     await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-//     await deferMessage(true);
-//     await receiverClient.close();
-//     await receiveDeferredMessage();
-//   });
+  it("Partitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await eachTest(TestClientType.PartitionedSubscriptionWithSessions, true);
+  });
 
-//   it("Unpartitioned Queue with Sessions: No settlement of the message removes message #RunInBrowser", async function(): Promise<
-//     void
-//   > {
-//     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-//     await deferMessage(true);
-//     await receiverClient.close();
-//     await receiveDeferredMessage();
-//   });
+  it("Unpartitioned Queue with Sessions: No settlement of the message removes message #RunInBrowser", async function(): Promise<
+    void
+  > {
+    await eachTest(TestClientType.UnpartitionedQueueWithSessions, true);
+  });
 
-//   it("Unpartitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
-//     void
-//   > {
-//     await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-//     await deferMessage(true);
-//     await receiverClient.close();
-//     await receiveDeferredMessage();
-//   });
-// });
+  it("Unpartitioned Subscription with Sessions: No settlement of the message removes message", async function(): Promise<
+    void
+  > {
+    await eachTest(TestClientType.UnpartitionedSubscriptionWithSessions, true);
+  });
+});
