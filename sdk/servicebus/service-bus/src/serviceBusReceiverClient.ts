@@ -695,10 +695,6 @@ export class ReceiverClientImplementation {
     const messageIterator = this._receiver.getMessageIterator();
 
     if (this.receiveMode === "peekLock") {
-      // const actualMessageIterator = (messageIterator as any) as MessageIterator<
-      //   ContextType<"peekLock">
-      // >;
-
       const f = async function*(
         originalMessageIterator: AsyncIterableIterator<ServiceBusMessage>
       ): AsyncIterableIterator<MessageAndContext<ContextType<"peekLock">>> {
@@ -716,9 +712,6 @@ export class ReceiverClientImplementation {
           yield { message, context: {} };
         }
       };
-
-      // actualMessageIterator.context = {};
-      // return actualMessageIterator;
       return f(messageIterator);
     } else {
       throw new Error("Unknown receive mode");
