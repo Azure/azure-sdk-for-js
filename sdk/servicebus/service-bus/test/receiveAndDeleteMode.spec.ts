@@ -336,6 +336,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
     return { message: msgs[0], context: {} as ContextWithSettlement };
   }
 
+  // #RevisitCommentedTestsAfterTheSingleClientAPI
   // Settlement methods don't exist in the received context in ReceiveAndDelete mode
   // const testError = (err: Error, operation: DispositionType): void => {
   //   should.equal(
@@ -551,6 +552,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   });*/
 });
 
+// #RevisitCommentedTestsAfterTheSingleClientAPI
 // Settlement methods(deferring here) don't exist in the received context in ReceiveAndDelete mode
 // describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void {
 //   let sequenceNumber: Long;

@@ -1029,7 +1029,7 @@ describe("Streaming - maxConcurrentCalls", function(): void {
     await testConcurrency(2);
   });
 });
-
+// #RevisitCommentedTestsAfterTheSingleClientAPI
 // Receiver can't be closed separately with the current API
 // Roll this back once the top level client is implemented
 // describe("Streaming - Not receive messages after receiver is closed", function(): void {

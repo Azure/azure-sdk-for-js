@@ -972,7 +972,7 @@ describe("Sessions Streaming - maxConcurrentCalls", function(): void {
     await testConcurrency(2);
   });
 });
-
+// #RevisitCommentedTestsAfterTheSingleClientAPI
 // Cannot close the receiver manually with the current 2-client API
 // Re-visit after the top level client is implemented
 // describe("Sessions Streaming - Not receive messages after receiver is closed", function(): void {

@@ -334,6 +334,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
     await receiverClient.close();
   });
 
+  // #RevisitCommentedTestsAfterTheSingleClientAPI
   // Reason for commenting the following 2 tests
   // `ReceiveMode` is now being passed in the Client - and this test is covered in the newly added `SessionReceiver: Throws error if created a client with invalid receiveMode`
   // Supposed to be reverted and made changes accordingly once the Toplevel Client is added.
@@ -494,7 +495,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
     should.equal(caughtError && caughtError.name, "TypeError");
     should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
   });
-
+  // #RevisitCommentedTestsAfterTheSingleClientAPI
   // The following 2 tests didn't make sense for the current handler type. That being said, equivalent tests for current API need to be added.
   // it("RegisterMessageHandler: Missing onError in SessionReceiver", async function(): Promise<void> {
   //   let caughtError: Error | undefined;
@@ -586,6 +587,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   });
 });
 
+// #RevisitCommentedTestsAfterTheSingleClientAPI
 // These tests are exactly same as the previous describe block - session vs non-session.
 // Since the current 2-client API version doesn't differentiate between session vs session (w.r.t the methods), there is no need for duplication.
 // This is subject to change when the top-level client is implemented.
