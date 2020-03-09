@@ -4,10 +4,6 @@
 import chai from "chai";
 import {
   SendableMessageInfo,
-  QueueClient,
-  TopicClient,
-  ServiceBusClient,
-  SubscriptionClient,
   delay,
   ReceiveMode,
   ServiceBusMessage,
@@ -15,6 +11,11 @@ import {
 } from "../../src";
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./managementUtils";
+
+import { TopicClient } from "../../src/old/topicClient";
+import { QueueClient } from "../../src/old/queueClient";
+import { SubscriptionClient } from "../../src/old/subscriptionClient";
+import { ServiceBusClient } from "../../src/old/serviceBusClient";
 
 import * as dotenv from "dotenv";
 dotenv.config();

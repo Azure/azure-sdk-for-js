@@ -6,16 +6,15 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import {
-  ServiceBusClient,
-  QueueClient,
-  TopicClient,
-  SubscriptionClient,
   ServiceBusMessage,
   SendableMessageInfo,
   ReceiveMode,
-  Sender
 } from "../src";
-
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+import { Sender } from "../src/sender";
+import { QueueClient } from "../src/old/queueClient";
+import { TopicClient } from "../src/old/topicClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
 import { DispositionType } from "../src/serviceBusMessage";
 
 import {
@@ -27,7 +26,7 @@ import {
   getServiceBusClient
 } from "./utils/testUtils";
 
-import { Receiver, SessionReceiver } from "../src/receiver";
+import { InternalReceiver, InternalSessionReceiver } from "../src/internalReceivers";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
 
 async function testPeekMsgsLength(
@@ -48,7 +47,7 @@ let errorWasThrown: boolean;
 
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
-let receiver: Receiver | SessionReceiver;
+let receiver: InternalReceiver | InternalSessionReceiver;
 let sender: Sender;
 
 async function beforeEachTest(
@@ -611,7 +610,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   async function testRenewLock(): Promise<void> {
     const msg = await sendReceiveMsg(TestMessage.getSample());
 
-    await (<Receiver>receiver).renewMessageLock(msg).catch((err) => {
+    await (<InternalReceiver>receiver).renewMessageLock(msg).catch((err) => {
       should.equal(
         err.message,
         getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"),

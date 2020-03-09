@@ -5,15 +5,15 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import {
   delay,
-  QueueClient,
   ReceiveMode,
-  ServiceBusClient,
   ServiceBusMessage,
-  SubscriptionClient,
-  TopicClient,
   OnMessage
 } from "../src";
-import { Receiver } from "../src/receiver";
+import { ServiceBusClient } from "../src/old/serviceBusClient";
+import { TopicClient } from "../src/old/topicClient";
+import { QueueClient } from "../src/old/queueClient";
+import { SubscriptionClient } from "../src/old/subscriptionClient";
+import { InternalReceiver } from "../src/internalReceivers";
 import { Sender } from "../src/sender";
 import { DispositionType } from "../src/serviceBusMessage";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
@@ -50,7 +50,7 @@ let sbClient: ServiceBusClient;
 let senderClient: QueueClient | TopicClient;
 let receiverClient: QueueClient | SubscriptionClient;
 let sender: Sender;
-let receiver: Receiver;
+let receiver: InternalReceiver;
 let deadLetterClient: QueueClient | SubscriptionClient;
 let errorWasThrown: boolean;
 let unexpectedError: Error | undefined;

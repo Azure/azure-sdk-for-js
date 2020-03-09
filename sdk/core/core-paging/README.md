@@ -25,14 +25,11 @@ Example of building with the types:
 
 ```typescript
   public listSecrets(
-    options?: ListSecretsOptions
+    options: ListSecretsOptions = {}
   ): PagedAsyncIterableIterator<SecretAttributes> {
     const iter = this.listSecretsAll(options);
     return {
-      async next() {
-        const item = (await iter.next()).value;
-        return item ? { done: false, value: item } : { done: true, value: undefined };
-      },
+      async next() { return iter.next(); },
       [Symbol.asyncIterator]() { return this; },
       byPage: (settings: PageSettings = {}) => this.listSecretsPage(settings, options),
     };
@@ -42,7 +39,7 @@ Example of building with the types:
 And using the types:
 
 ```
-  for await (let page of client.listSecrets().byPage({ pageSize: 2 })) {
+  for await (let page of client.listSecrets().byPage({ maxPageSize: 2 })) {
     for (const secret of page) {
       console.log("secret: ", secret);
     }

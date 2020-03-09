@@ -1,0 +1,137 @@
+{
+  "folders": [
+    {
+      "name": "abort-controller",
+      "path": "sdk\\core\\abort-controller"
+    },
+    {
+      "path": "sdk\\appconfiguration\\app-configuration"
+    },
+    {
+      "name": "core-amqp",
+      "path": "sdk\\core\\core-amqp"
+    },
+    {
+      "name": "core-arm",
+      "path": "sdk\\core\\core-arm"
+    },
+    {
+      "name": "core-asynciterator-polyfill",
+      "path": "sdk\\core\\core-asynciterator-polyfill"
+    },
+    {
+      "name": "core-auth",
+      "path": "sdk\\core\\core-auth"
+    },
+    {
+      "name": "core-http",
+      "path": "sdk\\core\\core-http"
+    },
+    {
+      "name": "core-lro",
+      "path": "sdk\\core\\core-lro"
+    },
+    {
+      "name": "core-paging",
+      "path": "sdk\\core\\core-paging"
+    },
+    {
+      "name": "core-tracing",
+      "path": "sdk\\core\\core-tracing"
+    },
+    {
+      "path": "sdk\\cosmosdb\\cosmos"
+    },
+    {
+      "path": "sdk\\eventhub\\event-hubs"
+    },
+    {
+      "path": "sdk\\eventhub\\eventhubs-checkpointstore-blob"
+    },
+    {
+      "path": "sdk\\eventhub\\event-processor-host"
+    },
+    {
+      "path": "sdk\\eventhub\\testhub"
+    },
+    {
+      "path": "sdk\\identity\\identity"
+    },
+    {
+      "path": "sdk\\keyvault\\keyvault-certificates"
+    },
+    {
+      "path": "sdk\\keyvault\\keyvault-keys"
+    },
+    {
+      "path": "sdk\\keyvault\\keyvault-secrets"
+    },
+    {
+      "name": "logger",
+      "path": "sdk\\core\\logger"
+    },
+    {
+      "name": "search",
+      "path": "sdk\\search\\search"
+    }
+    {
+      "path": "sdk\\servicebus\\service-bus"
+    },
+    {
+      "path": "sdk\\storage\\storage-blob"
+    },
+    {
+      "path": "sdk\\storage\\storage-file-datalake"
+    },
+    {
+      "path": "sdk\\storage\\storage-file-share"
+    },
+    {
+      "path": "sdk\\storage\\storage-queue"
+    },
+    {
+      "name": "text analytics",
+      "path": "sdk\\textanalytics\\ai-text-analytics"
+    },
+    {
+      "name": "test recorder",
+      "path": "sdk\\test-utils\\recorder"
+    },
+    {
+      "path": "sdk\\template\\template"
+    },
+    {
+      "name": "eslint plugin",
+      "path": "common\\tools\\eslint-plugin-azure-sdk"
+    }
+  ],
+  "settings": {
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "javascript.preferences.quoteStyle": "double",
+    "typescript.preferences.quoteStyle": "double",
+    "search.exclude": {
+      "test-results*.xml": true,
+      "**/temp/*": true,
+      "**/dist/*": true,
+      "**/*.map": true,
+      "**/dist-*/*": true,
+      "**/test-dist/*": true,
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/*.code-search": true,
+      "**/types/*": true,
+      "**/coverage/*": true,
+      "**/*.d.ts": true,
+      "**/test-browser/*": true
+    },
+    
+  },
+  "extensions": {
+    "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+  }
+}

@@ -4,9 +4,9 @@
 import { assert } from "chai";
 import "chai/register-should";
 
-import * as msRest from "../lib/coreHttp";
-import { TestClient } from "./data/TestClient/lib/testClient";
-import { Mappers } from "./data/TestClient/lib/models/mappers";
+import * as msRest from "../src/coreHttp";
+import { TestClient } from "./data/TestClient/src/testClient";
+import { Mappers } from "./data/TestClient/src/models/mappers";
 
 const Serializer = new msRest.Serializer({});
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";

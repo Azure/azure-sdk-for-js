@@ -27,9 +27,9 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
 
 // @public
 export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
+    confidenceScores: SentimentConfidenceScores;
     sentences: SentenceSentiment[];
     sentiment: DocumentSentimentLabel;
-    sentimentScores: SentimentScorePerLabel;
 }
 
 // @public
@@ -78,8 +78,8 @@ export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixe
 // @public
 export interface Entity {
     category: string;
-    length: number;
-    offset: number;
+    graphemeLength: number;
+    graphemeOffset: number;
     score: number;
     subCategory?: string;
     text: string;
@@ -117,7 +117,7 @@ export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyF
 // @public
 export interface LinkedEntity {
     dataSource: string;
-    id?: string;
+    dataSourceEntityId?: string;
     language: string;
     matches: Match[];
     name: string;
@@ -126,8 +126,8 @@ export interface LinkedEntity {
 
 // @public
 export interface Match {
-    length: number;
-    offset: number;
+    graphemeLength: number;
+    graphemeOffset: number;
     score: number;
     text: string;
 }
@@ -198,10 +198,10 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
 
 // @public
 export interface SentenceSentiment {
-    length: number;
-    offset: number;
+    confidenceScores: SentimentConfidenceScores;
+    graphemeLength: number;
+    graphemeOffset: number;
     sentiment: SentenceSentimentLabel;
-    sentimentScores: SentimentScorePerLabel;
     warnings?: string[];
 }
 
@@ -209,7 +209,7 @@ export interface SentenceSentiment {
 export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
 
 // @public
-export interface SentimentScorePerLabel {
+export interface SentimentConfidenceScores {
     // (undocumented)
     negative: number;
     // (undocumented)
@@ -297,7 +297,7 @@ export interface TextDocumentInput {
 
 // @public
 export interface TextDocumentStatistics {
-    characterCount: number;
+    graphemeCount: number;
     transactionCount: number;
 }
 

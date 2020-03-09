@@ -36,7 +36,7 @@ export interface DeletedSecret {
 }
 
 // @public
-export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription";
+export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription" | "CustomizedRecoverable+Purgeable" | "CustomizedRecoverable" | "CustomizedRecoverable+ProtectedSubscription";
 
 // @public
 export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {
@@ -89,20 +89,25 @@ export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {
 
 // @public
 export class SecretClient {
-    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: PipelineOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: SecretClientOptions);
     backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
     beginDeleteSecret(name: string, options?: BeginDeleteSecretOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
     beginRecoverDeletedSecret(name: string, options?: BeginRecoverDeletedSecretOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
     getDeletedSecret(secretName: string, options?: GetDeletedSecretOptions): Promise<DeletedSecret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-    listDeletedSecrets(options?: ListDeletedSecretsOptions): PagedAsyncIterableIterator<DeletedSecret, DeletedSecret[]>;
-    listPropertiesOfSecrets(options?: ListPropertiesOfSecretsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
-    listPropertiesOfSecretVersions(secretName: string, options?: ListPropertiesOfSecretVersionsOptions): PagedAsyncIterableIterator<SecretProperties, SecretProperties[]>;
+    listDeletedSecrets(options?: ListDeletedSecretsOptions): PagedAsyncIterableIterator<DeletedSecret>;
+    listPropertiesOfSecrets(options?: ListPropertiesOfSecretsOptions): PagedAsyncIterableIterator<SecretProperties>;
+    listPropertiesOfSecretVersions(secretName: string, options?: ListPropertiesOfSecretVersionsOptions): PagedAsyncIterableIterator<SecretProperties>;
     purgeDeletedSecret(secretName: string, options?: PurgeDeletedSecretOptions): Promise<void>;
     restoreSecretBackup(secretBundleBackup: Uint8Array, options?: RestoreSecretBackupOptions): Promise<SecretProperties>;
     setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
     updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
     readonly vaultUrl: string;
+}
+
+// @public
+export interface SecretClientOptions extends coreHttp.PipelineOptions {
+    apiVersion?: "7.0" | "7.1-preview";
 }
 
 // @public
@@ -122,6 +127,7 @@ export interface SecretProperties {
     readonly managed?: boolean;
     name: string;
     readonly notBefore?: Date;
+    recoverableDays?: number;
     readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: {
         [propertyName: string]: string;

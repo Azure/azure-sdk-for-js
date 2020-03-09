@@ -24,6 +24,7 @@ export default {
   env: {
     mocha: true
   },
+  ignorePatterns: ["**/generated/**"],
   rules: {
     curly: ["error", "multi-line"],
     "eol-last": ["error", "always"],
@@ -69,25 +70,32 @@ export default {
     "@typescript-eslint/no-useless-constructor": "error",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/member-ordering": [
-      "error",
-      {
-        default: [
-          "instance-method",
-          "method",
-          "private-instance-method",
-          "private-method",
-          "private-static-method",
-          "protected-instance-method",
-          "protected-method",
-          "protected-static-method",
-          "public-instance-method",
-          "public-method",
-          "public-static-method",
-          "static-method"
-        ]
-      }
-    ],
-    "@azure/azure-sdk/ts-config-lib": "warn"
+    // https://github.com/Azure/azure-sdk-for-js/issues/7608
+    // "@typescript-eslint/member-ordering": [
+    //   "error",
+    //   {
+    //     default: [
+    //       "instance-method",
+    //       "method",
+    //       "private-instance-method",
+    //       "private-method",
+    //       "private-static-method",
+    //       "protected-instance-method",
+    //       "protected-method",
+    //       "protected-static-method",
+    //       "public-instance-method",
+    //       "public-method",
+    //       "public-static-method",
+    //       "static-method"
+    //     ]
+    //   }
+    // ],
+    "@azure/azure-sdk/ts-config-lib": "warn",
+    // https://github.com/Azure/azure-sdk-for-js/issues/7605
+    "@azure/azure-sdk/ts-apisurface-supportcancellation": "off",
+    // https://github.com/Azure/azure-sdk-for-js/issues/7609
+    "@azure/azure-sdk/ts-pagination-list": "off",
+    // https://github.com/Azure/azure-sdk-for-js/issues/7610
+    "@azure/azure-sdk/ts-doc-internal": "off"
   }
 };

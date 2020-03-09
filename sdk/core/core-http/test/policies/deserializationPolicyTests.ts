@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { HttpHeaders } from "../../lib/httpHeaders";
-import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpClient, OperationSpec, Serializer, CompositeMapper } from "../../lib/coreHttp";
+import { HttpHeaders } from "../../src/httpHeaders";
+import { HttpOperationResponse } from "../../src/httpOperationResponse";
+import { HttpClient, OperationSpec, Serializer, CompositeMapper } from "../../src/coreHttp";
 import {
   DeserializationPolicy,
   deserializationPolicy,
   deserializeResponseBody,
   defaultJsonContentTypes,
   defaultXmlContentTypes
-} from "../../lib/policies/deserializationPolicy";
-import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
-import { WebResource } from "../../lib/webResource";
+} from "../../src/policies/deserializationPolicy";
+import { RequestPolicy, RequestPolicyOptions } from "../../src/policies/requestPolicy";
+import { WebResource } from "../../src/webResource";
 
 describe("deserializationPolicy", function() {
   const mockPolicy: RequestPolicy = {
