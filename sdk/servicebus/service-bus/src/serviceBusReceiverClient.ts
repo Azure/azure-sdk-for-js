@@ -755,8 +755,6 @@ export class ReceiverClientImplementation {
         messages,
         context: settlementContext
       };
-      // throw new Error("TODO: PeekLock and receiveBatch not yet implemented (context not returned)");
-      // return messages;
     } else if (this.receiveMode === "receiveAndDelete") {
       return {
         messages,
