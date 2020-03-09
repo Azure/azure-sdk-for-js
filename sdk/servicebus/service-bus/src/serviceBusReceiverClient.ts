@@ -18,7 +18,7 @@ import {
   MessageAndContext,
   ReceivedMessage,
   ReceiveBatchOptions,
-  IterateMessagesOptions,
+  GetMessageIteratorOptions,
   SubscribeOptions,
   isQueueAuth
 } from "./models";
@@ -29,6 +29,7 @@ import {
 } from "./constructorHelpers";
 import { RuleDescription, CorrelationFilter } from "./core/managementClient";
 import { ConnectionContext } from "./connectionContext";
+import { settlementContext } from "./receivers/shared";
 
 /**
  *A receiver client that handles sessions, including renewing the session lock.
@@ -47,11 +48,11 @@ export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelet
   subscribe(handlers: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
-   * @param {IterateMessagesOptions} [options] Options for iterateMessages.
+   * @param {GetMessageIteratorOptions} [options] Options for iterateMessages.
    * @returns {MessageIterator<ContextType<LockModeT>>}
    * @memberof SessionReceiver
    */
-  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
+  iterateMessages(options?: GetMessageIteratorOptions): MessageIterator<ContextType<LockModeT>>;
   /**
    * Receives, at most, `maxMessages` worth of messages.
    * @param {number} maxMessages The maximum number of messages to accept.
@@ -225,11 +226,11 @@ export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDe
   subscribe(handler: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
-   * @param {IterateMessagesOptions} [options] Options for iterateMessages.
+   * @param {GetMessageIteratorOptions} [options] Options for iterateMessages.
    * @returns {MessageIterator<ContextType<LockModeT>>}
    * @memberof NonSessionReceiver
    */
-  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
+  iterateMessages(options?: GetMessageIteratorOptions): MessageIterator<ContextType<LockModeT>>;
   /**
    * Receives, at most, `maxMessages` worth of messages.
    * @param {number} maxMessages The maximum number of messages to accept.
@@ -680,15 +681,15 @@ export class ReceiverClientImplementation {
    * Gets an iterator of messages that also contains a context that can be used to
    * settle messages.
    */
-  iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<"peekLock">>;
+  iterateMessages(options?: GetMessageIteratorOptions): MessageIterator<ContextType<"peekLock">>;
   /**
    * Gets an iterator of messages
    */
   iterateMessages(
-    options?: IterateMessagesOptions
+    options?: GetMessageIteratorOptions
   ): MessageIterator<ContextType<"receiveAndDelete">>;
   iterateMessages(
-    options?: IterateMessagesOptions
+    options?: GetMessageIteratorOptions
   ): MessageIterator<ContextType<"peekLock">> | MessageIterator<ContextType<"receiveAndDelete">> {
     // TODO: this needs to be more configurable - at least with timeouts, etc...
     // TODO: use the options
@@ -880,18 +881,3 @@ export class ReceiverClientImplementation {
  * A client that can receive messages from Service Bus Queues or Service Bus Subscriptions.
  */
 export const ServiceBusReceiverClient: ServiceBusReceiverClient = ReceiverClientImplementation;
-
-/**
- * @internal
- * @ignore
- */
-const settlementContext: ContextWithSettlement = {
-  // TODO: need to move the settlement methods out of sb message -
-  // we don't need to have this runtime dependency.
-  abandon: (message, propertiesToModify) =>
-    ((message as unknown) as ServiceBusMessage).abandon(propertiesToModify),
-  complete: (message) => ((message as unknown) as ServiceBusMessage).complete(),
-  defer: (message, propertiesToModify) =>
-    ((message as unknown) as ServiceBusMessage).defer(propertiesToModify),
-  deadLetter: (message, options) => ((message as unknown) as ServiceBusMessage).deadLetter(options)
-};

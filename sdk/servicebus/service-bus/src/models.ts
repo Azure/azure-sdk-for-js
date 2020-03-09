@@ -217,7 +217,7 @@ export interface ReceiveBatchOptions extends OperationOptions {}
 /**
  * Options when getting an iterable iterator from Service Bus.
  */
-export interface IterateMessagesOptions extends OperationOptions {}
+export interface GetMessageIteratorOptions extends OperationOptions {}
 
 /**
  * Options used when subscribing to a Service Bus queue or subscription.
