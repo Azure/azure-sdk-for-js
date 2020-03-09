@@ -72,7 +72,7 @@ export class AzureCliCredential implements TokenCredential {
 
       // Check to make sure the scope we get back is a valid scope
       if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
-        throw new Error("Azure CLI credential return invalid scope")
+        throw new Error("Invalid scope was specified by the user or calling client")
       }
 
       let responseData = "";
