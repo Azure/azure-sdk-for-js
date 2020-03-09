@@ -567,7 +567,7 @@ export class KeyClient {
    * let keyName = "MyKey";
    * let client = new KeyClient(url, credentials);
    * let key = await client.getKey(keyName);
-   * let result = await client.updateKeyProperties(keyName, key.version, { enabled: false });
+   * let result = await client.updateKeyProperties(keyName, key.properties.version, { enabled: false });
    * ```
    * @summary Updates the properties associated with a specified key in a given key vault.
    * @param {string} name The name of the key.
@@ -1087,7 +1087,6 @@ export class KeyClient {
    * ```ts
    * let client = new KeyClient(url, credentials);
    * for await (const deletedKey of client.listDeletedKeys()) {
-   *   const deletedKey = await client.getKey(deletedKey.name);
    *   console.log("deleted key: ", deletedKey);
    * }
    * ```
