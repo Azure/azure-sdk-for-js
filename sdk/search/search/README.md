@@ -127,7 +127,7 @@ const client = new SearchIndexClient(
 );
 
 const searchResults = await client.search({
-  searchText: 'category:budget AND "recently renovated"^3',
+  searchText: 'Category:budget AND "recently renovated"^3',
   queryType: "full",
   searchMode: "all"
 });
@@ -301,7 +301,7 @@ const client = new SearchIndexClient(
   "<indexName>",
   new SearchApiKeyCredential("<Admin Key>")
 );
-const suggesterName = "sg";
+
 const autocompleteResult = await client.autocomplete({
   searchText: "de",
   suggesterName: "sg"
