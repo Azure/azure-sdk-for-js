@@ -2,62 +2,38 @@
 // Licensed under the MIT License.
 
 import {
-  SessionConnections,
   ReceivedMessage,
   ContextWithSettlement as ContextWithSettlementMethods,
   QueueAuth,
-  SubscriptionAuth,
-  isQueueAuth
+  SubscriptionAuth
 } from "../src/models";
-import {
-  ServiceBusReceiverClient,
-  NonSessionReceiver,
-  SessionReceiver
-} from "../src/serviceBusReceiverClient";
-import { ServiceBusSenderClient, delay, SendableMessageInfo } from "../src";
-import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
-import { EntityNames } from "./utils/testUtils";
+import { delay, SendableMessageInfo } from "../src";
+import { EntityNames, TestClientType } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import {
   createConnectionContext,
   getEntityNameFromConnectionString
 } from "../src/constructorHelpers";
+import { connectionString, purge } from "./utils/testutils2";
+import { ServiceBusClient } from "../src/serviceBusClient";
+import { Sender } from "../src/sender";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe("Sample scenarios for track 2", () => {
-  let senderClient: ServiceBusSenderClient | undefined;
   let closeables: { close(): Promise<void> }[];
-  const connectionString = getEnvVars()[EnvVarNames.SERVICEBUS_CONNECTION_STRING]!;
+  let serviceBusClient: ServiceBusClient;
 
   before(async () => {
-    assert.ok(
-      connectionString,
-      `${EnvVarNames.SERVICEBUS_CONNECTION_STRING} needs to be set in the environment`
-    );
+    serviceBusClient = new ServiceBusClient(connectionString());
 
     const nonSessionPurges = [
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
-      {
-        connectionString: connectionString,
-        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
-        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
-      }
-    ].map((auth) => purge(auth));
+      TestClientType.UnpartitionedQueue,
+      TestClientType.UnpartitionedSubscription
+    ].map((auth) => purge(serviceBusClient, auth));
 
-    const sessionPurge = purge(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
-      },
-      "my-session"
-    );
-
-    await Promise.all([...nonSessionPurges, sessionPurge]);
+    await Promise.all([...nonSessionPurges]);
   });
 
   beforeEach(() => {
@@ -65,36 +41,24 @@ describe("Sample scenarios for track 2", () => {
   });
 
   afterEach(async () => {
-    if (senderClient != null) {
-      closeables.push(senderClient);
-      senderClient = undefined;
-    }
-
     await Promise.all(closeables.map((closable) => closable.close()));
   });
 
+  after(async () => {
+    return serviceBusClient.close();
+  });
+
   it("Queue, peek/lock", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
-      "peekLock"
-    );
+    const sender = serviceBusClient.getSender(EntityNames.QUEUE_NAME_NO_PARTITION);
+    const receiver = serviceBusClient.getReceiver(EntityNames.QUEUE_NAME_NO_PARTITION, "peekLock");
+    closeables.push(sender, receiver);
 
-    closeables.push(receiverClient);
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, peek/lock");
+    await sendSampleMessage(sender, "Queue, peek/lock");
 
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.subscribe({
+    receiver.subscribe({
       async processMessage(
         message: ReceivedMessage,
         context: ContextWithSettlementMethods
@@ -107,54 +71,35 @@ describe("Sample scenarios for track 2", () => {
       }
     });
 
-    await waitAndValidate("Queue, peek/lock", receivedBodies, errors, receiverClient);
+    await waitAndValidate("Queue, peek/lock", receivedBodies, errors, receiver);
   });
 
   it("Queue, peek/lock, receiveBatch", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
+    const sender = serviceBusClient.getSender(EntityNames.QUEUE_NAME_NO_PARTITION);
+    const receiver = serviceBusClient.getReceiver(
+      EntityNames.QUEUE_NAME_NO_PARTITION,
       "receiveAndDelete"
     );
+    closeables.push(sender, receiver);
 
-    closeables.push(receiverClient);
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, peek/lock, receiveBatch");
+    await sendSampleMessage(sender, "Queue, peek/lock, receiveBatch");
 
     const receivedBodies: string[] = [];
 
-    for (const message of (await receiverClient.receiveBatch(1, 5)).messages) {
+    for (const message of (await receiver.receiveBatch(1, 5)).messages) {
       receivedBodies.push(message.body);
     }
 
     // TODO: this isn't the greatest re-use...
-    await waitAndValidate("Queue, peek/lock, receiveBatch", receivedBodies, [], receiverClient);
+    await waitAndValidate("Queue, peek/lock, receiveBatch", receivedBodies, [], receiver);
   });
 
   it("Queue, peek/lock, iterate messages", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
-      "peekLock"
-    );
+    const sender = serviceBusClient.getSender(EntityNames.QUEUE_NAME_NO_PARTITION);
+    const receiver = serviceBusClient.getReceiver(EntityNames.QUEUE_NAME_NO_PARTITION, "peekLock");
+    closeables.push(sender, receiver);
 
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, peek/lock, iterate messages");
-
-    closeables.push(receiverClient);
+    await sendSampleMessage(sender, "Queue, peek/lock, iterate messages");
 
     // etc...
     // receiverClient.getRules();
@@ -162,7 +107,7 @@ describe("Sample scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     // TODO: error handling? Does the iterate just terminate?
-    for await (const { message, context } of receiverClient.iterateMessages()) {
+    for await (const { message, context } of receiver.getMessageIterator()) {
       if (message == null) {
         // user has the option of handling "no messages arrived by the maximum wait time"
         console.log(`No message arrived within our max wait time`);
@@ -179,37 +124,24 @@ describe("Sample scenarios for track 2", () => {
       }
     }
 
-    await waitAndValidate(
-      "Queue, peek/lock, iterate messages",
-      receivedBodies,
-      errors,
-      receiverClient
-    );
+    await waitAndValidate("Queue, peek/lock, iterate messages", receivedBodies, errors, receiver);
   });
 
   it("Queue, receive and delete", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
+    const sender = serviceBusClient.getSender(EntityNames.QUEUE_NAME_NO_PARTITION);
+    const receiver = serviceBusClient.getReceiver(
+      EntityNames.QUEUE_NAME_NO_PARTITION,
       "receiveAndDelete"
     );
+    closeables.push(sender, receiver);
 
-    closeables.push(receiverClient);
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, receiveAndDelete");
+    await sendSampleMessage(sender, "Queue, receiveAndDelete");
 
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.subscribe({
-      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
+    receiver.subscribe({
+      async processMessage(message: ReceivedMessage): Promise<void> {
         receivedBodies.push(message.body);
       },
       async processError(err: Error): Promise<void> {
@@ -217,26 +149,18 @@ describe("Sample scenarios for track 2", () => {
       }
     });
 
-    await waitAndValidate("Queue, receiveAndDelete", receivedBodies, errors, receiverClient);
+    await waitAndValidate("Queue, receiveAndDelete", receivedBodies, errors, receiver);
   });
 
   it("Queue, receive and delete, iterate messages", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
+    const sender = serviceBusClient.getSender(EntityNames.QUEUE_NAME_NO_PARTITION);
+    const receiver = serviceBusClient.getReceiver(
+      EntityNames.QUEUE_NAME_NO_PARTITION,
       "receiveAndDelete"
     );
+    closeables.push(sender, receiver);
 
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, peek/lock, iterate messages");
-
-    closeables.push(receiverClient);
+    await sendSampleMessage(sender, "Queue, receive and delete, iterate messages");
 
     // etc...
     // receiverClient.getRules();
@@ -244,7 +168,7 @@ describe("Sample scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     // TODO: error handling? Does the iterate just terminate?
-    for await (const { message, context } of receiverClient.iterateMessages()) {
+    for await (const { message, context } of receiver.getMessageIterator()) {
       assert.notOk((context as any).complete);
 
       if (message == null) {
@@ -262,30 +186,19 @@ describe("Sample scenarios for track 2", () => {
     }
 
     await waitAndValidate(
-      "Queue, peek/lock, iterate messages",
+      "Queue, receive and delete, iterate messages",
       receivedBodies,
       errors,
-      receiverClient
+      receiver
     );
   });
 
   it("Queue, peek/lock, iterate messages", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-      },
-      "peekLock"
-    );
+    const sender = serviceBusClient.getSender(EntityNames.QUEUE_NAME_NO_PARTITION);
+    const receiver = serviceBusClient.getReceiver(EntityNames.QUEUE_NAME_NO_PARTITION, "peekLock");
+    closeables.push(sender, receiver);
 
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Queue, peek/lock, iterate messages");
-
-    closeables.push(receiverClient);
+    await sendSampleMessage(sender, "Queue, peek/lock, iterate messages");
 
     // etc...
     // receiverClient.getRules();
@@ -293,7 +206,7 @@ describe("Sample scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     // TODO: error handling? Does the iterate just terminate?
-    for await (const { message, context } of receiverClient.iterateMessages()) {
+    for await (const { message, context } of receiver.getMessageIterator()) {
       if (message == null) {
         // user has the option of handling "no messages arrived by the maximum wait time"
         console.log(`No message arrived within our max wait time`);
@@ -310,39 +223,26 @@ describe("Sample scenarios for track 2", () => {
       }
     }
 
-    await waitAndValidate(
-      "Queue, peek/lock, iterate messages",
-      receivedBodies,
-      errors,
-      receiverClient
-    );
+    await waitAndValidate("Queue, peek/lock, iterate messages", receivedBodies, errors, receiver);
   });
 
   it("Subscription, peek/lock", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
-        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
-      },
+    const sender = serviceBusClient.getSender(EntityNames.TOPIC_NAME_NO_PARTITION);
+    const receiver = serviceBusClient.getReceiver(
+      EntityNames.TOPIC_NAME_NO_PARTITION,
+      EntityNames.SUBSCRIPTION_NAME_NO_PARTITION,
       "peekLock"
     );
+    closeables.push(sender, receiver);
 
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.TOPIC_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Subscription, peek/lock");
-
-    closeables.push(receiverClient);
+    await sendSampleMessage(sender, "Subscription, peek/lock");
 
     // etc...
     // receiverClient.getRules();
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.subscribe({
+    receiver.subscribe({
       async processMessage(
         message: ReceivedMessage,
         context: ContextWithSettlementMethods
@@ -355,35 +255,27 @@ describe("Sample scenarios for track 2", () => {
       }
     });
 
-    await waitAndValidate("Subscription, peek/lock", receivedBodies, errors, receiverClient);
+    await waitAndValidate("Subscription, peek/lock", receivedBodies, errors, receiver);
   });
 
   it("Subscription, receive and delete", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
-        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
-      },
+    const sender = serviceBusClient.getSender(EntityNames.TOPIC_NAME_NO_PARTITION);
+    const receiver = serviceBusClient.getReceiver(
+      EntityNames.TOPIC_NAME_NO_PARTITION,
+      EntityNames.SUBSCRIPTION_NAME_NO_PARTITION,
       "receiveAndDelete"
     );
+    closeables.push(sender, receiver);
 
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.TOPIC_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Subscription, receive and delete");
-
-    closeables.push(receiverClient);
+    await sendSampleMessage(sender, "Subscription, receive and delete");
 
     // etc...
     // receiverClient.getRules();
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.subscribe({
-      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
+    receiver.subscribe({
+      async processMessage(message: ReceivedMessage): Promise<void> {
         receivedBodies.push(message.body);
       },
       async processError(err: Error): Promise<void> {
@@ -391,32 +283,19 @@ describe("Sample scenarios for track 2", () => {
       }
     });
 
-    await waitAndValidate(
-      "Subscription, receive and delete",
-      receivedBodies,
-      errors,
-      receiverClient
-    );
+    await waitAndValidate("Subscription, receive and delete", receivedBodies, errors, receiver);
   });
 
   it("Subscription, peek/lock, iterate messages", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
-        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
-      },
+    const sender = serviceBusClient.getSender(EntityNames.TOPIC_NAME_NO_PARTITION);
+    const receiver = serviceBusClient.getReceiver(
+      EntityNames.TOPIC_NAME_NO_PARTITION,
+      EntityNames.SUBSCRIPTION_NAME_NO_PARTITION,
       "peekLock"
     );
+    closeables.push(sender, receiver);
 
-    closeables.push(receiverClient);
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.TOPIC_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Subscription, peek/lock, iterate messages");
+    await sendSampleMessage(sender, "Subscription, peek/lock, iterate messages");
 
     // etc...
     // receiverClient.getRules();
@@ -424,7 +303,7 @@ describe("Sample scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     // TODO: error handling? Does the iterate just terminate?
-    for await (const { message, context } of receiverClient.iterateMessages()) {
+    for await (const { message, context } of receiver.getMessageIterator()) {
       if (message == null) {
         // user has the option of handling "no messages arrived by the maximum wait time"
         console.log(`No message arrived within our max wait time`);
@@ -445,28 +324,20 @@ describe("Sample scenarios for track 2", () => {
       "Subscription, peek/lock, iterate messages",
       receivedBodies,
       errors,
-      receiverClient
+      receiver
     );
   });
 
   it("Subscription, receive and delete, iterate messages", async () => {
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        topicName: EntityNames.TOPIC_NAME_NO_PARTITION,
-        subscriptionName: EntityNames.SUBSCRIPTION_NAME_NO_PARTITION
-      },
+    const sender = serviceBusClient.getSender(EntityNames.TOPIC_NAME_NO_PARTITION);
+    const receiver = serviceBusClient.getReceiver(
+      EntityNames.TOPIC_NAME_NO_PARTITION,
+      EntityNames.SUBSCRIPTION_NAME_NO_PARTITION,
       "receiveAndDelete"
     );
+    closeables.push(sender, receiver);
 
-    closeables.push(receiverClient);
-
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.TOPIC_NAME_NO_PARTITION
-    );
-
-    await sendSampleMessage("Subscription, receive and delete, iterate messages");
+    await sendSampleMessage(sender, "Subscription, receive and delete, iterate messages");
 
     // etc...
     // receiverClient.getRules();
@@ -474,7 +345,7 @@ describe("Sample scenarios for track 2", () => {
     const receivedBodies: string[] = [];
 
     // TODO: error handling? Does the iterate just terminate?
-    for await (const { message, context } of receiverClient.iterateMessages()) {
+    for await (const { message, context } of receiver.getMessageIterator()) {
       assert.notOk((context as any).complete);
 
       if (message == null) {
@@ -495,43 +366,32 @@ describe("Sample scenarios for track 2", () => {
       "Subscription, receive and delete, iterate messages",
       receivedBodies,
       errors,
-      receiverClient
+      receiver
     );
   });
 
   it("Queue, receive and delete, sessions", async () => {
-    const sessionConnections = new SessionConnections();
-
-    const receiverClient = new ServiceBusReceiverClient(
-      { connectionString, queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION },
+    const sessionId = Date.now().toString();
+    const sender = serviceBusClient.getSender(EntityNames.QUEUE_NAME_NO_PARTITION_SESSION);
+    const receiver = serviceBusClient.getSessionReceiver(
+      EntityNames.QUEUE_NAME_NO_PARTITION_SESSION,
       "receiveAndDelete",
-      {
-        id: "my-session",
-        // the thinking is that users will (unlike queues or topics) open up
-        // lots of individual sessions, so keeping track of and sharing connections
-        // is a way to prevent a possible port/connection explosion.
-        connections: sessionConnections
-      }
+      sessionId
     );
 
-    closeables.push(receiverClient);
+    closeables.push(sender, receiver);
 
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
-    );
-
-    sendSampleMessage("Queue, receive and delete, sessions", "my-session");
+    sendSampleMessage(sender, "Queue, receive and delete, sessions", sessionId);
 
     // note that this method is now available - only shows up in auto-complete
     // if you construct this object with a session.
-    await receiverClient.renewSessionLock();
+    await receiver.renewSessionLock();
 
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.subscribe({
-      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
+    receiver.subscribe({
+      async processMessage(message: ReceivedMessage): Promise<void> {
         receivedBodies.push(message.body);
       },
       async processError(err: Error): Promise<void> {
@@ -539,50 +399,32 @@ describe("Sample scenarios for track 2", () => {
       }
     });
 
-    await waitAndValidate(
-      "Queue, receive and delete, sessions",
-      receivedBodies,
-      errors,
-      receiverClient
-    );
+    await waitAndValidate("Queue, receive and delete, sessions", receivedBodies, errors, receiver);
   });
 
   it("Queue, peek/lock, sessions", async () => {
-    const sessionConnections = new SessionConnections();
+    const sessionId = Date.now().toString();
 
-    const receiverClient = new ServiceBusReceiverClient(
-      {
-        connectionString: connectionString,
-        queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
-      },
+    const sender = serviceBusClient.getSender(EntityNames.QUEUE_NAME_NO_PARTITION_SESSION);
+    const receiver = serviceBusClient.getSessionReceiver(
+      EntityNames.QUEUE_NAME_NO_PARTITION_SESSION,
       "peekLock",
-      {
-        id: "my-session",
-        // the thinking is that users will (unlike queues or topics) open up
-        // lots of individual sessions, so keeping track of and sharing connections
-        // is a way to prevent a possible port/connection explosion.
-        connections: sessionConnections
-      }
+      sessionId
     );
 
-    closeables.push(receiverClient);
+    closeables.push(sender, receiver);
 
-    senderClient = new ServiceBusSenderClient(
-      connectionString,
-      EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
-    );
-
-    sendSampleMessage("Queue, peek/lock, sessions", "my-session");
+    sendSampleMessage(sender, "Queue, peek/lock, sessions", sessionId);
 
     // note that this method is now available - only shows up in auto-complete
     // if you construct this object with a session.
-    await receiverClient.renewSessionLock();
+    await receiver.renewSessionLock();
 
     const errors: string[] = [];
     const receivedBodies: string[] = [];
 
-    receiverClient.subscribe({
-      async processMessage(message: ReceivedMessage, context: {}): Promise<void> {
+    receiver.subscribe({
+      async processMessage(message: ReceivedMessage): Promise<void> {
         receivedBodies.push(message.body);
       },
       async processError(err: Error): Promise<void> {
@@ -590,14 +432,10 @@ describe("Sample scenarios for track 2", () => {
       }
     });
 
-    await waitAndValidate("Queue, peek/lock, sessions", receivedBodies, errors, receiverClient);
+    await waitAndValidate("Queue, peek/lock, sessions", receivedBodies, errors, receiver);
   });
 
-  async function sendSampleMessage(body: string, sessionId?: string) {
-    if (senderClient == null) {
-      throw new Error("Can't send a sample message w/o a client");
-    }
-
+  async function sendSampleMessage(senderClient: Sender, body: string, sessionId?: string) {
     const message: SendableMessageInfo = {
       body
     };
@@ -766,38 +604,4 @@ async function waitAndValidate(
   assert.isEmpty(errors);
   assert.isEmpty(remainingMessages);
   assert.deepEqual([expectedMessage], receivedBodies);
-}
-
-async function purge(auth: QueueAuth | SubscriptionAuth, sessionId?: string): Promise<void> {
-  let receiverClient: NonSessionReceiver<"receiveAndDelete"> | SessionReceiver<"receiveAndDelete">;
-
-  if (sessionId) {
-    if (isQueueAuth(auth)) {
-      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", {
-        id: sessionId,
-        connections: new SessionConnections()
-      });
-    } else {
-      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", {
-        id: sessionId,
-        connections: new SessionConnections()
-      });
-    }
-  } else {
-    if (isQueueAuth(auth)) {
-      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete");
-    } else {
-      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete");
-    }
-  }
-
-  while (true) {
-    const messages = await receiverClient.receiveBatch(10, 1);
-
-    if (messages.messages.length === 0) {
-      break;
-    }
-  }
-
-  await receiverClient.close();
 }

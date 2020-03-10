@@ -5,6 +5,9 @@ import { TestClientType } from "./testUtils";
 import { getEnvVars, EnvVarNames } from "./envVarUtils";
 import * as dotenv from "dotenv";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./managementUtils";
+import { SessionReceiver } from "../../src/receivers/sessionReceiver";
+import { Receiver } from "../../src/receivers/receiver";
+import { ServiceBusClient } from "../../src/serviceBusClient";
 
 dotenv.config();
 const env = getEnvVars();
@@ -67,7 +70,7 @@ function getRelatedEntities(
 }
 
 export function connectionString() {
-  if (!!env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]) {
+  if (env[EnvVarNames.SERVICEBUS_CONNECTION_STRING] == null) {
     throw new Error(
       `No service bus connection string defined in ${EnvVarNames.SERVICEBUS_CONNECTION_STRING}`
     );
@@ -104,4 +107,54 @@ export async function createEntities(testClientType: TestClientType) {
       requiresSession: usesSessions
     });
   }
+}
+
+export async function purge(
+  serviceBusClient: ServiceBusClient,
+  testClientType: TestClientType,
+  sessionId?: string
+): Promise<void> {
+  let receiver: Receiver<{}> | SessionReceiver<{}> | undefined;
+  let entityPaths = getRelatedEntities(testClientType);
+
+  if (entityPaths.queue) {
+    if (entityPaths.usesSessions && sessionId != null) {
+      receiver = serviceBusClient.getSessionReceiver(
+        entityPaths.queue,
+        "receiveAndDelete",
+        sessionId
+      );
+    } else {
+      receiver = serviceBusClient.getReceiver(entityPaths.queue, "receiveAndDelete");
+    }
+  } else if (entityPaths.topic && entityPaths.subscription) {
+    if (entityPaths.usesSessions && sessionId != null) {
+      receiver = serviceBusClient.getSessionReceiver(
+        entityPaths.topic,
+        entityPaths.subscription,
+        "receiveAndDelete",
+        sessionId
+      );
+    } else if (entityPaths.topic && entityPaths.subscription) {
+      receiver = serviceBusClient.getReceiver(
+        entityPaths.topic,
+        entityPaths.subscription,
+        "receiveAndDelete"
+      );
+    }
+  }
+
+  if (receiver == null) {
+    throw new Error(`Unsupported TestClientType for purge: ${testClientType}`);
+  }
+
+  while (true) {
+    const messages = await receiver.receiveBatch(10, 1);
+
+    if (messages.messages.length === 0) {
+      break;
+    }
+  }
+
+  await receiver.close();
 }

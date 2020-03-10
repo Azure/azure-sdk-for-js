@@ -258,7 +258,7 @@ export class ServiceBusClient {
    * Creates a Sender which can be used to send messages, schedule messages to be sent at a later time
    * and cancel such scheduled messages.
    */
-  createSender(queueOrTopicName: string): Sender {
+  getSender(queueOrTopicName: string): Sender {
     const clientEntityContext = ClientEntityContext.create(
       queueOrTopicName,
       ClientType.ServiceBusReceiverClient,

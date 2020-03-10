@@ -151,7 +151,6 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
 
   private _context: ClientEntityContext;
   private _messageSession: MessageSession | undefined;
-  private _sessionOptions: SessionReceiverOptions;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
@@ -166,18 +165,11 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
     public entityType: "queue" | "subscription",
-    sessionOptions: SessionReceiverOptions
+    private _sessionOptions: SessionReceiverOptions
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
-    this._sessionOptions = sessionOptions;
     this.entityPath = this._context.entityPath;
-
-    // It's totally possible for 'sessionId' to be undefined here.
-    //
-    // undefined makes it so service bus will give us the next available unlocked
-    // session ID.
-    this.sessionId = sessionOptions.sessionId;
 
     this.diagnostics = {
       peek: (maxMessageCount) => this._peek(maxMessageCount),
@@ -185,18 +177,18 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
         this._peekBySequenceNumber(fromSequenceNumber, maxMessageCount)
     };
 
-    if (sessionOptions.sessionId) {
-      sessionOptions.sessionId = String(sessionOptions.sessionId);
+    if (this._sessionOptions.sessionId) {
+      this._sessionOptions.sessionId = String(this._sessionOptions.sessionId);
 
       // Check if receiver for given session already exists
       if (
-        this._context.messageSessions[sessionOptions.sessionId] &&
-        this._context.messageSessions[sessionOptions.sessionId].isOpen()
+        this._context.messageSessions[this._sessionOptions.sessionId] &&
+        this._context.messageSessions[this._sessionOptions.sessionId].isOpen()
       ) {
         const errorMessage = getOpenReceiverErrorMsg(
           this._context.clientType,
           this._context.entityPath,
-          sessionOptions.sessionId
+          this._sessionOptions.sessionId
         );
         const error = new Error(errorMessage);
         log.error(`[${this._context.namespace.connectionId}] %O`, error);
