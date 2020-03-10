@@ -18,7 +18,6 @@
     "dist/",
     "dist-esm/src/",
     "typings/src/",
-    "tsconfig.json",
     "ThirdPartyNotices.txt",
     "README.md",
     "LICENSE"

@@ -65,7 +65,6 @@
     "dist-esm/src/",
     "typings/latest/src",
     "typings/3.1/src",
-    "tsconfig.json",
     "README.md",
     "LICENSE"
   ],
