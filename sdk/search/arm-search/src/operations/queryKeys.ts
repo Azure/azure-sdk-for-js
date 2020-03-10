@@ -31,8 +31,8 @@ export class QueryKeys {
    * per service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param name The name of the new query API key.
    * @param [options] The optional parameters
    * @returns Promise<Models.QueryKeysCreateResponse>
@@ -41,8 +41,8 @@ export class QueryKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param name The name of the new query API key.
    * @param callback The callback
    */
@@ -50,8 +50,8 @@ export class QueryKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param name The name of the new query API key.
    * @param options The optional parameters
    * @param callback The callback
@@ -70,11 +70,52 @@ export class QueryKeys {
   }
 
   /**
-   * Returns the list of query API keys for the given Azure Search service.
+   * Returns the list of query API keys for the given Azure Cognitive Search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
+   * @param [options] The optional parameters
+   * @deprecated This operation is deprecated. Please do not use it any longer.
+   * @returns Promise<Models.QueryKeysListBySearchServiceGetResponse>
+   */
+  listBySearchServiceGet(resourceGroupName: string, searchServiceName: string, options?: Models.QueryKeysListBySearchServiceGetOptionalParams): Promise<Models.QueryKeysListBySearchServiceGetResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
+   * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
+   */
+  listBySearchServiceGet(resourceGroupName: string, searchServiceName: string, callback: msRest.ServiceCallback<Models.ListQueryKeysResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
+   * @param options The optional parameters
+   * @param callback The callback
+   * @deprecated This operation is deprecated. Please do not use it any longer.
+   */
+  listBySearchServiceGet(resourceGroupName: string, searchServiceName: string, options: Models.QueryKeysListBySearchServiceGetOptionalParams, callback: msRest.ServiceCallback<Models.ListQueryKeysResult>): void;
+  listBySearchServiceGet(resourceGroupName: string, searchServiceName: string, options?: Models.QueryKeysListBySearchServiceGetOptionalParams | msRest.ServiceCallback<Models.ListQueryKeysResult>, callback?: msRest.ServiceCallback<Models.ListQueryKeysResult>): Promise<Models.QueryKeysListBySearchServiceGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        searchServiceName,
+        options
+      },
+      listBySearchServiceGetOperationSpec,
+      callback) as Promise<Models.QueryKeysListBySearchServiceGetResponse>;
+  }
+
+  /**
+   * Returns the list of query API keys for the given Azure Cognitive Search service.
+   * @param resourceGroupName The name of the resource group within the current subscription. You can
+   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.QueryKeysListBySearchServiceResponse>
    */
@@ -82,16 +123,16 @@ export class QueryKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param callback The callback
    */
   listBySearchService(resourceGroupName: string, searchServiceName: string, callback: msRest.ServiceCallback<Models.ListQueryKeysResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -112,8 +153,8 @@ export class QueryKeys {
    * for regenerating a query key is to delete and then recreate it.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param key The query key to be deleted. Query keys are identified by value, not by name.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -122,8 +163,8 @@ export class QueryKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param key The query key to be deleted. Query keys are identified by value, not by name.
    * @param callback The callback
    */
@@ -131,8 +172,8 @@ export class QueryKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param key The query key to be deleted. Query keys are identified by value, not by name.
    * @param options The optional parameters
    * @param callback The callback
@@ -180,8 +221,34 @@ const createOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listBySearchServiceOperationSpec: msRest.OperationSpec = {
+const listBySearchServiceGetOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.searchServiceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage,
+    Parameters.clientRequestId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListQueryKeysResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listBySearchServiceOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys",
   urlParameters: [
     Parameters.resourceGroupName,
