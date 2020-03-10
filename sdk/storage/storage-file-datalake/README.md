@@ -59,6 +59,7 @@ This library depends on following ES features which need external polyfills load
 - `Object.assign`
 - `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
+- `Symbol.iterator`
 
 #### Differences between Node.js and browsers
 
