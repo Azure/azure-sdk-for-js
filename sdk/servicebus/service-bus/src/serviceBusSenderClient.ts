@@ -5,13 +5,13 @@ import {
   ServiceBusClientOptions,
   createConnectionContextForTokenCredential,
   createConnectionContextForConnectionString
-} from "./old/serviceBusClient";
+} from "./constructorHelpers";
 import { TokenCredential, SendableMessageInfo } from ".";
 import { isTokenCredential } from "@azure/core-amqp";
 import { ClientType } from "./client";
 import { generate_uuid } from "rhea-promise";
 import { ConnectionContext } from "./connectionContext";
-import { getEntityNameFromConnectionString } from './track2/constructorHelpers';
+import { getEntityNameFromConnectionString } from "./constructorHelpers";
 
 /**
  * Client for sending messages to a topic or queue.

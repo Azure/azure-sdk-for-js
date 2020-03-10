@@ -24,7 +24,7 @@ import {
   throwErrorIfClientOrConnectionClosed
 } from "./util/errors";
 import { RuleDescription, CorrelationFilter } from ".";
-import { MessageHandlerOptions } from './track2/models';
+import { MessageHandlerOptions, ReceivedMessage } from "./models";
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
@@ -221,7 +221,7 @@ export class InternalReceiver {
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
-  async renewMessageLock(lockTokenOrMessage: string | ServiceBusMessage): Promise<Date> {
+  async renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     if (this._receiveMode !== ReceiveMode.peekLock) {
       throw new Error(getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"));
@@ -896,10 +896,7 @@ export class InternalSessionReceiver {
 
 // #region topic-filters
 
-function getRules(
-  context: ClientEntityContext,
-  entityPath: string
-): Promise<RuleDescription[]> {
+function getRules(context: ClientEntityContext, entityPath: string): Promise<RuleDescription[]> {
   if (entityPath.includes("/Subscriptions/")) {
     throwErrorIfClientOrConnectionClosed(context.namespace, entityPath, context.isClosed);
     return context.managementClient!.getRules();
