@@ -98,7 +98,7 @@ For example, you can create following CORS settings for debugging. But please cu
 
 Azure Data Lake Storage Gen2 was designed to:
 
-- Service multiple petabytes of information while sustaining hundreds of gigabits of throughput
+- Serve multiple petabytes of information while sustaining hundreds of gigabits of throughput
 - Allow you to easily manage massive amounts of data
 
 Key Features of DataLake Storage Gen2 include:
