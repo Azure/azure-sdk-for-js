@@ -27,7 +27,8 @@ import {
   TrainStatus,
   TrainResult,
   TextLine,
-  OperationStatus
+  OperationStatus,
+  ModelInfo
 } from "./generated/models/index";
 
 export {
@@ -365,13 +366,24 @@ export type AnalyzeFormResultResponse = AnalyzeFormOperationResult & {
     parsedBody: AnalyzeOperationResultModel;
   };
 }
+export interface CustomFormModelTrainResult {
+  trainingDocuments: TrainingDocumentInfo[];
+  errors?: ErrorInformation[];
+}
 
-export type CustomFormModelTrainResult = Omit<TrainResult, "averageModelAccuracy" | "fields">;
-
-export type CustomFormModel = Omit<Model, "trainResult"> & {
+export interface CustomFormModel {
   kind: "unlabeled";
+  modelInfo: ModelInfo;
+  keys?: KeysResult;
   trainResult?: CustomFormModelTrainResult;
 }
+
+export interface LabeledFormModel{
+  kind: "labeled";
+  modelInfo: ModelInfo;
+  trainResult?: TrainResult;
+};
+
 
 export type CustomFormModelResponse = CustomFormModel & {
   /**
@@ -388,10 +400,6 @@ export type CustomFormModelResponse = CustomFormModel & {
        */
       parsedBody: Model;
     };
-};
-
-export type LabeledFormModel = Omit<Model, "keys"> & {
-  kind: "labeled";
 };
 
 export type LabeledFormModelResponse = LabeledFormModel & {

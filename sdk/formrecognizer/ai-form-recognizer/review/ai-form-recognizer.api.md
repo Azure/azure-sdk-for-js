@@ -166,10 +166,16 @@ export interface CommonFieldValue {
 }
 
 // @public (undocumented)
-export type CustomFormModel = Omit<Model, "trainResult"> & {
+export interface CustomFormModel {
+    // (undocumented)
+    keys?: KeysResult;
+    // (undocumented)
     kind: "unlabeled";
+    // (undocumented)
+    modelInfo: ModelInfo;
+    // (undocumented)
     trainResult?: CustomFormModelTrainResult;
-};
+}
 
 // @public (undocumented)
 export type CustomFormModelResponse = CustomFormModel & {
@@ -180,7 +186,12 @@ export type CustomFormModelResponse = CustomFormModel & {
 };
 
 // @public (undocumented)
-export type CustomFormModelTrainResult = Omit<TrainResult, "averageModelAccuracy" | "fields">;
+export interface CustomFormModelTrainResult {
+    // (undocumented)
+    errors?: ErrorInformation[];
+    // (undocumented)
+    trainingDocuments: TrainingDocumentInfo[];
+}
 
 // @public
 export class CustomFormRecognizerClient {
@@ -401,9 +412,14 @@ export interface KeyValuePairModel {
 }
 
 // @public (undocumented)
-export type LabeledFormModel = Omit<Model, "keys"> & {
+export interface LabeledFormModel {
+    // (undocumented)
     kind: "labeled";
-};
+    // (undocumented)
+    modelInfo: ModelInfo;
+    // (undocumented)
+    trainResult?: TrainResult;
+}
 
 // @public (undocumented)
 export type LabeledFormModelResponse = LabeledFormModel & {
