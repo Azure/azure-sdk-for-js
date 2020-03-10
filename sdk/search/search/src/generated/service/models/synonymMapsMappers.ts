@@ -8,6 +8,9 @@
 
 export {
   discriminators,
+  AzureActiveDirectoryApplicationCredentials,
+  EncryptionKey,
   ListSynonymMapsResult,
+  SearchError,
   SynonymMap
 } from "../models/mappers";

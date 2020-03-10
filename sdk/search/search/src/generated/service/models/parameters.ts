@@ -32,19 +32,6 @@ export const apiVersion: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const clientRequestId: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "requestOptions",
-    "clientRequestId"
-  ],
-  mapper: {
-    serializedName: "client-request-id",
-    type: {
-      name: "Uuid"
-    }
-  }
-};
 export const dataSourceName: coreHttp.OperationURLParameter = {
   parameterPath: "dataSourceName",
   mapper: {
@@ -54,6 +41,18 @@ export const dataSourceName: coreHttp.OperationURLParameter = {
       name: "String"
     }
   }
+};
+export const endpoint: coreHttp.OperationURLParameter = {
+  parameterPath: "endpoint",
+  mapper: {
+    required: true,
+    serializedName: "endpoint",
+    defaultValue: '',
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 export const ifMatch: coreHttp.OperationParameter = {
   parameterPath: [
@@ -113,30 +112,6 @@ export const prefer: coreHttp.OperationParameter = {
     }
   }
 };
-export const searchDnsSuffix: coreHttp.OperationURLParameter = {
-  parameterPath: "searchDnsSuffix",
-  mapper: {
-    required: true,
-    serializedName: "searchDnsSuffix",
-    defaultValue: 'search.windows.net',
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const searchServiceName: coreHttp.OperationURLParameter = {
-  parameterPath: "searchServiceName",
-  mapper: {
-    required: true,
-    serializedName: "searchServiceName",
-    defaultValue: '',
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
 export const select: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -166,6 +141,19 @@ export const synonymMapName: coreHttp.OperationURLParameter = {
     serializedName: "synonymMapName",
     type: {
       name: "String"
+    }
+  }
+};
+export const xMsClientRequestId: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "requestOptions",
+    "xMsClientRequestId"
+  ],
+  mapper: {
+    serializedName: "x-ms-client-request-id",
+    type: {
+      name: "Uuid"
     }
   }
 };
