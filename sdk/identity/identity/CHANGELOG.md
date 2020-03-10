@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.0-preview1.0 (Unreleased)
+
+
 ## 1.1.0-preview1 (2020-03-10)
 
 - Extended DefaultAzureCredential with an experimental credential that uses the login credential from Azure CLI
