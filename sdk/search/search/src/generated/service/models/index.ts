@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ServiceClientOptions } from "@azure/core-http";
+
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -67,24 +67,24 @@ export interface TokenInfo {
    * The token returned by the analyzer.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly token?: string;
+  readonly token: string;
   /**
    * The index of the first character of the token in the input text.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly startOffset?: number;
+  readonly startOffset: number;
   /**
    * The index of the last character of the token in the input text.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly endOffset?: number;
+  readonly endOffset: number;
   /**
    * The position of the token in the input text relative to other tokens. The first token in the
    * input text has position 0, the next has position 1, and so on. Depending on the analyzer used,
    * some tokens might have the same position, for example if they are synonyms of each other.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly position?: number;
+  readonly position: number;
 }
 
 /**
@@ -94,7 +94,7 @@ export interface AnalyzeResult {
   /**
    * The list of tokens returned by the analyzer specified in the request.
    */
-  tokens?: TokenInfo[];
+  tokens: TokenInfo[];
 }
 
 /**
@@ -236,7 +236,7 @@ export interface StopAnalyzer {
 /**
  * Contains the possible cases for Tokenizer.
  */
-export type TokenizerUnion = Tokenizer | ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | KeywordTokenizerV2 | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizer | PathHierarchyTokenizerV2 | PatternTokenizer | StandardTokenizer | StandardTokenizerV2 | UaxUrlEmailTokenizer;
+export type TokenizerUnion = Tokenizer | ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | KeywordTokenizerV2 | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizerV2 | PatternTokenizer | StandardTokenizer | StandardTokenizerV2 | UaxUrlEmailTokenizer;
 
 /**
  * Abstract base class for tokenizers.
@@ -451,43 +451,6 @@ export interface NGramTokenizer {
    * Character classes to keep in the tokens.
    */
   tokenChars?: TokenCharacterKind[];
-}
-
-/**
- * Tokenizer for path-like hierarchies. This tokenizer is implemented using Apache Lucene.
- */
-export interface PathHierarchyTokenizer {
-  /**
-   * Polymorphic Discriminator
-   */
-  odatatype: "#Microsoft.Azure.Search.PathHierarchyTokenizer";
-  /**
-   * The name of the tokenizer. It must only contain letters, digits, spaces, dashes or
-   * underscores, can only start and end with alphanumeric characters, and is limited to 128
-   * characters.
-   */
-  name: string;
-  /**
-   * The delimiter character to use. Default is "/". Default value: '/'.
-   */
-  delimiter?: string;
-  /**
-   * A value that, if set, replaces the delimiter character. Default is "/". Default value: '/'.
-   */
-  replacement?: string;
-  /**
-   * The buffer size. Default is 1024. Default value: 1024.
-   */
-  bufferSize?: number;
-  /**
-   * A value indicating whether to generate tokens in reverse order. Default is false. Default
-   * value: false.
-   */
-  reverseTokenOrder?: boolean;
-  /**
-   * The number of initial tokens to skip. Default is 0. Default value: 0.
-   */
-  numberOfTokensToSkip?: number;
 }
 
 /**
@@ -1581,7 +1544,7 @@ export interface DataSource {
   description?: string;
   /**
    * The type of the datasource. Possible values include: 'AzureSql', 'CosmosDb', 'AzureBlob',
-   * 'AzureTable'
+   * 'AzureTable', 'MySql'
    */
   type: DataSourceType;
   /**
@@ -1615,7 +1578,7 @@ export interface ListDataSourcesResult {
    * The datasources in the Search service.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly dataSources?: DataSource[];
+  readonly dataSources: DataSource[];
 }
 
 /**
@@ -1651,12 +1614,6 @@ export interface IndexingParameters {
    * considered successful. -1 means no limit. Default is 0. Default value: 0.
    */
   maxFailedItemsPerBatch?: number;
-  /**
-   * Whether indexer will base64-encode all values that are inserted into key field of the target
-   * index. This is needed if keys can contain characters that are invalid in keys (such as dot
-   * '.'). Default is false. Default value: false.
-   */
-  base64EncodeKeys?: boolean;
   /**
    * A dictionary of indexer-specific configuration properties. Each name is the name of a specific
    * property. Each value must be of a primitive type.
@@ -1757,7 +1714,7 @@ export interface ListIndexersResult {
    * The indexers in the Search service.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly indexers?: Indexer[];
+  readonly indexers: Indexer[];
 }
 
 /**
@@ -1773,14 +1730,14 @@ export interface ItemError {
    * The message describing the error that occurred while processing the item.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly errorMessage?: string;
+  readonly errorMessage: string;
   /**
    * The status code indicating why the indexing operation failed. Possible values include: 400 for
    * a malformed input document, 404 for document not found, 409 for a version conflict, 422 when
    * the index is temporarily unavailable, or 503 for when the service is too busy.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly statusCode?: number;
+  readonly statusCode: number;
   /**
    * The name of the source at which the error originated. For example, this could refer to a
    * particular skill in the attached skillset. This may not be always available.
@@ -1814,7 +1771,7 @@ export interface ItemWarning {
    * The message describing the warning that occurred while processing the item.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly message?: string;
+  readonly message: string;
   /**
    * The name of the source at which the warning originated. For example, this could refer to a
    * particular skill in the attached skillset. This may not be always available.
@@ -1844,7 +1801,7 @@ export interface IndexerExecutionResult {
    * 'inProgress', 'reset'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: IndexerExecutionStatus;
+  readonly status: IndexerExecutionStatus;
   /**
    * The error message indicating the top-level error, if any.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1864,23 +1821,23 @@ export interface IndexerExecutionResult {
    * The item-level indexing errors.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly errors?: ItemError[];
+  readonly errors: ItemError[];
   /**
    * The item-level indexing warnings.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly warnings?: ItemWarning[];
+  readonly warnings: ItemWarning[];
   /**
    * The number of items that were processed during this indexer execution. This includes both
    * successfully processed items and items where indexing was attempted but failed.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly itemCount?: number;
+  readonly itemCount: number;
   /**
    * The number of items that failed to be indexed during this indexer execution.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly failedItemCount?: number;
+  readonly failedItemCount: number;
   /**
    * Change tracking state with which an indexer execution started.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1923,7 +1880,7 @@ export interface IndexerExecutionInfo {
    * Overall indexer status. Possible values include: 'unknown', 'error', 'running'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: IndexerStatus;
+  readonly status: IndexerStatus;
   /**
    * The result of the most recent or an in-progress indexer execution.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1933,12 +1890,12 @@ export interface IndexerExecutionInfo {
    * History of the recent indexer executions, sorted in reverse chronological order.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly executionHistory?: IndexerExecutionResult[];
+  readonly executionHistory: IndexerExecutionResult[];
   /**
    * The execution limits for the indexer.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly limits?: IndexerLimits;
+  readonly limits: IndexerLimits;
 }
 
 /**
@@ -2357,6 +2314,50 @@ export interface Suggester {
 }
 
 /**
+ * Credentials of a registered application created for your search service, used for authenticated
+ * access to the encryption keys stored in Azure Key Vault.
+ */
+export interface AzureActiveDirectoryApplicationCredentials {
+  /**
+   * An AAD Application ID that was granted the required access permissions to the Azure Key Vault
+   * that is to be used when encrypting your data at rest. The Application ID should not be
+   * confused with the Object ID for your AAD Application.
+   */
+  applicationId: string;
+  /**
+   * The authentication key of the specified AAD application.
+   */
+  applicationSecret?: string;
+}
+
+/**
+ * A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be
+ * used to encrypt or decrypt data-at-rest in Azure Cognitive Search, such as indexes and synonym
+ * maps.
+ */
+export interface EncryptionKey {
+  /**
+   * The name of your Azure Key Vault key to be used to encrypt your data at rest.
+   */
+  keyVaultKeyName: string;
+  /**
+   * The version of your Azure Key Vault key to be used to encrypt your data at rest.
+   */
+  keyVaultKeyVersion: string;
+  /**
+   * The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be
+   * used to encrypt your data at rest. An example URI might be
+   * https://my-keyvault-name.vault.azure.net.
+   */
+  keyVaultUri: string;
+  /**
+   * Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not
+   * required if using managed identity instead.
+   */
+  accessCredentials?: AzureActiveDirectoryApplicationCredentials;
+}
+
+/**
  * Represents a search index definition, which describes the fields and search behavior of an
  * index.
  */
@@ -2404,6 +2405,17 @@ export interface Index {
    */
   charFilters?: CharFilterUnion[];
   /**
+   * A description of an encryption key that you create in Azure Key Vault. This key is used to
+   * provide an additional level of encryption-at-rest for your data when you want full assurance
+   * that no one, not even Microsoft, can decrypt your data in Azure Cognitive Search. Once you
+   * have encrypted your data, it will always remain encrypted. Azure Cognitive Search will ignore
+   * attempts to set this property to null. You can change this property as needed if you want to
+   * rotate your encryption key; Your data will be unaffected. Encryption with customer-managed
+   * keys is not available for free search services, and is only available for paid services
+   * created on or after January 1, 2019.
+   */
+  encryptionKey?: EncryptionKey;
+  /**
    * The ETag of the index.
    */
   eTag?: string;
@@ -2418,12 +2430,12 @@ export interface GetIndexStatisticsResult {
    * The number of documents in the index.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly documentCount?: number;
+  readonly documentCount: number;
   /**
    * The amount of storage in bytes consumed by the index.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly storageSize?: number;
+  readonly storageSize: number;
 }
 
 /**
@@ -2435,7 +2447,7 @@ export interface ListIndexesResult {
    * The indexes in the Search service.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly indexes?: Index[];
+  readonly indexes: Index[];
 }
 
 /**
@@ -2747,7 +2759,7 @@ export interface ImageAnalysisSkill {
   outputs: OutputFieldMappingEntry[];
   /**
    * A value indicating which language code to use. Default is en. Possible values include: 'en',
-   * 'zh'
+   * 'es', 'ja', 'pt', 'zh'
    */
   defaultLanguageCode?: ImageAnalysisSkillLanguage;
   /**
@@ -3157,7 +3169,7 @@ export interface ListSkillsetsResult {
    * The skillsets defined in the Search service.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly skillsets?: Skillset[];
+  readonly skillsets: Skillset[];
 }
 
 /**
@@ -3174,6 +3186,17 @@ export interface SynonymMap {
    */
   synonyms: string;
   /**
+   * A description of an encryption key that you create in Azure Key Vault. This key is used to
+   * provide an additional level of encryption-at-rest for your data when you want full assurance
+   * that no one, not even Microsoft, can decrypt your data in Azure Cognitive Search. Once you
+   * have encrypted your data, it will always remain encrypted. Azure Cognitive Search will ignore
+   * attempts to set this property to null. You can change this property as needed if you want to
+   * rotate your encryption key; Your data will be unaffected. Encryption with customer-managed
+   * keys is not available for free search services, and is only available for paid services
+   * created on or after January 1, 2019.
+   */
+  encryptionKey?: EncryptionKey;
+  /**
    * The ETag of the synonym map.
    */
   eTag?: string;
@@ -3188,7 +3211,7 @@ export interface ListSynonymMapsResult {
    * The synonym maps in the Search service.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly synonymMaps?: SynonymMap[];
+  readonly synonymMaps: SynonymMap[];
 }
 
 /**
@@ -3198,7 +3221,7 @@ export interface ResourceCounter {
   /**
    * The resource usage amount.
    */
-  usage?: number;
+  usage: number;
   /**
    * The resource amount quota.
    */
@@ -3212,27 +3235,31 @@ export interface ServiceCounters {
   /**
    * Total number of documents across all indexes in the service.
    */
-  documentCounter?: ResourceCounter;
+  documentCounter: ResourceCounter;
   /**
    * Total number of indexes.
    */
-  indexCounter?: ResourceCounter;
+  indexCounter: ResourceCounter;
   /**
    * Total number of indexers.
    */
-  indexerCounter?: ResourceCounter;
+  indexerCounter: ResourceCounter;
   /**
    * Total number of data sources.
    */
-  dataSourceCounter?: ResourceCounter;
+  dataSourceCounter: ResourceCounter;
   /**
    * Total size of used storage in bytes.
    */
-  storageSizeCounter?: ResourceCounter;
+  storageSizeCounter: ResourceCounter;
   /**
    * Total number of synonym maps.
    */
-  synonymMapCounter?: ResourceCounter;
+  synonymMapCounter: ResourceCounter;
+  /**
+   * Total number of skillsets.
+   */
+  skillsetCounter: ResourceCounter;
 }
 
 /**
@@ -3266,11 +3293,32 @@ export interface ServiceStatistics {
   /**
    * Service level resource counters.
    */
-  counters?: ServiceCounters;
+  counters: ServiceCounters;
   /**
    * Service level general limits.
    */
-  limits?: ServiceLimits;
+  limits: ServiceLimits;
+}
+
+/**
+ * Describes an error condition for the Azure Cognitive Search API.
+ */
+export interface SearchError {
+  /**
+   * One of a server-defined set of error codes.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * A human-readable representation of the error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message: string;
+  /**
+   * An array of details about specific errors that led to this reported error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: SearchError[];
 }
 
 /**
@@ -3280,7 +3328,7 @@ export interface RequestOptions {
   /**
    * The tracking ID sent with the request to help with debugging.
    */
-  clientRequestId?: string;
+  xMsClientRequestId?: string;
 }
 
 /**
@@ -3297,17 +3345,6 @@ export interface AccessCondition {
    * server does not match this value.
    */
   ifNoneMatch?: string;
-}
-
-/**
- * An interface representing SearchServiceClientOptions.
- */
-export interface SearchServiceClientOptions extends ServiceClientOptions {
-  /**
-   * The DNS suffix of the search service. The default is search.windows.net. Default value:
-   * 'search.windows.net'.
-   */
-  searchDnsSuffix?: string;
 }
 
 /**
@@ -3341,16 +3378,6 @@ export interface DataSourcesDeleteMethodOptionalParams extends coreHttp.RequestO
 /**
  * Optional Parameters.
  */
-export interface DataSourcesGetOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
 export interface DataSourcesListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Selects which top-level properties of the data sources to retrieve. Specified as a
@@ -3358,40 +3385,6 @@ export interface DataSourcesListOptionalParams extends coreHttp.RequestOptionsBa
    * properties.
    */
   select?: string;
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface DataSourcesCreateOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IndexersResetOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IndexersRunOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -3425,46 +3418,12 @@ export interface IndexersDeleteMethodOptionalParams extends coreHttp.RequestOpti
 /**
  * Optional Parameters.
  */
-export interface IndexersGetOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
 export interface IndexersListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Selects which top-level properties of the indexers to retrieve. Specified as a comma-separated
    * list of JSON property names, or '*' for all properties. The default is all properties.
    */
   select?: string;
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IndexersCreateOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IndexersGetStatusOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -3498,16 +3457,6 @@ export interface SkillsetsDeleteMethodOptionalParams extends coreHttp.RequestOpt
 /**
  * Optional Parameters.
  */
-export interface SkillsetsGetOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
 export interface SkillsetsListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Selects which top-level properties of the skillsets to retrieve. Specified as a
@@ -3515,20 +3464,6 @@ export interface SkillsetsListOptionalParams extends coreHttp.RequestOptionsBase
    * properties.
    */
   select?: string;
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SkillsetsCreateOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -3562,16 +3497,6 @@ export interface SynonymMapsDeleteMethodOptionalParams extends coreHttp.RequestO
 /**
  * Optional Parameters.
  */
-export interface SynonymMapsGetOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
 export interface SynonymMapsListOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Selects which top-level properties of the synonym maps to retrieve. Specified as a
@@ -3579,30 +3504,6 @@ export interface SynonymMapsListOptionalParams extends coreHttp.RequestOptionsBa
    * properties.
    */
   select?: string;
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SynonymMapsCreateOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IndexesCreateOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -3615,10 +3516,6 @@ export interface IndexesListOptionalParams extends coreHttp.RequestOptionsBase {
    * properties.
    */
   select?: string;
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -3654,46 +3551,6 @@ export interface IndexesDeleteMethodOptionalParams extends coreHttp.RequestOptio
    * Additional parameters for the operation
    */
   accessCondition?: AccessCondition;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IndexesGetOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IndexesGetStatisticsOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IndexesAnalyzeOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SearchServiceClientGetServiceStatisticsOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
 }
 
 /**
@@ -3869,11 +3726,11 @@ export type StopwordsList = 'arabic' | 'armenian' | 'basque' | 'brazilian' | 'bu
 
 /**
  * Defines values for DataSourceType.
- * Possible values include: 'AzureSql', 'CosmosDb', 'AzureBlob', 'AzureTable'
+ * Possible values include: 'AzureSql', 'CosmosDb', 'AzureBlob', 'AzureTable', 'MySql'
  * @readonly
  * @enum {string}
  */
-export type DataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable';
+export type DataSourceType = 'azuresql' | 'cosmosdb' | 'azureblob' | 'azuretable' | 'mysql';
 
 /**
  * Defines values for IndexerExecutionStatus.
@@ -3936,19 +3793,20 @@ export type OcrSkillLanguage = 'zh-Hans' | 'zh-Hant' | 'cs' | 'da' | 'nl' | 'en'
 
 /**
  * Defines values for ImageAnalysisSkillLanguage.
- * Possible values include: 'en', 'zh'
+ * Possible values include: 'en', 'es', 'ja', 'pt', 'zh'
  * @readonly
  * @enum {string}
  */
-export type ImageAnalysisSkillLanguage = 'en' | 'zh';
+export type ImageAnalysisSkillLanguage = 'en' | 'es' | 'ja' | 'pt' | 'zh';
 
 /**
  * Defines values for VisualFeature.
- * Possible values include: 'categories', 'tags', 'description', 'faces', 'imageType', 'color'
+ * Possible values include: 'adult', 'brands', 'categories', 'description', 'faces', 'objects',
+ * 'tags'
  * @readonly
  * @enum {string}
  */
-export type VisualFeature = 'categories' | 'tags' | 'description' | 'faces' | 'imageType' | 'color';
+export type VisualFeature = 'adult' | 'brands' | 'categories' | 'description' | 'faces' | 'objects' | 'tags';
 
 /**
  * Defines values for ImageDetail.

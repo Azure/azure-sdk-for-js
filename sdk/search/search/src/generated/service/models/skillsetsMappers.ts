@@ -21,6 +21,7 @@ export {
   MergeSkill,
   OcrSkill,
   OutputFieldMappingEntry,
+  SearchError,
   SentimentSkill,
   ShaperSkill,
   Skill,
