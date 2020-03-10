@@ -300,7 +300,7 @@ export class SecretClient {
    * let secretName = "MySecretName";
    * let client = new SecretClient(url, credentials);
    * let secret = await client.getSecret(secretName);
-   * await client.updateSecret(secretName, secret.version, { enabled: false });
+   * await client.updateSecretProperties(secretName, secret.properties.version, { enabled: false });
    * ```
    * @summary Updates the attributes associated with a specified secret in a given key vault.
    * @param {string} secretName The name of the secret.
@@ -470,7 +470,7 @@ export class SecretClient {
    * const deletePoller = await client.beginDeleteSecret("MySecretName");
    * await deletePoller.pollUntilDone();
    *
-   * const recoverPoller = await client.recoverDeletedSecret("MySecretName");
+   * const recoverPoller = await client.beginRecoverDeletedSecret("MySecretName");
    *
    * // Serializing the poller
    * const serialized = recoverPoller.toString();
@@ -906,7 +906,6 @@ export class SecretClient {
    * ```ts
    * let client = new SecretClient(url, credentials);
    * for await (const deletedSecret of client.listDeletedSecrets()) {
-   *   const deletedSecret = await client.getSecret(deletedSecret.name);
    *   console.log("deleted secret: ", deletedSecret);
    * }
    * ```

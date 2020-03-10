@@ -24,7 +24,7 @@ import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
-import { MessageHandlerOptions } from '../track2/models';
+import { MessageHandlerOptions } from "../models";
 
 /**
  * @internal

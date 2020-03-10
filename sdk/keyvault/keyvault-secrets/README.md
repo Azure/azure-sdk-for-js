@@ -204,8 +204,8 @@ const secretName = "MySecretName";
 async function main() {
   const latestSecret = await client.getSecret(secretName);
   console.log(`Latest version of the secret ${secretName}: `, latestSecret);
-  const specificSecret = await client.getSecret(secretName, { version: latestSecret.version! });
-  console.log(`The secret ${secretName} at the version ${latestSecret.version!}: `, specificSecret);
+  const specificSecret = await client.getSecret(secretName, { version: latestSecret.properties.version! });
+  console.log(`The secret ${secretName} at the version ${latestSecret.properties.version!}: `, specificSecret);
 }
 
 main();
@@ -268,7 +268,7 @@ const secretName = "MySecretName";
 
 async function main() {
   const result = await client.getSecret(secretName);
-  await client.updateSecretProperties(secretName, result.parameters.version, { enabled: false });
+  await client.updateSecretProperties(secretName, result.properties.version, { enabled: false });
 }
 
 main();
@@ -334,7 +334,7 @@ async function main() {
 
   // recoverDeletedSecret returns a poller, just like beginDeleteSecret.
   const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
-  const recoverPoller.pollUntilDone();
+  await recoverPoller.pollUntilDone();
 
   // And then, to purge the deleted secret:
   await client.purgeDeletedSecret(secretName);

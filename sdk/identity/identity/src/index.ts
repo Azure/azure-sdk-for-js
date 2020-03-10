@@ -7,7 +7,6 @@ import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
 export { TokenCredentialOptions } from "./client/identityClient";
 export { EnvironmentCredential } from "./credentials/environmentCredential";
-export { AzureCliCredential } from "./credentials/azureCliCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";

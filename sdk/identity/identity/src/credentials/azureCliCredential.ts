@@ -9,6 +9,17 @@ import { logger } from "../util/logging";
 
 import * as child_process from "child_process";
 
+function getSafeWorkingDir(): string {
+    if (process.platform === "win32") {
+      if (!process.env.SystemRoot) {
+        throw new Error("Azure CLI credential expects a 'SystemRoot' environment variable");
+      }
+      return process.env.SystemRoot;
+    } else {
+      return "/bin";
+    }
+}
+
 /**
  * Provides the user access token and expire time
  * with Azure CLI command "az account get-access-token".
@@ -28,6 +39,7 @@ export class AzureCliCredential implements TokenCredential {
       try {
         child_process.exec(
           `az account get-access-token --output json --resource ${resource}`,
+          {cwd: getSafeWorkingDir()},
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr });
           }
@@ -57,6 +69,12 @@ export class AzureCliCredential implements TokenCredential {
       scope = typeof scopes === "string" ? scopes : scopes[0];
       logger.info(`use the scope ${scope}`);
       const resource = scope.replace(/\/.default$/, "");
+
+      // Check to make sure the scope we get back is a valid scope
+      if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
+        throw new Error("Invalid scope was specified by the user or calling client")
+      }
+
       let responseData = "";
 
       const { span } = createSpan("AzureCliCredential-getToken", options);
