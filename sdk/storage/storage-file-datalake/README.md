@@ -116,7 +116,7 @@ In the past, cloud-based analytics had to compromise in areas of performance, ma
 - Security is enforceable because you can define POSIX permissions on directories or individual files.
 - Cost effectiveness is made possible as Data Lake Storage Gen2 is built on top of the low-cost Azure Blob storage. The additional features further lower the total cost of ownership for running big data analytics on Azure.
 
-Data lake storage offers three types of resources:
+Data Lake storage offers three types of resources:
 
 - The _storage account_ used via `DataLakeServiceClient`
 - A _file system_ in the storage account used via `DataLakeFileSystemClient`
