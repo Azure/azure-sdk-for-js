@@ -104,10 +104,10 @@ For example, you can create following CORS settings for debugging. But please cu
 
 The following components and their corresponding client libraries make up the Azure Storage File Share service:
 
-- The storage account itself, represented by a `ShareServiceClient`
-- A file share within the storage account, represented by a `ShareClient`
-- An optional hierarchy of directories within the file share, represented by `ShareDirectoryClient` instances
-- A file within the file share, which may be up to 1 TiB in size, represented by a `ShareFileClient`
+- The _storage account_ itself, represented by a `ShareServiceClient`
+- A _file share_ within the storage account, represented by a `ShareClient`
+- An optional _hierarchy of directories_ within the file share, represented by `ShareDirectoryClient` instances
+- A _file_ within the file share, which may be up to 1 TiB in size, represented by a `ShareFileClient`
 
 ## Examples
 
@@ -127,7 +127,7 @@ const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/stora
 
 ### Create the share service client
 
-Use the constructor to create a instance of `ShareServiceClient`. It needs to authenticate with the Azure service.
+The `ShareServiceClient` requires an URL to the file share service and an access credential. It also optionally accepts some settings in the `options` parameter.
 
 #### with StorageSharedKeyCredential
 

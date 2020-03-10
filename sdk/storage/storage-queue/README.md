@@ -96,8 +96,8 @@ between connected clients.
 
 Key data types in our library related to these services are:
 
-- A `QueueServiceClient` represents a connection (via a URL) to a given storage account in the Azure Storage Queue service and provides APIs for manipulating its queues. It is authenticated to the service and can be used to create `QueueClient` objects, as well as create, delete, list queues from the service.
-- A `QueueClient` represents a single queue in the storage acccount. It can be used to manipulate the queue's messages, for example to send, receive, and peek messages in the queue.
+- A `QueueServiceClient` represents a connection (via a URL) to a given _storage account_ in the Azure Storage Queue service and provides APIs for manipulating its queues. It is authenticated to the service and can be used to create `QueueClient` objects, as well as create, delete, list queues from the service.
+- A `QueueClient` represents a single _queue_ in the storage acccount. It can be used to manipulate the queue's messages, for example to send, receive, and peek messages in the queue.
 
 ## Examples
 
@@ -117,8 +117,7 @@ const { QueueServiceClient, StorageSharedKeyCredential } = require("@azure/stora
 
 ### Create the queue service client
 
-The `QueueServiceClient` requires a URL to the queue service and an access credential. It also
-optionally accepts some settings in the `options` parameter.
+The `QueueServiceClient` requires an URL to the queue service and an access credential. It also optionally accepts some settings in the `options` parameter.
 
 #### with `DefaultAzureCredential` from `@azure/identity` package
 

@@ -135,7 +135,7 @@ const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storag
 
 ### Create the blob service client
 
-Use the constructor to create a instance of `BlobServiceClient`.
+The `BlobServiceClient` requires an URL to the blob service and an access credential. It also optionally accepts some settings in the `options` parameter.
 
 #### with `DefaultAzureCredential` from `@azure/identity` package
 

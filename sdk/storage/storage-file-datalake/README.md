@@ -147,7 +147,7 @@ const { DataLakeServiceClient, StorageSharedKeyCredential } = require("@azure/st
 
 ### Create the data lake service client
 
-Use the constructor to create a instance of `DataLakeServiceClient`.
+The `DataLakeServiceClient` requires an URL to the data lake service and an access credential. It also optionally accepts some settings in the `options` parameter.
 
 #### with `DefaultAzureCredential` from `@azure/identity` package
 
