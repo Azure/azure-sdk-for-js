@@ -155,7 +155,7 @@ The `QueueServiceClient` requires an URL to the queue service and an access cred
 
   [Note - Above steps are only for Node.js]
 
-#### with StorageSharedKeyCredential
+#### with `StorageSharedKeyCredential`
 
 Alternatively, you instantiate a `QueueServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
   [ONLY AVAILABLE IN NODE.JS RUNTIME]
@@ -189,7 +189,7 @@ Also, You can instantiate a `QueueServiceClient` with a shared access signatures
 const { QueueServiceClient } = require("@azure/storage-queue");
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
-const   const queueServiceClient = new QueueServiceClient(
+const queueServiceClient = new QueueServiceClient(
     `https://${account}.queue.core.windows.net${sas}`,
 );
 ```

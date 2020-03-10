@@ -190,7 +190,7 @@ The `DataLakeServiceClient` requires an URL to the data lake service and an acce
 
   [Note - Above steps are only for Node.js]
 
-#### with StorageSharedKeyCredential
+#### with `StorageSharedKeyCredential`
 
 Alternatively, you instantiate a `DataLakeServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
   [ONLY AVAILABLE IN NODE.JS RUNTIME]

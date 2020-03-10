@@ -129,7 +129,7 @@ const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/stora
 
 The `ShareServiceClient` requires an URL to the file share service and an access credential. It also optionally accepts some settings in the `options` parameter.
 
-#### with StorageSharedKeyCredential
+#### with `StorageSharedKeyCredential`
 
 Pass in a `StorageSharedKeyCredential` with your account name and account key. (The account-name and account-key can be obtained from the azure portal.)
 
