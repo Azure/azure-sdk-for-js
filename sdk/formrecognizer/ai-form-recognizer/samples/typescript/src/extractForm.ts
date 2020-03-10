@@ -39,7 +39,7 @@ async function main() {
 
   console.log(response.status);
   console.log("### Page results:")
-  for (const page of response.analyzeResult?.pageResults ?? []) {
+  for (const page of response.analyzeResult?.pageResults || []) {
     console.log(`Page number: ${page.page}`);
     console.log(`cluster Id: ${page.clusterId}`);
     console.log("key-value pairs");
@@ -50,7 +50,7 @@ async function main() {
     for (const table of page.tables || []) {
       for (const row of table.rows) {
         for (const cell of row.cells) {
-          console.log(cell);
+          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
         }
       }
     }

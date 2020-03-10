@@ -104,14 +104,10 @@ export interface KeyValuePair {
 /**
  * Extracted information from a single page.
  */
-export type PageResult = Omit<PageResultModel, "tables" | "keyValuePairs"> & {
-  /**
-   * List of key-value pairs extracted from the page.
-   */
+export interface PageResult {
+  page: number; // pageNumber
+  clusterId?: number;
   keyValuePairs?: KeyValuePair[];
-  /**
-   * List of data tables extracted from the page.
-   */
   tables?: DataTable[];
 }
 
@@ -267,7 +263,7 @@ export interface RawReceiptResult {
   /**
    * Dictionary of named field values.
    */
-  fields: RawReceipt;
+  fields: { [propertyName: string]: FieldValue };
 }
 
 export type ReceiptResult = RawReceiptResult & Receipt
@@ -275,17 +271,16 @@ export type ReceiptResult = RawReceiptResult & Receipt
 /**
  * Analyze Receipt result.
  */
-export type AnalyzeReceiptResult = Omit<AnalyzeResult, 'documentResults'> & {
+export interface AnalyzeReceiptResult {
+  version: string;
+  readResults: ReadResult[];
   receiptResults?: ReceiptResult[];
 }
 
-/**
- * Status and result of the queued analyze receipt operation.
- */
-export type AnalyzeReceiptOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
-  /**
-   * Results of the analyze receipt operation.
-   */
+export interface AnalyzeReceiptOperationResult {
+  status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
+  createdDateTime: Date;
+  lastUpdatedDateTime: Date;
   analyzeResult?: AnalyzeReceiptResult;
 }
 

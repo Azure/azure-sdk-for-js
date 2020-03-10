@@ -99,15 +99,27 @@ export type AnalyzePollerClient<T extends ICanHazStatus> = {
     }) => Promise<T>;
 };
 
-// @public
-export type AnalyzeReceiptOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+// @public (undocumented)
+export interface AnalyzeReceiptOperationResult {
+    // (undocumented)
     analyzeResult?: AnalyzeReceiptResult;
-};
+    // (undocumented)
+    createdDateTime: Date;
+    // (undocumented)
+    lastUpdatedDateTime: Date;
+    // (undocumented)
+    status: OperationStatus;
+}
 
 // @public
-export type AnalyzeReceiptResult = Omit<AnalyzeResult, 'documentResults'> & {
+export interface AnalyzeReceiptResult {
+    // (undocumented)
+    readResults: ReadResult[];
+    // (undocumented)
     receiptResults?: ReceiptResult[];
-};
+    // (undocumented)
+    version: string;
+}
 
 // @public
 export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
@@ -486,10 +498,16 @@ export type ObjectFieldValue = {
 export type OperationStatus = 'notStarted' | 'running' | 'succeeded' | 'failed';
 
 // @public
-export type PageResult = Omit<PageResultModel, "tables" | "keyValuePairs"> & {
+export interface PageResult {
+    // (undocumented)
+    clusterId?: number;
+    // (undocumented)
     keyValuePairs?: KeyValuePair[];
+    // (undocumented)
+    page: number;
+    // (undocumented)
     tables?: DataTable[];
-};
+}
 
 // @public
 export interface PageResultModel {
@@ -538,7 +556,9 @@ export interface RawReceipt {
 // @public (undocumented)
 export interface RawReceiptResult {
     docType: "prebuilt:receipt";
-    fields: RawReceipt;
+    fields: {
+        [propertyName: string]: FieldValue;
+    };
     pageRange: number[];
 }
 

@@ -45,7 +45,7 @@ async function main() {
     for (const table of page.tables || []) {
       for (const row of table.rows) {
         for (const cell of row.cells) {
-          console.log(cell);
+          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
         }
       }
     }

@@ -56,11 +56,11 @@ async function main() {
   console.log("### Items:")
   console.log(`   \t Quantity\tName\tPrice\tTotalPrice`);
   let i = 1;
-  for (const item of response.analyzeResult?.receiptResults[0]?.items) {
+  for (const item of response.analyzeResult.receiptResults[0].items) {
     console.log(`${i++})\t ${item.quantity || ""}\t${item.name}\t$${item.price || "<missing>"}\t$${item.totalPrice || "<missing>"}`);
   }
   console.log("### Raw 'MerchantAddress' fields:");
-  console.log(response.analyzeResult?.receiptResults[0]?.fields["MerchantAddress"])
+  console.log(response.analyzeResult.receiptResults[0].fields["MerchantAddress"])
 }
 
 main().catch((err) => {
