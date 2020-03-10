@@ -33,7 +33,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/textAnalyticsClientContext.ts",
+        "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageVersion"
       },
       {
