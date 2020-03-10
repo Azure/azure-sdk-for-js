@@ -127,7 +127,7 @@ Data lake storage offers three types of resources:
 |Filesystem                 | Container  | 
 |Path (File or Directory)   | Blob       |
 
-> Note: This client library does not support hierarchical namespace (HNS) disabled storage accounts.
+> Note: This client library only supports storage accounts with hierarchical namespace (HNS) enabled.
 
 ## Examples
 
