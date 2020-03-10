@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.0-preview.4 (Unreleased)
+
+
 ## 1.0.0-preview.3 (2020-03-10)
 - [Breaking] Renamed `id` to `dataSourceEntityId` in the `LinkedEntity` type.
 - Added special handling for the string `"none"` as the `countryHint` parameter of the `TextAnalyticsClient.detectLanguage`. `"none"` is now treated the same as the empty string, and indicates that the default language detection model should be used.
