@@ -4,7 +4,7 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export { ServiceBusClientOptions } from "./old/serviceBusClient";
+export { ServiceBusClientOptions } from "./constructorHelpers";
 export {
   TokenType,
   TokenCredential,
@@ -47,15 +47,15 @@ export {
 
 export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
 
-export { ServiceBusSenderClient } from "./senderClient";
-  
+export { ServiceBusSenderClient } from "./serviceBusSenderClient";
+
 export {
   ServiceBusReceiverClient,
   NonSessionReceiver,
-  SessionReceiver, 
+  SessionReceiver,
   ClientTypeT,
   SubscriptionRuleManagement
-} from "./track2/serviceBusReceiverClient";
+} from "./serviceBusReceiverClient";
 
 export {
   SessionConnections,
@@ -73,4 +73,4 @@ export {
   Closeable,
   MessageAndContext,
   MessageIterator
-} from "./track2/models"; 
+} from "./models";

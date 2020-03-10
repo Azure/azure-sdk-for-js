@@ -91,3 +91,16 @@ directive:
     where: $.parameters.ApiVersionParameter
     transform: $.enum = [ "2019-07-07" ];
 ```
+
+### Rename eTag -> etag
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]..responses..headers["ETag"]
+  transform: >
+    $["x-ms-client-name"] = "etag";
+- from: swagger-document
+  where: $["definitions"]..["eTag"]
+  transform: >
+    $["x-ms-client-name"] = "etag";
+```

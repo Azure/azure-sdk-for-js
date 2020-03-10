@@ -8,12 +8,12 @@ import {
   QueueAuth,
   SubscriptionAuth,
   isQueueAuth
-} from "../src/track2/models";
+} from "../src/models";
 import {
   ServiceBusReceiverClient,
   NonSessionReceiver,
   SessionReceiver
-} from "../src/track2/serviceBusReceiverClient";
+} from "../src/serviceBusReceiverClient";
 import { ServiceBusSenderClient, delay, SendableMessageInfo } from "../src";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { EntityNames } from "./utils/testUtils";
@@ -22,7 +22,7 @@ import chaiAsPromised from "chai-as-promised";
 import {
   createConnectionContext,
   getEntityNameFromConnectionString
-} from "../src/track2/constructorHelpers";
+} from "../src/constructorHelpers";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -49,10 +49,13 @@ describe("Sample scenarios for track 2", () => {
       }
     ].map((auth) => purge(auth));
 
-    const sessionPurge = purge({
-      connectionString: connectionString,
-      queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
-    }, "my-session");
+    const sessionPurge = purge(
+      {
+        connectionString: connectionString,
+        queueName: EntityNames.QUEUE_NAME_NO_PARTITION_SESSION
+      },
+      "my-session"
+    );
 
     await Promise.all([...nonSessionPurges, sessionPurge]);
   });
@@ -127,7 +130,7 @@ describe("Sample scenarios for track 2", () => {
 
     const receivedBodies: string[] = [];
 
-    for (const message of await receiverClient.receiveBatch(1, 5)) {
+    for (const message of (await receiverClient.receiveBatch(1, 5)).messages) {
       receivedBodies.push(message.body);
     }
 
@@ -770,9 +773,15 @@ async function purge(auth: QueueAuth | SubscriptionAuth, sessionId?: string): Pr
 
   if (sessionId) {
     if (isQueueAuth(auth)) {
-      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", { id: sessionId, connections: new SessionConnections() });
+      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", {
+        id: sessionId,
+        connections: new SessionConnections()
+      });
     } else {
-      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", { id: sessionId, connections: new SessionConnections() });
+      receiverClient = new ServiceBusReceiverClient(auth, "receiveAndDelete", {
+        id: sessionId,
+        connections: new SessionConnections()
+      });
     }
   } else {
     if (isQueueAuth(auth)) {
@@ -785,7 +794,7 @@ async function purge(auth: QueueAuth | SubscriptionAuth, sessionId?: string): Pr
   while (true) {
     const messages = await receiverClient.receiveBatch(10, 1);
 
-    if (messages.length === 0) {
+    if (messages.messages.length === 0) {
       break;
     }
   }

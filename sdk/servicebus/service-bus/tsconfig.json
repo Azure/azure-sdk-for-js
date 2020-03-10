@@ -36,7 +36,9 @@
     "node_modules",
     "typings/**",
     "./samples/**/*.ts",
-    "./test/perf/azure-sb-package/*.ts"
+    "./test/perf/azure-sb-package/*.ts",
+    "test/perf/*",
+    "test/stress/*"
   ],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

@@ -1,6 +1,6 @@
 # Azure Cognitive Search client library for JavaScript
 
-[Azure Cognitive Search](https://docs.microsoft.com/en-us/azure/search/) is a search-as-a-service cloud solution that gives developers APIs and tools for adding a rich search experience over private, heterogeneous content in web, mobile, and enterprise applications.
+[Azure Cognitive Search](https://docs.microsoft.com/azure/search/) is a search-as-a-service cloud solution that gives developers APIs and tools for adding a rich search experience over private, heterogeneous content in web, mobile, and enterprise applications.
 
 Azure Cognitive Search is well suited for the following application scenarios:
 
@@ -20,7 +20,7 @@ Use the client library to:
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/search/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/search) |
 [API reference documentation](https://aka.ms/azsdk-js-search-ref-docs) |
-[Product documentation](https://docs.microsoft.com/en-us/azure/search/) |
+[Product documentation](https://docs.microsoft.com/azure/search/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples)
 
 ## Getting started
@@ -32,7 +32,7 @@ Use the client library to:
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An existing [Cognitive Search][search_resource] resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
+- An existing [Azure Cognitive Search][search_resource] resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
 
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
@@ -40,7 +40,7 @@ If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resour
 az search service create --resource-group <your-resource-group-name> --name <your-resource-name> --sku S
 ```
 
-The above creates a resource with the "Standard" pricing tier. See [choosing a pricing tier](https://docs.microsoft.com/en-us/azure/search/search-sku-tier) for more information.
+The above creates a resource with the "Standard" pricing tier. See [choosing a pricing tier](https://docs.microsoft.com/azure/search/search-sku-tier) for more information.
 
 ### 1. Install the `@azure/search` package
 
@@ -50,11 +50,11 @@ npm install @azure/search
 
 ### 2. Create and authenticate a `SearchIndexClient`
 
-Cognitive Search uses keys for authentication.
+Azure Cognitive Search uses keys for authentication.
 
 #### Using an Admin Key
 
-Use the [Azure CLI][azure_cli] snippet below to get the Admin Key from the Cognitive Search resource.
+Use the [Azure CLI][azure_cli] snippet below to get the Admin Key from the Azure Cognitive Search resource.
 
 ```PowerShell
 az search admin-key show --resource-group <your-resource-group-name> --service-name <your-resource-name>
@@ -70,7 +70,7 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 ```
 
@@ -78,13 +78,27 @@ const client = new SearchIndexClient(
 
 ### SearchIndexClient
 
-`SearchIndexClient` is one of the primary interface for developers using the Cognitive Search client library. It provides asynchronous methods for working with documents in an index.
+`SearchIndexClient` is one of the primary interface for developers using the Azure Cognitive Search client library. It provides asynchronous methods for working with documents in an index. These methods allow you to query, upload, update, and delete documents. It also provides methods for building completion and suggestion experiences based on partial queries.
+
+### Pagination
+
+Typically you will only wish to [show a subset of search results](https://docs.microsoft.com/azure/search/search-pagination-page-layout#total-hits-and-page-counts) to a user at one time. To support this, you can use the `top`, `skip` and `includeTotalResultCount` parameters to provide a paged experience on top of search results.
+
+### Document field encoding
+
+[Supported data types](https://docs.microsoft.com/rest/api/searchservice/Supported-data-types) in an index are mapped to JSON types in API requests/responses. The JS client library keeps these mostly the same, with some exceptions:
+
+- `Edm.DateTimeOffset` is converted to a JS `Date`.
+- `Edm.GeographyPoint` is converted to a `GeographyPoint` type exported by the client library.
+- Special values of the `number` type (NaN, Infinity, -Infinity) are serialized as strings in the REST API, but are converted back to `number` by the client library.
+
+**Note**: Data types are converted based on value, not the field type in the index schema. This means that if you have an ISO8601 Date string (e.g. "2020-03-06T18:48:27.896Z") as the value of a field, it will be converted to a Date regardless of how you stored it in your schema.
 
 ## Examples
 
 ### Query documents in an index
 
-To list all results of a particular query, you can use `listSearchResults` with a search string that uses [simple query syntax](https://docs.microsoft.com/en-us/azure/search/query-simple-syntax):
+To list all results of a particular query, you can use `search` with a search string that uses [simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax):
 
 ```js
 const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
@@ -92,16 +106,16 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
-const iterator = client.listSearchResults({ searchText: "wifi -luxury"});
-for await (const result of iterator) {
+const searchResults = await client.search({ searchText: "wifi -luxury" });
+for await (const result of searchResults.results) {
   console.log(result);
 }
 ```
 
-For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/en-us/azure/search/query-lucene-syntax), specify `queryType` to be `all`:
+For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax), specify `queryType` to be `all`:
 
 ```js
 const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
@@ -109,15 +123,15 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
-const iterator = client.listSearchResults({
-  searchText: 'category:budget AND "recently renovated"^3',
+const searchResults = await client.search({
+  searchText: 'Category:budget AND "recently renovated"^3',
   queryType: "full",
   searchMode: "all"
 });
-for await (const result of iterator) {
+for await (const result of searchResults.results) {
   console.log(result);
 }
 ```
@@ -142,17 +156,17 @@ interface Hotel {
 const client = new SearchIndexClient<Hotel>(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
-const iterator = client.listSearchResults({
+const searchResults = await client.search({
   searchText: "wifi -luxury",
   // Only fields in Hotel can be added to this array.
   // TS will complain if one is misspelled.
   select: ["HotelId", "HotelName", "Rating"]
 });
 
-for await (const result of iterator) {
+for await (const result of searchResults.results) {
   // result has HotelId, HotelName, and Rating.
   // Trying to access result.Description would emit a TS error.
   console.log(result.HotelName);
@@ -161,7 +175,7 @@ for await (const result of iterator) {
 
 ### Querying with OData filters
 
-Using the `filter` query parameter allows you to query an index using the syntax of an [OData \$filter expression](https://docs.microsoft.com/en-us/azure/search/search-query-odata-filter).
+Using the `filter` query parameter allows you to query an index using the syntax of an [OData \$filter expression](https://docs.microsoft.com/azure/search/search-query-odata-filter).
 
 ```js
 const { SearchIndexClient, SearchApiKeyCredential, odata } = require("@azure/search");
@@ -169,18 +183,18 @@ const { SearchIndexClient, SearchApiKeyCredential, odata } = require("@azure/sea
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const baseRateMax = 200;
 const ratingMin = 4;
-const iterator = client.listSearchResults({
+const searchResults = await client.search({
   searchText: "WiFi",
   filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
-  orderBy: "Rating desc",
+  orderBy: ["Rating desc"],
   select: ["HotelId", "HotelName", "Rating"]
 });
-for await (const result of iterator) {
+for await (const result of searchResults.results) {
   // Each result will have "HotelId", "HotelName", and "Rating"
   // in addition to the standard search result property "score"
   console.log(result);
@@ -189,7 +203,7 @@ for await (const result of iterator) {
 
 ### Querying with facets
 
-[Facets](https://docs.microsoft.com/en-us/azure/search/search-filters-facets) are used to help a user of your application refine a search along pre-configured dimensions. [Facet syntax](https://docs.microsoft.com/en-us/rest/api/searchservice/search-documents#facetstring-zero-or-more) provides the options to sort and bucket facet values.
+[Facets](https://docs.microsoft.com/azure/search/search-filters-facets) are used to help a user of your application refine a search along pre-configured dimensions. [Facet syntax](https://docs.microsoft.com/rest/api/searchservice/search-documents#facetstring-zero-or-more) provides the options to sort and bucket facet values.
 
 ```js
 const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
@@ -197,18 +211,14 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
-const iterator = await client
-  .listSearchResults({
-    searchText: "WiFi",
-    facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
-  })
-  .byPage();
-const page = (await iterator.next()).value;
-
-console.log(page.facets);
+const searchResults = await client.search({
+  searchText: "WiFi",
+  facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"]
+});
+console.log(searchResults.facets);
 // Output will look like:
 // {
 //   Rating: [
@@ -241,7 +251,7 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const result = await client.getDocument("1234");
@@ -250,7 +260,7 @@ console.log(result);
 
 ### Retrieve suggestions from an index
 
-If you [created a suggester](https://docs.microsoft.com/en-us/azure/search/index-add-suggesters) on your index, you can use it to return result suggestions for a user query.
+If you [created a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters) on your index, you can use it to return result suggestions for a user query.
 
 This example shows returning the top three suggestions for the input "wifi" from the suggester "sg":
 
@@ -260,7 +270,7 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const suggestResult = await client.suggest({
@@ -279,7 +289,7 @@ for (const result of suggestResult.results) {
 
 ### Autocomplete a partial query using an index
 
-To implement type-ahead behavior in your application, you can query the index with partial user input and return a list of suggested completions. You must have [created a suggester](https://docs.microsoft.com/en-us/azure/search/index-add-suggesters) on your index first.
+To implement type-ahead behavior in your application, you can query the index with partial user input and return a list of suggested completions. You must have [created a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters) on your index first.
 
 The below example tries to complete the string "de" using the suggester named "sg" on the index:
 
@@ -289,12 +299,12 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
-const suggesterName = "sg";
+
 const autocompleteResult = await client.autocomplete({
   searchText: "de",
-  suggesterName: "sg",
+  suggesterName: "sg"
 });
 
 for (const result of autocompleteResult.results || []) {
@@ -310,10 +320,10 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
-const count = await client.count();
+const count = await client.countDocuments();
 console.log(`${count} documents in index ${client.indexName}`);
 ```
 
@@ -322,13 +332,12 @@ console.log(`${count} documents in index ${client.indexName}`);
 Given the name of a primary key and a list of indexes, you can delete multiple documents from the index at the same time:
 
 ```js
-
 const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const deleteResult = await client.deleteDocuments("HotelId", ["1", "2", "3"]);
@@ -348,7 +357,7 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
 const uploadResult = await client.uploadDocuments([
@@ -364,7 +373,7 @@ for (const result of uploadResult.results) {
 
 ### Update existing documents in an index
 
-You can update multiple documents in an index at once, or create them if they do not exist. For more details about how merging works, see: https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
+You can update multiple documents in an index at once, or create them if they do not exist. For more details about how merging works, see: https://docs.microsoft.com/rest/api/searchservice/AddUpdate-or-Delete-Documents
 
 ```js
 
@@ -373,10 +382,10 @@ const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
 const client = new SearchIndexClient(
   "<endpoint>",
   "<indexName>",
-  new SearchApiKeyCredential("<Admin Key>");
+  new SearchApiKeyCredential("<Admin Key>")
 );
 
-const updateResult = await client.updateDocuments([
+const updateResult = await client.mergeDocuments([
   // JSON objects matching the shape of the client's index
   { ... },
   { ... },
@@ -398,11 +407,13 @@ for (const result of updateResult.results) {
 
 You can set the following environment variable to get the debug logs when using this library.
 
-- Getting debug logs from the Azure Search client library
+- Getting debug logs from the Azure Cognitive Search client library
 
 ```bash
 export AZURE_LOG_LEVEL=verbose*
 ```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
 ## Next steps
 
@@ -434,6 +445,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[search_resource]: https://docs.microsoft.com/en-us/azure/search/search-create-service-portal
+[search_resource]: https://docs.microsoft.com/azure/search/search-create-service-portal
 [azure_portal]: https://portal.azure.com
-[cognitive_auth]: https://docs.microsoft.com/en-us/azure/cognitive-services/authentication
+[cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication

@@ -6,7 +6,7 @@
 
 ```yaml
 package-name: "@azure/ai-text-analytics"
-title: TextAnalyticsClient
+title: GeneratedClient
 description: TextAnalytics Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
@@ -30,7 +30,7 @@ directive:
   - from: swagger-document
     where: $.definitions.DocumentStatistics.properties.charactersCount
     transform: >
-      $["x-ms-client-name"] = "characterCount";
+      $["x-ms-client-name"] = "graphemeCount";
 ```
 
 ```yaml
@@ -192,5 +192,24 @@ directive:
     transform: >
       $["x-ms-client-name"] = "graphemeLength";
       $.description = $.description.replace("Unicode characters", "Unicode graphemes");
+```
+
+### Rename SentimentConfidenceScorePerLabel -> SentimentConfidenceScores
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.SentimentConfidenceScores) {
+          $.SentimentConfidenceScores = $.SentimentConfidenceScorePerLabel;
+          delete $.SentimentConfidenceScorePerLabel;
+      }
+  - from: swagger-document
+    where: $.definitions..properties[*]
+    transform: >
+      if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
+          $["$ref"] = "#/definitions/SentimentConfidenceScores";
+      }
 ```
 

@@ -20,14 +20,14 @@ import {
   AutocompleteRequest,
   SearchRequest,
   SuggestRequest,
-  IndexAction,
   IndexDocumentsResult
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 import { deserialize, serialize } from "./serialization";
 import {
-  CountOptions,
+  IndexAction,
+  CountDocumentsOptions,
   AutocompleteOptions,
   SearchOptions,
   SearchDocumentsResult,
@@ -37,11 +37,13 @@ import {
   SuggestOptions,
   SuggestDocumentsResult,
   GetDocumentOptions,
-  ModifyIndexOptions,
+  IndexDocuments,
   UploadDocumentsOptions,
-  UpdateDocumentsOptions,
-  DeleteDocumentsOptions
+  MergeDocumentsOptions,
+  DeleteDocumentsOptions,
+  SearchDocumentsPageResult
 } from "./models";
+import { odataMetadataPolicy } from "./odataMetadataPolicy";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -120,9 +122,12 @@ export class SearchIndexClient<T> {
         loggingOptions: {
           logger: logger.info,
           allowedHeaderNames: [
-            "x-ms-correlation-request-id",
-            "x-ms-request-id",
-            "client-request-id"
+            "elapsed-time",
+            "Location",
+            "OData-MaxVersion",
+            "OData-Version",
+            "Prefer",
+            "throttle-reason"
           ]
         },
         deserializationOptions: {
@@ -134,6 +139,9 @@ export class SearchIndexClient<T> {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, signingPolicy(credential));
+    if (Array.isArray(pipeline.requestPolicyFactories)) {
+      pipeline.requestPolicyFactories.unshift(odataMetadataPolicy());
+    }
     this.client = new GeneratedClient(
       credential,
       this.apiVersion,
@@ -147,8 +155,8 @@ export class SearchIndexClient<T> {
    * Retrieves the number of documents in the index.
    * @param options Options to the count operation.
    */
-  public async count(options: CountOptions = {}): Promise<number> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-count", options);
+  public async countDocuments(options: CountDocumentsOptions = {}): Promise<number> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-countDocuments", options);
     try {
       const result = await this.client.documents.count(
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -207,25 +215,31 @@ export class SearchIndexClient<T> {
     }
   }
 
-  private async search<Fields extends keyof T>(
-    options: SearchOptions<Fields> = {}
-  ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
+  private async searchDocuments<Fields extends keyof T>(
+    options: SearchOptions<Fields> = {},
+    nextPageParameters: SearchRequest = {}
+  ): Promise<SearchDocumentsPageResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, ...nonFieldOptions } = restOptions;
+    const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
     const fullOptions: SearchRequest = {
       searchFields: this.convertSearchFields<Fields>(searchFields),
       select: this.convertSelect<Fields>(select),
-      ...nonFieldOptions
+      orderBy: this.convertOrderBy(orderBy),
+      ...nonFieldOptions,
+      ...nextPageParameters
     };
 
-    const { span, updatedOptions } = createSpan("SearchIndexClient-search", operationOptions);
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexClient-searchDocuments",
+      operationOptions
+    );
 
     try {
       const result = await this.client.documents.searchPost(
         fullOptions,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return deserialize<SearchDocumentsResult<Pick<T, Fields>>>(result);
+      return deserialize<SearchDocumentsPageResult<Pick<T, Fields>>>(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -240,43 +254,39 @@ export class SearchIndexClient<T> {
   private async *listSearchResultsPage<Fields extends keyof T>(
     options: SearchOptions<Fields> = {},
     settings: ListSearchResultsPageSettings = {}
-  ): AsyncIterableIterator<SearchDocumentsResult<Pick<T, Fields>>> {
-    let result = await this.search<Fields>({
-      ...options,
-      ...(settings.nextPageParameters as any)
-    });
+  ): AsyncIterableIterator<SearchDocumentsPageResult<Pick<T, Fields>>> {
+    let result = await this.searchDocuments<Fields>(options, settings.nextPageParameters);
 
     yield result;
 
     // Technically, we should also leverage nextLink, but the generated code
     // doesn't support this yet.
     while (result.nextPageParameters) {
-      result = await this.search({
-        ...options,
-        ...(result.nextPageParameters as any)
-      });
+      result = await this.searchDocuments(options, result.nextPageParameters);
       yield result;
     }
   }
 
   private async *listSearchResultsAll<Fields extends keyof T>(
+    firstPage: SearchDocumentsPageResult<Pick<T, Fields>>,
     options: SearchOptions<Fields> = {}
-  ): AsyncIterableIterator<SearchResult<T>> {
-    for await (const page of this.listSearchResultsPage(options)) {
-      const results: Array<SearchResult<T>> = (page.results as any) || [];
-      yield* results;
+  ): AsyncIterableIterator<SearchResult<Pick<T, Fields>>> {
+    yield* firstPage.results;
+    if (firstPage.nextPageParameters) {
+      for await (const page of this.listSearchResultsPage(options, {
+        nextLink: firstPage.nextLink,
+        nextPageParameters: firstPage.nextPageParameters
+      })) {
+        yield* page.results;
+      }
     }
   }
 
-  /**
-   * Performs a search on the current index given
-   * the specified arguments.
-   * @param options Options for the search operation.
-   */
-  public listSearchResults<Fields extends keyof T>(
+  private listSearchResults<Fields extends keyof T>(
+    firstPage: SearchDocumentsPageResult<Pick<T, Fields>>,
     options: SearchOptions<Fields> = {}
   ): SearchIterator<Pick<T, Fields>> {
-    const iter = this.listSearchResultsAll(options);
+    const iter = this.listSearchResultsAll(firstPage, options);
 
     return {
       next() {
@@ -292,18 +302,50 @@ export class SearchIndexClient<T> {
   }
 
   /**
+   * Performs a search on the current index given
+   * the specified arguments.
+   * @param options Options for the search operation.
+   */
+  public async search<Fields extends keyof T>(
+    options: SearchOptions<Fields> = {}
+  ): Promise<SearchDocumentsResult<Pick<T, Fields>>> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-search", options);
+
+    try {
+      const pageResult = await this.searchDocuments(updatedOptions);
+
+      const { count, coverage, facets } = pageResult;
+      return {
+        count,
+        coverage,
+        facets,
+        results: this.listSearchResults(pageResult, updatedOptions)
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Returns a short list of suggestions based on the searchText
    * and specified suggester.
    * @param options Options for the suggest operation
    */
-  public async suggest<Fields extends keyof T>(
+  public async suggest<Fields extends keyof T = never>(
     options: SuggestOptions<Fields>
   ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, ...nonFieldOptions } = restOptions;
+    const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
     const fullOptions: SuggestRequest = {
       searchFields: this.convertSearchFields<Fields>(searchFields),
       select: this.convertSelect<Fields>(select),
+      orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions
     };
 
@@ -371,11 +413,11 @@ export class SearchIndexClient<T> {
    * @param batch An array of actions to perform on the index.
    * @param options Additional options.
    */
-  public async modifyIndex(
-    batch: IndexAction[],
-    options: ModifyIndexOptions = {}
+  public async indexDocuments(
+    batch: IndexAction<T>[],
+    options: IndexDocuments = {}
   ): Promise<IndexDocumentsResult> {
-    const { span, updatedOptions } = createSpan("SearchIndexClient-modifyIndex", options);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-indexDocuments", options);
     try {
       const result = await this.client.documents.index(
         { actions: serialize(batch) },
@@ -408,7 +450,7 @@ export class SearchIndexClient<T> {
     const actionType = options.mergeIfExists ? "mergeOrUpload" : "upload";
     const { span, updatedOptions } = createSpan("SearchIndexClient-uploadDocuments", options);
 
-    const batch = documents.map<IndexAction>((doc) => {
+    const batch = documents.map<IndexAction<T>>((doc) => {
       return {
         ...doc,
         actionType
@@ -416,7 +458,7 @@ export class SearchIndexClient<T> {
     });
 
     try {
-      return await this.modifyIndex(batch, updatedOptions);
+      return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -434,14 +476,14 @@ export class SearchIndexClient<T> {
    * @param documents The updated documents.
    * @param options Additional options.
    */
-  public async updateDocuments(
+  public async mergeDocuments(
     documents: T[],
-    options: UpdateDocumentsOptions = {}
+    options: MergeDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const actionType = options.uploadIfNotExists ? "mergeOrUpload" : "merge";
-    const { span, updatedOptions } = createSpan("SearchIndexClient-updateDocuments", options);
+    const { span, updatedOptions } = createSpan("SearchIndexClient-mergeDocuments", options);
 
-    const batch = documents.map<IndexAction>((doc) => {
+    const batch = documents.map<IndexAction<T>>((doc) => {
       return {
         ...doc,
         actionType
@@ -449,7 +491,7 @@ export class SearchIndexClient<T> {
     });
 
     try {
-      return await this.modifyIndex(batch, updatedOptions);
+      return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -468,20 +510,20 @@ export class SearchIndexClient<T> {
    * @param options Additional options.
    */
   public async deleteDocuments(
-    keyName: string,
+    keyName: keyof T,
     keyValues: string[],
     options: DeleteDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteDocuments", options);
-    const batch = keyValues.map<IndexAction>((keyValue) => {
+    const batch = keyValues.map<IndexAction<T>>((keyValue) => {
       return {
         actionType: "delete",
         [keyName]: keyValue
-      };
+      } as IndexAction<T>;
     });
 
     try {
-      return await this.modifyIndex(batch, updatedOptions);
+      return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -523,5 +565,12 @@ export class SearchIndexClient<T> {
       return searchFields.join(",");
     }
     return searchFields;
+  }
+
+  private convertOrderBy(orderBy?: string[]): string | undefined {
+    if (orderBy) {
+      return orderBy.join(",");
+    }
+    return orderBy;
   }
 }

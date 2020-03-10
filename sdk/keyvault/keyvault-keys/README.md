@@ -346,7 +346,7 @@ async function main() {
   const poller = await client.beginDeleteKey(keyName)
 
   // You can use the deleted key immediately:
-  const deletedKey = poller.getDeletedKey();
+  const deletedKey = poller.getResult();
 
   // The key is being deleted. Only wait for it if you want to restore it or purge it.
   await poller.pollUntilDone();
@@ -358,7 +358,7 @@ async function main() {
 
   // recoverDeletedKey also returns a poller, just like beginDeleteKey.
   const recoverPoller = await client.beginRecoverDeletedKey(keyName)
-  const recoverPoller.pollUntilDone();
+  await recoverPoller.pollUntilDone();
 
   // And here is how to purge a deleted key
   await client.purgeDeletedKey(keyName);
@@ -372,7 +372,7 @@ returns a Poller object that keeps track of the underlying Long Running
 Operation according to our guidelines:
 https://azure.github.io/azure-sdk/typescript_design.html#ts-lro
 
-The received poller will allow you to get the deleted key by calling to `poller.getDeletedKey()`.
+The received poller will allow you to get the deleted key by calling to `poller.getResult()`.
 You can also wait until the deletion finishes, either by running individual service
 calls until the key is deleted, or by waiting until the process is done:
 
@@ -393,7 +393,7 @@ async function main() {
   const poller = await client.beginDeleteKey(keyName);
 
   // You can use the deleted key immediately:
-  let deletedKey = poller.getDeletedKey();
+  let deletedKey = poller.getResult();
 
   // Or you can wait until the key finishes being deleted:
   deletedKey = await poller.pollUntilDone();
@@ -590,6 +590,9 @@ async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
   const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
+  const encryptResult = await cryptographyClient.encrypt("RSA1_5", Buffer.from("My Message"));
+  console.log("encrypt result: ", encryptResult.result);
+
   const decryptResult = await cryptographyClient.decrypt("RSA1_5", encryptResult.result);
   console.log("decrypt result: ", decryptResult.result.toString());
 }
@@ -604,6 +607,7 @@ main();
 ```javascript
 import { DefaultAzureCredential } from "@azure/identity";
 import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+import { createHash } from "crypto";
 
 const credential = new DefaultAzureCredential();
 
@@ -674,7 +678,11 @@ async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
   const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
-  const signResult = await cryptographyClient.sign("RS256", Buffer.from("My Message"));
+  const hash = createHash("sha256");
+  hash.update("My Message");
+  const digest = hash.digest();
+
+  const signResult = await cryptographyClient.sign("RS256", digest);
   console.log("sign result: ", signResult.result);
 
   const verifyResult = await cryptographyClient.verify("RS256", digest, signResult.result);

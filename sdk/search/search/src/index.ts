@@ -5,12 +5,15 @@ export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient
 export {
   AutocompleteRequest,
   AutocompleteOptions,
-  CountOptions,
+  CountDocumentsOptions,
   DeleteDocumentsOptions,
   GetDocumentOptions,
+  IndexAction,
   ListSearchResultsPageSettings,
-  ModifyIndexOptions,
+  IndexDocuments,
+  SearchDocumentsResultBase,
   SearchDocumentsResult,
+  SearchDocumentsPageResult,
   SearchIterator,
   SearchOptions,
   SearchRequest,
@@ -19,7 +22,7 @@ export {
   SuggestRequest,
   SuggestResult,
   SuggestOptions,
-  UpdateDocumentsOptions,
+  MergeDocumentsOptions,
   UploadDocumentsOptions
 } from "./models";
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";
@@ -30,10 +33,10 @@ export {
   AutocompleteMode,
   AutocompleteItem,
   FacetResult,
-  IndexAction,
   IndexActionType,
   IndexDocumentsResult,
   IndexingResult,
   QueryType,
-  SearchMode
+  SearchMode,
+  SearchRequest as RawSearchRequest
 } from "./generated/data/models";

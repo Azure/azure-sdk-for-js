@@ -1,10 +1,13 @@
 # Release History
 
-## 5.0.2 (Unreleased)
+## 5.0.3 (Unreleased)
 
-- Fixes an issue that caused `getPartitionIds`, `getEventHubProperties`,
-  and `getPartitionProperties` to throw an error when run against an
-  Event Hub in Azure Stack.
+
+## 5.0.2 (2020-03-09)
+
+- Fixes an issue that caused the `getPartitionIds`, `getEventHubProperties`,
+  and `getPartitionProperties` methods to throw an error when run against an
+  Event Hub in Azure Stack due to missing security token on the outgoing request.
   ([PR #7463](https://github.com/Azure/azure-sdk-for-js/pull/7463))
 
 ## 5.0.1 (2020-02-11)
