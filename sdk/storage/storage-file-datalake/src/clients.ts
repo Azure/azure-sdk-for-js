@@ -1069,126 +1069,17 @@ export class DataLakeFileClient extends DataLakePathClient {
     const { span, spanOptions } = createSpan("DataLakeFileClient-uploadFile", options.tracingOptions);
     try {
       const size = (await fsStat(filePath)).size;
-
-      if (size > FILE_MAX_SIZE_BYTES) {
-        throw new RangeError(`size must be <= ${FILE_MAX_SIZE_BYTES}.`);
-      }
-
-      // Create the file.
-      const createRes = this.create({
-        abortSignal: options.abortSignal,
-        metadata: options.metadata,
-        permissions: options.permissions,
-        umask: options.umask,
-        conditions: options.conditions,
-        pathHttpHeaders: options.pathHttpHeaders,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
-
-      // append() with empty data would return error, so do not continue
-      if (size === 0) {
-        return await createRes;
-      } else {
-        await createRes;
-      }
-
-      // After the File is Create, Lease ID is the only valid request parameter.
-      options.conditions = { leaseId: options.conditions?.leaseId };
-
-      if (!options.chunkSize) {
-        options.chunkSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
-        if (options.chunkSize < FILE_UPLOAD_DEFAULT_CHUNK_SIZE) {
-          options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
-        }
-      }
-      if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
-        throw new RangeError(
-          `chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`
-        );
-      }
-
-      if (!options.maxConcurrency) {
-        options.maxConcurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
-      }
-      if (options.maxConcurrency <= 0) {
-        throw new RangeError(`maxConcurrency must be > 0.`);
-      }
-
-      if (!options.singleUploadThreshold) {
-        options.singleUploadThreshold = FILE_MAX_SINGLE_UPLOAD_THRESHOLD;
-      }
-      if (options.singleUploadThreshold < 1 || options.singleUploadThreshold > FILE_MAX_SINGLE_UPLOAD_THRESHOLD) {
-        throw new RangeError(
-          `singleUploadThreshold option must be >= 1 and <= ${FILE_MAX_SINGLE_UPLOAD_THRESHOLD}`
-        );
-      }
-
-      // When buffer length <= singleUploadThreshold, this method will use one append/flush call to finish the upload.
-      if (size <= options.singleUploadThreshold) {
-        await this.append(() => fs.createReadStream(filePath), 0, size, {
-          abortSignal: options.abortSignal,
-          conditions: options.conditions,
-          onProgress: options.onProgress,
-          tracingOptions: { ...options!.tracingOptions, spanOptions }
-        });
-
-        return await this.flush(size, {
-          abortSignal: options.abortSignal,
-          conditions: options.conditions,
-          close: options.close,
-          pathHttpHeaders: options.pathHttpHeaders,
-          tracingOptions: { ...options!.tracingOptions, spanOptions }
-        })
-      }
-
-      const numBlocks: number = Math.floor((size - 1) / options.chunkSize) + 1;
-      if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
-        throw new RangeError(
-          `The data's size is too big or the chunkSize is too small;` +
-          `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
-        );
-      }
-
-      let transferProgress: number = 0;
-      const batch = new Batch(options.maxConcurrency);
-
-      for (let i = 0; i < numBlocks; i++) {
-        batch.addOperation(
-          async (): Promise<any> => {
-            const start = options.chunkSize! * i;
-            const end = i === numBlocks - 1 ? size : start + options.chunkSize!;
-            const contentLength = end - start;
-            await this.append(
-              () => fs.createReadStream(filePath, {
-                autoClose: true,
-                end: end - 1,
-                start
-              }),
-              start,
-              contentLength,
-              {
-                abortSignal: options.abortSignal,
-                conditions: options.conditions,
-                tracingOptions: { ...options!.tracingOptions, spanOptions }
-              }
-            );
-
-            transferProgress += contentLength;
-            if (options.onProgress) {
-              options.onProgress({ loadedBytes: transferProgress });
-            }
-          }
-        );
-      }
-      await batch.do();
-
-      return await this.flush(size, {
-        abortSignal: options.abortSignal,
-        conditions: options.conditions,
-        close: options.close,
-        pathHttpHeaders: options.pathHttpHeaders,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await this.uploadData(
+        (offset: number, size: number) => {
+          return () => fs.createReadStream(filePath, {
+            autoClose: true,
+            end: offset + size - 1,
+            start: offset
+          });
+        },
+        size,
+        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1244,7 +1135,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   }
 
   private async uploadData(
-    contentFactory: ((offset: number, size: number) => Buffer) | ((offset: number, size: number) => Blob),
+    contentFactory: ((offset: number, size: number) => Buffer) | ((offset: number, size: number) => Blob) | ((offset: number, size: number) => (() => NodeJS.ReadableStream)),
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
