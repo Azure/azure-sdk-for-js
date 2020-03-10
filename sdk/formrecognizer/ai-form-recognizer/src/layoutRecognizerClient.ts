@@ -190,8 +190,7 @@ function  toAnalyzeLayoutResultResponse(original: GetAnalyzeLayoutResultResponse
     return {
       version: model.version,
       readResults: model.readResults,
-      pageResults: [], // TODO: transform original page results
-      errors: model.errors
+      pageResults: [] // TODO: transform original page results
     }
   }
 

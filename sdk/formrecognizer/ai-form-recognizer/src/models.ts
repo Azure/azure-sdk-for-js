@@ -26,7 +26,8 @@ import {
   TrainingDocumentInfo,
   TrainStatus,
   TrainResult,
-  TextLine
+  TextLine,
+  OperationStatus
 } from "./generated/models/index";
 
 export {
@@ -59,15 +60,17 @@ export {
  */
 export type TextElement = TextWord | TextLine;
 
-/**
- * Information about the extracted cell in a table.
- */
-export type DataTableCell = Omit<DataTableCellModel, "elements"> & {
-  /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting
-   * this table cell.
-   */
+export interface DataTableCell {
+  boundingBox: number[];
+  columnIndex: number;
+  columnSpan?: number;
+  confidence: number;
   elements?: TextElement[];
+  isFooter?: boolean;
+  isHeader?: boolean;
+  rowIndex: number;
+  rowSpan?: number;
+  text: string;
 }
 
 /**
@@ -84,22 +87,17 @@ export interface DataTableRow {
   cells: DataTableCell[]
 }
 
-export type KeyValueElement = Omit<KeyValueElementModel, "elements"> & {
-  /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting
-   * this key or value.
-   */
-  elements?: TextElement[];
+
+export interface KeyValueElement {
+  boundingBox?: TextElement[];
+  elements?: string[];
+  text: string;
 }
 
-export type KeyValuePair = Omit<KeyValuePairModel, "key" | "value"> & {
-  /**
-   * Information about the extracted key in a key-value pair.
-   */
+export interface KeyValuePair {
+  confidence: number;
   key: KeyValueElement;
-  /**
-   * Information about the extracted value in a key-value pair.
-   */
+  label?: string;
   value: KeyValueElement;
 }
 
@@ -311,9 +309,22 @@ export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
   }
 }
 
-export type AnalyzeLayoutResult = Omit<AnalyzeResult, 'documentResults'>;
+export interface AnalyzeLayoutResult {
+  version: string;
+  readResults: ReadResult[];
+  pageResults?: LayoutPageResult[];
+}
 
-export type AnalyzeLayoutOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+export interface LayoutPageResult {
+  keyValuePairs?: KeyValuePair[];
+  page: number; // pageNumber
+  tables?: DataTable[];
+};
+
+export interface AnalyzeLayoutOperationResult {
+  status: OperationStatus;
+  createdDateTime: Date;
+  lastUpdatedDateTime: Date;
   analyzeResult?: AnalyzeLayoutResult;
 }
 

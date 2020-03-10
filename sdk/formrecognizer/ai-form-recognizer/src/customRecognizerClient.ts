@@ -270,7 +270,7 @@ export class CustomFormRecognizerClient {
     }
   }
 
-  public async *listModelsAll(settings: PageSettings, options: ListModelsOptions = {}): AsyncIterableIterator<ModelInfo> {
+  private async *listModelsAll(settings: PageSettings, options: ListModelsOptions = {}): AsyncIterableIterator<ModelInfo> {
     for await (const page of this.listModelsPage(settings, options)) {
       yield* page.modelList || [];
     }

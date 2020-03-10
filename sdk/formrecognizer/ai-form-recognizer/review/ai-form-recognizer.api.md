@@ -9,7 +9,6 @@ import * as coreHttp from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { Poller } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
@@ -48,12 +47,26 @@ export type AnalyzeLayoutAsyncResponseModel = AnalyzeLayoutAsyncHeaders & {
 };
 
 // @public (undocumented)
-export type AnalyzeLayoutOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+export interface AnalyzeLayoutOperationResult {
+    // (undocumented)
     analyzeResult?: AnalyzeLayoutResult;
-};
+    // (undocumented)
+    createdDateTime: Date;
+    // (undocumented)
+    lastUpdatedDateTime: Date;
+    // (undocumented)
+    status: OperationStatus;
+}
 
 // @public (undocumented)
-export type AnalyzeLayoutResult = Omit<AnalyzeResult, 'documentResults'>;
+export interface AnalyzeLayoutResult {
+    // (undocumented)
+    pageResults?: LayoutPageResult[];
+    // (undocumented)
+    readResults: ReadResult[];
+    // (undocumented)
+    version: string;
+}
 
 // @public
 export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
@@ -174,8 +187,6 @@ export class CustomFormRecognizerClient {
     // (undocumented)
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse>;
     // (undocumented)
-    listModelsAll(settings: PageSettings, options?: ListModelsOptions): AsyncIterableIterator<ModelInfo>;
-    // (undocumented)
     startTraining(source: string, options?: StartTrainingOptions): Promise<PollerLike<PollOperationState<Model>, Model>>;
 }
 
@@ -185,10 +196,29 @@ export interface DataTable {
     rows: DataTableRow[];
 }
 
-// @public
-export type DataTableCell = Omit<DataTableCellModel, "elements"> & {
+// @public (undocumented)
+export interface DataTableCell {
+    // (undocumented)
+    boundingBox: number[];
+    // (undocumented)
+    columnIndex: number;
+    // (undocumented)
+    columnSpan?: number;
+    // (undocumented)
+    confidence: number;
+    // (undocumented)
     elements?: TextElement[];
-};
+    // (undocumented)
+    isFooter?: boolean;
+    // (undocumented)
+    isHeader?: boolean;
+    // (undocumented)
+    rowIndex: number;
+    // (undocumented)
+    rowSpan?: number;
+    // (undocumented)
+    text: string;
+}
 
 // @public
 export interface DataTableCellModel {
@@ -322,9 +352,14 @@ export interface KeysResult {
 }
 
 // @public (undocumented)
-export type KeyValueElement = Omit<KeyValueElementModel, "elements"> & {
-    elements?: TextElement[];
-};
+export interface KeyValueElement {
+    // (undocumented)
+    boundingBox?: TextElement[];
+    // (undocumented)
+    elements?: string[];
+    // (undocumented)
+    text: string;
+}
 
 // @public
 export interface KeyValueElementModel {
@@ -334,10 +369,16 @@ export interface KeyValueElementModel {
 }
 
 // @public (undocumented)
-export type KeyValuePair = Omit<KeyValuePairModel, "key" | "value"> & {
+export interface KeyValuePair {
+    // (undocumented)
+    confidence: number;
+    // (undocumented)
     key: KeyValueElement;
+    // (undocumented)
+    label?: string;
+    // (undocumented)
     value: KeyValueElement;
-};
+}
 
 // @public
 export interface KeyValuePairModel {
@@ -362,6 +403,16 @@ export type LabeledFormModelResponse = LabeledFormModel & {
 
 // @public
 export type Language = 'en' | 'es';
+
+// @public (undocumented)
+export interface LayoutPageResult {
+    // (undocumented)
+    keyValuePairs?: KeyValuePair[];
+    // (undocumented)
+    page: number;
+    // (undocumented)
+    tables?: DataTable[];
+}
 
 // @public (undocumented)
 export type LayoutPollerLike = PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>;
