@@ -20,7 +20,7 @@ describe("DataLakeFileSystemClient", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -28,7 +28,7 @@ describe("DataLakeFileSystemClient", () => {
     await fileSystemClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await fileSystemClient.delete();
     recorder.stop();
   });
@@ -389,5 +389,18 @@ describe("DataLakeFileSystemClient", () => {
       accountName,
       "Account name is not the same as the one provided."
     );
+  });
+
+  it("exists returns true on an existing file system", async () => {
+    const result = await fileSystemClient.exists();
+    assert.ok(result, "exists() should return true for an existing file system");
+  });
+
+  it("exists returns false on non-existing file system", async () => {
+    const newFileSystemClient = serviceClient.getFileSystemClient(
+      recorder.getUniqueName("newfilesystem")
+    );
+    const result = await newFileSystemClient.exists();
+    assert.ok(result === false, "exists() should returns false on non-existing file system");
   });
 });
