@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/search";
-const packageVersion = "1.0.0-preview.1";
+const packageVersion = "11.0.0-preview.2";
 
 export class SearchIndexClientContext extends coreHttp.ServiceClient {
   apiVersion: string;
@@ -22,7 +22,7 @@ export class SearchIndexClientContext extends coreHttp.ServiceClient {
   /**
    * Initializes a new instance of the SearchIndexClientContext class.
    * @param apiVersion Client Api Version.
-   * @param endpoint Search API endpoint (protocol and hostname)
+   * @param endpoint The endpoint URL of the search service.
    * @param indexName The name of the index.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
@@ -52,7 +52,7 @@ export class SearchIndexClientContext extends coreHttp.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/indexes('{indexName}')";
+    this.baseUri = "{endpoint}/indexes('{indexName}')";
     this.requestContentType = "application/json; charset=utf-8";
     this.apiVersion = apiVersion;
     this.endpoint = endpoint;

@@ -25,9 +25,13 @@ Use the client library for Azure Key Vault Secrets in your Node.js application t
 [Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
 If you are using this package in a Node.js application, then use Node.js 6.x or higher.
 
-To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
+You can deploy our sample template for Key Vault resources in Azure by clicking here:
 
 [![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
+
+Deploying these resources constitutes a purchase of Azure services that will be billed to your active account.
+
+To read more information about how this form works, and how to fill it, please read our [TEST_RESOURCES_README.md guide](../TEST_RESOURCES_README.md).
 
 ### Install the package
 
@@ -200,8 +204,8 @@ const secretName = "MySecretName";
 async function main() {
   const latestSecret = await client.getSecret(secretName);
   console.log(`Latest version of the secret ${secretName}: `, latestSecret);
-  const specificSecret = await client.getSecret(secretName, { version: latestSecret.version! });
-  console.log(`The secret ${secretName} at the version ${latestSecret.version!}: `, specificSecret);
+  const specificSecret = await client.getSecret(secretName, { version: latestSecret.properties.version! });
+  console.log(`The secret ${secretName} at the version ${latestSecret.properties.version!}: `, specificSecret);
 }
 
 main();
@@ -264,7 +268,7 @@ const secretName = "MySecretName";
 
 async function main() {
   const result = await client.getSecret(secretName);
-  await client.updateSecretProperties(secretName, result.parameters.version, { enabled: false });
+  await client.updateSecretProperties(secretName, result.properties.version, { enabled: false });
 }
 
 main();
@@ -330,7 +334,7 @@ async function main() {
 
   // recoverDeletedSecret returns a poller, just like beginDeleteSecret.
   const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
-  const recoverPoller.pollUntilDone();
+  await recoverPoller.pollUntilDone();
 
   // And then, to purge the deleted secret:
   await client.purgeDeletedSecret(secretName);

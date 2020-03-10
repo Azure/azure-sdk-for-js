@@ -6,52 +6,48 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusClient, QueueClient, SubscriptionClient, ReceiveMode } from "../src";
-
+import { ServiceBusSenderClient } from "../src";
 import {
   TestMessage,
   getSenderReceiverClients,
   TestClientType,
-  getServiceBusClient
+  EntityNames,
+  ReceiverClientTypeForUserT
 } from "./utils/testUtils";
+import {
+  NonSessionReceiver,
+  SubscriptionRuleManagement,
+  SessionReceiver,
+  ServiceBusReceiverClient
+} from "../src/serviceBusReceiverClient";
+import { getEnvVars } from "./utils/envVarUtils";
 
-import { Receiver, SessionReceiver } from "../src/receiver";
-import { Sender } from "../src/sender";
-
-let sbClient: ServiceBusClient;
-
-function createServiceBusClient(): void {
-  sbClient = getServiceBusClient();
-}
-
-describe("Invalid parameters in QueueClient #RunInBrowser", function(): void {
-  let queueClient: QueueClient;
+describe("Invalid parameters in Sender/ReceiverClients for PartitionedQueue #RunInBrowser", function(): void {
+  let senderClient: ServiceBusSenderClient;
+  let queueReceiverClient: ReceiverClientTypeForUserT<"peekLock">;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
   before(async () => {
-    createServiceBusClient();
-    const clients = await getSenderReceiverClients(
-      sbClient,
-      TestClientType.PartitionedQueue,
-      TestClientType.PartitionedQueue
-    );
-    queueClient = <QueueClient>clients.receiverClient;
+    const clients = await getSenderReceiverClients(TestClientType.PartitionedQueue, "peekLock");
+    senderClient = clients.senderClient;
+    queueReceiverClient = clients.receiverClient;
   });
 
   after(async () => {
-    await sbClient.close();
+    await senderClient.close();
+    await queueReceiverClient.close();
   });
 
-  it("Peek: Invalid maxMessageCount in QueueClient", async function(): Promise<void> {
-    const peekedResults = await queueClient.peek(-100);
+  it("Peek: Invalid maxMessageCount for Queue", async function(): Promise<void> {
+    const peekedResults = await queueReceiverClient.diagnostics.peek(-100);
     should.equal(peekedResults.length, 0);
   });
 
-  it("Peek: Wrong type maxMessageCount in QueueClient", async function(): Promise<void> {
+  it("Peek: Wrong type maxMessageCount for Queue", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await queueClient.peek("somestring" as any);
+      await queueReceiverClient.diagnostics.peek("somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -62,19 +58,18 @@ describe("Invalid parameters in QueueClient #RunInBrowser", function(): void {
     );
   });
 
-  it("PeekBySequenceNumber: Invalid maxMessageCount in QueueClient", async function(): Promise<
-    void
-  > {
-    const peekedResults = await queueClient.peekBySequenceNumber(Long.ZERO, -100);
+  it("PeekBySequenceNumber: Invalid maxMessageCount for Queue", async function(): Promise<void> {
+    const peekedResults = await queueReceiverClient.diagnostics.peekBySequenceNumber(
+      Long.ZERO,
+      -100
+    );
     should.equal(peekedResults.length, 0);
   });
 
-  it("PeekBySequenceNumber: Wrong type maxMessageCount in QueueClient", async function(): Promise<
-    void
-  > {
+  it("PeekBySequenceNumber: Wrong type maxMessageCount for Queue", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await queueClient.peekBySequenceNumber(Long.ZERO, "somestring" as any);
+      await queueReceiverClient.diagnostics.peekBySequenceNumber(Long.ZERO, "somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -85,12 +80,12 @@ describe("Invalid parameters in QueueClient #RunInBrowser", function(): void {
     );
   });
 
-  it("PeekBySequenceNumber: Wrong type fromSequenceNumber in QueueClient", async function(): Promise<
+  it("PeekBySequenceNumber: Wrong type fromSequenceNumber for Queue", async function(): Promise<
     void
   > {
     let caughtError: Error | undefined;
     try {
-      await queueClient.peekBySequenceNumber("somestring" as any);
+      await queueReceiverClient.diagnostics.peekBySequenceNumber("somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -101,12 +96,10 @@ describe("Invalid parameters in QueueClient #RunInBrowser", function(): void {
     );
   });
 
-  it("PeekBySequenceNumber: Missing fromSequenceNumber in QueueClient", async function(): Promise<
-    void
-  > {
+  it("PeekBySequenceNumber: Missing fromSequenceNumber for Queue", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await queueClient.peekBySequenceNumber(undefined as any);
+      await queueReceiverClient.diagnostics.peekBySequenceNumber(undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -115,34 +108,36 @@ describe("Invalid parameters in QueueClient #RunInBrowser", function(): void {
   });
 });
 
-describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): void {
-  let subscriptionClient: SubscriptionClient;
+describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscription #RunInBrowser", function(): void {
+  let senderClient: ServiceBusSenderClient;
+  let subscriptionReceiverClient: NonSessionReceiver<"peekLock"> & SubscriptionRuleManagement;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
   before(async () => {
-    createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      sbClient,
-      TestClientType.PartitionedTopic,
-      TestClientType.PartitionedSubscription
+      TestClientType.PartitionedSubscription,
+      "peekLock"
     );
-    subscriptionClient = <SubscriptionClient>clients.receiverClient;
+    senderClient = clients.senderClient;
+    subscriptionReceiverClient = clients.receiverClient as NonSessionReceiver<"peekLock"> &
+      SubscriptionRuleManagement;
   });
 
   after(async () => {
-    await sbClient.close();
+    await senderClient.close();
+    await subscriptionReceiverClient.close();
   });
 
-  it("Peek: Invalid maxMessageCount in SubscriptionClient", async function(): Promise<void> {
-    const peekedResults = await subscriptionClient.peek(-100);
+  it("Peek: Invalid maxMessageCount for Subscription", async function(): Promise<void> {
+    const peekedResults = await subscriptionReceiverClient.diagnostics.peek(-100);
     should.equal(peekedResults.length, 0);
   });
 
-  it("Peek: Wrong type maxMessageCount in SubscriptionClient", async function(): Promise<void> {
+  it("Peek: Wrong type maxMessageCount for Subscription", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await subscriptionClient.peek("somestring" as any);
+      await subscriptionReceiverClient.diagnostics.peek("somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -153,19 +148,25 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
     );
   });
 
-  it("PeekBySequenceNumber: Invalid maxMessageCount in SubscriptionClient", async function(): Promise<
+  it("PeekBySequenceNumber: Invalid maxMessageCount for Subscription", async function(): Promise<
     void
   > {
-    const peekedResults = await subscriptionClient.peekBySequenceNumber(Long.ZERO, -100);
+    const peekedResults = await subscriptionReceiverClient.diagnostics.peekBySequenceNumber(
+      Long.ZERO,
+      -100
+    );
     should.equal(peekedResults.length, 0);
   });
 
-  it("PeekBySequenceNumber: Wrong type maxMessageCount in SubscriptionClient", async function(): Promise<
+  it("PeekBySequenceNumber: Wrong type maxMessageCount for Subscription", async function(): Promise<
     void
   > {
     let caughtError: Error | undefined;
     try {
-      await subscriptionClient.peekBySequenceNumber(Long.ZERO, "somestring" as any);
+      await subscriptionReceiverClient.diagnostics.peekBySequenceNumber(
+        Long.ZERO,
+        "somestring" as any
+      );
     } catch (error) {
       caughtError = error;
     }
@@ -176,12 +177,12 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
     );
   });
 
-  it("PeekBySequenceNumber: Wrong type fromSequenceNumber in SubscriptionClient", async function(): Promise<
+  it("PeekBySequenceNumber: Wrong type fromSequenceNumber for Subscription", async function(): Promise<
     void
   > {
     let caughtError: Error | undefined;
     try {
-      await subscriptionClient.peekBySequenceNumber("somestring" as any);
+      await subscriptionReceiverClient.diagnostics.peekBySequenceNumber("somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -192,12 +193,12 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
     );
   });
 
-  it("PeekBySequenceNumber: Missing fromSequenceNumber in SubscriptionClient", async function(): Promise<
+  it("PeekBySequenceNumber: Missing fromSequenceNumber for Subscription", async function(): Promise<
     void
   > {
     let caughtError: Error | undefined;
     try {
-      await subscriptionClient.peekBySequenceNumber(undefined as any);
+      await subscriptionReceiverClient.diagnostics.peekBySequenceNumber(undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -208,7 +209,7 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
   it("AddRule: Missing ruleName", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await subscriptionClient.addRule(undefined as any, undefined as any);
+      await subscriptionReceiverClient.addRule(undefined as any, undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -219,7 +220,7 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
   it("AddRule: Empty string as ruleName", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await subscriptionClient.addRule("", false);
+      await subscriptionReceiverClient.addRule("", false);
     } catch (error) {
       caughtError = error;
     }
@@ -233,7 +234,7 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
   it("AddRule: Missing filter", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await subscriptionClient.addRule("myrule", undefined as any);
+      await subscriptionReceiverClient.addRule("myrule", undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -244,7 +245,7 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
   it("AddRule: Invalid filter", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await subscriptionClient.addRule("myrule", { random: "value" } as any);
+      await subscriptionReceiverClient.addRule("myrule", { random: "value" } as any);
     } catch (error) {
       caughtError = error;
     }
@@ -258,7 +259,7 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
   it("RemoveRule: Missing ruleName", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await subscriptionClient.removeRule(undefined as any);
+      await subscriptionReceiverClient.removeRule(undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -269,7 +270,7 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
   it("RemoveRule: Empty string as ruleName", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await subscriptionClient.removeRule("");
+      await subscriptionReceiverClient.removeRule("");
     } catch (error) {
       caughtError = error;
     }
@@ -282,12 +283,12 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
 
   it("Add and Remove Rule: Coerce RuleName into string", async function(): Promise<void> {
     // Clean up existing rules
-    let rules = await subscriptionClient.getRules();
-    await Promise.all(rules.map((rule) => subscriptionClient.removeRule(rule.name)));
+    let rules = await subscriptionReceiverClient.getRules();
+    await Promise.all(rules.map((rule) => subscriptionReceiverClient.removeRule(rule.name)));
 
     // Add rule with number as name
-    await subscriptionClient.addRule(123 as any, true);
-    rules = await subscriptionClient.getRules();
+    await subscriptionReceiverClient.addRule(123 as any, true);
+    rules = await subscriptionReceiverClient.getRules();
     should.equal(
       rules.some((rule) => rule.name === "123"),
       true,
@@ -295,8 +296,8 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
     );
 
     // Remove rule with number as name
-    await subscriptionClient.removeRule(123 as any);
-    rules = await subscriptionClient.getRules();
+    await subscriptionReceiverClient.removeRule(123 as any);
+    rules = await subscriptionReceiverClient.getRules();
     should.equal(
       rules.some((rule) => rule.name === "123"),
       false,
@@ -304,70 +305,109 @@ describe("Invalid parameters in SubscriptionClient #RunInBrowser", function(): v
     );
 
     // Add default rule so that other tests are not affected
-    await subscriptionClient.addRule(subscriptionClient.defaultRuleName, true);
+    await subscriptionReceiverClient.addRule(subscriptionReceiverClient.defaultRuleName, true);
   });
 });
 
 describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void {
-  let sessionReceiver: SessionReceiver;
-  let receiverClient: QueueClient;
+  let senderClient: ServiceBusSenderClient;
+  let receiverClient: SessionReceiver<"peekLock">;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
   before(async () => {
-    createServiceBusClient();
     const clients = await getSenderReceiverClients(
-      sbClient,
       TestClientType.PartitionedQueueWithSessions,
-      TestClientType.PartitionedQueueWithSessions
+      "peekLock",
+      undefined,
+      { id: TestMessage.sessionId }
     );
 
-    const sender = clients.senderClient.createSender();
-    await sender.send(TestMessage.getSessionSample());
+    senderClient = clients.senderClient;
+    await senderClient.send(TestMessage.getSessionSample());
 
-    receiverClient = <QueueClient>clients.receiverClient;
-    sessionReceiver = receiverClient.createReceiver(ReceiveMode.peekLock, {
-      sessionId: TestMessage.sessionId
-    });
+    receiverClient = clients.receiverClient as SessionReceiver<"peekLock">;
   });
 
   after(async () => {
-    await sbClient.close();
+    await senderClient.close();
+    await receiverClient.close();
   });
 
-  it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
-    await sessionReceiver.close();
-    sessionReceiver = receiverClient.createReceiver(undefined as any, {
-      sessionId: TestMessage.sessionId
-    });
-    should.equal(
-      sessionReceiver.receiveMode,
-      ReceiveMode.peekLock,
-      "Default receiveMode not set when receiveMode not provided to constructor."
-    );
-  });
+  // #RevisitCommentedTestsAfterTheSingleClientAPI
+  // Reason for commenting the following 2 tests
+  // `ReceiveMode` is now being passed in the Client - and this test is covered in the newly added `SessionReceiver: Throws error if created a client with invalid receiveMode`
+  // Supposed to be reverted and made changes accordingly once the Toplevel Client is added.
+  // it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
+  //   receiverClient = new ServiceBusReceiverClient(
+  //     {
+  //       queueName: EntityNames.QUEUE_NAME_SESSION,
+  //       connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
+  //     },
+  //     undefined as any,
+  //     {
+  //       id: TestMessage.sessionId
+  //     }
+  //   ) as any;
+  //   should.equal(
+  //     receiverClient.receiveMode,
+  //     ReceiveMode.peekLock,
+  //     "Default receiveMode not set when receiveMode not provided to constructor."
+  //   );
+  // });
 
-  it("SessionReceiver: Invalid ReceiveMode", async function(): Promise<void> {
-    await sessionReceiver.close();
-    sessionReceiver = receiverClient.createReceiver(123 as any, {
-      sessionId: TestMessage.sessionId
-    });
+  // it("SessionReceiver: Invalid ReceiveMode", async function(): Promise<void> {
+  //   receiverClient = new ServiceBusReceiverClient(
+  //     {
+  //       queueName: EntityNames.QUEUE_NAME_SESSION,
+  //       connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
+  //     },
+  //     123 as any,
+  //     {
+  //       id: TestMessage.sessionId
+  //     }
+  //   ) as any;
+  //   should.equal(
+  //     receiverClient.receiveMode,
+  //     ReceiveMode.peekLock,
+  //     "Default receiveMode not set when receiveMode not provided to constructor."
+  //   );
+  // });
+
+  it("SessionReceiver: Throws error if created a client with invalid receiveMode", async function(): Promise<
+    void
+  > {
+    let errorCaught: string = "";
+    try {
+      receiverClient = new ServiceBusReceiverClient(
+        {
+          queueName: EntityNames.QUEUE_NAME_SESSION,
+          connectionString: getEnvVars()["SERVICEBUS_CONNECTION_STRING"]
+        },
+        123 as any,
+        {
+          id: TestMessage.sessionId
+        }
+      ) as any;
+    } catch (error) {
+      errorCaught = error.message;
+    }
     should.equal(
-      sessionReceiver.receiveMode,
-      ReceiveMode.peekLock,
-      "Default receiveMode not set when receiveMode not provided to constructor."
+      errorCaught,
+      "Invalid receiveMode provided",
+      "Did not throw error if created a client with invalid receiveMode."
     );
   });
 
   it("Peek: Invalid maxMessageCount in SessionReceiver", async function(): Promise<void> {
-    const peekedResults = await sessionReceiver.peek(-100);
+    const peekedResults = await receiverClient.diagnostics.peek(-100);
     should.equal(peekedResults.length, 0);
   });
 
   it("Peek: Wrong type maxMessageCount in SessionReceiver", async function(): Promise<void> {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.peek("somestring" as any);
+      await receiverClient.diagnostics.peek("somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -381,7 +421,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   it("PeekBySequenceNumber: Invalid maxMessageCount in SessionReceiver", async function(): Promise<
     void
   > {
-    const peekedResults = await sessionReceiver.peekBySequenceNumber(Long.ZERO, -100);
+    const peekedResults = await receiverClient.diagnostics.peekBySequenceNumber(Long.ZERO, -100);
     should.equal(peekedResults.length, 0);
   });
 
@@ -390,7 +430,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   > {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.peekBySequenceNumber(Long.ZERO, "somestring" as any);
+      await receiverClient.diagnostics.peekBySequenceNumber(Long.ZERO, "somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -406,7 +446,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   > {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.peekBySequenceNumber("somestring" as any);
+      await receiverClient.diagnostics.peekBySequenceNumber("somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -422,7 +462,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   > {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.peekBySequenceNumber(undefined as any);
+      await receiverClient.diagnostics.peekBySequenceNumber(undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -435,12 +475,12 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   > {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.registerMessageHandler(undefined as any, undefined as any);
+      await receiverClient.subscribe(undefined as any, undefined as any);
     } catch (error) {
       caughtError = error;
     }
     should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(caughtError && caughtError.message, `Missing parameter "onMessage"`);
+    should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
   });
 
   it("RegisterMessageHandler: Wrong type for onMessage in SessionReceiver", async function(): Promise<
@@ -448,54 +488,52 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   > {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.registerMessageHandler("somestring" as any, "somethingelse" as any);
+      await receiverClient.subscribe("somestring" as any, "somethingelse" as any);
     } catch (error) {
       caughtError = error;
     }
     should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(
-      caughtError && caughtError.message,
-      `The parameter 'onMessage' must be of type 'function'.`
-    );
+    should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
   });
+  // #RevisitCommentedTestsAfterTheSingleClientAPI
+  // The following 2 tests didn't make sense for the current handler type. That being said, equivalent tests for current API need to be added.
+  // it("RegisterMessageHandler: Missing onError in SessionReceiver", async function(): Promise<void> {
+  //   let caughtError: Error | undefined;
+  //   try {
+  //     await receiverClient.registerMessageHandler(async () => {
+  //       /** */
+  //     }, undefined as any);
+  //   } catch (error) {
+  //     caughtError = error;
+  //   }
+  //   should.equal(caughtError && caughtError.name, "TypeError");
+  //   should.equal(caughtError && caughtError.message, `Missing parameter "onError"`);
+  // });
 
-  it("RegisterMessageHandler: Missing onError in SessionReceiver", async function(): Promise<void> {
-    let caughtError: Error | undefined;
-    try {
-      await sessionReceiver.registerMessageHandler(async () => {
-        /** */
-      }, undefined as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(caughtError && caughtError.message, `Missing parameter "onError"`);
-  });
-
-  it("RegisterMessageHandler: Wrong type for onError in SessionReceiver", async function(): Promise<
-    void
-  > {
-    let caughtError: Error | undefined;
-    try {
-      await sessionReceiver.registerMessageHandler(async () => {
-        /** */
-      }, "somethingelse" as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(
-      caughtError && caughtError.message,
-      `The parameter 'onError' must be of type 'function'.`
-    );
-  });
+  // it("RegisterMessageHandler: Wrong type for onError in SessionReceiver", async function(): Promise<
+  //   void
+  // > {
+  //   let caughtError: Error | undefined;
+  //   try {
+  //     await receiverClient.registerMessageHandler(async () => {
+  //       /** */
+  //     }, "somethingelse" as any);
+  //   } catch (error) {
+  //     caughtError = error;
+  //   }
+  //   should.equal(caughtError && caughtError.name, "TypeError");
+  //   should.equal(
+  //     caughtError && caughtError.message,
+  //     `The parameter 'onError' must be of type 'function'.`
+  //   );
+  // });
 
   it("ReceiveDeferredMessage: Wrong type sequenceNumber in SessionReceiver", async function(): Promise<
     void
   > {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.receiveDeferredMessage("somestring" as any);
+      await receiverClient.receiveDeferredMessage("somestring" as any);
     } catch (error) {
       caughtError = error;
     }
@@ -511,7 +549,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   > {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.receiveDeferredMessage(undefined as any);
+      await receiverClient.receiveDeferredMessage(undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -524,7 +562,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   > {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.receiveDeferredMessages(["somestring"] as any);
+      await receiverClient.receiveDeferredMessages(["somestring"] as any);
     } catch (error) {
       caughtError = error;
     }
@@ -540,7 +578,7 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   > {
     let caughtError: Error | undefined;
     try {
-      await sessionReceiver.receiveDeferredMessages(undefined as any);
+      await receiverClient.receiveDeferredMessages(undefined as any);
     } catch (error) {
       caughtError = error;
     }
@@ -549,224 +587,223 @@ describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void
   });
 });
 
-describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
-  let receiver: Receiver;
-  let receiverClient: QueueClient;
+// #RevisitCommentedTestsAfterTheSingleClientAPI
+// These tests are exactly same as the previous describe block - session vs non-session.
+// Since the current 2-client API version doesn't differentiate between session vs session (w.r.t the methods), there is no need for duplication.
+// This is subject to change when the top-level client is implemented.
+// describe("Invalid parameters in Receiver #RunInBrowser", function(): void {
+//   let receiver: InternalReceiver;
+//   let receiverClient: QueueClient;
 
-  // Since, the below tests never actually make use of any AMQP links, there is no need to create
-  // new sender/receiver clients before each test. Doing it once for each describe block.
-  before(async () => {
-    createServiceBusClient();
-    const clients = await getSenderReceiverClients(
-      sbClient,
-      TestClientType.PartitionedQueue,
-      TestClientType.PartitionedQueue
-    );
+//   // Since, the below tests never actually make use of any AMQP links, there is no need to create
+//   // new sender/receiver clients before each test. Doing it once for each describe block.
+//   before(async () => {
+//     createServiceBusClient();
+//     const clients = await getSenderReceiverClients(
+//       sbClient,
+//       TestClientType.PartitionedQueue,
+//       TestClientType.PartitionedQueue
+//     );
 
-    const sender = clients.senderClient.createSender();
-    await sender.send(TestMessage.getSample());
+//     const sender = clients.senderClient.createSender();
+//     await sender.send(TestMessage.getSample());
 
-    receiverClient = <QueueClient>clients.receiverClient;
-    receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
-  });
+//     receiverClient = <QueueClient>clients.receiverClient;
+//     receiver = receiverClient.createReceiver(ReceiveMode.peekLock);
+//   });
 
-  after(async () => {
-    await sbClient.close();
-  });
+//   after(async () => {
+//     await sbClient.close();
+//   });
 
-  it("Receiver: Missing ReceiveMode", async function(): Promise<void> {
-    await receiver.close();
-    receiver = receiverClient.createReceiver(undefined as any);
-    should.equal(
-      receiver.receiveMode,
-      ReceiveMode.peekLock,
-      "Default receiveMode not set when receiveMode not provided to constructor."
-    );
-  });
+//   it("Receiver: Missing ReceiveMode", async function(): Promise<void> {
+//     await receiver.close();
+//     receiver = receiverClient.createReceiver(undefined as any);
+//     should.equal(
+//       receiver.receiveMode,
+//       ReceiveMode.peekLock,
+//       "Default receiveMode not set when receiveMode not provided to constructor."
+//     );
+//   });
 
-  it("Receiver: Invalid ReceiveMode", async function(): Promise<void> {
-    await receiver.close();
-    receiver = receiverClient.createReceiver(123 as any);
-    should.equal(
-      receiver.receiveMode,
-      ReceiveMode.peekLock,
-      "Default receiveMode not set when receiveMode not provided to constructor."
-    );
-  });
+//   it("Receiver: Invalid ReceiveMode", async function(): Promise<void> {
+//     await receiver.close();
+//     receiver = receiverClient.createReceiver(123 as any);
+//     should.equal(
+//       receiver.receiveMode,
+//       ReceiveMode.peekLock,
+//       "Default receiveMode not set when receiveMode not provided to constructor."
+//     );
+//   });
 
-  it("RegisterMessageHandler: Missing onMessage in Receiver", async function(): Promise<void> {
-    let caughtError: Error | undefined;
-    try {
-      await receiver.registerMessageHandler(undefined as any, undefined as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(caughtError && caughtError.message, `Missing parameter "onMessage"`);
-  });
+//   it("RegisterMessageHandler: Missing onMessage in Receiver", async function(): Promise<void> {
+//     let caughtError: Error | undefined;
+//     try {
+//       await receiver.registerMessageHandler(undefined as any, undefined as any);
+//     } catch (error) {
+//       caughtError = error;
+//     }
+//     should.equal(caughtError && caughtError.name, "TypeError");
+//     should.equal(caughtError && caughtError.message, `Missing parameter "onMessage"`);
+//   });
 
-  it("RegisterMessageHandler: Wrong type for onMessage in Receiver", async function(): Promise<
-    void
-  > {
-    let caughtError: Error | undefined;
-    try {
-      await receiver.registerMessageHandler("somestring" as any, "somethingelse" as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(
-      caughtError && caughtError.message,
-      `The parameter 'onMessage' must be of type 'function'.`
-    );
-  });
+//   it("RegisterMessageHandler: Wrong type for onMessage in Receiver", async function(): Promise<
+//     void
+//   > {
+//     let caughtError: Error | undefined;
+//     try {
+//       await receiver.registerMessageHandler("somestring" as any, "somethingelse" as any);
+//     } catch (error) {
+//       caughtError = error;
+//     }
+//     should.equal(caughtError && caughtError.name, "TypeError");
+//     should.equal(
+//       caughtError && caughtError.message,
+//       `The parameter 'onMessage' must be of type 'function'.`
+//     );
+//   });
 
-  it("RegisterMessageHandler: Missing onError in Receiver", async function(): Promise<void> {
-    let caughtError: Error | undefined;
-    try {
-      await receiver.registerMessageHandler(async () => {
-        /** */
-      }, undefined as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(caughtError && caughtError.message, `Missing parameter "onError"`);
-  });
+//   it("RegisterMessageHandler: Missing onError in Receiver", async function(): Promise<void> {
+//     let caughtError: Error | undefined;
+//     try {
+//       await receiver.registerMessageHandler(async () => {
+//         /** */
+//       }, undefined as any);
+//     } catch (error) {
+//       caughtError = error;
+//     }
+//     should.equal(caughtError && caughtError.name, "TypeError");
+//     should.equal(caughtError && caughtError.message, `Missing parameter "onError"`);
+//   });
 
-  it("RegisterMessageHandler: Wrong type for onError in Receiver", async function(): Promise<void> {
-    let caughtError: Error | undefined;
-    try {
-      await receiver.registerMessageHandler(async () => {
-        /** */
-      }, "somethingelse" as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(
-      caughtError && caughtError.message,
-      `The parameter 'onError' must be of type 'function'.`
-    );
-  });
+//   it("RegisterMessageHandler: Wrong type for onError in Receiver", async function(): Promise<void> {
+//     let caughtError: Error | undefined;
+//     try {
+//       await receiver.registerMessageHandler(async () => {
+//         /** */
+//       }, "somethingelse" as any);
+//     } catch (error) {
+//       caughtError = error;
+//     }
+//     should.equal(caughtError && caughtError.name, "TypeError");
+//     should.equal(
+//       caughtError && caughtError.message,
+//       `The parameter 'onError' must be of type 'function'.`
+//     );
+//   });
 
-  it("ReceiveDeferredMessage: Wrong type sequenceNumber in Receiver", async function(): Promise<
-    void
-  > {
-    let caughtError: Error | undefined;
-    try {
-      await receiver.receiveDeferredMessage("somestring" as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(
-      caughtError && caughtError.message,
-      `The parameter "sequenceNumber" should be of type "Long"`
-    );
-  });
+//   it("ReceiveDeferredMessage: Wrong type sequenceNumber in Receiver", async function(): Promise<
+//     void
+//   > {
+//     let caughtError: Error | undefined;
+//     try {
+//       await receiver.receiveDeferredMessage("somestring" as any);
+//     } catch (error) {
+//       caughtError = error;
+//     }
+//     should.equal(caughtError && caughtError.name, "TypeError");
+//     should.equal(
+//       caughtError && caughtError.message,
+//       `The parameter "sequenceNumber" should be of type "Long"`
+//     );
+//   });
 
-  it("ReceiveDeferredMessage: Missing sequenceNumber in Receiver", async function(): Promise<void> {
-    let caughtError: Error | undefined;
-    try {
-      await receiver.receiveDeferredMessage(undefined as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumber"`);
-  });
+//   it("ReceiveDeferredMessage: Missing sequenceNumber in Receiver", async function(): Promise<void> {
+//     let caughtError: Error | undefined;
+//     try {
+//       await receiver.receiveDeferredMessage(undefined as any);
+//     } catch (error) {
+//       caughtError = error;
+//     }
+//     should.equal(caughtError && caughtError.name, "TypeError");
+//     should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumber"`);
+//   });
 
-  it("ReceiveDeferredMessages: Wrong type sequenceNumbers in Receiver", async function(): Promise<
-    void
-  > {
-    let caughtError: Error | undefined;
-    try {
-      await receiver.receiveDeferredMessages(["somestring"] as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(
-      caughtError && caughtError.message,
-      `The parameter "sequenceNumbers" should be an array of type "Long"`
-    );
-  });
+//   it("ReceiveDeferredMessages: Wrong type sequenceNumbers in Receiver", async function(): Promise<
+//     void
+//   > {
+//     let caughtError: Error | undefined;
+//     try {
+//       await receiver.receiveDeferredMessages(["somestring"] as any);
+//     } catch (error) {
+//       caughtError = error;
+//     }
+//     should.equal(caughtError && caughtError.name, "TypeError");
+//     should.equal(
+//       caughtError && caughtError.message,
+//       `The parameter "sequenceNumbers" should be an array of type "Long"`
+//     );
+//   });
 
-  it("ReceiveDeferredMessages: Missing sequenceNumbers in Receiver", async function(): Promise<
-    void
-  > {
-    let caughtError: Error | undefined;
-    try {
-      await receiver.receiveDeferredMessages(undefined as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
-  });
+//   it("ReceiveDeferredMessages: Missing sequenceNumbers in Receiver", async function(): Promise<
+//     void
+//   > {
+//     let caughtError: Error | undefined;
+//     try {
+//       await receiver.receiveDeferredMessages(undefined as any);
+//     } catch (error) {
+//       caughtError = error;
+//     }
+//     should.equal(caughtError && caughtError.name, "TypeError");
+//     should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
+//   });
 
-  it("RenewMessageLock: Missing lockTokenOrMessage in Receiver", async function(): Promise<void> {
-    let caughtError: Error | undefined;
-    try {
-      await (<Receiver>receiver).renewMessageLock(undefined as any);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(caughtError && caughtError.name, "TypeError");
-    should.equal(caughtError && caughtError.message, `Missing parameter "lockTokenOrMessage"`);
-  });
+//   it("RenewMessageLock: Missing lockTokenOrMessage in Receiver", async function(): Promise<void> {
+//     let caughtError: Error | undefined;
+//     try {
+//       await (<InternalReceiver>receiver).renewMessageLock(undefined as any);
+//     } catch (error) {
+//       caughtError = error;
+//     }
+//     should.equal(caughtError && caughtError.name, "TypeError");
+//     should.equal(caughtError && caughtError.message, `Missing parameter "lockTokenOrMessage"`);
+//   });
 
-  it("RenewMessageLock: Invalid string lockToken in Receiver", async function(): Promise<void> {
-    let caughtError: Error | undefined;
-    try {
-      await (<Receiver>receiver).renewMessageLock("string-which-is-not-uuid");
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(
-      caughtError && caughtError.message,
-      `Not a valid UUID string: string-which-is-not-uuid`
-    );
-  });
+//   it("RenewMessageLock: Invalid string lockToken in Receiver", async function(): Promise<void> {
+//     let caughtError: Error | undefined;
+//     try {
+//       await (<InternalReceiver>receiver).renewMessageLock("string-which-is-not-uuid");
+//     } catch (error) {
+//       caughtError = error;
+//     }
+//     should.equal(
+//       caughtError && caughtError.message,
+//       `Not a valid UUID string: string-which-is-not-uuid`
+//     );
+//   });
 
-  it("RenewMessageLock: Invalid message lockToken in Receiver", async function(): Promise<void> {
-    let caughtError: Error | undefined;
-    try {
-      const [receivedMsg] = await receiver.receiveMessages(1);
-      if (!receivedMsg) {
-        throw new Error("Message not received to renew lock on.");
-      }
-      (<any>receivedMsg).lockToken = "string-which-is-not-uuid";
-      await (<Receiver>receiver).renewMessageLock(receivedMsg);
-    } catch (error) {
-      caughtError = error;
-    }
-    should.equal(
-      caughtError && caughtError.message,
-      `Not a valid UUID string: string-which-is-not-uuid`
-    );
-  });
-});
+//   it("RenewMessageLock: Invalid message lockToken in Receiver", async function(): Promise<void> {
+//     let caughtError: Error | undefined;
+//     try {
+//       const [receivedMsg] = await receiver.receiveMessages(1);
+//       if (!receivedMsg) {
+//         throw new Error("Message not received to renew lock on.");
+//       }
+//       (<any>receivedMsg).lockToken = "string-which-is-not-uuid";
+//       await (<InternalReceiver>receiver).renewMessageLock(receivedMsg);
+//     } catch (error) {
+//       caughtError = error;
+//     }
+//     should.equal(
+//       caughtError && caughtError.message,
+//       `Not a valid UUID string: string-which-is-not-uuid`
+//     );
+//   });
+// });
 
 describe("Invalid parameters in Sender #RunInBrowser", function(): void {
-  let sender: Sender;
+  let sender: ServiceBusSenderClient;
 
   // Since, the below tests never actually make use of any AMQP links, there is no need to create
   // new sender/receiver clients before each test. Doing it once for each describe block.
   before(async () => {
-    createServiceBusClient();
-    const clients = await getSenderReceiverClients(
-      sbClient,
-      TestClientType.PartitionedQueue,
-      TestClientType.PartitionedQueue
-    );
+    const clients = await getSenderReceiverClients(TestClientType.PartitionedQueue, "peekLock");
 
-    sender = clients.senderClient.createSender();
+    sender = clients.senderClient;
   });
 
   after(async () => {
-    await sbClient.close();
+    await sender.close();
   });
 
   it("Send: Missing message in Sender", async function(): Promise<void> {

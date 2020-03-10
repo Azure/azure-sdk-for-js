@@ -4,7 +4,7 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
+export { ServiceBusClientOptions } from "./constructorHelpers";
 export {
   TokenType,
   TokenCredential,
@@ -15,14 +15,6 @@ export {
   WebSocketOptions
 } from "@azure/core-amqp";
 
-export { QueueClient } from "./queueClient";
-export { TopicClient } from "./topicClient";
-export { SubscriptionClient } from "./subscriptionClient";
-
-export { Sender } from "./sender";
-export { Receiver, SessionReceiver } from "./receiver";
-
-export { MessageHandlerOptions } from "./core/streamingReceiver";
 export { OnError, OnMessage } from "./core/messageReceiver";
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
@@ -54,3 +46,31 @@ export {
 } from "./serializers/ruleResourceSerializer";
 
 export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
+
+export { ServiceBusSenderClient } from "./serviceBusSenderClient";
+
+export {
+  ServiceBusReceiverClient,
+  NonSessionReceiver,
+  SessionReceiver,
+  ClientTypeT,
+  SubscriptionRuleManagement
+} from "./serviceBusReceiverClient";
+
+export {
+  SessionConnections,
+  ReceivedMessage,
+  ContextWithSettlement,
+  Session,
+  QueueAuth,
+  SubscriptionAuth,
+  IterateMessagesOptions,
+  ReceiveBatchOptions,
+  SubscribeOptions,
+  MessageHandlerOptions,
+  MessageHandlers,
+  ContextType,
+  Closeable,
+  MessageAndContext,
+  MessageIterator
+} from "./models";

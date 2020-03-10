@@ -1,16 +1,18 @@
 import * as assert from "assert";
-import { isNode, URLBuilder } from "@azure/core-http";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-import { AbortController } from "@azure/abort-controller";
-import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { ShareClient, ShareDirectoryClient, ShareFileClient, FileStartCopyOptions } from "../src";
-import { getBSU, bodyToString, recorderEnvSetup } from "./utils";
-import { DirectoryCreateResponse } from "../src/generated/src/models";
+
+import { AbortController } from "@azure/abort-controller";
+import { isNode, URLBuilder } from "@azure/core-http";
+import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
+import { delay, record, Recorder } from "@azure/test-utils-recorder";
+
+import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
-import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { MockPolicyFactory } from "./utils/MockPolicyFactory";
+import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { Pipeline } from "../src/Pipeline";
+import { truncatedISO8061Date } from "../src/utils/utils.common";
+import { bodyToString, getBSU, recorderEnvSetup } from "./utils";
+import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 
 dotenv.config({ path: "../.env" });
 
@@ -23,7 +25,8 @@ describe("FileClient", () => {
   let fileName: string;
   let fileClient: ShareFileClient;
   const content = "Hello World";
-  const filePermissionInSDDL = "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513" +
+  const filePermissionInSDDL =
+    "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513" +
     "D:(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)";
   let recorder: Recorder;
 
@@ -37,7 +40,7 @@ describe("FileClient", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -53,7 +56,7 @@ describe("FileClient", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await shareClient.delete();
     recorder.stop();
   });
@@ -306,7 +309,7 @@ describe("FileClient", () => {
     fileAttributesInstance.system = true;
     const fileAttributes = fileAttributesInstance.toString();
 
-    const fileCreationDate = new Date('05 October 2011 14:48 UTC');
+    const fileCreationDate = new Date("05 October 2011 14:48 UTC");
     const fileCreationTime = truncatedISO8061Date(fileCreationDate);
     const options: FileStartCopyOptions = {
       filePermission: filePermissionInSDDL,
@@ -318,14 +321,17 @@ describe("FileClient", () => {
         fileLastWriteTime: "source",
         setArchiveAttribute: false
       }
-    }
+    };
 
     const result = await newFileClient.startCopyFromURL(fileClient.url, options);
     assert.ok(result.copyId);
     const sourceProperties = await fileClient.getProperties();
     const targetProperties = await newFileClient.getProperties();
 
-    assert.deepStrictEqual(FileSystemAttributes.parse(targetProperties.fileAttributes!), fileAttributesInstance);
+    assert.deepStrictEqual(
+      FileSystemAttributes.parse(targetProperties.fileAttributes!),
+      fileAttributesInstance
+    );
     assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
     assert.deepStrictEqual(targetProperties.fileCreatedOn, fileCreationDate);
   });
@@ -340,7 +346,7 @@ describe("FileClient", () => {
     fileAttributesInstance.system = true;
     const fileAttributes = fileAttributesInstance.toString();
 
-    const fileCreationDate = new Date('05 October 2011 14:48 UTC');
+    const fileCreationDate = new Date("05 October 2011 14:48 UTC");
     const fileCreationTime = truncatedISO8061Date(fileCreationDate);
     const options: FileStartCopyOptions = {
       filePermissionKey: createPermResp.filePermissionKey,
@@ -352,7 +358,7 @@ describe("FileClient", () => {
         fileLastWriteTime: "source",
         setArchiveAttribute: true
       }
-    }
+    };
 
     const result = await newFileClient.startCopyFromURL(fileClient.url, options);
     assert.ok(result.copyId);
@@ -360,7 +366,10 @@ describe("FileClient", () => {
     const targetProperties = await newFileClient.getProperties();
 
     fileAttributesInstance.archive = true;
-    assert.deepStrictEqual(FileSystemAttributes.parse(targetProperties.fileAttributes!), fileAttributesInstance);
+    assert.deepStrictEqual(
+      FileSystemAttributes.parse(targetProperties.fileAttributes!),
+      fileAttributesInstance
+    );
     assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
     assert.deepStrictEqual(targetProperties.fileCreatedOn, fileCreationDate);
   });
@@ -503,7 +512,7 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
     const result = await fileClient.download(0, undefined, {
-      onProgress: () => { }
+      onProgress: () => {}
     });
     assert.deepStrictEqual(await bodyToString(result), content);
   });
@@ -540,7 +549,7 @@ describe("FileClient", () => {
           const rs = result.readableStreamBody!;
 
           // tslint:disable-next-line:no-empty
-          rs.on("data", () => { });
+          rs.on("data", () => {});
           rs.on("end", resolve);
           rs.on("error", reject);
         } else {
@@ -560,12 +569,10 @@ describe("FileClient", () => {
   it("listHandles should work", async () => {
     await fileClient.create(10);
 
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient
+      .listHandles()
+      .byPage()
+      .next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       assert.notDeepStrictEqual(handle.handleId, undefined);
@@ -594,12 +601,10 @@ describe("FileClient", () => {
 
     // TODO: Open or create a handle
 
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient
+      .listHandles()
+      .byPage()
+      .next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);
@@ -610,12 +615,10 @@ describe("FileClient", () => {
     await fileClient.create(10);
 
     // TODO: Open or create a handle, currently have to do this manually
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient
+      .listHandles()
+      .byPage()
+      .next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
       const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
@@ -625,7 +628,11 @@ describe("FileClient", () => {
 
       const handle = result.handleList[0];
       const closeResp = await mockFileClient.forceCloseHandle(handle.handleId);
-      assert.equal(closeResp.closeFailureCount, 1, 'Number of handles failed to close is not as set.');
+      assert.equal(
+        closeResp.closeFailureCount,
+        1,
+        "Number of handles failed to close is not as set."
+      );
     }
   });
 
@@ -633,12 +640,10 @@ describe("FileClient", () => {
     await fileClient.create(10);
 
     // TODO: Open or create a handle; currently have to do this manually
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient
+      .listHandles()
+      .byPage()
+      .next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
       const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
@@ -646,11 +651,19 @@ describe("FileClient", () => {
       const pipeline = new Pipeline(factories);
       const mockFileClient = new ShareFileClient(fileClient.url, pipeline);
       const closeResp = await mockFileClient.forceCloseAllHandles();
-      assert.equal(closeResp.closeFailureCount, 1, 'Number of handles failed to close is not as set.');
+      assert.equal(
+        closeResp.closeFailureCount,
+        1,
+        "Number of handles failed to close is not as set."
+      );
     }
 
     const closeAllResp = await fileClient.forceCloseAllHandles();
-    assert.equal(closeAllResp.closeFailureCount, 0, 'The closeFailureCount is not set to 0 as default.');
+    assert.equal(
+      closeAllResp.closeFailureCount,
+      0,
+      "The closeFailureCount is not set to 0 as default."
+    );
   });
 
   it("create with tracing", async () => {

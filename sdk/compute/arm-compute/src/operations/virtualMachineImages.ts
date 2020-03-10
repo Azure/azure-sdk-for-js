@@ -249,7 +249,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.filter,
+    Parameters.expand0,
     Parameters.top,
     Parameters.orderby,
     Parameters.apiVersion0

@@ -6,24 +6,27 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import {
-  ServiceBusClient,
-  SubscriptionClient,
   ServiceBusMessage,
-  TopicClient,
   SendableMessageInfo,
   CorrelationFilter,
-  ReceiveMode
+  ServiceBusSenderClient
 } from "../src";
+
 import {
   getSenderReceiverClients,
   TestClientType,
   purge,
   checkWithTimeout,
-  getServiceBusClient
+  ReceiverClientTypeForUserT
 } from "./utils/testUtils";
+import {
+  SubscriptionRuleManagement,
+  NonSessionReceiver,
+  SessionReceiver
+} from "../src/serviceBusReceiverClient";
 
 // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
-async function removeAllRules(client: SubscriptionClient): Promise<void> {
+async function removeAllRules(client: SubscriptionRuleManagement): Promise<void> {
   const rules = await client.getRules();
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];
@@ -32,10 +35,10 @@ async function removeAllRules(client: SubscriptionClient): Promise<void> {
 }
 
 async function testPeekMsgsLength(
-  client: SubscriptionClient,
+  client: ReceiverClientTypeForUserT<"peekLock">,
   expectedPeekLength: number
 ): Promise<void> {
-  const peekedMsgs = await client.peek(expectedPeekLength + 1);
+  const peekedMsgs = await client.diagnostics.peek(expectedPeekLength + 1);
   should.equal(
     peekedMsgs.length,
     expectedPeekLength,
@@ -43,26 +46,30 @@ async function testPeekMsgsLength(
   );
 }
 
-let sbClient: ServiceBusClient;
-let subscriptionClient: SubscriptionClient;
-let topicClient: TopicClient;
+let subscriptionClient: (
+  | NonSessionReceiver<"peekLock" | "receiveAndDelete">
+  | SessionReceiver<"peekLock" | "receiveAndDelete">
+) &
+  SubscriptionRuleManagement;
+let topicClient: ServiceBusSenderClient;
 
 async function beforeEachTest(receiverType: TestClientType): Promise<void> {
   // The tests in this file expect the env variables to contain the connection string and
   // the names of empty queue/topic/subscription that are to be tested
 
-  sbClient = getServiceBusClient();
-
   const clients = await getSenderReceiverClients(
-    sbClient,
-    TestClientType.TopicFilterTestTopic,
-    receiverType
+    TestClientType.TopicFilterTestSubscription,
+    "peekLock"
   );
-  topicClient = clients.senderClient as TopicClient;
-  subscriptionClient = clients.receiverClient as SubscriptionClient;
+  topicClient = clients.senderClient;
+  subscriptionClient = clients.receiverClient as (
+    | NonSessionReceiver<"peekLock" | "receiveAndDelete">
+    | SessionReceiver<"peekLock" | "receiveAndDelete">
+  ) &
+    SubscriptionRuleManagement;
 
   await purge(subscriptionClient);
-  const peekedSubscriptionMsg = await subscriptionClient.peek();
+  const peekedSubscriptionMsg = await subscriptionClient.diagnostics.peek();
   if (peekedSubscriptionMsg.length) {
     chai.assert.fail("Please use an empty Subscription for integration testing");
   }
@@ -80,7 +87,8 @@ async function afterEachTest(clearRules: boolean = true): Promise<void> {
     should.equal(rules.length, 1, "Unexpected number of rules");
     should.equal(rules[0].name, "DefaultFilter", "RuleName is different than expected");
   }
-  await sbClient.close();
+  await topicClient.close();
+  await subscriptionClient.close();
 }
 
 const data = [
@@ -99,7 +107,6 @@ const data = [
 ];
 
 async function sendOrders(): Promise<void> {
-  const sender = topicClient.createSender();
   for (let index = 0; index < data.length; index++) {
     const element = data[index];
     const message: SendableMessageInfo = {
@@ -114,28 +121,31 @@ async function sendOrders(): Promise<void> {
       },
       partitionKey: "dummy" // Ensures all messages go to same parition to make peek work reliably
     };
-    await sender.send(message);
+    await topicClient.send(message);
   }
 }
 
 async function receiveOrders(
-  client: SubscriptionClient,
+  client: (
+    | NonSessionReceiver<"peekLock" | "receiveAndDelete">
+    | SessionReceiver<"peekLock" | "receiveAndDelete">
+  ) &
+    SubscriptionRuleManagement,
   expectedMessageCount: number
 ): Promise<ServiceBusMessage[]> {
   let errorFromErrorHandler: Error | undefined;
   const receivedMsgs: ServiceBusMessage[] = [];
-  const receiver = await client.createReceiver(ReceiveMode.peekLock);
-  receiver.registerMessageHandler(
-    async (msg: ServiceBusMessage) => {
+  client.subscribe({
+    async processMessage(msg: ServiceBusMessage) {
       await msg.complete();
       receivedMsgs.push(msg);
     },
-    (err: Error) => {
+    async processError(err: Error) {
       if (err) {
         errorFromErrorHandler = err;
       }
     }
-  );
+  });
 
   const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === expectedMessageCount);
   should.equal(
@@ -144,7 +154,6 @@ async function receiveOrders(
     `Expected ${expectedMessageCount}, but received ${receivedMsgs.length} messages`
   );
 
-  await receiver.close();
   should.equal(
     errorFromErrorHandler,
     undefined,
@@ -404,7 +413,11 @@ describe("Boolean Filter - Send/Receive", function(): void {
 
   async function addFilterAndReceiveOrders(
     bool: boolean,
-    client: SubscriptionClient,
+    client: (
+      | NonSessionReceiver<"peekLock" | "receiveAndDelete">
+      | SessionReceiver<"peekLock" | "receiveAndDelete">
+    ) &
+      SubscriptionRuleManagement,
     expectedMessageCount: number
   ): Promise<void> {
     await subscriptionClient.addRule("BooleanFilter", bool);

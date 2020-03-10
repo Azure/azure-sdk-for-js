@@ -13,7 +13,6 @@ must be supplied.
 */
 
 import {
-  ServiceBusClient,
   SendableMessageInfo,
   OnMessage,
   OnError,
@@ -21,6 +20,7 @@ import {
   ReceiveMode,
   ServiceBusMessage
 } from "../../src";
+import { ServiceBusClient } from "../../src/old/serviceBusClient";
 
 const connectionString = "";
 const queueName = "";

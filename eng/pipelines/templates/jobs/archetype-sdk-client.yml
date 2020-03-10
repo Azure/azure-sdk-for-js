@@ -12,13 +12,13 @@ parameters:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "12.x"
     macOS_Node8:
-      OSVmImage: "macOS-10.13"
+      OSVmImage: "macOS-10.15"
       NodeVersion: "8.x"
     macOS_Node10:
-      OSVmImage: "macOS-10.13"
+      OSVmImage: "macOS-10.15"
       NodeVersion: "10.x"
     macOS_Node12:
-      OSVmImage: "macOS-10.13"
+      OSVmImage: "macOS-10.15"
       NodeVersion: "12.x"
     Windows_Node8:
       OSVmImage: "windows-2019"

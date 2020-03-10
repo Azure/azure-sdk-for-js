@@ -6,11 +6,11 @@ import { DeletionRecoveryLevel, KeyUsageType } from "./core/models";
 
 /**
  * Defines values for CertificateKeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM'
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
  * @readonly
  * @enum {string}
  */
-export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM";
+export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 /**
  * Defines values for CertificateKeyCurveName.
@@ -75,6 +75,21 @@ export interface CertificateClientInterface {
     name: string,
     options?: GetDeletedCertificateOptions
   ): Promise<DeletedCertificate>;
+}
+
+/**
+ * The latest supported KeyVault service API version
+ */
+export const LATEST_API_VERSION = "7.1-preview";
+
+/**
+ * The optional parameters accepted by the KeyVault's KeyClient
+ */
+export interface CertificateClientOptions extends coreHttp.PipelineOptions {
+  /**
+   * The accepted versions of the KeyVault's service API.
+   */
+  apiVersion?: "7.0" | "7.1-preview";
 }
 
 /**
@@ -468,6 +483,12 @@ export interface CertificateProperties {
    * Thumbprint of the certificate.
    */
   readonly x509Thumbprint?: Uint8Array;
+  /**
+   * The retention dates of the softDelete data.
+   * The value should be >=7 and <=90 when softDelete enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  recoverableDays?: number;
 }
 
 /**

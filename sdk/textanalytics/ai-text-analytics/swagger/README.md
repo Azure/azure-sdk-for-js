@@ -6,7 +6,7 @@
 
 ```yaml
 package-name: "@azure/ai-text-analytics"
-title: TextAnalyticsClient
+title: GeneratedClient
 description: TextAnalytics Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
@@ -30,7 +30,7 @@ directive:
   - from: swagger-document
     where: $.definitions.DocumentStatistics.properties.charactersCount
     transform: >
-      $["x-ms-client-name"] = "characterCount";
+      $["x-ms-client-name"] = "graphemeCount";
 ```
 
 ```yaml
@@ -134,33 +134,14 @@ directive:
       $.subtype["x-ms-client-name"] = "subCategory";
 ```
 
-### Rename sentenceScores -> sentimentScores
+### Rename sentenceScores -> confidenceScores
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.definitions.SentenceSentiment.properties.sentenceScores
     transform: >
-      $["x-ms-client-name"] = "sentimentScores";
-```
-
-### Rename SentimentConfidenceScorePerLabel -> SentimentScorePerLabel 
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions
-    transform: >
-      if (!$.SentimentScorePerLabel) {
-          $.SentimentScorePerLabel = $.SentimentConfidenceScorePerLabel;
-          delete $.SentimentConfidenceScorePerLabel;
-      }
-  - from: swagger-document
-    where: $.definitions..properties[*]
-    transform: >
-      if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
-          $["$ref"] = "#/definitions/SentimentScorePerLabel";
-      }
+      $["x-ms-client-name"] = "confidenceScores";
 ```
 
 ### Rename {Document,Sentence}SentimentValue -> Label 
@@ -185,5 +166,50 @@ directive:
     where: $.definitions..properties.code
     transform: >
       $.enum = $.enum.map((val) => val.charAt(0).toUpperCase() + val.slice(1));
+```
+
+### Rename LinkedEntity id -> dataSourceEntityId
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.LinkedEntity.properties.id
+    transform: >
+      $["x-ms-client-name"] = "dataSourceEntityId";
+```
+
+### Rename Entity/Match offset -> graphemeOffset
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.offset
+    transform: >
+      $["x-ms-client-name"] = "graphemeOffset";
+      $.description = $.description.replace("Unicode characters", "Unicode graphemes");
+  - from: swagger-document
+    where: $.definitions..properties.length
+    transform: >
+      $["x-ms-client-name"] = "graphemeLength";
+      $.description = $.description.replace("Unicode characters", "Unicode graphemes");
+```
+
+### Rename SentimentConfidenceScorePerLabel -> SentimentConfidenceScores
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.SentimentConfidenceScores) {
+          $.SentimentConfidenceScores = $.SentimentConfidenceScorePerLabel;
+          delete $.SentimentConfidenceScorePerLabel;
+      }
+  - from: swagger-document
+    where: $.definitions..properties[*]
+    transform: >
+      if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
+          $["$ref"] = "#/definitions/SentimentConfidenceScores";
+      }
 ```
 

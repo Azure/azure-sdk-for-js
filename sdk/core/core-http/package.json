@@ -6,7 +6,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -180,7 +180,6 @@
     "karma-mocha": "^1.3.0",
     "karma-rollup-preprocessor": "^7.0.0",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-typescript-es6-transform": "^4.0.0",
     "mocha": "^6.2.2",
     "mocha-chrome": "^2.0.0",
     "mocha-junit-reporter": "^1.18.0",

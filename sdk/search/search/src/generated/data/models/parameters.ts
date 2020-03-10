@@ -38,24 +38,11 @@ export const autocompleteMode: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const clientRequestId: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "requestOptions",
-    "clientRequestId"
-  ],
-  mapper: {
-    serializedName: "client-request-id",
-    type: {
-      name: "Uuid"
-    }
-  }
-};
 export const endpoint: coreHttp.OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
     required: true,
-    serializedName: "Endpoint",
+    serializedName: "endpoint",
     defaultValue: '',
     type: {
       name: "String"
