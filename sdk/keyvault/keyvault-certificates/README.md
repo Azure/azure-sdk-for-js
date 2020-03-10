@@ -149,7 +149,7 @@ The following sections provide code snippets that cover some of the common
 tasks using Azure Key Vault Certificates. The scenarios that are covered here consist of:
 
 - [Creating and setting a certificate](#creating-and-setting-a-certificate).
-- [Getting a KeyVault certificate](#getting-a-keyvault-certificate).
+- [Getting a Key Vault certificate](#getting-a-key-vault-certificate).
 - [Getting the full information of a certificate](#getting-the-full-information-of-a-certificate).
 - [Certificates in PEM format](#certificates-in-pem-format).
 - [List all versions of a certificate](#list-all-versions-of-a-certificate).
@@ -303,7 +303,7 @@ async function main() {
 main();
 ```
 
-### Getting a KeyVault certificate
+### Getting a Key Vault certificate
 
 The simplest way to read certificates back from the vault is to get a
 certificate by name. `getCertificate` will retrieve the most recent
@@ -344,9 +344,9 @@ main();
 ### Getting the full information of a certificate
 
 Azure's KeyVault's design makes sharp distinctions between Keys,
-Secrets and Certificates. The KeyVault service's Certificates
+Secrets and Certificates. The Key Vault service's Certificates
 features were designed making use of it's Keys and Secrets capabilities.
-Let's evaluate the composition of a KeyVault Certificate:
+Let's evaluate the composition of a Key Vault Certificate:
 
 > When a Key Vault certificate is created, an addressable key
 > and secret are also created with the same name. The Key Vault
@@ -355,7 +355,7 @@ Let's evaluate the composition of a KeyVault Certificate:
 > also contains public x509 certificate metadata.  
 > _Source: [Composition of a Certificate][Composition-of-a-Certificate]._
 
-Knowing that the private key is stored in a KeyVault Secret,
+Knowing that the private key is stored in a Key Vault Secret,
 with the public certificate included, we can retrieve it
 by using the [KeyVault Secrets client][KeyVault-Secrets-client].
 
@@ -365,7 +365,7 @@ by using the [KeyVault Secrets client][KeyVault-Secrets-client].
 // let's create a SecretClient
 const secretClient = new SecretClient(keyVaultUrl, credential);
 
-// Assuming you've already created a KeyVault certificate,
+// Assuming you've already created a Key Vault certificate,
 // and that certificateName contains the name of your certificate
 const certificateSecret = await secretClient.getSecret(certificateName);
 
@@ -386,11 +386,15 @@ from a PKCS 12 certificate first.
 Using `openssl`, you can retrieve the public certificate in
 PEM format by using the following command:
 
-    openssl pkcs12 -in myCertificate.p12 -out myCertificate.crt.pem -clcerts -nokeys
+```
+openssl pkcs12 -in myCertificate.p12 -out myCertificate.crt.pem -clcerts -nokeys
+```
 
 You can also use `openssl` to retrieve the private key, as follows:
 
-    openssl pkcs12 -in myCertificate.p12 -out myCertificate.key.pem -nocerts -nodes
+```
+openssl pkcs12 -in myCertificate.p12 -out myCertificate.key.pem -nocerts -nodes
+```
 
 Note that in both cases, openssl will ask you for the
 password used to create the certificate. The sample code we've used
@@ -400,13 +404,13 @@ to the end of each command.
 ### Certificates in PEM format
 
 If you want to work with certificates in PEM format,
-you can tell Azure's KeyVault service to create and manage your
+you can tell Azure's Key Vault service to create and manage your
 certificates in PEM format by providing the `contentType` property
 at the moment of creating the certificates.
 
 The following example shows how to create and retrieve
 the public and the private parts of a PEM formatted certificate
-using the KeyVault clients for Certificates and Secrets:
+using the Key Vault clients for Certificates and Secrets:
 
 ```ts
 // Creating the certificate
@@ -552,7 +556,7 @@ async function main() {
   // const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
   // await recoverPoller.pollUntilDone();
 
-  // If a certificate is done and the KeyVault has soft-delete enabled, the certificate can be purged with:
+  // If a certificate is done and the Key Vault has soft-delete enabled, the certificate can be purged with:
   await client.purgeDeletedCertificate(certificateName);
 }
 

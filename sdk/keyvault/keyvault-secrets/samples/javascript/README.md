@@ -18,7 +18,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [deleteAndRecover.js][deleteandrecover] | creates a secret, then deletes it, then recovers it (soft-delete is required for this sample to run, see: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) |
 | [helloWorld.js][helloworld]             | creates, reads, updates, and deletes a secret                                                                                                                                         |
 | [listOperations.js][listoperations]     | creates a secret and shows various ways to iterate over the secret and its versions                                                                                                   |
-| [purgeAllSecrets.js][purgeAllSecrets]   | purges all the secrets of a KeyVault (useful for repeated tests)                                                                                                                      |
+| [purgeAllSecrets.js][purgeAllSecrets]   | purges all the secrets of a Key Vault (useful for repeated tests)                                                                                                                      |
 
 ## Prerequisites
 
