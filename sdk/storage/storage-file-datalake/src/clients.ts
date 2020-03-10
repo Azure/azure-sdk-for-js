@@ -66,6 +66,7 @@ import {
   FILE_UPLOAD_MAX_CHUNK_SIZE,
   FILE_MAX_SIZE_BYTES,
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
+  BLOCK_BLOB_MAX_BLOCKS,
 } from "./utils/constants";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Batch } from "./utils/Batch";
@@ -1095,7 +1096,10 @@ export class DataLakeFileClient extends DataLakePathClient {
       options.conditions = { leaseId: options.conditions?.leaseId };
 
       if (!options.chunkSize) {
-        options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
+        options.chunkSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
+        if (options.chunkSize < FILE_UPLOAD_DEFAULT_CHUNK_SIZE) {
+          options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
+        }
       }
       if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
         throw new RangeError(
@@ -1138,6 +1142,13 @@ export class DataLakeFileClient extends DataLakePathClient {
       }
 
       const numBlocks: number = Math.floor((size - 1) / options.chunkSize) + 1;
+      if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
+        throw new RangeError(
+          `The data's size is too big or the chunkSize is too small;` +
+          `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+        );
+      }
+
       let transferProgress: number = 0;
       const batch = new Batch(options.maxConcurrency);
 
@@ -1264,7 +1275,10 @@ export class DataLakeFileClient extends DataLakePathClient {
       options.conditions = { leaseId: options.conditions?.leaseId };
 
       if (!options.chunkSize) {
-        options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
+        options.chunkSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
+        if (options.chunkSize < FILE_UPLOAD_DEFAULT_CHUNK_SIZE) {
+          options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
+        }
       }
       if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
         throw new RangeError(
@@ -1307,6 +1321,13 @@ export class DataLakeFileClient extends DataLakePathClient {
       }
 
       const numBlocks: number = Math.floor((size - 1) / options.chunkSize) + 1;
+      if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
+        throw new RangeError(
+          `The data's size is too big or the chunkSize is too small;` +
+          `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+        );
+      }
+
       let transferProgress: number = 0;
       const batch = new Batch(options.maxConcurrency);
 
@@ -1354,7 +1375,8 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * Uploads a Node.js Readable stream into a Data Lake file.
    * This method will try to create a file, then starts uploading chunk by chunk.
-   * Please make sure potential size of stream doesn't exceed FILE_MAX_SIZE_BYTES.
+   * Please make sure potential size of stream doesn't exceed FILE_MAX_SIZE_BYTES and
+   * potential number of chunks doesn't exceed BLOCK_BLOB_MAX_BLOCKS.
    *
    * PERFORMANCE IMPROVEMENT TIPS:
    * * Input stream highWaterMark is better to set a same value with options.chunkSize

@@ -765,7 +765,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
   /**
    * Data size threshold in bytes to use a single upload operation rather than parallel uploading.
    * Data of smaller size than this limit will be transferred in a single upload. 
-   * Data larger than this limit will be transferred in chunks of chunkSize in parallel.
+   * Data larger than this limit will be transferred in chunks in parallel.
    * Its default and max value is FILE_MAX_SINGLE_UPLOAD_THRESHOLD.
    * Note: {@link DataLakeFileClient.uploadStream} do not respect this field and always do parallel uploading.
    *
@@ -776,8 +776,8 @@ export interface FileParallelUploadOptions extends CommonOptions {
 
   /**
    * The size of data in bytes that will be transferred in parallel.
-   * Its default value is FILE_UPLOAD_DEFAULT_CHUNK_SIZE.
-   * Its max value is FILE_UPLOAD_MAX_CHUNK_SIZE.
+   * If set to 0 or undefined, it will be automatically calculated according
+   * to the data size. Its max value is FILE_UPLOAD_MAX_CHUNK_SIZE.
    *
    * @type {number}
    * @memberof FileParallelUploadOptions

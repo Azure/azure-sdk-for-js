@@ -5,7 +5,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
 import { bodyToString, createRandomLocalFile, getDataLakeServiceClient, recorderEnvSetup } from "../utils";
-import { MB, GB, FILE_MAX_SINGLE_UPLOAD_THRESHOLD } from "../../src/utils/constants";
+import { MB, GB, FILE_MAX_SINGLE_UPLOAD_THRESHOLD, BLOCK_BLOB_MAX_BLOCKS } from "../../src/utils/constants";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 const { Readable } = require('stream')
 import { AbortController } from "@azure/abort-controller";
@@ -263,7 +263,27 @@ describe("Highlevel Node.js only", () => {
     assert.ok(uploadedBuffer.equals(readBuffer));
 
     fs.unlinkSync(readFile);
+    fs.unlinkSync(tempFile);
   }).timeout(timeoutForLargeFileUploadingTest);
+
+  it("upload should fail when number of chunks > BLOCK_BLOB_MAX_BLOCKS", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const uploadedBuffer = fs.readFileSync(tempFileLarge);
+    let exceptionCaught = false;
+    try {
+      await fileClient.upload(uploadedBuffer, {
+        chunkSize: Math.floor((tempFileLargeLength - 1) / BLOCK_BLOB_MAX_BLOCKS),
+      });
+    } catch (err) {
+      if (
+        err instanceof RangeError &&
+        err.message.includes("the number of chunks must be <=")
+      ) {
+        exceptionCaught = true;
+      }
+    }
+    assert.ok(exceptionCaught, "Should have thrown the expected error.");
+  });
 
   it("uploadStream should work", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
