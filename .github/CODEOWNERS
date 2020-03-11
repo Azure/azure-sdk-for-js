@@ -27,7 +27,7 @@
 /sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft
 /sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft
 
-/sdk/identity/ @daviwil @jonathandturner
+/sdk/identity/ @schaabs @daviwil @jonathandturner
 /sdk/keyvault/ @jonathandturner @sadasant
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
 
