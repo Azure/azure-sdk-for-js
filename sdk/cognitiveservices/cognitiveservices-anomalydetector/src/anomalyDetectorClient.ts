@@ -93,6 +93,38 @@ class AnomalyDetectorClient extends AnomalyDetectorClientContext {
       lastDetectOperationSpec,
       callback) as Promise<Models.LastDetectResponse2>;
   }
+
+  /**
+   * Evaluate change point score of every series point
+   * @summary Detect change point for the entire series
+   * @param body Time series points and granularity is needed. Advanced model parameters can also be
+   * set in the request if needed.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ChangePointDetectResponse2>
+   */
+  changePointDetect(body: Models.ChangePointDetectRequest, options?: msRest.RequestOptionsBase): Promise<Models.ChangePointDetectResponse2>;
+  /**
+   * @param body Time series points and granularity is needed. Advanced model parameters can also be
+   * set in the request if needed.
+   * @param callback The callback
+   */
+  changePointDetect(body: Models.ChangePointDetectRequest, callback: msRest.ServiceCallback<Models.ChangePointDetectResponse>): void;
+  /**
+   * @param body Time series points and granularity is needed. Advanced model parameters can also be
+   * set in the request if needed.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  changePointDetect(body: Models.ChangePointDetectRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ChangePointDetectResponse>): void;
+  changePointDetect(body: Models.ChangePointDetectRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ChangePointDetectResponse>, callback?: msRest.ServiceCallback<Models.ChangePointDetectResponse>): Promise<Models.ChangePointDetectResponse2> {
+    return this.sendOperationRequest(
+      {
+        body,
+        options
+      },
+      changePointDetectOperationSpec,
+      callback) as Promise<Models.ChangePointDetectResponse2>;
+  }
 }
 
 // Operation Specifications
@@ -137,6 +169,30 @@ const lastDetectOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.LastDetectResponse
+    },
+    default: {
+      bodyMapper: Mappers.APIError
+    }
+  },
+  serializer
+};
+
+const changePointDetectOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "timeseries/changePoint/detect",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  requestBody: {
+    parameterPath: "body",
+    mapper: {
+      ...Mappers.ChangePointDetectRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ChangePointDetectResponse
     },
     default: {
       bodyMapper: Mappers.APIError
