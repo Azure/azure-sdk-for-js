@@ -35,7 +35,7 @@ export class SearchServiceClient {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2019-05-06";
+  public readonly apiVersion: string = "2019-05-06-Preview";
 
   /**
    * The endpoint of the search service
