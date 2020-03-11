@@ -27,8 +27,8 @@
     "dist/",
     "dist-esm/src/",
     "types/ai-text-analytics.d.ts",
-    "src/",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "//metadata": {
     "constantPaths": [

@@ -27,9 +27,9 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
     "typings/event-processor-host.d.ts",
-    "tsconfig.json"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",

@@ -28,9 +28,8 @@
     "changelog.md",
     "dist/",
     "dist-esm/",
-    "LICENSE",
-    "src/",
-    "tsconfig.json"
+    "README.md",
+    "LICENSE"
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos#readme",
   "sideEffects": false,
