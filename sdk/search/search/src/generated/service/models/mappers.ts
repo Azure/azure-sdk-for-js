@@ -4287,20 +4287,6 @@ export const SearchError: coreHttp.CompositeMapper = {
   }
 };
 
-export const RequestOptions: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RequestOptions",
-    modelProperties: {
-      xMsClientRequestId: {
-        type: {
-          name: "Uuid"
-        }
-      }
-    }
-  }
-};
-
 export const AccessCondition: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",

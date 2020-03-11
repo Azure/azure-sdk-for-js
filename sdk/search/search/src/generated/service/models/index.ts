@@ -3324,16 +3324,6 @@ export interface SearchError {
 /**
  * Additional parameters for a set of operations.
  */
-export interface RequestOptions {
-  /**
-   * The tracking ID sent with the request to help with debugging.
-   */
-  xMsClientRequestId?: string;
-}
-
-/**
- * Additional parameters for a set of operations.
- */
 export interface AccessCondition {
   /**
    * Defines the If-Match condition. The operation will be performed only if the ETag on the server
@@ -3354,10 +3344,6 @@ export interface DataSourcesCreateOrUpdateOptionalParams extends coreHttp.Reques
   /**
    * Additional parameters for the operation
    */
-  requestOptions?: RequestOptions;
-  /**
-   * Additional parameters for the operation
-   */
   accessCondition?: AccessCondition;
 }
 
@@ -3365,10 +3351,6 @@ export interface DataSourcesCreateOrUpdateOptionalParams extends coreHttp.Reques
  * Optional Parameters.
  */
 export interface DataSourcesDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
   /**
    * Additional parameters for the operation
    */
@@ -3394,10 +3376,6 @@ export interface IndexersCreateOrUpdateOptionalParams extends coreHttp.RequestOp
   /**
    * Additional parameters for the operation
    */
-  requestOptions?: RequestOptions;
-  /**
-   * Additional parameters for the operation
-   */
   accessCondition?: AccessCondition;
 }
 
@@ -3405,10 +3383,6 @@ export interface IndexersCreateOrUpdateOptionalParams extends coreHttp.RequestOp
  * Optional Parameters.
  */
 export interface IndexersDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
   /**
    * Additional parameters for the operation
    */
@@ -3433,10 +3407,6 @@ export interface SkillsetsCreateOrUpdateOptionalParams extends coreHttp.RequestO
   /**
    * Additional parameters for the operation
    */
-  requestOptions?: RequestOptions;
-  /**
-   * Additional parameters for the operation
-   */
   accessCondition?: AccessCondition;
 }
 
@@ -3444,10 +3414,6 @@ export interface SkillsetsCreateOrUpdateOptionalParams extends coreHttp.RequestO
  * Optional Parameters.
  */
 export interface SkillsetsDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
   /**
    * Additional parameters for the operation
    */
@@ -3473,10 +3439,6 @@ export interface SynonymMapsCreateOrUpdateOptionalParams extends coreHttp.Reques
   /**
    * Additional parameters for the operation
    */
-  requestOptions?: RequestOptions;
-  /**
-   * Additional parameters for the operation
-   */
   accessCondition?: AccessCondition;
 }
 
@@ -3484,10 +3446,6 @@ export interface SynonymMapsCreateOrUpdateOptionalParams extends coreHttp.Reques
  * Optional Parameters.
  */
 export interface SynonymMapsDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
   /**
    * Additional parameters for the operation
    */
@@ -3532,10 +3490,6 @@ export interface IndexesCreateOrUpdateOptionalParams extends coreHttp.RequestOpt
   /**
    * Additional parameters for the operation
    */
-  requestOptions?: RequestOptions;
-  /**
-   * Additional parameters for the operation
-   */
   accessCondition?: AccessCondition;
 }
 
@@ -3543,10 +3497,6 @@ export interface IndexesCreateOrUpdateOptionalParams extends coreHttp.RequestOpt
  * Optional Parameters.
  */
 export interface IndexesDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * Additional parameters for the operation
-   */
-  requestOptions?: RequestOptions;
   /**
    * Additional parameters for the operation
    */

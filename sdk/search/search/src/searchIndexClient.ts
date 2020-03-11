@@ -42,7 +42,7 @@ import {
   MergeDocumentsOptions,
   DeleteDocumentsOptions,
   SearchDocumentsPageResult
-} from "./models";
+} from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 
 /**
@@ -79,7 +79,7 @@ export class SearchIndexClient<T> {
   private readonly client: GeneratedClient;
 
   /**
-   * Creates an instance of SearchClient.
+   * Creates an instance of SearchIndexClient.
    *
    * Example usage:
    * ```ts

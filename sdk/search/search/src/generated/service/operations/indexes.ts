@@ -290,7 +290,6 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   ],
   headerParameters: [
     Parameters.prefer,
-    Parameters.xMsClientRequestId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
@@ -326,7 +325,6 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.xMsClientRequestId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],

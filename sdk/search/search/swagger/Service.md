@@ -45,4 +45,24 @@ directive:
         }
       }
       $.parameters = newParameters;
+  - from: swagger-document
+    where: $.paths..put
+    transform: >
+      const newParameters = [];
+      for (let param of $.parameters) {
+        if (param["$ref"] !== "#/parameters/ClientRequestIdParameter") {
+          newParameters.push(param);
+        }
+      }
+      $.parameters = newParameters;
+  - from: swagger-document
+    where: $.paths..delete
+    transform: >
+      const newParameters = [];
+      for (let param of $.parameters) {
+        if (param["$ref"] !== "#/parameters/ClientRequestIdParameter") {
+          newParameters.push(param);
+        }
+      }
+      $.parameters = newParameters;
 ```
