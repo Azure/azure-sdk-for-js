@@ -1,7 +1,6 @@
-## An isomorphic javascript sdk for - QnAMakerClient
+## An isomorphic javascript sdk for - QnAMakerRuntimeClient
 
-This package contains an isomorphic SDK for editing and creating Knowledge Bases, its endpoints and keys.
-For interacting with QnAMaker such as training and asking questions please see @azure/cognitiveservices-qnamaker-runtime.
+This package contains an isomorphic SDK for QnAMakerRuntimeClient.
 
 ### Currently supported environments
 
@@ -16,36 +15,53 @@ npm install @azure/cognitiveservices-qnamaker
 
 ### How to use
 
-#### nodejs - Authentication, client creation and getSettings endpointSettings as an example written in TypeScript.
+#### nodejs - Authentication, client creation and generateAnswer runtime as an example written in TypeScript.
 
-##### Install @azure/ms-rest-azure-js
+##### Install @azure/ms-rest-nodeauth
 
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-azure-js
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
 
 ```typescript
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
-import { QnAMakerClient } from "@azure/cognitiveservices-qnamaker";
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { QnAMakerRuntimeClient, QnAMakerRuntimeModels, QnAMakerRuntimeMappers } from "@azure/cognitiveservices-qnamaker";
+const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-async function main() {
-  const QNAMAKER_KEY = process.env["QNAMAKER_KEY"] || "<QNAMAKER_KEY>";
-  const QNAMAKER_ENDPOINT = process.env["QNAMAKER_ENDPOINT"] || "<QNAMAKER_ENDPOINT>";
-
-  const cognitiveServicesCredentials = new CognitiveServicesCredentials(QNAMAKER_KEY);
-  const client = new QnAMakerClient(cognitiveServicesCredentials, QNAMAKER_ENDPOINT);
-
-  const settings = await client.endpointSettings.getSettings();
-
-  console.log(`The result is: ${JSON.stringify(settings)}`);
-}
-
-main();
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new QnAMakerRuntimeClient(creds, subscriptionId);
+  const kbId = "testkbId";
+  const generateAnswerPayload: QnAMakerRuntimeModels.QueryDTO = {
+    qnaId: "testqnaId",
+    question: "testquestion",
+    top: 1,
+    userId: "testuserId",
+    isTest: true,
+    scoreThreshold: 1.01,
+    context: {
+      previousQnaId: "testpreviousQnaId",
+      previousUserQuery: "testpreviousUserQuery"
+    },
+    rankerType: "testrankerType",
+    strictFilters: [{
+      name: "testname",
+      value: "testvalue"
+    }]
+  };
+  client.runtime.generateAnswer(kbId, generateAnswerPayload).then((result) => {
+    console.log("The result is:");
+    console.log(result);
+  });
+}).catch((err) => {
+  console.error(err);
+});
 ```
 
-#### browser - Authentication, client creation and getSettings endpointSettings as an example written in JavaScript.
+#### browser - Authentication, client creation and generateAnswer runtime as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -58,34 +74,52 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
-
 ```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>@azure/cognitiveservices-qnamaker sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
+    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/cognitiveservices-qnamaker/dist/cognitiveservices-qnamaker.js"></script>
     <script type="text/javascript">
-      async function main() {
-        const QNAMAKER_KEY = "<QNAMAKER_KEY>";
-        const QNAMAKER_ENDPOINT = "<QNAMAKER_ENDPOINT>";
-        const cognitiveServiceCredentials = new msRest.ApiKeyCredentials({
-          inHeader: {
-            "Ocp-Apim-Subscription-Key": QNAMAKER_KEY
-          }
+      const subscriptionId = "<Subscription_Id>";
+      const authManager = new msAuth.AuthManager({
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
+      });
+      authManager.finalizeLogin().then((res) => {
+        if (!res.isLoggedIn) {
+          // may cause redirects
+          authManager.login();
+        }
+        const client = new Azure.CognitiveservicesQnamaker.QnAMakerRuntimeClient(res.creds, subscriptionId);
+        const kbId = "testkbId";
+        const generateAnswerPayload = {
+          qnaId: "testqnaId",
+          question: "testquestion",
+          top: 1,
+          userId: "testuserId",
+          isTest: true,
+          scoreThreshold: 1.01,
+          context: {
+            previousQnaId: "testpreviousQnaId",
+            previousUserQuery: "testpreviousUserQuery"
+          },
+          rankerType: "testrankerType",
+          strictFilters: [{
+            name: "testname",
+            value: "testvalue"
+          }]
+        };
+        client.runtime.generateAnswer(kbId, generateAnswerPayload).then((result) => {
+          console.log("The result is:");
+          console.log(result);
+        }).catch((err) => {
+          console.log("An error occurred:");
+          console.error(err);
         });
-
-        const client = new Azure.CognitiveservicesQnamaker.QnAMakerClient(
-          cognitiveServiceCredentials,
-          QNAMAKER_ENDPOINT
-        );
-
-        const settings = client.endpointSettings.getSettings();
-        console.log(`The result is: ${settings}`);
-      }
-
-      main();
+      });
     </script>
   </head>
   <body></body>
@@ -96,4 +130,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-qnamaker/README.png)

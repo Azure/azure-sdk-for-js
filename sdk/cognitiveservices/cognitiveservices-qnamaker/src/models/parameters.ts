@@ -10,28 +10,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-export const endpoint: msRest.OperationURLParameter = {
-  parameterPath: "endpoint",
-  mapper: {
-    required: true,
-    serializedName: "Endpoint",
-    defaultValue: '',
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const environment: msRest.OperationURLParameter = {
-  parameterPath: "environment",
-  mapper: {
-    required: true,
-    serializedName: "environment",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const kbId: msRest.OperationURLParameter = {
   parameterPath: "kbId",
   mapper: {
@@ -42,23 +20,15 @@ export const kbId: msRest.OperationURLParameter = {
     }
   }
 };
-export const keyType: msRest.OperationURLParameter = {
-  parameterPath: "keyType",
+export const runtimeEndpoint: msRest.OperationURLParameter = {
+  parameterPath: "runtimeEndpoint",
   mapper: {
     required: true,
-    serializedName: "keyType",
+    serializedName: "RuntimeEndpoint",
+    defaultValue: '',
     type: {
       name: "String"
     }
-  }
-};
-export const operationId: msRest.OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    required: true,
-    serializedName: "operationId",
-    type: {
-      name: "String"
-    }
-  }
+  },
+  skipEncoding: true
 };
