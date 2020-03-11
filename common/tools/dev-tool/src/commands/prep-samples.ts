@@ -27,8 +27,11 @@ import path from "path";
 
 import { createPrinter } from "../util/printer";
 import { findMatchingFiles } from "../util/findMatchingFiles";
+import { resolveProject } from "../util/resolveProject";
 
 const log = createPrinter("prep-samples");
+
+export const helpText = "prepare samples for local source-linked execution";
 
 /**
  * Replaces package require/import statements with relative paths for CI
@@ -95,26 +98,27 @@ async function* cat<T>(...generators: AsyncIterable<T>[]): AsyncIterable<T> {
   }
 }
 
-export default async function main(...args: string[]): Promise<boolean> {
+export default async function(...args: string[]): Promise<boolean> {
   const parsedArgs = minimist(args);
 
-  let baseDir;
+  let argumentDir;
   if (parsedArgs._.length) {
-    baseDir = path.resolve(parsedArgs._[0]);
+    argumentDir = path.resolve(parsedArgs._[0]);
   } else {
-    baseDir = process.cwd();
+    argumentDir = process.cwd();
   }
 
-  const pkg = require(path.join(baseDir, "package.json"));
+  const pkg = await resolveProject(argumentDir);
+
   log.info("Preparing samples for package:", `${pkg.name}@${pkg.version}`);
 
   // Create dist-samples and copy to it
-  const outputDir = path.join(baseDir, "dist-samples");
+  const outputDir = path.join(pkg.path, "dist-samples");
   if (fs.existsSync(outputDir)) {
     log.warn("Cleaning up old dist-samples folder.");
     await fs.remove(outputDir);
   }
-  await fs.copy(path.join(baseDir, "samples"), outputDir);
+  await fs.copy(path.join(pkg.path, "samples"), outputDir);
 
   const tsDir = path.join(outputDir, "typescript", "src");
   const tsFiles = findMatchingFiles(
@@ -130,9 +134,8 @@ export default async function main(...args: string[]): Promise<boolean> {
   );
 
   for await (const fileName of cat(tsFiles, jsFiles)) {
-    await enableLocalRun(fileName, baseDir, pkg.name);
+    await enableLocalRun(fileName, pkg.path, pkg.name);
   }
 
   return true;
 }
-

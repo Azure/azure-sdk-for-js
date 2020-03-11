@@ -8,7 +8,6 @@
  * our sample code.
  */
 
-import chalk from "chalk";
 import path from "path";
 
 import { findMatchingFiles } from "../util/findMatchingFiles";
@@ -17,6 +16,8 @@ import { createPrinter } from "../util/printer";
 const log = createPrinter("run-samples");
 
 const IGNORE = ["node_modules"];
+
+export const helpText = "execute a sample or all samples within a directory";
 
 export default async function(...args: string[]): Promise<boolean> {
   if (args.length === 0) {

@@ -5,9 +5,12 @@
   "bin": {
     "dev-tool": "launch.js"
   },
+  "files": [
+    "src"
+  ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "echo",
+    "build": "tsc",
     "clean": "rimraf dist dist-* *.tgz *.log",
     "extract-api": "echo skipped",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",

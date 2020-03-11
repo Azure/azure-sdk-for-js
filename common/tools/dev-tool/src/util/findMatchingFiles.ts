@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license
+
 import chalk from "chalk";
 import fs from "fs-extra";
 import path from "path";
@@ -76,4 +79,3 @@ export async function* findMatchingFiles(
   // once it is `done`, in case it is ever needed for debugging
   return q;
 }
-
