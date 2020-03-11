@@ -40,6 +40,18 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const deleteOption: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "deleteOption"
+  ],
+  mapper: {
+    serializedName: "deleteOption",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const eventName: msRest.OperationURLParameter = {
   parameterPath: "eventName",
   mapper: {
@@ -97,6 +109,26 @@ export const mappingName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "mappingName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const migrationItemName: msRest.OperationURLParameter = {
+  parameterPath: "migrationItemName",
+  mapper: {
+    required: true,
+    serializedName: "migrationItemName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const migrationRecoveryPointName: msRest.OperationURLParameter = {
+  parameterPath: "migrationRecoveryPointName",
+  mapper: {
+    required: true,
+    serializedName: "migrationRecoveryPointName",
     type: {
       name: "String"
     }
@@ -275,11 +307,31 @@ export const subscriptionId: msRest.OperationURLParameter = {
     }
   }
 };
+export const vaultSettingName: msRest.OperationURLParameter = {
+  parameterPath: "vaultSettingName",
+  mapper: {
+    required: true,
+    serializedName: "vaultSettingName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const vCenterName: msRest.OperationURLParameter = {
   parameterPath: "vCenterName",
   mapper: {
     required: true,
     serializedName: "vCenterName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const virtualMachineName: msRest.OperationURLParameter = {
+  parameterPath: "virtualMachineName",
+  mapper: {
+    required: true,
+    serializedName: "virtualMachineName",
     type: {
       name: "String"
     }
