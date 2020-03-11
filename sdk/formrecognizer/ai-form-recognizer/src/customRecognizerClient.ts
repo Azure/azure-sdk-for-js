@@ -64,9 +64,7 @@ export type DeleteModelOptions = FormRecognizerOperationOptions;
 /**
  * Options for the get model operation.
  */
-export type GetModelOptions = FormRecognizerOperationOptions & {
-  includeKeys?: boolean;
-}
+export type GetModelOptions = FormRecognizerOperationOptions;
 
 /**
  * Options for traing models
@@ -230,7 +228,7 @@ export class CustomFormRecognizerClient {
     }
   }
 
-  public async getModel(modelId: string, options: GetModelOptions)
+  public async getModel(modelId: string, options: GetModelOptions = {})
   : Promise<CustomFormModelResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -238,15 +236,19 @@ export class CustomFormRecognizerClient {
       realOptions
     );
 
+
     try {
       const respnose = await this.client.getCustomModel(
-        modelId,
-        operationOptionsToRequestOptionsBase(finalOptions)
+        modelId, {
+          ...operationOptionsToRequestOptionsBase(finalOptions),
+          // Include keys is always set to true -- the service does not have a use case for includeKeys: false.
+          includeKeys: true
+        }
       );
       if (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields) {
         throw new Error(`The model ${modelId} is trained with labels.`)
       } else {
-        return { kind: "unlabeled", ...respnose }
+        return respnose;
       }
     } catch (e) {
       span.setStatus({
@@ -270,10 +272,14 @@ export class CustomFormRecognizerClient {
     try {
       const respnose = await this.client.getCustomModel(
         modelId,
-        operationOptionsToRequestOptionsBase(finalOptions)
+        {
+          ...operationOptionsToRequestOptionsBase(finalOptions),
+          // Include keys is always set to true -- the service does not have a use case for includeKeys: false.
+          includeKeys: true
+        }
       );
       if (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields) {
-        return { kind: "labeled", ...respnose }
+        return respnose;
       } else {
         throw new Error(`The model ${modelId} is not rained with labels.`)
       }

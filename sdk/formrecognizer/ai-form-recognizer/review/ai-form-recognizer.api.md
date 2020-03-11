@@ -87,10 +87,8 @@ export interface AnalyzeOperationResultModel {
 // @public (undocumented)
 export type AnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | ExtractCustomFormOptions;
 
-// Warning: (ae-forgotten-export) The symbol "ICanHazStatus" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type AnalyzePollerClient<T extends ICanHazStatus> = {
+export type AnalyzePollerClient<T> = {
     startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) => Promise<{
         operationLocation: string;
     }>;
@@ -170,8 +168,6 @@ export interface CustomFormModel {
     // (undocumented)
     keys?: KeysResult;
     // (undocumented)
-    kind: "unlabeled";
-    // (undocumented)
     modelInfo: ModelInfo;
     // (undocumented)
     trainResult?: CustomFormModelTrainResult;
@@ -206,7 +202,7 @@ export class CustomFormRecognizerClient {
     // (undocumented)
     getLabeledModel(modelId: string, options: GetModelOptions): Promise<LabeledFormModelResponse>;
     // (undocumented)
-    getModel(modelId: string, options: GetModelOptions): Promise<CustomFormModelResponse>;
+    getModel(modelId: string, options?: GetModelOptions): Promise<CustomFormModelResponse>;
     // (undocumented)
     getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
     // (undocumented)
@@ -358,9 +354,7 @@ export type GetCustomModelsResponse = ModelsModel & {
 };
 
 // @public
-export type GetModelOptions = FormRecognizerOperationOptions & {
-    includeKeys?: boolean;
-};
+export type GetModelOptions = FormRecognizerOperationOptions;
 
 // @public
 export type GetSummaryOptions = FormRecognizerOperationOptions;
@@ -381,9 +375,9 @@ export interface KeysResult {
 // @public (undocumented)
 export interface KeyValueElement {
     // (undocumented)
-    boundingBox?: TextElement[];
+    boundingBox?: number[];
     // (undocumented)
-    elements?: string[];
+    elements?: TextElement[];
     // (undocumented)
     text: string;
 }
@@ -417,8 +411,6 @@ export interface KeyValuePairModel {
 
 // @public (undocumented)
 export interface LabeledFormModel {
-    // (undocumented)
-    kind: "labeled";
     // (undocumented)
     modelInfo: ModelInfo;
     // (undocumented)
@@ -682,6 +674,8 @@ export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
     resumeFrom?: string;
 };
 
+// Warning: (ae-forgotten-export) The symbol "ICanHazStatus" needs to be exported by the entry point index.d.ts
+//
 // @public
 export class StartAnalyzePoller<T extends ICanHazStatus> extends Poller<StartAnalyzePollState<T>, T> {
     // Warning: (ae-forgotten-export) The symbol "StartAnalyzePollerOptions" needs to be exported by the entry point index.d.ts
@@ -693,7 +687,7 @@ export class StartAnalyzePoller<T extends ICanHazStatus> extends Poller<StartAna
 }
 
 // @public (undocumented)
-export interface StartAnalyzePollState<T extends ICanHazStatus> extends PollOperationState<T> {
+export interface StartAnalyzePollState<T> extends PollOperationState<T> {
     // (undocumented)
     readonly analyzeOptions?: AnalyzeOptions;
     // (undocumented)
@@ -768,7 +762,9 @@ export type StringFieldValue = {
 export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff" | "application/json";
 
 // @public
-export type TextElement = TextWord | TextLine;
+export type TextElement = (TextWord | TextLine) & {
+    pageNumber: number;
+};
 
 // @public
 export interface TextLine {

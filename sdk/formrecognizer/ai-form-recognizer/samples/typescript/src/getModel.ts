@@ -20,7 +20,7 @@ async function main() {
   const modelId = "207683fc-b070-4731-a953-91bebbacb42b";
 
   const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const result = await client.getModel(modelId, { includeKeys: true });
+  const result = await client.getModel(modelId);
   console.log(result);
 }
 

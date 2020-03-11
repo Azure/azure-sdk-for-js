@@ -372,14 +372,12 @@ export interface CustomFormModelTrainResult {
 }
 
 export interface CustomFormModel {
-  kind: "unlabeled";
   modelInfo: ModelInfo;
   keys?: KeysResult;
   trainResult?: CustomFormModelTrainResult;
 }
 
 export interface LabeledFormModel{
-  kind: "labeled";
   modelInfo: ModelInfo;
   trainResult?: TrainResult;
 };
