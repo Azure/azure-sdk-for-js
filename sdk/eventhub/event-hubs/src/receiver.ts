@@ -21,7 +21,7 @@ import {
 } from "@azure/core-amqp";
 import { ReceiveHandler } from "./receiveHandler";
 import { AbortSignalLike, AbortError } from "@azure/abort-controller";
-import { throwErrorIfConnectionClosed } from "./util/error";
+import { throwErrorIfConnectionClosed, isMessagingError } from "./util/error";
 import { EventPosition } from "./eventPosition";
 import "@azure/core-asynciterator-polyfill";
 
@@ -77,6 +77,10 @@ export class EventHubConsumer {
    * @property A set of information about the last enqueued event of a partition.
    */
   private _lastEnqueuedEventProperties: LastEnqueuedEventProperties;
+
+  private _lastSequenceNumber: number = -1;
+  private _initialEventPosition: EventPosition;
+  private _options: EventHubConsumerOptions;
 
   /**
    * @property The last enqueued event information. This property will only
@@ -149,7 +153,7 @@ export class EventHubConsumer {
     consumerGroup: string,
     partitionId: string,
     eventPosition: EventPosition,
-    options?: EventHubConsumerOptions
+    options: EventHubConsumerOptions = {}
   ) {
     this._context = context;
     this._consumerGroup = consumerGroup;
@@ -157,6 +161,8 @@ export class EventHubConsumer {
     this._lastEnqueuedEventProperties = {};
     this._receiverOptions = options || {};
     this._retryOptions = this._receiverOptions.retryOptions || {};
+    this._initialEventPosition = eventPosition;
+    this._options = options;
     this._baseConsumer = new EventHubReceiver(
       context,
       consumerGroup,
@@ -165,6 +171,25 @@ export class EventHubConsumer {
       options
     );
   }
+
+  private _replaceContext(context: ConnectionContext) {
+    // close old context
+    this._closeBaseConsumer().catch(() => {});
+
+    this._context = context;
+    const eventPosition: EventPosition =
+      this._lastSequenceNumber > -1
+        ? { sequenceNumber: this._lastSequenceNumber }
+        : this._initialEventPosition;
+    this._baseConsumer = new EventHubReceiver(
+      context,
+      this._consumerGroup,
+      this._partitionId,
+      eventPosition,
+      this._options
+    );
+  }
+
   /**
    * Starts receiving events from the service and calls the user provided message handler for each event.
    * Returns an object that can be used to query the state of the receiver and to stop receiving events as well.
@@ -336,6 +361,7 @@ export class EventHubConsumer {
         this._baseConsumer.registerHandlers(
           (eventData) => {
             receivedEvents.push(eventData);
+            this._lastSequenceNumber = eventData.sequenceNumber;
             if (
               this._receiverOptions.trackLastEnqueuedEventProperties &&
               this._baseConsumer &&
@@ -359,6 +385,20 @@ export class EventHubConsumer {
           },
           (err) => {
             cleanUpBeforeReturn();
+            // handle redirect logic
+            if (this._options.redirectSettings?.enabled) {
+              if (isMessagingError(err) && err.code === "LinkRedirectError") {
+                console.log(err);
+                const newConnectionContext = this._options.redirectSettings.connectionProvider!({
+                  host: err.info.hostname.split(":")[0],
+                  hostname: err.info.hostname,
+                  port: parseInt(err.info.port, 10),
+                  address: err.info.address
+                });
+                this._replaceContext(newConnectionContext);
+                err.retryable = true;
+              }
+            }
             if (err.name === "AbortError") {
               rejectOnAbort();
             } else {
@@ -425,16 +465,24 @@ export class EventHubConsumer {
    */
   async close(): Promise<void> {
     try {
-      if (this._context.connection && this._context.connection.isOpen()) {
-        if (this._baseConsumer) {
-          await this._baseConsumer.close();
-          this._baseConsumer = void 0;
-        }
-      }
+      await this._closeBaseConsumer();
     } catch (err) {
       throw err;
     } finally {
+      this._baseConsumer = undefined;
       this._isClosed = true;
+    }
+  }
+
+  private async _closeBaseConsumer() {
+    if (!this._context.connection || !this._context.connection.isOpen()) {
+      return;
+    }
+
+    const baseConsumer = this._baseConsumer;
+
+    if (baseConsumer) {
+      await baseConsumer.close();
     }
   }
 

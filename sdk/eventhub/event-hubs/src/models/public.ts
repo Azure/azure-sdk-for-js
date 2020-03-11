@@ -113,6 +113,10 @@ export interface EventHubClientOptions {
   userAgent?: string;
 }
 
+export interface EventHubConsumerClientOptions extends EventHubClientOptions {
+  enableRedirects?: boolean;
+}
+
 /**
  * Options to configure the `createBatch` method on the `EventHubProducerClient`.
  * - `partitionKey`  : A value that is hashed to produce a partition assignment.

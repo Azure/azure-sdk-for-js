@@ -3,6 +3,7 @@
 
 import { logger, logErrorStackTrace } from "../log";
 import { ConnectionContext } from "../connectionContext";
+import { MessagingError } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -43,4 +44,8 @@ export function throwTypeErrorIfParameterMissing(
     logErrorStackTrace(error);
     throw error;
   }
+}
+
+export function isMessagingError(err: any): err is MessagingError {
+  return err && err.name === "MessagingError";
 }

@@ -79,6 +79,16 @@ export interface EventHubConsumerOptions {
    * against periodically making requests for partition properties using the Event Hub client.
    */
   trackLastEnqueuedEventProperties?: boolean;
+
+  redirectSettings?: {
+    enabled: boolean;
+    connectionProvider?: (props: {
+      hostname: string;
+      host: string;
+      port: number;
+      address: string;
+    }) => ConnectionContext;
+  };
 }
 
 /**

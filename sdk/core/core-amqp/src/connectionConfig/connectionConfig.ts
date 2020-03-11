@@ -32,6 +32,14 @@ export interface ConnectionConfig {
    */
   host: string;
   /**
+   * @property {string} hostname - The hostname "<yournamespace>.servicebus.windows.net".
+   */
+  hostname?: string;
+  /**
+   * The port number.
+   */
+  port?: number;
+  /**
    * @property {string} connectionString - The connection string.
    */
   connectionString: string;

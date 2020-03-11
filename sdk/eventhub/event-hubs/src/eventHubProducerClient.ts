@@ -3,7 +3,7 @@
 
 import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
 import { EventDataBatch } from "./eventDataBatch";
-import { EventHubClient } from "./impl/eventHubClient";
+import { EventHubClientManager as EventHubClient } from "./EventHubClientManager";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { EventHubProducer } from "./sender";
 import {

@@ -174,7 +174,11 @@ export class LinkEntity {
       this.address
     );
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
+      return this._context.cbsSession.negotiateClaim(
+        (this._context.config as any).name || this.audience,
+        tokenObject,
+        tokenType
+      ); //
     });
     logger.verbose(
       "[%s] Negotiated claim for %s '%s' with with address: %s",

@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { EventHubClient } from "./impl/eventHubClient";
+import { EventHubClientManager as EventHubClient } from "./EventHubClientManager";
 import {
   EventHubClientOptions,
   GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions,
-  GetPartitionIdsOptions
+  GetPartitionIdsOptions,
+  EventHubConsumerClientOptions
 } from "./models/public";
 import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
 import { EventProcessor, CheckpointStore, FullEventProcessorOptions } from "./eventProcessor";
@@ -119,7 +120,7 @@ export class EventHubConsumerClient {
     consumerGroup: string,
     connectionString: string,
     checkpointStore: CheckpointStore,
-    options?: EventHubClientOptions
+    options?: EventHubConsumerClientOptions
   ); // #1.1
   /**
    * @constructor
@@ -140,7 +141,7 @@ export class EventHubConsumerClient {
     consumerGroup: string,
     connectionString: string,
     eventHubName: string,
-    options?: EventHubClientOptions
+    options?: EventHubConsumerClientOptions
   ); // #2
   /**
    * @constructor
@@ -165,7 +166,7 @@ export class EventHubConsumerClient {
     connectionString: string,
     eventHubName: string,
     checkpointStore: CheckpointStore,
-    options?: EventHubClientOptions
+    options?: EventHubConsumerClientOptions
   ); // #2.1
   /**
    * @constructor
@@ -188,7 +189,7 @@ export class EventHubConsumerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential,
-    options?: EventHubClientOptions
+    options?: EventHubConsumerClientOptions
   ); // #3
   /**
    * @constructor
@@ -215,24 +216,27 @@ export class EventHubConsumerClient {
     eventHubName: string,
     credential: TokenCredential,
     checkpointStore: CheckpointStore,
-    options?: EventHubClientOptions
+    options?: EventHubConsumerClientOptions
   ); // #3.1
   constructor(
     private _consumerGroup: string,
     connectionStringOrFullyQualifiedNamespace2: string,
-    checkpointStoreOrEventHubNameOrOptions3?: CheckpointStore | EventHubClientOptions | string,
+    checkpointStoreOrEventHubNameOrOptions3?:
+      | CheckpointStore
+      | EventHubConsumerClientOptions
+      | string,
     checkpointStoreOrCredentialOrOptions4?:
       | CheckpointStore
-      | EventHubClientOptions
+      | EventHubConsumerClientOptions
       | TokenCredential,
-    checkpointStoreOrOptions5?: CheckpointStore | EventHubClientOptions,
-    options6?: EventHubClientOptions
+    checkpointStoreOrOptions5?: CheckpointStore | EventHubConsumerClientOptions,
+    options6?: EventHubConsumerClientOptions
   ) {
     if (isTokenCredential(checkpointStoreOrCredentialOrOptions4)) {
       // #3 or 3.1
       logger.info("Creating EventHubConsumerClient with TokenCredential.");
 
-      let eventHubClientOptions: EventHubClientOptions | undefined;
+      let eventHubClientOptions: EventHubConsumerClientOptions | undefined;
 
       if (isCheckpointStore(checkpointStoreOrOptions5)) {
         // 3.1
@@ -516,7 +520,7 @@ export class EventHubConsumerClient {
   ) {
     return new EventProcessor(
       consumerGroup,
-      eventHubClient,
+      eventHubClient as any,
       subscriptionEventHandlers,
       checkpointStore,
       options

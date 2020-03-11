@@ -601,6 +601,11 @@ export class EventHubReceiver extends LinkEntity {
         options.onSessionClose || ((context: EventContext) => this._onAmqpSessionClose(context))
     };
 
+    const desiredCapabilities: string[] = [];
+    if (this.options.redirectSettings?.enabled) {
+      desiredCapabilities.push("amqp:link:redirect");
+    }
+
     if (typeof this.ownerLevel === "number") {
       rcvrOptions.properties = {
         [Constants.attachEpoch]: types.wrap_long(this.ownerLevel)
@@ -608,9 +613,12 @@ export class EventHubReceiver extends LinkEntity {
     }
 
     if (this.options.trackLastEnqueuedEventProperties) {
-      rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
+      desiredCapabilities.push(Constants.enableReceiverRuntimeMetricName);
     }
 
+    if (desiredCapabilities.length) {
+      rcvrOptions.desired_capabilities = desiredCapabilities;
+    }
     const eventPosition = options.eventPosition || this.eventPosition;
     if (eventPosition) {
       // Set filter on the receiver if event position is specified.
