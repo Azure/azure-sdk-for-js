@@ -27,7 +27,7 @@ export class Certificates {
   }
 
   /**
-   * Get all certificates for a subscription.
+   * Description for Get all certificates for a subscription.
    * @summary Get all certificates for a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesListResponse>
@@ -52,7 +52,7 @@ export class Certificates {
   }
 
   /**
-   * Get all certificates in a resource group.
+   * Description for Get all certificates in a resource group.
    * @summary Get all certificates in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param [options] The optional parameters
@@ -81,7 +81,7 @@ export class Certificates {
   }
 
   /**
-   * Get a certificate.
+   * Description for Get a certificate.
    * @summary Get a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
@@ -114,7 +114,7 @@ export class Certificates {
   }
 
   /**
-   * Create or update a certificate.
+   * Description for Create or update a certificate.
    * @summary Create or update a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
@@ -151,7 +151,7 @@ export class Certificates {
   }
 
   /**
-   * Delete a certificate.
+   * Description for Delete a certificate.
    * @summary Delete a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
@@ -184,7 +184,7 @@ export class Certificates {
   }
 
   /**
-   * Create or update a certificate.
+   * Description for Create or update a certificate.
    * @summary Create or update a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
@@ -221,7 +221,7 @@ export class Certificates {
   }
 
   /**
-   * Get all certificates for a subscription.
+   * Description for Get all certificates for a subscription.
    * @summary Get all certificates for a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -250,7 +250,7 @@ export class Certificates {
   }
 
   /**
-   * Get all certificates in a resource group.
+   * Description for Get all certificates in a resource group.
    * @summary Get all certificates in a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -288,7 +288,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -312,7 +312,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -337,7 +337,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -362,7 +362,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -394,7 +394,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -403,7 +403,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -418,7 +418,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

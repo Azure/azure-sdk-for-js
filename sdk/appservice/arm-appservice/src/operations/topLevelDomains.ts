@@ -27,7 +27,7 @@ export class TopLevelDomains {
   }
 
   /**
-   * Get all top-level domains supported for registration.
+   * Description for Get all top-level domains supported for registration.
    * @summary Get all top-level domains supported for registration.
    * @param [options] The optional parameters
    * @returns Promise<Models.TopLevelDomainsListResponse>
@@ -52,7 +52,7 @@ export class TopLevelDomains {
   }
 
   /**
-   * Get details of a top-level domain.
+   * Description for Get details of a top-level domain.
    * @summary Get details of a top-level domain.
    * @param name Name of the top-level domain.
    * @param [options] The optional parameters
@@ -81,7 +81,7 @@ export class TopLevelDomains {
   }
 
   /**
-   * Gets all legal agreements that user needs to accept before purchasing a domain.
+   * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
    * @summary Gets all legal agreements that user needs to accept before purchasing a domain.
    * @param name Name of the top-level domain.
    * @param agreementOption Domain agreement options.
@@ -114,7 +114,7 @@ export class TopLevelDomains {
   }
 
   /**
-   * Get all top-level domains supported for registration.
+   * Description for Get all top-level domains supported for registration.
    * @summary Get all top-level domains supported for registration.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -143,7 +143,7 @@ export class TopLevelDomains {
   }
 
   /**
-   * Gets all legal agreements that user needs to accept before purchasing a domain.
+   * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
    * @summary Gets all legal agreements that user needs to accept before purchasing a domain.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -181,7 +181,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -205,7 +205,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -229,7 +229,7 @@ const listAgreementsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

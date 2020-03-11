@@ -27,7 +27,7 @@ export class DeletedWebApps {
   }
 
   /**
-   * Get all deleted apps for a subscription.
+   * Description for Get all deleted apps for a subscription.
    * @summary Get all deleted apps for a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.DeletedWebAppsListResponse>
@@ -52,7 +52,7 @@ export class DeletedWebApps {
   }
 
   /**
-   * Get all deleted apps for a subscription at location
+   * Description for Get all deleted apps for a subscription at location
    * @summary Get all deleted apps for a subscription at location
    * @param location
    * @param [options] The optional parameters
@@ -81,7 +81,7 @@ export class DeletedWebApps {
   }
 
   /**
-   * Get deleted app for a subscription at location.
+   * Description for Get deleted app for a subscription at location.
    * @summary Get deleted app for a subscription at location.
    * @param location
    * @param deletedSiteId The numeric ID of the deleted app, e.g. 12345
@@ -114,7 +114,7 @@ export class DeletedWebApps {
   }
 
   /**
-   * Get all deleted apps for a subscription.
+   * Description for Get all deleted apps for a subscription.
    * @summary Get all deleted apps for a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -143,7 +143,7 @@ export class DeletedWebApps {
   }
 
   /**
-   * Get all deleted apps for a subscription at location
+   * Description for Get all deleted apps for a subscription at location
    * @summary Get all deleted apps for a subscription at location
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -181,7 +181,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -205,7 +205,7 @@ const listByLocationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -230,7 +230,7 @@ const getDeletedWebAppByLocationOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

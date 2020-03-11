@@ -30,25 +30,21 @@ export const analysisName: msRest.OperationURLParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
+export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
-    isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-02-01',
     type: {
       name: "String"
     }
   }
 };
-export const apiVersion1: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
+export const appSettingKey: msRest.OperationURLParameter = {
+  parameterPath: "appSettingKey",
   mapper: {
     required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-11-01',
+    serializedName: "appSettingKey",
     type: {
       name: "String"
     }
@@ -142,18 +138,6 @@ export const detailed: msRest.OperationQueryParameter = {
     }
   }
 };
-export const details: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "details"
-  ],
-  mapper: {
-    serializedName: "details",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
 export const detectorName: msRest.OperationURLParameter = {
   parameterPath: "detectorName",
   mapper: {
@@ -229,7 +213,7 @@ export const durationInSeconds: msRest.OperationQueryParameter = {
     }
   }
 };
-export const endTime0: msRest.OperationQueryParameter = {
+export const endTime: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "endTime"
@@ -238,18 +222,6 @@ export const endTime0: msRest.OperationQueryParameter = {
     serializedName: "endTime",
     type: {
       name: "DateTime"
-    }
-  }
-};
-export const endTime1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "endTime"
-  ],
-  mapper: {
-    serializedName: "endTime",
-    type: {
-      name: "String"
     }
   }
 };
@@ -423,6 +395,26 @@ export const instanceId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "instanceId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const keyName: msRest.OperationURLParameter = {
+  parameterPath: "keyName",
+  mapper: {
+    required: true,
+    serializedName: "keyName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const keyType: msRest.OperationURLParameter = {
+  parameterPath: "keyType",
+  mapper: {
+    required: true,
+    serializedName: "keyType",
     type: {
       name: "String"
     }
@@ -726,7 +718,7 @@ export const sourceControlType: msRest.OperationURLParameter = {
     }
   }
 };
-export const startTime0: msRest.OperationQueryParameter = {
+export const startTime: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "startTime"
@@ -735,18 +727,6 @@ export const startTime0: msRest.OperationQueryParameter = {
     serializedName: "startTime",
     type: {
       name: "DateTime"
-    }
-  }
-};
-export const startTime1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "startTime"
-  ],
-  mapper: {
-    serializedName: "startTime",
-    type: {
-      name: "String"
     }
   }
 };
@@ -782,17 +762,7 @@ export const synchronous: msRest.OperationQueryParameter = {
     }
   }
 };
-export const threadId: msRest.OperationURLParameter = {
-  parameterPath: "threadId",
-  mapper: {
-    required: true,
-    serializedName: "threadId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const timeGrain0: msRest.OperationQueryParameter = {
+export const timeGrain: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "timeGrain"
@@ -802,18 +772,6 @@ export const timeGrain0: msRest.OperationQueryParameter = {
     constraints: {
       Pattern: /PT[1-9][0-9]+[SMH]/
     },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const timeGrain1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timeGrain"
-  ],
-  mapper: {
-    serializedName: "timeGrain",
     type: {
       name: "String"
     }
