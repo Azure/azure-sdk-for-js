@@ -248,7 +248,7 @@ async function analyzeReceiptInternal(
     finalOptions.requestOptions?.customHeaders || {};
   customHeaders["Content-Type"] = contentType;
   try {
-      return await client.analyzeReceiptAsync({
+    return await client.analyzeReceiptAsync({
       ...operationOptionsToRequestOptionsBase(finalOptions),
       body,
       customHeaders

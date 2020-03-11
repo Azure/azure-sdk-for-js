@@ -204,13 +204,17 @@ export class CustomFormRecognizerClient {
     // (undocumented)
     extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
     // (undocumented)
-    getModel(modelId: string, options: GetModelOptions): Promise<LabeledFormModelResponse | CustomFormModelResponse>;
+    getLabeledModel(modelId: string, options: GetModelOptions): Promise<LabeledFormModelResponse>;
+    // (undocumented)
+    getModel(modelId: string, options: GetModelOptions): Promise<CustomFormModelResponse>;
     // (undocumented)
     getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
     // (undocumented)
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse>;
     // (undocumented)
-    startTraining(source: string, options?: StartTrainingOptions): Promise<PollerLike<PollOperationState<Model>, Model>>;
+    startTraining(source: string, options?: StartTrainingOptions<CustomFormModelResponse>): Promise<PollerLike<PollOperationState<CustomFormModelResponse>, CustomFormModelResponse>>;
+    // (undocumented)
+    startTrainingWithLabel(source: string, options?: StartTrainingOptions<LabeledFormModelResponse>): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>>;
 }
 
 // @public
@@ -714,16 +718,20 @@ export type StartAnalyzeReceiptOptions = ExtractReceiptOptions & {
 };
 
 // @public
-export type StartTrainingOptions = TrainCustomModelOptions & {
+export type StartTrainingOptions<T> = TrainCustomModelOptions & {
     intervalInMs?: number;
-    onProgress?: (state: StartTrainingPollState) => void;
+    onProgress?: (state: StartTrainingPollState<T>) => void;
     resumeFrom?: string;
 };
 
 // @public
-export class StartTrainingPoller extends Poller<StartTrainingPollState, Model> {
+export class StartTrainingPoller<T extends {
+    modelInfo: {
+        status: ModelStatus;
+    };
+}> extends Poller<StartTrainingPollState<T>, T> {
     // Warning: (ae-forgotten-export) The symbol "StartTrainingPollerOptions" needs to be exported by the entry point index.d.ts
-    constructor(options: StartTrainingPollerOptions);
+    constructor(options: StartTrainingPollerOptions<T>);
     // (undocumented)
     delay(): Promise<void>;
     // (undocumented)
@@ -731,9 +739,9 @@ export class StartTrainingPoller extends Poller<StartTrainingPollState, Model> {
 }
 
 // @public (undocumented)
-export interface StartTrainingPollState extends PollOperationState<Model> {
+export interface StartTrainingPollState<T> extends PollOperationState<T> {
     // (undocumented)
-    readonly client: TrainPollerClient;
+    readonly client: TrainPollerClient<T>;
     // (undocumented)
     modelId?: string;
     // (undocumented)
@@ -810,7 +818,8 @@ export interface TrainingDocumentInfo {
 }
 
 // @public
-export type TrainPollerClient = Pick<CustomFormRecognizerClient, "getModel"> & {
+export type TrainPollerClient<T> = {
+    getModel: (modelId: string, options: GetModelOptions) => Promise<T>;
     trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions) => Promise<TrainCustomModelAsyncResponse>;
 };
 

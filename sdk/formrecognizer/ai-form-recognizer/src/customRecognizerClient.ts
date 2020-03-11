@@ -79,9 +79,9 @@ export type TrainCustomModelOptions = FormRecognizerOperationOptions & {
 /**
  * Options for the start training model operation.
  */
-export type StartTrainingOptions = TrainCustomModelOptions & {
+export type StartTrainingOptions<T> = TrainCustomModelOptions & {
   intervalInMs?: number;
-  onProgress?: (state: StartTrainingPollState) => void;
+  onProgress?: (state: StartTrainingPollState<T>) => void;
   resumeFrom?: string;
 }
 
@@ -231,7 +231,36 @@ export class CustomFormRecognizerClient {
   }
 
   public async getModel(modelId: string, options: GetModelOptions)
-  : Promise<LabeledFormModelResponse | CustomFormModelResponse> {
+  : Promise<CustomFormModelResponse> {
+    const realOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-getModel",
+      realOptions
+    );
+
+    try {
+      const respnose = await this.client.getCustomModel(
+        modelId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+      if (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields) {
+        throw new Error(`The model ${modelId} is trained with labels.`)
+      } else {
+        return { kind: "unlabeled", ...respnose }
+      }
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getLabeledModel(modelId: string, options: GetModelOptions)
+  : Promise<LabeledFormModelResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-getModel",
@@ -246,7 +275,7 @@ export class CustomFormRecognizerClient {
       if (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields) {
         return { kind: "labeled", ...respnose }
       } else {
-        return { kind: "unlabeled", ...respnose }
+        throw new Error(`The model ${modelId} is not rained with labels.`)
       }
     } catch (e) {
       span.setStatus({
@@ -321,15 +350,41 @@ export class CustomFormRecognizerClient {
 
   public async startTraining(
     source: string,
-    options: StartTrainingOptions = {}
-  ): Promise<PollerLike<PollOperationState<Model>, Model>> {
-    const trainPollerClient: TrainPollerClient = {
-      getModel: (...args) => this.getModel(...args),
+    options: StartTrainingOptions<CustomFormModelResponse> = {}
+  ): Promise<PollerLike<PollOperationState<CustomFormModelResponse>, CustomFormModelResponse>> {
+    const trainPollerClient: TrainPollerClient<CustomFormModelResponse> = {
+      getModel: (modelId: string, options: GetModelOptions) => this.getModel(modelId, options),
       trainCustomModelInternal: (
         source: string,
-        useLabelFile?: boolean,
+        _useLabelFile?: boolean,
         options?: TrainCustomModelOptions
-      ) => trainCustomModelInternal(this.client, source, useLabelFile, options)
+      ) => trainCustomModelInternal(this.client, source, false, options)
+    };
+
+    const poller = new StartTrainingPoller({
+      client: trainPollerClient,
+      source,
+      intervalInMs: options.intervalInMs,
+      onProgress: options.onProgress,
+      resumeFrom: options.resumeFrom,
+      trainModelOptions: options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  public async startTrainingWithLabel(
+    source: string,
+    options: StartTrainingOptions<LabeledFormModelResponse> = {}
+  ): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>> {
+    const trainPollerClient: TrainPollerClient<LabeledFormModelResponse> = {
+      getModel: (modelId: string, options: GetModelOptions) => this.getLabeledModel(modelId, options),
+      trainCustomModelInternal: (
+        source: string,
+        _useLabelFile?: boolean,
+        options?: TrainCustomModelOptions
+      ) => trainCustomModelInternal(this.client, source, true, options)
     };
 
     const poller = new StartTrainingPoller({
