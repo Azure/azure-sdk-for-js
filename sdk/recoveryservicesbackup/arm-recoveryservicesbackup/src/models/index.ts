@@ -4122,6 +4122,53 @@ export interface ValidateOperationsResponse {
 }
 
 /**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+}
+
+/**
+ * The resource management error response.
+ */
+export interface ErrorResponse {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorResponse[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
  * Contains the possible cases for FeatureSupportRequest.
  */
 export type FeatureSupportRequestUnion = FeatureSupportRequest | AzureBackupGoalFeatureSupportRequest | AzureVMResourceFeatureSupportRequest;
@@ -8070,6 +8117,26 @@ export type BackupResourceVaultConfigsGetResponse = BackupResourceVaultConfigRes
  * Contains response data for the update operation.
  */
 export type BackupResourceVaultConfigsUpdateResponse = BackupResourceVaultConfigResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupResourceVaultConfigResource;
+    };
+};
+
+/**
+ * Contains response data for the put operation.
+ */
+export type BackupResourceVaultConfigsPutResponse = BackupResourceVaultConfigResource & {
   /**
    * The underlying HTTP response.
    */
