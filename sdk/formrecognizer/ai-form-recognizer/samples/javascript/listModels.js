@@ -22,7 +22,7 @@ async function main() {
 
   const result = await client.listModels();
   let i = 0;
-  for await (const model of result.modelList) {
+  for await (const model of result) {
     console.log(`model ${i++}:`);
     console.log(model);
   }

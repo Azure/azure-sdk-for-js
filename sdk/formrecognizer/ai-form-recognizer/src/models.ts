@@ -59,7 +59,7 @@ export {
 /**
  * Information about extracted text elements  in documents
  */
-export type TextElement = TextWord | TextLine;
+export type TextElement = (TextWord | TextLine) & { pageNumber: number };
 
 export interface DataTableCell {
   boundingBox: number[];
@@ -90,8 +90,8 @@ export interface DataTableRow {
 
 
 export interface KeyValueElement {
-  boundingBox?: TextElement[];
-  elements?: string[];
+  boundingBox?: number[];
+  elements?: TextElement[];
   text: string;
 }
 
