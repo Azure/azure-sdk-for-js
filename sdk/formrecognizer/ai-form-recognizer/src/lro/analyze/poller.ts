@@ -13,7 +13,7 @@ export { OperationStatus };
 
 export type AnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | ExtractCustomFormOptions;
 
-export interface PollerOperationOptions<T extends ICanHazStatus> {
+export interface PollerOperationOptions<T> {
   /**
    * Time between each polling in milliseconds.
    */
@@ -38,7 +38,7 @@ export interface ICanHazStatus { status: OperationStatus }
  * Defines the operations from a analyze client that are needed for the poller
  * to work
  */
-export type AnalyzePollerClient<T extends ICanHazStatus> = {
+export type AnalyzePollerClient<T> = {
   // returns a result id to retrieve results
   startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) => Promise<{ operationLocation: string }>;
   // retrieves analyze result
@@ -48,7 +48,7 @@ export type AnalyzePollerClient<T extends ICanHazStatus> = {
   ) => Promise<T>;
 };
 
-export interface StartAnalyzePollState<T extends ICanHazStatus> extends PollOperationState<T> {
+export interface StartAnalyzePollState<T> extends PollOperationState<T> {
   readonly client: AnalyzePollerClient<T>;
   body?: HttpRequestBody;
   contentType: SupportedContentType;
@@ -58,13 +58,13 @@ export interface StartAnalyzePollState<T extends ICanHazStatus> extends PollOper
   readonly analyzeOptions?: AnalyzeOptions;
 }
 
-export interface StartAnalyzePollerOperation<T extends ICanHazStatus>
+export interface StartAnalyzePollerOperation<T>
 extends PollOperation<StartAnalyzePollState<T>, T> {}
 
 /**
  * @internal
  */
-export type StartAnalyzePollerOptions<T extends ICanHazStatus> = {
+export type StartAnalyzePollerOptions<T> = {
   client: AnalyzePollerClient<T>;
   body: HttpRequestBody;
   contentType: SupportedContentType;
