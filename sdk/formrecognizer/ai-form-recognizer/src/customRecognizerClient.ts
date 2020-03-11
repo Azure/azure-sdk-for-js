@@ -27,7 +27,7 @@ import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, AnalyzeOptions } from './lro/analyze/poller';
-import { LabeledFormModelResponse, CustomFormModelResponse, AnalyzeFormResultResponse } from './models';
+import { LabeledFormModelResponse, CustomFormModelResponse, AnalyzeFormResultResponse, LabeledFormResultResponse } from './models';
 
 import {
   GetCustomModelsResponse,
@@ -67,6 +67,13 @@ export type DeleteModelOptions = FormRecognizerOperationOptions;
 export type GetModelOptions = FormRecognizerOperationOptions;
 
 /**
+ * Options for the get model operation.
+ */
+export type GetLabeledModelOptions = FormRecognizerOperationOptions & {
+  includeKeys?: boolean;
+};
+
+/**
  * Options for traing models
  */
 export type TrainCustomModelOptions = FormRecognizerOperationOptions & {
@@ -98,7 +105,6 @@ export type ExtractCustomFormOptions = FormRecognizerOperationOptions & {
   includeTextDetails?: boolean;
 }
 
-
 /**
  * Options for starting analyzing form operation
  */
@@ -108,7 +114,17 @@ export type StartAnalyzeFormOptions = ExtractCustomFormOptions & {
   resumeFrom?: string;
 }
 
+/**
+ * Options for starting analyzing form operation
+ */
+export type StartAnalyzeLabeledFormOptions = ExtractCustomFormOptions & {
+  intervalInMs?: number;
+  onProgress?: (state: StartAnalyzePollState<LabeledFormResultResponse>) => void;
+  resumeFrom?: string;
+}
+
 export type FormPollerLike = PollerLike<PollOperationState<AnalyzeFormResultResponse>, AnalyzeFormResultResponse>
+export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>
 
 type GetExtractedCustomFormOptions = FormRecognizerOperationOptions;
 
@@ -248,7 +264,7 @@ export class CustomFormRecognizerClient {
       if (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields) {
         throw new Error(`The model ${modelId} is trained with labels.`)
       } else {
-        return respnose;
+        return respnose as unknown as CustomFormModelResponse;
       }
     } catch (e) {
       span.setStatus({
@@ -261,7 +277,7 @@ export class CustomFormRecognizerClient {
     }
   }
 
-  public async getLabeledModel(modelId: string, options: GetModelOptions)
+  public async getLabeledModel(modelId: string, options: GetLabeledModelOptions)
   : Promise<LabeledFormModelResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -270,16 +286,12 @@ export class CustomFormRecognizerClient {
     );
 
     try {
-      const respnose = await this.client.getCustomModel(
+      const response = await this.client.getCustomModel(
         modelId,
-        {
-          ...operationOptionsToRequestOptionsBase(finalOptions),
-          // Include keys is always set to true -- the service does not have a use case for includeKeys: false.
-          includeKeys: true
-        }
+        operationOptionsToRequestOptionsBase(finalOptions)
       );
-      if (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields) {
-        return respnose;
+      if (response.trainResult?.averageModelAccuracy || response.trainResult?.fields) {
+        return response as unknown as LabeledFormModelResponse;
       } else {
         throw new Error(`The model ${modelId} is not rained with labels.`)
       }
@@ -477,6 +489,65 @@ export class CustomFormRecognizerClient {
       span.end();
     }
   }
+
+  private async getExtractedLabeledForm(
+    modelId: string,
+    resultId: string,
+    options?: GetExtractedCustomFormOptions
+  ): Promise<LabeledFormResultResponse> {
+    const realOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-getExtractedCustomFormResult",
+      realOptions
+    );
+
+    try {
+      const result = await this.client.getAnalyzeFormResult(
+        modelId,
+        resultId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+      return toLabeledFormResultResponse(result); // TODO: transform to custom form result response defined in model.ts
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+
+  public async extractLabeledForm(
+    modelId: string,
+    body: HttpRequestBody,
+    contentType: SupportedContentType,
+    options: StartAnalyzeLabeledFormOptions
+  ): Promise<LabeledFormPollerLike> {
+    if (!modelId) {
+      throw new RangeError("Invalid modelId")
+    }
+    const analyzePollerClient: AnalyzePollerClient<LabeledFormResultResponse> = {
+      startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) =>
+       analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
+      getAnalyzeResult: (resultId: string,
+        options: { abortSignal?: AbortSignalLike }) => this.getExtractedLabeledForm(modelId, resultId, options)
+    }
+
+    const poller = new StartAnalyzePoller({
+      client: analyzePollerClient,
+      modelId,
+      body,
+      contentType,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
 }
 
 function toCustomFormResultResponse(original: GetAnalyzeFormResultResponse): AnalyzeFormResultResponse {
@@ -487,6 +558,22 @@ function toCustomFormResultResponse(original: GetAnalyzeFormResultResponse): Ana
     _response: original._response,
     analyzeResult: !!original.analyzeResult ? {
       version: original.analyzeResult.version,
+      readResults: original.analyzeResult?.readResults,
+      pageResults: [], // TODO: transform from original.analyzeResult?.pageResults,
+      errors: original.analyzeResult?.errors,
+    } : undefined
+  }
+}
+
+function toLabeledFormResultResponse(original: GetAnalyzeFormResultResponse): LabeledFormResultResponse {
+  return {
+    status: original.status,
+    createdDateTime: original.createdDateTime,
+    lastUpdatedDateTime: original.createdDateTime,
+    _response: original._response,
+    analyzeResult: !!original.analyzeResult ? {
+      version: original.analyzeResult.version,
+      documentResults: original.analyzeResult.documentResults,
       readResults: original.analyzeResult?.readResults,
       pageResults: [], // TODO: transform from original.analyzeResult?.pageResults,
       errors: original.analyzeResult?.errors,

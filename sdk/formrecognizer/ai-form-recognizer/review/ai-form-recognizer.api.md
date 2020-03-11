@@ -166,11 +166,11 @@ export interface CommonFieldValue {
 // @public (undocumented)
 export interface CustomFormModel {
     // (undocumented)
-    keys?: KeysResult;
+    keys: KeysResult;
     // (undocumented)
     modelInfo: ModelInfo;
     // (undocumented)
-    trainResult?: CustomFormModelTrainResult;
+    trainResult?: FormModelTrainResult;
 }
 
 // @public (undocumented)
@@ -180,14 +180,6 @@ export type CustomFormModelResponse = CustomFormModel & {
         parsedBody: Model;
     };
 };
-
-// @public (undocumented)
-export interface CustomFormModelTrainResult {
-    // (undocumented)
-    errors?: ErrorInformation[];
-    // (undocumented)
-    trainingDocuments: TrainingDocumentInfo[];
-}
 
 // @public
 export class CustomFormRecognizerClient {
@@ -200,7 +192,9 @@ export class CustomFormRecognizerClient {
     // (undocumented)
     extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
     // (undocumented)
-    getLabeledModel(modelId: string, options: GetModelOptions): Promise<LabeledFormModelResponse>;
+    extractLabeledForm(modelId: string, body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    // (undocumented)
+    getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
     // (undocumented)
     getModel(modelId: string, options?: GetModelOptions): Promise<CustomFormModelResponse>;
     // (undocumented)
@@ -319,6 +313,14 @@ export interface FormFieldsReport {
 }
 
 // @public (undocumented)
+export interface FormModelTrainResult {
+    // (undocumented)
+    errors?: ErrorInformation[];
+    // (undocumented)
+    trainingDocuments: TrainingDocumentInfo[];
+}
+
+// @public (undocumented)
 export type FormPollerLike = PollerLike<PollOperationState<AnalyzeFormResultResponse>, AnalyzeFormResultResponse>;
 
 // @public
@@ -351,6 +353,11 @@ export type GetCustomModelsResponse = ModelsModel & {
         bodyAsText: string;
         parsedBody: ModelsModel;
     };
+};
+
+// @public
+export type GetLabeledModelOptions = FormRecognizerOperationOptions & {
+    includeKeys?: boolean;
 };
 
 // @public
@@ -414,7 +421,7 @@ export interface LabeledFormModel {
     // (undocumented)
     modelInfo: ModelInfo;
     // (undocumented)
-    trainResult?: TrainResult;
+    trainResult?: LabeledFormTrainResult;
 }
 
 // @public (undocumented)
@@ -424,6 +431,28 @@ export type LabeledFormModelResponse = LabeledFormModel & {
         parsedBody: Model;
     };
 };
+
+// @public (undocumented)
+export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>;
+
+// @public (undocumented)
+export type LabeledFormResult = AnalyzeResult;
+
+// @public (undocumented)
+export type LabeledFormResultResponse = AnalyzeOperationResultModel & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
+};
+
+// @public (undocumented)
+export interface LabeledFormTrainResult {
+    averageModelAccuracy: number;
+    errors?: ErrorInformation[];
+    fields: FormFieldsReport[];
+    trainingDocuments: TrainingDocumentInfo[];
+}
 
 // @public
 export type Language = 'en' | 'es';
@@ -664,6 +693,13 @@ export { RestResponse }
 export type StartAnalyzeFormOptions = ExtractCustomFormOptions & {
     intervalInMs?: number;
     onProgress?: (state: StartAnalyzePollState<AnalyzeFormResultResponse>) => void;
+    resumeFrom?: string;
+};
+
+// @public
+export type StartAnalyzeLabeledFormOptions = ExtractCustomFormOptions & {
+    intervalInMs?: number;
+    onProgress?: (state: StartAnalyzePollState<LabeledFormResultResponse>) => void;
     resumeFrom?: string;
 };
 

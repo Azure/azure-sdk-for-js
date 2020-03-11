@@ -39,7 +39,6 @@ async function main() {
   console.log(response.status);
   console.log(response.analyzeResult?.readResults);
   console.log(response.analyzeResult?.pageResults);
-  console.log(response.analyzeResult?.errors);
 }
 
 main().catch((err) => {

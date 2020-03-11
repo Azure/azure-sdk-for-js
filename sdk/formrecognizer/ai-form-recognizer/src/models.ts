@@ -350,6 +350,13 @@ export type AnalyzeFormOperationResult = Omit<AnalyzeOperationResultModel, 'anal
   analyzeResult?: AnalyzeFormResult;
 }
 
+export type LabeledFormResult = AnalyzeResult;
+
+export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+  analyzeResult?: LabeledFormResult;
+}
+
+
 export type AnalyzeFormResultResponse = AnalyzeFormOperationResult & {
   /**
    * The underlying HTTP response.
@@ -366,20 +373,57 @@ export type AnalyzeFormResultResponse = AnalyzeFormOperationResult & {
     parsedBody: AnalyzeOperationResultModel;
   };
 }
-export interface CustomFormModelTrainResult {
+
+export type LabeledFormResultResponse = LabeledFormOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalyzeOperationResultModel;
+  };
+}
+
+export interface FormModelTrainResult {
   trainingDocuments: TrainingDocumentInfo[];
   errors?: ErrorInformation[];
 }
 
 export interface CustomFormModel {
   modelInfo: ModelInfo;
-  keys?: KeysResult;
-  trainResult?: CustomFormModelTrainResult;
+  keys: KeysResult;
+  trainResult?: FormModelTrainResult;
+}
+
+export interface LabeledFormTrainResult {
+  /**
+   * List of the documents used to train the model and any errors reported in each document.
+   */
+  trainingDocuments: TrainingDocumentInfo[];
+  /**
+   * List of fields used to train the model and the train operation error reported by each.
+   */
+  fields: FormFieldsReport[];
+  /**
+   * Average accuracy.
+   */
+  averageModelAccuracy: number;
+  /**
+   * Errors returned during the training operation.
+   */
+  errors?: ErrorInformation[];
 }
 
 export interface LabeledFormModel{
   modelInfo: ModelInfo;
-  trainResult?: TrainResult;
+  trainResult?: LabeledFormTrainResult;
 };
 
 
