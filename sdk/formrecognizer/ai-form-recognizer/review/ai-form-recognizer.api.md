@@ -433,13 +433,18 @@ export type LabeledFormModelResponse = LabeledFormModel & {
 };
 
 // @public (undocumented)
+export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+    analyzeResult?: LabeledFormResult;
+};
+
+// @public (undocumented)
 export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>;
 
 // @public (undocumented)
 export type LabeledFormResult = AnalyzeResult;
 
 // @public (undocumented)
-export type LabeledFormResultResponse = AnalyzeOperationResultModel & {
+export type LabeledFormResultResponse = LabeledFormOperationResult & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: AnalyzeOperationResultModel;
