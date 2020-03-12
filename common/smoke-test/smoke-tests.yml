@@ -66,6 +66,7 @@ jobs:
             AZURE_CLIENT_ID='$(aad-azure-sdk-test-client-id)'
             COSMOS_KEY='$(smoke-tests-cosmos-key)'
             COSMOS_ENDPOINT='$(smoke-tests-cosmos-endpoint)'
+            AZURE_AUTHORITY_HOST=$(aad-azure-sdk-test-authority-uri)
           };
           foreach ($key in $variables.Keys) {
             Write-Host "Setting variable '$key'"
@@ -86,13 +87,14 @@ jobs:
             AZURE_CLIENT_ID='$(aad-azure-sdk-test-client-id-gov)'
             COSMOS_KEY='$(smoke-tests-cosmos-key-gov)'
             COSMOS_ENDPOINT='$(smoke-tests-cosmos-endpoint-gov)'
+            AZURE_AUTHORITY_HOST=$(aad-azure-sdk-test-authority-uri-gov)
           };
           foreach ($key in $variables.Keys) {
             Write-Host "Setting variable '$key'"
             Write-Host "##vso[task.setvariable variable=_$key;issecret=true;]$($variables[$key])"
             Write-Host "##vso[task.setvariable variable=$key;]$($variables[$key])"
           }
-        displayName: Set secrets for public cloud
+        displayName: Set secrets for gov cloud
         condition: and(succeeded(), eq(variables['CloudType'], 'gov'))
 
       - script: node ./common/smoke-test/app.js
