@@ -163,6 +163,8 @@ export class ServiceBusTestHelpers {
   /**
    * Gets a peek/lock receiver for the specified `TestClientType`
    * NOTE: the underlying receiver may be a `SessionReceiverImpl`
+   *
+   * The receiver created by this method will be cleaned up by `afterEach()`
    */
   async getPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
@@ -198,6 +200,8 @@ export class ServiceBusTestHelpers {
   /**
    * Gets a receiveAndDelete receiver for the specified `TestClientType`
    * NOTE: the underlying receiver may be a `SessionReceiverImpl`
+   *
+   * The receiver created by this method will be cleaned up by `afterEach()`
    */
   async getReceiveAndDeleteReceiver(
     entityNames: ReturnType<typeof getEntityNames>
