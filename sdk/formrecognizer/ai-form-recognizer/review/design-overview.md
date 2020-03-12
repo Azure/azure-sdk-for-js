@@ -20,8 +20,10 @@ export class LayoutRecognizerClient {
 
 ### Layout Models
 
-- We changed the type of `elements` from `string[]` to `TextElement[]`.
-- We changed the type of `tables`
+Patching the original response from service:
+
+- Re-define the type of `elements` from `string[]` to `TextElement[]`.
+- Re-define the type of `tables`.
 
 ```ts
 export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
@@ -50,7 +52,7 @@ export interface LayoutPageResult {
     tables?: DataTable[];
 };
 
-export type TextElement = TextWord | TextLine;
+export type TextElement = (TextWord | TextLine) & { pageNumber: number };
 
 export interface TextLine {
     boundingBox: number[];
@@ -66,8 +68,8 @@ export interface TextWord {
 }
 
 export interface KeyValueElement {
-    boundingBox?: TextElement[];
-    elements?: string[];
+    boundingBox?: number[];
+    elements?: TextElement[];
     text: string;
 }
 
@@ -110,7 +112,7 @@ export interface DataTableCell {
   const client = new LayoutRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
 
   const readStream = fs.createReadStream(path);
-  const poller = await client.extractLayout(() => readStream, "image/jpeg");
+  const poller = await client.extractLayout(readStream, "image/jpeg");
   await poller.pollUntilDone();
   const response = poller.getResult();
 
@@ -282,7 +284,7 @@ export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
   const readStream = fs.createReadStream(path);
 
   const client = new ReceiptRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.extractReceipt(() => readStream, "image/jpeg");
+  const poller = await client.extractReceipt(readStream, "image/jpeg");
 
   await poller.pollUntilDone();
   const response = poller.getResult();
@@ -305,15 +307,19 @@ export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
 
 ```ts
 export class CustomFormRecognizerClient {
+export class CustomFormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     extractCustomForm(modelId: string, body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeFormOptions): Promise<FormPollerLike>;
     extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
-    getModel(modelId: string, options: GetModelOptions): Promise<LabeledFormModelResponse | CustomFormModelResponse>;
+    extractLabeledForm(modelId: string, body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
+    getModel(modelId: string, options?: GetModelOptions): Promise<CustomFormModelResponse>;
     getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse>;
-    startTraining(source: string, options?: StartTrainingOptions): Promise<PollerLike<PollOperationState<Model>, Model>>;
+    startTraining(source: string, options?: StartTrainingOptions<CustomFormModelResponse>): Promise<PollerLike<PollOperationState<CustomFormModelResponse>, CustomFormModelResponse>>;
+    startTrainingWithLabel(source: string, options?: StartTrainingOptions<LabeledFormModelResponse>): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>>;
 }
 ```
 
@@ -324,8 +330,8 @@ export class CustomFormRecognizerClient {
 ```typescript
 export interface TrainResult {
   trainingDocuments: TrainingDocumentInfo[];
-  fields?: FormFieldsReport[];
-  averageModelAccuracy?: number;
+  fields: FormFieldsReport[];
+  averageModelAccuracy: number;
   errors?: ErrorInformation[];
 }
 
@@ -335,14 +341,12 @@ export interface CustomFormModelTrainResult {
 }
 
 export interface CustomFormModel {
-  kind: "unlabeled";
   modelInfo: ModelInfo;
   keys?: KeysResult;
   trainResult?: CustomFormModelTrainResult;
 }
 
 export interface LabeledFormModel{
-  kind: "labeled";
   modelInfo: ModelInfo;
   trainResult?: TrainResult;
 };
@@ -426,7 +430,7 @@ export interface ErrorInformation {
   const readStream = fs.createReadStream(path);
 
   const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.extractCustomForm(modelId, () => readStream, "application/pdf");
+  const poller = await client.extractCustomForm(modelId, readStream, "application/pdf");
   await poller.pollUntilDone();
   const response = poller.getResult();
 
@@ -437,7 +441,7 @@ export interface ErrorInformation {
   console.log(response.status);
   console.log("### Page results:")
 
-  for (const page of response.analyzeResult?.pageResults ?? []) {
+  for (const page of response.analyzeResult.pageResults || []) {
     console.log(`Page number: ${page.page}`);
     console.log(`cluster Id: ${page.clusterId}`);
     console.log("key-value pairs");
@@ -454,8 +458,8 @@ export interface ErrorInformation {
     }
   }
 
-  console.log(response.analyzeResult?.readResults);
-  console.log(response.analyzeResult?.errors);
+  console.log(response.analyzeResult.readResults);
+  console.log(response.analyzeResult.errors);
 ```
 
 - List Models
@@ -471,11 +475,19 @@ export interface ErrorInformation {
   }
 ```
 
+- Get Model with labels
+
+```js
+  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const result = await client.getLabeledModel(modelId);
+  console.log(result);
+```
+
 - Get Model
 
 ```js
   const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const result = await client.getModel(modelId, { includeKeys: true });
+  const result = await client.getModel(modelId);
   console.log(result);
 ```
 

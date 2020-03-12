@@ -9,7 +9,6 @@ import * as coreHttp from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { Poller } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
@@ -20,7 +19,20 @@ import { TokenCredential } from '@azure/identity';
 import { WebResource } from '@azure/core-http';
 
 // @public (undocumented)
+export type AnalyzeFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+    analyzeResult?: AnalyzeFormResult;
+};
+
+// @public (undocumented)
 export type AnalyzeFormResult = Omit<AnalyzeResult, "documentResults">;
+
+// @public (undocumented)
+export type AnalyzeFormResultResponse = AnalyzeFormOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
+};
 
 // @public
 export interface AnalyzeLayoutAsyncHeaders {
@@ -35,12 +47,26 @@ export type AnalyzeLayoutAsyncResponseModel = AnalyzeLayoutAsyncHeaders & {
 };
 
 // @public (undocumented)
-export type AnalyzeLayoutOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+export interface AnalyzeLayoutOperationResult {
+    // (undocumented)
     analyzeResult?: AnalyzeLayoutResult;
-};
+    // (undocumented)
+    createdDateTime: Date;
+    // (undocumented)
+    lastUpdatedDateTime: Date;
+    // (undocumented)
+    status: OperationStatus;
+}
 
 // @public (undocumented)
-export type AnalyzeLayoutResult = Omit<AnalyzeResult, 'documentResults'>;
+export interface AnalyzeLayoutResult {
+    // (undocumented)
+    pageResults?: LayoutPageResult[];
+    // (undocumented)
+    readResults: ReadResult[];
+    // (undocumented)
+    version: string;
+}
 
 // @public
 export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
@@ -61,10 +87,8 @@ export interface AnalyzeOperationResultModel {
 // @public (undocumented)
 export type AnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | ExtractCustomFormOptions;
 
-// Warning: (ae-forgotten-export) The symbol "ICanHazStatus" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type AnalyzePollerClient<T extends ICanHazStatus> = {
+export type AnalyzePollerClient<T> = {
     startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) => Promise<{
         operationLocation: string;
     }>;
@@ -73,15 +97,27 @@ export type AnalyzePollerClient<T extends ICanHazStatus> = {
     }) => Promise<T>;
 };
 
-// @public
-export type AnalyzeReceiptOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+// @public (undocumented)
+export interface AnalyzeReceiptOperationResult {
+    // (undocumented)
     analyzeResult?: AnalyzeReceiptResult;
-};
+    // (undocumented)
+    createdDateTime: Date;
+    // (undocumented)
+    lastUpdatedDateTime: Date;
+    // (undocumented)
+    status: OperationStatus;
+}
 
 // @public
-export type AnalyzeReceiptResult = Omit<AnalyzeResult, 'documentResults'> & {
+export interface AnalyzeReceiptResult {
+    // (undocumented)
+    readResults: ReadResult[];
+    // (undocumented)
     receiptResults?: ReceiptResult[];
-};
+    // (undocumented)
+    version: string;
+}
 
 // @public
 export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
@@ -128,10 +164,14 @@ export interface CommonFieldValue {
 }
 
 // @public (undocumented)
-export type CustomFormModel = Omit<Model, "trainResult"> & {
-    kind: "unlabeled";
-    trainResult?: CustomFormModelTrainResult;
-};
+export interface CustomFormModel {
+    // (undocumented)
+    keys: KeysResult;
+    // (undocumented)
+    modelInfo: ModelInfo;
+    // (undocumented)
+    trainResult?: FormModelTrainResult;
+}
 
 // @public (undocumented)
 export type CustomFormModelResponse = CustomFormModel & {
@@ -140,9 +180,6 @@ export type CustomFormModelResponse = CustomFormModel & {
         parsedBody: Model;
     };
 };
-
-// @public (undocumented)
-export type CustomFormModelTrainResult = Omit<TrainResult, "averageModelAccuracy" | "fields">;
 
 // @public
 export class CustomFormRecognizerClient {
@@ -155,15 +192,19 @@ export class CustomFormRecognizerClient {
     // (undocumented)
     extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
     // (undocumented)
-    getModel(modelId: string, options: GetModelOptions): Promise<LabeledFormModelResponse | CustomFormModelResponse>;
+    extractLabeledForm(modelId: string, body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    // (undocumented)
+    getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
+    // (undocumented)
+    getModel(modelId: string, options?: GetModelOptions): Promise<CustomFormModelResponse>;
     // (undocumented)
     getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
     // (undocumented)
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse>;
     // (undocumented)
-    listModelsAll(settings: PageSettings, options?: ListModelsOptions): AsyncIterableIterator<ModelInfo>;
+    startTraining(source: string, options?: StartTrainingOptions<CustomFormModelResponse>): Promise<PollerLike<PollOperationState<CustomFormModelResponse>, CustomFormModelResponse>>;
     // (undocumented)
-    startTraining(source: string, options?: StartTrainingOptions): Promise<PollerLike<PollOperationState<Model>, Model>>;
+    startTrainingWithLabel(source: string, options?: StartTrainingOptions<LabeledFormModelResponse>): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>>;
 }
 
 // @public
@@ -172,10 +213,29 @@ export interface DataTable {
     rows: DataTableRow[];
 }
 
-// @public
-export type DataTableCell = Omit<DataTableCellModel, "elements"> & {
+// @public (undocumented)
+export interface DataTableCell {
+    // (undocumented)
+    boundingBox: number[];
+    // (undocumented)
+    columnIndex: number;
+    // (undocumented)
+    columnSpan?: number;
+    // (undocumented)
+    confidence: number;
+    // (undocumented)
     elements?: TextElement[];
-};
+    // (undocumented)
+    isFooter?: boolean;
+    // (undocumented)
+    isHeader?: boolean;
+    // (undocumented)
+    rowIndex: number;
+    // (undocumented)
+    rowSpan?: number;
+    // (undocumented)
+    text: string;
+}
 
 // @public
 export interface DataTableCellModel {
@@ -253,7 +313,15 @@ export interface FormFieldsReport {
 }
 
 // @public (undocumented)
-export type FormPollerLike = PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>;
+export interface FormModelTrainResult {
+    // (undocumented)
+    errors?: ErrorInformation[];
+    // (undocumented)
+    trainingDocuments: TrainingDocumentInfo[];
+}
+
+// @public (undocumented)
+export type FormPollerLike = PollerLike<PollOperationState<AnalyzeFormResultResponse>, AnalyzeFormResultResponse>;
 
 // @public
 export interface FormRecognizerClientOptions extends PipelineOptions {
@@ -288,9 +356,12 @@ export type GetCustomModelsResponse = ModelsModel & {
 };
 
 // @public
-export type GetModelOptions = FormRecognizerOperationOptions & {
+export type GetLabeledModelOptions = FormRecognizerOperationOptions & {
     includeKeys?: boolean;
 };
+
+// @public
+export type GetModelOptions = FormRecognizerOperationOptions;
 
 // @public
 export type GetSummaryOptions = FormRecognizerOperationOptions;
@@ -309,9 +380,14 @@ export interface KeysResult {
 }
 
 // @public (undocumented)
-export type KeyValueElement = Omit<KeyValueElementModel, "elements"> & {
+export interface KeyValueElement {
+    // (undocumented)
+    boundingBox?: number[];
+    // (undocumented)
     elements?: TextElement[];
-};
+    // (undocumented)
+    text: string;
+}
 
 // @public
 export interface KeyValueElementModel {
@@ -321,10 +397,16 @@ export interface KeyValueElementModel {
 }
 
 // @public (undocumented)
-export type KeyValuePair = Omit<KeyValuePairModel, "key" | "value"> & {
+export interface KeyValuePair {
+    // (undocumented)
+    confidence: number;
+    // (undocumented)
     key: KeyValueElement;
+    // (undocumented)
+    label?: string;
+    // (undocumented)
     value: KeyValueElement;
-};
+}
 
 // @public
 export interface KeyValuePairModel {
@@ -335,9 +417,12 @@ export interface KeyValuePairModel {
 }
 
 // @public (undocumented)
-export type LabeledFormModel = Omit<Model, "keys"> & {
-    kind: "labeled";
-};
+export interface LabeledFormModel {
+    // (undocumented)
+    modelInfo: ModelInfo;
+    // (undocumented)
+    trainResult?: LabeledFormTrainResult;
+}
 
 // @public (undocumented)
 export type LabeledFormModelResponse = LabeledFormModel & {
@@ -347,8 +432,45 @@ export type LabeledFormModelResponse = LabeledFormModel & {
     };
 };
 
+// @public (undocumented)
+export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+    analyzeResult?: LabeledFormResult;
+};
+
+// @public (undocumented)
+export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>;
+
+// @public (undocumented)
+export type LabeledFormResult = AnalyzeResult;
+
+// @public (undocumented)
+export type LabeledFormResultResponse = LabeledFormOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
+};
+
+// @public (undocumented)
+export interface LabeledFormTrainResult {
+    averageModelAccuracy: number;
+    errors?: ErrorInformation[];
+    fields: FormFieldsReport[];
+    trainingDocuments: TrainingDocumentInfo[];
+}
+
 // @public
 export type Language = 'en' | 'es';
+
+// @public (undocumented)
+export interface LayoutPageResult {
+    // (undocumented)
+    keyValuePairs?: KeyValuePair[];
+    // (undocumented)
+    page: number;
+    // (undocumented)
+    tables?: DataTable[];
+}
 
 // @public (undocumented)
 export type LayoutPollerLike = PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>;
@@ -422,10 +544,16 @@ export type ObjectFieldValue = {
 export type OperationStatus = 'notStarted' | 'running' | 'succeeded' | 'failed';
 
 // @public
-export type PageResult = Omit<PageResultModel, "tables" | "keyValuePairs"> & {
+export interface PageResult {
+    // (undocumented)
+    clusterId?: number;
+    // (undocumented)
     keyValuePairs?: KeyValuePair[];
+    // (undocumented)
+    page: number;
+    // (undocumented)
     tables?: DataTable[];
-};
+}
 
 // @public
 export interface PageResultModel {
@@ -474,7 +602,9 @@ export interface RawReceipt {
 // @public (undocumented)
 export interface RawReceiptResult {
     docType: "prebuilt:receipt";
-    fields: RawReceipt;
+    fields: {
+        [propertyName: string]: FieldValue;
+    };
     pageRange: number[];
 }
 
@@ -520,6 +650,8 @@ export interface ReceiptItem {
     // (undocumented)
     name?: string;
     // (undocumented)
+    price?: number;
+    // (undocumented)
     quantity?: number;
     // (undocumented)
     totalPrice?: number;
@@ -539,6 +671,7 @@ export type ReceiptItemField = {
     valueObject: {
         Name: StringFieldValue;
         Quantity: NumberFieldValue;
+        Price: NumberFieldValue;
         TotalPrice: NumberFieldValue;
     };
 } & CommonFieldValue;
@@ -564,7 +697,14 @@ export { RestResponse }
 // @public
 export type StartAnalyzeFormOptions = ExtractCustomFormOptions & {
     intervalInMs?: number;
-    onProgress?: (state: StartAnalyzePollState<GetAnalyzeFormResultResponse>) => void;
+    onProgress?: (state: StartAnalyzePollState<AnalyzeFormResultResponse>) => void;
+    resumeFrom?: string;
+};
+
+// @public
+export type StartAnalyzeLabeledFormOptions = ExtractCustomFormOptions & {
+    intervalInMs?: number;
+    onProgress?: (state: StartAnalyzePollState<LabeledFormResultResponse>) => void;
     resumeFrom?: string;
 };
 
@@ -575,6 +715,8 @@ export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
     resumeFrom?: string;
 };
 
+// Warning: (ae-forgotten-export) The symbol "ICanHazStatus" needs to be exported by the entry point index.d.ts
+//
 // @public
 export class StartAnalyzePoller<T extends ICanHazStatus> extends Poller<StartAnalyzePollState<T>, T> {
     // Warning: (ae-forgotten-export) The symbol "StartAnalyzePollerOptions" needs to be exported by the entry point index.d.ts
@@ -586,7 +728,7 @@ export class StartAnalyzePoller<T extends ICanHazStatus> extends Poller<StartAna
 }
 
 // @public (undocumented)
-export interface StartAnalyzePollState<T extends ICanHazStatus> extends PollOperationState<T> {
+export interface StartAnalyzePollState<T> extends PollOperationState<T> {
     // (undocumented)
     readonly analyzeOptions?: AnalyzeOptions;
     // (undocumented)
@@ -611,16 +753,20 @@ export type StartAnalyzeReceiptOptions = ExtractReceiptOptions & {
 };
 
 // @public
-export type StartTrainingOptions = TrainCustomModelOptions & {
+export type StartTrainingOptions<T> = TrainCustomModelOptions & {
     intervalInMs?: number;
-    onProgress?: (state: StartTrainingPollState) => void;
+    onProgress?: (state: StartTrainingPollState<T>) => void;
     resumeFrom?: string;
 };
 
 // @public
-export class StartTrainingPoller extends Poller<StartTrainingPollState, Model> {
+export class StartTrainingPoller<T extends {
+    modelInfo: {
+        status: ModelStatus;
+    };
+}> extends Poller<StartTrainingPollState<T>, T> {
     // Warning: (ae-forgotten-export) The symbol "StartTrainingPollerOptions" needs to be exported by the entry point index.d.ts
-    constructor(options: StartTrainingPollerOptions);
+    constructor(options: StartTrainingPollerOptions<T>);
     // (undocumented)
     delay(): Promise<void>;
     // (undocumented)
@@ -628,9 +774,9 @@ export class StartTrainingPoller extends Poller<StartTrainingPollState, Model> {
 }
 
 // @public (undocumented)
-export interface StartTrainingPollState extends PollOperationState<Model> {
+export interface StartTrainingPollState<T> extends PollOperationState<T> {
     // (undocumented)
-    readonly client: TrainPollerClient;
+    readonly client: TrainPollerClient<T>;
     // (undocumented)
     modelId?: string;
     // (undocumented)
@@ -657,7 +803,9 @@ export type StringFieldValue = {
 export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff" | "application/json";
 
 // @public
-export type TextElement = TextWord | TextLine;
+export type TextElement = (TextWord | TextLine) & {
+    pageNumber: number;
+};
 
 // @public
 export interface TextLine {
@@ -707,7 +855,8 @@ export interface TrainingDocumentInfo {
 }
 
 // @public
-export type TrainPollerClient = Pick<CustomFormRecognizerClient, "getModel"> & {
+export type TrainPollerClient<T> = {
+    getModel: (modelId: string, options: GetModelOptions) => Promise<T>;
     trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions) => Promise<TrainCustomModelAsyncResponse>;
 };
 
