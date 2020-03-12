@@ -20,11 +20,41 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const advisorName: msRest.OperationURLParameter = {
+  parameterPath: "advisorName",
+  mapper: {
+    required: true,
+    serializedName: "advisorName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2017-12-01',
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion1: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2018-06-01',
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
@@ -60,6 +90,16 @@ export const firewallRuleName: msRest.OperationURLParameter = {
     }
   }
 };
+export const groupName: msRest.OperationURLParameter = {
+  parameterPath: "groupName",
+  mapper: {
+    required: true,
+    serializedName: "groupName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const locationName: msRest.OperationURLParameter = {
   parameterPath: "locationName",
   mapper: {
@@ -81,11 +121,82 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const operationId: msRest.OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    required: true,
+    serializedName: "operationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const queryId: msRest.OperationURLParameter = {
+  parameterPath: "queryId",
+  mapper: {
+    required: true,
+    serializedName: "queryId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const queryIds: msRest.OperationQueryParameter = {
+  parameterPath: "queryIds",
+  mapper: {
+    required: true,
+    serializedName: "queryIds",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Multi
+};
+export const queryStatisticId: msRest.OperationURLParameter = {
+  parameterPath: "queryStatisticId",
+  mapper: {
+    required: true,
+    serializedName: "queryStatisticId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const recommendedActionName: msRest.OperationURLParameter = {
+  parameterPath: "recommendedActionName",
+  mapper: {
+    required: true,
+    serializedName: "recommendedActionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+      Pattern: /^[-\w\._\(\)]+$/
+    },
     type: {
       name: "String"
     }
@@ -113,11 +224,26 @@ export const serverName: msRest.OperationURLParameter = {
     }
   }
 };
+export const sessionId: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "sessionId"
+  ],
+  mapper: {
+    serializedName: "sessionId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
@@ -128,6 +254,16 @@ export const virtualNetworkRuleName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "virtualNetworkRuleName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const waitStatisticsId: msRest.OperationURLParameter = {
+  parameterPath: "waitStatisticsId",
+  mapper: {
+    required: true,
+    serializedName: "waitStatisticsId",
     type: {
       name: "String"
     }
