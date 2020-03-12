@@ -13,8 +13,8 @@ The Form Recognizer client library (`@azure/ai-form-recognizer`) provides three 
 export class LayoutRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
-    extractLayout(body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
-    extractLayoutFromUrl(documentUrl: string, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
+    extractLayout(body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
+    extractLayoutFromUrl(documentUrl: string, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
 }
 ```
 
@@ -304,8 +304,8 @@ export interface ErrorInformation {
 export class ReceiptRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
-    extractReceipt(body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
-    extractReceiptFromUrl(documentUrl: string, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
+    extractReceipt(body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
+    extractReceiptFromUrl(documentUrl: string, options?: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
 }
 ```
 
@@ -481,10 +481,10 @@ export class CustomFormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
-    extractCustomForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeFormOptions): Promise<FormPollerLike>;
-    extractCustomFormFromUrl(modelId: string, documentUrl: string, options: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
-    extractLabeledForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
-    getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
+    extractCustomForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeFormOptions): Promise<FormPollerLike>;
+    extractCustomFormFromUrl(modelId: string, documentUrl: string, options?: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
+    extractLabeledForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    getLabeledModel(modelId: string, options?: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
     getModel(modelId: string, options?: GetModelOptions): Promise<CustomFormModelResponse>;
     getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse>;
