@@ -3,18 +3,18 @@
 The Form Recognizer client library (`@azure/ai-form-recognizer`) provides three clients to interacts with the service:
 
 - `LayoutRecognizerClient` providing methods to analyze and extract text and table structures from documents.
-- `CustomFormRecognizerClient` providing methods to train custom models, managed trained models, and analyze documents using the trained model.
-- `ReceiptRecognizerClient` providing methods to extract data from receipts using optical character recognition (ORC) and pre-built receipt model.
+- `CustomFormRecognizerClient` providing methods to train custom models, managed trained models, and analyze documents using the trained models. The training can be supervised with user-generated labels in addition to training documents, or unsupervised by just learning from provided training documents.
+- `ReceiptRecognizerClient` providing methods to extract data from receipts using the pre-built receipt model provided by the service.
 
 
 ## Layout Recognizer Client
 
-```ts
+```typescript
 export class LayoutRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
-    extractLayout(body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
-    extractLayoutFromUrl(imageSourceUrl: string, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
+    extractLayout(body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
+    extractLayoutFromUrl(documentUrl: string, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
 }
 ```
 
@@ -22,10 +22,10 @@ export class LayoutRecognizerClient {
 
 Patching the original response from service:
 
-- Re-define the type of `elements` from `string[]` to `TextElement[]`.
+- Re-define the type of `elements` from `string[]` to `ExtractedElement[]`.
 - Re-define the type of `tables`.
 
-```ts
+```typescript
 export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
   _response: coreHttp.HttpResponse & {
     bodyAsText: string;
@@ -35,8 +35,8 @@ export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
 
 export interface AnalyzeLayoutOperationResult {
   status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
-  createdDateTime: Date;
-  lastUpdatedDateTime: Date;
+  createdOn: Date;
+  lastUpdatedOn: Date;
   analyzeResult?: AnalyzeLayoutResult;
 }
 
@@ -47,16 +47,16 @@ export interface AnalyzeLayoutResult {
 }
 
 export interface LayoutPageResult {
-    page: number; // pageNumber
+    pageNumber: number;
     keyValuePairs?: KeyValuePair[];
     tables?: DataTable[];
 };
 
-export type TextElement = (TextWord | TextLine) & { pageNumber: number };
+export type ExtractedElement = (TextWord | TextLine) & { pageNumber: number };
 
 export interface TextLine {
     boundingBox: number[];
-    language?: Language; // "en" | "es"
+    // language?: Language; // it's recommended to hide this
     text: string;
     words: TextWord[];
 }
@@ -69,7 +69,7 @@ export interface TextWord {
 
 export interface KeyValueElement {
     boundingBox?: number[];
-    elements?: TextElement[];
+    elements?: ExtractedElement[];
     text: string;
 }
 
@@ -80,6 +80,7 @@ export interface KeyValuePair {
     value: KeyValueElement;
 }
 
+// DataTable follows the HTML table model for cells
 export interface DataTable {
     rowNumber: number;
     colNumber: number;
@@ -93,13 +94,13 @@ export interface DataTableRow {
 export interface DataTableCell {
     boundingBox: number[];
     columnIndex: number;
-    columnSpan?: number;
+    columnSpan?: number; // default to 1
     confidence: number;
-    elements?: TextElement[];
-    isFooter?: boolean;
-    isHeader?: boolean;
+    elements?: ExtractedElement[];
+    isFooter?: boolean; // default to false
+    isHeader?: boolean; // default to false
     rowIndex: number;
-    rowSpan?: number;
+    rowSpan?: number; // default to 1
     text: string;
 }
 ```
@@ -118,7 +119,6 @@ export interface DataTableCell {
 
   if (!response) {
     throw new Error("Expecting valid response!");
-
   }
 
   console.log(response.status);
@@ -126,26 +126,198 @@ export interface DataTableCell {
   console.log(response.analyzeResult.pageResults);
 ```
 
+
+### Form Models
+
+- Trained Models
+
+```typescript
+export interface TrainResult {
+  trainingDocuments: TrainingDocumentInfo[];
+  fields: FormFieldsReport[];
+  averageModelAccuracy: number;
+  errors?: ErrorInformation[];
+}
+
+export interface CustomFormModelTrainResult {
+  trainingDocuments: TrainingDocumentInfo[];
+  errors?: ErrorInformation[];
+}
+
+export interface CustomFormModel {
+  modelInfo: ModelInfo;
+  keys?: KeysResult;
+  trainResult?: CustomFormModelTrainResult;
+}
+
+export interface LabeledFormModel{
+  modelInfo: ModelInfo;
+  trainResult?: TrainResult;
+};
+
+export type CustomFormModelResponse = CustomFormModel & {
+  _response: coreHttp.HttpResponse & {
+      bodyAsText: string;
+      parsedBody: Model;
+    };
+};
+
+export type LabeledFormModelResponse = LabeledFormModel & {
+  _response: coreHttp.HttpResponse & {
+      bodyAsText: string;
+      parsedBody: Model;
+    };
+};
+
+```
+
+- Analyze result
+
+```typescript
+export type AnalyzeFormResultResponse = AnalyzeFormOperationResult & {
+  _response: coreHttp.HttpResponse & {
+    bodyAsText: string;
+    parsedBody: AnalyzeOperationResultModel;
+  };
+}
+
+export type AnalyzeFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+  status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
+  createdOn: Date;
+  lastUpdatedOn: Date;
+  analyzeResult?: AnalyzeFormResult;
+}
+
+export interface AnalyzeFormResult {
+  version: string;
+  readResults: ReadResult[];
+  pageResults?: PageResult[];
+  documentResults?: DocumentResult[];
+  errors?: ErrorInformation[];
+}
+
+export interface PageResult {
+  page: number; // pageNumber
+  clusterId?: number;
+  keyValuePairs?: KeyValuePair[];
+  tables?: DataTable[];
+}
+
+export interface ErrorInformation {
+  code: string;
+  message: string;
+}
+```
+
+### Form Samples
+
+- Train custom models
+
+```js
+
+  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+
+  const trainingDataSource = "<url/path to blob container storing training documents>";
+
+  const poller = await client.startTraining(trainingDataSource, {
+    onProgress: (state) => { console.log("training status: "); console.log(state); }
+  });
+
+  await poller.pollUntilDone();
+  const model = poller.getResult();
+  console.log(model);
+```
+
+- Analyze Forms
+
+```js
+  const readStream = fs.createReadStream(path);
+
+  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const poller = await client.extractCustomForm(modelId, readStream, "application/pdf");
+  await poller.pollUntilDone();
+  const response = poller.getResult();
+
+  if (!response) {
+    throw new Error("Expecting valid response!");
+  }
+
+  console.log(response.status);
+  console.log("### Page results:")
+
+  for (const page of response.analyzeResult.pageResults || []) {
+    console.log(`Page number: ${page.page}`);
+    console.log(`cluster Id: ${page.clusterId}`);
+    console.log("key-value pairs");
+    for (const pair of page.keyValuePairs || []) {
+      console.log(`\tkey: ${pair.key}, value: ${pair.value}`);
+    }
+    console.log("Tables");
+    for (const table of page.tables || []) {
+      for (const row of table.rows) {
+        for (const cell of row.cells) {
+          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
+        }
+      }
+    }
+  }
+
+  console.log(response.analyzeResult.readResults);
+  console.log(response.analyzeResult.errors);
+```
+
+- List Models
+
+```js
+  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+
+  const result = await client.listModels();
+  let i = 0;
+  for await (const model of result.modelList) {
+    console.log(`model ${i++}:`);
+    console.log(model);
+  }
+```
+
+- Get Model with labels
+
+```js
+  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const result = await client.getLabeledModel(modelId);
+  console.log(result);
+```
+
+- Get Model
+
+```js
+  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const result = await client.getModel(modelId);
+  console.log(result);
+```
+
+- Delete Model
+
+- Copy Model
 ## Receipt Recognizer Client
 
-```ts
+```typescript
 export class ReceiptRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
-    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
-    extractReceiptFromUrl(imageSourceUrl: string, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
-    }
+    extractReceipt(body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
+    extractReceiptFromUrl(documentUrl: string, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
+}
 ```
 
-### Receipt ModelsModel
+### Receipt Models
 
-```ts
+```typescript
 export interface CommonFieldValue {
   text?: string;
   boundingBox: number[];
   confidence: number;
-  elements?: TextElement[];
-  page: number;
+  elements?: ExtractedElement[];
+  pageNumber: number;
 }
 
 export type StringFieldValue = {
@@ -264,8 +436,8 @@ export interface AnalyzeReceiptResult {
 
 export interface AnalyzeReceiptOperationResult {
   status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
-  createdDateTime: Date;
-  lastUpdatedDateTime: Date;
+  createdOn: Date;
+  lastUpdatedOn: Date;
   analyzeResult?: AnalyzeReceiptResult;
 }
 export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
@@ -276,7 +448,6 @@ export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
 }
 
 ```
-
 
 ### Receipt Sample
 
@@ -305,15 +476,14 @@ export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
 
 ## Form Recognizer Client
 
-```ts
-export class CustomFormRecognizerClient {
+```typescript
 export class CustomFormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
-    extractCustomForm(modelId: string, body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeFormOptions): Promise<FormPollerLike>;
-    extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
-    extractLabeledForm(modelId: string, body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    extractCustomForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeFormOptions): Promise<FormPollerLike>;
+    extractCustomFormFromUrl(modelId: string, documentUrl: string, options: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
+    extractLabeledForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
     getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
     getModel(modelId: string, options?: GetModelOptions): Promise<CustomFormModelResponse>;
     getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
@@ -322,175 +492,3 @@ export class CustomFormRecognizerClient {
     startTrainingWithLabel(source: string, options?: StartTrainingOptions<LabeledFormModelResponse>): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>>;
 }
 ```
-
-### Form Models
-
-- Trained Models
-
-```typescript
-export interface TrainResult {
-  trainingDocuments: TrainingDocumentInfo[];
-  fields: FormFieldsReport[];
-  averageModelAccuracy: number;
-  errors?: ErrorInformation[];
-}
-
-export interface CustomFormModelTrainResult {
-  trainingDocuments: TrainingDocumentInfo[];
-  errors?: ErrorInformation[];
-}
-
-export interface CustomFormModel {
-  modelInfo: ModelInfo;
-  keys?: KeysResult;
-  trainResult?: CustomFormModelTrainResult;
-}
-
-export interface LabeledFormModel{
-  modelInfo: ModelInfo;
-  trainResult?: TrainResult;
-};
-
-export type CustomFormModelResponse = CustomFormModel & {
-  _response: coreHttp.HttpResponse & {
-      bodyAsText: string;
-      parsedBody: Model;
-    };
-};
-
-export type LabeledFormModelResponse = LabeledFormModel & {
-  _response: coreHttp.HttpResponse & {
-      bodyAsText: string;
-      parsedBody: Model;
-    };
-};
-
-```
-
-- Analyze result
-
-```ts
-export type AnalyzeFormResultResponse = AnalyzeFormOperationResult & {
-  _response: coreHttp.HttpResponse & {
-    bodyAsText: string;
-    parsedBody: AnalyzeOperationResultModel;
-  };
-}
-
-export type AnalyzeFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
-  status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
-  createdDateTime: Date;
-  lastUpdatedDateTime: Date;
-  analyzeResult?: AnalyzeFormResult;
-}
-
-export interface AnalyzeFormResult {
-  version: string;
-  readResults: ReadResult[];
-  pageResults?: PageResult[];
-  documentResults?: DocumentResult[];
-  errors?: ErrorInformation[];
-}
-
-export interface PageResult {
-  page: number; // pageNumber
-  clusterId?: number;
-  keyValuePairs?: KeyValuePair[];
-  tables?: DataTable[];
-}
-
-export interface ErrorInformation {
-  code: string;
-  message: string;
-}
-```
-
-### Form Samples
-
-- Train custom models
-
-```js
-
-  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-
-  const trainingDataSource = "<url/path to blob container storing training documents>";
-
-  const poller = await client.startTraining(trainingDataSource, {
-    onProgress: (state) => { console.log("training status: "); console.log(state); }
-  });
-
-  await poller.pollUntilDone();
-  const model = poller.getResult();
-  console.log(model);
-```
-
-- Analyze Forms
-
-```js
-  const readStream = fs.createReadStream(path);
-
-  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.extractCustomForm(modelId, readStream, "application/pdf");
-  await poller.pollUntilDone();
-  const response = poller.getResult();
-
-  if (!response) {
-    throw new Error("Expecting valid response!");
-  }
-
-  console.log(response.status);
-  console.log("### Page results:")
-
-  for (const page of response.analyzeResult.pageResults || []) {
-    console.log(`Page number: ${page.page}`);
-    console.log(`cluster Id: ${page.clusterId}`);
-    console.log("key-value pairs");
-    for (const pair of page.keyValuePairs || []) {
-      console.log(`\tkey: ${pair.key}, value: ${pair.value}`);
-    }
-    console.log("Tables");
-    for (const table of page.tables || []) {
-      for (const row of table.rows) {
-        for (const cell of row.cells) {
-          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
-        }
-      }
-    }
-  }
-
-  console.log(response.analyzeResult.readResults);
-  console.log(response.analyzeResult.errors);
-```
-
-- List Models
-
-```js
-  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-
-  const result = await client.listModels();
-  let i = 0;
-  for await (const model of result.modelList) {
-    console.log(`model ${i++}:`);
-    console.log(model);
-  }
-```
-
-- Get Model with labels
-
-```js
-  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const result = await client.getLabeledModel(modelId);
-  console.log(result);
-```
-
-- Get Model
-
-```js
-  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const result = await client.getModel(modelId);
-  console.log(result);
-```
-
-- Delete Model
-
-- Copy Model
