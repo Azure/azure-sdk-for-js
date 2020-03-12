@@ -59,14 +59,14 @@ export {
 /**
  * Information about extracted text elements  in documents
  */
-export type TextElement = (TextWord | TextLine) & { pageNumber: number };
+export type ExtractedElement = (TextWord | TextLine) & { pageNumber: number };
 
 export interface DataTableCell {
   boundingBox: number[];
   columnIndex: number;
   columnSpan?: number;
   confidence: number;
-  elements?: TextElement[];
+  elements?: ExtractedElement[];
   isFooter?: boolean;
   isHeader?: boolean;
   rowIndex: number;
@@ -91,7 +91,7 @@ export interface DataTableRow {
 
 export interface KeyValueElement {
   boundingBox?: number[];
-  elements?: TextElement[];
+  elements?: ExtractedElement[];
   text: string;
 }
 
@@ -136,7 +136,7 @@ export interface CommonFieldValue {
    * When includeTextDetails is set to true, a list of references to the text elements constituting
    * this field.
    */
-  elements?: TextElement[];
+  elements?: ExtractedElement[];
   /**
    * The 1-based page number in the input document.
    */
@@ -460,3 +460,10 @@ export type LabeledFormModelResponse = LabeledFormModel & {
       parsedBody: Model;
     };
 };
+
+export type FormRecognizerRequestBody =
+  | Blob
+  | string
+  | ArrayBuffer
+  | ArrayBufferView
+  | NodeJS.ReadableStream;

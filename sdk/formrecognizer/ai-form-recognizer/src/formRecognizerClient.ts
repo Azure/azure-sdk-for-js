@@ -8,7 +8,6 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  HttpRequestBody,
   delay
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
@@ -19,7 +18,7 @@ import {
   GetAnalyzeReceiptResultResponse,
   DocumentResult
 } from "./generated/models";
-import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt } from "./models";
+import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody } from "./models";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
@@ -107,7 +106,7 @@ export class FormRecognizerClient {
   }
 
   public async extractReceipt(
-    body: HttpRequestBody,
+    body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
     options: StartAnalyzePollerOptions<AnalyzeReceiptResultResponse>
   ): Promise<PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>> {
@@ -231,7 +230,7 @@ export class FormRecognizerClient {
   }
 
   public async extractLayout(
-    body: HttpRequestBody,
+    body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
     options?: ExtractLayoutOptions
   ) {
@@ -346,7 +345,7 @@ export class FormRecognizerClient {
 
 async function analyzeReceiptInternal(
   client: GeneratedClient,
-  body: HttpRequestBody,
+  body: FormRecognizerRequestBody,
   contentType: SupportedContentType,
   options?: ExtractReceiptOptions,
   _modelId?: string
@@ -360,10 +359,12 @@ async function analyzeReceiptInternal(
   const customHeaders: { [key: string]: string } =
     finalOptions.requestOptions?.customHeaders || {};
   customHeaders["Content-Type"] = contentType;
+  // conform to HttpRequestBody
+  const requestBody = (body as any)?.read && typeof((body as any)?.read === "function") ? () => body as NodeJS.ReadableStream : body;
   try {
       return await client.analyzeReceiptAsync({
       ...operationOptionsToRequestOptionsBase(finalOptions),
-      body,
+      requestBody,
       customHeaders
     });
   } catch (e) {

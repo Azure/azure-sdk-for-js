@@ -8,12 +8,11 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  HttpRequestBody
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
-import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt } from "./models";
+import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody } from "./models";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
@@ -121,7 +120,7 @@ export class ReceiptRecognizerClient {
   }
 
   public async extractReceipt(
-    body: HttpRequestBody,
+    body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
     options: StartAnalyzeReceiptOptions
   ): Promise<ReceiptPollerLike> {
@@ -233,7 +232,7 @@ export class ReceiptRecognizerClient {
 
 async function analyzeReceiptInternal(
   client: GeneratedClient,
-  body: HttpRequestBody,
+  body: FormRecognizerRequestBody,
   contentType: SupportedContentType,
   options?: ExtractReceiptOptions,
   _modelId?: string
@@ -247,10 +246,12 @@ async function analyzeReceiptInternal(
   const customHeaders: { [key: string]: string } =
     finalOptions.requestOptions?.customHeaders || {};
   customHeaders["Content-Type"] = contentType;
+  // conform to HttpRequestBody
+  const requestBody = (body as any)?.read && typeof((body as any)?.read === "function") ? () => body as NodeJS.ReadableStream : body;
   try {
     return await client.analyzeReceiptAsync({
       ...operationOptionsToRequestOptionsBase(finalOptions),
-      body,
+      requestBody,
       customHeaders
     });
   } catch (e) {

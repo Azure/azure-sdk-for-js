@@ -6,7 +6,6 @@
 
 import { AbortSignalLike } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
-import { HttpRequestBody } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
@@ -89,7 +88,7 @@ export type AnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | Extr
 
 // @public
 export type AnalyzePollerClient<T> = {
-    startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) => Promise<{
+    startAnalyze: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) => Promise<{
         operationLocation: string;
     }>;
     getAnalyzeResult: (resultId: string, options: {
@@ -158,7 +157,7 @@ export class CognitiveKeyCredential implements ServiceClientCredentials {
 export interface CommonFieldValue {
     boundingBox: number[];
     confidence: number;
-    elements?: TextElement[];
+    elements?: ExtractedElement[];
     page: number;
     text?: string;
 }
@@ -188,11 +187,11 @@ export class CustomFormRecognizerClient {
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     // (undocumented)
-    extractCustomForm(modelId: string, body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeFormOptions): Promise<FormPollerLike>;
+    extractCustomForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeFormOptions): Promise<FormPollerLike>;
     // (undocumented)
     extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
     // (undocumented)
-    extractLabeledForm(modelId: string, body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    extractLabeledForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
     // (undocumented)
     getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
     // (undocumented)
@@ -224,7 +223,7 @@ export interface DataTableCell {
     // (undocumented)
     confidence: number;
     // (undocumented)
-    elements?: TextElement[];
+    elements?: ExtractedElement[];
     // (undocumented)
     isFooter?: boolean;
     // (undocumented)
@@ -296,6 +295,11 @@ export type ExtractCustomFormOptions = FormRecognizerOperationOptions & {
 };
 
 // @public
+export type ExtractedElement = (TextWord | TextLine) & {
+    pageNumber: number;
+};
+
+// @public
 export type ExtractLayoutOptions = FormRecognizerOperationOptions;
 
 // @public
@@ -330,6 +334,9 @@ export interface FormRecognizerClientOptions extends PipelineOptions {
 // @public
 export interface FormRecognizerOperationOptions extends OperationOptions {
 }
+
+// @public (undocumented)
+export type FormRecognizerRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | NodeJS.ReadableStream;
 
 // @public
 export type GetAnalyzeFormResultResponse = AnalyzeOperationResultModel & {
@@ -384,7 +391,7 @@ export interface KeyValueElement {
     // (undocumented)
     boundingBox?: number[];
     // (undocumented)
-    elements?: TextElement[];
+    elements?: ExtractedElement[];
     // (undocumented)
     text: string;
 }
@@ -480,7 +487,7 @@ export class LayoutRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractLayout(body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
+    extractLayout(body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
     // (undocumented)
     extractLayoutFromUrl(imageSourceUrl: string, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
     }
@@ -684,7 +691,7 @@ export class ReceiptRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractReceipt(body: HttpRequestBody, contentType: SupportedContentType, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
+    extractReceipt(body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
     // (undocumented)
     extractReceiptFromUrl(imageSourceUrl: string, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
     }
@@ -732,7 +739,7 @@ export interface StartAnalyzePollState<T> extends PollOperationState<T> {
     // (undocumented)
     readonly analyzeOptions?: AnalyzeOptions;
     // (undocumented)
-    body?: HttpRequestBody;
+    body?: FormRecognizerRequestBody;
     // (undocumented)
     readonly client: AnalyzePollerClient<T>;
     // (undocumented)
@@ -803,11 +810,6 @@ export type StringFieldValue = {
 export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff" | "application/json";
 
 // @public
-export type TextElement = (TextWord | TextLine) & {
-    pageNumber: number;
-};
-
-// @public
 export interface TextLine {
     boundingBox: number[];
     language?: Language;
@@ -874,7 +876,7 @@ export type TrainStatus = 'succeeded' | 'partiallySucceeded' | 'failed';
 
 // Warnings were encountered during analysis:
 //
-// src/generated/models/index.ts:496:13 - (ae-forgotten-export) The symbol "FieldValue" needs to be exported by the entry point index.d.ts
+// src/generated/models/index.ts:300:13 - (ae-forgotten-export) The symbol "FieldValue" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

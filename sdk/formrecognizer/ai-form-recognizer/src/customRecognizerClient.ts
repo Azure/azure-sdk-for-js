@@ -10,7 +10,6 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  HttpRequestBody,
   AbortSignalLike,
   RestResponse
 } from "@azure/core-http";
@@ -27,7 +26,7 @@ import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, AnalyzeOptions } from './lro/analyze/poller';
-import { LabeledFormModelResponse, CustomFormModelResponse, AnalyzeFormResultResponse, LabeledFormResultResponse } from './models';
+import { LabeledFormModelResponse, CustomFormModelResponse, AnalyzeFormResultResponse, LabeledFormResultResponse, FormRecognizerRequestBody } from './models';
 
 import {
   GetCustomModelsResponse,
@@ -420,7 +419,7 @@ export class CustomFormRecognizerClient {
 
   public async extractCustomForm(
     modelId: string,
-    body: HttpRequestBody,
+    body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
     options: StartAnalyzeFormOptions
   ): Promise<FormPollerLike> {
@@ -428,7 +427,7 @@ export class CustomFormRecognizerClient {
       throw new RangeError("Invalid modelId")
     }
     const analyzePollerClient: AnalyzePollerClient<AnalyzeFormResultResponse> = {
-      startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) =>
+      startAnalyze: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) =>
        analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getAnalyzeResult: (resultId: string,
         options: { abortSignal?: AbortSignalLike }) => this.getExtractedCustomForm(modelId, resultId, options)
@@ -522,7 +521,7 @@ export class CustomFormRecognizerClient {
 
   public async extractLabeledForm(
     modelId: string,
-    body: HttpRequestBody,
+    body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
     options: StartAnalyzeLabeledFormOptions
   ): Promise<LabeledFormPollerLike> {
@@ -530,7 +529,7 @@ export class CustomFormRecognizerClient {
       throw new RangeError("Invalid modelId")
     }
     const analyzePollerClient: AnalyzePollerClient<LabeledFormResultResponse> = {
-      startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) =>
+      startAnalyze: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) =>
        analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getAnalyzeResult: (resultId: string,
         options: { abortSignal?: AbortSignalLike }) => this.getExtractedLabeledForm(modelId, resultId, options)
@@ -618,7 +617,7 @@ async function trainCustomModelInternal(
 
 async function analyzeCustomFormInternal(
   client: GeneratedClient,
-  body: HttpRequestBody,
+  body: FormRecognizerRequestBody,
   contentType: string,
   options: ExtractCustomFormOptions,
   modelId: string
@@ -631,10 +630,12 @@ async function analyzeCustomFormInternal(
   const customHeaders: { [key: string]: string } =
     finalOptions.requestOptions?.customHeaders || {};
   customHeaders["Content-Type"] = contentType;
+  // conform to HttpRequestBody
+  const requestBody = (body as any)?.read && typeof((body as any)?.read === "function") ? () => body as NodeJS.ReadableStream : body;
   try {
     return await client.analyzeWithCustomModel(modelId, {
       ...operationOptionsToRequestOptionsBase(finalOptions),
-      body,
+      requestBody,
       customHeaders
     });
   } catch (e) {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, HttpRequestBody, AbortSignalLike } from "@azure/core-http";
+import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { ExtractReceiptOptions } from "../../receiptRecognizerClient";
 import { ExtractLayoutOptions } from "../../layoutRecognizerClient";
@@ -9,6 +9,7 @@ import { ExtractCustomFormOptions } from "../../customRecognizerClient";
 import { SupportedContentType } from '../../common';
 
 import { OperationStatus } from "../../generated/models";
+import { FormRecognizerRequestBody } from '../../models';
 export { OperationStatus };
 
 export type AnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | ExtractCustomFormOptions;
@@ -40,7 +41,7 @@ export interface ICanHazStatus { status: OperationStatus }
  */
 export type AnalyzePollerClient<T> = {
   // returns a result id to retrieve results
-  startAnalyze: (body: HttpRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) => Promise<{ operationLocation: string }>;
+  startAnalyze: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) => Promise<{ operationLocation: string }>;
   // retrieves analyze result
   getAnalyzeResult: (
     resultId: string,
@@ -50,7 +51,7 @@ export type AnalyzePollerClient<T> = {
 
 export interface StartAnalyzePollState<T> extends PollOperationState<T> {
   readonly client: AnalyzePollerClient<T>;
-  body?: HttpRequestBody;
+  body?: FormRecognizerRequestBody;
   contentType: SupportedContentType;
   modelId?: string;
   resultId?: string;
@@ -66,7 +67,7 @@ extends PollOperation<StartAnalyzePollState<T>, T> {}
  */
 export type StartAnalyzePollerOptions<T> = {
   client: AnalyzePollerClient<T>;
-  body: HttpRequestBody;
+  body: FormRecognizerRequestBody;
   contentType: SupportedContentType;
   modelId?: string;
   intervalInMs?: number;

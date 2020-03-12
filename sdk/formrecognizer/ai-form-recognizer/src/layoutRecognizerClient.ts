@@ -8,7 +8,6 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  HttpRequestBody,
   delay
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
@@ -20,7 +19,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { AnalyzeLayoutResultResponse, AnalyzeLayoutResult } from './models';
+import { AnalyzeLayoutResultResponse, AnalyzeLayoutResult, FormRecognizerRequestBody } from './models';
 import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState } from './lro/analyze/poller';
 import { PollerLike, PollOperationState } from '.';
 
@@ -121,7 +120,7 @@ export class LayoutRecognizerClient {
   }
 
   public async extractLayout(
-    body: HttpRequestBody,
+    body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
     options: StartAnalyzeLayoutOptions
   ): Promise<LayoutPollerLike> {
@@ -214,7 +213,7 @@ function  toAnalyzeLayoutResultResponse(original: GetAnalyzeLayoutResultResponse
 
 async function analyzeLayoutInternal(
   client: GeneratedClient,
-  body: HttpRequestBody,
+  body: FormRecognizerRequestBody,
   contentType: SupportedContentType,
   options?: ExtractLayoutOptions,
   _modelId?: string
@@ -228,10 +227,12 @@ async function analyzeLayoutInternal(
   const customHeaders: { [key: string]: string } =
     finalOptions.requestOptions?.customHeaders || {};
   customHeaders["Content-Type"] = contentType;
+  // conform to HttpRequestBody
+  const requestBody = (body as any)?.read && typeof((body as any)?.read === "function") ? () => body as NodeJS.ReadableStream : body;
   try {
     return await client.analyzeLayoutAsync({
       ...operationOptionsToRequestOptionsBase(finalOptions),
-      body,
+      requestBody,
       customHeaders
     });
   } catch (e) {
