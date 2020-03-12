@@ -18,12 +18,11 @@ const packageVersion = "3.3.0";
 export class MySQLManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
-  apiVersion?: string;
 
   /**
    * Initializes a new instance of the MySQLManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The subscription ID that identifies an Azure subscription.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MySQLManagementClientOptions) {
@@ -44,7 +43,6 @@ export class MySQLManagementClientContext extends msRestAzure.AzureServiceClient
 
     super(credentials, options);
 
-    this.apiVersion = '2017-12-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
