@@ -64,9 +64,9 @@ jobs:
             AZURE_CLIENT_SECRET='$(aad-azure-sdk-test-client-secret)'
             AZURE_TENANT_ID='$(aad-azure-sdk-test-tenant-id)'
             AZURE_CLIENT_ID='$(aad-azure-sdk-test-client-id)'
+            AZURE_AUTHORITY_HOST='$(aad-azure-sdk-test-authority-uri)'
             COSMOS_KEY='$(smoke-tests-cosmos-key)'
             COSMOS_ENDPOINT='$(smoke-tests-cosmos-endpoint)'
-            AZURE_AUTHORITY_HOST=$(aad-azure-sdk-test-authority-uri)
           };
           foreach ($key in $variables.Keys) {
             Write-Host "Setting variable '$key'"
@@ -85,9 +85,9 @@ jobs:
             AZURE_CLIENT_SECRET='$(aad-azure-sdk-test-client-secret-gov)'
             AZURE_TENANT_ID='$(aad-azure-sdk-test-tenant-id-gov)'
             AZURE_CLIENT_ID='$(aad-azure-sdk-test-client-id-gov)'
+            AZURE_AUTHORITY_HOST='$(aad-azure-sdk-test-authority-uri-gov)'
             COSMOS_KEY='$(smoke-tests-cosmos-key-gov)'
             COSMOS_ENDPOINT='$(smoke-tests-cosmos-endpoint-gov)'
-            AZURE_AUTHORITY_HOST=$(aad-azure-sdk-test-authority-uri-gov)
           };
           foreach ($key in $variables.Keys) {
             Write-Host "Setting variable '$key'"
