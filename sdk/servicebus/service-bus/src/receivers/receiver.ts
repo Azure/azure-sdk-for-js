@@ -459,7 +459,8 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT> {
       (err: Error) => {
         // TODO: not async internally yet.
         handlers.processError(err);
-      }
+      },
+      options
     );
   }
 

@@ -28,7 +28,6 @@ import {
 } from "../util/errors";
 import * as log from "../log";
 import { OnMessage, OnError } from "../core/messageReceiver";
-import { OperationOptions } from "@azure/core-auth";
 import {
   getSubscriptionRules,
   removeSubscriptionRule,
@@ -36,49 +35,13 @@ import {
   settlementContext
 } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
+import { Receiver } from "./receiver";
 
 /**
  *A receiver client that handles sessions, including renewing the session lock.
  */
-export interface SessionReceiver<ContextT extends ContextWithSettlement | {}> {
-  /**
-   * Streams messages to message handlers.
-   * @param handler A handler that gets called for messages and errors.
-   * @param options Options for subscribe.
-   */
-  subscribe(handler: MessageHandlers<ContextT>, options?: SubscribeOptions): void;
-
-  /**
-   * Returns an iterator that can be used to receive messages from Service Bus.
-   * @param options Options for getMessageIterator.
-   */
-  getMessageIterator(
-    options?: GetMessageIteratorOptions
-  ): AsyncIterableIterator<{ message: ReceivedMessage; context: ContextT }>;
-
-  /**
-   * Receives, at most, `maxMessages` worth of messages.
-   * @param maxMessages The maximum number of messages to accept.
-   * @param maxWaitTimeInSeconds The maximum time to wait, in seconds, for messages to arrive.
-   * @param options Options for receiveBatch.
-   */
-  receiveBatch(
-    maxMessages: number,
-    maxWaitTimeInSeconds?: number,
-    options?: ReceiveBatchOptions
-  ): Promise<{ messages: ReceivedMessage[]; context: ContextT }>;
-
-  receiveDeferredMessage(
-    sequenceNumber: Long,
-    options?: OperationOptions
-  ): Promise<ServiceBusMessage | undefined>;
-  receiveDeferredMessages(
-    sequenceNumbers: Long[],
-    options?: OperationOptions
-  ): Promise<ServiceBusMessage[]>;
-  isReceivingMessages(): boolean;
-  getDeadLetterPath(): string;
-
+export interface SessionReceiver<ContextT extends ContextWithSettlement | {}>
+  extends Receiver<ContextT> {
   // TODO: not sure these need to be on the interface
   entityType: "queue" | "subscription";
   entityPath: string;
@@ -90,10 +53,6 @@ export interface SessionReceiver<ContextT extends ContextWithSettlement | {}> {
    */
   sessionId: string | undefined;
 
-  /**
-   * Closes the client.
-   */
-  close(): Promise<void>;
   /**
    * Methods related to service bus diagnostics.
    */
@@ -480,7 +439,8 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
       (err: Error) => {
         // TODO: not async internally yet.
         handlers.processError(err);
-      }
+      },
+      options
     );
   }
 
@@ -635,5 +595,9 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
     return this.receiveMode === "peekLock"
       ? ((settlementContext as any) as ContextT)
       : ({} as ContextT);
+  }
+
+  async renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date> {
+    throw new Error("Move to the context");
   }
 }
