@@ -122,7 +122,7 @@ export class LayoutRecognizerClient {
   public async extractLayout(
     body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
-    options: StartAnalyzeLayoutOptions
+    options: StartAnalyzeLayoutOptions = {}
   ): Promise<LayoutPollerLike> {
 
     const analyzePollerClient: AnalyzePollerClient<AnalyzeLayoutResultResponse> = {
@@ -141,8 +141,9 @@ export class LayoutRecognizerClient {
     return poller;
   }
 
-  public async extractLayoutFromUrl(imageSourceUrl: string,
-    options: StartAnalyzeLayoutOptions
+  public async extractLayoutFromUrl(
+    imageSourceUrl: string,
+    options: StartAnalyzeLayoutOptions = {}
   ): Promise<LayoutPollerLike> {
     const body = JSON.stringify({
       source: imageSourceUrl

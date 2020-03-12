@@ -421,7 +421,7 @@ export class CustomFormRecognizerClient {
     modelId: string,
     body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
-    options: StartAnalyzeFormOptions
+    options: StartAnalyzeFormOptions = {}
   ): Promise<FormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid modelId")
@@ -448,8 +448,8 @@ export class CustomFormRecognizerClient {
   public async extractCustomFormFromUrl(
     modelId: string,
     imageSourceUrl: string,
-    options: StartAnalyzeFormOptions
-  ): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>> {
+    options: StartAnalyzeFormOptions = {}
+  ): Promise<PollerLike<PollOperationState<AnalyzeFormResultResponse>, AnalyzeFormResultResponse>> {
     if (!modelId) {
       throw new RangeError("Invalid modelId")
     }
@@ -518,12 +518,11 @@ export class CustomFormRecognizerClient {
     }
   }
 
-
   public async extractLabeledForm(
     modelId: string,
     body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
-    options: StartAnalyzeLabeledFormOptions
+    options: StartAnalyzeLabeledFormOptions = {}
   ): Promise<LabeledFormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid modelId")
@@ -547,6 +546,20 @@ export class CustomFormRecognizerClient {
     return poller;
   }
 
+  public async extractLabeledFormFromUrl(
+    modelId: string,
+    imageSourceUrl: string,
+    options: StartAnalyzeLabeledFormOptions = {}
+  ): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>> {
+    if (!modelId) {
+      throw new RangeError("Invalid modelId")
+    }
+    const body = JSON.stringify({
+      source: imageSourceUrl
+    });
+
+    return this.extractCustomForm(modelId, body, "application/json", options);
+  }
 }
 
 function toCustomFormResultResponse(original: GetAnalyzeFormResultResponse): AnalyzeFormResultResponse {

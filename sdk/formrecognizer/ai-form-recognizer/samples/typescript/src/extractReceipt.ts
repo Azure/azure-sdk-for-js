@@ -28,7 +28,7 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new ReceiptRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.extractReceipt(() => readStream, "image/jpeg", {
+  const poller = await client.extractReceipt(readStream, "image/jpeg", {
   });
 
   await poller.pollUntilDone();

@@ -187,11 +187,13 @@ export class CustomFormRecognizerClient {
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     // (undocumented)
-    extractCustomForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeFormOptions): Promise<FormPollerLike>;
+    extractCustomForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeFormOptions): Promise<FormPollerLike>;
     // (undocumented)
-    extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<GetAnalyzeFormResultResponse>, GetAnalyzeFormResultResponse>>;
+    extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options?: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<AnalyzeFormResultResponse>, AnalyzeFormResultResponse>>;
     // (undocumented)
-    extractLabeledForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    extractLabeledForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    // (undocumented)
+    extractLabeledFormFromUrl(modelId: string, imageSourceUrl: string, options?: StartAnalyzeLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
     // (undocumented)
     getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
     // (undocumented)
@@ -487,9 +489,9 @@ export class LayoutRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractLayout(body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
+    extractLayout(body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
     // (undocumented)
-    extractLayoutFromUrl(imageSourceUrl: string, options: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
+    extractLayoutFromUrl(imageSourceUrl: string, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
     }
 
 // @public
@@ -691,9 +693,9 @@ export class ReceiptRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractReceipt(body: FormRecognizerRequestBody, contentType: SupportedContentType, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
+    extractReceipt(body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
     // (undocumented)
-    extractReceiptFromUrl(imageSourceUrl: string, options: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
+    extractReceiptFromUrl(imageSourceUrl: string, options?: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
     }
 
 // @public (undocumented)

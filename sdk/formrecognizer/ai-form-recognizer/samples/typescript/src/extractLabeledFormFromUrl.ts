@@ -7,7 +7,6 @@
 
 //import { CustomFormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
 import { CustomFormRecognizerClient, CognitiveKeyCredential } from "../../../src/index";
-import * as fs from "fs";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -18,18 +17,12 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = "afa7d851-ad20-465c-a80f-6ca8cfb879bb"; // trained with labels
-  const path = "c:/temp/Invoice_6.pdf";
 
-  if (!fs.existsSync(path)) {
-    throw new Error(`Expecting file ${path} exists`);
-  }
-
-  const readStream = fs.createReadStream(path);
+  const modelId = "e28ad0da-aa55-46dc-ade9-839b0d819189"; // trained with labels
+  const url = process.env["FR_INVOICE_URL"] || "<sample invoice url>";
 
   const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.extractLabeledForm(modelId, readStream, "application/pdf", {
-  });
+  const poller = await client.extractLabeledFormFromUrl(modelId, url);
   await poller.pollUntilDone();
   const response = poller.getResult();
 

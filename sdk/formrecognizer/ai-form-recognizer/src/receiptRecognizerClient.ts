@@ -122,7 +122,7 @@ export class ReceiptRecognizerClient {
   public async extractReceipt(
     body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
-    options: StartAnalyzeReceiptOptions
+    options: StartAnalyzeReceiptOptions = {}
   ): Promise<ReceiptPollerLike> {
 
     const analyzePollerClient: AnalyzePollerClient<AnalyzeReceiptResultResponse> = {
@@ -143,7 +143,7 @@ export class ReceiptRecognizerClient {
 
   public async extractReceiptFromUrl(
     imageSourceUrl: string,
-    options: StartAnalyzeReceiptOptions
+    options: StartAnalyzeReceiptOptions = {}
   ): Promise<ReceiptPollerLike> {
     const body = JSON.stringify({
       source: imageSourceUrl
