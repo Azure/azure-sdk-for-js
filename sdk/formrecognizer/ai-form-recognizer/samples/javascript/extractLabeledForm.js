@@ -24,6 +24,7 @@ async function main() {
 
   const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
   const poller = await client.extractLabeledForm(modelId, () => readStream, "application/pdf", {
+    includeTextDetails: true
   });
   await poller.pollUntilDone();
   const response = poller.getResult();
@@ -41,7 +42,7 @@ async function main() {
 
   console.log("### Page results:")
   for (const page of response.analyzeResult.pageResults || []) {
-    console.log(`Page number: ${page.page}`);
+    console.log(`Page number: ${page.pageNumber}`);
     console.log(`cluster Id: ${page.clusterId}`);
     console.log("key-value pairs");
     for (const pair of page.keyValuePairs || []) {

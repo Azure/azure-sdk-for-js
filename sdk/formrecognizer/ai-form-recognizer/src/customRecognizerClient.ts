@@ -26,7 +26,7 @@ import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, AnalyzeOptions } from './lro/analyze/poller';
-import { LabeledFormModelResponse, CustomFormModelResponse, AnalyzeFormResultResponse, LabeledFormResultResponse, FormRecognizerRequestBody } from './models';
+import { LabeledFormModelResponse, CustomFormModelResponse, AnalyzeFormResultResponse, LabeledFormResultResponse, FormRecognizerRequestBody, transformResults } from './models';
 
 import {
   GetCustomModelsResponse,
@@ -477,7 +477,7 @@ export class CustomFormRecognizerClient {
         resultId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      return toCustomFormResultResponse(result); // TODO: transform to custom form result response defined in model.ts
+      return toCustomFormResultResponse(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -506,7 +506,7 @@ export class CustomFormRecognizerClient {
         resultId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      return toLabeledFormResultResponse(result); // TODO: transform to custom form result response defined in model.ts
+      return toLabeledFormResultResponse(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -563,34 +563,50 @@ export class CustomFormRecognizerClient {
 }
 
 function toCustomFormResultResponse(original: GetAnalyzeFormResultResponse): AnalyzeFormResultResponse {
-  return {
+  const { readResults, pageResults } = transformResults(original.analyzeResult?.readResults, original.analyzeResult?.pageResults);
+  return original.status === "succeeded" ? {
     status: original.status,
     createdOn: original.createdOn,
     lastUpdatedOn: original.createdOn,
     _response: original._response,
     analyzeResult: !!original.analyzeResult ? {
       version: original.analyzeResult.version,
-      readResults: original.analyzeResult?.readResults,
-      pageResults: [], // TODO: transform from original.analyzeResult?.pageResults,
+      readResults,
+      pageResults,
       errors: original.analyzeResult?.errors,
     } : undefined
+  } : {
+    status: original.status,
+    createdOn: original.createdOn,
+    lastUpdatedOn: original.createdOn,
+    _response: original._response,
   }
 }
 
 function toLabeledFormResultResponse(original: GetAnalyzeFormResultResponse): LabeledFormResultResponse {
-  return {
-    status: original.status,
-    createdOn: original.createdOn,
-    lastUpdatedOn: original.createdOn,
-    _response: original._response,
-    analyzeResult: !!original.analyzeResult ? {
-      version: original.analyzeResult.version,
-      documentResults: original.analyzeResult.documentResults,
-      readResults: original.analyzeResult?.readResults,
-      pageResults: [], // TODO: transform from original.analyzeResult?.pageResults,
-      errors: original.analyzeResult?.errors,
-    } : undefined
-  }
+  if (original.status === "succeeded") {
+    const { readResults, pageResults } = transformResults(original.analyzeResult?.readResults, original.analyzeResult?.pageResults);
+    return {
+      status: original.status,
+      createdOn: original.createdOn,
+      lastUpdatedOn: original.createdOn,
+      _response: original._response,
+      analyzeResult: !!original.analyzeResult ? {
+        version: original.analyzeResult.version,
+        documentResults: original.analyzeResult.documentResults, // TODO: Transform from original result.fields as we re-defined `elements`
+        readResults,
+        pageResults,
+        errors: original.analyzeResult?.errors,
+      } : undefined
+    }
+  } else {
+      return {
+        status: original.status,
+        createdOn: original.createdOn,
+        lastUpdatedOn: original.createdOn,
+        _response: original._response,
+      }
+    }
 }
 
 async function trainCustomModelInternal(

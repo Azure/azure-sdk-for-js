@@ -136,7 +136,7 @@ export interface AnalyzeResultModel {
     documentResults?: DocumentResult[];
     errors?: ErrorInformation[];
     pageResults?: PageResultModel[];
-    readResults: ReadResult[];
+    readResults: ReadResultModel[];
     version: string;
 }
 
@@ -211,6 +211,10 @@ export class CustomFormRecognizerClient {
 // @public
 export interface DataTable {
     // (undocumented)
+    columnNumber: number;
+    // (undocumented)
+    rowNumber: number;
+    // (undocumented)
     rows: DataTableRow[];
 }
 
@@ -221,19 +225,19 @@ export interface DataTableCell {
     // (undocumented)
     columnIndex: number;
     // (undocumented)
-    columnSpan?: number;
+    columnSpan: number;
     // (undocumented)
     confidence: number;
     // (undocumented)
     elements?: ExtractedElement[];
     // (undocumented)
-    isFooter?: boolean;
+    isFooter: boolean;
     // (undocumented)
-    isHeader?: boolean;
+    isHeader: boolean;
     // (undocumented)
     rowIndex: number;
     // (undocumented)
-    rowSpan?: number;
+    rowSpan: number;
     // (undocumented)
     text: string;
 }
@@ -297,9 +301,7 @@ export type ExtractCustomFormOptions = FormRecognizerOperationOptions & {
 };
 
 // @public
-export type ExtractedElement = (TextWord | TextLine) & {
-    pageNumber: number;
-};
+export type ExtractedElement = TextWord | TextLine;
 
 // @public
 export type ExtractLayoutOptions = FormRecognizerOperationOptions;
@@ -628,6 +630,18 @@ export interface ReadResult {
     width: number;
 }
 
+// @public
+export interface ReadResultModel {
+    angle: number;
+    height: number;
+    language?: Language;
+    // Warning: (ae-forgotten-export) The symbol "TextLine" needs to be exported by the entry point index.d.ts
+    lines?: TextLine_2[];
+    pageNumber: number;
+    unit: LengthUnit;
+    width: number;
+}
+
 // @public (undocumented)
 export interface Receipt {
     // (undocumented)
@@ -815,6 +829,7 @@ export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg
 export interface TextLine {
     boundingBox: number[];
     language?: Language;
+    pageNumber: number;
     text: string;
     words: TextWord[];
 }
@@ -823,6 +838,7 @@ export interface TextLine {
 export interface TextWord {
     boundingBox: number[];
     confidence?: number;
+    pageNumber: number;
     text: string;
 }
 
@@ -831,6 +847,9 @@ export type TimeFieldValue = {
     type: "time";
     valueTime: string;
 } & CommonFieldValue;
+
+// @public (undocumented)
+export function toReadResult(original: ReadResultModel): ReadResult;
 
 // @public
 export interface TrainCustomModelAsyncHeaders {
@@ -874,6 +893,12 @@ export interface TrainResult {
 
 // @public
 export type TrainStatus = 'succeeded' | 'partiallySucceeded' | 'failed';
+
+// @public (undocumented)
+export function transformResults(readResults?: ReadResultModel[], pageResults?: PageResultModel[]): {
+    readResults: ReadResult[];
+    pageResults: PageResult[];
+};
 
 
 // Warnings were encountered during analysis:

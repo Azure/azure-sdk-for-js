@@ -7,8 +7,7 @@ import {
   InternalPipelineOptions,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  operationOptionsToRequestOptionsBase,
-  delay
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
@@ -19,7 +18,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { AnalyzeLayoutResultResponse, AnalyzeLayoutResult, FormRecognizerRequestBody } from './models';
+import { AnalyzeLayoutResultResponse, AnalyzeLayoutResult, FormRecognizerRequestBody, transformResults } from './models';
 import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState } from './lro/analyze/poller';
 import { PollerLike, PollOperationState } from '.';
 
@@ -161,14 +160,7 @@ export class LayoutRecognizerClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      let analyzeResult: GetAnalyzeLayoutResultResponse;
-      do {
-        analyzeResult = await this.client.getAnalyzeLayoutResult(resultId, requestOptions);
-        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
-          delay(2000); // TODO: internal polling or LRO
-        }
-      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
-
+      const analyzeResult = await this.client.getAnalyzeLayoutResult(resultId, requestOptions);
       return toAnalyzeLayoutResultResponse(analyzeResult);
     } catch (e) {
       span.setStatus({
@@ -187,10 +179,11 @@ function  toAnalyzeLayoutResultResponse(original: GetAnalyzeLayoutResultResponse
     if (!model){
       return undefined;
     }
+    const { readResults, pageResults } = transformResults(model.readResults, model.pageResults);
     return {
       version: model.version,
-      readResults: model.readResults,
-      pageResults: [] // TODO: transform original page results
+      readResults: readResults,
+      pageResults: pageResults
     }
   }
 

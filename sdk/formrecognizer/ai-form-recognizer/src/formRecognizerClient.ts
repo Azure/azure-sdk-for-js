@@ -18,7 +18,7 @@ import {
   GetAnalyzeReceiptResultResponse,
   DocumentResult
 } from "./generated/models";
-import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody } from "./models";
+import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody, toReadResult } from "./models";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
@@ -215,8 +215,8 @@ export class FormRecognizerClient {
         _response: result._response,
         analyzeResult:  {
           version: result.analyzeResult!.version,
-          readResults: result.analyzeResult!.readResults,
-          receiptResults: result.analyzeResult!.documentResults!.map(toReceiptResult)
+          readResults: result.analyzeResult!.readResults.map(toReadResult),
+          receiptResults: result.analyzeResult!.documentResults!.map(toReceiptResult), // TODO: Transform from original result.fields as we re-defined `elements`
         }
       }
     } else {
