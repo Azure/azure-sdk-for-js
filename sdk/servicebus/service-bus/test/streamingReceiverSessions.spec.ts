@@ -10,21 +10,13 @@ import { DispositionType } from "../src/serviceBusMessage";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
-import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
+import {
+  createServiceBusClientForTests,
+  ServiceBusClientForTests,
+  testPeekMsgsLength
+} from "./utils/testutils2";
 const should = chai.should();
 chai.use(chaiAsPromised);
-
-async function testPeekMsgsLength(
-  client: Receiver<ContextWithSettlement>,
-  expectedPeekLength: number
-): Promise<void> {
-  const peekedMsgs = await client.diagnostics.peek(expectedPeekLength + 1);
-  should.equal(
-    peekedMsgs.length,
-    expectedPeekLength,
-    "Unexpected number of msgs found when peeking"
-  );
-}
 
 describe("Streaming with sessions", () => {
   let senderClient: Sender;

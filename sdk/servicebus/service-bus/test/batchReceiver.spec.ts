@@ -8,22 +8,14 @@ import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
-import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
+import {
+  createServiceBusClientForTests,
+  ServiceBusClientForTests,
+  testPeekMsgsLength
+} from "./utils/testutils2";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
-
-async function testPeekMsgsLength(
-  client: Receiver<ContextWithSettlement>,
-  expectedPeekLength: number
-): Promise<void> {
-  const peekedMsgs = await client.diagnostics.peek(expectedPeekLength + 1);
-  should.equal(
-    peekedMsgs.length,
-    expectedPeekLength,
-    "Unexpected number of msgs found when peeking"
-  );
-}
 
 describe("batchReceiver", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -40,30 +32,7 @@ describe("batchReceiver", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-
-    if (entityNames.usesSessions) {
-      receiverClient = serviceBusClient.test.addToCleanup(
-        entityNames.queue
-          ? serviceBusClient.getSessionReceiver(
-              entityNames.queue,
-              "peekLock",
-              // TODO: should be replaced with a random ID
-              TestMessage.sessionId
-            )
-          : serviceBusClient.getSessionReceiver(
-              entityNames.topic!,
-              entityNames.subscription!,
-              "peekLock",
-              TestMessage.sessionId
-            )
-      );
-    } else {
-      receiverClient = serviceBusClient.test.addToCleanup(
-        entityNames.queue
-          ? serviceBusClient.getReceiver(entityNames.queue, "peekLock")
-          : serviceBusClient.getReceiver(entityNames.topic!, entityNames.subscription!, "peekLock")
-      );
-    }
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)

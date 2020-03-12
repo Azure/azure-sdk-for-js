@@ -11,22 +11,14 @@ import { StreamingReceiver } from "../src/core/streamingReceiver";
 import { DispositionType } from "../src/serviceBusMessage";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
-import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
+import {
+  ServiceBusClientForTests,
+  createServiceBusClientForTests,
+  testPeekMsgsLength
+} from "./utils/testutils2";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
-
-async function testPeekMsgsLength(
-  client: Receiver<ContextWithSettlement>,
-  expectedPeekLength: number
-): Promise<void> {
-  const peekedMsgs = await client.diagnostics.peek(expectedPeekLength + 1);
-  should.equal(
-    peekedMsgs.length,
-    expectedPeekLength,
-    "Unexpected number of msgs found when peeking"
-  );
-}
 
 let errorWasThrown: boolean;
 let unexpectedError: Error | undefined;
@@ -55,11 +47,7 @@ describe("Streaming", () => {
   async function beforeEachTest(testClientType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
-    receiverClient = serviceBusClient.test.addToCleanup(
-      entityNames.queue
-        ? serviceBusClient.getReceiver(entityNames.queue, "peekLock")
-        : serviceBusClient.getReceiver(entityNames.topic!, entityNames.subscription!, "peekLock")
-    );
+    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)

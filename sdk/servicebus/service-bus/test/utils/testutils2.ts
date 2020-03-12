@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TestClientType } from "./testUtils";
+import { TestClientType, TestMessage } from "./testUtils";
 import { getEnvVars, EnvVarNames } from "./envVarUtils";
 import * as dotenv from "dotenv";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./managementUtils";
 import { SessionReceiver } from "../../src/receivers/sessionReceiver";
 import { Receiver } from "../../src/receivers/receiver";
 import { ServiceBusClient } from "../../src/serviceBusClient";
-import { ServiceBusClientOptions } from "../../src";
+import { ServiceBusClientOptions, ContextWithSettlement } from "../../src";
+import chai from "chai";
 
 dotenv.config();
 const env = getEnvVars();
+const should = chai.should();
 
 const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
-function getRelatedEntities(
+function getEntityNames(
   testClientType: TestClientType
 ): {
   queue?: string;
@@ -72,8 +74,8 @@ function getRelatedEntities(
 
 async function createTestEntities(
   testClientType: TestClientType
-): Promise<ReturnType<typeof getRelatedEntities>> {
-  const relatedEntities = getRelatedEntities(testClientType);
+): Promise<ReturnType<typeof getEntityNames>> {
+  const relatedEntities = getEntityNames(testClientType);
 
   if (relatedEntities.queue) {
     await recreateQueue(relatedEntities.queue, {
@@ -115,15 +117,86 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
 }
 
 export interface ServiceBusClientForTests extends ServiceBusClient {
-  test: {
-    addToCleanup<T extends { close(): Promise<void> }>(v: T): T;
-    afterEach(): Promise<void>;
-    after(): Promise<void>;
-    purgeForClientType(...testClientType: TestClientType[]): Promise<void>;
-    createTestEntities(
-      testClientType: TestClientType
-    ): Promise<ReturnType<typeof getRelatedEntities>>;
-  };
+  test: ServiceBusTestHelpers;
+}
+
+export class ServiceBusTestHelpers {
+  constructor(private _serviceBusClient: ServiceBusClient) {}
+
+  addToCleanup<T extends { close(): Promise<void> }>(v: T): T {
+    this._closeables.push(v);
+    return v;
+  }
+
+  async afterEach(): Promise<void> {
+    const closePromises = this._closeables.map((c) => c.close());
+    this._closeables.length = 0;
+    await Promise.all(closePromises);
+  }
+
+  async after(): Promise<void> {
+    // TODO: purge any of the dynamically created entities created in `createTestEntities`
+    await this._serviceBusClient.close();
+  }
+
+  async purgeForClientType(...testClientTypes: TestClientType[]): Promise<void> {
+    await Promise.all(
+      testClientTypes.map((tct) => purgeForTestClientType(this._serviceBusClient, tct))
+    );
+  }
+
+  async createTestEntities(
+    testClientType: TestClientType
+  ): Promise<ReturnType<typeof getEntityNames>> {
+    // TODO: for now these aren't randomly named. This is prep so we can
+    // do that soon.
+    let entityValues = this._testClientEntities.get(testClientType);
+
+    if (entityValues == null) {
+      entityValues = await createTestEntities(testClientType);
+      this._testClientEntities.set(testClientType, entityValues);
+    }
+
+    return entityValues;
+  }
+
+  /**
+   * Gets a peek/lock receiver for the specified `TestClientType`
+   * NOTE: the underlying receiver may be a `SessionReceiverImpl`
+   */
+  async getPeekLockReceiver(
+    entityNames: ReturnType<typeof getEntityNames>
+  ): Promise<Receiver<ContextWithSettlement>> {
+    // TODO: we should generate a random ID here - there's no harm in
+    // creating as many sessions as we wish. Some tests will need to change.
+    const sessionId = TestMessage.sessionId;
+
+    if (entityNames.usesSessions) {
+      return this.addToCleanup(
+        entityNames.queue
+          ? this._serviceBusClient.getSessionReceiver(entityNames.queue, "peekLock", sessionId)
+          : this._serviceBusClient.getSessionReceiver(
+              entityNames.topic!,
+              entityNames.subscription!,
+              "peekLock",
+              sessionId
+            )
+      );
+    } else {
+      return this.addToCleanup(
+        entityNames.queue
+          ? this._serviceBusClient.getReceiver(entityNames.queue, "peekLock")
+          : this._serviceBusClient.getReceiver(
+              entityNames.topic!,
+              entityNames.subscription!,
+              "peekLock"
+            )
+      );
+    }
+  }
+
+  private _closeables: { close(): Promise<void> }[] = [];
+  private _testClientEntities: Map<TestClientType, ReturnType<typeof getEntityNames>> = new Map();
 }
 
 async function purgeForTestClientType(
@@ -131,7 +204,7 @@ async function purgeForTestClientType(
   testClientType: TestClientType
 ): Promise<void> {
   let receiver: Receiver<{}> | SessionReceiver<{}> | undefined;
-  let entityPaths = getRelatedEntities(testClientType);
+  let entityPaths = getEntityNames(testClientType);
 
   if (entityPaths.queue) {
     receiver = serviceBusClient.getReceiver(entityPaths.queue, "receiveAndDelete");
@@ -163,44 +236,7 @@ export function createServiceBusClientForTests(
     options
   ) as ServiceBusClientForTests;
 
-  const closeables: { close(): Promise<void> }[] = [];
-  const testClientEntities: Map<TestClientType, ReturnType<typeof getRelatedEntities>> = new Map();
-
-  serviceBusClient.test = {
-    addToCleanup<T extends { close(): Promise<void> }>(v: T): T {
-      closeables.push(v);
-      return v;
-    },
-    async afterEach(): Promise<void> {
-      const closePromises = closeables.map((c) => c.close());
-      closeables.length = 0;
-      await Promise.all(closePromises);
-    },
-    async after(): Promise<void> {
-      // TODO: purge any of the dynamically created entities created in `createTestEntities`
-      await serviceBusClient.close();
-    },
-    async purgeForClientType(...testClientTypes: TestClientType[]): Promise<void> {
-      await Promise.all(
-        testClientTypes.map((tct) => purgeForTestClientType(serviceBusClient, tct))
-      );
-    },
-    async createTestEntities(
-      testClientType: TestClientType
-    ): Promise<ReturnType<typeof getRelatedEntities>> {
-      // TODO: for now these aren't randomly named. This is prep so we can
-      // do that soon.
-      let entityValues = testClientEntities.get(testClientType);
-
-      if (entityValues == null) {
-        entityValues = await createTestEntities(testClientType);
-        testClientEntities.set(testClientType, entityValues);
-      }
-
-      return entityValues;
-    }
-  };
-
+  serviceBusClient.test = new ServiceBusTestHelpers(serviceBusClient);
   return serviceBusClient;
 }
 
@@ -226,4 +262,17 @@ function connectionString() {
   }
 
   return env[EnvVarNames.SERVICEBUS_CONNECTION_STRING];
+}
+
+export async function testPeekMsgsLength(
+  peekableReceiver: Pick<Receiver<{}>, "diagnostics">,
+  expectedPeekLength: number
+): Promise<void> {
+  const peekedMsgs = await peekableReceiver.diagnostics.peek(expectedPeekLength + 1);
+
+  should.equal(
+    peekedMsgs.length,
+    expectedPeekLength,
+    "Unexpected number of msgs found when peeking"
+  );
 }
