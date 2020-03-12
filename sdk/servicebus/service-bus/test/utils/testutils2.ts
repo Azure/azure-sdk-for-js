@@ -181,15 +181,15 @@ export class ServiceBusTestHelpers {
    *
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
-  async getPeekLockReceiver(
+  getPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
-  ): Promise<Receiver<ContextWithSettlement>> {
+  ): Receiver<ContextWithSettlement> {
     try {
       // if you're creating a receiver this way then you'll just use the default
       // session ID for your receiver.
       // if you want to get more specific use the `getPeekLockSessionReceiver` method
       // instead.
-      const { receiver: sessionReceiver } = await this.getSessionPeekLockReceiver(
+      const { receiver: sessionReceiver } = this.getSessionPeekLockReceiver(
         entityNames,
         TestMessage.sessionId
       );
@@ -211,9 +211,9 @@ export class ServiceBusTestHelpers {
     );
   }
 
-  async getSubscriptionPeekLockReceiver(
+  getSubscriptionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
-  ): Promise<Receiver<ContextWithSettlement> & SubscriptionRuleManagement> {
+  ): Receiver<ContextWithSettlement> & SubscriptionRuleManagement {
     if (entityNames.topic == null || entityNames.subscription == null) {
       throw new TypeError("Not subscription entity - can't create a subscription receiver for it");
     }
@@ -223,14 +223,14 @@ export class ServiceBusTestHelpers {
     );
   }
 
-  async getSessionPeekLockReceiver(
+  getSessionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>,
     sessionId: string | "",
     getSessionReceiverOptions?: GetSessionReceiverOptions
-  ): Promise<{
+  ): {
     receiver: SessionReceiver<ContextWithSettlement>;
     sessionId: string;
-  }> {
+  } {
     if (!entityNames.usesSessions) {
       throw new TypeError(
         "Not a session-full entity - can't create a session receiver type for it"

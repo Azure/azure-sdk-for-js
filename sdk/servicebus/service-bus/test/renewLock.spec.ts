@@ -27,7 +27,7 @@ describe("renew lock", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
@@ -488,7 +488,7 @@ describe("renew lock", () => {
       // Clean up any left over messages
       await receiverClient.close();
 
-      receiverClient = await serviceBusClient.test.getPeekLockReceiver(
+      receiverClient = serviceBusClient.test.getPeekLockReceiver(
         await serviceBusClient.test.createTestEntities(entityType)
       );
 

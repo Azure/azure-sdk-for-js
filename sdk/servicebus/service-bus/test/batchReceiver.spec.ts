@@ -30,9 +30,13 @@ describe("batchReceiver", () => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
+  after(() => {
+    return serviceBusClient.test.after();
+  });
+
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)

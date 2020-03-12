@@ -76,6 +76,18 @@ export interface SessionReceiver<ContextT extends ContextWithSettlement | {}>
   };
 
   /**
+   * @property The time in UTC until which the session is locked.
+   * Everytime `renewSessionLock()` is called, this time gets updated to current time plus the lock
+   * duration as specified during the Queue/Subscription creation.
+   *
+   * Will return undefined until a AMQP receiver link has been successfully set up for the session.
+   *
+   * @readonly
+   * @memberof SessionReceiver
+   */
+  sessionLockedUntilUtc: Date | undefined;
+
+  /**
    * Renews the lock on the session.
    */
   renewSessionLock(): Promise<Date>;
