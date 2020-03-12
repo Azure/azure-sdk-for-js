@@ -29,8 +29,7 @@ export class FirewallRules {
 
   /**
    * Creates a new firewall rule or updates an existing firewall rule.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param firewallRuleName The name of the server firewall rule.
    * @param parameters The required parameters for creating or updating a firewall rule.
@@ -44,8 +43,7 @@ export class FirewallRules {
 
   /**
    * Deletes a server firewall rule.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param firewallRuleName The name of the server firewall rule.
    * @param [options] The optional parameters
@@ -58,8 +56,7 @@ export class FirewallRules {
 
   /**
    * Gets information about a server firewall rule.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param firewallRuleName The name of the server firewall rule.
    * @param [options] The optional parameters
@@ -67,16 +64,14 @@ export class FirewallRules {
    */
   get(resourceGroupName: string, serverName: string, firewallRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.FirewallRulesGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param firewallRuleName The name of the server firewall rule.
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, firewallRuleName: string, callback: msRest.ServiceCallback<Models.FirewallRule>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param firewallRuleName The name of the server firewall rule.
    * @param options The optional parameters
@@ -97,23 +92,20 @@ export class FirewallRules {
 
   /**
    * List all the firewall rules in a given server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<Models.FirewallRulesListByServerResponse>
    */
   listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.FirewallRulesListByServerResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.FirewallRuleListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param options The optional parameters
    * @param callback The callback
@@ -132,8 +124,7 @@ export class FirewallRules {
 
   /**
    * Creates a new firewall rule or updates an existing firewall rule.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param firewallRuleName The name of the server firewall rule.
    * @param parameters The required parameters for creating or updating a firewall rule.
@@ -155,8 +146,7 @@ export class FirewallRules {
 
   /**
    * Deletes a server firewall rule.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param firewallRuleName The name of the server firewall rule.
    * @param [options] The optional parameters

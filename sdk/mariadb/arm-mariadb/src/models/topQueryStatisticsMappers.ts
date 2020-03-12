@@ -15,7 +15,6 @@ export {
   Configuration,
   Database,
   FirewallRule,
-  FirewallRuleListResult,
   LogFile,
   PrivateEndpointConnection,
   PrivateEndpointProperty,
@@ -34,6 +33,8 @@ export {
   ServerSecurityAlertPolicy,
   Sku,
   StorageProfile,
+  TopQueryStatisticsInput,
+  TopQueryStatisticsResultList,
   TrackedResource,
   VirtualNetworkRule,
   WaitStatistic
