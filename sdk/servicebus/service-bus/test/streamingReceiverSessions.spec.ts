@@ -48,20 +48,11 @@ describe("Streaming with sessions", () => {
     }
   }
 
+  async function afterEachTest(): Promise<void> {
+    await serviceBusClient.test.afterEach();
+  }
   async function beforeEachTest(testClientType: TestClientType): Promise<void> {
-    const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
-
-    receiverClient = serviceBusClient.test.addToCleanup(
-      entityNames.queue
-        ? serviceBusClient.getSessionReceiver(entityNames.queue, "peekLock", TestMessage.sessionId)
-        : serviceBusClient.getSessionReceiver(
-            entityNames.topic!,
-            entityNames.subscription!,
-            "peekLock",
-            // TODO: we should just be able to randomly generate this. Change _soon_.
-            TestMessage.sessionId
-          )
-    );
+    const entityNames = await createReceiverForTests(testClientType);
 
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
@@ -75,8 +66,20 @@ describe("Streaming with sessions", () => {
     unexpectedError = undefined;
   }
 
-  async function afterEachTest(): Promise<void> {
-    await serviceBusClient.test.afterEach();
+  async function createReceiverForTests(testClientType: TestClientType) {
+    const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
+    receiverClient = serviceBusClient.test.addToCleanup(
+      entityNames.queue
+        ? serviceBusClient.getSessionReceiver(entityNames.queue, "peekLock", TestMessage.sessionId)
+        : serviceBusClient.getSessionReceiver(
+            entityNames.topic!,
+            entityNames.subscription!,
+            "peekLock",
+            // TODO: we should just be able to randomly generate this. Change _soon_.
+            TestMessage.sessionId
+          )
+    );
+    return entityNames;
   }
 
   describe("Sessions Streaming - Misc Tests", function(): void {
@@ -304,119 +307,109 @@ describe("Streaming with sessions", () => {
   });
 
   // TODO: TEMPORARY
-  // describe("Sessions Streaming - Abandon message", function(): void {
-  //   afterEach(async () => {
-  //     await afterEachTest();
-  //   });
-  //   async function eachTest(
-  //     testClientType: TestClientType,
-  //     autoComplete: boolean,
-  //     receiveMode?: "peekLock" | "receiveAndDelete" | undefined
-  //   ) {
-  //     await beforeEachTest(testClientType, receiveMode);
-  //     await testAbandon(testClientType, autoComplete);
-  //   }
-  //   async function testAbandon(
-  //     testClientType: TestClientType,
-  //     autoComplete: boolean
-  //   ): Promise<void> {
-  //     const testMessage = TestMessage.getSessionSample();
-  //     await senderClient.send(testMessage);
-  //     let abandonFlag = 0;
-  //     receiverClient.subscribe(
-  //       {
-  //         async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-  //           return context.abandon(msg).then(() => {
-  //             abandonFlag = 1;
-  //             if (receiverClient.isReceivingMessages()) {
-  //               return receiverClient.close();
-  //             }
-  //             return Promise.resolve();
-  //           });
-  //         },
-  //         processError
-  //       },
-  //       { autoComplete }
-  //     );
+  describe("Sessions Streaming - Abandon message", function(): void {
+    afterEach(async () => {
+      await afterEachTest();
+    });
+    async function eachTest(testClientType: TestClientType, autoComplete: boolean) {
+      await beforeEachTest(testClientType);
+      await testAbandon(testClientType, autoComplete);
+    }
+    async function testAbandon(
+      testClientType: TestClientType,
+      autoComplete: boolean
+    ): Promise<void> {
+      const testMessage = TestMessage.getSessionSample();
+      await senderClient.send(testMessage);
+      let abandonFlag = 0;
 
-  //     const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
-  //     should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
+      receiverClient.subscribe(
+        {
+          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+            return context.abandon(msg).then(() => {
+              abandonFlag = 1;
+              if (receiverClient.isReceivingMessages()) {
+                return receiverClient.close();
+              }
+              return Promise.resolve();
+            });
+          },
+          processError
+        },
+        { autoComplete }
+      );
 
-  //     if (receiverClient.isReceivingMessages()) {
-  //       await receiverClient.close();
-  //     }
+      const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
+      should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
-  //     should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-  //     receiverClient = (
-  //       await getSenderReceiverClients(
-  //         testClientType,
-  //         "peekLock",
-  //         undefined,
-  //         { id: TestMessage.sessionId },
-  //         false
-  //       )
-  //     ).receiverClient;
+      if (receiverClient.isReceivingMessages()) {
+        await receiverClient.close();
+      }
 
-  //     const batch = await receiverClient.receiveBatch(1);
-  //     const receivedMsgs = batch.messages;
-  //     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-  //     should.equal(
-  //       receivedMsgs[0].messageId,
-  //       testMessage.messageId,
-  //       "MessageId is different than expected"
-  //     );
-  //     should.equal(receivedMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
-  //     await batch.context.complete(receivedMsgs[0]);
-  //     await testPeekMsgsLength(receiverClient, 0);
-  //   }
-  //   it("Partitioned Queue: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
-  //     void
-  //   > {
-  //     await eachTest(TestClientType.PartitionedQueueWithSessions, false);
-  //   });
+      should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-  //   it("Partitioned Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
-  //     void
-  //   > {
-  //     await eachTest(TestClientType.PartitionedSubscriptionWithSessions, false);
-  //   });
+      await createReceiverForTests(testClientType);
 
-  //   it("UnPartitioned Queue: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
-  //     void
-  //   > {
-  //     await eachTest(TestClientType.UnpartitionedQueueWithSessions, false);
-  //   });
+      const batch = await receiverClient.receiveBatch(1);
+      const receivedMsgs = batch.messages;
+      should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
+      should.equal(
+        receivedMsgs[0].messageId,
+        testMessage.messageId,
+        "MessageId is different than expected"
+      );
+      should.equal(receivedMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
+      await batch.context.complete(receivedMsgs[0]);
+      await testPeekMsgsLength(receiverClient, 0);
+    }
+    it("Partitioned Queue: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+      void
+    > {
+      await eachTest(TestClientType.PartitionedQueueWithSessions, false);
+    });
 
-  //   it("UnPartitioned Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
-  //     void
-  //   > {
-  //     await eachTest(TestClientType.UnpartitionedSubscriptionWithSessions, false);
-  //   });
+    it("Partitioned Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+      void
+    > {
+      await eachTest(TestClientType.PartitionedSubscriptionWithSessions, false);
+    });
 
-  //   it("Partitioned Queue with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
-  //     void
-  //   > {
-  //     await eachTest(TestClientType.PartitionedQueueWithSessions, true);
-  //   });
+    it("UnPartitioned Queue: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+      void
+    > {
+      await eachTest(TestClientType.UnpartitionedQueueWithSessions, false);
+    });
 
-  //   it("Partitioned Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
-  //     void
-  //   > {
-  //     await eachTest(TestClientType.PartitionedSubscriptionWithSessions, true);
-  //   });
+    it("UnPartitioned Subscription: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+      void
+    > {
+      await eachTest(TestClientType.UnpartitionedSubscriptionWithSessions, false);
+    });
 
-  //   it("UnPartitioned Queue with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
-  //     void
-  //   > {
-  //     await eachTest(TestClientType.UnpartitionedQueueWithSessions, true);
-  //   });
+    it("Partitioned Queue with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+      void
+    > {
+      await eachTest(TestClientType.PartitionedQueueWithSessions, true);
+    });
 
-  //   it("UnPartitioned Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
-  //     void
-  //   > {
-  //     await eachTest(TestClientType.UnpartitionedSubscriptionWithSessions, true);
-  //   });
-  // });
+    it("Partitioned Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+      void
+    > {
+      await eachTest(TestClientType.PartitionedSubscriptionWithSessions, true);
+    });
+
+    it("UnPartitioned Queue with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+      void
+    > {
+      await eachTest(TestClientType.UnpartitionedQueueWithSessions, true);
+    });
+
+    it("UnPartitioned Subscription with autoComplete: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
+      void
+    > {
+      await eachTest(TestClientType.UnpartitionedSubscriptionWithSessions, true);
+    });
+  });
 
   describe("Sessions Streaming - Defer message", function(): void {
     afterEach(async () => {
