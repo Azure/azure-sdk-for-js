@@ -10,6 +10,7 @@ import { Receiver } from "../../src/receivers/receiver";
 import { ServiceBusClient } from "../../src/serviceBusClient";
 import { ServiceBusClientOptions, ContextWithSettlement } from "../../src";
 import chai from "chai";
+import { GetSessionReceiverOptions } from "../../src/models";
 
 dotenv.config();
 const env = getEnvVars();
@@ -162,39 +163,70 @@ export class ServiceBusTestHelpers {
 
   /**
    * Gets a peek/lock receiver for the specified `TestClientType`
-   * NOTE: the underlying receiver may be a `SessionReceiverImpl`
+   * NOTE: the underlying receiver may be a `SessionReceiverImpl`. It will target `TestMessage.sessionId`.
    *
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
   async getPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
   ): Promise<Receiver<ContextWithSettlement>> {
-    // TODO: we should generate a random ID here - there's no harm in
-    // creating as many sessions as we wish. Some tests will need to change.
-    const sessionId = TestMessage.sessionId;
+    let sessionReceiverAndId = await this.getSessionPeekLockReceiver(
+      entityNames,
+      TestMessage.sessionId
+    );
 
+    // for at least a few of our tests they don't care about the session ID so we can just default
+    if (sessionReceiverAndId) {
+      return sessionReceiverAndId.sessionReceiver;
+    }
+
+    return this.addToCleanup(
+      entityNames.queue
+        ? this._serviceBusClient.getReceiver(entityNames.queue, "peekLock")
+        : this._serviceBusClient.getReceiver(
+            entityNames.topic!,
+            entityNames.subscription!,
+            "peekLock"
+          )
+    );
+  }
+
+  async getSessionPeekLockReceiver(
+    entityNames: ReturnType<typeof getEntityNames>,
+    sessionId: string | undefined,
+    getSessionReceiverOptions?: GetSessionReceiverOptions
+  ): Promise<
+    { sessionReceiver: SessionReceiver<ContextWithSettlement>; sessionId: string } | undefined
+  > {
     if (entityNames.usesSessions) {
-      return this.addToCleanup(
+      return undefined;
+    }
+
+    if (sessionId == null) {
+      // generate a brand new session ID instead (preferred mode, I'd like to get rid of the
+      // "used a fixed name" session ID)
+      sessionId = `sessionid-${Date.now().toString()}`;
+    }
+
+    return {
+      sessionId,
+      sessionReceiver: this.addToCleanup(
         entityNames.queue
-          ? this._serviceBusClient.getSessionReceiver(entityNames.queue, "peekLock", sessionId)
+          ? this._serviceBusClient.getSessionReceiver(
+              entityNames.queue,
+              "peekLock",
+              sessionId,
+              getSessionReceiverOptions
+            )
           : this._serviceBusClient.getSessionReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "peekLock",
-              sessionId
+              sessionId,
+              getSessionReceiverOptions
             )
-      );
-    } else {
-      return this.addToCleanup(
-        entityNames.queue
-          ? this._serviceBusClient.getReceiver(entityNames.queue, "peekLock")
-          : this._serviceBusClient.getReceiver(
-              entityNames.topic!,
-              entityNames.subscription!,
-              "peekLock"
-            )
-      );
-    }
+      )
+    };
   }
 
   /**
