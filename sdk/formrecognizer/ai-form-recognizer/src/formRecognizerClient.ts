@@ -210,8 +210,8 @@ export class FormRecognizerClient {
     if (result.status === "succeeded") {
       return {
         status: result.status,
-        createdDateTime: result.createdDateTime,
-        lastUpdatedDateTime: result.lastUpdatedDateTime,
+        createdOn: result.createdOn,
+        lastUpdatedOn: result.lastUpdatedOn,
         _response: result._response,
         analyzeResult:  {
           version: result.analyzeResult!.version,
@@ -222,8 +222,8 @@ export class FormRecognizerClient {
     } else {
       return {
         status: result.status,
-        createdDateTime: result.createdDateTime,
-        lastUpdatedDateTime: result.lastUpdatedDateTime,
+        createdOn: result.createdOn,
+        lastUpdatedOn: result.lastUpdatedOn,
         _response: result._response,
       }
     };

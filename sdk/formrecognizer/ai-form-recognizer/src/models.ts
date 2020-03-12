@@ -106,7 +106,7 @@ export interface KeyValuePair {
  * Extracted information from a single page.
  */
 export interface PageResult {
-  page: number; // pageNumber
+  pageNumber: number;
   clusterId?: number;
   keyValuePairs?: KeyValuePair[];
   tables?: DataTable[];
@@ -140,7 +140,7 @@ export interface CommonFieldValue {
   /**
    * The 1-based page number in the input document.
    */
-  page: number;
+  pageNumber: number;
 }
 
 export type StringFieldValue = {
@@ -280,8 +280,8 @@ export interface AnalyzeReceiptResult {
 
 export interface AnalyzeReceiptOperationResult {
   status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
-  createdDateTime: Date;
-  lastUpdatedDateTime: Date;
+  createdOn: Date;
+  lastUpdatedOn: Date;
   analyzeResult?: AnalyzeReceiptResult;
 }
 
@@ -313,14 +313,14 @@ export interface AnalyzeLayoutResult {
 
 export interface LayoutPageResult {
   keyValuePairs?: KeyValuePair[];
-  page: number; // pageNumber
+  pageNumber: number;
   tables?: DataTable[];
 };
 
 export interface AnalyzeLayoutOperationResult {
   status: OperationStatus;
-  createdDateTime: Date;
-  lastUpdatedDateTime: Date;
+  createdOn: Date;
+  lastUpdatedOn: Date;
   analyzeResult?: AnalyzeLayoutResult;
 }
 

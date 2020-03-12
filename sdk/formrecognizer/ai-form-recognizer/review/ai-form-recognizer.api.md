@@ -50,9 +50,9 @@ export interface AnalyzeLayoutOperationResult {
     // (undocumented)
     analyzeResult?: AnalyzeLayoutResult;
     // (undocumented)
-    createdDateTime: Date;
+    createdOn: Date;
     // (undocumented)
-    lastUpdatedDateTime: Date;
+    lastUpdatedOn: Date;
     // (undocumented)
     status: OperationStatus;
 }
@@ -78,8 +78,8 @@ export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
 // @public
 export interface AnalyzeOperationResultModel {
     analyzeResult?: AnalyzeResultModel;
-    createdDateTime: Date;
-    lastUpdatedDateTime: Date;
+    createdOn: Date;
+    lastUpdatedOn: Date;
     status: OperationStatus;
 }
 
@@ -101,9 +101,9 @@ export interface AnalyzeReceiptOperationResult {
     // (undocumented)
     analyzeResult?: AnalyzeReceiptResult;
     // (undocumented)
-    createdDateTime: Date;
+    createdOn: Date;
     // (undocumented)
-    lastUpdatedDateTime: Date;
+    lastUpdatedOn: Date;
     // (undocumented)
     status: OperationStatus;
 }
@@ -158,7 +158,7 @@ export interface CommonFieldValue {
     boundingBox: number[];
     confidence: number;
     elements?: ExtractedElement[];
-    page: number;
+    pageNumber: number;
     text?: string;
 }
 
@@ -474,7 +474,7 @@ export interface LayoutPageResult {
     // (undocumented)
     keyValuePairs?: KeyValuePair[];
     // (undocumented)
-    page: number;
+    pageNumber: number;
     // (undocumented)
     tables?: DataTable[];
 }
@@ -510,8 +510,8 @@ export interface Model {
 
 // @public
 export interface ModelInfo {
-    createdDateTime: Date;
-    lastUpdatedDateTime: Date;
+    createdOn: Date;
+    lastUpdatedOn: Date;
     modelId: string;
     status: ModelStatus;
 }
@@ -526,7 +526,7 @@ export interface ModelsModel {
 // @public
 export interface ModelsSummary {
     count: number;
-    lastUpdatedDateTime: Date;
+    lastUpdatedOn: Date;
     limit: number;
 }
 
@@ -557,7 +557,7 @@ export interface PageResult {
     // (undocumented)
     keyValuePairs?: KeyValuePair[];
     // (undocumented)
-    page: number;
+    pageNumber: number;
     // (undocumented)
     tables?: DataTable[];
 }
@@ -566,7 +566,7 @@ export interface PageResult {
 export interface PageResultModel {
     clusterId?: number;
     keyValuePairs?: KeyValuePairModel[];
-    page: number;
+    pageNumber: number;
     tables?: DataTableModel[];
 }
 
@@ -621,7 +621,7 @@ export interface ReadResult {
     height: number;
     language?: Language;
     lines?: TextLine[];
-    page: number;
+    pageNumber: number;
     unit: LengthUnit;
     width: number;
 }
@@ -722,10 +722,10 @@ export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
     resumeFrom?: string;
 };
 
-// Warning: (ae-forgotten-export) The symbol "ICanHazStatus" needs to be exported by the entry point index.d.ts
-//
 // @public
-export class StartAnalyzePoller<T extends ICanHazStatus> extends Poller<StartAnalyzePollState<T>, T> {
+export class StartAnalyzePoller<T extends {
+    status: OperationStatus;
+}> extends Poller<StartAnalyzePollState<T>, T> {
     // Warning: (ae-forgotten-export) The symbol "StartAnalyzePollerOptions" needs to be exported by the entry point index.d.ts
     constructor(options: StartAnalyzePollerOptions<T>);
     // (undocumented)

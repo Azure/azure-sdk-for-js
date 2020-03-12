@@ -57,7 +57,7 @@ export interface ReadResult {
   /**
    * The 1-based page number in the input document.
    */
-  page: number;
+  pageNumber: number;
   /**
    * The general orientation of the text in clockwise direction, measured in degrees between (-180,
    * 180].
@@ -203,7 +203,7 @@ export interface PageResult {
   /**
    * Page number.
    */
-  page: number;
+  pageNumber: number;
   /**
    * Cluster identifier.
    */
@@ -279,7 +279,7 @@ export interface FieldValue {
   /**
    * The 1-based page number in the input document.
    */
-  page?: number;
+  pageNumber?: number;
 }
 
 /**
@@ -345,11 +345,11 @@ export interface AnalyzeOperationResult {
   /**
    * Date and time (UTC) when the analyze operation was submitted.
    */
-  createdDateTime: Date;
+  createdOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastUpdatedDateTime: Date;
+  lastUpdatedOn: Date;
   /**
    * Results of the analyze operation.
    */
@@ -475,11 +475,11 @@ export interface ModelInfo {
   /**
    * Date and time (UTC) when the model was created.
    */
-  createdDateTime: Date;
+  createdOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  lastUpdatedDateTime: Date;
+  lastUpdatedOn: Date;
 }
 
 /**
@@ -497,7 +497,7 @@ export interface ModelsSummary {
   /**
    * Date and time (UTC) when the summary was last updated.
    */
-  lastUpdatedDateTime: Date;
+  lastUpdatedOn: Date;
 }
 
 /**

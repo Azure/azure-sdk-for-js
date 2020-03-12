@@ -17,7 +17,7 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = "207683fc-b070-4731-a953-91bebbacb42b";
+  const modelId = "9bc687af-5b25-4fb8-8f2d-afbae9e8e43d";
 
   const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
   const result = await client.getModel(modelId, { includeKeys: true });

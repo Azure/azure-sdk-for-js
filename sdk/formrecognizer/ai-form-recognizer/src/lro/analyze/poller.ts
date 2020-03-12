@@ -30,12 +30,6 @@ export interface PollerOperationOptions<T> {
 }
 
 /**
- * Defines an interface to query for operation status
- * @internal
- */
-export interface ICanHazStatus { status: OperationStatus }
-
-/**
  * Defines the operations from a analyze client that are needed for the poller
  * to work
  */
@@ -79,7 +73,7 @@ export type StartAnalyzePollerOptions<T> = {
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class StartAnalyzePoller<T extends ICanHazStatus> extends Poller<StartAnalyzePollState<T>, T> {
+export class StartAnalyzePoller<T extends { status: OperationStatus }> extends Poller<StartAnalyzePollState<T>, T> {
   public intervalInMs: number;
 
   constructor(options: StartAnalyzePollerOptions<T>) {
@@ -128,7 +122,7 @@ export class StartAnalyzePoller<T extends ICanHazStatus> extends Poller<StartAna
  * Creates a poll operation given the provided state.
  * @ignore
  */
-function makeStartAnalyzePollOperation<T extends ICanHazStatus> (
+function makeStartAnalyzePollOperation<T extends { status: OperationStatus }> (
   state: StartAnalyzePollState<T>,
 ): StartAnalyzePollerOperation<T> {
   return {

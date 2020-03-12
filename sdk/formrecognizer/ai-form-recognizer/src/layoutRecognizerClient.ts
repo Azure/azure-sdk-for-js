@@ -196,16 +196,16 @@ function  toAnalyzeLayoutResultResponse(original: GetAnalyzeLayoutResultResponse
   if (original.status === "succeeded") {
     return {
       status: original.status,
-      createdDateTime: original.createdDateTime,
-      lastUpdatedDateTime: original.lastUpdatedDateTime,
+      createdOn: original.createdOn,
+      lastUpdatedOn: original.lastUpdatedOn,
       analyzeResult: toAnalyzeLayoutResult(original.analyzeResult),
       _response: original._response
     }
   } else {
     return {
       status: original.status,
-      createdDateTime: original.createdDateTime,
-      lastUpdatedDateTime: original.lastUpdatedDateTime,
+      createdOn: original.createdOn,
+      lastUpdatedOn: original.lastUpdatedOn,
       _response: original._response
     }
   }

@@ -99,7 +99,7 @@ export const ReadResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ReadResult",
     modelProperties: {
-      page: {
+      pageNumber: {
         required: true,
         nullable: false,
         serializedName: "page",
@@ -415,7 +415,7 @@ export const PageResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PageResult",
     modelProperties: {
-      page: {
+      pageNumber: {
         required: true,
         nullable: false,
         serializedName: "page",
@@ -586,7 +586,7 @@ export const FieldValue: coreHttp.CompositeMapper = {
           }
         }
       },
-      page: {
+      pageNumber: {
         nullable: false,
         serializedName: "page",
         constraints: {
@@ -756,7 +756,7 @@ export const AnalyzeOperationResult: coreHttp.CompositeMapper = {
           ]
         }
       },
-      createdDateTime: {
+      createdOn: {
         required: true,
         nullable: false,
         serializedName: "createdDateTime",
@@ -764,7 +764,7 @@ export const AnalyzeOperationResult: coreHttp.CompositeMapper = {
           name: "DateTime"
         }
       },
-      lastUpdatedDateTime: {
+      lastUpdatedOn: {
         required: true,
         nullable: false,
         serializedName: "lastUpdatedDateTime",
@@ -1023,7 +1023,7 @@ export const ModelInfo: coreHttp.CompositeMapper = {
           ]
         }
       },
-      createdDateTime: {
+      createdOn: {
         required: true,
         nullable: false,
         serializedName: "createdDateTime",
@@ -1031,7 +1031,7 @@ export const ModelInfo: coreHttp.CompositeMapper = {
           name: "DateTime"
         }
       },
-      lastUpdatedDateTime: {
+      lastUpdatedOn: {
         required: true,
         nullable: false,
         serializedName: "lastUpdatedDateTime",
@@ -1065,7 +1065,7 @@ export const ModelsSummary: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      lastUpdatedDateTime: {
+      lastUpdatedOn: {
         required: true,
         nullable: false,
         serializedName: "lastUpdatedDateTime",

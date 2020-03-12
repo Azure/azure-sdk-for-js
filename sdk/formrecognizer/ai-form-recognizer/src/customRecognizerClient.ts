@@ -552,8 +552,8 @@ export class CustomFormRecognizerClient {
 function toCustomFormResultResponse(original: GetAnalyzeFormResultResponse): AnalyzeFormResultResponse {
   return {
     status: original.status,
-    createdDateTime: original.createdDateTime,
-    lastUpdatedDateTime: original.createdDateTime,
+    createdOn: original.createdOn,
+    lastUpdatedOn: original.createdOn,
     _response: original._response,
     analyzeResult: !!original.analyzeResult ? {
       version: original.analyzeResult.version,
@@ -567,8 +567,8 @@ function toCustomFormResultResponse(original: GetAnalyzeFormResultResponse): Ana
 function toLabeledFormResultResponse(original: GetAnalyzeFormResultResponse): LabeledFormResultResponse {
   return {
     status: original.status,
-    createdDateTime: original.createdDateTime,
-    lastUpdatedDateTime: original.createdDateTime,
+    createdOn: original.createdOn,
+    lastUpdatedOn: original.createdOn,
     _response: original._response,
     analyzeResult: !!original.analyzeResult ? {
       version: original.analyzeResult.version,

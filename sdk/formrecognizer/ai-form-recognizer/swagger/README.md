@@ -22,3 +22,33 @@ use-extension:
 
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
+
+### `page` property renamed to `pageNumber`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.page
+    transform: >
+      $["x-ms-client-name"] = "pageNumber";
+```
+
+### `createdDateTime` => `createdOn`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.createdDateTime
+    transform: >
+      $["x-ms-client-name"] = "createdOn";
+```
+
+### `lastUpdatedDateTime` => `lastUpdatedOn`
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties.lastUpdatedDateTime
+    transform: >
+      $["x-ms-client-name"] = "lastUpdatedOn";
+```
