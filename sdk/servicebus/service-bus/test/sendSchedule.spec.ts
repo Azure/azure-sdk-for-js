@@ -15,7 +15,7 @@ import {
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 
-describe.only("send scheduled messages", () => {
+describe("send scheduled messages", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<ContextWithSettlement>;
   let serviceBusClient: ServiceBusClientForTests;

@@ -12,7 +12,7 @@ import { ServiceBusClientForTests, createServiceBusClientForTests } from "./util
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 
-describe.only("renew lock", () => {
+describe("renew lock", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
   let receiverClient: Receiver<ContextWithSettlement>;

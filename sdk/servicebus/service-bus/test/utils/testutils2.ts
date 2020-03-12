@@ -161,6 +161,16 @@ export class ServiceBusTestHelpers {
     return entityValues;
   }
 
+  getTestEntities(testClientType: TestClientType): ReturnType<typeof getEntityNames> {
+    const entityValues = this._testClientEntities.get(testClientType);
+
+    if (entityValues == null) {
+      throw new Error(`createTestEntities was never called for ${testClientType}`);
+    }
+
+    return entityValues;
+  }
+
   /**
    * Gets a peek/lock receiver for the specified `TestClientType`
    * NOTE: the underlying receiver may be a `SessionReceiverImpl`. It will target `TestMessage.sessionId`.
@@ -170,14 +180,20 @@ export class ServiceBusTestHelpers {
   async getPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
   ): Promise<Receiver<ContextWithSettlement>> {
-    let sessionReceiverAndId = await this.getSessionPeekLockReceiver(
-      entityNames,
-      TestMessage.sessionId
-    );
-
-    // for at least a few of our tests they don't care about the session ID so we can just default
-    if (sessionReceiverAndId) {
-      return sessionReceiverAndId.sessionReceiver;
+    try {
+      // if you're creating a receiver this way then you'll just use the default
+      // session ID for your receiver.
+      // if you want to get more specific use the `getPeekLockSessionReceiver` method
+      // instead.
+      const { receiver: sessionReceiver } = await this.getSessionPeekLockReceiver(
+        entityNames,
+        TestMessage.sessionId
+      );
+      return sessionReceiver;
+    } catch (err) {
+      if (!(err instanceof TypeError)) {
+        throw err;
+      }
     }
 
     return this.addToCleanup(
@@ -193,24 +209,21 @@ export class ServiceBusTestHelpers {
 
   async getSessionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>,
-    sessionId: string | undefined,
+    sessionId: string | "",
     getSessionReceiverOptions?: GetSessionReceiverOptions
-  ): Promise<
-    { sessionReceiver: SessionReceiver<ContextWithSettlement>; sessionId: string } | undefined
-  > {
-    if (entityNames.usesSessions) {
-      return undefined;
-    }
-
-    if (sessionId == null) {
-      // generate a brand new session ID instead (preferred mode, I'd like to get rid of the
-      // "used a fixed name" session ID)
-      sessionId = `sessionid-${Date.now().toString()}`;
+  ): Promise<{
+    receiver: SessionReceiver<ContextWithSettlement>;
+    sessionId: string;
+  }> {
+    if (!entityNames.usesSessions) {
+      throw new TypeError(
+        "Not a session-full entity - can't create a session receiver type for it"
+      );
     }
 
     return {
       sessionId,
-      sessionReceiver: this.addToCleanup(
+      receiver: this.addToCleanup(
         entityNames.queue
           ? this._serviceBusClient.getSessionReceiver(
               entityNames.queue,

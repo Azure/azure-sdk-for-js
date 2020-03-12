@@ -79,6 +79,27 @@ export interface SessionReceiver<ContextT extends ContextWithSettlement | {}>
    * Renews the lock on the session.
    */
   renewSessionLock(): Promise<Date>;
+
+  /**
+   * Gets the state of the Session. For more on session states, see
+   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * @returns {Promise<any>} The state of that session
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while retrieving session state.
+   */
+  getState(): Promise<any>;
+
+  /**
+   * Sets the state on the Session. For more on session states, see
+   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * @param state The state that needs to be set.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while setting the session state.
+   *
+   * @param {*} state
+   * @returns {Promise<void>}
+   */
+  setState(state: any): Promise<void>;
 }
 
 /**

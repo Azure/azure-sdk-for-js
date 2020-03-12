@@ -22,8 +22,8 @@ describe("Sample scenarios for track 2", () => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
-    return serviceBusClient.close();
+  after(() => {
+    return serviceBusClient.test.after();
   });
 
   describe("queues (no sessions)", async () => {
