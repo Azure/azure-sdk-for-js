@@ -767,17 +767,17 @@ export class ReceiverClientImplementation {
   }
 
   getRules(): Promise<RuleDescription[]> {
-    return this._receiver.getRules(this.entityPath);
+    return this._receiver.getRules();
   }
   removeRule(ruleName: string): Promise<void> {
-    return this._receiver.removeRule(this.entityPath, ruleName);
+    return this._receiver.removeRule(ruleName);
   }
   addRule(
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    return this._receiver.addRule(this.entityPath, ruleName, filter, sqlRuleActionExpression);
+    return this._receiver.addRule(ruleName, filter, sqlRuleActionExpression);
   }
   // ManagementClient methods # Begin
   // peek & peekBySequenceNumber are kept under `diagnostics`

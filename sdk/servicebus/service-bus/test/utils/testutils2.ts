@@ -8,7 +8,11 @@ import { recreateQueue, recreateTopic, recreateSubscription } from "./management
 import { SessionReceiver } from "../../src/receivers/sessionReceiver";
 import { Receiver } from "../../src/receivers/receiver";
 import { ServiceBusClient } from "../../src/serviceBusClient";
-import { ServiceBusClientOptions, ContextWithSettlement } from "../../src";
+import {
+  ServiceBusClientOptions,
+  ContextWithSettlement,
+  SubscriptionRuleManagement
+} from "../../src";
 import chai from "chai";
 import { GetSessionReceiverOptions } from "../../src/models";
 
@@ -204,6 +208,18 @@ export class ServiceBusTestHelpers {
             entityNames.subscription!,
             "peekLock"
           )
+    );
+  }
+
+  async getSubscriptionPeekLockReceiver(
+    entityNames: ReturnType<typeof getEntityNames>
+  ): Promise<Receiver<ContextWithSettlement> & SubscriptionRuleManagement> {
+    if (entityNames.topic == null || entityNames.subscription == null) {
+      throw new TypeError("Not subscription entity - can't create a subscription receiver for it");
+    }
+
+    return this.addToCleanup(
+      this._serviceBusClient.getReceiver(entityNames.topic!, entityNames.subscription!, "peekLock")
     );
   }
 

@@ -11,12 +11,9 @@ import { RuleDescription, CorrelationFilter } from "../core/managementClient";
  * @internal
  * @ignore
  */
-export function getSubscriptionRules(
-  context: ClientEntityContext,
-  entityPath: string
-): Promise<RuleDescription[]> {
-  if (entityPath.includes("/Subscriptions/")) {
-    throwErrorIfClientOrConnectionClosed(context.namespace, entityPath, context.isClosed);
+export function getSubscriptionRules(context: ClientEntityContext): Promise<RuleDescription[]> {
+  if (context.entityPath.includes("/Subscriptions/")) {
+    throwErrorIfClientOrConnectionClosed(context.namespace, context.entityPath, context.isClosed);
     return context.managementClient!.getRules();
   } else {
     throw new Error("Only for a subscription");
@@ -29,11 +26,10 @@ export function getSubscriptionRules(
  */
 export function removeSubscriptionRule(
   context: ClientEntityContext,
-  entityPath: string,
   ruleName: string
 ): Promise<void> {
-  if (entityPath.includes("/Subscriptions/")) {
-    throwErrorIfClientOrConnectionClosed(context.namespace, entityPath, context.isClosed);
+  if (context.entityPath.includes("/Subscriptions/")) {
+    throwErrorIfClientOrConnectionClosed(context.namespace, context.entityPath, context.isClosed);
     return context.managementClient!.removeRule(ruleName);
   } else {
     throw new Error("Only for a subscription");
@@ -46,13 +42,12 @@ export function removeSubscriptionRule(
  */
 export function addSubscriptionRule(
   context: ClientEntityContext,
-  entityPath: string,
   ruleName: string,
   filter: boolean | string | CorrelationFilter,
   sqlRuleActionExpression?: string
 ): Promise<void> {
-  if (entityPath.includes("/Subscriptions/")) {
-    throwErrorIfClientOrConnectionClosed(context.namespace, entityPath, context.isClosed);
+  if (context.entityPath.includes("/Subscriptions/")) {
+    throwErrorIfClientOrConnectionClosed(context.namespace, context.entityPath, context.isClosed);
     return context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
   } else {
     throw new Error("Only for a subscription");

@@ -360,27 +360,20 @@ export class InternalReceiver {
 
   // #region topic-filters
 
-  getRules(entityPath: string): Promise<RuleDescription[]> {
-    return getSubscriptionRules(this._context, entityPath);
+  getRules(): Promise<RuleDescription[]> {
+    return getSubscriptionRules(this._context);
   }
 
-  removeRule(entityPath: string, ruleName: string): Promise<void> {
-    return removeSubscriptionRule(this._context, entityPath, ruleName);
+  removeRule(ruleName: string): Promise<void> {
+    return removeSubscriptionRule(this._context, ruleName);
   }
 
   addRule(
-    entityPath: string,
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    return addSubscriptionRule(
-      this._context,
-      entityPath,
-      ruleName,
-      filter,
-      sqlRuleActionExpression
-    );
+    return addSubscriptionRule(this._context, ruleName, filter, sqlRuleActionExpression);
   }
 
   // #endregion
@@ -850,27 +843,20 @@ export class InternalSessionReceiver {
 
   // #region topic-filters
 
-  getRules(entityPath: string): Promise<RuleDescription[]> {
-    return getSubscriptionRules(this._context, entityPath);
+  getRules(): Promise<RuleDescription[]> {
+    return getSubscriptionRules(this._context);
   }
 
-  removeRule(entityPath: string, ruleName: string): Promise<void> {
-    return removeSubscriptionRule(this._context, entityPath, ruleName);
+  removeRule(ruleName: string): Promise<void> {
+    return removeSubscriptionRule(this._context, ruleName);
   }
 
   addRule(
-    entityPath: string,
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    return addSubscriptionRule(
-      this._context,
-      entityPath,
-      ruleName,
-      filter,
-      sqlRuleActionExpression
-    );
+    return addSubscriptionRule(this._context, ruleName, filter, sqlRuleActionExpression);
   }
 
   // #endregion
