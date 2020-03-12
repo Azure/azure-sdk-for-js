@@ -195,6 +195,45 @@ export class ServiceBusTestHelpers {
     }
   }
 
+  /**
+   * Gets a receiveAndDelete receiver for the specified `TestClientType`
+   * NOTE: the underlying receiver may be a `SessionReceiverImpl`
+   */
+  async getReceiveAndDeleteReceiver(
+    entityNames: ReturnType<typeof getEntityNames>
+  ): Promise<Receiver<{}>> {
+    // TODO: we should generate a random ID here - there's no harm in
+    // creating as many sessions as we wish. Some tests will need to change.
+    const sessionId = TestMessage.sessionId;
+
+    if (entityNames.usesSessions) {
+      return this.addToCleanup(
+        entityNames.queue
+          ? this._serviceBusClient.getSessionReceiver(
+              entityNames.queue,
+              "receiveAndDelete",
+              sessionId
+            )
+          : this._serviceBusClient.getSessionReceiver(
+              entityNames.topic!,
+              entityNames.subscription!,
+              "receiveAndDelete",
+              sessionId
+            )
+      );
+    } else {
+      return this.addToCleanup(
+        entityNames.queue
+          ? this._serviceBusClient.getReceiver(entityNames.queue, "receiveAndDelete")
+          : this._serviceBusClient.getReceiver(
+              entityNames.topic!,
+              entityNames.subscription!,
+              "receiveAndDelete"
+            )
+      );
+    }
+  }
+
   private _closeables: { close(): Promise<void> }[] = [];
   private _testClientEntities: Map<TestClientType, ReturnType<typeof getEntityNames>> = new Map();
 }
