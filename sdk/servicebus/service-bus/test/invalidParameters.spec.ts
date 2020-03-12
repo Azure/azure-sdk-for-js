@@ -8,9 +8,8 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ContextWithSettlement } from "../src";
 import { TestMessage, TestClientType } from "./utils/testUtils";
-import { SubscriptionRuleManagement } from "../src/serviceBusReceiverClient";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-import { Receiver } from "../src/receivers/receiver";
+import { SubscriptionRuleManagement, Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 

@@ -31,9 +31,6 @@ export type AuthorizationRule = {
 };
 
 // @public
-export type ClientTypeT<ReceiveModeT extends "peekLock" | "receiveAndDelete", EntityTypeT extends "queue" | "subscription", SessionsEnabledT extends "sessions" | "nosessions"> = SessionsEnabledT extends "nosessions" ? EntityTypeT extends "queue" ? NonSessionReceiver<ReceiveModeT> : NonSessionReceiver<ReceiveModeT> & SubscriptionRuleManagement : EntityTypeT extends "queue" ? SessionReceiver<ReceiveModeT> : SessionReceiver<ReceiveModeT> & SubscriptionRuleManagement;
-
-// @public
 export interface Closeable {
     close(): Promise<void>;
 }
@@ -119,29 +116,6 @@ export interface MessageHandlers<ContextT> {
 export type MessageIterator<ContextT> = AsyncIterable<MessageAndContext<ContextT>>;
 
 export { MessagingError }
-
-// @public
-export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
-    close(): Promise<void>;
-    diagnostics: {
-        peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
-    };
-    entityPath: string;
-    entityType: "queue" | "subscription";
-    getDeadLetterPath(): string;
-    isReceivingMessages(): boolean;
-    iterateMessages(options?: GetMessageIteratorOptions): MessageIterator<ContextType<LockModeT>>;
-    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<{
-        messages: ReceivedMessage[];
-        context: ContextType<LockModeT>;
-    }>;
-    receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
-    receiveMode: "peekLock" | "receiveAndDelete";
-    renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
-    subscribe(handler: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
-}
 
 // @public
 export interface OnError {
@@ -242,6 +216,42 @@ export enum ReceiveMode {
     receiveAndDelete = 2
 }
 
+// @public
+export interface Receiver<ContextT> {
+    close(): Promise<void>;
+    diagnostics: {
+        peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+    };
+    // (undocumented)
+    entityPath: string;
+    // (undocumented)
+    entityType: "queue" | "subscription";
+    // (undocumented)
+    getDeadLetterPath(): string;
+    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<{
+        message: ReceivedMessage;
+        context: ContextT;
+    }>;
+    // (undocumented)
+    isReceivingMessages(): boolean;
+    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<{
+        messages: ReceivedMessage[];
+        context: ContextT;
+    }>;
+    // Warning: (ae-forgotten-export) The symbol "Long" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    receiveDeferredMessage(sequenceNumber: Long_2, options?: OperationOptions): Promise<ServiceBusMessage | undefined>;
+    // (undocumented)
+    receiveDeferredMessages(sequenceNumbers: Long_2[], options?: OperationOptions): Promise<ServiceBusMessage[]>;
+    // (undocumented)
+    receiveMode: "peekLock" | "receiveAndDelete";
+    // (undocumented)
+    renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
+    subscribe(handler: MessageHandlers<ContextT>, options?: SubscribeOptions): void;
+}
+
 export { RetryOptions }
 
 // @public
@@ -334,35 +344,6 @@ export class ServiceBusMessage implements ReceivedMessageInfo {
 }
 
 // @public
-export interface ServiceBusReceiverClient {
-    new (queueAuth: QueueAuth, receiveMode: "peekLock", options?: ServiceBusClientOptions): ClientTypeT<"peekLock", "queue", "nosessions">;
-    new (queueAuth: QueueAuth, receiveMode: "receiveAndDelete", options?: ServiceBusClientOptions): ClientTypeT<"receiveAndDelete", "queue", "nosessions">;
-    new (queueAuth: QueueAuth, receiveMode: "peekLock", session: Session, options?: ServiceBusClientOptions): ClientTypeT<"peekLock", "queue", "sessions">;
-    new (queueAuth: QueueAuth, receiveMode: "receiveAndDelete", session: Session, options?: ServiceBusClientOptions): ClientTypeT<"receiveAndDelete", "queue", "sessions">;
-    new (subscriptionAuth: SubscriptionAuth, receiveMode: "peekLock", options?: ServiceBusClientOptions): ClientTypeT<"peekLock", "subscription", "nosessions">;
-    new (subscriptionAuth: SubscriptionAuth, receiveMode: "receiveAndDelete", options?: ServiceBusClientOptions): ClientTypeT<"receiveAndDelete", "subscription", "nosessions">;
-    new (subscriptionAuth: SubscriptionAuth, receiveMode: "peekLock", session: Session, options?: ServiceBusClientOptions): ClientTypeT<"peekLock", "subscription", "sessions">;
-    new (subscriptionAuth: SubscriptionAuth, receiveMode: "receiveAndDelete", session: Session, options?: ServiceBusClientOptions): ClientTypeT<"receiveAndDelete", "subscription", "sessions">;
-}
-
-// @public
-export const ServiceBusReceiverClient: ServiceBusReceiverClient;
-
-// @public
-export class ServiceBusSenderClient {
-    constructor(entityConnectionString: string, options?: ServiceBusClientOptions);
-    constructor(serviceBusConnectionString: string, entityName: string, options?: ServiceBusClientOptions);
-    constructor(host: string, entityName: string, credential: TokenCredential, options?: ServiceBusClientOptions);
-    cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
-    cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
-    close(): Promise<void>;
-    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
-    send(message: SendableMessageInfo): Promise<void>;
-    sendBatch(messages: SendableMessageInfo[]): Promise<void>;
-}
-
-// @public
 export interface Session {
     connections?: SessionConnections;
     id?: string;
@@ -380,30 +361,22 @@ export interface SessionMessageHandlerOptions {
 }
 
 // @public
-export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
-    close(): Promise<void>;
+export interface SessionReceiver<ContextT extends ContextWithSettlement | {}> extends Receiver<ContextT> {
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
+    // (undocumented)
     entityPath: string;
+    // (undocumented)
     entityType: "queue" | "subscription";
-    getDeadLetterPath(): string;
     getState(): Promise<any>;
-    isReceivingMessages(): boolean;
-    iterateMessages(options?: GetMessageIteratorOptions): MessageIterator<ContextType<LockModeT>>;
-    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<{
-        messages: ReceivedMessage[];
-        context: ContextType<LockModeT>;
-    }>;
-    receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
+    // (undocumented)
     receiveMode: "peekLock" | "receiveAndDelete";
     renewSessionLock(): Promise<Date>;
     sessionId: string | undefined;
     sessionLockedUntilUtc: Date | undefined;
     setState(state: any): Promise<void>;
-    subscribe(handlers: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
 }
 
 // @public
@@ -491,15 +464,6 @@ export interface SubscriptionOptions {
     requiresSession?: boolean;
     status?: EntityStatus;
     userMetadata?: string;
-}
-
-// @public
-export interface SubscriptionRuleManagement {
-    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
-    // (undocumented)
-    readonly defaultRuleName: string;
-    getRules(): Promise<RuleDescription[]>;
-    removeRule(ruleName: string): Promise<void>;
 }
 
 export { TokenCredential }

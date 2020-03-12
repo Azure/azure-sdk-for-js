@@ -6,13 +6,9 @@ import { getEnvVars, EnvVarNames } from "./envVarUtils";
 import * as dotenv from "dotenv";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./managementUtils";
 import { SessionReceiver } from "../../src/receivers/sessionReceiver";
-import { Receiver } from "../../src/receivers/receiver";
+import { Receiver, SubscriptionRuleManagement } from "../../src/receivers/receiver";
 import { ServiceBusClient } from "../../src/serviceBusClient";
-import {
-  ServiceBusClientOptions,
-  ContextWithSettlement,
-  SubscriptionRuleManagement
-} from "../../src";
+import { ServiceBusClientOptions, ContextWithSettlement } from "../../src";
 import chai from "chai";
 import { GetSessionReceiverOptions } from "../../src/models";
 

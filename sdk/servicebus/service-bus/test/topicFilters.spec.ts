@@ -13,8 +13,7 @@ import {
 } from "../src";
 
 import { TestClientType, checkWithTimeout } from "./utils/testUtils";
-import { SubscriptionRuleManagement } from "../src/serviceBusReceiverClient";
-import { Receiver } from "../src/receivers/receiver";
+import { Receiver, SubscriptionRuleManagement } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
   ServiceBusClientForTests,

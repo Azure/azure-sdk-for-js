@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { SubscriptionRuleManagement } from "./serviceBusReceiverClient";
 import { generate_uuid } from "rhea-promise";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -14,7 +13,7 @@ import { ClientEntityContext } from "./clientEntityContext";
 import { ClientType } from "./client";
 import { Sender } from "./sender";
 import { GetSessionReceiverOptions, ContextWithSettlement } from "./models";
-import { Receiver, ReceiverImpl } from "./receivers/receiver";
+import { Receiver, ReceiverImpl, SubscriptionRuleManagement } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 
 export class ServiceBusClient {
