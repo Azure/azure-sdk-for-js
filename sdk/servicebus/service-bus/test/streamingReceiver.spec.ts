@@ -9,10 +9,9 @@ import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import { DispositionType } from "../src/serviceBusMessage";
-import * as testutils2 from "./utils/testutils2";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
-import { ServiceBusClientForTests } from "./utils/testutils2";
+import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -46,7 +45,7 @@ describe("Streaming", () => {
   let deadLetterClient: Receiver<ContextWithSettlement>;
 
   before(() => {
-    serviceBusClient = testutils2.createServiceBusClientForTests();
+    serviceBusClient = createServiceBusClientForTests();
   });
 
   after(async () => {
