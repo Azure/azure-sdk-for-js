@@ -226,14 +226,6 @@ export interface SubscriptionRuleManagement {
   readonly defaultRuleName: string;
 }
 
-/**
- * The Receiver class can be used to receive messages in a batch or by registering handlers.
- * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a Receiver.
- * The Receiver class is an abstraction over the underlying AMQP receiver link.
- * @class Receiver
- * @internal
- * @ignore
- */
 export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionRuleManagement {
   /**
    * @property Describes the amqp connection context for the QueueClient.

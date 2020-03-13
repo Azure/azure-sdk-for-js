@@ -111,16 +111,6 @@ export interface SessionReceiver<ContextT extends ContextWithSettlement | {}>
   setState(state: any): Promise<void>;
 }
 
-/**
- * The SessionReceiver class can be used to receive messages from a session enabled Queue or
- * Subscription in a batch or by registering handlers.
- * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate a
- * SessionReceiver.
- * The SessionReceiver class is an abstraction over the underlying AMQP receiver link.
- * @class SessionReceiver
- * @internal
- * @ignore
- */
 export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
   implements SessionReceiver<ContextT> {
   public entityPath: string;
