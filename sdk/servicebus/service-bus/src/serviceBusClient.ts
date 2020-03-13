@@ -65,27 +65,28 @@ export class ServiceBusClient {
   }
 
   /**
-   * Creates a client for an Azure Service Bus queue.
+   * Creates a receiver for an Azure Service Bus queue.
    *
    * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
+   * @param options Options for the receiver itself.
    */
   getReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ContextWithSettlement>;
   /**
-   * Creates a client for an Azure Service Bus queue.
+   * Creates a receiver for an Azure Service Bus queue.
    *
-   * @param queueAuth Data needed to connect to a queue.
+   * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
+   * @param options Options for the receiver itself.
    */
   getReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<{}>;
   /**
-   * Creates a client for an Azure Service Bus queue.
+   * Creates a receiver for an Azure Service Bus subscription.
    *
-   * @param subscriptionAuth Data needed to connect to a subscription.
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
+   * @param options Options for the receiver itself.
    */
   getReceiver(
     topicName: string,
@@ -93,11 +94,12 @@ export class ServiceBusClient {
     receiveMode: "peekLock"
   ): Receiver<ContextWithSettlement> & SubscriptionRuleManagement;
   /**
-   * Creates a client for an Azure Service Bus queue.
+   * Creates a receiver for an Azure Service Bus subscription.
    *
-   * @param subscriptionAuth Data needed to connect to a subscription.
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
+   * @param options Options for the receiver itself.
    */
   getReceiver(
     topicName: string,
@@ -138,7 +140,6 @@ export class ServiceBusClient {
       `${entityPath}/${generate_uuid()}`
     );
 
-    // return new ReceiverClientImplementation(receiveMode, clientEntityContext, entityType, false);
     if (receiveMode === "peekLock") {
       return new ReceiverImpl<ContextWithSettlement>(clientEntityContext, receiveMode, entityType);
     } else {
@@ -147,11 +148,11 @@ export class ServiceBusClient {
   }
 
   /**
-   * Creates a client for an Azure Service Bus queue.
+   * Creates a receiver for an Azure Service Bus queue.
    *
-   * @param queueAuth Data needed to connect to a queue.
+   * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
+   * @param options Options for the receiver itself.
    */
   getSessionReceiver(
     queueName: string,
@@ -159,11 +160,11 @@ export class ServiceBusClient {
     options?: GetSessionReceiverOptions
   ): SessionReceiver<ContextWithSettlement>;
   /**
-   * Creates a client for an Azure Service Bus queue.
+   * Creates a receiver for an Azure Service Bus queue.
    *
-   * @param queueAuth Data needed to connect to a queue.
+   * @param queueName The name of the queue to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
+   * @param options Options for the receiver itself.
    */
   getSessionReceiver(
     queueName: string,
@@ -171,11 +172,12 @@ export class ServiceBusClient {
     options?: GetSessionReceiverOptions
   ): SessionReceiver<{}>;
   /**
-   * Creates a client for an Azure Service Bus queue.
+   * Creates a receiver for an Azure Service Bus subscription.
    *
-   * @param subscriptionAuth Data needed to connect to a subscription.
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
+   * @param options Options for the receiver itself.
    */
   getSessionReceiver(
     topicName: string,
@@ -184,11 +186,12 @@ export class ServiceBusClient {
     options?: GetSessionReceiverOptions
   ): SessionReceiver<ContextWithSettlement> & SubscriptionRuleManagement;
   /**
-   * Creates a client for an Azure Service Bus queue.
+   * Creates a receiver for an Azure Service Bus subscription.
    *
-   * @param subscriptionAuth Data needed to connect to a subscription.
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
    * @param receiveMode The receive mode to use (defaults to PeekLock)
-   * @param options Options for the client itself.
+   * @param options Options for the receiver itself.
    */
   getSessionReceiver(
     topicName: string,
