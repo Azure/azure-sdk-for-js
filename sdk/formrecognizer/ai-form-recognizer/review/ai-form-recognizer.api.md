@@ -17,22 +17,6 @@ import { ServiceClientCredentials } from '@azure/core-http';
 import { TokenCredential } from '@azure/identity';
 import { WebResource } from '@azure/core-http';
 
-// @public (undocumented)
-export type AnalyzeFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
-    analyzeResult?: AnalyzeFormResult;
-};
-
-// @public (undocumented)
-export type AnalyzeFormResult = Omit<AnalyzeResult, "documentResults">;
-
-// @public (undocumented)
-export type AnalyzeFormResultResponse = AnalyzeFormOperationResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
-};
-
 // @public
 export interface AnalyzeLayoutAsyncHeaders {
     operationLocation: string;
@@ -45,36 +29,6 @@ export type AnalyzeLayoutAsyncResponseModel = AnalyzeLayoutAsyncHeaders & {
     };
 };
 
-// @public (undocumented)
-export interface AnalyzeLayoutOperationResult {
-    // (undocumented)
-    analyzeResult?: AnalyzeLayoutResult;
-    // (undocumented)
-    createdOn: Date;
-    // (undocumented)
-    lastUpdatedOn: Date;
-    // (undocumented)
-    status: OperationStatus;
-}
-
-// @public (undocumented)
-export interface AnalyzeLayoutResult {
-    // (undocumented)
-    pageResults?: LayoutPageResult[];
-    // (undocumented)
-    readResults: ReadResult[];
-    // (undocumented)
-    version: string;
-}
-
-// @public
-export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
-};
-
 // @public
 export interface AnalyzeOperationResultModel {
     analyzeResult?: AnalyzeResultModel;
@@ -82,49 +36,6 @@ export interface AnalyzeOperationResultModel {
     lastUpdatedOn: Date;
     status: OperationStatus;
 }
-
-// @public (undocumented)
-export type AnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | ExtractCustomFormOptions;
-
-// @public
-export type AnalyzePollerClient<T> = {
-    startAnalyze: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) => Promise<{
-        operationLocation: string;
-    }>;
-    getAnalyzeResult: (resultId: string, options: {
-        abortSignal?: AbortSignalLike;
-    }) => Promise<T>;
-};
-
-// @public (undocumented)
-export interface AnalyzeReceiptOperationResult {
-    // (undocumented)
-    analyzeResult?: AnalyzeReceiptResult;
-    // (undocumented)
-    createdOn: Date;
-    // (undocumented)
-    lastUpdatedOn: Date;
-    // (undocumented)
-    status: OperationStatus;
-}
-
-// @public
-export interface AnalyzeReceiptResult {
-    // (undocumented)
-    readResults: ReadResult[];
-    // (undocumented)
-    receiptResults?: ReceiptResult[];
-    // (undocumented)
-    version: string;
-}
-
-// @public
-export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
-};
 
 // @public (undocumented)
 export type AnalyzeResult = Omit<AnalyzeResultModel, "pageResults"> & {
@@ -147,6 +58,98 @@ export type ArrayFieldValue = {
 } & CommonFieldValue;
 
 // @public
+export type BeginExtractFormsOptions = ExtractFormsOptions & {
+    intervalInMs?: number;
+    onProgress?: (state: BeginExtractPollState<ExtractFormResultResponse>) => void;
+    resumeFrom?: string;
+};
+
+// @public
+export type BeginExtractLabeledFormOptions = ExtractFormsOptions & {
+    intervalInMs?: number;
+    onProgress?: (state: BeginExtractPollState<LabeledFormResultResponse>) => void;
+    resumeFrom?: string;
+};
+
+// @public
+export class BeginExtractPoller<T extends {
+    status: OperationStatus;
+}> extends Poller<BeginExtractPollState<T>, T> {
+    // Warning: (ae-forgotten-export) The symbol "BeginExtractPollerOptions" needs to be exported by the entry point index.d.ts
+    constructor(options: BeginExtractPollerOptions<T>);
+    // (undocumented)
+    delay(): Promise<void>;
+    // (undocumented)
+    intervalInMs: number;
+}
+
+// @public (undocumented)
+export interface BeginExtractPollState<T> extends PollOperationState<T> {
+    // (undocumented)
+    readonly analyzeOptions?: ExtractOptions;
+    // (undocumented)
+    body?: FormRecognizerRequestBody;
+    // (undocumented)
+    readonly client: ExtractPollerClient<T>;
+    // (undocumented)
+    contentType: SupportedContentType;
+    // (undocumented)
+    modelId?: string;
+    // (undocumented)
+    resultId?: string;
+    // (undocumented)
+    status: OperationStatus;
+}
+
+// @public
+export type BeginExtractReceiptsOptions = ExtractReceiptsOptions & {
+    intervalInMs?: number;
+    onProgress?: (state: BeginExtractPollState<ExtractReceiptResultResponse>) => void;
+    resumeFrom?: string;
+};
+
+// @public
+export type BeginTrainingOptions<T> = TrainModelOptions & {
+    intervalInMs?: number;
+    onProgress?: (state: BeginTrainingPollState<T>) => void;
+    resumeFrom?: string;
+};
+
+// @public
+export class BeginTrainingPoller<T extends {
+    modelInfo: {
+        status: ModelStatus;
+    };
+}> extends Poller<BeginTrainingPollState<T>, T> {
+    // Warning: (ae-forgotten-export) The symbol "BeginTrainingPollerOptions" needs to be exported by the entry point index.d.ts
+    constructor(options: BeginTrainingPollerOptions<T>);
+    // (undocumented)
+    delay(): Promise<void>;
+    // (undocumented)
+    intervalInMs: number;
+}
+
+// @public (undocumented)
+export interface BeginTrainingPollState<T> extends PollOperationState<T> {
+    // (undocumented)
+    readonly client: TrainPollerClient<T>;
+    // (undocumented)
+    modelId?: string;
+    // (undocumented)
+    source: string;
+    // (undocumented)
+    status: ModelStatus;
+    // (undocumented)
+    readonly trainModelOptions?: TrainModelOptions;
+}
+
+// @public
+export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
+    prefix?: string;
+    includeSubFolders?: boolean;
+};
+
+// @public
 export class CognitiveKeyCredential implements ServiceClientCredentials {
     constructor(apiKey: string);
     signRequest(webResource: WebResource): Promise<WebResource>;
@@ -160,52 +163,6 @@ export interface CommonFieldValue {
     elements?: ExtractedElement[];
     pageNumber?: number;
     text?: string;
-}
-
-// @public (undocumented)
-export interface CustomFormModel {
-    // (undocumented)
-    keys: KeysResult;
-    // (undocumented)
-    modelInfo: ModelInfo;
-    // (undocumented)
-    trainResult?: FormModelTrainResult;
-}
-
-// @public (undocumented)
-export type CustomFormModelResponse = CustomFormModel & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: Model;
-    };
-};
-
-// @public
-export class CustomFormRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
-    // (undocumented)
-    deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
-    readonly endpointUrl: string;
-    // (undocumented)
-    extractCustomForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeFormOptions): Promise<FormPollerLike>;
-    // (undocumented)
-    extractCustomFormFromUrl(modelId: string, imageSourceUrl: string, options?: StartAnalyzeFormOptions): Promise<PollerLike<PollOperationState<AnalyzeFormResultResponse>, AnalyzeFormResultResponse>>;
-    // (undocumented)
-    extractLabeledForm(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeLabeledFormOptions): Promise<LabeledFormPollerLike>;
-    // (undocumented)
-    extractLabeledFormFromUrl(modelId: string, imageSourceUrl: string, options?: StartAnalyzeLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
-    // (undocumented)
-    getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
-    // (undocumented)
-    getModel(modelId: string, options?: GetModelOptions): Promise<CustomFormModelResponse>;
-    // (undocumented)
-    getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
-    // (undocumented)
-    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse>;
-    // (undocumented)
-    startTraining(source: string, options?: StartTrainingOptions<CustomFormModelResponse>): Promise<PollerLike<PollOperationState<CustomFormModelResponse>, CustomFormModelResponse>>;
-    // (undocumented)
-    startTrainingWithLabel(source: string, options?: StartTrainingOptions<LabeledFormModelResponse>): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>>;
 }
 
 // @public
@@ -296,18 +253,107 @@ export interface ErrorInformation {
 }
 
 // @public
-export type ExtractCustomFormOptions = FormRecognizerOperationOptions & {
-    includeTextDetails?: boolean;
+export type ExtractedElement = TextWord | TextLine;
+
+// @public (undocumented)
+export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+    analyzeResult?: ExtractFormResult;
+};
+
+// @public (undocumented)
+export type ExtractFormResult = Omit<AnalyzeResult, "documentResults">;
+
+// @public (undocumented)
+export type ExtractFormResultResponse = ExtractFormOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
 };
 
 // @public
-export type ExtractedElement = TextWord | TextLine;
+export type ExtractFormsOptions = FormRecognizerOperationOptions & {
+    includeTextDetails?: boolean;
+};
+
+// @public (undocumented)
+export interface ExtractLayoutOperationResult {
+    // (undocumented)
+    analyzeResult?: ExtractLayoutResult;
+    // (undocumented)
+    createdOn: Date;
+    // (undocumented)
+    lastUpdatedOn: Date;
+    // (undocumented)
+    status: OperationStatus;
+}
 
 // @public
 export type ExtractLayoutOptions = FormRecognizerOperationOptions;
 
+// @public (undocumented)
+export interface ExtractLayoutResult {
+    // (undocumented)
+    pageResults?: LayoutPageResult[];
+    // (undocumented)
+    readResults: ReadResult[];
+    // (undocumented)
+    version: string;
+}
+
 // @public
-export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
+export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
+};
+
+// @public (undocumented)
+export type ExtractOptions = ExtractReceiptsOptions | ExtractLayoutOptions | ExtractFormsOptions;
+
+// @public
+export type ExtractPollerClient<T> = {
+    beginExtract: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: ExtractOptions, modelId?: string) => Promise<{
+        operationLocation: string;
+    }>;
+    getExtractResult: (resultId: string, options: {
+        abortSignal?: AbortSignalLike;
+    }) => Promise<T>;
+};
+
+// @public (undocumented)
+export interface ExtractReceiptOperationResult {
+    // (undocumented)
+    analyzeResult?: ExtractReceiptResult;
+    // (undocumented)
+    createdOn: Date;
+    // (undocumented)
+    lastUpdatedOn: Date;
+    // (undocumented)
+    status: OperationStatus;
+}
+
+// @public
+export interface ExtractReceiptResult {
+    // (undocumented)
+    readResults: ReadResult[];
+    // (undocumented)
+    receiptResults?: ReceiptResult[];
+    // (undocumented)
+    version: string;
+}
+
+// @public
+export type ExtractReceiptResultResponse = ExtractReceiptOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
+};
+
+// @public
+export type ExtractReceiptsOptions = FormRecognizerOperationOptions & {
     includeTextDetails?: boolean;
 };
 
@@ -321,15 +367,55 @@ export interface FormFieldsReport {
 }
 
 // @public (undocumented)
-export interface FormModelTrainResult {
+export interface FormModel {
     // (undocumented)
-    errors?: ErrorInformation[];
+    keys: KeysResult;
     // (undocumented)
-    trainingDocuments: TrainingDocumentInfo[];
+    modelInfo: ModelInfo;
+    // (undocumented)
+    trainResult?: FormTrainResult;
 }
 
 // @public (undocumented)
-export type FormPollerLike = PollerLike<PollOperationState<AnalyzeFormResultResponse>, AnalyzeFormResultResponse>;
+export type FormModelResponse = FormModel & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: Model;
+    };
+};
+
+// @public (undocumented)
+export type FormPollerLike = PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>;
+
+// @public
+export class FormRecognizerClient {
+    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
+    // (undocumented)
+    beginExtractForms(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: BeginExtractFormsOptions): Promise<FormPollerLike>;
+    // (undocumented)
+    beginExtractFormsFromUrl(modelId: string, imageSourceUrl: string, options?: BeginExtractFormsOptions): Promise<PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>>;
+    // (undocumented)
+    beginExtractLabeledForms(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: BeginExtractLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    // (undocumented)
+    beginExtractLabeledFormsFromUrl(modelId: string, imageSourceUrl: string, options?: BeginExtractLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
+    // (undocumented)
+    beginTraining(source: string, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
+    // (undocumented)
+    beginTrainingWithLabel(source: string, options?: BeginTrainingOptions<LabeledFormModelResponse>): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>>;
+    // (undocumented)
+    deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
+    readonly endpointUrl: string;
+    // (undocumented)
+    getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
+    // (undocumented)
+    getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetCustomModelsResponse" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
+    // (undocumented)
+    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse>;
+    }
 
 // @public
 export interface FormRecognizerClientOptions extends PipelineOptions {
@@ -342,27 +428,19 @@ export interface FormRecognizerOperationOptions extends OperationOptions {
 // @public (undocumented)
 export type FormRecognizerRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | NodeJS.ReadableStream;
 
-// @public
-export type GetAnalyzeFormResultResponse = AnalyzeOperationResultModel & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
-    };
-};
+// @public (undocumented)
+export interface FormTrainResult {
+    // (undocumented)
+    errors?: ErrorInformation[];
+    // (undocumented)
+    trainingDocuments: TrainingDocumentInfo[];
+}
 
 // @public
 export type GetAnalyzeReceiptResultResponse = AnalyzeOperationResultModel & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: AnalyzeOperationResultModel;
-    };
-};
-
-// @public
-export type GetCustomModelsResponse = ModelsModel & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ModelsModel;
     };
 };
 
@@ -484,7 +562,7 @@ export interface LayoutPageResult {
 }
 
 // @public (undocumented)
-export type LayoutPollerLike = PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>;
+export type LayoutPollerLike = PollerLike<PollOperationState<ExtractLayoutResultResponse>, ExtractLayoutResultResponse>;
 
 // @public
 export class LayoutRecognizerClient {
@@ -700,16 +778,16 @@ export type ReceiptItemField = {
 } & CommonFieldValue;
 
 // @public (undocumented)
-export type ReceiptPollerLike = PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>;
+export type ReceiptPollerLike = PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>;
 
 // @public
 export class ReceiptRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractReceipt(body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
+    extractReceipts(body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     // (undocumented)
-    extractReceiptFromUrl(imageSourceUrl: string, options?: StartAnalyzeReceiptOptions): Promise<ReceiptPollerLike>;
+    extractReceiptsFromUrl(imageSourceUrl: string, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     }
 
 // @public (undocumented)
@@ -718,102 +796,10 @@ export type ReceiptResult = RawReceiptResult & Receipt;
 export { RestResponse }
 
 // @public
-export type StartAnalyzeFormOptions = ExtractCustomFormOptions & {
-    intervalInMs?: number;
-    onProgress?: (state: StartAnalyzePollState<AnalyzeFormResultResponse>) => void;
-    resumeFrom?: string;
-};
-
-// @public
-export type StartAnalyzeLabeledFormOptions = ExtractCustomFormOptions & {
-    intervalInMs?: number;
-    onProgress?: (state: StartAnalyzePollState<LabeledFormResultResponse>) => void;
-    resumeFrom?: string;
-};
-
-// @public
 export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
     intervalInMs?: number;
-    onProgress?: (state: StartAnalyzePollState<AnalyzeLayoutResultResponse>) => void;
+    onProgress?: (state: BeginExtractPollState<ExtractLayoutResultResponse>) => void;
     resumeFrom?: string;
-};
-
-// @public
-export class StartAnalyzePoller<T extends {
-    status: OperationStatus;
-}> extends Poller<StartAnalyzePollState<T>, T> {
-    // Warning: (ae-forgotten-export) The symbol "StartAnalyzePollerOptions" needs to be exported by the entry point index.d.ts
-    constructor(options: StartAnalyzePollerOptions<T>);
-    // (undocumented)
-    delay(): Promise<void>;
-    // (undocumented)
-    intervalInMs: number;
-}
-
-// @public (undocumented)
-export interface StartAnalyzePollState<T> extends PollOperationState<T> {
-    // (undocumented)
-    readonly analyzeOptions?: AnalyzeOptions;
-    // (undocumented)
-    body?: FormRecognizerRequestBody;
-    // (undocumented)
-    readonly client: AnalyzePollerClient<T>;
-    // (undocumented)
-    contentType: SupportedContentType;
-    // (undocumented)
-    modelId?: string;
-    // (undocumented)
-    resultId?: string;
-    // (undocumented)
-    status: OperationStatus;
-}
-
-// @public
-export type StartAnalyzeReceiptOptions = ExtractReceiptOptions & {
-    intervalInMs?: number;
-    onProgress?: (state: StartAnalyzePollState<AnalyzeReceiptResultResponse>) => void;
-    resumeFrom?: string;
-};
-
-// @public
-export type StartTrainingOptions<T> = TrainCustomModelOptions & {
-    intervalInMs?: number;
-    onProgress?: (state: StartTrainingPollState<T>) => void;
-    resumeFrom?: string;
-};
-
-// @public
-export class StartTrainingPoller<T extends {
-    modelInfo: {
-        status: ModelStatus;
-    };
-}> extends Poller<StartTrainingPollState<T>, T> {
-    // Warning: (ae-forgotten-export) The symbol "StartTrainingPollerOptions" needs to be exported by the entry point index.d.ts
-    constructor(options: StartTrainingPollerOptions<T>);
-    // (undocumented)
-    delay(): Promise<void>;
-    // (undocumented)
-    intervalInMs: number;
-}
-
-// @public (undocumented)
-export interface StartTrainingPollState<T> extends PollOperationState<T> {
-    // (undocumented)
-    readonly client: TrainPollerClient<T>;
-    // (undocumented)
-    modelId?: string;
-    // (undocumented)
-    source: string;
-    // (undocumented)
-    status: ModelStatus;
-    // (undocumented)
-    readonly trainModelOptions?: TrainCustomModelOptions;
-}
-
-// @public
-export type StartTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
-    prefix?: string;
-    includeSubFolders?: boolean;
 };
 
 // @public (undocumented)
@@ -828,7 +814,6 @@ export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg
 // @public
 export interface TextLine {
     boundingBox: number[];
-    language?: Language;
     pageNumber: number;
     text: string;
     words: TextWord[];
@@ -838,6 +823,7 @@ export interface TextLine {
 export interface TextWord {
     boundingBox: number[];
     confidence?: number;
+    containingLine?: TextLine;
     pageNumber: number;
     text: string;
 }
@@ -861,12 +847,6 @@ export type TrainCustomModelAsyncResponse = TrainCustomModelAsyncHeaders & {
 };
 
 // @public
-export type TrainCustomModelOptions = FormRecognizerOperationOptions & {
-    prefix?: string;
-    includeSubFolders?: boolean;
-};
-
-// @public
 export interface TrainingDocumentInfo {
     documentName: string;
     errors: ErrorInformation[];
@@ -875,9 +855,15 @@ export interface TrainingDocumentInfo {
 }
 
 // @public
+export type TrainModelOptions = FormRecognizerOperationOptions & {
+    prefix?: string;
+    includeSubFolders?: boolean;
+};
+
+// @public
 export type TrainPollerClient<T> = {
     getModel: (modelId: string, options: GetModelOptions) => Promise<T>;
-    trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainCustomModelOptions) => Promise<TrainCustomModelAsyncResponse>;
+    trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainModelOptions) => Promise<TrainCustomModelAsyncResponse>;
 };
 
 // @public

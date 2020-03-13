@@ -18,9 +18,9 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { AnalyzeLayoutResultResponse, AnalyzeLayoutResult, FormRecognizerRequestBody } from './models';
+import { ExtractLayoutResultResponse, ExtractLayoutResult, FormRecognizerRequestBody } from './models';
 import { transformResults } from "./transforms";
-import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState } from './lro/analyze/poller';
+import { ExtractPollerClient, BeginExtractPoller, BeginExtractPollState } from './lro/analyze/poller';
 import { PollerLike, PollOperationState } from '.';
 
 import {
@@ -44,11 +44,11 @@ export type ExtractLayoutOptions = FormRecognizerOperationOptions;
  */
 export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
   intervalInMs?: number;
-  onProgress?: (state: StartAnalyzePollState<AnalyzeLayoutResultResponse>) => void;
+  onProgress?: (state: BeginExtractPollState<ExtractLayoutResultResponse>) => void;
   resumeFrom?: string;
 }
 
-export type LayoutPollerLike = PollerLike<PollOperationState<AnalyzeLayoutResultResponse>, AnalyzeLayoutResultResponse>
+export type LayoutPollerLike = PollerLike<PollOperationState<ExtractLayoutResultResponse>, ExtractLayoutResultResponse>
 
 type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
 
@@ -125,12 +125,12 @@ export class LayoutRecognizerClient {
     options: StartAnalyzeLayoutOptions = {}
   ): Promise<LayoutPollerLike> {
 
-    const analyzePollerClient: AnalyzePollerClient<AnalyzeLayoutResultResponse> = {
-      startAnalyze: (...args) => analyzeLayoutInternal(this.client, ...args),
-      getAnalyzeResult: (...args) => this.getExtractedLayout(...args)
+    const analyzePollerClient: ExtractPollerClient<ExtractLayoutResultResponse> = {
+      beginExtract: (...args) => analyzeLayoutInternal(this.client, ...args),
+      getExtractResult: (...args) => this.getExtractedLayout(...args)
     }
 
-    const poller = new StartAnalyzePoller<AnalyzeLayoutResultResponse>({
+    const poller = new BeginExtractPoller<ExtractLayoutResultResponse>({
       client: analyzePollerClient,
       body,
       contentType,
@@ -175,8 +175,8 @@ export class LayoutRecognizerClient {
   }
 }
 
-function  toAnalyzeLayoutResultResponse(original: GetAnalyzeLayoutResultResponse): AnalyzeLayoutResultResponse {
-  function toAnalyzeLayoutResult(model?: AnalyzeResultModel): AnalyzeLayoutResult | undefined {
+function  toAnalyzeLayoutResultResponse(original: GetAnalyzeLayoutResultResponse): ExtractLayoutResultResponse {
+  function toAnalyzeLayoutResult(model?: AnalyzeResultModel): ExtractLayoutResult | undefined {
     if (!model){
       return undefined;
     }

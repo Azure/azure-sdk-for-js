@@ -53,7 +53,7 @@ export {
 }
 
 /**
- * An object representing a word.
+ * An object representing an extracted word.
  */
 export interface TextWord {
   /**
@@ -72,6 +72,10 @@ export interface TextWord {
    * Confidence value.
    */
   confidence?: number;
+  /**
+   * The extract text line that contains this extracted word
+   */
+  containingLine?: TextLine;
 }
 
 /**
@@ -94,7 +98,7 @@ export interface TextLine {
    * The detected language of this line, if different from the overall page language. Possible
    * values include: 'en', 'es'
    */
-  language?: Language;
+  // language?: Language;
   /**
    * List of words in the text line.
    */
@@ -359,23 +363,23 @@ export interface ReadResult {
 /**
  * Analyze Receipt result.
  */
-export interface AnalyzeReceiptResult {
+export interface ExtractReceiptResult {
   version: string;
   readResults: ReadResult[];
   receiptResults?: ReceiptResult[];
 }
 
-export interface AnalyzeReceiptOperationResult {
+export interface ExtractReceiptOperationResult {
   status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
   createdOn: Date;
   lastUpdatedOn: Date;
-  analyzeResult?: AnalyzeReceiptResult;
+  analyzeResult?: ExtractReceiptResult;
 }
 
 /**
  * Contains response data for the getAnalyzeReceiptResult operation.
  */
-export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
+export type ExtractReceiptResultResponse = ExtractReceiptOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -392,7 +396,7 @@ export type AnalyzeReceiptResultResponse = AnalyzeReceiptOperationResult & {
   }
 }
 
-export interface AnalyzeLayoutResult {
+export interface ExtractLayoutResult {
   version: string;
   readResults: ReadResult[];
   pageResults?: LayoutPageResult[];
@@ -404,17 +408,17 @@ export interface LayoutPageResult {
   tables?: DataTable[];
 };
 
-export interface AnalyzeLayoutOperationResult {
+export interface ExtractLayoutOperationResult {
   status: OperationStatus;
   createdOn: Date;
   lastUpdatedOn: Date;
-  analyzeResult?: AnalyzeLayoutResult;
+  analyzeResult?: ExtractLayoutResult;
 }
 
 /**
  * Contains response data for the getAnalyzeLayoutResult operation.
  */
-export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
+export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -431,10 +435,10 @@ export type AnalyzeLayoutResultResponse = AnalyzeLayoutOperationResult & {
   }
 }
 
-export type AnalyzeFormResult = Omit<AnalyzeResult, "documentResults">
+export type ExtractFormResult = Omit<AnalyzeResult, "documentResults">
 
-export type AnalyzeFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
-  analyzeResult?: AnalyzeFormResult;
+export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+  analyzeResult?: ExtractFormResult;
 }
 
 export type LabeledFormResult = AnalyzeResult;
@@ -444,7 +448,7 @@ export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, 'anal
 }
 
 
-export type AnalyzeFormResultResponse = AnalyzeFormOperationResult & {
+export type ExtractFormResultResponse = ExtractFormOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -478,15 +482,15 @@ export type LabeledFormResultResponse = LabeledFormOperationResult & {
   };
 }
 
-export interface FormModelTrainResult {
+export interface FormTrainResult {
   trainingDocuments: TrainingDocumentInfo[];
   errors?: ErrorInformation[];
 }
 
-export interface CustomFormModel {
+export interface FormModel {
   modelInfo: ModelInfo;
   keys: KeysResult;
-  trainResult?: FormModelTrainResult;
+  trainResult?: FormTrainResult;
 }
 
 export interface LabeledFormTrainResult {
@@ -514,7 +518,7 @@ export interface LabeledFormModel{
 };
 
 
-export type CustomFormModelResponse = CustomFormModel & {
+export type FormModelResponse = FormModel & {
   /**
    * The underlying HTTP response.
    */

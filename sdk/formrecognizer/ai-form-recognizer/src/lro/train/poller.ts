@@ -3,54 +3,54 @@
 
 import { delay } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { TrainCustomModelOptions, GetModelOptions } from "../../customRecognizerClient";
+import { TrainModelOptions, GetModelOptions } from "../../customRecognizerClient";
 
 import { ModelStatus, TrainCustomModelAsyncResponse } from "../../generated/models";
 export { ModelStatus, TrainCustomModelAsyncResponse };
 
 /**
- * Defines the operations from a {@link CustomRecognizerClient} that are needed for the poller
- * returned by {@link CustomRecognizerClient.startTraining} to work.
+ * Defines the operations from a {@link FormRecognizerClient} that are needed for the poller
+ * returned by {@link FormRecognizerClient.beginTraining} to work.
  */
 export type TrainPollerClient<T> = {
   getModel: (modelId: string, options: GetModelOptions) =>  Promise<T>
   trainCustomModelInternal: (
     source: string,
     useLabelFile?: boolean,
-    options?: TrainCustomModelOptions
+    options?: TrainModelOptions
   ) => Promise<TrainCustomModelAsyncResponse>;
 };
 
-export interface StartTrainingPollState<T> extends PollOperationState<T> {
+export interface BeginTrainingPollState<T> extends PollOperationState<T> {
   readonly client: TrainPollerClient<T>;
   source: string;
   modelId?: string;
   status: ModelStatus;
-  readonly trainModelOptions?: TrainCustomModelOptions;
+  readonly trainModelOptions?: TrainModelOptions;
 }
 
-export interface StartTrainingPollerOperation<T>
-  extends PollOperation<StartTrainingPollState<T>, T> {}
+export interface BeginTrainingPollerOperation<T>
+  extends PollOperation<BeginTrainingPollState<T>, T> {}
 
 /**
  * @internal
  */
-export interface StartTrainingPollerOptions<T> {
+export interface BeginTrainingPollerOptions<T> {
   client: TrainPollerClient<T>;
   source: string;
   intervalInMs?: number;
-  onProgress?: (state: StartTrainingPollState<T>) => void;
+  onProgress?: (state: BeginTrainingPollState<T>) => void;
   resumeFrom?: string;
-  trainModelOptions?: TrainCustomModelOptions;
+  trainModelOptions?: TrainModelOptions;
 }
 
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class StartTrainingPoller<T extends { modelInfo: { status: ModelStatus}}> extends Poller<StartTrainingPollState<T>, T> {
+export class BeginTrainingPoller<T extends { modelInfo: { status: ModelStatus}}> extends Poller<BeginTrainingPollState<T>, T> {
   public intervalInMs: number;
 
-  constructor(options: StartTrainingPollerOptions<T>) {
+  constructor(options: BeginTrainingPollerOptions<T>) {
     const {
       client,
       source,
@@ -60,13 +60,13 @@ export class StartTrainingPoller<T extends { modelInfo: { status: ModelStatus}}>
       trainModelOptions
     } = options;
 
-    let state: StartTrainingPollState<T> | undefined;
+    let state: BeginTrainingPollState<T> | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeStartTrainingPollOperation<T>({
+    const operation = makeBeginTrainingPollOperation<T>({
       ...state,
       client,
       source,
@@ -92,17 +92,17 @@ export class StartTrainingPoller<T extends { modelInfo: { status: ModelStatus}}>
  * Creates a poll operation given the provided state.
  * @ignore
  */
-function makeStartTrainingPollOperation<T extends { modelInfo: { status: ModelStatus}}>(
-  state: StartTrainingPollState<T>
-): StartTrainingPollerOperation<T> {
+function makeBeginTrainingPollOperation<T extends { modelInfo: { status: ModelStatus}}>(
+  state: BeginTrainingPollState<T>
+): BeginTrainingPollerOperation<T> {
   return {
     state: { ...state },
 
-    async cancel(_options = {}): Promise<StartTrainingPollerOperation<T>> {
+    async cancel(_options = {}): Promise<BeginTrainingPollerOperation<T>> {
       throw new Error("Cancel operation is not supported.");
     },
 
-    async update(options = {}): Promise<StartTrainingPollerOperation<T>> {
+    async update(options = {}): Promise<BeginTrainingPollerOperation<T>> {
       const state = this.state;
       const { client, source, trainModelOptions } = state;
 
@@ -131,7 +131,7 @@ function makeStartTrainingPollOperation<T extends { modelInfo: { status: ModelSt
         }
       }
 
-      return makeStartTrainingPollOperation(state);
+      return makeBeginTrainingPollOperation(state);
     },
 
     toString() {

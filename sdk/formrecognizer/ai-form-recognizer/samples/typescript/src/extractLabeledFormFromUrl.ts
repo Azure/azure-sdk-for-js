@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 /**
- * Extract Custom Form
+ * Extract Labeled Form from url
  */
 
-//import { CustomFormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
-import { CustomFormRecognizerClient, CognitiveKeyCredential } from "../../../src/index";
+//import { FormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, CognitiveKeyCredential } from "../../../src/index";
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running ExtractCustomForm sample`);
+  console.log(`Running ExtractLabeledFormsFromUrl sample`);
 
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
@@ -21,8 +21,8 @@ async function main() {
   const modelId = "e28ad0da-aa55-46dc-ade9-839b0d819189"; // trained with labels
   const url = process.env["FR_INVOICE_URL"] || "<sample invoice url>";
 
-  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.extractLabeledFormFromUrl(modelId, url);
+  const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const poller = await client.beginExtractLabeledFormsFromUrl(modelId, url);
   await poller.pollUntilDone();
   const response = poller.getResult();
 

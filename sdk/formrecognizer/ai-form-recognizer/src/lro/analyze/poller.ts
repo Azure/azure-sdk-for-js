@@ -3,16 +3,16 @@
 
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { ExtractReceiptOptions } from "../../receiptRecognizerClient";
+import { ExtractReceiptsOptions } from "../../receiptRecognizerClient";
 import { ExtractLayoutOptions } from "../../layoutRecognizerClient";
-import { ExtractCustomFormOptions } from "../../customRecognizerClient";
+import { ExtractFormsOptions } from "../../customRecognizerClient";
 import { SupportedContentType } from '../../common';
 
 import { OperationStatus } from "../../generated/models";
 import { FormRecognizerRequestBody } from '../../models';
 export { OperationStatus };
 
-export type AnalyzeOptions = ExtractReceiptOptions | ExtractLayoutOptions | ExtractCustomFormOptions;
+export type ExtractOptions = ExtractReceiptsOptions | ExtractLayoutOptions | ExtractFormsOptions;
 
 export interface PollerOperationOptions<T> {
   /**
@@ -22,7 +22,7 @@ export interface PollerOperationOptions<T> {
   /**
    * callback to receive events on the progress of download operation.
    */
-  onProgress?: (state: StartAnalyzePollState<T>) => void;
+  onProgress?: (state: BeginExtractPollState<T>) => void;
   /**
    * A serialized poller, used to resume an existing operation
    */
@@ -33,50 +33,50 @@ export interface PollerOperationOptions<T> {
  * Defines the operations from a analyze client that are needed for the poller
  * to work
  */
-export type AnalyzePollerClient<T> = {
+export type ExtractPollerClient<T> = {
   // returns a result id to retrieve results
-  startAnalyze: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: AnalyzeOptions, modelId?: string) => Promise<{ operationLocation: string }>;
+  beginExtract: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: ExtractOptions, modelId?: string) => Promise<{ operationLocation: string }>;
   // retrieves analyze result
-  getAnalyzeResult: (
+  getExtractResult: (
     resultId: string,
     options: { abortSignal?: AbortSignalLike }
   ) => Promise<T>;
 };
 
-export interface StartAnalyzePollState<T> extends PollOperationState<T> {
-  readonly client: AnalyzePollerClient<T>;
+export interface BeginExtractPollState<T> extends PollOperationState<T> {
+  readonly client: ExtractPollerClient<T>;
   body?: FormRecognizerRequestBody;
   contentType: SupportedContentType;
   modelId?: string;
   resultId?: string;
   status: OperationStatus;
-  readonly analyzeOptions?: AnalyzeOptions;
+  readonly analyzeOptions?: ExtractOptions;
 }
 
-export interface StartAnalyzePollerOperation<T>
-extends PollOperation<StartAnalyzePollState<T>, T> {}
+export interface BeginExtractPollerOperation<T>
+extends PollOperation<BeginExtractPollState<T>, T> {}
 
 /**
  * @internal
  */
-export type StartAnalyzePollerOptions<T> = {
-  client: AnalyzePollerClient<T>;
+export type BeginExtractPollerOptions<T> = {
+  client: ExtractPollerClient<T>;
   body: FormRecognizerRequestBody;
   contentType: SupportedContentType;
   modelId?: string;
   intervalInMs?: number;
   resultId?: string;
-  onProgress?: (state: StartAnalyzePollState<T>) => void;
+  onProgress?: (state: BeginExtractPollState<T>) => void;
   resumeFrom?: string;
-} & AnalyzeOptions;
+} & ExtractOptions;
 
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class StartAnalyzePoller<T extends { status: OperationStatus }> extends Poller<StartAnalyzePollState<T>, T> {
+export class BeginExtractPoller<T extends { status: OperationStatus }> extends Poller<BeginExtractPollState<T>, T> {
   public intervalInMs: number;
 
-  constructor(options: StartAnalyzePollerOptions<T>) {
+  constructor(options: BeginExtractPollerOptions<T>) {
     const {
       client,
       body,
@@ -88,13 +88,13 @@ export class StartAnalyzePoller<T extends { status: OperationStatus }> extends P
       resumeFrom
     } = options;
 
-    let state: StartAnalyzePollState<T> | undefined;
+    let state: BeginExtractPollState<T> | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeStartAnalyzePollOperation({
+    const operation = makeBeginExtractPollOperation({
       ...state,
       client,
       body,
@@ -122,17 +122,17 @@ export class StartAnalyzePoller<T extends { status: OperationStatus }> extends P
  * Creates a poll operation given the provided state.
  * @ignore
  */
-function makeStartAnalyzePollOperation<T extends { status: OperationStatus }> (
-  state: StartAnalyzePollState<T>,
-): StartAnalyzePollerOperation<T> {
+function makeBeginExtractPollOperation<T extends { status: OperationStatus }> (
+  state: BeginExtractPollState<T>,
+): BeginExtractPollerOperation<T> {
   return {
     state: { ...state },
 
-    async cancel(_options = {}): Promise<StartAnalyzePollerOperation<T>> {
+    async cancel(_options = {}): Promise<BeginExtractPollerOperation<T>> {
       throw new Error("Cancel operation is not supported.");
     },
 
-    async update(options = {}): Promise<StartAnalyzePollerOperation<T>> {
+    async update(options = {}): Promise<BeginExtractPollerOperation<T>> {
       const state = this.state;
       const { client, body, contentType, analyzeOptions, modelId } = state;
 
@@ -142,14 +142,14 @@ function makeStartAnalyzePollOperation<T extends { status: OperationStatus }> (
         }
 
         state.isStarted = true;
-        const result = await client.startAnalyze(body, contentType, analyzeOptions || {}, modelId);
+        const result = await client.beginExtract(body, contentType, analyzeOptions || {}, modelId);
         const lastSlashIndex = result.operationLocation.lastIndexOf("/");
         state.resultId = result.operationLocation.substring(lastSlashIndex + 1);
         // body is no longer needed
         state.body = undefined;
       }
 
-      const response = await client.getAnalyzeResult(state.resultId!, {
+      const response = await client.getExtractResult(state.resultId!, {
         abortSignal: analyzeOptions?.abortSignal
       });
 
@@ -166,7 +166,7 @@ function makeStartAnalyzePollOperation<T extends { status: OperationStatus }> (
         }
       }
 
-      return makeStartAnalyzePollOperation(state);
+      return makeBeginExtractPollOperation(state);
     },
 
     toString() {

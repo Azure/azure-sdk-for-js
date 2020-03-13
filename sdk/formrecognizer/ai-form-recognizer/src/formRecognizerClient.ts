@@ -18,7 +18,7 @@ import {
   GetAnalyzeReceiptResultResponse,
   DocumentResult
 } from "./generated/models";
-import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody } from "./models";
+import { ExtractReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody } from "./models";
 import { toReadResult } from "./transforms";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
@@ -26,7 +26,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { StartAnalyzePollerOptions, AnalyzePollerClient, StartAnalyzePoller } from './lro/analyze/poller';
+import { BeginExtractPollerOptions, ExtractPollerClient, BeginExtractPoller } from './lro/analyze/poller';
 import { PollerLike, PollOperationState } from '@azure/core-lro';
 
 export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
@@ -42,7 +42,7 @@ export type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
 /**
  * Client class for interacting with Azure Form Recognizer.
  */
-export class FormRecognizerClient {
+export class RecognizerClient {
   /**
    * The URL to the FormRecognizer endpoint
    */
@@ -109,15 +109,15 @@ export class FormRecognizerClient {
   public async extractReceipt(
     body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
-    options: StartAnalyzePollerOptions<AnalyzeReceiptResultResponse>
-  ): Promise<PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>> {
+    options: BeginExtractPollerOptions<ExtractReceiptResultResponse>
+  ): Promise<PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>> {
 
-    const analyzePollerClient: AnalyzePollerClient<AnalyzeReceiptResultResponse> = {
-      startAnalyze: (...args) => analyzeReceiptInternal(this.client, ...args),
-      getAnalyzeResult: (...args) => this.getExtractedReceipt(...args)
+    const analyzePollerClient: ExtractPollerClient<ExtractReceiptResultResponse> = {
+      beginExtract: (...args) => analyzeReceiptInternal(this.client, ...args),
+      getExtractResult: (...args) => this.getExtractedReceipt(...args)
     }
 
-    const poller = new StartAnalyzePoller({
+    const poller = new BeginExtractPoller({
       client: analyzePollerClient,
       body,
       contentType,
@@ -130,18 +130,18 @@ export class FormRecognizerClient {
 
   public async extractReceiptFromUrl(
     imageSourceUrl: string,
-    options: StartAnalyzePollerOptions<AnalyzeReceiptResultResponse>
-  ): Promise<PollerLike<PollOperationState<AnalyzeReceiptResultResponse>, AnalyzeReceiptResultResponse>> {
+    options: BeginExtractPollerOptions<ExtractReceiptResultResponse>
+  ): Promise<PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>> {
     const body = JSON.stringify({
       source: imageSourceUrl
     });
 
-    const analyzePollerClient: AnalyzePollerClient<AnalyzeReceiptResultResponse> = {
-      startAnalyze: (...args) => analyzeReceiptInternal(this.client, ...args),
-      getAnalyzeResult: (...args) => this.getExtractedReceipt(...args)
+    const analyzePollerClient: ExtractPollerClient<ExtractReceiptResultResponse> = {
+      beginExtract: (...args) => analyzeReceiptInternal(this.client, ...args),
+      getExtractResult: (...args) => this.getExtractedReceipt(...args)
     }
 
-    const poller = new StartAnalyzePoller({
+    const poller = new BeginExtractPoller({
       client: analyzePollerClient,
       body,
       contentType: "application/json",
@@ -156,7 +156,7 @@ export class FormRecognizerClient {
   public async getExtractedReceipt(
     resultId: string,
     options?: GetExtractedReceiptResultOptions
-  ): Promise<AnalyzeReceiptResultResponse> {
+  ): Promise<ExtractReceiptResultResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormRecognizerClient-getExtractedReceipt",
@@ -180,7 +180,7 @@ export class FormRecognizerClient {
     }
   }
 
-  private toReceiptResultResponse(result: GetAnalyzeReceiptResultResponse): AnalyzeReceiptResultResponse {
+  private toReceiptResultResponse(result: GetAnalyzeReceiptResultResponse): ExtractReceiptResultResponse {
     function toReceiptResult(result: DocumentResult): ReceiptResult {
       const rawReceipt = result as unknown as RawReceiptResult;
       const rawReceiptFields = result.fields as unknown as RawReceipt;

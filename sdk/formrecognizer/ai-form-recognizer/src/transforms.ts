@@ -22,7 +22,7 @@ import {
 } from "./models";
 
 function toTextLine(original: TextLineModel, pageNumber: number): TextLine {
-  return {
+  const line = {
     pageNumber: pageNumber,
     text: original.text,
     boundingBox: original.boundingBox,
@@ -34,7 +34,11 @@ function toTextLine(original: TextLineModel, pageNumber: number): TextLine {
         pageNumber: pageNumber
       };
     })
-  }
+  };
+  return {
+    ...line,
+    words: line.words.map(w => { return {...w, containingLine: line }})
+  };
 }
 export function toReadResult(original: ReadResultModel): ReadResult {
   return {

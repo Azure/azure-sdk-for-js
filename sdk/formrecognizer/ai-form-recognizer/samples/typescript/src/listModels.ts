@@ -5,8 +5,8 @@
  * List Form Recognizer custom models
  */
 
-//import { CustomFormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
-import { CustomFormRecognizerClient, CognitiveKeyCredential } from "../../../src/index";
+//import { FormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, CognitiveKeyCredential } from "../../../src/index";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -18,9 +18,9 @@ async function main() {
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
 
-  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
 
-  const result = await client.listModels();
+  const result = client.listModels();
   let i = 0;
   for await (const model of result) {
     console.log(`model ${i++}:`);

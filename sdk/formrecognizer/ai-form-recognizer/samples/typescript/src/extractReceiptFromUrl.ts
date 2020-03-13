@@ -6,7 +6,7 @@
  */
 
 //import { ReceiptRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
-import { ReceiptRecognizerClient, CognitiveKeyCredential, AnalyzeReceiptResultResponse } from "../../../src/index";
+import { ReceiptRecognizerClient, CognitiveKeyCredential, ExtractReceiptResultResponse } from "../../../src/index";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -21,7 +21,7 @@ async function main() {
   const client = new ReceiptRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
   const imageUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
 
-  let response: AnalyzeReceiptResultResponse | undefined;
+  let response: ExtractReceiptResultResponse | undefined;
 
   try {
     // response = await client.getExtractedReceipt("bce24b30-49a1-4bb1-9e54-206194aa8665");
@@ -30,7 +30,7 @@ async function main() {
     console.log(response);
     console.log("extracting...");
 
-    const poller = await client.extractReceiptFromUrl(
+    const poller = await client.extractReceiptsFromUrl(
       imageUrl, {
       includeTextDetails: true,
       onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
