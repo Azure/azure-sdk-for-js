@@ -39,7 +39,7 @@ Now, let's see how we're using the mentioned tools.
 
 Mocha is a well known JavaScript test framework that runs in NodeJS and in the browser. If you're new to Mocha, we recommend you to dive into [Mocha's documentation](https://mochajs.org/).
 
-In this section, we'll explore how the Azure SDK for JS is using mocha, what versions we're using,how we're configuring it and any other recommendation on how to used this library.
+In this section, we'll explore how the Azure SDK for JS is using mocha, what versions we're using, how we're configuring it, and other recommendations on how to use this library.
 
 #### Mocha in our dependencies
 
