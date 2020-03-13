@@ -122,33 +122,23 @@ export { MessagingError }
 
 // @public
 export interface NonSessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
-    // (undocumented)
-    close(): Promise<void>;
     close(): Promise<void>;
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
         peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
-    // (undocumented)
     entityPath: string;
-    // (undocumented)
     entityType: "queue" | "subscription";
-    // (undocumented)
     getDeadLetterPath(): string;
-    // (undocumented)
     isReceivingMessages(): boolean;
     iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
     receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<{
         messages: ReceivedMessage[];
         context: ContextType<LockModeT>;
     }>;
-    // (undocumented)
     receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
-    // (undocumented)
     receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
-    // (undocumented)
     receiveMode: "peekLock" | "receiveAndDelete";
-    // (undocumented)
     renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
     subscribe(handler: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
 }
@@ -391,42 +381,27 @@ export interface SessionMessageHandlerOptions {
 
 // @public
 export interface SessionReceiver<LockModeT extends "peekLock" | "receiveAndDelete"> {
-    // (undocumented)
-    close(): Promise<void>;
     close(): Promise<void>;
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
         peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
-    // (undocumented)
     entityPath: string;
-    // (undocumented)
     entityType: "queue" | "subscription";
-    // (undocumented)
     getDeadLetterPath(): string;
-    // (undocumented)
     getState(): Promise<any>;
-    // (undocumented)
     isReceivingMessages(): boolean;
     iterateMessages(options?: IterateMessagesOptions): MessageIterator<ContextType<LockModeT>>;
     receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<{
         messages: ReceivedMessage[];
         context: ContextType<LockModeT>;
     }>;
-    // (undocumented)
     receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined>;
-    // (undocumented)
     receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]>;
-    // (undocumented)
     receiveMode: "peekLock" | "receiveAndDelete";
-    // (undocumented)
     renewSessionLock(): Promise<Date>;
-    renewSessionLock(): Promise<Date>;
-    // (undocumented)
     sessionId: string | undefined;
-    // (undocumented)
     sessionLockedUntilUtc: Date | undefined;
-    // (undocumented)
     setState(state: any): Promise<void>;
     subscribe(handlers: MessageHandlers<ContextType<LockModeT>>, options?: SubscribeOptions): void;
 }
