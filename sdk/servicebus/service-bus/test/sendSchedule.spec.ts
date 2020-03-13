@@ -180,6 +180,79 @@ describe("send scheduled messages", () => {
     });
   });
 
+  describe("Simple Send Batch 2", function(): void {
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
+    async function testSimpleSendBatch(
+      useSessions: boolean,
+      usePartitions: boolean
+    ): Promise<void> {
+      useSessions;
+      usePartitions;
+
+      const batchMessage = await senderClient.createBatch();
+      let numberOfMessagesInBatch = 0;
+      for (let i = 0; i < 1000000; i++) {
+        const bool = batchMessage.tryAdd({
+          body: Buffer.alloc(2000),
+          messageId: `message ${i}`
+        });
+        if (!bool) {
+          console.log("broken", bool, numberOfMessagesInBatch, `message ${i}`);
+          break;
+        } else {
+          numberOfMessagesInBatch++;
+          console.log(bool, numberOfMessagesInBatch, `message ${i}`);
+        }
+      }
+      await senderClient.sendBatch2(batchMessage);
+      console.log("count -", (await receiverClient.receiveBatch(126)).messages.length);
+      await testPeekMsgsLength(receiverClient, 0);
+    }
+
+    it("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueue);
+      await testSimpleSendBatch(false, true);
+    });
+
+    it("Partitioned Topic: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedSubscription);
+      await testSimpleSendBatch(false, true);
+    });
+
+    it.only("Unpartitioned Queue: Simple SendBatch #RunInBrowser", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      await testSimpleSendBatch(false, false);
+    });
+
+    it("Unpartitioned Topic: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedSubscription);
+      await testSimpleSendBatch(false, false);
+    });
+
+    it("Partitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+      await testSimpleSendBatch(true, true);
+    });
+
+    it("Partitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
+      await testSimpleSendBatch(true, true);
+    });
+
+    it("Unpartitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+      await testSimpleSendBatch(true, false);
+    });
+
+    it("Unpartitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+      await testSimpleSendBatch(true, false);
+    });
+  });
+
   describe("Schedule single message", function(): void {
     afterEach(async () => {
       await afterEachTest();
