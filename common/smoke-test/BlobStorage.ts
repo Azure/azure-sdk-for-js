@@ -25,6 +25,8 @@ export class BlobStorage {
 
     const account =
       process.env["STORAGE_ACCOUNT_NAME"] || "<YourStorageAccountNAME>";
+    const endpointSuffix =
+      process.env["STORAGE_ENDPOINT_SUFFIX"] || "blob.core.windows.net";
     const accountKey =
       process.env["STORAGE_ACCOUNT_KEY"] || "<YourStorageAccountKEY>";
     const containerName = "mycontainer";
@@ -32,7 +34,7 @@ export class BlobStorage {
 
     const credential = new StorageSharedKeyCredential(account, accountKey);
     const serviceClient = new BlobServiceClient(
-      `https://${account}.blob.core.windows.net`,
+      `https://${account}.${endpointSuffix}/`,
       credential
     );
     BlobStorage.ContainerClient = serviceClient.getContainerClient(
