@@ -45,9 +45,10 @@ describe("renew lock sessions", () => {
 
     sessionId = Date.now().toString();
 
-    ({ receiver } = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, sessionId, {
+    receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+      sessionId,
       maxSessionAutoRenewLockDurationInSeconds
-    }));
+    });
 
     // Observation -
     // Peeking into an empty session-enabled queue would run into either of the following errors..
@@ -425,7 +426,7 @@ describe("renew lock sessions", () => {
     await receiver.close();
 
     const entityNames = serviceBusClient.test.getTestEntities(entityType);
-    ({ receiver } = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, ""));
+    receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
     const unprocessedMsgsBatch = await receiver.receiveBatch(1);
     should.equal(unprocessedMsgsBatch.messages[0].deliveryCount, 1, "Unexpected deliveryCount");

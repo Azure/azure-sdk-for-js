@@ -156,7 +156,6 @@ export class ServiceBusClient {
   getSessionReceiver(
     queueName: string,
     receiveMode: "peekLock",
-    sessionId: string | "",
     options?: GetSessionReceiverOptions
   ): SessionReceiver<ContextWithSettlement>;
   /**
@@ -169,7 +168,6 @@ export class ServiceBusClient {
   getSessionReceiver(
     queueName: string,
     receiveMode: "receiveAndDelete",
-    sessionId: string | "",
     options?: GetSessionReceiverOptions
   ): SessionReceiver<{}>;
   /**
@@ -183,7 +181,6 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "peekLock",
-    sessionId: string | "",
     options?: GetSessionReceiverOptions
   ): SessionReceiver<ContextWithSettlement> & SubscriptionRuleManagement;
   /**
@@ -197,16 +194,13 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "receiveAndDelete",
-    sessionId: string | "",
     options?: GetSessionReceiverOptions
   ): SessionReceiver<"receiveAndDelete"> & SubscriptionRuleManagement;
   getSessionReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
-    receiveModeOrSessionId3?: "peekLock" | "receiveAndDelete" | string | "",
-    // TODO: these are the wrong option types
-    sessionIdOrOptions4?: string | "" | GetSessionReceiverOptions,
-    options5?: GetSessionReceiverOptions
+    receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetSessionReceiverOptions,
+    options4?: GetSessionReceiverOptions
   ):
     | SessionReceiver<ContextWithSettlement>
     | SessionReceiver<{}>
@@ -214,27 +208,21 @@ export class ServiceBusClient {
     | (SessionReceiver<ContextWithSettlement> & SubscriptionRuleManagement) {
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
-    let sessionId: string;
     let entityType: "queue" | "subscription";
     let options: GetSessionReceiverOptions | undefined;
 
-    if (isReceiveMode(receiveModeOrSessionId3) && typeof sessionIdOrOptions4 === "string") {
+    if (isReceiveMode(receiveModeOrOptions3)) {
       entityType = "subscription";
       const topic = queueOrTopicName1;
       const subscription = receiveModeOrSubscriptionName2;
       entityPath = `${topic}/Subscriptions/${subscription}`;
-      receiveMode = receiveModeOrSessionId3;
-      sessionId = sessionIdOrOptions4;
-      options = options5;
-    } else if (
-      isReceiveMode(receiveModeOrSubscriptionName2) &&
-      typeof receiveModeOrSessionId3 === "string"
-    ) {
+      receiveMode = receiveModeOrOptions3;
+      options = options4;
+    } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
       entityType = "queue";
       entityPath = queueOrTopicName1;
       receiveMode = receiveModeOrSubscriptionName2;
-      sessionId = receiveModeOrSessionId3;
-      options = sessionIdOrOptions4 as GetSessionReceiverOptions | undefined;
+      options = receiveModeOrOptions3 as GetSessionReceiverOptions | undefined;
     } else {
       throw new TypeError("Invalid receiveMode provided");
     }
@@ -248,7 +236,7 @@ export class ServiceBusClient {
 
     // TODO: .NET actually tries to open the session here so we'd need to be async for that.
     return new SessionReceiverImpl(clientEntityContext, receiveMode, entityType, {
-      sessionId: sessionId === "" ? undefined : sessionId,
+      sessionId: options?.sessionId,
       maxSessionAutoRenewLockDurationInSeconds: options?.maxSessionAutoRenewLockDurationInSeconds
     });
   }

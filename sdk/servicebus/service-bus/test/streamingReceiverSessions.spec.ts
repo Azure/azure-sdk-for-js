@@ -62,13 +62,17 @@ describe("Streaming with sessions", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
     receiverClient = serviceBusClient.test.addToCleanup(
       entityNames.queue
-        ? serviceBusClient.getSessionReceiver(entityNames.queue, "peekLock", TestMessage.sessionId)
+        ? serviceBusClient.getSessionReceiver(entityNames.queue, "peekLock", {
+            sessionId: TestMessage.sessionId
+          })
         : serviceBusClient.getSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
             "peekLock",
-            // TODO: we should just be able to randomly generate this. Change _soon_.
-            TestMessage.sessionId
+            {
+              // TODO: we should just be able to randomly generate this. Change _soon_.
+              sessionId: TestMessage.sessionId
+            }
           )
     );
     return entityNames;

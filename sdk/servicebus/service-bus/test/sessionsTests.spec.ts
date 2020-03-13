@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { delay, SendableMessageInfo, ReceivedMessage, ContextWithSettlement } from "../src";
+import { delay, ReceivedMessage, ContextWithSettlement } from "../src";
 
 import { TestMessage, TestClientType, checkWithTimeout } from "./utils/testUtils";
 import { Sender } from "../src/sender";
@@ -41,15 +41,13 @@ describe("session tests", () => {
     serviceBusClient = createServiceBusClientForTests();
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
-    const { receiver: sessionReceiver } = await serviceBusClient.test.getSessionPeekLockReceiver(
-      entityNames,
-      sessionId ?? ""
-    );
+    receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+      sessionId
+    });
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiver = sessionReceiver;
 
     // Observation -
     // Peeking into an empty session-enabled queue would run into either of the following errors..
@@ -95,7 +93,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      ({ receiver } = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, ""));
+      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
       batch = await receiver.receiveBatch(1);
       msgs = batch.messages;
@@ -164,7 +162,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      ({ receiver } = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, ""));
+      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
       receivedMsgs = [];
       receiver.subscribe(
@@ -226,89 +224,6 @@ describe("session tests", () => {
     });
   });
 
-  // TODO: this one cares about a clean queue to pass.
-  describe("SessionReceiver with empty string as sessionId", function(): void {
-    let sessionId: string;
-    beforeEach(() => {
-      sessionId = "";
-    });
-    afterEach(async () => {
-      await afterEachTest();
-    });
-
-    // Sending messages with different session id, so that we know for sure we pick the right one
-    // and that Service Bus is not choosing a random one for us
-    const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
-      {
-        body: "hello1",
-        messageId: `test message ${Math.random()}`,
-        sessionId: TestMessage.sessionId
-      },
-      {
-        body: "hello2",
-        messageId: `test message ${Math.random()}`,
-        sessionId: ""
-      }
-    ];
-
-    async function testComplete_batching(testClientType: TestClientType): Promise<void> {
-      await sender.send(testMessagesWithDifferentSessionIds[0]);
-      await sender.send(testMessagesWithDifferentSessionIds[1]);
-
-      const entityNames = serviceBusClient.test.getTestEntities(testClientType);
-
-      // get the next available session ID rather than specifying one
-      ({ receiver } = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, ""));
-
-      const batch = await receiver.receiveBatch(2);
-      const msgs = batch.messages;
-
-      should.equal(msgs.length, 1, "Unexpected number of messages received");
-      should.equal(receiver.sessionId, "", "Unexpected sessionId in receiver");
-      should.equal(
-        testMessagesWithDifferentSessionIds[1].body === msgs[0].body &&
-          testMessagesWithDifferentSessionIds[1].messageId === msgs[0].messageId &&
-          testMessagesWithDifferentSessionIds[1].sessionId === msgs[0].sessionId,
-        true,
-        "Received Message doesnt match expected test message"
-      );
-      await batch.context.complete(msgs[0]);
-
-      const peekedMsgsInSession = await receiver.diagnostics.peek();
-      should.equal(peekedMsgsInSession.length, 0, "Unexpected number of messages peeked");
-
-      await receiver.close();
-    }
-
-    it("Partitioned Queue: complete() removes message from random session", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, sessionId);
-      await testComplete_batching(TestClientType.PartitionedQueueWithSessions);
-    });
-
-    it("Partitioned Subscription: complete() removes message from random session", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions, sessionId);
-      await testComplete_batching(TestClientType.PartitionedSubscriptionWithSessions);
-    });
-
-    it("Unpartitioned Queue: complete() removes message from random session", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, sessionId);
-      await testComplete_batching(TestClientType.UnpartitionedQueueWithSessions);
-    });
-
-    it("Unpartitioned Subscription: complete() removes message from random session", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions, sessionId);
-      await testComplete_batching(TestClientType.UnpartitionedSubscriptionWithSessions);
-    });
-  });
-
   describe("Session State", function(): void {
     afterEach(async () => {
       await afterEachTest();
@@ -346,7 +261,7 @@ describe("session tests", () => {
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
       // get the next available session ID rather than specifying one
-      ({ receiver } = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, ""));
+      receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
       batch = await receiver.receiveBatch(2);
       msgs = batch.messages;

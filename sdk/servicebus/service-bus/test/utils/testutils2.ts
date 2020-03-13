@@ -185,11 +185,9 @@ export class ServiceBusTestHelpers {
       // session ID for your receiver.
       // if you want to get more specific use the `getPeekLockSessionReceiver` method
       // instead.
-      const { receiver: sessionReceiver } = this.getSessionPeekLockReceiver(
-        entityNames,
-        TestMessage.sessionId
-      );
-      return sessionReceiver;
+      return this.getSessionPeekLockReceiver(entityNames, {
+        sessionId: TestMessage.sessionId
+      });
     } catch (err) {
       if (!(err instanceof TypeError)) {
         throw err;
@@ -221,37 +219,28 @@ export class ServiceBusTestHelpers {
 
   getSessionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>,
-    sessionId: string | "",
     getSessionReceiverOptions?: GetSessionReceiverOptions
-  ): {
-    receiver: SessionReceiver<ContextWithSettlement>;
-    sessionId: string;
-  } {
+  ): SessionReceiver<ContextWithSettlement> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
         "Not a session-full entity - can't create a session receiver type for it"
       );
     }
 
-    return {
-      sessionId,
-      receiver: this.addToCleanup(
-        entityNames.queue
-          ? this._serviceBusClient.getSessionReceiver(
-              entityNames.queue,
-              "peekLock",
-              sessionId,
-              getSessionReceiverOptions
-            )
-          : this._serviceBusClient.getSessionReceiver(
-              entityNames.topic!,
-              entityNames.subscription!,
-              "peekLock",
-              sessionId,
-              getSessionReceiverOptions
-            )
-      )
-    };
+    return this.addToCleanup(
+      entityNames.queue
+        ? this._serviceBusClient.getSessionReceiver(
+            entityNames.queue,
+            "peekLock",
+            getSessionReceiverOptions
+          )
+        : this._serviceBusClient.getSessionReceiver(
+            entityNames.topic!,
+            entityNames.subscription!,
+            "peekLock",
+            getSessionReceiverOptions
+          )
+    );
   }
 
   /**
@@ -268,16 +257,16 @@ export class ServiceBusTestHelpers {
     if (entityNames.usesSessions) {
       return this.addToCleanup(
         entityNames.queue
-          ? this._serviceBusClient.getSessionReceiver(
-              entityNames.queue,
-              "receiveAndDelete",
+          ? this._serviceBusClient.getSessionReceiver(entityNames.queue, "receiveAndDelete", {
               sessionId
-            )
+            })
           : this._serviceBusClient.getSessionReceiver(
               entityNames.topic!,
               entityNames.subscription!,
               "receiveAndDelete",
-              sessionId
+              {
+                sessionId
+              }
             )
       );
     } else {

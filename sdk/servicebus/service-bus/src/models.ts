@@ -266,4 +266,10 @@ export interface GetSessionReceiverOptions extends OperationOptions {
    * - **To disable autolock renewal**, set this to `0`.
    */
   maxSessionAutoRenewLockDurationInSeconds?: number;
+
+  /**
+   * The session ID to open. If `undefined` we will connect to the next available
+   * unlocked session.
+   */
+  sessionId?: string;
 }
