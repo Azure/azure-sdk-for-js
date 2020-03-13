@@ -129,6 +129,40 @@ Mocha has many interesting features. Here's a list of our general recommendation
 
 ### Chai
 
+Chai is an assertion library, similar to Node's built-in `assert`. While `assert` is a module that belongs to NodeJS's standard library, it was mainly designed to write tests for the NodeJS's core, and [it has been discouraged from being used as a dependency](https://github.com/nodejs/node/issues/4532). Chai is very popular and widely used for both NodeJS and the browser. You can read more about Chai through their main website: https://www.chaijs.com/
+
+Chai makes testing much easier by providing an extensive list of assertions that can run against your code. This list of assertions can be seen in detail by going to their assertion style guide: <https://www.chaijs.com/guide/styles/>
+
+#### Our recommended Chai assertion style
+
+The Azure SDK for JavaScript (and TypeScript) prefers Chai's BDD style with the `expect` interface. For example:
+
+```ts
+import * as chai from "chai";
+
+let foo = "bar";
+let beverages = { tea: [ 'chai', 'matcha', 'oolong' ] };
+
+expect(foo).to.be.a('string');
+expect(foo).to.equal('bar');
+expect(foo).to.have.lengthOf(3);
+expect(beverages).to.have.property('tea').with.lengthOf(3);
+```
+
+#### Chai in our dependencies
+
+Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `chai` as a dev dependency to a new project inside of this repository, first make sure you are in the root folder of that project, then you can run the following command:
+
+```
+rush add --dev -p chai
+```
+
+Since we're using TypeScript, make sure to also add the types:
+
+```
+rush add --dev -p @types/chai
+```
+
 ### Rollup
 
 ### Karma
