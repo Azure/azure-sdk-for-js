@@ -372,7 +372,9 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred message.
    */
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+  async receiveDeferredMessage(
+    sequenceNumber: Long
+  ): Promise<{ message: ReceivedMessage | undefined; context: ContextT }> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -391,7 +393,7 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
       convertToInternalReceiveMode(this.receiveMode),
       this.sessionId
     );
-    return messages[0];
+    return { message: messages[0], context: this.getContext() };
   }
 
   /**
@@ -403,7 +405,9 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+  async receiveDeferredMessages(
+    sequenceNumbers: Long[]
+  ): Promise<{ messages: ReceivedMessage[]; context: ContextT }> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -420,11 +424,14 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
     );
 
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.receiveDeferredMessages(
-      sequenceNumbers,
-      convertToInternalReceiveMode(this.receiveMode),
-      this.sessionId
-    );
+    return {
+      messages: await this._context.managementClient!.receiveDeferredMessages(
+        sequenceNumbers,
+        convertToInternalReceiveMode(this.receiveMode),
+        this.sessionId
+      ),
+      context: this.getContext()
+    };
   }
 
   /**
