@@ -6,10 +6,10 @@ import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { ExtractReceiptsOptions } from "../../receiptRecognizerClient";
 import { ExtractLayoutOptions } from "../../layoutRecognizerClient";
 import { ExtractFormsOptions } from "../../formRecognizerClient";
-import { SupportedContentType } from '../../common';
+import { SupportedContentType } from "../../common";
 
 import { OperationStatus } from "../../generated/models";
-import { FormRecognizerRequestBody } from '../../models';
+import { FormRecognizerRequestBody } from "../../models";
 export { OperationStatus };
 
 export type ExtractOptions = ExtractReceiptsOptions | ExtractLayoutOptions | ExtractFormsOptions;
@@ -35,12 +35,14 @@ export interface PollerOperationOptions<T> {
  */
 export type ExtractPollerClient<T> = {
   // returns a result id to retrieve results
-  beginExtract: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: ExtractOptions, modelId?: string) => Promise<{ operationLocation: string }>;
+  beginExtract: (
+    body: FormRecognizerRequestBody,
+    contentType: SupportedContentType,
+    analyzeOptions: ExtractOptions,
+    modelId?: string
+  ) => Promise<{ operationLocation: string }>;
   // retrieves analyze result
-  getExtractResult: (
-    resultId: string,
-    options: { abortSignal?: AbortSignalLike }
-  ) => Promise<T>;
+  getExtractResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<T>;
 };
 
 export interface BeginExtractPollState<T> extends PollOperationState<T> {
@@ -54,7 +56,7 @@ export interface BeginExtractPollState<T> extends PollOperationState<T> {
 }
 
 export interface BeginExtractPollerOperation<T>
-extends PollOperation<BeginExtractPollState<T>, T> {}
+  extends PollOperation<BeginExtractPollState<T>, T> {}
 
 /**
  * @internal
@@ -73,7 +75,10 @@ export type BeginExtractPollerOptions<T> = {
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class BeginExtractPoller<T extends { status: OperationStatus }> extends Poller<BeginExtractPollState<T>, T> {
+export class BeginExtractPoller<T extends { status: OperationStatus }> extends Poller<
+  BeginExtractPollState<T>,
+  T
+> {
   public intervalInMs: number;
 
   constructor(options: BeginExtractPollerOptions<T>) {
@@ -103,7 +108,7 @@ export class BeginExtractPoller<T extends { status: OperationStatus }> extends P
       modelId,
       status: "notStarted",
       analyzeOptions: options
-    }, );
+    });
 
     super(operation);
 
@@ -122,8 +127,8 @@ export class BeginExtractPoller<T extends { status: OperationStatus }> extends P
  * Creates a poll operation given the provided state.
  * @ignore
  */
-function makeBeginExtractPollOperation<T extends { status: OperationStatus }> (
-  state: BeginExtractPollState<T>,
+function makeBeginExtractPollOperation<T extends { status: OperationStatus }>(
+  state: BeginExtractPollState<T>
 ): BeginExtractPollerOperation<T> {
   return {
     state: { ...state },

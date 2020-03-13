@@ -18,16 +18,31 @@ import {
   GetAnalyzeReceiptResultResponse,
   DocumentResult
 } from "./generated/models";
-import { ExtractReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody } from "./models";
-import { toReadResult } from "./transforms";
+import {
+  ExtractReceiptResultResponse,
+  ReceiptResult,
+  RawReceiptResult,
+  ReceiptItemField,
+  RawReceipt,
+  FormRecognizerRequestBody
+} from "./models";
+import { toReadResult, toFields } from "./transforms";
 import { createSpan } from "./tracing";
-import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
+import {
+  FormRecognizerClientOptions,
+  FormRecognizerOperationOptions,
+  SupportedContentType
+} from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { BeginExtractPollerOptions, ExtractPollerClient, BeginExtractPoller } from './lro/analyze/poller';
-import { PollerLike, PollOperationState } from '@azure/core-lro';
+import {
+  BeginExtractPollerOptions,
+  ExtractPollerClient,
+  BeginExtractPoller
+} from "./lro/analyze/poller";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
   includeTextDetails?: boolean;
@@ -110,12 +125,13 @@ export class RecognizerClient {
     body: FormRecognizerRequestBody,
     contentType: SupportedContentType,
     options: BeginExtractPollerOptions<ExtractReceiptResultResponse>
-  ): Promise<PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>> {
-
+  ): Promise<
+    PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>
+  > {
     const analyzePollerClient: ExtractPollerClient<ExtractReceiptResultResponse> = {
       beginExtract: (...args) => analyzeReceiptInternal(this.client, ...args),
       getExtractResult: (...args) => this.getExtractedReceipt(...args)
-    }
+    };
 
     const poller = new BeginExtractPoller({
       client: analyzePollerClient,
@@ -131,7 +147,9 @@ export class RecognizerClient {
   public async extractReceiptFromUrl(
     imageSourceUrl: string,
     options: BeginExtractPollerOptions<ExtractReceiptResultResponse>
-  ): Promise<PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>> {
+  ): Promise<
+    PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>
+  > {
     const body = JSON.stringify({
       source: imageSourceUrl
     });
@@ -139,7 +157,7 @@ export class RecognizerClient {
     const analyzePollerClient: ExtractPollerClient<ExtractReceiptResultResponse> = {
       beginExtract: (...args) => analyzeReceiptInternal(this.client, ...args),
       getExtractResult: (...args) => this.getExtractedReceipt(...args)
-    }
+    };
 
     const poller = new BeginExtractPoller({
       client: analyzePollerClient,
@@ -151,7 +169,6 @@ export class RecognizerClient {
     await poller.poll();
     return poller;
   }
-
 
   public async getExtractedReceipt(
     resultId: string,
@@ -180,18 +197,21 @@ export class RecognizerClient {
     }
   }
 
-  private toReceiptResultResponse(result: GetAnalyzeReceiptResultResponse): ExtractReceiptResultResponse {
+  private toReceiptResultResponse(
+    result: GetAnalyzeReceiptResultResponse
+  ): ExtractReceiptResultResponse {
+    const readResults = result.analyzeResult!.readResults.map(toReadResult);
     function toReceiptResult(result: DocumentResult): ReceiptResult {
-      const rawReceipt = result as unknown as RawReceiptResult;
-      const rawReceiptFields = result.fields as unknown as RawReceipt;
+      const rawReceipt = (result as unknown) as RawReceiptResult;
+      const rawReceiptFields = (result.fields as unknown) as RawReceipt;
       return {
         docType: rawReceipt.docType,
         pageRange: rawReceipt.pageRange,
-        receiptType: rawReceiptFields.ReceiptType.valueString,
+        receiptType: rawReceiptFields.ReceiptType.valueString!,
         merchantName: rawReceiptFields.MerchantName?.valueString,
         merchantPhoneNumber: rawReceiptFields.MerchantPhoneNumber?.valuePhoneNumber,
         merchantAddress: rawReceiptFields.MerchantAddress?.valueString,
-        items: rawReceiptFields.Items.valueArray?.map(i => {
+        items: rawReceiptFields.Items.valueArray?.map((i) => {
           return {
             name: (i as ReceiptItemField).valueObject.Name?.valueString,
             quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
@@ -204,8 +224,8 @@ export class RecognizerClient {
         total: rawReceiptFields.Total?.valueNumber,
         transactionDate: rawReceiptFields.TransactionDate?.valueDate,
         transactionTime: rawReceiptFields.TransactionTime?.valueTime,
-        fields: {} // TODO: Transform from result.fields as we re-defined `elements`
-      }
+        fields: toFields(result.fields, readResults)
+      };
     }
 
     if (result.status === "succeeded") {
@@ -214,20 +234,20 @@ export class RecognizerClient {
         createdOn: result.createdOn,
         lastUpdatedOn: result.lastUpdatedOn,
         _response: result._response,
-        analyzeResult:  {
+        analyzeResult: {
           version: result.analyzeResult!.version,
           readResults: result.analyzeResult!.readResults.map(toReadResult),
-          receiptResults: result.analyzeResult!.documentResults!.map(toReceiptResult), // TODO: Transform from original result.fields as we re-defined `elements`
+          receiptResults: result.analyzeResult!.documentResults!.map(toReceiptResult)
         }
-      }
+      };
     } else {
       return {
         status: result.status,
         createdOn: result.createdOn,
         lastUpdatedOn: result.lastUpdatedOn,
-        _response: result._response,
-      }
-    };
+        _response: result._response
+      };
+    }
   }
 
   public async extractLayout(
@@ -352,18 +372,17 @@ async function analyzeReceiptInternal(
   _modelId?: string
 ) {
   const realOptions = options || { includeTextDetails: false };
-  const { span, updatedOptions: finalOptions } = createSpan(
-    "analyzeReceiptInternal",
-    realOptions
-  );
+  const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", realOptions);
 
-  const customHeaders: { [key: string]: string } =
-    finalOptions.requestOptions?.customHeaders || {};
+  const customHeaders: { [key: string]: string } = finalOptions.requestOptions?.customHeaders || {};
   customHeaders["Content-Type"] = contentType;
   // conform to HttpRequestBody
-  const requestBody = (body as any)?.read && typeof((body as any)?.read === "function") ? () => body as NodeJS.ReadableStream : body;
+  const requestBody =
+    (body as any)?.read && typeof ((body as any)?.read === "function")
+      ? () => body as NodeJS.ReadableStream
+      : body;
   try {
-      return await client.analyzeReceiptAsync({
+    return await client.analyzeReceiptAsync({
       ...operationOptionsToRequestOptionsBase(finalOptions),
       requestBody,
       customHeaders

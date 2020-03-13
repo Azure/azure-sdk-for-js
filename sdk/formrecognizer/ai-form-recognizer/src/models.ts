@@ -6,7 +6,6 @@ import * as coreHttp from "@azure/core-http";
 import {
   AnalyzeLayoutAsyncHeaders,
   AnalyzeOperationResult as AnalyzeOperationResultModel,
-  AnalyzeResult as AnalyzeResultModel,
   DataTable as DataTableModel,
   DataTableCell as DataTableCellModel,
   ErrorInformation,
@@ -19,20 +18,19 @@ import {
   Model,
   ModelsModel,
   ModelsSummary,
-  PageResult as PageResultModel,
-  ReadResult as ReadResultModel,
+  // PageResult as PageResultModel,
+  // ReadResult as ReadResultModel,
   TrainCustomModelAsyncHeaders,
   TrainingDocumentInfo,
-  TrainStatus,
   TrainResult,
+  TrainStatus,
   OperationStatus,
   ModelInfo
-} from "./generated/models/index";
+} from "./generated/models";
 
 export {
   AnalyzeLayoutAsyncHeaders,
   AnalyzeOperationResultModel,
-  AnalyzeResultModel,
   DataTableModel,
   DataTableCellModel,
   ErrorInformation,
@@ -44,13 +42,13 @@ export {
   LengthUnit,
   ModelsModel,
   ModelsSummary,
-  PageResultModel,
-  ReadResultModel,
+  //PageResultModel,
+  //ReadResultModel,
   TrainCustomModelAsyncHeaders,
   TrainingDocumentInfo,
   TrainStatus,
   TrainResult
-}
+};
 
 /**
  * An object representing an extracted word.
@@ -105,11 +103,10 @@ export interface TextLine {
   words: TextWord[];
 }
 
-
 /**
  * Information about extracted text elements  in documents
  */
-export type ExtractedElement = TextWord | TextLine
+export type ExtractedElement = TextWord | TextLine;
 
 export interface DataTableCell {
   boundingBox: number[];
@@ -137,9 +134,8 @@ export interface DataTable {
  * Represents a row of data table cells in extracted table.
  */
 export interface DataTableRow {
-  cells: DataTableCell[]
+  cells: DataTableCell[];
 }
-
 
 export interface KeyValueElement {
   boundingBox?: number[];
@@ -164,11 +160,47 @@ export interface PageResult {
   tables?: DataTable[];
 }
 
-export type AnalyzeResult = Omit<AnalyzeResultModel, "pageResults"> & {
+export interface PageRange {
+  firstPage: number;
+  lastPage: number;
+}
+
+export interface DocumentResult {
+  /**
+   * Document type.
+   */
+  docType: string;
+  /**
+   * First and last page number where the document is found.
+   */
+  pageRange: PageRange;
+  /**
+   * Dictionary of named field values.
+   */
+  fields: { [propertyName: string]: FieldValue };
+}
+
+export interface AnalyzeResult {
+  /**
+   * Version of schema used for this result.
+   */
+  version: string;
+  /**
+   * Text extracted from the input.
+   */
+  readResults: ReadResult[];
   /**
    * Page-level information extracted from the input.
    */
   pageResults?: PageResult[];
+  /**
+   * Document-level information extracted from the input.
+   */
+  documentResults?: DocumentResult[];
+  /**
+   * List of errors reported during the analyze operation.
+   */
+  errors?: ErrorInformation[];
 }
 
 export interface CommonFieldValue {
@@ -179,11 +211,11 @@ export interface CommonFieldValue {
   /**
    * Bounding box of the field value, if appropriate.
    */
-  boundingBox: number[];
+  boundingBox?: number[];
   /**
    * Confidence score.
    */
-  confidence: number;
+  confidence?: number;
   /**
    * When includeTextDetails is set to true, a list of references to the text elements constituting
    * this field.
@@ -197,42 +229,42 @@ export interface CommonFieldValue {
 
 export type StringFieldValue = {
   type: "string";
-  valueString: string;
+  valueString?: string;
 } & CommonFieldValue;
 
 export type DateFieldValue = {
   type: "date";
-  valueDate: string;
+  valueDate?: string;
 } & CommonFieldValue;
 
 export type TimeFieldValue = {
   type: "time";
-  valueTime: string;
+  valueTime?: string;
 } & CommonFieldValue;
 
 export type PhoneNumberFieldValue = {
   type: "phoneNumber";
-  valuePhoneNumber: string;
+  valuePhoneNumber?: string;
 } & CommonFieldValue;
 
 export type NumberFieldValue = {
   type: "number";
-  valueNumber: number;
+  valueNumber?: number;
 } & CommonFieldValue;
 
 export type IntegerFieldValue = {
   type: "integer";
-  valueInteger: number;
+  valueInteger?: number;
 } & CommonFieldValue;
 
 export type ArrayFieldValue = {
   type: "array";
-  valueArray: FieldValue[];
+  valueArray?: FieldValue[];
 } & CommonFieldValue;
 
 export type ObjectFieldValue = {
   type: "object";
-  valueObject: { [propertyName: string]: FieldValue };
+  valueObject?: { [propertyName: string]: FieldValue };
 } & CommonFieldValue;
 
 export type FieldValue =
@@ -255,8 +287,8 @@ export type ReceiptItemField = {
     Quantity: NumberFieldValue;
     Price: NumberFieldValue;
     TotalPrice: NumberFieldValue;
-  }
-} & CommonFieldValue
+  };
+} & CommonFieldValue;
 
 export interface ReceiptItem {
   name?: string;
@@ -292,16 +324,16 @@ export interface RawReceipt {
 
 export interface Receipt {
   receiptType: string;
-  merchantName: string;
-  merchantPhoneNumber: string;
-  merchantAddress: string;
+  merchantName?: string;
+  merchantPhoneNumber?: string;
+  merchantAddress?: string;
   items: ReceiptItem[];
-  subtotal: number;
-  tax: number;
-  tip: number;
-  total: number;
-  transactionDate: string;
-  transactionTime: string;
+  subtotal?: number;
+  tax?: number;
+  tip?: number;
+  total?: number;
+  transactionDate?: string;
+  transactionTime?: string;
 }
 
 export interface RawReceiptResult {
@@ -312,14 +344,14 @@ export interface RawReceiptResult {
   /**
    * First and last page number where the document is found.
    */
-  pageRange: number[];
+  pageRange: PageRange;
   /**
    * Dictionary of named field values.
    */
   fields: { [propertyName: string]: FieldValue };
 }
 
-export type ReceiptResult = RawReceiptResult & Receipt
+export type ReceiptResult = RawReceiptResult & Receipt;
 /**
  * Text extracted from a page in the input document.
  */
@@ -393,8 +425,8 @@ export type ExtractReceiptResultResponse = ExtractReceiptOperationResult & {
      * The response body as parsed JSON or XML
      */
     parsedBody: AnalyzeOperationResultModel;
-  }
-}
+  };
+};
 
 export interface ExtractLayoutResult {
   version: string;
@@ -406,7 +438,7 @@ export interface LayoutPageResult {
   keyValuePairs?: KeyValuePair[];
   pageNumber: number;
   tables?: DataTable[];
-};
+}
 
 export interface ExtractLayoutOperationResult {
   status: OperationStatus;
@@ -432,21 +464,20 @@ export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
      * The response body as parsed JSON or XML
      */
     parsedBody: AnalyzeOperationResultModel;
-  }
-}
+  };
+};
 
-export type ExtractFormResult = Omit<AnalyzeResult, "documentResults">
+export type ExtractFormResult = Omit<AnalyzeResult, "documentResults">;
 
-export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
   analyzeResult?: ExtractFormResult;
-}
+};
 
 export type LabeledFormResult = AnalyzeResult;
 
-export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
   analyzeResult?: LabeledFormResult;
-}
-
+};
 
 export type ExtractFormResultResponse = ExtractFormOperationResult & {
   /**
@@ -463,7 +494,7 @@ export type ExtractFormResultResponse = ExtractFormOperationResult & {
      */
     parsedBody: AnalyzeOperationResultModel;
   };
-}
+};
 
 export type LabeledFormResultResponse = LabeledFormOperationResult & {
   /**
@@ -480,7 +511,7 @@ export type LabeledFormResultResponse = LabeledFormOperationResult & {
      */
     parsedBody: AnalyzeOperationResultModel;
   };
-}
+};
 
 export interface FormTrainResult {
   trainingDocuments: TrainingDocumentInfo[];
@@ -512,27 +543,26 @@ export interface LabeledFormTrainResult {
   errors?: ErrorInformation[];
 }
 
-export interface LabeledFormModel{
+export interface LabeledFormModel {
   modelInfo: ModelInfo;
   trainResult?: LabeledFormTrainResult;
-};
-
+}
 
 export type FormModelResponse = FormModel & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Model;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Model;
+  };
 };
 
 export type LabeledFormModelResponse = LabeledFormModel & {
@@ -540,16 +570,16 @@ export type LabeledFormModelResponse = LabeledFormModel & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Model;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Model;
+  };
 };
 
 export type FormRecognizerRequestBody =

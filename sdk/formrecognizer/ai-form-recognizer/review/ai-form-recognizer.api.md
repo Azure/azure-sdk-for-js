@@ -23,38 +23,27 @@ export interface AnalyzeLayoutAsyncHeaders {
 }
 
 // @public
-export type AnalyzeLayoutAsyncResponseModel = AnalyzeLayoutAsyncHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: AnalyzeLayoutAsyncHeaders;
-    };
-};
-
-// @public
 export interface AnalyzeOperationResultModel {
-    analyzeResult?: AnalyzeResultModel;
+    // Warning: (ae-forgotten-export) The symbol "AnalyzeResult" needs to be exported by the entry point index.d.ts
+    analyzeResult?: AnalyzeResult_2;
     createdOn: Date;
     lastUpdatedOn: Date;
     status: OperationStatus;
 }
 
 // @public (undocumented)
-export type AnalyzeResult = Omit<AnalyzeResultModel, "pageResults"> & {
-    pageResults?: PageResult[];
-};
-
-// @public
-export interface AnalyzeResultModel {
+export interface AnalyzeResult {
     documentResults?: DocumentResult[];
     errors?: ErrorInformation[];
-    pageResults?: PageResultModel[];
-    readResults: ReadResultModel[];
+    pageResults?: PageResult[];
+    readResults: ReadResult[];
     version: string;
 }
 
 // @public (undocumented)
 export type ArrayFieldValue = {
     type: "array";
-    valueArray: FieldValue[];
+    valueArray?: FieldValue[];
 } & CommonFieldValue;
 
 // @public
@@ -75,13 +64,27 @@ export type BeginExtractLabeledFormOptions = ExtractFormsOptions & {
 export class BeginExtractPoller<T extends {
     status: OperationStatus;
 }> extends Poller<BeginExtractPollState<T>, T> {
-    // Warning: (ae-forgotten-export) The symbol "BeginExtractPollerOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-incompatible-release-tags) The symbol "__constructor" is marked as @public, but its signature references "BeginExtractPollerOptions" which is marked as @internal
     constructor(options: BeginExtractPollerOptions<T>);
     // (undocumented)
     delay(): Promise<void>;
     // (undocumented)
     intervalInMs: number;
 }
+
+// Warning: (ae-internal-missing-underscore) The name "BeginExtractPollerOptions" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export type BeginExtractPollerOptions<T> = {
+    client: ExtractPollerClient<T>;
+    body: FormRecognizerRequestBody;
+    contentType: SupportedContentType;
+    modelId?: string;
+    intervalInMs?: number;
+    resultId?: string;
+    onProgress?: (state: BeginExtractPollState<T>) => void;
+    resumeFrom?: string;
+} & ExtractOptions;
 
 // @public (undocumented)
 export interface BeginExtractPollState<T> extends PollOperationState<T> {
@@ -121,12 +124,30 @@ export class BeginTrainingPoller<T extends {
         status: ModelStatus;
     };
 }> extends Poller<BeginTrainingPollState<T>, T> {
-    // Warning: (ae-forgotten-export) The symbol "BeginTrainingPollerOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-incompatible-release-tags) The symbol "__constructor" is marked as @public, but its signature references "BeginTrainingPollerOptions" which is marked as @internal
     constructor(options: BeginTrainingPollerOptions<T>);
     // (undocumented)
     delay(): Promise<void>;
     // (undocumented)
     intervalInMs: number;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "BeginTrainingPollerOptions" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export interface BeginTrainingPollerOptions<T> {
+    // (undocumented)
+    client: TrainPollerClient<T>;
+    // (undocumented)
+    intervalInMs?: number;
+    // (undocumented)
+    onProgress?: (state: BeginTrainingPollState<T>) => void;
+    // (undocumented)
+    resumeFrom?: string;
+    // (undocumented)
+    source: string;
+    // (undocumented)
+    trainModelOptions?: TrainModelOptions;
 }
 
 // @public (undocumented)
@@ -158,8 +179,8 @@ export class CognitiveKeyCredential implements ServiceClientCredentials {
 
 // @public (undocumented)
 export interface CommonFieldValue {
-    boundingBox: number[];
-    confidence: number;
+    boundingBox?: number[];
+    confidence?: number;
     elements?: ExtractedElement[];
     pageNumber?: number;
     text?: string;
@@ -229,19 +250,19 @@ export interface DataTableRow {
 // @public (undocumented)
 export type DateFieldValue = {
     type: "date";
-    valueDate: string;
+    valueDate?: string;
 } & CommonFieldValue;
 
 // @public
 export type DeleteModelOptions = FormRecognizerOperationOptions;
 
-// @public
+// @public (undocumented)
 export interface DocumentResult {
     docType: string;
     fields: {
-        [propertyName: string]: FieldValue_2;
+        [propertyName: string]: FieldValue;
     };
-    pageRange: number[];
+    pageRange: PageRange;
 }
 
 // @public
@@ -409,8 +430,6 @@ export class FormRecognizerClient {
     getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
     // (undocumented)
     getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetCustomModelsResponse" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
     // (undocumented)
@@ -437,10 +456,10 @@ export interface FormTrainResult {
 }
 
 // @public
-export type GetAnalyzeReceiptResultResponse = AnalyzeOperationResultModel & {
+export type GetCustomModelsResponse = ModelsModel & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: AnalyzeOperationResultModel;
+        parsedBody: ModelsModel;
     };
 };
 
@@ -458,7 +477,7 @@ export type GetSummaryOptions = FormRecognizerOperationOptions;
 // @public (undocumented)
 export type IntegerFieldValue = {
     type: "integer";
-    valueInteger: number;
+    valueInteger?: number;
 } & CommonFieldValue;
 
 // @public
@@ -618,19 +637,27 @@ export type ModelStatus = 'creating' | 'ready' | 'invalid';
 // @public (undocumented)
 export type NumberFieldValue = {
     type: "number";
-    valueNumber: number;
+    valueNumber?: number;
 } & CommonFieldValue;
 
 // @public (undocumented)
 export type ObjectFieldValue = {
     type: "object";
-    valueObject: {
+    valueObject?: {
         [propertyName: string]: FieldValue;
     };
 } & CommonFieldValue;
 
 // @public
 export type OperationStatus = 'notStarted' | 'running' | 'succeeded' | 'failed';
+
+// @public (undocumented)
+export interface PageRange {
+    // (undocumented)
+    firstPage: number;
+    // (undocumented)
+    lastPage: number;
+}
 
 // @public
 export interface PageResult {
@@ -644,18 +671,10 @@ export interface PageResult {
     tables?: DataTable[];
 }
 
-// @public
-export interface PageResultModel {
-    clusterId?: number;
-    keyValuePairs?: KeyValuePairModel[];
-    pageNumber: number;
-    tables?: DataTableModel[];
-}
-
 // @public (undocumented)
 export type PhoneNumberFieldValue = {
     type: "phoneNumber";
-    valuePhoneNumber: string;
+    valuePhoneNumber?: string;
 } & CommonFieldValue;
 
 export { PollerLike }
@@ -694,7 +713,7 @@ export interface RawReceiptResult {
     fields: {
         [propertyName: string]: FieldValue;
     };
-    pageRange: number[];
+    pageRange: PageRange;
 }
 
 // @public
@@ -708,42 +727,30 @@ export interface ReadResult {
     width: number;
 }
 
-// @public
-export interface ReadResultModel {
-    angle: number;
-    height: number;
-    language?: Language;
-    // Warning: (ae-forgotten-export) The symbol "TextLine" needs to be exported by the entry point index.d.ts
-    lines?: TextLine_2[];
-    pageNumber: number;
-    unit: LengthUnit;
-    width: number;
-}
-
 // @public (undocumented)
 export interface Receipt {
     // (undocumented)
     items: ReceiptItem[];
     // (undocumented)
-    merchantAddress: string;
+    merchantAddress?: string;
     // (undocumented)
-    merchantName: string;
+    merchantName?: string;
     // (undocumented)
-    merchantPhoneNumber: string;
+    merchantPhoneNumber?: string;
     // (undocumented)
     receiptType: string;
     // (undocumented)
-    subtotal: number;
+    subtotal?: number;
     // (undocumented)
-    tax: number;
+    tax?: number;
     // (undocumented)
-    tip: number;
+    tip?: number;
     // (undocumented)
-    total: number;
+    total?: number;
     // (undocumented)
-    transactionDate: string;
+    transactionDate?: string;
     // (undocumented)
-    transactionTime: string;
+    transactionTime?: string;
 }
 
 // @public (undocumented)
@@ -805,7 +812,7 @@ export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
 // @public (undocumented)
 export type StringFieldValue = {
     type: "string";
-    valueString: string;
+    valueString?: string;
 } & CommonFieldValue;
 
 // @public (undocumented)
@@ -831,7 +838,7 @@ export interface TextWord {
 // @public (undocumented)
 export type TimeFieldValue = {
     type: "time";
-    valueTime: string;
+    valueTime?: string;
 } & CommonFieldValue;
 
 // @public
@@ -877,10 +884,6 @@ export interface TrainResult {
 // @public
 export type TrainStatus = 'succeeded' | 'partiallySucceeded' | 'failed';
 
-
-// Warnings were encountered during analysis:
-//
-// src/generated/models/index.ts:300:13 - (ae-forgotten-export) The symbol "FieldValue" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

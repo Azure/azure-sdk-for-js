@@ -2,13 +2,19 @@
 // Licensed under the MIT license.
 
 import {
+  AnalyzeResult as AnalyzeResultModel,
   DataTable as DataTableModel,
+  DocumentResult as DocumentResultModel,
+  FieldValue as FieldValueModel,
   KeyValueElement as KeyValueElementModel,
   KeyValuePair as KeyValuePairModel,
   PageResult as PageResultModel,
   ReadResult as ReadResultModel,
   TextLine as TextLineModel,
-} from "./generated/models/index";
+  GetAnalyzeFormResultResponse,
+  GetAnalyzeLayoutResultResponse,
+  GetAnalyzeReceiptResultResponse
+} from "./generated/models";
 
 import {
   ReadResult,
@@ -16,9 +22,28 @@ import {
   ExtractedElement,
   DataTableRow,
   DataTable,
+  DocumentResult,
   KeyValueElement,
   KeyValuePair,
-  PageResult
+  PageResult,
+  LabeledFormResultResponse,
+  ExtractFormResultResponse,
+  ExtractLayoutResultResponse,
+  ExtractLayoutResult,
+  ExtractReceiptResultResponse,
+  FieldValue,
+  RawReceiptResult,
+  ReceiptResult,
+  RawReceipt,
+  ReceiptItemField,
+  StringFieldValue,
+  DateFieldValue,
+  TimeFieldValue,
+  PhoneNumberFieldValue,
+  NumberFieldValue,
+  IntegerFieldValue,
+  ObjectFieldValue,
+  ArrayFieldValue
 } from "./models";
 
 function toTextLine(original: TextLineModel, pageNumber: number): TextLine {
@@ -26,7 +51,7 @@ function toTextLine(original: TextLineModel, pageNumber: number): TextLine {
     pageNumber: pageNumber,
     text: original.text,
     boundingBox: original.boundingBox,
-    words: original.words.map(w => {
+    words: original.words.map((w) => {
       return {
         text: w.text,
         boundingBox: w.boundingBox,
@@ -37,7 +62,9 @@ function toTextLine(original: TextLineModel, pageNumber: number): TextLine {
   };
   return {
     ...line,
-    words: line.words.map(w => { return {...w, containingLine: line }})
+    words: line.words.map((w) => {
+      return { ...w, containingLine: line };
+    })
   };
 }
 export function toReadResult(original: ReadResultModel): ReadResult {
@@ -51,12 +78,13 @@ export function toReadResult(original: ReadResultModel): ReadResult {
   };
 }
 
+// Note: might need to support other element types in future, e.g., checkbox
 const elementPattern = /#\/readResults\/(\d+)\/lines\/(\d+)\/words\/(\d+)/;
 
-function toExtractedElement(element: string, readResults: ReadResult[]) : ExtractedElement {
+function toExtractedElement(element: string, readResults: ReadResult[]): ExtractedElement {
   const result = elementPattern.exec(element);
   if (!result || result.length < 3) {
-    throw new Error(`Unexpected element reference encountered: ${element}`)
+    throw new Error(`Unexpected element reference encountered: ${element}`);
   }
 
   const readIndex = Number.parseInt(result[1]);
@@ -69,12 +97,17 @@ function toExtractedElement(element: string, readResults: ReadResult[]) : Extrac
   }
 }
 
-function toKeyValueElement(original: KeyValueElementModel, readResults?: ReadResult[]): KeyValueElement {
+function toKeyValueElement(
+  original: KeyValueElementModel,
+  readResults?: ReadResult[]
+): KeyValueElement {
   return {
     text: original.text,
     boundingBox: original.boundingBox,
-    elements: readResults ? original.elements?.map(element => toExtractedElement(element, readResults!)) : undefined
-  }
+    elements: readResults
+      ? original.elements?.map((element) => toExtractedElement(element, readResults!))
+      : undefined
+  };
 }
 
 function toKeyValuePair(original: KeyValuePairModel, readResults?: ReadResult[]): KeyValuePair {
@@ -83,13 +116,13 @@ function toKeyValuePair(original: KeyValuePairModel, readResults?: ReadResult[])
     confidence: original.confidence,
     key: toKeyValueElement(original.key, readResults),
     value: toKeyValueElement(original.value, readResults)
-  }
+  };
 }
 
 function toTable(original: DataTableModel, readResults?: ReadResult[]): DataTable {
   let rows: DataTableRow[] = [];
   for (let i = 0; i < original.rows; i++) {
-    rows.push({ cells: []});
+    rows.push({ cells: [] });
   }
   for (const cell of original.cells) {
     rows[cell.rowIndex].cells.push({
@@ -97,35 +130,266 @@ function toTable(original: DataTableModel, readResults?: ReadResult[]): DataTabl
       columnIndex: cell.columnIndex,
       columnSpan: cell.columnSpan || 1,
       confidence: cell.confidence,
-      elements: readResults ? cell.elements?.map(element => toExtractedElement(element, readResults!)) : undefined,
+      elements: readResults
+        ? cell.elements?.map((element) => toExtractedElement(element, readResults!))
+        : undefined,
       isFooter: cell.isFooter || false,
       isHeader: cell.isHeader || false,
       rowIndex: cell.rowIndex,
       rowSpan: cell.rowSpan || 1,
       text: cell.text
-    })
+    });
   }
   return {
     rowCount: original.rows,
     columnCount: original.columns,
     rows: rows
-  }
+  };
 }
 
 function toPageResult(original: PageResultModel, readResults?: ReadResult[]): PageResult {
   return {
     pageNumber: original.pageNumber,
     clusterId: original.clusterId,
-    keyValuePairs: original.keyValuePairs?.map(pair => toKeyValuePair(pair, readResults)),
-    tables: original.tables?.map(table => toTable(table, readResults))
-  }
+    keyValuePairs: original.keyValuePairs?.map((pair) => toKeyValuePair(pair, readResults)),
+    tables: original.tables?.map((table) => toTable(table, readResults))
+  };
 }
 
-export function transformResults(readResults?: ReadResultModel[], pageResults?: PageResultModel[])
-  : { readResults: ReadResult[], pageResults: PageResult[] } {
+export function transformResults(
+  readResults?: ReadResultModel[],
+  pageResults?: PageResultModel[]
+): { readResults: ReadResult[]; pageResults: PageResult[] } {
   const transformedReadResults = readResults?.map(toReadResult);
   return {
     readResults: transformedReadResults || [],
-    pageResults: pageResults?.map(page => toPageResult(page, transformedReadResults)) || []
+    pageResults: pageResults?.map((page) => toPageResult(page, transformedReadResults)) || []
+  };
+}
+
+export function toCustomFormResultResponse(
+  original: GetAnalyzeFormResultResponse
+): ExtractFormResultResponse {
+  const { readResults, pageResults } = transformResults(
+    original.analyzeResult?.readResults,
+    original.analyzeResult?.pageResults
+  );
+  return original.status === "succeeded"
+    ? {
+        status: original.status,
+        createdOn: original.createdOn,
+        lastUpdatedOn: original.createdOn,
+        _response: original._response,
+        analyzeResult: !!original.analyzeResult
+          ? {
+              version: original.analyzeResult.version,
+              readResults,
+              pageResults,
+              errors: original.analyzeResult?.errors
+            }
+          : undefined
+      }
+    : {
+        status: original.status,
+        createdOn: original.createdOn,
+        lastUpdatedOn: original.createdOn,
+        _response: original._response
+      };
+}
+
+function toFieldValue(original: FieldValueModel, readResults: ReadResult[]): FieldValue {
+  const result = {
+    text: original.text,
+    boundingBox: original.boundingBox,
+    confidence: original.confidence,
+    pageNumber: original.pageNumber,
+    elements: original.elements?.map((element) => toExtractedElement(element, readResults))
+  };
+  switch (original.type) {
+    case "string":
+      (result as StringFieldValue).type = "string";
+      (result as StringFieldValue).valueString = original.valueString;
+      break;
+    case "date":
+      (result as DateFieldValue).type = "date";
+      (result as DateFieldValue).valueDate = original.valueDate;
+      break;
+    case "time":
+      (result as TimeFieldValue).type = "time";
+      (result as TimeFieldValue).valueTime = original.valueTime;
+      break;
+    case "phoneNumber":
+      (result as PhoneNumberFieldValue).type = "phoneNumber";
+      (result as PhoneNumberFieldValue).valuePhoneNumber = original.valuePhoneNumber;
+      break;
+    case "number":
+      (result as NumberFieldValue).type = "number";
+      (result as NumberFieldValue).valueNumber = original.valueNumber;
+      break;
+    case "integer":
+      (result as IntegerFieldValue).type = "integer";
+      (result as IntegerFieldValue).valueInteger = original.valueInteger;
+      break;
+    case "array":
+      (result as ArrayFieldValue).type = "array";
+      (result as ArrayFieldValue).valueArray = original.valueArray
+        ? original.valueArray.map((a) => toFieldValue(a, readResults))
+        : undefined;
+      break;
+    case "object":
+      (result as ObjectFieldValue).type = "object";
+      (result as ObjectFieldValue).valueObject = original.valueObject
+        ? toFields(original.valueObject, readResults)
+        : undefined;
+      break;
+    default:
+      throw new Error(`Unknown field value type from ${original}`);
+  }
+  return (result as unknown) as FieldValue;
+}
+
+export function toFields(
+  original: { [propertyName: string]: FieldValueModel },
+  readResults: ReadResult[]
+): { [propertyName: string]: FieldValue } {
+  const result: { [propertyName: string]: FieldValue } = {};
+  for (const key in original) {
+    if (original.hasOwnProperty(key)) {
+      result[key] = toFieldValue(original[key], readResults);
+    }
+  }
+
+  return result;
+}
+
+function toDocumentResult(
+  original: DocumentResultModel,
+  readResults: ReadResult[]
+): DocumentResult {
+  return {
+    docType: original.docType,
+    pageRange: { firstPage: original.pageRange[0], lastPage: original.pageRange[1] },
+    fields: toFields(original.fields, readResults)
+  };
+}
+
+export function toLabeledFormResultResponse(
+  original: GetAnalyzeFormResultResponse
+): LabeledFormResultResponse {
+  if (original.status === "succeeded") {
+    const { readResults, pageResults } = transformResults(
+      original.analyzeResult?.readResults,
+      original.analyzeResult?.pageResults
+    );
+    return {
+      status: original.status,
+      createdOn: original.createdOn,
+      lastUpdatedOn: original.createdOn,
+      _response: original._response,
+      analyzeResult: !!original.analyzeResult
+        ? {
+            version: original.analyzeResult.version,
+            documentResults: original.analyzeResult.documentResults?.map((d) =>
+              toDocumentResult(d, readResults)
+            ),
+            readResults,
+            pageResults,
+            errors: original.analyzeResult?.errors
+          }
+        : undefined
+    };
+  } else {
+    return {
+      status: original.status,
+      createdOn: original.createdOn,
+      lastUpdatedOn: original.createdOn,
+      _response: original._response
+    };
+  }
+}
+
+export function toAnalyzeLayoutResultResponse(
+  original: GetAnalyzeLayoutResultResponse
+): ExtractLayoutResultResponse {
+  function toAnalyzeLayoutResult(model?: AnalyzeResultModel): ExtractLayoutResult | undefined {
+    if (!model) {
+      return undefined;
+    }
+    const { readResults, pageResults } = transformResults(model.readResults, model.pageResults);
+    return {
+      version: model.version,
+      readResults: readResults,
+      pageResults: pageResults
+    };
+  }
+
+  if (original.status === "succeeded") {
+    return {
+      status: original.status,
+      createdOn: original.createdOn,
+      lastUpdatedOn: original.lastUpdatedOn,
+      analyzeResult: toAnalyzeLayoutResult(original.analyzeResult),
+      _response: original._response
+    };
+  } else {
+    return {
+      status: original.status,
+      createdOn: original.createdOn,
+      lastUpdatedOn: original.lastUpdatedOn,
+      _response: original._response
+    };
+  }
+}
+
+export function toReceiptResultResponse(
+  result: GetAnalyzeReceiptResultResponse
+): ExtractReceiptResultResponse {
+  const readResults = result.analyzeResult!.readResults.map(toReadResult);
+  function toReceiptResult(result: DocumentResultModel): ReceiptResult {
+    const rawReceipt = (result as unknown) as RawReceiptResult;
+    const rawReceiptFields = (result.fields as unknown) as RawReceipt;
+    return {
+      docType: rawReceipt.docType,
+      pageRange: rawReceipt.pageRange,
+      receiptType: rawReceiptFields.ReceiptType.valueString!,
+      merchantName: rawReceiptFields.MerchantName?.valueString,
+      merchantPhoneNumber: rawReceiptFields.MerchantPhoneNumber?.valuePhoneNumber,
+      merchantAddress: rawReceiptFields.MerchantAddress?.valueString,
+      items: rawReceiptFields.Items.valueArray?.map((i) => {
+        return {
+          name: (i as ReceiptItemField).valueObject.Name?.valueString,
+          quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
+          totalPrice: (i as ReceiptItemField).valueObject.TotalPrice?.valueNumber
+        };
+      }),
+      subtotal: rawReceiptFields.Subtotal?.valueNumber,
+      tax: rawReceiptFields.Tax?.valueNumber,
+      tip: rawReceiptFields.Tip?.valueNumber,
+      total: rawReceiptFields.Total?.valueNumber,
+      transactionDate: rawReceiptFields.TransactionDate?.valueDate,
+      transactionTime: rawReceiptFields.TransactionTime?.valueTime,
+      fields: toFields(result.fields, readResults)
+    };
+  }
+
+  if (result.status === "succeeded") {
+    return {
+      status: result.status,
+      createdOn: result.createdOn,
+      lastUpdatedOn: result.lastUpdatedOn,
+      _response: result._response,
+      analyzeResult: {
+        version: result.analyzeResult!.version,
+        readResults: readResults,
+        receiptResults: result.analyzeResult!.documentResults!.map(toReceiptResult)
+      }
+    };
+  } else {
+    return {
+      status: result.status,
+      createdOn: result.createdOn,
+      lastUpdatedOn: result.lastUpdatedOn,
+      _response: result._response
+    };
   }
 }

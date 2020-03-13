@@ -13,26 +13,25 @@ import { TokenCredential } from "@azure/identity";
 import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
-import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
+import {
+  FormRecognizerClientOptions,
+  FormRecognizerOperationOptions,
+  SupportedContentType
+} from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { ExtractLayoutResultResponse, ExtractLayoutResult, FormRecognizerRequestBody } from './models';
-import { transformResults } from "./transforms";
-import { ExtractPollerClient, BeginExtractPoller, BeginExtractPollState } from './lro/analyze/poller';
-import { PollerLike, PollOperationState } from '.';
-
+import { ExtractLayoutResultResponse, FormRecognizerRequestBody } from "./models";
+import { toAnalyzeLayoutResultResponse } from "./transforms";
 import {
-  AnalyzeResult as AnalyzeResultModel,
-  AnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
-  GetAnalyzeLayoutResultResponse,
-} from "./generated/models";
+  ExtractPollerClient,
+  BeginExtractPoller,
+  BeginExtractPollState
+} from "./lro/analyze/poller";
+import { PollerLike, PollOperationState } from ".";
 
-export {
-  AnalyzeResultModel,
-  AnalyzeLayoutAsyncResponseModel
-}
+import { AnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel } from "./generated/models";
 
 /**
  * Options for analyzing layout
@@ -46,9 +45,12 @@ export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
   intervalInMs?: number;
   onProgress?: (state: BeginExtractPollState<ExtractLayoutResultResponse>) => void;
   resumeFrom?: string;
-}
+};
 
-export type LayoutPollerLike = PollerLike<PollOperationState<ExtractLayoutResultResponse>, ExtractLayoutResultResponse>
+export type LayoutPollerLike = PollerLike<
+  PollOperationState<ExtractLayoutResultResponse>,
+  ExtractLayoutResultResponse
+>;
 
 type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
 
@@ -124,11 +126,10 @@ export class LayoutRecognizerClient {
     contentType: SupportedContentType,
     options: StartAnalyzeLayoutOptions = {}
   ): Promise<LayoutPollerLike> {
-
     const analyzePollerClient: ExtractPollerClient<ExtractLayoutResultResponse> = {
       beginExtract: (...args) => analyzeLayoutInternal(this.client, ...args),
       getExtractResult: (...args) => this.getExtractedLayout(...args)
-    }
+    };
 
     const poller = new BeginExtractPoller<ExtractLayoutResultResponse>({
       client: analyzePollerClient,
@@ -175,37 +176,6 @@ export class LayoutRecognizerClient {
   }
 }
 
-function  toAnalyzeLayoutResultResponse(original: GetAnalyzeLayoutResultResponse): ExtractLayoutResultResponse {
-  function toAnalyzeLayoutResult(model?: AnalyzeResultModel): ExtractLayoutResult | undefined {
-    if (!model){
-      return undefined;
-    }
-    const { readResults, pageResults } = transformResults(model.readResults, model.pageResults);
-    return {
-      version: model.version,
-      readResults: readResults,
-      pageResults: pageResults
-    }
-  }
-
-  if (original.status === "succeeded") {
-    return {
-      status: original.status,
-      createdOn: original.createdOn,
-      lastUpdatedOn: original.lastUpdatedOn,
-      analyzeResult: toAnalyzeLayoutResult(original.analyzeResult),
-      _response: original._response
-    }
-  } else {
-    return {
-      status: original.status,
-      createdOn: original.createdOn,
-      lastUpdatedOn: original.lastUpdatedOn,
-      _response: original._response
-    }
-  }
-}
-
 async function analyzeLayoutInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody,
@@ -214,16 +184,15 @@ async function analyzeLayoutInternal(
   _modelId?: string
 ): Promise<AnalyzeLayoutAsyncResponseModel> {
   const realOptions = options || {};
-  const { span, updatedOptions: finalOptions } = createSpan(
-    "analyzeLayoutInternal",
-    realOptions
-  );
+  const { span, updatedOptions: finalOptions } = createSpan("analyzeLayoutInternal", realOptions);
 
-  const customHeaders: { [key: string]: string } =
-    finalOptions.requestOptions?.customHeaders || {};
+  const customHeaders: { [key: string]: string } = finalOptions.requestOptions?.customHeaders || {};
   customHeaders["Content-Type"] = contentType;
   // conform to HttpRequestBody
-  const requestBody = (body as any)?.read && typeof((body as any)?.read === "function") ? () => body as NodeJS.ReadableStream : body;
+  const requestBody =
+    (body as any)?.read && typeof ((body as any)?.read === "function")
+      ? () => body as NodeJS.ReadableStream
+      : body;
   try {
     return await client.analyzeLayoutAsync({
       ...operationOptionsToRequestOptionsBase(finalOptions),

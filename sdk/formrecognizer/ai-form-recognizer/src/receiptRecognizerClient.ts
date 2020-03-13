@@ -7,31 +7,29 @@ import {
   InternalPipelineOptions,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  operationOptionsToRequestOptionsBase,
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
-import { ExtractReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody} from "./models";
-import { toReadResult } from "./transforms";
+import { ExtractReceiptResultResponse, FormRecognizerRequestBody } from "./models";
+import { toReceiptResultResponse } from "./transforms";
 import { createSpan } from "./tracing";
-import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
+import {
+  FormRecognizerClientOptions,
+  FormRecognizerOperationOptions,
+  SupportedContentType
+} from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { ExtractPollerClient, BeginExtractPoller, BeginExtractPollState } from './lro/analyze/poller';
-import { PollOperationState, PollerLike } from '@azure/core-lro';
-
 import {
-  GetAnalyzeReceiptResultResponse,
-  DocumentResult
-} from "./generated/models";
-
-export {
-  GetAnalyzeReceiptResultResponse,
-  DocumentResult
-}
+  ExtractPollerClient,
+  BeginExtractPoller,
+  BeginExtractPollState
+} from "./lro/analyze/poller";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
 
 /**
  * Options for analyzing receipts
@@ -49,9 +47,12 @@ export type BeginExtractReceiptsOptions = ExtractReceiptsOptions & {
   intervalInMs?: number;
   onProgress?: (state: BeginExtractPollState<ExtractReceiptResultResponse>) => void;
   resumeFrom?: string;
-}
+};
 
-export type ReceiptPollerLike = PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>
+export type ReceiptPollerLike = PollerLike<
+  PollOperationState<ExtractReceiptResultResponse>,
+  ExtractReceiptResultResponse
+>;
 
 /**
  * Client class for interacting with Azure Form Recognizer.
@@ -125,11 +126,10 @@ export class ReceiptRecognizerClient {
     contentType: SupportedContentType,
     options: BeginExtractReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
-
     const analyzePollerClient: ExtractPollerClient<ExtractReceiptResultResponse> = {
       beginExtract: (...args) => analyzeReceiptInternal(this.client, ...args),
       getExtractResult: (...args) => this.getExtractedReceipts(...args)
-    }
+    };
 
     const poller = new BeginExtractPoller({
       client: analyzePollerClient,
@@ -168,7 +168,7 @@ export class ReceiptRecognizerClient {
         resultId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      return this.toReceiptResultResponse(result);
+      return toReceiptResultResponse(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -178,56 +178,6 @@ export class ReceiptRecognizerClient {
     } finally {
       span.end();
     }
-  }
-
-  private toReceiptResultResponse(result: GetAnalyzeReceiptResultResponse): ExtractReceiptResultResponse {
-    function toReceiptResult(result: DocumentResult): ReceiptResult {
-      const rawReceipt = result as unknown as RawReceiptResult;
-      const rawReceiptFields = result.fields as unknown as RawReceipt;
-      return {
-        docType: rawReceipt.docType,
-        pageRange: rawReceipt.pageRange,
-        receiptType: rawReceiptFields.ReceiptType.valueString,
-        merchantName: rawReceiptFields.MerchantName?.valueString,
-        merchantPhoneNumber: rawReceiptFields.MerchantPhoneNumber?.valuePhoneNumber,
-        merchantAddress: rawReceiptFields.MerchantAddress?.valueString,
-        items: rawReceiptFields.Items.valueArray?.map(i => {
-          return {
-            name: (i as ReceiptItemField).valueObject.Name?.valueString,
-            quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
-            totalPrice: (i as ReceiptItemField).valueObject.TotalPrice?.valueNumber
-          };
-        }),
-        subtotal: rawReceiptFields.Subtotal?.valueNumber,
-        tax: rawReceiptFields.Tax?.valueNumber,
-        tip: rawReceiptFields.Tip?.valueNumber,
-        total: rawReceiptFields.Total?.valueNumber,
-        transactionDate: rawReceiptFields.TransactionDate?.valueDate,
-        transactionTime: rawReceiptFields.TransactionTime?.valueTime,
-        fields: {} // TODO: Transform from original result.fields as we re-defined `elements`
-      }
-    }
-
-    if (result.status === "succeeded") {
-      return {
-        status: result.status,
-        createdOn: result.createdOn,
-        lastUpdatedOn: result.lastUpdatedOn,
-        _response: result._response,
-        analyzeResult:  {
-          version: result.analyzeResult!.version,
-          readResults: result.analyzeResult!.readResults.map(toReadResult),
-          receiptResults: result.analyzeResult!.documentResults!.map(toReceiptResult)
-        }
-      }
-    } else {
-      return {
-        status: result.status,
-        createdOn: result.createdOn,
-        lastUpdatedOn: result.lastUpdatedOn,
-        _response: result._response,
-      }
-    };
   }
 }
 
@@ -239,16 +189,15 @@ async function analyzeReceiptInternal(
   _modelId?: string
 ) {
   const realOptions = options || { includeTextDetails: false };
-  const { span, updatedOptions: finalOptions } = createSpan(
-    "analyzeReceiptInternal",
-    realOptions
-  );
+  const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", realOptions);
 
-  const customHeaders: { [key: string]: string } =
-    finalOptions.requestOptions?.customHeaders || {};
+  const customHeaders: { [key: string]: string } = finalOptions.requestOptions?.customHeaders || {};
   customHeaders["Content-Type"] = contentType;
   // conform to HttpRequestBody
-  const requestBody = (body as any)?.read && typeof((body as any)?.read === "function") ? () => body as NodeJS.ReadableStream : body;
+  const requestBody =
+    (body as any)?.read && typeof ((body as any)?.read === "function")
+      ? () => body as NodeJS.ReadableStream
+      : body;
   try {
     return await client.analyzeReceiptAsync({
       ...operationOptionsToRequestOptionsBase(finalOptions),

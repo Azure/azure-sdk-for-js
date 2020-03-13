@@ -13,7 +13,7 @@ export { ModelStatus, TrainCustomModelAsyncResponse };
  * returned by {@link FormRecognizerClient.beginTraining} to work.
  */
 export type TrainPollerClient<T> = {
-  getModel: (modelId: string, options: GetModelOptions) =>  Promise<T>
+  getModel: (modelId: string, options: GetModelOptions) => Promise<T>;
   trainCustomModelInternal: (
     source: string,
     useLabelFile?: boolean,
@@ -47,7 +47,10 @@ export interface BeginTrainingPollerOptions<T> {
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class BeginTrainingPoller<T extends { modelInfo: { status: ModelStatus}}> extends Poller<BeginTrainingPollState<T>, T> {
+export class BeginTrainingPoller<T extends { modelInfo: { status: ModelStatus } }> extends Poller<
+  BeginTrainingPollState<T>,
+  T
+> {
   public intervalInMs: number;
 
   constructor(options: BeginTrainingPollerOptions<T>) {
@@ -92,7 +95,7 @@ export class BeginTrainingPoller<T extends { modelInfo: { status: ModelStatus}}>
  * Creates a poll operation given the provided state.
  * @ignore
  */
-function makeBeginTrainingPollOperation<T extends { modelInfo: { status: ModelStatus}}>(
+function makeBeginTrainingPollOperation<T extends { modelInfo: { status: ModelStatus } }>(
   state: BeginTrainingPollState<T>
 ): BeginTrainingPollerOperation<T> {
   return {
@@ -108,7 +111,11 @@ function makeBeginTrainingPollOperation<T extends { modelInfo: { status: ModelSt
 
       if (!state.isStarted) {
         state.isStarted = true;
-        const result = await client.trainCustomModelInternal(source, false, trainModelOptions || {});
+        const result = await client.trainCustomModelInternal(
+          source,
+          false,
+          trainModelOptions || {}
+        );
         const lastSlashIndex = result.location.lastIndexOf("/");
         state.modelId = result.location.substring(lastSlashIndex + 1);
       }
