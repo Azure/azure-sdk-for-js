@@ -260,9 +260,7 @@ export class ServiceBusTestHelpers {
    *
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
-  async getReceiveAndDeleteReceiver(
-    entityNames: ReturnType<typeof getEntityNames>
-  ): Promise<Receiver<{}>> {
+  getReceiveAndDeleteReceiver(entityNames: ReturnType<typeof getEntityNames>): Receiver<{}> {
     // TODO: we should generate a random ID here - there's no harm in
     // creating as many sessions as we wish. Some tests will need to change.
     const sessionId = TestMessage.sessionId;
