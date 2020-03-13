@@ -101,9 +101,32 @@ With these considerations in mind, you can see how your package.json scripts sho
 
 All of the tests in the Azure SDK repository should have a timeout. In the previous section, we have discussed how this timeout is defined for mocha, though the parameter `--timeout` with an additional milliseconds amount, which is sent during the invocation of mocha. Now we will define how to know how many milliseconds to pass to this parameter.
 
-New projects inside of this repository can take a safe guess based on how much the tests on average take locally. **Existing projects** should instead...
+New projects inside of this repository can take a safe guess based on how much the tests on average take locally. **Existing projects** should instead follow these steps to **get a reasonable timeout from past test executions**:
 
-    TODO: ASK ENGINEERING HOW TO GET THE MAX TIME PER TESTS
+1. Go to our CI pipelines, at: https://dev.azure.com/azure-sdk/internal/_build
+2. Pick the pipeline of the project you're working on. You will end up in a page with a path similar to `/azure-sdk/internal/_build?definitionId=XYZ&_a=summary`.
+3. Click on any previous build. The path will look similar to `/azure-sdk/internal/_build/results?buildId=XYZ&view=results`.
+4. Press the tab `Test`. You will see something like _Picture One_ below.
+5. Press on the `x` button at the right of the filters. It is visible at the bottom right of _Picture One_. If you hover on it, you will see the message "Clear filters".
+6. Under that filter bar, now you will see all of your individual test cases. They should appear sorted from greater to lower.
+7. Click on the test with the greater duration. A new division will appear in the layout of the website. You will see something like _Picture Two_.
+8. Click on the "History" tab of that new division of the website. You will see two bar chart with the history of durations of that test case you picked. See _Picture Three_.
+9. Hover over the highest of the bars. You will see the duration that this test took on that build. Take a note of this duration.
+10. **Convert that duration to milliseconds and double it. Pick a number equal or near to that duration as your timeout.**
+
+The pictures:
+
+- Picture One: Pressing the `Test` tab of a CI build.
+
+![image](https://user-images.githubusercontent.com/417016/76654121-ac39c180-6540-11ea-9496-42bdee3bba25.png)
+
+- Picture Two: Pressing on the slowest of the tests.
+
+![image](https://user-images.githubusercontent.com/417016/76654504-7943fd80-6541-11ea-9e4f-bbee3dd4ca68.png)
+
+- Picture Three: Looking at the history of the slowest of the tests.
+
+![image](https://user-images.githubusercontent.com/417016/76654813-3cc4d180-6542-11ea-8407-c5de1b4a7520.png)
 
 #### On the usage of before, beforeEach, after and afterEach
 
