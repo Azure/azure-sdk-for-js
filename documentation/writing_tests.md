@@ -20,8 +20,7 @@
 
 ## Recommended tools
 
-Writing tests for JavaScript and TypeScript requires testing tools, such as a test framework, an assertion library and a way to bundle and run these tests on various environments. The JavaScript community has many overlapping tools that one could pick to fulfill any of these tasks. To ensure that the testing experience across the Azure SDK for JS/TS is consistent and reliable,
-we've picked the following external testing tools:
+Writing tests for JavaScript and TypeScript requires testing tools, such as a test framework, an assertion library, and a way to bundle and run these tests in various environments. The JavaScript community has many overlapping tools that one could pick to fulfill any of these tasks. To ensure that the testing experience across the Azure SDK for JS/TS is consistent and reliable, we've picked the following external testing tools:
 
 - [Mocha](https://www.npmjs.com/package/mocha), which offers us a well known and stable test framework for both NodeJS and browser tests.
 - [Chai](https://www.npmjs.com/package/chai), a well known assertion library for Node and the browser.
