@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/// <reference lib="esnext.asynciterable" />
+
 import {
   createPipelineFromOptions,
   signingPolicy,
@@ -8,41 +10,128 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  delay
+  AbortSignalLike,
+  RestResponse
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
-import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
-import {
-  GetAnalyzeLayoutResultResponse,
-  GetAnalyzeReceiptResultResponse,
-  DocumentResult
-} from "./generated/models";
-import { ExtractReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody } from "./models";
-import { toReadResult } from "./transforms";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { BeginExtractPollerOptions, ExtractPollerClient, BeginExtractPoller } from './lro/analyze/poller';
-import { PollerLike, PollOperationState } from '@azure/core-lro';
+import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { ExtractPollerClient, BeginExtractPoller, BeginExtractPollState, ExtractOptions } from './lro/analyze/poller';
+import { LabeledFormModelResponse, FormModelResponse, ExtractFormResultResponse, LabeledFormResultResponse, FormRecognizerRequestBody } from './models';
+import { transformResults } from "./transforms";
 
-export type ExtractReceiptOptions = FormRecognizerOperationOptions & {
-  includeTextDetails?: boolean;
+import {
+  GetCustomModelsResponse,
+  Model,
+  ModelInfo,
+  GetAnalyzeFormResultResponse
+} from "./generated/models";
+
+export {
+  //GetCustomModelsResponse,
+  Model,
+  ModelInfo,
+  //GetAnalyzeFormResultResponse,
+  RestResponse
+}
+
+export { PollOperationState, PollerLike }
+
+/**
+ * Options for the list models operation.
+ */
+export type ListModelsOptions = FormRecognizerOperationOptions;
+
+/**
+ * Options for the get summary operation.
+ */
+export type GetSummaryOptions = FormRecognizerOperationOptions;
+
+/**
+ * Options for the delete model operation.
+ */
+export type DeleteModelOptions = FormRecognizerOperationOptions;
+
+/**
+ * Options for the get model operation.
+ */
+export type GetModelOptions = FormRecognizerOperationOptions;
+
+/**
+ * Options for the get model operation.
+ */
+export type GetLabeledModelOptions = FormRecognizerOperationOptions & {
+  includeKeys?: boolean;
 };
 
-export type ExtractLayoutOptions = FormRecognizerOperationOptions & {};
+/**
+ * Options for traing models
+ */
+export type TrainModelOptions = FormRecognizerOperationOptions & {
+  prefix?: string;
+  includeSubFolders?: boolean;
+}
 
-export type GetExtractedReceiptResultOptions = FormRecognizerOperationOptions;
+/**
+ * Options for the begin training model operation.
+ */
+export type BeginTrainingOptions<T> = TrainModelOptions & {
+  intervalInMs?: number;
+  onProgress?: (state: BeginTrainingPollState<T>) => void;
+  resumeFrom?: string;
+}
 
-export type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
+/**
+ * Options for the begin training with labels operation.
+ */
+export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
+  prefix?: string;
+  includeSubFolders?: boolean;
+}
+
+/**
+ * Options for analyzing of forms
+ */
+export type ExtractFormsOptions = FormRecognizerOperationOptions & {
+  includeTextDetails?: boolean;
+}
+
+/**
+ * Options for starting analyzing form operation
+ */
+export type BeginExtractFormsOptions = ExtractFormsOptions & {
+  intervalInMs?: number;
+  onProgress?: (state: BeginExtractPollState<ExtractFormResultResponse>) => void;
+  resumeFrom?: string;
+}
+
+/**
+ * Options for starting analyzing form operation
+ */
+export type BeginExtractLabeledFormOptions = ExtractFormsOptions & {
+  intervalInMs?: number;
+  onProgress?: (state: BeginExtractPollState<LabeledFormResultResponse>) => void;
+  resumeFrom?: string;
+}
+
+export type FormPollerLike = PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>
+export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>
+
+type GetExtractedFormsOptions = FormRecognizerOperationOptions;
 
 /**
  * Client class for interacting with Azure Form Recognizer.
  */
-export class RecognizerClient {
+export class FormRecognizerClient {
   /**
    * The URL to the FormRecognizer endpoint
    */
@@ -56,13 +145,13 @@ export class RecognizerClient {
   private readonly client: GeneratedClient;
 
   /**
-   * Creates an instance of FormRecognizerClient.
+   * Creates an instance of CustomFormRecognizerClient.
    *
    * Example usage:
    * ```ts
-   * import { FormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
+   * import { CustomFormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
    *
-   * const client = new FormRecognizerClient(
+   * const client = new CustomFormRecognizerClient(
    *    "<service endpoint>",
    *    new CognitiveKeyCredential("<api key>")
    * );
@@ -79,13 +168,14 @@ export class RecognizerClient {
     this.endpointUrl = endpointUrl;
     const { ...pipelineOptions } = options;
 
+    const libInfo = `azsdk-js-ai-formrecognizer/${SDK_VERSION}`;
     if (!pipelineOptions.userAgentOptions) {
       pipelineOptions.userAgentOptions = {};
     }
     if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
+      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
     } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
+      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
     const authPolicy = isTokenCredential(credential)
@@ -106,231 +196,19 @@ export class RecognizerClient {
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
   }
 
-  public async extractReceipt(
-    body: FormRecognizerRequestBody,
-    contentType: SupportedContentType,
-    options: BeginExtractPollerOptions<ExtractReceiptResultResponse>
-  ): Promise<PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>> {
-
-    const analyzePollerClient: ExtractPollerClient<ExtractReceiptResultResponse> = {
-      beginExtract: (...args) => analyzeReceiptInternal(this.client, ...args),
-      getExtractResult: (...args) => this.getExtractedReceipt(...args)
-    }
-
-    const poller = new BeginExtractPoller({
-      client: analyzePollerClient,
-      body,
-      contentType,
-      ...options
-    });
-
-    await poller.poll();
-    return poller;
-  }
-
-  public async extractReceiptFromUrl(
-    imageSourceUrl: string,
-    options: BeginExtractPollerOptions<ExtractReceiptResultResponse>
-  ): Promise<PollerLike<PollOperationState<ExtractReceiptResultResponse>, ExtractReceiptResultResponse>> {
-    const body = JSON.stringify({
-      source: imageSourceUrl
-    });
-
-    const analyzePollerClient: ExtractPollerClient<ExtractReceiptResultResponse> = {
-      beginExtract: (...args) => analyzeReceiptInternal(this.client, ...args),
-      getExtractResult: (...args) => this.getExtractedReceipt(...args)
-    }
-
-    const poller = new BeginExtractPoller({
-      client: analyzePollerClient,
-      body,
-      contentType: "application/json",
-      ...options
-    });
-
-    await poller.poll();
-    return poller;
-  }
-
-
-  public async getExtractedReceipt(
-    resultId: string,
-    options?: GetExtractedReceiptResultOptions
-  ): Promise<ExtractReceiptResultResponse> {
-    const realOptions = options || {};
+  public async getSummary(options?: GetSummaryOptions) {
+    const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-getExtractedReceipt",
+      "CustomRecognizerClient-listCustomModels",
       realOptions
     );
 
     try {
-      const result = await this.client.getAnalyzeReceiptResult(
-        resultId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-      return this.toReceiptResultResponse(result);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  private toReceiptResultResponse(result: GetAnalyzeReceiptResultResponse): ExtractReceiptResultResponse {
-    function toReceiptResult(result: DocumentResult): ReceiptResult {
-      const rawReceipt = result as unknown as RawReceiptResult;
-      const rawReceiptFields = result.fields as unknown as RawReceipt;
-      return {
-        docType: rawReceipt.docType,
-        pageRange: rawReceipt.pageRange,
-        receiptType: rawReceiptFields.ReceiptType.valueString,
-        merchantName: rawReceiptFields.MerchantName?.valueString,
-        merchantPhoneNumber: rawReceiptFields.MerchantPhoneNumber?.valuePhoneNumber,
-        merchantAddress: rawReceiptFields.MerchantAddress?.valueString,
-        items: rawReceiptFields.Items.valueArray?.map(i => {
-          return {
-            name: (i as ReceiptItemField).valueObject.Name?.valueString,
-            quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
-            totalPrice: (i as ReceiptItemField).valueObject.TotalPrice?.valueNumber
-          };
-        }),
-        subtotal: rawReceiptFields.Subtotal?.valueNumber,
-        tax: rawReceiptFields.Tax?.valueNumber,
-        tip: rawReceiptFields.Tip?.valueNumber,
-        total: rawReceiptFields.Total?.valueNumber,
-        transactionDate: rawReceiptFields.TransactionDate?.valueDate,
-        transactionTime: rawReceiptFields.TransactionTime?.valueTime,
-        fields: {} // TODO: Transform from result.fields as we re-defined `elements`
-      }
-    }
-
-    if (result.status === "succeeded") {
-      return {
-        status: result.status,
-        createdOn: result.createdOn,
-        lastUpdatedOn: result.lastUpdatedOn,
-        _response: result._response,
-        analyzeResult:  {
-          version: result.analyzeResult!.version,
-          readResults: result.analyzeResult!.readResults.map(toReadResult),
-          receiptResults: result.analyzeResult!.documentResults!.map(toReceiptResult), // TODO: Transform from original result.fields as we re-defined `elements`
-        }
-      }
-    } else {
-      return {
-        status: result.status,
-        createdOn: result.createdOn,
-        lastUpdatedOn: result.lastUpdatedOn,
-        _response: result._response,
-      }
-    };
-  }
-
-  public async extractLayout(
-    body: FormRecognizerRequestBody,
-    contentType: SupportedContentType,
-    options?: ExtractLayoutOptions
-  ) {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-extractLayout",
-      realOptions
-    );
-
-    const customHeaders: { [key: string]: string } =
-      finalOptions.requestOptions?.customHeaders || {};
-    customHeaders["Content-Type"] = contentType;
-    try {
-      const result = await this.client.analyzeLayoutAsync({
+      const result = await this.client.getCustomModels({
         ...operationOptionsToRequestOptionsBase(finalOptions),
-        body,
-        customHeaders
+        op: "summary"
       });
-      const lastSlashIndex = result.operationLocation.lastIndexOf("/");
-      const resultId = result.operationLocation.substring(lastSlashIndex + 1);
 
-      let analyzeResult: GetAnalyzeLayoutResultResponse;
-      do {
-        analyzeResult = await this.client.getAnalyzeLayoutResult(resultId, {
-          abortSignal: finalOptions.abortSignal
-        });
-        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
-          delay(2000); // TODO: internal polling or LRO
-        }
-      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
-
-      return analyzeResult;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  public async extractLayoutFromUrl(imageSourceUrl: string, options?: ExtractLayoutOptions) {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-extractLayoutFromUrl",
-      realOptions
-    );
-
-    const customHeaders: { [key: string]: string } =
-      finalOptions.requestOptions?.customHeaders || {};
-    customHeaders["Content-Type"] = "application/json";
-    const body = JSON.stringify({
-      source: imageSourceUrl
-    });
-    try {
-      const result = await this.client.analyzeLayoutAsync({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        body,
-        customHeaders
-      });
-      const lastSlashIndex = result.operationLocation.lastIndexOf("/");
-      const resultId = result.operationLocation.substring(lastSlashIndex + 1);
-
-      let analyzeResult: GetAnalyzeLayoutResultResponse;
-      do {
-        analyzeResult = await this.client.getAnalyzeLayoutResult(resultId, {
-          abortSignal: finalOptions.abortSignal
-        });
-        if (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed") {
-          delay(2000); // TODO: internal polling or LRO
-        }
-      } while (analyzeResult.status !== "succeeded" && analyzeResult.status !== "failed");
-
-      return analyzeResult;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  public async getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions) {
-    const realOptions = options || {};
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "FormRecognizerClient-getExtractedLayoutResult",
-      realOptions
-    );
-
-    try {
-      const result = await this.client.getAnalyzeLayoutResult(
-        resultId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
       return result;
     } catch (e) {
       span.setStatus({
@@ -342,28 +220,450 @@ export class RecognizerClient {
       span.end();
     }
   }
+
+  public async deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse> {
+    const realOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-deleteModel",
+      realOptions
+    );
+
+    try {
+      return await this.client.deleteCustomModel(
+        modelId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getModel(modelId: string, options: GetModelOptions = {})
+  : Promise<FormModelResponse> {
+    const realOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-getModel",
+      realOptions
+    );
+
+
+    try {
+      const respnose = await this.client.getCustomModel(
+        modelId, {
+          ...operationOptionsToRequestOptionsBase(finalOptions),
+          // Include keys is always set to true -- the service does not have a use case for includeKeys: false.
+          includeKeys: true
+        }
+      );
+      if (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields) {
+        throw new Error(`The model ${modelId} is trained with labels.`)
+      } else {
+        return respnose as unknown as FormModelResponse;
+      }
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getLabeledModel(modelId: string, options: GetLabeledModelOptions)
+  : Promise<LabeledFormModelResponse> {
+    const realOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-getModel",
+      realOptions
+    );
+
+    try {
+      const response = await this.client.getCustomModel(
+        modelId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+      if (response.trainResult?.averageModelAccuracy || response.trainResult?.fields) {
+        return response as unknown as LabeledFormModelResponse;
+      } else {
+        throw new Error(`The model ${modelId} is not rained with labels.`)
+      }
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listModelsPage(_settings: PageSettings, options: ListModelsOptions = {}): AsyncIterableIterator<GetCustomModelsResponse> {
+    let result = await this.list(options);
+    yield result;
+
+    // we should use nextLink, however, it's not supported by the generated code.
+    while (result.nextLink) {
+      result = await this.list(options);
+      yield result;
+    }
+  }
+
+  private async *listModelsAll(settings: PageSettings, options: ListModelsOptions = {}): AsyncIterableIterator<ModelInfo> {
+    for await (const page of this.listModelsPage(settings, options)) {
+      yield* page.modelList || [];
+    }
+  }
+
+  public listModels(options: ListModelsOptions = {}): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse> {
+    const iter = this.listModelsAll({}, options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+
+      byPage: (settings: PageSettings = {}) => {
+        return this.listModelsPage(settings, options);
+      }
+    }
+  }
+
+  private async list(options?: ListModelsOptions): Promise<GetCustomModelsResponse> {
+    const realOptions: ListModelsOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-list",
+      realOptions
+    );
+
+    try {
+      const result = await this.client.getCustomModels({
+        ...operationOptionsToRequestOptionsBase(finalOptions),
+        op: "full"
+      });
+
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async beginTraining(
+    source: string,
+    options: BeginTrainingOptions<FormModelResponse> = {}
+  ): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>> {
+    const trainPollerClient: TrainPollerClient<FormModelResponse> = {
+      getModel: (modelId: string, options: GetModelOptions) => this.getModel(modelId, options),
+      trainCustomModelInternal: (
+        source: string,
+        _useLabelFile?: boolean,
+        options?: TrainModelOptions
+      ) => trainCustomModelInternal(this.client, source, false, options)
+    };
+
+    const poller = new BeginTrainingPoller({
+      client: trainPollerClient,
+      source,
+      intervalInMs: options.intervalInMs,
+      onProgress: options.onProgress,
+      resumeFrom: options.resumeFrom,
+      trainModelOptions: options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  public async beginTrainingWithLabel(
+    source: string,
+    options: BeginTrainingOptions<LabeledFormModelResponse> = {}
+  ): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>> {
+    const trainPollerClient: TrainPollerClient<LabeledFormModelResponse> = {
+      getModel: (modelId: string, options: GetModelOptions) => this.getLabeledModel(modelId, options),
+      trainCustomModelInternal: (
+        source: string,
+        _useLabelFile?: boolean,
+        options?: TrainModelOptions
+      ) => trainCustomModelInternal(this.client, source, true, options)
+    };
+
+    const poller = new BeginTrainingPoller({
+      client: trainPollerClient,
+      source,
+      intervalInMs: options.intervalInMs,
+      onProgress: options.onProgress,
+      resumeFrom: options.resumeFrom,
+      trainModelOptions: options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  public async beginExtractForms(
+    modelId: string,
+    body: FormRecognizerRequestBody,
+    contentType: SupportedContentType,
+    options: BeginExtractFormsOptions = {}
+  ): Promise<FormPollerLike> {
+    if (!modelId) {
+      throw new RangeError("Invalid modelId")
+    }
+    const analyzePollerClient: ExtractPollerClient<ExtractFormResultResponse> = {
+      beginExtract: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: ExtractOptions, modelId?: string) =>
+       analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
+      getExtractResult: (resultId: string,
+        options: { abortSignal?: AbortSignalLike }) => this.getExtractedForm(modelId, resultId, options)
+    }
+
+    const poller = new BeginExtractPoller({
+      client: analyzePollerClient,
+      modelId,
+      body,
+      contentType,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  public async beginExtractFormsFromUrl(
+    modelId: string,
+    imageSourceUrl: string,
+    options: BeginExtractFormsOptions = {}
+  ): Promise<PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>> {
+    if (!modelId) {
+      throw new RangeError("Invalid modelId")
+    }
+    const body = JSON.stringify({
+      source: imageSourceUrl
+    });
+
+    return this.beginExtractForms(modelId, body, "application/json", options);
+  }
+
+  private async getExtractedForm(
+    modelId: string,
+    resultId: string,
+    options?: GetExtractedFormsOptions
+  ): Promise<ExtractFormResultResponse> {
+    const realOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-getExtractedForm",
+      realOptions
+    );
+
+    try {
+      const result = await this.client.getAnalyzeFormResult(
+        modelId,
+        resultId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+      return toCustomFormResultResponse(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async getExtractedLabeledForms(
+    modelId: string,
+    resultId: string,
+    options?: GetExtractedFormsOptions
+  ): Promise<LabeledFormResultResponse> {
+    const realOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-getExtractedLabeledForm",
+      realOptions
+    );
+
+    try {
+      const result = await this.client.getAnalyzeFormResult(
+        modelId,
+        resultId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+      return toLabeledFormResultResponse(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async beginExtractLabeledForms(
+    modelId: string,
+    body: FormRecognizerRequestBody,
+    contentType: SupportedContentType,
+    options: BeginExtractLabeledFormOptions = {}
+  ): Promise<LabeledFormPollerLike> {
+    if (!modelId) {
+      throw new RangeError("Invalid modelId")
+    }
+    const analyzePollerClient: ExtractPollerClient<LabeledFormResultResponse> = {
+      beginExtract: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: ExtractOptions, modelId?: string) =>
+       analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
+      getExtractResult: (resultId: string,
+        options: { abortSignal?: AbortSignalLike }) => this.getExtractedLabeledForms(modelId, resultId, options)
+    }
+
+    const poller = new BeginExtractPoller({
+      client: analyzePollerClient,
+      modelId,
+      body,
+      contentType,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  public async beginExtractLabeledFormsFromUrl(
+    modelId: string,
+    imageSourceUrl: string,
+    options: BeginExtractLabeledFormOptions = {}
+  ): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>> {
+    if (!modelId) {
+      throw new RangeError("Invalid modelId")
+    }
+    const body = JSON.stringify({
+      source: imageSourceUrl
+    });
+
+    return this.beginExtractForms(modelId, body, "application/json", options);
+  }
 }
 
-async function analyzeReceiptInternal(
+function toCustomFormResultResponse(original: GetAnalyzeFormResultResponse): ExtractFormResultResponse {
+  const { readResults, pageResults } = transformResults(original.analyzeResult?.readResults, original.analyzeResult?.pageResults);
+  return original.status === "succeeded" ? {
+    status: original.status,
+    createdOn: original.createdOn,
+    lastUpdatedOn: original.createdOn,
+    _response: original._response,
+    analyzeResult: !!original.analyzeResult ? {
+      version: original.analyzeResult.version,
+      readResults,
+      pageResults,
+      errors: original.analyzeResult?.errors,
+    } : undefined
+  } : {
+    status: original.status,
+    createdOn: original.createdOn,
+    lastUpdatedOn: original.createdOn,
+    _response: original._response,
+  }
+}
+
+function toLabeledFormResultResponse(original: GetAnalyzeFormResultResponse): LabeledFormResultResponse {
+  if (original.status === "succeeded") {
+    const { readResults, pageResults } = transformResults(original.analyzeResult?.readResults, original.analyzeResult?.pageResults);
+    return {
+      status: original.status,
+      createdOn: original.createdOn,
+      lastUpdatedOn: original.createdOn,
+      _response: original._response,
+      analyzeResult: !!original.analyzeResult ? {
+        version: original.analyzeResult.version,
+        documentResults: original.analyzeResult.documentResults, // TODO: Transform from original result.fields as we re-defined `elements`
+        readResults,
+        pageResults,
+        errors: original.analyzeResult?.errors,
+      } : undefined
+    }
+  } else {
+      return {
+        status: original.status,
+        createdOn: original.createdOn,
+        lastUpdatedOn: original.createdOn,
+        _response: original._response,
+      }
+    }
+}
+
+async function trainCustomModelInternal(
   client: GeneratedClient,
-  body: FormRecognizerRequestBody,
-  contentType: SupportedContentType,
-  options?: ExtractReceiptOptions,
-  _modelId?: string
+  source: string,
+  useLabelFile?: boolean,
+  options?: TrainModelOptions
 ) {
-  const realOptions = options || { includeTextDetails: false };
+  const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan(
-    "analyzeReceiptInternal",
+    "trainCustomModelInternal",
     realOptions
   );
 
+  try {
+    return await client.trainCustomModelAsync(
+      {
+        source: source,
+        sourceFilter: {
+          prefix: "",
+          includeSubFolders: false
+        },
+        useLabelFile
+      },
+      operationOptionsToRequestOptionsBase(finalOptions)
+    );
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
+  }
+}
+
+async function analyzeCustomFormInternal(
+  client: GeneratedClient,
+  body: FormRecognizerRequestBody,
+  contentType: string,
+  options: ExtractFormsOptions,
+  modelId: string
+) {
+  const realOptions = options || {};
+  const { span, updatedOptions: finalOptions } = createSpan(
+    "analyzeCustomFormInternal",
+    realOptions
+  );
   const customHeaders: { [key: string]: string } =
     finalOptions.requestOptions?.customHeaders || {};
   customHeaders["Content-Type"] = contentType;
   // conform to HttpRequestBody
   const requestBody = (body as any)?.read && typeof((body as any)?.read === "function") ? () => body as NodeJS.ReadableStream : body;
   try {
-      return await client.analyzeReceiptAsync({
+    return await client.analyzeWithCustomModel(modelId, {
       ...operationOptionsToRequestOptionsBase(finalOptions),
       requestBody,
       customHeaders
