@@ -133,6 +133,8 @@ Chai is an assertion library, similar to Node's built-in `assert`. While `assert
 
 Chai makes testing much easier by providing an extensive list of assertions that can run against your code. This list of assertions can be seen in detail by going to their assertion style guide: <https://www.chaijs.com/guide/styles/>
 
+Another important learning resource for Chai is: Chai Assertions for Promises <https://www.chaijs.com/plugins/chai-as-promised/>.
+
 #### Our recommended Chai assertion style
 
 The Azure SDK for JavaScript (and TypeScript) prefers Chai's BDD style with the `expect` interface. For example:
@@ -164,6 +166,128 @@ rush add --dev -p @types/chai
 ```
 
 ### Rollup
+
+Rollup is a module bundler for JavaScript. It uses the new standardized format for code modules included in the ES6 revision of JavaScript. This will eventually be possible natively everywhere, but Rollup lets you do it today.
+
+We use Rollup to take the result of the TypeScript compiler and carefully bundle it differently depending on the target platform (NodeJS or the browsers) with:
+
+- The source maps available from out compiled TypeScript and our dependencies.
+- Without specific sections of code that exist only for a specific platform.
+- To transform the necessary dependencies from our node_modules, from CommonJS to ES6. 
+- With a banner including Microsoft's copyright at the top of the generated file.
+- With the consideration necessary to output a working JavaScript file compatible with browsers.
+- With special settings necessary to run our tests in the browser.
+
+If you want to learn more about Rollup, you can read the Rollup guide at: https://rollupjs.org/guide/en/
+
+#### Rollup in our dependencies
+
+Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `chai` as a dev dependency to a new project inside of this repository, first make sure you are in the root folder of that project, then you can run the following command:
+
+```
+rush add --dev -p rollup
+```
+
+To fulfill our needs, we use Rollup with some plugins. They're the following:
+
+- [`@rollup/plugin-commonjs`](https://www.npmjs.com/package/@rollup/plugin-commonjs):
+  A Rollup plugin to convert CommonJS modules to ES6, so they can be included in a Rollup bundle.
+- [`@rollup/plugin-json`](https://www.npmjs.com/package/@rollup/plugin-json):
+  A Rollup plugin which Converts `.json` files to ES6 modules.
+- [`@rollup/plugin-multi-entry`](https://www.npmjs.com/package/@rollup/plugin-multi-entry):
+  A Rollup plugin which allows use of multiple entry points for a bundle.
+- [`@rollup/plugin-node-resolve`](https://www.npmjs.com/package/@rollup/plugin-node-resolve):
+  A Rollup plugin which locates modules using the [Node resolution algorithm](https://nodejs.org/api/modules.html#modules_all_together), for using third party modules in `node_modules`.
+- [`@rollup/plugin-replace`](https://www.npmjs.com/package/@rollup/plugin-replace):
+  A Rollup plugin which replaces strings in files while bundling.
+- [`rollup-plugin-shim`](https://www.npmjs.com/package/rollup-plugin-shim):
+  Plugin for rollup to provide a shim implementation for a module. Replaces required dependencies with the specified string instead, especially useful for shimming small dev-time APIs with a big footprint you don't want in production.
+- [`rollup-plugin-sourcemaps`](https://www.npmjs.com/package/rollup-plugin-sourcemaps):
+  Rollup plugin for loading files with existing source maps. Inspired by [webpack/source-map-loader](https://github.com/webpack-contrib/source-map-loader).
+- [`rollup-plugin-terser`](https://www.npmjs.com/package/rollup-plugin-terser):
+  Rollup plugin to minify generated ECMAScript bundles. Uses [terser](https://github.com/terser/terser) under the hood.
+- [`rollup-plugin-visualizer`](https://www.npmjs.com/package/rollup-plugin-visualizer):
+  A Rollup plugin that generates visualizations that help analyze our Rollup bundle to see which modules are taking up space.
+
+To install them all together with rollup, you can run the following command:
+
+```
+rush add --dev -p rollup @rollup/plugin-commonjs @rollup/plugin-json @rollup/plugin-multi-entry @rollup/plugin-node-resolve @rollup/plugin-replace rollup-plugin-shim rollup-plugin-sourcemaps rollup-plugin-terser rollup-plugin-visualizer 
+```
+
+#### Configuring Rollup
+
+Running `rollup` inside of a `package.json` script will automatically pick up the `rollup.config.js` file.
+What this file exports will define the configurations that `rollup` will use to make the bundle.
+We typically build for both Node and the browsers with the following script:
+
+```json
+  "build:nodebrowser": "rollup 2>&1",
+```
+
+Note that we add `2>&1` to hide the output of `rollup`.
+
+Our `rollup.config.js` allows us to specify wether we want to do only the Node bundle, or only the browsers bundle, or both, by loading both configurations from a separate file, then picking either configuration, or both, depending on environment variables, `ONLY_NODE` to keep the NodeJS configuration, `ONLY_BROWSER` to keep the browser configuration, or neither to keep both. As follows:
+
+```ts
+import * as base from "./rollup.base.config";
+
+const inputs = [];
+
+if (!process.env.ONLY_BROWSER) {
+  inputs.push(base.nodeConfig());
+}
+
+// Disable this until we are ready to run rollup for the browser.
+if (!process.env.ONLY_NODE) {
+  inputs.push(base.browserConfig());
+}
+
+export default inputs;
+```
+
+The file `rollup.base.config.js` that should exist in the same directory, loads the plugins that these configuration needs, then exports functions to generate both configurations (for Node and for the browsers), according to how they're invoked from `rollup.config.js`. The summarized structure of a `rollup.base.config.js` can be seen below:
+
+```ts
+import nodeResolve from "@rollup/plugin-node-resolve";
+import multiEntry from "@rollup/plugin-multi-entry";
+// More imports...
+
+export function nodeConfig(test = false) {
+  const baseConfig = {
+    // Properties of baseConfig...
+  }
+  if (test) {
+    // Altering baseConfig if we want to build the test bundle...
+  }
+  return baseConfig;
+}
+export function browserConfig(test = false) {
+  const baseConfig = {
+    // Properties of baseConfig...
+  }
+  if (test) {
+    // Altering baseConfig if we want to build the test bundle...
+  }
+  return baseConfig;
+}
+```
+
+In the previous snippet, you'll see that our configuration functions accept a `test` parameter
+that allows us to change the rollup configuration in case we want to generate a bundle with our tests.
+For that purpose, we employ a separate `package.json` script that consumes a separate configuration file for rollup, `rollup.test.config.js`:
+
+```json
+  "build:test": "rollup -c rollup.test.config.js 2>&1",
+```
+
+Our rollup test configuration file simply loads the base configuration file and exports both the Node and the Browser configurations, but generated appropriately to run our tests, by passing a boolean truth as the first parameter:
+
+```ts
+import * as base from "./rollup.base.config";
+
+export default [base.nodeConfig(true), base.browserConfig(true)];
+```
 
 ### Karma
 
