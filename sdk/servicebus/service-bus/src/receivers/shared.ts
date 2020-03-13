@@ -70,3 +70,19 @@ export const settlementContext: ContextWithSettlement = {
     ((message as unknown) as ServiceBusMessage).defer(propertiesToModify),
   deadLetter: (message, options) => ((message as unknown) as ServiceBusMessage).deadLetter(options)
 };
+
+/**
+ * @internal
+ * @ignore
+ */
+export function assertValidMessageHandlers(handlers: any) {
+  if (
+    handlers &&
+    handlers.processMessage instanceof Function &&
+    handlers.processError instanceof Function
+  ) {
+    return;
+  }
+
+  throw new TypeError('Invalid "MessageHandlers" provided.');
+}

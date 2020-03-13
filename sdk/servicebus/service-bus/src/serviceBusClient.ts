@@ -128,7 +128,7 @@ export class ServiceBusClient {
       entityPath = queueOrTopicName1;
       receiveMode = receiveModeOrSubscriptionName2;
     } else {
-      throw new TypeError("Invalid parameters for creating a receiver");
+      throw new TypeError("Invalid receiveMode provided");
     }
 
     const clientEntityContext = ClientEntityContext.create(
@@ -236,7 +236,7 @@ export class ServiceBusClient {
       sessionId = receiveModeOrSessionId3;
       options = sessionIdOrOptions4 as GetSessionReceiverOptions | undefined;
     } else {
-      throw new TypeError("Invalid parameters for creating a receiver");
+      throw new TypeError("Invalid receiveMode provided");
     }
 
     const clientEntityContext = ClientEntityContext.create(

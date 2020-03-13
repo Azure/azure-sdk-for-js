@@ -30,7 +30,8 @@ import {
   getSubscriptionRules,
   removeSubscriptionRule,
   addSubscriptionRule,
-  settlementContext
+  settlementContext,
+  assertValidMessageHandlers
 } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 
@@ -497,6 +498,8 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
   }
 
   subscribe(handlers: MessageHandlers<ContextT>, options?: SubscribeOptions): void {
+    assertValidMessageHandlers(handlers);
+
     this._registerMessageHandler(
       async (message: ServiceBusMessage) => {
         return handlers.processMessage(message, this.getContext());
