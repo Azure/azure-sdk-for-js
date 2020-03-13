@@ -27,7 +27,7 @@ Writing tests for JavaScript and TypeScript requires testing tools, such as a te
 - [Rollup](https://www.npmjs.com/package/rollup), to bundle JavaScript for different environments, which helps us write a single TypeScript source and trust it will compile correctly for Node and the browser.
 - [Karma](https://www.npmjs.com/package/karma), which allows us to run our tests in multiple browsers.
 
-We've also come up with our own internal tools, which follow:
+We've also come up with our own internal tools:
 
 - The [Recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder) is a tool that helps us run our live tests against static recordings obtained from a previous successful run, which aims to ensure that our code hasn't changed while benefitting from not having to reach out to real live services.
 
