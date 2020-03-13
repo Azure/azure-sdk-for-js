@@ -26,7 +26,8 @@ import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, StartTrainingPoller, StartTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState, AnalyzeOptions } from './lro/analyze/poller';
-import { LabeledFormModelResponse, CustomFormModelResponse, AnalyzeFormResultResponse, LabeledFormResultResponse, FormRecognizerRequestBody, transformResults } from './models';
+import { LabeledFormModelResponse, CustomFormModelResponse, AnalyzeFormResultResponse, LabeledFormResultResponse, FormRecognizerRequestBody } from './models';
+import { transformResults } from "./transforms";
 
 import {
   GetCustomModelsResponse,

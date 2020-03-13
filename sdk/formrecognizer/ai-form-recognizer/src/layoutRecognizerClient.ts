@@ -18,7 +18,8 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
-import { AnalyzeLayoutResultResponse, AnalyzeLayoutResult, FormRecognizerRequestBody, transformResults } from './models';
+import { AnalyzeLayoutResultResponse, AnalyzeLayoutResult, FormRecognizerRequestBody } from './models';
+import { transformResults } from "./transforms";
 import { AnalyzePollerClient, StartAnalyzePoller, StartAnalyzePollState } from './lro/analyze/poller';
 import { PollerLike, PollOperationState } from '.';
 

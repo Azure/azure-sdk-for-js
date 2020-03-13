@@ -158,7 +158,7 @@ export interface CommonFieldValue {
     boundingBox: number[];
     confidence: number;
     elements?: ExtractedElement[];
-    pageNumber: number;
+    pageNumber?: number;
     text?: string;
 }
 
@@ -211,9 +211,9 @@ export class CustomFormRecognizerClient {
 // @public
 export interface DataTable {
     // (undocumented)
-    columnNumber: number;
+    columnCount: number;
     // (undocumented)
-    rowNumber: number;
+    rowCount: number;
     // (undocumented)
     rows: DataTableRow[];
 }
@@ -848,9 +848,6 @@ export type TimeFieldValue = {
     valueTime: string;
 } & CommonFieldValue;
 
-// @public (undocumented)
-export function toReadResult(original: ReadResultModel): ReadResult;
-
 // @public
 export interface TrainCustomModelAsyncHeaders {
     location: string;
@@ -893,12 +890,6 @@ export interface TrainResult {
 
 // @public
 export type TrainStatus = 'succeeded' | 'partiallySucceeded' | 'failed';
-
-// @public (undocumented)
-export function transformResults(readResults?: ReadResultModel[], pageResults?: PageResultModel[]): {
-    readResults: ReadResult[];
-    pageResults: PageResult[];
-};
 
 
 // Warnings were encountered during analysis:

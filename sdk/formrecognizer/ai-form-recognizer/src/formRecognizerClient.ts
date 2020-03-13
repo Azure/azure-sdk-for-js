@@ -18,7 +18,8 @@ import {
   GetAnalyzeReceiptResultResponse,
   DocumentResult
 } from "./generated/models";
-import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody, toReadResult } from "./models";
+import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody } from "./models";
+import { toReadResult } from "./transforms";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";

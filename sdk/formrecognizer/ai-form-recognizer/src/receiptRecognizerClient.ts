@@ -12,7 +12,8 @@ import {
 import { TokenCredential } from "@azure/identity";
 import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { logger } from "./logger";
-import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody, toReadResult } from "./models";
+import { AnalyzeReceiptResultResponse, ReceiptResult, RawReceiptResult, ReceiptItemField, RawReceipt, FormRecognizerRequestBody} from "./models";
+import { toReadResult } from "./transforms";
 import { createSpan } from "./tracing";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions, SupportedContentType } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
