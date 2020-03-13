@@ -5,7 +5,7 @@ import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { ExtractReceiptsOptions } from "../../receiptRecognizerClient";
 import { ExtractLayoutOptions } from "../../layoutRecognizerClient";
-import { ExtractFormsOptions } from "../../customRecognizerClient";
+import { ExtractFormsOptions } from "../../formRecognizerClient";
 import { SupportedContentType } from '../../common';
 
 import { OperationStatus } from "../../generated/models";

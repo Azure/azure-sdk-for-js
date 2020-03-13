@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 export * from "./common";
-//export * from "./formRecognizerClient";
-export * from "./customRecognizerClient";
+export * from "./formRecognizerClient";
+//export * from "./RecognizerClient";
 export * from "./receiptRecognizerClient";
 export * from "./layoutRecognizerClient";
 export { ExtractOptions, ExtractPollerClient, OperationStatus, BeginExtractPoller, BeginExtractPollState } from "./lro/analyze/poller";

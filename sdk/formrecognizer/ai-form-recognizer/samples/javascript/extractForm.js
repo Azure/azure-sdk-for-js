@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 /**
- * Extract Custom Form
+ * Extract Forms
  */
 
-const { CustomFormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+const { FormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
 const fs = require("fs");
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running ExtractCustomForm sample`);
+  console.log(`Running ExtractForms sample`);
 
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
@@ -22,8 +22,8 @@ async function main() {
 
   const readStream = fs.createReadStream(path);
 
-  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.extractCustomForm(modelId, () => readStream, "application/pdf", {
+  const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const poller = await client.extractForms(modelId, () => readStream, "application/pdf", {
   });
   await poller.pollUntilDone();
   const response = poller.getResult();
