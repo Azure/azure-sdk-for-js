@@ -31,8 +31,6 @@ We've also come up with our own internal tools:
 
 - The [Recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder) is a tool that helps us run our live tests against static recordings obtained from a previous successful run, which aims to ensure that our code hasn't changed while benefitting from not having to reach out to real live services.
 
-Keep in mind that, over time, we might continue to expand these lists.
-
 Now, let's see how we're using the mentioned tools.
 
 ### Mocha
