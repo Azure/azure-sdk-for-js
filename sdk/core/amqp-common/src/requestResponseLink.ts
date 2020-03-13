@@ -98,7 +98,7 @@ export class RequestResponseLink implements ReqResLink {
     if (!options) options = {};
 
     if (!options.timeoutInSeconds) {
-      options.timeoutInSeconds = 10;
+      options.timeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
     }
 
     let count: number = 0;
