@@ -4,7 +4,7 @@
 import Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
-import { SendableMessageInfo } from "./serviceBusMessage";
+import { SendableMessageInfo, CreateBatchOptions } from "./serviceBusMessage";
 import { ClientEntityContext } from "./clientEntityContext";
 import {
   getSenderClosedErrorMsg,
@@ -13,6 +13,7 @@ import {
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
+import { SendableMessageInfoBatch } from "./sendableMessageInfoBatch";
 
 /**
  * The Sender class can be used to send messages, schedule messages to be sent at a later time
@@ -30,6 +31,7 @@ export class Sender {
    * @property Denotes if close() was called on this sender
    */
   private _isClosed: boolean = false;
+  private _batchSender: MessageSender | undefined = undefined;
 
   /**
    * @internal
@@ -103,6 +105,25 @@ export class Sender {
     }
     const sender = MessageSender.create(this._context);
     return sender.sendBatch(messages);
+  }
+
+  async createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch> {
+    this._throwIfSenderOrConnectionClosed();
+    if (!options) {
+      options = {};
+    }
+    this._batchSender = MessageSender.create(this._context);
+    return this._batchSender.createBatch(options);
+  }
+
+  async sendBatch2(messageBatch: SendableMessageInfoBatch): Promise<void> {
+    this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(
+      this._context.namespace.connectionId,
+      "messageBatch",
+      messageBatch
+    );
+    return this._batchSender!.sendBatch2(messageBatch);
   }
 
   /**
