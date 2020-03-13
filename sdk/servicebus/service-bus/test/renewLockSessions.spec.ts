@@ -32,14 +32,16 @@ describe("renew lock sessions", () => {
   ): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
-    sender = serviceBusClient.getSender(entityNames.queue!);
+    sender = serviceBusClient.test.addToCleanup(
+      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+    );
     ({ receiver } = serviceBusClient.test.getSessionPeekLockReceiver(
       entityNames,
-      TestMessage.sessionId
-    )),
+      TestMessage.sessionId,
       {
         maxSessionAutoRenewLockDurationInSeconds
-      };
+      }
+    ));
 
     // Observation -
     // Peeking into an empty session-enabled queue would run into either of the following errors..
@@ -58,13 +60,13 @@ describe("renew lock sessions", () => {
     // }
   }
 
-  function afterEachTest(): Promise<void> {
-    return serviceBusClient.test.afterEach();
-  }
-
   describe("Batch Receiver: renewLock() resets lock duration each time", function(): void {
     beforeEach(() => {
       maxSessionAutoRenewLockDurationInSeconds = 0;
+    });
+
+    afterEach(() => {
+      return serviceBusClient.test.afterEach();
     });
 
     it("Unpartitioned Queue With Sessions - Lock Renewal for Sessions", async function(): Promise<
@@ -111,6 +113,10 @@ describe("renew lock sessions", () => {
   describe("Batch Receiver: complete() after lock expiry with throws error", function(): void {
     beforeEach(() => {
       maxSessionAutoRenewLockDurationInSeconds = 0;
+    });
+
+    afterEach(() => {
+      return serviceBusClient.test.afterEach();
     });
 
     it("Unpartitioned Queue With Sessions - Lock Renewal for Sessions", async function(): Promise<
@@ -175,6 +181,10 @@ describe("renew lock sessions", () => {
       maxSessionAutoRenewLockDurationInSeconds = 0;
     });
 
+    afterEach(() => {
+      return serviceBusClient.test.afterEach();
+    });
+
     it("Unpartitioned Queue With Sessions - Lock Renewal for Sessions", async function(): Promise<
       void
     > {
@@ -217,6 +227,10 @@ describe("renew lock sessions", () => {
   });
 
   describe("Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error", function(): void {
+    afterEach(() => {
+      return serviceBusClient.test.afterEach();
+    });
+
     const options: AutoLockRenewalTestOptions = {
       maxSessionAutoRenewLockDurationInSeconds: 0,
       delayBeforeAttemptingToCompleteMessageInSeconds: 31,
@@ -265,8 +279,8 @@ describe("renew lock sessions", () => {
   });
 
   describe("Test AutoLockRenewalConfigBehavior - Unpartitioned Queue With Sessions", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
+    afterEach(() => {
+      return serviceBusClient.test.afterEach();
     });
 
     it("Streaming Receiver: lock will not expire until configured time", async function(): Promise<
