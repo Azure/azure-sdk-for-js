@@ -221,7 +221,7 @@ export interface Receiver<ContextT> {
     close(): Promise<void>;
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
     // (undocumented)
     entityPath: string;
@@ -239,12 +239,10 @@ export interface Receiver<ContextT> {
         messages: ReceivedMessage[];
         context: ContextT;
     }>;
-    // Warning: (ae-forgotten-export) The symbol "Long" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    receiveDeferredMessage(sequenceNumber: Long_2, options?: OperationOptions): Promise<ServiceBusMessage | undefined>;
+    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ServiceBusMessage | undefined>;
     // (undocumented)
-    receiveDeferredMessages(sequenceNumbers: Long_2[], options?: OperationOptions): Promise<ServiceBusMessage[]>;
+    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ServiceBusMessage[]>;
     // (undocumented)
     receiveMode: "peekLock" | "receiveAndDelete";
     // (undocumented)
@@ -364,7 +362,7 @@ export interface SessionMessageHandlerOptions {
 export interface SessionReceiver<ContextT extends ContextWithSettlement | {}> extends Receiver<ContextT> {
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
-        peekBySequenceNumber(fromSequenceNumber: Long_2, maxMessageCount?: number): Promise<ReceivedMessage[]>;
+        peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
     // (undocumented)
     entityPath: string;

@@ -37,6 +37,7 @@ import {
 } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
+import Long from "long";
 
 /**
  *A receiver client that handles sessions, including renewing the session lock.

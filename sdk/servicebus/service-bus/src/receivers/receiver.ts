@@ -34,6 +34,7 @@ import {
   assertValidMessageHandlers
 } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
+import Long from "long";
 
 /**
  * A receiver that does not handle sessions.
