@@ -655,6 +655,13 @@ export class MessageSender extends LinkEntity {
 
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
+
+      console.log(
+        encodedBatchMessage.length,
+        encodedBatchMessage.byteLength,
+        this._sender?.maxMessageSize
+      );
+
       log.sender(
         "[%s]Sender '%s', sending encoded batch message.",
         this._context.namespace.connectionId,
@@ -688,7 +695,6 @@ export class MessageSender extends LinkEntity {
   ): Promise<number> {
     const retryOptions = options.retryOptions || {};
     if (this.isOpen()) {
-      console.log("is open already", this._sender!.maxMessageSize);
       return this._sender!.maxMessageSize;
     }
     return new Promise<number>(async (resolve, reject) => {
@@ -704,7 +710,6 @@ export class MessageSender extends LinkEntity {
 
           return retry<void>(config);
         });
-        console.log("not open", this._sender!.maxMessageSize);
         resolve(this._sender!.maxMessageSize);
       } catch (err) {
         reject(err);
@@ -718,7 +723,6 @@ export class MessageSender extends LinkEntity {
       options = {};
     }
     let maxMessageSize = await this.getMaxMessageSize();
-    console.log(maxMessageSize);
     if (options.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {
         const error = new Error(
