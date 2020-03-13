@@ -223,29 +223,21 @@ export interface Receiver<ContextT> {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
         peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
-    // (undocumented)
     entityPath: string;
-    // (undocumented)
     entityType: "queue" | "subscription";
-    // (undocumented)
     getDeadLetterPath(): string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<{
         message: ReceivedMessage;
         context: ContextT;
     }>;
-    // (undocumented)
     isReceivingMessages(): boolean;
     receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<{
         messages: ReceivedMessage[];
         context: ContextT;
     }>;
-    // (undocumented)
     receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ServiceBusMessage | undefined>;
-    // (undocumented)
     receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ServiceBusMessage[]>;
-    // (undocumented)
     receiveMode: "peekLock" | "receiveAndDelete";
-    // (undocumented)
     renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
     subscribe(handler: MessageHandlers<ContextT>, options?: SubscribeOptions): void;
 }
@@ -364,13 +356,7 @@ export interface SessionReceiver<ContextT extends ContextWithSettlement | {}> ex
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
         peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
-    // (undocumented)
-    entityPath: string;
-    // (undocumented)
-    entityType: "queue" | "subscription";
     getState(): Promise<any>;
-    // (undocumented)
-    receiveMode: "peekLock" | "receiveAndDelete";
     renewSessionLock(): Promise<Date>;
     sessionId: string | undefined;
     sessionLockedUntilUtc: Date | undefined;

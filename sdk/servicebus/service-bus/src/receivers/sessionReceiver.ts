@@ -44,11 +44,6 @@ import Long from "long";
  */
 export interface SessionReceiver<ContextT extends ContextWithSettlement | {}>
   extends Receiver<ContextT> {
-  // TODO: not sure these need to be on the interface
-  entityType: "queue" | "subscription";
-  entityPath: string;
-  receiveMode: "peekLock" | "receiveAndDelete";
-
   /**
    * The session ID.
    * Can be undefined until a AMQP receiver link has been successfully set up for the session

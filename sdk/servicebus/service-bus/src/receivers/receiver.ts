@@ -67,27 +67,91 @@ export interface Receiver<ContextT> {
     options?: ReceiveBatchOptions
   ): Promise<{ messages: ReceivedMessage[]; context: ContextT }>;
 
-  // TODO: should probably be on the ContextT
+  // TODO: move to message object itself.
+
+  /**
+   * Renews the lock on the message for the duration as specified during the Queue/Subscription
+   * creation.
+   * - Check the `lockedUntilUtc` property on the message for the time when the lock expires.
+   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
+   * before its lock expires, then the message lands back in the Queue/Subscription for the next
+   * receive operation.
+   *
+   * @param lockTokenOrMessage - The `lockToken` property of the message or the message itself.
+   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
+   * @throws Error if the underlying connection, client or receiver is closed.
+   * @throws MessagingError if the service returns an error while renewing message lock.
+   */
   renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
 
+  /**
+   * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
+   * @param {Long} sequenceNumber The sequence number of the message that needs to be received.
+   * @returns {(Promise<ServiceBusMessage | undefined>)}
+   * - Returns `Message` identified by sequence number.
+   * - Returns `undefined` if no such message is found.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while receiving deferred message.
+   */
   receiveDeferredMessage(
     sequenceNumber: Long,
     options?: OperationOptions
   ): Promise<ServiceBusMessage | undefined>;
+
+  /**
+   * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
+   * @param {Long[]} sequenceNumbers An array of sequence numbers for the messages that need to be received.
+   * @returns {Promise<ServiceBusMessage[]>}
+   * - Returns a list of messages identified by the given sequenceNumbers.
+   * - Returns an empty list if no messages are found.
+   * @throws Error if the underlying connection or receiver is closed.
+   * @throws MessagingError if the service returns an error while receiving deferred messages.
+   * @memberof SessionReceiver
+   */
   receiveDeferredMessages(
     sequenceNumbers: Long[],
     options?: OperationOptions
   ): Promise<ServiceBusMessage[]>;
+  /**
+   * Indicates whether the receiver is currently receiving messages or not.
+   * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
+   * @returns {boolean}
+   * @memberof SessionReceiver
+   */
   isReceivingMessages(): boolean;
+  /**
+   * Returns the corresponding dead letter queue path for the client entity - meant for both queue and subscription.
+   * @returns {string}
+   * @memberof SessionReceiver
+   */
   getDeadLetterPath(): string;
 
   // TODO: not sure these need to be on the interface
+
+  /**
+   * Type of the entity with which the client is created.
+   *
+   * @type {("queue" | "subscription")}
+   * @memberof SessionReceiver
+   */
   entityType: "queue" | "subscription";
+  /**
+   * Path for the client entity.
+   *
+   * @type {string}
+   * @memberof SessionReceiver
+   */
   entityPath: string;
+  /**
+   * ReceiveMode provided to the client.
+   *
+   * @type {("peekLock" | "receiveAndDelete")}
+   * @memberof SessionReceiver
+   */
   receiveMode: "peekLock" | "receiveAndDelete";
 
   /**
-   * Closes the client.
+   * Closes the receiver.
    */
   close(): Promise<void>;
 
