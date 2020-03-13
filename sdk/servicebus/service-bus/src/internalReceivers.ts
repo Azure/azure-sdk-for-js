@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+
 import Long from "long";
 import * as log from "./log";
 import { StreamingReceiver } from "./core/streamingReceiver";
@@ -25,6 +26,11 @@ import {
 } from "./util/errors";
 import { RuleDescription, CorrelationFilter } from ".";
 import { MessageHandlerOptions, ReceivedMessage } from "./models";
+import {
+  addSubscriptionRule,
+  removeSubscriptionRule,
+  getSubscriptionRules
+} from "./receivers/shared";
 
 /**
  * The Receiver class can be used to receive messages in a batch or by registering handlers.
@@ -354,21 +360,20 @@ export class InternalReceiver {
 
   // #region topic-filters
 
-  getRules(entityPath: string): Promise<RuleDescription[]> {
-    return getRules(this._context, entityPath);
+  getRules(): Promise<RuleDescription[]> {
+    return getSubscriptionRules(this._context);
   }
 
-  removeRule(entityPath: string, ruleName: string): Promise<void> {
-    return removeRule(this._context, entityPath, ruleName);
+  removeRule(ruleName: string): Promise<void> {
+    return removeSubscriptionRule(this._context, ruleName);
   }
 
   addRule(
-    entityPath: string,
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    return addRule(this._context, entityPath, ruleName, filter, sqlRuleActionExpression);
+    return addSubscriptionRule(this._context, ruleName, filter, sqlRuleActionExpression);
   }
 
   // #endregion
@@ -838,21 +843,20 @@ export class InternalSessionReceiver {
 
   // #region topic-filters
 
-  getRules(entityPath: string): Promise<RuleDescription[]> {
-    return getRules(this._context, entityPath);
+  getRules(): Promise<RuleDescription[]> {
+    return getSubscriptionRules(this._context);
   }
 
-  removeRule(entityPath: string, ruleName: string): Promise<void> {
-    return removeRule(this._context, entityPath, ruleName);
+  removeRule(ruleName: string): Promise<void> {
+    return removeSubscriptionRule(this._context, ruleName);
   }
 
   addRule(
-    entityPath: string,
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    return addRule(this._context, entityPath, ruleName, filter, sqlRuleActionExpression);
+    return addSubscriptionRule(this._context, ruleName, filter, sqlRuleActionExpression);
   }
 
   // #endregion
@@ -895,42 +899,3 @@ export class InternalSessionReceiver {
 }
 
 // #region topic-filters
-
-function getRules(context: ClientEntityContext, entityPath: string): Promise<RuleDescription[]> {
-  if (entityPath.includes("/Subscriptions/")) {
-    throwErrorIfClientOrConnectionClosed(context.namespace, entityPath, context.isClosed);
-    return context.managementClient!.getRules();
-  } else {
-    throw new Error("Only for a subscription");
-  }
-}
-
-function removeRule(
-  context: ClientEntityContext,
-  entityPath: string,
-  ruleName: string
-): Promise<void> {
-  if (entityPath.includes("/Subscriptions/")) {
-    throwErrorIfClientOrConnectionClosed(context.namespace, entityPath, context.isClosed);
-    return context.managementClient!.removeRule(ruleName);
-  } else {
-    throw new Error("Only for a subscription");
-  }
-}
-
-function addRule(
-  context: ClientEntityContext,
-  entityPath: string,
-  ruleName: string,
-  filter: boolean | string | CorrelationFilter,
-  sqlRuleActionExpression?: string
-): Promise<void> {
-  if (entityPath.includes("/Subscriptions/")) {
-    throwErrorIfClientOrConnectionClosed(context.namespace, entityPath, context.isClosed);
-    return context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
-  } else {
-    throw new Error("Only for a subscription");
-  }
-}
-
-// #endregion
