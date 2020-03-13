@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, SendableMessageInfo, ContextWithSettlement } from "../src";
+import { SendableMessageInfo, ContextWithSettlement, ReceivedMessage } from "../src";
 import { TestMessage, TestClientType } from "./utils/testUtils";
 import { testPeekMsgsLength, createServiceBusClientForTests } from "./utils/testutils2";
 import { Receiver } from "../src/receivers/receiver";
@@ -52,7 +52,7 @@ describe("deferred messages", () => {
   async function deferMessage(
     testMessage: SendableMessageInfo,
     useReceiveDeferredMessages: boolean
-  ): Promise<ServiceBusMessage> {
+  ): Promise<{ message: ReceivedMessage | undefined; context: ContextWithSettlement }> {
     await senderClient.send(testMessage);
     const batch = await receiverClient.receiveBatch(1);
     const receivedMsgs = batch.messages;
@@ -72,12 +72,16 @@ describe("deferred messages", () => {
     const sequenceNumber = receivedMsgs[0].sequenceNumber;
     await batch.context.defer(receivedMsgs[0]);
 
-    let deferredMsg: ServiceBusMessage | undefined;
+    let deferredMsg: { message: ReceivedMessage | undefined; context: ContextWithSettlement };
 
     // Randomly choose receiveDeferredMessage/receiveDeferredMessages as the latter is expected to
     // convert single input to array and then use it
     if (useReceiveDeferredMessages) {
-      [deferredMsg] = await receiverClient.receiveDeferredMessages(sequenceNumber as any);
+      const msgs = await receiverClient.receiveDeferredMessages(sequenceNumber as any);
+      deferredMsg = {
+        message: msgs.messages[0],
+        context: msgs.context
+      }; // To match the type with receiveDeferredMessage in the else block
     } else {
       deferredMsg = await receiverClient.receiveDeferredMessage(sequenceNumber);
     }
@@ -85,13 +89,17 @@ describe("deferred messages", () => {
     if (!deferredMsg) {
       throw "No message received for sequence number";
     }
-    should.equal(deferredMsg.body, testMessage.body, "MessageBody is different than expected");
     should.equal(
-      deferredMsg.messageId,
+      deferredMsg.message!.body,
+      testMessage.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(
+      deferredMsg.message!.messageId,
       testMessage.messageId,
       "MessageId is different than expected"
     );
-    should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
+    should.equal(deferredMsg.message!.deliveryCount, 1, "DeliveryCount is different than expected");
 
     return deferredMsg;
   }
@@ -108,19 +116,23 @@ describe("deferred messages", () => {
       throw "No message received for sequence number";
     }
 
-    should.equal(deferredMsg.body, testMessages.body, "MessageBody is different than expected");
     should.equal(
-      deferredMsg.deliveryCount,
+      deferredMsg.message!.body,
+      testMessages.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(
+      deferredMsg.message!.deliveryCount,
       expectedDeliverCount,
       "DeliveryCount is different than expected"
     );
     should.equal(
-      deferredMsg.messageId,
+      deferredMsg.message!.messageId,
       testMessages.messageId,
       "MessageId is different than expected"
     );
 
-    await deferredMsg.complete();
+    await deferredMsg.context.complete(deferredMsg.message!);
 
     await testPeekMsgsLength(receiverClient, 0);
   }
@@ -133,11 +145,11 @@ describe("deferred messages", () => {
     async function testAbandon(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       const deferredMsg = await deferMessage(testMessages, true);
-      const sequenceNumber = deferredMsg.sequenceNumber;
+      const sequenceNumber = deferredMsg.message!.sequenceNumber;
       if (!sequenceNumber) {
         throw "Sequence Number can not be null";
       }
-      await deferredMsg.abandon();
+      await deferredMsg.context.abandon(deferredMsg.message!);
       await completeDeferredMessage(sequenceNumber, 2, testMessages);
     }
 
@@ -200,11 +212,11 @@ describe("deferred messages", () => {
     async function testDefer(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       const deferredMsg = await deferMessage(testMessages, false);
-      const sequenceNumber = deferredMsg.sequenceNumber;
+      const sequenceNumber = deferredMsg.message!.sequenceNumber;
       if (!sequenceNumber) {
         throw "Sequence Number can not be null";
       }
-      await deferredMsg.defer();
+      await deferredMsg.context.defer(deferredMsg.message!);
       await completeDeferredMessage(sequenceNumber, 2, testMessages);
     }
 
@@ -268,7 +280,7 @@ describe("deferred messages", () => {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       const deferredMsg = await deferMessage(testMessages, true);
 
-      await deferredMsg.deadLetter();
+      await deferredMsg.context.deadLetter(deferredMsg.message!);
 
       await testPeekMsgsLength(receiverClient, 0);
 

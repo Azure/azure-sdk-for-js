@@ -336,19 +336,27 @@ describe("batchReceiver", () => {
       const sequenceNumber = msg.message.sequenceNumber;
       await msg.context.defer(msg.message);
 
-      const deferredMsgs = await receiverClient.receiveDeferredMessage(sequenceNumber);
-      if (!deferredMsgs) {
+      const deferredMsg = await receiverClient.receiveDeferredMessage(sequenceNumber);
+      if (!deferredMsg) {
         throw "No message received for sequence number";
       }
-      should.equal(deferredMsgs.body, testMessages.body, "MessageBody is different than expected");
       should.equal(
-        deferredMsgs.messageId,
+        deferredMsg.message!.body,
+        testMessages.body,
+        "MessageBody is different than expected"
+      );
+      should.equal(
+        deferredMsg.message!.messageId,
         testMessages.messageId,
         "MessageId is different than expected"
       );
-      should.equal(deferredMsgs.deliveryCount, 1, "DeliveryCount is different than expected");
+      should.equal(
+        deferredMsg.message!.deliveryCount,
+        1,
+        "DeliveryCount is different than expected"
+      );
 
-      await deferredMsgs.complete();
+      await deferredMsg.context.complete(deferredMsg.message!);
 
       await testPeekMsgsLength(receiverClient, 0);
     }
@@ -662,18 +670,22 @@ describe("batchReceiver", () => {
       const sequenceNumber = deadLetterMsg.message.sequenceNumber;
       await deadLetterMsg.context.defer(deadLetterMsg.message);
 
-      const deferredMsgs = await deadLetterClient.receiveDeferredMessage(sequenceNumber);
-      if (!deferredMsgs) {
+      const deferredMsg = await deadLetterClient.receiveDeferredMessage(sequenceNumber);
+      if (!deferredMsg) {
         throw "No message received for sequence number";
       }
-      should.equal(deferredMsgs.body, testMessage.body, "MessageBody is different than expected");
       should.equal(
-        deferredMsgs.messageId,
+        deferredMsg.message!.body,
+        testMessage.body,
+        "MessageBody is different than expected"
+      );
+      should.equal(
+        deferredMsg.message!.messageId,
         testMessage.messageId,
         "MessageId is different than expected"
       );
 
-      await deferredMsgs.complete();
+      await deferredMsg.context.complete(deferredMsg.message!);
 
       await testPeekMsgsLength(receiverClient, 0);
 

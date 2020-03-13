@@ -438,15 +438,23 @@ describe("Streaming with sessions", () => {
         throw "No message received for sequence number";
       }
 
-      should.equal(deferredMsg.body, testMessage.body, "MessageBody is different than expected");
       should.equal(
-        deferredMsg.messageId,
+        deferredMsg.message!.body,
+        testMessage.body,
+        "MessageBody is different than expected"
+      );
+      should.equal(
+        deferredMsg.message!.messageId,
         testMessage.messageId,
         "MessageId is different than expected"
       );
-      should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
+      should.equal(
+        deferredMsg.message!.deliveryCount,
+        1,
+        "DeliveryCount is different than expected"
+      );
 
-      await deferredMsg.complete();
+      await deferredMsg.context.complete(deferredMsg.message!);
       await testPeekMsgsLength(receiverClient, 0);
     }
     it("Partitioned Queue: defer() moves message to deferred queue(with sessions)", async function(): Promise<

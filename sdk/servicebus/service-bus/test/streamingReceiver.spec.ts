@@ -476,18 +476,22 @@ describe("Streaming", () => {
       }
 
       should.equal(
-        deferredMsgs[0].body,
+        deferredMsgs.messages[0].body,
         testMessage.body,
         "MessageBody is different than expected"
       );
       should.equal(
-        deferredMsgs[0].messageId,
+        deferredMsgs.messages[0].messageId,
         testMessage.messageId,
         "MessageId is different than expected"
       );
-      should.equal(deferredMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
+      should.equal(
+        deferredMsgs.messages[0].deliveryCount,
+        1,
+        "DeliveryCount is different than expected"
+      );
 
-      await deferredMsgs[0].complete();
+      await deferredMsgs.context.complete(deferredMsgs.messages[0]);
       await testPeekMsgsLength(receiverClient, 0);
     }
 
