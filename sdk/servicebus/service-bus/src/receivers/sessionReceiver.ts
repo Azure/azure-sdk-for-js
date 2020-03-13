@@ -40,7 +40,7 @@ import { Receiver } from "./receiver";
 import Long from "long";
 
 /**
- *A receiver client that handles sessions, including renewing the session lock.
+ *A receiver that handles sessions, including renewing the session lock.
  */
 export interface SessionReceiver<ContextT extends ContextWithSettlement | {}>
   extends Receiver<ContextT> {
