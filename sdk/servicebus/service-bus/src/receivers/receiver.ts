@@ -10,11 +10,7 @@ import {
   MessageHandlerOptions
 } from "../models";
 import { OperationOptions } from "@azure/core-auth";
-import {
-  ServiceBusMessage,
-  RuleDescription,
-  CorrelationFilter,
-} from "..";
+import { ServiceBusMessage, RuleDescription, CorrelationFilter } from "..";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
   throwErrorIfConnectionClosed,
@@ -39,7 +35,7 @@ import {
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 
 /**
- * A receiver client that does not handle sessions.
+ * A receiver that does not handle sessions.
  */
 export interface Receiver<ContextT> {
   /**
