@@ -344,7 +344,7 @@ describe("Unsupported features in ReceiveAndDelete mode", function(): void {
   }
 
   const testError = (err: Error, operation: DispositionType): void => {
-    expect(err.message, "ErrorMessage is different than expected").includes(
+    expect(err.message.toLowerCase(), "ErrorMessage is different than expected").includes(
       `.context.${operation} is not a function`
     );
   };
