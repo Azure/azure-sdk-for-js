@@ -37,7 +37,7 @@ export class BlobStorage {
       `https://${account}.${endpointSuffix}/`,
       credential
     );
-    console.log(`https://${account}.${endpointSuffix}/`);
+
     BlobStorage.ContainerClient = serviceClient.getContainerClient(
       containerName
     );
