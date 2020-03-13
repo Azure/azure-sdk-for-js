@@ -5,7 +5,13 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { MessagingError, delay, ReceivedMessage, ContextWithSettlement } from "../src";
+import {
+  MessagingError,
+  delay,
+  ReceivedMessage,
+  ContextWithSettlement,
+  SendableMessageInfo
+} from "../src";
 import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
@@ -15,6 +21,7 @@ describe("renew lock sessions", () => {
   let sender: Sender;
   let receiver: SessionReceiver<ContextWithSettlement>;
   let maxSessionAutoRenewLockDurationInSeconds: number;
+  let sessionId: string;
 
   let serviceBusClient: ServiceBusClientForTests;
 
@@ -35,13 +42,12 @@ describe("renew lock sessions", () => {
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
     );
-    ({ receiver } = serviceBusClient.test.getSessionPeekLockReceiver(
-      entityNames,
-      TestMessage.sessionId,
-      {
-        maxSessionAutoRenewLockDurationInSeconds
-      }
-    ));
+
+    sessionId = Date.now().toString();
+
+    ({ receiver } = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, sessionId, {
+      maxSessionAutoRenewLockDurationInSeconds
+    }));
 
     // Observation -
     // Peeking into an empty session-enabled queue would run into either of the following errors..
@@ -344,7 +350,8 @@ describe("renew lock sessions", () => {
     senderClient: Sender,
     receiverClient: SessionReceiver<ContextWithSettlement>
   ): Promise<void> {
-    const testMessage = TestMessage.getSessionSample();
+    const testMessage = getTestMessage();
+    testMessage.body = `testBatchReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
     await senderClient.send(testMessage);
 
     const batch = await receiverClient.receiveBatch(1);
@@ -392,7 +399,8 @@ describe("renew lock sessions", () => {
     senderClient: Sender,
     receiver: SessionReceiver<ContextWithSettlement>
   ): Promise<void> {
-    const testMessage = TestMessage.getSessionSample();
+    const testMessage = getTestMessage();
+    testMessage.body = `testBatchReceiverManualLockRenewalErrorOnLockExpiry-${Date.now().toString()}`;
     await senderClient.send(testMessage);
 
     const batch = await receiver.receiveBatch(1);
@@ -432,7 +440,8 @@ describe("renew lock sessions", () => {
     receiverClient: SessionReceiver<ContextWithSettlement>
   ): Promise<void> {
     let numOfMessagesReceived = 0;
-    const testMessage = TestMessage.getSessionSample();
+    const testMessage = getTestMessage();
+    testMessage.body = `testStreamingReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
     await senderClient.send(testMessage);
 
     async function processMessage(
@@ -511,7 +520,8 @@ describe("renew lock sessions", () => {
     options: AutoLockRenewalTestOptions
   ): Promise<void> {
     let numOfMessagesReceived = 0;
-    const testMessage = TestMessage.getSessionSample();
+    const testMessage = getTestMessage();
+    testMessage.body = `testAutoLockRenewalConfigBehavior-${Date.now().toString()}`;
     await senderClient.send(testMessage);
 
     let sessionLockLostErrorThrown = false;
@@ -561,6 +571,8 @@ describe("renew lock sessions", () => {
     );
 
     await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 2000);
+
+    should.not.exist(uncaughtErrorFromHandlers?.message);
     should.equal(
       sessionLockLostErrorThrown,
       options.expectSessionLockLostErrorToBeThrown,
@@ -600,5 +612,11 @@ describe("renew lock sessions", () => {
         `${label}: Actual time ${actualTimeInUTC} must be approximately equal to ${expectedTimeInUTC}`
       );
     }
+  }
+
+  function getTestMessage(): SendableMessageInfo {
+    const baseMessage = TestMessage.getSessionSample();
+    baseMessage.sessionId = sessionId;
+    return baseMessage;
   }
 });
