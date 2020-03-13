@@ -60,13 +60,13 @@ function toTextLine(original: TextLineModel, pageNumber: number): TextLine {
       };
     })
   };
-  return {
-    ...line,
-    words: line.words.map((w) => {
-      return { ...w, containingLine: line };
-    })
-  };
+  line.words = line.words.map((w) => {
+    return { ...w, containingLine: line };
+  });
+
+  return line;
 }
+
 export function toReadResult(original: ReadResultModel): ReadResult {
   return {
     pageNumber: original.pageNumber,
@@ -198,7 +198,7 @@ export function toCustomFormResultResponse(
 }
 
 function toFieldValue(original: FieldValueModel, readResults: ReadResult[]): FieldValue {
-  const result = {
+  const result = original.type === "object" || original.type === "array" ? { } : {
     text: original.text,
     boundingBox: original.boundingBox,
     confidence: original.confidence,
@@ -341,38 +341,39 @@ export function toAnalyzeLayoutResultResponse(
   }
 }
 
+function toReceiptResult(result: DocumentResultModel, readResults: ReadResult[]): ReceiptResult {
+  const transformedFields = toFields(result.fields, readResults);
+  const rawReceiptFields = transformedFields as unknown as RawReceipt;
+  return {
+    docType: ((result as unknown) as RawReceiptResult).docType,
+    pageRange: { firstPage: result.pageRange[0], lastPage: result.pageRange[1] },
+    receiptType: rawReceiptFields.ReceiptType.valueString!,
+    merchantName: rawReceiptFields.MerchantName?.valueString,
+    merchantPhoneNumber: rawReceiptFields.MerchantPhoneNumber?.valuePhoneNumber,
+    merchantAddress: rawReceiptFields.MerchantAddress?.valueString,
+    items: rawReceiptFields.Items.valueArray?.map((i) => {
+      return {
+        name: (i as ReceiptItemField).valueObject.Name?.valueString,
+        quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
+        totalPrice: (i as ReceiptItemField).valueObject.TotalPrice?.valueNumber
+      };
+    }),
+    subtotal: rawReceiptFields.Subtotal?.valueNumber,
+    tax: rawReceiptFields.Tax?.valueNumber,
+    tip: rawReceiptFields.Tip?.valueNumber,
+    total: rawReceiptFields.Total?.valueNumber,
+    transactionDate: rawReceiptFields.TransactionDate?.valueDate,
+    transactionTime: rawReceiptFields.TransactionTime?.valueTime,
+    fields: transformedFields
+  };
+}
+
 export function toReceiptResultResponse(
   result: GetAnalyzeReceiptResultResponse
 ): ExtractReceiptResultResponse {
-  const readResults = result.analyzeResult!.readResults.map(toReadResult);
-  function toReceiptResult(result: DocumentResultModel): ReceiptResult {
-    const rawReceipt = (result as unknown) as RawReceiptResult;
-    const rawReceiptFields = (result.fields as unknown) as RawReceipt;
-    return {
-      docType: rawReceipt.docType,
-      pageRange: rawReceipt.pageRange,
-      receiptType: rawReceiptFields.ReceiptType.valueString!,
-      merchantName: rawReceiptFields.MerchantName?.valueString,
-      merchantPhoneNumber: rawReceiptFields.MerchantPhoneNumber?.valuePhoneNumber,
-      merchantAddress: rawReceiptFields.MerchantAddress?.valueString,
-      items: rawReceiptFields.Items.valueArray?.map((i) => {
-        return {
-          name: (i as ReceiptItemField).valueObject.Name?.valueString,
-          quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
-          totalPrice: (i as ReceiptItemField).valueObject.TotalPrice?.valueNumber
-        };
-      }),
-      subtotal: rawReceiptFields.Subtotal?.valueNumber,
-      tax: rawReceiptFields.Tax?.valueNumber,
-      tip: rawReceiptFields.Tip?.valueNumber,
-      total: rawReceiptFields.Total?.valueNumber,
-      transactionDate: rawReceiptFields.TransactionDate?.valueDate,
-      transactionTime: rawReceiptFields.TransactionTime?.valueTime,
-      fields: toFields(result.fields, readResults)
-    };
-  }
 
   if (result.status === "succeeded") {
+    const readResults = result.analyzeResult!.readResults.map(toReadResult);
     return {
       status: result.status,
       createdOn: result.createdOn,
@@ -381,7 +382,7 @@ export function toReceiptResultResponse(
       analyzeResult: {
         version: result.analyzeResult!.version,
         readResults: readResults,
-        receiptResults: result.analyzeResult!.documentResults!.map(toReceiptResult)
+        receiptResults: result.analyzeResult!.documentResults!.map(d => toReceiptResult(d, readResults))
       }
     };
   } else {

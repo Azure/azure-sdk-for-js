@@ -44,7 +44,7 @@ export interface AnalyzeResult {
 export type ArrayFieldValue = {
     type: "array";
     valueArray?: FieldValue[];
-} & CommonFieldValue;
+};
 
 // @public
 export type BeginExtractFormsOptions = ExtractFormsOptions & {
@@ -277,7 +277,7 @@ export interface ErrorInformation {
 export type ExtractedElement = TextWord | TextLine;
 
 // @public (undocumented)
-export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
     analyzeResult?: ExtractFormResult;
 };
 
@@ -541,7 +541,7 @@ export type LabeledFormModelResponse = LabeledFormModel & {
 };
 
 // @public (undocumented)
-export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, 'analyzeResult'> & {
+export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
     analyzeResult?: LabeledFormResult;
 };
 
@@ -646,7 +646,7 @@ export type ObjectFieldValue = {
     valueObject?: {
         [propertyName: string]: FieldValue;
     };
-} & CommonFieldValue;
+};
 
 // @public
 export type OperationStatus = 'notStarted' | 'running' | 'succeeded' | 'failed';

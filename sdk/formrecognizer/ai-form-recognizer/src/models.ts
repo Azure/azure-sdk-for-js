@@ -260,12 +260,12 @@ export type IntegerFieldValue = {
 export type ArrayFieldValue = {
   type: "array";
   valueArray?: FieldValue[];
-} & CommonFieldValue;
+}
 
 export type ObjectFieldValue = {
   type: "object";
   valueObject?: { [propertyName: string]: FieldValue };
-} & CommonFieldValue;
+}
 
 export type FieldValue =
   | StringFieldValue
