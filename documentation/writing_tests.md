@@ -229,7 +229,7 @@ To fulfill our needs, we use Rollup with some plugins. They're the following:
 - [`rollup-plugin-visualizer`](https://www.npmjs.com/package/rollup-plugin-visualizer):
   A Rollup plugin that generates visualizations that help analyze our Rollup bundle to see which modules are taking up space.
 
-To install them all together with rollup, you can run the following command:
+To install them all together with Rollup, you can run the following command:
 
 ```
 rush add --dev -p rollup @rollup/plugin-commonjs @rollup/plugin-json @rollup/plugin-multi-entry @rollup/plugin-node-resolve @rollup/plugin-replace rollup-plugin-shim rollup-plugin-sourcemaps rollup-plugin-terser rollup-plugin-visualizer 
@@ -311,7 +311,89 @@ export default [base.nodeConfig(true), base.browserConfig(true)];
 
 ### Karma
 
+Karma is a tool that allows us to run the same TypeScript tests we run on node, but on the browsers. The Karma runner as a tool has a considerably low barrier of entry, but it is also pretty extensive. We recommend going through the following resources to learn more about Karma:
+
+- About Karma's [configuration file](http://karma-runner.github.io/4.0/config/configuration-file.html).
+- About Karma's handling of [files](http://karma-runner.github.io/4.0/config/files.html).
+- About Karma's support for [browsers](http://karma-runner.github.io/4.0/config/browsers.html).
+- About Karma's [preprocessors](http://karma-runner.github.io/4.0/config/preprocessors.html).
+- About Karma's [plugins](http://karma-runner.github.io/4.0/config/plugins.html).
+
+#### Karma in our dependencies
+
+Since we're using [Rush](https://rushjs.io/), we're forced to use the same version of our packages in each one of the projects inside of this repository. If you want to add `karma` as a dev dependency to a new project inside of this repository, first make sure you are in the root folder of that project, then you can run the following command:
+
+```
+rush add --dev -p karma
+```
+
+To fulfill our needs, we use Karma with some plugins. They're the following:
+
+- [`karma-coverage`](https://www.npmjs.com/package/karma-coverage):
+  Generate code coverage using [Istanbul](https://github.com/gotwarlost/istanbul).
+- [`karma-env-preprocessor`](https://www.npmjs.com/package/karma-env-preprocessor):
+  It's a Karma preprocessor which makes environment variables available to our tests.
+- [`karma-json-preprocessor`](https://www.npmjs.com/package/karma-json-preprocessor):
+  It's a Karma preprocessor for converting JSON files into JS variables.
+- [`karma-json-to-file-reporter`](https://www.npmjs.com/package/karma-json-to-file-reporter):
+  It's a Karma reporter that save JSON messages from log to file. We use this to create real local files while executing tests in the browser. It's specifically used by our [Recorder](https://github.com/sadasant/azure-sdk-for-js/blob/master/sdk/test-utils/recorder/README.md).
+- [`karma-junit-reporter`](https://www.npmjs.com/package/karma-junit-reporter):
+  It's a Karma reporter for the [JUnit XML format](https://llg.cubic.org/docs/junit/).
+- [`karma-mocha`](https://www.npmjs.com/package/karma-mocha):
+  It's an adapter for the [Mocha](http://mochajs.org/) testing framework.
+- [`karma-mocha-reporter`](https://www.npmjs.com/package/karma-mocha-reporter):
+  It's a Karma reporter plugin with mocha style logging.
+- [`karma-remap-istanbul`](https://www.npmjs.com/package/karma-remap-istanbul):
+  A Karma reporter that enables remapped reports on watch.
+- [`karma-chrome-launcher`](https://www.npmjs.com/package/karma-chrome-launcher):
+  Launcher for Google Chrome, Google Chrome Canary and Google Chromium.
+- [`karma-edge-launcher`](https://www.npmjs.com/package/karma-edge-launcher):
+  Launcher for Microsoft Edge.
+- [`karma-firefox-launcher`](https://www.npmjs.com/package/karma-firefox-launcher):
+  Launcher for Mozilla Firefox.
+- [`karma-ie-launcher`](https://www.npmjs.com/package/karma-ie-launcher):
+  Launcher for Internet Explorer.
+
+To install them all together with Karma, you can run the following command:
+
+```
+rush add --dev -p karma karma-coverage karma-env-preprocessor karma-json-preprocessor karma-json-to-file-reporter karma-junit-reporter karma-mocha karma-mocha-reporter karma-remap-istanbul karma-chrome-launcher karma-edge-launcher karma-firefox-launcher karma-ie-launcher
+```
+
+#### Configuring Karma
+
+	- Package.json configuration
+    "integration-test:browser": "karma start --single-run",
+    "unit-test:browser": "karma start --single-run",
+
+	- Karma.conf.js
+	- Link to a draft karma.conf.js that devs can adjust.
+	- What things to look for from karma.conf.js?
+		○ Dotenv config path: require("dotenv").config({ path: "../.env" });
+		○ Ensure that the browser built file, made by rollup, is referenced as an element of the files array. dist-test/index.browser.js
+		○ isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
+		○ Preprocessors
+			§ "dist-test/index.browser.js": ["coverage"]
+				□ Coverage will be at coverage-browser/
+			§ "recordings/browsers/**/*.json": ["json"]
+		○ ChromeHeadlessNoSandbox
+			§ --disable-web-security why
+		○ browserNoActivityTimeout
+			§ Same as mocha's timeout
+		○ browserDisconnectTimeout
+			§ Reasonably less than browserNoActivityTimeout.
+		○ browserConsoleLogOptions
+			§ terminal: !isRecordMode()
+		○ Client.mocha.timeout
+			§ Same as mocha's timeout.
+	- How to log
+		○ browserConsoleLogOptions's terminal property
+	- How to debug
+		○ TODO.
+
 ### The Recorder
+
+- Intro to recorder, with links.
 
 ## package.json scripts
 
