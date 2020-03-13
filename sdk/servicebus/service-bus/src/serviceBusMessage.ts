@@ -132,6 +132,25 @@ export interface DeadLetterOptions {
 }
 
 /**
+ * Options to configure the `createBatch` method on the `Sender`.
+ * - `maxSizeInBytes`: The upper limit for the size of batch.
+ *
+ * Example usage:
+ * ```js
+ * {
+ *     maxSizeInBytes: 1024 * 1024 // 1 MB
+ * }
+ * ```
+ */
+export interface CreateBatchOptions {
+  /**
+   * @property
+   * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
+   */
+  maxSizeInBytes?: number;
+}
+
+/**
  * Describes the message to be sent to Service Bus.
  * @interface SendableMessageInfo.
  */
