@@ -22,17 +22,23 @@ import {
   RetryOperationType,
   Constants,
   delay,
-  MessagingError
+  MessagingError,
+  RetryOptions
 } from "@azure/core-amqp";
 import {
   SendableMessageInfo,
   toAmqpMessage,
-  getMessagePropertyTypeMismatchError
+  getMessagePropertyTypeMismatchError,
+  CreateBatchOptions
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
+import {
+  SendableMessageInfoBatch,
+  SendableMessageInfoBatchImpl
+} from "../sendableMessageInfoBatch";
 
 /**
  * @internal
@@ -662,6 +668,85 @@ export class MessageSender extends LinkEntity {
         this._context.namespace.connectionId,
         this.name,
         inputMessages,
+        err
+      );
+      throw err;
+    }
+  }
+
+  /**
+   * Returns maximum message size on the AMQP sender link.
+   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   * @returns Promise<number>
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   */
+  async getMaxMessageSize(
+    options: {
+      retryOptions?: RetryOptions;
+    } = {}
+  ): Promise<number> {
+    const retryOptions = options.retryOptions || {};
+    if (this.isOpen()) {
+      console.log("is open already", this._sender!.maxMessageSize);
+      return this._sender!.maxMessageSize;
+    }
+    return new Promise<number>(async (resolve, reject) => {
+      try {
+        const senderOptions = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
+        await defaultLock.acquire(this.senderLock, () => {
+          const config: RetryConfig<void> = {
+            operation: () => this._init(senderOptions),
+            connectionId: this._context.namespace.connectionId,
+            operationType: RetryOperationType.senderLink,
+            retryOptions: retryOptions
+          };
+
+          return retry<void>(config);
+        });
+        console.log("not open", this._sender!.maxMessageSize);
+        resolve(this._sender!.maxMessageSize);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  async createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch> {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (!options) {
+      options = {};
+    }
+    let maxMessageSize = await this.getMaxMessageSize();
+    console.log(maxMessageSize);
+    if (options.maxSizeInBytes) {
+      if (options.maxSizeInBytes > maxMessageSize!) {
+        const error = new Error(
+          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
+        );
+        throw error;
+      }
+      maxMessageSize = options.maxSizeInBytes;
+    }
+    return new SendableMessageInfoBatchImpl(this._context, maxMessageSize!);
+  }
+
+  async sendBatch2(batchMessage: SendableMessageInfoBatch): Promise<void> {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    try {
+      log.sender(
+        "[%s]Sender '%s', sending encoded batch message.",
+        this._context.namespace.connectionId,
+        this.name,
+        batchMessage
+      );
+      return await this._trySend(batchMessage._message!, true);
+    } catch (err) {
+      log.error(
+        "[%s] Sender '%s': An error occurred while sending the messages: %O\nError: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        batchMessage,
         err
       );
       throw err;
