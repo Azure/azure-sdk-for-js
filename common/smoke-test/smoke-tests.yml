@@ -59,9 +59,7 @@ jobs:
           $variables = @{
             AZURE_PROJECT_URL='$(smoke-tests-key-vault-project-url)'
             EVENT_HUBS_CONNECTION_STRING='$(smoke-tests-event-hubs-connection-string)'
-            STORAGE_ACCOUNT_NAME='$(smoke-tests-storage-account-name)'
-            STORAGE_ACCOUNT_ENDPOINT_SUFFIX='$(smoke-tests-storage-account-endpoint-suffix)'
-            STORAGE_ACCOUNT_KEY='$(smoke-tests-storage-account-key)'
+            AZURE_STORAGE_CONNECTION_STRING='$(smoke-tests-storage-connection-string)'
             AZURE_CLIENT_SECRET='$(aad-azure-sdk-test-client-secret)'
             AZURE_TENANT_ID='$(aad-azure-sdk-test-tenant-id)'
             AZURE_CLIENT_ID='$(aad-azure-sdk-test-client-id)'
@@ -81,9 +79,7 @@ jobs:
           $variables = @{
             AZURE_PROJECT_URL='$(smoke-tests-key-vault-project-url-gov)'
             EVENT_HUBS_CONNECTION_STRING='$(smoke-tests-event-hubs-connection-string-gov)'
-            STORAGE_ACCOUNT_NAME='$(smoke-tests-storage-account-name-gov)'
-            STORAGE_ACCOUNT_ENDPOINT_SUFFIX='$(smoke-tests-storage-account-endpoint-suffix-gov)'
-            STORAGE_ACCOUNT_KEY='$(smoke-tests-storage-account-key-gov)'
+            AZURE_STORAGE_CONNECTION_STRING='$(smoke-tests-storage-connection-string-gov)'
             AZURE_CLIENT_SECRET='$(aad-azure-sdk-test-client-secret-gov)'
             AZURE_TENANT_ID='$(aad-azure-sdk-test-tenant-id-gov)'
             AZURE_CLIENT_ID='$(aad-azure-sdk-test-client-id-gov)'
