@@ -12,7 +12,7 @@ import { Sender } from "../src/sender";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe("Sample scenarios for track 2", () => {
+describe("Sample scenarios for track 2 #RunInBrowser", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   before(async () => {
