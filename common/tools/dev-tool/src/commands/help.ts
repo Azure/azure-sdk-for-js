@@ -2,7 +2,11 @@
 // Licensed under the MIT license
 
 import chalk from "chalk";
-import { commands } from ".";
+import { commands, CommandLoader } from ".";
+import { resolveProject } from "../util/resolveProject";
+import { createPrinter } from "../util/printer";
+
+const log = createPrinter("help");
 
 const banner = `\
        _______        __                __              __
@@ -11,7 +15,8 @@ const banner = `\
 / /_/ /___/ /  / /_/ /  __/ |/ /_____/ /_/ /_/ / /_/ / /  
 \\____//____/   \\__,_/\\___/|___/      \\__/\\____/\\____/_/   
 
-Developer quality-of-life command for the Azure SDK for JS`;
+Developer quality-of-life command for the Azure SDK for JS
+`;
 
 const usage = `
 Usage: dev-tool [OPTIONS] COMMAND [COMMAND-OPTIONS]
@@ -27,6 +32,7 @@ export const helpText = "display this help message";
  * @param println
  */
 export async function printCommandUsage(
+  commands: CommandLoader,
   println: (...values: string[]) => void
 ) {
   println(usage);
@@ -57,11 +63,23 @@ export async function printCommandUsage(
 export default async function(...args: string[]): Promise<boolean> {
   console.info(chalk.blueBright(banner));
 
-  if (args.length > 0) {
-    console.warn(chalk.yellow("Warning, unused arguments:", args), "\n");
+  try {
+    const packageInfo = await resolveProject(__dirname);
+    console.info(
+      chalk.blueBright(`  Name/Version:\t${packageInfo.name}@${packageInfo.version}`)
+    );
+    console.info(chalk.blueBright(`  Location:\t${packageInfo.path}`));
+  } catch (error) {
+    log.error("Could not locate dev-tool package.");
+    log.error("Unable to display dev-tool version information.");
   }
 
-  await printCommandUsage(console.info);
+  if (args.length > 0) {
+    console.log();
+    log.warn("Warning, unused arguments:", args);
+  }
+
+  await printCommandUsage(commands, console.info);
 
   console.info(
     "For more information about a given command, try `dev-tool COMMAND --help`"

@@ -6,12 +6,27 @@ import path from "path";
 
 import { createPrinter } from "./printer";
 
-const { debug } = createPrinter("project resolution");
+const { debug } = createPrinter(__filename);
 
+/**
+ * Information about an Azure SDK for JS package
+ */
 export interface ProjectInfo {
+  /**
+   * The name of the package
+   */
   name: string;
+  /**
+   * An absolute path to the package directory
+   */
   path: string;
+  /**
+   * The package SemVer string, e.g. 1.0.0-preview.3 or 4.0.0
+   */
   version: string;
+  /**
+   * The package info object (result of reading/parsing package.json)
+   */
   packageJson: any;
 }
 
@@ -53,7 +68,8 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, any]> {
 /**
  * Determine which Azure SDK project a given directory belongs to.
  *
- * @param workingDirectory
+ * @param workingDirectory the directory to resolve the package from
+ * @returns the package info for the SDK project that owns the given directory
  */
 export async function resolveProject(
   workingDirectory: string

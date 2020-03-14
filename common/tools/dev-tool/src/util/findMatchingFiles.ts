@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import chalk from "chalk";
 import fs from "fs-extra";
 import path from "path";
+import { createPrinter } from "./printer";
+
+const { debug } = createPrinter(__filename);
 
 /**
  * File information used during breadth-first search
@@ -15,24 +17,32 @@ interface FileInfo {
   stat: fs.Stats;
 }
 
+/**
+ * Options for {@link findMatchingFiles}
+ */
 export interface FindOptions {
   ignore: string[];
 }
+
+const defaultFindOptions: FindOptions = {
+  ignore: []
+};
 
 /**
  * Breadth-first search for files matching a given predicate
  *
  * @param dir The root of the sample tree to search
  * @param matches Predicate that decides whether or not a file entry is included
+ * @param options options bag for 
  */
 export async function* findMatchingFiles(
   dir: string,
   matches: (name: string, entry: fs.Stats) => boolean,
-  options?: Partial<FindOptions>
+  findOptions?: Partial<FindOptions>
 ) {
   const q: FileInfo[] = [];
 
-  const ignore = options?.ignore ?? [];
+  const options: FindOptions = {...defaultFindOptions, ...findOptions};
 
   async function enqueueAll(dir: string) {
     const files = await fs.readdir(dir);
@@ -52,8 +62,8 @@ export async function* findMatchingFiles(
   while (q.length) {
     const info = q.shift() as FileInfo;
 
-    if (ignore.includes(info.name)) {
-      console.warn(chalk.yellow("[run-samples] Ignoring", info.fullPath));
+    if (options.ignore.includes(info.name)) {
+      debug("Ignoring", info.fullPath);
       continue;
     }
 
@@ -68,14 +78,10 @@ export async function* findMatchingFiles(
       info.stat.isSocket() ||
       info.stat.isSymbolicLink()
     ) {
-      console.warn(
-        "[prep-samples] WARNING: Encountered a special file in the sample tree. Skipping:",
+      debug(
+        "Encountered a special file in the sample tree. Skipping:",
         info.fullPath
       );
     }
   }
-
-  // The full trace of files visited by the iterator is returned and can be accessed using `iter.value`
-  // once it is `done`, in case it is ever needed for debugging
-  return q;
 }

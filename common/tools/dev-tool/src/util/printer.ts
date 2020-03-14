@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import chalk from "chalk";
+import path from "path";
 
 const printModes = ["info", "warn", "error", "success", "debug"] as const;
 
@@ -29,11 +30,43 @@ const finalLogger: ModeMap<Fn> = {
   error: console.error,
   debug(...values: string[]) {
     if (process.env.DEBUG) {
-      console.log(...values);
+      const caller = getCaller();
+      const fileName = caller?.getFileName();
+      const callerInfo = `(@ ${
+        fileName ? fileName : "<unknown>"
+      }#${caller?.getFunctionName() ??
+        "<unknown>"}:${caller?.getLineNumber()}:${caller?.getColumnNumber()})`;
+      console.log(values[0], colors.debug(callerInfo), ...values.slice(1));
     }
   },
   success: console.info
 };
+
+/**
+ * Gets the filename of the calling function
+ */
+function getCaller(): NodeJS.CallSite | undefined {
+  const savedPrepareStackTrace = Error.prepareStackTrace;
+
+  let caller: NodeJS.CallSite | undefined = undefined;
+  try {
+    const error = new Error() as any;
+
+    Error.prepareStackTrace = (_, stack) => stack;
+
+    const next = () => error.stack.shift();
+
+    const current = next();
+
+    while (error.stack.length > 0 && current !== caller) {
+      caller = next();
+    }
+  } catch (_) {}
+
+  Error.prepareStackTrace = savedPrepareStackTrace;
+
+  return caller;
+}
 
 /**
  * Create a pre-configured console printer for a given namespace.
@@ -64,7 +97,7 @@ export function createPrinter(name: string): Printer {
 
   for (const mode of printModes) {
     (base as any)[mode] = (...values: string[]) =>
-      finalLogger[mode](colors[mode](prefix, ...values));
+      finalLogger[mode](...[prefix, ...values].map((value: string) => colors[mode](value)));
   }
   return base as Printer;
 }

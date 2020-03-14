@@ -20,12 +20,15 @@ export interface Command {
 }
 
 /**
- * All of dev-tool's commands and the modules that define them
+ * A map from command name to an async function that loads its module
  */
-export const commands: { [k: string]: () => Promise<Command> } = {
-  "dev-samples": () => import("./dev-samples"),
+export type CommandLoader = { [k: string]: () => Promise<Command> };
+
+/**
+ * All of dev-tool's base commands and the modules that define them
+ */
+export const commands: CommandLoader = {
   help: () => import("./help"),
-  "prep-samples": () => import("./prep-samples"),
   "resolve-package": () => import("./resolve-package"),
-  "run-samples": () => import("./run-samples")
+  "samples": () => import("./samples")
 };
