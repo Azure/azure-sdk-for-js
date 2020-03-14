@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-service-bus
-urlFragment: service-bus-javascript
----
-
 # Azure Service Bus client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Service Bus in some common scenarios.
