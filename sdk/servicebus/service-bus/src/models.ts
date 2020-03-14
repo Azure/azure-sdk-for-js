@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { ServiceBusMessage, DeadLetterOptions } from "./serviceBusMessage";
-import { TokenCredential } from "@azure/core-amqp";
 import { OperationOptions } from "@azure/core-auth";
 
 /**
@@ -153,61 +152,6 @@ export type ContextType<LockModeT> = LockModeT extends "peekLock"
   : LockModeT extends "receiveAndDelete"
   ? {}
   : never;
-
-/**
- * Authentication methods for queues.
- * TODO: consider inlining inside constructors
- */
-export type QueueAuth =
-  | {
-      /**
-       * A connection string that points to a service bus (ie: does not contain an EntityName value).
-       */
-      connectionString: string;
-      /**
-       * The name of the queue to connect to.
-       */
-      queueName: string;
-    }
-  | {
-      /**
-       * A connection string that points to a queue (contains EntityName=<queue-name>).
-       */
-      queueConnectionString: string;
-    }
-  | {
-      tokenCredential: TokenCredential;
-      host: string;
-      queueName: string;
-    };
-
-export function isQueueAuth(
-  possibleQueueAuth: QueueAuth | SubscriptionAuth
-): possibleQueueAuth is QueueAuth {
-  const queueAuth = possibleQueueAuth as any;
-  return queueAuth.queueName != null || queueAuth.queueConnectionString != null;
-}
-
-/**
- * Authentication methods for subscriptions.
- * TODO: consider inlining inside constructors
- */
-export type SubscriptionAuth =
-  | {
-      connectionString: string;
-      topicName: string;
-      subscriptionName: string;
-    }
-  | {
-      topicConnectionString: string;
-      subscriptionName: string;
-    }
-  | {
-      tokenCredential: TokenCredential;
-      host: string;
-      topicName: string;
-      subscriptionName: string;
-    };
 
 /**
  * Options when receiving a batch of messages from Service Bus.

@@ -223,9 +223,18 @@ export interface SubscriptionRuleManagement {
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void>;
+
+  /**
+   * @readonly
+   * @property The name of the default rule on the subscription.
+   */
   readonly defaultRuleName: string;
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionRuleManagement {
   /**
    * @property Describes the amqp connection context for the QueueClient.

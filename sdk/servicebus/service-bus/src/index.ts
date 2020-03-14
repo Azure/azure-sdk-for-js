@@ -52,8 +52,6 @@ export {
   ReceivedMessage,
   ContextWithSettlement,
   Session,
-  QueueAuth,
-  SubscriptionAuth,
   GetMessageIteratorOptions,
   ReceiveBatchOptions,
   SubscribeOptions,
@@ -62,8 +60,11 @@ export {
   ContextType,
   Closeable,
   MessageAndContext,
-  MessageIterator
+  MessageIterator,
+  GetSessionReceiverOptions
 } from "./models";
 
-export { Receiver } from "./receivers/receiver";
+export { Receiver, SubscriptionRuleManagement } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
+export { Sender } from "./sender";
+export { ServiceBusClient } from "./serviceBusClient";
