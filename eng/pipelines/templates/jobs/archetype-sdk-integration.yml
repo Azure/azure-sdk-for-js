@@ -8,26 +8,32 @@ parameters:
   TimeoutInMinutes: 60
   PublishCodeCoverage: false
   Matrix:
-    Linux_Node10:
+    Linux_Node10 (Public):
       OSVmImage: "ubuntu-16.04"
       TestType: "node"
+      CloudType: public
       PublishCodeCoverage: true
-    Windows_Node10:
+    Windows_Node10 (Public):
       OSVmImage: "windows-2019"
       TestType: "node"
-    macOS_Node10:
+      CloudType: public
+    macOS_Node10 (Public):
       OSVmImage: "macOS-10.15"
       TestType: "node"
-    Browser_Linux_Node10:
+      CloudType: public
+    Browser_Linux_Node10 (Public):
       OSVmImage: "ubuntu-16.04"
       TestType: "browser"
+      CloudType: public
       PublishCodeCoverage: true
-    Browser_Windows_Node10:
+    Browser_Windows_Node10 (Public):
       OSVmImage: "windows-2019"
       TestType: "browser"
-    Browser_macOS_Node10:
+      CloudType: public
+    Browser_macOS_Node10 (Public):
       OSVmImage: "macOS-10.15"
       TestType: "browser"
+      CloudType: public
 
 jobs:
   - job: "IntegrationTest"
@@ -107,7 +113,7 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js integration-test:$(TestType) -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Integration test libraries"
-        env: 
+        env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
         condition: ne(variables['TestType'],'sample')
@@ -118,7 +124,7 @@ jobs:
       - script: |
           node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples
         displayName: "Execute Samples"
-        env: 
+        env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
         condition: eq(variables['TestType'],'sample')
@@ -137,7 +143,7 @@ jobs:
             continueOnError: true
 
       - script: |
-            npm install
+          npm install
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/versioning
         displayName: "Install script dependencies"
 
@@ -147,19 +153,19 @@ jobs:
         displayName: "Get package path"
 
       - task: PublishCodeCoverageResults@1
-        displayName: 'Publish NodeJs Code Coverage to DevOps'
+        displayName: "Publish NodeJs Code Coverage to DevOps"
         continueOnError: true
         condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], true))
         inputs:
           codeCoverageTool: Cobertura
-          summaryFileLocation: '$(PackagePath)/coverage/cobertura-coverage.xml'
+          summaryFileLocation: "$(PackagePath)/coverage/cobertura-coverage.xml"
 
       - task: PublishPipelineArtifact@1
-        displayName: 'Publish Browser Code Coverage Report Artifact'
+        displayName: "Publish Browser Code Coverage Report Artifact"
         continueOnError: true
         condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
         inputs:
-          path: '$(PackagePath)/coverage-browser'
+          path: "$(PackagePath)/coverage-browser"
           artifact: BrowserCodeCoverageReport
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
