@@ -1,3 +1,8 @@
+### 2020-03-13 1.0.0-preview.11
+
+- Increase the timeout for the requests sent to the service from 10s to 60s to avoid `"$cbs" timeout` during the CBS claim negotiation.
+  Fixes [bug 7786](https://github.com/Azure/azure-sdk-for-js/issues/7786).
+
 ### 2020-02-11 1.0.0-preview.10
 
 - Improves bundling support by updating `rhea` dependency and removing reference
