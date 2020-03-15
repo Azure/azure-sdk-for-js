@@ -9,15 +9,10 @@ encryption keys that encrypt your data.
 Use the client library for Azure Key Vault Keys in your Node.js application to
 
 - Create keys using elliptic curve or RSA encryption, optionally backed by Hardware Security Modules (HSM).
-- Import keys.
-- Delete keys.
-- Update keys.
-- Get one or more keys.
-- Get one or more deleted keys.
-- Recover a deleted key.
-- Restore a backed up key.
+- Import, Delete, and Update keys.
+- Get one or more keys and deleted keys, with their attributes.
+- Recover a deleted key and restore a backed up key.
 - Get the versions of a key.
-- As well as obtaining the attributes of a key.
 
 Using the cryptography client available in this library you also have access to
 
@@ -28,7 +23,7 @@ Using the cryptography client available in this library you also have access to
 - Wrapping keys
 - Unwrapping keys
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
 ## Getting started
 
@@ -785,21 +780,21 @@ main();
 
 ## Troubleshooting
 
-### Enable logs
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-You can set the following environment variable to get the debug logs when using this library.
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-- Getting debug logs from the Key Vault Keys SDK
-
-```bash
-export DEBUG=azure*
+setLogLevel("info");
 ```
 
 ## Next steps
 
-Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples)
-directory for detailed examples on how to use this library.
+You can find more code samples through the following links:
+
+- [KeyVault Keys Samples (JavaScript)](./samples/javascript)
+- [KeyVault Keys Samples (TypeScript)](./samples/typescript)
+- [KeyVault Keys Test Cases](./test/)
 
 ## Contributing
 

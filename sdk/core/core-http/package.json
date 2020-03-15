@@ -44,9 +44,8 @@
     "es/src/**/*.js.map",
     "types/*/src/**/*.d.ts",
     "types/*/src/**/*.d.ts.map",
-    "src/**/*.ts",
-    "LICENSE",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "browser": {
     "./es/src/policies/msRestUserAgentPolicy.js": "./es/src/policies/msRestUserAgentPolicy.browser.js",

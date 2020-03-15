@@ -81,23 +81,6 @@ export = {
                 }
               });
             }
-
-            // looks for 'src' with optional leading './' and optional trailing '/ '
-            if (
-              elements.every(
-                (element: Literal): boolean =>
-                  !/^(.\/)?((src\/)|(src$))/.test(element.value as string)
-              )
-            ) {
-              context.report({
-                node: nodeValue,
-                message: "src is not included in files",
-                fix: (fixer: Rule.RuleFixer): Rule.Fix => {
-                  elementValues.push("src");
-                  return fixer.replaceText(nodeValue, arrayToString(elementValues));
-                }
-              });
-            }
           }
         } as Rule.RuleListener)
       : {};

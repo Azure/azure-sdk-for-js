@@ -2,11 +2,7 @@
 // Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 // ------------------------------------
-import {
-  StorageSharedKeyCredential,
-  BlobServiceClient,
-  ContainerClient
-} from "@azure/storage-blob";
+import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
 const uuidv1 = require("uuid/v1");
 
@@ -23,18 +19,17 @@ export class BlobStorage {
         2) Delete Blob (Clean up the resource)
         `);
 
-    const account =
-      process.env["STORAGE_ACCOUNT_NAME"] || "<YourStorageAccountNAME>";
-    const accountKey =
-      process.env["STORAGE_ACCOUNT_KEY"] || "<YourStorageAccountKEY>";
+    const storageConnectionString =
+      process.env["AZURE_STORAGE_CONNECTION_STRING"] ||
+      "<YourStorageAccountCONNECTIONSTRING>";
+
     const containerName = "mycontainer";
     BlobStorage.blobName = `JSNewBlob-${uuidv1()}.txt`;
 
-    const credential = new StorageSharedKeyCredential(account, accountKey);
-    const serviceClient = new BlobServiceClient(
-      `https://${account}.blob.core.windows.net`,
-      credential
+    const serviceClient = BlobServiceClient.fromConnectionString(
+      storageConnectionString
     );
+
     BlobStorage.ContainerClient = serviceClient.getContainerClient(
       containerName
     );

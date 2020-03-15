@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob",
   "sdk-type": "client",
-  "version": "12.1.1",
+  "version": "12.1.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -64,11 +64,10 @@
     "BreakingChanges.md",
     "dist/",
     "dist-esm/src/",
-    "LICENSE",
-    "src/",
     "typings/latest/src",
     "typings/3.1/src",
-    "tsconfig.json"
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",
@@ -110,7 +109,7 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@azure/identity": "^1.1.0-preview1",
+    "@azure/identity": "1.1.0-preview1",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-multi-entry": "^3.0.0",

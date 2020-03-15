@@ -33,9 +33,8 @@
     "types/core-lro.d.ts",
     "dist/",
     "dist-esm/",
-    "src/",
-    "LICENSE",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "browser": {
     "os": false,
@@ -103,7 +102,7 @@
   },
   "devDependencies": {
     "@azure/core-arm": "1.0.0-preview.7",
-    "@azure/identity": "^1.1.0-preview1",
+    "@azure/identity": "1.1.0-preview1",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-multi-entry": "^3.0.0",

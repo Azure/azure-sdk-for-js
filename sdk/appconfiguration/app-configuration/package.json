@@ -33,10 +33,8 @@
     "dist-esm/**/*.d.ts",
     "dist-esm/**/*.d.ts.map",
     "types/app-configuration.d.ts",
-    "src/**/*.ts",
     "README.md",
-    "rollup.config.js",
-    "tsconfig.json"
+    "LICENSE"
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -81,7 +79,7 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@azure/identity": "^1.1.0-preview1",
+    "@azure/identity": "1.1.0-preview1",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-multi-entry": "^3.0.0",

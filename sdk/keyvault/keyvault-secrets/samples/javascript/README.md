@@ -18,7 +18,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [deleteAndRecover.js][deleteandrecover] | creates a secret, then deletes it, then recovers it (soft-delete is required for this sample to run, see: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) |
 | [helloWorld.js][helloworld]             | creates, reads, updates, and deletes a secret                                                                                                                                         |
 | [listOperations.js][listoperations]     | creates a secret and shows various ways to iterate over the secret and its versions                                                                                                   |
-| [purgeAllSecrets.js][purgeAllSecrets]   | purges all the secrets of a KeyVault (useful for repeated tests)                                                                                                                      |
+| [purgeAllSecrets.js][purgeAllSecrets]   | purges all the secrets of a Key Vault (useful for repeated tests)                                                                                                                      |
 
 ## Prerequisites
 
@@ -62,13 +62,13 @@ npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>"
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[backupandrestore]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/backupAndRestore.js
-[deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/deleteAndRecover.js
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/helloWorld.js
-[listoperations]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/listOperations.js
+[backupandrestore]: ./backupAndRestore.js
+[deleteandrecover]: ./deleteAndRecover.js
+[helloworld]: ./helloWorld.js
+[listoperations]: ./listOperations.js
 [purgeAllSecrets]: purgeAllSecrets.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/README.md
+[package]: ../README.md

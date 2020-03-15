@@ -18,5 +18,6 @@ export {
   IndexingSchedule,
   ItemError,
   ItemWarning,
-  ListIndexersResult
+  ListIndexersResult,
+  SearchError
 } from "../models/mappers";

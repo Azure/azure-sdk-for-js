@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Text Analytics service.",
-  "version": "1.0.0-preview.3",
+  "version": "1.0.0-preview.4",
   "keywords": [
     "node",
     "azure",
@@ -27,13 +27,13 @@
     "dist/",
     "dist-esm/src/",
     "types/ai-text-analytics.d.ts",
-    "src/",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/textAnalyticsClientContext.ts",
+        "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageVersion"
       },
       {
@@ -80,7 +80,7 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@azure/identity": "^1.1.0-preview1",
+    "@azure/identity": "1.1.0-preview1",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",

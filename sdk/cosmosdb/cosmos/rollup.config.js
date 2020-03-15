@@ -30,6 +30,12 @@ export default [
         semaphore: "semaphore"
       }
     },
-    plugins: [resolve()]
+    plugins: [resolve()],
+    onwarn(warning, warn) {
+      if (warning.code === "CIRCULAR_DEPENDENCY") {
+        throw new Error(warning.message);
+      }
+      warn(warning);
+    }
   }
 ];

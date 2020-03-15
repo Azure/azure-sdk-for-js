@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-certificates",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.1.0-preview.1",
+  "version": "4.1.0-preview.2",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/README.md",
@@ -26,14 +26,11 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "LICENSE.txt",
-    "README.md",
     "types/keyvault-certificates.d.ts",
-    "lib/",
     "dist/",
     "dist-esm/src",
-    "src/",
-    "tsconfig.json"
+    "README.md",
+    "LICENSE"
   ],
   "browser": {
     "os": false,
@@ -97,7 +94,7 @@
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@azure/identity": "^1.1.0-preview1",
+    "@azure/identity": "1.1.0-preview1",
     "@azure/keyvault-keys": "^4.1.0-preview.1",
     "@azure/keyvault-secrets": "^4.1.0-preview.1",
     "@azure/test-utils-recorder": "^1.0.0",
