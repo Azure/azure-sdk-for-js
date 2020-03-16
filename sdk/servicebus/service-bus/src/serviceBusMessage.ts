@@ -486,7 +486,6 @@ export interface ReceivedSettleableMessage extends ReceivedMessage {
    */
   deadLetter(options?: DeadLetterOptions): Promise<void>;
 
-  // TODO: enable this from here instead of from the receiver.
   /**
    * Renews the lock on the message for the duration as specified during the Queue/Subscription
    * creation.
@@ -499,7 +498,7 @@ export interface ReceivedSettleableMessage extends ReceivedMessage {
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
-  // renewLock(): Promise<Date>;
+  renewLock(): Promise<Date>;
 }
 
 /**
@@ -1023,6 +1022,26 @@ export class ServiceBusMessage implements ReceivedSettleableMessage {
     return receiver!.settleMessage(this, DispositionType.deadletter, {
       error: error
     });
+  }
+
+  /**
+   * Renews the lock on the message for the duration as specified during the Queue/Subscription
+   * creation.
+   * - Check the `lockedUntilUtc` property on the message for the time when the lock expires.
+   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
+   * before its lock expires, then the message lands back in the Queue/Subscription for the next
+   * receive operation.
+   *
+   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
+   * @throws Error if the underlying connection, client or receiver is closed.
+   * @throws MessagingError if the service returns an error while renewing message lock.
+   */
+  renewLock(): Promise<Date> {
+    if (this.lockToken == null) {
+      throw new Error(getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"));
+    }
+
+    return this._context.managementClient!.renewLock(this.lockToken);
   }
 
   /**

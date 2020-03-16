@@ -26,7 +26,8 @@ export {
   SendableMessageInfo,
   DeadLetterOptions,
   ReceiveMode,
-  ReceivedMessage
+  ReceivedMessage,
+  ReceivedSettleableMessage
 } from "./serviceBusMessage";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 

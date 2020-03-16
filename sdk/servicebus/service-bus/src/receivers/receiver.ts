@@ -16,7 +16,6 @@ import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
   throwTypeErrorIfParameterMissing,
-  getErrorMessageNotSupportedInReceiveAndDeleteMode,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterNotLongArray,
   throwErrorIfClientOrConnectionClosed
@@ -63,23 +62,6 @@ export interface Receiver<MessageT> {
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
   ): Promise<MessageT[]>;
-
-  // TODO: move to message object itself.
-
-  /**
-   * Renews the lock on the message for the duration as specified during the Queue/Subscription
-   * creation.
-   * - Check the `lockedUntilUtc` property on the message for the time when the lock expires.
-   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
-   * before its lock expires, then the message lands back in the Queue/Subscription for the next
-   * receive operation.
-   *
-   * @param lockTokenOrMessage - The `lockToken` property of the message or the message itself.
-   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
-   * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws MessagingError if the service returns an error while renewing message lock.
-   */
-  renewMessageLock(lockTokenOrMessage: string | ReceivedSettleableMessage): Promise<Date>;
 
   /**
    * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
@@ -424,40 +406,6 @@ export class ReceiverImpl<MessageT extends ReceivedMessage | ReceivedSettleableM
 
       yield messages[0];
     }
-  }
-
-  /**
-   * Renews the lock on the message for the duration as specified during the Queue/Subscription
-   * creation.
-   * - Check the `lockedUntilUtc` property on the message for the time when the lock expires.
-   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
-   * before its lock expires, then the message lands back in the Queue/Subscription for the next
-   * receive operation.
-   *
-   * @param lockTokenOrMessage - The `lockToken` property of the message or the message itself.
-   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
-   * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws MessagingError if the service returns an error while renewing message lock.
-   */
-  async renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date> {
-    this._throwIfReceiverOrConnectionClosed();
-    if (this.receiveMode !== "peekLock") {
-      throw new Error(getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"));
-    }
-    throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
-      "lockTokenOrMessage",
-      lockTokenOrMessage
-    );
-
-    const lockToken =
-      lockTokenOrMessage instanceof ServiceBusMessage
-        ? String(lockTokenOrMessage.lockToken)
-        : String(lockTokenOrMessage);
-
-    const lockedUntilUtc = await this._context.managementClient!.renewLock(lockToken);
-
-    return lockedUntilUtc;
   }
 
   /**

@@ -295,7 +295,7 @@ describe("renew lock", () => {
 
     await delay(5000);
     if (msgs[0].lockToken) {
-      await receiverClient.renewMessageLock(msgs[0].lockToken);
+      await msgs[0].renewLock();
     }
 
     // Compute expected lock expiry time after renewing lock after 5 seconds
@@ -384,7 +384,7 @@ describe("renew lock", () => {
         );
 
         await delay(5000);
-        await receiverClient.renewMessageLock(brokeredMessage);
+        await brokeredMessage.renewLock();
 
         // Compute expected lock expiry time after renewing lock after 5 seconds
         expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);

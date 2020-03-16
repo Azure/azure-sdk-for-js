@@ -191,6 +191,19 @@ export { ReceivedMessage }
 export { ReceivedMessage as ReceivedMessageInfo }
 
 // @public
+export interface ReceivedSettleableMessage extends ReceivedMessage {
+    abandon(propertiesToModify?: {
+        [key: string]: any;
+    }): Promise<void>;
+    complete(): Promise<void>;
+    deadLetter(options?: DeadLetterOptions): Promise<void>;
+    defer(propertiesToModify?: {
+        [key: string]: any;
+    }): Promise<void>;
+    renewLock(): Promise<Date>;
+}
+
+// @public
 export enum ReceiveMode {
     peekLock = 1,
     receiveAndDelete = 2
@@ -212,8 +225,6 @@ export interface Receiver<MessageT> {
     receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<MessageT | undefined>;
     receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<MessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
-    // Warning: (ae-forgotten-export) The symbol "ReceivedSettleableMessage" needs to be exported by the entry point index.d.ts
-    renewMessageLock(lockTokenOrMessage: string | ReceivedSettleableMessage): Promise<Date>;
     subscribe(handler: MessageHandlers<MessageT>, options?: SubscribeOptions): void;
 }
 
@@ -323,6 +334,7 @@ export class ServiceBusMessage implements ReceivedSettleableMessage {
     readonly lockToken?: string;
     messageId?: string | number | Buffer;
     partitionKey?: string;
+    renewLock(): Promise<Date>;
     replyTo?: string;
     replyToSessionId?: string;
     scheduledEnqueueTimeUtc?: Date;

@@ -613,8 +613,4 @@ export class SessionReceiverImpl<
   isReceivingMessages(): boolean {
     return this._messageSession ? this._messageSession.isReceivingMessages : false;
   }
-
-  async renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date> {
-    throw new Error("Move to the context");
-  }
 }

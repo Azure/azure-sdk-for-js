@@ -682,7 +682,7 @@ describe("receive and delete", () => {
       const msg = await sendReceiveMsg(TestMessage.getSample());
 
       // have to cast it - the type system doesn't allow us to call into this method otherwise.
-      await receiverClient.renewMessageLock(msg as ReceivedSettleableMessage).catch((err) => {
+      await (msg as ReceivedSettleableMessage).renewLock().catch((err) => {
         should.equal(
           err.message,
           getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"),
