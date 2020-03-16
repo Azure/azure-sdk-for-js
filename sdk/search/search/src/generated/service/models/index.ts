@@ -1910,7 +1910,10 @@ export interface Field {
   name: string;
   /**
    * The data type of the field. Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64',
-   * 'Edm.Double', 'Edm.Boolean', 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Edm.ComplexType'
+   * 'Edm.Double', 'Edm.Boolean', 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Edm.ComplexType',
+   * 'Collection(Edm.String)', 'Collection(Edm.Int32)', 'Collection(Edm.Int64)',
+   * 'Collection(Edm.Double)', 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)',
+   * 'Collection(Edm.GeographyPoint)', 'Collection(Edm.ComplexType)'
    */
   type: DataType;
   /**
@@ -3571,11 +3574,14 @@ export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL'
 /**
  * Defines values for DataType.
  * Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64', 'Edm.Double', 'Edm.Boolean',
- * 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Edm.ComplexType'
+ * 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Edm.ComplexType', 'Collection(Edm.String)',
+ * 'Collection(Edm.Int32)', 'Collection(Edm.Int64)', 'Collection(Edm.Double)',
+ * 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)',
+ * 'Collection(Edm.ComplexType)'
  * @readonly
  * @enum {string}
  */
-export type DataType = 'Edm.String' | 'Edm.Int32' | 'Edm.Int64' | 'Edm.Double' | 'Edm.Boolean' | 'Edm.DateTimeOffset' | 'Edm.GeographyPoint' | 'Edm.ComplexType';
+export type DataType = 'Edm.String' | 'Edm.Int32' | 'Edm.Int64' | 'Edm.Double' | 'Edm.Boolean' | 'Edm.DateTimeOffset' | 'Edm.GeographyPoint' | 'Edm.ComplexType' | 'Collection(Edm.String)' | 'Collection(Edm.Int32)' | 'Collection(Edm.Int64)' | 'Collection(Edm.Double)' | 'Collection(Edm.Boolean)' | 'Collection(Edm.DateTimeOffset)' | 'Collection(Edm.GeographyPoint)' | 'Collection(Edm.ComplexType)';
 
 /**
  * Defines values for TokenCharacterKind.

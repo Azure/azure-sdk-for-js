@@ -66,3 +66,19 @@ directive:
       }
       $.parameters = newParameters;
 ```
+
+### Add support for collection types
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DataType
+    transform: >
+      if ($.enum.length === 8) {
+        const newValues = $.enum.slice(0);
+        for (let value of $.enum) {
+          newValues.push('Collection('+value+')');
+        }
+        $.enum = newValues;
+      }
+```
