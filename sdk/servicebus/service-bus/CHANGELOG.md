@@ -2,8 +2,8 @@
 
 ## 1.1.4 (2020-03-16)
 
-- `@azure/amqp-common` library has been updated to version 1.0.0-preview.11 with an improvement that increases the default timeout for the authorization requests sent to the service from 10s to 60s to avoid frequent timeout errors.
-  This update is to take the changes from the latest `@azure/amqp-common` library to version 1.0.0-preview.11.
+- `@azure/amqp-common` has been updated to increase the default timeout for authorization requests sent to the service from 10s to 60s to reduce the frequency of timeout errors.
+  This release updates `@azure/amqp-common` library to the latest version.
   [PR 7823](https://github.com/Azure/azure-sdk-for-js/issues/7823).
   
 ## 1.1.3 (2020-02-11)
