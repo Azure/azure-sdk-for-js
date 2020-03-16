@@ -267,5 +267,5 @@ export function throwTypeErrorIfParameterIsEmptyString(
  * that is not supported in ReceiveAndDelete mode
  */
 export function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string): string {
-  return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' recieve mode.`;
+  return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' receive mode.`;
 }

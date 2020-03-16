@@ -332,7 +332,7 @@ describe("receive and delete", () => {
 
     const testError = (err: Error, operation: DispositionType): void => {
       expect(err.message.toLowerCase(), "ErrorMessage is different than expected").includes(
-        `.context.${operation} is not a function`
+        `failed to ${operation} the message as the operation is only supported in \'peeklock\' receive mode.`
       );
     };
 
