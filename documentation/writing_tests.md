@@ -10,7 +10,6 @@
   - [Rollup](#rollup)
   - [Karma](#karma)
   - [The SDK's own test utilities](#the-sdk-s-own-test-utilities)
-- [package.json scripts](#package-json-scripts)
 - [Structure of tests](#structure-of-tests)
 - [Individual tests](#individual-tests)
 
@@ -88,7 +87,7 @@ Code coverage can be added by placing `nyc` at the beginning of the line. Keep i
 
 Then we have to point mocha to our test files. If you're **not** using `nyc`, you can point to the bundled test file (bundled with rollup, which we will see later), typically at `dist-test/index.node.js`. If you are using `nyc`, point mocha to the files built by the TypeScript compiler, normally at `dist-esm/test/*.test.js`.
 
-With these considerations in mind, you can see how your package.json scripts should look at the section: [package.json scripts](#package-json-scripts).
+You can look at how Mocha's configuration is present in our [template project's package.json file](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/package.json).
 
 #### Handling timeouts
 
@@ -228,6 +227,8 @@ To install them all together with Rollup, you can run the following command:
 rush add --dev -p rollup @rollup/plugin-commonjs @rollup/plugin-json @rollup/plugin-multi-entry @rollup/plugin-node-resolve @rollup/plugin-replace rollup-plugin-shim rollup-plugin-sourcemaps rollup-plugin-terser rollup-plugin-visualizer 
 ```
 
+You can see these dependencies at work in our [template project's package.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/package.json).
+
 #### Configuring Rollup
 
 Running `rollup` inside of a `package.json` script will automatically pick up the `rollup.config.js` file. What this file exports will define the configurations that `rollup` will use to make the bundle. We typically build for both Node and the browsers with the following script:
@@ -298,6 +299,13 @@ import * as base from "./rollup.base.config";
 export default [base.nodeConfig(true), base.browserConfig(true)];
 ```
 
+You can see this setup at work in our template project:
+
+- [rollup.config.js](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/rollup.config.js).
+- [rollup.base.config.js](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/rollup.base.config.js).
+- [rollup.test.config.js](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/rollup.test.config.js).
+- And also in how we use these by looking at any mention of `rollup` on the [template project's package.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/package.json).
+
 ### Karma
 
 Karma is a tool that allows us to run the same TypeScript tests we run on node, but on the browsers. The Karma runner as a tool has a considerably low barrier of entry, but it is also pretty extensive. We recommend going through the following resources to learn more about Karma:
@@ -336,71 +344,79 @@ To fulfill our needs, we use Karma with some plugins. They're the following:
   A Karma reporter that enables remapped reports on watch.
 - [`karma-chrome-launcher`](https://www.npmjs.com/package/karma-chrome-launcher):
   Launcher for Google Chrome, Google Chrome Canary and Google Chromium.
-- [`karma-edge-launcher`](https://www.npmjs.com/package/karma-edge-launcher):
-  Launcher for Microsoft Edge.
-- [`karma-firefox-launcher`](https://www.npmjs.com/package/karma-firefox-launcher):
-  Launcher for Mozilla Firefox.
-- [`karma-ie-launcher`](https://www.npmjs.com/package/karma-ie-launcher):
-  Launcher for Internet Explorer.
 
 To install them all together with Karma, you can run the following command:
 
 ```
-rush add --dev -p karma karma-coverage karma-env-preprocessor karma-json-preprocessor karma-json-to-file-reporter karma-junit-reporter karma-mocha karma-mocha-reporter karma-remap-istanbul karma-chrome-launcher karma-edge-launcher karma-firefox-launcher karma-ie-launcher
+rush add --dev -p karma karma-coverage karma-env-preprocessor karma-json-preprocessor karma-json-to-file-reporter karma-junit-reporter karma-mocha karma-mocha-reporter karma-remap-istanbul karma-chrome-launcher
 ```
+
+You can see these dependencies at work in our [template project's package.json](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/package.json).
 
 #### Configuring Karma
 
-	- Package.json configuration
-    "integration-test:browser": "karma start --single-run",
-    "unit-test:browser": "karma start --single-run",
+Karma is used by our browser test scripts in our `package.json` files. We usually only pass one parameter, `--single-run`, which tells Karma to start and capture all configured browsers, run tests and then exit with an exit code of 0 or 1 depending on whether all tests passed or any tests failed.
 
-	- Karma.conf.js
-	- Link to a draft karma.conf.js that devs can adjust.
-	- What things to look for from karma.conf.js?
-		○ Dotenv config path: require("dotenv").config({ path: "../.env" });
-		○ Ensure that the browser built file, made by rollup, is referenced as an element of the files array. dist-test/index.browser.js
-		○ isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
-		○ Preprocessors
-			§ "dist-test/index.browser.js": ["coverage"]
-				□ Coverage will be at coverage-browser/
-			§ "recordings/browsers/**/*.json": ["json"]
-		○ ChromeHeadlessNoSandbox
-			§ --disable-web-security why
-		○ browserNoActivityTimeout
-			§ Same as mocha's timeout
-		○ browserDisconnectTimeout
-			§ Reasonably less than browserNoActivityTimeout.
-		○ browserConsoleLogOptions
-			§ terminal: !isRecordMode()
-		○ Client.mocha.timeout
-			§ Same as mocha's timeout.
-	- How to log
-		○ browserConsoleLogOptions's terminal property
-	- How to debug
-		○ TODO.
+```json
+  "integration-test:browser": "karma start --single-run",
+```
+
+Karma will default to interpret the file `karma.conf.js`, which should be available at the root of the project. You may specify a different `karma.conf.js` for different test groups:
+
+```json
+  "integration-test:browser": "karma start --single-run karma.integration.config.js",
+  "unit-test:browser": "karma start --single-run karma.unit.config.js",
+```
+
+An example of a Karma file that can be used can be seen in the following path: <https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/karma.conf.js>
+
+You should pay special attention to the lines with the following content:
+
+- Ensure that the browser built file, made by rollup, is referenced as an element of the `files` array property. It should look like `dist-test/index.browser.js`, [as you can see in the template file](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/karma.conf.js#L31).
+- The `preprocessors` property object should specify what files will have test coverage, which should look like `"dist-test/index.browser.js": ["coverage"]`, and what files can be imported/required even though they're JSON files, which should look like `"recordings/browsers/**/*.json": ["json"]`.
+- Make sure that the timeouts are reasonably similar to the timeouts specified on your Mocha configuration. You will be placing the same number of milliseconds on the properties: `browserNoActivityTimeout`, and in `client: { mocha: { timeout: /* here */ } }`, and you can specify less milliseconds on `browserDisconnectTimeout`.
+
+Besides the default contents of that Karma configuration file, you can consider the following additions:
+
+- You might benefit from loading [`dotenv`](https://www.npmjs.com/package/dotenv), to specify your environment variables in a local file that shouldn't be tracked by Git. If you decide to use that extra dependency, make sure to load the `.env` file at the top-most of the file, right after any imports or requires. The line that loads the `.env` file might look like: `require("dotenv").config({ path: "../.env" });`.
+- In some computers, specially Linux boxes without a graphical environment, tests might not run unless you specifically load a headless Chrome, which should look like this:
+```js
+  browsers: ["ChromeHeadlessNoSandbox"],
+  customLaunchers: {
+    ChromeHeadlessNoSandbox: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox"]
+    }
+  }
+```
+- Most of our tests focus on checking that our code preemptively works on browsers, even before our services support authentication methods compatible with browsers. For this reason, it's important to disable the browser's web security when necessary. This is done by sending the flag `--disable-web-security`. Combined with `ChromeHeadlessNoSandbox`, it should look like this:
+```js
+  browsers: ["ChromeHeadlessNoSandbox"],
+  customLaunchers: {
+    ChromeHeadlessNoSandbox: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox", "--disable-web-security"]
+    }
+  }
+```
+- You might want to avoid logging from the browser, since [the recorder](#the-recorder) uses the logging output to create files. You can omit logs using the `browserConsoleLogOptions` property, which you can conditionally apply, as in the following snippet:
+```js
+  browserConsoleLogOptions: {
+    terminal: !process.env.TEST_MODE
+  },
+```
+
+You can see an example [karma.config.js in our template project](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/karma.conf.js).
 
 ### The Recorder
 
-- Intro to recorder, with links.
-
-## package.json scripts
-
-Your package.json test scripts related to mocha should end up looking like this:
+The Azure SDK for JavaScript and TypeScript uses a custom utility to record tests that hit the live endpoints, so that these tests can be executed almost instantly, against these recordings, instead of hitting the live services. This tool is called [@azure/test-utils-recorder](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder). It's an unpublished package that can be added using rush, as follows:
 
 ```
-"integration-test:browser": "karma start --single-run",
-"integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 180000 --full-trace dist-esm/test/*.test.js",
-"integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --no-timeouts --full-trace dist-esm/test/*.test.js",
-"integration-test": "npm run integration-test:node && npm run integration-test:browser",
-"unit-test:browser": "karma start --single-run",
-"unit-test:node": "mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 180000 --full-trace dist-test/index.node.js",
-"unit-test:node:no-timeout": "mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --no-timeouts --full-trace dist-test/index.node.js",
-"unit-test": "npm run unit-test:node && npm run unit-test:browser",
-"test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
-"test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-"test": "npm run clean && npm run build:test && npm run unit-test",
+rush add --dev -p @azure/test-utils-recorder
 ```
+
+You can read more about the recorder in its readme: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder
 
 ## Structure of tests
 
