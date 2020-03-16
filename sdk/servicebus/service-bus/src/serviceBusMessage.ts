@@ -383,7 +383,7 @@ export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
  * A message that can be settled by completing it, abandoning it, deferring it, or sending
  * it to the dead letter queue.
  */
-export interface SettleableMessage {
+export interface ReceivedSettleableMessage extends ReceivedMessage {
   /**
    * Removes the message from Service Bus.
    *
@@ -506,7 +506,7 @@ export interface SettleableMessage {
  * Describes the message received from Service Bus during peek operations and so cannot be settled.
  * @class ReceivedSBMessage
  */
-export interface ReceivedMessage extends SendableMessageInfo, SettleableMessage {
+export interface ReceivedMessage extends SendableMessageInfo {
   /**
    * @property The lock token is a reference to the lock that is being held by the broker in
    * `ReceiveMode.PeekLock` mode. Locks are used internally settle messages as explained in the
@@ -695,7 +695,7 @@ export function fromAmqpMessage(
  * Describes the message received from Service Bus.
  * @class ServiceBusMessage
  */
-export class ServiceBusMessage implements ReceivedMessage {
+export class ServiceBusMessage implements ReceivedSettleableMessage {
   /**
    * @property The message body that needs to be sent or is received.
    */

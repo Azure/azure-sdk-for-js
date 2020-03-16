@@ -8,8 +8,9 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
-import { SessionReceiver, ContextWithSettlement, SendableMessageInfo } from "../src";
+import { SessionReceiver, SendableMessageInfo } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
+import { ReceivedSettleableMessage } from "../src/serviceBusMessage";
 const should = chai.should();
 
 // NOTE: these tests should be reworked, if possible. Since they need to be deterministic
@@ -21,7 +22,7 @@ const should = chai.should();
 describe("sessions tests -  requires completely clean entity for each test", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
-  let receiver: SessionReceiver<ContextWithSettlement>;
+  let receiver: SessionReceiver<ReceivedSettleableMessage>;
 
   async function beforeEachNoSessionTest(
     testClientType: TestClientType,

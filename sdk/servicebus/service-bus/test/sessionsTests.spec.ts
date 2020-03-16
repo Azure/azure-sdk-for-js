@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { delay, ReceivedMessage, ContextWithSettlement } from "../src";
+import { delay, ReceivedMessage } from "../src";
 
 import { TestMessage, TestClientType, checkWithTimeout } from "./utils/testUtils";
 import { Sender } from "../src/sender";
@@ -15,6 +15,7 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests
 } from "./utils/testutils2";
+import { ReceivedSettleableMessage } from "../src/serviceBusMessage";
 
 let unexpectedError: Error | undefined;
 
@@ -27,7 +28,7 @@ async function processError(err: Error): Promise<void> {
 describe("session tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
-  let receiver: SessionReceiver<ContextWithSettlement>;
+  let receiver: SessionReceiver<ReceivedSettleableMessage>;
 
   before(async () => {
     serviceBusClient = createServiceBusClientForTests();
@@ -165,7 +166,7 @@ describe("session tests", () => {
       receivedMsgs = [];
       receiver.subscribe(
         {
-          async processMessage(msg: ReceivedMessage) {
+          async processMessage(msg: ReceivedSettleableMessage) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,

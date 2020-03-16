@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, SendableMessageInfo, ContextWithSettlement, ReceivedMessage } from "../src";
+import { delay, SendableMessageInfo } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { Receiver } from "../src/receivers/receiver";
@@ -13,6 +13,7 @@ import {
   ServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
+import { ReceivedSettleableMessage } from "../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -22,8 +23,8 @@ describe("batchReceiver", () => {
   let errorWasThrown: boolean;
 
   let senderClient: Sender;
-  let receiverClient: Receiver<ContextWithSettlement>;
-  let deadLetterClient: Receiver<ContextWithSettlement>;
+  let receiverClient: Receiver<ReceivedSettleableMessage>;
+  let deadLetterClient: Receiver<ReceivedSettleableMessage>;
   const maxDeliveryCount = 10;
 
   before(() => {
@@ -56,7 +57,9 @@ describe("batchReceiver", () => {
       await afterEachTest();
     });
 
-    async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<ReceivedMessage> {
+    async function sendReceiveMsg(
+      testMessages: SendableMessageInfo
+    ): Promise<ReceivedSettleableMessage> {
       await senderClient.send(testMessages);
       const msgs = await receiverClient.receiveBatch(1);
 
@@ -492,7 +495,9 @@ describe("batchReceiver", () => {
       await afterEachTest();
     });
 
-    async function deadLetterMessage(testMessage: SendableMessageInfo): Promise<ReceivedMessage> {
+    async function deadLetterMessage(
+      testMessage: SendableMessageInfo
+    ): Promise<ReceivedSettleableMessage> {
       await senderClient.send(testMessage);
       const batch = await receiverClient.receiveBatch(1);
 
@@ -533,7 +538,7 @@ describe("batchReceiver", () => {
 
     async function completeDeadLetteredMessage(
       testMessage: SendableMessageInfo,
-      deadletterClient: Receiver<ContextWithSettlement>,
+      deadletterClient: Receiver<ReceivedSettleableMessage>,
       expectedDeliverCount: number
     ): Promise<void> {
       const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);

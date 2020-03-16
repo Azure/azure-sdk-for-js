@@ -50,14 +50,12 @@ export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/uti
 
 export {
   SessionConnections,
-  ContextWithSettlement,
   Session,
   GetMessageIteratorOptions,
   ReceiveBatchOptions,
   SubscribeOptions,
   MessageHandlerOptions,
   MessageHandlers,
-  ContextType,
   Closeable,
   MessageAndContext,
   MessageIterator,

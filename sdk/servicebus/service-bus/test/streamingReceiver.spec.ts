@@ -3,12 +3,16 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ReceiveMode, ReceivedMessage, ContextWithSettlement } from "../src";
+import { delay, ReceiveMode, ReceivedMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
-import { DispositionType, ServiceBusMessage } from "../src/serviceBusMessage";
+import {
+  DispositionType,
+  ServiceBusMessage,
+  ReceivedSettleableMessage
+} from "../src/serviceBusMessage";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
@@ -34,8 +38,8 @@ async function processError(err: Error): Promise<void> {
 describe("Streaming", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
-  let receiverClient: Receiver<ContextWithSettlement>;
-  let deadLetterClient: Receiver<ContextWithSettlement>;
+  let receiverClient: Receiver<ReceivedSettleableMessage>;
+  let deadLetterClient: Receiver<ReceivedSettleableMessage>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -175,10 +179,10 @@ describe("Streaming", () => {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
 
-      const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ReceivedSettleableMessage[] = [];
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage) {
+          async processMessage(msg: ReceivedSettleableMessage) {
             receivedMsgs.push(msg);
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
@@ -285,10 +289,10 @@ describe("Streaming", () => {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
 
-      const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ReceivedSettleableMessage[] = [];
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage) {
+          async processMessage(msg: ReceivedSettleableMessage) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
@@ -372,7 +376,7 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage) {
+          async processMessage(msg: ReceivedSettleableMessage) {
             should.equal(
               msg.deliveryCount,
               checkDeliveryCount,
@@ -455,7 +459,7 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage) {
+          async processMessage(msg: ReceivedSettleableMessage) {
             await msg.defer();
             sequenceNum = msg.sequenceNumber;
           },
@@ -562,7 +566,7 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage) {
+          async processMessage(msg: ReceivedSettleableMessage) {
             await msg.deadLetter();
             receivedMsgs.push(msg);
           },
@@ -658,7 +662,7 @@ describe("Streaming", () => {
       const expectedErrorMessage = getAlreadyReceivingErrorMsg(receiverClient.entityPath);
 
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage) {
+        async processMessage(msg: ReceivedSettleableMessage) {
           await msg.complete();
         },
         processError
@@ -719,9 +723,9 @@ describe("Streaming", () => {
     async function testSettlement(operation: DispositionType): Promise<void> {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
-      const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ReceivedSettleableMessage[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage) {
+        async processMessage(msg: ReceivedSettleableMessage) {
           receivedMsgs.push(msg);
           return Promise.resolve();
         },
@@ -825,9 +829,9 @@ describe("Streaming", () => {
       await senderClient.send(TestMessage.getSample());
       const errorMessage = "Will we see this error message?";
 
-      const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ReceivedSettleableMessage[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage) {
+        async processMessage(msg: ReceivedSettleableMessage) {
           await msg.complete();
           receivedMsgs.push(msg);
           throw new Error(errorMessage);
@@ -951,7 +955,7 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage) {
+          async processMessage(msg: ReceivedSettleableMessage) {
             if (receivedMsgs.length === 1) {
               if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
                 throw new Error(

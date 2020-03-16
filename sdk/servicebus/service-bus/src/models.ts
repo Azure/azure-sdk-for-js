@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { DeadLetterOptions, ReceivedMessage } from "./serviceBusMessage";
+import { ReceivedMessage } from "./serviceBusMessage";
 import { OperationOptions } from "@azure/core-auth";
 
 /**
@@ -39,49 +39,6 @@ export interface Session {
 
 export function isSession(possibleSession: Session | any): possibleSession is Session {
   return possibleSession != null;
-}
-
-/**
- * A context with methods to settle (ie, complete, abandon, etc..)
- * messages. This context is only available when you open a Receiver in "PeekLock"
- * mode.
- */
-export interface ContextWithSettlement {
-  /**
-   * Removes the message from Service Bus.
-   * @returns Promise<void>.
-   */
-  complete(message: ReceivedMessage): Promise<void>;
-
-  /**
-   * The lock held on the message by the receiver is let go, making the message available again in
-   * Service Bus for another receive operation.
-   * @param propertiesToModify The properties of the message to modify while abandoning the message.
-   *
-   * @return Promise<void>.
-   */
-  abandon(message: ReceivedMessage, propertiesToModify?: { [key: string]: any }): Promise<void>;
-
-  /**
-   * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
-   * receive it message again in the future using the `receiveDeferredMessage` method.
-   * @param propertiesToModify The properties of the message to modify while deferring the message
-   *
-   * @returns Promise<void>
-   */
-  defer(message: ReceivedMessage, propertiesToModify?: { [key: string]: any }): Promise<void>;
-
-  /**
-   * Moves the message to the deadletter sub-queue. To receive a
-   * deadlettered message, create a new ServiceBusReceiver client
-   * using the path for the deadletter sub-queue.
-   *
-   * @param options The DeadLetter options that can be provided while
-   * rejecting the message.
-   *
-   * @returns Promise<void>
-   */
-  deadLetter(message: ReceivedMessage, options?: DeadLetterOptions): Promise<void>;
 }
 
 /**
@@ -130,15 +87,6 @@ export interface MessageAndContext<ContextT> {
  * An iterator that can also contain a context for settling messages.
  */
 export type MessageIterator<ContextT> = AsyncIterable<MessageAndContext<ContextT>>;
-
-/**
- * Type that converts PeekLock/ReceiveAndDelete into the proper Context type
- */
-export type ContextType<LockModeT> = LockModeT extends "peekLock"
-  ? ContextWithSettlement
-  : LockModeT extends "receiveAndDelete"
-  ? {}
-  : never;
 
 /**
  * Options when receiving a batch of messages from Service Bus.

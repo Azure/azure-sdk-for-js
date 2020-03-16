@@ -15,8 +15,9 @@ import { TestClientType, TestMessage } from "./testUtils";
 import { getEnvVars, EnvVarNames } from "./envVarUtils";
 import * as dotenv from "dotenv";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./managementUtils";
-import { ServiceBusClientOptions, ContextWithSettlement } from "../../src";
+import { ServiceBusClientOptions } from "../../src";
 import chai from "chai";
+import { ReceivedSettleableMessage, ReceivedMessage } from "../../src/serviceBusMessage";
 
 dotenv.config();
 const env = getEnvVars();
@@ -185,7 +186,7 @@ export class ServiceBusTestHelpers {
    */
   getPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
-  ): Receiver<ContextWithSettlement> {
+  ): Receiver<ReceivedSettleableMessage> {
     try {
       // if you're creating a receiver this way then you'll just use the default
       // session ID for your receiver.
@@ -213,7 +214,7 @@ export class ServiceBusTestHelpers {
 
   getSubscriptionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
-  ): Receiver<ContextWithSettlement> & SubscriptionRuleManagement {
+  ): Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement {
     if (entityNames.topic == null || entityNames.subscription == null) {
       throw new TypeError("Not subscription entity - can't create a subscription receiver for it");
     }
@@ -226,7 +227,7 @@ export class ServiceBusTestHelpers {
   getSessionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>,
     getSessionReceiverOptions?: GetSessionReceiverOptions
-  ): SessionReceiver<ContextWithSettlement> {
+  ): SessionReceiver<ReceivedSettleableMessage> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
         "Not a session-full entity - can't create a session receiver type for it"
@@ -255,7 +256,9 @@ export class ServiceBusTestHelpers {
    *
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
-  getReceiveAndDeleteReceiver(entityNames: ReturnType<typeof getEntityNames>): Receiver<{}> {
+  getReceiveAndDeleteReceiver(
+    entityNames: ReturnType<typeof getEntityNames>
+  ): Receiver<ReceivedMessage> {
     // TODO: we should generate a random ID here - there's no harm in
     // creating as many sessions as we wish. Some tests will need to change.
     const sessionId = TestMessage.sessionId;
@@ -296,7 +299,7 @@ async function purgeForTestClientType(
   serviceBusClient: ServiceBusClient,
   testClientType: TestClientType
 ): Promise<void> {
-  let receiver: Receiver<{}> | SessionReceiver<{}> | undefined;
+  let receiver: Receiver<ReceivedMessage> | SessionReceiver<ReceivedMessage> | undefined;
   let entityPaths = getEntityNames(testClientType);
 
   if (entityPaths.queue) {

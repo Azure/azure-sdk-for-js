@@ -36,21 +36,6 @@ export interface Closeable {
 }
 
 // @public
-export type ContextType<LockModeT> = LockModeT extends "peekLock" ? ContextWithSettlement : LockModeT extends "receiveAndDelete" ? {} : never;
-
-// @public
-export interface ContextWithSettlement {
-    abandon(message: ReceivedMessage, propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
-    complete(message: ReceivedMessage): Promise<void>;
-    deadLetter(message: ReceivedMessage, options?: DeadLetterOptions): Promise<void>;
-    defer(message: ReceivedMessage, propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
-}
-
-// @public
 export interface CorrelationFilter {
     contentType?: string;
     correlationId?: string;
@@ -188,10 +173,8 @@ export interface QueueOptions {
 export interface ReceiveBatchOptions extends OperationOptions {
 }
 
-// Warning: (ae-forgotten-export) The symbol "SettleableMessage" needs to be exported by the entry point index.d.ts
-//
 // @public
-interface ReceivedMessage extends SendableMessageInfo, SettleableMessage {
+interface ReceivedMessage extends SendableMessageInfo {
     readonly _amqpMessage: AmqpMessage;
     readonly deadLetterSource?: string;
     readonly deliveryCount?: number;
@@ -214,7 +197,7 @@ export enum ReceiveMode {
 }
 
 // @public
-export interface Receiver<ContextT> {
+export interface Receiver<MessageT> {
     close(): Promise<void>;
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
@@ -223,14 +206,15 @@ export interface Receiver<ContextT> {
     entityPath: string;
     entityType: "queue" | "subscription";
     getDeadLetterPath(): string;
-    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessage>;
+    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<MessageT>;
     isReceivingMessages(): boolean;
-    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<ReceivedMessage[]>;
-    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessage | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessage[]>;
+    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<MessageT[]>;
+    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<MessageT | undefined>;
+    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<MessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
-    renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
-    subscribe(handler: MessageHandlers<ContextT>, options?: SubscribeOptions): void;
+    // Warning: (ae-forgotten-export) The symbol "ReceivedSettleableMessage" needs to be exported by the entry point index.d.ts
+    renewMessageLock(lockTokenOrMessage: string | ReceivedSettleableMessage): Promise<Date>;
+    subscribe(handler: MessageHandlers<MessageT>, options?: SubscribeOptions): void;
 }
 
 export { RetryOptions }
@@ -295,15 +279,15 @@ export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(hostName: string, tokenCredential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<void>;
-    getReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ContextWithSettlement>;
-    getReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<{}>;
-    getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ContextWithSettlement> & SubscriptionRuleManagement;
-    getReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<{}> & SubscriptionRuleManagement;
+    getReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedSettleableMessage>;
+    getReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
+    getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement;
+    getReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage> & SubscriptionRuleManagement;
     getSender(queueOrTopicName: string): Sender;
-    getSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ContextWithSettlement>;
-    getSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<{}>;
-    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ContextWithSettlement> & SubscriptionRuleManagement;
-    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<"receiveAndDelete"> & SubscriptionRuleManagement;
+    getSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedSettleableMessage>;
+    getSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
+    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedSettleableMessage> & SubscriptionRuleManagement;
+    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage> & SubscriptionRuleManagement;
 }
 
 // @public
@@ -313,7 +297,7 @@ export interface ServiceBusClientOptions {
 }
 
 // @public
-export class ServiceBusMessage implements ReceivedMessage {
+export class ServiceBusMessage implements ReceivedSettleableMessage {
     abandon(propertiesToModify?: {
         [key: string]: any;
     }): Promise<void>;
@@ -370,7 +354,7 @@ export interface SessionMessageHandlerOptions {
 }
 
 // @public
-export interface SessionReceiver<ContextT extends ContextWithSettlement | {}> extends Receiver<ContextT> {
+export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedSettleableMessage> extends Receiver<ReceivedMessageT> {
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
         peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;

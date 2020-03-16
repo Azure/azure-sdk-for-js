@@ -5,12 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import {
-  ServiceBusMessage,
-  SendableMessageInfo,
-  CorrelationFilter,
-  ContextWithSettlement
-} from "../src";
+import { ServiceBusMessage, SendableMessageInfo, CorrelationFilter } from "../src";
 
 import { TestClientType, checkWithTimeout } from "./utils/testUtils";
 import { Receiver, SubscriptionRuleManagement } from "../src/receivers/receiver";
@@ -20,9 +15,10 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
+import { ReceivedSettleableMessage } from "../src/serviceBusMessage";
 
 describe("topic filters", () => {
-  let subscriptionClient: Receiver<ContextWithSettlement> & SubscriptionRuleManagement;
+  let subscriptionClient: Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement;
   let topicClient: Sender;
   let serviceBusClient: ServiceBusClientForTests;
 
@@ -114,7 +110,7 @@ describe("topic filters", () => {
   }
 
   async function receiveOrders(
-    client: Receiver<ContextWithSettlement> & SubscriptionRuleManagement,
+    client: Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement,
     expectedMessageCount: number
   ): Promise<ServiceBusMessage[]> {
     let errorFromErrorHandler: Error | undefined;
@@ -397,7 +393,7 @@ describe("topic filters", () => {
 
     async function addFilterAndReceiveOrders(
       bool: boolean,
-      client: Receiver<ContextWithSettlement> & SubscriptionRuleManagement,
+      client: Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement,
       expectedMessageCount: number
     ): Promise<void> {
       await subscriptionClient.addRule("BooleanFilter", bool);

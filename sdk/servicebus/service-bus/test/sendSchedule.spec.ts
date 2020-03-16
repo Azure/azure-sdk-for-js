@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { delay, SendableMessageInfo, ContextWithSettlement } from "../src";
+import { delay, SendableMessageInfo } from "../src";
 import { TestMessage, TestClientType } from "./utils/testUtils";
 import { Receiver } from "../src/receivers/receiver";
 import {
@@ -14,10 +14,11 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
+import { ReceivedSettleableMessage } from "../src/serviceBusMessage";
 
 describe("send scheduled messages", () => {
   let senderClient: Sender;
-  let receiverClient: Receiver<ContextWithSettlement>;
+  let receiverClient: Receiver<ReceivedSettleableMessage>;
   let serviceBusClient: ServiceBusClientForTests;
 
   before(() => {
@@ -678,7 +679,7 @@ describe("send scheduled messages", () => {
   });
 
   async function testReceivedMsgsLength(
-    receiverClient: Receiver<ContextWithSettlement>,
+    receiverClient: Receiver<ReceivedSettleableMessage>,
     expectedReceivedMsgsLength: number
   ): Promise<void> {
     const receivedMsgs = await receiverClient.receiveBatch(expectedReceivedMsgsLength + 1, 5);

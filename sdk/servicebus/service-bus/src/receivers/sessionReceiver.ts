@@ -8,7 +8,6 @@ import {
   SessionMessageHandlerOptions,
   RuleDescription,
   CorrelationFilter,
-  ContextWithSettlement,
   MessageHandlers,
   SubscribeOptions,
   ReceiveBatchOptions,
@@ -37,12 +36,14 @@ import {
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
+import { ReceivedSettleableMessage } from "../serviceBusMessage";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
  */
-export interface SessionReceiver<ContextT extends ContextWithSettlement | {}>
-  extends Receiver<ContextT> {
+export interface SessionReceiver<
+  ReceivedMessageT extends ReceivedMessage | ReceivedSettleableMessage
+> extends Receiver<ReceivedMessageT> {
   /**
    * The session ID.
    * Can be undefined until a AMQP receiver link has been successfully set up for the session
@@ -114,8 +115,9 @@ export interface SessionReceiver<ContextT extends ContextWithSettlement | {}>
  * @internal
  * @ignore
  */
-export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
-  implements SessionReceiver<ContextT> {
+export class SessionReceiverImpl<
+  ReceivedMessageT extends ReceivedMessage | ReceivedSettleableMessage
+> implements SessionReceiver<ReceivedMessageT> {
   public entityPath: string;
   public sessionId: string | undefined;
 
@@ -362,7 +364,7 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred message.
    */
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ReceivedMessageT | undefined> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -381,7 +383,7 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
       convertToInternalReceiveMode(this.receiveMode),
       this.sessionId
     );
-    return messages[0];
+    return (messages[0] as any) as ReceivedMessageT;
   }
 
   /**
@@ -393,7 +395,7 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -410,11 +412,13 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
     );
 
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.receiveDeferredMessages(
+    const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       convertToInternalReceiveMode(this.receiveMode),
       this.sessionId
     );
+
+    return (deferredMessages as any) as ReceivedMessageT[];
   }
 
   /**
@@ -439,14 +443,17 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
     maxWaitTimeInSeconds?: number,
     // TODO: use the options
     options?: ReceiveBatchOptions
-  ): Promise<ReceivedMessage[]> {
+  ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     await this._createMessageSessionIfDoesntExist();
-    return await this._messageSession!.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
+    return ((await this._messageSession!.receiveMessages(
+      maxMessageCount,
+      maxWaitTimeInSeconds
+    )) as any) as ReceivedMessageT[];
   }
 
-  subscribe(handlers: MessageHandlers<ContextT>, options?: SubscribeOptions): void {
+  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
     assertValidMessageHandlers(handlers);
 
     this._registerMessageHandler(
@@ -531,7 +538,7 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    */
   async *getMessageIterator(
     options?: GetMessageIteratorOptions
-  ): AsyncIterableIterator<ReceivedMessage> {
+  ): AsyncIterableIterator<ReceivedMessageT> {
     while (true) {
       // TODO: duplication between this and the Receiver. Consolidate.
       const messages = await this.receiveBatch(1);
@@ -541,7 +548,7 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
         continue;
       }
 
-      yield messages[0];
+      yield messages[0] as ReceivedMessageT;
     }
   }
 
