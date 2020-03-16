@@ -15,6 +15,7 @@ import {
   ServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
+import { getDeliveryProperty } from "./utils/misc";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -104,7 +105,8 @@ describe("Streaming with sessions", () => {
       });
 
       const msgsCheck = await checkWithTimeout(
-        () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+        () =>
+          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true
       );
       should.equal(
         msgsCheck,
@@ -695,7 +697,8 @@ describe("Streaming with sessions", () => {
       });
 
       const msgsCheck = await checkWithTimeout(
-        () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+        () =>
+          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true
       );
       should.equal(
         msgsCheck,

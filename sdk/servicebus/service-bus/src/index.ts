@@ -22,10 +22,11 @@ export { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
 export {
   ServiceBusMessage,
-  ReceivedMessageInfo,
+  ReceivedMessage as ReceivedMessageInfo,
   SendableMessageInfo,
   DeadLetterOptions,
-  ReceiveMode
+  ReceiveMode,
+  ReceivedMessage
 } from "./serviceBusMessage";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 
@@ -49,7 +50,6 @@ export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/uti
 
 export {
   SessionConnections,
-  ReceivedMessage,
   ContextWithSettlement,
   Session,
   GetMessageIteratorOptions,

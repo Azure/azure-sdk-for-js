@@ -8,7 +8,7 @@ import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
-import { DispositionType } from "../src/serviceBusMessage";
+import { DispositionType, ServiceBusMessage } from "../src/serviceBusMessage";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
@@ -16,6 +16,7 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
+import { getDeliveryProperty } from "./utils/misc";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -87,7 +88,9 @@ describe("Streaming", () => {
       });
 
       const msgsCheck = await checkWithTimeout(
-        () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+        () =>
+          receivedMsgs.length === 1 &&
+          (receivedMsgs[0] as ServiceBusMessage).delivery.remote_settled === true
       );
 
       should.equal(
@@ -123,7 +126,8 @@ describe("Streaming", () => {
       });
 
       const msgsCheck = await checkWithTimeout(
-        () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+        () =>
+          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true
       );
 
       should.equal(
@@ -731,7 +735,8 @@ describe("Streaming", () => {
       });
 
       const msgsCheck = await checkWithTimeout(
-        () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+        () =>
+          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true
       );
       should.equal(
         msgsCheck,

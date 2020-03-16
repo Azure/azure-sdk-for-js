@@ -188,11 +188,10 @@ export interface QueueOptions {
 export interface ReceiveBatchOptions extends OperationOptions {
 }
 
+// Warning: (ae-forgotten-export) The symbol "SettleableMessage" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type ReceivedMessage = Omit<ServiceBusMessage, "complete" | "abandon" | "defer" | "deadletter" | "prototype">;
-
-// @public
-export interface ReceivedMessageInfo extends SendableMessageInfo {
+interface ReceivedMessage extends SendableMessageInfo, SettleableMessage {
     readonly _amqpMessage: AmqpMessage;
     readonly deadLetterSource?: string;
     readonly deliveryCount?: number;
@@ -203,6 +202,10 @@ export interface ReceivedMessageInfo extends SendableMessageInfo {
     readonly lockToken?: string;
     readonly sequenceNumber?: Long;
 }
+
+export { ReceivedMessage }
+
+export { ReceivedMessage as ReceivedMessageInfo }
 
 // @public
 export enum ReceiveMode {
@@ -316,7 +319,7 @@ export interface ServiceBusClientOptions {
 }
 
 // @public
-export class ServiceBusMessage implements ReceivedMessageInfo {
+export class ServiceBusMessage implements ReceivedMessage {
     abandon(propertiesToModify?: {
         [key: string]: any;
     }): Promise<void>;

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ReceivedMessage, ContextWithSettlement } from "../src/models";
-import { delay, SendableMessageInfo } from "../src";
+import { ContextWithSettlement } from "../src/models";
+import { delay, SendableMessageInfo, ReceivedMessage } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";

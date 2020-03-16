@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ServiceBusMessage, DeadLetterOptions } from "./serviceBusMessage";
+import { DeadLetterOptions, ReceivedMessage } from "./serviceBusMessage";
 import { OperationOptions } from "@azure/core-auth";
 
 /**
@@ -40,19 +40,6 @@ export interface Session {
 export function isSession(possibleSession: Session | any): possibleSession is Session {
   return possibleSession != null;
 }
-
-/**
- * A message that has been received via  ServiceBusReceiver.
- */
-export type ReceivedMessage = Omit<
-  ServiceBusMessage,
-  | "complete"
-  | "abandon"
-  | "defer"
-  | "deadletter"
-  // Um..am I doing something odd here or is this a normal thing to exclude?
-  | "prototype"
->;
 
 /**
  * A context with methods to settle (ie, complete, abandon, etc..)

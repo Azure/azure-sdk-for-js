@@ -7,7 +7,7 @@ import { StreamingReceiver } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
-import { ServiceBusMessage, ReceiveMode, ReceivedMessageInfo } from "./serviceBusMessage";
+import { ServiceBusMessage, ReceiveMode, ReceivedMessage } from "./serviceBusMessage";
 import {
   MessageSession,
   SessionMessageHandlerOptions,
@@ -25,7 +25,7 @@ import {
   throwErrorIfClientOrConnectionClosed
 } from "./util/errors";
 import { RuleDescription, CorrelationFilter } from ".";
-import { MessageHandlerOptions, ReceivedMessage } from "./models";
+import { MessageHandlerOptions } from "./models";
 import {
   addSubscriptionRule,
   removeSubscriptionRule,
@@ -310,7 +310,7 @@ export class InternalReceiver {
 
   // ManagementClient methods # Begin
 
-  peek(entityPath: string, maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
+  peek(entityPath: string, maxMessageCount?: number): Promise<ReceivedMessage[]> {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
       entityPath,
@@ -324,7 +324,7 @@ export class InternalReceiver {
     entityPath: string,
     fromSequenceNumber: Long,
     maxMessageCount?: number
-  ): Promise<ReceivedMessageInfo[]> {
+  ): Promise<ReceivedMessage[]> {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
       entityPath,
@@ -644,7 +644,7 @@ export class InternalSessionReceiver {
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while peeking for messages.
    */
-  async peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]> {
+  async peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.peekMessagesBySession(this.sessionId!, maxMessageCount);
@@ -665,7 +665,7 @@ export class InternalSessionReceiver {
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
     maxMessageCount?: number
-  ): Promise<ReceivedMessageInfo[]> {
+  ): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
     return this._context.managementClient!.peekBySequenceNumber(

@@ -6,11 +6,10 @@ import {
   SubscribeOptions,
   GetMessageIteratorOptions,
   ReceiveBatchOptions,
-  ReceivedMessage,
   MessageHandlerOptions
 } from "../models";
 import { OperationOptions } from "@azure/core-auth";
-import { ServiceBusMessage, RuleDescription, CorrelationFilter } from "..";
+import { ServiceBusMessage, RuleDescription, CorrelationFilter, ReceivedMessage } from "..";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
   throwErrorIfConnectionClosed,
