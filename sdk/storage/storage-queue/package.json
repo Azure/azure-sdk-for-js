@@ -157,7 +157,7 @@
     "rollup-plugin-visualizer": "^3.1.1",
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
-    "typescript": "~3.7.5",
+    "typescript": "~3.8.3",
     "util": "^0.12.1"
   }
 }
