@@ -452,6 +452,13 @@ export class ServiceClient {
         httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
+      // Workaround to pass in body directly via operation arguments in cases
+      // where operationSpec is not generated correctly thus body is not set
+      // as expected.
+      if (httpRequest.body == undefined && (options as any).body) {
+        httpRequest.body = (options as any).body;
+      }
+
       let rawResponse: HttpOperationResponse;
       let sendRequestError;
       try {
