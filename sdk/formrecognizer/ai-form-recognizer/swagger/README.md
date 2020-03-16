@@ -5,6 +5,7 @@
 ## Configuration
 
 ```yaml
+v3: true
 package-name: "@azure/ai-form-recognizer"
 title: FormRecognizerClient
 description: FormRecognizer Client
@@ -15,7 +16,7 @@ source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/kristapratico/azure-rest-api-specs/form-recognizer-patch/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.0/FormRecognizer.json
 add-credentials: true
 use-extension:
-  "@microsoft.azure/autorest.typescript": "5.0.2"
+  "@autorest/typescript": "0.1.0-dev.20200316.1"
 ```
 
 ## Customizations for Track 2 Generator
