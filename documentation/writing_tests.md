@@ -6,8 +6,9 @@
 - [Engineering setup](#engineering-setup)
 - [Recommended tools](#recommended-tools)
 - [Test folder structure](#test-folder-structure)
-  - [Internal tests](#internal-tests)
-  - [Public API tests](#public-api-tests)
+  - [Testing cloud resources](#testing-cloud-resources).
+  - [Public or internal tests](#public-or-internal-tests).
+  - [Testing API functionalities](#testing-api-functionalities).
 - [Individual tests](#individual-tests)
 
 ## Introduction
