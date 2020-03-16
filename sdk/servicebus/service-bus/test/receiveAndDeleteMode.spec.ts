@@ -56,7 +56,7 @@ describe("receive and delete", () => {
 
     async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<void> {
       await senderClient.send(testMessages);
-      const msgs = (await receiverClient.receiveBatch(1)).messages;
+      const msgs = await receiverClient.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -317,7 +317,7 @@ describe("receive and delete", () => {
       testMessages: SendableMessageInfo
     ): Promise<{ message: ReceivedMessage; context: ContextWithSettlement }> {
       await senderClient.send(testMessages);
-      const msgs = (await receiverClient.receiveBatch(1)).messages;
+      const msgs = await receiverClient.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");

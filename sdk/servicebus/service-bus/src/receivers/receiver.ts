@@ -29,7 +29,6 @@ import {
   getSubscriptionRules,
   removeSubscriptionRule,
   addSubscriptionRule,
-  settlementContext,
   assertValidMessageHandlers
 } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
@@ -50,9 +49,7 @@ export interface Receiver<ContextT> {
    * Returns an iterator that can be used to receive messages from Service Bus.
    * @param options Options for getMessageIterator.
    */
-  getMessageIterator(
-    options?: GetMessageIteratorOptions
-  ): AsyncIterableIterator<{ message: ReceivedMessage; context: ContextT }>;
+  getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessage>;
 
   /**
    * Receives, at most, `maxMessages` worth of messages.
@@ -64,7 +61,7 @@ export interface Receiver<ContextT> {
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: ReceivedMessage[]; context: ContextT }>;
+  ): Promise<ReceivedMessage[]>;
 
   // TODO: move to message object itself.
 
@@ -95,7 +92,7 @@ export interface Receiver<ContextT> {
   receiveDeferredMessage(
     sequenceNumber: Long,
     options?: OperationOptions
-  ): Promise<ServiceBusMessage | undefined>;
+  ): Promise<ReceivedMessage | undefined>;
 
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
@@ -110,7 +107,7 @@ export interface Receiver<ContextT> {
   receiveDeferredMessages(
     sequenceNumbers: Long[],
     options?: OperationOptions
-  ): Promise<ServiceBusMessage[]>;
+  ): Promise<ReceivedMessage[]>;
   /**
    * Indicates whether the receiver is currently receiving messages or not.
    * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
@@ -383,11 +380,11 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws MessagingError if the service returns an error while receiving messages.
    */
-  async receiveBatch(
+  receiveBatch(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: ReceivedMessage[]; context: ContextT }> {
+  ): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
@@ -399,15 +396,7 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
       this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
     }
 
-    const messages = await this._context.batchingReceiver.receive(
-      maxMessageCount,
-      maxWaitTimeInSeconds
-    );
-
-    return {
-      messages,
-      context: this.getContext()
-    };
+    return this._context.batchingReceiver.receive(maxMessageCount, maxWaitTimeInSeconds);
   }
 
   /**
@@ -424,17 +413,16 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
    */
   async *getMessageIterator(
     options?: GetMessageIteratorOptions
-  ): AsyncIterableIterator<{
-    message: ReceivedMessage;
-    context: ContextT;
-  }> {
+  ): AsyncIterableIterator<ReceivedMessage> {
     while (true) {
-      const { messages, context } = await this.receiveBatch(1);
+      const messages = await this.receiveBatch(1);
 
-      yield {
-        message: messages[0],
-        context
-      };
+      // TODO: punctuation?
+      if (messages == null || messages.length === 0) {
+        continue;
+      }
+
+      yield messages[0];
     }
   }
 
@@ -567,7 +555,7 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
 
     this._registerMessageHandler(
       async (message: ServiceBusMessage) => {
-        return handlers.processMessage(message, this.getContext());
+        return handlers.processMessage(message);
       },
       (err: Error) => {
         // TODO: not async internally yet.
@@ -655,11 +643,5 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
       return true;
     }
     return false;
-  }
-
-  private getContext(): ContextT {
-    return this.receiveMode === "peekLock"
-      ? ((settlementContext as any) as ContextT)
-      : ({} as ContextT);
   }
 }

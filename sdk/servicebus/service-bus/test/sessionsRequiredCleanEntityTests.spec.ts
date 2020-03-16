@@ -101,8 +101,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         "SessionId is different than expected"
       );
 
-      const batch = await receiver.receiveBatch(1);
-      const msgs = batch.messages;
+      const msgs = await receiver.receiveBatch(1);
       should.equal(msgs.length, 1, "Unexpected number of messages received");
       should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
       should.equal(
@@ -116,7 +115,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         "SessionId is different than expected"
       );
 
-      await batch.context.complete(msgs[0]);
+      await msgs[0].complete();
     }
 
     it("Partitioned Queue - Peek Session with sessionId", async function(): Promise<void> {
@@ -177,8 +176,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       await sender.send(testMessagesWithDifferentSessionIds[0]);
       await sender.send(testMessagesWithDifferentSessionIds[1]);
 
-      let batch = await receiver.receiveBatch(2);
-      let msgs = batch.messages;
+      let msgs = await receiver.receiveBatch(2);
 
       should.equal(msgs.length, 1, "Unexpected number of messages received");
       should.equal(receiver.sessionId, msgs[0].sessionId, "Unexpected sessionId in receiver");
@@ -192,7 +190,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         true,
         "Received Message doesnt match any of the test messages"
       );
-      await batch.context.complete(msgs[0]);
+      await msgs[0].complete();
       await receiver.close();
 
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
@@ -200,8 +198,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       // get the next available session ID rather than specifying one
       receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
-      batch = await receiver.receiveBatch(2);
-      msgs = batch.messages;
+      msgs = await receiver.receiveBatch(2);
 
       should.equal(msgs.length, 1, "Unexpected number of messages received");
       should.equal(receiver.sessionId, msgs[0].sessionId, "Unexpected sessionId in receiver");
@@ -215,7 +212,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         true,
         "Received Message doesnt match any of the test messages"
       );
-      await batch.context.complete(msgs[0]);
+      await msgs[0].complete();
       await testPeekMsgsLength(receiver, 0);
     }
 
@@ -277,8 +274,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       // get the next available session ID rather than specifying one
       receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames, { sessionId: "" });
 
-      const batch = await receiver.receiveBatch(2);
-      const msgs = batch.messages;
+      const msgs = await receiver.receiveBatch(2);
 
       should.equal(msgs.length, 1, "Unexpected number of messages received");
 
@@ -290,7 +286,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         true,
         "Received Message doesnt match expected test message"
       );
-      await batch.context.complete(msgs[0]);
+      await msgs[0].complete();
 
       const peekedMsgsInSession = await receiver.diagnostics.peek();
       should.equal(peekedMsgsInSession.length, 0, "Unexpected number of messages peeked");

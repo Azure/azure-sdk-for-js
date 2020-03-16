@@ -115,7 +115,7 @@ export interface MessageHandlerOptions {
 // @public
 export interface MessageHandlers<ContextT> {
     processError(err: Error): Promise<void>;
-    processMessage(message: ReceivedMessage, context: ContextT): Promise<void>;
+    processMessage(message: ReceivedMessage): Promise<void>;
 }
 
 // @public
@@ -223,17 +223,11 @@ export interface Receiver<ContextT> {
     entityPath: string;
     entityType: "queue" | "subscription";
     getDeadLetterPath(): string;
-    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<{
-        message: ReceivedMessage;
-        context: ContextT;
-    }>;
+    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessage>;
     isReceivingMessages(): boolean;
-    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<{
-        messages: ReceivedMessage[];
-        context: ContextT;
-    }>;
-    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ServiceBusMessage | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ServiceBusMessage[]>;
+    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<ReceivedMessage[]>;
+    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessage | undefined>;
+    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessage[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
     subscribe(handler: MessageHandlers<ContextT>, options?: SubscribeOptions): void;

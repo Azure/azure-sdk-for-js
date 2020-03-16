@@ -50,8 +50,7 @@ describe("send scheduled messages", () => {
     async function testSimpleSend(useSessions: boolean, usePartitions: boolean): Promise<void> {
       const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       await senderClient.send(testMessage);
-      const batch = await receiverClient.receiveBatch(1);
-      const msgs = batch.messages;
+      const msgs = await receiverClient.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -59,7 +58,7 @@ describe("send scheduled messages", () => {
 
       TestMessage.checkMessageContents(testMessage, msgs[0], useSessions, usePartitions);
 
-      await batch.context.complete(msgs[0]);
+      await msgs[0].complete();
 
       await testPeekMsgsLength(receiverClient, 0);
     }
@@ -119,8 +118,7 @@ describe("send scheduled messages", () => {
       testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
 
       await senderClient.sendBatch(testMessages);
-      const batch = await receiverClient.receiveBatch(2);
-      const msgs = batch.messages;
+      const msgs = await receiverClient.receiveBatch(2);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 2, "Unexpected number of messages");
@@ -133,8 +131,8 @@ describe("send scheduled messages", () => {
         TestMessage.checkMessageContents(testMessages[0], msgs[1], useSessions, usePartitions);
       }
 
-      await batch.context.complete(msgs[0]);
-      await batch.context.complete(msgs[1]);
+      await msgs[0].complete();
+      await msgs[1].complete();
 
       await testPeekMsgsLength(receiverClient, 0);
     }
@@ -206,8 +204,7 @@ describe("send scheduled messages", () => {
         await senderClient.scheduleMessage(scheduleTime, testMessage);
       }
 
-      const batch = await receiverClient.receiveBatch(1);
-      const msgs = batch.messages;
+      const msgs = await receiverClient.receiveBatch(1);
       const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -224,7 +221,7 @@ describe("send scheduled messages", () => {
         "MessageId is different than expected"
       );
 
-      await batch.context.complete(msgs[0]);
+      await msgs[0].complete();
 
       await testPeekMsgsLength(receiverClient, 0);
     }
@@ -309,8 +306,7 @@ describe("send scheduled messages", () => {
       const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
       await senderClient.scheduleMessages(scheduleTime, testMessages);
 
-      const batch = await receiverClient.receiveBatch(2);
-      const msgs = batch.messages;
+      const msgs = await receiverClient.receiveBatch(2);
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 2, "Unexpected number of messages");
 
@@ -339,8 +335,8 @@ describe("send scheduled messages", () => {
         "MessageId of second message is different than expected"
       );
 
-      await batch.context.complete(msgs[0]);
-      await batch.context.complete(msgs[1]);
+      await msgs[0].complete();
+      await msgs[1].complete();
 
       await testPeekMsgsLength(receiverClient, 0);
     }
@@ -688,7 +684,7 @@ describe("send scheduled messages", () => {
     const receivedMsgs = await receiverClient.receiveBatch(expectedReceivedMsgsLength + 1, 5);
 
     should.equal(
-      receivedMsgs.messages.length,
+      receivedMsgs.length,
       expectedReceivedMsgsLength,
       "Unexpected number of msgs found when receiving"
     );

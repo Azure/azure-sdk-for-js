@@ -115,7 +115,7 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
   while (true) {
     const messages = await receiver.receiveBatch(10, 1);
 
-    if (messages.messages.length === 0) {
+    if (messages.length === 0) {
       break;
     }
   }
@@ -338,7 +338,7 @@ export async function drainReceiveAndDeleteReceiver(receiver: Receiver<{}>): Pro
     while (true) {
       const messages = await receiver.receiveBatch(10, 1);
 
-      if (messages.messages.length === 0) {
+      if (messages.length === 0) {
         break;
       }
     }

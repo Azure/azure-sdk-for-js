@@ -84,8 +84,7 @@ describe("session tests", () => {
       const testMessage = TestMessage.getSessionSample();
       await sender.send(testMessage);
 
-      let batch = await receiver.receiveBatch(1, 10);
-      let msgs = batch.messages;
+      let msgs = await receiver.receiveBatch(1, 10);
       should.equal(msgs.length, 0, "Unexpected number of messages received");
 
       await receiver.close();
@@ -95,8 +94,7 @@ describe("session tests", () => {
       // get the next available session ID rather than specifying one
       receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
-      batch = await receiver.receiveBatch(1);
-      msgs = batch.messages;
+      msgs = await receiver.receiveBatch(1);
       should.equal(msgs.length, 1, "Unexpected number of messages received");
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
@@ -105,7 +103,7 @@ describe("session tests", () => {
         testMessage.messageId,
         "MessageId is different than expected"
       );
-      await batch.context.complete(msgs[0]);
+      await msgs[0].complete();
       await testPeekMsgsLength(receiver, 0);
     }
 
@@ -149,7 +147,7 @@ describe("session tests", () => {
 
       let receivedMsgs: ReceivedMessage[] = [];
       receiver.subscribe({
-        async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+        async processMessage(msg: ReceivedMessage) {
           receivedMsgs.push(msg);
           return Promise.resolve();
         },
@@ -167,14 +165,14 @@ describe("session tests", () => {
       receivedMsgs = [];
       receiver.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessage) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
               testMessage.messageId,
               "MessageId is different than expected"
             );
-            await context.complete(msg);
+            await msg.complete();
             receivedMsgs.push(msg);
           },
           processError
@@ -233,8 +231,7 @@ describe("session tests", () => {
       const testMessage = TestMessage.getSessionSample();
       await sender.send(testMessage);
 
-      let batch = await receiver.receiveBatch(2);
-      let msgs = batch.messages;
+      let msgs = await receiver.receiveBatch(2);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages received");
@@ -263,8 +260,7 @@ describe("session tests", () => {
       // get the next available session ID rather than specifying one
       receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
-      batch = await receiver.receiveBatch(2);
-      msgs = batch.messages;
+      msgs = await receiver.receiveBatch(2);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages received");
@@ -284,7 +280,7 @@ describe("session tests", () => {
       should.equal(testState, "new_state", "SessionState is different than expected");
 
       await receiver.setState(""); // clearing the session-state
-      await batch.context.complete(msgs[0]);
+      await msgs[0].complete();
       await testPeekMsgsLength(receiver, 0);
     }
     it("Partitioned Queue - Testing getState and setState", async function(): Promise<void> {

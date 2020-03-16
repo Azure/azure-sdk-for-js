@@ -273,8 +273,7 @@ describe("renew lock", () => {
     const testMessage = TestMessage.getSample();
     await senderClient.send(testMessage);
 
-    const batch = await receiverClient.receiveBatch(1);
-    const msgs = batch.messages;
+    const msgs = await receiverClient.receiveBatch(1);
 
     // Compute expected initial lock expiry time
     const expectedLockExpiryTimeUtc = new Date();
@@ -309,7 +308,7 @@ describe("renew lock", () => {
       "After renewlock()"
     );
 
-    await batch.context.complete(msgs[0]);
+    await msgs[0].complete();
   }
 
   /**
@@ -322,8 +321,7 @@ describe("renew lock", () => {
     const testMessage = TestMessage.getSample();
     await senderClient.send(testMessage);
 
-    const batch = await receiverClient.receiveBatch(1);
-    const msgs = batch.messages;
+    const msgs = await receiverClient.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Expected message length does not match");
@@ -334,7 +332,7 @@ describe("renew lock", () => {
     await delay(lockDurationInMilliseconds + 1000);
 
     let errorWasThrown: boolean = false;
-    await batch.context.complete(msgs[0]).catch((err) => {
+    await msgs[0].complete().catch((err) => {
       should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
       errorWasThrown = true;
     });
@@ -343,7 +341,7 @@ describe("renew lock", () => {
 
     // Clean up any left over messages
     const unprocessedMsgsBatch = await receiverClient.receiveBatch(1);
-    await unprocessedMsgsBatch.context.complete(unprocessedMsgsBatch.messages[0]);
+    await unprocessedMsgsBatch[0].complete();
   }
 
   /**
@@ -357,10 +355,7 @@ describe("renew lock", () => {
     const testMessage = TestMessage.getSample();
     await senderClient.send(testMessage);
 
-    async function processMessage(
-      brokeredMessage: ReceivedMessage,
-      context: ContextWithSettlement
-    ): Promise<void> {
+    async function processMessage(brokeredMessage: ReceivedMessage): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -401,7 +396,7 @@ describe("renew lock", () => {
           "After renewlock"
         );
 
-        await context.complete(brokeredMessage);
+        await brokeredMessage.complete();
       }
     }
 
@@ -438,10 +433,7 @@ describe("renew lock", () => {
     const testMessage = TestMessage.getSample();
     await senderClient.send(testMessage);
 
-    async function processMessage(
-      brokeredMessage: ReceivedMessage,
-      context: ContextWithSettlement
-    ): Promise<void> {
+    async function processMessage(brokeredMessage: ReceivedMessage): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -460,7 +452,7 @@ describe("renew lock", () => {
         await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);
 
         let errorWasThrown: boolean = false;
-        await context.complete(brokeredMessage).catch((err) => {
+        await brokeredMessage.complete().catch((err) => {
           should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
           errorWasThrown = true;
         });
@@ -493,8 +485,8 @@ describe("renew lock", () => {
       );
 
       const unprocessedMsgsBatch = await receiverClient.receiveBatch(1);
-      if (unprocessedMsgsBatch.messages.length) {
-        await unprocessedMsgsBatch.context.complete(unprocessedMsgsBatch.messages[0]);
+      if (unprocessedMsgsBatch.length) {
+        await unprocessedMsgsBatch[0].complete();
       }
     }
   }

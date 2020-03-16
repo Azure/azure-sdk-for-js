@@ -176,12 +176,10 @@ describe("Streaming", () => {
       await senderClient.send(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
-      let contextToSettle: ContextWithSettlement;
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessage) {
             receivedMsgs.push(msg);
-            contextToSettle = context;
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
@@ -201,7 +199,7 @@ describe("Streaming", () => {
       await testPeekMsgsLength(receiverClient, 1);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
-      await contextToSettle!.complete(receivedMsgs[0]);
+      await receivedMsgs[0].complete();
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       await testPeekMsgsLength(receiverClient, 0);
@@ -290,14 +288,14 @@ describe("Streaming", () => {
       const receivedMsgs: ReceivedMessage[] = [];
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessage) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
               testMessage.messageId,
               "MessageId is different than expected"
             );
-            await context.complete(msg);
+            await msg.complete();
             receivedMsgs.push(msg);
           },
           processError
@@ -374,13 +372,13 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessage) {
             should.equal(
               msg.deliveryCount,
               checkDeliveryCount,
               "DeliveryCount is different than expected"
             );
-            await context.abandon(msg);
+            await msg.abandon();
             checkDeliveryCount++;
           },
           processError
@@ -397,8 +395,7 @@ describe("Streaming", () => {
 
       await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
-      const deadLetterMsgs = deadLetterMsgsBatch.messages;
+      const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -412,7 +409,7 @@ describe("Streaming", () => {
         "MessageId is different than expected"
       );
 
-      await deadLetterMsgsBatch.context.complete(deadLetterMsgs[0]);
+      await deadLetterMsgs[0].complete();
 
       await testPeekMsgsLength(deadLetterClient, 0);
     }
@@ -458,8 +455,8 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-            await context.defer(msg);
+          async processMessage(msg: ReceivedMessage) {
+            await msg.defer();
             sequenceNum = msg.sequenceNumber;
           },
           processError
@@ -565,8 +562,8 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-            await context.deadLetter(msg);
+          async processMessage(msg: ReceivedMessage) {
+            await msg.deadLetter();
             receivedMsgs.push(msg);
           },
           processError
@@ -581,8 +578,7 @@ describe("Streaming", () => {
 
       await testPeekMsgsLength(receiverClient, 0);
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
-      const deadLetterMsgs = deadLetterMsgsBatch.messages;
+      const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -591,7 +587,7 @@ describe("Streaming", () => {
         "MessageId is different than expected"
       );
 
-      await deadLetterMsgsBatch.context.complete(deadLetterMsgs[0]);
+      await deadLetterMsgs[0].complete();
       await testPeekMsgsLength(deadLetterClient, 0);
     }
 
@@ -662,8 +658,8 @@ describe("Streaming", () => {
       const expectedErrorMessage = getAlreadyReceivingErrorMsg(receiverClient.entityPath);
 
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-          await context.complete(msg);
+        async processMessage(msg: ReceivedMessage) {
+          await msg.complete();
         },
         processError
       });
@@ -724,11 +720,9 @@ describe("Streaming", () => {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
       const receivedMsgs: ReceivedMessage[] = [];
-      let contextToSettle: ContextWithSettlement;
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+        async processMessage(msg: ReceivedMessage) {
           receivedMsgs.push(msg);
-          contextToSettle = context;
           return Promise.resolve();
         },
         processError
@@ -763,15 +757,13 @@ describe("Streaming", () => {
       await testPeekMsgsLength(receiverClient, 0);
 
       if (operation === DispositionType.complete) {
-        await contextToSettle!.complete(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receivedMsgs[0].complete().catch((err) => testError(err, operation));
       } else if (operation === DispositionType.abandon) {
-        await contextToSettle!.abandon(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receivedMsgs[0].abandon().catch((err) => testError(err, operation));
       } else if (operation === DispositionType.deadletter) {
-        await contextToSettle!
-          .deadLetter(receivedMsgs[0])
-          .catch((err) => testError(err, operation));
+        await receivedMsgs[0].deadLetter().catch((err) => testError(err, operation));
       } else if (operation === DispositionType.defer) {
-        await contextToSettle!.defer(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receivedMsgs[0].defer().catch((err) => testError(err, operation));
       }
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -835,8 +827,8 @@ describe("Streaming", () => {
 
       const receivedMsgs: ReceivedMessage[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-          await context.complete(msg);
+        async processMessage(msg: ReceivedMessage) {
+          await msg.complete();
           receivedMsgs.push(msg);
           throw new Error(errorMessage);
         },
@@ -959,7 +951,7 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessage) {
             if (receivedMsgs.length === 1) {
               if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
                 throw new Error(
@@ -976,7 +968,7 @@ describe("Streaming", () => {
 
             receivedMsgs.push(msg);
             await delay(2000);
-            await context.complete(msg);
+            await msg.complete();
             settledMsgs.push(msg);
           },
           processError

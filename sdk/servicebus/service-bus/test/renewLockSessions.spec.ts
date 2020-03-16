@@ -355,8 +355,7 @@ describe("renew lock sessions", () => {
     testMessage.body = `testBatchReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
     await senderClient.send(testMessage);
 
-    const batch = await receiverClient.receiveBatch(1);
-    const msgs = batch.messages;
+    const msgs = await receiverClient.receiveBatch(1);
 
     // Compute expected initial lock expiry time
     const expectedLockExpiryTimeUtc = new Date();
@@ -389,7 +388,7 @@ describe("renew lock sessions", () => {
       "After renewlock()"
     );
 
-    await batch.context.complete(msgs[0]);
+    await msgs[0].complete();
   }
 
   /**
@@ -404,8 +403,7 @@ describe("renew lock sessions", () => {
     testMessage.body = `testBatchReceiverManualLockRenewalErrorOnLockExpiry-${Date.now().toString()}`;
     await senderClient.send(testMessage);
 
-    const batch = await receiver.receiveBatch(1);
-    const msgs = batch.messages;
+    const msgs = await receiver.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Expected message length does not match");
@@ -415,7 +413,7 @@ describe("renew lock sessions", () => {
     await delay(lockDurationInMilliseconds + 1000);
 
     let errorWasThrown: boolean = false;
-    await batch.context.complete(msgs[0]).catch((err) => {
+    await msgs[0].complete().catch((err) => {
       should.equal(err.code, "SessionLockLostError", "Error code is different than expected");
       errorWasThrown = true;
     });
@@ -429,8 +427,8 @@ describe("renew lock sessions", () => {
     receiver = serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
     const unprocessedMsgsBatch = await receiver.receiveBatch(1);
-    should.equal(unprocessedMsgsBatch.messages[0].deliveryCount, 1, "Unexpected deliveryCount");
-    await unprocessedMsgsBatch.context.complete(unprocessedMsgsBatch.messages[0]);
+    should.equal(unprocessedMsgsBatch[0].deliveryCount, 1, "Unexpected deliveryCount");
+    await unprocessedMsgsBatch[0].complete();
   }
 
   /**
@@ -445,10 +443,7 @@ describe("renew lock sessions", () => {
     testMessage.body = `testStreamingReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
     await senderClient.send(testMessage);
 
-    async function processMessage(
-      brokeredMessage: ReceivedMessage,
-      context: ContextWithSettlement
-    ) {
+    async function processMessage(brokeredMessage: ReceivedMessage) {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -489,7 +484,7 @@ describe("renew lock sessions", () => {
           "After renewlock()"
         );
 
-        await context.complete(brokeredMessage);
+        await brokeredMessage.complete();
       }
     }
 
@@ -529,10 +524,7 @@ describe("renew lock sessions", () => {
     const messagesReceived: ReceivedMessage[] = [];
     let contextToSettle: ContextWithSettlement;
 
-    async function processMessage(
-      brokeredMessage: ReceivedMessage,
-      context: ContextWithSettlement
-    ): Promise<void> {
+    async function processMessage(brokeredMessage: ReceivedMessage): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -548,7 +540,6 @@ describe("renew lock sessions", () => {
         );
 
         messagesReceived.push(brokeredMessage);
-        contextToSettle = context;
 
         // Sleeping...
         await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);

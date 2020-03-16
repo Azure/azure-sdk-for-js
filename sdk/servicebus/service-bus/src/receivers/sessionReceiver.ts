@@ -32,7 +32,6 @@ import {
   getSubscriptionRules,
   removeSubscriptionRule,
   addSubscriptionRule,
-  settlementContext,
   assertValidMessageHandlers
 } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
@@ -440,19 +439,11 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
     maxWaitTimeInSeconds?: number,
     // TODO: use the options
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: ReceivedMessage[]; context: ContextT }> {
+  ): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     await this._createMessageSessionIfDoesntExist();
-    const messages = await this._messageSession!.receiveMessages(
-      maxMessageCount,
-      maxWaitTimeInSeconds
-    );
-
-    return {
-      messages,
-      context: this.getContext()
-    };
+    return await this._messageSession!.receiveMessages(maxMessageCount, maxWaitTimeInSeconds);
   }
 
   subscribe(handlers: MessageHandlers<ContextT>, options?: SubscribeOptions): void {
@@ -460,7 +451,7 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
 
     this._registerMessageHandler(
       async (message: ServiceBusMessage) => {
-        return handlers.processMessage(message, this.getContext());
+        return handlers.processMessage(message);
       },
       (err: Error) => {
         // TODO: not async internally yet.
@@ -540,17 +531,17 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    */
   async *getMessageIterator(
     options?: GetMessageIteratorOptions
-  ): AsyncIterableIterator<{
-    message: ReceivedMessage;
-    context: ContextT;
-  }> {
+  ): AsyncIterableIterator<ReceivedMessage> {
     while (true) {
-      const { messages, context } = await this.receiveBatch(1);
+      // TODO: duplication between this and the Receiver. Consolidate.
+      const messages = await this.receiveBatch(1);
 
-      yield {
-        message: messages[0],
-        context
-      };
+      // TODO: punctuation?
+      if (messages == null || messages.length === 0) {
+        continue;
+      }
+
+      yield messages[0];
     }
   }
 
@@ -614,12 +605,6 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    */
   isReceivingMessages(): boolean {
     return this._messageSession ? this._messageSession.isReceivingMessages : false;
-  }
-
-  private getContext(): ContextT {
-    return this.receiveMode === "peekLock"
-      ? ((settlementContext as any) as ContextT)
-      : ({} as ContextT);
   }
 
   async renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date> {

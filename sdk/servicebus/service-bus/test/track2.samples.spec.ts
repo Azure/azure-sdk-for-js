@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ContextWithSettlement } from "../src/models";
 import { delay, SendableMessageInfo, ReceivedMessage } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import chai from "chai";
@@ -53,11 +52,8 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(
-          message: ReceivedMessage,
-          context: ContextWithSettlement
-        ): Promise<void> {
-          await context.complete(message);
+        async processMessage(message: ReceivedMessage): Promise<void> {
+          await message.complete();
           receivedBodies.push(message.body);
         },
         async processError(err: Error): Promise<void> {
@@ -77,7 +73,7 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
 
       const receivedBodies: string[] = [];
 
-      for (const message of (await receiver.receiveBatch(1, 5)).messages) {
+      for (const message of await receiver.receiveBatch(1, 5)) {
         receivedBodies.push(message.body);
       }
 
@@ -98,7 +94,7 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiver.getMessageIterator()) {
+      for await (const message of receiver.getMessageIterator()) {
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
           console.log(`No message arrived within our max wait time`);
@@ -106,11 +102,11 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
         }
 
         try {
-          await context.complete(message);
+          await message.complete();
           receivedBodies.push(message.body);
           break;
         } catch (err) {
-          await context.abandon(message);
+          await message.abandon();
           throw err;
         }
       }
@@ -153,8 +149,10 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiver.getMessageIterator()) {
-        assert.notOk((context as any).complete);
+      for await (const message of receiver.getMessageIterator()) {
+        // TODO: temporary - ultimately this method should throw an error if they manage
+        // to call it on a receiveAndDelete receiver.
+        // message.complete()
 
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
@@ -214,11 +212,8 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(
-          message: ReceivedMessage,
-          context: ContextWithSettlement
-        ): Promise<void> {
-          await context.complete(message);
+        async processMessage(message: ReceivedMessage): Promise<void> {
+          await message.complete();
           receivedBodies.push(message.body);
         },
         async processError(err: Error): Promise<void> {
@@ -266,7 +261,7 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiver.getMessageIterator()) {
+      for await (const message of receiver.getMessageIterator()) {
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
           console.log(`No message arrived within our max wait time`);
@@ -274,11 +269,11 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
         }
 
         try {
-          await context.complete(message);
+          await message.complete();
           receivedBodies.push(message.body);
           break;
         } catch (err) {
-          await context.abandon(message);
+          await message.abandon();
           throw err;
         }
       }
@@ -304,9 +299,7 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiver.getMessageIterator()) {
-        assert.notOk((context as any).complete);
-
+      for await (const message of receiver.getMessageIterator()) {
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
           console.log(`No message arrived within our max wait time`);
