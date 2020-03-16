@@ -82,20 +82,13 @@ Let's understand what's going on:
 - `--timeout 180000`, which specifies the maximum time each single test case can take. More on that on the next section.
 - `--full-trace`, which enables full stack traces, since Mocha by default shortens the stack traces.
 
-That command by itself is still missing two things: the actual test files and a way to generate code coverage.
-These two missing pieces can vary depending on what we're trying to test and how we're trying to debug the tests.
+That command by itself is still missing two things: the actual test files and a way to generate code coverage. These two missing pieces can vary depending on what we're trying to test and how we're trying to debug the tests.
 
-Code coverage can be added by placing `nyc` at the beginning of the line.
-Keep in mind that `nyc` will **obscure the stack traces**, so it's preferable to
-make separate `package.json` scripts, one for automated testing through CI, with `nyc`,
-and another one for developers running tests, without `nyc`.
+Code coverage can be added by placing `nyc` at the beginning of the line. Keep in mind that `nyc` will **obscure the stack traces**, so it's preferable to make separate `package.json` scripts, one for automated testing through CI, with `nyc`, and another one for developers running tests, without `nyc`.
 
-Then we have to point mocha to our test files. If you're **not** using `nyc`, you can point to the
-bundled test file (bundled with rollup, which we will see later), typically at `dist-test/index.node.js`.
-If you are using `nyc`, point mocha to the files built by the TypeScript compiler, normally at `dist-esm/test/*.test.js`.
+Then we have to point mocha to our test files. If you're **not** using `nyc`, you can point to the bundled test file (bundled with rollup, which we will see later), typically at `dist-test/index.node.js`. If you are using `nyc`, point mocha to the files built by the TypeScript compiler, normally at `dist-esm/test/*.test.js`.
 
-With these considerations in mind, you can see how your package.json scripts should look at the section:
-[package.json scripts](#package-json-scripts).
+With these considerations in mind, you can see how your package.json scripts should look at the section: [package.json scripts](#package-json-scripts).
 
 #### Handling timeouts
 
@@ -237,9 +230,7 @@ rush add --dev -p rollup @rollup/plugin-commonjs @rollup/plugin-json @rollup/plu
 
 #### Configuring Rollup
 
-Running `rollup` inside of a `package.json` script will automatically pick up the `rollup.config.js` file.
-What this file exports will define the configurations that `rollup` will use to make the bundle.
-We typically build for both Node and the browsers with the following script:
+Running `rollup` inside of a `package.json` script will automatically pick up the `rollup.config.js` file. What this file exports will define the configurations that `rollup` will use to make the bundle. We typically build for both Node and the browsers with the following script:
 
 ```json
   "build:nodebrowser": "rollup 2>&1",
@@ -293,9 +284,7 @@ export function browserConfig(test = false) {
 }
 ```
 
-In the previous snippet, you'll see that our configuration functions accept a `test` parameter
-that allows us to change the rollup configuration in case we want to generate a bundle with our tests.
-For that purpose, we employ a separate `package.json` script that consumes a separate configuration file for rollup, `rollup.test.config.js`:
+In the previous snippet, you'll see that our configuration functions accept a `test` parameter that allows us to change the rollup configuration in case we want to generate a bundle with our tests. For that purpose, we employ a separate `package.json` script that consumes a separate configuration file for rollup, `rollup.test.config.js`:
 
 ```json
   "build:test": "rollup -c rollup.test.config.js 2>&1",
