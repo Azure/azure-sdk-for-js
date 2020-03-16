@@ -82,6 +82,12 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 export interface GetMessageIteratorOptions extends OperationOptions {
 }
 
+// @public
+export interface GetSessionReceiverOptions extends OperationOptions {
+    maxSessionAutoRenewLockDurationInSeconds?: number;
+    sessionId?: string;
+}
+
 export { HttpOperationResponse }
 
 // @public
@@ -126,18 +132,6 @@ export interface OnError {
 export interface OnMessage {
     (message: ServiceBusMessage): Promise<void>;
 }
-
-// @public
-export type QueueAuth = {
-    connectionString: string;
-    queueName: string;
-} | {
-    queueConnectionString: string;
-} | {
-    tokenCredential: TokenCredential;
-    host: string;
-    queueName: string;
-};
 
 // @public
 export interface QueueDetails {
@@ -288,6 +282,34 @@ export interface SendableMessageInfo {
 }
 
 // @public
+export interface Sender {
+    cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
+    close(): Promise<void>;
+    isClosed: boolean;
+    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
+    send(message: SendableMessageInfo): Promise<void>;
+    sendBatch(messages: SendableMessageInfo[]): Promise<void>;
+}
+
+// @public
+export class ServiceBusClient {
+    constructor(connectionString: string, options?: ServiceBusClientOptions);
+    constructor(hostName: string, tokenCredential: TokenCredential, options?: ServiceBusClientOptions);
+    close(): Promise<void>;
+    getReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ContextWithSettlement>;
+    getReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<{}>;
+    getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ContextWithSettlement> & SubscriptionRuleManagement;
+    getReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<{}> & SubscriptionRuleManagement;
+    getSender(queueOrTopicName: string): Sender;
+    getSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ContextWithSettlement>;
+    getSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<{}>;
+    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ContextWithSettlement> & SubscriptionRuleManagement;
+    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<"receiveAndDelete"> & SubscriptionRuleManagement;
+}
+
+// @public
 export interface ServiceBusClientOptions {
     dataTransformer?: DataTransformer;
     webSocketOptions?: WebSocketOptions;
@@ -392,21 +414,6 @@ export interface SubscribeOptions extends OperationOptions, MessageHandlerOption
 }
 
 // @public
-export type SubscriptionAuth = {
-    connectionString: string;
-    topicName: string;
-    subscriptionName: string;
-} | {
-    topicConnectionString: string;
-    subscriptionName: string;
-} | {
-    tokenCredential: TokenCredential;
-    host: string;
-    topicName: string;
-    subscriptionName: string;
-};
-
-// @public
 export interface SubscriptionDetails {
     accessedOn?: string;
     autoDeleteOnIdle: string;
@@ -448,6 +455,14 @@ export interface SubscriptionOptions {
     requiresSession?: boolean;
     status?: EntityStatus;
     userMetadata?: string;
+}
+
+// @public
+export interface SubscriptionRuleManagement {
+    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
+    readonly defaultRuleName: string;
+    getRules(): Promise<RuleDescription[]>;
+    removeRule(ruleName: string): Promise<void>;
 }
 
 export { TokenCredential }

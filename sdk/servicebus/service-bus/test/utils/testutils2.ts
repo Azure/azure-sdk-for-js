@@ -1,16 +1,22 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// Anything we expect to be available to users should come from this import
+// as a simple sanity check that we've exported things properly.
+import {
+  ServiceBusClient,
+  SessionReceiver,
+  Receiver,
+  SubscriptionRuleManagement,
+  GetSessionReceiverOptions
+} from "../../src";
+
 import { TestClientType, TestMessage } from "./testUtils";
 import { getEnvVars, EnvVarNames } from "./envVarUtils";
 import * as dotenv from "dotenv";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./managementUtils";
-import { SessionReceiver } from "../../src/receivers/sessionReceiver";
-import { Receiver, SubscriptionRuleManagement } from "../../src/receivers/receiver";
-import { ServiceBusClient } from "../../src/serviceBusClient";
 import { ServiceBusClientOptions, ContextWithSettlement } from "../../src";
 import chai from "chai";
-import { GetSessionReceiverOptions } from "../../src/models";
 
 dotenv.config();
 const env = getEnvVars();

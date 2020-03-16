@@ -6,16 +6,13 @@ import { delay, SendableMessageInfo } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import {
-  createConnectionContext,
-  getEntityNameFromConnectionString
-} from "../src/constructorHelpers";
+import { getEntityNameFromConnectionString } from "../src/constructorHelpers";
 import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe("Sample scenarios for track 2", () => {
+describe("Sample scenarios for track 2 #RunInBrowser", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   before(async () => {
@@ -425,61 +422,6 @@ describe("ConstructorHelpers for track 2", () => {
 
   const serviceBusConnectionString =
     "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
-
-  const fakeTokenCredential = {
-    getToken: async () => null,
-    sentinel: "test token credential"
-  };
-
-  const badAuths = [
-    // missing required fields
-    { connectionString: serviceBusConnectionString },
-    { topicConnectionString: entityConnectionString },
-    { tokenCredential: fakeTokenCredential } as any,
-
-    // wrong types
-    { connectionString: 4, topicName: "myentity", subscriptionName: "mysubscription" },
-    {
-      connectionString: serviceBusConnectionString,
-      topicName: 4,
-      subscriptionName: "mysubscription"
-    },
-    { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: 4 },
-    { connectionString: "", topicName: "myentity", subscriptionName: "mysubscription" },
-    {
-      connectionString: serviceBusConnectionString,
-      topicName: "",
-      subscriptionName: "mysubscription"
-    },
-    { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: "" },
-    { connectionString: 4, queueName: "myentity" },
-    { connectionString: serviceBusConnectionString, queueName: 4 },
-    { queueConnectionString: 4 },
-    { queueConnectionString: "" },
-    { topicConnectionString: 4, subscriptionName: "mysubscription" },
-    { topicConnectionString: entityConnectionString, subscriptionName: 4 },
-    { topicConnectionString: "", subscriptionName: "mysubscription" },
-    { topicConnectionString: entityConnectionString, subscriptionName: "" },
-
-    // no entity name present for entity connection string types
-    {
-      topicConnectionString:
-        "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=",
-      subscriptionName: "mysubscription"
-    },
-    {
-      queueConnectionString:
-        "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey="
-    }
-  ];
-
-  badAuths.forEach((badAuth) => {
-    it(`createConnectionContext - bad auth ${JSON.stringify(badAuth)}`, () => {
-      assert.throws(() => {
-        createConnectionContext(badAuth, {});
-      });
-    });
-  });
 
   it("getEntityNameFromConnectionString", () => {
     assert.equal("myentity", getEntityNameFromConnectionString(entityConnectionString));

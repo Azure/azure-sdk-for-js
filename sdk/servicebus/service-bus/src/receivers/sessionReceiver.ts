@@ -111,6 +111,10 @@ export interface SessionReceiver<ContextT extends ContextWithSettlement | {}>
   setState(state: any): Promise<void>;
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
   implements SessionReceiver<ContextT> {
   public entityPath: string;

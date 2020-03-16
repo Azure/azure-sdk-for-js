@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { generate_uuid } from "rhea-promise";
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
 import {
   ServiceBusClientOptions,
   createConnectionContextForTokenCredential,
@@ -11,11 +11,15 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
 import { ClientType } from "./client";
-import { Sender } from "./sender";
+import { SenderImpl, Sender } from "./sender";
 import { GetSessionReceiverOptions, ContextWithSettlement } from "./models";
 import { Receiver, ReceiverImpl, SubscriptionRuleManagement } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 
+/**
+ * A client that can create Sender instances for sending messages to queues and
+ * topics as well as Receiver instances to receive messages from queus and subscriptions.
+ */
 export class ServiceBusClient {
   private _connectionContext: ConnectionContext;
 
@@ -256,9 +260,14 @@ export class ServiceBusClient {
       `${queueOrTopicName}/${generate_uuid()}`
     );
 
-    return new Sender(clientEntityContext);
+    return new SenderImpl(clientEntityContext);
   }
 
+  /**
+   * Closes the underlying AMQP connection.
+   * NOTE: this will also disconnect any Receiver or Sender instances created from this
+   * instance.
+   */
   close(): Promise<void> {
     return ConnectionContext.close(this._connectionContext);
   }
