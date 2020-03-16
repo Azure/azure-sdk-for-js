@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { generate_uuid } from "rhea-promise";
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
 import {
   ServiceBusClientOptions,
   createConnectionContextForTokenCredential,

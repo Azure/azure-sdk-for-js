@@ -14,7 +14,6 @@ import { MessagingError } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-auth';
 import { RetryOptions } from '@azure/core-amqp';
 import { TokenCredential } from '@azure/core-amqp';
-import { TokenCredential as TokenCredential_2 } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
@@ -297,7 +296,7 @@ export interface Sender {
 // @public
 export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
-    constructor(hostName: string, tokenCredential: TokenCredential_2, options?: ServiceBusClientOptions);
+    constructor(hostName: string, tokenCredential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<void>;
     getReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ContextWithSettlement>;
     getReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<{}>;
