@@ -201,7 +201,7 @@ async function analyzeReceiptInternal(
   try {
     return await client.analyzeReceiptAsync({
       ...operationOptionsToRequestOptionsBase(finalOptions),
-      requestBody,
+      body: requestBody,
       customHeaders
     });
   } catch (e) {

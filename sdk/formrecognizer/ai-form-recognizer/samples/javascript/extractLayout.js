@@ -26,7 +26,7 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new LayoutRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.extractLayout(() => readStream, "image/jpeg", {
+  const poller = await client.extractLayout(readStream, "image/jpeg", {
   });
   await poller.pollUntilDone();
   const response = poller.getResult();

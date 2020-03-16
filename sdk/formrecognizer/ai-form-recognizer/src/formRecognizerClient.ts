@@ -654,7 +654,7 @@ async function analyzeCustomFormInternal(
   try {
     return await client.analyzeWithCustomModel(modelId, {
       ...operationOptionsToRequestOptionsBase(finalOptions),
-      requestBody,
+      body: requestBody,
       customHeaders
     });
   } catch (e) {

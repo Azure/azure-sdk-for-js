@@ -23,7 +23,7 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.extractForms(modelId, () => readStream, "application/pdf", {
+  const poller = await client.extractForms(modelId, readStream, "application/pdf", {
   });
   await poller.pollUntilDone();
   const response = poller.getResult();

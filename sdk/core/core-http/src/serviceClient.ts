@@ -459,7 +459,8 @@ export class ServiceClient {
         httpRequest.streamResponseBody = isStreamOperation(operationSpec);
       }
 
-      // HACKY workaround to pass in body via parameters
+      // Workaround to pass in body directly via operation arguments in cases
+      // where operationSpec is not generated correctly.
       if (httpRequest.body == undefined) {
         httpRequest.body = (options as any).body;
       }

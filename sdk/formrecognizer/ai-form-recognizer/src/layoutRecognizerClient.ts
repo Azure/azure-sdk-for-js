@@ -196,7 +196,7 @@ async function analyzeLayoutInternal(
   try {
     return await client.analyzeLayoutAsync({
       ...operationOptionsToRequestOptionsBase(finalOptions),
-      requestBody,
+      body: requestBody,
       customHeaders
     });
   } catch (e) {
