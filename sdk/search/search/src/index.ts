@@ -34,7 +34,11 @@ export {
   ETagOperationOptions,
   AnalyzeTextOptions,
   GetIndexOptions,
-  GetIndexStatisticsOptions
+  GetIndexStatisticsOptions,
+  KnownAnalyzerNames,
+  KnownCharFilterNames,
+  KnownTokenFilterNames,
+  KnownTokenizerNames
 } from "./serviceModels";
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
@@ -52,22 +56,15 @@ export {
   SearchRequest as RawSearchRequest
 } from "./generated/data/models";
 export {
-  Index,
   Analyzer,
-  CharFilterName,
-  TokenFilterName,
-  TokenizerName,
   CustomAnalyzer,
   RegexFlags,
   PatternAnalyzer,
   StandardAnalyzer,
   StopAnalyzer,
-  AnalyzerName,
-  AnalyzerUnion,
   CharFilter,
   MappingCharFilter,
   PatternReplaceCharFilter,
-  CharFilterUnion,
   CorsOptions,
   AzureActiveDirectoryApplicationCredentials,
   EncryptionKey,
@@ -84,7 +81,6 @@ export {
   MagnitudeScoringFunction,
   TagScoringParameters,
   TagScoringFunction,
-  ScoringFunctionUnion,
   TextWeights,
   ScoringProfile,
   TokenFilter,
@@ -119,7 +115,6 @@ export {
   TruncateTokenFilter,
   UniqueTokenFilter,
   WordDelimiterTokenFilter,
-  TokenFilterUnion,
   Tokenizer,
   ClassicTokenizer,
   TokenCharacterKind,
@@ -136,7 +131,6 @@ export {
   StandardTokenizer,
   StandardTokenizerV2,
   UaxUrlEmailTokenizer,
-  TokenizerUnion,
   Suggester,
   AnalyzeResult,
   AnalyzeRequest,

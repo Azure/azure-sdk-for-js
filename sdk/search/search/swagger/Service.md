@@ -154,3 +154,27 @@ directive:
         $.type = 'string'
       }
 ```
+
+### Make CharFilterName a string
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnalyzeRequest.properties.charFilters.items
+    transform: >
+      const extraDocs = " KnownCharFilterNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+  - from: swagger-document
+    where: $.definitions.CustomAnalyzer.properties.charFilters.items
+    transform: >
+      const extraDocs = " KnownCharFilterNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+```

@@ -38,7 +38,7 @@ export interface AnalyzeRequest {
    * An optional list of character filters to use when breaking the given text. This parameter can
    * only be set when using the tokenizer parameter.
    */
-  charFilters?: CharFilterName[];
+  charFilters?: string[];
 }
 
 /**
@@ -131,7 +131,7 @@ export interface CustomAnalyzer {
    * tokenizer. For instance, they can replace certain characters or symbols. The filters are run
    * in the order in which they are listed.
    */
-  charFilters?: CharFilterName[];
+  charFilters?: string[];
 }
 
 /**
@@ -3439,14 +3439,6 @@ export interface IndexesDeleteMethodOptionalParams extends coreHttp.RequestOptio
 }
 
 /**
- * Defines values for CharFilterName.
- * Possible values include: 'HtmlStrip'
- * @readonly
- * @enum {string}
- */
-export type CharFilterName = 'html_strip';
-
-/**
  * Defines values for AnalyzerName.
  * Possible values include: 'ar.microsoft', 'ar.lucene', 'hy.lucene', 'bn.microsoft', 'eu.lucene',
  * 'bg.microsoft', 'bg.lucene', 'ca.microsoft', 'ca.lucene', 'zh-Hans.microsoft', 'zh-Hans.lucene',
@@ -3493,6 +3485,14 @@ export type TokenizerName = 'classic' | 'edgeNGram' | 'keyword_v2' | 'letter' | 
  * @enum {string}
  */
 export type TokenFilterName = 'arabic_normalization' | 'apostrophe' | 'asciifolding' | 'cjk_bigram' | 'cjk_width' | 'classic' | 'common_grams' | 'edgeNGram_v2' | 'elision' | 'german_normalization' | 'hindi_normalization' | 'indic_normalization' | 'keyword_repeat' | 'kstem' | 'length' | 'limit' | 'lowercase' | 'nGram_v2' | 'persian_normalization' | 'phonetic' | 'porter_stem' | 'reverse' | 'scandinavian_normalization' | 'scandinavian_folding' | 'shingle' | 'snowball' | 'sorani_normalization' | 'stemmer' | 'stopwords' | 'trim' | 'truncate' | 'unique' | 'uppercase' | 'word_delimiter';
+
+/**
+ * Defines values for CharFilterName.
+ * Possible values include: 'HtmlStrip'
+ * @readonly
+ * @enum {string}
+ */
+export type CharFilterName = 'html_strip';
 
 /**
  * Defines values for RegexFlags.
