@@ -63,7 +63,7 @@ jobs:
         displayName: Detecting Maven repository on Linux and macOS
       - task: Cache@2
         inputs:
-          key: $(Agent.JobName)|$(Build.SourcesDirectory)/sdk/*/*/package.json|$(Build.SourcesDirectory)/common/config/rush/pnpm-lock.yaml
+          key: $(Agent.JobName)|$(Build.SourcesDirectory)/sdk/**/package.json|$(Build.SourcesDirectory)/common/config/rush/pnpm-lock.yaml
           path: $(NPM.RepositoryPath)
         displayName: 'Download/upload cache'
         condition: and(succeeded(), ne(variables['EnableCaching'], 'false'))
