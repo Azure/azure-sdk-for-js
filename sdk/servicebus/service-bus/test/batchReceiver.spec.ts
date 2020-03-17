@@ -703,7 +703,7 @@ describe("batchReceiver", () => {
 
     // We use an empty queue/topic here so that the first receiveMessages call takes time to return
     async function testParallelReceiveCalls(useSessions?: boolean): Promise<void> {
-      const firstBatchPromise = receiverClient.receiveBatch(1, 10);
+      const firstBatchPromise = receiverClient.receiveBatch(1, { maxWaitTimeSeconds: 10 });
       await delay(5000);
 
       let errorMessage;

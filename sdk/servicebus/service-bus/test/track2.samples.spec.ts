@@ -74,7 +74,7 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
 
       const receivedBodies: string[] = [];
 
-      for (const message of await receiver.receiveBatch(1, 5)) {
+      for (const message of await receiver.receiveBatch(1, { maxWaitTimeSeconds: 5 })) {
         receivedBodies.push(message.body);
       }
 

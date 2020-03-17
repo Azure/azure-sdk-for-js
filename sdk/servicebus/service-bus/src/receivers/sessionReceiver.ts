@@ -438,8 +438,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async receiveBatch(
     maxMessageCount: number,
-    maxWaitTimeInSeconds?: number,
-    // TODO: use the options
     options?: ReceiveBatchOptions
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
@@ -448,7 +446,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     const receivedMessages = await this._messageSession!.receiveMessages(
       maxMessageCount,
-      maxWaitTimeInSeconds
+      options?.maxWaitTimeSeconds
     );
 
     return (receivedMessages as any) as ReceivedMessageT[];

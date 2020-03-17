@@ -58,11 +58,7 @@ export interface Receiver<ReceivedMessageT> {
    * @param maxWaitTimeInSeconds The maximum time to wait, in seconds, for messages to arrive.
    * @param options Options for receiveBatch.
    */
-  receiveBatch(
-    maxMessages: number,
-    maxWaitTimeInSeconds?: number,
-    options?: ReceiveBatchOptions
-  ): Promise<ReceivedMessageT[]>;
+  receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
 
   /**
    * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
@@ -367,7 +363,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedLoc
    */
   async receiveBatch(
     maxMessageCount: number,
-    maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
@@ -383,7 +378,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedLoc
 
     const receivedMessages = await this._context.batchingReceiver.receive(
       maxMessageCount,
-      maxWaitTimeInSeconds
+      options?.maxWaitTimeSeconds
     );
 
     return (receivedMessages as unknown) as ReceivedMessageT[];

@@ -114,7 +114,7 @@ async function createTestEntities(
 
 export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
   while (true) {
-    const messages = await receiver.receiveBatch(10, 1);
+    const messages = await receiver.receiveBatch(10, { maxWaitTimeSeconds: 1 });
 
     if (messages.length === 0) {
       break;
@@ -339,7 +339,7 @@ export function createServiceBusClientForTests(
 export async function drainReceiveAndDeleteReceiver(receiver: Receiver<{}>): Promise<void> {
   try {
     while (true) {
-      const messages = await receiver.receiveBatch(10, 1);
+      const messages = await receiver.receiveBatch(10, { maxWaitTimeSeconds: 1000 });
 
       if (messages.length === 0) {
         break;

@@ -682,7 +682,9 @@ describe("send scheduled messages", () => {
     receiverClient: Receiver<ReceivedLockedMessage>,
     expectedReceivedMsgsLength: number
   ): Promise<void> {
-    const receivedMsgs = await receiverClient.receiveBatch(expectedReceivedMsgsLength + 1, 5);
+    const receivedMsgs = await receiverClient.receiveBatch(expectedReceivedMsgsLength + 1, {
+      maxWaitTimeSeconds: 5
+    });
 
     should.equal(
       receivedMsgs.length,

@@ -22,14 +22,24 @@ export interface MessageHandlers<ReceivedMessageT> {
 }
 
 /**
+ * Options related to wait times.
+ */
+export interface WaitTimeOptions {
+  /**
+   * The maximum amount of time to wait for messages to arrive.
+   */
+  maxWaitTimeSeconds: number;
+}
+
+/**
  * Options when receiving a batch of messages from Service Bus.
  */
-export interface ReceiveBatchOptions extends OperationOptions {}
+export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {}
 
 /**
  * Options when getting an iterable iterator from Service Bus.
  */
-export interface GetMessageIteratorOptions extends OperationOptions {}
+export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {}
 
 /**
  * Options used when subscribing to a Service Bus queue or subscription.

@@ -81,7 +81,7 @@ export async function* getMessageIterator<ReceivedMessageT>(
   options?: GetMessageIteratorOptions
 ): AsyncIterableIterator<ReceivedMessageT> {
   while (true) {
-    const messages = await receiver.receiveBatch(1);
+    const messages = await receiver.receiveBatch(1, options);
 
     // TODO: punctuation?
     if (messages.length === 0) {
