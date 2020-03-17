@@ -41,26 +41,16 @@ function hideSelectors(selectors) {
 function populateOptions(optionSelector, otherSelectors) {
   if (currentPackage()) {
     var versionRequestUrl =
-      "https://azuresdkdocs.blob.core.windows.net/$web?restype=container&comp=list&prefix=" +
+      "https://azuresdkdocs.blob.core.windows.net/$web/" +
       SELECTED_LANGUAGE +
       "/" +
       currentPackage() +
-      "/versions/";
+      "/versioning/versions";
 
     httpGetAsync(versionRequestUrl, function(responseText) {
       if (responseText) {
-        data_stored = responseText;
-
-        parser = new DOMParser();
-        xmlDoc = parser.parseFromString(responseText, "text/xml");
-
-        nameElements = Array.from(xmlDoc.getElementsByTagName("Name"));
-        options = [];
-
-        for (var i in nameElements) {
-          options.push(nameElements[i].textContent.split("/")[3]);
-        }
-
+        options = responseText.match(/[^\r\n]+/g)
+        
         populateVersionDropDown(optionSelector, options);
         showSelectors(otherSelectors);
 
@@ -101,19 +91,15 @@ function getPackageUrl(language, package, version) {
 
 function populateIndexList(selector, packageName) {
   url =
-    "https://azuresdkdocs.blob.core.windows.net/$web?restype=container&comp=list&prefix=" +
+    "https://azuresdkdocs.blob.core.windows.net/$web/" +
     SELECTED_LANGUAGE +
     "/" +
     packageName +
-    "/versions/";
+    "/versioning/versions";
 
   httpGetAsync(url, function(responseText) {
     if (responseText) {
-      parser = new DOMParser();
-      xmlDoc = parser.parseFromString(responseText, "text/xml");
-
-      nameElements = Array.from(xmlDoc.getElementsByTagName("Name"));
-      options = [];
+      options = responseText.match(/[^\r\n]+/g)
 
       for (var i in nameElements) {
         options.push(nameElements[i].textContent.split("/")[3]);
