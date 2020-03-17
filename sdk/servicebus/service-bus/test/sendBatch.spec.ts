@@ -131,7 +131,6 @@ describe("Send Batch", () => {
         }
       }
       await senderClient.sendBatch2(batchMessage);
-      console.log(numberOfMessagesInBatch);
       /// receive all the messages in receive and delete mode
       await receiveAllMessages(entityNames, useSessions, sentMessages);
     }
@@ -146,7 +145,7 @@ describe("Send Batch", () => {
       await testSimpleSendBatch(false);
     });
 
-    it.only("Unpartitioned Queue: Simple SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: Simple SendBatch #RunInBrowser", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSimpleSendBatch(false);
     });
@@ -171,7 +170,7 @@ describe("Send Batch", () => {
       await testSimpleSendBatch(true);
     });
 
-    it.only("Unpartitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
+    it("Unpartitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testSimpleSendBatch(true);
     });
