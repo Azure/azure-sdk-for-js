@@ -106,3 +106,27 @@ directive:
         $.type = 'string'
       }
 ```
+
+### Make TokenizerName a string
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnalyzeRequest.properties.tokenizer
+    transform: >
+      const extraDocs = " KnownTokenizerNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+  - from: swagger-document
+    where: $.definitions.CustomAnalyzer.properties.tokenizer
+    transform: >
+      const extraDocs = " KnownTokenizerNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+```
