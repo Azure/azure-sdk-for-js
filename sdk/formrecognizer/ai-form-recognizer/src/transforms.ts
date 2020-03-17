@@ -106,9 +106,7 @@ function toKeyValueElement(
   return {
     text: original.text,
     boundingBox: original.boundingBox,
-    elements: readResults
-      ? original.elements?.map((element) => toExtractedElement(element, readResults!))
-      : undefined
+    elements: original.elements?.map((element) => toExtractedElement(element, readResults!))
   };
 }
 
@@ -132,9 +130,7 @@ function toTable(original: DataTableModel, readResults?: ReadResult[]): DataTabl
       columnIndex: cell.columnIndex,
       columnSpan: cell.columnSpan || 1,
       confidence: cell.confidence,
-      elements: readResults
-        ? cell.elements?.map((element) => toExtractedElement(element, readResults!))
-        : undefined,
+      elements: cell.elements?.map((element) => toExtractedElement(element, readResults!)),
       isFooter: cell.isFooter || false,
       isHeader: cell.isHeader || false,
       rowIndex: cell.rowIndex,
