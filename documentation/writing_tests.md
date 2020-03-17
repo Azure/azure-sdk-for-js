@@ -19,7 +19,7 @@
 
 ## Test folder structure
 
-Generally speaking, tests for the Azure SDK for JavaScript and TypeScript should be all executed using the NPM command `test`, they should be stored in the `test` folder, they will be written in TypeScript, in files that will end in `.spec.ts`, and our [recommended tools](#recommended-tools) should help us with the test framework, with proper ways of compiling them and bundling them correctly, so they can run and be debugged while checking that our code works on the environments we're targeting (NodeJS, browsers, etc).
+Tests for the Azure SDK for JavaScript and TypeScript should be all executed using the NPM command `test`, they should be stored in the `test` folder, they will be written in TypeScript, in files that will end in `.spec.ts`, and our [recommended tools](#recommended-tools) should help us with the test framework, with proper ways of compiling them and bundling them correctly, so they can run and be debugged while checking that our code works on the environments we're targeting (NodeJS, browsers, etc).
 
 To help developers specify the target environment they will be testing, we will specify these scripts in the `package.json`:
 
