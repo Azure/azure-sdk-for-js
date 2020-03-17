@@ -63,6 +63,11 @@ export interface CorrelationFilter {
     userProperties?: any;
 }
 
+// @public
+export interface CreateBatchOptions {
+    maxSizeInBytes?: number;
+}
+
 export { DataTransformer }
 
 // @public
@@ -281,13 +286,19 @@ export interface SendableMessageInfo {
     viaPartitionKey?: string;
 }
 
+// @public (undocumented)
+export interface SendableMessageInfoBatch {
+    readonly count: number;
+    readonly maxSizeInBytes: number;
+    readonly sizeInBytes: number;
+    tryAdd(message: SendableMessageInfo): boolean;
+}
+
 // @public
 export interface Sender {
     cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
     cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
     close(): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "CreateBatchOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "SendableMessageInfoBatch" needs to be exported by the entry point index.d.ts
     createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch>;
     isClosed: boolean;
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
