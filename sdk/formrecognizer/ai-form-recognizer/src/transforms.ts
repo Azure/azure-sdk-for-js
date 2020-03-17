@@ -76,7 +76,7 @@ export function toReadResult(original: ReadResultModel): ReadResult {
     width: original.width,
     height: original.height,
     unit: original.unit,
-    lines: original.lines?.map(toTextLine)
+    lines: original.lines?.map((l) => toTextLine(l, original.pageNumber))
   };
 }
 
