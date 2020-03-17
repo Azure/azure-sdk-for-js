@@ -11,7 +11,7 @@ import { ServiceBusClientForTests, createServiceBusClientForTests } from "./util
 import { SubscriptionRuleManagement, Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
-import { ReceivedLockedMessage } from "../src/serviceBusMessage";
+import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 describe("invalid parameters", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -25,7 +25,7 @@ describe("invalid parameters", () => {
   });
 
   describe("Invalid parameters in Sender/ReceiverClients for PartitionedQueue #RunInBrowser", function(): void {
-    let receiver: Receiver<ReceivedLockedMessage>;
+    let receiver: Receiver<ReceivedMessageWithLock>;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
     // new sender/receiver clients before each test. Doing it once for each describe block.
@@ -112,7 +112,7 @@ describe("invalid parameters", () => {
   });
 
   describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscription #RunInBrowser", function(): void {
-    let subscriptionReceiverClient: Receiver<ReceivedLockedMessage> & SubscriptionRuleManagement;
+    let subscriptionReceiverClient: Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
     // new sender/receiver clients before each test. Doing it once for each describe block.
@@ -312,7 +312,7 @@ describe("invalid parameters", () => {
 
   describe("Invalid parameters in SessionReceiver #RunInBrowser", function(): void {
     let sender: Sender;
-    let receiver: SessionReceiver<ReceivedLockedMessage>;
+    let receiver: SessionReceiver<ReceivedMessageWithLock>;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
     // new sender/receiver clients before each test. Doing it once for each describe block.

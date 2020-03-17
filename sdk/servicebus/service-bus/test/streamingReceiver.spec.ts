@@ -11,7 +11,7 @@ import { StreamingReceiver } from "../src/core/streamingReceiver";
 import {
   DispositionType,
   ServiceBusMessageImpl,
-  ReceivedLockedMessage
+  ReceivedMessageWithLock
 } from "../src/serviceBusMessage";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
@@ -38,8 +38,8 @@ async function processError(err: Error): Promise<void> {
 describe("Streaming", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedLockedMessage>;
-  let deadLetterClient: Receiver<ReceivedLockedMessage>;
+  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let deadLetterClient: Receiver<ReceivedMessageWithLock>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -179,10 +179,10 @@ describe("Streaming", () => {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
 
-      const receivedMsgs: ReceivedLockedMessage[] = [];
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedLockedMessage) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             receivedMsgs.push(msg);
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
@@ -289,10 +289,10 @@ describe("Streaming", () => {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
 
-      const receivedMsgs: ReceivedLockedMessage[] = [];
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedLockedMessage) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
@@ -376,7 +376,7 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedLockedMessage) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             should.equal(
               msg.deliveryCount,
               checkDeliveryCount,
@@ -459,7 +459,7 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedLockedMessage) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             await msg.defer();
             sequenceNum = msg.sequenceNumber;
           },
@@ -566,7 +566,7 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedLockedMessage) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             await msg.deadLetter();
             receivedMsgs.push(msg);
           },
@@ -662,7 +662,7 @@ describe("Streaming", () => {
       const expectedErrorMessage = getAlreadyReceivingErrorMsg(receiverClient.entityPath);
 
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedLockedMessage) {
+        async processMessage(msg: ReceivedMessageWithLock) {
           await msg.complete();
         },
         processError
@@ -723,9 +723,9 @@ describe("Streaming", () => {
     async function testSettlement(operation: DispositionType): Promise<void> {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
-      const receivedMsgs: ReceivedLockedMessage[] = [];
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedLockedMessage) {
+        async processMessage(msg: ReceivedMessageWithLock) {
           receivedMsgs.push(msg);
           return Promise.resolve();
         },
@@ -829,9 +829,9 @@ describe("Streaming", () => {
       await senderClient.send(TestMessage.getSample());
       const errorMessage = "Will we see this error message?";
 
-      const receivedMsgs: ReceivedLockedMessage[] = [];
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedLockedMessage) {
+        async processMessage(msg: ReceivedMessageWithLock) {
           await msg.complete();
           receivedMsgs.push(msg);
           throw new Error(errorMessage);
@@ -955,7 +955,7 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedLockedMessage) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             if (receivedMsgs.length === 1) {
               if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
                 throw new Error(

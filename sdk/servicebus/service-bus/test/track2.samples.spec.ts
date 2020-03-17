@@ -8,7 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 import { getEntityNameFromConnectionString } from "../src/constructorHelpers";
 import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
-import { ReceivedLockedMessage } from "../src/serviceBusMessage";
+import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -53,7 +53,7 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(message: ReceivedLockedMessage): Promise<void> {
+        async processMessage(message: ReceivedMessageWithLock): Promise<void> {
           await message.complete();
           receivedBodies.push(message.body);
         },
@@ -213,7 +213,7 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(message: ReceivedLockedMessage): Promise<void> {
+        async processMessage(message: ReceivedMessageWithLock): Promise<void> {
           await message.complete();
           receivedBodies.push(message.body);
         },

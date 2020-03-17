@@ -13,7 +13,7 @@ import {
   ServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
-import { ReceivedLockedMessage } from "../src/serviceBusMessage";
+import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -23,8 +23,8 @@ describe("batchReceiver", () => {
   let errorWasThrown: boolean;
 
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedLockedMessage>;
-  let deadLetterClient: Receiver<ReceivedLockedMessage>;
+  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let deadLetterClient: Receiver<ReceivedMessageWithLock>;
   const maxDeliveryCount = 10;
 
   before(() => {
@@ -57,7 +57,9 @@ describe("batchReceiver", () => {
       await afterEachTest();
     });
 
-    async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<ReceivedLockedMessage> {
+    async function sendReceiveMsg(
+      testMessages: ServiceBusMessage
+    ): Promise<ReceivedMessageWithLock> {
       await senderClient.send(testMessages);
       const msgs = await receiverClient.receiveBatch(1);
 
@@ -495,7 +497,7 @@ describe("batchReceiver", () => {
 
     async function deadLetterMessage(
       testMessage: ServiceBusMessage
-    ): Promise<ReceivedLockedMessage> {
+    ): Promise<ReceivedMessageWithLock> {
       await senderClient.send(testMessage);
       const batch = await receiverClient.receiveBatch(1);
 
@@ -536,7 +538,7 @@ describe("batchReceiver", () => {
 
     async function completeDeadLetteredMessage(
       testMessage: ServiceBusMessage,
-      deadletterClient: Receiver<ReceivedLockedMessage>,
+      deadletterClient: Receiver<ReceivedMessageWithLock>,
       expectedDeliverCount: number
     ): Promise<void> {
       const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);

@@ -15,7 +15,7 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests
 } from "./utils/testutils2";
-import { ReceivedLockedMessage } from "../src/serviceBusMessage";
+import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 let unexpectedError: Error | undefined;
 
@@ -28,7 +28,7 @@ async function processError(err: Error): Promise<void> {
 describe("session tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
-  let receiver: SessionReceiver<ReceivedLockedMessage>;
+  let receiver: SessionReceiver<ReceivedMessageWithLock>;
 
   before(async () => {
     serviceBusClient = createServiceBusClientForTests();
@@ -166,7 +166,7 @@ describe("session tests", () => {
       receivedMsgs = [];
       receiver.subscribe(
         {
-          async processMessage(msg: ReceivedLockedMessage) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,

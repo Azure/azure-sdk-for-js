@@ -17,7 +17,7 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
-import { DispositionType, ReceivedLockedMessage } from "../src/serviceBusMessage";
+import { DispositionType, ReceivedMessageWithLock  } from "../src/serviceBusMessage";
 
 let errorWasThrown: boolean;
 
@@ -343,7 +343,7 @@ describe("receive and delete", () => {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
       // we have to force this cast - the type system doesn't allow this if you've chosen receiveAndDelete
       // as your lock mode.
-      const msg = (await sendReceiveMsg(testMessages)) as ReceivedLockedMessage;
+      const msg = (await sendReceiveMsg(testMessages)) as ReceivedMessageWithLock ;
 
       try {
         if (operation === DispositionType.complete) {
@@ -682,7 +682,7 @@ describe("receive and delete", () => {
       const msg = await sendReceiveMsg(TestMessage.getSample());
 
       // have to cast it - the type system doesn't allow us to call into this method otherwise.
-      await (msg as ReceivedLockedMessage).renewLock().catch((err) => {
+      await (msg as ReceivedMessageWithLock ).renewLock().catch((err) => {
         should.equal(
           err.message,
           getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the lock on the message"),

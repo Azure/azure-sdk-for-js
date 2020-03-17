@@ -24,7 +24,7 @@ export {
   ServiceBusMessage,
   DeadLetterOptions,
   ReceiveMode,
-  ReceivedLockedMessage
+  ReceivedMessageWithLock
 } from "./serviceBusMessage";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 

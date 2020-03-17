@@ -10,7 +10,7 @@ import {
 import { Sender } from "../src/sender";
 import { SessionReceiver, ServiceBusMessage } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ReceivedLockedMessage } from "../src/serviceBusMessage";
+import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 const should = chai.should();
 
 // NOTE: these tests should be reworked, if possible. Since they need to be deterministic
@@ -22,7 +22,7 @@ const should = chai.should();
 describe("sessions tests -  requires completely clean entity for each test", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
-  let receiver: SessionReceiver<ReceivedLockedMessage>;
+  let receiver: SessionReceiver<ReceivedMessageWithLock>;
 
   async function beforeEachNoSessionTest(
     testClientType: TestClientType,

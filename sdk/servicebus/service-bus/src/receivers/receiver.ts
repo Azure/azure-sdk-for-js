@@ -33,7 +33,7 @@ import {
 } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
-import { ServiceBusMessageImpl, ReceivedLockedMessage } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
 
 /**
  * A receiver that does not handle sessions.
@@ -210,7 +210,7 @@ export interface SubscriptionRuleManagement {
  * @internal
  * @ignore
  */
-export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedLockedMessage>
+export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
   implements Receiver<ReceivedMessageT>, SubscriptionRuleManagement {
   /**
    * @property Describes the amqp connection context for the QueueClient.

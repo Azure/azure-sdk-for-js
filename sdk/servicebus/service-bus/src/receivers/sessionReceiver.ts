@@ -36,13 +36,14 @@ import {
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
-import { ServiceBusMessageImpl, ReceivedLockedMessage } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
  */
-export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedLockedMessage>
-  extends Receiver<ReceivedMessageT> {
+export interface SessionReceiver<
+  ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+> extends Receiver<ReceivedMessageT> {
   /**
    * The session ID.
    * Can be undefined until a AMQP receiver link has been successfully set up for the session
@@ -114,7 +115,7 @@ export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | Rece
  * @internal
  * @ignore
  */
-export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedLockedMessage>
+export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
   implements SessionReceiver<ReceivedMessageT> {
   public entityPath: string;
   public sessionId: string | undefined;
