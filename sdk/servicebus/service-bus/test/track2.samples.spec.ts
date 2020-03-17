@@ -154,7 +154,6 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
         // TODO: temporary - ultimately this method should throw an error if they manage
         // to call it on a receiveAndDelete receiver.
         // message.complete()
-
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
           console.log(`No message arrived within our max wait time`);
@@ -368,7 +367,7 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
       );
     });
 
-    it("Queue, peek/lock, sessions", async () => {
+    it("Queue, peek/lock, sessions using an iterator", async () => {
       const sessionId = Date.now().toString();
 
       const receiver = serviceBusClient.test.addToCleanup(
@@ -384,14 +383,11 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
       const errors: string[] = [];
       const receivedBodies: string[] = [];
 
-      receiver.subscribe({
-        async processMessage(message: ReceivedMessage): Promise<void> {
-          receivedBodies.push(message.body);
-        },
-        async processError(err: Error): Promise<void> {
-          errors.push(err.message);
-        }
-      });
+      for await (const message of receiver.getMessageIterator()) {
+        receivedBodies.push(message.body);
+        await message.complete();
+        break;
+      }
 
       await waitAndValidate("Queue, peek/lock, sessions", receivedBodies, errors, receiver);
     });

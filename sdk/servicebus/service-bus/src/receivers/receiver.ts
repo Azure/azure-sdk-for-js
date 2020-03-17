@@ -392,9 +392,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws MessagingError if the service returns an error while receiving messages.
    */
-  async *getMessageIterator(
-    options?: GetMessageIteratorOptions
-  ): AsyncIterableIterator<ReceivedMessageT> {
+  getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT> {
     return getMessageIterator(this, options);
   }
 
