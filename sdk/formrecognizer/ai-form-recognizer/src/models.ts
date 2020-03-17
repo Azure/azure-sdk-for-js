@@ -18,8 +18,6 @@ import {
   Model,
   ModelsModel,
   ModelsSummary,
-  // PageResult as PageResultModel,
-  // ReadResult as ReadResultModel,
   TrainCustomModelAsyncHeaders,
   TrainingDocumentInfo,
   TrainResult,
@@ -55,6 +53,10 @@ export {
  */
 export interface TextWord {
   /**
+   * Element kind - "line"
+   */
+  kind: "word";
+  /**
    * The 1-based page number in the input document.
    */
   pageNumber: number;
@@ -81,6 +83,10 @@ export interface TextWord {
  */
 export interface TextLine {
   /**
+   * Element kind - "line"
+   */
+  kind: "line";
+  /**
    * The 1-based page number in the input document.
    */
   pageNumber: number;
@@ -103,10 +109,27 @@ export interface TextLine {
   words: TextWord[];
 }
 
+// export interface CheckBox {
+//   /**
+//    * Element kind - "checkbox"
+//    */
+//   kind: "checkbox";
+//   /**
+//    * The 1-based page number in the input document.
+//    */
+//   pageNumber: number;
+//   /**
+//    * Bounding box of an extracted line.
+//    */
+//   boundingBox: number[];
+
+//   checked: boolean;
+// }
+
 /**
  * Information about extracted text elements  in documents
  */
-export type ExtractedElement = TextWord | TextLine;
+export type ExtractedElement = TextWord | TextLine // | CheckBox;
 
 export interface DataTableCell {
   boundingBox: number[];

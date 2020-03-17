@@ -821,6 +821,7 @@ export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg
 // @public
 export interface TextLine {
     boundingBox: number[];
+    kind: "line";
     pageNumber: number;
     text: string;
     words: TextWord[];
@@ -831,6 +832,7 @@ export interface TextWord {
     boundingBox: number[];
     confidence?: number;
     containingLine?: TextLine;
+    kind: "word";
     pageNumber: number;
     text: string;
 }

@@ -47,12 +47,14 @@ import {
 } from "./models";
 
 function toTextLine(original: TextLineModel, pageNumber: number): TextLine {
-  const line = {
+  const line: TextLine = {
+    kind: "line",
     pageNumber: pageNumber,
     text: original.text,
     boundingBox: original.boundingBox,
     words: original.words.map((w) => {
       return {
+        kind: "word",
         text: w.text,
         boundingBox: w.boundingBox,
         confidence: w.confidence,
@@ -79,10 +81,10 @@ export function toReadResult(original: ReadResultModel): ReadResult {
 }
 
 // Note: might need to support other element types in future, e.g., checkbox
-const elementPattern = /#\/readResults\/(\d+)\/lines\/(\d+)\/words\/(\d+)/;
+const textPattern = /#\/readResults\/(\d+)\/lines\/(\d+)\/words\/(\d+)/;
 
 function toExtractedElement(element: string, readResults: ReadResult[]): ExtractedElement {
-  const result = elementPattern.exec(element);
+  const result = textPattern.exec(element);
   if (!result || result.length < 3) {
     throw new Error(`Unexpected element reference encountered: ${element}`);
   }
