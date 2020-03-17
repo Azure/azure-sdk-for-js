@@ -58,8 +58,10 @@ export { Delivery }
 // @public
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
+// Warning: (ae-forgotten-export) The symbol "WaitTimeOptions" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface GetMessageIteratorOptions extends OperationOptions {
+export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
 }
 
 // @public
@@ -146,7 +148,7 @@ export interface QueueOptions {
 }
 
 // @public
-export interface ReceiveBatchOptions extends OperationOptions {
+export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {
 }
 
 // @public
@@ -193,7 +195,7 @@ export interface Receiver<ReceivedMessageT> {
     getDeadLetterPath(): string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isReceivingMessages(): boolean;
-    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
+    receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
     receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
     receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
