@@ -16,13 +16,102 @@ import {
 import { SendableMessageInfoBatch } from "./sendableMessageInfoBatch";
 
 /**
- * The Sender class can be used to send messages, schedule messages to be sent at a later time
+ * A Sender can be used to send messages, schedule messages to be sent at a later time
  * and cancel such scheduled messages.
- * Use the `createSender` function on the QueueClient or TopicClient to instantiate a Sender.
+ * Use the `createSender` function on the ServiceBusClient instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
- * @class Sender
  */
-export class Sender {
+export interface Sender {
+  /**
+   * Sends the given message after creating an AMQP Sender link if it doesnt already exists.
+   *
+   * To send a message to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
+   * and/or `partitionKey` properties respectively on the message.
+   *
+   * @param message - Message to send.
+   * @returns Promise<void>
+   * @throws Error if the underlying connection, client or sender is closed.
+   * @throws MessagingError if the service returns an error while sending messages to the service.
+   */
+  send(message: SendableMessageInfo): Promise<void>;
+
+  /**
+   * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
+   * Sender link if it doesnt already exists.
+   *
+   * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
+   * and/or `partitionKey` properties respectively on the messages.
+   * - When doing so, all
+   * messages in the batch should have the same `sessionId` (if using sessions) and the same
+   * `parititionKey` (if using paritions).
+   *
+   * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
+   * @return Promise<void>
+   * @throws Error if the underlying connection, client or sender is closed.
+   * @throws MessagingError if the service returns an error while sending messages to the service.
+   */
+  sendBatch(messages: SendableMessageInfo[]): Promise<void>;
+  /**
+   * @property Returns `true` if either the sender or the client that created it has been closed
+   * @readonly
+   */
+  isClosed: boolean;
+  /**
+   * Schedules given message to appear on Service Bus Queue/Subscription at a later time.
+   *
+   * @param scheduledEnqueueTimeUtc - The UTC time at which the message should be enqueued.
+   * @param message - The message that needs to be scheduled.
+   * @returns Promise<Long> - The sequence number of the message that was scheduled.
+   * You will need the sequence number if you intend to cancel the scheduling of the message.
+   * Save the `Long` type as-is in your application without converting to number. Since JavaScript
+   * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
+   * @throws Error if the underlying connection, client or sender is closed.
+   * @throws MessagingError if the service returns an error while scheduling a message.
+   */
+  scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
+
+  /**
+   * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
+   *
+   * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
+   * @param messages - Array of Messages that need to be scheduled.
+   * @returns Promise<Long[]> - The sequence numbers of messages that were scheduled.
+   * You will need the sequence number if you intend to cancel the scheduling of the messages.
+   * Save the `Long` type as-is in your application without converting to number. Since JavaScript
+   * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
+   * @throws Error if the underlying connection, client or sender is closed.
+   * @throws MessagingError if the service returns an error while scheduling messages.
+   */
+  scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
+
+  /**
+   * Cancels a message that was scheduled to appear on a ServiceBus Queue/Subscription.
+   * @param sequenceNumber - The sequence number of the message to be cancelled.
+   * @returns Promise<void>
+   * @throws Error if the underlying connection, client or sender is closed.
+   * @throws MessagingError if the service returns an error while canceling a scheduled message.
+   */
+  cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
+  /**
+   * Cancels multiple messages that were scheduled to appear on a ServiceBus Queue/Subscription.
+   * @param sequenceNumbers - An Array of sequence numbers of the messages to be cancelled.
+   * @returns Promise<void>
+   * @throws Error if the underlying connection, client or sender is closed.
+   * @throws MessagingError if the service returns an error while canceling scheduled messages.
+   */
+  cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
+
+  /**
+   * Closes the underlying AMQP sender link.
+   * Once closed, the sender cannot be used for any further operations.
+   * Use the `createSender` function on the QueueClient or TopicClient to instantiate a new Sender
+   *
+   * @returns {Promise<void>}
+   */
+  close(): Promise<void>;
+}
+
+export class SenderImpl implements Sender {
   /**
    * @property Describes the amqp connection context for the Client.
    */
@@ -56,25 +145,10 @@ export class Sender {
     }
   }
 
-  /**
-   * @property Returns `true` if either the sender or the client that created it has been closed
-   * @readonly
-   */
   public get isClosed(): boolean {
     return this._isClosed || this._context.isClosed;
   }
 
-  /**
-   * Sends the given message after creating an AMQP Sender link if it doesnt already exists.
-   *
-   * To send a message to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
-   * and/or `partitionKey` properties respectively on the message.
-   *
-   * @param message - Message to send.
-   * @returns Promise<void>
-   * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while sending messages to the service.
-   */
   async send(message: SendableMessageInfo): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
@@ -82,21 +156,6 @@ export class Sender {
     return sender.send(message);
   }
 
-  /**
-   * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
-   * Sender link if it doesnt already exists.
-   *
-   * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
-   * and/or `partitionKey` properties respectively on the messages.
-   * - When doing so, all
-   * messages in the batch should have the same `sessionId` (if using sessions) and the same
-   * `parititionKey` (if using paritions).
-   *
-   * @param messages - An array of SendableMessageInfo objects to be sent in a Batch message.
-   * @return Promise<void>
-   * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while sending messages to the service.
-   */
   async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
@@ -158,18 +217,6 @@ export class Sender {
     return result[0];
   }
 
-  /**
-   * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
-   *
-   * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
-   * @param messages - Array of Messages that need to be scheduled.
-   * @returns Promise<Long[]> - The sequence numbers of messages that were scheduled.
-   * You will need the sequence number if you intend to cancel the scheduling of the messages.
-   * Save the `Long` type as-is in your application without converting to number. Since JavaScript
-   * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
-   * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while scheduling messages.
-   */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
     messages: SendableMessageInfo[]
@@ -188,13 +235,6 @@ export class Sender {
     return this._context.managementClient!.scheduleMessages(scheduledEnqueueTimeUtc, messages);
   }
 
-  /**
-   * Cancels a message that was scheduled to appear on a ServiceBus Queue/Subscription.
-   * @param sequenceNumber - The sequence number of the message to be cancelled.
-   * @returns Promise<void>
-   * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while canceling a scheduled message.
-   */
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
@@ -211,13 +251,6 @@ export class Sender {
     return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
   }
 
-  /**
-   * Cancels multiple messages that were scheduled to appear on a ServiceBus Queue/Subscription.
-   * @param sequenceNumbers - An Array of sequence numbers of the messages to be cancelled.
-   * @returns Promise<void>
-   * @throws Error if the underlying connection, client or sender is closed.
-   * @throws MessagingError if the service returns an error while canceling scheduled messages.
-   */
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
@@ -237,13 +270,6 @@ export class Sender {
     return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
   }
 
-  /**
-   * Closes the underlying AMQP sender link.
-   * Once closed, the sender cannot be used for any further operations.
-   * Use the `createSender` function on the QueueClient or TopicClient to instantiate a new Sender
-   *
-   * @returns {Promise<void>}
-   */
   async close(): Promise<void> {
     try {
       this._isClosed = true;
