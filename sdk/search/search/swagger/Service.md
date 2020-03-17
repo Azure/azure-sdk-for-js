@@ -130,3 +130,27 @@ directive:
         $.type = 'string'
       }
 ```
+
+### Make TokenFilterName a string
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnalyzeRequest.properties.tokenFilters.items
+    transform: >
+      const extraDocs = " KnownTokenFilterNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+  - from: swagger-document
+    where: $.definitions.CustomAnalyzer.properties.tokenFilters.items
+    transform: >
+      const extraDocs = " KnownTokenFilterNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+```

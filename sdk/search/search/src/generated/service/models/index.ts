@@ -33,7 +33,7 @@ export interface AnalyzeRequest {
    * An optional list of token filters to use when breaking the given text. This parameter can only
    * be set when using the tokenizer parameter.
    */
-  tokenFilters?: TokenFilterName[];
+  tokenFilters?: string[];
   /**
    * An optional list of character filters to use when breaking the given text. This parameter can
    * only be set when using the tokenizer parameter.
@@ -125,7 +125,7 @@ export interface CustomAnalyzer {
    * example, you can specify a lowercase filter that converts all characters to lowercase. The
    * filters are run in the order in which they are listed.
    */
-  tokenFilters?: TokenFilterName[];
+  tokenFilters?: string[];
   /**
    * A list of character filters used to prepare input text before it is processed by the
    * tokenizer. For instance, they can replace certain characters or symbols. The filters are run
@@ -3439,20 +3439,6 @@ export interface IndexesDeleteMethodOptionalParams extends coreHttp.RequestOptio
 }
 
 /**
- * Defines values for TokenFilterName.
- * Possible values include: 'ArabicNormalization', 'Apostrophe', 'AsciiFolding', 'CjkBigram',
- * 'CjkWidth', 'Classic', 'CommonGram', 'EdgeNGram', 'Elision', 'GermanNormalization',
- * 'HindiNormalization', 'IndicNormalization', 'KeywordRepeat', 'KStem', 'Length', 'Limit',
- * 'Lowercase', 'NGram', 'PersianNormalization', 'Phonetic', 'PorterStem', 'Reverse',
- * 'ScandinavianNormalization', 'ScandinavianFoldingNormalization', 'Shingle', 'Snowball',
- * 'SoraniNormalization', 'Stemmer', 'Stopwords', 'Trim', 'Truncate', 'Unique', 'Uppercase',
- * 'WordDelimiter'
- * @readonly
- * @enum {string}
- */
-export type TokenFilterName = 'arabic_normalization' | 'apostrophe' | 'asciifolding' | 'cjk_bigram' | 'cjk_width' | 'classic' | 'common_grams' | 'edgeNGram_v2' | 'elision' | 'german_normalization' | 'hindi_normalization' | 'indic_normalization' | 'keyword_repeat' | 'kstem' | 'length' | 'limit' | 'lowercase' | 'nGram_v2' | 'persian_normalization' | 'phonetic' | 'porter_stem' | 'reverse' | 'scandinavian_normalization' | 'scandinavian_folding' | 'shingle' | 'snowball' | 'sorani_normalization' | 'stemmer' | 'stopwords' | 'trim' | 'truncate' | 'unique' | 'uppercase' | 'word_delimiter';
-
-/**
  * Defines values for CharFilterName.
  * Possible values include: 'HtmlStrip'
  * @readonly
@@ -3493,6 +3479,20 @@ export type AnalyzerName = 'ar.microsoft' | 'ar.lucene' | 'hy.lucene' | 'bn.micr
  * @enum {string}
  */
 export type TokenizerName = 'classic' | 'edgeNGram' | 'keyword_v2' | 'letter' | 'lowercase' | 'microsoft_language_tokenizer' | 'microsoft_language_stemming_tokenizer' | 'nGram' | 'path_hierarchy_v2' | 'pattern' | 'standard_v2' | 'uax_url_email' | 'whitespace';
+
+/**
+ * Defines values for TokenFilterName.
+ * Possible values include: 'ArabicNormalization', 'Apostrophe', 'AsciiFolding', 'CjkBigram',
+ * 'CjkWidth', 'Classic', 'CommonGram', 'EdgeNGram', 'Elision', 'GermanNormalization',
+ * 'HindiNormalization', 'IndicNormalization', 'KeywordRepeat', 'KStem', 'Length', 'Limit',
+ * 'Lowercase', 'NGram', 'PersianNormalization', 'Phonetic', 'PorterStem', 'Reverse',
+ * 'ScandinavianNormalization', 'ScandinavianFoldingNormalization', 'Shingle', 'Snowball',
+ * 'SoraniNormalization', 'Stemmer', 'Stopwords', 'Trim', 'Truncate', 'Unique', 'Uppercase',
+ * 'WordDelimiter'
+ * @readonly
+ * @enum {string}
+ */
+export type TokenFilterName = 'arabic_normalization' | 'apostrophe' | 'asciifolding' | 'cjk_bigram' | 'cjk_width' | 'classic' | 'common_grams' | 'edgeNGram_v2' | 'elision' | 'german_normalization' | 'hindi_normalization' | 'indic_normalization' | 'keyword_repeat' | 'kstem' | 'length' | 'limit' | 'lowercase' | 'nGram_v2' | 'persian_normalization' | 'phonetic' | 'porter_stem' | 'reverse' | 'scandinavian_normalization' | 'scandinavian_folding' | 'shingle' | 'snowball' | 'sorani_normalization' | 'stemmer' | 'stopwords' | 'trim' | 'truncate' | 'unique' | 'uppercase' | 'word_delimiter';
 
 /**
  * Defines values for RegexFlags.
