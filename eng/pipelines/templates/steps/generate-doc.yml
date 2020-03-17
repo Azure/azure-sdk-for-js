@@ -1,7 +1,7 @@
 steps:
   - script: |
-      npm i -g typedoc typescript
-    displayName: "Install typedoc & typescript"
+      npm i -g typedoc@0.16.x
+    displayName: "Install typedoc"
 
   - script: |
       npm install
