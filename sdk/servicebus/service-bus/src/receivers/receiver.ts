@@ -40,10 +40,10 @@ import { ServiceBusMessageImpl, ReceivedSettleableMessage } from "../serviceBusM
 export interface Receiver<ReceivedMessageT> {
   /**
    * Streams messages to message handlers.
-   * @param handler A handler that gets called for messages and errors.
+   * @param handlers A handler that gets called for messages and errors.
    * @param options Options for subscribe.
    */
-  subscribe(handler: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
+  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
@@ -214,8 +214,8 @@ export interface SubscriptionRuleManagement {
  * @internal
  * @ignore
  */
-export class ReceiverImpl<MessageT extends ReceivedMessage | ReceivedSettleableMessage>
-  implements Receiver<MessageT>, SubscriptionRuleManagement {
+export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedSettleableMessage>
+  implements Receiver<ReceivedMessageT>, SubscriptionRuleManagement {
   /**
    * @property Describes the amqp connection context for the QueueClient.
    */
@@ -368,7 +368,7 @@ export class ReceiverImpl<MessageT extends ReceivedMessage | ReceivedSettleableM
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<MessageT[]> {
+  ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
@@ -380,10 +380,12 @@ export class ReceiverImpl<MessageT extends ReceivedMessage | ReceivedSettleableM
       this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
     }
 
-    return ((await this._context.batchingReceiver.receive(
+    const receivedMessages = await this._context.batchingReceiver.receive(
       maxMessageCount,
       maxWaitTimeInSeconds
-    )) as unknown) as MessageT[];
+    );
+
+    return (receivedMessages as unknown) as ReceivedMessageT[];
   }
 
   /**
@@ -398,7 +400,9 @@ export class ReceiverImpl<MessageT extends ReceivedMessage | ReceivedSettleableM
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws MessagingError if the service returns an error while receiving messages.
    */
-  async *getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<MessageT> {
+  async *getMessageIterator(
+    options?: GetMessageIteratorOptions
+  ): AsyncIterableIterator<ReceivedMessageT> {
     while (true) {
       const messages = await this.receiveBatch(1);
 
@@ -420,7 +424,7 @@ export class ReceiverImpl<MessageT extends ReceivedMessage | ReceivedSettleableM
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred message.
    */
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<MessageT | undefined> {
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ReceivedMessageT | undefined> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -437,7 +441,7 @@ export class ReceiverImpl<MessageT extends ReceivedMessage | ReceivedSettleableM
       [sequenceNumber],
       convertToInternalReceiveMode(this.receiveMode)
     );
-    return (messages[0] as unknown) as MessageT;
+    return (messages[0] as unknown) as ReceivedMessageT;
   }
 
   /**
@@ -449,7 +453,7 @@ export class ReceiverImpl<MessageT extends ReceivedMessage | ReceivedSettleableM
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<MessageT[]> {
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -470,7 +474,7 @@ export class ReceiverImpl<MessageT extends ReceivedMessage | ReceivedSettleableM
       convertToInternalReceiveMode(this.receiveMode)
     );
 
-    return (deferredMessages as any) as MessageT[];
+    return (deferredMessages as any) as ReceivedMessageT[];
   }
 
   // ManagementClient methods # Begin
@@ -503,12 +507,12 @@ export class ReceiverImpl<MessageT extends ReceivedMessage | ReceivedSettleableM
     return internalMessages.map((m) => m as ReceivedMessage);
   }
 
-  subscribe(handlers: MessageHandlers<MessageT>, options?: SubscribeOptions): void {
+  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
     assertValidMessageHandlers(handlers);
 
     this._registerMessageHandler(
       async (message: ServiceBusMessageImpl) => {
-        return handlers.processMessage(message);
+        return handlers.processMessage((message as any) as ReceivedMessageT);
       },
       (err: Error) => {
         // TODO: not async internally yet.

@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { SendableMessageInfo, CorrelationFilter } from "../src";
+import { ServiceBusMessage, CorrelationFilter } from "../src";
 
 import { TestClientType, checkWithTimeout } from "./utils/testUtils";
 import { Receiver, SubscriptionRuleManagement } from "../src/receivers/receiver";
@@ -93,7 +93,7 @@ describe("topic filters", () => {
   async function sendOrders(): Promise<void> {
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
-      const message: SendableMessageInfo = {
+      const message: ServiceBusMessage = {
         body: "",
         messageId: `messageId: ${Math.random()}`,
         correlationId: `${element.Priority}`,

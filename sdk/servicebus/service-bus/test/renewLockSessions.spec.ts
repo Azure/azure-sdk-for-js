@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { MessagingError, delay, SendableMessageInfo } from "../src";
+import { MessagingError, delay, ServiceBusMessage } from "../src";
 import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
@@ -600,7 +600,7 @@ describe("renew lock sessions", () => {
     }
   }
 
-  function getTestMessage(): SendableMessageInfo {
+  function getTestMessage(): ServiceBusMessage {
     const baseMessage = TestMessage.getSessionSample();
     baseMessage.sessionId = sessionId;
     return baseMessage;

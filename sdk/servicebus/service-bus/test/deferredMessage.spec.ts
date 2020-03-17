@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { SendableMessageInfo } from "../src";
+import { ServiceBusMessage } from "../src";
 import { TestMessage, TestClientType } from "./utils/testUtils";
 import { testPeekMsgsLength, createServiceBusClientForTests } from "./utils/testutils2";
 import { Receiver } from "../src/receivers/receiver";
@@ -51,7 +51,7 @@ describe("deferred messages", () => {
    * `receiveDeferredMessages` to ensure both get code coverage
    */
   async function deferMessage(
-    testMessage: SendableMessageInfo,
+    testMessage: ServiceBusMessage,
     useReceiveDeferredMessages: boolean
   ): Promise<ReceivedSettleableMessage> {
     await senderClient.send(testMessage);
@@ -99,7 +99,7 @@ describe("deferred messages", () => {
   async function completeDeferredMessage(
     sequenceNumber: Long,
     expectedDeliverCount: number,
-    testMessages: SendableMessageInfo
+    testMessages: ServiceBusMessage
   ): Promise<void> {
     await testPeekMsgsLength(receiverClient, 1);
 

@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, SendableMessageInfo } from "../src";
+import { delay, ServiceBusMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { Receiver } from "../src/receivers/receiver";
@@ -58,7 +58,7 @@ describe("batchReceiver", () => {
     });
 
     async function sendReceiveMsg(
-      testMessages: SendableMessageInfo
+      testMessages: ServiceBusMessage
     ): Promise<ReceivedSettleableMessage> {
       await senderClient.send(testMessages);
       const msgs = await receiverClient.receiveBatch(1);
@@ -496,7 +496,7 @@ describe("batchReceiver", () => {
     });
 
     async function deadLetterMessage(
-      testMessage: SendableMessageInfo
+      testMessage: ServiceBusMessage
     ): Promise<ReceivedSettleableMessage> {
       await senderClient.send(testMessage);
       const batch = await receiverClient.receiveBatch(1);
@@ -537,7 +537,7 @@ describe("batchReceiver", () => {
     }
 
     async function completeDeadLetteredMessage(
-      testMessage: SendableMessageInfo,
+      testMessage: ServiceBusMessage,
       deadletterClient: Receiver<ReceivedSettleableMessage>,
       expectedDeliverCount: number
     ): Promise<void> {
@@ -564,7 +564,7 @@ describe("batchReceiver", () => {
       await testPeekMsgsLength(deadletterClient, 0);
     }
 
-    async function testDeadletter(testMessage: SendableMessageInfo): Promise<void> {
+    async function testDeadletter(testMessage: ServiceBusMessage): Promise<void> {
       const deadLetterMsg = await deadLetterMessage(testMessage);
 
       await deadLetterMsg.deadLetter().catch((err) => {
@@ -605,7 +605,7 @@ describe("batchReceiver", () => {
       await testDeadletter(TestMessage.getSample());
     });
 
-    async function testAbandon(testMessage: SendableMessageInfo): Promise<void> {
+    async function testAbandon(testMessage: ServiceBusMessage): Promise<void> {
       const deadLetterMsg = await deadLetterMessage(testMessage);
 
       await deadLetterMsg.abandon();
@@ -641,7 +641,7 @@ describe("batchReceiver", () => {
       await testAbandon(TestMessage.getSample());
     });
 
-    async function testDefer(testMessage: SendableMessageInfo): Promise<void> {
+    async function testDefer(testMessage: ServiceBusMessage): Promise<void> {
       const deadLetterMsg = await deadLetterMessage(testMessage);
 
       if (!deadLetterMsg.sequenceNumber) {
@@ -766,7 +766,7 @@ describe("batchReceiver", () => {
       await testParallelReceiveCalls(true);
     });
 
-    const messages: SendableMessageInfo[] = [
+    const messages: ServiceBusMessage[] = [
       {
         body: "hello1",
         messageId: `test message ${Math.random()}`,
@@ -778,7 +778,7 @@ describe("batchReceiver", () => {
         partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
       }
     ];
-    const messageWithSessions: SendableMessageInfo[] = [
+    const messageWithSessions: ServiceBusMessage[] = [
       {
         body: "hello1",
         messageId: `test message ${Math.random()}`,

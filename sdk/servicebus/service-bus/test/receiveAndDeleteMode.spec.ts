@@ -6,7 +6,7 @@ const should = chai.should();
 const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { SendableMessageInfo, ReceivedMessage, Receiver } from "../src";
+import { ServiceBusMessage, ReceivedMessage, Receiver } from "../src";
 
 import { TestMessage, TestClientType, checkWithTimeout } from "./utils/testUtils";
 
@@ -54,7 +54,7 @@ describe("receive and delete", () => {
       await afterEachTest();
     });
 
-    async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<void> {
+    async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
       await senderClient.send(testMessages);
       const msgs = await receiverClient.receiveBatch(1);
 
@@ -141,7 +141,7 @@ describe("receive and delete", () => {
     });
 
     async function sendReceiveMsg(
-      testMessages: SendableMessageInfo,
+      testMessages: ServiceBusMessage,
       autoCompleteFlag: boolean
     ): Promise<void> {
       await senderClient.send(testMessages);
@@ -313,7 +313,7 @@ describe("receive and delete", () => {
       await afterEachTest();
     });
 
-    async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<ReceivedMessage> {
+    async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<ReceivedMessage> {
       await senderClient.send(testMessages);
       const msgs = await receiverClient.receiveBatch(1);
 

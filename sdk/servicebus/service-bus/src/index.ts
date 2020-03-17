@@ -15,17 +15,15 @@ export {
   WebSocketOptions
 } from "@azure/core-amqp";
 
-export { OnError, OnMessage } from "./core/messageReceiver";
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
 export { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
 export {
-  ReceivedMessage as ReceivedMessageInfo,
-  SendableMessageInfo,
+  ReceivedMessage,
+  ServiceBusMessage,
   DeadLetterOptions,
   ReceiveMode,
-  ReceivedMessage,
   ReceivedSettleableMessage
 } from "./serviceBusMessage";
 export { Delivery, WebSocketImpl } from "rhea-promise";
@@ -49,17 +47,12 @@ export {
 export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
 
 export {
-  SessionConnections,
-  Session,
   GetMessageIteratorOptions,
-  ReceiveBatchOptions,
-  SubscribeOptions,
+  GetSessionReceiverOptions,
   MessageHandlerOptions,
   MessageHandlers,
-  Closeable,
-  MessageAndContext,
-  MessageIterator,
-  GetSessionReceiverOptions
+  ReceiveBatchOptions,
+  SubscribeOptions
 } from "./models";
 
 export { Receiver, SubscriptionRuleManagement } from "./receivers/receiver";

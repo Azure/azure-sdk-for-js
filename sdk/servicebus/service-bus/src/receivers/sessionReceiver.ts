@@ -446,10 +446,13 @@ export class SessionReceiverImpl<
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     await this._createMessageSessionIfDoesntExist();
-    return ((await this._messageSession!.receiveMessages(
+
+    const receivedMessages = await this._messageSession!.receiveMessages(
       maxMessageCount,
       maxWaitTimeInSeconds
-    )) as any) as ReceivedMessageT[];
+    );
+
+    return (receivedMessages as any) as ReceivedMessageT[];
   }
 
   subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
@@ -457,7 +460,7 @@ export class SessionReceiverImpl<
 
     this._registerMessageHandler(
       async (message: ServiceBusMessageImpl) => {
-        return handlers.processMessage(message);
+        return handlers.processMessage((message as any) as ReceivedMessageT);
       },
       (err: Error) => {
         // TODO: not async internally yet.

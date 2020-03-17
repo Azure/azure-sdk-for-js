@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
-import { SendableMessageInfo, delay, MessagingError, ReceivedMessage } from "../../src";
+import { ServiceBusMessage, delay, MessagingError, ReceivedMessage } from "../../src";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 export class TestMessage {
   static sessionId: string = "my-session";
 
-  static getSample(): SendableMessageInfo {
+  static getSample(): ServiceBusMessage {
     const randomNumber = Math.random();
     return {
       body: `message body ${randomNumber}`,
@@ -30,7 +30,7 @@ export class TestMessage {
     };
   }
 
-  static getSessionSample(): SendableMessageInfo {
+  static getSessionSample(): ServiceBusMessage {
     const randomNumber = Math.random();
     return {
       body: `message body ${randomNumber}`,
@@ -58,7 +58,7 @@ export class TestMessage {
    * on the received message
    */
   static checkMessageContents(
-    sent: SendableMessageInfo,
+    sent: ServiceBusMessage,
     received: ReceivedMessage,
     useSessions?: boolean,
     usePartitions?: boolean

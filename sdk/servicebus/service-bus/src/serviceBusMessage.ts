@@ -133,10 +133,8 @@ export interface DeadLetterOptions {
 
 /**
  * Describes the message to be sent to Service Bus.
- * @interface SendableMessageInfo.
  */
-// TODO: this is the actual ServiceBusMessage
-export interface SendableMessageInfo {
+export interface ServiceBusMessage {
   /**
    * @property The message body that needs to be sent or is received.
    */
@@ -248,7 +246,7 @@ export interface SendableMessageInfo {
  * @internal
  * Gets the error message for when a property on given message is not of expected type
  */
-export function getMessagePropertyTypeMismatchError(msg: SendableMessageInfo): Error | undefined {
+export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Error | undefined {
   if (msg.contentType != null && typeof msg.contentType !== "string") {
     return new TypeError("The property 'contentType' on the message must be of type 'string'");
   }
@@ -305,7 +303,7 @@ export function getMessagePropertyTypeMismatchError(msg: SendableMessageInfo): E
  * @internal
  * Converts given SendableMessageInfo to AmqpMessage
  */
-export function toAmqpMessage(msg: SendableMessageInfo): AmqpMessage {
+export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
   const amqpMsg: AmqpMessage = {
     body: msg.body,
     message_annotations: {}
@@ -503,9 +501,9 @@ export interface ReceivedSettleableMessage extends ReceivedMessage {
 
 /**
  * Describes the message received from Service Bus during peek operations and so cannot be settled.
- * @class ReceivedSBMessage
+ * @class ReceivedMessage
  */
-export interface ReceivedMessage extends SendableMessageInfo {
+export interface ReceivedMessage extends ServiceBusMessage {
   /**
    * @property The lock token is a reference to the lock that is being held by the broker in
    * `ReceiveMode.PeekLock` mode. Locks are used internally settle messages as explained in the
@@ -591,7 +589,7 @@ export function fromAmqpMessage(
       body: undefined
     };
   }
-  const sbmsg: SendableMessageInfo = {
+  const sbmsg: ServiceBusMessage = {
     body: msg.body
   };
 
@@ -692,8 +690,6 @@ export function fromAmqpMessage(
 
 /**
  * Describes the message received from Service Bus.
- * @internal
- * @ignore
  */
 export class ServiceBusMessageImpl implements ReceivedSettleableMessage {
   /**
@@ -1049,9 +1045,9 @@ export class ServiceBusMessageImpl implements ReceivedSettleableMessage {
    * Creates a clone of the current message to allow it to be re-sent to the queue
    * @returns ServiceBusMessage
    */
-  clone(): SendableMessageInfo {
+  clone(): ServiceBusMessage {
     // We are returning a SendableMessageInfo object because that object can then be sent to Service Bus
-    const clone: SendableMessageInfo = {
+    const clone: ServiceBusMessage = {
       body: this.body,
       contentType: this.contentType,
       correlationId: this.correlationId,

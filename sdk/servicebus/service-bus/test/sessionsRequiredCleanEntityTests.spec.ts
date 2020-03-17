@@ -8,7 +8,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
-import { SessionReceiver, SendableMessageInfo } from "../src";
+import { SessionReceiver, ServiceBusMessage } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ReceivedSettleableMessage } from "../src/serviceBusMessage";
 const should = chai.should();
@@ -160,7 +160,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       await afterEachTest();
     });
 
-    const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
+    const testMessagesWithDifferentSessionIds: ServiceBusMessage[] = [
       {
         body: "hello1",
         messageId: `test message ${Math.random()}`,
@@ -253,7 +253,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
 
     // Sending messages with different session id, so that we know for sure we pick the right one
     // and that Service Bus is not choosing a random one for us
-    const testMessagesWithDifferentSessionIds: SendableMessageInfo[] = [
+    const testMessagesWithDifferentSessionIds: ServiceBusMessage[] = [
       {
         body: "hello1",
         messageId: `test message ${Math.random()}`,

@@ -27,7 +27,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 import {
   ReceivedMessage,
   ServiceBusMessageImpl,
-  SendableMessageInfo,
+  ServiceBusMessage,
   DispositionStatus,
   toAmqpMessage,
   getMessagePropertyTypeMismatchError
@@ -534,7 +534,7 @@ export class ManagementClient extends LinkEntity {
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
-    messages: SendableMessageInfo[]
+    messages: ServiceBusMessage[]
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any[] = [];

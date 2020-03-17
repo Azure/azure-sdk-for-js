@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { delay, SendableMessageInfo, ReceivedMessage } from "../src";
+import { delay, ServiceBusMessage, ReceivedMessage } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -398,7 +398,7 @@ describe("Sample scenarios for track 2 #RunInBrowser", () => {
   });
 
   async function sendSampleMessage(senderClient: Sender, body: string, sessionId?: string) {
-    const message: SendableMessageInfo = {
+    const message: ServiceBusMessage = {
       body
     };
 

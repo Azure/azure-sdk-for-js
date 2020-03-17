@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { delay, SendableMessageInfo } from "../src";
+import { delay, ServiceBusMessage } from "../src";
 import { TestMessage, TestClientType } from "./utils/testUtils";
 import { Receiver } from "../src/receivers/receiver";
 import {
@@ -277,7 +277,7 @@ describe("send scheduled messages", () => {
       await afterEachTest();
     });
 
-    const messages: SendableMessageInfo[] = [
+    const messages: ServiceBusMessage[] = [
       {
         body: "hello1",
         messageId: `test message ${Math.random()}`,
@@ -289,7 +289,7 @@ describe("send scheduled messages", () => {
         partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
       }
     ];
-    const messageWithSessions: SendableMessageInfo[] = [
+    const messageWithSessions: ServiceBusMessage[] = [
       {
         body: "hello1",
         messageId: `test message ${Math.random()}`,
@@ -533,7 +533,7 @@ describe("send scheduled messages", () => {
     });
   });
 
-  describe("SendableMessageInfo validations #RunInBrowser", function(): void {
+  describe("ServiceBusMessage validations #RunInBrowser", function(): void {
     const longString =
       "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
     after(async () => {
@@ -545,7 +545,7 @@ describe("send scheduled messages", () => {
     });
 
     const testInputs: {
-      message: SendableMessageInfo;
+      message: ServiceBusMessage;
       expectedErrorMessage: string;
       title?: string;
     }[] = [
