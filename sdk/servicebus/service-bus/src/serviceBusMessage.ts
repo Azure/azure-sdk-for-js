@@ -692,9 +692,10 @@ export function fromAmqpMessage(
 
 /**
  * Describes the message received from Service Bus.
- * @class ServiceBusMessage
+ * @internal
+ * @ignore
  */
-export class ServiceBusMessage implements ReceivedSettleableMessage {
+export class ServiceBusMessageImpl implements ReceivedSettleableMessage {
   /**
    * @property The message body that needs to be sent or is received.
    */

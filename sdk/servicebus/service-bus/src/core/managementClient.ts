@@ -26,7 +26,7 @@ import {
 import { ClientEntityContext } from "../clientEntityContext";
 import {
   ReceivedMessage,
-  ServiceBusMessage,
+  ServiceBusMessageImpl,
   SendableMessageInfo,
   DispositionStatus,
   toAmqpMessage,
@@ -708,10 +708,10 @@ export class ManagementClient extends LinkEntity {
     sequenceNumbers: Long[],
     receiveMode: ReceiveMode,
     sessionId?: string
-  ): Promise<ServiceBusMessage[]> {
+  ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
-    const messageList: ServiceBusMessage[] = [];
+    const messageList: ServiceBusMessageImpl[] = [];
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
     for (let i = 0; i < sequenceNumbers.length; i++) {
@@ -774,7 +774,7 @@ export class ManagementClient extends LinkEntity {
       }[];
       for (const msg of messages) {
         const decodedMessage = RheaMessageUtil.decode(msg.message);
-        const message = new ServiceBusMessage(
+        const message = new ServiceBusMessageImpl(
           this._context,
           decodedMessage as any,
           { tag: msg["lock-token"] } as any,

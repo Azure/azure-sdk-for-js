@@ -4,7 +4,6 @@
 import { ClientEntityContext } from "../clientEntityContext";
 import {
   SessionReceiverOptions,
-  ServiceBusMessage,
   SessionMessageHandlerOptions,
   RuleDescription,
   CorrelationFilter,
@@ -36,7 +35,7 @@ import {
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
-import { ReceivedSettleableMessage } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, ReceivedSettleableMessage } from "../serviceBusMessage";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -457,7 +456,7 @@ export class SessionReceiverImpl<
     assertValidMessageHandlers(handlers);
 
     this._registerMessageHandler(
-      async (message: ServiceBusMessage) => {
+      async (message: ServiceBusMessageImpl) => {
         return handlers.processMessage(message);
       },
       (err: Error) => {

@@ -4,7 +4,7 @@
 import * as log from "../log";
 import { Constants, translate, MessagingError } from "@azure/core-amqp";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
-import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, ReceiveMode } from "../serviceBusMessage";
 import {
   MessageReceiver,
   ReceiveOptions,
@@ -71,19 +71,22 @@ export class BatchingReceiver extends MessageReceiver {
    * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * - **Default**: `60` seconds.
-   * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
+   * @returns {Promise<ServiceBusMessageImpl[]>} A promise that resolves with an array of Message objects.
    */
-  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]> {
+  receive(
+    maxMessageCount: number,
+    maxWaitTimeInSeconds?: number
+  ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
     if (maxWaitTimeInSeconds == null) {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
     }
 
-    const brokeredMessages: ServiceBusMessage[] = [];
+    const brokeredMessages: ServiceBusMessageImpl[] = [];
 
     this.isReceivingMessages = true;
-    return new Promise<ServiceBusMessage[]>((resolve, reject) => {
+    return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
       let totalWaitTimer: NodeJS.Timer | undefined;
 
       const onSessionError: OnAmqpEvent = (context: EventContext) => {
@@ -182,7 +185,7 @@ export class BatchingReceiver extends MessageReceiver {
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
         this.resetTimerOnNewMessageReceived();
         try {
-          const data: ServiceBusMessage = new ServiceBusMessage(
+          const data: ServiceBusMessageImpl = new ServiceBusMessageImpl(
             this._context,
             context.message!,
             context.delivery!,

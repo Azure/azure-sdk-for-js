@@ -7,7 +7,7 @@ import { StreamingReceiver } from "./core/streamingReceiver";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ReceiveOptions, OnError, OnMessage } from "./core/messageReceiver";
 import { ClientEntityContext } from "./clientEntityContext";
-import { ServiceBusMessage, ReceiveMode, ReceivedMessage } from "./serviceBusMessage";
+import { ServiceBusMessageImpl, ReceiveMode, ReceivedMessage } from "./serviceBusMessage";
 import {
   MessageSession,
   SessionMessageHandlerOptions,
@@ -180,7 +180,7 @@ export class InternalReceiver {
   async receiveMessages(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number
-  ): Promise<ServiceBusMessage[]> {
+  ): Promise<ServiceBusMessageImpl[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
@@ -207,7 +207,7 @@ export class InternalReceiver {
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws MessagingError if the service returns an error while receiving messages.
    */
-  async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
+  async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessageImpl> {
     while (true) {
       const currentBatch = await this.receiveMessages(1);
       yield currentBatch[0];
@@ -239,7 +239,7 @@ export class InternalReceiver {
     );
 
     const lockToken =
-      lockTokenOrMessage instanceof ServiceBusMessage
+      lockTokenOrMessage instanceof ServiceBusMessageImpl
         ? String(lockTokenOrMessage.lockToken)
         : String(lockTokenOrMessage);
 
@@ -257,7 +257,7 @@ export class InternalReceiver {
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred message.
    */
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessageImpl | undefined> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -286,7 +286,7 @@ export class InternalReceiver {
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessageImpl[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -684,7 +684,7 @@ export class InternalSessionReceiver {
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred message.
    */
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessageImpl | undefined> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -715,7 +715,7 @@ export class InternalSessionReceiver {
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessageImpl[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -759,7 +759,7 @@ export class InternalSessionReceiver {
   async receiveMessages(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number
-  ): Promise<ServiceBusMessage[]> {
+  ): Promise<ServiceBusMessageImpl[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     await this._createMessageSessionIfDoesntExist();
@@ -834,7 +834,7 @@ export class InternalSessionReceiver {
    * @throws Error if the receiver is already in state of receiving messages.
    * @throws MessagingError if the service returns an error while receiving messages.
    */
-  async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessage> {
+  async *getMessageIterator(): AsyncIterableIterator<ServiceBusMessageImpl> {
     while (true) {
       const currentBatch = await this.receiveMessages(1);
       yield currentBatch[0];

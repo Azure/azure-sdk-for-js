@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, SendableMessageInfo, CorrelationFilter } from "../src";
+import { SendableMessageInfo, CorrelationFilter } from "../src";
 
 import { TestClientType, checkWithTimeout } from "./utils/testUtils";
 import { Receiver, SubscriptionRuleManagement } from "../src/receivers/receiver";
@@ -112,11 +112,11 @@ describe("topic filters", () => {
   async function receiveOrders(
     client: Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement,
     expectedMessageCount: number
-  ): Promise<ServiceBusMessage[]> {
+  ): Promise<ReceivedSettleableMessage[]> {
     let errorFromErrorHandler: Error | undefined;
-    const receivedMsgs: ServiceBusMessage[] = [];
+    const receivedMsgs: ReceivedSettleableMessage[] = [];
     client.subscribe({
-      async processMessage(msg: ServiceBusMessage) {
+      async processMessage(msg: ReceivedSettleableMessage) {
         await msg.complete();
         receivedMsgs.push(msg);
       },

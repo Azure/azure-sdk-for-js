@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ReceivedMessage, Delivery, ServiceBusMessage } from "../../src";
+import { ReceivedMessage, Delivery } from "../../src";
+import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
 
 // some functions useful as we transition between interfaces and classes.
 
 export function getDeliveryProperty(message: ReceivedMessage): Delivery {
   if (
     message &&
-    (message as ServiceBusMessage).delivery &&
-    typeof (message as ServiceBusMessage).delivery === "object"
+    (message as ServiceBusMessageImpl).delivery &&
+    typeof (message as ServiceBusMessageImpl).delivery === "object"
   ) {
-    return (message as ServiceBusMessage).delivery;
+    return (message as ServiceBusMessageImpl).delivery;
   }
 
   throw new Error(
-    "Received message does not contain a .delivery member - not a ServiceBusMessage instance."
+    "Received message does not contain a .delivery member - not a ServiceBusMessageImpl instance."
   );
 }

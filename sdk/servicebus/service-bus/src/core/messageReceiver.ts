@@ -22,7 +22,7 @@ import {
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
-import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
 import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 
@@ -88,7 +88,7 @@ export interface OnMessage {
   /**
    * Handler for processing each incoming message.
    */
-  (message: ServiceBusMessage): Promise<void>;
+  (message: ServiceBusMessageImpl): Promise<void>;
 }
 
 /**
@@ -342,7 +342,7 @@ export class MessageReceiver extends LinkEntity {
 
       this.resetTimerOnNewMessageReceived();
       const connectionId = this._context.namespace.connectionId;
-      const bMessage: ServiceBusMessage = new ServiceBusMessage(
+      const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
         this._context,
         context.message!,
         context.delivery!,
@@ -1014,7 +1014,7 @@ export class MessageReceiver extends LinkEntity {
    * @param options Optional parameters that can be provided while disposing the message.
    */
   async settleMessage(
-    message: ServiceBusMessage,
+    message: ServiceBusMessageImpl,
     operation: DispositionType,
     options?: DispositionOptions
   ): Promise<any> {

@@ -21,7 +21,6 @@ export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/
 export { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
 export {
-  ServiceBusMessage,
   ReceivedMessage as ReceivedMessageInfo,
   SendableMessageInfo,
   DeadLetterOptions,

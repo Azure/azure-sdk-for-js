@@ -9,7 +9,7 @@ import {
   MessageHandlerOptions
 } from "../models";
 import { OperationOptions } from "@azure/core-auth";
-import { ServiceBusMessage, RuleDescription, CorrelationFilter, ReceivedMessage } from "..";
+import { RuleDescription, CorrelationFilter, ReceivedMessage } from "..";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
   throwErrorIfConnectionClosed,
@@ -32,24 +32,24 @@ import {
 } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
-import { ReceivedSettleableMessage } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, ReceivedSettleableMessage } from "../serviceBusMessage";
 
 /**
  * A receiver that does not handle sessions.
  */
-export interface Receiver<MessageT> {
+export interface Receiver<ReceivedMessageT> {
   /**
    * Streams messages to message handlers.
    * @param handler A handler that gets called for messages and errors.
    * @param options Options for subscribe.
    */
-  subscribe(handler: MessageHandlers<MessageT>, options?: SubscribeOptions): void;
+  subscribe(handler: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
    * @param options Options for getMessageIterator.
    */
-  getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<MessageT>;
+  getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
 
   /**
    * Receives, at most, `maxMessages` worth of messages.
@@ -61,7 +61,7 @@ export interface Receiver<MessageT> {
     maxMessages: number,
     maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<MessageT[]>;
+  ): Promise<ReceivedMessageT[]>;
 
   /**
    * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
@@ -75,7 +75,7 @@ export interface Receiver<MessageT> {
   receiveDeferredMessage(
     sequenceNumber: Long,
     options?: OperationOptions
-  ): Promise<MessageT | undefined>;
+  ): Promise<ReceivedMessageT | undefined>;
 
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
@@ -87,7 +87,10 @@ export interface Receiver<MessageT> {
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    * @memberof SessionReceiver
    */
-  receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<MessageT[]>;
+  receiveDeferredMessages(
+    sequenceNumbers: Long[],
+    options?: OperationOptions
+  ): Promise<ReceivedMessageT[]>;
   /**
    * Indicates whether the receiver is currently receiving messages or not.
    * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
@@ -504,7 +507,7 @@ export class ReceiverImpl<MessageT extends ReceivedMessage | ReceivedSettleableM
     assertValidMessageHandlers(handlers);
 
     this._registerMessageHandler(
-      async (message: ServiceBusMessage) => {
+      async (message: ServiceBusMessageImpl) => {
         return handlers.processMessage(message);
       },
       (err: Error) => {

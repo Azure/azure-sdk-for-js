@@ -10,7 +10,7 @@ import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import {
   DispositionType,
-  ServiceBusMessage,
+  ServiceBusMessageImpl,
   ReceivedSettleableMessage
 } from "../src/serviceBusMessage";
 import { Receiver } from "../src/receivers/receiver";
@@ -94,7 +94,7 @@ describe("Streaming", () => {
       const msgsCheck = await checkWithTimeout(
         () =>
           receivedMsgs.length === 1 &&
-          (receivedMsgs[0] as ServiceBusMessage).delivery.remote_settled === true
+          (receivedMsgs[0] as ServiceBusMessageImpl).delivery.remote_settled === true
       );
 
       should.equal(
