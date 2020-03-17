@@ -25,8 +25,11 @@ export {
   ReceivedMessageInfo,
   SendableMessageInfo,
   DeadLetterOptions,
-  ReceiveMode
+  ReceiveMode,
+  CreateBatchOptions
 } from "./serviceBusMessage";
+export { SendableMessageInfoBatch } from "./sendableMessageInfoBatch";
+
 export { Delivery, WebSocketImpl } from "rhea-promise";
 
 export { HttpOperationResponse } from "@azure/core-http";
