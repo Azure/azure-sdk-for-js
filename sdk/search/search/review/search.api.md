@@ -17,30 +17,21 @@ export interface AccessCondition {
 }
 
 // @public
-export interface Analyzer {
-    name: string;
-    odatatype: "Analyzer";
-}
+export type Analyzer = CustomAnalyzer | PatternAnalyzer | StandardAnalyzer | StopAnalyzer;
 
 // @public
 export interface AnalyzeRequest {
-    analyzer?: AnalyzerName;
-    charFilters?: CharFilterName[];
+    analyzer?: string;
+    charFilters?: string[];
     text: string;
-    tokenFilters?: TokenFilterName[];
-    tokenizer?: TokenizerName;
+    tokenFilters?: string[];
+    tokenizer?: string;
 }
 
 // @public
 export interface AnalyzeResult {
     tokens: TokenInfo[];
 }
-
-// @public
-export type AnalyzerName = 'ar.microsoft' | 'ar.lucene' | 'hy.lucene' | 'bn.microsoft' | 'eu.lucene' | 'bg.microsoft' | 'bg.lucene' | 'ca.microsoft' | 'ca.lucene' | 'zh-Hans.microsoft' | 'zh-Hans.lucene' | 'zh-Hant.microsoft' | 'zh-Hant.lucene' | 'hr.microsoft' | 'cs.microsoft' | 'cs.lucene' | 'da.microsoft' | 'da.lucene' | 'nl.microsoft' | 'nl.lucene' | 'en.microsoft' | 'en.lucene' | 'et.microsoft' | 'fi.microsoft' | 'fi.lucene' | 'fr.microsoft' | 'fr.lucene' | 'gl.lucene' | 'de.microsoft' | 'de.lucene' | 'el.microsoft' | 'el.lucene' | 'gu.microsoft' | 'he.microsoft' | 'hi.microsoft' | 'hi.lucene' | 'hu.microsoft' | 'hu.lucene' | 'is.microsoft' | 'id.microsoft' | 'id.lucene' | 'ga.lucene' | 'it.microsoft' | 'it.lucene' | 'ja.microsoft' | 'ja.lucene' | 'kn.microsoft' | 'ko.microsoft' | 'ko.lucene' | 'lv.microsoft' | 'lv.lucene' | 'lt.microsoft' | 'ml.microsoft' | 'ms.microsoft' | 'mr.microsoft' | 'nb.microsoft' | 'no.lucene' | 'fa.lucene' | 'pl.microsoft' | 'pl.lucene' | 'pt-BR.microsoft' | 'pt-BR.lucene' | 'pt-PT.microsoft' | 'pt-PT.lucene' | 'pa.microsoft' | 'ro.microsoft' | 'ro.lucene' | 'ru.microsoft' | 'ru.lucene' | 'sr-cyrillic.microsoft' | 'sr-latin.microsoft' | 'sk.microsoft' | 'sl.microsoft' | 'es.microsoft' | 'es.lucene' | 'sv.microsoft' | 'sv.lucene' | 'ta.microsoft' | 'te.microsoft' | 'th.microsoft' | 'th.lucene' | 'tr.microsoft' | 'tr.lucene' | 'uk.microsoft' | 'ur.microsoft' | 'vi.microsoft' | 'standard.lucene' | 'standardasciifolding.lucene' | 'keyword' | 'pattern' | 'simple' | 'stop' | 'whitespace';
-
-// @public
-export type AnalyzerUnion = Analyzer | CustomAnalyzer | PatternAnalyzer | StandardAnalyzer | StopAnalyzer;
 
 // @public (undocumented)
 export type AnalyzeTextOptions = OperationOptions & AnalyzeRequest;
@@ -91,16 +82,7 @@ export interface AzureActiveDirectoryApplicationCredentials {
 }
 
 // @public
-export interface CharFilter {
-    name: string;
-    odatatype: "CharFilter";
-}
-
-// @public
-export type CharFilterName = 'html_strip';
-
-// @public
-export type CharFilterUnion = CharFilter | MappingCharFilter | PatternReplaceCharFilter;
+export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;
 
 // @public
 export interface CjkBigramTokenFilter {
@@ -148,15 +130,15 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperat
 
 // @public
 export interface CustomAnalyzer {
-    charFilters?: CharFilterName[];
+    charFilters?: string[];
     name: string;
     odatatype: "#Microsoft.Azure.Search.CustomAnalyzer";
-    tokenFilters?: TokenFilterName[];
-    tokenizer: TokenizerName;
+    tokenFilters?: string[];
+    tokenizer: string;
 }
 
 // @public
-export type DataType = 'Edm.String' | 'Edm.Int32' | 'Edm.Int64' | 'Edm.Double' | 'Edm.Boolean' | 'Edm.DateTimeOffset' | 'Edm.GeographyPoint' | 'Edm.ComplexType';
+export type DataType = 'Edm.String' | 'Edm.Int32' | 'Edm.Int64' | 'Edm.Double' | 'Edm.Boolean' | 'Edm.DateTimeOffset' | 'Edm.GeographyPoint' | 'Edm.ComplexType' | 'Collection(Edm.String)' | 'Collection(Edm.Int32)' | 'Collection(Edm.Int64)' | 'Collection(Edm.Double)' | 'Collection(Edm.Boolean)' | 'Collection(Edm.DateTimeOffset)' | 'Collection(Edm.GeographyPoint)' | 'Collection(Edm.ComplexType)';
 
 // @public
 export type DeleteDocumentsOptions = IndexDocuments;
@@ -248,16 +230,16 @@ export interface FacetResult {
 
 // @public
 export interface Field {
-    analyzer?: AnalyzerName;
+    analyzer?: string;
     facetable?: boolean;
     fields?: Field[];
     filterable?: boolean;
-    indexAnalyzer?: AnalyzerName;
+    indexAnalyzer?: string;
     key?: boolean;
     name: string;
     retrievable?: boolean;
     searchable?: boolean;
-    searchAnalyzer?: AnalyzerName;
+    searchAnalyzer?: string;
     sortable?: boolean;
     synonymMaps?: string[];
     type: DataType;
@@ -304,8 +286,8 @@ export interface GetIndexStatisticsResult {
 
 // @public
 export interface Index {
-    analyzers?: AnalyzerUnion[];
-    charFilters?: CharFilterUnion[];
+    analyzers?: Analyzer[];
+    charFilters?: CharFilter[];
     corsOptions?: CorsOptions;
     defaultScoringProfile?: string;
     encryptionKey?: EncryptionKey;
@@ -314,8 +296,8 @@ export interface Index {
     name: string;
     scoringProfiles?: ScoringProfile[];
     suggesters?: Suggester[];
-    tokenFilters?: TokenFilterUnion[];
-    tokenizers?: TokenizerUnion[];
+    tokenFilters?: TokenFilter[];
+    tokenizers?: Tokenizer[];
 }
 
 // @public
@@ -372,6 +354,256 @@ export interface KeywordTokenizerV2 {
     maxTokenLength?: number;
     name: string;
     odatatype: "#Microsoft.Azure.Search.KeywordTokenizerV2";
+}
+
+// @public
+export enum KnownAnalyzerNames {
+    // (undocumented)
+    Arlucene = "ar.lucene",
+    // (undocumented)
+    Armicrosoft = "ar.microsoft",
+    // (undocumented)
+    Bglucene = "bg.lucene",
+    // (undocumented)
+    Bgmicrosoft = "bg.microsoft",
+    // (undocumented)
+    Bnmicrosoft = "bn.microsoft",
+    // (undocumented)
+    Calucene = "ca.lucene",
+    // (undocumented)
+    Camicrosoft = "ca.microsoft",
+    // (undocumented)
+    Cslucene = "cs.lucene",
+    // (undocumented)
+    Csmicrosoft = "cs.microsoft",
+    // (undocumented)
+    Dalucene = "da.lucene",
+    // (undocumented)
+    Damicrosoft = "da.microsoft",
+    // (undocumented)
+    Delucene = "de.lucene",
+    // (undocumented)
+    Demicrosoft = "de.microsoft",
+    // (undocumented)
+    Ellucene = "el.lucene",
+    // (undocumented)
+    Elmicrosoft = "el.microsoft",
+    // (undocumented)
+    Enlucene = "en.lucene",
+    // (undocumented)
+    Enmicrosoft = "en.microsoft",
+    // (undocumented)
+    Eslucene = "es.lucene",
+    // (undocumented)
+    Esmicrosoft = "es.microsoft",
+    // (undocumented)
+    Etmicrosoft = "et.microsoft",
+    // (undocumented)
+    Eulucene = "eu.lucene",
+    // (undocumented)
+    Falucene = "fa.lucene",
+    // (undocumented)
+    Filucene = "fi.lucene",
+    // (undocumented)
+    Fimicrosoft = "fi.microsoft",
+    // (undocumented)
+    Frlucene = "fr.lucene",
+    // (undocumented)
+    Frmicrosoft = "fr.microsoft",
+    // (undocumented)
+    Galucene = "ga.lucene",
+    // (undocumented)
+    Gllucene = "gl.lucene",
+    // (undocumented)
+    Gumicrosoft = "gu.microsoft",
+    // (undocumented)
+    Hemicrosoft = "he.microsoft",
+    // (undocumented)
+    Hilucene = "hi.lucene",
+    // (undocumented)
+    Himicrosoft = "hi.microsoft",
+    // (undocumented)
+    Hrmicrosoft = "hr.microsoft",
+    // (undocumented)
+    Hulucene = "hu.lucene",
+    // (undocumented)
+    Humicrosoft = "hu.microsoft",
+    // (undocumented)
+    Hylucene = "hy.lucene",
+    // (undocumented)
+    Idlucene = "id.lucene",
+    // (undocumented)
+    Idmicrosoft = "id.microsoft",
+    // (undocumented)
+    Ismicrosoft = "is.microsoft",
+    // (undocumented)
+    Itlucene = "it.lucene",
+    // (undocumented)
+    Itmicrosoft = "it.microsoft",
+    // (undocumented)
+    Jalucene = "ja.lucene",
+    // (undocumented)
+    Jamicrosoft = "ja.microsoft",
+    // (undocumented)
+    Keyword = "keyword",
+    // (undocumented)
+    Knmicrosoft = "kn.microsoft",
+    // (undocumented)
+    Kolucene = "ko.lucene",
+    // (undocumented)
+    Komicrosoft = "ko.microsoft",
+    // (undocumented)
+    Ltmicrosoft = "lt.microsoft",
+    // (undocumented)
+    Lvlucene = "lv.lucene",
+    // (undocumented)
+    Lvmicrosoft = "lv.microsoft",
+    // (undocumented)
+    Mlmicrosoft = "ml.microsoft",
+    // (undocumented)
+    Mrmicrosoft = "mr.microsoft",
+    // (undocumented)
+    Msmicrosoft = "ms.microsoft",
+    // (undocumented)
+    Nbmicrosoft = "nb.microsoft",
+    // (undocumented)
+    Nllucene = "nl.lucene",
+    // (undocumented)
+    Nlmicrosoft = "nl.microsoft",
+    // (undocumented)
+    Nolucene = "no.lucene",
+    // (undocumented)
+    Pamicrosoft = "pa.microsoft",
+    // (undocumented)
+    Pattern = "pattern",
+    // (undocumented)
+    Pllucene = "pl.lucene",
+    // (undocumented)
+    Plmicrosoft = "pl.microsoft",
+    // (undocumented)
+    PtBRlucene = "pt-BR.lucene",
+    // (undocumented)
+    PtBRmicrosoft = "pt-BR.microsoft",
+    // (undocumented)
+    PtPTlucene = "pt-PT.lucene",
+    // (undocumented)
+    PtPTmicrosoft = "pt-PT.microsoft",
+    // (undocumented)
+    Rolucene = "ro.lucene",
+    // (undocumented)
+    Romicrosoft = "ro.microsoft",
+    // (undocumented)
+    Rulucene = "ru.lucene",
+    // (undocumented)
+    Rumicrosoft = "ru.microsoft",
+    // (undocumented)
+    Simple = "simple",
+    // (undocumented)
+    Skmicrosoft = "sk.microsoft",
+    // (undocumented)
+    Slmicrosoft = "sl.microsoft",
+    // (undocumented)
+    SrCyrillicmicrosoft = "sr-cyrillic.microsoft",
+    // (undocumented)
+    SrLatinmicrosoft = "sr-latin.microsoft",
+    // (undocumented)
+    Standardasciifoldinglucene = "standardasciifolding.lucene",
+    // (undocumented)
+    Standardlucene = "standard.lucene",
+    // (undocumented)
+    Stop = "stop",
+    // (undocumented)
+    Svlucene = "sv.lucene",
+    // (undocumented)
+    Svmicrosoft = "sv.microsoft",
+    // (undocumented)
+    Tamicrosoft = "ta.microsoft",
+    // (undocumented)
+    Temicrosoft = "te.microsoft",
+    // (undocumented)
+    Thlucene = "th.lucene",
+    // (undocumented)
+    Thmicrosoft = "th.microsoft",
+    // (undocumented)
+    Trlucene = "tr.lucene",
+    // (undocumented)
+    Trmicrosoft = "tr.microsoft",
+    // (undocumented)
+    Ukmicrosoft = "uk.microsoft",
+    // (undocumented)
+    Urmicrosoft = "ur.microsoft",
+    // (undocumented)
+    Vimicrosoft = "vi.microsoft",
+    // (undocumented)
+    Whitespace = "whitespace",
+    // (undocumented)
+    ZhHanslucene = "zh-Hans.lucene",
+    // (undocumented)
+    ZhHansmicrosoft = "zh-Hans.microsoft",
+    // (undocumented)
+    ZhHantlucene = "zh-Hant.lucene",
+    // (undocumented)
+    ZhHantmicrosoft = "zh-Hant.microsoft"
+}
+
+// @public
+export enum KnownCharFilterNames {
+    HtmlStrip = "html_strip"
+}
+
+// @public
+export enum KnownTokenFilterNames {
+    Apostrophe = "apostrophe",
+    ArabicNormalization = "arabic_normalization",
+    AsciiFolding = "asciifolding",
+    CjkBigram = "cjk_bigram",
+    CjkWidth = "cjk_width",
+    Classic = "classic",
+    CommonGram = "common_grams",
+    EdgeNGram = "edgeNGram_v2",
+    Elision = "elision",
+    GermanNormalization = "german_normalization",
+    HindiNormalization = "hindi_normalization",
+    IndicNormalization = "indic_normalization",
+    KeywordRepeat = "keyword_repeat",
+    KStem = "kstem",
+    Length = "length",
+    Limit = "limit",
+    Lowercase = "lowercase",
+    NGram = "nGram_v2",
+    PersianNormalization = "persian_normalization",
+    Phonetic = "phonetic",
+    PorterStem = "porter_stem",
+    Reverse = "reverse",
+    ScandinavianFoldingNormalization = "scandinavian_folding",
+    ScandinavianNormalization = "scandinavian_normalization",
+    Shingle = "shingle",
+    Snowball = "snowball",
+    SoraniNormalization = "sorani_normalization",
+    Stemmer = "stemmer",
+    Stopwords = "stopwords",
+    Trim = "trim",
+    Truncate = "truncate",
+    Unique = "unique",
+    Uppercase = "uppercase",
+    WordDelimiter = "word_delimiter"
+}
+
+// @public
+export enum KnownTokenizerNames {
+    Classic = "classic",
+    EdgeNGram = "edgeNGram",
+    Keyword = "keyword_v2",
+    Letter = "letter",
+    Lowercase = "lowercase",
+    MicrosoftLanguageStemmingTokenizer = "microsoft_language_stemming_tokenizer",
+    MicrosoftLanguageTokenizer = "microsoft_language_tokenizer",
+    NGram = "nGram",
+    PathHierarchy = "path_hierarchy_v2",
+    Pattern = "pattern",
+    Standard = "standard_v2",
+    UaxUrlEmail = "uax_url_email",
+    Whitespace = "whitespace"
 }
 
 // @public
@@ -574,12 +806,7 @@ export interface RawSearchRequest {
 export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL' | 'LITERAL' | 'MULTILINE' | 'UNICODE_CASE' | 'UNIX_LINES';
 
 // @public
-export interface ScoringFunction {
-    boost: number;
-    fieldName: string;
-    interpolation?: ScoringFunctionInterpolation;
-    type: "ScoringFunction";
-}
+export type ScoringFunction = DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
 
 // @public
 export type ScoringFunctionAggregation = 'sum' | 'average' | 'minimum' | 'maximum' | 'firstMatching';
@@ -588,12 +815,9 @@ export type ScoringFunctionAggregation = 'sum' | 'average' | 'minimum' | 'maximu
 export type ScoringFunctionInterpolation = 'linear' | 'constant' | 'quadratic' | 'logarithmic';
 
 // @public
-export type ScoringFunctionUnion = ScoringFunction | DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
-
-// @public
 export interface ScoringProfile {
     functionAggregation?: ScoringFunctionAggregation;
-    functions?: ScoringFunctionUnion[];
+    functions?: ScoringFunction[];
     name: string;
     textWeights?: TextWeights;
 }
@@ -696,7 +920,7 @@ export class SearchServiceClient {
     getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
     listIndexes(options?: ListIndexesOptions): Promise<Index[]>;
-}
+    }
 
 // @public
 export type SearchServiceClientOptions = PipelineOptions;
@@ -851,16 +1075,7 @@ export interface TextWeights {
 export type TokenCharacterKind = 'letter' | 'digit' | 'whitespace' | 'punctuation' | 'symbol';
 
 // @public
-export interface TokenFilter {
-    name: string;
-    odatatype: "TokenFilter";
-}
-
-// @public
-export type TokenFilterName = 'arabic_normalization' | 'apostrophe' | 'asciifolding' | 'cjk_bigram' | 'cjk_width' | 'classic' | 'common_grams' | 'edgeNGram_v2' | 'elision' | 'german_normalization' | 'hindi_normalization' | 'indic_normalization' | 'keyword_repeat' | 'kstem' | 'length' | 'limit' | 'lowercase' | 'nGram_v2' | 'persian_normalization' | 'phonetic' | 'porter_stem' | 'reverse' | 'scandinavian_normalization' | 'scandinavian_folding' | 'shingle' | 'snowball' | 'sorani_normalization' | 'stemmer' | 'stopwords' | 'trim' | 'truncate' | 'unique' | 'uppercase' | 'word_delimiter';
-
-// @public
-export type TokenFilterUnion = TokenFilter | AsciiFoldingTokenFilter | CjkBigramTokenFilter | CommonGramTokenFilter | DictionaryDecompounderTokenFilter | EdgeNGramTokenFilter | EdgeNGramTokenFilterV2 | ElisionTokenFilter | KeepTokenFilter | KeywordMarkerTokenFilter | LengthTokenFilter | LimitTokenFilter | NGramTokenFilter | NGramTokenFilterV2 | PatternCaptureTokenFilter | PatternReplaceTokenFilter | PhoneticTokenFilter | ShingleTokenFilter | SnowballTokenFilter | StemmerTokenFilter | StemmerOverrideTokenFilter | StopwordsTokenFilter | SynonymTokenFilter | TruncateTokenFilter | UniqueTokenFilter | WordDelimiterTokenFilter;
+export type TokenFilter = AsciiFoldingTokenFilter | CjkBigramTokenFilter | CommonGramTokenFilter | DictionaryDecompounderTokenFilter | EdgeNGramTokenFilter | EdgeNGramTokenFilterV2 | ElisionTokenFilter | KeepTokenFilter | KeywordMarkerTokenFilter | LengthTokenFilter | LimitTokenFilter | NGramTokenFilter | NGramTokenFilterV2 | PatternCaptureTokenFilter | PatternReplaceTokenFilter | PhoneticTokenFilter | ShingleTokenFilter | SnowballTokenFilter | StemmerTokenFilter | StemmerOverrideTokenFilter | StopwordsTokenFilter | SynonymTokenFilter | TruncateTokenFilter | UniqueTokenFilter | WordDelimiterTokenFilter;
 
 // @public
 export interface TokenInfo {
@@ -871,16 +1086,7 @@ export interface TokenInfo {
 }
 
 // @public
-export interface Tokenizer {
-    name: string;
-    odatatype: "Tokenizer";
-}
-
-// @public
-export type TokenizerName = 'classic' | 'edgeNGram' | 'keyword_v2' | 'letter' | 'lowercase' | 'microsoft_language_tokenizer' | 'microsoft_language_stemming_tokenizer' | 'nGram' | 'path_hierarchy_v2' | 'pattern' | 'standard_v2' | 'uax_url_email' | 'whitespace';
-
-// @public
-export type TokenizerUnion = Tokenizer | ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | KeywordTokenizerV2 | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizerV2 | PatternTokenizer | StandardTokenizer | StandardTokenizerV2 | UaxUrlEmailTokenizer;
+export type Tokenizer = ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | KeywordTokenizerV2 | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizerV2 | PatternTokenizer | StandardTokenizer | StandardTokenizerV2 | UaxUrlEmailTokenizer;
 
 // @public
 export interface TruncateTokenFilter {

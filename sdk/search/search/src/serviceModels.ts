@@ -12,7 +12,6 @@ import {
   CorsOptions,
   EncryptionKey,
   Suggester,
-  ScoringProfile,
   Field,
   ClassicTokenizer,
   EdgeNGramTokenizer,
@@ -52,7 +51,13 @@ import {
   UniqueTokenFilter,
   WordDelimiterTokenFilter,
   MappingCharFilter,
-  PatternReplaceCharFilter
+  PatternReplaceCharFilter,
+  DistanceScoringFunction,
+  FreshnessScoringFunction,
+  MagnitudeScoringFunction,
+  TagScoringFunction,
+  TextWeights,
+  ScoringFunctionAggregation
 } from "./generated/service/models";
 
 /**
@@ -159,6 +164,15 @@ export type TokenFilter =
 export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;
 
 /**
+ * Contains the possible cases for ScoringFunction.
+ */
+export type ScoringFunction =
+  | DistanceScoringFunction
+  | FreshnessScoringFunction
+  | MagnitudeScoringFunction
+  | TagScoringFunction;
+
+/**
  * Represents a search index definition, which describes the fields and search behavior of an
  * index.
  */
@@ -220,6 +234,30 @@ export interface Index {
    * The ETag of the index.
    */
   eTag?: string;
+}
+
+/**
+ * Defines parameters for a search index that influence scoring in search queries.
+ */
+export interface ScoringProfile {
+  /**
+   * The name of the scoring profile.
+   */
+  name: string;
+  /**
+   * Parameters that boost scoring based on text matches in certain index fields.
+   */
+  textWeights?: TextWeights;
+  /**
+   * The collection of functions that influence the scoring of documents.
+   */
+  functions?: ScoringFunction[];
+  /**
+   * A value indicating how the results of individual scoring functions should be combined.
+   * Defaults to "Sum". Ignored if there are no scoring functions. Possible values include: 'sum',
+   * 'average', 'minimum', 'maximum', 'firstMatching'
+   */
+  functionAggregation?: ScoringFunctionAggregation;
 }
 
 /**

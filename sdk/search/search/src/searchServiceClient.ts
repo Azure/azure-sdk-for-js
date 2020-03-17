@@ -16,15 +16,25 @@ import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 import {
+  Index,
   ListIndexesOptions,
   GetIndexOptions,
   CreateIndexOptions,
   CreateOrUpdateIndexOptions,
   DeleteIndexOptions,
   AnalyzeTextOptions,
-  GetIndexStatisticsOptions
+  GetIndexStatisticsOptions,
+  Analyzer,
+  CharFilter,
+  Tokenizer,
+  TokenFilter,
+  ScoringProfile
 } from "./serviceModels";
-import { Index, AnalyzeResult, GetIndexStatisticsResult } from "./generated/service/models";
+import {
+  AnalyzeResult,
+  GetIndexStatisticsResult,
+  Index as GeneratedIndex
+} from "./generated/service/models";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -119,7 +129,7 @@ export class SearchServiceClient {
       const result = await this.client.indexes.list(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result.indexes;
+      return result.indexes.map(this.generatedIndexToPublicIndex);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -143,7 +153,7 @@ export class SearchServiceClient {
         indexName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
+      return this.generatedIndexToPublicIndex(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -164,10 +174,10 @@ export class SearchServiceClient {
     const { span, updatedOptions } = createSpan("SearchServiceClient-createIndex", options);
     try {
       const result = await this.client.indexes.create(
-        index,
+        this.publicIndexToGeneratedIndex(index),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
+      return this.generatedIndexToPublicIndex(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -192,10 +202,10 @@ export class SearchServiceClient {
     try {
       const result = await this.client.indexes.createOrUpdate(
         index.name,
-        index,
+        this.publicIndexToGeneratedIndex(index),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
+      return this.generatedIndexToPublicIndex(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -303,6 +313,30 @@ export class SearchServiceClient {
         tracingOptions
       },
       restOptions
+    };
+  }
+
+  private publicIndexToGeneratedIndex(index: Index): GeneratedIndex {
+    return index;
+  }
+
+  private generatedIndexToPublicIndex(generatedIndex: GeneratedIndex): Index {
+    const {
+      analyzers,
+      tokenizers,
+      tokenFilters,
+      charFilters,
+      scoringProfiles,
+      ...rest
+    } = generatedIndex;
+
+    return {
+      analyzers: analyzers as Analyzer[],
+      tokenizers: tokenizers as Tokenizer[],
+      tokenFilters: tokenFilters as TokenFilter[],
+      charFilters: charFilters as CharFilter[],
+      scoringProfiles: scoringProfiles as ScoringProfile[],
+      ...rest
     };
   }
 }

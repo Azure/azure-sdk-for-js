@@ -27,6 +27,11 @@ export {
 } from "./indexModels";
 export { SearchServiceClient, SearchServiceClientOptions } from "./searchServiceClient";
 export {
+  Index,
+  Analyzer,
+  TokenFilter,
+  Tokenizer,
+  CharFilter,
   ListIndexesOptions,
   CreateIndexOptions,
   CreateOrUpdateIndexOptions,
@@ -38,7 +43,9 @@ export {
   KnownAnalyzerNames,
   KnownCharFilterNames,
   KnownTokenFilterNames,
-  KnownTokenizerNames
+  KnownTokenizerNames,
+  ScoringFunction,
+  ScoringProfile
 } from "./serviceModels";
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
@@ -56,13 +63,11 @@ export {
   SearchRequest as RawSearchRequest
 } from "./generated/data/models";
 export {
-  Analyzer,
   CustomAnalyzer,
   RegexFlags,
   PatternAnalyzer,
   StandardAnalyzer,
   StopAnalyzer,
-  CharFilter,
   MappingCharFilter,
   PatternReplaceCharFilter,
   CorsOptions,
@@ -71,7 +76,6 @@ export {
   DataType,
   Field,
   ScoringFunctionAggregation,
-  ScoringFunction,
   ScoringFunctionInterpolation,
   DistanceScoringParameters,
   DistanceScoringFunction,
@@ -82,8 +86,6 @@ export {
   TagScoringParameters,
   TagScoringFunction,
   TextWeights,
-  ScoringProfile,
-  TokenFilter,
   AsciiFoldingTokenFilter,
   CjkBigramTokenFilterScripts,
   CjkBigramTokenFilter,
@@ -115,7 +117,6 @@ export {
   TruncateTokenFilter,
   UniqueTokenFilter,
   WordDelimiterTokenFilter,
-  Tokenizer,
   ClassicTokenizer,
   TokenCharacterKind,
   EdgeNGramTokenizer,
