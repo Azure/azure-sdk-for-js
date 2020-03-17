@@ -8,8 +8,4 @@
  * regenerated.
  */
 
-export * from "./endpointSettings";
-export * from "./endpointKeys";
-export * from "./alterations";
-export * from "./knowledgebase";
-export * from "./operations";
+export * from "./runtime";

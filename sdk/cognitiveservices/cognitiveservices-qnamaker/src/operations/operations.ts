@@ -70,8 +70,7 @@ const getDetailsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.OperationsGetDetailsHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
-      headersMapper: Mappers.OperationsGetDetailsHeaders
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
