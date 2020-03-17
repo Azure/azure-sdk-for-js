@@ -234,10 +234,10 @@ export interface Field {
     facetable?: boolean;
     fields?: Field[];
     filterable?: boolean;
+    hidden?: boolean;
     indexAnalyzer?: string;
     key?: boolean;
     name: string;
-    retrievable?: boolean;
     searchable?: boolean;
     searchAnalyzer?: string;
     sortable?: boolean;

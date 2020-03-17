@@ -47,7 +47,8 @@ export {
   ScoringFunction,
   ScoringProfile,
   PatternAnalyzer,
-  PatternTokenizer
+  PatternTokenizer,
+  Field
 } from "./serviceModels";
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
@@ -75,7 +76,6 @@ export {
   AzureActiveDirectoryApplicationCredentials,
   EncryptionKey,
   DataType,
-  Field,
   ScoringFunctionAggregation,
   ScoringFunctionInterpolation,
   DistanceScoringParameters,

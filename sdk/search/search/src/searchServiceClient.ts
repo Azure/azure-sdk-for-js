@@ -28,7 +28,8 @@ import {
   CharFilter,
   Tokenizer,
   TokenFilter,
-  ScoringProfile
+  ScoringProfile,
+  Field
 } from "./serviceModels";
 import {
   AnalyzeResult,
@@ -36,7 +37,8 @@ import {
   Index as GeneratedIndex,
   AnalyzerUnion,
   TokenizerUnion,
-  RegexFlags
+  RegexFlags,
+  Field as GeneratedField
 } from "./generated/service/models";
 
 /**
@@ -320,11 +322,12 @@ export class SearchServiceClient {
   }
 
   private publicIndexToGeneratedIndex(index: Index): GeneratedIndex {
-    const { analyzers, tokenizers, ...rest } = index;
+    const { analyzers, tokenizers, fields, ...rest } = index;
 
     return {
       analyzers: this.convertAnalyzersToGenerated(analyzers),
       tokenizers: this.convertTokenizersToGenerated(tokenizers),
+      fields: this.convertFieldsToGenerated(fields),
       ...rest
     };
   }
@@ -336,6 +339,7 @@ export class SearchServiceClient {
       tokenFilters,
       charFilters,
       scoringProfiles,
+      fields,
       ...rest
     } = generatedIndex;
 
@@ -345,6 +349,7 @@ export class SearchServiceClient {
       tokenFilters: tokenFilters as TokenFilter[],
       charFilters: charFilters as CharFilter[],
       scoringProfiles: scoringProfiles as ScoringProfile[],
+      fields: this.convertFieldsToPublic(fields),
       ...rest
     };
   }
@@ -431,5 +436,38 @@ export class SearchServiceClient {
       }
     }
     return result;
+  }
+
+  private convertFieldsToGenerated(fields: Field[]): GeneratedField[] {
+    return fields.map<GeneratedField>((field) => {
+      const retrievable = typeof field.hidden === "boolean" ? !field.hidden : field.hidden;
+      if (field.type !== "Edm.ComplexType" && field.type !== "Collection(Edm.ComplexType)") {
+        return {
+          ...field,
+          retrievable
+        };
+      } else {
+        return {
+          ...field,
+          retrievable,
+          // modify API defaults to use less storage for simple types
+          searchable: field.searchable ?? false,
+          filterable: field.filterable ?? false,
+          facetable: field.facetable ?? false,
+          sortable: field.sortable ?? false
+        };
+      }
+    });
+  }
+
+  private convertFieldsToPublic(fields: GeneratedField[]): Field[] {
+    return fields.map<Field>((field) => {
+      const hidden =
+        typeof field.retrievable === "boolean" ? !field.retrievable : field.retrievable;
+      return {
+        ...field,
+        hidden
+      };
+    });
   }
 }
