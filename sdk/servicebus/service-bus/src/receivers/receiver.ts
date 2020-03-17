@@ -28,7 +28,8 @@ import {
   getSubscriptionRules,
   removeSubscriptionRule,
   addSubscriptionRule,
-  assertValidMessageHandlers
+  assertValidMessageHandlers,
+  getMessageIterator
 } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
@@ -403,16 +404,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedLoc
   async *getMessageIterator(
     options?: GetMessageIteratorOptions
   ): AsyncIterableIterator<ReceivedMessageT> {
-    while (true) {
-      const messages = await this.receiveBatch(1);
-
-      // TODO: punctuation?
-      if (messages == null || messages.length === 0) {
-        continue;
-      }
-
-      yield messages[0];
-    }
+    return getMessageIterator(this, options);
   }
 
   /**

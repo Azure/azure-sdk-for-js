@@ -30,7 +30,8 @@ import {
   getSubscriptionRules,
   removeSubscriptionRule,
   addSubscriptionRule,
-  assertValidMessageHandlers
+  assertValidMessageHandlers,
+  getMessageIterator
 } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
@@ -539,17 +540,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   async *getMessageIterator(
     options?: GetMessageIteratorOptions
   ): AsyncIterableIterator<ReceivedMessageT> {
-    while (true) {
-      // TODO: duplication between this and the Receiver. Consolidate.
-      const messages = await this.receiveBatch(1);
-
-      // TODO: punctuation?
-      if (messages == null || messages.length === 0) {
-        continue;
-      }
-
-      yield messages[0] as ReceivedMessageT;
-    }
+    return getMessageIterator(this, options);
   }
 
   // #region topic-filters

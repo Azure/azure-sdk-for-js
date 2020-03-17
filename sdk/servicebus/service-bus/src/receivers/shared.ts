@@ -4,6 +4,8 @@
 import { throwErrorIfClientOrConnectionClosed } from "../util/errors";
 import { ClientEntityContext } from "../clientEntityContext";
 import { RuleDescription, CorrelationFilter } from "../core/managementClient";
+import { GetMessageIteratorOptions } from "../models";
+import { Receiver } from "./receiver";
 
 /**
  * @internal
@@ -68,4 +70,24 @@ export function assertValidMessageHandlers(handlers: any) {
   }
 
   throw new TypeError('Invalid "MessageHandlers" provided.');
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export async function* getMessageIterator<ReceivedMessageT>(
+  receiver: Receiver<ReceivedMessageT>,
+  options?: GetMessageIteratorOptions
+): AsyncIterableIterator<ReceivedMessageT> {
+  while (true) {
+    const messages = await receiver.receiveBatch(1);
+
+    // TODO: punctuation?
+    if (messages.length === 0) {
+      continue;
+    }
+
+    yield messages[0];
+  }
 }
