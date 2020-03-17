@@ -247,6 +247,8 @@ export {
   SftpServerLinkedService,
   ShopifyLinkedService,
   ShopifyObjectDataset,
+  SnowflakeDataset,
+  SnowflakeLinkedService,
   SparkLinkedService,
   SparkObjectDataset,
   SqlServerLinkedService,
