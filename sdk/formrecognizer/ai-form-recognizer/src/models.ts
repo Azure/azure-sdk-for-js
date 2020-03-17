@@ -283,12 +283,12 @@ export type IntegerFieldValue = {
 export type ArrayFieldValue = {
   type: "array";
   valueArray?: FieldValue[];
-}
+};
 
 export type ObjectFieldValue = {
   type: "object";
   valueObject?: { [propertyName: string]: FieldValue };
-}
+};
 
 export type FieldValue =
   | StringFieldValue

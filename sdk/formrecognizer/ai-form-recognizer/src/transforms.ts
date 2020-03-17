@@ -200,13 +200,16 @@ export function toCustomFormResultResponse(
 }
 
 function toFieldValue(original: FieldValueModel, readResults: ReadResult[]): FieldValue {
-  const result = original.type === "object" || original.type === "array" ? { } : {
-    text: original.text,
-    boundingBox: original.boundingBox,
-    confidence: original.confidence,
-    pageNumber: original.pageNumber,
-    elements: original.elements?.map((element) => toExtractedElement(element, readResults))
-  };
+  const result =
+    original.type === "object" || original.type === "array"
+      ? {}
+      : {
+          text: original.text,
+          boundingBox: original.boundingBox,
+          confidence: original.confidence,
+          pageNumber: original.pageNumber,
+          elements: original.elements?.map((element) => toExtractedElement(element, readResults))
+        };
   switch (original.type) {
     case "string":
       (result as StringFieldValue).type = "string";
@@ -345,7 +348,7 @@ export function toAnalyzeLayoutResultResponse(
 
 function toReceiptResult(result: DocumentResultModel, readResults: ReadResult[]): ReceiptResult {
   const transformedFields = toFields(result.fields, readResults);
-  const rawReceiptFields = transformedFields as unknown as RawReceipt;
+  const rawReceiptFields = (transformedFields as unknown) as RawReceipt;
   return {
     docType: ((result as unknown) as RawReceiptResult).docType,
     pageRange: { firstPage: result.pageRange[0], lastPage: result.pageRange[1] },
@@ -373,7 +376,6 @@ function toReceiptResult(result: DocumentResultModel, readResults: ReadResult[])
 export function toReceiptResultResponse(
   result: GetAnalyzeReceiptResultResponse
 ): ExtractReceiptResultResponse {
-
   if (result.status === "succeeded") {
     const readResults = result.analyzeResult!.readResults.map(toReadResult);
     return {
@@ -384,7 +386,9 @@ export function toReceiptResultResponse(
       analyzeResult: {
         version: result.analyzeResult!.version,
         readResults: readResults,
-        receiptResults: result.analyzeResult!.documentResults!.map(d => toReceiptResult(d, readResults))
+        receiptResults: result.analyzeResult!.documentResults!.map((d) =>
+          toReceiptResult(d, readResults)
+        )
       }
     };
   } else {

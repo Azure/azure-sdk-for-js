@@ -24,13 +24,14 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
-    "types/ai-form-recognizer.d.ts"
+    "types/ai-form-recognizer.d.ts",
+    "README.md",
+    "LICENSE"
   ],
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/generatedClientContext.ts",
+        "path": "src/generated/formRecognizerClientContext.ts",
         "prefix": "packageVersion"
       },
       {
@@ -55,8 +56,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" --fix --fix-type [problem,suggestion]",
-    "lint": "eslint src test --ext .ts -f html -o formrecognizer-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts -f html -o formrecognizer-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -68,6 +69,7 @@
   },
   "sideEffects": false,
   "autoPublish": false,
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-lro": "^1.0.0",
     "@azure/core-paging": "^1.1.0",
@@ -78,7 +80,7 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@azure/eslint-plugin-azure-sdk": "^2.0.1",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "1.1.0-preview1",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
