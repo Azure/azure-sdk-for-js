@@ -16,7 +16,7 @@ function populateIndexList(selector, packageName) {
     SELECTED_LANGUAGE +
     "/" +
     packageName +
-    "/versioning/versions/";
+    "/versioning/versions";
   console.log(url);
   console.log(selector);
   httpGetAsync(url, function(responseText) {
