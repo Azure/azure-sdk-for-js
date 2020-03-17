@@ -58,8 +58,6 @@ export { Delivery }
 // @public
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
-// Warning: (ae-forgotten-export) The symbol "WaitTimeOptions" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
 }
@@ -427,6 +425,11 @@ export interface TopicOptions {
     status?: EntityStatus;
     supportOrdering?: boolean;
     userMetadata?: string;
+}
+
+// @public
+export interface WaitTimeOptions {
+    maxWaitTimeSeconds: number;
 }
 
 export { WebSocketImpl }

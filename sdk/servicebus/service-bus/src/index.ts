@@ -52,7 +52,8 @@ export {
   MessageHandlerOptions,
   MessageHandlers,
   ReceiveBatchOptions,
-  SubscribeOptions
+  SubscribeOptions,
+  WaitTimeOptions
 } from "./models";
 
 export { Receiver, SubscriptionRuleManagement } from "./receivers/receiver";

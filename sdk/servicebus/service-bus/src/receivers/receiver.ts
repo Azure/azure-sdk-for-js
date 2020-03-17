@@ -55,7 +55,6 @@ export interface Receiver<ReceivedMessageT> {
   /**
    * Receives, at most, `maxMessages` worth of messages.
    * @param maxMessages The maximum number of messages to accept.
-   * @param maxWaitTimeInSeconds The maximum time to wait, in seconds, for messages to arrive.
    * @param options Options for receiveBatch.
    */
   receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
@@ -353,9 +352,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedLoc
    * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
-   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
-   * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
