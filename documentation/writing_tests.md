@@ -58,7 +58,7 @@ Keep in mind that...
 - **Internal** tests should:
   - Never target real resources, or resources outside of the code that exists inside of each project.
   - Not invoke or use [the recorder](#the-recorder), nor benefit from using the recorder.
-  - Possibly use custom mocks, only purposed for these internal tests.
+  - May use mocks.
   - Never target public facing API methods or properties.
 - **Public** tests should:
   - Only target public facing API methods or properties.
