@@ -51,6 +51,9 @@ export interface Sender {
    * @throws MessagingError if the service returns an error while sending messages to the service.
    */
   sendBatch(messages: SendableMessageInfo[]): Promise<void>;
+
+  createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch>;
+  sendBatch2(messageBatch: SendableMessageInfoBatch): Promise<void>;
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed
    * @readonly
