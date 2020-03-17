@@ -288,15 +288,12 @@ export interface Sender {
     close(): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "CreateBatchOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "SendableMessageInfoBatch" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch>;
     isClosed: boolean;
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
     send(message: SendableMessageInfo): Promise<void>;
     sendBatch(messages: SendableMessageInfo[]): Promise<void>;
-    // (undocumented)
     sendBatch2(messageBatch: SendableMessageInfoBatch): Promise<void>;
 }
 
