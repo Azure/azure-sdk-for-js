@@ -896,7 +896,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   }
 
   /**
-   * See SettleableMessage.complete().
+   * See ReceivedMessageWithLock.complete().
    */
   async complete(): Promise<void> {
     log.message(
@@ -924,7 +924,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   }
 
   /**
-   * See SettleableMessage.abandon().
+   * See ReceivedMessageWithLock.abandon().
    */
   async abandon(propertiesToModify?: { [key: string]: any }): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
@@ -953,7 +953,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   }
 
   /**
-   * See SettleableMessage.defer().
+   * See ReceivedMessageWithLock.defer().
    */
   async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
     log.message(
@@ -981,7 +981,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   }
 
   /**
-   * See SettleableMessage.deadLetter().
+   * See ReceivedMessageWithLock.deadLetter().
    */
   async deadLetter(options?: DeadLetterOptions): Promise<void> {
     const error: AmqpError = {
