@@ -685,7 +685,7 @@ describe("receive and delete", () => {
       await (msg as ReceivedSettleableMessage).renewLock().catch((err) => {
         should.equal(
           err.message,
-          getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"),
+          getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the lock on the message"),
           "ErrorMessage is different than expected"
         );
         errorWasThrown = true;

@@ -917,7 +917,7 @@ export class ServiceBusMessageImpl implements ReceivedSettleableMessage {
       this._context.requestResponseLockedMessages.delete(this.lockToken!);
       return;
     }
-    const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    const receiver = this.getReceiverFromContext();
     this.throwIfMessageCannotBeSettled(receiver, DispositionType.complete);
 
     return receiver!.settleMessage(this, DispositionType.complete);
@@ -944,7 +944,7 @@ export class ServiceBusMessageImpl implements ReceivedSettleableMessage {
       this._context.requestResponseLockedMessages.delete(this.lockToken!);
       return;
     }
-    const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    const receiver = this.getReceiverFromContext();
     this.throwIfMessageCannotBeSettled(receiver, DispositionType.abandon);
 
     return receiver!.settleMessage(this, DispositionType.abandon, {
@@ -972,7 +972,7 @@ export class ServiceBusMessageImpl implements ReceivedSettleableMessage {
       this._context.requestResponseLockedMessages.delete(this.lockToken!);
       return;
     }
-    const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    const receiver = this.getReceiverFromContext();
     this.throwIfMessageCannotBeSettled(receiver, DispositionType.defer);
 
     return receiver!.settleMessage(this, DispositionType.defer, {
@@ -1013,7 +1013,7 @@ export class ServiceBusMessageImpl implements ReceivedSettleableMessage {
       this._context.requestResponseLockedMessages.delete(this.lockToken!);
       return;
     }
-    const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
+    const receiver = this.getReceiverFromContext();
     this.throwIfMessageCannotBeSettled(receiver, DispositionType.deadletter);
 
     return receiver!.settleMessage(this, DispositionType.deadletter, {
@@ -1033,12 +1033,9 @@ export class ServiceBusMessageImpl implements ReceivedSettleableMessage {
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
-  renewLock(): Promise<Date> {
-    if (this.lockToken == null) {
-      throw new Error(getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"));
-    }
-
-    return this._context.managementClient!.renewLock(this.lockToken);
+  async renewLock(): Promise<Date> {
+    this.throwIfMessageCannotBeSettled(this.getReceiverFromContext(), "renew the lock on");
+    return await this._context.managementClient!.renewLock(this.lockToken!);
   }
 
   /**
@@ -1075,7 +1072,7 @@ export class ServiceBusMessageImpl implements ReceivedSettleableMessage {
    */
   private throwIfMessageCannotBeSettled(
     receiver: MessageReceiver | MessageSession | undefined,
-    operation: DispositionType
+    operation: DispositionType | string
   ): void {
     let error: Error | undefined;
 
@@ -1115,5 +1112,9 @@ export class ServiceBusMessageImpl implements ReceivedSettleableMessage {
     );
 
     throw error;
+  }
+
+  private getReceiverFromContext() {
+    return this._context.getReceiver(this.delivery.link.name, this.sessionId);
   }
 }
