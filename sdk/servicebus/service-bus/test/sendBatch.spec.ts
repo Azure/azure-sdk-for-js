@@ -11,7 +11,7 @@ import { Receiver } from "../src/receivers/receiver";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 
-describe("Send Batch", () => {
+describe.only("Send Batch", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<{}>;
   let serviceBusClient: ServiceBusClientForTests;
@@ -138,12 +138,12 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it.only("Partitioned Topic: SendBatch", async function(): Promise<void> {
+    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedSubscription);
       await testSendBatch(false);
     });
 
-    it.only("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(false);
     });
@@ -153,7 +153,7 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it.only("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
+    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSendBatch(true);
     });
@@ -168,7 +168,7 @@ describe("Send Batch", () => {
       await testSendBatch(true);
     });
 
-    it.only("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
+    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testSendBatch(true);
     });
@@ -232,7 +232,7 @@ describe("Send Batch", () => {
       await testSendBatch(true);
     });
 
-    it.only("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
+    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testSendBatch(true);
     });
@@ -291,12 +291,12 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it.only("Partitioned Topic: SendBatch", async function(): Promise<void> {
+    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedSubscription);
       await testSendBatch(false);
     });
 
-    it.only("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(false);
     });
@@ -306,7 +306,7 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it.only("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
+    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSendBatch(true);
     });
@@ -321,7 +321,7 @@ describe("Send Batch", () => {
       await testSendBatch(true);
     });
 
-    it.only("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
+    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testSendBatch(true);
     });
@@ -370,12 +370,12 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it.only("Partitioned Topic: SendBatch", async function(): Promise<void> {
+    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedSubscription);
       await testSendBatch(false);
     });
 
-    it.only("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(false);
     });
@@ -385,7 +385,7 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it.only("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
+    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSendBatch(true);
     });
@@ -400,7 +400,7 @@ describe("Send Batch", () => {
       await testSendBatch(true);
     });
 
-    it.only("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
+    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testSendBatch(true);
     });
@@ -464,12 +464,12 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it.only("Partitioned Topic: SendBatch", async function(): Promise<void> {
+    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedSubscription);
       await testSendBatch(false);
     });
 
-    it.only("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(false);
     });
@@ -479,7 +479,7 @@ describe("Send Batch", () => {
       await testSendBatch(false);
     });
 
-    it.only("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
+    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSendBatch(true);
     });
@@ -494,7 +494,7 @@ describe("Send Batch", () => {
       await testSendBatch(true);
     });
 
-    it.only("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
+    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testSendBatch(true);
     });
@@ -560,12 +560,12 @@ describe("Send Batch", () => {
       // To do - additional check to verify
     });
 
-    it.only("Partitioned Topic: SendBatch", async function(): Promise<void> {
+    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedSubscription);
       await testSendBatch(false, 5000);
     });
 
-    it.only("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(false, 5000);
     });
@@ -575,7 +575,7 @@ describe("Send Batch", () => {
       await testSendBatch(false, 5000);
     });
 
-    it.only("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
+    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSendBatch(true, 5000);
     });
@@ -590,7 +590,7 @@ describe("Send Batch", () => {
       await testSendBatch(true, 5000);
     });
 
-    it.only("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
+    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testSendBatch(true, 5000);
     });
@@ -626,12 +626,12 @@ describe("Send Batch", () => {
       await testSendBatch(maxSizeInBytes);
     });
 
-    it.only("Partitioned Topic: SendBatch", async function(): Promise<void> {
+    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedSubscription);
       await testSendBatch(maxSizeInBytes);
     });
 
-    it.only("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
+    it("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(maxSizeInBytes);
     });
@@ -641,7 +641,7 @@ describe("Send Batch", () => {
       await testSendBatch(maxSizeInBytes);
     });
 
-    it.only("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
+    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       await testSendBatch(maxSizeInBytes);
     });
@@ -656,7 +656,7 @@ describe("Send Batch", () => {
       await testSendBatch(maxSizeInBytes);
     });
 
-    it.only("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
+    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testSendBatch(maxSizeInBytes);
     });
