@@ -1,3 +1,6 @@
+parameters:
+  ServiceDirectory: not-specified
+
 steps:
   - script: |
       npm i -g typedoc@0.16.x

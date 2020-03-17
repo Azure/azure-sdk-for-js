@@ -109,6 +109,8 @@ jobs:
           path: $(Build.ArtifactStagingDirectory)
 
       - template: ../steps/generate-doc.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
