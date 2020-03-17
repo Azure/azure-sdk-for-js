@@ -33,7 +33,10 @@ import {
 import {
   AnalyzeResult,
   GetIndexStatisticsResult,
-  Index as GeneratedIndex
+  Index as GeneratedIndex,
+  AnalyzerUnion,
+  TokenizerUnion,
+  RegexFlags
 } from "./generated/service/models";
 
 /**
@@ -317,7 +320,13 @@ export class SearchServiceClient {
   }
 
   private publicIndexToGeneratedIndex(index: Index): GeneratedIndex {
-    return index;
+    const { analyzers, tokenizers, ...rest } = index;
+
+    return {
+      analyzers: this.convertAnalyzersToGenerated(analyzers),
+      tokenizers: this.convertTokenizersToGenerated(tokenizers),
+      ...rest
+    };
   }
 
   private generatedIndexToPublicIndex(generatedIndex: GeneratedIndex): Index {
@@ -331,12 +340,96 @@ export class SearchServiceClient {
     } = generatedIndex;
 
     return {
-      analyzers: analyzers as Analyzer[],
-      tokenizers: tokenizers as Tokenizer[],
+      analyzers: this.convertAnalyzersToPublic(analyzers),
+      tokenizers: this.convertTokenizersToPublic(tokenizers),
       tokenFilters: tokenFilters as TokenFilter[],
       charFilters: charFilters as CharFilter[],
       scoringProfiles: scoringProfiles as ScoringProfile[],
       ...rest
     };
+  }
+
+  private convertAnalyzersToPublic(analyzers?: AnalyzerUnion[]): Analyzer[] | undefined {
+    if (!analyzers) {
+      return analyzers;
+    }
+
+    const result: Analyzer[] = [];
+    for (const analyzer of analyzers) {
+      switch (analyzer.odatatype) {
+        case "#Microsoft.Azure.Search.CustomAnalyzer":
+        case "#Microsoft.Azure.Search.StandardAnalyzer":
+        case "#Microsoft.Azure.Search.StopAnalyzer":
+          result.push(analyzer);
+          break;
+        case "#Microsoft.Azure.Search.PatternAnalyzer":
+          result.push({
+            ...analyzer,
+            flags: analyzer.flags ? (analyzer.flags.split("|") as RegexFlags[]) : undefined
+          });
+      }
+    }
+    return result;
+  }
+
+  private convertAnalyzersToGenerated(analyzers?: Analyzer[]): AnalyzerUnion[] | undefined {
+    if (!analyzers) {
+      return analyzers;
+    }
+
+    const result: AnalyzerUnion[] = [];
+    for (const analyzer of analyzers) {
+      switch (analyzer.odatatype) {
+        case "#Microsoft.Azure.Search.CustomAnalyzer":
+        case "#Microsoft.Azure.Search.StandardAnalyzer":
+        case "#Microsoft.Azure.Search.StopAnalyzer":
+          result.push(analyzer);
+          break;
+        case "#Microsoft.Azure.Search.PatternAnalyzer":
+          result.push({
+            ...analyzer,
+            flags: analyzer.flags ? analyzer.flags.join("|") : undefined
+          });
+      }
+    }
+    return result;
+  }
+
+  private convertTokenizersToPublic(tokenizers?: TokenizerUnion[]): Tokenizer[] | undefined {
+    if (!tokenizers) {
+      return tokenizers;
+    }
+
+    const result: Tokenizer[] = [];
+    for (const tokenizer of tokenizers) {
+      if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
+        result.push({
+          ...tokenizer,
+          flags: tokenizer.flags ? (tokenizer.flags.split("|") as RegexFlags[]) : undefined
+        });
+      } else if (tokenizer.odatatype !== "Tokenizer") {
+        result.push(tokenizer);
+      }
+    }
+    return result;
+  }
+
+  private convertTokenizersToGenerated(tokenizers?: Tokenizer[]): TokenizerUnion[] | undefined {
+    if (!tokenizers) {
+      return tokenizers;
+    }
+
+    const result: TokenizerUnion[] = [];
+    for (const tokenizer of tokenizers) {
+      if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
+        result.push({
+          ...tokenizer,
+          flags: tokenizer.flags ? tokenizer.flags.join("|") : undefined
+        });
+      } else {
+        result.push(tokenizer);
+      }
+    }
+    return result;
   }
 }

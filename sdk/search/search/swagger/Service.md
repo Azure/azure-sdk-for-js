@@ -178,3 +178,23 @@ directive:
         $.type = 'string'
       }
 ```
+
+### Make RegexFlags a string
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.PatternAnalyzer.properties.flags
+    transform: >
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.type = 'string'
+      }
+  - from: swagger-document
+    where: $.definitions.PatternTokenizer.properties.flags
+    transform: >
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.type = 'string'
+      }
+```

@@ -6,7 +6,6 @@ import {
   AccessCondition,
   AnalyzeRequest,
   CustomAnalyzer,
-  PatternAnalyzer,
   StandardAnalyzer,
   StopAnalyzer,
   CorsOptions,
@@ -21,7 +20,6 @@ import {
   MicrosoftLanguageStemmingTokenizer,
   NGramTokenizer,
   PathHierarchyTokenizerV2,
-  PatternTokenizer,
   StandardTokenizer,
   StandardTokenizerV2,
   UaxUrlEmailTokenizer,
@@ -57,7 +55,8 @@ import {
   MagnitudeScoringFunction,
   TagScoringFunction,
   TextWeights,
-  ScoringFunctionAggregation
+  ScoringFunctionAggregation,
+  RegexFlags
 } from "./generated/service/models";
 
 /**
@@ -107,9 +106,76 @@ export type AnalyzeTextOptions = OperationOptions & AnalyzeRequest;
 // their abstract base class as a member.
 
 /**
+ * Flexibly separates text into terms via a regular expression pattern. This analyzer is
+ * implemented using Apache Lucene.
+ */
+export interface PatternAnalyzer {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "#Microsoft.Azure.Search.PatternAnalyzer";
+  /**
+   * The name of the analyzer. It must only contain letters, digits, spaces, dashes or underscores,
+   * can only start and end with alphanumeric characters, and is limited to 128 characters.
+   */
+  name: string;
+  /**
+   * A value indicating whether terms should be lower-cased. Default is true. Default value: true.
+   */
+  lowerCaseTerms?: boolean;
+  /**
+   * A regular expression pattern to match token separators. Default is an expression that matches
+   * one or more whitespace characters. Default value: '\W+'.
+   */
+  pattern?: string;
+  /**
+   * Regular expression flags. Possible values include: 'CANON_EQ', 'CASE_INSENSITIVE', 'COMMENTS',
+   * 'DOTALL', 'LITERAL', 'MULTILINE', 'UNICODE_CASE', 'UNIX_LINES'
+   */
+  flags?: RegexFlags[];
+  /**
+   * A list of stopwords.
+   */
+  stopwords?: string[];
+}
+
+/**
  * Contains the possible cases for Analyzer.
  */
 export type Analyzer = CustomAnalyzer | PatternAnalyzer | StandardAnalyzer | StopAnalyzer;
+
+/**
+ * Tokenizer that uses regex pattern matching to construct distinct tokens. This tokenizer is
+ * implemented using Apache Lucene.
+ */
+export interface PatternTokenizer {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "#Microsoft.Azure.Search.PatternTokenizer";
+  /**
+   * The name of the tokenizer. It must only contain letters, digits, spaces, dashes or
+   * underscores, can only start and end with alphanumeric characters, and is limited to 128
+   * characters.
+   */
+  name: string;
+  /**
+   * A regular expression pattern to match token separators. Default is an expression that matches
+   * one or more whitespace characters. Default value: '\W+'.
+   */
+  pattern?: string;
+  /**
+   * Regular expression flags. Possible values include: 'CANON_EQ', 'CASE_INSENSITIVE', 'COMMENTS',
+   * 'DOTALL', 'LITERAL', 'MULTILINE', 'UNICODE_CASE', 'UNIX_LINES'
+   */
+  flags?: RegexFlags[];
+  /**
+   * The zero-based ordinal of the matching group in the regular expression pattern to extract into
+   * tokens. Use -1 if you want to use the entire pattern to split the input into tokens,
+   * irrespective of matching groups. Default is -1. Default value: -1.
+   */
+  group?: number;
+}
 
 /**
  * Contains the possible cases for Tokenizer.

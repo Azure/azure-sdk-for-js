@@ -158,10 +158,9 @@ export interface PatternAnalyzer {
    */
   pattern?: string;
   /**
-   * Regular expression flags. Possible values include: 'CANON_EQ', 'CASE_INSENSITIVE', 'COMMENTS',
-   * 'DOTALL', 'LITERAL', 'MULTILINE', 'UNICODE_CASE', 'UNIX_LINES'
+   * Regular expression flags.
    */
-  flags?: RegexFlags;
+  flags?: string;
   /**
    * A list of stopwords.
    */
@@ -491,10 +490,9 @@ export interface PatternTokenizer {
    */
   pattern?: string;
   /**
-   * Regular expression flags. Possible values include: 'CANON_EQ', 'CASE_INSENSITIVE', 'COMMENTS',
-   * 'DOTALL', 'LITERAL', 'MULTILINE', 'UNICODE_CASE', 'UNIX_LINES'
+   * Regular expression flags.
    */
-  flags?: RegexFlags;
+  flags?: string;
   /**
    * The zero-based ordinal of the matching group in the regular expression pattern to extract into
    * tokens. Use -1 if you want to use the entire pattern to split the input into tokens,

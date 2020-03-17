@@ -45,7 +45,9 @@ export {
   KnownTokenFilterNames,
   KnownTokenizerNames,
   ScoringFunction,
-  ScoringProfile
+  ScoringProfile,
+  PatternAnalyzer,
+  PatternTokenizer
 } from "./serviceModels";
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
@@ -65,7 +67,6 @@ export {
 export {
   CustomAnalyzer,
   RegexFlags,
-  PatternAnalyzer,
   StandardAnalyzer,
   StopAnalyzer,
   MappingCharFilter,
@@ -128,7 +129,6 @@ export {
   MicrosoftLanguageStemmingTokenizer,
   NGramTokenizer,
   PathHierarchyTokenizerV2,
-  PatternTokenizer,
   StandardTokenizer,
   StandardTokenizerV2,
   UaxUrlEmailTokenizer,

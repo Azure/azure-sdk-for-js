@@ -726,7 +726,7 @@ export interface PathHierarchyTokenizerV2 {
 
 // @public
 export interface PatternAnalyzer {
-    flags?: RegexFlags;
+    flags?: RegexFlags[];
     lowerCaseTerms?: boolean;
     name: string;
     odatatype: "#Microsoft.Azure.Search.PatternAnalyzer";
@@ -760,7 +760,7 @@ export interface PatternReplaceTokenFilter {
 
 // @public
 export interface PatternTokenizer {
-    flags?: RegexFlags;
+    flags?: RegexFlags[];
     group?: number;
     name: string;
     odatatype: "#Microsoft.Azure.Search.PatternTokenizer";
