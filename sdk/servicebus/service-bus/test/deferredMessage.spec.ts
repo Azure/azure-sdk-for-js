@@ -5,17 +5,18 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, SendableMessageInfo, ContextWithSettlement } from "../src";
+import { ServiceBusMessage } from "../src";
 import { TestMessage, TestClientType } from "./utils/testUtils";
 import { testPeekMsgsLength, createServiceBusClientForTests } from "./utils/testutils2";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
+import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 describe("deferred messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
   let senderClient: Sender;
-  let receiverClient: Receiver<ContextWithSettlement>;
-  let deadLetterClient: Receiver<ContextWithSettlement>;
+  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let deadLetterClient: Receiver<ReceivedMessageWithLock>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -50,12 +51,11 @@ describe("deferred messages", () => {
    * `receiveDeferredMessages` to ensure both get code coverage
    */
   async function deferMessage(
-    testMessage: SendableMessageInfo,
+    testMessage: ServiceBusMessage,
     useReceiveDeferredMessages: boolean
-  ): Promise<ServiceBusMessage> {
+  ): Promise<ReceivedMessageWithLock> {
     await senderClient.send(testMessage);
-    const batch = await receiverClient.receiveBatch(1);
-    const receivedMsgs = batch.messages;
+    const receivedMsgs = await receiverClient.receiveBatch(1);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(receivedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
@@ -70,9 +70,9 @@ describe("deferred messages", () => {
       throw "Sequence Number can not be null";
     }
     const sequenceNumber = receivedMsgs[0].sequenceNumber;
-    await batch.context.defer(receivedMsgs[0]);
+    await receivedMsgs[0].defer();
 
-    let deferredMsg: ServiceBusMessage | undefined;
+    let deferredMsg: ReceivedMessageWithLock | undefined;
 
     // Randomly choose receiveDeferredMessage/receiveDeferredMessages as the latter is expected to
     // convert single input to array and then use it
@@ -99,7 +99,7 @@ describe("deferred messages", () => {
   async function completeDeferredMessage(
     sequenceNumber: Long,
     expectedDeliverCount: number,
-    testMessages: SendableMessageInfo
+    testMessages: ServiceBusMessage
   ): Promise<void> {
     await testPeekMsgsLength(receiverClient, 1);
 
@@ -272,8 +272,7 @@ describe("deferred messages", () => {
 
       await testPeekMsgsLength(receiverClient, 0);
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
-      const deadLetterMsgs = deadLetterMsgsBatch.messages;
+      const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
 
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -288,7 +287,7 @@ describe("deferred messages", () => {
         "MessageId is different than expected"
       );
 
-      await deadLetterMsgsBatch.context.complete(deadLetterMsgs[0]);
+      await deadLetterMsgs[0].complete();
 
       await testPeekMsgsLength(deadLetterClient, 0);
     }

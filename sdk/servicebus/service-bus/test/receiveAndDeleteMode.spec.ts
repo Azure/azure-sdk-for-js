@@ -6,7 +6,7 @@ const should = chai.should();
 const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { SendableMessageInfo, ContextWithSettlement, ReceivedMessage, Receiver } from "../src";
+import { ServiceBusMessage, ReceivedMessage, Receiver } from "../src";
 
 import { TestMessage, TestClientType, checkWithTimeout } from "./utils/testUtils";
 
@@ -17,13 +17,13 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
-import { DispositionType } from "../src/serviceBusMessage";
+import { DispositionType, ReceivedMessageWithLock  } from "../src/serviceBusMessage";
 
 let errorWasThrown: boolean;
 
 describe("receive and delete", () => {
   let senderClient: Sender;
-  let receiverClient: Receiver<{}>;
+  let receiverClient: Receiver<ReceivedMessage>;
   let serviceBusClient: ServiceBusClientForTests;
 
   before(() => {
@@ -54,9 +54,9 @@ describe("receive and delete", () => {
       await afterEachTest();
     });
 
-    async function sendReceiveMsg(testMessages: SendableMessageInfo): Promise<void> {
+    async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
       await senderClient.send(testMessages);
-      const msgs = (await receiverClient.receiveBatch(1)).messages;
+      const msgs = await receiverClient.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -141,7 +141,7 @@ describe("receive and delete", () => {
     });
 
     async function sendReceiveMsg(
-      testMessages: SendableMessageInfo,
+      testMessages: ServiceBusMessage,
       autoCompleteFlag: boolean
     ): Promise<void> {
       await senderClient.send(testMessages);
@@ -313,11 +313,9 @@ describe("receive and delete", () => {
       await afterEachTest();
     });
 
-    async function sendReceiveMsg(
-      testMessages: SendableMessageInfo
-    ): Promise<{ message: ReceivedMessage; context: ContextWithSettlement }> {
+    async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<ReceivedMessage> {
       await senderClient.send(testMessages);
-      const msgs = (await receiverClient.receiveBatch(1)).messages;
+      const msgs = await receiverClient.receiveBatch(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -329,12 +327,12 @@ describe("receive and delete", () => {
       );
       should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
-      return { message: msgs[0], context: {} as ContextWithSettlement };
+      return msgs[0];
     }
 
     const testError = (err: Error, operation: DispositionType): void => {
       expect(err.message.toLowerCase(), "ErrorMessage is different than expected").includes(
-        `.context.${operation} is not a function`
+        `failed to ${operation} the message as the operation is only supported in \'peeklock\' receive mode.`
       );
     };
 
@@ -343,16 +341,19 @@ describe("receive and delete", () => {
       useSessions?: boolean
     ): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      const msg = await sendReceiveMsg(testMessages);
+      // we have to force this cast - the type system doesn't allow this if you've chosen receiveAndDelete
+      // as your lock mode.
+      const msg = (await sendReceiveMsg(testMessages)) as ReceivedMessageWithLock ;
+
       try {
         if (operation === DispositionType.complete) {
-          await msg.context.complete(msg.message);
+          await msg.complete();
         } else if (operation === DispositionType.abandon) {
-          await msg.context.abandon(msg.message);
+          await msg.abandon();
         } else if (operation === DispositionType.deadletter) {
-          await msg.context.deadLetter(msg.message);
+          await msg.deadLetter();
         } else if (operation === DispositionType.defer) {
-          await msg.context.defer(msg.message);
+          await msg.defer();
         }
       } catch (err) {
         errorWasThrown = true;
@@ -680,10 +681,11 @@ describe("receive and delete", () => {
     async function testRenewLock(): Promise<void> {
       const msg = await sendReceiveMsg(TestMessage.getSample());
 
-      await receiverClient.renewMessageLock(msg.message).catch((err) => {
+      // have to cast it - the type system doesn't allow us to call into this method otherwise.
+      await (msg as ReceivedMessageWithLock ).renewLock().catch((err) => {
         should.equal(
           err.message,
-          getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"),
+          getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the lock on the message"),
           "ErrorMessage is different than expected"
         );
         errorWasThrown = true;

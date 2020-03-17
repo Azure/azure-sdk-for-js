@@ -31,26 +31,6 @@ export type AuthorizationRule = {
 };
 
 // @public
-export interface Closeable {
-    close(): Promise<void>;
-}
-
-// @public
-export type ContextType<LockModeT> = LockModeT extends "peekLock" ? ContextWithSettlement : LockModeT extends "receiveAndDelete" ? {} : never;
-
-// @public
-export interface ContextWithSettlement {
-    abandon(message: ReceivedMessage, propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
-    complete(message: ReceivedMessage): Promise<void>;
-    deadLetter(message: ReceivedMessage, options?: DeadLetterOptions): Promise<void>;
-    defer(message: ReceivedMessage, propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
-}
-
-// @public
 export interface CorrelationFilter {
     contentType?: string;
     correlationId?: string;
@@ -79,7 +59,7 @@ export { Delivery }
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
 // @public
-export interface GetMessageIteratorOptions extends OperationOptions {
+export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
 }
 
 // @public
@@ -89,12 +69,6 @@ export interface GetSessionReceiverOptions extends OperationOptions {
 }
 
 export { HttpOperationResponse }
-
-// @public
-export interface MessageAndContext<ContextT> {
-    context: ContextT;
-    message: ReceivedMessage;
-}
 
 // @public
 export type MessageCountDetails = {
@@ -113,25 +87,12 @@ export interface MessageHandlerOptions {
 }
 
 // @public
-export interface MessageHandlers<ContextT> {
+export interface MessageHandlers<ReceivedMessageT> {
     processError(err: Error): Promise<void>;
-    processMessage(message: ReceivedMessage, context: ContextT): Promise<void>;
+    processMessage(message: ReceivedMessageT): Promise<void>;
 }
-
-// @public
-export type MessageIterator<ContextT> = AsyncIterable<MessageAndContext<ContextT>>;
 
 export { MessagingError }
-
-// @public
-export interface OnError {
-    (error: MessagingError | Error): void;
-}
-
-// @public
-export interface OnMessage {
-    (message: ServiceBusMessage): Promise<void>;
-}
 
 // @public
 export interface QueueDetails {
@@ -185,14 +146,11 @@ export interface QueueOptions {
 }
 
 // @public
-export interface ReceiveBatchOptions extends OperationOptions {
+export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {
 }
 
 // @public
-export type ReceivedMessage = Omit<ServiceBusMessage, "complete" | "abandon" | "defer" | "deadletter" | "prototype">;
-
-// @public
-export interface ReceivedMessageInfo extends SendableMessageInfo {
+export interface ReceivedMessage extends ServiceBusMessage {
     readonly _amqpMessage: AmqpMessage;
     readonly deadLetterSource?: string;
     readonly deliveryCount?: number;
@@ -205,13 +163,26 @@ export interface ReceivedMessageInfo extends SendableMessageInfo {
 }
 
 // @public
+export interface ReceivedMessageWithLock extends ReceivedMessage {
+    abandon(propertiesToModify?: {
+        [key: string]: any;
+    }): Promise<void>;
+    complete(): Promise<void>;
+    deadLetter(options?: DeadLetterOptions): Promise<void>;
+    defer(propertiesToModify?: {
+        [key: string]: any;
+    }): Promise<void>;
+    renewLock(): Promise<Date>;
+}
+
+// @public
 export enum ReceiveMode {
     peekLock = 1,
     receiveAndDelete = 2
 }
 
 // @public
-export interface Receiver<ContextT> {
+export interface Receiver<ReceivedMessageT> {
     close(): Promise<void>;
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
@@ -220,20 +191,13 @@ export interface Receiver<ContextT> {
     entityPath: string;
     entityType: "queue" | "subscription";
     getDeadLetterPath(): string;
-    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<{
-        message: ReceivedMessage;
-        context: ContextT;
-    }>;
+    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isReceivingMessages(): boolean;
-    receiveBatch(maxMessages: number, maxWaitTimeInSeconds?: number, options?: ReceiveBatchOptions): Promise<{
-        messages: ReceivedMessage[];
-        context: ContextT;
-    }>;
-    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ServiceBusMessage | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ServiceBusMessage[]>;
+    receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
+    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
+    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
-    renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
-    subscribe(handler: MessageHandlers<ContextT>, options?: SubscribeOptions): void;
+    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 }
 
 export { RetryOptions }
@@ -262,35 +226,15 @@ export interface RuleOptions {
 }
 
 // @public
-export interface SendableMessageInfo {
-    body: any;
-    contentType?: string;
-    correlationId?: string | number | Buffer;
-    label?: string;
-    messageId?: string | number | Buffer;
-    partitionKey?: string;
-    replyTo?: string;
-    replyToSessionId?: string;
-    scheduledEnqueueTimeUtc?: Date;
-    sessionId?: string;
-    timeToLive?: number;
-    to?: string;
-    userProperties?: {
-        [key: string]: any;
-    };
-    viaPartitionKey?: string;
-}
-
-// @public
 export interface Sender {
     cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
     cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
     close(): Promise<void>;
     isClosed: boolean;
-    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
-    send(message: SendableMessageInfo): Promise<void>;
-    sendBatch(messages: SendableMessageInfo[]): Promise<void>;
+    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage): Promise<Long>;
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[]): Promise<Long[]>;
+    send(message: ServiceBusMessage): Promise<void>;
+    sendBatch(messages: ServiceBusMessage[]): Promise<void>;
 }
 
 // @public
@@ -298,15 +242,15 @@ export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(hostName: string, tokenCredential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<void>;
-    getReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ContextWithSettlement>;
-    getReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<{}>;
-    getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ContextWithSettlement> & SubscriptionRuleManagement;
-    getReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<{}> & SubscriptionRuleManagement;
+    getReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
+    getReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
+    getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement;
+    getReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage> & SubscriptionRuleManagement;
     getSender(queueOrTopicName: string): Sender;
-    getSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ContextWithSettlement>;
-    getSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<{}>;
-    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ContextWithSettlement> & SubscriptionRuleManagement;
-    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<"receiveAndDelete"> & SubscriptionRuleManagement;
+    getSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
+    getSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
+    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock> & SubscriptionRuleManagement;
+    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage> & SubscriptionRuleManagement;
 }
 
 // @public
@@ -316,36 +260,16 @@ export interface ServiceBusClientOptions {
 }
 
 // @public
-export class ServiceBusMessage implements ReceivedMessageInfo {
-    abandon(propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
-    readonly _amqpMessage: AmqpMessage;
+export interface ServiceBusMessage {
     body: any;
-    clone(): SendableMessageInfo;
-    complete(): Promise<void>;
     contentType?: string;
     correlationId?: string | number | Buffer;
-    deadLetter(options?: DeadLetterOptions): Promise<void>;
-    readonly deadLetterSource?: string;
-    defer(propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
-    readonly delivery: Delivery;
-    readonly deliveryCount?: number;
-    readonly enqueuedSequenceNumber?: number;
-    readonly enqueuedTimeUtc?: Date;
-    readonly expiresAtUtc?: Date;
-    get isSettled(): boolean;
     label?: string;
-    lockedUntilUtc?: Date;
-    readonly lockToken?: string;
     messageId?: string | number | Buffer;
     partitionKey?: string;
     replyTo?: string;
     replyToSessionId?: string;
     scheduledEnqueueTimeUtc?: Date;
-    readonly sequenceNumber?: Long;
     sessionId?: string;
     timeToLive?: number;
     to?: string;
@@ -356,24 +280,13 @@ export class ServiceBusMessage implements ReceivedMessageInfo {
 }
 
 // @public
-export interface Session {
-    connections?: SessionConnections;
-    id?: string;
-    maxSessionAutoRenewLockDurationInSeconds?: number;
-}
-
-// @public
-export class SessionConnections {
-}
-
-// @public
 export interface SessionMessageHandlerOptions {
     autoComplete?: boolean;
     maxConcurrentCalls?: number;
 }
 
 // @public
-export interface SessionReceiver<ContextT extends ContextWithSettlement | {}> extends Receiver<ContextT> {
+export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends Receiver<ReceivedMessageT> {
     diagnostics: {
         peek(maxMessageCount?: number): Promise<ReceivedMessage[]>;
         peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
@@ -512,6 +425,11 @@ export interface TopicOptions {
     status?: EntityStatus;
     supportOrdering?: boolean;
     userMetadata?: string;
+}
+
+// @public
+export interface WaitTimeOptions {
+    maxWaitTimeSeconds: number;
 }
 
 export { WebSocketImpl }

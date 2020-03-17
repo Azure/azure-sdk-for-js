@@ -6,18 +6,16 @@ import {
   SubscribeOptions,
   GetMessageIteratorOptions,
   ReceiveBatchOptions,
-  ReceivedMessage,
   MessageHandlerOptions
 } from "../models";
 import { OperationOptions } from "@azure/core-auth";
-import { ServiceBusMessage, RuleDescription, CorrelationFilter } from "..";
+import { RuleDescription, CorrelationFilter, ReceivedMessage } from "..";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
   throwErrorIfConnectionClosed,
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
   throwTypeErrorIfParameterMissing,
-  getErrorMessageNotSupportedInReceiveAndDeleteMode,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterNotLongArray,
   throwErrorIfClientOrConnectionClosed
@@ -30,59 +28,36 @@ import {
   getSubscriptionRules,
   removeSubscriptionRule,
   addSubscriptionRule,
-  settlementContext,
-  assertValidMessageHandlers
+  assertValidMessageHandlers,
+  getMessageIterator
 } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
+import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
 
 /**
  * A receiver that does not handle sessions.
  */
-export interface Receiver<ContextT> {
+export interface Receiver<ReceivedMessageT> {
   /**
    * Streams messages to message handlers.
-   * @param handler A handler that gets called for messages and errors.
+   * @param handlers A handler that gets called for messages and errors.
    * @param options Options for subscribe.
    */
-  subscribe(handler: MessageHandlers<ContextT>, options?: SubscribeOptions): void;
+  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
    * @param options Options for getMessageIterator.
    */
-  getMessageIterator(
-    options?: GetMessageIteratorOptions
-  ): AsyncIterableIterator<{ message: ReceivedMessage; context: ContextT }>;
+  getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
 
   /**
    * Receives, at most, `maxMessages` worth of messages.
    * @param maxMessages The maximum number of messages to accept.
-   * @param maxWaitTimeInSeconds The maximum time to wait, in seconds, for messages to arrive.
    * @param options Options for receiveBatch.
    */
-  receiveBatch(
-    maxMessages: number,
-    maxWaitTimeInSeconds?: number,
-    options?: ReceiveBatchOptions
-  ): Promise<{ messages: ReceivedMessage[]; context: ContextT }>;
-
-  // TODO: move to message object itself.
-
-  /**
-   * Renews the lock on the message for the duration as specified during the Queue/Subscription
-   * creation.
-   * - Check the `lockedUntilUtc` property on the message for the time when the lock expires.
-   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
-   * before its lock expires, then the message lands back in the Queue/Subscription for the next
-   * receive operation.
-   *
-   * @param lockTokenOrMessage - The `lockToken` property of the message or the message itself.
-   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
-   * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws MessagingError if the service returns an error while renewing message lock.
-   */
-  renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date>;
+  receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
 
   /**
    * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
@@ -96,7 +71,7 @@ export interface Receiver<ContextT> {
   receiveDeferredMessage(
     sequenceNumber: Long,
     options?: OperationOptions
-  ): Promise<ServiceBusMessage | undefined>;
+  ): Promise<ReceivedMessageT | undefined>;
 
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
@@ -111,7 +86,7 @@ export interface Receiver<ContextT> {
   receiveDeferredMessages(
     sequenceNumbers: Long[],
     options?: OperationOptions
-  ): Promise<ServiceBusMessage[]>;
+  ): Promise<ReceivedMessageT[]>;
   /**
    * Indicates whether the receiver is currently receiving messages or not.
    * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
@@ -235,7 +210,8 @@ export interface SubscriptionRuleManagement {
  * @internal
  * @ignore
  */
-export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionRuleManagement {
+export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
+  implements Receiver<ReceivedMessageT>, SubscriptionRuleManagement {
   /**
    * @property Describes the amqp connection context for the QueueClient.
    */
@@ -376,9 +352,6 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
    * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
-   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
-   * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
@@ -386,9 +359,8 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
    */
   async receiveBatch(
     maxMessageCount: number,
-    maxWaitTimeInSeconds?: number,
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: ReceivedMessage[]; context: ContextT }> {
+  ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
@@ -400,15 +372,12 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
       this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
     }
 
-    const messages = await this._context.batchingReceiver.receive(
+    const receivedMessages = await this._context.batchingReceiver.receive(
       maxMessageCount,
-      maxWaitTimeInSeconds
+      options?.maxWaitTimeSeconds
     );
 
-    return {
-      messages,
-      context: this.getContext()
-    };
+    return (receivedMessages as unknown) as ReceivedMessageT[];
   }
 
   /**
@@ -423,54 +392,8 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws MessagingError if the service returns an error while receiving messages.
    */
-  async *getMessageIterator(
-    options?: GetMessageIteratorOptions
-  ): AsyncIterableIterator<{
-    message: ReceivedMessage;
-    context: ContextT;
-  }> {
-    while (true) {
-      const { messages, context } = await this.receiveBatch(1);
-
-      yield {
-        message: messages[0],
-        context
-      };
-    }
-  }
-
-  /**
-   * Renews the lock on the message for the duration as specified during the Queue/Subscription
-   * creation.
-   * - Check the `lockedUntilUtc` property on the message for the time when the lock expires.
-   * - If a message is not settled (using either `complete()`, `defer()` or `deadletter()`,
-   * before its lock expires, then the message lands back in the Queue/Subscription for the next
-   * receive operation.
-   *
-   * @param lockTokenOrMessage - The `lockToken` property of the message or the message itself.
-   * @returns Promise<Date> - New lock token expiry date and time in UTC format.
-   * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws MessagingError if the service returns an error while renewing message lock.
-   */
-  async renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date> {
-    this._throwIfReceiverOrConnectionClosed();
-    if (this.receiveMode !== "peekLock") {
-      throw new Error(getErrorMessageNotSupportedInReceiveAndDeleteMode("renew the message lock"));
-    }
-    throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
-      "lockTokenOrMessage",
-      lockTokenOrMessage
-    );
-
-    const lockToken =
-      lockTokenOrMessage instanceof ServiceBusMessage
-        ? String(lockTokenOrMessage.lockToken)
-        : String(lockTokenOrMessage);
-
-    const lockedUntilUtc = await this._context.managementClient!.renewLock(lockToken);
-
-    return lockedUntilUtc;
+  getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT> {
+    return getMessageIterator(this, options);
   }
 
   /**
@@ -482,7 +405,7 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred message.
    */
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ReceivedMessageT | undefined> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -499,7 +422,7 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
       [sequenceNumber],
       convertToInternalReceiveMode(this.receiveMode)
     );
-    return messages[0];
+    return (messages[0] as unknown) as ReceivedMessageT;
   }
 
   /**
@@ -511,7 +434,7 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -527,10 +450,12 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
       sequenceNumbers
     );
 
-    return this._context.managementClient!.receiveDeferredMessages(
+    const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       convertToInternalReceiveMode(this.receiveMode)
     );
+
+    return (deferredMessages as any) as ReceivedMessageT[];
   }
 
   // ManagementClient methods # Begin
@@ -563,12 +488,12 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
     return internalMessages.map((m) => m as ReceivedMessage);
   }
 
-  subscribe(handlers: MessageHandlers<ContextT>, options?: SubscribeOptions): void {
+  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
     assertValidMessageHandlers(handlers);
 
     this._registerMessageHandler(
-      async (message: ServiceBusMessage) => {
-        return handlers.processMessage(message, this.getContext());
+      async (message: ServiceBusMessageImpl) => {
+        return handlers.processMessage((message as any) as ReceivedMessageT);
       },
       (err: Error) => {
         // TODO: not async internally yet.
@@ -656,11 +581,5 @@ export class ReceiverImpl<ContextT> implements Receiver<ContextT>, SubscriptionR
       return true;
     }
     return false;
-  }
-
-  private getContext(): ContextT {
-    return this.receiveMode === "peekLock"
-      ? ((settlementContext as any) as ContextT)
-      : ({} as ContextT);
   }
 }

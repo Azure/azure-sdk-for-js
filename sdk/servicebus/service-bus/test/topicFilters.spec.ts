@@ -5,12 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import {
-  ServiceBusMessage,
-  SendableMessageInfo,
-  CorrelationFilter,
-  ContextWithSettlement
-} from "../src";
+import { ServiceBusMessage, CorrelationFilter } from "../src";
 
 import { TestClientType, checkWithTimeout } from "./utils/testUtils";
 import { Receiver, SubscriptionRuleManagement } from "../src/receivers/receiver";
@@ -20,9 +15,10 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
+import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 describe("topic filters", () => {
-  let subscriptionClient: Receiver<ContextWithSettlement> & SubscriptionRuleManagement;
+  let subscriptionClient: Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement;
   let topicClient: Sender;
   let serviceBusClient: ServiceBusClientForTests;
 
@@ -97,7 +93,7 @@ describe("topic filters", () => {
   async function sendOrders(): Promise<void> {
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
-      const message: SendableMessageInfo = {
+      const message: ServiceBusMessage = {
         body: "",
         messageId: `messageId: ${Math.random()}`,
         correlationId: `${element.Priority}`,
@@ -114,13 +110,13 @@ describe("topic filters", () => {
   }
 
   async function receiveOrders(
-    client: Receiver<ContextWithSettlement> & SubscriptionRuleManagement,
+    client: Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement,
     expectedMessageCount: number
-  ): Promise<ServiceBusMessage[]> {
+  ): Promise<ReceivedMessageWithLock[]> {
     let errorFromErrorHandler: Error | undefined;
-    const receivedMsgs: ServiceBusMessage[] = [];
+    const receivedMsgs: ReceivedMessageWithLock[] = [];
     client.subscribe({
-      async processMessage(msg: ServiceBusMessage) {
+      async processMessage(msg: ReceivedMessageWithLock) {
         await msg.complete();
         receivedMsgs.push(msg);
       },
@@ -397,7 +393,7 @@ describe("topic filters", () => {
 
     async function addFilterAndReceiveOrders(
       bool: boolean,
-      client: Receiver<ContextWithSettlement> & SubscriptionRuleManagement,
+      client: Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement,
       expectedMessageCount: number
     ): Promise<void> {
       await subscriptionClient.addRule("BooleanFilter", bool);
