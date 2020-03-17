@@ -15,10 +15,10 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
-import { ReceivedSettleableMessage } from "../src/serviceBusMessage";
+import { ReceivedLockedMessage } from "../src/serviceBusMessage";
 
 describe("topic filters", () => {
-  let subscriptionClient: Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement;
+  let subscriptionClient: Receiver<ReceivedLockedMessage> & SubscriptionRuleManagement;
   let topicClient: Sender;
   let serviceBusClient: ServiceBusClientForTests;
 
@@ -110,13 +110,13 @@ describe("topic filters", () => {
   }
 
   async function receiveOrders(
-    client: Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement,
+    client: Receiver<ReceivedLockedMessage> & SubscriptionRuleManagement,
     expectedMessageCount: number
-  ): Promise<ReceivedSettleableMessage[]> {
+  ): Promise<ReceivedLockedMessage[]> {
     let errorFromErrorHandler: Error | undefined;
-    const receivedMsgs: ReceivedSettleableMessage[] = [];
+    const receivedMsgs: ReceivedLockedMessage[] = [];
     client.subscribe({
-      async processMessage(msg: ReceivedSettleableMessage) {
+      async processMessage(msg: ReceivedLockedMessage) {
         await msg.complete();
         receivedMsgs.push(msg);
       },
@@ -393,7 +393,7 @@ describe("topic filters", () => {
 
     async function addFilterAndReceiveOrders(
       bool: boolean,
-      client: Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement,
+      client: Receiver<ReceivedLockedMessage> & SubscriptionRuleManagement,
       expectedMessageCount: number
     ): Promise<void> {
       await subscriptionClient.addRule("BooleanFilter", bool);

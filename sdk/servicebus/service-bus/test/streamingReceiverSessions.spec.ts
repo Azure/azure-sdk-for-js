@@ -6,7 +6,7 @@ import chaiAsPromised from "chai-as-promised";
 import { delay, ReceivedMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
-import { DispositionType, ReceivedSettleableMessage } from "../src/serviceBusMessage";
+import { DispositionType, ReceivedLockedMessage } from "../src/serviceBusMessage";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
@@ -21,8 +21,8 @@ chai.use(chaiAsPromised);
 
 describe("Streaming with sessions", () => {
   let senderClient: Sender;
-  let receiverClient: SessionReceiver<ReceivedSettleableMessage>;
-  let deadLetterClient: Receiver<ReceivedSettleableMessage>;
+  let receiverClient: SessionReceiver<ReceivedLockedMessage>;
+  let deadLetterClient: Receiver<ReceivedLockedMessage>;
   let errorWasThrown: boolean;
   let unexpectedError: Error | undefined;
   let serviceBusClient: ServiceBusClientForTests;
@@ -151,10 +151,10 @@ describe("Streaming with sessions", () => {
     async function testManualComplete(): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
       await senderClient.send(testMessage);
-      const receivedMsgs: ReceivedSettleableMessage[] = [];
+      const receivedMsgs: ReceivedLockedMessage[] = [];
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedSettleableMessage) {
+          async processMessage(msg: ReceivedLockedMessage) {
             receivedMsgs.push(msg);
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
@@ -219,10 +219,10 @@ describe("Streaming with sessions", () => {
       const testMessage = TestMessage.getSessionSample();
       await senderClient.send(testMessage);
 
-      const receivedMsgs: ReceivedSettleableMessage[] = [];
+      const receivedMsgs: ReceivedLockedMessage[] = [];
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedSettleableMessage) {
+          async processMessage(msg: ReceivedLockedMessage) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
@@ -321,7 +321,7 @@ describe("Streaming with sessions", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedSettleableMessage) {
+          async processMessage(msg: ReceivedLockedMessage) {
             return msg.abandon().then(() => {
               abandonFlag = 1;
               if (receiverClient.isReceivingMessages()) {
@@ -418,7 +418,7 @@ describe("Streaming with sessions", () => {
       let sequenceNum: any = 0;
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedSettleableMessage) {
+          async processMessage(msg: ReceivedLockedMessage) {
             await msg.defer();
             sequenceNum = msg.sequenceNumber;
           },
@@ -521,7 +521,7 @@ describe("Streaming with sessions", () => {
       let msgCount = 0;
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedSettleableMessage) {
+          async processMessage(msg: ReceivedLockedMessage) {
             await msg.deadLetter();
             msgCount++;
           },
@@ -619,7 +619,7 @@ describe("Streaming with sessions", () => {
         TestMessage.sessionId
       );
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedSettleableMessage) {
+        async processMessage(msg: ReceivedLockedMessage) {
           return msg.complete();
         },
         processError
@@ -681,9 +681,9 @@ describe("Streaming with sessions", () => {
       const testMessage = TestMessage.getSessionSample();
       await senderClient.send(testMessage);
 
-      const receivedMsgs: ReceivedSettleableMessage[] = [];
+      const receivedMsgs: ReceivedLockedMessage[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedSettleableMessage) {
+        async processMessage(msg: ReceivedLockedMessage) {
           receivedMsgs.push(msg);
           return Promise.resolve();
         },
@@ -797,9 +797,9 @@ describe("Streaming with sessions", () => {
       await senderClient.send(testMessage);
       const errorMessage = "Will we see this error message?";
 
-      const receivedMsgs: ReceivedSettleableMessage[] = [];
+      const receivedMsgs: ReceivedLockedMessage[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedSettleableMessage) {
+        async processMessage(msg: ReceivedLockedMessage) {
           await msg.complete();
           receivedMsgs.push(msg);
           throw new Error(errorMessage);
@@ -846,12 +846,12 @@ describe("Streaming with sessions", () => {
       const testMessages = [TestMessage.getSessionSample(), TestMessage.getSessionSample()];
       await senderClient.sendBatch(testMessages);
 
-      const settledMsgs: ReceivedSettleableMessage[] = [];
-      const receivedMsgs: ReceivedSettleableMessage[] = [];
+      const settledMsgs: ReceivedLockedMessage[] = [];
+      const receivedMsgs: ReceivedLockedMessage[] = [];
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedSettleableMessage) {
+          async processMessage(msg: ReceivedLockedMessage) {
             if (receivedMsgs.length === 1) {
               if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
                 throw new Error(

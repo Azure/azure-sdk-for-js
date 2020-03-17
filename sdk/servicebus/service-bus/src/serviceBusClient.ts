@@ -15,7 +15,7 @@ import { SenderImpl, Sender } from "./sender";
 import { GetSessionReceiverOptions } from "./models";
 import { Receiver, ReceiverImpl, SubscriptionRuleManagement } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
-import { ReceivedSettleableMessage, ReceivedMessage } from "./serviceBusMessage";
+import { ReceivedLockedMessage, ReceivedMessage } from "./serviceBusMessage";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -76,7 +76,7 @@ export class ServiceBusClient {
    * @param receiveMode The receive mode to use (defaults to PeekLock)
    * @param options Options for the receiver itself.
    */
-  getReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedSettleableMessage>;
+  getReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedLockedMessage>;
   /**
    * Creates a receiver for an Azure Service Bus queue.
    *
@@ -97,7 +97,7 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "peekLock"
-  ): Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement;
+  ): Receiver<ReceivedLockedMessage> & SubscriptionRuleManagement;
   /**
    * Creates a receiver for an Azure Service Bus subscription.
    *
@@ -116,9 +116,9 @@ export class ServiceBusClient {
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveMode3?: "peekLock" | "receiveAndDelete"
   ):
-    | Receiver<ReceivedSettleableMessage>
+    | Receiver<ReceivedLockedMessage>
     | Receiver<ReceivedMessage>
-    | (Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement)
+    | (Receiver<ReceivedLockedMessage> & SubscriptionRuleManagement)
     | (Receiver<ReceivedMessage> & SubscriptionRuleManagement) {
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
@@ -146,11 +146,7 @@ export class ServiceBusClient {
     );
 
     if (receiveMode === "peekLock") {
-      return new ReceiverImpl<ReceivedSettleableMessage>(
-        clientEntityContext,
-        receiveMode,
-        entityType
-      );
+      return new ReceiverImpl<ReceivedLockedMessage>(clientEntityContext, receiveMode, entityType);
     } else {
       return new ReceiverImpl<ReceivedMessage>(clientEntityContext, receiveMode, entityType);
     }
@@ -167,7 +163,7 @@ export class ServiceBusClient {
     queueName: string,
     receiveMode: "peekLock",
     options?: GetSessionReceiverOptions
-  ): SessionReceiver<ReceivedSettleableMessage>;
+  ): SessionReceiver<ReceivedLockedMessage>;
   /**
    * Creates a receiver for an Azure Service Bus queue.
    *
@@ -193,7 +189,7 @@ export class ServiceBusClient {
     subscriptionName: string,
     receiveMode: "peekLock",
     options?: GetSessionReceiverOptions
-  ): SessionReceiver<ReceivedSettleableMessage> & SubscriptionRuleManagement;
+  ): SessionReceiver<ReceivedLockedMessage> & SubscriptionRuleManagement;
   /**
    * Creates a receiver for an Azure Service Bus subscription.
    *
@@ -214,10 +210,10 @@ export class ServiceBusClient {
     receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetSessionReceiverOptions,
     options4?: GetSessionReceiverOptions
   ):
-    | SessionReceiver<ReceivedSettleableMessage>
+    | SessionReceiver<ReceivedLockedMessage>
     | SessionReceiver<ReceivedMessage>
     | (SessionReceiver<ReceivedMessage> & SubscriptionRuleManagement)
-    | (SessionReceiver<ReceivedSettleableMessage> & SubscriptionRuleManagement) {
+    | (SessionReceiver<ReceivedLockedMessage> & SubscriptionRuleManagement) {
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
     let entityType: "queue" | "subscription";

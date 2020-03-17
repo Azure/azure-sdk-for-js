@@ -10,13 +10,13 @@ import { TestMessage, TestClientType } from "./utils/testUtils";
 import { testPeekMsgsLength, createServiceBusClientForTests } from "./utils/testutils2";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
-import { ReceivedSettleableMessage } from "../src/serviceBusMessage";
+import { ReceivedLockedMessage } from "../src/serviceBusMessage";
 
 describe("deferred messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedSettleableMessage>;
-  let deadLetterClient: Receiver<ReceivedSettleableMessage>;
+  let receiverClient: Receiver<ReceivedLockedMessage>;
+  let deadLetterClient: Receiver<ReceivedLockedMessage>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -53,7 +53,7 @@ describe("deferred messages", () => {
   async function deferMessage(
     testMessage: ServiceBusMessage,
     useReceiveDeferredMessages: boolean
-  ): Promise<ReceivedSettleableMessage> {
+  ): Promise<ReceivedLockedMessage> {
     await senderClient.send(testMessage);
     const receivedMsgs = await receiverClient.receiveBatch(1);
 
@@ -72,7 +72,7 @@ describe("deferred messages", () => {
     const sequenceNumber = receivedMsgs[0].sequenceNumber;
     await receivedMsgs[0].defer();
 
-    let deferredMsg: ReceivedSettleableMessage | undefined;
+    let deferredMsg: ReceivedLockedMessage | undefined;
 
     // Randomly choose receiveDeferredMessage/receiveDeferredMessages as the latter is expected to
     // convert single input to array and then use it

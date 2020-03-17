@@ -10,11 +10,11 @@ import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
-import { ReceivedSettleableMessage } from "../src/serviceBusMessage";
+import { ReceivedLockedMessage } from "../src/serviceBusMessage";
 
 describe("renew lock sessions", () => {
   let sender: Sender;
-  let receiver: SessionReceiver<ReceivedSettleableMessage>;
+  let receiver: SessionReceiver<ReceivedLockedMessage>;
   let maxSessionAutoRenewLockDurationInSeconds: number;
   let sessionId: string;
 
@@ -344,7 +344,7 @@ describe("renew lock sessions", () => {
    */
   async function testBatchReceiverManualLockRenewalHappyCase(
     senderClient: Sender,
-    receiverClient: SessionReceiver<ReceivedSettleableMessage>
+    receiverClient: SessionReceiver<ReceivedLockedMessage>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
@@ -392,7 +392,7 @@ describe("renew lock sessions", () => {
   async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     entityType: TestClientType,
     senderClient: Sender,
-    receiver: SessionReceiver<ReceivedSettleableMessage>
+    receiver: SessionReceiver<ReceivedLockedMessage>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalErrorOnLockExpiry-${Date.now().toString()}`;
@@ -431,14 +431,14 @@ describe("renew lock sessions", () => {
    */
   async function testStreamingReceiverManualLockRenewalHappyCase(
     senderClient: Sender,
-    receiverClient: SessionReceiver<ReceivedSettleableMessage>
+    receiverClient: SessionReceiver<ReceivedLockedMessage>
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
     testMessage.body = `testStreamingReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
     await senderClient.send(testMessage);
 
-    async function processMessage(brokeredMessage: ReceivedSettleableMessage) {
+    async function processMessage(brokeredMessage: ReceivedLockedMessage) {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -507,7 +507,7 @@ describe("renew lock sessions", () => {
 
   async function testAutoLockRenewalConfigBehavior(
     senderClient: Sender,
-    receiverClient: SessionReceiver<ReceivedSettleableMessage>,
+    receiverClient: SessionReceiver<ReceivedLockedMessage>,
     options: AutoLockRenewalTestOptions
   ): Promise<void> {
     let numOfMessagesReceived = 0;
@@ -516,9 +516,9 @@ describe("renew lock sessions", () => {
     await senderClient.send(testMessage);
 
     let sessionLockLostErrorThrown = false;
-    const messagesReceived: ReceivedSettleableMessage[] = [];
+    const messagesReceived: ReceivedLockedMessage[] = [];
 
-    async function processMessage(brokeredMessage: ReceivedSettleableMessage): Promise<void> {
+    async function processMessage(brokeredMessage: ReceivedLockedMessage): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 

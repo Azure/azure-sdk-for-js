@@ -381,7 +381,7 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
  * A message that can be settled by completing it, abandoning it, deferring it, or sending
  * it to the dead letter queue.
  */
-export interface ReceivedSettleableMessage extends ReceivedMessage {
+export interface ReceivedLockedMessage extends ReceivedMessage {
   /**
    * Removes the message from Service Bus.
    *
@@ -691,7 +691,7 @@ export function fromAmqpMessage(
 /**
  * Describes the message received from Service Bus.
  */
-export class ServiceBusMessageImpl implements ReceivedSettleableMessage {
+export class ServiceBusMessageImpl implements ReceivedLockedMessage {
   /**
    * @property The message body that needs to be sent or is received.
    */

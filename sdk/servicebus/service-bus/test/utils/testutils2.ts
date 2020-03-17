@@ -17,7 +17,7 @@ import * as dotenv from "dotenv";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./managementUtils";
 import { ServiceBusClientOptions } from "../../src";
 import chai from "chai";
-import { ReceivedSettleableMessage, ReceivedMessage } from "../../src/serviceBusMessage";
+import { ReceivedLockedMessage, ReceivedMessage } from "../../src/serviceBusMessage";
 
 dotenv.config();
 const env = getEnvVars();
@@ -186,7 +186,7 @@ export class ServiceBusTestHelpers {
    */
   getPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
-  ): Receiver<ReceivedSettleableMessage> {
+  ): Receiver<ReceivedLockedMessage> {
     try {
       // if you're creating a receiver this way then you'll just use the default
       // session ID for your receiver.
@@ -214,7 +214,7 @@ export class ServiceBusTestHelpers {
 
   getSubscriptionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
-  ): Receiver<ReceivedSettleableMessage> & SubscriptionRuleManagement {
+  ): Receiver<ReceivedLockedMessage> & SubscriptionRuleManagement {
     if (entityNames.topic == null || entityNames.subscription == null) {
       throw new TypeError("Not subscription entity - can't create a subscription receiver for it");
     }
@@ -227,7 +227,7 @@ export class ServiceBusTestHelpers {
   getSessionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>,
     getSessionReceiverOptions?: GetSessionReceiverOptions
-  ): SessionReceiver<ReceivedSettleableMessage> {
+  ): SessionReceiver<ReceivedLockedMessage> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
         "Not a session-full entity - can't create a session receiver type for it"

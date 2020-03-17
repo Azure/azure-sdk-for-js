@@ -14,11 +14,11 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
-import { ReceivedSettleableMessage } from "../src/serviceBusMessage";
+import { ReceivedLockedMessage } from "../src/serviceBusMessage";
 
 describe("send scheduled messages", () => {
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedSettleableMessage>;
+  let receiverClient: Receiver<ReceivedLockedMessage>;
   let serviceBusClient: ServiceBusClientForTests;
 
   before(() => {
@@ -679,7 +679,7 @@ describe("send scheduled messages", () => {
   });
 
   async function testReceivedMsgsLength(
-    receiverClient: Receiver<ReceivedSettleableMessage>,
+    receiverClient: Receiver<ReceivedLockedMessage>,
     expectedReceivedMsgsLength: number
   ): Promise<void> {
     const receivedMsgs = await receiverClient.receiveBatch(expectedReceivedMsgsLength + 1, 5);
