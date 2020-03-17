@@ -209,37 +209,37 @@ function toFieldValue(original: FieldValueModel, readResults: ReadResult[]): Fie
   switch (original.type) {
     case "string":
       (result as StringFieldValue).type = "string";
-      (result as StringFieldValue).valueString = original.valueString;
+      (result as StringFieldValue).value = original.valueString;
       break;
     case "date":
       (result as DateFieldValue).type = "date";
-      (result as DateFieldValue).valueDate = original.valueDate;
+      (result as DateFieldValue).value = original.valueDate;
       break;
     case "time":
       (result as TimeFieldValue).type = "time";
-      (result as TimeFieldValue).valueTime = original.valueTime;
+      (result as TimeFieldValue).value = original.valueTime;
       break;
     case "phoneNumber":
       (result as PhoneNumberFieldValue).type = "phoneNumber";
-      (result as PhoneNumberFieldValue).valuePhoneNumber = original.valuePhoneNumber;
+      (result as PhoneNumberFieldValue).value = original.valuePhoneNumber;
       break;
     case "number":
       (result as NumberFieldValue).type = "number";
-      (result as NumberFieldValue).valueNumber = original.valueNumber;
+      (result as NumberFieldValue).value = original.valueNumber;
       break;
     case "integer":
       (result as IntegerFieldValue).type = "integer";
-      (result as IntegerFieldValue).valueInteger = original.valueInteger;
+      (result as IntegerFieldValue).value = original.valueInteger;
       break;
     case "array":
       (result as ArrayFieldValue).type = "array";
-      (result as ArrayFieldValue).valueArray = original.valueArray
+      (result as ArrayFieldValue).value = original.valueArray
         ? original.valueArray.map((a) => toFieldValue(a, readResults))
         : undefined;
       break;
     case "object":
       (result as ObjectFieldValue).type = "object";
-      (result as ObjectFieldValue).valueObject = original.valueObject
+      (result as ObjectFieldValue).value = original.valueObject
         ? toFields(original.valueObject, readResults)
         : undefined;
       break;
@@ -348,23 +348,23 @@ function toReceiptResult(result: DocumentResultModel, readResults: ReadResult[])
   return {
     docType: ((result as unknown) as RawReceiptResult).docType,
     pageRange: { firstPage: result.pageRange[0], lastPage: result.pageRange[1] },
-    receiptType: rawReceiptFields.ReceiptType.valueString!,
-    merchantName: rawReceiptFields.MerchantName?.valueString,
-    merchantPhoneNumber: rawReceiptFields.MerchantPhoneNumber?.valuePhoneNumber,
-    merchantAddress: rawReceiptFields.MerchantAddress?.valueString,
-    items: rawReceiptFields.Items.valueArray?.map((i) => {
+    receiptType: rawReceiptFields.ReceiptType.value!,
+    merchantName: rawReceiptFields.MerchantName?.value,
+    merchantPhoneNumber: rawReceiptFields.MerchantPhoneNumber?.value,
+    merchantAddress: rawReceiptFields.MerchantAddress?.value,
+    items: rawReceiptFields.Items.value?.map((i) => {
       return {
-        name: (i as ReceiptItemField).valueObject.Name?.valueString,
-        quantity: (i as ReceiptItemField).valueObject.Quantity?.valueNumber,
-        totalPrice: (i as ReceiptItemField).valueObject.TotalPrice?.valueNumber
+        name: (i as ReceiptItemField).value.Name?.value,
+        quantity: (i as ReceiptItemField).value.Quantity?.value,
+        totalPrice: (i as ReceiptItemField).value.TotalPrice?.value
       };
     }),
-    subtotal: rawReceiptFields.Subtotal?.valueNumber,
-    tax: rawReceiptFields.Tax?.valueNumber,
-    tip: rawReceiptFields.Tip?.valueNumber,
-    total: rawReceiptFields.Total?.valueNumber,
-    transactionDate: rawReceiptFields.TransactionDate?.valueDate,
-    transactionTime: rawReceiptFields.TransactionTime?.valueTime,
+    subtotal: rawReceiptFields.Subtotal?.value,
+    tax: rawReceiptFields.Tax?.value,
+    tip: rawReceiptFields.Tip?.value,
+    total: rawReceiptFields.Total?.value,
+    transactionDate: rawReceiptFields.TransactionDate?.value,
+    transactionTime: rawReceiptFields.TransactionTime?.value,
     fields: transformedFields
   };
 }

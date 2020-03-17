@@ -43,7 +43,7 @@ export interface AnalyzeResult {
 // @public (undocumented)
 export type ArrayFieldValue = {
     type: "array";
-    valueArray?: FieldValue[];
+    value?: FieldValue[];
 };
 
 // @public
@@ -250,7 +250,7 @@ export interface DataTableRow {
 // @public (undocumented)
 export type DateFieldValue = {
     type: "date";
-    valueDate?: string;
+    value?: string;
 } & CommonFieldValue;
 
 // @public
@@ -477,7 +477,7 @@ export type GetSummaryOptions = FormRecognizerOperationOptions;
 // @public (undocumented)
 export type IntegerFieldValue = {
     type: "integer";
-    valueInteger?: number;
+    value?: number;
 } & CommonFieldValue;
 
 // @public
@@ -637,13 +637,13 @@ export type ModelStatus = 'creating' | 'ready' | 'invalid';
 // @public (undocumented)
 export type NumberFieldValue = {
     type: "number";
-    valueNumber?: number;
+    value?: number;
 } & CommonFieldValue;
 
 // @public (undocumented)
 export type ObjectFieldValue = {
     type: "object";
-    valueObject?: {
+    value?: {
         [propertyName: string]: FieldValue;
     };
 };
@@ -674,7 +674,7 @@ export interface PageResult {
 // @public (undocumented)
 export type PhoneNumberFieldValue = {
     type: "phoneNumber";
-    valuePhoneNumber?: string;
+    value?: string;
 } & CommonFieldValue;
 
 export { PollerLike }
@@ -770,13 +770,13 @@ export interface ReceiptItemArrayField {
     // (undocumented)
     type: "array";
     // (undocumented)
-    valueArray: ReceiptItemField[];
+    value: ReceiptItemField[];
 }
 
 // @public
 export type ReceiptItemField = {
     type: "object";
-    valueObject: {
+    value: {
         Name: StringFieldValue;
         Quantity: NumberFieldValue;
         Price: NumberFieldValue;
@@ -812,7 +812,7 @@ export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
 // @public (undocumented)
 export type StringFieldValue = {
     type: "string";
-    valueString?: string;
+    value?: string;
 } & CommonFieldValue;
 
 // @public (undocumented)
@@ -840,7 +840,7 @@ export interface TextWord {
 // @public (undocumented)
 export type TimeFieldValue = {
     type: "time";
-    valueTime?: string;
+    value?: string;
 } & CommonFieldValue;
 
 // @public

@@ -252,42 +252,42 @@ export interface CommonFieldValue {
 
 export type StringFieldValue = {
   type: "string";
-  valueString?: string;
+  value?: string;
 } & CommonFieldValue;
 
 export type DateFieldValue = {
   type: "date";
-  valueDate?: string;
+  value?: string;
 } & CommonFieldValue;
 
 export type TimeFieldValue = {
   type: "time";
-  valueTime?: string;
+  value?: string;
 } & CommonFieldValue;
 
 export type PhoneNumberFieldValue = {
   type: "phoneNumber";
-  valuePhoneNumber?: string;
+  value?: string;
 } & CommonFieldValue;
 
 export type NumberFieldValue = {
   type: "number";
-  valueNumber?: number;
+  value?: number;
 } & CommonFieldValue;
 
 export type IntegerFieldValue = {
   type: "integer";
-  valueInteger?: number;
+  value?: number;
 } & CommonFieldValue;
 
 export type ArrayFieldValue = {
   type: "array";
-  valueArray?: FieldValue[];
+  value?: FieldValue[];
 };
 
 export type ObjectFieldValue = {
   type: "object";
-  valueObject?: { [propertyName: string]: FieldValue };
+  value?: { [propertyName: string]: FieldValue };
 };
 
 export type FieldValue =
@@ -305,7 +305,7 @@ export type FieldValue =
  */
 export type ReceiptItemField = {
   type: "object";
-  valueObject: {
+  value: {
     Name: StringFieldValue;
     Quantity: NumberFieldValue;
     Price: NumberFieldValue;
@@ -325,7 +325,7 @@ export interface ReceiptItem {
  */
 export interface ReceiptItemArrayField {
   type: "array";
-  valueArray: ReceiptItemField[];
+  value: ReceiptItemField[];
 }
 
 /**
