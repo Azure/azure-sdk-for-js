@@ -656,12 +656,6 @@ export class MessageSender extends LinkEntity {
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
 
-      console.log(
-        encodedBatchMessage.length,
-        encodedBatchMessage.byteLength,
-        this._sender?.maxMessageSize
-      );
-
       log.sender(
         "[%s]Sender '%s', sending encoded batch message.",
         this._context.namespace.connectionId,
