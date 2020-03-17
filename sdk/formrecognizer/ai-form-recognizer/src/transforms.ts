@@ -233,9 +233,7 @@ function toFieldValue(original: FieldValueModel, readResults: ReadResult[]): Fie
       break;
     case "array":
       (result as ArrayFieldValue).type = "array";
-      (result as ArrayFieldValue).value = original.valueArray
-        ? original.valueArray.map((a) => toFieldValue(a, readResults))
-        : undefined;
+      (result as ArrayFieldValue).value = original.valueArray?.map((a) => toFieldValue(a, readResults));
       break;
     case "object":
       (result as ObjectFieldValue).type = "object";
