@@ -999,6 +999,27 @@ export const PolicyState: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      policyDefinitionVersion: {
+        readOnly: true,
+        serializedName: "policyDefinitionVersion",
+        type: {
+          name: "String"
+        }
+      },
+      policySetDefinitionVersion: {
+        readOnly: true,
+        serializedName: "policySetDefinitionVersion",
+        type: {
+          name: "String"
+        }
+      },
+      policyAssignmentVersion: {
+        readOnly: true,
+        serializedName: "policyAssignmentVersion",
+        type: {
+          name: "String"
+        }
       }
     },
     additionalProperties: {
