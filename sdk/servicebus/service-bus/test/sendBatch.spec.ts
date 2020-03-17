@@ -119,14 +119,14 @@ describe("Send Batch", () => {
       const messagesToSend = prepareMessages(useSessions);
       const sentMessages: SendableMessageInfo[] = [];
       const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
-      let numberOfMessagesInBatch = 0;
+      // let numberOfMessagesInBatch = 0;
 
       for (const messageToSend of messagesToSend) {
         const batchHasCapacity = batchMessage.tryAdd(messageToSend);
         if (!batchHasCapacity) {
           break;
         } else {
-          numberOfMessagesInBatch++;
+          // numberOfMessagesInBatch++;
           sentMessages.push(messageToSend);
         }
       }
