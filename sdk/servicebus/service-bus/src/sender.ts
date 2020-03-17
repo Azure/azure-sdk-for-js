@@ -123,7 +123,7 @@ export class SenderImpl implements Sender {
    * @property Denotes if close() was called on this sender
    */
   private _isClosed: boolean = false;
-  private _batchSender: MessageSender | undefined = undefined;
+  private _sender: MessageSender;
 
   /**
    * @internal
@@ -132,6 +132,7 @@ export class SenderImpl implements Sender {
   constructor(context: ClientEntityContext) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
+    this._sender = MessageSender.create(this._context);
   }
 
   private _throwIfSenderOrConnectionClosed(): void {
@@ -155,8 +156,7 @@ export class SenderImpl implements Sender {
   async send(message: SendableMessageInfo): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
-    const sender = MessageSender.create(this._context);
-    return sender.send(message);
+    return this._sender.send(message);
   }
 
   async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
@@ -165,8 +165,7 @@ export class SenderImpl implements Sender {
     if (!Array.isArray(messages)) {
       messages = [messages];
     }
-    const sender = MessageSender.create(this._context);
-    return sender.sendBatch(messages);
+    return this._sender.sendBatch(messages);
   }
 
   async createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch> {
@@ -174,8 +173,7 @@ export class SenderImpl implements Sender {
     if (!options) {
       options = {};
     }
-    this._batchSender = MessageSender.create(this._context);
-    return this._batchSender.createBatch(options);
+    return this._sender.createBatch(options);
   }
 
   async sendBatch2(messageBatch: SendableMessageInfoBatch): Promise<void> {
@@ -185,7 +183,7 @@ export class SenderImpl implements Sender {
       "messageBatch",
       messageBatch
     );
-    return this._batchSender!.sendBatch2(messageBatch);
+    return this._sender.sendBatch2(messageBatch);
   }
 
   /**
