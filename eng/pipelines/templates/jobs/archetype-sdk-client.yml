@@ -108,22 +108,9 @@ jobs:
           artifactName: packages
           path: $(Build.ArtifactStagingDirectory)
 
-      - script: |
-          npm i -g typedoc
-        displayName: "Install typedoc"
-
-      - script: |
-          npm install
-        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
-        displayName: "Install tool dependencies"
-
-      - pwsh: |
-          node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --dgOp "dg" -i "inc" --inc "${{parameters.ServiceDirectory}}"
-        displayName: "Run Typedoc Docs"
-
-      - pwsh: |
-          $(Build.SourcesDirectory)/eng/tools/compress-subfolders.ps1 "$(Build.SourcesDirectory)/docGen" "$(Build.ArtifactStagingDirectory)/Documentation"
-        displayName: "Generate Typedoc Docs"
+      - template: ../steps/generate-doc.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
