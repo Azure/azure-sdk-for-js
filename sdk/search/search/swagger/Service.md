@@ -82,3 +82,27 @@ directive:
         $.enum = newValues;
       }
 ```
+
+### Make AnalyzerName a string
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnalyzeRequest.properties.analyzer
+    transform: >
+      const extraDocs = " KnownAnalyzerNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+  - from: swagger-document
+    where: $.definitions.Field.properties[*]
+    transform: >
+      const extraDocs = " KnownAnalyzerNames is an enum containing known values.";
+      if ($['$ref'] === "#/definitions/AnalyzerName") {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+```

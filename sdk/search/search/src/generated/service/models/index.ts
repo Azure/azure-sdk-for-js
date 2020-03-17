@@ -20,25 +20,9 @@ export interface AnalyzeRequest {
   /**
    * The name of the analyzer to use to break the given text. If this parameter is not specified,
    * you must specify a tokenizer instead. The tokenizer and analyzer parameters are mutually
-   * exclusive. Possible values include: 'ar.microsoft', 'ar.lucene', 'hy.lucene', 'bn.microsoft',
-   * 'eu.lucene', 'bg.microsoft', 'bg.lucene', 'ca.microsoft', 'ca.lucene', 'zh-Hans.microsoft',
-   * 'zh-Hans.lucene', 'zh-Hant.microsoft', 'zh-Hant.lucene', 'hr.microsoft', 'cs.microsoft',
-   * 'cs.lucene', 'da.microsoft', 'da.lucene', 'nl.microsoft', 'nl.lucene', 'en.microsoft',
-   * 'en.lucene', 'et.microsoft', 'fi.microsoft', 'fi.lucene', 'fr.microsoft', 'fr.lucene',
-   * 'gl.lucene', 'de.microsoft', 'de.lucene', 'el.microsoft', 'el.lucene', 'gu.microsoft',
-   * 'he.microsoft', 'hi.microsoft', 'hi.lucene', 'hu.microsoft', 'hu.lucene', 'is.microsoft',
-   * 'id.microsoft', 'id.lucene', 'ga.lucene', 'it.microsoft', 'it.lucene', 'ja.microsoft',
-   * 'ja.lucene', 'kn.microsoft', 'ko.microsoft', 'ko.lucene', 'lv.microsoft', 'lv.lucene',
-   * 'lt.microsoft', 'ml.microsoft', 'ms.microsoft', 'mr.microsoft', 'nb.microsoft', 'no.lucene',
-   * 'fa.lucene', 'pl.microsoft', 'pl.lucene', 'pt-BR.microsoft', 'pt-BR.lucene',
-   * 'pt-PT.microsoft', 'pt-PT.lucene', 'pa.microsoft', 'ro.microsoft', 'ro.lucene',
-   * 'ru.microsoft', 'ru.lucene', 'sr-cyrillic.microsoft', 'sr-latin.microsoft', 'sk.microsoft',
-   * 'sl.microsoft', 'es.microsoft', 'es.lucene', 'sv.microsoft', 'sv.lucene', 'ta.microsoft',
-   * 'te.microsoft', 'th.microsoft', 'th.lucene', 'tr.microsoft', 'tr.lucene', 'uk.microsoft',
-   * 'ur.microsoft', 'vi.microsoft', 'standard.lucene', 'standardasciifolding.lucene', 'keyword',
-   * 'pattern', 'simple', 'stop', 'whitespace'
+   * exclusive. KnownAnalyzerNames is an enum containing known values.
    */
-  analyzer?: AnalyzerName;
+  analyzer?: string;
   /**
    * The name of the tokenizer to use to break the given text. If this parameter is not specified,
    * you must specify an analyzer instead. The tokenizer and analyzer parameters are mutually
@@ -1980,71 +1964,23 @@ export interface Field {
    * The name of the language analyzer to use for the field. This option can be used only with
    * searchable fields and it can't be set together with either searchAnalyzer or indexAnalyzer.
    * Once the analyzer is chosen, it cannot be changed for the field. Must be null for complex
-   * fields. Possible values include: 'ar.microsoft', 'ar.lucene', 'hy.lucene', 'bn.microsoft',
-   * 'eu.lucene', 'bg.microsoft', 'bg.lucene', 'ca.microsoft', 'ca.lucene', 'zh-Hans.microsoft',
-   * 'zh-Hans.lucene', 'zh-Hant.microsoft', 'zh-Hant.lucene', 'hr.microsoft', 'cs.microsoft',
-   * 'cs.lucene', 'da.microsoft', 'da.lucene', 'nl.microsoft', 'nl.lucene', 'en.microsoft',
-   * 'en.lucene', 'et.microsoft', 'fi.microsoft', 'fi.lucene', 'fr.microsoft', 'fr.lucene',
-   * 'gl.lucene', 'de.microsoft', 'de.lucene', 'el.microsoft', 'el.lucene', 'gu.microsoft',
-   * 'he.microsoft', 'hi.microsoft', 'hi.lucene', 'hu.microsoft', 'hu.lucene', 'is.microsoft',
-   * 'id.microsoft', 'id.lucene', 'ga.lucene', 'it.microsoft', 'it.lucene', 'ja.microsoft',
-   * 'ja.lucene', 'kn.microsoft', 'ko.microsoft', 'ko.lucene', 'lv.microsoft', 'lv.lucene',
-   * 'lt.microsoft', 'ml.microsoft', 'ms.microsoft', 'mr.microsoft', 'nb.microsoft', 'no.lucene',
-   * 'fa.lucene', 'pl.microsoft', 'pl.lucene', 'pt-BR.microsoft', 'pt-BR.lucene',
-   * 'pt-PT.microsoft', 'pt-PT.lucene', 'pa.microsoft', 'ro.microsoft', 'ro.lucene',
-   * 'ru.microsoft', 'ru.lucene', 'sr-cyrillic.microsoft', 'sr-latin.microsoft', 'sk.microsoft',
-   * 'sl.microsoft', 'es.microsoft', 'es.lucene', 'sv.microsoft', 'sv.lucene', 'ta.microsoft',
-   * 'te.microsoft', 'th.microsoft', 'th.lucene', 'tr.microsoft', 'tr.lucene', 'uk.microsoft',
-   * 'ur.microsoft', 'vi.microsoft', 'standard.lucene', 'standardasciifolding.lucene', 'keyword',
-   * 'pattern', 'simple', 'stop', 'whitespace'
+   * fields. KnownAnalyzerNames is an enum containing known values.
    */
-  analyzer?: AnalyzerName;
+  analyzer?: string;
   /**
    * The name of the analyzer used at search time for the field. This option can be used only with
    * searchable fields. It must be set together with indexAnalyzer and it cannot be set together
    * with the analyzer option. This analyzer can be updated on an existing field. Must be null for
-   * complex fields. Possible values include: 'ar.microsoft', 'ar.lucene', 'hy.lucene',
-   * 'bn.microsoft', 'eu.lucene', 'bg.microsoft', 'bg.lucene', 'ca.microsoft', 'ca.lucene',
-   * 'zh-Hans.microsoft', 'zh-Hans.lucene', 'zh-Hant.microsoft', 'zh-Hant.lucene', 'hr.microsoft',
-   * 'cs.microsoft', 'cs.lucene', 'da.microsoft', 'da.lucene', 'nl.microsoft', 'nl.lucene',
-   * 'en.microsoft', 'en.lucene', 'et.microsoft', 'fi.microsoft', 'fi.lucene', 'fr.microsoft',
-   * 'fr.lucene', 'gl.lucene', 'de.microsoft', 'de.lucene', 'el.microsoft', 'el.lucene',
-   * 'gu.microsoft', 'he.microsoft', 'hi.microsoft', 'hi.lucene', 'hu.microsoft', 'hu.lucene',
-   * 'is.microsoft', 'id.microsoft', 'id.lucene', 'ga.lucene', 'it.microsoft', 'it.lucene',
-   * 'ja.microsoft', 'ja.lucene', 'kn.microsoft', 'ko.microsoft', 'ko.lucene', 'lv.microsoft',
-   * 'lv.lucene', 'lt.microsoft', 'ml.microsoft', 'ms.microsoft', 'mr.microsoft', 'nb.microsoft',
-   * 'no.lucene', 'fa.lucene', 'pl.microsoft', 'pl.lucene', 'pt-BR.microsoft', 'pt-BR.lucene',
-   * 'pt-PT.microsoft', 'pt-PT.lucene', 'pa.microsoft', 'ro.microsoft', 'ro.lucene',
-   * 'ru.microsoft', 'ru.lucene', 'sr-cyrillic.microsoft', 'sr-latin.microsoft', 'sk.microsoft',
-   * 'sl.microsoft', 'es.microsoft', 'es.lucene', 'sv.microsoft', 'sv.lucene', 'ta.microsoft',
-   * 'te.microsoft', 'th.microsoft', 'th.lucene', 'tr.microsoft', 'tr.lucene', 'uk.microsoft',
-   * 'ur.microsoft', 'vi.microsoft', 'standard.lucene', 'standardasciifolding.lucene', 'keyword',
-   * 'pattern', 'simple', 'stop', 'whitespace'
+   * complex fields. KnownAnalyzerNames is an enum containing known values.
    */
-  searchAnalyzer?: AnalyzerName;
+  searchAnalyzer?: string;
   /**
    * The name of the analyzer used at indexing time for the field. This option can be used only
    * with searchable fields. It must be set together with searchAnalyzer and it cannot be set
    * together with the analyzer option. Once the analyzer is chosen, it cannot be changed for the
-   * field. Must be null for complex fields. Possible values include: 'ar.microsoft', 'ar.lucene',
-   * 'hy.lucene', 'bn.microsoft', 'eu.lucene', 'bg.microsoft', 'bg.lucene', 'ca.microsoft',
-   * 'ca.lucene', 'zh-Hans.microsoft', 'zh-Hans.lucene', 'zh-Hant.microsoft', 'zh-Hant.lucene',
-   * 'hr.microsoft', 'cs.microsoft', 'cs.lucene', 'da.microsoft', 'da.lucene', 'nl.microsoft',
-   * 'nl.lucene', 'en.microsoft', 'en.lucene', 'et.microsoft', 'fi.microsoft', 'fi.lucene',
-   * 'fr.microsoft', 'fr.lucene', 'gl.lucene', 'de.microsoft', 'de.lucene', 'el.microsoft',
-   * 'el.lucene', 'gu.microsoft', 'he.microsoft', 'hi.microsoft', 'hi.lucene', 'hu.microsoft',
-   * 'hu.lucene', 'is.microsoft', 'id.microsoft', 'id.lucene', 'ga.lucene', 'it.microsoft',
-   * 'it.lucene', 'ja.microsoft', 'ja.lucene', 'kn.microsoft', 'ko.microsoft', 'ko.lucene',
-   * 'lv.microsoft', 'lv.lucene', 'lt.microsoft', 'ml.microsoft', 'ms.microsoft', 'mr.microsoft',
-   * 'nb.microsoft', 'no.lucene', 'fa.lucene', 'pl.microsoft', 'pl.lucene', 'pt-BR.microsoft',
-   * 'pt-BR.lucene', 'pt-PT.microsoft', 'pt-PT.lucene', 'pa.microsoft', 'ro.microsoft',
-   * 'ro.lucene', 'ru.microsoft', 'ru.lucene', 'sr-cyrillic.microsoft', 'sr-latin.microsoft',
-   * 'sk.microsoft', 'sl.microsoft', 'es.microsoft', 'es.lucene', 'sv.microsoft', 'sv.lucene',
-   * 'ta.microsoft', 'te.microsoft', 'th.microsoft', 'th.lucene', 'tr.microsoft', 'tr.lucene',
-   * 'uk.microsoft', 'ur.microsoft', 'vi.microsoft', 'standard.lucene',
-   * 'standardasciifolding.lucene', 'keyword', 'pattern', 'simple', 'stop', 'whitespace'
+   * field. Must be null for complex fields. KnownAnalyzerNames is an enum containing known values.
    */
-  indexAnalyzer?: AnalyzerName;
+  indexAnalyzer?: string;
   /**
    * A list of the names of synonym maps to associate with this field. This option can be used only
    * with searchable fields. Currently only one synonym map per field is supported. Assigning a
@@ -3507,30 +3443,6 @@ export interface IndexesDeleteMethodOptionalParams extends coreHttp.RequestOptio
 }
 
 /**
- * Defines values for AnalyzerName.
- * Possible values include: 'ar.microsoft', 'ar.lucene', 'hy.lucene', 'bn.microsoft', 'eu.lucene',
- * 'bg.microsoft', 'bg.lucene', 'ca.microsoft', 'ca.lucene', 'zh-Hans.microsoft', 'zh-Hans.lucene',
- * 'zh-Hant.microsoft', 'zh-Hant.lucene', 'hr.microsoft', 'cs.microsoft', 'cs.lucene',
- * 'da.microsoft', 'da.lucene', 'nl.microsoft', 'nl.lucene', 'en.microsoft', 'en.lucene',
- * 'et.microsoft', 'fi.microsoft', 'fi.lucene', 'fr.microsoft', 'fr.lucene', 'gl.lucene',
- * 'de.microsoft', 'de.lucene', 'el.microsoft', 'el.lucene', 'gu.microsoft', 'he.microsoft',
- * 'hi.microsoft', 'hi.lucene', 'hu.microsoft', 'hu.lucene', 'is.microsoft', 'id.microsoft',
- * 'id.lucene', 'ga.lucene', 'it.microsoft', 'it.lucene', 'ja.microsoft', 'ja.lucene',
- * 'kn.microsoft', 'ko.microsoft', 'ko.lucene', 'lv.microsoft', 'lv.lucene', 'lt.microsoft',
- * 'ml.microsoft', 'ms.microsoft', 'mr.microsoft', 'nb.microsoft', 'no.lucene', 'fa.lucene',
- * 'pl.microsoft', 'pl.lucene', 'pt-BR.microsoft', 'pt-BR.lucene', 'pt-PT.microsoft',
- * 'pt-PT.lucene', 'pa.microsoft', 'ro.microsoft', 'ro.lucene', 'ru.microsoft', 'ru.lucene',
- * 'sr-cyrillic.microsoft', 'sr-latin.microsoft', 'sk.microsoft', 'sl.microsoft', 'es.microsoft',
- * 'es.lucene', 'sv.microsoft', 'sv.lucene', 'ta.microsoft', 'te.microsoft', 'th.microsoft',
- * 'th.lucene', 'tr.microsoft', 'tr.lucene', 'uk.microsoft', 'ur.microsoft', 'vi.microsoft',
- * 'standard.lucene', 'standardasciifolding.lucene', 'keyword', 'pattern', 'simple', 'stop',
- * 'whitespace'
- * @readonly
- * @enum {string}
- */
-export type AnalyzerName = 'ar.microsoft' | 'ar.lucene' | 'hy.lucene' | 'bn.microsoft' | 'eu.lucene' | 'bg.microsoft' | 'bg.lucene' | 'ca.microsoft' | 'ca.lucene' | 'zh-Hans.microsoft' | 'zh-Hans.lucene' | 'zh-Hant.microsoft' | 'zh-Hant.lucene' | 'hr.microsoft' | 'cs.microsoft' | 'cs.lucene' | 'da.microsoft' | 'da.lucene' | 'nl.microsoft' | 'nl.lucene' | 'en.microsoft' | 'en.lucene' | 'et.microsoft' | 'fi.microsoft' | 'fi.lucene' | 'fr.microsoft' | 'fr.lucene' | 'gl.lucene' | 'de.microsoft' | 'de.lucene' | 'el.microsoft' | 'el.lucene' | 'gu.microsoft' | 'he.microsoft' | 'hi.microsoft' | 'hi.lucene' | 'hu.microsoft' | 'hu.lucene' | 'is.microsoft' | 'id.microsoft' | 'id.lucene' | 'ga.lucene' | 'it.microsoft' | 'it.lucene' | 'ja.microsoft' | 'ja.lucene' | 'kn.microsoft' | 'ko.microsoft' | 'ko.lucene' | 'lv.microsoft' | 'lv.lucene' | 'lt.microsoft' | 'ml.microsoft' | 'ms.microsoft' | 'mr.microsoft' | 'nb.microsoft' | 'no.lucene' | 'fa.lucene' | 'pl.microsoft' | 'pl.lucene' | 'pt-BR.microsoft' | 'pt-BR.lucene' | 'pt-PT.microsoft' | 'pt-PT.lucene' | 'pa.microsoft' | 'ro.microsoft' | 'ro.lucene' | 'ru.microsoft' | 'ru.lucene' | 'sr-cyrillic.microsoft' | 'sr-latin.microsoft' | 'sk.microsoft' | 'sl.microsoft' | 'es.microsoft' | 'es.lucene' | 'sv.microsoft' | 'sv.lucene' | 'ta.microsoft' | 'te.microsoft' | 'th.microsoft' | 'th.lucene' | 'tr.microsoft' | 'tr.lucene' | 'uk.microsoft' | 'ur.microsoft' | 'vi.microsoft' | 'standard.lucene' | 'standardasciifolding.lucene' | 'keyword' | 'pattern' | 'simple' | 'stop' | 'whitespace';
-
-/**
  * Defines values for TokenizerName.
  * Possible values include: 'Classic', 'EdgeNGram', 'Keyword', 'Letter', 'Lowercase',
  * 'MicrosoftLanguageTokenizer', 'MicrosoftLanguageStemmingTokenizer', 'NGram', 'PathHierarchy',
@@ -3561,6 +3473,30 @@ export type TokenFilterName = 'arabic_normalization' | 'apostrophe' | 'asciifold
  * @enum {string}
  */
 export type CharFilterName = 'html_strip';
+
+/**
+ * Defines values for AnalyzerName.
+ * Possible values include: 'ar.microsoft', 'ar.lucene', 'hy.lucene', 'bn.microsoft', 'eu.lucene',
+ * 'bg.microsoft', 'bg.lucene', 'ca.microsoft', 'ca.lucene', 'zh-Hans.microsoft', 'zh-Hans.lucene',
+ * 'zh-Hant.microsoft', 'zh-Hant.lucene', 'hr.microsoft', 'cs.microsoft', 'cs.lucene',
+ * 'da.microsoft', 'da.lucene', 'nl.microsoft', 'nl.lucene', 'en.microsoft', 'en.lucene',
+ * 'et.microsoft', 'fi.microsoft', 'fi.lucene', 'fr.microsoft', 'fr.lucene', 'gl.lucene',
+ * 'de.microsoft', 'de.lucene', 'el.microsoft', 'el.lucene', 'gu.microsoft', 'he.microsoft',
+ * 'hi.microsoft', 'hi.lucene', 'hu.microsoft', 'hu.lucene', 'is.microsoft', 'id.microsoft',
+ * 'id.lucene', 'ga.lucene', 'it.microsoft', 'it.lucene', 'ja.microsoft', 'ja.lucene',
+ * 'kn.microsoft', 'ko.microsoft', 'ko.lucene', 'lv.microsoft', 'lv.lucene', 'lt.microsoft',
+ * 'ml.microsoft', 'ms.microsoft', 'mr.microsoft', 'nb.microsoft', 'no.lucene', 'fa.lucene',
+ * 'pl.microsoft', 'pl.lucene', 'pt-BR.microsoft', 'pt-BR.lucene', 'pt-PT.microsoft',
+ * 'pt-PT.lucene', 'pa.microsoft', 'ro.microsoft', 'ro.lucene', 'ru.microsoft', 'ru.lucene',
+ * 'sr-cyrillic.microsoft', 'sr-latin.microsoft', 'sk.microsoft', 'sl.microsoft', 'es.microsoft',
+ * 'es.lucene', 'sv.microsoft', 'sv.lucene', 'ta.microsoft', 'te.microsoft', 'th.microsoft',
+ * 'th.lucene', 'tr.microsoft', 'tr.lucene', 'uk.microsoft', 'ur.microsoft', 'vi.microsoft',
+ * 'standard.lucene', 'standardasciifolding.lucene', 'keyword', 'pattern', 'simple', 'stop',
+ * 'whitespace'
+ * @readonly
+ * @enum {string}
+ */
+export type AnalyzerName = 'ar.microsoft' | 'ar.lucene' | 'hy.lucene' | 'bn.microsoft' | 'eu.lucene' | 'bg.microsoft' | 'bg.lucene' | 'ca.microsoft' | 'ca.lucene' | 'zh-Hans.microsoft' | 'zh-Hans.lucene' | 'zh-Hant.microsoft' | 'zh-Hant.lucene' | 'hr.microsoft' | 'cs.microsoft' | 'cs.lucene' | 'da.microsoft' | 'da.lucene' | 'nl.microsoft' | 'nl.lucene' | 'en.microsoft' | 'en.lucene' | 'et.microsoft' | 'fi.microsoft' | 'fi.lucene' | 'fr.microsoft' | 'fr.lucene' | 'gl.lucene' | 'de.microsoft' | 'de.lucene' | 'el.microsoft' | 'el.lucene' | 'gu.microsoft' | 'he.microsoft' | 'hi.microsoft' | 'hi.lucene' | 'hu.microsoft' | 'hu.lucene' | 'is.microsoft' | 'id.microsoft' | 'id.lucene' | 'ga.lucene' | 'it.microsoft' | 'it.lucene' | 'ja.microsoft' | 'ja.lucene' | 'kn.microsoft' | 'ko.microsoft' | 'ko.lucene' | 'lv.microsoft' | 'lv.lucene' | 'lt.microsoft' | 'ml.microsoft' | 'ms.microsoft' | 'mr.microsoft' | 'nb.microsoft' | 'no.lucene' | 'fa.lucene' | 'pl.microsoft' | 'pl.lucene' | 'pt-BR.microsoft' | 'pt-BR.lucene' | 'pt-PT.microsoft' | 'pt-PT.lucene' | 'pa.microsoft' | 'ro.microsoft' | 'ro.lucene' | 'ru.microsoft' | 'ru.lucene' | 'sr-cyrillic.microsoft' | 'sr-latin.microsoft' | 'sk.microsoft' | 'sl.microsoft' | 'es.microsoft' | 'es.lucene' | 'sv.microsoft' | 'sv.lucene' | 'ta.microsoft' | 'te.microsoft' | 'th.microsoft' | 'th.lucene' | 'tr.microsoft' | 'tr.lucene' | 'uk.microsoft' | 'ur.microsoft' | 'vi.microsoft' | 'standard.lucene' | 'standardasciifolding.lucene' | 'keyword' | 'pattern' | 'simple' | 'stop' | 'whitespace';
 
 /**
  * Defines values for RegexFlags.
