@@ -677,10 +677,12 @@ export class MessageSender extends LinkEntity {
 
   /**
    * Returns maximum message size on the AMQP sender link.
-   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   * @returns Promise<number>
-   * @throws AbortError if the operation is cancelled via the abortSignal.
+   *
+   * @param {{
+   *       retryOptions?: RetryOptions;
+   *     }} [options={}]
+   * @returns {Promise<number>}
+   * @memberof MessageSender
    */
   async getMaxMessageSize(
     options: {

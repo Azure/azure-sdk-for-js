@@ -6,25 +6,6 @@ import { AmqpMessage } from "@azure/core-amqp";
 
 export interface SendableMessageInfoBatch {
   /**
-   * A value that is hashed and used by the Azure Event Hubs service to determine the partition to
-   * which the events are sent. Use the `createBatch()` method on the `EventHubProducerClient` to
-   * set the partitionKey.
-   * @readonly
-   * @internal
-   * @ignore
-   */
-  readonly partitionKey?: string;
-
-  /**
-   * Id of the partition to which the batch of events are sent. Use the `createBatch()` method on
-   * the `EventHubProducerClient` to set the partitionId.
-   * @readonly
-   * @internal
-   * @ignore
-   */
-  readonly partitionId?: string;
-
-  /**
    * Size of the batch in bytes after the events added to it have been encoded into a single AMQP
    * message.
    * @readonly
@@ -32,32 +13,32 @@ export interface SendableMessageInfoBatch {
   readonly sizeInBytes: number;
 
   /**
-   * Number of events added to the batch.
+   * Number of messages added to the batch.
    * @readonly
    */
   readonly count: number;
 
   /**
    * The maximum size of the batch, in bytes. The `tryAdd` function on the batch will return `false`
-   * if the event being added causes the size of the batch to exceed this limit. Use the `createBatch()` method on
-   * the `EventHubProducerClient` to set the maxSizeInBytes.
+   * if the message being added causes the size of the batch to exceed this limit. Use the `createBatch()` method on
+   * the `Sender` to set the maxSizeInBytes.
    * @readonly.
    */
   readonly maxSizeInBytes: number;
 
   /**
-   * Adds an event to the batch if permitted by the batch's size limit.
+   * Adds a message to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
-   * @param eventData  An individual event data object.
-   * @returns A boolean value indicating if the event data has been added to the batch or not.
+   * @param message  An individual service bus message.
+   * @returns A boolean value indicating if the message has been added to the batch or not.
    */
   tryAdd(message: SendableMessageInfo): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
-   * Used internally by the `sendBatch()` method on the `EventHubProducerClient`.
+   * Used internally by the `sendBatch()` method on the `Sender`.
    * This is not meant for the user to use directly.
    *
    * @readonly
@@ -68,7 +49,7 @@ export interface SendableMessageInfoBatch {
 }
 
 /**
- * An internal class representing a batch of events which can be used to send events to Event Hub.
+ * An internal class representing a batch of messages which can be used to send messages to Service Bus.
  *
  * @class
  * @internal
@@ -92,7 +73,7 @@ export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
    */
   private _encodedMessages: Buffer[] = [];
   /**
-   * @property Number of events in the batch.
+   * @property Number of messages in the batch.
    */
   private _count: number;
   /**
@@ -101,8 +82,8 @@ export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
   private _batchMessage: Buffer | undefined;
 
   /**
-   * EventDataBatch should not be constructed using `new EventDataBatch()`
-   * Use the `createBatch()` method on your `EventHubProducer` instead.
+   * SendableMessageInfoBatch should not be constructed using `new SendableMessageInfoBatch()`
+   * Use the `createBatch()` method on your `Sender` instead.
    * @constructor
    * @internal
    * @ignore
@@ -123,7 +104,7 @@ export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
   }
 
   /**
-   * @property Size of the `EventDataBatch` instance after the events added to it have been
+   * @property Size of the `SendableMessageInfoBatch` instance after the messages added to it have been
    * encoded into a single AMQP message.
    * @readonly
    */
@@ -132,7 +113,7 @@ export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
   }
 
   /**
-   * @property Number of events in the `EventDataBatch` instance.
+   * @property Number of messages in the `SendableMessageInfoBatch` instance.
    * @readonly
    */
   get count(): number {
@@ -141,11 +122,11 @@ export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
 
   /**
    * @property Represents the single AMQP message which is the result of encoding all the events
-   * added into the `EventDataBatch` instance.
+   * added into the `SendableMessageInfoBatch` instance.
    *
    * This is not meant for the user to use directly.
    *
-   * When the `EventDataBatch` instance is passed to the `send()` method on the `EventHubProducer`,
+   * When the `SendableMessageInfoBatch` instance is passed to the `sendBatch()` method on the `Sender`,
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
    */
@@ -154,17 +135,17 @@ export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
   }
 
   /**
-   * Tries to add an event data to the batch if permitted by the batch's size limit.
+   * Tries to add a message to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again
-   * for the next event.
+   * for the next message.
    *
-   * @param eventData  An individual event data object.
-   * @returns A boolean value indicating if the event data has been added to the batch or not.
+   * @param message  An individual service bus message.
+   * @returns A boolean value indicating if the message has been added to the batch or not.
    */
   public tryAdd(message: SendableMessageInfo): boolean {
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "tryAdd", "message");
 
-    // Convert EventData to AmqpMessage.
+    // Convert SendableMessageInfo to AmqpMessage.
     const amqpMessage = toAmqpMessage(message);
     amqpMessage.body = this._context.namespace.dataTransformer.encode(message.body);
 
