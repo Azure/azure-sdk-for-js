@@ -52,8 +52,31 @@ export interface Sender {
    */
   sendBatch(messages: SendableMessageInfo[]): Promise<void>;
 
+  /**
+   * Creates an instance of `SendableMessageInfoBatch` to which one can add messages until the maximum supported size is reached.
+   * The batch can be passed to the {@link sendBatch} method to send the messages to Azure Service Bus.
+   * @param options  Configures the behavior of the batch.
+   * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
+   *
+   * @param {CreateBatchOptions} [options]
+   * @returns {Promise<SendableMessageInfoBatch>}
+   * @throws MessagingError if an error is encountered while sending a message.
+   * @throws Error if the underlying connection or sender has been closed.
+   * @memberof Sender
+   */
   createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch>;
+
+  /**
+   * Sends a batch of messages to the associated service-bus entity.
+   *
+   * @param {SendableMessageInfoBatch} messageBatch A batch of messages that you can create using the {@link createBatch} method.
+   * @returns {Promise<void>}
+   * @throws MessagingError if an error is encountered while sending a message.
+   * @throws Error if the underlying connection or sender has been closed.
+   * @memberof Sender
+   */
   sendBatch2(messageBatch: SendableMessageInfoBatch): Promise<void>;
+
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed
    * @readonly
