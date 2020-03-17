@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.4 (2020-03-16)
+## 1.1.4 (2020-03-17)
 
 - Updated to use the latest version of `@azure/amqp-common` where the timeout for authorization requests sent to the service is increased from 10s to 60s to reduce the frequency of timeout errors.
   [PR 7823](https://github.com/Azure/azure-sdk-for-js/issues/7823).
