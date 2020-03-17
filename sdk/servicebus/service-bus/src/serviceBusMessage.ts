@@ -378,6 +378,82 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
 }
 
 /**
+ * Describes the message received from Service Bus during peek operations and so cannot be settled.
+ * @class ReceivedMessage
+ */
+export interface ReceivedMessage extends ServiceBusMessage {
+  /**
+   * @property The lock token is a reference to the lock that is being held by the broker in
+   * `ReceiveMode.PeekLock` mode. Locks are used internally settle messages as explained in the
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
+   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
+   * mode.
+   * @readonly
+   */
+  readonly lockToken?: string;
+  /**
+   * @property Number of deliveries that have been attempted for this message. The count is
+   * incremented when a message lock expires, or the message is explicitly abandoned using the
+   * `abandon()` method on the message.
+   * @readonly
+   */
+  readonly deliveryCount?: number;
+  /**
+   * @property The UTC instant at which the message has been accepted and stored in Service Bus.
+   * @readonly
+   */
+  readonly enqueuedTimeUtc?: Date;
+  /**
+   * @property The UTC instant at which the message is marked for removal and no longer available for
+   * retrieval from the entity due to expiration. This property is computed from 2 other properties
+   * on the message: `enqueuedTimeUtc` + `timeToLive`.
+   */
+  readonly expiresAtUtc?: Date;
+  /**
+   * @property The UTC instant until which the message is held locked in the queue/subscription.
+   * When the lock expires, the `deliveryCount` is incremented and the message is again available
+   * for retrieval.
+   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
+   * mode.
+   */
+  lockedUntilUtc?: Date;
+  /**
+   * @property The original sequence number of the message. For
+   * messages that have been auto-forwarded, this property reflects the sequence number that had
+   * first been assigned to the message at its original point of submission.
+   * @readonly
+   */
+  readonly enqueuedSequenceNumber?: number;
+  /**
+   * @property The unique number assigned to a message by Service Bus.
+   * The sequence number is a unique 64-bit integer assigned to a message as it is accepted
+   * and stored by the broker and functions as its true identifier. For partitioned entities,
+   * the topmost 16 bits reflect the partition identifier. Sequence numbers monotonically increase.
+   * They roll over to 0 when the 48-64 bit range is exhausted.
+   *
+   * **Max safe integer** that Javascript currently supports is `2^53 - 1`. The sequence number
+   * is an AMQP `Long` type which can be upto 64 bits long. To represent that we are using a
+   * library named {@link https://github.com/dcodeIO/long.js long.js}. We expect customers
+   * to use the **`Long`** type exported by this library.
+   * @readonly
+   */
+  readonly sequenceNumber?: Long;
+  /**
+   * @property {string} [deadLetterSource] The name of the queue or subscription that this message
+   * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
+   * and subsequently auto-forwarded from the dead-letter sub-queue to another entity. Indicates the
+   * entity in which the message was dead-lettered.
+   * @readonly
+   */
+  readonly deadLetterSource?: string;
+  /**
+   * @property {AmqpMessage} _amqpMessage The underlying raw amqp message.
+   * @readonly
+   */
+  readonly _amqpMessage: AmqpMessage;
+}
+
+/**
  * A message that can be settled by completing it, abandoning it, deferring it, or sending
  * it to the dead letter queue.
  */
@@ -497,82 +573,6 @@ export interface ReceivedLockedMessage extends ReceivedMessage {
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
   renewLock(): Promise<Date>;
-}
-
-/**
- * Describes the message received from Service Bus during peek operations and so cannot be settled.
- * @class ReceivedMessage
- */
-export interface ReceivedMessage extends ServiceBusMessage {
-  /**
-   * @property The lock token is a reference to the lock that is being held by the broker in
-   * `ReceiveMode.PeekLock` mode. Locks are used internally settle messages as explained in the
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
-   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
-   * mode.
-   * @readonly
-   */
-  readonly lockToken?: string;
-  /**
-   * @property Number of deliveries that have been attempted for this message. The count is
-   * incremented when a message lock expires, or the message is explicitly abandoned using the
-   * `abandon()` method on the message.
-   * @readonly
-   */
-  readonly deliveryCount?: number;
-  /**
-   * @property The UTC instant at which the message has been accepted and stored in Service Bus.
-   * @readonly
-   */
-  readonly enqueuedTimeUtc?: Date;
-  /**
-   * @property The UTC instant at which the message is marked for removal and no longer available for
-   * retrieval from the entity due to expiration. This property is computed from 2 other properties
-   * on the message: `enqueuedTimeUtc` + `timeToLive`.
-   */
-  readonly expiresAtUtc?: Date;
-  /**
-   * @property The UTC instant until which the message is held locked in the queue/subscription.
-   * When the lock expires, the `deliveryCount` is incremented and the message is again available
-   * for retrieval.
-   * - Not applicable when the message is received in `ReceiveMode.receiveAndDelete`
-   * mode.
-   */
-  lockedUntilUtc?: Date;
-  /**
-   * @property The original sequence number of the message. For
-   * messages that have been auto-forwarded, this property reflects the sequence number that had
-   * first been assigned to the message at its original point of submission.
-   * @readonly
-   */
-  readonly enqueuedSequenceNumber?: number;
-  /**
-   * @property The unique number assigned to a message by Service Bus.
-   * The sequence number is a unique 64-bit integer assigned to a message as it is accepted
-   * and stored by the broker and functions as its true identifier. For partitioned entities,
-   * the topmost 16 bits reflect the partition identifier. Sequence numbers monotonically increase.
-   * They roll over to 0 when the 48-64 bit range is exhausted.
-   *
-   * **Max safe integer** that Javascript currently supports is `2^53 - 1`. The sequence number
-   * is an AMQP `Long` type which can be upto 64 bits long. To represent that we are using a
-   * library named {@link https://github.com/dcodeIO/long.js long.js}. We expect customers
-   * to use the **`Long`** type exported by this library.
-   * @readonly
-   */
-  readonly sequenceNumber?: Long;
-  /**
-   * @property {string} [deadLetterSource] The name of the queue or subscription that this message
-   * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
-   * and subsequently auto-forwarded from the dead-letter sub-queue to another entity. Indicates the
-   * entity in which the message was dead-lettered.
-   * @readonly
-   */
-  readonly deadLetterSource?: string;
-  /**
-   * @property {AmqpMessage} _amqpMessage The underlying raw amqp message.
-   * @readonly
-   */
-  readonly _amqpMessage: AmqpMessage;
 }
 
 /**
