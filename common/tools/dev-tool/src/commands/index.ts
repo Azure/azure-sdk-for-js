@@ -8,9 +8,8 @@ import { subCommand } from "../util/commandBuilder";
  */
 export const baseCommands = {
   about: () => import("./about"),
-  "package": () => import("./package"),
-  "samples": () => import("./samples"),
-  "hello": () => import("./hello"),
+  package: () => import("./package"),
+  samples: () => import("./samples")
 } as const;
 
 /**

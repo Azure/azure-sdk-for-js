@@ -16,7 +16,7 @@
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "test": "./launch.js --num 10 --pre pre command --bool --bool2=true --post post -- --after --after-bool=true "
+    "unit-test": "echo skipped"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "author": "Microsoft Corporation",
