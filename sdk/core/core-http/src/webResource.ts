@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpHeaders } from "./httpHeaders";
+import { HttpHeaders, HttpHeadersLike, isHttpHeadersLike } from "./httpHeaders";
 import { OperationSpec } from "./operationSpec";
 import { Mapper, Serializer } from "./serializer";
 import { generateUuid } from "./util/utils";
@@ -37,6 +37,49 @@ export type TransferProgressEvent = {
   loadedBytes: number;
 };
 
+export interface WebResourceLike {
+  url: string;
+  method: HttpMethods;
+  body?: any;
+  headers: HttpHeadersLike;
+  streamResponseBody?: boolean;
+  shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
+  operationResponseGetter?: (
+    operationSpec: OperationSpec,
+    response: HttpOperationResponse
+  ) => undefined | OperationResponse;
+  formData?: any;
+  query?: { [key: string]: any };
+  operationSpec?: OperationSpec;
+  withCredentials: boolean;
+  timeout: number;
+  proxySettings?: ProxySettings;
+  keepAlive?: boolean;
+  requestId: string;
+  abortSignal?: AbortSignalLike;
+  onUploadProgress?: (progress: TransferProgressEvent) => void;
+  onDownloadProgress?: (progress: TransferProgressEvent) => void;
+  spanOptions?: SpanOptions;
+  validateRequestProperties(): void;
+  prepare(options: RequestPrepareOptions): WebResourceLike;
+  clone(): WebResourceLike;
+}
+
+export function isWebResourceLike(object: object): object is WebResourceLike {
+  const anyObj: any = object;
+  if (
+    typeof anyObj.url === "string" &&
+    typeof anyObj.method === "string" &&
+    typeof anyObj.headers === "object" &&
+    typeof anyObj.validateRequestProperties === "function" &&
+    typeof anyObj.prepare === "function" &&
+    typeof anyObj.clone === "function"
+  ) {
+    return true;
+  }
+  return false;
+}
+
 /**
  * Creates a new WebResource object.
  *
@@ -49,7 +92,7 @@ export class WebResource {
   url: string;
   method: HttpMethods;
   body?: any;
-  headers: HttpHeaders;
+  headers: HttpHeadersLike;
   /**
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
    */
@@ -95,7 +138,7 @@ export class WebResource {
     method?: HttpMethods,
     body?: any,
     query?: { [key: string]: any },
-    headers?: { [key: string]: any } | HttpHeaders,
+    headers?: { [key: string]: any } | HttpHeadersLike,
     streamResponseBody?: boolean,
     withCredentials?: boolean,
     abortSignal?: AbortSignalLike,
@@ -108,7 +151,7 @@ export class WebResource {
     this.streamResponseBody = streamResponseBody;
     this.url = url || "";
     this.method = method || "GET";
-    this.headers = headers instanceof HttpHeaders ? headers : new HttpHeaders(headers);
+    this.headers = isHttpHeadersLike(headers) ? headers : new HttpHeaders(headers);
     this.body = body;
     this.query = query;
     this.formData = undefined;

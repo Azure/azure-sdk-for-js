@@ -28,10 +28,42 @@ export interface HttpHeader {
  */
 export type RawHttpHeaders = { [headerName: string]: string };
 
+export interface HttpHeadersLike {
+  set(headerName: string, headerValue: string | number): void;
+  get(headerName: string): string | undefined;
+  contains(headerName: string): boolean;
+  remove(headerName: string): boolean;
+  rawHeaders(): RawHttpHeaders;
+  headersArray(): HttpHeader[];
+  headerNames(): string[];
+  headerValues(): string[];
+  clone(): HttpHeadersLike;
+  toJson(): RawHttpHeaders;
+}
+
+export function isHttpHeadersLike(object?: object): object is HttpHeadersLike {
+  if (!object) {
+    return false;
+  }
+
+  const anyObj: any = object;
+  if (
+    typeof anyObj.rawHeaders === "function" &&
+    typeof anyObj.clone === "function" &&
+    typeof anyObj.get === "function" &&
+    typeof anyObj.set === "function" &&
+    typeof anyObj.contains === "function" &&
+    typeof anyObj.remove === "function"
+  ) {
+    return true;
+  }
+  return false;
+}
+
 /**
  * A collection of HTTP header key/value pairs.
  */
-export class HttpHeaders {
+export class HttpHeaders implements HttpHeadersLike {
   private readonly _headersMap: { [headerKey: string]: HttpHeader };
 
   constructor(rawHeaders?: RawHttpHeaders) {
