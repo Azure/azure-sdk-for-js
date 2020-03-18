@@ -62,6 +62,7 @@ export { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 export { getDefaultProxySettings, proxyPolicy } from "./policies/proxyPolicy";
 export { redirectPolicy, RedirectOptions } from "./policies/redirectPolicy";
 export { keepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
+export { compressPolicy, CompressOptions } from "./policies/compressPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export {
   userAgentPolicy,

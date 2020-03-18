@@ -92,7 +92,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
   }
 
   async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
-    const requestInit: Partial<RequestInit & { agent?: any }> = {};
+    const requestInit: Partial<RequestInit & { agent?: any, compress?: boolean }> = {};
 
     if (this.cookieJar && !httpRequest.headers.get("Cookie")) {
       const cookieString = await new Promise<string>((resolve, reject) => {
@@ -110,6 +110,8 @@ export class NodeFetchHttpClient extends FetchHttpClient {
 
     // Set the http(s) agent
     requestInit.agent = this.getOrCreateAgent(httpRequest);
+
+    requestInit.compress = httpRequest.compress;
 
     return requestInit;
   }

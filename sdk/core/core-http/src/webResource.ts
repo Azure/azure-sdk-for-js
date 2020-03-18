@@ -37,6 +37,13 @@ export type TransferProgressEvent = {
   loadedBytes: number;
 };
 
+export interface AdditionalRequestOptions {
+  /**
+   * Whether or not to support gzip/deflate encoding (node-fetch client only)
+   */
+  compress?: boolean;
+}
+
 export interface WebResourceLike {
   /**
    * The URL being accessed by the request.
@@ -98,6 +105,10 @@ export interface WebResourceLike {
    * If the connection should be reused.
    */
   keepAlive?: boolean;
+  /**
+   * Whether or not to support gzip/deflate encoding (node-fetch client only)
+   */
+  compress?: boolean;
   /**
    * A unique identifier for the request. Used for logging and tracing.
    */
@@ -194,6 +205,10 @@ export class WebResource implements WebResourceLike {
   timeout: number;
   proxySettings?: ProxySettings;
   keepAlive?: boolean;
+  /**
+   * Whether or not to support gzip/deflate encoding (node-fetch client only)
+   */
+  compress?: boolean;
   requestId: string;
 
   abortSignal?: AbortSignalLike;
@@ -222,7 +237,8 @@ export class WebResource implements WebResourceLike {
     onUploadProgress?: (progress: TransferProgressEvent) => void,
     onDownloadProgress?: (progress: TransferProgressEvent) => void,
     proxySettings?: ProxySettings,
-    keepAlive?: boolean
+    keepAlive?: boolean,
+    additionalOptions: AdditionalRequestOptions = {}
   ) {
     this.streamResponseBody = streamResponseBody;
     this.url = url || "";
@@ -238,6 +254,7 @@ export class WebResource implements WebResourceLike {
     this.onDownloadProgress = onDownloadProgress;
     this.proxySettings = proxySettings;
     this.keepAlive = keepAlive;
+    this.compress = additionalOptions.compress;
     this.requestId = this.headers.get("x-ms-client-request-id") || generateUuid();
   }
 
@@ -482,7 +499,9 @@ export class WebResource implements WebResourceLike {
       this.onUploadProgress,
       this.onDownloadProgress,
       this.proxySettings,
-      this.keepAlive
+      this.keepAlive, {
+        compress: this.compress
+      }
     );
 
     if (this.formData) {
