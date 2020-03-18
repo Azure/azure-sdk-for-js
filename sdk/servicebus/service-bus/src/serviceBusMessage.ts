@@ -17,6 +17,7 @@ import { MessageReceiver } from "./core/messageReceiver";
 import { MessageSession } from "./session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
+import { OperationOptions } from "@azure/core-auth";
 
 // TODO: it'd be nice to make this internal/ignore if we can in favor of just using the string enum.
 /**
@@ -142,7 +143,7 @@ export interface DeadLetterOptions {
  * }
  * ```
  */
-export interface CreateBatchOptions {
+export interface CreateBatchOptions extends OperationOptions {
   /**
    * @property
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
