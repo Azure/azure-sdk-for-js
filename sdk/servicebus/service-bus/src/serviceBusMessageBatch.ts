@@ -162,16 +162,11 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
       body: RheaMessageUtil.data_sections(this._encodedMessages)
     };
 
-    if (amqpMessage.message_annotations) {
-      batchMessage.message_annotations = amqpMessage.message_annotations;
-    }
-    if (amqpMessage.application_properties) {
-      batchMessage.application_properties = amqpMessage.application_properties;
-    }
+    batchMessage.message_annotations = amqpMessage.message_annotations;
+    batchMessage.application_properties = amqpMessage.application_properties;
+
     for (const prop of messageProperties) {
-      if ((amqpMessage as any)[prop]) {
-        (batchMessage as any)[prop] = (amqpMessage as any)[prop];
-      }
+      (batchMessage as any)[prop] = (amqpMessage as any)[prop];
     }
 
     const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
