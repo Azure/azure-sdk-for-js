@@ -4,7 +4,7 @@
 import Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
-import { ServiceBusMessage, CreateBatchOptions } from "./serviceBusMessage";
+import { ServiceBusMessage } from "./serviceBusMessage";
 import { ClientEntityContext } from "./clientEntityContext";
 import {
   getSenderClosedErrorMsg,
@@ -14,6 +14,7 @@ import {
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
+import { CreateBatchOptions } from "./models";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time

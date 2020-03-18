@@ -24,7 +24,6 @@ export {
   ServiceBusMessage,
   DeadLetterOptions,
   ReceiveMode,
-  CreateBatchOptions,
   ReceivedMessageWithLock
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
@@ -56,7 +55,8 @@ export {
   MessageHandlers,
   ReceiveBatchOptions,
   SubscribeOptions,
-  WaitTimeOptions
+  WaitTimeOptions,
+  CreateBatchOptions
 } from "./models";
 
 export { Receiver, SubscriptionRuleManagement } from "./receivers/receiver";

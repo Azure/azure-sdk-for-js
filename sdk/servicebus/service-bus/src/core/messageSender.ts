@@ -28,14 +28,14 @@ import {
 import {
   ServiceBusMessage,
   toAmqpMessage,
-  getMessagePropertyTypeMismatchError,
-  CreateBatchOptions
+  getMessagePropertyTypeMismatchError
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
+import { CreateBatchOptions } from "../models";
 
 /**
  * @internal

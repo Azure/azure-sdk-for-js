@@ -9,13 +9,7 @@ import {
   MessageAnnotations,
   DeliveryAnnotations
 } from "rhea-promise";
-import {
-  Constants,
-  AmqpMessage,
-  translate,
-  ErrorNameConditionMapper,
-  RetryOptions
-} from "@azure/core-amqp";
+import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/core-amqp";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "./util/utils";
@@ -23,7 +17,6 @@ import { MessageReceiver } from "./core/messageReceiver";
 import { MessageSession } from "./session/messageSession";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
-import { OperationOptions } from "@azure/core-auth";
 
 // TODO: it'd be nice to make this internal/ignore if we can in favor of just using the string enum.
 /**
@@ -136,32 +129,6 @@ export interface DeadLetterOptions {
    * @property The error description for deadlettering the message.
    */
   deadLetterErrorDescription: string;
-}
-
-/**
- * Options to configure the `createBatch` method on the `Sender`.
- * - `maxSizeInBytes`: The upper limit for the size of batch.
- *
- * Example usage:
- * ```js
- * {
- *     maxSizeInBytes: 1024 * 1024 // 1 MB
- * }
- * ```
- */
-export interface CreateBatchOptions extends OperationOptions {
-  /**
-   * @property
-   * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
-   */
-  maxSizeInBytes?: number;
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   * @memberof CreateBatchOptions
-   */
-  retryOptions?: RetryOptions;
 }
 
 /**

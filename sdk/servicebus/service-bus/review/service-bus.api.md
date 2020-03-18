@@ -46,6 +46,7 @@ export interface CorrelationFilter {
 // @public
 export interface CreateBatchOptions extends OperationOptions {
     maxSizeInBytes?: number;
+    retryOptions?: RetryOptions;
 }
 
 export { DataTransformer }
