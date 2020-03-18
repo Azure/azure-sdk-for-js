@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.5 (Unreleased)
+
+
 ## 1.1.4 (2020-03-17)
 
 - Updated to use the latest version of `@azure/amqp-common` where the timeout for authorization requests sent to the service is increased from 10s to 60s to reduce the frequency of timeout errors.
