@@ -844,9 +844,11 @@ describe("Streaming with sessions", () => {
       }
 
       const testMessages = [TestMessage.getSessionSample(), TestMessage.getSessionSample()];
-      for (const testMessage of testMessages) {
-        await senderClient.send(testMessage);
+      const batchMessageToSend = await senderClient.createBatch();
+      for (const message of testMessages) {
+        batchMessageToSend.tryAdd(message);
       }
+      await senderClient.sendBatch(batchMessageToSend);
 
       const settledMsgs: ReceivedMessageWithLock[] = [];
       const receivedMsgs: ReceivedMessageWithLock[] = [];
