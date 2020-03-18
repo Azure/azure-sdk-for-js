@@ -105,6 +105,7 @@ describe("send scheduled messages", () => {
     });
   });
 
+  // sendBatch(<Array of messages>) - Commented
   // describe("Simple Send Batch", function(): void {
   //   afterEach(async () => {
   //     await afterEachTest();
