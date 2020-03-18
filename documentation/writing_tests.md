@@ -37,10 +37,10 @@ async function callsClientMethodA(client) {
 
 describe("a set of tests", function() {
   it("can effectively call the client's method A", function() {
-	  const client = null; // Let's say we actually have a client here.
+    const client = null; // Let's say we actually have a client here.
 
     // The function invoked below hides exactly what we want to test.
-	  await callsClientMethodA(client);
+    await callsClientMethodA(client);
   });
 });
 ```
@@ -50,7 +50,7 @@ Instead, this code should be written inside of the test case, as follows:
 ```ts
 describe("a set of tests", function() {
   it("can effectively call the client's method A", function() {
-	const client = null; // Let's say we actually have a client here.
+    const client = null; // Let's say we actually have a client here.
     await client.A(); // Method "A" is clearly invoked inside of this test.
   });
 });
@@ -71,9 +71,9 @@ async function doSomePriorWork(client) {
 
 describe("a set of tests", function() {
   it("can call client's method A with some prior work", function() {
-	  const client = null; // Let's say we actually have a client here.
-	  await doSomePriorWork(client); // No other test case uses "doSomePriorWork".
-	  await client.A();
+    const client = null; // Let's say we actually have a client here.
+    await doSomePriorWork(client); // No other test case uses "doSomePriorWork".
+    await client.A();
   });
 });
 ```
@@ -83,16 +83,16 @@ Code that is intended to do preparations that are only specific for a single tes
 ```ts
 describe("a set of tests", function() {
   it("can call client's method A with some prior work", function() {
-	  const client = null; // Let's say we actually have a client here.
+    const client = null; // Let's say we actually have a client here.
 
-	  // Prior work goes here...
+    // Prior work goes here...
     // Perhaps some client methods, like:
     await client.work();
     await client.workSomeMore();
     // Or some generation of values, like:
     const random = Math.random();
 
-	  await client.A();
+    await client.A();
   });
 });
 ```
@@ -139,7 +139,7 @@ describe("some group of functionalities", function() {
   let client;
 
   beforeEach(function() {
-  	client = new Client();
+    client = new Client();
   });
 
   it("should test A with a proper setup", function() {
@@ -175,7 +175,7 @@ describe("some group of functionalities", function() {
   let client: Client;
 
   beforeEach(function() {
-  	client = new Client();
+    client = new Client();
   });
 
   function defaultPrepareClient(client: Client) {
@@ -267,11 +267,11 @@ describe("testing the client's basic methods", function() {
   let client: Client;
 
   beforeEach(function() {
-  	client = new Client();
+    client = new Client();
   });
 
   it("the initialized client should expose an expected public property", function() {
-  	const client = new Client();
+    const client = new Client();
     expect(client.expectedPublicProperty).to.be(true);
   });
 
@@ -299,7 +299,7 @@ describe("testing some of the client's public properties", function() {
   let client: Client;
 
   beforeEach(function() {
-  	client = new Client();
+    client = new Client();
   });
 
   it("should have a valid version", function() {
@@ -315,7 +315,7 @@ describe("testing the client's basic methods", function() {
   let client: Client;
 
   beforeEach(function() {
-  	client = new Client();
+    client = new Client();
   });
 
   it("should test A", function() {
@@ -375,7 +375,7 @@ describe("testing the client's basic methods", function() {
   let client: Client;
 
   beforeEach(function() {
-  	client = new Client();
+    client = new Client();
   });
 
   it("should test A #browser", function() {
