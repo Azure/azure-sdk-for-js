@@ -731,6 +731,16 @@ export class MessageSender extends LinkEntity {
   async sendBatch2(batchMessage: ServiceBusMessageBatch): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
+      if (!this.isOpen()) {
+        log.sender(
+          "Acquiring lock %s for initializing the session, sender and " +
+            "possibly the connection.",
+          this.senderLock
+        );
+        await defaultLock.acquire(this.senderLock, () => {
+          return this._init();
+        });
+      }
       log.sender(
         "[%s]Sender '%s', sending encoded batch message.",
         this._context.namespace.connectionId,
