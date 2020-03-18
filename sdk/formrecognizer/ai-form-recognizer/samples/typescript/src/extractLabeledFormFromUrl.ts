@@ -22,7 +22,9 @@ async function main() {
   const url = process.env["FR_INVOICE_URL"] || "<sample invoice url>";
 
   const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.beginExtractLabeledFormsFromUrl(modelId, url);
+  const poller = await client.beginExtractLabeledFormsFromUrl(modelId, url,{
+    onProgress: (state) => { console.log(`status: ${state.status}`); }
+  });
   await poller.pollUntilDone();
   const response = poller.getResult();
 

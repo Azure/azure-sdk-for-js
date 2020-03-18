@@ -5,8 +5,8 @@
  * Get Model
  */
 
-const { FormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
-const fs = require("fs");
+//import { FormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, CognitiveKeyCredential } from "../../../src/index";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -20,7 +20,7 @@ async function main() {
   const modelId = "cbfd7961-99c1-49ca-8974-2fa0c9f54508";
 
   const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const result = await client.getModel(modelId);
+  const result = await client.getLabeledModel(modelId, { includeKeys: true });
   console.log(result);
 }
 

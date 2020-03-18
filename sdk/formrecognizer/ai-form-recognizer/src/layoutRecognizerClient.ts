@@ -32,6 +32,7 @@ import {
 import { PollerLike, PollOperationState } from ".";
 
 import { AnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel } from "./generated/models";
+import { analyzeLayoutAsyncOperationSpec } from './workaround/operationSpecs';
 
 /**
  * Options for analyzing layout
@@ -194,11 +195,20 @@ async function analyzeLayoutInternal(
       ? () => body as NodeJS.ReadableStream
       : body;
   try {
-    return await client.analyzeLayoutAsync({
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-      body: requestBody,
-      customHeaders
-    });
+    return client.sendOperationRequest({
+        body: requestBody,
+        options: {
+            ...operationOptionsToRequestOptionsBase(finalOptions),
+            customHeaders
+          }
+      },
+      analyzeLayoutAsyncOperationSpec) as Promise<AnalyzeLayoutAsyncResponseModel>;
+
+    // return await client.analyzeLayoutAsync({
+    //   ...operationOptionsToRequestOptionsBase(finalOptions),
+    //   body: requestBody,
+    //   customHeaders
+    // });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,

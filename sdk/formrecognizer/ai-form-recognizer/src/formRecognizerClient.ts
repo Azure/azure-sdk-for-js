@@ -26,6 +26,8 @@ import {
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
+import { AnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel } from "./generated/models";
+import { analyzeWithCustomModelOperationSpec } from "./workaround/operationSpecs";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -276,7 +278,7 @@ export class FormRecognizerClient {
         // Include keys is always set to true -- the service does not have a use case for includeKeys: false.
         includeKeys: true
       });
-      if (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields) {
+      if (respnose.modelInfo.status === "ready" && (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields)) {
         throw new Error(`The model ${modelId} is trained with labels.`);
       } else {
         return (respnose as unknown) as FormModelResponse;
@@ -294,7 +296,7 @@ export class FormRecognizerClient {
 
   public async getLabeledModel(
     modelId: string,
-    options: GetLabeledModelOptions
+    options: GetLabeledModelOptions = {}
   ): Promise<LabeledFormModelResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -307,11 +309,14 @@ export class FormRecognizerClient {
         modelId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      if (response.trainResult?.averageModelAccuracy || response.trainResult?.fields) {
-        return (response as unknown) as LabeledFormModelResponse;
-      } else {
-        throw new Error(`The model ${modelId} is not rained with labels.`);
+
+      if (response.modelInfo.status === "ready") {
+        if (response.keys) {
+          throw new Error(`The model ${modelId} is not rained with labels.`);
+        }
       }
+
+      return (response as unknown) as LabeledFormModelResponse;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -652,11 +657,22 @@ async function analyzeCustomFormInternal(
       ? () => body as NodeJS.ReadableStream
       : body;
   try {
-    return await client.analyzeWithCustomModel(modelId, {
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-      body: requestBody,
-      customHeaders
-    });
+    return client.sendOperationRequest(
+      {
+        body: requestBody,
+        modelId,
+        options: {
+          ...operationOptionsToRequestOptionsBase(finalOptions),
+          customHeaders
+        }
+      },
+      analyzeWithCustomModelOperationSpec) as Promise<AnalyzeWithCustomModelResponseModel>;
+
+    // return await client.analyzeWithCustomModel(modelId, {
+    //   ...operationOptionsToRequestOptionsBase(finalOptions),
+    //   body: requestBody,
+    //   customHeaders
+    // });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,

@@ -2,26 +2,31 @@
 // Licensed under the MIT License.
 
 /**
- * Get Model
+ * Train Form Recognizer custom models
  */
 
+// const { FormRecognizerClient, CognitiveKeyCredential } = require("@azure/ai-form-recognizer");
 const { FormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
-const fs = require("fs");
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running GetModel sample`);
+  console.log(`Running TrainModel sample`);
 
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = "cbfd7961-99c1-49ca-8974-2fa0c9f54508";
+  const trainingDataSource = process.env["LABELED_DOCUMENT_SOURCE"] || "<url/path to the labeled training documents>";
 
   const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const result = await client.getModel(modelId);
-  console.log(result);
+
+  const poller = await client.beginTrainingWithLabel(trainingDataSource, {
+    onProgress: (state) => { console.log(`training status: ${state.status}`); }
+  });
+  await poller.pollUntilDone();
+  const model = poller.getResult();
+  console.log(model);
 }
 
 main().catch((err) => {

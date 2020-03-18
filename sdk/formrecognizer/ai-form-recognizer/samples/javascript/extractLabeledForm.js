@@ -5,26 +5,30 @@
  * Extract Custom Form
  */
 
-const { CustomFormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+const { FormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
 const fs = require("fs");
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 async function main() {
-  console.log(`Running ExtractCustomForm sample`);
+  console.log(`Running ExtractLabeledForm sample`);
 
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = "afa7d851-ad20-465c-a80f-6ca8cfb879bb"; // trained with labels
+  const modelId = "8f83f7c3-9666-496b-9335-e7ea5685b5e3"; // trained with labels
   const path = "c:/temp/Invoice_6.pdf";
+
+  if (!fs.existsSync(path)) {
+    throw new Error(`Expecting file ${path} exists`);
+  }
 
   const readStream = fs.createReadStream(path);
 
-  const client = new CustomFormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.extractLabeledForm(modelId, readStream, "application/pdf", {
-    includeTextDetails: true
+  const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const poller = await client.beginExtractLabeledForms(modelId, readStream, "application/pdf", {
+    onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
   await poller.pollUntilDone();
   const response = poller.getResult();
@@ -48,12 +52,17 @@ async function main() {
     for (const pair of page.keyValuePairs || []) {
       console.log(`\tkey: ${pair.key}, value: ${pair.value}`);
     }
+    console.log("Tables");
+    for (const table of page.tables || []) {
+      for (const row of table.rows) {
+        for (const cell of row.cells) {
+          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
+        }
+      }
+    }
   }
 
-
-  console.log("### Read results:")
   console.log(response.analyzeResult.readResults);
-  console.log("### Errors:")
   console.log(response.analyzeResult.errors);
 }
 

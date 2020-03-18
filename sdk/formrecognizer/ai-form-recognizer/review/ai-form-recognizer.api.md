@@ -427,7 +427,7 @@ export class FormRecognizerClient {
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     // (undocumented)
-    getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
+    getLabeledModel(modelId: string, options?: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
     // (undocumented)
     getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
     // (undocumented)

@@ -23,6 +23,7 @@ import {
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
+import {AnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel } from "./generated/models";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import {
   ExtractPollerClient,
@@ -30,6 +31,7 @@ import {
   BeginExtractPollState
 } from "./lro/analyze/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { analyzeReceiptAsyncOperationSpec } from './workaround/operationSpecs';
 
 /**
  * Options for analyzing receipts
@@ -199,11 +201,20 @@ async function analyzeReceiptInternal(
       ? () => body as NodeJS.ReadableStream
       : body;
   try {
-    return await client.analyzeReceiptAsync({
-      ...operationOptionsToRequestOptionsBase(finalOptions),
+
+    return await client.sendOperationRequest({
       body: requestBody,
-      customHeaders
-    });
+      options: {
+        ...operationOptionsToRequestOptionsBase(finalOptions),
+        customHeaders
+      }},
+      analyzeReceiptAsyncOperationSpec)  as unknown as Promise<AnalyzeReceiptAsyncResponseModel>;
+
+    // return await client.analyzeReceiptAsync({
+    //   ...operationOptionsToRequestOptionsBase(finalOptions),
+    //   fileStream: requestBody,
+    //   customHeaders
+    // });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,

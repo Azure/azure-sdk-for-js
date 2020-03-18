@@ -17,7 +17,7 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const path = "c:/temp/layout-to-analyze.jpg";
+  const path = "c:/temp/fw4.pdf";
 
   if (!fs.existsSync(path)) {
     throw new Error(`Expecting file ${path} exists`);
@@ -26,7 +26,8 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new LayoutRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.extractLayout(readStream, "image/jpeg", {
+  const poller = await client.extractLayout(readStream, "application/pdf", {
+    onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
   await poller.pollUntilDone();
   const response = poller.getResult();

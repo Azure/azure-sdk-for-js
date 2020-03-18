@@ -18,7 +18,7 @@ async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const modelId = "a205cf64-9191-4ba2-ad5a-acfb59ebee63";
+  const modelId = "8f83f7c3-9666-496b-9335-e7ea5685b5e3";
   const path = "c:/temp/Invoice_6.pdf";
 
   if (!fs.existsSync(path)) {
@@ -28,7 +28,9 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
-  const poller = await client.beginExtractForms(modelId, readStream, "application/pdf");
+  const poller = await client.beginExtractForms(modelId, readStream, "application/pdf", {
+    onProgress: (state) => { console.log(`status: ${state.status}`); }
+  });
   await poller.pollUntilDone();
   const response = poller.getResult();
 

@@ -29,6 +29,7 @@ async function main() {
 
   const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
   const poller = await client.beginExtractLabeledForms(modelId, readStream, "application/pdf", {
+    onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
   await poller.pollUntilDone();
   const response = poller.getResult();
