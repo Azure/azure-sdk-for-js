@@ -14,7 +14,7 @@
   of the Azure Storage service.
 
   For more information on the Azure Storage versions supported on Azure Stack,
-  please refer to https://docs.microsoft.com/azure-stack/user/azure-stack-acs-differences?view=azs-1910.
+  please refer to https://docs.microsoft.com/azure-stack/user/azure-stack-acs-differences.
 */
 
 import { ContainerClient, StoragePipelineOptions, RequestPolicyFactory } from "@azure/storage-blob";
