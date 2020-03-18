@@ -55,7 +55,7 @@ export type ParsedOptions<Opts extends CommandOptions | undefined> = {
         ? string[]
         : string[] | string | boolean;
     }
-  : {});
+  : { [k: string]: any });
 
 /**
  * Helper function to convert an args array to a parsed argument map.

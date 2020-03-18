@@ -34,7 +34,7 @@ function getCaller(): NodeJS.CallSite | undefined {
     while (error.stack.length > 0 && current !== caller) {
       caller = next();
     }
-  // eslint-disable-next-line no-empty
+    // eslint-disable-next-line no-empty
   } catch (_) {}
 
   Error.prepareStackTrace = savedPrepareStackTrace;
