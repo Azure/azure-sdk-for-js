@@ -79,10 +79,6 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    */
   private _encodedMessages: Buffer[] = [];
   /**
-   * @property Number of messages in the batch.
-   */
-  private _count: number;
-  /**
    * @property Encoded batch message.
    */
   private _batchMessage: Buffer | undefined;
@@ -98,7 +94,6 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
     this._sizeInBytes = 0;
-    this._count = 0;
   }
 
   /**
@@ -123,7 +118,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @readonly
    */
   get count(): number {
-    return this._count;
+    return this._encodedMessages.length;
   }
 
   /**
@@ -179,7 +174,6 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     }
     this._batchMessage = encodedBatchMessage;
     this._sizeInBytes = currentSize;
-    this._count++;
     return true;
   }
 }
