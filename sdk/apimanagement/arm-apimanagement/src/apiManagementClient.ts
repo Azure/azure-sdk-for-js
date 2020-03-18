@@ -42,6 +42,9 @@ class ApiManagementClient extends ApiManagementClientContext {
   apiManagementService: operations.ApiManagementService;
   diagnostic: operations.Diagnostic;
   emailTemplate: operations.EmailTemplate;
+  gateway: operations.Gateway;
+  gatewayHostnameConfiguration: operations.GatewayHostnameConfiguration;
+  gatewayApi: operations.GatewayApi;
   group: operations.Group;
   groupUser: operations.GroupUser;
   identityProvider: operations.IdentityProvider;
@@ -53,7 +56,7 @@ class ApiManagementClient extends ApiManagementClientContext {
   notificationRecipientEmail: operations.NotificationRecipientEmail;
   openIdConnectProvider: operations.OpenIdConnectProvider;
   policy: operations.Policy;
-  policySnippet: operations.PolicySnippet;
+  policyDescription: operations.PolicyDescription;
   signInSettings: operations.SignInSettings;
   signUpSettings: operations.SignUpSettings;
   delegationSettings: operations.DelegationSettings;
@@ -62,7 +65,7 @@ class ApiManagementClient extends ApiManagementClientContext {
   productGroup: operations.ProductGroup;
   productSubscriptions: operations.ProductSubscriptions;
   productPolicy: operations.ProductPolicy;
-  property: operations.Property;
+  namedValue: operations.NamedValue;
   quotaByCounterKeys: operations.QuotaByCounterKeys;
   quotaByPeriodKeys: operations.QuotaByPeriodKeys;
   region: operations.Region;
@@ -113,6 +116,9 @@ class ApiManagementClient extends ApiManagementClientContext {
     this.apiManagementService = new operations.ApiManagementService(this);
     this.diagnostic = new operations.Diagnostic(this);
     this.emailTemplate = new operations.EmailTemplate(this);
+    this.gateway = new operations.Gateway(this);
+    this.gatewayHostnameConfiguration = new operations.GatewayHostnameConfiguration(this);
+    this.gatewayApi = new operations.GatewayApi(this);
     this.group = new operations.Group(this);
     this.groupUser = new operations.GroupUser(this);
     this.identityProvider = new operations.IdentityProvider(this);
@@ -124,7 +130,7 @@ class ApiManagementClient extends ApiManagementClientContext {
     this.notificationRecipientEmail = new operations.NotificationRecipientEmail(this);
     this.openIdConnectProvider = new operations.OpenIdConnectProvider(this);
     this.policy = new operations.Policy(this);
-    this.policySnippet = new operations.PolicySnippet(this);
+    this.policyDescription = new operations.PolicyDescription(this);
     this.signInSettings = new operations.SignInSettings(this);
     this.signUpSettings = new operations.SignUpSettings(this);
     this.delegationSettings = new operations.DelegationSettings(this);
@@ -133,7 +139,7 @@ class ApiManagementClient extends ApiManagementClientContext {
     this.productGroup = new operations.ProductGroup(this);
     this.productSubscriptions = new operations.ProductSubscriptions(this);
     this.productPolicy = new operations.ProductPolicy(this);
-    this.property = new operations.Property(this);
+    this.namedValue = new operations.NamedValue(this);
     this.quotaByCounterKeys = new operations.QuotaByCounterKeys(this);
     this.quotaByPeriodKeys = new operations.QuotaByPeriodKeys(this);
     this.region = new operations.Region(this);

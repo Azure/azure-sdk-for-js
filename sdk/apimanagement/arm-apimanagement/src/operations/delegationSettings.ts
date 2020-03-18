@@ -168,6 +168,38 @@ export class DelegationSettings {
       createOrUpdateOperationSpec,
       callback) as Promise<Models.DelegationSettingsCreateOrUpdateResponse>;
   }
+
+  /**
+   * Gets the secret validation key of the DelegationSettings.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DelegationSettingsListSecretsResponse>
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DelegationSettingsListSecretsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param callback The callback
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>): void;
+  listSecrets(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>, callback?: msRest.ServiceCallback<Models.PortalSettingValidationKeyContract>): Promise<Models.DelegationSettingsListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        options
+      },
+      listSecretsOperationSpec,
+      callback) as Promise<Models.DelegationSettingsListSecretsResponse>;
+  }
 }
 
 // Operation Specifications
@@ -279,6 +311,31 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PortalDelegationSettings
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listSecretsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalsettings/delegation/listSecrets",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PortalSettingValidationKeyContract
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
