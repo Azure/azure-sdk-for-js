@@ -127,7 +127,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await senderClient.sendBatch2(batchMessage);
+      await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
       await receiveAllMessages(entityNames, useSessions, sentMessages);
     }
@@ -208,7 +208,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await senderClient.sendBatch2(batchMessage);
+      await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
       await receiveAllMessages(entityNames, useSessions, sentMessages);
     }
@@ -280,7 +280,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await senderClient.sendBatch2(batchMessage);
+      await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
       await receiveAllMessages(entityNames, useSessions, sentMessages);
     }
@@ -359,7 +359,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await senderClient.sendBatch2(batchMessage);
+      await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
       await receiveAllMessages(entityNames, useSessions, sentMessages);
     }
@@ -453,7 +453,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await senderClient.sendBatch2(batchMessage);
+      await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
       await receiveAllMessages(entityNames, useSessions, sentMessages);
     }
@@ -547,7 +547,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await senderClient.sendBatch2(batchMessage);
+      await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
       await receiveAllMessages(entityNames, useSessions, sentMessages);
     }
