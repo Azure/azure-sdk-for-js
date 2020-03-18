@@ -619,8 +619,8 @@ async function trainCustomModelInternal(
       {
         source: source,
         sourceFilter: {
-          prefix: "",
-          includeSubFolders: false
+          prefix: realOptions.prefix,
+          includeSubFolders: realOptions.includeSubFolders
         },
         useLabelFile
       },
