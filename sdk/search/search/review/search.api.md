@@ -358,192 +358,99 @@ export interface KeywordTokenizerV2 {
 
 // @public
 export enum KnownAnalyzerNames {
-    // (undocumented)
-    Arlucene = "ar.lucene",
-    // (undocumented)
-    Armicrosoft = "ar.microsoft",
-    // (undocumented)
-    Bglucene = "bg.lucene",
-    // (undocumented)
-    Bgmicrosoft = "bg.microsoft",
-    // (undocumented)
-    Bnmicrosoft = "bn.microsoft",
-    // (undocumented)
-    Calucene = "ca.lucene",
-    // (undocumented)
-    Camicrosoft = "ca.microsoft",
-    // (undocumented)
-    Cslucene = "cs.lucene",
-    // (undocumented)
-    Csmicrosoft = "cs.microsoft",
-    // (undocumented)
-    Dalucene = "da.lucene",
-    // (undocumented)
-    Damicrosoft = "da.microsoft",
-    // (undocumented)
-    Delucene = "de.lucene",
-    // (undocumented)
-    Demicrosoft = "de.microsoft",
-    // (undocumented)
-    Ellucene = "el.lucene",
-    // (undocumented)
-    Elmicrosoft = "el.microsoft",
-    // (undocumented)
-    Enlucene = "en.lucene",
-    // (undocumented)
-    Enmicrosoft = "en.microsoft",
-    // (undocumented)
-    Eslucene = "es.lucene",
-    // (undocumented)
-    Esmicrosoft = "es.microsoft",
-    // (undocumented)
-    Etmicrosoft = "et.microsoft",
-    // (undocumented)
-    Eulucene = "eu.lucene",
-    // (undocumented)
-    Falucene = "fa.lucene",
-    // (undocumented)
-    Filucene = "fi.lucene",
-    // (undocumented)
-    Fimicrosoft = "fi.microsoft",
-    // (undocumented)
-    Frlucene = "fr.lucene",
-    // (undocumented)
-    Frmicrosoft = "fr.microsoft",
-    // (undocumented)
-    Galucene = "ga.lucene",
-    // (undocumented)
-    Gllucene = "gl.lucene",
-    // (undocumented)
-    Gumicrosoft = "gu.microsoft",
-    // (undocumented)
-    Hemicrosoft = "he.microsoft",
-    // (undocumented)
-    Hilucene = "hi.lucene",
-    // (undocumented)
-    Himicrosoft = "hi.microsoft",
-    // (undocumented)
-    Hrmicrosoft = "hr.microsoft",
-    // (undocumented)
-    Hulucene = "hu.lucene",
-    // (undocumented)
-    Humicrosoft = "hu.microsoft",
-    // (undocumented)
-    Hylucene = "hy.lucene",
-    // (undocumented)
-    Idlucene = "id.lucene",
-    // (undocumented)
-    Idmicrosoft = "id.microsoft",
-    // (undocumented)
-    Ismicrosoft = "is.microsoft",
-    // (undocumented)
-    Itlucene = "it.lucene",
-    // (undocumented)
-    Itmicrosoft = "it.microsoft",
-    // (undocumented)
-    Jalucene = "ja.lucene",
-    // (undocumented)
-    Jamicrosoft = "ja.microsoft",
-    // (undocumented)
+    ArLucene = "ar.lucene",
+    ArMicrosoft = "ar.microsoft",
+    BgLucene = "bg.lucene",
+    BgMicrosoft = "bg.microsoft",
+    BnMicrosoft = "bn.microsoft",
+    CaLucene = "ca.lucene",
+    CaMicrosoft = "ca.microsoft",
+    CsLucene = "cs.lucene",
+    CsMicrosoft = "cs.microsoft",
+    DaLucene = "da.lucene",
+    DaMicrosoft = "da.microsoft",
+    DeLucene = "de.lucene",
+    DeMicrosoft = "de.microsoft",
+    ElLucene = "el.lucene",
+    ElMicrosoft = "el.microsoft",
+    EnLucene = "en.lucene",
+    EnMicrosoft = "en.microsoft",
+    EsLucene = "es.lucene",
+    EsMicrosoft = "es.microsoft",
+    EtMicrosoft = "et.microsoft",
+    EuLucene = "eu.lucene",
+    FaLucene = "fa.lucene",
+    FiLucene = "fi.lucene",
+    FiMicrosoft = "fi.microsoft",
+    FrLucene = "fr.lucene",
+    FrMicrosoft = "fr.microsoft",
+    GaLucene = "ga.lucene",
+    GlLucene = "gl.lucene",
+    GuMicrosoft = "gu.microsoft",
+    HeMicrosoft = "he.microsoft",
+    HiLucene = "hi.lucene",
+    HiMicrosoft = "hi.microsoft",
+    HrMicrosoft = "hr.microsoft",
+    HuLucene = "hu.lucene",
+    HuMicrosoft = "hu.microsoft",
+    HyLucene = "hy.lucene",
+    IdLucene = "id.lucene",
+    IdMicrosoft = "id.microsoft",
+    IsMicrosoft = "is.microsoft",
+    ItLucene = "it.lucene",
+    ItMicrosoft = "it.microsoft",
+    JaLucene = "ja.lucene",
+    JaMicrosoft = "ja.microsoft",
     Keyword = "keyword",
-    // (undocumented)
-    Knmicrosoft = "kn.microsoft",
-    // (undocumented)
-    Kolucene = "ko.lucene",
-    // (undocumented)
-    Komicrosoft = "ko.microsoft",
-    // (undocumented)
-    Ltmicrosoft = "lt.microsoft",
-    // (undocumented)
-    Lvlucene = "lv.lucene",
-    // (undocumented)
-    Lvmicrosoft = "lv.microsoft",
-    // (undocumented)
-    Mlmicrosoft = "ml.microsoft",
-    // (undocumented)
-    Mrmicrosoft = "mr.microsoft",
-    // (undocumented)
-    Msmicrosoft = "ms.microsoft",
-    // (undocumented)
-    Nbmicrosoft = "nb.microsoft",
-    // (undocumented)
-    Nllucene = "nl.lucene",
-    // (undocumented)
-    Nlmicrosoft = "nl.microsoft",
-    // (undocumented)
-    Nolucene = "no.lucene",
-    // (undocumented)
-    Pamicrosoft = "pa.microsoft",
-    // (undocumented)
+    KnMicrosoft = "kn.microsoft",
+    KoLucene = "ko.lucene",
+    KoMicrosoft = "ko.microsoft",
+    LtMicrosoft = "lt.microsoft",
+    LvLucene = "lv.lucene",
+    LvMicrosoft = "lv.microsoft",
+    MlMicrosoft = "ml.microsoft",
+    MrMicrosoft = "mr.microsoft",
+    MsMicrosoft = "ms.microsoft",
+    NbMicrosoft = "nb.microsoft",
+    NlLucene = "nl.lucene",
+    NlMicrosoft = "nl.microsoft",
+    NoLucene = "no.lucene",
+    PaMicrosoft = "pa.microsoft",
     Pattern = "pattern",
-    // (undocumented)
-    Pllucene = "pl.lucene",
-    // (undocumented)
-    Plmicrosoft = "pl.microsoft",
-    // (undocumented)
-    PtBRlucene = "pt-BR.lucene",
-    // (undocumented)
-    PtBRmicrosoft = "pt-BR.microsoft",
-    // (undocumented)
-    PtPTlucene = "pt-PT.lucene",
-    // (undocumented)
-    PtPTmicrosoft = "pt-PT.microsoft",
-    // (undocumented)
-    Rolucene = "ro.lucene",
-    // (undocumented)
-    Romicrosoft = "ro.microsoft",
-    // (undocumented)
-    Rulucene = "ru.lucene",
-    // (undocumented)
-    Rumicrosoft = "ru.microsoft",
-    // (undocumented)
+    PlLucene = "pl.lucene",
+    PlMicrosoft = "pl.microsoft",
+    PtBRLucene = "pt-BR.lucene",
+    PtBRMicrosoft = "pt-BR.microsoft",
+    PtPTLucene = "pt-PT.lucene",
+    PtPTMicrosoft = "pt-PT.microsoft",
+    RoLucene = "ro.lucene",
+    RoMicrosoft = "ro.microsoft",
+    RuLucene = "ru.lucene",
+    RuMicrosoft = "ru.microsoft",
     Simple = "simple",
-    // (undocumented)
-    Skmicrosoft = "sk.microsoft",
-    // (undocumented)
-    Slmicrosoft = "sl.microsoft",
-    // (undocumented)
-    SrCyrillicmicrosoft = "sr-cyrillic.microsoft",
-    // (undocumented)
-    SrLatinmicrosoft = "sr-latin.microsoft",
-    // (undocumented)
-    Standardasciifoldinglucene = "standardasciifolding.lucene",
-    // (undocumented)
-    Standardlucene = "standard.lucene",
-    // (undocumented)
+    SkMicrosoft = "sk.microsoft",
+    SlMicrosoft = "sl.microsoft",
+    SrCyrillicMicrosoft = "sr-cyrillic.microsoft",
+    SrLatinMicrosoft = "sr-latin.microsoft",
+    StandardAsciiFoldingLucene = "standardasciifolding.lucene",
+    StandardLucene = "standard.lucene",
     Stop = "stop",
-    // (undocumented)
-    Svlucene = "sv.lucene",
-    // (undocumented)
-    Svmicrosoft = "sv.microsoft",
-    // (undocumented)
-    Tamicrosoft = "ta.microsoft",
-    // (undocumented)
-    Temicrosoft = "te.microsoft",
-    // (undocumented)
-    Thlucene = "th.lucene",
-    // (undocumented)
-    Thmicrosoft = "th.microsoft",
-    // (undocumented)
-    Trlucene = "tr.lucene",
-    // (undocumented)
-    Trmicrosoft = "tr.microsoft",
-    // (undocumented)
-    Ukmicrosoft = "uk.microsoft",
-    // (undocumented)
-    Urmicrosoft = "ur.microsoft",
-    // (undocumented)
-    Vimicrosoft = "vi.microsoft",
-    // (undocumented)
+    SvLucene = "sv.lucene",
+    SvMicrosoft = "sv.microsoft",
+    TaMicrosoft = "ta.microsoft",
+    TeMicrosoft = "te.microsoft",
+    ThLucene = "th.lucene",
+    ThMicrosoft = "th.microsoft",
+    TrLucene = "tr.lucene",
+    TrMicrosoft = "tr.microsoft",
+    UkMicrosoft = "uk.microsoft",
+    UrMicrosoft = "ur.microsoft",
+    ViMicrosoft = "vi.microsoft",
     Whitespace = "whitespace",
-    // (undocumented)
-    ZhHanslucene = "zh-Hans.lucene",
-    // (undocumented)
-    ZhHansmicrosoft = "zh-Hans.microsoft",
-    // (undocumented)
-    ZhHantlucene = "zh-Hant.lucene",
-    // (undocumented)
-    ZhHantmicrosoft = "zh-Hant.microsoft"
+    ZhHansLucene = "zh-Hans.lucene",
+    ZhHansMicrosoft = "zh-Hans.microsoft",
+    ZhHantLucene = "zh-Hant.lucene",
+    ZhHantMicrosoft = "zh-Hant.microsoft"
 }
 
 // @public

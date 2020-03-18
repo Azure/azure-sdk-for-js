@@ -708,102 +708,381 @@ export enum KnownCharFilterNames {
 
 /**
  * Defines values for AnalyzerName.
+ * See https://docs.microsoft.com/rest/api/searchservice/Language-support
  * @readonly
  * @enum {string}
  */
 export enum KnownAnalyzerNames {
-  Armicrosoft = "ar.microsoft",
-  Arlucene = "ar.lucene",
-  Hylucene = "hy.lucene",
-  Bnmicrosoft = "bn.microsoft",
-  Eulucene = "eu.lucene",
-  Bgmicrosoft = "bg.microsoft",
-  Bglucene = "bg.lucene",
-  Camicrosoft = "ca.microsoft",
-  Calucene = "ca.lucene",
-  ZhHansmicrosoft = "zh-Hans.microsoft",
-  ZhHanslucene = "zh-Hans.lucene",
-  ZhHantmicrosoft = "zh-Hant.microsoft",
-  ZhHantlucene = "zh-Hant.lucene",
-  Hrmicrosoft = "hr.microsoft",
-  Csmicrosoft = "cs.microsoft",
-  Cslucene = "cs.lucene",
-  Damicrosoft = "da.microsoft",
-  Dalucene = "da.lucene",
-  Nlmicrosoft = "nl.microsoft",
-  Nllucene = "nl.lucene",
-  Enmicrosoft = "en.microsoft",
-  Enlucene = "en.lucene",
-  Etmicrosoft = "et.microsoft",
-  Fimicrosoft = "fi.microsoft",
-  Filucene = "fi.lucene",
-  Frmicrosoft = "fr.microsoft",
-  Frlucene = "fr.lucene",
-  Gllucene = "gl.lucene",
-  Demicrosoft = "de.microsoft",
-  Delucene = "de.lucene",
-  Elmicrosoft = "el.microsoft",
-  Ellucene = "el.lucene",
-  Gumicrosoft = "gu.microsoft",
-  Hemicrosoft = "he.microsoft",
-  Himicrosoft = "hi.microsoft",
-  Hilucene = "hi.lucene",
-  Humicrosoft = "hu.microsoft",
-  Hulucene = "hu.lucene",
-  Ismicrosoft = "is.microsoft",
-  Idmicrosoft = "id.microsoft",
-  Idlucene = "id.lucene",
-  Galucene = "ga.lucene",
-  Itmicrosoft = "it.microsoft",
-  Itlucene = "it.lucene",
-  Jamicrosoft = "ja.microsoft",
-  Jalucene = "ja.lucene",
-  Knmicrosoft = "kn.microsoft",
-  Komicrosoft = "ko.microsoft",
-  Kolucene = "ko.lucene",
-  Lvmicrosoft = "lv.microsoft",
-  Lvlucene = "lv.lucene",
-  Ltmicrosoft = "lt.microsoft",
-  Mlmicrosoft = "ml.microsoft",
-  Msmicrosoft = "ms.microsoft",
-  Mrmicrosoft = "mr.microsoft",
-  Nbmicrosoft = "nb.microsoft",
-  Nolucene = "no.lucene",
-  Falucene = "fa.lucene",
-  Plmicrosoft = "pl.microsoft",
-  Pllucene = "pl.lucene",
-  PtBRmicrosoft = "pt-BR.microsoft",
-  PtBRlucene = "pt-BR.lucene",
-  PtPTmicrosoft = "pt-PT.microsoft",
-  PtPTlucene = "pt-PT.lucene",
-  Pamicrosoft = "pa.microsoft",
-  Romicrosoft = "ro.microsoft",
-  Rolucene = "ro.lucene",
-  Rumicrosoft = "ru.microsoft",
-  Rulucene = "ru.lucene",
-  SrCyrillicmicrosoft = "sr-cyrillic.microsoft",
-  SrLatinmicrosoft = "sr-latin.microsoft",
-  Skmicrosoft = "sk.microsoft",
-  Slmicrosoft = "sl.microsoft",
-  Esmicrosoft = "es.microsoft",
-  Eslucene = "es.lucene",
-  Svmicrosoft = "sv.microsoft",
-  Svlucene = "sv.lucene",
-  Tamicrosoft = "ta.microsoft",
-  Temicrosoft = "te.microsoft",
-  Thmicrosoft = "th.microsoft",
-  Thlucene = "th.lucene",
-  Trmicrosoft = "tr.microsoft",
-  Trlucene = "tr.lucene",
-  Ukmicrosoft = "uk.microsoft",
-  Urmicrosoft = "ur.microsoft",
-  Vimicrosoft = "vi.microsoft",
-  Standardlucene = "standard.lucene",
-  Standardasciifoldinglucene = "standardasciifolding.lucene",
+  /**
+   * Arabic
+   */
+  ArMicrosoft = "ar.microsoft",
+  /**
+   * Arabic
+   */
+  ArLucene = "ar.lucene",
+  /**
+   * Armenian
+   */
+  HyLucene = "hy.lucene",
+  /**
+   * Bangla
+   */
+  BnMicrosoft = "bn.microsoft",
+  /**
+   * Basque
+   */
+  EuLucene = "eu.lucene",
+  /**
+   * Bulgarian
+   */
+  BgMicrosoft = "bg.microsoft",
+  /**
+   * Bulgarian
+   */
+  BgLucene = "bg.lucene",
+  /**
+   * Catalan
+   */
+  CaMicrosoft = "ca.microsoft",
+  /**
+   * Catalan
+   */
+  CaLucene = "ca.lucene",
+  /**
+   * Chinese Simplified
+   */
+  ZhHansMicrosoft = "zh-Hans.microsoft",
+  /**
+   * Chinese Simplified
+   */
+  ZhHansLucene = "zh-Hans.lucene",
+  /**
+   * Chinese Traditional
+   */
+  ZhHantMicrosoft = "zh-Hant.microsoft",
+  /**
+   * Chinese Traditional
+   */
+  ZhHantLucene = "zh-Hant.lucene",
+  /**
+   * Croatian
+   */
+  HrMicrosoft = "hr.microsoft",
+  /**
+   * Czech
+   */
+  CsMicrosoft = "cs.microsoft",
+  /**
+   * Czech
+   */
+  CsLucene = "cs.lucene",
+  /**
+   * Danish
+   */
+  DaMicrosoft = "da.microsoft",
+  /**
+   * Danish
+   */
+  DaLucene = "da.lucene",
+  /**
+   * Dutch
+   */
+  NlMicrosoft = "nl.microsoft",
+  /**
+   * Dutch
+   */
+  NlLucene = "nl.lucene",
+  /**
+   * English
+   */
+  EnMicrosoft = "en.microsoft",
+  /**
+   * English
+   */
+  EnLucene = "en.lucene",
+  /**
+   * Estonian
+   */
+  EtMicrosoft = "et.microsoft",
+  /**
+   * Finnish
+   */
+  FiMicrosoft = "fi.microsoft",
+  /**
+   * Finnish
+   */
+  FiLucene = "fi.lucene",
+  /**
+   * French
+   */
+  FrMicrosoft = "fr.microsoft",
+  /**
+   * French
+   */
+  FrLucene = "fr.lucene",
+  /**
+   * Galician
+   */
+  GlLucene = "gl.lucene",
+  /**
+   * German
+   */
+  DeMicrosoft = "de.microsoft",
+  /**
+   * German
+   */
+  DeLucene = "de.lucene",
+  /**
+   * Greek
+   */
+  ElMicrosoft = "el.microsoft",
+  /**
+   * Greek
+   */
+  ElLucene = "el.lucene",
+  /**
+   * Gujarati
+   */
+  GuMicrosoft = "gu.microsoft",
+  /**
+   * Hebrew
+   */
+  HeMicrosoft = "he.microsoft",
+  /**
+   * Hindi
+   */
+  HiMicrosoft = "hi.microsoft",
+  /**
+   * Hindi
+   */
+  HiLucene = "hi.lucene",
+  /**
+   * Hungarian
+   */
+  HuMicrosoft = "hu.microsoft",
+  /**
+   * Hungarian
+   */
+  HuLucene = "hu.lucene",
+  /**
+   * Icelandic
+   */
+  IsMicrosoft = "is.microsoft",
+  /**
+   * Indonesian (Bahasa)
+   */
+  IdMicrosoft = "id.microsoft",
+  /**
+   * Indonesian (Bahasa)
+   */
+  IdLucene = "id.lucene",
+  /**
+   * Irish
+   */
+  GaLucene = "ga.lucene",
+  /**
+   * Italian
+   */
+  ItMicrosoft = "it.microsoft",
+  /**
+   * Italian
+   */
+  ItLucene = "it.lucene",
+  /**
+   * Japanese
+   */
+  JaMicrosoft = "ja.microsoft",
+  /**
+   * Japanese
+   */
+  JaLucene = "ja.lucene",
+  /**
+   * Kannada
+   */
+  KnMicrosoft = "kn.microsoft",
+  /**
+   * Korean
+   */
+  KoMicrosoft = "ko.microsoft",
+  /**
+   * Korean
+   */
+  KoLucene = "ko.lucene",
+  /**
+   * Latvian
+   */
+  LvMicrosoft = "lv.microsoft",
+  /**
+   * Latvian
+   */
+  LvLucene = "lv.lucene",
+  /**
+   * Lithuanian
+   */
+  LtMicrosoft = "lt.microsoft",
+  /**
+   * Malayalam
+   */
+  MlMicrosoft = "ml.microsoft",
+  /**
+   * Malay (Latin)
+   */
+  MsMicrosoft = "ms.microsoft",
+  /**
+   * Marathi
+   */
+  MrMicrosoft = "mr.microsoft",
+  /**
+   * Norwegian
+   */
+  NbMicrosoft = "nb.microsoft",
+  /**
+   * Norwegian
+   */
+  NoLucene = "no.lucene",
+  /**
+   * Persian
+   */
+  FaLucene = "fa.lucene",
+  /**
+   * Polish
+   */
+  PlMicrosoft = "pl.microsoft",
+  /**
+   * Polish
+   */
+  PlLucene = "pl.lucene",
+  /**
+   * Portuguese (Brazil)
+   */
+  PtBRMicrosoft = "pt-BR.microsoft",
+  /**
+   * Portuguese (Brazil)
+   */
+  PtBRLucene = "pt-BR.lucene",
+  /**
+   * Portuguese (Portugal)
+   */
+  PtPTMicrosoft = "pt-PT.microsoft",
+  /**
+   * Portuguese (Portugal)
+   */
+  PtPTLucene = "pt-PT.lucene",
+  /**
+   * Punjabi
+   */ PaMicrosoft = "pa.microsoft",
+  /**
+   * Romanian
+   */
+  RoMicrosoft = "ro.microsoft",
+  /**
+   * Romanian
+   */
+  RoLucene = "ro.lucene",
+  /**
+   * Russian
+   */
+  RuMicrosoft = "ru.microsoft",
+  /**
+   * Russian
+   */
+  RuLucene = "ru.lucene",
+  /**
+   * Serbian (Cyrillic)
+   */
+  SrCyrillicMicrosoft = "sr-cyrillic.microsoft",
+  /**
+   * Serbian (Latin)
+   */
+  SrLatinMicrosoft = "sr-latin.microsoft",
+  /**
+   * Slovak
+   */
+  SkMicrosoft = "sk.microsoft",
+  /**
+   * Slovenian
+   */
+  SlMicrosoft = "sl.microsoft",
+  /**
+   * Spanish
+   */
+  EsMicrosoft = "es.microsoft",
+  /**
+   * Spanish
+   */
+  EsLucene = "es.lucene",
+  /**
+   * Swedish
+   */
+  SvMicrosoft = "sv.microsoft",
+  /**
+   * Swedish
+   */
+  SvLucene = "sv.lucene",
+  /**
+   * Tamil
+   */
+  TaMicrosoft = "ta.microsoft",
+  /**
+   * Telugu
+   */
+  TeMicrosoft = "te.microsoft",
+  /**
+   * Thai
+   */
+  ThMicrosoft = "th.microsoft",
+  /**
+   * Thai
+   */
+  ThLucene = "th.lucene",
+  /**
+   * Turkish
+   */
+  TrMicrosoft = "tr.microsoft",
+  /**
+   * Turkish
+   */
+  TrLucene = "tr.lucene",
+  /**
+   * Ukrainian
+   */
+  UkMicrosoft = "uk.microsoft",
+  /**
+   * Urdu
+   */
+  UrMicrosoft = "ur.microsoft",
+  /**
+   * Vietnamese
+   */
+  ViMicrosoft = "vi.microsoft",
+  /**
+   * See: https://lucene.apache.org/core/6_6_1/core/org/apache/lucene/analysis/standard/StandardAnalyzer.html
+   */
+  StandardLucene = "standard.lucene",
+  /**
+   * See https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.html
+   */
+  StandardAsciiFoldingLucene = "standardasciifolding.lucene",
+  /**
+   * Treats the entire content of a field as a single token. This is useful for data like zip codes, ids, and some product names.
+   */
   Keyword = "keyword",
+  /**
+   * Flexibly separates text into terms via a regular expression pattern.
+   */
   Pattern = "pattern",
+  /**
+   * Divides text at non-letters and converts them to lower case.
+   */
   Simple = "simple",
+  /**
+   * Divides text at non-letters; Applies the lowercase and stopword token filters.
+   */
   Stop = "stop",
+  /**
+   * An analyzer that uses the whitespace tokenizer.
+   */
   Whitespace = "whitespace"
 }
 
