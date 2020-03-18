@@ -25,6 +25,7 @@ export {
   QueryStatistic,
   QueryText,
   RecommendationAction,
+  RecommendationActionsResultList,
   Resource,
   ResourceIdentity,
   Server,

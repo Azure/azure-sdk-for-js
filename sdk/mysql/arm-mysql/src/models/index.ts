@@ -12,38 +12,106 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Resource properties.
+ * An interface representing PrivateEndpointProperty.
  */
-export interface ProxyResource extends BaseResource {
+export interface PrivateEndpointProperty extends BaseResource {
   /**
-   * Resource ID
+   * Resource id of the private endpoint.
+   */
+  id?: string;
+}
+
+/**
+ * An interface representing ServerPrivateLinkServiceConnectionStateProperty.
+ */
+export interface ServerPrivateLinkServiceConnectionStateProperty {
+  /**
+   * The private link service connection status. Possible values include: 'Approved', 'Pending',
+   * 'Rejected', 'Disconnected'
+   */
+  status: PrivateLinkServiceConnectionStateStatus;
+  /**
+   * The private link service connection description.
+   */
+  description: string;
+  /**
+   * The actions required for private link service connection. Possible values include: 'None'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: PrivateLinkServiceConnectionStateActionsRequire;
+}
+
+/**
+ * Properties of a private endpoint connection.
+ */
+export interface ServerPrivateEndpointConnectionProperties {
+  /**
+   * Private endpoint which the connection belongs to.
+   */
+  privateEndpoint?: PrivateEndpointProperty;
+  /**
+   * Connection state of the private endpoint connection.
+   */
+  privateLinkServiceConnectionState?: ServerPrivateLinkServiceConnectionStateProperty;
+  /**
+   * State of the private endpoint connection. Possible values include: 'Approving', 'Ready',
+   * 'Dropping', 'Failed', 'Rejecting'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: PrivateEndpointProvisioningState;
+}
+
+/**
+ * A private endpoint connection under a server
+ */
+export interface ServerPrivateEndpointConnection {
+  /**
+   * Resource Id of the private endpoint connection.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Resource name.
+   * Private endpoint connection properties
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: ServerPrivateEndpointConnectionProperties;
+}
+
+/**
+ * An interface representing Resource.
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * Resource type.
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
 }
 
 /**
- * Resource properties including location and tags for track resources.
+ * The resource model definition for a ARM tracked top level resource
  */
-export interface TrackedResource extends ProxyResource {
+export interface TrackedResource extends Resource {
   /**
-   * The location the resource resides in.
-   */
-  location: string;
-  /**
-   * Application-specific metadata in the form of key-value pairs.
+   * Resource tags.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
 }
 
 /**
@@ -82,7 +150,7 @@ export interface ServerPropertiesForCreate {
    */
   createMode: "ServerPropertiesForCreate";
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -90,6 +158,21 @@ export interface ServerPropertiesForCreate {
    * 'Disabled'
    */
   sslEnforcement?: SslEnforcementEnum;
+  /**
+   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
+   * 'TLS1_2', 'TLSEnforcementDisabled'
+   */
+  minimalTlsVersion?: MinimalTlsVersionEnum;
+  /**
+   * Status showing whether the server enabled infrastructure encryption. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  infrastructureEncryption?: InfrastructureEncryption;
+  /**
+   * Whether or not public network access is allowed for this server. Value is optional but if
+   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccessEnum;
   /**
    * Storage profile of a server.
    */
@@ -105,7 +188,7 @@ export interface ServerPropertiesForDefaultCreate {
    */
   createMode: "Default";
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -113,6 +196,21 @@ export interface ServerPropertiesForDefaultCreate {
    * 'Disabled'
    */
   sslEnforcement?: SslEnforcementEnum;
+  /**
+   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
+   * 'TLS1_2', 'TLSEnforcementDisabled'
+   */
+  minimalTlsVersion?: MinimalTlsVersionEnum;
+  /**
+   * Status showing whether the server enabled infrastructure encryption. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  infrastructureEncryption?: InfrastructureEncryption;
+  /**
+   * Whether or not public network access is allowed for this server. Value is optional but if
+   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccessEnum;
   /**
    * Storage profile of a server.
    */
@@ -137,7 +235,7 @@ export interface ServerPropertiesForRestore {
    */
   createMode: "PointInTimeRestore";
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -145,6 +243,21 @@ export interface ServerPropertiesForRestore {
    * 'Disabled'
    */
   sslEnforcement?: SslEnforcementEnum;
+  /**
+   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
+   * 'TLS1_2', 'TLSEnforcementDisabled'
+   */
+  minimalTlsVersion?: MinimalTlsVersionEnum;
+  /**
+   * Status showing whether the server enabled infrastructure encryption. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  infrastructureEncryption?: InfrastructureEncryption;
+  /**
+   * Whether or not public network access is allowed for this server. Value is optional but if
+   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccessEnum;
   /**
    * Storage profile of a server.
    */
@@ -169,7 +282,7 @@ export interface ServerPropertiesForGeoRestore {
    */
   createMode: "GeoRestore";
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -177,6 +290,21 @@ export interface ServerPropertiesForGeoRestore {
    * 'Disabled'
    */
   sslEnforcement?: SslEnforcementEnum;
+  /**
+   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
+   * 'TLS1_2', 'TLSEnforcementDisabled'
+   */
+  minimalTlsVersion?: MinimalTlsVersionEnum;
+  /**
+   * Status showing whether the server enabled infrastructure encryption. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  infrastructureEncryption?: InfrastructureEncryption;
+  /**
+   * Whether or not public network access is allowed for this server. Value is optional but if
+   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccessEnum;
   /**
    * Storage profile of a server.
    */
@@ -196,7 +324,7 @@ export interface ServerPropertiesForReplica {
    */
   createMode: "Replica";
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -204,6 +332,21 @@ export interface ServerPropertiesForReplica {
    * 'Disabled'
    */
   sslEnforcement?: SslEnforcementEnum;
+  /**
+   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
+   * 'TLS1_2', 'TLSEnforcementDisabled'
+   */
+  minimalTlsVersion?: MinimalTlsVersionEnum;
+  /**
+   * Status showing whether the server enabled infrastructure encryption. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  infrastructureEncryption?: InfrastructureEncryption;
+  /**
+   * Whether or not public network access is allowed for this server. Value is optional but if
+   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccessEnum;
   /**
    * Storage profile of a server.
    */
@@ -242,9 +385,34 @@ export interface Sku {
 }
 
 /**
+ * Azure Active Directory identity configuration for a resource.
+ */
+export interface ResourceIdentity {
+  /**
+   * The Azure Active Directory principal id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an
+   * Azure Active Directory principal for the resource. Possible values include: 'SystemAssigned'
+   */
+  type?: IdentityType;
+  /**
+   * The Azure Active Directory tenant id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+}
+
+/**
  * Represents a server.
  */
 export interface Server extends TrackedResource {
+  /**
+   * The Azure Active Directory identity of the server.
+   */
+  identity?: ResourceIdentity;
   /**
    * The SKU (pricing tier) of the server.
    */
@@ -255,7 +423,7 @@ export interface Server extends TrackedResource {
    */
   administratorLogin?: string;
   /**
-   * Server version. Possible values include: '5.6', '5.7'
+   * Server version. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -264,8 +432,23 @@ export interface Server extends TrackedResource {
    */
   sslEnforcement?: SslEnforcementEnum;
   /**
+   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
+   * 'TLS1_2', 'TLSEnforcementDisabled'
+   */
+  minimalTlsVersion?: MinimalTlsVersionEnum;
+  /**
+   * Status showing whether the server data encryption is enabled with customer-managed keys.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly byokEnforcement?: string;
+  /**
+   * Status showing whether the server enabled infrastructure encryption. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  infrastructureEncryption?: InfrastructureEncryption;
+  /**
    * A state of a server that is visible to user. Possible values include: 'Ready', 'Dropping',
-   * 'Disabled'
+   * 'Disabled', 'Inaccessible'
    */
   userVisibleState?: ServerState;
   /**
@@ -292,12 +475,26 @@ export interface Server extends TrackedResource {
    * The maximum number of replicas that a master server can have.
    */
   replicaCapacity?: number;
+  /**
+   * Whether or not public network access is allowed for this server. Value is optional but if
+   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccessEnum;
+  /**
+   * List of private endpoint connections on a server
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
 }
 
 /**
  * Represents a server to be created.
  */
 export interface ServerForCreate {
+  /**
+   * The Azure Active Directory identity of the server.
+   */
+  identity?: ResourceIdentity;
   /**
    * The SKU (pricing tier) of the server.
    */
@@ -321,6 +518,10 @@ export interface ServerForCreate {
  */
 export interface ServerUpdateParameters {
   /**
+   * The Azure Active Directory identity of the server.
+   */
+  identity?: ResourceIdentity;
+  /**
    * The SKU (pricing tier) of the server.
    */
   sku?: Sku;
@@ -333,7 +534,7 @@ export interface ServerUpdateParameters {
    */
   administratorLoginPassword?: string;
   /**
-   * The version of a server. Possible values include: '5.6', '5.7'
+   * The version of a server. Possible values include: '5.6', '5.7', '8.0'
    */
   version?: ServerVersion;
   /**
@@ -342,6 +543,16 @@ export interface ServerUpdateParameters {
    */
   sslEnforcement?: SslEnforcementEnum;
   /**
+   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
+   * 'TLS1_2', 'TLSEnforcementDisabled'
+   */
+  minimalTlsVersion?: MinimalTlsVersionEnum;
+  /**
+   * Whether or not public network access is allowed for this server. Value is optional but if
+   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccessEnum;
+  /**
    * The replication role of the server.
    */
   replicationRole?: string;
@@ -349,6 +560,13 @@ export interface ServerUpdateParameters {
    * Application-specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+}
+
+/**
+ * The resource model definition for a ARM proxy resource. It will have everything other than
+ * required location and tags
+ */
+export interface ProxyResource extends Resource {
 }
 
 /**
@@ -646,6 +864,383 @@ export interface ServerSecurityAlertPolicy extends ProxyResource {
 }
 
 /**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+}
+
+/**
+ * The resource management error response.
+ */
+export interface ErrorResponse {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorResponse[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * Represents a and external administrator to be created.
+ */
+export interface ServerAdministratorResource extends ProxyResource {
+  /**
+   * The server administrator login account name.
+   */
+  login: string;
+  /**
+   * The server administrator Sid (Secure ID).
+   */
+  sid: string;
+  /**
+   * The server Active Directory Administrator tenant id.
+   */
+  tenantId: string;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager resource with an etag.
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * Represents a Query Text.
+ */
+export interface QueryText extends ProxyResource {
+  /**
+   * Query identifier unique to the server.
+   */
+  queryId?: string;
+  /**
+   * Query text.
+   */
+  queryText?: string;
+}
+
+/**
+ * Input to get top query statistics
+ */
+export interface TopQueryStatisticsInput {
+  /**
+   * Max number of top queries to return.
+   */
+  numberOfTopQueries: number;
+  /**
+   * Aggregation function name.
+   */
+  aggregationFunction: string;
+  /**
+   * Observed metric name.
+   */
+  observedMetric: string;
+  /**
+   * Observation start time.
+   */
+  observationStartTime: Date;
+  /**
+   * Observation end time.
+   */
+  observationEndTime: Date;
+  /**
+   * Aggregation interval type in ISO 8601 format.
+   */
+  aggregationWindow: string;
+}
+
+/**
+ * Represents a Query Statistic.
+ */
+export interface QueryStatistic extends ProxyResource {
+  /**
+   * Database query identifier.
+   */
+  queryId?: string;
+  /**
+   * Observation start time.
+   */
+  startTime?: Date;
+  /**
+   * Observation end time.
+   */
+  endTime?: Date;
+  /**
+   * Aggregation function name.
+   */
+  aggregationFunction?: string;
+  /**
+   * The list of database names.
+   */
+  databaseNames?: string[];
+  /**
+   * Number of query executions in this time interval.
+   */
+  queryExecutionCount?: number;
+  /**
+   * Metric name.
+   */
+  metricName?: string;
+  /**
+   * Metric display name.
+   */
+  metricDisplayName?: string;
+  /**
+   * Metric value.
+   */
+  metricValue?: number;
+  /**
+   * Metric value unit.
+   */
+  metricValueUnit?: string;
+}
+
+/**
+ * Input to get wait statistics
+ */
+export interface WaitStatisticsInput {
+  /**
+   * Observation start time.
+   */
+  observationStartTime: Date;
+  /**
+   * Observation end time.
+   */
+  observationEndTime: Date;
+  /**
+   * Aggregation interval type in ISO 8601 format.
+   */
+  aggregationWindow: string;
+}
+
+/**
+ * Represents a Wait Statistic.
+ */
+export interface WaitStatistic extends ProxyResource {
+  /**
+   * Observation start time.
+   */
+  startTime?: Date;
+  /**
+   * Observation end time.
+   */
+  endTime?: Date;
+  /**
+   * Wait event name.
+   */
+  eventName?: string;
+  /**
+   * Wait event type name.
+   */
+  eventTypeName?: string;
+  /**
+   * Database query identifier.
+   */
+  queryId?: number;
+  /**
+   * Database Name.
+   */
+  databaseName?: string;
+  /**
+   * Database user identifier.
+   */
+  userId?: number;
+  /**
+   * Wait event count observed in this time interval.
+   */
+  count?: number;
+  /**
+   * Total time of wait in milliseconds in this time interval.
+   */
+  totalTimeInMs?: number;
+}
+
+/**
+ * Represents a recommendation action advisor.
+ */
+export interface Advisor extends ProxyResource {
+  /**
+   * The properties of a recommendation action advisor.
+   */
+  properties?: any;
+}
+
+/**
+ * Represents a Recommendation Action.
+ */
+export interface RecommendationAction extends ProxyResource {
+  /**
+   * Advisor name.
+   */
+  advisorName?: string;
+  /**
+   * Recommendation action session identifier.
+   */
+  sessionId?: string;
+  /**
+   * Recommendation action identifier.
+   */
+  actionId?: number;
+  /**
+   * Recommendation action creation time.
+   */
+  createdTime?: Date;
+  /**
+   * Recommendation action expiration time.
+   */
+  expirationTime?: Date;
+  /**
+   * Recommendation action reason.
+   */
+  reason?: string;
+  /**
+   * Recommendation action type.
+   */
+  recommendationType?: string;
+  /**
+   * Recommendation action details.
+   */
+  details?: { [propertyName: string]: string };
+}
+
+/**
+ * Recommendation action session operation status.
+ */
+export interface RecommendedActionSessionsOperationStatus {
+  /**
+   * Operation identifier.
+   */
+  name?: string;
+  /**
+   * Operation start time.
+   */
+  startTime?: Date;
+  /**
+   * Operation status.
+   */
+  status?: string;
+}
+
+/**
+ * An interface representing PrivateLinkServiceConnectionStateProperty.
+ */
+export interface PrivateLinkServiceConnectionStateProperty {
+  /**
+   * The private link service connection status.
+   */
+  status: string;
+  /**
+   * The private link service connection description.
+   */
+  description: string;
+  /**
+   * The actions required for private link service connection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: string;
+}
+
+/**
+ * A private endpoint connection
+ */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * Private endpoint which the connection belongs to.
+   */
+  privateEndpoint?: PrivateEndpointProperty;
+  /**
+   * Connection state of the private endpoint connection.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  /**
+   * State of the private endpoint connection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+}
+
+/**
+ * Tags object for patch operations.
+ */
+export interface TagsObject {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * Properties of a private link resource.
+ */
+export interface PrivateLinkResourceProperties {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends ProxyResource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: PrivateLinkResourceProperties;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface RecommendedActionsListByServerOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The recommendation action session identifier.
+   */
+  sessionId?: string;
+}
+
+/**
  * An interface representing MySQLManagementClientOptions.
  */
 export interface MySQLManagementClientOptions extends AzureServiceClientOptions {
@@ -707,6 +1302,14 @@ export interface LogFileListResult extends Array<LogFile> {
 
 /**
  * @interface
+ * The response to a list Active Directory Administrators request.
+ * @extends Array<ServerAdministratorResource>
+ */
+export interface ServerAdministratorResourceListResult extends Array<ServerAdministratorResource> {
+}
+
+/**
+ * @interface
  * A list of performance tiers.
  * @extends Array<PerformanceTierProperties>
  */
@@ -714,12 +1317,103 @@ export interface PerformanceTierListResult extends Array<PerformanceTierProperti
 }
 
 /**
+ * @interface
+ * A list of query texts.
+ * @extends Array<QueryText>
+ */
+export interface QueryTextsResultList extends Array<QueryText> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of query statistics.
+ * @extends Array<QueryStatistic>
+ */
+export interface TopQueryStatisticsResultList extends Array<QueryStatistic> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of wait statistics.
+ * @extends Array<WaitStatistic>
+ */
+export interface WaitStatisticsResultList extends Array<WaitStatistic> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of query statistics.
+ * @extends Array<Advisor>
+ */
+export interface AdvisorsResultList extends Array<Advisor> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of recommendation actions.
+ * @extends Array<RecommendationAction>
+ */
+export interface RecommendationActionsResultList extends Array<RecommendationAction> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of private endpoint connections.
+ * @extends Array<PrivateEndpointConnection>
+ */
+export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of private link resources
+ * @extends Array<PrivateLinkResource>
+ */
+export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for ServerVersion.
- * Possible values include: '5.6', '5.7'
+ * Possible values include: '5.6', '5.7', '8.0'
  * @readonly
  * @enum {string}
  */
-export type ServerVersion = '5.6' | '5.7';
+export type ServerVersion = '5.6' | '5.7' | '8.0';
 
 /**
  * Defines values for SslEnforcementEnum.
@@ -730,12 +1424,60 @@ export type ServerVersion = '5.6' | '5.7';
 export type SslEnforcementEnum = 'Enabled' | 'Disabled';
 
 /**
- * Defines values for ServerState.
- * Possible values include: 'Ready', 'Dropping', 'Disabled'
+ * Defines values for MinimalTlsVersionEnum.
+ * Possible values include: 'TLS1_0', 'TLS1_1', 'TLS1_2', 'TLSEnforcementDisabled'
  * @readonly
  * @enum {string}
  */
-export type ServerState = 'Ready' | 'Dropping' | 'Disabled';
+export type MinimalTlsVersionEnum = 'TLS1_0' | 'TLS1_1' | 'TLS1_2' | 'TLSEnforcementDisabled';
+
+/**
+ * Defines values for InfrastructureEncryption.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type InfrastructureEncryption = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for PublicNetworkAccessEnum.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccessEnum = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for PrivateLinkServiceConnectionStateStatus.
+ * Possible values include: 'Approved', 'Pending', 'Rejected', 'Disconnected'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateLinkServiceConnectionStateStatus = 'Approved' | 'Pending' | 'Rejected' | 'Disconnected';
+
+/**
+ * Defines values for PrivateLinkServiceConnectionStateActionsRequire.
+ * Possible values include: 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateLinkServiceConnectionStateActionsRequire = 'None';
+
+/**
+ * Defines values for PrivateEndpointProvisioningState.
+ * Possible values include: 'Approving', 'Ready', 'Dropping', 'Failed', 'Rejecting'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointProvisioningState = 'Approving' | 'Ready' | 'Dropping' | 'Failed' | 'Rejecting';
+
+/**
+ * Defines values for ServerState.
+ * Possible values include: 'Ready', 'Dropping', 'Disabled', 'Inaccessible'
+ * @readonly
+ * @enum {string}
+ */
+export type ServerState = 'Ready' | 'Dropping' | 'Disabled' | 'Inaccessible';
 
 /**
  * Defines values for GeoRedundantBackup.
@@ -760,6 +1502,14 @@ export type StorageAutogrow = 'Enabled' | 'Disabled';
  * @enum {string}
  */
 export type SkuTier = 'Basic' | 'GeneralPurpose' | 'MemoryOptimized';
+
+/**
+ * Defines values for IdentityType.
+ * Possible values include: 'SystemAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type IdentityType = 'SystemAssigned';
 
 /**
  * Defines values for VirtualNetworkRuleState.
@@ -1306,6 +2056,86 @@ export type LogFilesListByServerResponse = LogFileListResult & {
 };
 
 /**
+ * Contains response data for the get operation.
+ */
+export type ServerAdministratorsGetResponse = ServerAdministratorResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAdministratorResource;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ServerAdministratorsCreateOrUpdateResponse = ServerAdministratorResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAdministratorResource;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ServerAdministratorsListResponse = ServerAdministratorResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAdministratorResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type ServerAdministratorsBeginCreateOrUpdateResponse = ServerAdministratorResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerAdministratorResource;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type LocationBasedPerformanceTierListResponse = PerformanceTierListResult & {
@@ -1422,5 +2252,565 @@ export type OperationsListResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type QueryTextsGetResponse = QueryText & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueryText;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type QueryTextsListByServerResponse = QueryTextsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueryTextsResultList;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type QueryTextsListByServerNextResponse = QueryTextsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueryTextsResultList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type TopQueryStatisticsGetResponse = QueryStatistic & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueryStatistic;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type TopQueryStatisticsListByServerResponse = TopQueryStatisticsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TopQueryStatisticsResultList;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type TopQueryStatisticsListByServerNextResponse = TopQueryStatisticsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: TopQueryStatisticsResultList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WaitStatisticsGetResponse = WaitStatistic & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WaitStatistic;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type WaitStatisticsListByServerResponse = WaitStatisticsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WaitStatisticsResultList;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type WaitStatisticsListByServerNextResponse = WaitStatisticsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WaitStatisticsResultList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AdvisorsGetResponse = Advisor & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Advisor;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type AdvisorsListByServerResponse = AdvisorsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdvisorsResultList;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type AdvisorsListByServerNextResponse = AdvisorsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AdvisorsResultList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RecommendedActionsGetResponse = RecommendationAction & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationAction;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type RecommendedActionsListByServerResponse = RecommendationActionsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationActionsResultList;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type RecommendedActionsListByServerNextResponse = RecommendationActionsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationActionsResultList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type LocationBasedRecommendedActionSessionsOperationStatusGetResponse = RecommendedActionSessionsOperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendedActionSessionsOperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type LocationBasedRecommendedActionSessionsResultListResponse = RecommendationActionsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationActionsResultList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type LocationBasedRecommendedActionSessionsResultListNextResponse = RecommendationActionsResultList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecommendationActionsResultList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the updateTags operation.
+ */
+export type PrivateEndpointConnectionsUpdateTagsResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type PrivateEndpointConnectionsListByServerResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type PrivateEndpointConnectionsBeginUpdateTagsResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type PrivateEndpointConnectionsListByServerNextResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByServer operation.
+ */
+export type PrivateLinkResourcesListByServerResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the listByServerNext operation.
+ */
+export type PrivateLinkResourcesListByServerNextResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
     };
 };

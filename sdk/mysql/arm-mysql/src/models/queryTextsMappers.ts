@@ -24,6 +24,7 @@ export {
   ProxyResource,
   QueryStatistic,
   QueryText,
+  QueryTextsResultList,
   RecommendationAction,
   Resource,
   ResourceIdentity,
