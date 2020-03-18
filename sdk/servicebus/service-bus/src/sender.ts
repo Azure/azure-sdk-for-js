@@ -193,9 +193,6 @@ export class SenderImpl implements Sender {
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
-    if (!options) {
-      options = {};
-    }
     return this._sender.createBatch(options);
   }
 
