@@ -44,7 +44,7 @@ export interface CorrelationFilter {
 }
 
 // @public
-export interface CreateBatchOptions {
+export interface CreateBatchOptions extends OperationOptions {
     maxSizeInBytes?: number;
 }
 
@@ -286,7 +286,7 @@ export interface ServiceBusMessage {
     viaPartitionKey?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceBusMessageBatch {
     readonly count: number;
     readonly maxSizeInBytes: number;
