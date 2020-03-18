@@ -1,37 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * prep-samples.ts
- *
- * Prepares sample files for execution in CI by replacing abosolute package imports with relative
- * imports. This is useful because it allows us to check in "camera-ready" copies of our samples
- * so that they can be ingested directly into external documentation pipelines, while still allowing
- * us to compile and run our samples in CI.
- *
- * Usage: node prep-samples.js [PACKAGE PATH]
- * - PACKAGE PATH should be set to the directory of a `package.json` for a package that contains
- *   TypeScript samples.
- * - If PACKAGE PATH is not specified, CWD will be used
- *
- * The command expects to find a directory tree `samples/typescript` under PACKAGE PATH.
- *
- * WARNING: This script ___WILL NOT___ revert changes it makes to the samples. Make sure any staged
- * changes you have made to the samples are committed to git or otherwise preserved, as this script
- * will completely overwrite them!
- */
-
 import fs from "fs-extra";
-import minimist from "minimist";
 import path from "path";
 
-import { createPrinter } from "../util/printer";
-import { findMatchingFiles } from "../util/findMatchingFiles";
-import { resolveProject } from "../util/resolveProject";
+import { createPrinter } from "../../util/printer";
+import { findMatchingFiles } from "../../util/findMatchingFiles";
+import { resolveProject } from "../../util/resolveProject";
+import { leafCommand } from "../../util/commandBuilder";
 
 const log = createPrinter("prep-samples");
 
-export const helpText = "prepare samples for local source-linked execution";
+export const commandInfo = {
+  name: "prep",
+  description: "prepare samples for local source-linked execution"
+} as const;
 
 /**
  * Replaces package require/import statements with relative paths for CI
@@ -98,12 +81,11 @@ async function* cat<T>(...generators: AsyncIterable<T>[]): AsyncIterable<T> {
   }
 }
 
-export default async function(...args: string[]): Promise<boolean> {
-  const parsedArgs = minimist(args);
+export default leafCommand(commandInfo, async (options) => {
 
   let argumentDir;
-  if (parsedArgs._.length) {
-    argumentDir = path.resolve(parsedArgs._[0]);
+  if (options.args.length) {
+    argumentDir = path.resolve(options.args[0]);
   } else {
     argumentDir = process.cwd();
   }
@@ -138,4 +120,4 @@ export default async function(...args: string[]): Promise<boolean> {
   }
 
   return true;
-}
+});

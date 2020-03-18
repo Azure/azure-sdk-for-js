@@ -5,7 +5,7 @@ import fs from "fs-extra";
 import path from "path";
 import { createPrinter } from "./printer";
 
-const { debug } = createPrinter(__filename);
+const { debug } = createPrinter("find-matching-files");
 
 /**
  * File information used during breadth-first search

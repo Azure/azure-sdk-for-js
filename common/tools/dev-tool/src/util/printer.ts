@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import chalk from "chalk";
-import path from "path";
 
 const printModes = ["info", "warn", "error", "success", "debug"] as const;
 

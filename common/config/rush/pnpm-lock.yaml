@@ -3306,26 +3306,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
-  /inquirer/7.0.7:
-    dependencies:
-      ansi-escapes: 4.3.1
-      chalk: 3.0.0
-      cli-cursor: 3.1.0
-      cli-width: 2.2.0
-      external-editor: 3.1.0
-      figures: 3.2.0
-      lodash: 4.17.15
-      mute-stream: 0.0.8
-      run-async: 2.4.0
-      rxjs: 6.5.4
-      string-width: 4.2.0
-      strip-ansi: 6.0.0
-      through: 2.3.8
-    dev: false
-    engines:
-      node: '>=6.0.0'
-    resolution:
-      integrity: sha512-+lV+BE+M3bDVi6Vtejd7sA572D8gJI5qQUciWDqGKvy6Q6GjuEeJAoHRdOSwqtHUvZlNZssnVvTqQyEXKzki/g==
   /inquirer/7.1.0:
     dependencies:
       ansi-escapes: 4.3.1
@@ -7920,7 +7900,6 @@ packages:
       '@types/node': 8.10.59
       chalk: 3.0.0
       fs-extra: 8.1.0
-      inquirer: 7.0.7
       minimist: 1.2.5
       rimraf: 3.0.2
       ts-node: 8.6.2_typescript@3.7.5
@@ -7928,7 +7907,7 @@ packages:
     dev: false
     name: '@rush-temp/dev-tool'
     resolution:
-      integrity: sha512-TIdr84T7zw94e4DeRD9tfOelunKvA03ho/B0kb1H5oycv0CiaBeOzMYkDCpJzRWCZMOSlAOiNn8EWsWyUjEg+Q==
+      integrity: sha512-WRwDdA26SFMnb8jDvr/DfEP/usN7B8j2PFW3F59tFJld+EYZLm0De2D/vVmHrHWmA4D24RdZgFDhevM8PhsXPg==
       tarball: 'file:projects/dev-tool.tgz'
     version: 0.0.0
   'file:projects/eslint-plugin-azure-sdk.tgz':

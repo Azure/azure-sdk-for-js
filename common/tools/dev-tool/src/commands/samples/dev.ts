@@ -4,15 +4,19 @@
 import fs from "fs-extra";
 import path from "path";
 
-import { resolveProject } from "../util/resolveProject";
-import { createPrinter } from "../util/printer";
+import { resolveProject } from "../../util/resolveProject";
+import { createPrinter } from "../../util/printer";
+import { leafCommand } from "../../util/commandBuilder";
 
 const log = createPrinter("dev-samples");
 
-export const helpText =
-  "link samples to local sources for access to IntelliSense during development";
+export const commandInfo = {
+  name: "dev",
+  description:
+    "link samples to local sources for access to IntelliSense during development"
+} as const;
 
-export default async function(..._: string[]): Promise<boolean> {
+export default leafCommand(commandInfo, async (_) => {
   const pkg = await resolveProject(process.cwd());
 
   const relativeLinkName = path.join(
@@ -42,4 +46,4 @@ export default async function(..._: string[]): Promise<boolean> {
   await fs.symlink(relativeLinkTarget, linkName);
 
   return true;
-}
+});

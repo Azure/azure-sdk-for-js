@@ -28,12 +28,10 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
-    "@azure/logger": "^1.0.0",
     "fs-extra": "^8.1.0",
     "ts-node": "^8.3.0",
     "typescript": "~3.7.5",
-    "inquirer": "~7.0.4",
-    "minimist": "~1.2.0",
+    "minimist": "~1.2.5",
     "chalk": "~3.0.0"
   },
   "devDependencies": {

@@ -6,7 +6,7 @@ import path from "path";
 
 import { createPrinter } from "./printer";
 
-const { debug } = createPrinter(__filename);
+const { debug } = createPrinter("resolve-project");
 
 /**
  * Information about an Azure SDK for JS package
