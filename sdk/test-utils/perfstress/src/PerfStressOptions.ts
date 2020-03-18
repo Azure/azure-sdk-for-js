@@ -23,6 +23,7 @@ export interface ParsedPerfStressOptions {
   [longName: string]: PerfStressOption
 }
 
+// Probably use a third party library
 export function parsePerfStressOption(...options: PerfStressOption[]): ParsedPerfStressOptions {
   const argv = process.argv;
   const parsedOptions: ParsedPerfStressOptions = {};

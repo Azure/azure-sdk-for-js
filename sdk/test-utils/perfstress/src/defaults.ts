@@ -11,5 +11,6 @@ export const defaultPerfStressOptions: PerfStressOption[] = [
   makePerfStressOption(false, "Port to redirect HTTP requests", "port"),
   makePerfStressOption(false, "Runs sync version of test", "sync"),
   makePerfStressOption(false, "Duration of warmup in seconds", "warmup", "w", 5),
-  makePerfStressOption(false, "Number of items", "count", "c", 10)
+  makePerfStressOption(false, "Number of items", "count", "c", 10),
+  makePerfStressOption(false, "Size of payload (in bytes)", "size", " s", 10 * 1024)
 ];
