@@ -5,15 +5,15 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { SendableMessageInfo } from "../src";
+import { ServiceBusMessage, ReceivedMessage } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import { Receiver } from "../src/receivers/receiver";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 
-describe.only("Send Batch", () => {
+describe("Send Batch", () => {
   let senderClient: Sender;
-  let receiverClient: Receiver<{}>;
+  let receiverClient: Receiver<ReceivedMessage>;
   let serviceBusClient: ServiceBusClientForTests;
   interface EntityName {
     queue?: string | undefined;
@@ -45,7 +45,7 @@ describe.only("Send Batch", () => {
   async function receiveAllMessages(
     entityNames: EntityName,
     useSessions: boolean,
-    sentMessages: SendableMessageInfo[]
+    sentMessages: ServiceBusMessage[]
   ): Promise<void> {
     if (!useSessions) {
       if (entityNames.queue) {
@@ -57,11 +57,10 @@ describe.only("Send Batch", () => {
           "receiveAndDelete"
         );
       }
-      const receivedMsgs = await receiverClient.receiveBatch(
-        sentMessages.length,
-        sentMessages.length
-      );
-      receivedMsgs.messages.forEach((receivedMessage) => {
+      const receivedMsgs = await receiverClient.receiveBatch(sentMessages.length, {
+        maxWaitTimeSeconds: sentMessages.length
+      });
+      receivedMsgs.forEach((receivedMessage) => {
         sentMessages = sentMessages.filter(
           (sentMessage) => sentMessage.messageId !== receivedMessage.messageId
         );
@@ -83,9 +82,9 @@ describe.only("Send Batch", () => {
             { sessionId: message.sessionId }
           );
         }
-        const receivedMsgs = await receiverClient.receiveBatch(1, 5);
+        const receivedMsgs = await receiverClient.receiveBatch(1, { maxWaitTimeSeconds: 5 });
         sentMessages = sentMessages.filter(
-          (sentMessage) => sentMessage.messageId !== receivedMsgs.messages[0].messageId
+          (sentMessage) => sentMessage.messageId !== receivedMsgs[0].messageId
         );
         receiverClient.close();
       }
@@ -98,8 +97,8 @@ describe.only("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): SendableMessageInfo[] {
-      const messagesToSend: SendableMessageInfo[] = [];
+    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
+      const messagesToSend: ServiceBusMessage[] = [];
       for (let i = 0; i < 1000; i++) {
         messagesToSend.push({
           body: Buffer.alloc(2000),
@@ -117,7 +116,7 @@ describe.only("Send Batch", () => {
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
-      const sentMessages: SendableMessageInfo[] = [];
+      const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
@@ -179,8 +178,8 @@ describe.only("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): SendableMessageInfo[] {
-      const messagesToSend: SendableMessageInfo[] = [];
+    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
+      const messagesToSend: ServiceBusMessage[] = [];
       for (let i = 0; i < 1000; i++) {
         messagesToSend.push({
           body: Buffer.alloc(2000),
@@ -198,7 +197,7 @@ describe.only("Send Batch", () => {
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
-      const sentMessages: SendableMessageInfo[] = [];
+      const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
@@ -243,8 +242,8 @@ describe.only("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): SendableMessageInfo[] {
-      const messagesToSend: SendableMessageInfo[] = [];
+    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
+      const messagesToSend: ServiceBusMessage[] = [];
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-1`,
@@ -270,7 +269,7 @@ describe.only("Send Batch", () => {
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
-      const sentMessages: SendableMessageInfo[] = [];
+      const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
@@ -332,8 +331,8 @@ describe.only("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): SendableMessageInfo[] {
-      const messagesToSend: SendableMessageInfo[] = [];
+    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
+      const messagesToSend: ServiceBusMessage[] = [];
       messagesToSend.push({
         body: Buffer.alloc(20000),
         messageId: `random-message-id`,
@@ -349,7 +348,7 @@ describe.only("Send Batch", () => {
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
-      const sentMessages: SendableMessageInfo[] = [];
+      const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
@@ -411,8 +410,8 @@ describe.only("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): SendableMessageInfo[] {
-      const messagesToSend: SendableMessageInfo[] = [];
+    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
+      const messagesToSend: ServiceBusMessage[] = [];
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-1`,
@@ -443,7 +442,7 @@ describe.only("Send Batch", () => {
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
-      const sentMessages: SendableMessageInfo[] = [];
+      const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
@@ -505,8 +504,8 @@ describe.only("Send Batch", () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): SendableMessageInfo[] {
-      const messagesToSend: SendableMessageInfo[] = [];
+    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
+      const messagesToSend: ServiceBusMessage[] = [];
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-1`,
@@ -537,7 +536,7 @@ describe.only("Send Batch", () => {
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
-      const sentMessages: SendableMessageInfo[] = [];
+      const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
 
       for (const messageToSend of messagesToSend) {
