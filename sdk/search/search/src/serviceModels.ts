@@ -410,7 +410,7 @@ export interface Index {
   /**
    * The ETag of the index.
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**

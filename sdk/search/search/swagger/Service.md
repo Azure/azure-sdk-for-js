@@ -198,3 +198,13 @@ directive:
         $.type = 'string'
       }
 ```
+
+### Lowercase eTag
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties["@odata.etag"]
+    transform: >
+      $["x-ms-client-name"] = "etag"
+```

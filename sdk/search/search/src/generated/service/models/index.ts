@@ -1544,7 +1544,7 @@ export interface DataSource {
   /**
    * The ETag of the DataSource.
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**
@@ -1680,7 +1680,7 @@ export interface Indexer {
   /**
    * The ETag of the Indexer.
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**
@@ -2351,7 +2351,7 @@ export interface Index {
   /**
    * The ETag of the index.
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**
@@ -2498,7 +2498,7 @@ export interface Skillset {
   /**
    * The ETag of the skillset.
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**
@@ -3132,7 +3132,7 @@ export interface SynonymMap {
   /**
    * The ETag of the synonym map.
    */
-  eTag?: string;
+  etag?: string;
 }
 
 /**

@@ -291,7 +291,7 @@ export interface Index {
     corsOptions?: CorsOptions;
     defaultScoringProfile?: string;
     encryptionKey?: EncryptionKey;
-    eTag?: string;
+    etag?: string;
     fields: Field[];
     name: string;
     scoringProfiles?: ScoringProfile[];

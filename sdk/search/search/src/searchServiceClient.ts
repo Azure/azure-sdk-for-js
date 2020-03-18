@@ -322,35 +322,36 @@ export class SearchServiceClient {
   }
 
   private publicIndexToGeneratedIndex(index: Index): GeneratedIndex {
-    const { analyzers, tokenizers, fields, ...rest } = index;
-
     return {
-      analyzers: this.convertAnalyzersToGenerated(analyzers),
-      tokenizers: this.convertTokenizersToGenerated(tokenizers),
-      fields: this.convertFieldsToGenerated(fields),
-      ...rest
+      name: index.name,
+      defaultScoringProfile: index.defaultScoringProfile,
+      corsOptions: index.corsOptions,
+      suggesters: index.suggesters,
+      encryptionKey: index.encryptionKey,
+      etag: index.etag,
+      tokenFilters: index.tokenFilters,
+      charFilters: index.charFilters,
+      scoringProfiles: index.scoringProfiles,
+      analyzers: this.convertAnalyzersToGenerated(index.analyzers),
+      tokenizers: this.convertTokenizersToGenerated(index.tokenizers),
+      fields: this.convertFieldsToGenerated(index.fields)
     };
   }
 
   private generatedIndexToPublicIndex(generatedIndex: GeneratedIndex): Index {
-    const {
-      analyzers,
-      tokenizers,
-      tokenFilters,
-      charFilters,
-      scoringProfiles,
-      fields,
-      ...rest
-    } = generatedIndex;
-
     return {
-      analyzers: this.convertAnalyzersToPublic(analyzers),
-      tokenizers: this.convertTokenizersToPublic(tokenizers),
-      tokenFilters: tokenFilters as TokenFilter[],
-      charFilters: charFilters as CharFilter[],
-      scoringProfiles: scoringProfiles as ScoringProfile[],
-      fields: this.convertFieldsToPublic(fields),
-      ...rest
+      name: generatedIndex.name,
+      defaultScoringProfile: generatedIndex.defaultScoringProfile,
+      corsOptions: generatedIndex.corsOptions,
+      suggesters: generatedIndex.suggesters,
+      encryptionKey: generatedIndex.encryptionKey,
+      etag: generatedIndex.etag,
+      analyzers: this.convertAnalyzersToPublic(generatedIndex.analyzers),
+      tokenizers: this.convertTokenizersToPublic(generatedIndex.tokenizers),
+      tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
+      charFilters: generatedIndex.charFilters as CharFilter[],
+      scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
+      fields: this.convertFieldsToPublic(generatedIndex.fields)
     };
   }
 
