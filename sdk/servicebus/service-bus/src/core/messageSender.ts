@@ -716,7 +716,7 @@ export class MessageSender extends LinkEntity {
     if (!options) {
       options = {};
     }
-    let maxMessageSize = await this.getMaxMessageSize();
+    let maxMessageSize = await this.getMaxMessageSize({ retryOptions: options.retryOptions });
     if (options.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {
         const error = new Error(

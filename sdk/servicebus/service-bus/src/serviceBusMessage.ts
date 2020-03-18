@@ -9,7 +9,13 @@ import {
   MessageAnnotations,
   DeliveryAnnotations
 } from "rhea-promise";
-import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/core-amqp";
+import {
+  Constants,
+  AmqpMessage,
+  translate,
+  ErrorNameConditionMapper,
+  RetryOptions
+} from "@azure/core-amqp";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "./util/utils";
@@ -149,6 +155,13 @@ export interface CreateBatchOptions extends OperationOptions {
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
+   * @memberof CreateBatchOptions
+   */
+  retryOptions?: RetryOptions;
 }
 
 /**
