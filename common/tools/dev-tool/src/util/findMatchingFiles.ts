@@ -33,7 +33,7 @@ const defaultFindOptions: FindOptions = {
  *
  * @param dir The root of the sample tree to search
  * @param matches Predicate that decides whether or not a file entry is included
- * @param options options bag for 
+ * @param options options bag for
  */
 export async function* findMatchingFiles(
   dir: string,
@@ -42,7 +42,7 @@ export async function* findMatchingFiles(
 ) {
   const q: FileInfo[] = [];
 
-  const options: FindOptions = {...defaultFindOptions, ...findOptions};
+  const options: FindOptions = { ...defaultFindOptions, ...findOptions };
 
   async function enqueueAll(dir: string) {
     const files = await fs.readdir(dir);
@@ -78,10 +78,7 @@ export async function* findMatchingFiles(
       info.stat.isSocket() ||
       info.stat.isSymbolicLink()
     ) {
-      debug(
-        "Encountered a special file in the sample tree. Skipping:",
-        info.fullPath
-      );
+      debug("Encountered a special file in the sample tree. Skipping:", info.fullPath);
     }
   }
 }

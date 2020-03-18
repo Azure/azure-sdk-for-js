@@ -19,20 +19,17 @@ export const commandInfo = {
 
 /**
  * Run a single sample file, accumulating any thrown errors into `accumulatedErrors`
- * 
+ *
  * @param name the file to run
  * @param accumulatedErrors an array to push truncated errors onto as tuples of [fileName, error]
  */
-async function runSingle(
-  name: string,
-  accumulatedErrors: Array<[string, string]>
-) {
+async function runSingle(name: string, accumulatedErrors: Array<[string, string]>) {
   log("Running", name);
   try {
     if (/.*\/samples\/.*/.exec(name)) {
       // This is an un-prepared sample, so just require it and it will run.
       await import(name);
-    } else if (!(/.*\/dist-samples\/.*/.exec(name))) {
+    } else if (!/.*\/dist-samples\/.*/.exec(name)) {
       // This is not an unprepared or a prepared sample
       log.warn("Executing a file that is neither in samples nor dist-samples.");
     } else {
@@ -50,17 +47,17 @@ async function runSingle(
   }
 }
 
-export default leafCommand(commandInfo, async options => {
+export default leafCommand(commandInfo, async (options) => {
   if (options.args.length === 0) {
     throw new Error("At least one argument is required for run-samples");
   }
 
-  const samples = options.args.map(dir => path.resolve(dir));
+  const samples = options.args.map((dir) => path.resolve(dir));
 
   // Patch the environment for the sample helper
   process.env.BATCH_RUN_SAMPLES = "true";
 
-  let errors: Array<[string, string]> = [];
+  const errors: Array<[string, string]> = [];
 
   for (const sample of samples) {
     const stats = await fs.stat(sample);

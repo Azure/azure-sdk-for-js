@@ -44,9 +44,7 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, any]> {
   const files = await fs.readdir(directory);
 
   if (files.includes("rush.json")) {
-    throw new Error(
-      "Reached monorepo root, but no matching Azure SDK package was found."
-    );
+    throw new Error("Reached monorepo root, but no matching Azure SDK package was found.");
   }
 
   for (const file of files) {
@@ -56,9 +54,7 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, any]> {
       if (await isAzureSDKPackage(fullPath)) {
         return [directory, packageObject];
       }
-      debug(
-        `found package.json at ${fullPath}, but it is not an Azure SDK package`
-      );
+      debug(`found package.json at ${fullPath}, but it is not an Azure SDK package`);
     }
   }
 
@@ -71,9 +67,7 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, any]> {
  * @param workingDirectory the directory to resolve the package from
  * @returns the package info for the SDK project that owns the given directory
  */
-export async function resolveProject(
-  workingDirectory: string
-): Promise<ProjectInfo> {
+export async function resolveProject(workingDirectory: string): Promise<ProjectInfo> {
   if (!fs.existsSync(workingDirectory)) {
     throw new Error(`No such file or directory: ${workingDirectory}`);
   }

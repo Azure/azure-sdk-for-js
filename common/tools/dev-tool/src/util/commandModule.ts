@@ -24,24 +24,24 @@ export interface CommandModule {
  * Information about this command
  */
 export interface CommandInfo {
-    /**
-     * Name of this command
-    */
-    name: string;
+  /**
+   * Name of this command
+   */
+  name: string;
 
-    /**
-     * One line of help text to be printed by the `dev-tool help` command
-     */
-    description: string;
+  /**
+   * One line of help text to be printed by the `dev-tool help` command
+   */
+  description: string;
 
-    /**
-     * Argument configuration for this command
-     * 
-     * Used for type-checked argument parsing and help text.
-     * 
-     * The options keys "help", "args", and "--" will be discarded, as they are handled internally.
-     */
-    options?: CommandOptions;
+  /**
+   * Argument configuration for this command
+   *
+   * Used for type-checked argument parsing and help text.
+   *
+   * The options keys "help", "args", and "--" will be discarded, as they are handled internally.
+   */
+  options?: CommandOptions;
 }
 
 /**
@@ -65,8 +65,8 @@ export interface StringOptionDescription {
  * may be specified multiple times
  */
 export interface MultiStringOptionDescription {
-  kind: "multistring",
-  default?: string[]
+  kind: "multistring";
+  default?: string[];
 }
 
 /**
@@ -83,7 +83,7 @@ export interface BooleanOptionDescription {
  * optional default value, and optional short name (one-letter alias)
  */
 export interface CommandOptions {
-  [k: string] : {
+  [k: string]: {
     /**
      * Optional one-letter alias
      */
@@ -92,7 +92,7 @@ export interface CommandOptions {
      * Help text for this option
      */
     description: string;
-  } & OptionDescription
+  } & OptionDescription;
 }
 
 /**

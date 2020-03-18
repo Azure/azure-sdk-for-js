@@ -9,6 +9,8 @@ import { printCommandUsage, commandStack } from "./printCommandUsage";
 
 const { debug: parseDebug, error: parseError } = createPrinter("parseOptions");
 
+const hasKey = (o: any, k: string) => Object.prototype.hasOwnProperty.call(o, k);
+
 /**
  * The type of the Options map produced by {@link parseOptions}
  * given a const input type Opts that extends CommandOptions.
@@ -35,10 +37,7 @@ export type ParsedOptions<Opts extends CommandOptions | undefined> = {
       // and folds it into a map from long-key to resulting type.
       // If no default is specified, then the type will be implicitly or'd
       // with undefined
-      [K in Exclude<
-        keyof Opts,
-        "--" | "args" | "help"
-      >]: undefined extends Opts[K]["default"]
+      [K in Exclude<keyof Opts, "--" | "args" | "help">]: undefined extends Opts[K]["default"]
         ?
             | (Opts[K]["kind"] extends "string"
                 ? string
@@ -77,29 +76,25 @@ export function parseOptions<Opts extends CommandOptions>(
   // If options are not provided, use an empty set
   const options: CommandOptions = opts ?? {};
 
-  const keys = Object.keys(options).filter(k => options.hasOwnProperty(k));
+  const keys = Object.keys(options).filter((k) => hasKey(options, k));
   const argMap = getArgs(args, {
     // Once an unidentified argument is encountered, stop parsing
     stopEarly: true,
     // Use type information for hinting to minimist about how arguments should
     // be handled
-    boolean: ["help", ...keys.filter(k => options[k].kind === "boolean")],
-    string: keys.filter(k => options[k].kind === "string"),
+    boolean: ["help", ...keys.filter((k) => options[k].kind === "boolean")],
+    string: keys.filter((k) => options[k].kind === "string"),
     // Roll up the optional short-names into aliases
     alias: keys.reduce(
       (o, key) =>
-        options[key].shortName !== undefined
-          ? { ...o, [options[key].shortName!]: key }
-          : o,
+        options[key].shortName !== undefined ? { ...o, [options[key].shortName!]: key } : o,
       {}
     ),
     // Roll up the default values into the arg parser
     default: {
       ...keys.reduce(
         (o, key) =>
-          options[key].default !== undefined
-            ? { ...o, [key]: options[key].default }
-            : o,
+          options[key].default !== undefined ? { ...o, [key]: options[key].default } : o,
         {}
       ),
       help: false
@@ -112,19 +107,23 @@ export function parseOptions<Opts extends CommandOptions>(
 
   delete result._;
 
-  function expectType(key: string, value : any, expected: string) : void {
+  function expectType(key: string, value: any, expected: string): void {
     if (Array.isArray(value)) {
       parseError(`Too many arguments for "${key}"`);
       throw new Error(`More than one value for "${key}" was given, but only one was expected`);
     } else if (typeof value !== expected && typeof value !== "undefined") {
       parseError(`Bad argument: "${key}" = ${value}`);
-      throw new Error(`Value of argument "${key}" was a ${typeof value} but a ${expected} was expected.`)
+      throw new Error(
+        `Value of argument "${key}" was a ${typeof value} but a ${expected} was expected.`
+      );
     }
   }
 
   // Validate that multi-strings were passed correctly
   // no boolean values, and single-strings get wrapped into arrays
-  for (const multiKey of keys.filter(k => options[k].kind === "multistring" && result[k] !== undefined)) {
+  for (const multiKey of keys.filter(
+    (k) => options[k].kind === "multistring" && result[k] !== undefined
+  )) {
     if (!Array.isArray(result[multiKey])) {
       expectType(multiKey, result[multiKey], "string");
       // Wrap in an array to preserve types
@@ -137,12 +136,12 @@ export function parseOptions<Opts extends CommandOptions>(
   }
 
   // Check that single-strings were not passed more than once
-  for (const stringKey of keys.filter(k => options[k].kind === "string")) {
+  for (const stringKey of keys.filter((k) => options[k].kind === "string")) {
     expectType(stringKey, result[stringKey], "string");
   }
 
   // Check that booleans were passed correctly
-  for (const boolKey of keys.filter(k => options[k].kind === "boolean")) {
+  for (const boolKey of keys.filter((k) => options[k].kind === "boolean")) {
     expectType(boolKey, result[boolKey], "boolean");
   }
 
@@ -184,7 +183,7 @@ export function subCommand(
 
     log.debug(`$ ${commandName} ${commandArgs?.join(" ") ?? ""}`);
 
-    if (commands.hasOwnProperty(commandName)) {
+    if (hasKey(commands, commandName)) {
       const commandModule = await commands[commandName]();
 
       const status = await commandModule.default(...commandArgs);
@@ -205,7 +204,7 @@ export function leafCommand<Info extends CommandInfo>(
   info: Info,
   handler: (options: ParsedOptions<Info["options"]>) => Promise<boolean>
 ): (...args: string[]) => Promise<boolean> {
-  return async (...args: string[]) => {
+  return async (...args: string[]): Promise<boolean> => {
     const options = parseOptions(args, info.options);
 
     commandStack.push(info.name);

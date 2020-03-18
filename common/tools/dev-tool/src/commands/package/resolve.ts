@@ -11,8 +11,7 @@ const log = createPrinter("resolve-package");
 
 export const commandInfo = {
   name: "resolve",
-  description:
-    "display information about the project that owns a directory",
+  description: "display information about the project that owns a directory",
   options: {
     directory: {
       shortName: "d",
@@ -28,8 +27,8 @@ export const commandInfo = {
   }
 } as const;
 
-export default leafCommand(commandInfo, async options => {
-  const dirs = (options.directory || [process.cwd()]).map(p => path.resolve(p));
+export default leafCommand(commandInfo, async (options) => {
+  const dirs = (options.directory || [process.cwd()]).map((p) => path.resolve(p));
   for (const dir of dirs) {
     try {
       const currentPackage = await resolveProject(dir);
@@ -37,9 +36,7 @@ export default leafCommand(commandInfo, async options => {
         console.log(currentPackage.path);
       } else {
         log.success("== Detected package:", currentPackage.name);
-        log.info(
-          `Version specifier: ${currentPackage.name}@${currentPackage.version}`
-        );
+        log.info(`Version specifier: ${currentPackage.name}@${currentPackage.version}`);
         log.info(`Location: ${path.resolve(dir, currentPackage.path)}`);
       }
     } catch (error) {

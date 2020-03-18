@@ -15,32 +15,6 @@ export interface Printer extends ModeMap<Fn> {
   (...values: any[]): void;
 }
 
-const colors: ModeMap<Fn<string>> = {
-  info: chalk.blueBright,
-  warn: chalk.yellow,
-  error: chalk.red,
-  debug: chalk.magenta,
-  success: chalk.green
-};
-
-const finalLogger: ModeMap<Fn> = {
-  info: console.info,
-  warn: console.warn,
-  error: console.error,
-  debug(...values: string[]) {
-    if (process.env.DEBUG) {
-      const caller = getCaller();
-      const fileName = caller?.getFileName();
-      const callerInfo = `(@ ${
-        fileName ? fileName : "<unknown>"
-      }#${caller?.getFunctionName() ??
-        "<unknown>"}:${caller?.getLineNumber()}:${caller?.getColumnNumber()})`;
-      console.log(values[0], colors.debug(callerInfo), ...values.slice(1));
-    }
-  },
-  success: console.info
-};
-
 /**
  * Gets the filename of the calling function
  */
@@ -60,12 +34,37 @@ function getCaller(): NodeJS.CallSite | undefined {
     while (error.stack.length > 0 && current !== caller) {
       caller = next();
     }
+  // eslint-disable-next-line no-empty
   } catch (_) {}
 
   Error.prepareStackTrace = savedPrepareStackTrace;
 
   return caller;
 }
+
+const colors: ModeMap<Fn<string>> = {
+  info: chalk.blueBright,
+  warn: chalk.yellow,
+  error: chalk.red,
+  debug: chalk.magenta,
+  success: chalk.green
+};
+
+const finalLogger: ModeMap<Fn> = {
+  info: console.info,
+  warn: console.warn,
+  error: console.error,
+  debug(...values: string[]) {
+    if (process.env.DEBUG) {
+      const caller = getCaller();
+      const fileName = caller?.getFileName();
+      const callerInfo = `(@ ${fileName ? fileName : "<unknown>"}#${caller?.getFunctionName() ??
+        "<unknown>"}:${caller?.getLineNumber()}:${caller?.getColumnNumber()})`;
+      console.log(values[0], colors.debug(callerInfo), ...values.slice(1));
+    }
+  },
+  success: console.info
+};
 
 /**
  * Create a pre-configured console printer for a given namespace.
@@ -91,8 +90,7 @@ function getCaller(): NodeJS.CallSite | undefined {
  */
 export function createPrinter(name: string): Printer {
   const prefix = "[" + name + "]";
-  const base = (...values: string[]) =>
-    console.log(chalk.reset(prefix, ...values));
+  const base = (...values: string[]) => console.log(chalk.reset(prefix, ...values));
 
   for (const mode of printModes) {
     (base as any)[mode] = (...values: string[]) =>

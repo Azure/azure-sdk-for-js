@@ -31,11 +31,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   try {
     const packageInfo = await resolveProject(__dirname);
-    console.log(
-      chalk.blueBright(
-        `  Name/Version:\t${packageInfo.name}@${packageInfo.version}`
-      )
-    );
+    console.log(chalk.blueBright(`  Name/Version:\t${packageInfo.name}@${packageInfo.version}`));
     console.log(chalk.blueBright(`  Location:\t${packageInfo.path}`));
     console.log();
   } catch (error) {
@@ -50,9 +46,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   await printCommandUsage(baseCommandInfo, baseCommands);
 
-  console.log(
-    "For more information about a given command, try `dev-tool COMMAND --help`"
-  );
+  console.log("For more information about a given command, try `dev-tool COMMAND --help`");
 
   console.log();
 

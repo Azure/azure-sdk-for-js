@@ -9,7 +9,7 @@ export const commandInfo = {
 };
 
 export default subCommand(commandInfo, {
-  "dev": () => import("./dev"),
-  "prep": () => import("./prep"),
-  "run": () => import("./run")
+  dev: () => import("./dev"),
+  prep: () => import("./prep"),
+  run: () => import("./run")
 });

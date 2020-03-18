@@ -12,32 +12,21 @@ const log = createPrinter("dev-samples");
 
 export const commandInfo = {
   name: "dev",
-  description:
-    "link samples to local sources for access to IntelliSense during development"
+  description: "link samples to local sources for access to IntelliSense during development"
 } as const;
 
-export default leafCommand(commandInfo, async (_) => {
+export default leafCommand(commandInfo, async () => {
   const pkg = await resolveProject(process.cwd());
 
-  const relativeLinkName = path.join(
-    "samples",
-    "typescript",
-    "node_modules",
-    pkg.name
-  );
+  const relativeLinkName = path.join("samples", "typescript", "node_modules", pkg.name);
   const linkName = path.join(pkg.path, relativeLinkName);
-  const relativeLinkTarget = path.relative(
-    linkName,
-    path.join(pkg.path, "samples")
-  );
+  const relativeLinkTarget = path.relative(linkName, path.join(pkg.path, "samples"));
 
   await fs.ensureDir(path.dirname(linkName));
 
   if (fs.existsSync(linkName)) {
     log.error("Link already exists:", linkName);
-    log.error(
-      "Make sure your samples tree is pristine before running dev-samples."
-    );
+    log.error("Make sure your samples tree is pristine before running dev-samples.");
     return false;
   }
 

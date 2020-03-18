@@ -23,11 +23,7 @@ export const commandInfo = {
  * @param baseDir the base directory of the package
  * @param pkgName name of the package to use when looking for package-local imports
  */
-async function enableLocalRun(
-  fileName: string,
-  baseDir: string,
-  pkgName: string
-) {
+async function enableLocalRun(fileName: string, baseDir: string, pkgName: string) {
   const fileContents = await fs.readFile(fileName, { encoding: "utf-8" });
   const isTs = fileName.endsWith(".ts");
   const importRegex = isTs
@@ -37,9 +33,7 @@ async function enableLocalRun(
   if (!importRegex.exec(fileContents)) {
     // With the newer methods of using helper files and batch running, this
     // should be a warning
-    log.warn(
-      `skipping ${fileName} because it did not contain a matching import/require`
-    );
+    log.warn(`skipping ${fileName} because it did not contain a matching import/require`);
     return;
   }
 
@@ -48,8 +42,7 @@ async function enableLocalRun(
   // `string.length - string.split(path.sep).join("").length` is a dirty but well-supported way to
   // count the depth of a path and that avoids the difficulty of creating a regexp constructor
   // that can escape both linux and windows path separators
-  const depth =
-    relativeDir.length - relativeDir.split(path.sep).join("").length;
+  const depth = relativeDir.length - relativeDir.split(path.sep).join("").length;
 
   let relativePath = new Array(depth).fill("..").join("/");
 
@@ -60,9 +53,7 @@ async function enableLocalRun(
 
   const importRenamedContents = fileContents.replace(
     importRegex,
-    isTs
-      ? `import $1 from "${relativePath}";`
-      : `const $1 = require("${relativePath}");`
+    isTs ? `import $1 from "${relativePath}";` : `const $1 = require("${relativePath}");`
   );
 
   // Remove trailing call to main()
@@ -82,7 +73,6 @@ async function* cat<T>(...generators: AsyncIterable<T>[]): AsyncIterable<T> {
 }
 
 export default leafCommand(commandInfo, async (options) => {
-
   let argumentDir;
   if (options.args.length) {
     argumentDir = path.resolve(options.args[0]);
@@ -105,15 +95,11 @@ export default leafCommand(commandInfo, async (options) => {
   const tsDir = path.join(outputDir, "typescript", "src");
   const tsFiles = findMatchingFiles(
     tsDir,
-    (name, entry) =>
-      entry.isFile() && name.endsWith(".ts") && !name.endsWith(".d.ts")
+    (name, entry) => entry.isFile() && name.endsWith(".ts") && !name.endsWith(".d.ts")
   );
 
   const jsDir = path.join(outputDir, "javascript");
-  const jsFiles = findMatchingFiles(
-    jsDir,
-    (name, entry) => entry.isFile() && name.endsWith(".js")
-  );
+  const jsFiles = findMatchingFiles(jsDir, (name, entry) => entry.isFile() && name.endsWith(".js"));
 
   for await (const fileName of cat(tsFiles, jsFiles)) {
     await enableLocalRun(fileName, pkg.path, pkg.name);

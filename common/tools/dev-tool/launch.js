@@ -15,4 +15,3 @@ require("ts-node").register({
   project: path.join(__dirname, "tsconfig.json")
 });
 require(path.join(__dirname, "src", "index.ts"));
-

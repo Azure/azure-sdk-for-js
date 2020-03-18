@@ -3,6 +3,8 @@
 
 import { CommandInfo, CommandLoader } from "./commandModule";
 
+const hasKey = (o: any, k: string) => Object.prototype.hasOwnProperty.call(o, k);
+
 /**
  * The stack of subcommands executed so far
  *
@@ -34,17 +36,12 @@ export async function printCommandUsage(
   println("  --help\t<boolean> display this help message");
   if (info.options) {
     for (const k in info.options) {
-      if (info.options.hasOwnProperty(k)) {
+      if (hasKey(info.options, k)) {
         const shortName =
-          info.options[k].shortName !== undefined
-            ? `-${info.options[k].shortName},`
-            : "";
-        const valueType = info.options[k].kind !== "boolean"
-            ? "<string>"
-            : "<boolean>";
-        const acceptsMulti = info.options[k].kind === "multistring"
-            ? " (can be set multiple times)"
-            : "";
+          info.options[k].shortName !== undefined ? `-${info.options[k].shortName},` : "";
+        const valueType = info.options[k].kind !== "boolean" ? "<string>" : "<boolean>";
+        const acceptsMulti =
+          info.options[k].kind === "multistring" ? " (can be set multiple times)" : "";
         println(`  ${shortName}--${k}\t${valueType} ${info.options[k].description}${acceptsMulti}`);
       }
     }
@@ -53,24 +50,22 @@ export async function printCommandUsage(
   // COMMAND info
   if (subCommands) {
     println();
-    println(
-      "COMMAND indicates the subcommand to be run. It can be one of the following:\n"
-    );
+    println("COMMAND indicates the subcommand to be run. It can be one of the following:\n");
 
     // Compute the number of tabs needed to separate commands from
     // docstrings assuming a default command-line tabstop of 8
     const tabs = Math.ceil(
       (Math.max(
         ...Object.keys(subCommands)
-          .filter(key => subCommands.hasOwnProperty(key))
-          .map(key => key.length + 2)
+          .filter((key) => hasKey(subCommands, key))
+          .map((key) => key.length + 2)
       ) +
         1) /
         8
     );
 
     for (const command in subCommands) {
-      if (subCommands.hasOwnProperty(command)) {
+      if (hasKey(subCommands, command)) {
         const module = await subCommands[command]();
         const indent = "\t".repeat(tabs - Math.floor((command.length + 2) / 8));
         println(`  ${command}${indent}${module.commandInfo.description}`);
