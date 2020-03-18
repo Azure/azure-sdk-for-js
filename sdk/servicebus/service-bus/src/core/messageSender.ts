@@ -584,6 +584,7 @@ export class MessageSender extends LinkEntity {
     }
   }
 
+  // Not exposed to the users
   /**
    * Send a batch of Message to the ServiceBus in a single AMQP message. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
@@ -592,7 +593,7 @@ export class MessageSender extends LinkEntity {
    * Batch message.
    * @return {Promise<void>}
    */
-  async sendBatch(inputMessages: ServiceBusMessage[]): Promise<void> {
+  async sendArrayOfMessages(inputMessages: ServiceBusMessage[]): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!Array.isArray(inputMessages)) {
@@ -728,7 +729,7 @@ export class MessageSender extends LinkEntity {
     return new ServiceBusMessageBatchImpl(this._context, maxMessageSize!);
   }
 
-  async sendBatch2(batchMessage: ServiceBusMessageBatch): Promise<void> {
+  async sendBatch(batchMessage: ServiceBusMessageBatch): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!this.isOpen()) {
