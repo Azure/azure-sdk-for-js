@@ -15,7 +15,6 @@ export {
   Configuration,
   Database,
   FirewallRule,
-  FirewallRuleListResult,
   LogFile,
   PrivateEndpointConnection,
   PrivateEndpointProperty,
@@ -36,5 +35,7 @@ export {
   StorageProfile,
   TrackedResource,
   VirtualNetworkRule,
-  WaitStatistic
+  WaitStatistic,
+  WaitStatisticsInput,
+  WaitStatisticsResultList
 } from "../models/mappers";
