@@ -15,18 +15,17 @@ export {
   WebSocketOptions
 } from "@azure/core-amqp";
 
-export { OnError, OnMessage } from "./core/messageReceiver";
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
 export { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
 export {
+  ReceivedMessage,
   ServiceBusMessage,
-  ReceivedMessageInfo,
-  SendableMessageInfo,
   DeadLetterOptions,
   ReceiveMode,
-  CreateBatchOptions
+  CreateBatchOptions,
+  ReceivedMessageWithLock
 } from "./serviceBusMessage";
 export { SendableMessageInfoBatch } from "./sendableMessageInfoBatch";
 
@@ -51,20 +50,13 @@ export {
 export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
 
 export {
-  SessionConnections,
-  ReceivedMessage,
-  ContextWithSettlement,
-  Session,
   GetMessageIteratorOptions,
-  ReceiveBatchOptions,
-  SubscribeOptions,
+  GetSessionReceiverOptions,
   MessageHandlerOptions,
   MessageHandlers,
-  ContextType,
-  Closeable,
-  MessageAndContext,
-  MessageIterator,
-  GetSessionReceiverOptions
+  ReceiveBatchOptions,
+  SubscribeOptions,
+  WaitTimeOptions
 } from "./models";
 
 export { Receiver, SubscriptionRuleManagement } from "./receivers/receiver";

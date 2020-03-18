@@ -4,7 +4,7 @@
 import Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
-import { SendableMessageInfo, CreateBatchOptions } from "./serviceBusMessage";
+import { ServiceBusMessage, CreateBatchOptions } from "./serviceBusMessage";
 import { ClientEntityContext } from "./clientEntityContext";
 import {
   getSenderClosedErrorMsg,
@@ -33,7 +33,7 @@ export interface Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while sending messages to the service.
    */
-  send(message: SendableMessageInfo): Promise<void>;
+  send(message: ServiceBusMessage): Promise<void>;
 
   /**
    * Sends the given messages in a single batch i.e. in a single AMQP message after creating an AMQP
@@ -50,7 +50,7 @@ export interface Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while sending messages to the service.
    */
-  sendBatch(messages: SendableMessageInfo[]): Promise<void>;
+  sendBatch(messages: ServiceBusMessage[]): Promise<void>;
 
   /**
    * Creates an instance of `SendableMessageInfoBatch` to which one can add messages until the maximum supported size is reached.
@@ -94,7 +94,7 @@ export interface Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while scheduling a message.
    */
-  scheduleMessage(scheduledEnqueueTimeUtc: Date, message: SendableMessageInfo): Promise<Long>;
+  scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage): Promise<Long>;
 
   /**
    * Schedules given messages to appear on Service Bus Queue/Subscription at a later time.
@@ -108,7 +108,7 @@ export interface Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while scheduling messages.
    */
-  scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: SendableMessageInfo[]): Promise<Long[]>;
+  scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[]): Promise<Long[]>;
 
   /**
    * Cancels a message that was scheduled to appear on a ServiceBus Queue/Subscription.
@@ -176,13 +176,13 @@ export class SenderImpl implements Sender {
     return this._isClosed || this._context.isClosed;
   }
 
-  async send(message: SendableMessageInfo): Promise<void> {
+  async send(message: ServiceBusMessage): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
     return this._sender.send(message);
   }
 
-  async sendBatch(messages: SendableMessageInfo[]): Promise<void> {
+  async sendBatch(messages: ServiceBusMessage[]): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
     if (!Array.isArray(messages)) {
@@ -221,10 +221,7 @@ export class SenderImpl implements Sender {
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws MessagingError if the service returns an error while scheduling a message.
    */
-  async scheduleMessage(
-    scheduledEnqueueTimeUtc: Date,
-    message: SendableMessageInfo
-  ): Promise<Long> {
+  async scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage): Promise<Long> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -243,7 +240,7 @@ export class SenderImpl implements Sender {
 
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
-    messages: SendableMessageInfo[]
+    messages: ServiceBusMessage[]
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(

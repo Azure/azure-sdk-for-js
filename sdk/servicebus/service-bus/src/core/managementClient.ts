@@ -25,9 +25,9 @@ import {
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
-  ReceivedMessageInfo,
+  ReceivedMessage,
+  ServiceBusMessageImpl,
   ServiceBusMessage,
-  SendableMessageInfo,
   DispositionStatus,
   toAmqpMessage,
   getMessagePropertyTypeMismatchError
@@ -341,7 +341,7 @@ export class ManagementClient extends LinkEntity {
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peek(messageCount?: number): Promise<ReceivedMessageInfo[]> {
+  async peek(messageCount?: number): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
   }
@@ -361,7 +361,7 @@ export class ManagementClient extends LinkEntity {
   async peekMessagesBySession(
     sessionId: string,
     messageCount?: number
-  ): Promise<ReceivedMessageInfo[]> {
+  ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(
       this._lastPeekedSequenceNumber.add(1),
@@ -381,7 +381,7 @@ export class ManagementClient extends LinkEntity {
     fromSequenceNumber: Long,
     maxMessageCount?: number,
     sessionId?: string
-  ): Promise<ReceivedMessageInfo[]> {
+  ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const connId = this._context.namespace.connectionId;
 
@@ -399,7 +399,7 @@ export class ManagementClient extends LinkEntity {
       maxMessageCount = 1;
     }
 
-    const messageList: ReceivedMessageInfo[] = [];
+    const messageList: ReceivedMessage[] = [];
     try {
       const messageBody: any = {};
       messageBody[Constants.fromSequenceNumber] = types.wrap_long(
@@ -534,7 +534,7 @@ export class ManagementClient extends LinkEntity {
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
-    messages: SendableMessageInfo[]
+    messages: ServiceBusMessage[]
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any[] = [];
@@ -708,10 +708,10 @@ export class ManagementClient extends LinkEntity {
     sequenceNumbers: Long[],
     receiveMode: ReceiveMode,
     sessionId?: string
-  ): Promise<ServiceBusMessage[]> {
+  ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
-    const messageList: ServiceBusMessage[] = [];
+    const messageList: ServiceBusMessageImpl[] = [];
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
     for (let i = 0; i < sequenceNumbers.length; i++) {
@@ -774,7 +774,7 @@ export class ManagementClient extends LinkEntity {
       }[];
       for (const msg of messages) {
         const decodedMessage = RheaMessageUtil.decode(msg.message);
-        const message = new ServiceBusMessage(
+        const message = new ServiceBusMessageImpl(
           this._context,
           decodedMessage as any,
           { tag: msg["lock-token"] } as any,

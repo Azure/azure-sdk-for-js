@@ -26,7 +26,7 @@ import {
   RetryOptions
 } from "@azure/core-amqp";
 import {
-  SendableMessageInfo,
+  ServiceBusMessage,
   toAmqpMessage,
   getMessagePropertyTypeMismatchError,
   CreateBatchOptions
@@ -536,10 +536,10 @@ export class MessageSender extends LinkEntity {
   /**
    * Sends the given message, with the given options on this link
    *
-   * @param {SendableMessageInfo} data Message to send.  Will be sent as UTF8-encoded JSON string.
+   * @param {ServiceBusMessage} data Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<void>}
    */
-  async send(data: SendableMessageInfo): Promise<void> {
+  async send(data: ServiceBusMessage): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!this.isOpen()) {
@@ -595,7 +595,7 @@ export class MessageSender extends LinkEntity {
    * Batch message.
    * @return {Promise<void>}
    */
-  async sendBatch(inputMessages: SendableMessageInfo[]): Promise<void> {
+  async sendBatch(inputMessages: ServiceBusMessage[]): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!Array.isArray(inputMessages)) {
