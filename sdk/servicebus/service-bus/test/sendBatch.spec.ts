@@ -499,7 +499,7 @@ describe("Send Batch", () => {
     });
   });
 
-  describe("CreateBatch - parameter maxSizeInBytes < max_batch_size_allowed", function(): void {
+  describe("CreateBatch - parameter maxSizeInBytes > max_batch_size_allowed", function(): void {
     afterEach(async () => {
       await afterEachTest();
     });
