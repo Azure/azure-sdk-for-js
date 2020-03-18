@@ -35,10 +35,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import {
-  SendableMessageInfoBatch,
-  SendableMessageInfoBatchImpl
-} from "../sendableMessageInfoBatch";
+import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 
 /**
  * @internal
@@ -713,7 +710,7 @@ export class MessageSender extends LinkEntity {
     });
   }
 
-  async createBatch(options?: CreateBatchOptions): Promise<SendableMessageInfoBatch> {
+  async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) {
       options = {};
@@ -728,10 +725,10 @@ export class MessageSender extends LinkEntity {
       }
       maxMessageSize = options.maxSizeInBytes;
     }
-    return new SendableMessageInfoBatchImpl(this._context, maxMessageSize!);
+    return new ServiceBusMessageBatchImpl(this._context, maxMessageSize!);
   }
 
-  async sendBatch2(batchMessage: SendableMessageInfoBatch): Promise<void> {
+  async sendBatch2(batchMessage: ServiceBusMessageBatch): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       log.sender(

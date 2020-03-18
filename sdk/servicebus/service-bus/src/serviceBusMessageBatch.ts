@@ -1,10 +1,10 @@
-import { SendableMessageInfo, toAmqpMessage } from "./serviceBusMessage";
+import { ServiceBusMessage, toAmqpMessage } from "./serviceBusMessage";
 import { throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ClientEntityContext } from "./clientEntityContext";
 import { message as RheaMessageUtil, messageProperties } from "rhea-promise";
 import { AmqpMessage } from "@azure/core-amqp";
 
-export interface SendableMessageInfoBatch {
+export interface ServiceBusMessageBatch {
   /**
    * Size of the batch in bytes after the events added to it have been encoded into a single AMQP
    * message.
@@ -34,7 +34,7 @@ export interface SendableMessageInfoBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  tryAdd(message: SendableMessageInfo): boolean;
+  tryAdd(message: ServiceBusMessage): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
@@ -55,7 +55,7 @@ export interface SendableMessageInfoBatch {
  * @internal
  * @ignore
  */
-export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
+export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
    * @property Describes the amqp connection context for the Client.
    */
@@ -82,7 +82,7 @@ export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
   private _batchMessage: Buffer | undefined;
 
   /**
-   * SendableMessageInfoBatch should not be constructed using `new SendableMessageInfoBatch()`
+   * ServiceBusMessageBatch should not be constructed using `new ServiceBusMessageBatch()`
    * Use the `createBatch()` method on your `Sender` instead.
    * @constructor
    * @internal
@@ -104,7 +104,7 @@ export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
   }
 
   /**
-   * @property Size of the `SendableMessageInfoBatch` instance after the messages added to it have been
+   * @property Size of the `ServiceBusMessageBatch` instance after the messages added to it have been
    * encoded into a single AMQP message.
    * @readonly
    */
@@ -113,7 +113,7 @@ export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
   }
 
   /**
-   * @property Number of messages in the `SendableMessageInfoBatch` instance.
+   * @property Number of messages in the `ServiceBusMessageBatch` instance.
    * @readonly
    */
   get count(): number {
@@ -122,11 +122,11 @@ export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
 
   /**
    * @property Represents the single AMQP message which is the result of encoding all the events
-   * added into the `SendableMessageInfoBatch` instance.
+   * added into the `ServiceBusMessageBatch` instance.
    *
    * This is not meant for the user to use directly.
    *
-   * When the `SendableMessageInfoBatch` instance is passed to the `sendBatch()` method on the `Sender`,
+   * When the `ServiceBusMessageBatch` instance is passed to the `sendBatch()` method on the `Sender`,
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
    */
@@ -142,10 +142,10 @@ export class SendableMessageInfoBatchImpl implements SendableMessageInfoBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  public tryAdd(message: SendableMessageInfo): boolean {
+  public tryAdd(message: ServiceBusMessage): boolean {
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "tryAdd", "message");
 
-    // Convert SendableMessageInfo to AmqpMessage.
+    // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toAmqpMessage(message);
     amqpMessage.body = this._context.namespace.dataTransformer.encode(message.body);
 

@@ -27,7 +27,7 @@ export {
   CreateBatchOptions,
   ReceivedMessageWithLock
 } from "./serviceBusMessage";
-export { SendableMessageInfoBatch } from "./sendableMessageInfoBatch";
+export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 
 export { Delivery, WebSocketImpl } from "rhea-promise";
 
