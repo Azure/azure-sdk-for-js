@@ -333,6 +333,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/batch",
+      "projectFolder": "sdk/batch/batch",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-text-analytics",
       "projectFolder": "sdk/textanalytics/ai-text-analytics",
       "versionPolicyName": "client"
