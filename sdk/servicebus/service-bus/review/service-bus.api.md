@@ -240,8 +240,7 @@ export interface Sender {
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[]): Promise<Long[]>;
     send(message: ServiceBusMessage): Promise<void>;
-    sendBatch(messages: ServiceBusMessage[]): Promise<void>;
-    sendBatch2(messageBatch: ServiceBusMessageBatch): Promise<void>;
+    sendBatch(messageBatch: ServiceBusMessageBatch): Promise<void>;
 }
 
 // @public
