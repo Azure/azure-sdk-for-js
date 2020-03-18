@@ -4,6 +4,12 @@ import { ClientEntityContext } from "./clientEntityContext";
 import { message as RheaMessageUtil, messageProperties } from "rhea-promise";
 import { AmqpMessage } from "@azure/core-amqp";
 
+/**
+ * A batch of messages that you can create using the {@link createBatch} method.
+ *
+ * @export
+ * @interface ServiceBusMessageBatch
+ */
 export interface ServiceBusMessageBatch {
   /**
    * Size of the batch in bytes after the events added to it have been encoded into a single AMQP
