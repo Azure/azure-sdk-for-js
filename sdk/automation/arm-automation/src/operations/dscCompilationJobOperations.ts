@@ -31,7 +31,7 @@ export class DscCompilationJobOperations {
    * Creates the Dsc compilation job of the configuration.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param compilationJobName The the DSC configuration Id.
+   * @param compilationJobName The DSC configuration Id.
    * @param parameters The parameters supplied to the create compilation job operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.DscCompilationJobCreateResponse>
@@ -45,7 +45,7 @@ export class DscCompilationJobOperations {
    * Retrieve the Dsc configuration compilation job identified by job id.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param compilationJobName The the DSC configuration Id.
+   * @param compilationJobName The DSC configuration Id.
    * @param [options] The optional parameters
    * @returns Promise<Models.DscCompilationJobGetResponse>
    */
@@ -53,14 +53,14 @@ export class DscCompilationJobOperations {
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param compilationJobName The the DSC configuration Id.
+   * @param compilationJobName The DSC configuration Id.
    * @param callback The callback
    */
   get(resourceGroupName: string, automationAccountName: string, compilationJobName: string, callback: msRest.ServiceCallback<Models.DscCompilationJob>): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param compilationJobName The the DSC configuration Id.
+   * @param compilationJobName The DSC configuration Id.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -153,7 +153,7 @@ export class DscCompilationJobOperations {
    * Creates the Dsc compilation job of the configuration.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param compilationJobName The the DSC configuration Id.
+   * @param compilationJobName The DSC configuration Id.
    * @param parameters The parameters supplied to the create compilation job operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
