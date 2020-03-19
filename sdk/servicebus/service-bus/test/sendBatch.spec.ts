@@ -486,12 +486,12 @@ describe("Send Batch", () => {
       });
       messagesToSend.push({
         body: Buffer.alloc(40000),
-        messageId: `message-2`,
+        messageId: `message-3`,
         sessionId: useSessions ? `someSession` : undefined
       });
       messagesToSend.push({
         body: Buffer.alloc(20000),
-        messageId: `message-3`,
+        messageId: `message-4`,
         sessionId: useSessions ? `someSession` : undefined
       });
       return messagesToSend;
@@ -504,31 +504,38 @@ describe("Send Batch", () => {
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
-      const sentMessages: ServiceBusMessage[] = [];
       const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
 
-      for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
-        if (!batchHasCapacity) {
-          break;
-        } else {
-          sentMessages.push(messageToSend);
-        }
-      }
+      should.equal(
+        batchMessage.tryAdd(messagesToSend[0]),
+        true,
+        "tryAdd should not have failed for the first message"
+      );
+      should.equal(
+        batchMessage.tryAdd(messagesToSend[1]),
+        false,
+        "tryAdd should have failed for the second message"
+      );
+      should.equal(
+        batchMessage.tryAdd(messagesToSend[2]),
+        false,
+        "tryAdd should have failed for the third message"
+      );
+      should.equal(
+        batchMessage.tryAdd(messagesToSend[3]),
+        false,
+        "tryAdd should have failed for the fourth message"
+      );
       await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, useSessions, [
+        messagesToSend[0]
+      ]);
     }
 
     it("Partitioned Queue: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueue);
       await testSendBatch(false, 5000);
-      // Should send only one message
-      // To do - additional check to verify
     });
 
     it("Partitioned Topic: SendBatch", async function(): Promise<void> {
