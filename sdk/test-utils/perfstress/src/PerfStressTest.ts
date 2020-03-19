@@ -3,7 +3,7 @@ import { PerfStressOption, ParsedPerfStressOptions, parsePerfStressOption } from
 
 export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {    
   public optionsToParse: PerfStressOption[] = [];
-  public parsedOptions?: TOptions;
+  public parsedOptions: TOptions = {} as TOptions;
 
   constructor() {
   }
