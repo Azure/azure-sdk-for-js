@@ -12,7 +12,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["fs-extra"];
+  const externalNodeBuiltins = ["https", "url"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -55,7 +55,7 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
-    external: ["fs-extra", "nock", "path"],
+    external: ["https", "url"],
     output: {
       file: "dist-browser/azure-test-utils-recorder.js",
       format: "umd",

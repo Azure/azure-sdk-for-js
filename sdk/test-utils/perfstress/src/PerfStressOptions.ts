@@ -1,3 +1,5 @@
+import { defaultPerfStressOptions } from "./defaults";
+
 export type PerfStressOptionValue = string | number | boolean | undefined;
 
 export interface PerfStressOption {
@@ -6,12 +8,12 @@ export interface PerfStressOption {
   longName: string;
   defaultValue?: PerfStressOptionValue;
   value?: PerfStressOptionValue;
-  helpText: string;
+  description: string;
 }
 
 export function makePerfStressOption(
   required: boolean,
-  helpText: string,
+  description: string,
   longName: string,
   shortName?: string,
   defaultValue?: PerfStressOptionValue
@@ -21,7 +23,7 @@ export function makePerfStressOption(
     shortName,
     longName,
     defaultValue,
-    helpText
+    description
   };
 }
 
@@ -51,4 +53,23 @@ export function parsePerfStressOption(...options: PerfStressOption[]): ParsedPer
   }
 
   return parsedOptions;
+}
+
+export function printOptions(
+  options: ParsedPerfStressOptions,
+  filter?: "defaultOptions" | "nonDefaultOptions"
+) {
+  console.log("longName\t\tshortName\t\tdescription\t\trequired\t\tvalue\t\tdefaultValue");
+  for (const key in Object.keys(options)) {
+    if (filter === "nonDefaultOptions" && defaultPerfStressOptions[key]) {
+      continue;
+    }
+    if (filter === "defaultOptions" && !defaultPerfStressOptions[key]) {
+      continue;
+    }
+    const { longName, shortName, description, required, value, defaultValue } = options[key];
+    console.log(
+      `${longName}\t\t${shortName}\t\t${description}\t\t${required}\t\t${value}\t\t${defaultValue}`
+    );
+  }
 }

@@ -1,6 +1,6 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PerfStressTest } from "./PerfStressTest";
-import { ParsedPerfStressOptions, parsePerfStressOption } from "./PerfStressOptions";
+import { ParsedPerfStressOptions, parsePerfStressOption, printOptions } from "./PerfStressOptions";
 import { defaultPerfStressOptions } from "./defaults";
 
 export type TestType = "";
@@ -25,7 +25,6 @@ export class PerfStressProgram {
 
   constructor(tests: PerfStressTest<ParsedPerfStressOptions>[]) {
     this.tests = tests;
-    tests.map((test) => test.parseOptions());
   }
 
   private getTotalElapsedMilliseconds() {
@@ -83,9 +82,14 @@ export class PerfStressProgram {
 
   public async run() {
     console.log("=== Setup ===");
+
     const options = parsePerfStressOption(...defaultPerfStressOptions);
+    console.log("=== Default options ===");
+    printOptions(options, "defaultOptions");
+
     try {
       for (const test of this.tests) {
+        console.log(`=== Global setup for ${test.constructor.name} ===`);
         await test.globalSetup!();
       }
       try {

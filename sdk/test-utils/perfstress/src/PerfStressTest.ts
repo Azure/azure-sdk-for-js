@@ -4,15 +4,14 @@ import {
   ParsedPerfStressOptions,
   parsePerfStressOption
 } from "./PerfStressOptions";
+import { defaultPerfStressOptions } from "./defaults";
 
 export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {
   public optionsToParse: PerfStressOption[] = [];
   public parsedOptions: TOptions = {} as TOptions;
 
-  constructor() {}
-
-  public parseOptions() {
-    this.parsedOptions = parsePerfStressOption(...this.optionsToParse) as TOptions;
+  constructor(optionsToParse: PerfStressOption[] = defaultPerfStressOptions) {
+    this.parsedOptions = parsePerfStressOption(...optionsToParse) as TOptions;
   }
 
   // Before and after running a bunch of the same test.
