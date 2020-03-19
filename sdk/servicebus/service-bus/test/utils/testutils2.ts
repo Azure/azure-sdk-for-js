@@ -191,7 +191,7 @@ export class ServiceBusTestHelpers {
         const msgs = await receiverClient.receiveBatch(numOfMsgsWithSessionId[id], {
           // To Do - Maybe change the maxWaitTime
           // Currently set same as numberOfMessages being received
-          maxWaitTimeSeconds: 5 * numOfMsgsWithSessionId[id]
+          maxWaitTimeSeconds: numOfMsgsWithSessionId[id]
         });
         receivedMsgs = !receivedMsgs! ? msgs : receivedMsgs!.concat(msgs);
         await receiverClient.close();
