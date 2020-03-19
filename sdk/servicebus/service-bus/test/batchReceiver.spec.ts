@@ -14,6 +14,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { getDeadLetterPath } from "./utils/transitional";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -44,7 +45,7 @@ describe("batchReceiver", () => {
     );
 
     deadLetterClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getReceiver(receiverClient.getDeadLetterPath(), "peekLock")
+      serviceBusClient.getReceiver(getDeadLetterPath(receiverClient), "peekLock")
     );
   }
 

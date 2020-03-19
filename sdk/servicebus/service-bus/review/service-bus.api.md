@@ -118,7 +118,6 @@ export interface Receiver<ReceivedMessageT> {
     };
     entityPath: string;
     entityType: "queue" | "subscription";
-    getDeadLetterPath(): string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isReceivingMessages(): boolean;
     receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
@@ -157,13 +156,14 @@ export class ServiceBusClient {
     close(): Promise<void>;
     getReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
     getReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement;
-    getReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage> & SubscriptionRuleManagement;
+    getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
+    getReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
     getSender(queueOrTopicName: string): Sender;
     getSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
     getSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
-    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock> & SubscriptionRuleManagement;
-    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage> & SubscriptionRuleManagement;
+    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
+    getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
+    getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager;
 }
 
 // @public
@@ -230,8 +230,9 @@ export interface SubscribeOptions extends OperationOptions, MessageHandlerOption
 }
 
 // @public
-export interface SubscriptionRuleManagement {
+export interface SubscriptionRuleManager {
     addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
+    close(): Promise<void>;
     readonly defaultRuleName: string;
     getRules(): Promise<RuleDescription[]>;
     removeRule(ruleName: string): Promise<void>;

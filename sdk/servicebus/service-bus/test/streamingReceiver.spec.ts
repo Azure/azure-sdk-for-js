@@ -21,6 +21,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
+import { getDeadLetterPath } from "./utils/transitional";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -59,7 +60,7 @@ describe("Streaming", () => {
     );
 
     deadLetterClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getReceiver(receiverClient.getDeadLetterPath(), "peekLock")
+      serviceBusClient.getReceiver(getDeadLetterPath(receiverClient), "peekLock")
     );
 
     errorWasThrown = false;

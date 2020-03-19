@@ -3,13 +3,7 @@
 
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
-import {
-  ServiceBusClient,
-  SessionReceiver,
-  Receiver,
-  SubscriptionRuleManagement,
-  GetSessionReceiverOptions
-} from "../../src";
+import { ServiceBusClient, SessionReceiver, Receiver, GetSessionReceiverOptions } from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
 import { getEnvVars, EnvVarNames } from "./envVarUtils";
@@ -22,6 +16,7 @@ import {
   ReceivedMessage,
   ServiceBusMessage
 } from "../../src/serviceBusMessage";
+import { getDeadLetterPath } from "./transitional";
 
 dotenv.config();
 const env = getEnvVars();
@@ -286,7 +281,7 @@ export class ServiceBusTestHelpers {
 
   getSubscriptionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>
-  ): Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement {
+  ): Receiver<ReceivedMessageWithLock> {
     if (entityNames.topic == null || entityNames.subscription == null) {
       throw new TypeError("Not subscription entity - can't create a subscription receiver for it");
     }
@@ -394,7 +389,7 @@ async function purgeForTestClientType(
   await Promise.all([
     drainReceiveAndDeleteReceiver(receiver),
     drainReceiveAndDeleteReceiver(
-      serviceBusClient.getReceiver(receiver.getDeadLetterPath(), "receiveAndDelete")
+      serviceBusClient.getReceiver(getDeadLetterPath(receiver), "receiveAndDelete")
     )
   ]);
 }

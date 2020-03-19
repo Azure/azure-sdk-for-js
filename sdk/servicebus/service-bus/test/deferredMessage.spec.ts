@@ -11,6 +11,7 @@ import { testPeekMsgsLength, createServiceBusClientForTests } from "./utils/test
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { getDeadLetterPath } from "./utils/transitional";
 
 describe("deferred messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
@@ -36,7 +37,7 @@ describe("deferred messages", () => {
     );
 
     deadLetterClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getReceiver(receiverClient.getDeadLetterPath(), "peekLock")
+      serviceBusClient.getReceiver(getDeadLetterPath(receiverClient), "peekLock")
     );
   }
 

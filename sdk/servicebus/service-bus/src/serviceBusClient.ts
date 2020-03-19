@@ -13,9 +13,13 @@ import { ClientEntityContext } from "./clientEntityContext";
 import { ClientType } from "./client";
 import { SenderImpl, Sender } from "./sender";
 import { GetSessionReceiverOptions } from "./models";
-import { Receiver, ReceiverImpl, SubscriptionRuleManagement } from "./receivers/receiver";
+import { Receiver, ReceiverImpl } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 import { ReceivedMessageWithLock, ReceivedMessage } from "./serviceBusMessage";
+import {
+  SubscriptionRuleManagerImpl,
+  SubscriptionRuleManager
+} from "./receivers/subscriptionRuleManager";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -97,7 +101,7 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "peekLock"
-  ): Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement;
+  ): Receiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus subscription.
    *
@@ -110,16 +114,12 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "receiveAndDelete"
-  ): Receiver<ReceivedMessage> & SubscriptionRuleManagement;
+  ): Receiver<ReceivedMessage>;
   getReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveMode3?: "peekLock" | "receiveAndDelete"
-  ):
-    | Receiver<ReceivedMessageWithLock>
-    | Receiver<ReceivedMessage>
-    | (Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement)
-    | (Receiver<ReceivedMessage> & SubscriptionRuleManagement) {
+  ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
     let entityType: "queue" | "subscription";
@@ -193,7 +193,7 @@ export class ServiceBusClient {
     subscriptionName: string,
     receiveMode: "peekLock",
     options?: GetSessionReceiverOptions
-  ): SessionReceiver<ReceivedMessageWithLock> & SubscriptionRuleManagement;
+  ): SessionReceiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus subscription.
    *
@@ -207,7 +207,7 @@ export class ServiceBusClient {
     subscriptionName: string,
     receiveMode: "receiveAndDelete",
     options?: GetSessionReceiverOptions
-  ): SessionReceiver<ReceivedMessage> & SubscriptionRuleManagement;
+  ): SessionReceiver<ReceivedMessage>;
   getSessionReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
@@ -216,8 +216,8 @@ export class ServiceBusClient {
   ):
     | SessionReceiver<ReceivedMessageWithLock>
     | SessionReceiver<ReceivedMessage>
-    | (SessionReceiver<ReceivedMessage> & SubscriptionRuleManagement)
-    | (SessionReceiver<ReceivedMessageWithLock> & SubscriptionRuleManagement) {
+    | SessionReceiver<ReceivedMessage>
+    | SessionReceiver<ReceivedMessageWithLock> {
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
     let entityType: "queue" | "subscription";
@@ -266,6 +266,24 @@ export class ServiceBusClient {
     );
 
     return new SenderImpl(clientEntityContext);
+  }
+
+  /**
+   * Gets a SubscriptionRuleManager, which allows you to manage Service Bus subscription rules.
+   * More information about subscription rules can be found here: https://docs.microsoft.com/en-us/azure/service-bus-messaging/topic-filters
+   * @param topic The topic for the subscription.
+   * @param subscription The subscription.
+   */
+  getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager {
+    const entityPath = `${topic}/Subscriptions/${subscription}`;
+    const clientEntityContext = ClientEntityContext.create(
+      entityPath,
+      ClientType.ServiceBusReceiverClient, // TODO:what are these names for? We can make one for management client...
+      this._connectionContext,
+      `${entityPath}/${generate_uuid()}`
+    );
+
+    return new SubscriptionRuleManagerImpl(clientEntityContext);
   }
 
   /**
