@@ -38,30 +38,103 @@ export type TransferProgressEvent = {
 };
 
 export interface WebResourceLike {
+  /**
+   * The URL being accessed by the request.
+   */
   url: string;
+  /**
+   * The HTTP method to use when making the request.
+   */
   method: HttpMethods;
+  /**
+   * The HTTP body contents of the request.
+   */
   body?: any;
+  /**
+   * The HTTP headers to use when making the request.
+   */
   headers: HttpHeadersLike;
+  /**
+   * Whether or not the body of the HttpOperationResponse should be treated as a stream.
+   */
   streamResponseBody?: boolean;
+  /**
+   * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
+   * HttpOperationResponse should be deserialized.
+   */
   shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
+  /**
+   * A function that returns the proper OperationResponse for the given OperationSpec and
+   * HttpOperationResponse combination. If this is undefined, then a simple status code lookup will
+   * be used.
+   */
   operationResponseGetter?: (
     operationSpec: OperationSpec,
     response: HttpOperationResponse
   ) => undefined | OperationResponse;
   formData?: any;
+  /**
+   * A query string represented as an object.
+   */
   query?: { [key: string]: any };
+  /**
+   * Used to parse the response.
+   */
   operationSpec?: OperationSpec;
+  /**
+   * If credentials (cookies) should be sent along during an XHR.
+   */
   withCredentials: boolean;
+  /**
+   * The number of milliseconds a request can take before automatically being terminated.
+   * If the request is terminated, an `AbortError` is thrown.
+   */
   timeout: number;
+  /**
+   * Proxy configuration.
+   */
   proxySettings?: ProxySettings;
+  /**
+   * If the connection should be reused.
+   */
   keepAlive?: boolean;
+  /**
+   * A unique identifier for the request. Used for logging and tracing.
+   */
   requestId: string;
+
+  /**
+   * Used to abort the request later.
+   */
   abortSignal?: AbortSignalLike;
+
+  /**
+   * Callback which fires upon upload progress.
+   */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
+
+  /** Callback which fires upon download progress. */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Options used to create a span when tracing is enabled.
+   */
   spanOptions?: SpanOptions;
+
+  /**
+   * Validates that the required properties such as method, url, headers["Content-Type"],
+   * headers["accept-language"] are defined. It will throw an error if one of the above
+   * mentioned properties are not defined.
+   */
   validateRequestProperties(): void;
+
+  /**
+   * Sets options on the request.
+   */
   prepare(options: RequestPrepareOptions): WebResourceLike;
+  /**
+   * Clone this request object.
+   */
   clone(): WebResourceLike;
 }
 
