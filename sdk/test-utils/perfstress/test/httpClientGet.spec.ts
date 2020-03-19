@@ -30,7 +30,7 @@ export class HTTPSGetTest extends PerfStressTest<ParsedHTTPSRequestOptions> {
     ...defaultPerfStressOptions,
     makePerfStressOption(true, "url", "u")
   ]
-  async run(options: ParsedHTTPSRequestOptions) {
-    await makeHTTPSRequest(options.url.value as string);
+  async run() {
+    await makeHTTPSRequest(this.parsedOptions!.url.value as string);
   }
 }

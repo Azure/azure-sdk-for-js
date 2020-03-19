@@ -1,6 +1,7 @@
 import { PerfStressOption, makePerfStressOption } from './PerfStressOptions';
 
 export const defaultPerfStressOptions: PerfStressOption[] = [
+  makePerfStressOption(false, "Disables all cleanups", "no-cleanups"),
   makePerfStressOption(false, "Duration of test in seconds", "duration", "d", 10),
   makePerfStressOption(false, "Host to redirect HTTP requests", "host"),
   makePerfStressOption(false, "Allow non-trusted SSL certs", "insecure"),
