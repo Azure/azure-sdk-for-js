@@ -27,7 +27,7 @@ describe("Highlevel", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -45,7 +45,7 @@ describe("Highlevel", () => {
     }
   });
 
-  before(async function() {
+  before(async function () {
     recorder = record(this, recorderEnvSetup);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
@@ -57,7 +57,7 @@ describe("Highlevel", () => {
     recorder.stop();
   });
 
-  after(async function() {
+  after(async function () {
     recorder = record(this, recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
@@ -166,7 +166,7 @@ describe("Highlevel", () => {
           aborter.abort();
         }
       });
-    } catch (err) {}
+    } catch (err) { }
     assert.ok(eventTriggered);
   });
 
@@ -189,7 +189,7 @@ describe("Highlevel", () => {
           aborter.abort();
         }
       });
-    } catch (err) {}
+    } catch (err) { }
     assert.ok(eventTriggered);
   });
 
@@ -216,7 +216,8 @@ describe("Highlevel", () => {
     const bufferStream = new PassThrough();
     bufferStream.end(buf);
 
-    await blockBlobClient.uploadStream(bufferStream, 4 * 1024 * 1024, 20);
+    const uploadStreamRes = await blockBlobClient.uploadStream(bufferStream, 4 * 1024 * 1024, 20);
+    assert.ok(uploadStreamRes.versionId);
 
     const downloadResponse = await blockBlobClient.download(0);
 
@@ -373,7 +374,7 @@ describe("Highlevel", () => {
           aborter.abort();
         }
       });
-    } catch (err) {}
+    } catch (err) { }
     assert.ok(eventTriggered);
   });
 

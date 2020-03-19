@@ -1,0 +1,120 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459880823404027",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 19 Mar 2020 06:20:07 GMT",
+    "etag": "\"0x8D7CBCD92B0A373\"",
+    "last-modified": "Thu, 19 Mar 2020 06:20:08 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "ed978f31-55d7-42ef-a809-6301184c8b69",
+    "x-ms-request-id": "30563f9d-d01e-0037-0ab6-fd086e000000",
+    "x-ms-version": "2019-12-12"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459880823404027/blob158459880874506787",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": "Hello World",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "content-md5": "sQqNsWTgdUEFt6mb5y4/5Q==",
+    "date": "Thu, 19 Mar 2020 06:20:08 GMT",
+    "etag": "\"0x8D7CBCD92FEB7E7\"",
+    "last-modified": "Thu, 19 Mar 2020 06:20:09 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "8f8cee93-b42a-4f8f-8850-7c5e2b402c49",
+    "x-ms-content-crc64": "YeJLfssylmU=",
+    "x-ms-request-id": "3056406b-d01e-0037-45b6-fd086e000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:20:09.1115495Z"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459880823404027/blob158459880874506787",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": "",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "content-md5": "1B2M2Y8AsgTpgAmY7PhCfg==",
+    "date": "Thu, 19 Mar 2020 06:20:08 GMT",
+    "etag": "\"0x8D7CBCD9324964F\"",
+    "last-modified": "Thu, 19 Mar 2020 06:20:09 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "2ba79777-149a-42fc-83a1-7c12bfb1db37",
+    "x-ms-content-crc64": "AAAAAAAAAAA=",
+    "x-ms-request-id": "305640c4-d01e-0037-17b6-fd086e000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-03-19T06:20:09.3607263Z"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459880823404027/blob158459880874506787",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255"
+   },
+   "requestBody": null,
+   "status": 400,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>CannotVerifyCopySource</Code><Message>One of the query parameters specified in the request URI is not supported.\nRequestId:30564172-d01e-0037-34b6-fd086e000000\nTime:2020-03-19T06:20:09.8727329Z</Message></Error>",
+   "responseHeaders": {
+    "content-length": "265",
+    "content-type": "application/xml",
+    "date": "Thu, 19 Mar 2020 06:20:08 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "ab124acd-24b1-4ac8-9873-4c26f12defcf",
+    "x-ms-error-code": "CannotVerifyCopySource",
+    "x-ms-request-id": "30564172-d01e-0037-34b6-fd086e000000",
+    "x-ms-version": "2019-12-12"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container158459880823404027",
+   "query": {
+    "sip": "0.0.0.0-255.255.255.255",
+    "restype": "container"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 19 Mar 2020 06:20:09 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "3967d3d8-2433-49da-bcd2-cc77b29360aa",
+    "x-ms-request-id": "3056422c-d01e-0037-53b6-fd086e000000",
+    "x-ms-version": "2019-12-12"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "container": "container158459880823404027",
+   "blob": "blob158459880874506787"
+  },
+  "newDate": {}
+ },
+ "hash": "c1ddd7168a1d89fb72d78e78735c9a36"
+}

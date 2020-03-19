@@ -4806,6 +4806,12 @@ export const BlobSetHTTPHeadersHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      versionId: {
+        serializedName: "x-ms-version-id",
+        type: {
+          name: "String"
+        }
+      },
       date: {
         serializedName: "date",
         type: {

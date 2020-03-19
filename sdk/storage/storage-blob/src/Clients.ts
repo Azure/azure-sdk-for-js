@@ -204,6 +204,14 @@ export interface BlobDownloadOptions extends CommonOptions {
    */
   snapshot?: string;
   /**
+   * An opaque DateTime string value that, when present, specifies the version of the blob
+   * to retrieve. It for service version 2019-10-10 and newer.
+   *
+   * @type {string}
+   * @memberof BlobDownloadOptions
+   */
+  versionId?: string;
+  /**
    * When this is set to true and download range of blob, the service returns the MD5 hash for the range,
    * as long as the range is less than or equal to 4 MB in size.
    *
@@ -285,6 +293,29 @@ export interface BlobExistsOptions extends CommonOptions {
    * @memberof BlobExistsOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Conditions to meet.
+   *
+   * @type {BlobRequestConditions}
+   * @memberof BlobExistsOptions
+   */
+  conditions?: BlobRequestConditions;
+  /**
+   * An opaque DateTime value that, when present, specifies the blob
+   * snapshot to retrieve.
+   * 
+   * @type {string}
+   * @memberof BlobExistsOptions
+   */
+  snapshot?: string;
+  /**
+   * An opaque DateTime value that, when present, specifies the version
+   * of the blob to retrieve. It for service version 2019-10-10 and newer.
+   * 
+   * @type {string}
+   * @memberof BlobExistsOptions
+   */
+  versionId?: string;
 }
 
 /**
@@ -316,6 +347,22 @@ export interface BlobGetPropertiesOptions extends CommonOptions {
    * @memberof BlobGetPropertiesOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * An opaque DateTime value that, when present, specifies the blob
+   * snapshot to retrieve.
+   * 
+   * @type {string}
+   * @memberof BlobGetPropertiesOptions
+   */
+  snapshot?: string;
+  /**
+   * An opaque DateTime value that, when present, specifies the version
+   * of the blob to retrieve. It for service version 2019-10-10 and newer.
+   * 
+   * @type {string}
+   * @memberof BlobGetPropertiesOptions
+   */
+  versionId?: string;
 }
 
 /**
@@ -356,6 +403,21 @@ export interface BlobDeleteOptions extends CommonOptions {
    * @memberof BlobDeleteOptions
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * An opaque DateTime value that, when present, specifies the blob snapshot to delete.
+   * 
+   * @type {string}
+   * @memberof BlobDeleteOptions
+   */
+  snapshot?: string;
+  /**
+   * An opaque DateTime value that, when present, specifies the version
+   * of the blob to delete. It for service version 2019-10-10 and newer.
+   * 
+   * @type {string}
+   * @memberof BlobDeleteOptions
+   */
+  versionId?: string;
 }
 
 /**
@@ -846,6 +908,28 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    * @memberof BlobDownloadToBufferOptions
    */
   concurrency?: number;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {CpkInfo}
+   * @memberof BlobDownloadToBufferOptions
+   */
+  customerProvidedKey?: CpkInfo;
+  /**
+   * An opaque DateTime string value that, when present, specifies the blob snapshot to retrieve.
+   *
+   * @type {string}
+   * @memberof BlobDownloadToBufferOptions
+   */
+  snapshot?: string;
+  /**
+   * An opaque DateTime string value that, when present, specifies the version of the blob
+   * to retrieve. It for service version 2019-10-10 and newer.
+   *
+   * @type {string}
+   * @memberof BlobDownloadToBufferOptions
+   */
+  versionId?: string;
 }
 
 /**
@@ -1158,6 +1242,7 @@ export class BlobClient extends StorageClient {
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
         snapshot: options.snapshot,
+        versionId: options.versionId,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -1203,6 +1288,7 @@ export class BlobClient extends StorageClient {
             rangeGetContentMD5: options.rangeGetContentMD5,
             rangeGetContentCRC64: options.rangeGetContentCrc64,
             snapshot: options.snapshot,
+            versionId: options.versionId,
             cpkInfo: options.customerProvidedKey
           };
 
@@ -1257,6 +1343,9 @@ export class BlobClient extends StorageClient {
       await this.getProperties({
         abortSignal: options.abortSignal,
         customerProvidedKey: options.customerProvidedKey,
+        versionId: options.versionId,
+        snapshot: options.snapshot,
+        conditions: options.conditions,
         tracingOptions: {
           ...options.tracingOptions,
           spanOptions
@@ -1307,6 +1396,8 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
+        snapshot: options.snapshot,
+        versionId: options.versionId,
         spanOptions
       });
     } catch (e) {
@@ -1340,6 +1431,8 @@ export class BlobClient extends StorageClient {
         deleteSnapshots: options.deleteSnapshots,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
+        snapshot: options.snapshot,
+        versionId: options.versionId,
         spanOptions
       });
     } catch (e) {
@@ -1859,6 +1952,9 @@ export class BlobClient extends StorageClient {
             abortSignal: options.abortSignal,
             conditions: options.conditions,
             maxRetryRequests: options.maxRetryRequestsPerBlock,
+            customerProvidedKey: options.customerProvidedKey,
+            snapshot: options.snapshot,
+            versionId: options.versionId,
             tracingOptions: {
               ...options.tracingOptions,
               spanOptions
@@ -5920,9 +6016,13 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    */
   includeMetadata?: boolean;
   /**
-   * Specifies whether snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response
+   * Specifies whether snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response.
    */
   includeSnapshots?: boolean;
+  /**
+   * Specifies whether versions should be included in the enumeration. Versions are listed from oldest to newest in the response.
+   */
+  includeVersions?: boolean;
   /**
    * Specifies whether blobs for which blocks have been uploaded, but which have not been committed using Put Block List, be included in the response.
    */
@@ -6813,6 +6913,9 @@ export class ContainerClient extends StorageClient {
     if (options.includeSnapshots) {
       include.push("snapshots");
     }
+    if (options.includeVersions) {
+      include.push("versions");
+    }
     if (options.includeUncommitedBlobs) {
       include.push("uncommittedblobs");
     }
@@ -7017,6 +7120,9 @@ export class ContainerClient extends StorageClient {
     }
     if (options.includeSnapshots) {
       include.push("snapshots");
+    }
+    if (options.includeVersions) {
+      include.push("versions");
     }
     if (options.includeUncommitedBlobs) {
       include.push("uncommittedblobs");
