@@ -11,15 +11,6 @@ import { delay, ConditionErrorNameMapper, Constants, MessagingError } from "@azu
 
 /**
  * @internal
- * Enum to denote the entity type calling the session manager
- */
-export enum SessionEntityType {
-  queue = "Queue",
-  subscription = "Subscription"
-}
-
-/**
- * @internal
  */
 export class SessionManager {
   /**
@@ -223,15 +214,14 @@ export class SessionManager {
    * @throws MessagingError if any error occurs while receiving messages from the service.
    */
   async manageMessageSessions(
-    entityType: SessionEntityType,
     onMessage: OnMessage,
     onError: OnError,
     options?: SessionManagerOptions
   ): Promise<void> {
     if (this._isManagingSessions) {
       throw new Error(
-        `${entityType}Client for "${this._context.namespace.config.entityPath}" ` +
-          `is already receiving messages from sessions. Please close this ${entityType}Client or ` +
+        `Client for "${this._context.namespace.config.entityPath}" ` +
+          `is already receiving messages from sessions. Please close this client or ` +
           `create a new one and receiveMessages from Sessions.`
       );
     }

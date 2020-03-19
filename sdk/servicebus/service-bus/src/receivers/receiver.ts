@@ -104,13 +104,6 @@ export interface Receiver<ReceivedMessageT> {
   // TODO: not sure these need to be on the interface
 
   /**
-   * Type of the entity with which the client is created.
-   *
-   * @type {("queue" | "subscription")}
-   * @memberof SessionReceiver
-   */
-  entityType: "queue" | "subscription";
-  /**
    * Path for the client entity.
    *
    * @type {string}
@@ -234,11 +227,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   /**
    * @throws Error if the underlying connection is closed.
    */
-  constructor(
-    context: ClientEntityContext,
-    public receiveMode: "peekLock" | "receiveAndDelete",
-    public entityType: "queue" | "subscription"
-  ) {
+  constructor(context: ClientEntityContext, public receiveMode: "peekLock" | "receiveAndDelete") {
     throwErrorIfConnectionClosed(context.namespace);
     this.entityPath = context.entityPath;
     this._context = context;
