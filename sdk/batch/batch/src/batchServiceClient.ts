@@ -14,7 +14,30 @@ import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { BatchServiceClientContext } from "./batchServiceClientContext";
+import { Recorder, record, TestContext, TestContextTest } from "@azure/test-utils-recorder";
+import { Test } from "mocha";
 
+const recorderEnvSetup = {
+  replaceableVariables: {
+    AZURE_CLIENT_ID: "azure_client_id",
+    AZURE_CLIENT_SECRET: "azure_client_secret",
+    AZURE_TENANT_ID: "azure_tenant_id"
+  },
+  customizationsOnRecordings: [
+    (recording: any): any =>
+      recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+  ],
+  queryParametersToSkip: []
+};
+
+class someInterfaceClient extends TestContext {
+  recorder: Recorder;
+  constructor(test: TestContextTest, currentTest: TestContextTest) {
+    super(test, currentTest);
+    this.recorder = record(this, recorderEnvSetup);
+    this.recorder.getUniqueName("Wonder How");
+  }
+}
 
 class BatchServiceClient extends BatchServiceClientContext {
   // Operation groups
