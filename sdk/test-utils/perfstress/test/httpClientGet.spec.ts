@@ -34,7 +34,7 @@ interface ParsedHTTPSRequestOptions extends ParsedPerfStressOptions {
 export class HTTPSGetTest extends PerfStressTest<ParsedHTTPSRequestOptions> {
   public optionsToParse: PerfStressOption[] = [
     ...defaultPerfStressOptions,
-    makePerfStressOption(true, "url", "u")
+    makePerfStressOption(true, "URL for the HTTP GET Test", "url", "u")
   ];
   async run() {
     await makeHTTPSRequest(this.parsedOptions!.url.value as string);

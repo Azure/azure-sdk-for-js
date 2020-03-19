@@ -1,11 +1,15 @@
-import { AbortSignalLike } from "@azure/abort-controller";
-import { PerfStressTest } from "./PerfStressTest";
-import { ParsedPerfStressOptions, parsePerfStressOption, printOptions } from "./PerfStressOptions";
-import { defaultPerfStressOptions } from "./defaults";
+import { AbortSignalLike, AbortController } from "@azure/abort-controller";
+import { PerfStressTest } from "./perfStressTest";
+import {
+  ParsedPerfStressOptions,
+  parsePerfStressOption,
+  printOptions,
+  defaultPerfStressOptions
+} from "./perfStressOptions";
 
 export type TestType = "";
 
-export interface TestOperation {
+export interface PerfStressTestOperation {
   startedAt?: Date;
   finishedAt?: Date;
   elapsedMilliseconds?: number;
@@ -20,18 +24,23 @@ export interface PerfStressStatistics {
 }
 
 export class PerfStressProgram {
-  private completedOperations: TestOperation[] = [];
+  private completedOperations: PerfStressTestOperation[] = [];
+  private firstOperation?: PerfStressTestOperation;
+  private lastOperation?: PerfStressTestOperation;
   private tests: PerfStressTest<ParsedPerfStressOptions>[];
+  public options: ParsedPerfStressOptions = {} as ParsedPerfStressOptions;
 
   constructor(tests: PerfStressTest<ParsedPerfStressOptions>[]) {
     this.tests = tests;
+    this.tests.map((test) => test.parseOptions());
+    this.options = parsePerfStressOption(defaultPerfStressOptions, true);
   }
 
   private getTotalElapsedMilliseconds() {
-    const operations = this.completedOperations;
-    const firstOperation: TestOperation = operations[0];
-    const lastOperation: TestOperation = operations[operations.length - 1];
-    return (lastOperation.finishedAt!.getTime() - firstOperation.startedAt!.getTime()) / 1000;
+    if (!this.firstOperation) {
+      return 0;
+    }
+    return this.lastOperation!.finishedAt!.getTime() - this.firstOperation!.startedAt!.getTime();
   }
 
   private async getStatistics(): Promise<PerfStressStatistics> {
@@ -54,13 +63,17 @@ export class PerfStressProgram {
   private async runOperation(
     test: PerfStressTest<ParsedPerfStressOptions>,
     abortSignal: AbortSignalLike
-  ): Promise<TestOperation> {
-    const operation: TestOperation = {};
+  ): Promise<PerfStressTestOperation> {
+    const operation: PerfStressTestOperation = {};
     this.completedOperations.push(operation);
     operation.startedAt = new Date();
     await test.run(abortSignal);
     operation.finishedAt = new Date();
     operation.elapsedMilliseconds = operation.finishedAt.getTime() - operation.startedAt.getTime();
+    if (!this.firstOperation) {
+      this.firstOperation = operation;
+    }
+    this.lastOperation = operation;
     return operation;
   }
 
@@ -72,42 +85,68 @@ export class PerfStressProgram {
     }, durationSeconds * 1000);
 
     console.log(`=== ${title} ===`);
-    console.log(`Current\t\tTotal`);
+    console.log(`Current completed operation\t\tTotal time elapsed in milliseconds`);
 
-    for (const test of this.tests) {
-      const operation = await this.runOperation(test, abortController.signal);
-      console.log(`${operation.elapsedMilliseconds}\t\t${this.getTotalElapsedMilliseconds()}`);
+    let lastTotalCompleted = 0;
+    let lastElapsed = 0;
+
+    const logStats = () => {
+      const totalElapsed = this.getTotalElapsedMilliseconds();
+      if (totalElapsed - lastElapsed > this.options["milliseconds-to-log"].value!) {
+        let totalCompleted = this.completedOperations.length - lastTotalCompleted;
+        console.log(`${totalCompleted}\t\t\t\t\t${this.getTotalElapsedMilliseconds()}`);
+        lastTotalCompleted = totalCompleted;
+        lastElapsed = totalElapsed;
+      }
+    };
+
+    const iterations = this.options.iterations.value!;
+    for (let i = 0; i < iterations; i++) {
+      if (abortController.signal.aborted) {
+        break;
+      }
+      for (const test of this.tests) {
+        await this.runOperation(test, abortController.signal);
+        logStats();
+      }
     }
+    logStats();
   }
 
   public async run() {
     console.log("=== Setup ===");
 
-    const options = parsePerfStressOption(...defaultPerfStressOptions);
     console.log("=== Default options ===");
-    printOptions(options, "defaultOptions");
+    const options = this.options;
+    printOptions(options, "nonDefaultOptions");
 
     try {
       for (const test of this.tests) {
         console.log(`=== Global setup for ${test.constructor.name} ===`);
-        await test.globalSetup!();
+        if (test.globalSetup) {
+          await test.globalSetup();
+        }
       }
       try {
         if (Number(options.warmup.value) > 0) {
           await this.runTests(Number(options.warmup.value), "warmup");
         }
-        await this.runTests(Number(options.warmup.value), "tests");
+        await this.runTests(Number(options.duration.value), "tests");
       } finally {
         if (!options["no-cleanups"]) {
           for (const test of this.tests) {
-            await test.cleanup!();
+            if (test.cleanup) {
+              await test.cleanup();
+            }
           }
         }
       }
     } finally {
       if (!options["no-cleanups"]) {
         for (const test of this.tests) {
-          await test.globalCleanup!();
+          if (test.globalCleanup) {
+            await test.globalCleanup();
+          }
         }
       }
     }
@@ -121,7 +160,7 @@ export class PerfStressProgram {
     } = await this.getStatistics();
 
     console.log(
-      `Completed ${completedOperations} operations in ${totalElapsedSeconds}` +
+      `Completed ${completedOperations} operations in ${totalElapsedSeconds}s` +
         ` in an average of ${averageElapsedSeconds}s` +
         ` (${operationsPerSecond} ops/s, ${secondsPerOperation} s/op)`
     );
