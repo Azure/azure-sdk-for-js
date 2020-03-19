@@ -88,7 +88,7 @@ export function isWebResourceLike(object: object): object is WebResourceLike {
  *
  * @constructor
  */
-export class WebResource {
+export class WebResource implements WebResourceLike {
   url: string;
   method: HttpMethods;
   body?: any;
