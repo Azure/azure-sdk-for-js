@@ -6,7 +6,7 @@ products:
   - azure
   - azure-event-hubs
   - azure-storage
-urlFragment: event-hubs-checkpoint-store-blob-typescript
+urlFragment: eventhubs-checkpointstore-blob-typescript
 ---
 
 # Azure Event Hubs client library samples with persistent checkpointing for TypeScript

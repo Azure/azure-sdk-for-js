@@ -6,7 +6,7 @@ products:
   - azure
   - azure-event-hubs
   - azure-storage
-urlFragment: event-hubs-checkpoint-store-blob-javascript
+urlFragment: eventhubs-checkpointstore-blob-javascript
 ---
 
 # Azure Event Hubs client library samples with persistent checkpointing for JavaScript
