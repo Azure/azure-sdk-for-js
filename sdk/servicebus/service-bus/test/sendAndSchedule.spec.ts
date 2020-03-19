@@ -105,79 +105,80 @@ describe("send scheduled messages", () => {
     });
   });
 
-  describe("Simple Send Batch", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
+  // sendBatch(<Array of messages>) - Commented
+  // describe("Simple Send Batch", function(): void {
+  //   afterEach(async () => {
+  //     await afterEachTest();
+  //   });
 
-    async function testSimpleSendBatch(
-      useSessions: boolean,
-      usePartitions: boolean
-    ): Promise<void> {
-      const testMessages = [];
-      testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
-      testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
+  //   async function testSimpleSendBatch(
+  //     useSessions: boolean,
+  //     usePartitions: boolean
+  //   ): Promise<void> {
+  //     const testMessages = [];
+  //     testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
+  //     testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
 
-      await senderClient.sendBatch(testMessages);
-      const msgs = await receiverClient.receiveBatch(2);
+  //     await senderClient.sendBatch(testMessages);
+  //     const msgs = await receiverClient.receiveBatch(2);
 
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs.length, 2, "Unexpected number of messages");
+  //     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+  //     should.equal(msgs.length, 2, "Unexpected number of messages");
 
-      if (testMessages[0].messageId === msgs[0].messageId) {
-        TestMessage.checkMessageContents(testMessages[0], msgs[0], useSessions, usePartitions);
-        TestMessage.checkMessageContents(testMessages[1], msgs[1], useSessions, usePartitions);
-      } else {
-        TestMessage.checkMessageContents(testMessages[1], msgs[0], useSessions, usePartitions);
-        TestMessage.checkMessageContents(testMessages[0], msgs[1], useSessions, usePartitions);
-      }
+  //     if (testMessages[0].messageId === msgs[0].messageId) {
+  //       TestMessage.checkMessageContents(testMessages[0], msgs[0], useSessions, usePartitions);
+  //       TestMessage.checkMessageContents(testMessages[1], msgs[1], useSessions, usePartitions);
+  //     } else {
+  //       TestMessage.checkMessageContents(testMessages[1], msgs[0], useSessions, usePartitions);
+  //       TestMessage.checkMessageContents(testMessages[0], msgs[1], useSessions, usePartitions);
+  //     }
 
-      await msgs[0].complete();
-      await msgs[1].complete();
+  //     await msgs[0].complete();
+  //     await msgs[1].complete();
 
-      await testPeekMsgsLength(receiverClient, 0);
-    }
+  //     await testPeekMsgsLength(receiverClient, 0);
+  //   }
 
-    it("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testSimpleSendBatch(false, true);
-    });
+  //   it("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
+  //     await beforeEachTest(TestClientType.PartitionedQueue);
+  //     await testSimpleSendBatch(false, true);
+  //   });
 
-    it("Partitioned Topic: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSimpleSendBatch(false, true);
-    });
+  //   it("Partitioned Topic: Simple SendBatch", async function(): Promise<void> {
+  //     await beforeEachTest(TestClientType.PartitionedSubscription);
+  //     await testSimpleSendBatch(false, true);
+  //   });
 
-    it("Unpartitioned Queue: Simple SendBatch #RunInBrowser", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSimpleSendBatch(false, false);
-    });
+  //   it("Unpartitioned Queue: Simple SendBatch #RunInBrowser", async function(): Promise<void> {
+  //     await beforeEachTest(TestClientType.UnpartitionedQueue);
+  //     await testSimpleSendBatch(false, false);
+  //   });
 
-    it("Unpartitioned Topic: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSimpleSendBatch(false, false);
-    });
+  //   it("Unpartitioned Topic: Simple SendBatch", async function(): Promise<void> {
+  //     await beforeEachTest(TestClientType.UnpartitionedSubscription);
+  //     await testSimpleSendBatch(false, false);
+  //   });
 
-    it("Partitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSimpleSendBatch(true, true);
-    });
+  //   it("Partitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
+  //     await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+  //     await testSimpleSendBatch(true, true);
+  //   });
 
-    it("Partitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSimpleSendBatch(true, true);
-    });
+  //   it("Partitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
+  //     await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
+  //     await testSimpleSendBatch(true, true);
+  //   });
 
-    it("Unpartitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSimpleSendBatch(true, false);
-    });
+  //   it("Unpartitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
+  //     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+  //     await testSimpleSendBatch(true, false);
+  //   });
 
-    it("Unpartitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testSimpleSendBatch(true, false);
-    });
-  });
+  //   it("Unpartitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
+  //     await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+  //     await testSimpleSendBatch(true, false);
+  //   });
+  // });
 
   describe("Schedule single message", function(): void {
     afterEach(async () => {
@@ -636,35 +637,36 @@ describe("send scheduled messages", () => {
         );
       });
 
-      it(
-        "SendBatch() throws if in the first message, " + testInput.title,
-        async function(): Promise<void> {
-          let actualErrorMsg = "";
-          await senderClient.sendBatch([testInput.message, { body: "random" }]).catch((err) => {
-            actualErrorMsg = err.message;
-          });
-          should.equal(
-            actualErrorMsg,
-            testInput.expectedErrorMessage,
-            "Error not thrown as expected"
-          );
-        }
-      );
+      // sendBatch(<Array of messages>) - Commented
+      // it(
+      //   "SendBatch() throws if in the first message, " + testInput.title,
+      //   async function(): Promise<void> {
+      //     let actualErrorMsg = "";
+      //     await senderClient.sendBatch([testInput.message, { body: "random" }]).catch((err) => {
+      //       actualErrorMsg = err.message;
+      //     });
+      //     should.equal(
+      //       actualErrorMsg,
+      //       testInput.expectedErrorMessage,
+      //       "Error not thrown as expected"
+      //     );
+      //   }
+      // );
 
-      it(
-        "SendBatch() throws if in the subsequent message, " + testInput.title,
-        async function(): Promise<void> {
-          let actualErrorMsg = "";
-          await senderClient.sendBatch([{ body: "random" }, testInput.message]).catch((err) => {
-            actualErrorMsg = err.message;
-          });
-          should.equal(
-            actualErrorMsg,
-            testInput.expectedErrorMessage,
-            "Error not thrown as expected"
-          );
-        }
-      );
+      // it(
+      //   "SendBatch() throws if in the subsequent message, " + testInput.title,
+      //   async function(): Promise<void> {
+      //     let actualErrorMsg = "";
+      //     await senderClient.sendBatch([{ body: "random" }, testInput.message]).catch((err) => {
+      //       actualErrorMsg = err.message;
+      //     });
+      //     should.equal(
+      //       actualErrorMsg,
+      //       testInput.expectedErrorMessage,
+      //       "Error not thrown as expected"
+      //     );
+      //   }
+      // );
 
       it("ScheduleMessage() throws if " + testInput.title, async function(): Promise<void> {
         let actualErrorMsg = "";

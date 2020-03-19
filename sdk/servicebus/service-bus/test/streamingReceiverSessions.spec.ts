@@ -844,7 +844,11 @@ describe("Streaming with sessions", () => {
       }
 
       const testMessages = [TestMessage.getSessionSample(), TestMessage.getSessionSample()];
-      await senderClient.sendBatch(testMessages);
+      const batchMessageToSend = await senderClient.createBatch();
+      for (const message of testMessages) {
+        batchMessageToSend.tryAdd(message);
+      }
+      await senderClient.sendBatch(batchMessageToSend);
 
       const settledMsgs: ReceivedMessageWithLock[] = [];
       const receivedMsgs: ReceivedMessageWithLock[] = [];
@@ -873,7 +877,11 @@ describe("Streaming with sessions", () => {
           },
           processError
         },
-        maxConcurrentCalls ? { maxConcurrentCalls } : {}
+        maxConcurrentCalls
+          ? {
+              maxConcurrentCalls
+            }
+          : {}
       );
 
       await checkWithTimeout(() => settledMsgs.length === 2);
