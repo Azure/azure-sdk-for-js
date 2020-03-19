@@ -676,9 +676,16 @@ export class MessageSender extends LinkEntity {
   /**
    * Returns maximum message size on the AMQP sender link.
    *
-   * @param {{
-   *       retryOptions?: RetryOptions;
-   *     }} [options={}]
+   * Options to configure the `createBatch` method on the `Sender`.
+   * - `maxSizeInBytes`: The upper limit for the size of batch.
+   *
+   * Example usage:
+   * ```js
+   * {
+   *     retryOptions: { maxRetries: 5; timeoutInMs: 10 }
+   * }
+   * ```
+   * @param {{retryOptions?: RetryOptions}} [options={}]
    * @returns {Promise<number>}
    * @memberof MessageSender
    */
