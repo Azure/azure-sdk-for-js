@@ -4,8 +4,7 @@ export class SynchronousException extends PerfStressTest<ParsedPerfStressOptions
   run() {
     try {
       throw new PerfStressTestError();
-    } catch(e) {
-    }
+    } catch (e) {}
   }
 }
 
@@ -13,7 +12,6 @@ export class AsynchronousException extends PerfStressTest<ParsedPerfStressOption
   async run() {
     try {
       throw new PerfStressTestError();
-    } catch(e) {
-    }
+    } catch (e) {}
   }
 }

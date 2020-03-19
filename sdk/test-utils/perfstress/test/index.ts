@@ -5,7 +5,7 @@ import { HTTPSGetTest } from "./httpClientGet.spec";
 const perfStressProgram = new PerfStressProgram([
   new SynchronousException(),
   new AsynchronousException(),
-  new HTTPSGetTest(),
-])
+  new HTTPSGetTest()
+]);
 
 perfStressProgram.run();

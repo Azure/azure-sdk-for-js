@@ -1,4 +1,4 @@
-import { PerfStressOption, makePerfStressOption } from './PerfStressOptions';
+import { PerfStressOption, makePerfStressOption } from "./PerfStressOptions";
 
 export const defaultPerfStressOptions: PerfStressOption[] = [
   makePerfStressOption(false, "Disables all cleanups", "no-cleanups"),

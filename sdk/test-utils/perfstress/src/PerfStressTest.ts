@@ -1,12 +1,15 @@
 import { AbortSignalLike } from "@azure/abort-controller";
-import { PerfStressOption, ParsedPerfStressOptions, parsePerfStressOption } from "./PerfStressOptions"
+import {
+  PerfStressOption,
+  ParsedPerfStressOptions,
+  parsePerfStressOption
+} from "./PerfStressOptions";
 
-export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {    
+export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {
   public optionsToParse: PerfStressOption[] = [];
   public parsedOptions: TOptions = {} as TOptions;
 
-  constructor() {
-  }
+  constructor() {}
 
   public parseOptions() {
     this.parsedOptions = parsePerfStressOption(...this.optionsToParse) as TOptions;
