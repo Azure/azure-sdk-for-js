@@ -15,45 +15,52 @@ export { BaseResource, CloudError };
  * Returns whether or not Serial Console is disabled.
  * @summary Serial Console GET Result
  */
-export interface SerialConsoleGetResult {
+export interface SerialConsoleStatus {
   /**
    * Whether or not Serial Console is disabled.
    */
-  value?: boolean;
+  disabled?: boolean;
 }
 
 /**
- * Returns whether or not Serial Console is disabled for this given subscription
- * @summary Get Disabled result
+ * Returns whether or not Serial Console is disabled.
+ * @summary Serial Console Disable Result
  */
-export interface GetDisabledResult {
+export interface DisableSerialConsoleResult {
   /**
-   * Disabled result
+   * Whether or not Serial Console is disabled.
    */
   disabled?: boolean;
 }
 
 /**
- * Sets disable status and returns whether or not Serial Console is now disabled for this given
- * subscription
- * @summary Set Disabled result
+ * Returns whether or not Serial Console is disabled (enabled).
+ * @summary Serial Console Enable Result
  */
-export interface SetDisabledResult {
+export interface EnableSerialConsoleResult {
   /**
-   * Disabled result
+   * Whether or not Serial Console is disabled (enabled).
    */
   disabled?: boolean;
 }
 
 /**
- * Details on Failure
- * @summary Details on Failure
+ * An interface representing SerialConsoleOperationsValueItemDisplay.
  */
-export interface DeploymentValidateResult {
-  /**
-   * Error message
-   */
-  errorMessage?: string;
+export interface SerialConsoleOperationsValueItemDisplay {
+  provider?: string;
+  resource?: string;
+  operation?: string;
+  description?: string;
+}
+
+/**
+ * An interface representing SerialConsoleOperationsValueItem.
+ */
+export interface SerialConsoleOperationsValueItem {
+  name?: string;
+  isDataAction?: string;
+  display?: SerialConsoleOperationsValueItemDisplay;
 }
 
 /**
@@ -62,9 +69,24 @@ export interface DeploymentValidateResult {
  */
 export interface SerialConsoleOperations {
   /**
-   * Serial Console operations
+   * A list of Serial Console operations
    */
-  value?: string;
+  value?: SerialConsoleOperationsValueItem[];
+}
+
+/**
+ * Error saying that the provided subscription could not be found
+ * @summary Serial Console subscription not found
+ */
+export interface GetSerialConsoleSubscriptionNotFound {
+  /**
+   * Error code
+   */
+  code?: string;
+  /**
+   * Subscription not found message
+   */
+  message?: string;
 }
 
 /**
@@ -75,7 +97,7 @@ export interface MicrosoftSerialConsoleClientOptions extends AzureServiceClientO
 }
 
 /**
- * Contains response data for the operations operation.
+ * Contains response data for the listOperations operation.
  */
 export type ListOperationsResponse = SerialConsoleOperations & {
   /**
@@ -95,9 +117,14 @@ export type ListOperationsResponse = SerialConsoleOperations & {
 };
 
 /**
- * Contains response data for the disabled operation.
+ * Contains response data for the getConsoleStatus operation.
  */
-export type ListConsoleDisabledResponse = GetDisabledResult & {
+export type GetConsoleStatusResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+
   /**
    * The underlying HTTP response.
    */
@@ -110,34 +137,19 @@ export type ListConsoleDisabledResponse = GetDisabledResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: GetDisabledResult;
-    };
-};
-
-/**
- * Contains response data for the enableConsole operation.
- */
-export type ConsoleEnableConsoleResponse = SetDisabledResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SetDisabledResult;
+      parsedBody: any;
     };
 };
 
 /**
  * Contains response data for the disableConsole operation.
  */
-export type ConsoleDisableConsoleResponse = SetDisabledResult & {
+export type DisableConsoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+
   /**
    * The underlying HTTP response.
    */
@@ -150,6 +162,31 @@ export type ConsoleDisableConsoleResponse = SetDisabledResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SetDisabledResult;
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the enableConsole operation.
+ */
+export type EnableConsoleResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
     };
 };

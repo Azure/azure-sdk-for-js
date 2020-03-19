@@ -12,27 +12,11 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const SerialConsoleGetResult: msRest.CompositeMapper = {
-  serializedName: "SerialConsoleGetResult",
+export const SerialConsoleStatus: msRest.CompositeMapper = {
+  serializedName: "SerialConsoleStatus",
   type: {
     name: "Composite",
-    className: "SerialConsoleGetResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const GetDisabledResult: msRest.CompositeMapper = {
-  serializedName: "GetDisabledResult",
-  type: {
-    name: "Composite",
-    className: "GetDisabledResult",
+    className: "SerialConsoleStatus",
     modelProperties: {
       disabled: {
         serializedName: "disabled",
@@ -44,11 +28,11 @@ export const GetDisabledResult: msRest.CompositeMapper = {
   }
 };
 
-export const SetDisabledResult: msRest.CompositeMapper = {
-  serializedName: "SetDisabledResult",
+export const DisableSerialConsoleResult: msRest.CompositeMapper = {
+  serializedName: "DisableSerialConsoleResult",
   type: {
     name: "Composite",
-    className: "SetDisabledResult",
+    className: "DisableSerialConsoleResult",
     modelProperties: {
       disabled: {
         serializedName: "disabled",
@@ -60,16 +44,79 @@ export const SetDisabledResult: msRest.CompositeMapper = {
   }
 };
 
-export const DeploymentValidateResult: msRest.CompositeMapper = {
-  serializedName: "DeploymentValidateResult",
+export const EnableSerialConsoleResult: msRest.CompositeMapper = {
+  serializedName: "EnableSerialConsoleResult",
   type: {
     name: "Composite",
-    className: "DeploymentValidateResult",
+    className: "EnableSerialConsoleResult",
     modelProperties: {
-      errorMessage: {
-        serializedName: "errorMessage",
+      disabled: {
+        serializedName: "disabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const SerialConsoleOperationsValueItemDisplay: msRest.CompositeMapper = {
+  serializedName: "SerialConsoleOperations_valueItem_display",
+  type: {
+    name: "Composite",
+    className: "SerialConsoleOperationsValueItemDisplay",
+    modelProperties: {
+      provider: {
+        serializedName: "provider",
         type: {
           name: "String"
+        }
+      },
+      resource: {
+        serializedName: "resource",
+        type: {
+          name: "String"
+        }
+      },
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SerialConsoleOperationsValueItem: msRest.CompositeMapper = {
+  serializedName: "SerialConsoleOperations_valueItem",
+  type: {
+    name: "Composite",
+    className: "SerialConsoleOperationsValueItem",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      isDataAction: {
+        serializedName: "isDataAction",
+        type: {
+          name: "String"
+        }
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "SerialConsoleOperationsValueItemDisplay"
         }
       }
     }
@@ -84,6 +131,34 @@ export const SerialConsoleOperations: msRest.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SerialConsoleOperationsValueItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const GetSerialConsoleSubscriptionNotFound: msRest.CompositeMapper = {
+  serializedName: "GetSerialConsoleSubscriptionNotFound",
+  type: {
+    name: "Composite",
+    className: "GetSerialConsoleSubscriptionNotFound",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
         type: {
           name: "String"
         }

@@ -17,13 +17,14 @@ const packageVersion = "1.0.0";
 
 export class MicrosoftSerialConsoleClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
-  subscriptionId: string;
   apiVersion?: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the MicrosoftSerialConsoleClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId Subscription ID which uniquely identifies the Microsoft Azure
+   * subscription. The subscription ID forms part of the URI for every service call requiring it.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MicrosoftSerialConsoleClientOptions) {

@@ -34,9 +34,7 @@ export const defaultParameter: msRest.OperationURLParameter = {
   parameterPath: "defaultParameter",
   mapper: {
     required: true,
-    isConstant: true,
     serializedName: "default",
-    defaultValue: 'default',
     type: {
       name: "String"
     }

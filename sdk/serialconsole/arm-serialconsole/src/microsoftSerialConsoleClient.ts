@@ -11,31 +11,236 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
-import * as operations from "./operations";
+import * as Parameters from "./models/parameters";
 import { MicrosoftSerialConsoleClientContext } from "./microsoftSerialConsoleClientContext";
 
 
 class MicrosoftSerialConsoleClient extends MicrosoftSerialConsoleClientContext {
-  // Operation groups
-  list: operations.List;
-  listConsole: operations.ListConsole;
-  console: operations.Console;
-
   /**
    * Initializes a new instance of the MicrosoftSerialConsoleClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId Subscription ID which uniquely identifies the Microsoft Azure
+   * subscription. The subscription ID forms part of the URI for every service call requiring it.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MicrosoftSerialConsoleClientOptions) {
     super(credentials, subscriptionId, options);
-    this.list = new operations.List(this);
-    this.listConsole = new operations.ListConsole(this);
-    this.console = new operations.Console(this);
+  }
+
+  /**
+   * Gets a list of Serial Console API operations.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ListOperationsResponse>
+   */
+  listOperations(options?: msRest.RequestOptionsBase): Promise<Models.ListOperationsResponse>;
+  /**
+   * @param callback The callback
+   */
+  listOperations(callback: msRest.ServiceCallback<Models.SerialConsoleOperations>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SerialConsoleOperations>): void;
+  listOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SerialConsoleOperations>, callback?: msRest.ServiceCallback<Models.SerialConsoleOperations>): Promise<Models.ListOperationsResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      listOperationsOperationSpec,
+      callback) as Promise<Models.ListOperationsResponse>;
+  }
+
+  /**
+   * Gets whether or not Serial Console is disabled for a given subscription
+   * @summary Get the disabled status for a subscription
+   * @param defaultParameter Default parameter. Leave the value as "default".
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetConsoleStatusResponse>
+   */
+  getConsoleStatus(defaultParameter: string, options?: msRest.RequestOptionsBase): Promise<Models.GetConsoleStatusResponse>;
+  /**
+   * @param defaultParameter Default parameter. Leave the value as "default".
+   * @param callback The callback
+   */
+  getConsoleStatus(defaultParameter: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param defaultParameter Default parameter. Leave the value as "default".
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getConsoleStatus(defaultParameter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getConsoleStatus(defaultParameter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.GetConsoleStatusResponse> {
+    return this.sendOperationRequest(
+      {
+        defaultParameter,
+        options
+      },
+      getConsoleStatusOperationSpec,
+      callback) as Promise<Models.GetConsoleStatusResponse>;
+  }
+
+  /**
+   * Disables the Serial Console service for all VMs and VM scale sets in the provided subscription
+   * @summary Disable Serial Console for a subscription
+   * @param defaultParameter Default parameter. Leave the value as "default".
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DisableConsoleResponse>
+   */
+  disableConsole(defaultParameter: string, options?: msRest.RequestOptionsBase): Promise<Models.DisableConsoleResponse>;
+  /**
+   * @param defaultParameter Default parameter. Leave the value as "default".
+   * @param callback The callback
+   */
+  disableConsole(defaultParameter: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param defaultParameter Default parameter. Leave the value as "default".
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  disableConsole(defaultParameter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  disableConsole(defaultParameter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.DisableConsoleResponse> {
+    return this.sendOperationRequest(
+      {
+        defaultParameter,
+        options
+      },
+      disableConsoleOperationSpec,
+      callback) as Promise<Models.DisableConsoleResponse>;
+  }
+
+  /**
+   * Enables the Serial Console service for all VMs and VM scale sets in the provided subscription
+   * @summary Enable Serial Console for a subscription
+   * @param defaultParameter Default parameter. Leave the value as "default".
+   * @param [options] The optional parameters
+   * @returns Promise<Models.EnableConsoleResponse>
+   */
+  enableConsole(defaultParameter: string, options?: msRest.RequestOptionsBase): Promise<Models.EnableConsoleResponse>;
+  /**
+   * @param defaultParameter Default parameter. Leave the value as "default".
+   * @param callback The callback
+   */
+  enableConsole(defaultParameter: string, callback: msRest.ServiceCallback<any>): void;
+  /**
+   * @param defaultParameter Default parameter. Leave the value as "default".
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  enableConsole(defaultParameter: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  enableConsole(defaultParameter: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.EnableConsoleResponse> {
+    return this.sendOperationRequest(
+      {
+        defaultParameter,
+        options
+      },
+      enableConsoleOperationSpec,
+      callback) as Promise<Models.EnableConsoleResponse>;
   }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const listOperationsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/Microsoft.SerialConsole/operations",
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SerialConsoleOperations
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getConsoleStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.defaultParameter
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SerialConsoleStatus
+    },
+    404: {
+      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const disableConsoleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/disableConsole",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.defaultParameter
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DisableSerialConsoleResult
+    },
+    404: {
+      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const enableConsoleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/enableConsole",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.defaultParameter
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.EnableSerialConsoleResult
+    },
+    404: {
+      bodyMapper: Mappers.GetSerialConsoleSubscriptionNotFound
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
 
 export {
   MicrosoftSerialConsoleClient,
@@ -43,4 +248,3 @@ export {
   Models as MicrosoftSerialConsoleModels,
   Mappers as MicrosoftSerialConsoleMappers
 };
-export * from "./operations";
