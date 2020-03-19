@@ -46,6 +46,7 @@ export {
   ManagedClusterPropertiesAutoScalerProfile,
   ManagedClusterPropertiesIdentityProfileValue,
   ManagedClusterServicePrincipalProfile,
+  ManagedClusterSKU,
   ManagedClusterUpgradeProfile,
   ManagedClusterWindowsProfile,
   NetworkProfile,
