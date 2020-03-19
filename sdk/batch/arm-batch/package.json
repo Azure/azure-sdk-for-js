@@ -6,7 +6,8 @@
   "dependencies": {
     "@azure/ms-rest-azure-js": "^1.1.0",
     "@azure/ms-rest-js": "^1.1.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "mocha": "^5.2.0"
   },
   "keywords": [
     "node",
@@ -49,7 +50,8 @@
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-batch.js.map'\" -o ./dist/arm-batch.min.js ./dist/arm-batch.js",
-    "prepack": "npm install && npm run build"
+    "prepack": "npm install && npm run build",
+    "test": "npm run build && mocha test/*"
   },
   "sideEffects": false,
   "autoPublish": true

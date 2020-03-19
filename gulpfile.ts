@@ -178,20 +178,63 @@ gulp.task("build", async () => {
 });
 
 gulp.task("test", async () => {
-  _logger.log(`Passed arguments: ${Argv.print()}`);
-  const packageFolderRoot: string = path.resolve(__dirname, "sdk");
-  _logger.logTrace(
-    `INFO: Searching for package folders in ${packageFolderRoot}`
-  );
-  const packageFolderPaths: string[] | undefined = getPackageFolderPaths(
-    packageFolderRoot
-  );
-  if (!packageFolderPaths) {
-    _logger.logTrace(`INFO: The folder ${packageFolderPaths} doesn't exist.`);
-  } else {
-    for (const packageFolderPath of packageFolderPaths) {
-      _logger.log(`INFO: Processing ${packageFolderPath}`);
-      npmRun("test", { executionFolderPath: packageFolderPath });
+  const runOptions: RunOptions = {
+    log: (text: string) => _logger.logTrace(text),
+    showCommand: true,
+    showOutput: true
+  };
+  const changedFiles: string[] = [];
+
+  if (toPack === PackagesToPack.BranchHasChanges) {
+    let packBaseReference: string | undefined = baseReference;
+    if (!packBaseReference) {
+      packBaseReference = "master";
+      _logger.log(
+        `No base-reference argument specified on command line or in environment variables. Defaulting to "${packBaseReference}".`
+      );
+    }
+
+    let packHeadReference: string | undefined = headReference;
+    if (!packHeadReference) {
+      const statusResult: GitStatusResult = gitStatus(runOptions);
+      packHeadReference = statusResult.localBranch!;
+      _logger.log(
+        `No head-reference argument specified on command line or in environment variables. Defaulting to "${packHeadReference}".`
+      );
+
+      const modifiedFiles: string[] | undefined = statusResult.modifiedFiles;
+      if (modifiedFiles) {
+        changedFiles.push(...modifiedFiles);
+      }
+    }
+    const diffResult: GitDiffResult = gitDiff(
+      packBaseReference,
+      packHeadReference,
+      runOptions
+    );
+    changedFiles.push(...diffResult.filesChanged);
+    if (!changedFiles || changedFiles.length === 0) {
+      _logger.logTrace(
+        `Found no changes between "${packBaseReference}" and "${packHeadReference}".`
+      );
+    } else {
+      _logger.logTrace(`Found the following changed files`);
+      const packageFolderRoot: string = path.resolve(__dirname, "sdk");
+      _logger.logTrace(
+        `INFO: Searching for package folders in ${packageFolderRoot}`
+      );
+      const packageFolderPaths: string[] | undefined = getPackageFolderPaths(
+        packageFolderRoot
+      );
+      if (!packageFolderPaths) {
+        _logger.logTrace(`INFO: The folder ${packageFolderPaths} doesn't exist.`);
+      } else {
+        for (const packageFolderPath of packageFolderPaths) {
+          _logger.log(`INFO: Processing ${packageFolderPath}`);
+          const npm = new NPMScope({ executionFolderPath: packageFolderPath });
+          npm.run("test", { executionFolderPath: packageFolderPath });
+        }
+      }
     }
   }
 });
