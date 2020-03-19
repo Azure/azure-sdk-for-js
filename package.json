@@ -1,7 +1,7 @@
 {
   "name": "azure-sdk-for-js",
   "author": "Microsoft Corporation",
-  "version": "0.2.0-preview",
+  "version": "0.1.0-preview",
   "description": "Microsoft Azure Client Libraries for JavaScript with TypeScript type definitions",
   "private": true,
   "tags": [
