@@ -117,7 +117,6 @@ export interface Receiver<ReceivedMessageT> {
         peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
     entityPath: string;
-    entityType: "queue" | "subscription";
     getDeadLetterPath(): string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isReceivingMessages(): boolean;
