@@ -215,6 +215,19 @@ export class P2sVpnGateways {
   }
 
   /**
+   * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+   * @param request The parameters are supplied to disconnect p2s vpn connections.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  disconnectP2sVpnConnections(resourceGroupName: string, p2sVpnGatewayName: string, request: Models.P2SVpnConnectionRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDisconnectP2sVpnConnections(resourceGroupName,p2sVpnGatewayName,request,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
    * @param resourceGroupName The resource group name of the P2SVpnGateway.
    * @param gatewayName The name of the gateway.
@@ -311,6 +324,26 @@ export class P2sVpnGateways {
         options
       },
       beginGetP2sVpnConnectionHealthDetailedOperationSpec,
+      options);
+  }
+
+  /**
+   * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+   * @param request The parameters are supplied to disconnect p2s vpn connections.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDisconnectP2sVpnConnections(resourceGroupName: string, p2sVpnGatewayName: string, request: Models.P2SVpnConnectionRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        p2sVpnGatewayName,
+        request,
+        options
+      },
+      beginDisconnectP2sVpnConnectionsOperationSpec,
       options);
   }
 
@@ -621,6 +654,37 @@ const beginGetP2sVpnConnectionHealthDetailedOperationSpec: msRest.OperationSpec 
     200: {
       bodyMapper: Mappers.P2SVpnConnectionHealth
     },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDisconnectP2sVpnConnectionsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{p2sVpnGatewayName}/disconnectP2sVpnConnections",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.p2sVpnGatewayName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "request",
+    mapper: {
+      ...Mappers.P2SVpnConnectionRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
     202: {},
     default: {
       bodyMapper: Mappers.CloudError
