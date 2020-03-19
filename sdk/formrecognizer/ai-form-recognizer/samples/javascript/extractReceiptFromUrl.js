@@ -46,21 +46,21 @@ async function main() {
     throw new Error("Expecting analysis result");
   }
 
-  if (!response.analyzeResult.receiptResults || response.analyzeResult.receiptResults.length <= 0)
+  if (!response.analyzeResult.extractedReceipts || response.analyzeResult.extractedReceipts.length <= 0)
   {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
   console.log("### First receipt:")
-  console.log(response.analyzeResult.receiptResults[0]);
+  console.log(response.analyzeResult.extractedReceipts[0]);
   console.log("### Items:")
   console.log(`   \t Quantity\tName\tPrice\tTotalPrice`);
   let i = 1;
-  for (const item of response.analyzeResult.receiptResults[0].items) {
+  for (const item of response.analyzeResult.extractedReceipts[0].items) {
     console.log(`${i++})\t ${item.quantity || ""}\t${item.name}\t$${item.price || "<missing>"}\t$${item.totalPrice || "<missing>"}`);
   }
   console.log("### Raw 'MerchantAddress' fields:");
-  console.log(response.analyzeResult.receiptResults[0].fields["MerchantAddress"])
+  console.log(response.analyzeResult.extractedReceipts[0].fields["MerchantAddress"])
 }
 
 main().catch((err) => {

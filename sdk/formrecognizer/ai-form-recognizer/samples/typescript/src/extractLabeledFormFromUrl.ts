@@ -19,7 +19,7 @@ async function main() {
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
 
   const modelId = "e28ad0da-aa55-46dc-ade9-839b0d819189"; // trained with labels
-  const url = process.env["FR_INVOICE_URL"] || "<sample invoice url>";
+  const url = process.env["URL_OF_DOCUMENT_TO_ANALYZE_WITH_LABELS"] || "<sample invoice url>";
 
   const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
   const poller = await client.beginExtractLabeledFormsFromUrl(modelId, url,{
@@ -34,18 +34,18 @@ async function main() {
 
   console.log(response.status);
   console.log("### Document results:")
-  for (const document of response.analyzeResult?.documentResults || []) {
+  for (const document of response.analyzeResult?.extractedForms || []) {
     console.log(`${document.docType}, pages ${document.pageRange}`);
     console.log("Fields");
   }
 
   console.log("### Page results:")
-  for (const page of response.analyzeResult?.pageResults || []) {
+  for (const page of response.analyzeResult?.extractedPages || []) {
     console.log(`Page number: ${page.pageNumber}`);
-    console.log(`cluster Id: ${page.clusterId}`);
+    console.log(`cluster Id: ${page.formTypeId}`);
     console.log("key-value pairs");
-    for (const pair of page.keyValuePairs || []) {
-      console.log(`\tkey: ${pair.key}, value: ${pair.value}`);
+    for (const field of page.fields || []) {
+      console.log(`\t${field.name.text}: ${field.value.text}`);
     }
     console.log("Tables");
     for (const table of page.tables || []) {
@@ -57,7 +57,9 @@ async function main() {
     }
   }
 
-  console.log(response.analyzeResult?.readResults);
+  console.log("Raw extracted pages:");
+  console.log(response.analyzeResult?.rawExtractedPages);
+  console.log("Errors:");
   console.log(response.analyzeResult?.errors);
 }
 

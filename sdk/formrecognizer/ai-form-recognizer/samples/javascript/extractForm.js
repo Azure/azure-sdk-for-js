@@ -35,12 +35,12 @@ async function main() {
 
   console.log(response.status);
   console.log("### Page results:")
-  for (const page of response.analyzeResult.pageResults || []) {
+  for (const page of response.analyzeResult.extractedPages || []) {
     console.log(`Page number: ${page.page}`);
-    console.log(`cluster Id: ${page.clusterId}`);
+    console.log(`Form type Id: ${page.formTypeId}`);
     console.log("key-value pairs");
-    for (const pair of page.keyValuePairs || []) {
-      console.log(`\tkey: ${pair.key}, value: ${pair.value}`);
+    for (const field of page.fields || []) {
+      console.log(`\tkey: ${field.name}, value: ${field.value}`);
     }
     console.log("Tables");
     for (const table of page.tables || []) {
@@ -52,7 +52,7 @@ async function main() {
     }
   }
 
-  console.log(response.analyzeResult.readResults);
+  console.log(response.analyzeResult.rawExtractedPages);
   console.log(response.analyzeResult.errors);
 }
 

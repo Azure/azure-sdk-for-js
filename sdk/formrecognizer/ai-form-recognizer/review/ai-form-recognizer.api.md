@@ -33,10 +33,10 @@ export interface AnalyzeOperationResultModel {
 
 // @public (undocumented)
 export interface AnalyzeResult {
-    documentResults?: DocumentResult[];
     errors?: ErrorInformation[];
-    pageResults?: PageResult[];
-    readResults: ReadResult[];
+    extractedForms?: DocumentResult[];
+    extractedPages?: ExtractedPage[];
+    rawExtractedPages: RawExtractedPage[];
     version: string;
 }
 
@@ -274,7 +274,83 @@ export interface ErrorInformation {
 }
 
 // @public
-export type ExtractedElement = TextWord | TextLine;
+export type ExtractedElement = ExtractedWord | ExtractedLine;
+
+// @public (undocumented)
+export interface ExtractedField {
+    // (undocumented)
+    confidence: number;
+    // (undocumented)
+    label?: string;
+    // (undocumented)
+    name: ExtractedText;
+    // (undocumented)
+    value: ExtractedText;
+}
+
+// @public (undocumented)
+export interface ExtractedLayout {
+    // (undocumented)
+    extractedLayoutPages?: ExtractedLayoutPage[];
+    // (undocumented)
+    rawExtractedPages: RawExtractedPage[];
+    // (undocumented)
+    version: string;
+}
+
+// @public (undocumented)
+export interface ExtractedLayoutPage {
+    // (undocumented)
+    fields?: ExtractedField[];
+    // (undocumented)
+    pageNumber: number;
+    // (undocumented)
+    tables?: DataTable[];
+}
+
+// @public
+export interface ExtractedLine {
+    boundingBox: number[];
+    kind: "line";
+    pageNumber: number;
+    text: string;
+    words: ExtractedWord[];
+}
+
+// @public
+export interface ExtractedPage {
+    // (undocumented)
+    fields?: ExtractedField[];
+    // (undocumented)
+    formTypeId?: number;
+    // (undocumented)
+    pageNumber: number;
+    // (undocumented)
+    tables?: DataTable[];
+}
+
+// @public (undocumented)
+export type ExtractedReceipt = RawReceiptResult & Receipt;
+
+// @public (undocumented)
+export interface ExtractedText {
+    // (undocumented)
+    boundingBox?: number[];
+    // (undocumented)
+    elements?: ExtractedElement[];
+    // (undocumented)
+    text: string;
+}
+
+// @public
+export interface ExtractedWord {
+    boundingBox: number[];
+    confidence?: number;
+    containingLine?: ExtractedLine;
+    kind: "word";
+    pageNumber: number;
+    text: string;
+}
 
 // @public (undocumented)
 export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
@@ -282,7 +358,7 @@ export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "anal
 };
 
 // @public (undocumented)
-export type ExtractFormResult = Omit<AnalyzeResult, "documentResults">;
+export type ExtractFormResult = Omit<AnalyzeResult, "extractedForms">;
 
 // @public (undocumented)
 export type ExtractFormResultResponse = ExtractFormOperationResult & {
@@ -300,7 +376,7 @@ export type ExtractFormsOptions = FormRecognizerOperationOptions & {
 // @public (undocumented)
 export interface ExtractLayoutOperationResult {
     // (undocumented)
-    analyzeResult?: ExtractLayoutResult;
+    analyzeResult?: ExtractedLayout;
     // (undocumented)
     createdOn: Date;
     // (undocumented)
@@ -311,16 +387,6 @@ export interface ExtractLayoutOperationResult {
 
 // @public
 export type ExtractLayoutOptions = FormRecognizerOperationOptions;
-
-// @public (undocumented)
-export interface ExtractLayoutResult {
-    // (undocumented)
-    pageResults?: LayoutPageResult[];
-    // (undocumented)
-    readResults: ReadResult[];
-    // (undocumented)
-    version: string;
-}
 
 // @public
 export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
@@ -358,9 +424,9 @@ export interface ExtractReceiptOperationResult {
 // @public
 export interface ExtractReceiptResult {
     // (undocumented)
-    readResults: ReadResult[];
+    extractedReceipts?: ExtractedReceipt[];
     // (undocumented)
-    receiptResults?: ReceiptResult[];
+    rawExtractedPages: RawExtractedPage[];
     // (undocumented)
     version: string;
 }
@@ -487,33 +553,11 @@ export interface KeysResult {
     };
 }
 
-// @public (undocumented)
-export interface KeyValueElement {
-    // (undocumented)
-    boundingBox?: number[];
-    // (undocumented)
-    elements?: ExtractedElement[];
-    // (undocumented)
-    text: string;
-}
-
 // @public
 export interface KeyValueElementModel {
     boundingBox?: number[];
     elements?: string[];
     text: string;
-}
-
-// @public (undocumented)
-export interface KeyValuePair {
-    // (undocumented)
-    confidence: number;
-    // (undocumented)
-    key: KeyValueElement;
-    // (undocumented)
-    label?: string;
-    // (undocumented)
-    value: KeyValueElement;
 }
 
 // @public
@@ -569,16 +613,6 @@ export interface LabeledFormTrainResult {
 
 // @public
 export type Language = 'en' | 'es';
-
-// @public (undocumented)
-export interface LayoutPageResult {
-    // (undocumented)
-    keyValuePairs?: KeyValuePair[];
-    // (undocumented)
-    pageNumber: number;
-    // (undocumented)
-    tables?: DataTable[];
-}
 
 // @public (undocumented)
 export type LayoutPollerLike = PollerLike<PollOperationState<ExtractLayoutResultResponse>, ExtractLayoutResultResponse>;
@@ -659,18 +693,6 @@ export interface PageRange {
     lastPage: number;
 }
 
-// @public
-export interface PageResult {
-    // (undocumented)
-    clusterId?: number;
-    // (undocumented)
-    keyValuePairs?: KeyValuePair[];
-    // (undocumented)
-    pageNumber: number;
-    // (undocumented)
-    tables?: DataTable[];
-}
-
 // @public (undocumented)
 export type PhoneNumberFieldValue = {
     type: "phoneNumber";
@@ -680,6 +702,16 @@ export type PhoneNumberFieldValue = {
 export { PollerLike }
 
 export { PollOperationState }
+
+// @public
+export interface RawExtractedPage {
+    angle: number;
+    height: number;
+    lines?: ExtractedLine[];
+    pageNumber: number;
+    unit: LengthUnit;
+    width: number;
+}
 
 // @public
 export interface RawReceipt {
@@ -714,17 +746,6 @@ export interface RawReceiptResult {
         [propertyName: string]: FieldValue;
     };
     pageRange: PageRange;
-}
-
-// @public
-export interface ReadResult {
-    angle: number;
-    height: number;
-    language?: Language;
-    lines?: TextLine[];
-    pageNumber: number;
-    unit: LengthUnit;
-    width: number;
 }
 
 // @public (undocumented)
@@ -797,9 +818,6 @@ export class ReceiptRecognizerClient {
     extractReceiptsFromUrl(imageSourceUrl: string, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     }
 
-// @public (undocumented)
-export type ReceiptResult = RawReceiptResult & Receipt;
-
 export { RestResponse }
 
 // @public
@@ -817,25 +835,6 @@ export type StringFieldValue = {
 
 // @public (undocumented)
 export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff" | "application/json";
-
-// @public
-export interface TextLine {
-    boundingBox: number[];
-    kind: "line";
-    pageNumber: number;
-    text: string;
-    words: TextWord[];
-}
-
-// @public
-export interface TextWord {
-    boundingBox: number[];
-    confidence?: number;
-    containingLine?: TextLine;
-    kind: "word";
-    pageNumber: number;
-    text: string;
-}
 
 // @public (undocumented)
 export type TimeFieldValue = {

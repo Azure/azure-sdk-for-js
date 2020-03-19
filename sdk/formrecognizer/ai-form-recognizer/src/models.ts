@@ -51,7 +51,7 @@ export {
 /**
  * An object representing an extracted word.
  */
-export interface TextWord {
+export interface ExtractedWord {
   /**
    * Element kind - "line"
    */
@@ -75,13 +75,13 @@ export interface TextWord {
   /**
    * The extract text line that contains this extracted word
    */
-  containingLine?: TextLine;
+  containingLine?: ExtractedLine;
 }
 
 /**
  * An object representing an extracted text line.
  */
-export interface TextLine {
+export interface ExtractedLine {
   /**
    * Element kind - "line"
    */
@@ -106,10 +106,10 @@ export interface TextLine {
   /**
    * List of words in the text line.
    */
-  words: TextWord[];
+  words: ExtractedWord[];
 }
 
-// export interface CheckBox {
+// export interface ExtractedCheckBox {
 //   /**
 //    * Element kind - "checkbox"
 //    */
@@ -129,7 +129,7 @@ export interface TextLine {
 /**
  * Information about extracted text elements  in documents
  */
-export type ExtractedElement = TextWord | TextLine // | CheckBox;
+export type ExtractedElement = ExtractedWord | ExtractedLine // | ExtractedCheckBox;
 
 export interface DataTableCell {
   boundingBox: number[];
@@ -160,26 +160,26 @@ export interface DataTableRow {
   cells: DataTableCell[];
 }
 
-export interface KeyValueElement {
+export interface ExtractedText {
   boundingBox?: number[];
   elements?: ExtractedElement[];
   text: string;
 }
 
-export interface KeyValuePair {
+export interface ExtractedField {
   confidence: number;
-  key: KeyValueElement;
+  name: ExtractedText;
   label?: string;
-  value: KeyValueElement;
+  value: ExtractedText;
 }
 
 /**
  * Extracted information from a single page.
  */
-export interface PageResult {
+export interface ExtractedPage {
   pageNumber: number;
-  clusterId?: number;
-  keyValuePairs?: KeyValuePair[];
+  formTypeId?: number;
+  fields?: ExtractedField[];
   tables?: DataTable[];
 }
 
@@ -211,15 +211,15 @@ export interface AnalyzeResult {
   /**
    * Text extracted from the input.
    */
-  readResults: ReadResult[];
+  rawExtractedPages: RawExtractedPage[];
   /**
    * Page-level information extracted from the input.
    */
-  pageResults?: PageResult[];
+  extractedPages?: ExtractedPage[];
   /**
    * Document-level information extracted from the input.
    */
-  documentResults?: DocumentResult[];
+  extractedForms?: DocumentResult[];
   /**
    * List of errors reported during the analyze operation.
    */
@@ -374,11 +374,11 @@ export interface RawReceiptResult {
   fields: { [propertyName: string]: FieldValue };
 }
 
-export type ReceiptResult = RawReceiptResult & Receipt;
+export type ExtractedReceipt = RawReceiptResult & Receipt;
 /**
  * Text extracted from a page in the input document.
  */
-export interface ReadResult {
+export interface RawExtractedPage {
   /**
    * The 1-based page number in the input document.
    */
@@ -404,7 +404,7 @@ export interface ReadResult {
   /**
    * The detected language on the page overall. Possible values include: 'en', 'es'
    */
-  language?: Language;
+  // language?: Language;
   /**
    * When includeTextDetails is set to true, a list of recognized text lines. The maximum number of
    * lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in
@@ -412,7 +412,7 @@ export interface ReadResult {
    * detected text, it may change across images and OCR version updates. Thus, business logic
    * should be built upon the actual line location instead of order.
    */
-  lines?: TextLine[];
+  lines?: ExtractedLine[];
 }
 
 /**
@@ -420,8 +420,8 @@ export interface ReadResult {
  */
 export interface ExtractReceiptResult {
   version: string;
-  readResults: ReadResult[];
-  receiptResults?: ReceiptResult[];
+  rawExtractedPages: RawExtractedPage[];
+  extractedReceipts?: ExtractedReceipt[];
 }
 
 export interface ExtractReceiptOperationResult {
@@ -451,14 +451,14 @@ export type ExtractReceiptResultResponse = ExtractReceiptOperationResult & {
   };
 };
 
-export interface ExtractLayoutResult {
+export interface ExtractedLayout {
   version: string;
-  readResults: ReadResult[];
-  pageResults?: LayoutPageResult[];
+  rawExtractedPages: RawExtractedPage[];
+  extractedLayoutPages?: ExtractedLayoutPage[];
 }
 
-export interface LayoutPageResult {
-  keyValuePairs?: KeyValuePair[];
+export interface ExtractedLayoutPage {
+  fields?: ExtractedField[];
   pageNumber: number;
   tables?: DataTable[];
 }
@@ -467,7 +467,7 @@ export interface ExtractLayoutOperationResult {
   status: OperationStatus;
   createdOn: Date;
   lastUpdatedOn: Date;
-  analyzeResult?: ExtractLayoutResult;
+  analyzeResult?: ExtractedLayout;
 }
 
 /**
@@ -490,7 +490,7 @@ export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
   };
 };
 
-export type ExtractFormResult = Omit<AnalyzeResult, "documentResults">;
+export type ExtractFormResult = Omit<AnalyzeResult, "extractedForms">;
 
 export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
   analyzeResult?: ExtractFormResult;
