@@ -325,8 +325,7 @@ export class ServiceBusTestHelpers {
   /**
    * Gets a receiveAndDelete receiver for the specified `TestClientType`
    * NOTE: the underlying receiver may be a `SessionReceiverImpl`.
-   * For sessions, if the sessionId is not provided,
-   * SessionReceiver returned from this method is meant only for the default sessionId: `TestMessage.sessionId`
+   * For sessions, if the sessionId is not provided, SessionReceiver returned from this method is meant only for the default sessionId: `TestMessage.sessionId`
    *
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
