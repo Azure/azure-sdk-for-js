@@ -29,8 +29,7 @@ export class VirtualNetworkRules {
 
   /**
    * Gets a virtual network rule.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param virtualNetworkRuleName The name of the virtual network rule.
    * @param [options] The optional parameters
@@ -38,16 +37,14 @@ export class VirtualNetworkRules {
    */
   get(resourceGroupName: string, serverName: string, virtualNetworkRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkRulesGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param virtualNetworkRuleName The name of the virtual network rule.
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, virtualNetworkRuleName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkRule>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param virtualNetworkRuleName The name of the virtual network rule.
    * @param options The optional parameters
@@ -68,8 +65,7 @@ export class VirtualNetworkRules {
 
   /**
    * Creates or updates an existing virtual network rule.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param virtualNetworkRuleName The name of the virtual network rule.
    * @param parameters The requested virtual Network Rule Resource state.
@@ -83,8 +79,7 @@ export class VirtualNetworkRules {
 
   /**
    * Deletes the virtual network rule with the given name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param virtualNetworkRuleName The name of the virtual network rule.
    * @param [options] The optional parameters
@@ -97,23 +92,20 @@ export class VirtualNetworkRules {
 
   /**
    * Gets a list of virtual network rules in a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<Models.VirtualNetworkRulesListByServerResponse>
    */
   listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkRulesListByServerResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param options The optional parameters
    * @param callback The callback
@@ -132,8 +124,7 @@ export class VirtualNetworkRules {
 
   /**
    * Creates or updates an existing virtual network rule.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param virtualNetworkRuleName The name of the virtual network rule.
    * @param parameters The requested virtual Network Rule Resource state.
@@ -155,8 +146,7 @@ export class VirtualNetworkRules {
 
   /**
    * Deletes the virtual network rule with the given name.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param virtualNetworkRuleName The name of the virtual network rule.
    * @param [options] The optional parameters

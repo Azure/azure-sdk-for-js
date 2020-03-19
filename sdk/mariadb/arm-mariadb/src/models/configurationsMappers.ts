@@ -8,6 +8,8 @@
 
 export {
   discriminators,
+  Advisor,
+  AzureEntityResource,
   BaseResource,
   CloudError,
   Configuration,
@@ -15,11 +17,24 @@ export {
   Database,
   FirewallRule,
   LogFile,
+  PrivateEndpointConnection,
+  PrivateEndpointProperty,
+  PrivateLinkResource,
+  PrivateLinkResourceProperties,
+  PrivateLinkServiceConnectionStateProperty,
   ProxyResource,
+  QueryStatistic,
+  QueryText,
+  RecommendationAction,
+  Resource,
   Server,
+  ServerPrivateEndpointConnection,
+  ServerPrivateEndpointConnectionProperties,
+  ServerPrivateLinkServiceConnectionStateProperty,
   ServerSecurityAlertPolicy,
   Sku,
   StorageProfile,
   TrackedResource,
-  VirtualNetworkRule
+  VirtualNetworkRule,
+  WaitStatistic
 } from "../models/mappers";
