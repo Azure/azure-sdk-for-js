@@ -593,7 +593,7 @@ export class MessageSender extends LinkEntity {
    * Batch message.
    * @return {Promise<void>}
    */
-  async sendArrayOfMessages(inputMessages: ServiceBusMessage[]): Promise<void> {
+  async sendMessages(inputMessages: ServiceBusMessage[]): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!Array.isArray(inputMessages)) {
