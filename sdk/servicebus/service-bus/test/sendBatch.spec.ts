@@ -5,21 +5,19 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, ReceivedMessage } from "../src";
+import { ServiceBusMessage } from "../src";
 import { TestClientType } from "./utils/testUtils";
-import { Receiver } from "../src/receivers/receiver";
-import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
+import {
+  ServiceBusClientForTests,
+  createServiceBusClientForTests,
+  EntityName
+} from "./utils/testutils2";
 import { Sender } from "../src/sender";
 
 describe("Send Batch", () => {
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessage>;
   let serviceBusClient: ServiceBusClientForTests;
-  interface EntityName {
-    queue?: string | undefined;
-    topic?: string | undefined;
-    subscription?: string | undefined;
-  }
+
   let entityNames: EntityName;
 
   before(() => {
@@ -40,56 +38,6 @@ describe("Send Batch", () => {
 
   async function afterEachTest(): Promise<void> {
     await senderClient.close();
-  }
-
-  async function receiveAllMessages(
-    entityNames: EntityName,
-    useSessions: boolean,
-    sentMessages: ServiceBusMessage[]
-  ): Promise<void> {
-    if (!useSessions) {
-      if (entityNames.queue) {
-        receiverClient = serviceBusClient.getReceiver(entityNames.queue, "receiveAndDelete");
-      } else {
-        receiverClient = serviceBusClient.getReceiver(
-          entityNames.topic!,
-          entityNames.subscription!,
-          "receiveAndDelete"
-        );
-      }
-      const receivedMsgs = await receiverClient.receiveBatch(sentMessages.length, {
-        maxWaitTimeSeconds: sentMessages.length
-      });
-      receivedMsgs.forEach((receivedMessage) => {
-        sentMessages = sentMessages.filter(
-          (sentMessage) => sentMessage.messageId !== receivedMessage.messageId
-        );
-      });
-      receiverClient.close();
-    } else {
-      for (const message of sentMessages) {
-        if (entityNames.queue) {
-          receiverClient = serviceBusClient.getSessionReceiver(
-            entityNames.queue,
-            "receiveAndDelete",
-            { sessionId: message.sessionId }
-          );
-        } else {
-          receiverClient = serviceBusClient.getSessionReceiver(
-            entityNames.topic!,
-            entityNames.subscription!,
-            "receiveAndDelete",
-            { sessionId: message.sessionId }
-          );
-        }
-        const receivedMsgs = await receiverClient.receiveBatch(1, { maxWaitTimeSeconds: 5 });
-        sentMessages = sentMessages.filter(
-          (sentMessage) => sentMessage.messageId !== receivedMsgs[0].messageId
-        );
-        receiverClient.close();
-      }
-    }
-    should.equal(sentMessages.length, 0, "Unexpected number of messages received.");
   }
 
   describe("Send multiple homogeneous messages - size > max_batch_size_allowed", function(): void {
@@ -129,7 +77,11 @@ describe("Send Batch", () => {
       }
       await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
-      await receiveAllMessages(entityNames, useSessions, sentMessages);
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
+        entityNames,
+        useSessions,
+        sentMessages
+      );
     }
 
     it("Partitioned Queue: SendBatch", async function(): Promise<void> {
@@ -210,7 +162,11 @@ describe("Send Batch", () => {
       }
       await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
-      await receiveAllMessages(entityNames, useSessions, sentMessages);
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
+        entityNames,
+        useSessions,
+        sentMessages
+      );
     }
 
     // Not allowed for partitioned entities
@@ -282,7 +238,11 @@ describe("Send Batch", () => {
       }
       await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
-      await receiveAllMessages(entityNames, useSessions, sentMessages);
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
+        entityNames,
+        useSessions,
+        sentMessages
+      );
     }
 
     it("Partitioned Queue: SendBatch", async function(): Promise<void> {
@@ -361,7 +321,11 @@ describe("Send Batch", () => {
       }
       await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
-      await receiveAllMessages(entityNames, useSessions, sentMessages);
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
+        entityNames,
+        useSessions,
+        sentMessages
+      );
     }
 
     it("Partitioned Queue: SendBatch", async function(): Promise<void> {
@@ -455,7 +419,11 @@ describe("Send Batch", () => {
       }
       await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
-      await receiveAllMessages(entityNames, useSessions, sentMessages);
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
+        entityNames,
+        useSessions,
+        sentMessages
+      );
     }
 
     it("Partitioned Queue: SendBatch", async function(): Promise<void> {
@@ -549,7 +517,11 @@ describe("Send Batch", () => {
       }
       await senderClient.sendBatch(batchMessage);
       // receive all the messages in receive and delete mode
-      await receiveAllMessages(entityNames, useSessions, sentMessages);
+      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
+        entityNames,
+        useSessions,
+        sentMessages
+      );
     }
 
     it("Partitioned Queue: SendBatch", async function(): Promise<void> {
