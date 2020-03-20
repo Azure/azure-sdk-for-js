@@ -447,9 +447,10 @@ export class SearchServiceClient {
       if (isComplexField(field)) {
         return field;
       } else {
-        const retrievable = typeof field.hidden === "boolean" ? !field.hidden : field.hidden;
+        const { hidden, ...restField } = field;
+        const retrievable = typeof hidden === "boolean" ? !hidden : hidden;
         return {
-          ...field,
+          ...restField,
           retrievable,
           // modify API defaults to use less storage for simple types
           searchable: field.searchable ?? false,
@@ -467,10 +468,10 @@ export class SearchServiceClient {
       if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {
         result = field as ComplexField;
       } else {
-        const hidden =
-          typeof field.retrievable === "boolean" ? !field.retrievable : field.retrievable;
+        const { retrievable, ...restField } = field;
+        const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
         result = {
-          ...field,
+          ...restField,
           hidden
         } as SimpleField;
       }
