@@ -5,7 +5,7 @@ import { delay } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { TrainModelOptions, GetModelOptions } from "../../formRecognizerClient";
 
-import { ModelStatus, TrainCustomModelAsyncResponse } from "../../generated/models";
+import { ModelStatus, FormRecognizerClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse } from "../../generated/models";
 export { ModelStatus, TrainCustomModelAsyncResponse };
 
 /**
@@ -18,7 +18,7 @@ export type TrainPollerClient<T> = {
     source: string,
     useLabelFile?: boolean,
     options?: TrainModelOptions
-  ) => Promise<TrainCustomModelAsyncResponse>;
+  ) => Promise<{ location?: string }>;
 };
 
 export interface BeginTrainingPollState<T> extends PollOperationState<T> {
@@ -116,6 +116,9 @@ function makeBeginTrainingPollOperation<T extends { modelInfo: { status: ModelSt
           false,
           trainModelOptions || {}
         );
+        if (!result.location) {
+          throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
+        }
         const lastSlashIndex = result.location.lastIndexOf("/");
         state.modelId = result.location.substring(lastSlashIndex + 1);
       }

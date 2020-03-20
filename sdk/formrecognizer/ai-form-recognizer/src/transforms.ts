@@ -11,9 +11,9 @@ import {
   PageResult as PageResultModel,
   ReadResult as ReadResultModel,
   TextLine as TextLineModel,
-  GetAnalyzeFormResultResponse,
-  GetAnalyzeLayoutResultResponse,
-  GetAnalyzeReceiptResultResponse
+  FormRecognizerClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
+  FormRecognizerClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
+  FormRecognizerClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse
 } from "./generated/models";
 
 import {

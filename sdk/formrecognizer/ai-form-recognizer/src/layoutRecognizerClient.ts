@@ -15,8 +15,7 @@ import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import {
   FormRecognizerClientOptions,
-  FormRecognizerOperationOptions,
-  SupportedContentType
+  FormRecognizerOperationOptions
 } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -31,8 +30,7 @@ import {
 } from "./lro/analyze/poller";
 import { PollerLike, PollOperationState } from ".";
 
-import { AnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel } from "./generated/models";
-import { analyzeLayoutAsyncOperationSpec } from './workaround/operationSpecs';
+import { FormRecognizerClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel, ContentType } from "./generated/models";
 
 /**
  * Options for analyzing layout
@@ -124,7 +122,7 @@ export class LayoutRecognizerClient {
 
   public async extractLayout(
     body: FormRecognizerRequestBody,
-    contentType: SupportedContentType,
+    contentType?: ContentType,
     options: StartAnalyzeLayoutOptions = {}
   ): Promise<LayoutPollerLike> {
     const analyzePollerClient: ExtractPollerClient<ExtractLayoutResultResponse> = {
@@ -144,14 +142,11 @@ export class LayoutRecognizerClient {
   }
 
   public async extractLayoutFromUrl(
-    imageSourceUrl: string,
+    documentUrl: string,
     options: StartAnalyzeLayoutOptions = {}
   ): Promise<LayoutPollerLike> {
-    const body = JSON.stringify({
-      source: imageSourceUrl
-    });
 
-    return this.extractLayout(body, "application/json", options);
+    return this.extractLayout(documentUrl, undefined, options);
   }
 
   private async getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions) {
@@ -180,35 +175,23 @@ export class LayoutRecognizerClient {
 async function analyzeLayoutInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody,
-  contentType: SupportedContentType,
+  contentType?: ContentType,
   options?: ExtractLayoutOptions,
   _modelId?: string
 ): Promise<AnalyzeLayoutAsyncResponseModel> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan("analyzeLayoutInternal", realOptions);
-
-  const customHeaders: { [key: string]: string } = finalOptions.requestOptions?.customHeaders || {};
-  customHeaders["Content-Type"] = contentType;
   // conform to HttpRequestBody
   const requestBody =
     (body as any)?.read && typeof ((body as any)?.read === "function")
       ? () => body as NodeJS.ReadableStream
       : body;
   try {
-    return client.sendOperationRequest({
-        body: requestBody,
-        options: {
-            ...operationOptionsToRequestOptionsBase(finalOptions),
-            customHeaders
-          }
-      },
-      analyzeLayoutAsyncOperationSpec) as Promise<AnalyzeLayoutAsyncResponseModel>;
-
-    // return await client.analyzeLayoutAsync({
-    //   ...operationOptionsToRequestOptionsBase(finalOptions),
-    //   body: requestBody,
-    //   customHeaders
-    // });
+    return await client.analyzeLayoutAsync({
+      contentType: contentType,
+      fileStream: requestBody,
+      ...operationOptionsToRequestOptionsBase(finalOptions),
+    })
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,

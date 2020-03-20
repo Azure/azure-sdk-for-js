@@ -6,9 +6,8 @@ import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { ExtractReceiptsOptions } from "../../receiptRecognizerClient";
 import { ExtractLayoutOptions } from "../../layoutRecognizerClient";
 import { ExtractFormsOptions } from "../../formRecognizerClient";
-import { SupportedContentType } from "../../common";
 
-import { OperationStatus } from "../../generated/models";
+import { OperationStatus, ContentType } from "../../generated/models";
 import { FormRecognizerRequestBody } from "../../models";
 export { OperationStatus };
 
@@ -37,10 +36,10 @@ export type ExtractPollerClient<T> = {
   // returns a result id to retrieve results
   beginExtract: (
     body: FormRecognizerRequestBody,
-    contentType: SupportedContentType,
-    analyzeOptions: ExtractOptions,
+    contentType?: ContentType,
+    analyzeOptions?: ExtractOptions,
     modelId?: string
-  ) => Promise<{ operationLocation: string }>;
+  ) => Promise<{ operationLocation?: string }>;
   // retrieves analyze result
   getExtractResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<T>;
 };
@@ -48,7 +47,7 @@ export type ExtractPollerClient<T> = {
 export interface BeginExtractPollState<T> extends PollOperationState<T> {
   readonly client: ExtractPollerClient<T>;
   body?: FormRecognizerRequestBody;
-  contentType: SupportedContentType;
+  contentType?: ContentType;
   modelId?: string;
   resultId?: string;
   status: OperationStatus;
@@ -64,7 +63,7 @@ export interface BeginExtractPollerOperation<T>
 export type BeginExtractPollerOptions<T> = {
   client: ExtractPollerClient<T>;
   body: FormRecognizerRequestBody;
-  contentType: SupportedContentType;
+  contentType?: ContentType;
   modelId?: string;
   intervalInMs?: number;
   resultId?: string;
@@ -148,6 +147,9 @@ function makeBeginExtractPollOperation<T extends { status: OperationStatus }>(
 
         state.isStarted = true;
         const result = await client.beginExtract(body, contentType, analyzeOptions || {}, modelId);
+        if (!result.operationLocation) {
+          throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
+        }
         const lastSlashIndex = result.operationLocation.lastIndexOf("/");
         state.resultId = result.operationLocation.substring(lastSlashIndex + 1);
         // body is no longer needed

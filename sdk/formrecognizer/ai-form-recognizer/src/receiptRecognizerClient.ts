@@ -17,13 +17,12 @@ import { toReceiptResultResponse } from "./transforms";
 import { createSpan } from "./tracing";
 import {
   FormRecognizerClientOptions,
-  FormRecognizerOperationOptions,
-  SupportedContentType
+  FormRecognizerOperationOptions
 } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
-import {AnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel } from "./generated/models";
+import { FormRecognizerClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel, ContentType } from "./generated/models";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import {
   ExtractPollerClient,
@@ -31,7 +30,6 @@ import {
   BeginExtractPollState
 } from "./lro/analyze/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { analyzeReceiptAsyncOperationSpec } from './workaround/operationSpecs';
 
 /**
  * Options for analyzing receipts
@@ -125,7 +123,7 @@ export class ReceiptRecognizerClient {
 
   public async extractReceipts(
     body: FormRecognizerRequestBody,
-    contentType: SupportedContentType,
+    contentType?: ContentType,
     options: BeginExtractReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
     const analyzePollerClient: ExtractPollerClient<ExtractReceiptResultResponse> = {
@@ -145,14 +143,11 @@ export class ReceiptRecognizerClient {
   }
 
   public async extractReceiptsFromUrl(
-    imageSourceUrl: string,
+    documentUrl: string,
     options: BeginExtractReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
-    const body = JSON.stringify({
-      source: imageSourceUrl
-    });
 
-    return this.extractReceipts(body, "application/json", options);
+    return this.extractReceipts(documentUrl, undefined, options);
   }
 
   private async getExtractedReceipts(
@@ -186,35 +181,23 @@ export class ReceiptRecognizerClient {
 async function analyzeReceiptInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody,
-  contentType: SupportedContentType,
+  contentType?: ContentType,
   options?: ExtractReceiptsOptions,
   _modelId?: string
-) {
+): Promise<AnalyzeReceiptAsyncResponseModel> {
   const realOptions = options || { includeTextDetails: false };
   const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", realOptions);
-
-  const customHeaders: { [key: string]: string } = finalOptions.requestOptions?.customHeaders || {};
-  customHeaders["Content-Type"] = contentType;
   // conform to HttpRequestBody
   const requestBody =
     (body as any)?.read && typeof ((body as any)?.read === "function")
       ? () => body as NodeJS.ReadableStream
       : body;
   try {
-
-    return await client.sendOperationRequest({
-      body: requestBody,
-      options: {
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        customHeaders
-      }},
-      analyzeReceiptAsyncOperationSpec)  as unknown as Promise<AnalyzeReceiptAsyncResponseModel>;
-
-    // return await client.analyzeReceiptAsync({
-    //   ...operationOptionsToRequestOptionsBase(finalOptions),
-    //   fileStream: requestBody,
-    //   customHeaders
-    // });
+    return await client.analyzeReceiptAsync({
+      contentType: contentType,
+      fileStream: requestBody,
+      ...operationOptionsToRequestOptionsBase(finalOptions),
+    });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,

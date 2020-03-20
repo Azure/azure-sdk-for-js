@@ -21,13 +21,11 @@ import { createSpan } from "./tracing";
 import {
   FormRecognizerClientOptions,
   FormRecognizerOperationOptions,
-  SupportedContentType
 } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
-import { AnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel } from "./generated/models";
-import { analyzeWithCustomModelOperationSpec } from "./workaround/operationSpecs";
+import { FormRecognizerClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel, ContentType } from "./generated/models";
 import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -46,10 +44,10 @@ import {
 } from "./models";
 import { toCustomFormResultResponse, toLabeledFormResultResponse } from "./transforms";
 
-import { GetCustomModelsResponse, Model, ModelInfo } from "./generated/models";
+import { FormRecognizerClientGetCustomModelsResponse as GetCustomModelsResponseModel, Model, ModelInfo } from "./generated/models";
 
 export {
-  GetCustomModelsResponse,
+  GetCustomModelsResponseModel,
   Model,
   ModelInfo,
   //GetAnalyzeFormResultResponse,
@@ -331,7 +329,7 @@ export class FormRecognizerClient {
   private async *listModelsPage(
     _settings: PageSettings,
     options: ListModelsOptions = {}
-  ): AsyncIterableIterator<GetCustomModelsResponse> {
+  ): AsyncIterableIterator<GetCustomModelsResponseModel> {
     let result = await this.list(options);
     yield result;
 
@@ -353,7 +351,7 @@ export class FormRecognizerClient {
 
   public listModels(
     options: ListModelsOptions = {}
-  ): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse> {
+  ): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponseModel> {
     const iter = this.listModelsAll({}, options);
 
     return {
@@ -371,7 +369,7 @@ export class FormRecognizerClient {
     };
   }
 
-  private async list(options?: ListModelsOptions): Promise<GetCustomModelsResponse> {
+  private async list(options?: ListModelsOptions): Promise<GetCustomModelsResponseModel> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-list",
@@ -452,17 +450,17 @@ export class FormRecognizerClient {
   public async beginExtractForms(
     modelId: string,
     body: FormRecognizerRequestBody,
-    contentType: SupportedContentType,
+    contentType?: ContentType,
     options: BeginExtractFormsOptions = {}
   ): Promise<FormPollerLike> {
     if (!modelId) {
-      throw new RangeError("Invalid modelId");
+      throw new RangeError("Invalid model id");
     }
     const analyzePollerClient: ExtractPollerClient<ExtractFormResultResponse> = {
       beginExtract: (
         body: FormRecognizerRequestBody,
-        contentType: SupportedContentType,
-        analyzeOptions: ExtractOptions,
+        contentType?: ContentType,
+        analyzeOptions: ExtractOptions = {},
         modelId?: string
       ) => analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getExtractResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
@@ -483,17 +481,13 @@ export class FormRecognizerClient {
 
   public async beginExtractFormsFromUrl(
     modelId: string,
-    imageSourceUrl: string,
+    documentUrl: string,
     options: BeginExtractFormsOptions = {}
   ): Promise<PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>> {
     if (!modelId) {
       throw new RangeError("Invalid modelId");
     }
-    const body = JSON.stringify({
-      source: imageSourceUrl
-    });
-
-    return this.beginExtractForms(modelId, body, "application/json", options);
+    return this.beginExtractForms(modelId, documentUrl, undefined, options);
   }
 
   private async getExtractedForm(
@@ -557,17 +551,17 @@ export class FormRecognizerClient {
   public async beginExtractLabeledForms(
     modelId: string,
     body: FormRecognizerRequestBody,
-    contentType: SupportedContentType,
+    contentType: ContentType,
     options: BeginExtractLabeledFormOptions = {}
   ): Promise<LabeledFormPollerLike> {
     if (!modelId) {
-      throw new RangeError("Invalid modelId");
+      throw new RangeError("Invalid model id");
     }
     const analyzePollerClient: ExtractPollerClient<LabeledFormResultResponse> = {
       beginExtract: (
         body: FormRecognizerRequestBody,
-        contentType: SupportedContentType,
-        analyzeOptions: ExtractOptions,
+        contentType?: ContentType,
+        analyzeOptions?: ExtractOptions,
         modelId?: string
       ) => analyzeCustomFormInternal(this.client, body, contentType, analyzeOptions, modelId!),
       getExtractResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) =>
@@ -588,17 +582,14 @@ export class FormRecognizerClient {
 
   public async beginExtractLabeledFormsFromUrl(
     modelId: string,
-    imageSourceUrl: string,
+    documentUrl: string,
     options: BeginExtractLabeledFormOptions = {}
   ): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>> {
     if (!modelId) {
-      throw new RangeError("Invalid modelId");
+      throw new RangeError("Invalid model id");
     }
-    const body = JSON.stringify({
-      source: imageSourceUrl
-    });
 
-    return this.beginExtractForms(modelId, body, "application/json", options);
+    return this.beginExtractForms(modelId, documentUrl, undefined, options);
   }
 }
 
@@ -640,39 +631,24 @@ async function trainCustomModelInternal(
 async function analyzeCustomFormInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody,
-  contentType: string,
-  options: ExtractFormsOptions,
-  modelId: string
-) {
-  const realOptions = options || {};
+  contentType?: ContentType,
+  options: ExtractFormsOptions = {},
+  modelId?: string
+): Promise<AnalyzeWithCustomModelResponseModel> {
   const { span, updatedOptions: finalOptions } = createSpan(
     "analyzeCustomFormInternal",
-    realOptions
+    options
   );
-  const customHeaders: { [key: string]: string } = finalOptions.requestOptions?.customHeaders || {};
-  customHeaders["Content-Type"] = contentType;
-  // conform to HttpRequestBody
   const requestBody =
     (body as any)?.read && typeof ((body as any)?.read === "function")
       ? () => body as NodeJS.ReadableStream
       : body;
   try {
-    return client.sendOperationRequest(
-      {
-        body: requestBody,
-        modelId,
-        options: {
-          ...operationOptionsToRequestOptionsBase(finalOptions),
-          customHeaders
-        }
-      },
-      analyzeWithCustomModelOperationSpec) as Promise<AnalyzeWithCustomModelResponseModel>;
-
-    // return await client.analyzeWithCustomModel(modelId, {
-    //   ...operationOptionsToRequestOptionsBase(finalOptions),
-    //   body: requestBody,
-    //   customHeaders
-    // });
+    return await client.analyzeWithCustomModel(modelId!, {
+      contentType: contentType,
+      fileStream: requestBody,
+      ...operationOptionsToRequestOptionsBase(finalOptions)
+    });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,

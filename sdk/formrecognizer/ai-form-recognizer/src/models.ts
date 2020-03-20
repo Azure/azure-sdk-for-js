@@ -4,7 +4,6 @@
 import * as coreHttp from "@azure/core-http";
 
 import {
-  AnalyzeLayoutAsyncHeaders,
   AnalyzeOperationResult as AnalyzeOperationResultModel,
   DataTable as DataTableModel,
   DataTableCell as DataTableCellModel,
@@ -16,9 +15,7 @@ import {
   Language,
   LengthUnit,
   Model,
-  ModelsModel,
   ModelsSummary,
-  TrainCustomModelAsyncHeaders,
   TrainingDocumentInfo,
   TrainResult,
   TrainStatus,
@@ -27,7 +24,6 @@ import {
 } from "./generated/models";
 
 export {
-  AnalyzeLayoutAsyncHeaders,
   AnalyzeOperationResultModel,
   DataTableModel,
   DataTableCellModel,
@@ -38,11 +34,9 @@ export {
   KeyValuePairModel,
   Language,
   LengthUnit,
-  ModelsModel,
   ModelsSummary,
   //PageResultModel,
   //ReadResultModel,
-  TrainCustomModelAsyncHeaders,
   TrainingDocumentInfo,
   TrainStatus,
   TrainResult
