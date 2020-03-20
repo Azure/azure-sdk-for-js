@@ -139,7 +139,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    public entityType: "queue" | "subscription",
     private _sessionOptions: SessionReceiverOptions
   ) {
     throwErrorIfConnectionClosed(context.namespace);
