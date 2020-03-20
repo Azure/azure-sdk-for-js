@@ -2,7 +2,17 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
+
+import { AzureKeyCredential } from "../src/azureKeyCredential";
 import { isTokenCredential } from "../src/tokenCredential";
+
+describe("AzureKeyCredential", () => {
+  it("credential constructor throws on invalid key", () => {
+    assert.throws(() => {
+      void new AzureKeyCredential("");
+    }, /key must be a non-empty string/);
+  });
+});
 
 describe("isTokenCredential", function() {
   it("should return true for an object that resembles a TokenCredential", () => {

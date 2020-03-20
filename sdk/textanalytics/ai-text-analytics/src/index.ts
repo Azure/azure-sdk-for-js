@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export { AzureKeyCredential } from "@azure/core-auth";
+
 export {
   TextAnalyticsClient,
   TextAnalyticsClientOptions,
@@ -12,7 +14,6 @@ export {
   RecognizeLinkedEntitiesOptions,
   TextAnalyticsOperationOptions
 } from "./textAnalyticsClient";
-export { TextAnalyticsApiKeyCredential } from "./textAnalyticsApiKeyCredential";
 export {
   DetectLanguageResult,
   DetectLanguageErrorResult,
