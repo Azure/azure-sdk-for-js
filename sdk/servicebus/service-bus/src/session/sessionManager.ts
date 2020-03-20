@@ -220,8 +220,8 @@ export class SessionManager {
   ): Promise<void> {
     if (this._isManagingSessions) {
       throw new Error(
-        `Client for "${this._context.namespace.config.entityPath}" ` +
-          `is already receiving messages from sessions. Please close this client or ` +
+        `Receiver for "${this._context.namespace.config.entityPath}" ` +
+          `is already receiving messages from sessions. Please close this receiver or ` +
           `create a new one and receiveMessages from Sessions.`
       );
     }
