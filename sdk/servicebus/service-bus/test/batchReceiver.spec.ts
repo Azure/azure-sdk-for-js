@@ -43,9 +43,7 @@ describe("batchReceiver", () => {
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getReceiver(receiverClient.getDeadLetterPath(), "peekLock")
-    );
+    deadLetterClient = serviceBusClient.test.getDeadLetterReceiver(entityNames);
   }
 
   function afterEachTest(): Promise<void> {
