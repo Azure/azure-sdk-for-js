@@ -1,4 +1,4 @@
-import { AbortSignalLike, AbortController } from "@azure/abort-controller";
+import { AbortController } from "@azure/abort-controller";
 import { PerfStressTest } from "./perfStressTest";
 import {
   ParsedPerfStressOptions,
@@ -6,157 +6,112 @@ import {
   printOptions,
   defaultPerfStressOptions
 } from "./perfStressOptions";
-import { pickTests } from "./pickTests";
 
 export type TestType = "";
 
-export interface PerfStressTestOperation {
-  startedAt?: Date;
-  finishedAt?: Date;
-  elapsedMilliseconds?: number;
-}
-
-export interface PerfStressStatistics {
-  completedOperations: number;
-  totalElapsedSeconds: number;
-  averageElapsedSeconds: number;
-  operationsPerSecond: number;
-  secondsPerOperation: number;
+export interface PerfStressParallel {
+  completedOperations?: number;
+  lastMillisecondsElapsed?: number;
 }
 
 export class PerfStressProgram {
-  private completedOperations: PerfStressTestOperation[] = [];
-  private firstOperation?: PerfStressTestOperation;
-  private lastOperation?: PerfStressTestOperation;
-  private tests: PerfStressTest<ParsedPerfStressOptions>[];
+  private test: PerfStressTest<ParsedPerfStressOptions>;
   public options: ParsedPerfStressOptions = {} as ParsedPerfStressOptions;
 
-  constructor(tests: PerfStressTest<ParsedPerfStressOptions>[]) {
+  constructor(test: PerfStressTest<ParsedPerfStressOptions>) {
     this.options = parsePerfStressOption(defaultPerfStressOptions, true);
-    const testQuery = this.options.pick.value;
-    if (testQuery) {
-      this.tests = pickTests(tests, (testQuery as string).split(","));
-    } else {
-      this.tests = tests;
-    }
+    this.test = test;
 
     // --help, or -h
     if (this.options.help.value) {
       console.log("=== Help: Default options ===");
       printOptions(this.options, "defaultOptions");
-      for (const test of this.tests) {
-        test.printOptions("nonDefaultOptions");
-      }
+      test.printOptions("nonDefaultOptions");
       return;
     }
 
-    this.tests.map((test) => test.parseOptions());
+    this.test.parseOptions();
   }
 
-  private getTotalElapsedMilliseconds() {
-    if (!this.firstOperation) {
-      return 0;
-    }
-    return this.lastOperation!.finishedAt!.getTime() - this.firstOperation!.startedAt!.getTime();
-  }
-
-  private cleanStatistics() {
-    this.completedOperations = [];
-    this.firstOperation = undefined;
-    this.lastOperation = undefined;
-  }
-
-  private getStatistics(): PerfStressStatistics {
-    const operations = this.completedOperations;
-    const completedOperations = this.completedOperations.length;
-    const totalElapsedSeconds: number = this.getTotalElapsedMilliseconds() / 1000;
-    const averageElapsedSeconds = totalElapsedSeconds / operations.length;
-    const operationsPerSecond = completedOperations / averageElapsedSeconds;
+  private logResults(parallels: PerfStressParallel[]) {
+    const totalOperations = parallels.reduce((sum, i) => sum + i.completedOperations!, 0);
+    const operationsPerSecond = parallels.reduce((sum, parallel) => {
+      return sum + parallel.completedOperations! / (parallel.lastMillisecondsElapsed! / 1000);
+    }, 0);
     const secondsPerOperation = 1 / operationsPerSecond;
-
-    return {
-      completedOperations,
-      totalElapsedSeconds,
-      averageElapsedSeconds,
-      operationsPerSecond,
-      secondsPerOperation
-    };
-  }
-
-  private async runOperation(
-    test: PerfStressTest<ParsedPerfStressOptions>,
-    abortSignal: AbortSignalLike
-  ): Promise<PerfStressTestOperation> {
-    const operation: PerfStressTestOperation = {};
-    this.completedOperations.push(operation);
-    operation.startedAt = new Date();
-    await test.run(abortSignal);
-    operation.finishedAt = new Date();
-    operation.elapsedMilliseconds = operation.finishedAt.getTime() - operation.startedAt.getTime();
-    if (!this.firstOperation) {
-      this.firstOperation = operation;
-    }
-    this.lastOperation = operation;
-    return operation;
-  }
-
-  private async runTests(durationSeconds: number, title: string) {
-    this.cleanStatistics();
-
-    const abortController = new AbortController();
-    const durationMilliseconds = durationSeconds * 1000;
-
-    setTimeout(() => abortController.abort(), durationMilliseconds);
-
-    const checkDurationTimeout = () => {
-      if (this.getTotalElapsedMilliseconds() >= durationMilliseconds) {
-        abortController.abort();
-      }
-    };
-
-    console.log(`=== ${title} ===`);
-    console.log(`Total completed\t\tCompleted since last log\t\tTotal time elapsed in milliseconds`);
-    let lastTotalCompleted = 0;
-    let lastElapsed = 0;
-    const logStats = () => {
-      const totalElapsed = this.getTotalElapsedMilliseconds();
-      if (totalElapsed - lastElapsed >= this.options["milliseconds-to-log"].value!) {
-        let totalCompleted = this.completedOperations.length - lastTotalCompleted;
-        console.log(`${this.completedOperations.length}\t\t\t${totalCompleted}\t\t\t\t\t${this.getTotalElapsedMilliseconds()}`);
-        lastTotalCompleted = totalCompleted;
-        lastElapsed = totalElapsed;
-      }
-    };
-
-    const iterations = this.options.iterations.value!;
-    for (let i = 0; i < iterations; i++) {
-      if (abortController.signal.aborted) {
-        break;
-      }
-      for (const test of this.tests) {
-        await this.runOperation(test, abortController.signal);
-        logStats();
-        checkDurationTimeout();
-      }
-    }
-
-    const {
-      completedOperations,
-      totalElapsedSeconds,
-      averageElapsedSeconds,
-      operationsPerSecond,
-      secondsPerOperation
-    } = this.getStatistics();
-
+    const weightedAverage = totalOperations / operationsPerSecond;
     console.log(
-      `Completed ${completedOperations} operations in ${totalElapsedSeconds}s` +
-        ` in an average of ${averageElapsedSeconds}s` +
-        ` (${operationsPerSecond} ops/s, ${secondsPerOperation} s/op)`
+      `Completed ${totalOperations} operations in a weighted-average of ${weightedAverage}s` +
+        ` (${operationsPerSecond} ops/s ${secondsPerOperation} s/op)`
     );
   }
 
+  private async runLoop(
+    parallel: PerfStressParallel,
+    durationMilliseconds: number,
+    abortController: AbortController
+  ) {
+    const startedAt = new Date().getTime();
+    while (!abortController.signal.aborted) {
+      // The event loop is too busy to listen to the setTimeout...
+      if (new Date().getTime() - startedAt >= durationMilliseconds) {
+        abortController.abort();
+      }
+      try {
+        await this.test.run(abortController.signal);
+      } finally {
+      }
+      parallel.completedOperations! += 1;
+      parallel.lastMillisecondsElapsed = new Date().getTime() - startedAt!;
+    }
+  }
+
+  private async runTest(
+    iterationIndex: number,
+    durationSeconds: number,
+    title: string
+  ): Promise<void> {
+    const parallelNumber = Number(this.options.parallel.value);
+    const parallels: PerfStressParallel[] = new Array<PerfStressParallel>(parallelNumber);
+    const parallelTestPromises: Promise<void>[] = new Array<Promise<void>>(parallelNumber);
+
+    const abortController = new AbortController();
+    const durationMilliseconds = durationSeconds * 1000;
+    setTimeout(() => abortController.abort(), durationMilliseconds);
+
+    console.log(`=== ${title}, iteration ${iterationIndex} ===`);
+    console.log(`Since Last Log\t\tTotal`);
+
+    const parallel = Number(this.options.parallel.value!);
+    const millisecondsToLog = Number(this.options["milliseconds-to-log"].value!);
+
+    let lastInIteration = 0;
+    const logInterval = setInterval(() => {
+      const inTotal = parallels.reduce((sum, i) => sum + i.completedOperations!, 0);
+      const sinceLastLog = inTotal - lastInIteration;
+      console.log(sinceLastLog + "\t\t\t" + inTotal);
+      lastInIteration = inTotal;
+    }, millisecondsToLog);
+
+    for (let i = 0; i < parallel; i++) {
+      let parallel: PerfStressParallel = {
+        completedOperations: 0
+      };
+      parallels[i] = parallel;
+      parallelTestPromises[i] = this.runLoop(parallel, durationMilliseconds, abortController);
+    }
+    for (const promise of parallelTestPromises) {
+      await promise;
+    }
+
+    clearInterval(logInterval);
+
+    console.log(`=== ${title}, iteration ${iterationIndex} Results ===`);
+    this.logResults(parallels);
+  }
+
   public async run() {
-    // No tests should be executed if the help option is passed.
+    // There should be no test execution if the help option is passed.
     if (this.options.help.value) {
       return;
     }
@@ -164,38 +119,36 @@ export class PerfStressProgram {
     const options = this.options;
     console.log("=== Assigned options ===");
     printOptions(options, "assignedOptions");
-    for (const test of this.tests) {
-      console.log(`=== Assigned options for ${test.constructor.name} ===`);
-      test.printOptions("assignedOptions");
-    }
+
+    console.log(`=== Assigned options for ${this.test.constructor.name} ===`);
+    this.test.printOptions("assignedOptions");
 
     try {
-      for (const test of this.tests) {
-        console.log(`=== Global setup for ${test.constructor.name} ===`);
-        if (test.globalSetup) {
-          await test.globalSetup();
-        }
+      console.log(`=== Global setup for ${this.test.constructor.name} ===`);
+      if (this.test.globalSetup) {
+        await this.test.globalSetup();
       }
       try {
         if (Number(options.warmup.value) > 0) {
-          await this.runTests(Number(options.warmup.value), "warmup");
+          const statistics = await this.runTest(0, Number(options.warmup.value), "warmup");
+          console.table([statistics]);
         }
-        await this.runTests(Number(options.duration.value), "tests");
+
+        const iterations = Number(this.options.iterations.value!);
+        for (let i = 0; i < iterations; i++) {
+          await this.runTest(i, Number(options.duration.value), "test");
+        }
       } finally {
         if (!options["no-cleanups"]) {
-          for (const test of this.tests) {
-            if (test.cleanup) {
-              await test.cleanup();
-            }
+          if (this.test.cleanup) {
+            await this.test.cleanup();
           }
         }
       }
     } finally {
       if (!options["no-cleanups"]) {
-        for (const test of this.tests) {
-          if (test.globalCleanup) {
-            await test.globalCleanup();
-          }
+        if (this.test.globalCleanup) {
+          await this.test.globalCleanup();
         }
       }
     }

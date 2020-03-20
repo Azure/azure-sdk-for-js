@@ -101,22 +101,29 @@ export function printOptions(
 
 export const defaultPerfStressOptions: PerfStressOption[] = [
   makePerfStressOption(false, "Shows all of the available options", "help", "h"),
+  makePerfStressOption(false, "Disables all cleanups", "no-cleanups"),
   makePerfStressOption(
     false,
-    "Pick tests based on exact, comma-separated class names, or a valid RegExp",
-    "pick"
+    "How many of the same test to call at the same time",
+    "parallel",
+    "p",
+    1
   ),
-  makePerfStressOption(false, "Disables all cleanups", "no-cleanups"),
-  makePerfStressOption(false, "Duration of test in seconds", "duration", "d", 10),
+  makePerfStressOption(false, "When to stop calling tests at all", "duration", "d", 10),
+  makePerfStressOption(false, "Duration of warmup in seconds", "warmup", "w", 0),
+  makePerfStressOption(
+    false,
+    "Times to repeat the whole process, after warmup",
+    "iterations",
+    "i",
+    1
+  ),
   makePerfStressOption(false, "Host to redirect HTTP requests", "host"),
   makePerfStressOption(false, "Allow non-trusted SSL certs", "insecure"),
-  makePerfStressOption(false, "Number of iterations of main test loop", "iterations", "i", 1),
   makePerfStressOption(false, "Print job statistics (used by automation)", "job-statistics"),
   makePerfStressOption(false, "Disables test cleanup", "no-cleanup"),
-  makePerfStressOption(false, "Number of operations to execute in parallel", "parallel", "p", 1),
   makePerfStressOption(false, "Port to redirect HTTP requests", "port"),
   makePerfStressOption(false, "Runs sync version of test", "sync"),
-  makePerfStressOption(false, "Duration of warmup in seconds", "warmup", "w", 5),
   makePerfStressOption(false, "Number of items", "count", "c", 10),
   makePerfStressOption(false, "Size of payload (in bytes)", "size", "s", 10 * 1024),
   makePerfStressOption(false, "Log frequency in milliseconds", "milliseconds-to-log", "mtl", 1000)
