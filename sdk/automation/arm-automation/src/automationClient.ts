@@ -64,12 +64,10 @@ class AutomationClient extends AutomationClientContext {
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
    * subscription. The subscription ID forms part of the URI for every service call.
-   * @param countType1 The type of counts to retrieve. Possible values include: 'status',
-   * 'nodeconfiguration'
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, countType1: Models.CountType, options?: Models.AutomationClientOptions) {
-    super(credentials, subscriptionId, countType1, options);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AutomationClientOptions) {
+    super(credentials, subscriptionId, options);
     this.automationAccount = new operations.AutomationAccountOperations(this);
     this.operations = new operations.Operations(this);
     this.statistics = new operations.StatisticsOperations(this);

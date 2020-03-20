@@ -30,28 +30,35 @@ export class NodeCountInformation {
    * Retrieve counts for Dsc Nodes.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
+   * @param countType The type of counts to retrieve. Possible values include: 'status',
+   * 'nodeconfiguration'
    * @param [options] The optional parameters
    * @returns Promise<Models.NodeCountInformationGetResponse>
    */
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.NodeCountInformationGetResponse>;
+  get(resourceGroupName: string, automationAccountName: string, countType: Models.CountType, options?: msRest.RequestOptionsBase): Promise<Models.NodeCountInformationGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
+   * @param countType The type of counts to retrieve. Possible values include: 'status',
+   * 'nodeconfiguration'
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, callback: msRest.ServiceCallback<Models.NodeCounts>): void;
+  get(resourceGroupName: string, automationAccountName: string, countType: Models.CountType, callback: msRest.ServiceCallback<Models.NodeCounts>): void;
   /**
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
+   * @param countType The type of counts to retrieve. Possible values include: 'status',
+   * 'nodeconfiguration'
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, automationAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NodeCounts>): void;
-  get(resourceGroupName: string, automationAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NodeCounts>, callback?: msRest.ServiceCallback<Models.NodeCounts>): Promise<Models.NodeCountInformationGetResponse> {
+  get(resourceGroupName: string, automationAccountName: string, countType: Models.CountType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NodeCounts>): void;
+  get(resourceGroupName: string, automationAccountName: string, countType: Models.CountType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NodeCounts>, callback?: msRest.ServiceCallback<Models.NodeCounts>): Promise<Models.NodeCountInformationGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
+        countType,
         options
       },
       getOperationSpec,
