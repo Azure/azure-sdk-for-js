@@ -35,7 +35,7 @@ export interface PollerOperationOptions<T> {
 export type ExtractPollerClient<T> = {
   // returns a result id to retrieve results
   beginExtract: (
-    body: FormRecognizerRequestBody,
+    source: FormRecognizerRequestBody,
     contentType?: ContentType,
     analyzeOptions?: ExtractOptions,
     modelId?: string
@@ -46,7 +46,7 @@ export type ExtractPollerClient<T> = {
 
 export interface BeginExtractPollState<T> extends PollOperationState<T> {
   readonly client: ExtractPollerClient<T>;
-  body?: FormRecognizerRequestBody;
+  source?: FormRecognizerRequestBody;
   contentType?: ContentType;
   modelId?: string;
   resultId?: string;
@@ -62,7 +62,7 @@ export interface BeginExtractPollerOperation<T>
  */
 export type BeginExtractPollerOptions<T> = {
   client: ExtractPollerClient<T>;
-  body: FormRecognizerRequestBody;
+  source: FormRecognizerRequestBody;
   contentType?: ContentType;
   modelId?: string;
   intervalInMs?: number;
@@ -83,7 +83,7 @@ export class BeginExtractPoller<T extends { status: OperationStatus }> extends P
   constructor(options: BeginExtractPollerOptions<T>) {
     const {
       client,
-      body,
+      source,
       contentType,
       intervalInMs = 1000,
       resultId,
@@ -101,7 +101,7 @@ export class BeginExtractPoller<T extends { status: OperationStatus }> extends P
     const operation = makeBeginExtractPollOperation({
       ...state,
       client,
-      body,
+      source,
       contentType,
       resultId,
       modelId,
@@ -138,22 +138,22 @@ function makeBeginExtractPollOperation<T extends { status: OperationStatus }>(
 
     async update(options = {}): Promise<BeginExtractPollerOperation<T>> {
       const state = this.state;
-      const { client, body, contentType, analyzeOptions, modelId } = state;
+      const { client, source, contentType, analyzeOptions, modelId } = state;
 
       if (!state.isStarted) {
-        if (!body) {
-          throw new Error("Expect a valid 'body'");
+        if (!source) {
+          throw new Error("Expect a valid 'source'");
         }
 
         state.isStarted = true;
-        const result = await client.beginExtract(body, contentType, analyzeOptions || {}, modelId);
+        const result = await client.beginExtract(source, contentType, analyzeOptions || {}, modelId);
         if (!result.operationLocation) {
           throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
         }
         const lastSlashIndex = result.operationLocation.lastIndexOf("/");
         state.resultId = result.operationLocation.substring(lastSlashIndex + 1);
-        // body is no longer needed
-        state.body = undefined;
+        // source is no longer needed
+        state.source = undefined;
       }
 
       const response = await client.getExtractResult(state.resultId!, {
@@ -178,7 +178,7 @@ function makeBeginExtractPollOperation<T extends { status: OperationStatus }>(
 
     toString() {
       return JSON.stringify({ state: this.state }, (key, value) => {
-        if (key === "client" || key === "body") {
+        if (key === "client" || key === "source") {
           return undefined;
         }
         return value;

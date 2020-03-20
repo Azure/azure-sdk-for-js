@@ -123,7 +123,7 @@ export class ReceiptRecognizerClient {
   }
 
   public async extractReceipts(
-    body: FormRecognizerRequestBody,
+    source: FormRecognizerRequestBody,
     contentType?: ContentType,
     options: BeginExtractReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
@@ -134,7 +134,7 @@ export class ReceiptRecognizerClient {
 
     const poller = new BeginExtractPoller({
       client: analyzePollerClient,
-      body,
+      source: source,
       contentType,
       ...options
     });
@@ -188,11 +188,10 @@ async function analyzeReceiptInternal(
 ): Promise<AnalyzeReceiptAsyncResponseModel> {
   const realOptions = options || { includeTextDetails: false };
   const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", realOptions);
-  const requestBody = toRequestBody(body);
   try {
     return await client.analyzeReceiptAsync({
       contentType: contentType,
-      fileStream: requestBody,
+      fileStream: toRequestBody(body),
       ...operationOptionsToRequestOptionsBase(finalOptions),
     });
   } catch (e) {

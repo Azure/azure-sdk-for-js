@@ -72,7 +72,7 @@ export class BeginExtractPoller<T extends {
 // @internal (undocumented)
 export type BeginExtractPollerOptions<T> = {
     client: ExtractPollerClient<T>;
-    body: FormRecognizerRequestBody;
+    source: FormRecognizerRequestBody;
     contentType?: ContentType;
     modelId?: string;
     intervalInMs?: number;
@@ -86,8 +86,6 @@ export interface BeginExtractPollState<T> extends PollOperationState<T> {
     // (undocumented)
     readonly analyzeOptions?: ExtractOptions;
     // (undocumented)
-    body?: FormRecognizerRequestBody;
-    // (undocumented)
     readonly client: ExtractPollerClient<T>;
     // (undocumented)
     contentType?: ContentType;
@@ -95,6 +93,8 @@ export interface BeginExtractPollState<T> extends PollOperationState<T> {
     modelId?: string;
     // (undocumented)
     resultId?: string;
+    // (undocumented)
+    source?: FormRecognizerRequestBody;
     // (undocumented)
     status: OperationStatus;
 }
@@ -389,7 +389,7 @@ export type ExtractOptions = ExtractReceiptsOptions | ExtractLayoutOptions | Ext
 
 // @public
 export type ExtractPollerClient<T> = {
-    beginExtract: (body: FormRecognizerRequestBody, contentType?: ContentType, analyzeOptions?: ExtractOptions, modelId?: string) => Promise<{
+    beginExtract: (source: FormRecognizerRequestBody, contentType?: ContentType, analyzeOptions?: ExtractOptions, modelId?: string) => Promise<{
         operationLocation?: string;
     }>;
     getExtractResult: (resultId: string, options: {
@@ -605,7 +605,7 @@ export class LayoutRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractLayout(body: FormRecognizerRequestBody, contentType?: ContentType, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
+    extractLayout(source: FormRecognizerRequestBody, contentType?: ContentType, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
     // (undocumented)
     extractLayoutFromUrl(documentUrl: string, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
     }
@@ -786,7 +786,7 @@ export class ReceiptRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractReceipts(body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
+    extractReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     // (undocumented)
     extractReceiptsFromUrl(documentUrl: string, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     }

@@ -16,9 +16,9 @@ export interface FormRecognizerOperationOptions extends OperationOptions {}
 
 export function toRequestBody(body: FormRecognizerRequestBody): FormRecognizerRequestBody {
   if (typeof body === "string") {
-    return JSON.stringify({
+    return {
       source: body
-    })
+    };
   } else {
     // conform to HttpRequestBody
     return (body as any)?.read && typeof ((body as any)?.read === "function")

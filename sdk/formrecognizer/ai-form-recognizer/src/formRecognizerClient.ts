@@ -21,6 +21,7 @@ import { createSpan } from "./tracing";
 import {
   FormRecognizerClientOptions,
   FormRecognizerOperationOptions,
+  toRequestBody,
 } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -50,7 +51,7 @@ export {
   GetCustomModelsResponseModel,
   Model,
   ModelInfo,
-  //GetAnalyzeFormResultResponse,
+  // GetAnalyzeFormResultResponse,
   RestResponse
 };
 
@@ -470,7 +471,7 @@ export class FormRecognizerClient {
     const poller = new BeginExtractPoller({
       client: analyzePollerClient,
       modelId,
-      body,
+      source: body,
       contentType,
       ...options
     });
@@ -571,7 +572,7 @@ export class FormRecognizerClient {
     const poller = new BeginExtractPoller({
       client: analyzePollerClient,
       modelId,
-      body,
+      source: body,
       contentType,
       ...options
     });
@@ -639,14 +640,10 @@ async function analyzeCustomFormInternal(
     "analyzeCustomFormInternal",
     options
   );
-  const requestBody =
-    (body as any)?.read && typeof ((body as any)?.read === "function")
-      ? () => body as NodeJS.ReadableStream
-      : body;
   try {
     return await client.analyzeWithCustomModel(modelId!, {
       contentType: contentType,
-      fileStream: requestBody,
+      fileStream: toRequestBody(body),
       ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {

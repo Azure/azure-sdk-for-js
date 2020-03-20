@@ -15,7 +15,8 @@ import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import {
   FormRecognizerClientOptions,
-  FormRecognizerOperationOptions
+  FormRecognizerOperationOptions,
+  toRequestBody
 } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -121,7 +122,7 @@ export class LayoutRecognizerClient {
   }
 
   public async extractLayout(
-    body: FormRecognizerRequestBody,
+    source: FormRecognizerRequestBody,
     contentType?: ContentType,
     options: StartAnalyzeLayoutOptions = {}
   ): Promise<LayoutPollerLike> {
@@ -132,7 +133,7 @@ export class LayoutRecognizerClient {
 
     const poller = new BeginExtractPoller<ExtractLayoutResultResponse>({
       client: analyzePollerClient,
-      body,
+      source,
       contentType,
       ...options
     });
@@ -181,15 +182,10 @@ async function analyzeLayoutInternal(
 ): Promise<AnalyzeLayoutAsyncResponseModel> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan("analyzeLayoutInternal", realOptions);
-  // conform to HttpRequestBody
-  const requestBody =
-    (body as any)?.read && typeof ((body as any)?.read === "function")
-      ? () => body as NodeJS.ReadableStream
-      : body;
   try {
     return await client.analyzeLayoutAsync({
       contentType: contentType,
-      fileStream: requestBody,
+      fileStream: toRequestBody(body),
       ...operationOptionsToRequestOptionsBase(finalOptions),
     })
   } catch (e) {
