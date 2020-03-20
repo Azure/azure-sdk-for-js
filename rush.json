@@ -705,6 +705,10 @@
     {
       "packageName": "@azure/iot-device-update",
       "projectFolder": "sdk/deviceupdate/iot-device-update",
+    },
+    {
+      "packageName": "@azure/web-pubsub",
+      "projectFolder": "sdk/web-pubsub/web-pubsub",
       "versionPolicyName": "client"
     },
     {
