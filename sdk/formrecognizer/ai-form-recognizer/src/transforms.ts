@@ -22,7 +22,7 @@ import {
   ExtractedElement,
   DataTableRow,
   DataTable,
-  DocumentResult,
+  ExtractedForm,
   ExtractedText,
   ExtractedField,
   ExtractedPage,
@@ -264,7 +264,7 @@ export function toFields(
 function toDocumentResult(
   original: DocumentResultModel,
   readResults: RawExtractedPage[]
-): DocumentResult {
+): ExtractedForm {
   return {
     docType: original.docType,
     pageRange: { firstPage: original.pageRange[0], lastPage: original.pageRange[1] },

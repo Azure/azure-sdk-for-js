@@ -20,19 +20,10 @@ import { WebResource } from '@azure/core-http';
 // @public
 export interface AnalyzeOperationResultModel {
     // Warning: (ae-forgotten-export) The symbol "AnalyzeResult" needs to be exported by the entry point index.d.ts
-    analyzeResult?: AnalyzeResult_2;
+    analyzeResult?: AnalyzeResult;
     createdOn: Date;
     lastUpdatedOn: Date;
     status: OperationStatus;
-}
-
-// @public (undocumented)
-export interface AnalyzeResult {
-    errors?: ErrorInformation[];
-    extractedForms?: DocumentResult[];
-    extractedPages?: ExtractedPage[];
-    rawExtractedPages: RawExtractedPage[];
-    version: string;
 }
 
 // @public (undocumented)
@@ -252,15 +243,6 @@ export type DateFieldValue = {
 export type DeleteModelOptions = FormRecognizerOperationOptions;
 
 // @public (undocumented)
-export interface DocumentResult {
-    docType: string;
-    fields: {
-        [propertyName: string]: FieldValue;
-    };
-    pageRange: PageRange;
-}
-
-// @public (undocumented)
 export interface ErrorInformation {
     // (undocumented)
     code: string;
@@ -281,6 +263,15 @@ export interface ExtractedField {
     name: ExtractedText;
     // (undocumented)
     value: ExtractedText;
+}
+
+// @public (undocumented)
+export interface ExtractedForm {
+    docType: string;
+    fields: {
+        [propertyName: string]: FieldValue;
+    };
+    pageRange: PageRange;
 }
 
 // @public (undocumented)
@@ -348,10 +339,11 @@ export interface ExtractedWord {
 }
 
 // @public (undocumented)
-export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<ExtractFormResult>;
-
-// @public (undocumented)
-export type ExtractFormResult = Omit<AnalyzeResult, "extractedForms">;
+export type ExtractFormOperationResult = Partial<FormResult> & {
+    status: OperationStatus;
+    createdOn: Date;
+    lastUpdatedOn: Date;
+};
 
 // @public (undocumented)
 export type ExtractFormResultResponse = ExtractFormOperationResult & {
@@ -497,6 +489,14 @@ export interface FormRecognizerOperationOptions extends OperationOptions {
 export type FormRecognizerRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | NodeJS.ReadableStream;
 
 // @public (undocumented)
+export interface FormResult {
+    errors?: ErrorInformation[];
+    extractedPages?: ExtractedPage[];
+    rawExtractedPages: RawExtractedPage[];
+    version: string;
+}
+
+// @public (undocumented)
 export interface FormTrainResult {
     // (undocumented)
     errors?: ErrorInformation[];
@@ -570,13 +570,23 @@ export type LabeledFormModelResponse = LabeledFormModel & {
 };
 
 // @public (undocumented)
-export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<LabeledFormResult>;
+export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
+    status: OperationStatus;
+    createdOn: Date;
+    lastUpdatedOn: Date;
+};
 
 // @public (undocumented)
 export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>;
 
 // @public (undocumented)
-export type LabeledFormResult = AnalyzeResult;
+export interface LabeledFormResult {
+    errors?: ErrorInformation[];
+    extractedForms?: ExtractedForm[];
+    extractedPages?: ExtractedPage[];
+    rawExtractedPages: RawExtractedPage[];
+    version: string;
+}
 
 // @public (undocumented)
 export type LabeledFormResultResponse = LabeledFormOperationResult & {

@@ -182,7 +182,7 @@ export interface PageRange {
   lastPage: number;
 }
 
-export interface DocumentResult {
+export interface ExtractedForm {
   /**
    * Document type.
    */
@@ -195,29 +195,6 @@ export interface DocumentResult {
    * Dictionary of named field values.
    */
   fields: { [propertyName: string]: FieldValue };
-}
-
-export interface AnalyzeResult {
-  /**
-   * Version of schema used for this result.
-   */
-  version: string;
-  /**
-   * Text extracted from the input.
-   */
-  rawExtractedPages: RawExtractedPage[];
-  /**
-   * Page-level information extracted from the input.
-   */
-  extractedPages?: ExtractedPage[];
-  /**
-   * Document-level information extracted from the input.
-   */
-  extractedForms?: DocumentResult[];
-  /**
-   * List of errors reported during the analyze operation.
-   */
-  errors?: ErrorInformation[];
 }
 
 export interface CommonFieldValue {
@@ -482,13 +459,77 @@ export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
   };
 };
 
-export type ExtractFormResult = Omit<AnalyzeResult, "extractedForms">;
+export interface FormResult {
+  /**
+   * Version of schema used for this result.
+   */
+  version: string;
+  /**
+   * Text extracted from the input.
+   */
+  rawExtractedPages: RawExtractedPage[];
+  /**
+   * Page-level information extracted from the input.
+   */
+  extractedPages?: ExtractedPage[];
+  /**
+   * List of errors reported during the analyze operation.
+   */
+  errors?: ErrorInformation[];
+}
 
-export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<ExtractFormResult>
+export type ExtractFormOperationResult = Partial<FormResult> & {
+  /**
+   * Operation status.
+   */
+  status: OperationStatus;
+  /**
+   * Date and time (UTC) when the analyze operation was submitted.
+   */
+  createdOn: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastUpdatedOn: Date;
+}
 
-export type LabeledFormResult = AnalyzeResult;
+export interface LabeledFormResult {
+  /**
+   * Version of schema used for this result.
+   */
+  version: string;
+  /**
+   * Text extracted from the input.
+   */
+  rawExtractedPages: RawExtractedPage[];
+  /**
+   * Page-level information extracted from the input.
+   */
+  extractedPages?: ExtractedPage[];
+  /**
+   * Document-level information extracted from the input.
+   */
+  extractedForms?: ExtractedForm[];
+  /**
+   * List of errors reported during the analyze operation.
+   */
+  errors?: ErrorInformation[];
+}
 
-export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<LabeledFormResult>
+export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
+  /**
+   * Operation status.
+   */
+  status: OperationStatus;
+  /**
+   * Date and time (UTC) when the analyze operation was submitted.
+   */
+  createdOn: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastUpdatedOn: Date;
+}
 
 export type ExtractFormResultResponse = ExtractFormOperationResult & {
   /**
