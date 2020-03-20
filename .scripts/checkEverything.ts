@@ -4,7 +4,7 @@ import { getPackageFolderPaths } from "./common";
 
 const logger: Logger = getDefaultLogger();
 const changedFiles: string[] = [];
-
+let tmpChangedFiles = changedFiles;
 let headReference: string | undefined = getArgument("head-reference", { environmentVariableName: "headReference" });
 if (!headReference) {
   const statusResult: GitStatusResult = gitStatus();
@@ -13,7 +13,7 @@ if (!headReference) {
 
   const modifiedFiles: string[] | undefined = statusResult.modifiedFiles;
   if (modifiedFiles) {
-    changedFiles.push(...modifiedFiles);
+    tmpChangedFiles.push(...modifiedFiles);
   }
 }
 
@@ -25,13 +25,22 @@ if (!baseReference) {
 
 if (baseReference !== headReference) {
   const diffResult: GitDiffResult = gitDiff(baseReference, headReference);
-  changedFiles.push(...diffResult.filesChanged);
+  
+  tmpChangedFiles.push(...diffResult.filesChanged);
+ 
+
   if (!changedFiles || changedFiles.length === 0) {
     logger.logInfo(`Found no changes between "${baseReference}" and "${headReference}".`);
   } else {
     logger.logVerbose(`Found the following changed files`)
-    for (const changedFilePath of changedFiles) {
+    changedFiles
+    for (const changedFilePath of tmpChangedFiles) {
       logger.logVerbose(changedFilePath);
+      const testExists = changedFilePath.indexOf("/test/");
+      if(testExists > -1 || contains(changedFiles, changedFilePath)) {
+        continue;
+      }
+      changedFiles.push(changedFilePath)
     }
   }
 }
