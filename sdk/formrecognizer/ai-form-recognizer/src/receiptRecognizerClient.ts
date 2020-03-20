@@ -17,7 +17,8 @@ import { toReceiptResultResponse } from "./transforms";
 import { createSpan } from "./tracing";
 import {
   FormRecognizerClientOptions,
-  FormRecognizerOperationOptions
+  FormRecognizerOperationOptions,
+  toRequestBody
 } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -187,11 +188,7 @@ async function analyzeReceiptInternal(
 ): Promise<AnalyzeReceiptAsyncResponseModel> {
   const realOptions = options || { includeTextDetails: false };
   const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", realOptions);
-  // conform to HttpRequestBody
-  const requestBody =
-    (body as any)?.read && typeof ((body as any)?.read === "function")
-      ? () => body as NodeJS.ReadableStream
-      : body;
+  const requestBody = toRequestBody(body);
   try {
     return await client.analyzeReceiptAsync({
       contentType: contentType,

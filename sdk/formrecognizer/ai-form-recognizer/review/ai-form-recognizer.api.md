@@ -826,6 +826,9 @@ export type TimeFieldValue = {
     value?: string;
 } & CommonFieldValue;
 
+// @public (undocumented)
+export function toRequestBody(body: FormRecognizerRequestBody): FormRecognizerRequestBody;
+
 // Warning: (ae-forgotten-export) The symbol "FormRecognizerClientTrainCustomModelAsyncHeaders" needs to be exported by the entry point index.d.ts
 //
 // @public

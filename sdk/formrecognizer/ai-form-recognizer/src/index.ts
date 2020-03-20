@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./common";
+export {FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
 export * from "./formRecognizerClient";
-//export * from "./RecognizerClient";
 export * from "./receiptRecognizerClient";
 export * from "./layoutRecognizerClient";
 export {
