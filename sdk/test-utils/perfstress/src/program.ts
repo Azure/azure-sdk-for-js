@@ -6,6 +6,7 @@ import {
   printOptions,
   defaultPerfStressOptions
 } from "./perfStressOptions";
+import { pickTests } from "./pickTests";
 
 export type TestType = "";
 
@@ -31,9 +32,25 @@ export class PerfStressProgram {
   public options: ParsedPerfStressOptions = {} as ParsedPerfStressOptions;
 
   constructor(tests: PerfStressTest<ParsedPerfStressOptions>[]) {
-    this.tests = tests;
-    this.tests.map((test) => test.parseOptions());
     this.options = parsePerfStressOption(defaultPerfStressOptions, true);
+    const testQuery = this.options.pick.value;
+    if (testQuery) {
+      this.tests = pickTests(tests, (testQuery as string).split(","));
+    } else {
+      this.tests = tests;
+    }
+
+    // --help, or -h
+    if (this.options.help.value) {
+      console.log("=== Help: Default options ===");
+      printOptions(this.options, "defaultOptions");
+      for (const test of this.tests) {
+        test.printOptions("nonDefaultOptions");
+      }
+      return;
+    }
+
+    this.tests.map((test) => test.parseOptions());
   }
 
   private getTotalElapsedMilliseconds() {
@@ -43,7 +60,13 @@ export class PerfStressProgram {
     return this.lastOperation!.finishedAt!.getTime() - this.firstOperation!.startedAt!.getTime();
   }
 
-  private async getStatistics(): Promise<PerfStressStatistics> {
+  private cleanStatistics() {
+    this.completedOperations = [];
+    this.firstOperation = undefined;
+    this.lastOperation = undefined;
+  }
+
+  private getStatistics(): PerfStressStatistics {
     const operations = this.completedOperations;
     const completedOperations = this.completedOperations.length;
     const totalElapsedSeconds: number = this.getTotalElapsedMilliseconds() / 1000;
@@ -78,11 +101,18 @@ export class PerfStressProgram {
   }
 
   private async runTests(durationSeconds: number, title: string) {
-    const abortController = new AbortController();
+    this.cleanStatistics();
 
-    setTimeout(() => {
-      abortController.abort();
-    }, durationSeconds * 1000);
+    const abortController = new AbortController();
+    const durationMilliseconds = durationSeconds * 1000;
+
+    setTimeout(() => abortController.abort(), durationMilliseconds);
+
+    const checkDurationTimeout = () => {
+      if (this.getTotalElapsedMilliseconds() >= durationMilliseconds) {
+        abortController.abort();
+      }
+    };
 
     console.log(`=== ${title} ===`);
     console.log(`Current completed operation\t\tTotal time elapsed in milliseconds`);
@@ -92,7 +122,7 @@ export class PerfStressProgram {
 
     const logStats = () => {
       const totalElapsed = this.getTotalElapsedMilliseconds();
-      if (totalElapsed - lastElapsed > this.options["milliseconds-to-log"].value!) {
+      if (totalElapsed - lastElapsed >= this.options["milliseconds-to-log"].value!) {
         let totalCompleted = this.completedOperations.length - lastTotalCompleted;
         console.log(`${totalCompleted}\t\t\t\t\t${this.getTotalElapsedMilliseconds()}`);
         lastTotalCompleted = totalCompleted;
@@ -108,17 +138,38 @@ export class PerfStressProgram {
       for (const test of this.tests) {
         await this.runOperation(test, abortController.signal);
         logStats();
+        checkDurationTimeout();
       }
     }
-    logStats();
+
+    const {
+      completedOperations,
+      totalElapsedSeconds,
+      averageElapsedSeconds,
+      operationsPerSecond,
+      secondsPerOperation
+    } = this.getStatistics();
+
+    console.log(
+      `Completed ${completedOperations} operations in ${totalElapsedSeconds}s` +
+        ` in an average of ${averageElapsedSeconds}s` +
+        ` (${operationsPerSecond} ops/s, ${secondsPerOperation} s/op)`
+    );
   }
 
   public async run() {
-    console.log("=== Setup ===");
+    // No tests should be executed if the help option is passed.
+    if (this.options.help.value) {
+      return;
+    }
 
-    console.log("=== Default options ===");
     const options = this.options;
-    printOptions(options, "nonDefaultOptions");
+    console.log("=== Assigned options ===");
+    printOptions(options, "assignedOptions");
+    for (const test of this.tests) {
+      console.log(`=== Assigned options for ${test.constructor.name} ===`);
+      test.printOptions("assignedOptions");
+    }
 
     try {
       for (const test of this.tests) {
@@ -150,19 +201,5 @@ export class PerfStressProgram {
         }
       }
     }
-
-    const {
-      completedOperations,
-      totalElapsedSeconds,
-      averageElapsedSeconds,
-      operationsPerSecond,
-      secondsPerOperation
-    } = await this.getStatistics();
-
-    console.log(
-      `Completed ${completedOperations} operations in ${totalElapsedSeconds}s` +
-        ` in an average of ${averageElapsedSeconds}s` +
-        ` (${operationsPerSecond} ops/s, ${secondsPerOperation} s/op)`
-    );
   }
 }

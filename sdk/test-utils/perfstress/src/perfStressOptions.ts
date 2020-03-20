@@ -31,7 +31,10 @@ export interface ParsedPerfStressOptions {
   [longName: string]: PerfStressOption;
 }
 
-// Probably use a third party library
+// TODO:
+// Use a third party library?
+// We want this to run on browsers too though, and to tighten the control over the dependencies...
+
 export function parsePerfStressOption(
   options: PerfStressOption[],
   skipRequired?: boolean
@@ -44,8 +47,14 @@ export function parsePerfStressOption(
     let index = 0;
     for (; index < argv.length; index += 1) {
       const element = argv[index];
-      if (element === option.shortName || element === `--${option.longName}`) {
-        value = argv[index + 1];
+      if (element === `-${option.shortName}` || element === `--${option.longName}`) {
+        // Sets true by default.
+        value = true;
+        // Picks the next element if it doesn't begin with `--`
+        const next = argv[index + 1];
+        if (next && next[0] !== "-") {
+          value = next;
+        }
         break;
       }
     }
@@ -63,15 +72,15 @@ export function parsePerfStressOption(
 
 export function printOptions(
   options: ParsedPerfStressOptions | PerfStressOption[],
-  filter?: "defaultOptions" | "nonDefaultOptions"
+  pick?: "defaultOptions" | "nonDefaultOptions" | "assignedOptions"
 ) {
   const filteredOptions: PerfStressOption[] = [];
   for (const longName of Object.keys(options)) {
     const defaultOption = defaultPerfStressOptions.filter((option) => option.longName === longName);
-    if (filter === "defaultOptions" && defaultOption) {
+    if (pick === "nonDefaultOptions" && defaultOption) {
       continue;
     }
-    if (filter === "nonDefaultOptions" && !defaultOption) {
+    if (pick === "defaultOptions" && !defaultOption) {
       continue;
     }
     const option =
@@ -80,12 +89,23 @@ export function printOptions(
     if (!option) {
       continue;
     }
+    if (pick === "assignedOptions" && !option.value) {
+      continue;
+    }
     filteredOptions.push(option);
   }
-  console.table(filteredOptions);
+  if (filteredOptions.length) {
+    console.table(filteredOptions);
+  }
 }
 
 export const defaultPerfStressOptions: PerfStressOption[] = [
+  makePerfStressOption(false, "Shows all of the available options", "help", "h"),
+  makePerfStressOption(
+    false,
+    "Pick tests based on exact, comma-separated class names, or a valid RegExp",
+    "pick"
+  ),
   makePerfStressOption(false, "Disables all cleanups", "no-cleanups"),
   makePerfStressOption(false, "Duration of test in seconds", "duration", "d", 10),
   makePerfStressOption(false, "Host to redirect HTTP requests", "host"),

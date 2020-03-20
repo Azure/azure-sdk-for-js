@@ -13,14 +13,12 @@ export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {
 
   constructor() {}
 
+  public printOptions(pick?: "defaultOptions" | "nonDefaultOptions" | "assignedOptions") {
+    printOptions(this.optionsToParse, pick);
+  }
+
   public parseOptions() {
-    try {
-      this.parsedOptions = parsePerfStressOption(this.optionsToParse) as TOptions;
-    } catch (e) {
-      console.log(e.message);
-      printOptions(this.optionsToParse, "defaultOptions");
-      throw e;
-    }
+    this.parsedOptions = parsePerfStressOption(this.optionsToParse) as TOptions;
   }
 
   // Before and after running a bunch of the same test.
