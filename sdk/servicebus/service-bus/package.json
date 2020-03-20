@@ -31,9 +31,9 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
     "typings/service-bus.d.ts",
-    "tsconfig.json"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -58,8 +58,8 @@
     "lint-fix": "eslint package.json tsconfig.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "test:browser": "npm run build:test:browser && npm run integration-test:browser",
-    "test:node": "npm run build:test:node && npm run integration-test:node",
+    "test:browser": "npm run clean && npm run build:test:browser && npm run integration-test:browser",
+    "test:node": "npm run clean && npm run build:test:node && npm run integration-test:node",
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
@@ -92,7 +92,7 @@
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@azure/identity": "^1.1.0-preview1",
+    "@azure/identity": "1.1.0-preview1",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-inject": "^4.0.0",

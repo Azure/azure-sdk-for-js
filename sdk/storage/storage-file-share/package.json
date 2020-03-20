@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file-share",
   "sdk-type": "client",
-  "version": "12.1.1",
+  "version": "12.1.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -63,11 +63,10 @@
     "ThirdPartyNotices.txt",
     "dist/",
     "dist-esm/src/",
-    "LICENSE",
-    "src/",
     "typings/latest/src",
     "typings/3.1/src",
-    "tsconfig.json"
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",

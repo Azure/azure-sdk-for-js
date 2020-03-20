@@ -36,7 +36,6 @@
     "es/src/**/*.js.map",
     "es/src/**/*.d.ts",
     "es/src/**/*.d.ts.map",
-    "src/**/*.ts",
     "LICENSE",
     "README.md"
   ],

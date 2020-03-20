@@ -3,9 +3,10 @@
   Licensed under the MIT Licence.
 
   This sample demonstrates how to use the EventHubConsumerClient to process events from all partitions
-  of a consumer group in an Event Hubs instance, as well as checkpointing along the way.
+  of a consumer group in an Event Hubs instance, as well as checkpointing - synonymous with persisting
+  your event offsets - along the way.
 
-  This sample uses the `DownLevelContainerClient` to target an older version of the Storage Blob service.
+  This sample uses the `ApiSpecificContainerClient` to use a specific version of the Storage Blob service.
 
   Checkpointing using a durable store allows your application to be more resilient. When you restart
   your application after a crash (or an intentional stop), your application can continue consuming
@@ -20,7 +21,7 @@
 
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
-const { DownlevelContainerClient } = require("./downlevelContainerClient");
+const { ApiSpecificContainerClient } = require("./apiSpecificContainerClient");
 
 const connectionString = "";
 const eventHubName = "";
@@ -31,7 +32,7 @@ const consumerGroup = "";
 async function main() {
   // This client will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage.
-  const containerClient = new DownlevelContainerClient(storageConnectionString, containerName);
+  const containerClient = new ApiSpecificContainerClient(storageConnectionString, containerName);
 
   if (!containerClient.exists()) {
     await containerClient.create();

@@ -38,9 +38,9 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
     "types/src",
-    "tsconfig.json"
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",

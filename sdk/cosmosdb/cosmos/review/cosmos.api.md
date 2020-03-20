@@ -966,7 +966,7 @@ export interface Resource {
 
 // @public (undocumented)
 export class ResourceResponse<TResource> {
-    constructor(resource: TResource, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
+    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
     // (undocumented)
     get activityId(): string;
     // (undocumented)
@@ -976,7 +976,7 @@ export class ResourceResponse<TResource> {
     // (undocumented)
     get requestCharge(): number;
     // (undocumented)
-    readonly resource: TResource;
+    readonly resource: TResource | undefined;
     // Warning: (ae-forgotten-export) The symbol "StatusCode" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)

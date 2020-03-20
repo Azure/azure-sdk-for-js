@@ -10,7 +10,10 @@ The Azure Event Hubs client library allows you to send and receive events in you
 [Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
 
-**NOTE**: If you are using version 2.1.0 or lower, then please use the below links instead
+**NOTE**: If you are using version 2.1.0 or lower and want to migrate to the latest version
+of this package please look at our [migration guide to move from EventHubs V2 to EventHubs V5](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/migrationguide.md)
+
+Samples for v2 and documentation are still available here:
 
 [Source code for v2.1.0](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs) |
 [Package for v2.1.0 (npm)](https://www.npmjs.com/package/@azure/event-hubs/v/2.1.0) |

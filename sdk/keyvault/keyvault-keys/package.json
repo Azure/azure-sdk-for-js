@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-keys",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.1.0-preview.1",
+  "version": "4.1.0-preview.2",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md",
@@ -25,13 +25,11 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "LICENSE.txt",
-    "README.md",
     "types/keyvault-keys.d.ts",
     "dist/",
     "dist-esm/",
-    "src/",
-    "tsconfig.json"
+    "README.md",
+    "LICENSE"
   ],
   "browser": {
     "os": false,
@@ -95,7 +93,7 @@
   "devDependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^2.0.1",
-    "@azure/identity": "^1.1.0-preview1",
+    "@azure/identity": "1.1.0-preview1",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",

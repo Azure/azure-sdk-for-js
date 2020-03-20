@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "1.1.0-preview1",
+  "version": "1.1.0-preview.2",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -47,8 +47,9 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
-    "types/identity.d.ts"
+    "types/identity.d.ts",
+    "README.md",
+    "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [

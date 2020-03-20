@@ -159,6 +159,33 @@ Projects may optionally have the following scripts:
 
 - `extract-api`: Run API Extractor to show API issues and generate API reports
 
+### Integration Testing with live services
+
+Integration tests assume a live resource has been created and appropriate
+environment variables have been set for the test process. To automate setting up
+live resources we use created a script called `New-TestResources.ps1` that
+deploys resources for a given service.
+
+To see what resources will be deployed for a live service, check the
+`test-resources.json` ARM template files in the service you wish to deploy for
+testing, for example `sdk\keyvault\test-resources.json`.
+
+To deploy live resources for testing use the steps documented in [`Example 1 of New-TestResources.ps1`](eng/common/TestResources/New-TestResources.ps1.md#example-1)
+to set up a service principal and deploy live testing resources.
+
+The script will provide instructions for setting environment variables before
+running live tests.
+
+To run live tests after deploying live resources for Node:
+
+```
+rush integration-test:node -t @azure/keyvault-secrets -verbose -pmax
+```
+
+Some live tests may have additional steps for setting up live testing resources.
+See the CONTRIBUTING.md file for the service you wish to test for additional
+information or instructions.
+
 ### Getting back to a clean state
 
 If you're having problems and want to restore your repo to a clean state without any packages installed, run `rush uninstall`. Downloaded packages will be deleted from the cache and all node_modules directories will be removed. Now you can start clean by re-downloading and installing dependencies from scratch with `rush update`. This will not make any changes to any other files in your working directory.

@@ -22,10 +22,11 @@ import {
   RetryOperationType,
   Constants,
   delay,
-  MessagingError
+  MessagingError,
+  RetryOptions
 } from "@azure/core-amqp";
 import {
-  SendableMessageInfo,
+  ServiceBusMessage,
   toAmqpMessage,
   getMessagePropertyTypeMismatchError
 } from "../serviceBusMessage";
@@ -33,6 +34,8 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
+import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
+import { CreateBatchOptions } from "../models";
 
 /**
  * @internal
@@ -530,10 +533,10 @@ export class MessageSender extends LinkEntity {
   /**
    * Sends the given message, with the given options on this link
    *
-   * @param {SendableMessageInfo} data Message to send.  Will be sent as UTF8-encoded JSON string.
+   * @param {ServiceBusMessage} data Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<void>}
    */
-  async send(data: SendableMessageInfo): Promise<void> {
+  async send(data: ServiceBusMessage): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!this.isOpen()) {
@@ -581,6 +584,7 @@ export class MessageSender extends LinkEntity {
     }
   }
 
+  // Not exposed to the users
   /**
    * Send a batch of Message to the ServiceBus in a single AMQP message. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
@@ -589,7 +593,7 @@ export class MessageSender extends LinkEntity {
    * Batch message.
    * @return {Promise<void>}
    */
-  async sendBatch(inputMessages: SendableMessageInfo[]): Promise<void> {
+  async sendMessages(inputMessages: ServiceBusMessage[]): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!Array.isArray(inputMessages)) {
@@ -649,6 +653,7 @@ export class MessageSender extends LinkEntity {
 
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
+
       log.sender(
         "[%s]Sender '%s', sending encoded batch message.",
         this._context.namespace.connectionId,
@@ -662,6 +667,101 @@ export class MessageSender extends LinkEntity {
         this._context.namespace.connectionId,
         this.name,
         inputMessages,
+        err
+      );
+      throw err;
+    }
+  }
+
+  /**
+   * Returns maximum message size on the AMQP sender link.
+   *
+   * Options to configure the `createBatch` method on the `Sender`.
+   * - `maxSizeInBytes`: The upper limit for the size of batch.
+   *
+   * Example usage:
+   * ```js
+   * {
+   *     retryOptions: { maxRetries: 5; timeoutInMs: 10 }
+   * }
+   * ```
+   * @param {{retryOptions?: RetryOptions}} [options={}]
+   * @returns {Promise<number>}
+   * @memberof MessageSender
+   */
+  async getMaxMessageSize(
+    options: {
+      retryOptions?: RetryOptions;
+    } = {}
+  ): Promise<number> {
+    const retryOptions = options.retryOptions || {};
+    if (this.isOpen()) {
+      return this._sender!.maxMessageSize;
+    }
+    return new Promise<number>(async (resolve, reject) => {
+      try {
+        const senderOptions = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
+        await defaultLock.acquire(this.senderLock, () => {
+          const config: RetryConfig<void> = {
+            operation: () => this._init(senderOptions),
+            connectionId: this._context.namespace.connectionId,
+            operationType: RetryOperationType.senderLink,
+            retryOptions: retryOptions
+          };
+
+          return retry<void>(config);
+        });
+        resolve(this._sender!.maxMessageSize);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    if (!options) {
+      options = {};
+    }
+    let maxMessageSize = await this.getMaxMessageSize({ retryOptions: options.retryOptions });
+    if (options.maxSizeInBytes) {
+      if (options.maxSizeInBytes > maxMessageSize!) {
+        const error = new Error(
+          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
+        );
+        throw error;
+      }
+      maxMessageSize = options.maxSizeInBytes;
+    }
+    return new ServiceBusMessageBatchImpl(this._context, maxMessageSize!);
+  }
+
+  async sendBatch(batchMessage: ServiceBusMessageBatch): Promise<void> {
+    throwErrorIfConnectionClosed(this._context.namespace);
+    try {
+      if (!this.isOpen()) {
+        log.sender(
+          "Acquiring lock %s for initializing the session, sender and " +
+            "possibly the connection.",
+          this.senderLock
+        );
+        await defaultLock.acquire(this.senderLock, () => {
+          return this._init();
+        });
+      }
+      log.sender(
+        "[%s]Sender '%s', sending encoded batch message.",
+        this._context.namespace.connectionId,
+        this.name,
+        batchMessage
+      );
+      return await this._trySend(batchMessage._message!, true);
+    } catch (err) {
+      log.error(
+        "[%s] Sender '%s': An error occurred while sending the messages: %O\nError: %O",
+        this._context.namespace.connectionId,
+        this.name,
+        batchMessage,
         err
       );
       throw err;

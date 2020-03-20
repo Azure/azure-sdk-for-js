@@ -35,8 +35,9 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
-    "types/core-auth.d.ts"
+    "types/core-auth.d.ts",
+    "README.md",
+    "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
