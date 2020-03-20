@@ -112,6 +112,16 @@ export interface CommonGramTokenFilter {
 }
 
 // @public
+export type ComplexDataType = "Edm.ComplexType" | "Collection(Edm.ComplexType)";
+
+// @public
+export interface ComplexField {
+    fields: Field[];
+    name: string;
+    type: ComplexDataType;
+}
+
+// @public
 export interface CorsOptions {
     allowedOrigins: string[];
     maxAgeInSeconds?: number;
@@ -136,9 +146,6 @@ export interface CustomAnalyzer {
     tokenFilters?: string[];
     tokenizer: string;
 }
-
-// @public
-export type DataType = 'Edm.String' | 'Edm.Int32' | 'Edm.Int64' | 'Edm.Double' | 'Edm.Boolean' | 'Edm.DateTimeOffset' | 'Edm.GeographyPoint' | 'Edm.ComplexType' | 'Collection(Edm.String)' | 'Collection(Edm.Int32)' | 'Collection(Edm.Int64)' | 'Collection(Edm.Double)' | 'Collection(Edm.Boolean)' | 'Collection(Edm.DateTimeOffset)' | 'Collection(Edm.GeographyPoint)' | 'Collection(Edm.ComplexType)';
 
 // @public
 export type DeleteDocumentsOptions = IndexDocuments;
@@ -229,21 +236,7 @@ export interface FacetResult {
 }
 
 // @public
-export interface Field {
-    analyzer?: string;
-    facetable?: boolean;
-    fields?: Field[];
-    filterable?: boolean;
-    hidden?: boolean;
-    indexAnalyzer?: string;
-    key?: boolean;
-    name: string;
-    searchable?: boolean;
-    searchAnalyzer?: string;
-    sortable?: boolean;
-    synonymMaps?: string[];
-    type: DataType;
-}
+export type Field = SimpleField | ComplexField;
 
 // @public
 export interface FreshnessScoringFunction {
@@ -842,6 +835,25 @@ export interface ShingleTokenFilter {
     outputUnigrams?: boolean;
     outputUnigramsIfNoShingles?: boolean;
     tokenSeparator?: string;
+}
+
+// @public
+export type SimpleDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)";
+
+// @public
+export interface SimpleField {
+    analyzer?: string;
+    facetable?: boolean;
+    filterable?: boolean;
+    hidden?: boolean;
+    indexAnalyzer?: string;
+    key?: boolean;
+    name: string;
+    searchable?: boolean;
+    searchAnalyzer?: string;
+    sortable?: boolean;
+    synonymMaps?: string[];
+    type: SimpleDataType;
 }
 
 // @public

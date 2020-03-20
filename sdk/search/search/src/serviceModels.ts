@@ -55,8 +55,7 @@ import {
   TagScoringFunction,
   TextWeights,
   ScoringFunctionAggregation,
-  RegexFlags,
-  DataType
+  RegexFlags
 } from "./generated/service/models";
 
 /**
@@ -239,10 +238,49 @@ export type ScoringFunction =
   | TagScoringFunction;
 
 /**
+ * Defines values for SimpleDataType.
+ * Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64', 'Edm.Double', 'Edm.Boolean',
+ * 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Collection(Edm.String)',
+ * 'Collection(Edm.Int32)', 'Collection(Edm.Int64)', 'Collection(Edm.Double)',
+ * 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)'
+ * @readonly
+ * @enum {string}
+ */
+export type SimpleDataType =
+  | "Edm.String"
+  | "Edm.Int32"
+  | "Edm.Int64"
+  | "Edm.Double"
+  | "Edm.Boolean"
+  | "Edm.DateTimeOffset"
+  | "Edm.GeographyPoint"
+  | "Collection(Edm.String)"
+  | "Collection(Edm.Int32)"
+  | "Collection(Edm.Int64)"
+  | "Collection(Edm.Double)"
+  | "Collection(Edm.Boolean)"
+  | "Collection(Edm.DateTimeOffset)"
+  | "Collection(Edm.GeographyPoint)";
+
+/**
+ * Defines values for ComplexDataType.
+ * Possible values include: 'Edm.ComplexType', 'Collection(Edm.ComplexType)'
+ * @readonly
+ * @enum {string}
+ */
+export type ComplexDataType = "Edm.ComplexType" | "Collection(Edm.ComplexType)";
+
+/**
  * Represents a field in an index definition, which describes the name, data type, and search
  * behavior of a field.
  */
-export interface Field {
+export type Field = SimpleField | ComplexField;
+
+/**
+ * Represents a field in an index definition, which describes the name, data type, and search
+ * behavior of a field.
+ */
+export interface SimpleField {
   /**
    * The name of the field, which must be unique within the fields collection of the index or
    * parent field.
@@ -250,26 +288,26 @@ export interface Field {
   name: string;
   /**
    * The data type of the field. Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64',
-   * 'Edm.Double', 'Edm.Boolean', 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Edm.ComplexType',
+   * 'Edm.Double', 'Edm.Boolean', 'Edm.DateTimeOffset', 'Edm.GeographyPoint'
    * 'Collection(Edm.String)', 'Collection(Edm.Int32)', 'Collection(Edm.Int64)',
    * 'Collection(Edm.Double)', 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)',
-   * 'Collection(Edm.GeographyPoint)', 'Collection(Edm.ComplexType)'
+   * 'Collection(Edm.GeographyPoint)'
    */
-  type: DataType;
+  type: SimpleDataType;
   /**
    * A value indicating whether the field uniquely identifies documents in the index. Exactly one
    * top-level field in each index must be chosen as the key field and it must be of type
    * Edm.String. Key fields can be used to look up documents directly and update or delete specific
-   * documents. Default is false for simple fields and null for complex fields.
+   * documents. Default is false.
    */
   key?: boolean;
   /**
    * A value indicating whether the field can be returned in a search result. You can enable this
    * option if you want to use a field (for example, margin) as a filter, sorting, or scoring
    * mechanism but do not want the field to be visible to the end user. This property must be false
-   * for key fields, and it must be undefined for complex fields. This property can be changed on
-   * existing fields. Disabling this property does not cause any increase in index storage
-   * requirements. Default is false for simple fields and undefined for complex fields.
+   * for key fields. This property can be changed on existing fields.
+   * Disabling this property does not cause any increase in index storage requirements.
+   * Default is false.
    */
   hidden?: boolean;
   /**
@@ -277,19 +315,19 @@ export interface Field {
    * analysis such as word-breaking during indexing. If you set a searchable field to a value like
    * "sunny day", internally it will be split into the individual tokens "sunny" and "day". This
    * enables full-text searches for these terms. This property must be false for simple
-   * fields of other non-string data types, and it must be null for complex fields. Note:
-   * searchable fields consume extra space in your index since Azure Cognitive Search will store an
+   * fields of other non-string data types.
+   * Note: searchable fields consume extra space in your index since Azure Cognitive Search will store an
    * additional tokenized version of the field value for full-text searches.
-   * Defaults to false for simple fields and null for complex fields.
+   * Defaults to false for simple fields.
    */
   searchable?: boolean;
   /**
-   * A value indicating whether to enable the field to be referenced in $filter queries. filterable
+   * A value indicating whether to enable the field to be referenced in $filter queries. Filterable
    * differs from searchable in how strings are handled. Fields of type Edm.String or
    * Collection(Edm.String) that are filterable do not undergo word-breaking, so comparisons are
    * for exact matches only. For example, if you set such a field f to "sunny day", $filter=f eq
-   * 'sunny' will find no matches, but $filter=f eq 'sunny day' will. This property must be null
-   * for complex fields. Default is false for simple fields and null for complex fields.
+   * 'sunny' will find no matches, but $filter=f eq 'sunny day' will.
+   * Default is false.
    */
   filterable?: boolean;
   /**
@@ -299,39 +337,36 @@ export interface Field {
    * (it has a single value in the scope of the parent document). Simple collection fields cannot
    * be sortable, since they are multi-valued. Simple sub-fields of complex collections are also
    * multi-valued, and therefore cannot be sortable. This is true whether it's an immediate parent
-   * field, or an ancestor field, that's the complex collection. Complex fields cannot be sortable
-   * and the sortable property must be null for such fields. The default for sortable is false for
-   * simple fields and null for complex fields.
+   * field, or an ancestor field, that's the complex collection. The default for sortable is false.
    */
   sortable?: boolean;
   /**
    * A value indicating whether to enable the field to be referenced in facet queries. Typically
    * used in a presentation of search results that includes hit count by category (for example,
-   * search for digital cameras and see hits by brand, by megapixels, by price, and so on). This
-   * property must be null for complex fields. Fields of type Edm.GeographyPoint or
-   * Collection(Edm.GeographyPoint) cannot be facetable. Default is false for all other simple
-   * fields.
+   * search for digital cameras and see hits by brand, by megapixels, by price, and so on).
+   * Fields of type Edm.GeographyPoint or Collection(Edm.GeographyPoint) cannot be facetable.
+   * Default is false for all other simple fields.
    */
   facetable?: boolean;
   /**
    * The name of the language analyzer to use for the field. This option can be used only with
    * searchable fields and it can't be set together with either searchAnalyzer or indexAnalyzer.
-   * Once the analyzer is chosen, it cannot be changed for the field. Must be null for complex
-   * fields. KnownAnalyzerNames is an enum containing known values.
+   * Once the analyzer is chosen, it cannot be changed for the field.
+   * KnownAnalyzerNames is an enum containing known values.
    */
   analyzer?: string;
   /**
    * The name of the analyzer used at search time for the field. This option can be used only with
    * searchable fields. It must be set together with indexAnalyzer and it cannot be set together
-   * with the analyzer option. This analyzer can be updated on an existing field. Must be null for
-   * complex fields. KnownAnalyzerNames is an enum containing known values.
+   * with the analyzer option. This analyzer can be updated on an existing field.
+   * KnownAnalyzerNames is an enum containing known values.
    */
   searchAnalyzer?: string;
   /**
    * The name of the analyzer used at indexing time for the field. This option can be used only
    * with searchable fields. It must be set together with searchAnalyzer and it cannot be set
    * together with the analyzer option. Once the analyzer is chosen, it cannot be changed for the
-   * field. Must be null for complex fields. KnownAnalyzerNames is an enum containing known values.
+   * field. KnownAnalyzerNames is an enum containing known values.
    */
   indexAnalyzer?: string;
   /**
@@ -339,14 +374,34 @@ export interface Field {
    * with searchable fields. Currently only one synonym map per field is supported. Assigning a
    * synonym map to a field ensures that query terms targeting that field are expanded at
    * query-time using the rules in the synonym map. This attribute can be changed on existing
-   * fields. Must be null or an empty collection for complex fields.
+   * fields.
    */
   synonymMaps?: string[];
+}
+
+export function isComplexField(field: Field): field is ComplexField {
+  return field.type === "Edm.ComplexType" || field.type === "Collection(Edm.ComplexType)";
+}
+
+/**
+ * Represents a field in an index definition, which describes the name, data type, and search
+ * behavior of a field.
+ */
+export interface ComplexField {
   /**
-   * A list of sub-fields if this is a field of type Edm.ComplexType or
-   * Collection(Edm.ComplexType). Must be null or empty for simple fields.
+   * The name of the field, which must be unique within the fields collection of the index or
+   * parent field.
    */
-  fields?: Field[];
+  name: string;
+  /**
+   * The data type of the field.
+   * Possible values include: 'Edm.ComplexType','Collection(Edm.ComplexType)'
+   */
+  type: ComplexDataType;
+  /**
+   * A list of sub-fields.
+   */
+  fields: Field[];
 }
 
 /**

@@ -29,7 +29,10 @@ import {
   Tokenizer,
   TokenFilter,
   ScoringProfile,
-  Field
+  Field,
+  isComplexField,
+  ComplexField,
+  SimpleField
 } from "./serviceModels";
 import {
   AnalyzeResult,
@@ -441,13 +444,10 @@ export class SearchServiceClient {
 
   private convertFieldsToGenerated(fields: Field[]): GeneratedField[] {
     return fields.map<GeneratedField>((field) => {
-      const retrievable = typeof field.hidden === "boolean" ? !field.hidden : field.hidden;
-      if (field.type !== "Edm.ComplexType" && field.type !== "Collection(Edm.ComplexType)") {
-        return {
-          ...field,
-          retrievable
-        };
+      if (isComplexField(field)) {
+        return field;
       } else {
+        const retrievable = typeof field.hidden === "boolean" ? !field.hidden : field.hidden;
         return {
           ...field,
           retrievable,
@@ -463,12 +463,18 @@ export class SearchServiceClient {
 
   private convertFieldsToPublic(fields: GeneratedField[]): Field[] {
     return fields.map<Field>((field) => {
-      const hidden =
-        typeof field.retrievable === "boolean" ? !field.retrievable : field.retrievable;
-      return {
-        ...field,
-        hidden
-      };
+      let result: Field;
+      if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {
+        result = field as ComplexField;
+      } else {
+        const hidden =
+          typeof field.retrievable === "boolean" ? !field.retrievable : field.retrievable;
+        result = {
+          ...field,
+          hidden
+        } as SimpleField;
+      }
+      return result;
     });
   }
 }
