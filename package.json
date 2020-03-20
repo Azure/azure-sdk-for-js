@@ -28,12 +28,12 @@
     "url": "http://github.com/Azure/azure-sdk-for-js/issues"
   },
   "scripts": {
-    "build": "gulp pack --logging-level=trace",
+    "build": "gulp pack --logging-level=info",
     "check:everything": "ts-node ./.scripts/checkEverything.ts",
     "latest": "ts-node ./.scripts/latest.ts",
     "local": "ts-node ./.scripts/local.ts",
     "preinstall": "node common/scripts/rush-welcome.js",
-    "test": "gulp test"
+    "test": "gulp test --logging-level=info"
   },
   "devDependencies": {
     "@octokit/rest": "^16.26.0",
