@@ -3,13 +3,7 @@
 
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
-import {
-  ServiceBusClient,
-  SessionReceiver,
-  Receiver,
-  SubscriptionRuleManagement,
-  GetSessionReceiverOptions
-} from "../../src";
+import { ServiceBusClient, SessionReceiver, Receiver, GetSessionReceiverOptions } from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
 import { getEnvVars, EnvVarNames } from "./envVarUtils";
@@ -284,18 +278,6 @@ export class ServiceBusTestHelpers {
     );
   }
 
-  getSubscriptionPeekLockReceiver(
-    entityNames: ReturnType<typeof getEntityNames>
-  ): Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement {
-    if (entityNames.topic == null || entityNames.subscription == null) {
-      throw new TypeError("Not subscription entity - can't create a subscription receiver for it");
-    }
-
-    return this.addToCleanup(
-      this._serviceBusClient.getReceiver(entityNames.topic!, entityNames.subscription!, "peekLock")
-    );
-  }
-
   getSessionPeekLockReceiver(
     entityNames: ReturnType<typeof getEntityNames>,
     getSessionReceiverOptions?: GetSessionReceiverOptions
@@ -366,6 +348,20 @@ export class ServiceBusTestHelpers {
     }
   }
 
+  getDeadLetterReceiver(
+    entityNames: ReturnType<typeof getEntityNames>
+  ): Receiver<ReceivedMessageWithLock> {
+    return this.addToCleanup(
+      entityNames.queue
+        ? this._serviceBusClient.getDeadLetterReceiver(entityNames.queue, "peekLock")
+        : this._serviceBusClient.getDeadLetterReceiver(
+            entityNames.topic!,
+            entityNames.subscription!,
+            "peekLock"
+          )
+    );
+  }
+
   private _closeables: { close(): Promise<void> }[] = [];
   private _testClientEntities: Map<TestClientType, ReturnType<typeof getEntityNames>> = new Map();
 }
@@ -376,26 +372,32 @@ async function purgeForTestClientType(
 ): Promise<void> {
   let receiver: Receiver<ReceivedMessage> | SessionReceiver<ReceivedMessage> | undefined;
   let entityPaths = getEntityNames(testClientType);
+  let deadLetterReceiver: Receiver<ReceivedMessage>;
 
   if (entityPaths.queue) {
     receiver = serviceBusClient.getReceiver(entityPaths.queue, "receiveAndDelete");
+    deadLetterReceiver = serviceBusClient.getDeadLetterReceiver(
+      entityPaths.queue,
+      "receiveAndDelete"
+    );
   } else if (entityPaths.topic && entityPaths.subscription) {
     receiver = serviceBusClient.getReceiver(
       entityPaths.topic,
       entityPaths.subscription,
       "receiveAndDelete"
     );
-  }
-
-  if (receiver == null) {
+    deadLetterReceiver = serviceBusClient.getDeadLetterReceiver(
+      entityPaths.topic,
+      entityPaths.subscription,
+      "receiveAndDelete"
+    );
+  } else {
     throw new Error(`Unsupported TestClientType for purge: ${testClientType}`);
   }
 
   await Promise.all([
     drainReceiveAndDeleteReceiver(receiver),
-    drainReceiveAndDeleteReceiver(
-      serviceBusClient.getReceiver(receiver.getDeadLetterPath(), "receiveAndDelete")
-    )
+    drainReceiveAndDeleteReceiver(deadLetterReceiver)
   ]);
 }
 

@@ -12,20 +12,26 @@ import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
-const packageName = "@azure/arm-policyinsights";
-const packageVersion = "3.0.0";
+const packageName = "@azure/arm-support";
+const packageVersion = "1.0.0";
 
-export class PolicyInsightsClientContext extends msRestAzure.AzureServiceClient {
+export class MicrosoftSupportContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
+  subscriptionId: string;
+  apiVersion?: string;
 
   /**
-   * Initializes a new instance of the PolicyInsightsClient class.
+   * Initializes a new instance of the MicrosoftSupport class.
    * @param credentials Credentials needed for the client to connect to Azure.
+   * @param subscriptionId Azure subscription Id.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.PolicyInsightsClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MicrosoftSupportOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
+    }
+    if (subscriptionId == undefined) {
+      throw new Error('\'subscriptionId\' cannot be null.');
     }
 
     if (!options) {
@@ -38,11 +44,13 @@ export class PolicyInsightsClientContext extends msRestAzure.AzureServiceClient 
 
     super(credentials, options);
 
+    this.apiVersion = '2020-04-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
+    this.subscriptionId = subscriptionId;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;

@@ -9,7 +9,7 @@ import {
   MessageHandlerOptions
 } from "../models";
 import { OperationOptions } from "@azure/core-auth";
-import { RuleDescription, CorrelationFilter, ReceivedMessage } from "..";
+import { ReceivedMessage } from "..";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
   throwErrorIfConnectionClosed,
@@ -24,13 +24,7 @@ import * as log from "../log";
 import { OnMessage, OnError, ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
-import {
-  getSubscriptionRules,
-  removeSubscriptionRule,
-  addSubscriptionRule,
-  assertValidMessageHandlers,
-  getMessageIterator
-} from "./shared";
+import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
@@ -94,12 +88,6 @@ export interface Receiver<ReceivedMessageT> {
    * @memberof SessionReceiver
    */
   isReceivingMessages(): boolean;
-  /**
-   * Returns the corresponding dead letter queue path for the client entity - meant for both queue and subscription.
-   * @returns {string}
-   * @memberof SessionReceiver
-   */
-  getDeadLetterPath(): string;
 
   // TODO: not sure these need to be on the interface
 
@@ -150,61 +138,11 @@ export interface Receiver<ReceivedMessageT> {
 }
 
 /**
- * Methods to manage rules for subscriptions. More information about subscription rules
- * can be found here: https://docs.microsoft.com/en-us/azure/service-bus-messaging/topic-filters
- */
-export interface SubscriptionRuleManagement {
-  /**
-   * Gets all rules associated with the subscription
-   * @throws Error if the SubscriptionClient or the underlying connection is closed.
-   * @throws MessagingError if the service returns an error while retrieving rules.
-   */
-  getRules(): Promise<RuleDescription[]>;
-
-  /**
-   * Removes the rule on the subscription identified by the given rule name.
-   *
-   * **Caution**: If all rules on a subscription are removed, then the subscription will not receive
-   * any more messages.
-   * @param ruleName
-   * @throws Error if the SubscriptionClient or the underlying connection is closed.
-   * @throws MessagingError if the service returns an error while removing rules.
-   */
-
-  removeRule(ruleName: string): Promise<void>;
-  /**
-   * Adds a rule on the subscription as defined by the given rule name, filter and action.
-   *
-   * **Note**: Remove the default true filter on the subscription before adding a rule.
-   * Otherwise, the added rule will have no affect as the true filter will always result in
-   * the subscription receiving all messages.
-   * @param ruleName Name of the rule
-   * @param filter A Boolean, SQL expression or a Correlation filter. For SQL Filter syntax, see
-   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-filter SQLFilter syntax}.
-   * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression. For SQL Rule Action syntax,
-   * see {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-sql-rule-action SQLRuleAction syntax}.
-   * @throws Error if the SubscriptionClient or the underlying connection is closed.
-   * @throws MessagingError if the service returns an error while adding rules.
-   */
-  addRule(
-    ruleName: string,
-    filter: boolean | string | CorrelationFilter,
-    sqlRuleActionExpression?: string
-  ): Promise<void>;
-
-  /**
-   * @readonly
-   * @property The name of the default rule on the subscription.
-   */
-  readonly defaultRuleName: string;
-}
-
-/**
  * @internal
  * @ignore
  */
 export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
-  implements Receiver<ReceivedMessageT>, SubscriptionRuleManagement {
+  implements Receiver<ReceivedMessageT> {
   /**
    * @property Describes the amqp connection context for the QueueClient.
    */
@@ -259,10 +197,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
     }
-  }
-
-  getDeadLetterPath(): string {
-    return `${this.entityPath}/$DeadLetterQueue`;
   }
 
   /**
@@ -491,32 +425,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       options
     );
   }
-
-  // #region topic-filters
-
-  getRules(): Promise<RuleDescription[]> {
-    return getSubscriptionRules(this._context);
-  }
-
-  removeRule(ruleName: string): Promise<void> {
-    return removeSubscriptionRule(this._context, ruleName);
-  }
-
-  addRule(
-    ruleName: string,
-    filter: boolean | string | CorrelationFilter,
-    sqlRuleActionExpression?: string
-  ): Promise<void> {
-    return addSubscriptionRule(this._context, ruleName, filter, sqlRuleActionExpression);
-  }
-
-  /**
-   * @readonly
-   * @property The name of the default rule on the subscription.
-   */
-  readonly defaultRuleName: string = "$Default";
-
-  // #endregion
 
   /**
    * Closes the underlying AMQP receiver link.

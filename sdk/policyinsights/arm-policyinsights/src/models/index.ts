@@ -647,6 +647,21 @@ export interface PolicyState {
    */
   policyDefinitionGroupNames?: string[];
   /**
+   * Evaluated policy definition version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policyDefinitionVersion?: string;
+  /**
+   * Evaluated policy set definition version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policySetDefinitionVersion?: string;
+  /**
+   * Evaluated policy assignment version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policyAssignmentVersion?: string;
+  /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
