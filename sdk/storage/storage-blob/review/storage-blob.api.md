@@ -1482,6 +1482,7 @@ export interface ContainerGetPropertiesHeaders {
     };
     requestId?: string;
     version?: string;
+    versionId?: string;
 }
 
 // @public

@@ -92,11 +92,13 @@ describe("Blob versioning", () => {
       versionId: uploadRes.versionId
     });
     assert.deepStrictEqual(await bodyToString(downloadRes, content.length), content);
+    assert.deepStrictEqual(downloadRes.versionId, uploadRes.versionId);
 
     const downloadRes2 = await blobClient.download(undefined, undefined, {
       versionId: uploadRes2.versionId
     });
     assert.deepStrictEqual(await bodyToString(downloadRes2), "");
+    assert.deepStrictEqual(downloadRes2.versionId, uploadRes2.versionId);
 
     if (isNode) {
       const downloadToBufferRes = await blobClient.downloadToBuffer(undefined, undefined, {

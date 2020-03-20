@@ -6689,6 +6689,12 @@ export interface BlobQueryHeaders {
    */
   version?: string;
   /**
+   * A DateTime value returned by the service that uniquely identifies the blob. The value of this
+   * header indicates the blob version, and may be used in subsequent requests to access this
+   * version of the blob.
+   */
+  versionId?: string;
+  /**
    * Indicates that the service supports requests for partial blob content.
    */
   acceptRanges?: string;
