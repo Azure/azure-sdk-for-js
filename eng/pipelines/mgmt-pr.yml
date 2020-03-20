@@ -50,7 +50,7 @@ jobs:
         displayName: 'npm run test'
         inputs:
           command: custom
-          customCommand: 'run build && mocha test/*/*/*'
+          customCommand: 'run test'
 
   - job: 'Check_everything'
     displayName: 'Check .only, .skip and version bump'
