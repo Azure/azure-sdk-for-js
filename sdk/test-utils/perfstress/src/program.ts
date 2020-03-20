@@ -115,16 +115,14 @@ export class PerfStressProgram {
     };
 
     console.log(`=== ${title} ===`);
-    console.log(`Current completed operation\t\tTotal time elapsed in milliseconds`);
-
+    console.log(`Total completed\t\tCompleted since last log\t\tTotal time elapsed in milliseconds`);
     let lastTotalCompleted = 0;
     let lastElapsed = 0;
-
     const logStats = () => {
       const totalElapsed = this.getTotalElapsedMilliseconds();
       if (totalElapsed - lastElapsed >= this.options["milliseconds-to-log"].value!) {
         let totalCompleted = this.completedOperations.length - lastTotalCompleted;
-        console.log(`${totalCompleted}\t\t\t\t\t${this.getTotalElapsedMilliseconds()}`);
+        console.log(`${this.completedOperations.length}\t\t\t${totalCompleted}\t\t\t\t\t${this.getTotalElapsedMilliseconds()}`);
         lastTotalCompleted = totalCompleted;
         lastElapsed = totalElapsed;
       }
