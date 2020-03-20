@@ -48,6 +48,7 @@ export class AccountSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    deleteVersion: boolean;
     list: boolean;
     static parse(permissions: string): AccountSASPermissions;
     process: boolean;
@@ -379,6 +380,7 @@ export class BlobClient extends StorageClient {
     syncCopyFromURL(copySource: string, options?: BlobSyncCopyFromURLOptions): Promise<BlobCopyFromURLResponse>;
     undelete(options?: BlobUndeleteOptions): Promise<BlobUndeleteResponse>;
     withSnapshot(snapshot: string): BlobClient;
+    withVersionId(versionId: string): BlobClient;
 }
 
 // @public
@@ -452,6 +454,8 @@ export interface BlobDeleteOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     deleteSnapshots?: DeleteSnapshotsOptionType;
+    snapshot?: string;
+    versionId?: string;
 }
 
 // @public
@@ -535,6 +539,7 @@ export interface BlobDownloadOptions extends CommonOptions {
     rangeGetContentCrc64?: boolean;
     rangeGetContentMD5?: boolean;
     snapshot?: string;
+    versionId?: string;
 }
 
 // @public
@@ -552,14 +557,20 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
     blockSize?: number;
     concurrency?: number;
     conditions?: BlobRequestConditions;
+    customerProvidedKey?: CpkInfo;
     maxRetryRequestsPerBlock?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
+    snapshot?: string;
+    versionId?: string;
 }
 
 // @public
 export interface BlobExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
+    snapshot?: string;
+    versionId?: string;
 }
 
 // @public
@@ -629,6 +640,8 @@ export interface BlobGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
+    snapshot?: string;
+    versionId?: string;
 }
 
 // @public
@@ -826,6 +839,7 @@ export class BlobSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    deleteVersion: boolean;
     static parse(permissions: string): BlobSASPermissions;
     read: boolean;
     toString(): string;
@@ -844,11 +858,12 @@ export interface BlobSASSignatureValues {
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
-    permissions?: BlobSASPermissions;
+    permissions?: BlobSASPermissions | ContainerSASPermissions;
     protocol?: SASProtocol;
     snapshotTime?: string;
     startsOn?: Date;
     version?: string;
+    versionId?: string;
 }
 
 // @public
@@ -1546,6 +1561,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     includeMetadata?: boolean;
     includeSnapshots?: boolean;
     includeUncommitedBlobs?: boolean;
+    includeVersions?: boolean;
     prefix?: string;
 }
 
@@ -1790,7 +1806,7 @@ export interface ListBlobsHierarchySegmentResponse {
     maxPageSize?: number;
     // (undocumented)
     prefix?: string;
-    // (undocumented)
+    // (undocumented)`
     segment: BlobHierarchyListSegment;
     // (undocumented)
     serviceEndpoint: string;

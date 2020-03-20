@@ -802,7 +802,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it.only("generateAccountSASQueryParameters should work for blob version delete", async function () {
+  it("generateAccountSASQueryParameters should work for blob version delete", async function () {
     if (isBlobVersioningDisabled()) { this.skip(); }
 
     // create versions
@@ -846,7 +846,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClientwithSAS.delete();
   });
 
-  it.only("generateBlobSASQueryParameters should work for blob version delete", async function () {
+  it("generateBlobSASQueryParameters should work for blob version delete", async function () {
     if (isBlobVersioningDisabled()) { this.skip(); }
 
     // create versions

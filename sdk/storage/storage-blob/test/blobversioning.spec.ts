@@ -124,6 +124,27 @@ describe("Blob versioning", () => {
       versionId: uploadRes.versionId,
     })
     assert.equal(getRes.contentLength, content.length);
+    assert.equal(getRes.versionId, uploadRes.versionId);
+    assert.ok(!getRes.isCurrentVersion);
+
+    const getRes2 = await blobClient.getProperties();
+    assert.equal(getRes2.contentLength, 0);
+    assert.equal(getRes2.versionId, uploadRes2.versionId);
+    assert.ok(getRes2.isCurrentVersion);
+
+    // specify both snapshot and versionId
+    const snapshotRes = await blobClient.createSnapshot();
+    let exceptionCaught = false;
+    try {
+      await blobClient.getProperties({
+        versionId: uploadRes.versionId,
+        snapshot: snapshotRes.snapshot
+      });
+    } catch (err) {
+      assert.equal(err.details.errorCode, "MutuallyExclusiveQueryParameters");
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
 
     const existRes = await blobClient.exists({
       versionId: uploadRes.versionId,
