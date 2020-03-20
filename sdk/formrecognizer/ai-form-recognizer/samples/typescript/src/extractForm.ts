@@ -40,7 +40,7 @@ async function main() {
 
   console.log(response.status);
   console.log("### Page results:")
-  for (const page of response.analyzeResult?.extractedPages || []) {
+  for (const page of response.extractedPages || []) {
     console.log(`Page number: ${page.pageNumber}`);
     console.log(`cluster Id: ${page.formTypeId}`);
     console.log("key-value pairs");
@@ -57,8 +57,8 @@ async function main() {
     }
   }
 
-  console.log(response.analyzeResult?.rawExtractedPages);
-  console.log(response.analyzeResult?.errors);
+  console.log(response.rawExtractedPages);
+  console.log(response.errors);
 }
 
 main().catch((err) => {

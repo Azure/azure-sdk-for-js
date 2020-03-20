@@ -34,13 +34,13 @@ async function main() {
 
   console.log(response.status);
   console.log("### Document results:")
-  for (const document of response.analyzeResult?.extractedForms || []) {
+  for (const document of response.extractedForms || []) {
     console.log(`${document.docType}, pages ${document.pageRange}`);
     console.log("Fields");
   }
 
   console.log("### Page results:")
-  for (const page of response.analyzeResult?.extractedPages || []) {
+  for (const page of response.extractedPages || []) {
     console.log(`Page number: ${page.pageNumber}`);
     console.log(`cluster Id: ${page.formTypeId}`);
     console.log("key-value pairs");
@@ -58,9 +58,9 @@ async function main() {
   }
 
   console.log("Raw extracted pages:");
-  console.log(response.analyzeResult?.rawExtractedPages);
+  console.log(response.rawExtractedPages);
   console.log("Errors:");
-  console.log(response.analyzeResult?.errors);
+  console.log(response.errors);
 }
 
 main().catch((err) => {

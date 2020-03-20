@@ -178,14 +178,14 @@ export function toCustomFormResultResponse(
         createdOn: original.createdOn,
         lastUpdatedOn: original.createdOn,
         _response: original._response,
-        analyzeResult: !!original.analyzeResult
+        ...(original.analyzeResult
           ? {
               version: original.analyzeResult.version,
               rawExtractedPages,
               extractedPages,
-              errors: original.analyzeResult?.errors
+              errors: original.analyzeResult.errors
             }
-          : undefined
+          : undefined)
       }
     : {
         status: original.status,
@@ -285,7 +285,7 @@ export function toLabeledFormResultResponse(
       createdOn: original.createdOn,
       lastUpdatedOn: original.createdOn,
       _response: original._response,
-      analyzeResult: !!original.analyzeResult
+      ...(original.analyzeResult
         ? {
             version: original.analyzeResult.version,
             extractedForms: original.analyzeResult.documentResults?.map((d) =>
@@ -293,9 +293,9 @@ export function toLabeledFormResultResponse(
             ),
             rawExtractedPages,
             extractedPages,
-            errors: original.analyzeResult?.errors
+            errors: original.analyzeResult.errors
           }
-        : undefined
+        : undefined)
     };
   } else {
     return {
@@ -327,7 +327,7 @@ export function toAnalyzeLayoutResultResponse(
       status: original.status,
       createdOn: original.createdOn,
       lastUpdatedOn: original.lastUpdatedOn,
-      analyzeResult: toAnalyzeLayoutResult(original.analyzeResult),
+      ...toAnalyzeLayoutResult(original.analyzeResult),
       _response: original._response
     };
   } else {
@@ -377,13 +377,10 @@ export function toReceiptResultResponse(
       createdOn: result.createdOn,
       lastUpdatedOn: result.lastUpdatedOn,
       _response: result._response,
-      analyzeResult: {
-        version: result.analyzeResult!.version,
-        rawExtractedPages: readResults,
-        extractedReceipts: result.analyzeResult!.documentResults!.map((d) =>
-          toReceiptResult(d, readResults)
-        )
-      }
+      version: result.analyzeResult!.version,
+      rawExtractedPages: readResults,
+      extractedReceipts: result.analyzeResult!.documentResults!.map((d) =>
+        toReceiptResult(d, readResults))
     };
   } else {
     return {

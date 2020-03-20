@@ -348,9 +348,7 @@ export interface ExtractedWord {
 }
 
 // @public (undocumented)
-export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
-    analyzeResult?: ExtractFormResult;
-};
+export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<ExtractFormResult>;
 
 // @public (undocumented)
 export type ExtractFormResult = Omit<AnalyzeResult, "extractedForms">;
@@ -369,16 +367,11 @@ export type ExtractFormsOptions = FormRecognizerOperationOptions & {
 };
 
 // @public (undocumented)
-export interface ExtractLayoutOperationResult {
-    // (undocumented)
-    analyzeResult?: ExtractedLayout;
-    // (undocumented)
-    createdOn: Date;
-    // (undocumented)
-    lastUpdatedOn: Date;
-    // (undocumented)
+export type ExtractLayoutOperationResult = {
     status: OperationStatus;
-}
+    createdOn: Date;
+    lastUpdatedOn: Date;
+} & Partial<ExtractedLayout>;
 
 // @public
 export type ExtractLayoutOptions = FormRecognizerOperationOptions;
@@ -405,16 +398,11 @@ export type ExtractPollerClient<T> = {
 };
 
 // @public (undocumented)
-export interface ExtractReceiptOperationResult {
-    // (undocumented)
-    analyzeResult?: ExtractReceiptResult;
-    // (undocumented)
-    createdOn: Date;
-    // (undocumented)
-    lastUpdatedOn: Date;
-    // (undocumented)
+export type ExtractReceiptOperationResult = {
     status: OperationStatus;
-}
+    createdOn: Date;
+    lastUpdatedOn: Date;
+} & Partial<ExtractReceiptResult>;
 
 // @public
 export interface ExtractReceiptResult {
@@ -582,9 +570,7 @@ export type LabeledFormModelResponse = LabeledFormModel & {
 };
 
 // @public (undocumented)
-export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
-    analyzeResult?: LabeledFormResult;
-};
+export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<LabeledFormResult>;
 
 // @public (undocumented)
 export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>;

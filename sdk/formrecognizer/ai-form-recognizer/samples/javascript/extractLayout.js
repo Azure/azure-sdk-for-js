@@ -37,8 +37,8 @@ async function main() {
   }
 
   console.log(response.status);
-  console.log(response.analyzeResult.rawExtractedPages);
-  console.log(response.analyzeResult.extractedPages);
+  console.log(response.rawExtractedPages);
+  console.log(response.extractedPages);
 }
 
 main().catch((err) => {

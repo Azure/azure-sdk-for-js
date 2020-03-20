@@ -418,12 +418,11 @@ export interface ExtractReceiptResult {
   extractedReceipts?: ExtractedReceipt[];
 }
 
-export interface ExtractReceiptOperationResult {
+export type ExtractReceiptOperationResult = {
   status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
   createdOn: Date;
   lastUpdatedOn: Date;
-  analyzeResult?: ExtractReceiptResult;
-}
+} & Partial<ExtractReceiptResult>
 
 /**
  * Contains response data for the getAnalyzeReceiptResult operation.
@@ -457,12 +456,11 @@ export interface ExtractedLayoutPage {
   tables?: DataTable[];
 }
 
-export interface ExtractLayoutOperationResult {
+export type ExtractLayoutOperationResult = {
   status: OperationStatus;
   createdOn: Date;
   lastUpdatedOn: Date;
-  analyzeResult?: ExtractedLayout;
-}
+} & Partial<ExtractedLayout>
 
 /**
  * Contains response data for the getAnalyzeLayoutResult operation.
@@ -486,15 +484,11 @@ export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
 
 export type ExtractFormResult = Omit<AnalyzeResult, "extractedForms">;
 
-export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
-  analyzeResult?: ExtractFormResult;
-};
+export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<ExtractFormResult>
 
 export type LabeledFormResult = AnalyzeResult;
 
-export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
-  analyzeResult?: LabeledFormResult;
-};
+export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<LabeledFormResult>
 
 export type ExtractFormResultResponse = ExtractFormOperationResult & {
   /**
