@@ -948,7 +948,11 @@ describe("Streaming", () => {
 
     async function testConcurrency(maxConcurrentCalls?: number): Promise<void> {
       const testMessages = [TestMessage.getSample(), TestMessage.getSample()];
-      await senderClient.sendBatch(testMessages);
+      const batchMessageToSend = await senderClient.createBatch();
+      testMessages.forEach((message) => {
+        batchMessageToSend.tryAdd(message);
+      });
+      await senderClient.sendBatch(batchMessageToSend);
 
       const settledMsgs: ReceivedMessage[] = [];
       const receivedMsgs: ReceivedMessage[] = [];

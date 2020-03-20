@@ -795,7 +795,11 @@ describe("batchReceiver", () => {
     // See https://github.com/Azure/azure-service-bus-node/issues/31
     async function testSequentialReceiveBatchCalls(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? messageWithSessions : messages;
-      await senderClient.sendBatch(testMessages);
+      const batchMessageToSend = await senderClient.createBatch();
+      for (const message of testMessages) {
+        batchMessageToSend.tryAdd(message);
+      }
+      await senderClient.sendBatch(batchMessageToSend);
       const msgs1 = await receiverClient.receiveBatch(1);
       const msgs2 = await receiverClient.receiveBatch(1);
 

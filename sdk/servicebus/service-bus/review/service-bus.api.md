@@ -30,6 +30,12 @@ export interface CorrelationFilter {
     userProperties?: any;
 }
 
+// @public
+export interface CreateBatchOptions extends OperationOptions {
+    maxSizeInBytes?: number;
+    retryOptions?: RetryOptions;
+}
+
 export { DataTransformer }
 
 // @public
@@ -136,11 +142,12 @@ export interface Sender {
     cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
     cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
     close(): Promise<void>;
+    createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
     isClosed: boolean;
     scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage): Promise<Long>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[]): Promise<Long[]>;
     send(message: ServiceBusMessage): Promise<void>;
-    sendBatch(messages: ServiceBusMessage[]): Promise<void>;
+    sendBatch(messageBatch: ServiceBusMessageBatch): Promise<void>;
 }
 
 // @public
@@ -183,6 +190,14 @@ export interface ServiceBusMessage {
         [key: string]: any;
     };
     viaPartitionKey?: string;
+}
+
+// @public
+export interface ServiceBusMessageBatch {
+    readonly count: number;
+    readonly maxSizeInBytes: number;
+    readonly sizeInBytes: number;
+    tryAdd(message: ServiceBusMessage): boolean;
 }
 
 // @public
