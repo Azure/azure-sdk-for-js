@@ -82,19 +82,22 @@ export interface HttpHeadersLike {
   toJson(): RawHttpHeaders;
 }
 
-export function isHttpHeadersLike(object?: object): object is HttpHeadersLike {
-  if (!object) {
+export function isHttpHeadersLike(object?: any): object is HttpHeadersLike {
+  if (!object || typeof object !== "object") {
     return false;
   }
 
-  const anyObj: any = object;
   if (
-    typeof anyObj.rawHeaders === "function" &&
-    typeof anyObj.clone === "function" &&
-    typeof anyObj.get === "function" &&
-    typeof anyObj.set === "function" &&
-    typeof anyObj.contains === "function" &&
-    typeof anyObj.remove === "function"
+    typeof object.rawHeaders === "function" &&
+    typeof object.clone === "function" &&
+    typeof object.get === "function" &&
+    typeof object.set === "function" &&
+    typeof object.contains === "function" &&
+    typeof object.remove === "function" &&
+    typeof object.headersArray === "function" &&
+    typeof object.headerValues === "function" &&
+    typeof object.headerNames === "function" &&
+    typeof object.toJson === "function"
   ) {
     return true;
   }

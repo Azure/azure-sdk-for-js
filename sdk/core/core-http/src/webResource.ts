@@ -138,15 +138,18 @@ export interface WebResourceLike {
   clone(): WebResourceLike;
 }
 
-export function isWebResourceLike(object: object): object is WebResourceLike {
-  const anyObj: any = object;
+export function isWebResourceLike(object: any): object is WebResourceLike {
+  if (typeof object !== "object") {
+    return false;
+  }
   if (
-    typeof anyObj.url === "string" &&
-    typeof anyObj.method === "string" &&
-    typeof anyObj.headers === "object" &&
-    typeof anyObj.validateRequestProperties === "function" &&
-    typeof anyObj.prepare === "function" &&
-    typeof anyObj.clone === "function"
+    typeof object.url === "string" &&
+    typeof object.method === "string" &&
+    typeof object.headers === "object" &&
+    isHttpHeadersLike(object.headers) &&
+    typeof object.validateRequestProperties === "function" &&
+    typeof object.prepare === "function" &&
+    typeof object.clone === "function"
   ) {
     return true;
   }
