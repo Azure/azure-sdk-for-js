@@ -6,7 +6,7 @@ import path from "path";
 
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
-import { leafCommand } from "../../util/commandBuilder";
+import { leafCommand } from "../../framework/command";
 
 const log = createPrinter("run-samples");
 

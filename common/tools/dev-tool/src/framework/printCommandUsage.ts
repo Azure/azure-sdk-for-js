@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { CommandInfo, CommandLoader } from "./commandModule";
-
-const hasKey = (o: any, k: string) => Object.prototype.hasOwnProperty.call(o, k);
+import { CommandLoader } from "./commandModule";
+import { CommandInfo, CommandOptions } from "./commandInfo";
 
 /**
  * The stack of subcommands executed so far
@@ -20,10 +19,10 @@ export const commandStack: string[] = [];
  * @param println optionally override the default printer
  */
 export async function printCommandUsage(
-  info: CommandInfo,
+  info: CommandInfo<CommandOptions>,
   subCommands?: CommandLoader,
   println: (...values: string[]) => void = console.log
-) {
+): Promise<void> {
   println(`${info.name} - ${info.description}\n`);
   println(
     `Usage: ${commandStack.join(" ")} [OPTIONS] ${
@@ -35,15 +34,12 @@ export async function printCommandUsage(
   println("Options:");
   println("  --help\t<boolean> display this help message");
   if (info.options) {
-    for (const k in info.options) {
-      if (hasKey(info.options, k)) {
-        const shortName =
-          info.options[k].shortName !== undefined ? `-${info.options[k].shortName},` : "";
-        const valueType = info.options[k].kind !== "boolean" ? "<string>" : "<boolean>";
-        const acceptsMulti =
-          info.options[k].kind === "multistring" ? " (can be set multiple times)" : "";
-        println(`  ${shortName}--${k}\t${valueType} ${info.options[k].description}${acceptsMulti}`);
-      }
+    for (const [k, option] of Object.entries(info.options)) {
+      const shortName = option.shortName !== undefined ? `-${option.shortName},` : "";
+      const valueType = option.kind !== "boolean" ? "<string>" : "<boolean>";
+      const acceptsMulti =
+        option.kind === "string" && option.allowMultiple ? " (can be set multiple times)" : "";
+      println(`  ${shortName}--${k}\t${valueType} ${option.description}${acceptsMulti}`);
     }
   }
 
@@ -55,21 +51,13 @@ export async function printCommandUsage(
     // Compute the number of tabs needed to separate commands from
     // docstrings assuming a default command-line tabstop of 8
     const tabs = Math.ceil(
-      (Math.max(
-        ...Object.keys(subCommands)
-          .filter((key) => hasKey(subCommands, key))
-          .map((key) => key.length + 2)
-      ) +
-        1) /
-        8
+      (Math.max(...Object.keys(subCommands).map((key) => key.length + 2)) + 1) / 8
     );
 
-    for (const command in subCommands) {
-      if (hasKey(subCommands, command)) {
-        const module = await subCommands[command]();
-        const indent = "\t".repeat(tabs - Math.floor((command.length + 2) / 8));
-        println(`  ${command}${indent}${module.commandInfo.description}`);
-      }
+    for (const [command, load] of Object.entries(subCommands)) {
+      const module = await load();
+      const indent = "\t".repeat(tabs - Math.floor((command.length + 2) / 8));
+      println(`  ${command}${indent}${module.commandInfo.description}`);
     }
   }
 

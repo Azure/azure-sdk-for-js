@@ -6,7 +6,7 @@ import path from "path";
 
 import { resolveProject } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
-import { leafCommand } from "../../util/commandBuilder";
+import { leafCommand } from "../../framework/command";
 
 const log = createPrinter("dev-samples");
 

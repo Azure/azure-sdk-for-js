@@ -8,6 +8,9 @@ import { createPrinter } from "./printer";
 
 const { debug } = createPrinter("resolve-project");
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type PackageJson = any;
+
 /**
  * Information about an Azure SDK for JS package
  */
@@ -27,7 +30,7 @@ export interface ProjectInfo {
   /**
    * The package info object (result of reading/parsing package.json)
    */
-  packageJson: any;
+  packageJson: PackageJson;
 }
 
 async function isAzureSDKPackage(fileName: string): Promise<boolean> {
@@ -40,7 +43,7 @@ async function isAzureSDKPackage(fileName: string): Promise<boolean> {
   }
 }
 
-async function findAzSDKPackageJson(directory: string): Promise<[string, any]> {
+async function findAzSDKPackageJson(directory: string): Promise<[string, PackageJson]> {
   const files = await fs.readdir(directory);
 
   if (files.includes("rush.json")) {
@@ -58,7 +61,13 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, any]> {
     }
   }
 
-  return findAzSDKPackageJson(path.join(directory, ".."));
+  const nextPath = path.resolve(path.join(directory, ".."));
+
+  if (nextPath === directory) {
+    throw new Error("Reached filesystem root, but no matching Azure SDK package was found.");
+  }
+
+  return findAzSDKPackageJson(nextPath);
 }
 
 /**

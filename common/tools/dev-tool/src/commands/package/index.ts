@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { subCommand } from "../../util/commandBuilder";
+import { subCommand } from "../../framework/command";
 
 export const commandInfo = {
   name: "package",

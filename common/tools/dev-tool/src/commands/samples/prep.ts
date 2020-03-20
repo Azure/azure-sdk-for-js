@@ -7,7 +7,7 @@ import path from "path";
 import { createPrinter } from "../../util/printer";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { resolveProject } from "../../util/resolveProject";
-import { leafCommand } from "../../util/commandBuilder";
+import { leafCommand } from "../../framework/command";
 
 const log = createPrinter("prep-samples");
 

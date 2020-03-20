@@ -6,8 +6,8 @@ import chalk from "chalk";
 import { baseCommands, baseCommandInfo } from ".";
 import { resolveProject } from "../util/resolveProject";
 import { createPrinter } from "../util/printer";
-import { leafCommand } from "../util/commandBuilder";
-import { printCommandUsage } from "../util/printCommandUsage";
+import { leafCommand } from "../framework/command";
+import { printCommandUsage } from "../framework/printCommandUsage";
 
 const log = createPrinter("help");
 

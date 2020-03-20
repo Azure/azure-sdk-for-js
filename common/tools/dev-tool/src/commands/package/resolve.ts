@@ -5,18 +5,20 @@ import path from "path";
 
 import { resolveProject } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
-import { leafCommand } from "../../util/commandBuilder";
+import { leafCommand } from "../../framework/command";
+import { describe } from "../../framework/command";
 
 const log = createPrinter("resolve-package");
 
-export const commandInfo = {
-  name: "resolve",
-  description: "display information about the project that owns a directory",
-  options: {
+export const commandInfo = describe(
+  "resolve",
+  "display information about the project that owns a directory",
+  {
     directory: {
       shortName: "d",
-      kind: "multistring",
-      description: "base directory for resolution (uses CWD if unset)"
+      kind: "string",
+      description: "base directory for resolution (uses CWD if unset)",
+      allowMultiple: true
     },
     quiet: {
       shortName: "q",
@@ -25,10 +27,10 @@ export const commandInfo = {
       description: "output only the directory name with no extra formatting"
     }
   }
-} as const;
+);
 
 export default leafCommand(commandInfo, async (options) => {
-  const dirs = (options.directory || [process.cwd()]).map((p) => path.resolve(p));
+  const dirs = (options.directory ?? [process.cwd()]).map((p) => path.resolve(p));
   for (const dir of dirs) {
     try {
       const currentPackage = await resolveProject(dir);

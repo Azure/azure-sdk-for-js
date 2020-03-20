@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { subCommand } from "../util/commandBuilder";
+import { subCommand } from "../framework/command";
 
 /**
  * All of dev-tool's base commands and the modules that define them
