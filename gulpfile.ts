@@ -249,8 +249,7 @@ gulp.task("test", async () => {
         for (const packageFolderPath of changedFolders) {
           if (!contains(changedFiles, packageFolderPath)) {
             _logger.log(`INFO: Processing ${packageFolderPath} test`);
-            const npm = new NPMScope({ executionFolderPath: packageFolderPath });
-            npm.run("test", { executionFolderPath: packageFolderPath });
+            npmRun("test", { executionFolderPath: packageFolderPath });
           }
         }
       }
