@@ -2114,7 +2114,7 @@ export const DataSource: coreHttp.CompositeMapper = {
           className: "DataDeletionDetectionPolicy"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "@odata\\.etag",
         type: {
           name: "String"
@@ -2354,7 +2354,7 @@ export const Indexer: coreHttp.CompositeMapper = {
           name: "Boolean"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "@odata\\.etag",
         type: {
           name: "String"
@@ -3318,7 +3318,7 @@ export const Index: coreHttp.CompositeMapper = {
           className: "EncryptionKey"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "@odata\\.etag",
         type: {
           name: "String"
@@ -3578,7 +3578,7 @@ export const Skillset: coreHttp.CompositeMapper = {
           className: "CognitiveServicesAccount"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "@odata\\.etag",
         type: {
           name: "String"
@@ -4060,7 +4060,7 @@ export const SynonymMap: coreHttp.CompositeMapper = {
           className: "EncryptionKey"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "@odata\\.etag",
         type: {
           name: "String"
@@ -4281,20 +4281,6 @@ export const SearchError: coreHttp.CompositeMapper = {
               className: "SearchError"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const RequestOptions: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RequestOptions",
-    modelProperties: {
-      xMsClientRequestId: {
-        type: {
-          name: "Uuid"
         }
       }
     }
