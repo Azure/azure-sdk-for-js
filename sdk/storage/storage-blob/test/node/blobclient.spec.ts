@@ -22,7 +22,8 @@ import {
   createRandomLocalFile,
   getBSU,
   getConnectionStringFromEnvironment,
-  recorderEnvSetup
+  recorderEnvSetup,
+  isBlobVersioningDisabled,
 } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
@@ -216,7 +217,7 @@ describe("BlobClient Node.js only", () => {
 
     const copyURL = blobClient.url + "?" + sas;
     const result = await newBlobClient.syncCopyFromURL(copyURL);
-    assert.ok(result.versionId);
+    assert.ok(isBlobVersioningDisabled() || result.versionId);
 
     const properties1 = await blobClient.getProperties();
     const properties2 = await newBlobClient.getProperties();

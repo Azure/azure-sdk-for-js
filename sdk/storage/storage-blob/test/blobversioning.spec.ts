@@ -7,6 +7,7 @@ import {
   recorderEnvSetup,
   bodyToString,
   getGenericCredential,
+  isBlobVersioningDisabled,
 } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import {
@@ -34,6 +35,12 @@ describe("Blob versioning", () => {
   const content = "Hello World";
 
   let recorder: Recorder;
+
+  before(async function () {
+    if (isBlobVersioningDisabled()) {
+      this.skip();
+    }
+  });
 
   beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
@@ -264,8 +271,10 @@ describe("Blob versioning", () => {
   });
 
   it("promote a version: as the copy source", async () => {
-    const versionURL = setURLParameter(blobClient.url, "versionId", uploadRes.versionId);
+    const versionBlobClient = blobClient.withVersionId(uploadRes.versionId!);
+    await versionBlobClient.getProperties();
 
+    const versionURL = setURLParameter(blobClient.url, "versionid", uploadRes.versionId);
     const copyRes = await (await blobClient.beginCopyFromURL(versionURL)).pollUntilDone();
     assert.ok(copyRes.copyId);
 
@@ -277,9 +286,11 @@ describe("Blob versioning", () => {
         .byPage()
         .next()
     ).value;
-    assert.equal(listRes.segment.blobItems!.length, 3);
-    assert.equal(listRes.segment.blobItems![2].versionId, copyRes.versionId);
-    assert.ok(listRes.segment.blobItems![2].isCurrentVersion);
+
+    const blobItemsLength = listRes.segment.blobItems!.length;
+    assert.equal(blobItemsLength, 3);
+    assert.equal(listRes.segment.blobItems![blobItemsLength - 1].versionId, copyRes.versionId);
+    assert.ok(listRes.segment.blobItems![blobItemsLength - 1].isCurrentVersion);
 
     const downloadRes = await blobClient.download();
     assert.deepStrictEqual(await bodyToString(downloadRes, content.length), content);

@@ -4,7 +4,7 @@ import * as path from "path";
 import { PassThrough } from "stream";
 
 import { AbortController } from "@azure/abort-controller";
-import { createRandomLocalFile, getBSU, recorderEnvSetup } from "../utils";
+import { createRandomLocalFile, getBSU, recorderEnvSetup, isBlobVersioningDisabled } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
@@ -217,7 +217,7 @@ describe("Highlevel", () => {
     bufferStream.end(buf);
 
     const uploadStreamRes = await blockBlobClient.uploadStream(bufferStream, 4 * 1024 * 1024, 20);
-    assert.ok(uploadStreamRes.versionId);
+    assert.ok(isBlobVersioningDisabled() || uploadStreamRes.versionId);
 
     const downloadResponse = await blockBlobClient.download(0);
 
