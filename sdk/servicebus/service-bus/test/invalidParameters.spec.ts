@@ -123,9 +123,7 @@ describe("invalid parameters", () => {
         TestClientType.PartitionedSubscription
       );
 
-      subscriptionReceiverClient = serviceBusClient.test.getSubscriptionPeekLockReceiver(
-        entityNames
-      );
+      subscriptionReceiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
 
       subscriptionRuleManager = serviceBusClient.test.addToCleanup(
         serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)

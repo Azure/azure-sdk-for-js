@@ -44,7 +44,7 @@ describe("topic filters", () => {
 
     const entityNames = await serviceBusClient.test.createTestEntities(receiverType);
 
-    subscriptionClient = await serviceBusClient.test.getSubscriptionPeekLockReceiver(entityNames);
+    subscriptionClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     topicClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSender(entityNames.topic!)
     );

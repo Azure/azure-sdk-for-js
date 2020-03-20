@@ -287,6 +287,83 @@ export class ServiceBusClient {
   }
 
   /**
+   * Creates a receiver for an Azure Service Bus queue's dead letter queue.
+   *
+   * @param queueName The name of the queue to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getDeadLetterReceiver(
+    queueName: string,
+    receiveMode: "peekLock"
+  ): Receiver<ReceivedMessageWithLock>;
+  /**
+   * Creates a receiver for an Azure Service Bus queue's dead letter queue.
+   *
+   * @param queueName The name of the queue to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getDeadLetterReceiver(
+    queueName: string,
+    receiveMode: "receiveAndDelete"
+  ): Receiver<ReceivedMessage>;
+  /**
+   * Creates a receiver for an Azure Service Bus subscription's dead letter queue.
+   *
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getDeadLetterReceiver(
+    topicName: string,
+    subscriptionName: string,
+    receiveMode: "peekLock"
+  ): Receiver<ReceivedMessageWithLock>;
+  /**
+   * Creates a receiver for an Azure Service Bus subscription's dead letter queue.
+   *
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param receiveMode The receive mode to use (defaults to PeekLock)
+   * @param options Options for the receiver itself.
+   */
+  getDeadLetterReceiver(
+    topicName: string,
+    subscriptionName: string,
+    receiveMode: "receiveAndDelete"
+  ): Receiver<ReceivedMessage>;
+  getDeadLetterReceiver(
+    queueOrTopicName1: string,
+    receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
+    receiveMode3?: "peekLock" | "receiveAndDelete"
+  ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
+    let entityPath;
+    let receiveMode: "peekLock" | "receiveAndDelete";
+
+    if (isReceiveMode(receiveMode3)) {
+      const topic = queueOrTopicName1;
+      const subscription = receiveModeOrSubscriptionName2;
+      receiveMode = receiveMode3;
+      entityPath = `${topic}/Subscriptions/${subscription}`;
+    } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
+      entityPath = queueOrTopicName1;
+      receiveMode = receiveModeOrSubscriptionName2;
+    } else {
+      throw new TypeError("Invalid receiveMode provided");
+    }
+
+    const deadLetterEntityPath = `${entityPath}/$DeadLetterQueue`;
+
+    if (receiveMode === "peekLock") {
+      return this.getReceiver(deadLetterEntityPath, receiveMode);
+    } else {
+      return this.getReceiver(deadLetterEntityPath, receiveMode);
+    }
+  }
+
+  /**
    * Closes the underlying AMQP connection.
    * NOTE: this will also disconnect any Receiver or Sender instances created from this
    * instance.

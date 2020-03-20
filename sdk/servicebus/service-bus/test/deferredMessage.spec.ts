@@ -11,7 +11,6 @@ import { testPeekMsgsLength, createServiceBusClientForTests } from "./utils/test
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
-import { getDeadLetterPath } from "./utils/transitional";
 
 describe("deferred messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
@@ -36,9 +35,7 @@ describe("deferred messages", () => {
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getReceiver(getDeadLetterPath(receiverClient), "peekLock")
-    );
+    deadLetterClient = serviceBusClient.test.getDeadLetterReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {
