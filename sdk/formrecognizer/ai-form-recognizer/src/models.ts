@@ -15,6 +15,7 @@ import {
   Language,
   LengthUnit,
   Model,
+  Models,
   ModelsSummary,
   TrainingDocumentInfo,
   TrainResult,
@@ -34,16 +35,15 @@ export {
   KeyValuePairModel,
   Language,
   LengthUnit,
+  Models,
   ModelsSummary,
-  //PageResultModel,
-  //ReadResultModel,
   TrainingDocumentInfo,
   TrainStatus,
   TrainResult
 };
 
 /**
- * An object representing an extracted word.
+ * Represents an extracted word.
  */
 export interface ExtractedWord {
   /**
@@ -73,7 +73,7 @@ export interface ExtractedWord {
 }
 
 /**
- * An object representing an extracted text line.
+ * Represents an extracted text line.
  */
 export interface ExtractedLine {
   /**
@@ -103,6 +103,9 @@ export interface ExtractedLine {
   words: ExtractedWord[];
 }
 
+/**
+ * Represents an extracted check box
+ */
 // export interface ExtractedCheckBox {
 //   /**
 //    * Element kind - "checkbox"
@@ -121,10 +124,14 @@ export interface ExtractedLine {
 // }
 
 /**
- * Information about extracted text elements  in documents
+ * Information about an extracted element in the form. Examples include
+ * words, lines, checkbox, etc.
  */
 export type ExtractedElement = ExtractedWord | ExtractedLine // | ExtractedCheckBox;
 
+/**
+ * Represents a cell in extracted table
+ */
 export interface DataTableCell {
   boundingBox: number[];
   columnIndex: number;
@@ -154,12 +161,21 @@ export interface DataTableRow {
   cells: DataTableCell[];
 }
 
+/**
+ * Represents extracted text elements in fields of name-value pairs.
+ * For example, "Address" is the field name of
+ * "Address": "One Microsoft Way, Redmond, WA"
+ */
 export interface ExtractedText {
   boundingBox?: number[];
   elements?: ExtractedElement[];
   text: string;
 }
 
+/**
+ * Represents extracted text elements in name-value pairs.
+ * For example, "Address": "One Microsoft Way, Redmond, WA"
+ */
 export interface ExtractedField {
   confidence: number;
   name: ExtractedText;
@@ -177,11 +193,17 @@ export interface ExtractedPage {
   tables?: DataTable[];
 }
 
+/**
+ * Represents a page range
+ */
 export interface PageRange {
   firstPage: number;
   lastPage: number;
 }
 
+/**
+ * Represent extracted forms consists of text fields.
+ */
 export interface ExtractedForm {
   /**
    * Document type.
@@ -197,6 +219,9 @@ export interface ExtractedForm {
   fields: { [propertyName: string]: FieldValue };
 }
 
+/**
+ * Properties common to the extracted text field
+ */
 export interface CommonFieldValue {
   /**
    * Text content of the extracted field.
@@ -221,46 +246,73 @@ export interface CommonFieldValue {
   pageNumber?: number;
 }
 
+/**
+ * Represents a field of string value.
+ */
 export type StringFieldValue = {
   type: "string";
   value?: string;
 } & CommonFieldValue;
 
+/**
+ * Represents a date field
+ */
 export type DateFieldValue = {
   type: "date";
   value?: string;
 } & CommonFieldValue;
 
+/**
+ * Represent a time field
+ */
 export type TimeFieldValue = {
   type: "time";
   value?: string;
 } & CommonFieldValue;
 
+/**
+ * Represents a phone number field
+ */
 export type PhoneNumberFieldValue = {
   type: "phoneNumber";
   value?: string;
 } & CommonFieldValue;
 
+/**
+ * Represents a number field
+ */
 export type NumberFieldValue = {
   type: "number";
   value?: number;
 } & CommonFieldValue;
 
+/**
+ * Represents an integer field
+ */
 export type IntegerFieldValue = {
   type: "integer";
   value?: number;
 } & CommonFieldValue;
 
-export type ArrayFieldValue = {
+/**
+ * Represents a special field that contains an array of fields
+ */
+export interface ArrayFieldValue {
   type: "array";
   value?: FieldValue[];
 };
 
-export type ObjectFieldValue = {
+/**
+ * Represents a special field that contains other fields as its properties
+ */
+export interface ObjectFieldValue {
   type: "object";
   value?: { [propertyName: string]: FieldValue };
 };
 
+/**
+ * Union type of all field types
+ */
 export type FieldValue =
   | StringFieldValue
   | DateFieldValue
@@ -272,7 +324,7 @@ export type FieldValue =
   | ObjectFieldValue;
 
 /**
- * Represents an item in a receipt.
+ * Represents an extracted item field in a receipt.
  */
 export type ReceiptItemField = {
   type: "object";
@@ -284,6 +336,9 @@ export type ReceiptItemField = {
   };
 } & CommonFieldValue;
 
+/**
+ * The values in an extracted receipt item field
+ */
 export interface ReceiptItem {
   name?: string;
   price?: number;
@@ -292,7 +347,7 @@ export interface ReceiptItem {
 }
 
 /**
- * Represents all the items in a receipt.
+ * Represents a list of extracted receipt items in a receipt.
  */
 export interface ReceiptItemArrayField {
   type: "array";
@@ -300,7 +355,7 @@ export interface ReceiptItemArrayField {
 }
 
 /**
- * Raw Receipt from the response
+ * Represents extracted receipt fields in a receipt
  */
 export interface RawReceipt {
   ReceiptType: StringFieldValue;
@@ -316,6 +371,9 @@ export interface RawReceipt {
   TransactionTime: TimeFieldValue;
 }
 
+/**
+ * Represents text values in a receipt
+ */
 export interface Receipt {
   receiptType: string;
   merchantName?: string;
@@ -330,6 +388,9 @@ export interface Receipt {
   transactionTime?: string;
 }
 
+/**
+ * Represents an extracted receipt
+ */
 export interface RawReceiptResult {
   /**
    * Document type.
@@ -345,9 +406,13 @@ export interface RawReceiptResult {
   fields: { [propertyName: string]: FieldValue };
 }
 
-export type ExtractedReceipt = RawReceiptResult & Receipt;
 /**
- * Text extracted from a page in the input document.
+ * Extracted receipt and values in it
+ */
+export type ExtractedReceipt = RawReceiptResult & Receipt;
+
+/**
+ * Raw texts extracted from a page in the input document.
  */
 export interface RawExtractedPage {
   /**
@@ -421,18 +486,27 @@ export type ExtractReceiptResultResponse = ExtractReceiptOperationResult & {
   };
 };
 
+/**
+ * Extracted information about the layout of the analyzed document
+ */
 export interface ExtractedLayout {
   version: string;
   rawExtractedPages: RawExtractedPage[];
   extractedLayoutPages?: ExtractedLayoutPage[];
 }
 
+/**
+ * Represents an extracted layout page
+ */
 export interface ExtractedLayoutPage {
   fields?: ExtractedField[];
   pageNumber: number;
   tables?: DataTable[];
 }
 
+/**
+ * Represents the result from an extract layout operation
+ */
 export type ExtractLayoutOperationResult = {
   status: OperationStatus;
   createdOn: Date;
@@ -440,7 +514,7 @@ export type ExtractLayoutOperationResult = {
 } & Partial<ExtractedLayout>
 
 /**
- * Contains response data for the getAnalyzeLayoutResult operation.
+ * Contains response data for the extract layout operation.
  */
 export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
   /**
@@ -459,6 +533,9 @@ export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
   };
 };
 
+/**
+ * Represents an extracted form using unsupervised model
+ */
 export interface FormResult {
   /**
    * Version of schema used for this result.
@@ -478,6 +555,9 @@ export interface FormResult {
   errors?: ErrorInformation[];
 }
 
+/**
+ * Represents the result from an extract form operation using unsupervised model
+ */
 export type ExtractFormOperationResult = Partial<FormResult> & {
   /**
    * Operation status.
@@ -493,6 +573,9 @@ export type ExtractFormOperationResult = Partial<FormResult> & {
   lastUpdatedOn: Date;
 }
 
+/**
+ * Represents an extracted form using a model from supervised training with labels
+ */
 export interface LabeledFormResult {
   /**
    * Version of schema used for this result.
@@ -516,6 +599,9 @@ export interface LabeledFormResult {
   errors?: ErrorInformation[];
 }
 
+/**
+ * Represents the result from an extract form operation using a supervised model
+ */
 export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
   /**
    * Operation status.
@@ -531,6 +617,9 @@ export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
   lastUpdatedOn: Date;
 }
 
+/**
+ * Contains the response data for extract form (unsupervised) operation
+ */
 export type ExtractFormResultResponse = ExtractFormOperationResult & {
   /**
    * The underlying HTTP response.
@@ -548,6 +637,9 @@ export type ExtractFormResultResponse = ExtractFormOperationResult & {
   };
 };
 
+/**
+ * Contains the response data for extract form (supervised) operation
+ */
 export type LabeledFormResultResponse = LabeledFormOperationResult & {
   /**
    * The underlying HTTP response.
@@ -576,6 +668,29 @@ export interface FormModel {
   trainResult?: FormTrainResult;
 }
 
+/**
+ * Contains the response data for retrieving a model from unsupervised training
+ */
+export type FormModelResponse = FormModel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Model;
+  };
+};
+
+/**
+ * Represents result of supervised training with labels
+ */
 export interface LabeledFormTrainResult {
   /**
    * List of the documents used to train the model and any errors reported in each document.
@@ -595,28 +710,17 @@ export interface LabeledFormTrainResult {
   errors?: ErrorInformation[];
 }
 
+/**
+ * Represents the trained model from supervised training with labels
+ */
 export interface LabeledFormModel {
   modelInfo: ModelInfo;
   trainResult?: LabeledFormTrainResult;
 }
 
-export type FormModelResponse = FormModel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Model;
-  };
-};
-
+/**
+ * Contains the response data for retrieving a model from supervised training with labels
+ */
 export type LabeledFormModelResponse = LabeledFormModel & {
   /**
    * The underlying HTTP response.
@@ -634,6 +738,9 @@ export type LabeledFormModelResponse = LabeledFormModel & {
   };
 };
 
+/**
+ * Types of input data allowed to analyze operations
+ */
 export type FormRecognizerRequestBody =
   | Blob
   | string
