@@ -41,8 +41,9 @@ export class PerfStressProgram {
     const secondsPerOperation = 1 / operationsPerSecond;
     const weightedAverage = totalOperations / operationsPerSecond;
     console.log(
-      `Completed ${totalOperations} operations in a weighted-average of ${weightedAverage}s` +
-        ` (${operationsPerSecond} ops/s ${secondsPerOperation} s/op)`
+      `Completed ${totalOperations} operations in a weighted-average of ${weightedAverage.toFixed(
+        2
+      )}s` + ` (${operationsPerSecond.toFixed(2)} ops/s ${secondsPerOperation.toFixed(3)} s/op)`
     );
   }
 
@@ -79,11 +80,14 @@ export class PerfStressProgram {
     const durationMilliseconds = durationSeconds * 1000;
     setTimeout(() => abortController.abort(), durationMilliseconds);
 
-    console.log(`=== ${title}, iteration ${iterationIndex} ===`);
+    const millisecondsToLog = Number(this.options["milliseconds-to-log"].value!);
+
+    console.log(
+      `\n=== ${title}, iteration ${iterationIndex}: Logs every ${millisecondsToLog / 1000}s ===`
+    );
     console.log(`Since Last Log\t\tTotal`);
 
     const parallel = Number(this.options.parallel.value!);
-    const millisecondsToLog = Number(this.options["milliseconds-to-log"].value!);
 
     let lastInIteration = 0;
     const logInterval = setInterval(() => {
@@ -106,7 +110,7 @@ export class PerfStressProgram {
 
     clearInterval(logInterval);
 
-    console.log(`=== ${title}, iteration ${iterationIndex} Results ===`);
+    console.log(`=== ${title}, iteration ${iterationIndex}: Results ===`);
     this.logResults(parallels);
   }
 
@@ -130,8 +134,7 @@ export class PerfStressProgram {
       }
       try {
         if (Number(options.warmup.value) > 0) {
-          const statistics = await this.runTest(0, Number(options.warmup.value), "warmup");
-          console.table([statistics]);
+          await this.runTest(0, Number(options.warmup.value), "warmup");
         }
 
         const iterations = Number(this.options.iterations.value!);

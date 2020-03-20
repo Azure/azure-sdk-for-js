@@ -1,6 +1,7 @@
 import { PerfStressProgram, PerfStressTest, ParsedPerfStressOptions } from "../src";
 import { SynchronousException, AsynchronousException } from "./exception.spec";
 import { HTTPSGetTest } from "./httpClientGet.spec";
+import { Delay500ms } from "./delay.spec";
 
 console.log("=== Starting the perfStress tests ===");
 
@@ -9,7 +10,8 @@ const testName = process.argv[2];
 const allTests: PerfStressTest<ParsedPerfStressOptions>[] = [
   new SynchronousException(),
   new AsynchronousException(),
-  new HTTPSGetTest()
+  new HTTPSGetTest(),
+  new Delay500ms()
 ];
 
 const allTestsNames: string[] = allTests.map((test) => test.constructor.name);
