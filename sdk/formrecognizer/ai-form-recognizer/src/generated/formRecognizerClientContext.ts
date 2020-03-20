@@ -14,6 +14,7 @@ const packageVersion = "2.0.0-preview.1";
 
 export class FormRecognizerClientContext extends coreHttp.ServiceClient {
   endpoint: string;
+  credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the FormRecognizerClientContext class.
