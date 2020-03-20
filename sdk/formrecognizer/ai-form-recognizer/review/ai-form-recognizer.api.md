@@ -18,11 +18,6 @@ import { TokenCredential } from '@azure/identity';
 import { WebResource } from '@azure/core-http';
 
 // @public
-export interface AnalyzeLayoutAsyncHeaders {
-    operationLocation: string;
-}
-
-// @public
 export interface AnalyzeOperationResultModel {
     // Warning: (ae-forgotten-export) The symbol "AnalyzeResult" needs to be exported by the entry point index.d.ts
     analyzeResult?: AnalyzeResult_2;
@@ -33,17 +28,17 @@ export interface AnalyzeOperationResultModel {
 
 // @public (undocumented)
 export interface AnalyzeResult {
-    documentResults?: DocumentResult[];
     errors?: ErrorInformation[];
-    pageResults?: PageResult[];
-    readResults: ReadResult[];
+    extractedForms?: DocumentResult[];
+    extractedPages?: ExtractedPage[];
+    rawExtractedPages: RawExtractedPage[];
     version: string;
 }
 
 // @public (undocumented)
 export type ArrayFieldValue = {
     type: "array";
-    valueArray?: FieldValue[];
+    value?: FieldValue[];
 };
 
 // @public
@@ -77,8 +72,8 @@ export class BeginExtractPoller<T extends {
 // @internal (undocumented)
 export type BeginExtractPollerOptions<T> = {
     client: ExtractPollerClient<T>;
-    body: FormRecognizerRequestBody;
-    contentType: SupportedContentType;
+    source: FormRecognizerRequestBody;
+    contentType?: ContentType;
     modelId?: string;
     intervalInMs?: number;
     resultId?: string;
@@ -91,15 +86,15 @@ export interface BeginExtractPollState<T> extends PollOperationState<T> {
     // (undocumented)
     readonly analyzeOptions?: ExtractOptions;
     // (undocumented)
-    body?: FormRecognizerRequestBody;
-    // (undocumented)
     readonly client: ExtractPollerClient<T>;
     // (undocumented)
-    contentType: SupportedContentType;
+    contentType?: ContentType;
     // (undocumented)
     modelId?: string;
     // (undocumented)
     resultId?: string;
+    // (undocumented)
+    source?: FormRecognizerRequestBody;
     // (undocumented)
     status: OperationStatus;
 }
@@ -250,7 +245,7 @@ export interface DataTableRow {
 // @public (undocumented)
 export type DateFieldValue = {
     type: "date";
-    valueDate?: string;
+    value?: string;
 } & CommonFieldValue;
 
 // @public
@@ -265,7 +260,7 @@ export interface DocumentResult {
     pageRange: PageRange;
 }
 
-// @public
+// @public (undocumented)
 export interface ErrorInformation {
     // (undocumented)
     code: string;
@@ -274,15 +269,89 @@ export interface ErrorInformation {
 }
 
 // @public
-export type ExtractedElement = TextWord | TextLine;
+export type ExtractedElement = ExtractedWord | ExtractedLine;
 
 // @public (undocumented)
-export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
-    analyzeResult?: ExtractFormResult;
-};
+export interface ExtractedField {
+    // (undocumented)
+    confidence: number;
+    // (undocumented)
+    label?: string;
+    // (undocumented)
+    name: ExtractedText;
+    // (undocumented)
+    value: ExtractedText;
+}
 
 // @public (undocumented)
-export type ExtractFormResult = Omit<AnalyzeResult, "documentResults">;
+export interface ExtractedLayout {
+    // (undocumented)
+    extractedLayoutPages?: ExtractedLayoutPage[];
+    // (undocumented)
+    rawExtractedPages: RawExtractedPage[];
+    // (undocumented)
+    version: string;
+}
+
+// @public (undocumented)
+export interface ExtractedLayoutPage {
+    // (undocumented)
+    fields?: ExtractedField[];
+    // (undocumented)
+    pageNumber: number;
+    // (undocumented)
+    tables?: DataTable[];
+}
+
+// @public
+export interface ExtractedLine {
+    boundingBox: number[];
+    kind: "line";
+    pageNumber: number;
+    text: string;
+    words: ExtractedWord[];
+}
+
+// @public
+export interface ExtractedPage {
+    // (undocumented)
+    fields?: ExtractedField[];
+    // (undocumented)
+    formTypeId?: number;
+    // (undocumented)
+    pageNumber: number;
+    // (undocumented)
+    tables?: DataTable[];
+}
+
+// @public (undocumented)
+export type ExtractedReceipt = RawReceiptResult & Receipt;
+
+// @public (undocumented)
+export interface ExtractedText {
+    // (undocumented)
+    boundingBox?: number[];
+    // (undocumented)
+    elements?: ExtractedElement[];
+    // (undocumented)
+    text: string;
+}
+
+// @public
+export interface ExtractedWord {
+    boundingBox: number[];
+    confidence?: number;
+    containingLine?: ExtractedLine;
+    kind: "word";
+    pageNumber: number;
+    text: string;
+}
+
+// @public (undocumented)
+export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<ExtractFormResult>;
+
+// @public (undocumented)
+export type ExtractFormResult = Omit<AnalyzeResult, "extractedForms">;
 
 // @public (undocumented)
 export type ExtractFormResultResponse = ExtractFormOperationResult & {
@@ -298,29 +367,14 @@ export type ExtractFormsOptions = FormRecognizerOperationOptions & {
 };
 
 // @public (undocumented)
-export interface ExtractLayoutOperationResult {
-    // (undocumented)
-    analyzeResult?: ExtractLayoutResult;
-    // (undocumented)
-    createdOn: Date;
-    // (undocumented)
-    lastUpdatedOn: Date;
-    // (undocumented)
+export type ExtractLayoutOperationResult = {
     status: OperationStatus;
-}
+    createdOn: Date;
+    lastUpdatedOn: Date;
+} & Partial<ExtractedLayout>;
 
 // @public
 export type ExtractLayoutOptions = FormRecognizerOperationOptions;
-
-// @public (undocumented)
-export interface ExtractLayoutResult {
-    // (undocumented)
-    pageResults?: LayoutPageResult[];
-    // (undocumented)
-    readResults: ReadResult[];
-    // (undocumented)
-    version: string;
-}
 
 // @public
 export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
@@ -335,8 +389,8 @@ export type ExtractOptions = ExtractReceiptsOptions | ExtractLayoutOptions | Ext
 
 // @public
 export type ExtractPollerClient<T> = {
-    beginExtract: (body: FormRecognizerRequestBody, contentType: SupportedContentType, analyzeOptions: ExtractOptions, modelId?: string) => Promise<{
-        operationLocation: string;
+    beginExtract: (source: FormRecognizerRequestBody, contentType?: ContentType, analyzeOptions?: ExtractOptions, modelId?: string) => Promise<{
+        operationLocation?: string;
     }>;
     getExtractResult: (resultId: string, options: {
         abortSignal?: AbortSignalLike;
@@ -344,23 +398,18 @@ export type ExtractPollerClient<T> = {
 };
 
 // @public (undocumented)
-export interface ExtractReceiptOperationResult {
-    // (undocumented)
-    analyzeResult?: ExtractReceiptResult;
-    // (undocumented)
-    createdOn: Date;
-    // (undocumented)
-    lastUpdatedOn: Date;
-    // (undocumented)
+export type ExtractReceiptOperationResult = {
     status: OperationStatus;
-}
+    createdOn: Date;
+    lastUpdatedOn: Date;
+} & Partial<ExtractReceiptResult>;
 
 // @public
 export interface ExtractReceiptResult {
     // (undocumented)
-    readResults: ReadResult[];
+    extractedReceipts?: ExtractedReceipt[];
     // (undocumented)
-    receiptResults?: ReceiptResult[];
+    rawExtractedPages: RawExtractedPage[];
     // (undocumented)
     version: string;
 }
@@ -412,13 +461,13 @@ export type FormPollerLike = PollerLike<PollOperationState<ExtractFormResultResp
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     // (undocumented)
-    beginExtractForms(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: BeginExtractFormsOptions): Promise<FormPollerLike>;
+    beginExtractForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractFormsOptions): Promise<FormPollerLike>;
     // (undocumented)
-    beginExtractFormsFromUrl(modelId: string, imageSourceUrl: string, options?: BeginExtractFormsOptions): Promise<PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>>;
+    beginExtractFormsFromUrl(modelId: string, documentUrl: string, options?: BeginExtractFormsOptions): Promise<PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>>;
     // (undocumented)
-    beginExtractLabeledForms(modelId: string, body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: BeginExtractLabeledFormOptions): Promise<LabeledFormPollerLike>;
+    beginExtractLabeledForms(modelId: string, body: FormRecognizerRequestBody, contentType: ContentType, options?: BeginExtractLabeledFormOptions): Promise<LabeledFormPollerLike>;
     // (undocumented)
-    beginExtractLabeledFormsFromUrl(modelId: string, imageSourceUrl: string, options?: BeginExtractLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
+    beginExtractLabeledFormsFromUrl(modelId: string, documentUrl: string, options?: BeginExtractLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
     // (undocumented)
     beginTraining(source: string, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
     // (undocumented)
@@ -427,13 +476,13 @@ export class FormRecognizerClient {
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     // (undocumented)
-    getLabeledModel(modelId: string, options: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
+    getLabeledModel(modelId: string, options?: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
     // (undocumented)
     getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
     // (undocumented)
-    getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponse>;
+    getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponseModel>;
     // (undocumented)
-    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponse>;
+    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponseModel>;
     }
 
 // @public
@@ -455,11 +504,13 @@ export interface FormTrainResult {
     trainingDocuments: TrainingDocumentInfo[];
 }
 
+// Warning: (ae-forgotten-export) The symbol "Models" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type GetCustomModelsResponse = ModelsModel & {
+export type GetCustomModelsResponseModel = Models & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: ModelsModel;
+        parsedBody: Models;
     };
 };
 
@@ -477,7 +528,7 @@ export type GetSummaryOptions = FormRecognizerOperationOptions;
 // @public (undocumented)
 export type IntegerFieldValue = {
     type: "integer";
-    valueInteger?: number;
+    value?: number;
 } & CommonFieldValue;
 
 // @public
@@ -487,33 +538,11 @@ export interface KeysResult {
     };
 }
 
-// @public (undocumented)
-export interface KeyValueElement {
-    // (undocumented)
-    boundingBox?: number[];
-    // (undocumented)
-    elements?: ExtractedElement[];
-    // (undocumented)
-    text: string;
-}
-
 // @public
 export interface KeyValueElementModel {
     boundingBox?: number[];
     elements?: string[];
     text: string;
-}
-
-// @public (undocumented)
-export interface KeyValuePair {
-    // (undocumented)
-    confidence: number;
-    // (undocumented)
-    key: KeyValueElement;
-    // (undocumented)
-    label?: string;
-    // (undocumented)
-    value: KeyValueElement;
 }
 
 // @public
@@ -541,9 +570,7 @@ export type LabeledFormModelResponse = LabeledFormModel & {
 };
 
 // @public (undocumented)
-export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & {
-    analyzeResult?: LabeledFormResult;
-};
+export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<LabeledFormResult>;
 
 // @public (undocumented)
 export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>;
@@ -568,17 +595,7 @@ export interface LabeledFormTrainResult {
 }
 
 // @public
-export type Language = 'en' | 'es';
-
-// @public (undocumented)
-export interface LayoutPageResult {
-    // (undocumented)
-    keyValuePairs?: KeyValuePair[];
-    // (undocumented)
-    pageNumber: number;
-    // (undocumented)
-    tables?: DataTable[];
-}
+export type Language = "en" | "es";
 
 // @public (undocumented)
 export type LayoutPollerLike = PollerLike<PollOperationState<ExtractLayoutResultResponse>, ExtractLayoutResultResponse>;
@@ -588,24 +605,21 @@ export class LayoutRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractLayout(body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
+    extractLayout(source: FormRecognizerRequestBody, contentType?: ContentType, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
     // (undocumented)
-    extractLayoutFromUrl(imageSourceUrl: string, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
+    extractLayoutFromUrl(documentUrl: string, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
     }
 
 // @public
-export type LengthUnit = 'pixel' | 'inch';
+export type LengthUnit = "pixel" | "inch";
 
 // @public
 export type ListModelsOptions = FormRecognizerOperationOptions;
 
 // @public
 export interface Model {
-    // (undocumented)
     keys?: KeysResult;
-    // (undocumented)
     modelInfo: ModelInfo;
-    // (undocumented)
     trainResult?: TrainResult;
 }
 
@@ -618,13 +632,6 @@ export interface ModelInfo {
 }
 
 // @public
-export interface ModelsModel {
-    modelList?: ModelInfo[];
-    nextLink?: string;
-    summary?: ModelsSummary;
-}
-
-// @public
 export interface ModelsSummary {
     count: number;
     lastUpdatedOn: Date;
@@ -632,24 +639,24 @@ export interface ModelsSummary {
 }
 
 // @public
-export type ModelStatus = 'creating' | 'ready' | 'invalid';
+export type ModelStatus = "creating" | "ready" | "invalid";
 
 // @public (undocumented)
 export type NumberFieldValue = {
     type: "number";
-    valueNumber?: number;
+    value?: number;
 } & CommonFieldValue;
 
 // @public (undocumented)
 export type ObjectFieldValue = {
     type: "object";
-    valueObject?: {
+    value?: {
         [propertyName: string]: FieldValue;
     };
 };
 
 // @public
-export type OperationStatus = 'notStarted' | 'running' | 'succeeded' | 'failed';
+export type OperationStatus = "notStarted" | "running" | "succeeded" | "failed";
 
 // @public (undocumented)
 export interface PageRange {
@@ -659,27 +666,25 @@ export interface PageRange {
     lastPage: number;
 }
 
-// @public
-export interface PageResult {
-    // (undocumented)
-    clusterId?: number;
-    // (undocumented)
-    keyValuePairs?: KeyValuePair[];
-    // (undocumented)
-    pageNumber: number;
-    // (undocumented)
-    tables?: DataTable[];
-}
-
 // @public (undocumented)
 export type PhoneNumberFieldValue = {
     type: "phoneNumber";
-    valuePhoneNumber?: string;
+    value?: string;
 } & CommonFieldValue;
 
 export { PollerLike }
 
 export { PollOperationState }
+
+// @public
+export interface RawExtractedPage {
+    angle: number;
+    height: number;
+    lines?: ExtractedLine[];
+    pageNumber: number;
+    unit: LengthUnit;
+    width: number;
+}
 
 // @public
 export interface RawReceipt {
@@ -714,17 +719,6 @@ export interface RawReceiptResult {
         [propertyName: string]: FieldValue;
     };
     pageRange: PageRange;
-}
-
-// @public
-export interface ReadResult {
-    angle: number;
-    height: number;
-    language?: Language;
-    lines?: TextLine[];
-    pageNumber: number;
-    unit: LengthUnit;
-    width: number;
 }
 
 // @public (undocumented)
@@ -770,13 +764,13 @@ export interface ReceiptItemArrayField {
     // (undocumented)
     type: "array";
     // (undocumented)
-    valueArray: ReceiptItemField[];
+    value: ReceiptItemField[];
 }
 
 // @public
 export type ReceiptItemField = {
     type: "object";
-    valueObject: {
+    value: {
         Name: StringFieldValue;
         Quantity: NumberFieldValue;
         Price: NumberFieldValue;
@@ -792,13 +786,10 @@ export class ReceiptRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
-    extractReceipts(body: FormRecognizerRequestBody, contentType: SupportedContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
+    extractReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     // (undocumented)
-    extractReceiptsFromUrl(imageSourceUrl: string, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
+    extractReceiptsFromUrl(documentUrl: string, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     }
-
-// @public (undocumented)
-export type ReceiptResult = RawReceiptResult & Receipt;
 
 export { RestResponse }
 
@@ -812,44 +803,21 @@ export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
 // @public (undocumented)
 export type StringFieldValue = {
     type: "string";
-    valueString?: string;
+    value?: string;
 } & CommonFieldValue;
-
-// @public (undocumented)
-export type SupportedContentType = "application/pdf" | "image/png" | "image/jpeg" | "image/tiff" | "application/json";
-
-// @public
-export interface TextLine {
-    boundingBox: number[];
-    pageNumber: number;
-    text: string;
-    words: TextWord[];
-}
-
-// @public
-export interface TextWord {
-    boundingBox: number[];
-    confidence?: number;
-    containingLine?: TextLine;
-    pageNumber: number;
-    text: string;
-}
 
 // @public (undocumented)
 export type TimeFieldValue = {
     type: "time";
-    valueTime?: string;
+    value?: string;
 } & CommonFieldValue;
 
+// Warning: (ae-forgotten-export) The symbol "FormRecognizerClientTrainCustomModelAsyncHeaders" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface TrainCustomModelAsyncHeaders {
-    location: string;
-}
-
-// @public
-export type TrainCustomModelAsyncResponse = TrainCustomModelAsyncHeaders & {
+export type TrainCustomModelAsyncResponse = FormRecognizerClientTrainCustomModelAsyncHeaders & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: TrainCustomModelAsyncHeaders;
+        parsedHeaders: FormRecognizerClientTrainCustomModelAsyncHeaders;
     };
 };
 
@@ -870,7 +838,9 @@ export type TrainModelOptions = FormRecognizerOperationOptions & {
 // @public
 export type TrainPollerClient<T> = {
     getModel: (modelId: string, options: GetModelOptions) => Promise<T>;
-    trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainModelOptions) => Promise<TrainCustomModelAsyncResponse>;
+    trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainModelOptions) => Promise<{
+        location?: string;
+    }>;
 };
 
 // @public
@@ -882,8 +852,12 @@ export interface TrainResult {
 }
 
 // @public
-export type TrainStatus = 'succeeded' | 'partiallySucceeded' | 'failed';
+export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
+
+// Warnings were encountered during analysis:
+//
+// src/lro/analyze/poller.ts:66:3 - (ae-forgotten-export) The symbol "ContentType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
