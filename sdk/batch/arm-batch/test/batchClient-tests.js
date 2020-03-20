@@ -37,7 +37,7 @@ describe("Batch Service", function() {
 
   describe("operations", function() {
     it("should list supported images successfully", function(done) {
-      console.log("simple test");
+      console.log("simple testtttttt");
       done();
     });
   });

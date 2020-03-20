@@ -223,16 +223,35 @@ gulp.task("test", async () => {
       _logger.logTrace(
         `INFO: Searching for package folders in ${packageFolderRoot}`
       );
-      const packageFolderPaths: string[] | undefined = getPackageFolderPaths(
-        packageFolderRoot
-      );
-      if (!packageFolderPaths) {
-        _logger.logTrace(`INFO: The folder ${packageFolderPaths} doesn't exist.`);
+      const packageFolderPaths: | string[]  | undefined = getPackageFolderPaths(packageFolderRoot);
+      const changedFolders: string[] | undefined = [];
+      for(const changedFilePath of changedFiles) {
+        _logger.logTrace(`INFO: Processing changedFilePath ${changedFilePath}`);
+        const paths = changedFilePath.split("/sdk/");
+        if(!paths || paths.length < 2) {
+          _logger.logTrace(`INFO: changedFilePath ${changedFilePath} doesn't contains sdk`);
+          continue;
+        }
+        const mpath = paths[1].split("/");
+        if(!mpath || mpath.length < 2) {
+          continue;
+        }
+        const changedFolder = paths[0] + "/sdk/" + mpath[0] + "/" + mpath[1];
+        if(!contains(changedFolders, changedFolder) && contains(packageFolderPaths, changedFolder)) {
+           _logger.logTrace(`INFO: Found one changedFolder ${changedFolder}`);
+          changedFolders.push(changedFolder);
+        }
+
+      }
+      if (!changedFolders || changedFolders.length < 1) {
+        _logger.logTrace(`INFO: no test need to run.`);
       } else {
-        for (const packageFolderPath of packageFolderPaths) {
-          _logger.log(`INFO: Processing ${packageFolderPath}`);
-          const npm = new NPMScope({ executionFolderPath: packageFolderPath });
-          npm.run("test", { executionFolderPath: packageFolderPath });
+        for (const packageFolderPath of changedFolders) {
+          if (!contains(changedFiles, packageFolderPath)) {
+            _logger.log(`INFO: Processing ${packageFolderPath} test`);
+            const npm = new NPMScope({ executionFolderPath: packageFolderPath });
+            npm.run("test", { executionFolderPath: packageFolderPath });
+          }
         }
       }
     }
