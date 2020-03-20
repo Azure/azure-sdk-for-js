@@ -33,7 +33,7 @@
     "latest": "ts-node ./.scripts/latest.ts",
     "local": "ts-node ./.scripts/local.ts",
     "preinstall": "node common/scripts/rush-welcome.js",
-    "test": "gulp test --logging-level=info"
+    "test": "npm run build && mocha test/*/*/*"
   },
   "devDependencies": {
     "@octokit/rest": "^16.26.0",

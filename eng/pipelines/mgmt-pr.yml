@@ -50,7 +50,7 @@ jobs:
         displayName: 'npm run test'
         inputs:
           command: custom
-          customCommand: 'run test -- --head-reference=origin/$(System.PullRequest.SourceBranch) --base-reference=origin/$(System.PullRequest.TargetBranch) --logging-level=trace'
+          customCommand: 'run build && mocha test/*/*/*'
 
   - job: 'Check_everything'
     displayName: 'Check .only, .skip and version bump'
