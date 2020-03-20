@@ -205,7 +205,7 @@ export interface BlobDownloadOptions extends CommonOptions {
   snapshot?: string;
   /**
    * An opaque DateTime string value that, when present, specifies the version of the blob
-   * to retrieve. It for service version 2019-10-10 and newer.
+   * to retrieve. It's for service version 2019-10-10 and newer.
    *
    * @type {string}
    * @memberof BlobDownloadOptions
@@ -310,7 +310,7 @@ export interface BlobExistsOptions extends CommonOptions {
   snapshot?: string;
   /**
    * An opaque DateTime value that, when present, specifies the version
-   * of the blob to retrieve. It for service version 2019-10-10 and newer.
+   * of the blob to retrieve. It's for service version 2019-10-10 and newer.
    * 
    * @type {string}
    * @memberof BlobExistsOptions
@@ -357,7 +357,7 @@ export interface BlobGetPropertiesOptions extends CommonOptions {
   snapshot?: string;
   /**
    * An opaque DateTime value that, when present, specifies the version
-   * of the blob to retrieve. It for service version 2019-10-10 and newer.
+   * of the blob to retrieve. It's for service version 2019-10-10 and newer.
    * 
    * @type {string}
    * @memberof BlobGetPropertiesOptions
@@ -412,7 +412,7 @@ export interface BlobDeleteOptions extends CommonOptions {
   snapshot?: string;
   /**
    * An opaque DateTime value that, when present, specifies the version
-   * of the blob to delete. It for service version 2019-10-10 and newer.
+   * of the blob to delete. It's for service version 2019-10-10 and newer.
    * 
    * @type {string}
    * @memberof BlobDeleteOptions
@@ -924,7 +924,7 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
   snapshot?: string;
   /**
    * An opaque DateTime string value that, when present, specifies the version of the blob
-   * to retrieve. It for service version 2019-10-10 and newer.
+   * to retrieve. It's for service version 2019-10-10 and newer.
    *
    * @type {string}
    * @memberof BlobDownloadToBufferOptions
