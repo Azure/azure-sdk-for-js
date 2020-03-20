@@ -9,7 +9,6 @@ import { makeExtractKeyPhrasesResultCollection } from "../src/extractKeyPhrasesR
 import { makeRecognizeLinkedEntitiesResultCollection } from "../src/recognizeLinkedEntitiesResultCollection";
 import { makeRecognizeCategorizedEntitiesResultCollection } from "../src/recognizeCategorizedEntitiesResultCollection";
 import { LanguageInput, MultiLanguageInput } from "../src/generated/models";
-import { makeRecognizePiiEntitiesResultCollection } from "../src/recognizePiiEntitiesResultCollection";
 
 describe("SentimentResultCollection", () => {
   it("merges items in order", () => {
@@ -32,23 +31,25 @@ describe("SentimentResultCollection", () => {
       [
         {
           id: "A",
-          documentScores: {
+          confidenceScores: {
             positive: 1,
             negative: 0,
             neutral: 0
           },
           sentenceSentiments: [],
-          sentiment: "positive"
+          sentiment: "positive",
+          warnings: []
         },
         {
           id: "C",
-          documentScores: {
+          confidenceScores: {
             positive: 0,
             negative: 1,
             neutral: 0
           },
           sentenceSentiments: [],
-          sentiment: "negative"
+          sentiment: "negative",
+          warnings: []
         }
       ],
       [
@@ -94,9 +95,10 @@ describe("DetectLanguageResultCollection", () => {
             {
               name: "English",
               iso6391Name: "en",
-              score: 1
+              confidenceScore: 1
             }
-          ]
+          ],
+          warnings: []
         },
         {
           id: "C",
@@ -104,14 +106,15 @@ describe("DetectLanguageResultCollection", () => {
             {
               name: "French",
               iso6391Name: "fr",
-              score: 1
+              confidenceScore: 1
             },
             {
               name: "English",
               iso6391Name: "en",
-              score: 0.5
+              confidenceScore: 0.5
             }
-          ]
+          ],
+          warnings: []
         }
       ],
       [
@@ -153,11 +156,13 @@ describe("ExtractKeyPhrasesResultCollection", () => {
       [
         {
           id: "A",
-          keyPhrases: ["test", "test2"]
+          keyPhrases: ["test", "test2"],
+          warnings: []
         },
         {
           id: "C",
-          keyPhrases: ["awesome"]
+          keyPhrases: ["awesome"],
+          warnings: []
         }
       ],
       [
@@ -205,9 +210,10 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
               category: "Organization",
               graphemeOffset: 10,
               graphemeLength: 9,
-              score: 0.9989
+              confidenceScore: 0.9989
             }
-          ]
+          ],
+          warnings: []
         },
         {
           id: "C",
@@ -218,72 +224,10 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
               subCategory: "DateRange",
               graphemeOffset: 34,
               graphemeLength: 9,
-              score: 0.8
+              confidenceScore: 0.8
             }
-          ]
-        }
-      ],
-      [
-        {
-          id: "B",
-          error: {
-            code: "InternalServerError",
-            message: "test error"
-          }
-        }
-      ],
-      ""
-    );
-
-    const inputOrder = input.map((item) => item.id);
-    const outputOrder = result.map((item) => item.id);
-    assert.deepEqual(inputOrder, outputOrder);
-  });
-});
-
-describe("RecognizePiiEntitiesResultCollection", () => {
-  it("merges items in order", () => {
-    const input: MultiLanguageInput[] = [
-      {
-        id: "A",
-        text: "test"
-      },
-      {
-        id: "B",
-        text: "test2"
-      },
-      {
-        id: "C",
-        text: "test3"
-      }
-    ];
-    const result = makeRecognizePiiEntitiesResultCollection(
-      input,
-      [
-        {
-          id: "A",
-          entities: [
-            {
-              text: "(555) 555-5555",
-              category: "US Phone Number",
-              graphemeOffset: 10,
-              graphemeLength: 9,
-              score: 0.9989
-            }
-          ]
-        },
-        {
-          id: "C",
-          entities: [
-            {
-              text: "1234 Default Ln.",
-              category: "US Address",
-              subCategory: "",
-              graphemeOffset: 34,
-              graphemeLength: 9,
-              score: 0.8
-            }
-          ]
+          ],
+          warnings: []
         }
       ],
       [
@@ -333,7 +277,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
                   text: "Seattle",
                   graphemeOffset: 26,
                   graphemeLength: 7,
-                  score: 0.15046201222847677
+                  confidenceScore: 0.15046201222847677
                 }
               ],
               language: "en",
@@ -341,7 +285,8 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               url: "https://en.wikipedia.org/wiki/Seattle",
               dataSource: "Wikipedia"
             }
-          ]
+          ],
+          warnings: []
         },
         {
           id: "C",
@@ -353,7 +298,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
                   text: "Microsoft",
                   graphemeOffset: 10,
                   graphemeLength: 9,
-                  score: 0.1869365971673207
+                  confidenceScore: 0.1869365971673207
                 }
               ],
               language: "en",
@@ -361,7 +306,8 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               url: "https://en.wikipedia.org/wiki/Microsoft",
               dataSource: "Wikipedia"
             }
-          ]
+          ],
+          warnings: []
         }
       ],
       [

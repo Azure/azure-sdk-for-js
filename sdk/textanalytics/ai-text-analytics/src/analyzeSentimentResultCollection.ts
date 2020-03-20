@@ -45,7 +45,7 @@ export function makeAnalyzeSentimentResultCollection(
         return makeAnalyzeSentimentResult(
           document.id,
           document.sentiment,
-          document.documentScores,
+          document.confidenceScores,
           document.sentenceSentiments,
           document.statistics
         );

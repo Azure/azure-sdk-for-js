@@ -108,6 +108,24 @@ export interface DocumentError {
 }
 
 /**
+ * An interface representing TextAnalyticsWarning.
+ */
+export interface TextAnalyticsWarning {
+  /**
+   * Error code. Possible values include: 'LongWordsInDocument', 'DocumentTruncated'
+   */
+  code: WarningCodeValue;
+  /**
+   * Warning message.
+   */
+  message: string;
+  /**
+   * A JSON pointer reference indicating the target object.
+   */
+  targetRef?: string;
+}
+
+/**
  * if showStats=true was specified in the request this field will contain information about the
  * document payload.
  */
@@ -137,6 +155,10 @@ export interface SentimentConfidenceScores {
  */
 export interface SentenceSentiment {
   /**
+   * The sentence text.
+   */
+  text?: string;
+  /**
    * The predicted Sentiment for the sentence. Possible values include: 'positive', 'neutral',
    * 'negative'
    */
@@ -153,10 +175,6 @@ export interface SentenceSentiment {
    * The length of the sentence by Unicode standard.
    */
   graphemeLength: number;
-  /**
-   * The warnings generated for the sentence.
-   */
-  warnings?: string[];
 }
 
 /**
@@ -176,11 +194,15 @@ export interface DocumentSentiment {
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
-  documentScores: SentimentConfidenceScores;
+  confidenceScores: SentimentConfidenceScores;
   /**
    * Sentence level sentiment analysis.
    */
   sentenceSentiments: SentenceSentiment[];
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
 }
 
 /**
@@ -254,7 +276,7 @@ export interface Entity {
   /**
    * Confidence score between 0 and 1 of the extracted entity.
    */
-  score: number;
+  confidenceScore: number;
 }
 
 /**
@@ -269,6 +291,10 @@ export interface DocumentEntities {
    * Recognized entities in the document.
    */
   entities: Entity[];
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
   /**
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
@@ -303,7 +329,7 @@ export interface Match {
    * If a well-known item is recognized, a decimal number denoting the confidence level between 0
    * and 1 will be returned.
    */
-  score: number;
+  confidenceScore: number;
   /**
    * Entity text as appears in the request.
    */
@@ -361,6 +387,10 @@ export interface DocumentLinkedEntities {
    */
   entities: LinkedEntity[];
   /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
+  /**
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
    */
@@ -399,6 +429,10 @@ export interface DocumentKeyPhrases {
    * to the number of words in the input document.
    */
   keyPhrases: string[];
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
   /**
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
@@ -461,7 +495,7 @@ export interface DetectedLanguage {
    * A confidence score between 0 and 1. Scores close to 1 indicate 100% certainty that the
    * identified language is true.
    */
-  score: number;
+  confidenceScore: number;
 }
 
 /**
@@ -476,6 +510,10 @@ export interface DocumentLanguage {
    * A list of extracted languages.
    */
   detectedLanguages: DetectedLanguage[];
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
   /**
    * if showStats=true was specified in the request this field will contain information about the
    * document payload.
@@ -506,21 +544,6 @@ export interface LanguageResult {
  * Optional Parameters.
  */
 export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * (Optional) This value indicates which model will be used for scoring. If a model-version is
-   * not specified, the API should default to the latest, non-preview version.
-   */
-  modelVersion?: string;
-  /**
-   * (Optional) if set to true, response will contain input and document level statistics.
-   */
-  includeStatistics?: boolean;
-}
-
-/**
- * Optional Parameters.
- */
-export interface GeneratedClientEntitiesRecognitionPiiOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * (Optional) This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.
@@ -612,6 +635,14 @@ export type ErrorCodeValue = 'InvalidRequest' | 'InvalidArgument' | 'InternalSer
 export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyFormat' | 'EmptyRequest' | 'MissingInputRecords' | 'InvalidDocument' | 'ModelVersionIncorrect' | 'InvalidDocumentBatch' | 'UnsupportedLanguageCode' | 'InvalidCountryHint';
 
 /**
+ * Defines values for WarningCodeValue.
+ * Possible values include: 'LongWordsInDocument', 'DocumentTruncated'
+ * @readonly
+ * @enum {string}
+ */
+export type WarningCodeValue = 'LongWordsInDocument' | 'DocumentTruncated';
+
+/**
  * Defines values for DocumentSentimentLabel.
  * Possible values include: 'positive', 'neutral', 'negative', 'mixed'
  * @readonly
@@ -631,26 +662,6 @@ export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
  * Contains response data for the entitiesRecognitionGeneral operation.
  */
 export type EntitiesRecognitionGeneralResponse = EntitiesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EntitiesResult;
-    };
-};
-
-/**
- * Contains response data for the entitiesRecognitionPii operation.
- */
-export type EntitiesRecognitionPiiResponse = EntitiesResult & {
   /**
    * The underlying HTTP response.
    */

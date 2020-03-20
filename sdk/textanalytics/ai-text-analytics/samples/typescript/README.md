@@ -15,7 +15,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | **File Name**                                         | **Description**                                                                       |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | [analyzeSentiment.ts][analyzesentiment]               | analyzes the sentiment of a piece of text                                             |
-| [recognizePii.ts][recognizepii]                       | detects personally-identifiable information                                           |
 | [detectLanguage.ts][detectlanguages]                 | detects the language of a piece of text                                               |
 | [extractKeyPhrases.ts][extractkeyphrases]             | extracts key phrases from a piece of text                                             |
 | [recognizeLinkedEntities.ts][recognizelinkedentities] | detects entities that have links to more information on the web                       |
@@ -57,7 +56,7 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/recognizePii.js
+node dist/analyzeSentiment.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):

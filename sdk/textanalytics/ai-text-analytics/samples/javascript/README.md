@@ -15,7 +15,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | **File Name**                                         | **Description**                                                                       |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | [analyzeSentiment.js][analyzesentiment]               | analyzes the sentiment of a piece of text                                             |
-| [recognizePii.js][recognizepii]                       | detects personally-identifiable information                                           |
 | [detectLanguage.js][detectlanguages]                 | detects the language of a piece of text                                               |
 | [extractKeyPhrases.js][extractkeyphrases]             | extracts key phrases from a piece of text                                             |
 | [recognizeLinkedEntities.js][recognizelinkedentities] | detects entities that have links to more information on the web                       |
@@ -45,7 +44,7 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node recognizePii.js
+node analyzeSentiment.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
