@@ -45,4 +45,166 @@ directive:
         }
       }
       $.parameters = newParameters;
+  - from: swagger-document
+    where: $.paths..put
+    transform: >
+      const newParameters = [];
+      for (let param of $.parameters) {
+        if (param["$ref"] !== "#/parameters/ClientRequestIdParameter") {
+          newParameters.push(param);
+        }
+      }
+      $.parameters = newParameters;
+  - from: swagger-document
+    where: $.paths..delete
+    transform: >
+      const newParameters = [];
+      for (let param of $.parameters) {
+        if (param["$ref"] !== "#/parameters/ClientRequestIdParameter") {
+          newParameters.push(param);
+        }
+      }
+      $.parameters = newParameters;
+```
+
+### Add support for collection types
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.DataType
+    transform: >
+      if ($.enum.length === 8) {
+        const newValues = $.enum.slice(0);
+        for (let value of $.enum) {
+          newValues.push('Collection('+value+')');
+        }
+        $.enum = newValues;
+      }
+```
+
+### Make AnalyzerName a string
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnalyzeRequest.properties.analyzer
+    transform: >
+      const extraDocs = " KnownAnalyzerNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+  - from: swagger-document
+    where: $.definitions.Field.properties[*]
+    transform: >
+      const extraDocs = " KnownAnalyzerNames is an enum containing known values.";
+      if ($['$ref'] === "#/definitions/AnalyzerName") {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+```
+
+### Make TokenizerName a string
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnalyzeRequest.properties.tokenizer
+    transform: >
+      const extraDocs = " KnownTokenizerNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+  - from: swagger-document
+    where: $.definitions.CustomAnalyzer.properties.tokenizer
+    transform: >
+      const extraDocs = " KnownTokenizerNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+```
+
+### Make TokenFilterName a string
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnalyzeRequest.properties.tokenFilters.items
+    transform: >
+      const extraDocs = " KnownTokenFilterNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+  - from: swagger-document
+    where: $.definitions.CustomAnalyzer.properties.tokenFilters.items
+    transform: >
+      const extraDocs = " KnownTokenFilterNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+```
+
+### Make CharFilterName a string
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AnalyzeRequest.properties.charFilters.items
+    transform: >
+      const extraDocs = " KnownCharFilterNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+  - from: swagger-document
+    where: $.definitions.CustomAnalyzer.properties.charFilters.items
+    transform: >
+      const extraDocs = " KnownCharFilterNames is an enum containing known values.";
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.description = $.description + extraDocs;
+        $.type = 'string'
+      }
+```
+
+### Make RegexFlags a string
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.PatternAnalyzer.properties.flags
+    transform: >
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.type = 'string'
+      }
+  - from: swagger-document
+    where: $.definitions.PatternTokenizer.properties.flags
+    transform: >
+      if ($['$ref']) {
+        delete $['$ref'];
+        $.type = 'string'
+      }
+```
+
+### Lowercase eTag
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties["@odata.etag"]
+    transform: >
+      $["x-ms-client-name"] = "etag"
 ```

@@ -8,7 +8,7 @@ chai.use(chaiAsPromised);
 import { ServiceBusMessage, CorrelationFilter } from "../src";
 
 import { TestClientType, checkWithTimeout } from "./utils/testUtils";
-import { Receiver, SubscriptionRuleManagement } from "../src/receivers/receiver";
+import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
   ServiceBusClientForTests,
@@ -16,9 +16,11 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { SubscriptionRuleManager } from "../src/receivers/subscriptionRuleManager";
 
 describe("topic filters", () => {
-  let subscriptionClient: Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement;
+  let subscriptionClient: Receiver<ReceivedMessageWithLock>;
+  let subscriptionRuleManager: SubscriptionRuleManager;
   let topicClient: Sender;
   let serviceBusClient: ServiceBusClientForTests;
 
@@ -42,22 +44,26 @@ describe("topic filters", () => {
 
     const entityNames = await serviceBusClient.test.createTestEntities(receiverType);
 
-    subscriptionClient = await serviceBusClient.test.getSubscriptionPeekLockReceiver(entityNames);
+    subscriptionClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     topicClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSender(entityNames.topic!)
     );
 
+    subscriptionRuleManager = subscriptionRuleManager = serviceBusClient.test.addToCleanup(
+      serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
+    );
+
     if (receiverType === TestClientType.TopicFilterTestSubscription) {
-      await removeAllRules(subscriptionClient);
+      await removeAllRules(subscriptionRuleManager);
     }
   }
 
   async function afterEachTest(clearRules: boolean = true): Promise<void> {
     if (clearRules) {
-      await removeAllRules(subscriptionClient);
-      await subscriptionClient.addRule("DefaultFilter", true);
+      await removeAllRules(subscriptionRuleManager);
+      await subscriptionRuleManager.addRule("DefaultFilter", true);
 
-      const rules = await subscriptionClient.getRules();
+      const rules = await subscriptionRuleManager.getRules();
       should.equal(rules.length, 1, "Unexpected number of rules");
       should.equal(rules[0].name, "DefaultFilter", "RuleName is different than expected");
     }
@@ -67,11 +73,11 @@ describe("topic filters", () => {
   }
 
   // We need to remove rules before adding one because otherwise the existing default rule will let in all messages.
-  async function removeAllRules(client: SubscriptionRuleManagement): Promise<void> {
-    const rules = await client.getRules();
+  async function removeAllRules(client: SubscriptionRuleManager): Promise<void> {
+    const rules = await subscriptionRuleManager.getRules();
     for (let i = 0; i < rules.length; i++) {
       const rule = rules[i];
-      await client.removeRule(rule.name);
+      await subscriptionRuleManager.removeRule(rule.name);
     }
   }
 
@@ -110,7 +116,7 @@ describe("topic filters", () => {
   }
 
   async function receiveOrders(
-    client: Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement,
+    client: Receiver<ReceivedMessageWithLock>,
     expectedMessageCount: number
   ): Promise<ReceivedMessageWithLock[]> {
     let errorFromErrorHandler: Error | undefined;
@@ -149,9 +155,9 @@ describe("topic filters", () => {
     filter: boolean | string | CorrelationFilter,
     sqlRuleActionExpression?: string
   ): Promise<void> {
-    await subscriptionClient.addRule(ruleName, filter, sqlRuleActionExpression);
+    await subscriptionRuleManager.addRule(ruleName, filter, sqlRuleActionExpression);
 
-    const rules = await subscriptionClient.getRules();
+    const rules = await subscriptionRuleManager.getRules();
     should.equal(rules.length, 1, "Unexpected number of rules");
     should.equal(rules[0].name, ruleName, "Expected Rule not found");
 
@@ -170,8 +176,8 @@ describe("topic filters", () => {
     });
 
     async function BooleanFilter(bool: boolean): Promise<void> {
-      await subscriptionClient.addRule("BooleanFilter", bool);
-      const rules = await subscriptionClient.getRules();
+      await subscriptionRuleManager.addRule("BooleanFilter", bool);
+      const rules = await subscriptionRuleManager.getRules();
       should.equal(rules.length, 1, "Unexpected number of rules");
       should.equal(rules[0].name, "BooleanFilter", "RuleName is different than expected");
     }
@@ -185,41 +191,41 @@ describe("topic filters", () => {
     });
 
     it("Add SQL filter", async function(): Promise<void> {
-      await subscriptionClient.addRule(
+      await subscriptionRuleManager.addRule(
         "Priority_1",
         "(priority = 1 OR priority = 2) AND (sys.label LIKE '%String2')"
       );
-      const rules = await subscriptionClient.getRules();
+      const rules = await subscriptionRuleManager.getRules();
       should.equal(rules.length, 1, "Unexpected number of rules");
       should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
     });
 
     it("Add SQL filter and action", async function(): Promise<void> {
-      await subscriptionClient.addRule(
+      await subscriptionRuleManager.addRule(
         "Priority_1",
         "(priority = 1 OR priority = 3) AND (sys.label LIKE '%String1')",
         "SET sys.label = 'MessageX'"
       );
-      const rules = await subscriptionClient.getRules();
+      const rules = await subscriptionRuleManager.getRules();
       should.equal(rules.length, 1, "Unexpected number of rules");
       should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
     });
 
     it("Add Correlation filter", async function(): Promise<void> {
-      await subscriptionClient.addRule("Correlationfilter", {
+      await subscriptionRuleManager.addRule("Correlationfilter", {
         label: "red",
         correlationId: "high"
       });
-      const rules = await subscriptionClient.getRules();
+      const rules = await subscriptionRuleManager.getRules();
       should.equal(rules.length, 1, "Unexpected number of rules");
       should.equal(rules[0].name, "Correlationfilter", "RuleName is different than expected");
     });
 
     it("Add rule with a name which matches with existing rule", async function(): Promise<void> {
-      await subscriptionClient.addRule("Priority_1", "priority = 1");
+      await subscriptionRuleManager.addRule("Priority_1", "priority = 1");
       let errorWasThrown = false;
       try {
-        await subscriptionClient.addRule("Priority_1", "priority = 2");
+        await subscriptionRuleManager.addRule("Priority_1", "priority = 2");
       } catch (error) {
         errorWasThrown = true;
         should.equal(
@@ -251,7 +257,7 @@ describe("topic filters", () => {
     > {
       let errorWasThrown = false;
       try {
-        await subscriptionClient.removeRule("Priority_5");
+        await subscriptionRuleManager.removeRule("Priority_5");
       } catch (error) {
         should.equal(
           !error.message.search("Priority_5' could not be found"),
@@ -273,8 +279,8 @@ describe("topic filters", () => {
     > {
       let errorWasThrown = false;
       try {
-        await subscriptionClient.addRule("Priority_1", "priority = 1");
-        await subscriptionClient.removeRule("Priority_5");
+        await subscriptionRuleManager.addRule("Priority_1", "priority = 1");
+        await subscriptionRuleManager.removeRule("Priority_5");
       } catch (error) {
         errorWasThrown = true;
       }
@@ -294,19 +300,19 @@ describe("topic filters", () => {
     it("Subscription with 0/1/multiple rules returns rules as expected", async function(): Promise<
       void
     > {
-      let rules = await subscriptionClient.getRules();
+      let rules = await subscriptionRuleManager.getRules();
       should.equal(rules.length, 0, "Unexpected number of rules");
 
       const expr1 = "(priority = 1)";
-      await subscriptionClient.addRule("Priority_1", expr1);
-      rules = await subscriptionClient.getRules();
+      await subscriptionRuleManager.addRule("Priority_1", expr1);
+      rules = await subscriptionRuleManager.getRules();
       should.equal(rules.length, 1, "Unexpected number of rules");
       should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
       should.equal(rules[0].filter, expr1, "Filter-expression is different than expected");
 
       const expr2 = "(priority = 1 OR priority = 3) AND (sys.label LIKE '%String1')";
-      await subscriptionClient.addRule("Priority_2", expr2);
-      rules = await subscriptionClient.getRules();
+      await subscriptionRuleManager.addRule("Priority_2", expr2);
+      rules = await subscriptionRuleManager.getRules();
       should.equal(rules.length, 2, "Unexpected number of rules");
       should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
       should.equal(rules[0].filter, expr1, "Filter-expression is different than expected");
@@ -317,21 +323,21 @@ describe("topic filters", () => {
     it("Rule with SQL filter and action returns expected filter and action expression", async function(): Promise<
       void
     > {
-      await subscriptionClient.addRule(
+      await subscriptionRuleManager.addRule(
         "Priority_1",
         "(priority = 1 OR priority = 3) AND (sys.label LIKE '%String1')",
         "SET sys.label = 'MessageX'"
       );
-      const rules = await subscriptionClient.getRules();
+      const rules = await subscriptionRuleManager.getRules();
       should.equal(rules[0].name, "Priority_1", "RuleName is different than expected");
     });
 
     it("Rule with Correlation filter returns expected filter", async function(): Promise<void> {
-      await subscriptionClient.addRule("Correlationfilter", {
+      await subscriptionRuleManager.addRule("Correlationfilter", {
         label: "red",
         correlationId: "high"
       });
-      const rules = await subscriptionClient.getRules();
+      const rules = await subscriptionRuleManager.getRules();
       should.equal(rules[0].name, "Correlationfilter", "RuleName is different than expected");
       const expectedFilter = {
         correlationId: "high",
@@ -369,7 +375,7 @@ describe("topic filters", () => {
     it("Default rule is returned for the subscription for which no rules were added", async function(): Promise<
       void
     > {
-      const rules = await subscriptionClient.getRules();
+      const rules = await subscriptionRuleManager.getRules();
       should.equal(rules.length, 1, "Unexpected number of rules");
       should.equal(rules[0].name, "$Default", "RuleName is different than expected");
     });
@@ -393,11 +399,11 @@ describe("topic filters", () => {
 
     async function addFilterAndReceiveOrders(
       bool: boolean,
-      client: Receiver<ReceivedMessageWithLock> & SubscriptionRuleManagement,
+      client: Receiver<ReceivedMessageWithLock>,
       expectedMessageCount: number
     ): Promise<void> {
-      await subscriptionClient.addRule("BooleanFilter", bool);
-      const rules = await subscriptionClient.getRules();
+      await subscriptionRuleManager.addRule("BooleanFilter", bool);
+      const rules = await subscriptionRuleManager.getRules();
       should.equal(rules.length, 1, "Unexpected number of rules");
       should.equal(rules[0].name, "BooleanFilter", "RuleName is different than expected");
 

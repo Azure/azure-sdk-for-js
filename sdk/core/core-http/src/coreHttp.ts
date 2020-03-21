@@ -5,6 +5,7 @@
 
 export {
   WebResource,
+  WebResourceLike,
   HttpRequestBody,
   RequestPrepareOptions,
   HttpMethods,
@@ -14,7 +15,7 @@ export {
 } from "./webResource";
 export { DefaultHttpClient } from "./defaultHttpClient";
 export { HttpClient } from "./httpClient";
-export { HttpHeaders } from "./httpHeaders";
+export { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
 export { HttpOperationResponse, HttpResponse, RestResponse } from "./httpOperationResponse";
 export { HttpPipelineLogger } from "./httpPipelineLogger";
 export { HttpPipelineLogLevel } from "./httpPipelineLogLevel";

@@ -301,7 +301,7 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
 
 /**
  * @internal
- * Converts given SendableMessageInfo to AmqpMessage
+ * Converts given ServiceBusMessage to AmqpMessage
  */
 export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
   const amqpMsg: AmqpMessage = {
@@ -1043,7 +1043,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * @returns ServiceBusMessage
    */
   clone(): ServiceBusMessage {
-    // We are returning a SendableMessageInfo object because that object can then be sent to Service Bus
+    // We are returning a ServiceBusMessage object because that object can then be sent to Service Bus
     const clone: ServiceBusMessage = {
       body: this.body,
       contentType: this.contentType,

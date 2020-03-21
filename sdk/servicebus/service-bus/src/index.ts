@@ -26,6 +26,8 @@ export {
   ReceiveMode,
   ReceivedMessageWithLock
 } from "./serviceBusMessage";
+export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
+
 export { Delivery, WebSocketImpl } from "rhea-promise";
 
 export {
@@ -35,10 +37,12 @@ export {
   MessageHandlers,
   ReceiveBatchOptions,
   SubscribeOptions,
-  WaitTimeOptions
+  WaitTimeOptions,
+  CreateBatchOptions
 } from "./models";
 
-export { Receiver, SubscriptionRuleManagement } from "./receivers/receiver";
+export { Receiver } from "./receivers/receiver";
+export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { ServiceBusClient } from "./serviceBusClient";

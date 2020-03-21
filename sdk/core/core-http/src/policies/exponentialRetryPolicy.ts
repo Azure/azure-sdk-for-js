@@ -3,7 +3,7 @@
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -87,7 +87,7 @@ export const DefaultRetryOptions: RetryOptions = {
   maxRetries: DEFAULT_CLIENT_RETRY_COUNT,
   retryDelayInMs: DEFAULT_CLIENT_RETRY_INTERVAL,
   maxRetryDelayInMs: DEFAULT_CLIENT_MAX_RETRY_INTERVAL
-}
+};
 
 /**
  * @class
@@ -134,7 +134,7 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
       : DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
   }
 
-  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy
       .sendRequest(request.clone())
       .then((response) => retry(this, request, response))
@@ -211,17 +211,14 @@ function updateRetryData(
     Math.floor(Math.random() * (policy.retryInterval * 1.2 - policy.retryInterval * 0.8));
   incrementDelta *= boundedRandDelta;
 
-  retryData.retryInterval = Math.min(
-    incrementDelta,
-    policy.maxRetryInterval
-  );
+  retryData.retryInterval = Math.min(incrementDelta, policy.maxRetryInterval);
 
   return retryData;
 }
 
 function retry(
   policy: ExponentialRetryPolicy,
-  request: WebResource,
+  request: WebResourceLike,
   response?: HttpOperationResponse,
   retryData?: RetryData,
   requestError?: RetryError

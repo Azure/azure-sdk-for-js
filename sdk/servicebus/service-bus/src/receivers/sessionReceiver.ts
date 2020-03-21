@@ -5,8 +5,6 @@ import { ClientEntityContext } from "../clientEntityContext";
 import {
   SessionReceiverOptions,
   SessionMessageHandlerOptions,
-  RuleDescription,
-  CorrelationFilter,
   MessageHandlers,
   SubscribeOptions,
   ReceiveBatchOptions,
@@ -26,13 +24,7 @@ import {
 } from "../util/errors";
 import * as log from "../log";
 import { OnMessage, OnError } from "../core/messageReceiver";
-import {
-  getSubscriptionRules,
-  removeSubscriptionRule,
-  addSubscriptionRule,
-  assertValidMessageHandlers,
-  getMessageIterator
-} from "./shared";
+import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
@@ -147,7 +139,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    public entityType: "queue" | "subscription",
     private _sessionOptions: SessionReceiverOptions
   ) {
     throwErrorIfConnectionClosed(context.namespace);
@@ -224,10 +215,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
     }
-  }
-
-  getDeadLetterPath(): string {
-    return `${this.entityPath}/$DeadLetterQueue`;
   }
 
   /**
@@ -536,32 +523,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT> {
     return getMessageIterator(this, options);
   }
-
-  // #region topic-filters
-
-  getRules(): Promise<RuleDescription[]> {
-    return getSubscriptionRules(this._context);
-  }
-
-  removeRule(ruleName: string): Promise<void> {
-    return removeSubscriptionRule(this._context, ruleName);
-  }
-
-  addRule(
-    ruleName: string,
-    filter: boolean | string | CorrelationFilter,
-    sqlRuleActionExpression?: string
-  ): Promise<void> {
-    return addSubscriptionRule(this._context, ruleName, filter, sqlRuleActionExpression);
-  }
-
-  /**
-   * @readonly
-   * @property The name of the default rule on the subscription.
-   */
-  readonly defaultRuleName: string = "$Default";
-
-  // #endregion
 
   /**
    * Closes the underlying AMQP receiver link.

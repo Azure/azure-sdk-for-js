@@ -144,16 +144,3 @@ export const synonymMapName: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const xMsClientRequestId: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "requestOptions",
-    "xMsClientRequestId"
-  ],
-  mapper: {
-    serializedName: "x-ms-client-request-id",
-    type: {
-      name: "Uuid"
-    }
-  }
-};
