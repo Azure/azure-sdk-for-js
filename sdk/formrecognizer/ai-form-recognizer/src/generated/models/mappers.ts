@@ -123,7 +123,7 @@ export const ModelsSummary: coreHttp.CompositeMapper = {
         serializedName: "limit",
         required: true
       },
-      lastUpdatedDateTime: {
+      lastUpdatedOn: {
         type: { name: "DateTime" },
         serializedName: "lastUpdatedDateTime",
         required: true
@@ -148,12 +148,12 @@ export const ModelInfo: coreHttp.CompositeMapper = {
         serializedName: "status",
         required: true
       },
-      createdDateTime: {
+      createdOn: {
         type: { name: "DateTime" },
         serializedName: "createdDateTime",
         required: true
       },
-      lastUpdatedDateTime: {
+      lastUpdatedOn: {
         type: { name: "DateTime" },
         serializedName: "lastUpdatedDateTime",
         required: true
@@ -341,12 +341,12 @@ export const AnalyzeOperationResult: coreHttp.CompositeMapper = {
         serializedName: "status",
         required: true
       },
-      createdDateTime: {
+      createdOn: {
         type: { name: "DateTime" },
         serializedName: "createdDateTime",
         required: true
       },
-      lastUpdatedDateTime: {
+      lastUpdatedOn: {
         type: { name: "DateTime" },
         serializedName: "lastUpdatedDateTime",
         required: true
@@ -411,7 +411,7 @@ export const ReadResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ReadResult",
     modelProperties: {
-      page: {
+      pageNumber: {
         type: { name: "Number" },
         serializedName: "page",
         required: true,
@@ -526,7 +526,7 @@ export const PageResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "PageResult",
     modelProperties: {
-      page: {
+      pageNumber: {
         type: { name: "Number" },
         serializedName: "page",
         required: true,
@@ -827,7 +827,7 @@ export const FieldValue: coreHttp.CompositeMapper = {
         },
         serializedName: "elements"
       },
-      page: {
+      pageNumber: {
         type: { name: "Number" },
         serializedName: "page",
         constraints: { InclusiveMinimum: 1 }
