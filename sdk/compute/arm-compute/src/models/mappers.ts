@@ -796,6 +796,71 @@ export const DedicatedHostUpdate: msRest.CompositeMapper = {
   }
 };
 
+export const SshPublicKeyGenerateKeyPairResult: msRest.CompositeMapper = {
+  serializedName: "SshPublicKeyGenerateKeyPairResult",
+  type: {
+    name: "Composite",
+    className: "SshPublicKeyGenerateKeyPairResult",
+    modelProperties: {
+      privateKey: {
+        required: true,
+        serializedName: "privateKey",
+        type: {
+          name: "String"
+        }
+      },
+      publicKey: {
+        required: true,
+        serializedName: "publicKey",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SshPublicKeyResource: msRest.CompositeMapper = {
+  serializedName: "SshPublicKeyResource",
+  type: {
+    name: "Composite",
+    className: "SshPublicKeyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      publicKey: {
+        serializedName: "properties.publicKey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SshPublicKeyUpdateResource: msRest.CompositeMapper = {
+  serializedName: "SshPublicKeyUpdateResource",
+  type: {
+    name: "Composite",
+    className: "SshPublicKeyUpdateResource",
+    modelProperties: {
+      ...UpdateResource.type.modelProperties,
+      publicKey: {
+        serializedName: "properties.publicKey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineSize: msRest.CompositeMapper = {
   serializedName: "VirtualMachineSize",
   type: {
@@ -5136,6 +5201,30 @@ export const VirtualMachineScaleSetVMExtensionsSummary: msRest.CompositeMapper =
   }
 };
 
+export const OrchestrationServiceSummary: msRest.CompositeMapper = {
+  serializedName: "OrchestrationServiceSummary",
+  type: {
+    name: "Composite",
+    className: "OrchestrationServiceSummary",
+    modelProperties: {
+      serviceName: {
+        readOnly: true,
+        serializedName: "serviceName",
+        type: {
+          name: "String"
+        }
+      },
+      serviceState: {
+        readOnly: true,
+        serializedName: "serviceState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VirtualMachineScaleSetInstanceView: msRest.CompositeMapper = {
   serializedName: "VirtualMachineScaleSetInstanceView",
   type: {
@@ -5171,6 +5260,19 @@ export const VirtualMachineScaleSetInstanceView: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "InstanceViewStatus"
+            }
+          }
+        }
+      },
+      orchestrationServices: {
+        readOnly: true,
+        serializedName: "orchestrationServices",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OrchestrationServiceSummary"
             }
           }
         }
@@ -6118,6 +6220,32 @@ export const VMScaleSetConvertToSinglePlacementGroupInput: msRest.CompositeMappe
     modelProperties: {
       activePlacementGroupId: {
         serializedName: "activePlacementGroupId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OrchestrationServiceStateInput: msRest.CompositeMapper = {
+  serializedName: "OrchestrationServiceStateInput",
+  type: {
+    name: "Composite",
+    className: "OrchestrationServiceStateInput",
+    modelProperties: {
+      serviceName: {
+        required: true,
+        isConstant: true,
+        serializedName: "serviceName",
+        defaultValue: 'AutomaticRepairs',
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        required: true,
+        serializedName: "action",
         type: {
           name: "String"
         }
@@ -9262,6 +9390,35 @@ export const DedicatedHostListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DedicatedHost"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SshPublicKeysGroupListResult: msRest.CompositeMapper = {
+  serializedName: "SshPublicKeysGroupListResult",
+  type: {
+    name: "Composite",
+    className: "SshPublicKeysGroupListResult",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SshPublicKeyResource"
             }
           }
         }
