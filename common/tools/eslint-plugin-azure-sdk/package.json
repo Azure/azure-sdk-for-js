@@ -79,7 +79,7 @@
     "bluebird": "^3.5.5",
     "chai": "^4.2.0",
     "eslint": "^6.1.0",
-    "mocha": "^7.1.1",
+    "mocha": "^6.2.2",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
