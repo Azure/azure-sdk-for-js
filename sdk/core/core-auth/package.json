@@ -80,7 +80,7 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "inherits": "^2.0.3",
-    "mocha": "^6.2.2",
+    "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
