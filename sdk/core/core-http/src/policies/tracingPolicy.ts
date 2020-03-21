@@ -9,7 +9,7 @@ import {
   RequestPolicyOptions,
   BaseRequestPolicy
 } from "./requestPolicy";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { URLBuilder } from "../url";
 
@@ -37,7 +37,7 @@ export class TracingPolicy extends BaseRequestPolicy {
     this.userAgent = tracingOptions.userAgent;
   }
 
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     if (!request.spanOptions || !request.spanOptions.parent) {
       return this._nextPolicy.sendRequest(request);
     }

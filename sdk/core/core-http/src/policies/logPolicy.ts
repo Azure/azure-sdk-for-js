@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -100,14 +100,14 @@ export class LogPolicy extends BaseRequestPolicy {
     this.sanitizer = new Sanitizer({ allowedHeaderNames, allowedQueryParameters });
   }
 
-  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     if (!this.logger.enabled) return this._nextPolicy.sendRequest(request);
 
     this.logRequest(request);
     return this._nextPolicy.sendRequest(request).then((response) => this.logResponse(response));
   }
 
-  private logRequest(request: WebResource) {
+  private logRequest(request: WebResourceLike) {
     this.logger(`Request: ${this.sanitizer.sanitize(request)}`);
   }
 
