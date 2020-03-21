@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-policyinsights";
-const packageVersion = "3.1.0";
+const packageVersion = "3.2.0";
 
 export class PolicyInsightsClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
