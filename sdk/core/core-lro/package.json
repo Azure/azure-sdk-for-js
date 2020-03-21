@@ -88,7 +88,7 @@
     "test": "npm run build:test && npm run unit-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run build:test && karma start --single-run",
-    "unit-test:node": "npm run build:test && nyc mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --timeout 1200000 --full-trace dist-test/index.node.js",
+    "unit-test:node": "npm run build:test && nyc mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-test/index.node.js",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean"
   },
