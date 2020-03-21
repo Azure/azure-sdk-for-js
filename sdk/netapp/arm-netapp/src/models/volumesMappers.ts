@@ -14,16 +14,18 @@ export {
   CapacityPoolPatch,
   CloudError,
   ExportPolicyRule,
+  MountTarget,
+  MountTargetList,
   NetAppAccount,
   NetAppAccountPatch,
   ReplicationObject,
   ReplicationStatus,
   Snapshot,
-  SnapshotPatch,
   Volume,
   VolumeList,
   VolumePatch,
   VolumePatchPropertiesExportPolicy,
   VolumePropertiesDataProtection,
-  VolumePropertiesExportPolicy
+  VolumePropertiesExportPolicy,
+  VolumeRevert
 } from "../models/mappers";
