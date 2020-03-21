@@ -44,7 +44,9 @@
     "lint": "eslint src tests --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "unit-test": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
+    "unit-test:node": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
+    "unit-test:browser": "echo skipped",
+    "unit-test": "unit-test:node && unit-test:browser",
     "test": "npm run clean && npm run build:test && npm run unit-test"
   },
   "engines": {
