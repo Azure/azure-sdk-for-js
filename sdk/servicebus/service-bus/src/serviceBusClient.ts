@@ -23,10 +23,11 @@ import {
 
 /**
  * A client that can create Sender instances for sending messages to queues and
- * topics as well as Receiver instances to receive messages from queus and subscriptions.
+ * topics as well as Receiver instances to receive messages from queues and subscriptions.
  */
 export class ServiceBusClient {
   private _connectionContext: ConnectionContext;
+  private _clientOptions: ServiceBusClientOptions | undefined;
 
   /**
    *
@@ -55,20 +56,20 @@ export class ServiceBusClient {
     if (isTokenCredential(tokenCredentialOrServiceBusOptions2)) {
       const hostName: string = connectionStringOrHostName1;
       const tokenCredential: TokenCredential = tokenCredentialOrServiceBusOptions2;
-      const options: ServiceBusClientOptions | undefined = options3;
+      this._clientOptions = options3;
 
       this._connectionContext = createConnectionContextForTokenCredential(
         tokenCredential,
         hostName,
-        options
+        this._clientOptions
       );
     } else {
       const connectionString: string = connectionStringOrHostName1;
-      const options: ServiceBusClientOptions | undefined = tokenCredentialOrServiceBusOptions2;
+      this._clientOptions = tokenCredentialOrServiceBusOptions2;
 
       this._connectionContext = createConnectionContextForConnectionString(
         connectionString,
-        options
+        this._clientOptions
       );
     }
   }
