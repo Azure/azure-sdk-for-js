@@ -206,11 +206,7 @@ export class ServiceBusClient {
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetSessionReceiverOptions,
     options4?: GetSessionReceiverOptions
-  ):
-    | SessionReceiver<ReceivedMessageWithLock>
-    | SessionReceiver<ReceivedMessage>
-    | SessionReceiver<ReceivedMessage>
-    | SessionReceiver<ReceivedMessageWithLock> {
+  ): SessionReceiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessage> {
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
     let options: GetSessionReceiverOptions | undefined;
