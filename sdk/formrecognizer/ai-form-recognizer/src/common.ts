@@ -14,6 +14,10 @@ export interface FormRecognizerClientOptions extends PipelineOptions {}
  */
 export interface FormRecognizerOperationOptions extends OperationOptions {}
 
+/**
+ * Translate the content to a format that is understood by Form Recognizer service
+ * @internal
+ */
 export function toRequestBody(body: FormRecognizerRequestBody): FormRecognizerRequestBody {
   if (typeof body === "string") {
     return {

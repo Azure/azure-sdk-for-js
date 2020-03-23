@@ -582,15 +582,18 @@ export interface LabeledFormResult {
    */
   version: string;
   /**
-   * Text extracted from the input.
+   * Text extracted from the input. Example includes lines consist of words, and other
+   * elements like checkbox, etc.
    */
   rawExtractedPages: RawExtractedPage[];
   /**
-   * Page-level information extracted from the input.
+   * Page-level information extracted from the input, including fields of name-value pairs
+   * and data tables.
    */
   extractedPages?: ExtractedPage[];
   /**
-   * Document-level information extracted from the input.
+   * Document-level information extracted from the input using machine learning. They include
+   * extracted fields that have meaning beyond text, for example, addresses, phone numbers, dates, etc.
    */
   extractedForms?: ExtractedForm[];
   /**
@@ -657,14 +660,35 @@ export type LabeledFormResultResponse = LabeledFormOperationResult & {
   };
 };
 
+/**
+ * Contains the unsupervised training results
+ */
 export interface FormTrainResult {
+  /**
+   * List of document used to train the model and any errors reported for each document.
+   */
   trainingDocuments: TrainingDocumentInfo[];
+  /**
+   * Errors returned during training operation.
+   */
   errors?: ErrorInformation[];
 }
 
+/**
+ * Represents a model from unsupervised training
+ */
 export interface FormModel {
+  /**
+   * Information about the model
+   */
   modelInfo: ModelInfo;
+  /**
+   * Keys extracted from unsupervised training
+   */
   keys: KeysResult;
+  /**
+   * Results of the unsupervised training
+   */
   trainResult?: FormTrainResult;
 }
 
