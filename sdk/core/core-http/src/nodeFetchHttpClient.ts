@@ -111,7 +111,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     // Set the http(s) agent
     requestInit.agent = this.getOrCreateAgent(httpRequest);
 
-    requestInit.compress = httpRequest.compress;
+    requestInit.compress = httpRequest.decompressResponse;
 
     return requestInit;
   }

@@ -49,7 +49,7 @@
   ],
   "browser": {
     "./es/src/policies/msRestUserAgentPolicy.js": "./es/src/policies/msRestUserAgentPolicy.browser.js",
-    "./es/src/policies/compressPolicy.js": "./es/src/policies/compressPolicy.browser.js",
+    "./es/src/policies/disableResponseDecompressionPolicy.js": "./es/src/policies/disableResponseDecompressionPolicy.browser.js",
     "./es/src/policies/proxyPolicy.js": "./es/src/policies/proxyPolicy.browser.js",
     "./es/src/util/base64.js": "./es/src/util/base64.browser.js",
     "./es/src/util/xml.js": "./es/src/util/xml.browser.js",

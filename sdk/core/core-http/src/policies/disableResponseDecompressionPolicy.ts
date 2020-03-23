@@ -5,40 +5,28 @@ import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from './reques
 import { WebResource } from '../webResource';
 import { HttpOperationResponse } from '../httpOperationResponse';
 
-/**
- * Options for how HTTP connections should handle the gzip/defalte encoding for future
- * requests.
- */
-export interface CompressOptions {
-  /*
-   * When true, enables the support of gzip/defalte content encoding in node-fetch client.
-   */
-  enable: boolean;
-}
-
-export function compressPolicy(compressOptions: CompressOptions = { enable: true }) {
+export function disableResponseDecompressionPolicy() {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new CompressPolicy(nextPolicy, options, compressOptions);
+      return new DisableResponseDecompressionPolicy(nextPolicy, options);
     }
   };
 }
 
 /**
- * CompressPolicy is a policy used to control fetch() compress option for every request.
+ * A policy to disable response decompression according to Accept-Encoding header
+ * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding
  */
-export class CompressPolicy extends BaseRequestPolicy {
+export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of CompressPolicy.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {CompressOptions} [compressOptions]
    */
   constructor(
     nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions,
-    public readonly compressOptions: CompressOptions
+    options: RequestPolicyOptions
   ) {
     super(nextPolicy, options);
   }
@@ -51,7 +39,7 @@ export class CompressPolicy extends BaseRequestPolicy {
    * @memberof CompressPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    request.compress = this.compressOptions.enable;
+    request.decompressResponse = false;
     return this._nextPolicy.sendRequest(request);
   }
 }

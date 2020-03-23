@@ -14,7 +14,7 @@ export interface CompressOptions {
   enable: boolean;
 }
 
-export function compressPolicy(_compressOptions?: CompressOptions) {
+export function disableResponseDecompressionPolicy(_compressOptions?: CompressOptions) {
   return {
     create: (_nextPolicy: RequestPolicy, _options: RequestPolicyOptions) => {
       throw compressNotSupportedInBrowser;
@@ -22,7 +22,7 @@ export function compressPolicy(_compressOptions?: CompressOptions) {
   };
 }
 
-export class CompressPolicy extends BaseRequestPolicy {
+export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,

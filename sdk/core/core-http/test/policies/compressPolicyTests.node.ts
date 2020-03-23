@@ -5,7 +5,7 @@ import "chai/register-should";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
 import { HttpHeaders } from "../../src/httpHeaders";
-import { compressPolicy, CompressPolicy } from "../../src/policies/compressPolicy";
+import { disableResponseDecompressionPolicy, DisableResponseDecompressionPolicy } from "../../src/policies/disableResponseDecompressionPolicy";
 import { HttpOperationResponse } from '../../src/coreHttp';
 
 describe("CompressPolicy (node)", function() {
@@ -17,16 +17,9 @@ describe("CompressPolicy (node)", function() {
       headers: new HttpHeaders(undefined)
     }
   }
-  const verifyCompressEnabledPolicy = {
+  const verifyDecompressionDisabledPolicy = {
     sendRequest: async(request: WebResource) => {
-      request.compress!.should.equal(true);
-      return Promise.resolve(responseOf(request))
-    }
-  };
-
-  const verifyCompressDisabledPolicy = {
-    sendRequest: async(request: WebResource) => {
-      request.compress!.should.equal(false);
+      request.decompressResponse!.should.equal(false);
       return Promise.resolve(responseOf(request))
     }
   };
@@ -34,28 +27,20 @@ describe("CompressPolicy (node)", function() {
   const emptyPolicyOptions = new RequestPolicyOptions();
 
   describe("for Node.js", function() {
-
-    it("sets compress options enable: true through factory by default", async function() {
-      const factory = compressPolicy();
-      const policy = factory.create(verifyCompressEnabledPolicy, emptyPolicyOptions) as CompressPolicy;
+    it("factory passes correct option", async function() {
+      const factory = disableResponseDecompressionPolicy();
+      const policy = factory.create(verifyDecompressionDisabledPolicy, emptyPolicyOptions) as DisableResponseDecompressionPolicy;
+      const request = new WebResource();
+      await policy.sendRequest(request);
+    });
+    it("sets correct option through constructor", async function() {
+      const policy = new DisableResponseDecompressionPolicy(verifyDecompressionDisabledPolicy, emptyPolicyOptions);
       const request = new WebResource();
       await policy.sendRequest(request);
     });
 
-    it("factory passes correct compress options", async function() {
-      const factory = compressPolicy({ enable: false });
-      const policy = factory.create(verifyCompressDisabledPolicy, emptyPolicyOptions) as CompressPolicy;
-      const request = new WebResource();
-      await policy.sendRequest(request);
-    });
-    it("sets correct compress options through constructor", async function() {
-      const policy = new CompressPolicy(verifyCompressDisabledPolicy, emptyPolicyOptions, { enable: false });
-      const request = new WebResource();
-      await policy.sendRequest(request);
-    });
-
-    it("should assign compress option to the web request", async () => {
-      const policy = new CompressPolicy(verifyCompressDisabledPolicy, emptyPolicyOptions, { enable: false });
+    it("should assign option to the web request", async () => {
+      const policy = new DisableResponseDecompressionPolicy(verifyDecompressionDisabledPolicy, emptyPolicyOptions);
       const request = new WebResource();
       await policy.sendRequest(request);
     });

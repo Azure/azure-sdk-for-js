@@ -5,7 +5,7 @@ import "chai/register-should";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
 import { HttpHeaders } from "../../src/httpHeaders";
-import { compressPolicy, CompressPolicy } from "../../src/policies/compressPolicy";
+import { disableResponseDecompressionPolicy, DisableResponseDecompressionPolicy } from "../../src/policies/disableResponseDecompressionPolicy";
 import { HttpClient, ServiceClient, Serializer } from '../../src/coreHttp';
 
 describe("CompressPolicy (browser)", function() {
@@ -23,7 +23,7 @@ describe("CompressPolicy (browser)", function() {
   describe("for browser", () => {
     it("should throw an Error while constructing object", () => {
       const construct = () =>
-        new CompressPolicy(emptyRequestPolicy, emptyPolicyOptions, { enable: true });
+        new DisableResponseDecompressionPolicy(emptyRequestPolicy, emptyPolicyOptions);
       construct.should.throw();
     });
 
@@ -43,7 +43,7 @@ describe("CompressPolicy (browser)", function() {
 
       const client1 = new ServiceClient(undefined, {
         httpClient,
-        requestPolicyFactories: [compressPolicy()]
+        requestPolicyFactories: [disableResponseDecompressionPolicy()]
       });
 
       try {

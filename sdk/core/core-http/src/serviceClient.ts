@@ -58,6 +58,7 @@ import { logger } from "./log";
 import { InternalPipelineOptions } from "./pipelineOptions";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
+import { disableResponseDecompressionPolicy } from './policies/disableResponseDecompressionPolicy';
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -706,6 +707,10 @@ export function createPipelineFromOptions(
   }
 
   requestPolicyFactories.push(logPolicy(loggingOptions));
+
+  if (isNode && pipelineOptions.decompressResponse === false) {
+    requestPolicyFactories.push(disableResponseDecompressionPolicy());
+  }
 
   return {
     httpClient: pipelineOptions.httpClient,
