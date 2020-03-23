@@ -1,5 +1,5 @@
 import { retry, testPollerProperties } from "./recorderUtils";
-import { KeyClient } from "../../src";
+import { KeyClient } from "@azure/keyvault-keys";
 
 export default class TestClient {
   public readonly client: KeyClient;
