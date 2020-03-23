@@ -21,7 +21,10 @@ import {
   ConditionErrorNameMapper,
   AmqpMessage,
   SendRequestOptions,
-  MessagingError
+  MessagingError,
+  RetryConfig,
+  RetryOperationType,
+  retry
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
@@ -46,6 +49,8 @@ import {
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
+import { getRetryAttemptTimeoutInMs } from "../util/retries";
+import { GetSenderOptions } from "../models";
 
 /**
  * Represents a Rule on a Subscription that is used to filter the incoming message from the
@@ -534,8 +539,10 @@ export class ManagementClient extends LinkEntity {
    */
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
-    messages: ServiceBusMessage[]
+    messages: ServiceBusMessage[],
+    options: GetSenderOptions
   ): Promise<Long[]> {
+    const retryOptions = options.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any[] = [];
     for (let i = 0; i < messages.length; i++) {
@@ -567,7 +574,7 @@ export class ManagementClient extends LinkEntity {
         if (err instanceof TypeError || err.name === "TypeError") {
           // `RheaMessageUtil.encode` can fail if message properties are of invalid type
           // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
-          // Errors in such cases do not have user friendy message or call stack
+          // Errors in such cases do not have user-friendly message or call stack
           // So use `getMessagePropertyTypeMismatchError` to get a better error message
           error = translate(getMessagePropertyTypeMismatchError(item) || err);
         } else {
@@ -582,40 +589,104 @@ export class ManagementClient extends LinkEntity {
       }
     }
     try {
-      const request: AmqpMessage = {
-        body: { messages: messageBody },
-        reply_to: this.replyTo,
-        application_properties: {
-          operation: Constants.operations.scheduleMessage
-        }
+      const scheduleMessageOperationPromise = () =>
+        new Promise<Long.Long[]>(async (resolve, reject) => {
+          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
+          let timeTakenByInit = 0;
+          const request: AmqpMessage = {
+            body: { messages: messageBody },
+            reply_to: this.replyTo,
+            application_properties: {
+              operation: Constants.operations.scheduleMessage
+            }
+          };
+          if (this._context.sender) {
+            request.application_properties![
+              Constants.associatedLinkName
+            ] = this._context.sender!.name;
+          }
+          request.application_properties![Constants.trackingId] = generate_uuid();
+          log.mgmt(
+            "[%s] Schedule messages request body: %O.",
+            this._context.namespace.connectionId,
+            request.body
+          );
+
+          if (!this._isMgmtRequestResponseLinkOpen()) {
+            log.mgmt(
+              "[%s] Acquiring lock to get the management req res link.",
+              this._context.namespace.connectionId
+            );
+
+            const initOperationStartTime = Date.now();
+
+            const actionAfterTimeout = () => {
+              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+              const e: Error = {
+                name: "OperationTimeoutError",
+                message: desc
+              };
+
+              return reject(translate(e));
+            };
+
+            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
+
+            try {
+              await defaultLock.acquire(this.managementLock, () => {
+                return this._init();
+              });
+            } catch (err) {
+              return reject(translate(err));
+            } finally {
+              clearTimeout(waitTimer);
+            }
+            timeTakenByInit = Date.now() - initOperationStartTime;
+          }
+
+          try {
+            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+
+            const sendRequestOptions: SendRequestOptions = {
+              abortSignal: undefined,
+              requestName: undefined,
+              timeoutInMs: remainingOperationTimeoutInMs
+            };
+            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+            const sequenceNumbers = result.body[Constants.sequenceNumbers];
+            const sequenceNumbersAsLong = [];
+            for (let i = 0; i < sequenceNumbers.length; i++) {
+              if (typeof sequenceNumbers[i] === "number") {
+                sequenceNumbersAsLong.push(Long.fromNumber(sequenceNumbers[i]));
+              } else {
+                sequenceNumbersAsLong.push(Long.fromBytesBE(sequenceNumbers[i]));
+              }
+            }
+            resolve(sequenceNumbersAsLong);
+          } catch (err) {
+            err = translate(err);
+            const address =
+              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
+                ? "address"
+                : this._mgmtReqResLink!.sender.address;
+            log.warning(
+              "[%s] An error occurred during send on management request-response link with address " +
+                "'%s': %O",
+              this._context.namespace.connectionId,
+              address,
+              err
+            );
+            reject(err);
+          }
+        });
+
+      const config: RetryConfig<Long.Long[]> = {
+        operation: scheduleMessageOperationPromise,
+        connectionId: this._context.namespace.connectionId,
+        operationType: RetryOperationType.management,
+        retryOptions: retryOptions
       };
-      if (this._context.sender) {
-        request.application_properties![Constants.associatedLinkName] = this._context.sender!.name;
-      }
-      request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
-        "[%s] Schedule messages request body: %O.",
-        this._context.namespace.connectionId,
-        request.body
-      );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
-      });
-      const result = await this._mgmtReqResLink!.sendRequest(request);
-      const sequenceNumbers = result.body[Constants.sequenceNumbers];
-      const sequenceNumbersAsLong = [];
-      for (let i = 0; i < sequenceNumbers.length; i++) {
-        if (typeof sequenceNumbers[i] === "number") {
-          sequenceNumbersAsLong.push(Long.fromNumber(sequenceNumbers[i]));
-        } else {
-          sequenceNumbersAsLong.push(Long.fromBytesBE(sequenceNumbers[i]));
-        }
-      }
-      return sequenceNumbersAsLong;
+      return await retry<Long.Long[]>(config);
     } catch (err) {
       const error = translate(err);
       log.error(
@@ -632,7 +703,8 @@ export class ManagementClient extends LinkEntity {
    * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
    * @returns Promise<void>
    */
-  async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
+  async cancelScheduledMessages(sequenceNumbers: Long[], options: GetSenderOptions): Promise<void> {
+    const retryOptions = options.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
@@ -676,14 +748,75 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
-      });
-      await this._mgmtReqResLink!.sendRequest(request);
+
+      const cancelSchedulesMessagesOperationPromise = () =>
+        new Promise<void>(async (resolve, reject) => {
+          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
+          let timeTakenByInit = 0;
+          if (!this._isMgmtRequestResponseLinkOpen()) {
+            log.mgmt(
+              "[%s] Acquiring lock to get the management req res link.",
+              this._context.namespace.connectionId
+            );
+
+            const initOperationStartTime = Date.now();
+
+            const actionAfterTimeout = () => {
+              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+              const e: Error = {
+                name: "OperationTimeoutError",
+                message: desc
+              };
+
+              return reject(translate(e));
+            };
+
+            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
+
+            try {
+              await defaultLock.acquire(this.managementLock, () => {
+                return this._init();
+              });
+            } catch (err) {
+              return reject(translate(err));
+            } finally {
+              clearTimeout(waitTimer);
+            }
+            timeTakenByInit = Date.now() - initOperationStartTime;
+          }
+          try {
+            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+
+            const sendRequestOptions: SendRequestOptions = {
+              abortSignal: undefined,
+              requestName: undefined,
+              timeoutInMs: remainingOperationTimeoutInMs
+            };
+            await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+            resolve();
+          } catch (err) {
+            err = translate(err);
+            const address =
+              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
+                ? "address"
+                : this._mgmtReqResLink!.sender.address;
+            log.warning(
+              "[%s] An error occurred during send on management request-response link with address " +
+                "'%s': %O",
+              this._context.namespace.connectionId,
+              address,
+              err
+            );
+            reject(err);
+          }
+        });
+      const config: RetryConfig<void> = {
+        operation: cancelSchedulesMessagesOperationPromise,
+        connectionId: this._context.namespace.connectionId,
+        operationType: RetryOperationType.management,
+        retryOptions: retryOptions
+      };
+      return await retry<void>(config);
     } catch (err) {
       const error = translate(err);
       log.error(
