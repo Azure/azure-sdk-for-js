@@ -4,7 +4,7 @@
 import uuidv4 from "uuid/v4";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { RestError } from "../restError";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import { Constants } from "./constants";
 
 const validUuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/i;
@@ -63,11 +63,11 @@ export function stripResponse(response: HttpOperationResponse): any {
  * Returns a stripped version of the Http Request that does not contain the
  * Authorization header.
  *
- * @param {WebResource} request The Http Request object
+ * @param {WebResourceLike} request The Http Request object
  *
- * @return {WebResource} The stripped version of Http Request.
+ * @return {WebResourceLike} The stripped version of Http Request.
  */
-export function stripRequest(request: WebResource): WebResource {
+export function stripRequest(request: WebResourceLike): WebResourceLike {
   const strippedRequest = request.clone();
   if (strippedRequest.headers) {
     strippedRequest.headers.remove("authorization");
@@ -132,13 +132,13 @@ export interface ServiceCallback<TResult> {
    * A method that will be invoked as a callback to a service function.
    * @param {Error | RestError | null} err The error occurred if any, while executing the request; otherwise null.
    * @param {TResult} [result] The deserialized response body if an error did not occur.
-   * @param {WebResource} [request] The raw/actual request sent to the server if an error did not occur.
+   * @param {WebResourceLike} [request] The raw/actual request sent to the server if an error did not occur.
    * @param {HttpOperationResponse} [response] The raw/actual response from the server if an error did not occur.
    */
   (
     err: Error | RestError | null,
     result?: TResult,
-    request?: WebResource,
+    request?: WebResourceLike,
     response?: HttpOperationResponse
   ): void;
 }

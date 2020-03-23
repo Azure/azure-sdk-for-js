@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { OperationOptions } from "@azure/core-auth";
+import { RetryOptions } from "@azure/core-amqp";
 
 /**
  * The general message handler interface (used for streamMessages).
@@ -30,6 +31,32 @@ export interface WaitTimeOptions {
    *  **Default**: `60` seconds.
    */
   maxWaitTimeSeconds: number;
+}
+
+/**
+ * Options to configure the `createBatch` method on the `Sender`.
+ * - `maxSizeInBytes`: The upper limit for the size of batch.
+ *
+ * Example usage:
+ * ```js
+ * {
+ *     maxSizeInBytes: 1024 * 1024 // 1 MB
+ * }
+ * ```
+ */
+export interface CreateBatchOptions extends OperationOptions {
+  /**
+   * @property
+   * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
+   */
+  maxSizeInBytes?: number;
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
+   * @memberof CreateBatchOptions
+   */
+  retryOptions?: RetryOptions;
 }
 
 /**
