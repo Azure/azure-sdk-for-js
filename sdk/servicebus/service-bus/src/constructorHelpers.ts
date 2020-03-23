@@ -10,12 +10,13 @@ import {
   WebSocketOptions
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
+import { OptionsBag } from "./models";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
  * @interface ServiceBusClientOptions
  */
-export interface ServiceBusClientOptions {
+export interface ServiceBusClientOptions extends OptionsBag {
   /**
    * @property The data transformer that will be used to encode
    * and decode the sent and received messages respectively. If not provided then we will use the

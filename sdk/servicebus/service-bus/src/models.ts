@@ -50,14 +50,39 @@ export interface CreateBatchOptions extends OperationOptions {
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;
+}
+
+/**
+ * The set of options to configure the behavior of the underlying operations.
+ *
+ * @export
+ * @interface OptionsBag
+ */
+export interface OptionsBag {
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    *
    * @type {RetryOptions}
-   * @memberof CreateBatchOptions
+   * @memberof OptionsBag
    */
   retryOptions?: RetryOptions;
 }
+
+/**
+ * The set of options to configure the behavior of the sender.
+ *
+ * @export
+ * @interface GetSenderOptions
+ */
+export interface GetSenderOptions extends OptionsBag {}
+
+/**
+ * The set of options to configure the behavior of the receiver.
+ *
+ * @export
+ * @interface GetReceiverOptions
+ */
+export interface GetReceiverOptions extends OptionsBag {}
 
 /**
  * Options when receiving a batch of messages from Service Bus.
