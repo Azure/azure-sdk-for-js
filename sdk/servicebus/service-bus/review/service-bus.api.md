@@ -104,12 +104,6 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 }
 
 // @public
-export enum ReceiveMode {
-    peekLock = 1,
-    receiveAndDelete = 2
-}
-
-// @public
 export interface Receiver<ReceivedMessageT> {
     close(): Promise<void>;
     diagnostics: {
