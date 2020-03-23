@@ -16,9 +16,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString =
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
-const sbClient: ServiceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
+const sbClient: ServiceBusClient = new ServiceBusClient(connectionString);
 
 export async function main() {
   try {
@@ -32,25 +33,26 @@ export async function main() {
 }
 
 async function sendMessage() {
-  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
-  const sender = queueClient.createSender();
+  // getSender() can also be used to create a sender for a topic.
+  const sender = sbClient.getSender(queueName);
 
   const message = {
-    body: { name: "Creamy Chicken Pasta", type: "Dinner" },
+    body: {
+      name: "Creamy Chicken Pasta",
+      type: "Dinner"
+    },
     contentType: "application/json",
     label: "Recipe"
   };
   await sender.send(message);
-  await queueClient.close();
+  await sender.close();
 }
 
 async function receiveMessage() {
-  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
-  const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
+  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  const receiver = sbClient.getReceiver(queueName, "peekLock");
 
-  const messages = await receiver.receiveMessages(1);
+  const messages = await receiver.receiveBatch(1);
 
   if (messages.length) {
     console.log(
@@ -66,9 +68,9 @@ async function receiveMessage() {
     console.log(">>>> Error: No messages were received from the main queue.");
   }
 
-  await queueClient.close();
+  await receiver.close();
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });

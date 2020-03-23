@@ -11,7 +11,7 @@
 */
 
 import { ServiceBusClient } from "@azure/service-bus";
-import { interactiveLogin } from "@azure/ms-rest-nodeauth";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -19,14 +19,13 @@ dotenv.config();
 
 // Define Service Bus Endpoint here
 const serviceBusEndpoint =
-  process.env.SERVICE_BUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
+  process.env.SERVICE_BUS_ENDPOINT ||
+  "<your-servicebus-namespace>.servicebus.windows.net";
 
 export async function main() {
-  const tokenCreds = await interactiveLogin({
-    tokenAudience: "https://servicebus.azure.net/"
-  });
+  const tokenCreds = new DefaultAzureCredential();
 
-  const sbClient = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+  const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
   /*
    Refer to other samples, and place your code here
    to create queue clients, and send/receive messages
@@ -34,6 +33,6 @@ export async function main() {
   await sbClient.close();
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });

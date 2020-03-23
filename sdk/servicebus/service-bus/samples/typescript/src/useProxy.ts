@@ -15,7 +15,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string for your Service Bus instance here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString =
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 
 export async function main() {
   const proxyInfo = process.env.HTTP_PROXY || process.env.HTTPS_PROXY;
@@ -29,9 +30,11 @@ export async function main() {
   // Create an instance of the `HttpsProxyAgent` class with the proxy server information
   const proxyAgent = new HttpsProxyAgent(proxyInfo);
 
-  const sbClient = ServiceBusClient.createFromConnectionString(connectionString, {
-    webSocket: WebSocket,
-    webSocketConstructorOptions: { agent: proxyAgent }
+  const sbClient = new ServiceBusClient(connectionString, {
+    webSocketOptions: {
+      webSocket: WebSocket,
+      webSocketConstructorOptions: { agent: proxyAgent }
+    }
   });
 
   /*
@@ -41,6 +44,6 @@ export async function main() {
   await sbClient.close();
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });

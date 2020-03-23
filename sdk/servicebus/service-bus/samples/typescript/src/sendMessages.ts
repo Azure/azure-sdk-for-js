@@ -9,14 +9,15 @@
   to learn about Queues, Topics and Subscriptions.
 */
 
-import { ServiceBusClient, SendableMessageInfo } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString =
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const listOfScientists = [
@@ -33,16 +34,15 @@ const listOfScientists = [
 ];
 
 export async function main() {
-  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = new ServiceBusClient(connectionString);
 
-  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
-  const sender = queueClient.createSender();
+  // getSender() can also be used to create a sender for a topic.
+  const sender = sbClient.getSender(queueName);
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {
       const scientist = listOfScientists[index];
-      const message: SendableMessageInfo = {
+      const message: ServiceBusMessage = {
         body: `${scientist.firstName} ${scientist.name}`,
         label: "Scientist"
       };
@@ -51,12 +51,12 @@ export async function main() {
       await sender.send(message);
     }
 
-    await queueClient.close();
+    await sender.close();
   } finally {
     await sbClient.close();
   }
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });
