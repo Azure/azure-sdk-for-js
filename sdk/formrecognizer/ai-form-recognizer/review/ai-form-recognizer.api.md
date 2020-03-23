@@ -20,26 +20,19 @@ import { WebResource } from '@azure/core-http';
 // @public
 export interface AnalyzeOperationResultModel {
     // Warning: (ae-forgotten-export) The symbol "AnalyzeResult" needs to be exported by the entry point index.d.ts
-    analyzeResult?: AnalyzeResult_2;
+    analyzeResult?: AnalyzeResult;
     createdOn: Date;
     lastUpdatedOn: Date;
     status: OperationStatus;
 }
 
-// @public (undocumented)
-export interface AnalyzeResult {
-    errors?: ErrorInformation[];
-    extractedForms?: DocumentResult[];
-    extractedPages?: ExtractedPage[];
-    rawExtractedPages: RawExtractedPage[];
-    version: string;
-}
-
-// @public (undocumented)
-export type ArrayFieldValue = {
+// @public
+export interface ArrayFieldValue {
+    // (undocumented)
     type: "array";
+    // (undocumented)
     value?: FieldValue[];
-};
+}
 
 // @public
 export type BeginExtractFormsOptions = ExtractFormsOptions & {
@@ -166,13 +159,6 @@ export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
 };
 
 // @public
-export class CognitiveKeyCredential implements ServiceClientCredentials {
-    constructor(apiKey: string);
-    signRequest(webResource: WebResource): Promise<WebResource>;
-    updateKey(apiKey: string): void;
-}
-
-// @public (undocumented)
 export interface CommonFieldValue {
     boundingBox?: number[];
     confidence?: number;
@@ -191,7 +177,7 @@ export interface DataTable {
     rows: DataTableRow[];
 }
 
-// @public (undocumented)
+// @public
 export interface DataTableCell {
     // (undocumented)
     boundingBox: number[];
@@ -242,7 +228,7 @@ export interface DataTableRow {
     cells: DataTableCell[];
 }
 
-// @public (undocumented)
+// @public
 export type DateFieldValue = {
     type: "date";
     value?: string;
@@ -250,15 +236,6 @@ export type DateFieldValue = {
 
 // @public
 export type DeleteModelOptions = FormRecognizerOperationOptions;
-
-// @public (undocumented)
-export interface DocumentResult {
-    docType: string;
-    fields: {
-        [propertyName: string]: FieldValue;
-    };
-    pageRange: PageRange;
-}
 
 // @public (undocumented)
 export interface ErrorInformation {
@@ -271,7 +248,7 @@ export interface ErrorInformation {
 // @public
 export type ExtractedElement = ExtractedWord | ExtractedLine;
 
-// @public (undocumented)
+// @public
 export interface ExtractedField {
     // (undocumented)
     confidence: number;
@@ -283,7 +260,16 @@ export interface ExtractedField {
     value: ExtractedText;
 }
 
-// @public (undocumented)
+// @public
+export interface ExtractedForm {
+    docType: string;
+    fields: {
+        [propertyName: string]: FieldValue;
+    };
+    pageRange: PageRange;
+}
+
+// @public
 export interface ExtractedLayout {
     // (undocumented)
     extractedLayoutPages?: ExtractedLayoutPage[];
@@ -293,7 +279,7 @@ export interface ExtractedLayout {
     version: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtractedLayoutPage {
     // (undocumented)
     fields?: ExtractedField[];
@@ -324,10 +310,10 @@ export interface ExtractedPage {
     tables?: DataTable[];
 }
 
-// @public (undocumented)
+// @public
 export type ExtractedReceipt = RawReceiptResult & Receipt;
 
-// @public (undocumented)
+// @public
 export interface ExtractedText {
     // (undocumented)
     boundingBox?: number[];
@@ -347,13 +333,14 @@ export interface ExtractedWord {
     text: string;
 }
 
-// @public (undocumented)
-export type ExtractFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<ExtractFormResult>;
+// @public
+export type ExtractFormOperationResult = Partial<FormResult> & {
+    status: OperationStatus;
+    createdOn: Date;
+    lastUpdatedOn: Date;
+};
 
-// @public (undocumented)
-export type ExtractFormResult = Omit<AnalyzeResult, "extractedForms">;
-
-// @public (undocumented)
+// @public
 export type ExtractFormResultResponse = ExtractFormOperationResult & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -366,7 +353,7 @@ export type ExtractFormsOptions = FormRecognizerOperationOptions & {
     includeTextDetails?: boolean;
 };
 
-// @public (undocumented)
+// @public
 export type ExtractLayoutOperationResult = {
     status: OperationStatus;
     createdOn: Date;
@@ -427,7 +414,7 @@ export type ExtractReceiptsOptions = FormRecognizerOperationOptions & {
     includeTextDetails?: boolean;
 };
 
-// @public (undocumented)
+// @public
 export type FieldValue = StringFieldValue | DateFieldValue | TimeFieldValue | PhoneNumberFieldValue | NumberFieldValue | IntegerFieldValue | ArrayFieldValue | ObjectFieldValue;
 
 // @public
@@ -436,17 +423,14 @@ export interface FormFieldsReport {
     fieldName: string;
 }
 
-// @public (undocumented)
+// @public
 export interface FormModel {
-    // (undocumented)
     keys: KeysResult;
-    // (undocumented)
     modelInfo: ModelInfo;
-    // (undocumented)
     trainResult?: FormTrainResult;
 }
 
-// @public (undocumented)
+// @public
 export type FormModelResponse = FormModel & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -458,8 +442,15 @@ export type FormModelResponse = FormModel & {
 export type FormPollerLike = PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>;
 
 // @public
+export class FormRecognizerApiKeyCredential implements ServiceClientCredentials {
+    constructor(apiKey: string);
+    signRequest(webResource: WebResource): Promise<WebResource>;
+    updateKey(apiKey: string): void;
+}
+
+// @public
 export class FormRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
     // (undocumented)
     beginExtractForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractFormsOptions): Promise<FormPollerLike>;
     // (undocumented)
@@ -493,19 +484,23 @@ export interface FormRecognizerClientOptions extends PipelineOptions {
 export interface FormRecognizerOperationOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export type FormRecognizerRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | NodeJS.ReadableStream;
 
-// @public (undocumented)
-export interface FormTrainResult {
-    // (undocumented)
+// @public
+export interface FormResult {
     errors?: ErrorInformation[];
-    // (undocumented)
+    extractedPages?: ExtractedPage[];
+    rawExtractedPages: RawExtractedPage[];
+    version: string;
+}
+
+// @public
+export interface FormTrainResult {
+    errors?: ErrorInformation[];
     trainingDocuments: TrainingDocumentInfo[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "Models" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type GetCustomModelsResponseModel = Models & {
     _response: coreHttp.HttpResponse & {
@@ -525,7 +520,7 @@ export type GetModelOptions = FormRecognizerOperationOptions;
 // @public
 export type GetSummaryOptions = FormRecognizerOperationOptions;
 
-// @public (undocumented)
+// @public
 export type IntegerFieldValue = {
     type: "integer";
     value?: number;
@@ -553,7 +548,7 @@ export interface KeyValuePairModel {
     value: KeyValueElementModel;
 }
 
-// @public (undocumented)
+// @public
 export interface LabeledFormModel {
     // (undocumented)
     modelInfo: ModelInfo;
@@ -561,7 +556,7 @@ export interface LabeledFormModel {
     trainResult?: LabeledFormTrainResult;
 }
 
-// @public (undocumented)
+// @public
 export type LabeledFormModelResponse = LabeledFormModel & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -569,16 +564,26 @@ export type LabeledFormModelResponse = LabeledFormModel & {
     };
 };
 
-// @public (undocumented)
-export type LabeledFormOperationResult = Omit<AnalyzeOperationResultModel, "analyzeResult"> & Partial<LabeledFormResult>;
+// @public
+export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
+    status: OperationStatus;
+    createdOn: Date;
+    lastUpdatedOn: Date;
+};
 
 // @public (undocumented)
 export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>;
 
-// @public (undocumented)
-export type LabeledFormResult = AnalyzeResult;
+// @public
+export interface LabeledFormResult {
+    errors?: ErrorInformation[];
+    extractedForms?: ExtractedForm[];
+    extractedPages?: ExtractedPage[];
+    rawExtractedPages: RawExtractedPage[];
+    version: string;
+}
 
-// @public (undocumented)
+// @public
 export type LabeledFormResultResponse = LabeledFormOperationResult & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -586,7 +591,7 @@ export type LabeledFormResultResponse = LabeledFormOperationResult & {
     };
 };
 
-// @public (undocumented)
+// @public
 export interface LabeledFormTrainResult {
     averageModelAccuracy: number;
     errors?: ErrorInformation[];
@@ -602,7 +607,7 @@ export type LayoutPollerLike = PollerLike<PollOperationState<ExtractLayoutResult
 
 // @public
 export class LayoutRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
     extractLayout(source: FormRecognizerRequestBody, contentType?: ContentType, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
@@ -632,6 +637,13 @@ export interface ModelInfo {
 }
 
 // @public
+export interface Models {
+    modelList?: ModelInfo[];
+    nextLink?: string;
+    summary?: ModelsSummary;
+}
+
+// @public
 export interface ModelsSummary {
     count: number;
     lastUpdatedOn: Date;
@@ -641,24 +653,26 @@ export interface ModelsSummary {
 // @public
 export type ModelStatus = "creating" | "ready" | "invalid";
 
-// @public (undocumented)
+// @public
 export type NumberFieldValue = {
     type: "number";
     value?: number;
 } & CommonFieldValue;
 
-// @public (undocumented)
-export type ObjectFieldValue = {
+// @public
+export interface ObjectFieldValue {
+    // (undocumented)
     type: "object";
+    // (undocumented)
     value?: {
         [propertyName: string]: FieldValue;
     };
-};
+}
 
 // @public
 export type OperationStatus = "notStarted" | "running" | "succeeded" | "failed";
 
-// @public (undocumented)
+// @public
 export interface PageRange {
     // (undocumented)
     firstPage: number;
@@ -666,7 +680,7 @@ export interface PageRange {
     lastPage: number;
 }
 
-// @public (undocumented)
+// @public
 export type PhoneNumberFieldValue = {
     type: "phoneNumber";
     value?: string;
@@ -712,7 +726,7 @@ export interface RawReceipt {
     TransactionTime: TimeFieldValue;
 }
 
-// @public (undocumented)
+// @public
 export interface RawReceiptResult {
     docType: "prebuilt:receipt";
     fields: {
@@ -721,7 +735,7 @@ export interface RawReceiptResult {
     pageRange: PageRange;
 }
 
-// @public (undocumented)
+// @public
 export interface Receipt {
     // (undocumented)
     items: ReceiptItem[];
@@ -747,7 +761,7 @@ export interface Receipt {
     transactionTime?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ReceiptItem {
     // (undocumented)
     name?: string;
@@ -783,7 +797,7 @@ export type ReceiptPollerLike = PollerLike<PollOperationState<ExtractReceiptResu
 
 // @public
 export class ReceiptRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
     extractReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
@@ -800,13 +814,13 @@ export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
     resumeFrom?: string;
 };
 
-// @public (undocumented)
+// @public
 export type StringFieldValue = {
     type: "string";
     value?: string;
 } & CommonFieldValue;
 
-// @public (undocumented)
+// @public
 export type TimeFieldValue = {
     type: "time";
     value?: string;
