@@ -33,7 +33,6 @@ export interface CorrelationFilter {
 // @public
 export interface CreateBatchOptions extends OperationOptions {
     maxSizeInBytes?: number;
-    retryOptions?: RetryOptions;
 }
 
 export { DataTransformer }
@@ -157,11 +156,13 @@ export class ServiceBusClient {
     getDeadLetterReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
     getDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
     getDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    getReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
-    getReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
-    getReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    getSender(queueOrTopicName: string): Sender;
+    // Warning: (ae-forgotten-export) The symbol "GetReceiverOptions" needs to be exported by the entry point index.d.ts
+    getReceiver(queueName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
+    getReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
+    getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
+    getReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
+    // Warning: (ae-forgotten-export) The symbol "GetSenderOptions" needs to be exported by the entry point index.d.ts
+    getSender(queueOrTopicName: string, options?: GetSenderOptions): Sender;
     getSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
     getSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
     getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
@@ -169,8 +170,10 @@ export class ServiceBusClient {
     getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager;
 }
 
+// Warning: (ae-forgotten-export) The symbol "OptionsBag" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface ServiceBusClientOptions {
+export interface ServiceBusClientOptions extends OptionsBag {
     dataTransformer?: DataTransformer;
     webSocketOptions?: WebSocketOptions;
 }
