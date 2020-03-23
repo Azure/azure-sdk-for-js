@@ -9,7 +9,6 @@ import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
-import { Poller } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { RestResponse } from '@azure/core-http';
@@ -49,50 +48,6 @@ export type BeginExtractLabeledFormOptions = ExtractFormsOptions & {
 };
 
 // @public
-export class BeginExtractPoller<T extends {
-    status: OperationStatus;
-}> extends Poller<BeginExtractPollState<T>, T> {
-    // Warning: (ae-incompatible-release-tags) The symbol "__constructor" is marked as @public, but its signature references "BeginExtractPollerOptions" which is marked as @internal
-    constructor(options: BeginExtractPollerOptions<T>);
-    // (undocumented)
-    delay(): Promise<void>;
-    // (undocumented)
-    intervalInMs: number;
-}
-
-// Warning: (ae-internal-missing-underscore) The name "BeginExtractPollerOptions" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export type BeginExtractPollerOptions<T> = {
-    client: ExtractPollerClient<T>;
-    source: FormRecognizerRequestBody;
-    contentType?: ContentType;
-    modelId?: string;
-    intervalInMs?: number;
-    resultId?: string;
-    onProgress?: (state: BeginExtractPollState<T>) => void;
-    resumeFrom?: string;
-} & ExtractOptions;
-
-// @public (undocumented)
-export interface BeginExtractPollState<T> extends PollOperationState<T> {
-    // (undocumented)
-    readonly analyzeOptions?: ExtractOptions;
-    // (undocumented)
-    readonly client: ExtractPollerClient<T>;
-    // (undocumented)
-    contentType?: ContentType;
-    // (undocumented)
-    modelId?: string;
-    // (undocumented)
-    resultId?: string;
-    // (undocumented)
-    source?: FormRecognizerRequestBody;
-    // (undocumented)
-    status: OperationStatus;
-}
-
-// @public
 export type BeginExtractReceiptsOptions = ExtractReceiptsOptions & {
     intervalInMs?: number;
     onProgress?: (state: BeginExtractPollState<ExtractReceiptResultResponse>) => void;
@@ -105,52 +60,6 @@ export type BeginTrainingOptions<T> = TrainModelOptions & {
     onProgress?: (state: BeginTrainingPollState<T>) => void;
     resumeFrom?: string;
 };
-
-// @public
-export class BeginTrainingPoller<T extends {
-    modelInfo: {
-        status: ModelStatus;
-    };
-}> extends Poller<BeginTrainingPollState<T>, T> {
-    // Warning: (ae-incompatible-release-tags) The symbol "__constructor" is marked as @public, but its signature references "BeginTrainingPollerOptions" which is marked as @internal
-    constructor(options: BeginTrainingPollerOptions<T>);
-    // (undocumented)
-    delay(): Promise<void>;
-    // (undocumented)
-    intervalInMs: number;
-}
-
-// Warning: (ae-internal-missing-underscore) The name "BeginTrainingPollerOptions" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export interface BeginTrainingPollerOptions<T> {
-    // (undocumented)
-    client: TrainPollerClient<T>;
-    // (undocumented)
-    intervalInMs?: number;
-    // (undocumented)
-    onProgress?: (state: BeginTrainingPollState<T>) => void;
-    // (undocumented)
-    resumeFrom?: string;
-    // (undocumented)
-    source: string;
-    // (undocumented)
-    trainModelOptions?: TrainModelOptions;
-}
-
-// @public (undocumented)
-export interface BeginTrainingPollState<T> extends PollOperationState<T> {
-    // (undocumented)
-    readonly client: TrainPollerClient<T>;
-    // (undocumented)
-    modelId?: string;
-    // (undocumented)
-    source: string;
-    // (undocumented)
-    status: ModelStatus;
-    // (undocumented)
-    readonly trainModelOptions?: TrainModelOptions;
-}
 
 // @public
 export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
@@ -166,6 +75,9 @@ export interface CommonFieldValue {
     pageNumber?: number;
     text?: string;
 }
+
+// @public
+export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
 export interface DataTable {
@@ -369,19 +281,6 @@ export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
         bodyAsText: string;
         parsedBody: AnalyzeOperationResultModel;
     };
-};
-
-// @public (undocumented)
-export type ExtractOptions = ExtractReceiptsOptions | ExtractLayoutOptions | ExtractFormsOptions;
-
-// @public
-export type ExtractPollerClient<T> = {
-    beginExtract: (source: FormRecognizerRequestBody, contentType?: ContentType, analyzeOptions?: ExtractOptions, modelId?: string) => Promise<{
-        operationLocation?: string;
-    }>;
-    getExtractResult: (resultId: string, options: {
-        abortSignal?: AbortSignalLike;
-    }) => Promise<T>;
 };
 
 // @public (undocumented)
@@ -798,11 +697,11 @@ export type ReceiptPollerLike = PollerLike<PollOperationState<ExtractReceiptResu
 // @public
 export class ReceiptRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
+    // (undocumented)
+    beginExtractReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
+    // (undocumented)
+    beginExtractReceiptsFromUrl(documentUrl: string, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     readonly endpointUrl: string;
-    // (undocumented)
-    extractReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
-    // (undocumented)
-    extractReceiptsFromUrl(documentUrl: string, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     }
 
 export { RestResponse }
@@ -826,15 +725,6 @@ export type TimeFieldValue = {
     value?: string;
 } & CommonFieldValue;
 
-// Warning: (ae-forgotten-export) The symbol "FormRecognizerClientTrainCustomModelAsyncHeaders" needs to be exported by the entry point index.d.ts
-//
-// @public
-export type TrainCustomModelAsyncResponse = FormRecognizerClientTrainCustomModelAsyncHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FormRecognizerClientTrainCustomModelAsyncHeaders;
-    };
-};
-
 // @public
 export interface TrainingDocumentInfo {
     documentName: string;
@@ -847,14 +737,6 @@ export interface TrainingDocumentInfo {
 export type TrainModelOptions = FormRecognizerOperationOptions & {
     prefix?: string;
     includeSubFolders?: boolean;
-};
-
-// @public
-export type TrainPollerClient<T> = {
-    getModel: (modelId: string, options: GetModelOptions) => Promise<T>;
-    trainCustomModelInternal: (source: string, useLabelFile?: boolean, options?: TrainModelOptions) => Promise<{
-        location?: string;
-    }>;
 };
 
 // @public
@@ -871,7 +753,8 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // Warnings were encountered during analysis:
 //
-// src/lro/analyze/poller.ts:66:3 - (ae-forgotten-export) The symbol "ContentType" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:104:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:128:3 - (ae-forgotten-export) The symbol "BeginExtractPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
