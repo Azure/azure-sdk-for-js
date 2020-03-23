@@ -26,7 +26,13 @@ import {
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
-import { FormRecognizerClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel, ContentType } from "./generated/models";
+import {
+  FormRecognizerClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
+  ContentType,
+  FormRecognizerClientGetCustomModelsResponse as GetCustomModelsResponseModel,
+  Model,
+  ModelInfo
+} from "./generated/models";
 import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -45,13 +51,11 @@ import {
 } from "./models";
 import { toCustomFormResultResponse, toLabeledFormResultResponse } from "./transforms";
 
-import { FormRecognizerClientGetCustomModelsResponse as GetCustomModelsResponseModel, Model, ModelInfo } from "./generated/models";
-
 export {
+  ContentType,
   GetCustomModelsResponseModel,
   Model,
   ModelInfo,
-  // GetAnalyzeFormResultResponse,
   RestResponse
 };
 

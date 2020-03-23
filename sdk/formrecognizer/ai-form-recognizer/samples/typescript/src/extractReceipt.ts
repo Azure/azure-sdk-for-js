@@ -28,7 +28,7 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new ReceiptRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-  const poller = await client.extractReceipts(readStream, "image/jpeg", {
+  const poller = await client.beginExtractReceipts(readStream, "image/jpeg", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
 

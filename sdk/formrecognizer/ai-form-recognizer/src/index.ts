@@ -5,22 +5,6 @@ export {FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./co
 export * from "./formRecognizerClient";
 export * from "./receiptRecognizerClient";
 export * from "./layoutRecognizerClient";
-export {
-  ExtractOptions,
-  ExtractPollerClient,
-  OperationStatus,
-  BeginExtractPollerOptions,
-  BeginExtractPoller,
-  BeginExtractPollState
-} from "./lro/analyze/poller";
-export {
-  ModelStatus,
-  TrainPollerClient,
-  BeginTrainingPoller,
-  BeginTrainingPollerOptions,
-  BeginTrainingPollState,
-  TrainCustomModelAsyncResponse
-} from "./lro/train/poller";
 export { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
 
 export * from "./models";

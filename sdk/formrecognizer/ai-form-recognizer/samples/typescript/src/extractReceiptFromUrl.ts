@@ -30,7 +30,7 @@ async function main() {
     console.log(response);
     console.log("extracting...");
 
-    const poller = await client.extractReceiptsFromUrl(
+    const poller = await client.beginExtractReceiptsFromUrl(
       imageUrl, {
       includeTextDetails: true,
       onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }

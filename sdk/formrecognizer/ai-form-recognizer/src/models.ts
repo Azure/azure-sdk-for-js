@@ -17,6 +17,7 @@ import {
   Model,
   Models,
   ModelsSummary,
+  ModelStatus,
   TrainingDocumentInfo,
   TrainResult,
   TrainStatus,
@@ -37,6 +38,8 @@ export {
   LengthUnit,
   Models,
   ModelsSummary,
+  ModelStatus,
+  OperationStatus,
   TrainingDocumentInfo,
   TrainStatus,
   TrainResult

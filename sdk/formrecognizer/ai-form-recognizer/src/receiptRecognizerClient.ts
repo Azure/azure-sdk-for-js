@@ -122,7 +122,7 @@ export class ReceiptRecognizerClient {
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
   }
 
-  public async extractReceipts(
+  public async beginExtractReceipts(
     source: FormRecognizerRequestBody,
     contentType?: ContentType,
     options: BeginExtractReceiptsOptions = {}
@@ -143,12 +143,12 @@ export class ReceiptRecognizerClient {
     return poller;
   }
 
-  public async extractReceiptsFromUrl(
+  public async beginExtractReceiptsFromUrl(
     documentUrl: string,
     options: BeginExtractReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
 
-    return this.extractReceipts(documentUrl, undefined, options);
+    return this.beginExtractReceipts(documentUrl, undefined, options);
   }
 
   private async getExtractedReceipts(
