@@ -18,7 +18,10 @@ import { KustoManagementClientContext } from "./kustoManagementClientContext";
 class KustoManagementClient extends KustoManagementClientContext {
   // Operation groups
   clusters: operations.Clusters;
+  clusterPrincipalAssignments: operations.ClusterPrincipalAssignments;
   databases: operations.Databases;
+  databasePrincipalAssignments: operations.DatabasePrincipalAssignments;
+  attachedDatabaseConfigurations: operations.AttachedDatabaseConfigurations;
   dataConnections: operations.DataConnections;
   operations: operations.Operations;
 
@@ -32,7 +35,10 @@ class KustoManagementClient extends KustoManagementClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.KustoManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.clusters = new operations.Clusters(this);
+    this.clusterPrincipalAssignments = new operations.ClusterPrincipalAssignments(this);
     this.databases = new operations.Databases(this);
+    this.databasePrincipalAssignments = new operations.DatabasePrincipalAssignments(this);
+    this.attachedDatabaseConfigurations = new operations.AttachedDatabaseConfigurations(this);
     this.dataConnections = new operations.DataConnections(this);
     this.operations = new operations.Operations(this);
   }
