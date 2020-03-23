@@ -306,6 +306,16 @@ export interface IndexDocuments extends OperationOptions {
     throwOnAnyFailure?: boolean;
 }
 
+// @public (undocumented)
+export class IndexDocumentsBatch<T> {
+    constructor(actions?: IndexAction<T>[]);
+    readonly actions: IndexAction<T>[];
+    delete(keyName: keyof T, keyValues: string[]): void;
+    merge(documents: T[]): void;
+    mergeOrUpload(documents: T[]): void;
+    upload(documents: T[]): void;
+}
+
 // @public
 export interface IndexDocumentsResult {
     readonly results: IndexingResult[];
@@ -759,7 +769,7 @@ export class SearchIndexClient<T> {
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
-    indexDocuments(batch: IndexAction<T>[], options?: IndexDocuments): Promise<IndexDocumentsResult>;
+    indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocuments): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;

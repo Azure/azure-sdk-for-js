@@ -26,7 +26,6 @@ import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
 import { deserialize, serialize } from "./serialization";
 import {
-  IndexAction,
   CountDocumentsOptions,
   AutocompleteOptions,
   SearchOptions,
@@ -44,6 +43,7 @@ import {
   SearchDocumentsPageResult
 } from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
+import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -414,13 +414,14 @@ export class SearchIndexClient<T> {
    * @param options Additional options.
    */
   public async indexDocuments(
-    batch: IndexAction<T>[],
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+    batch: IndexDocumentsBatch<T>,
     options: IndexDocuments = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-indexDocuments", options);
     try {
       const result = await this.client.documents.index(
-        { actions: serialize(batch) },
+        { actions: serialize(batch.actions) },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       if (options.throwOnAnyFailure && result._response.status === 207) {
@@ -447,15 +448,14 @@ export class SearchIndexClient<T> {
     documents: T[],
     options: UploadDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
-    const actionType = options.mergeIfExists ? "mergeOrUpload" : "upload";
     const { span, updatedOptions } = createSpan("SearchIndexClient-uploadDocuments", options);
 
-    const batch = documents.map<IndexAction<T>>((doc) => {
-      return {
-        ...doc,
-        actionType
-      };
-    });
+    const batch = new IndexDocumentsBatch<T>();
+    if (options.mergeIfExists) {
+      batch.mergeOrUpload(documents);
+    } else {
+      batch.upload(documents);
+    }
 
     try {
       return await this.indexDocuments(batch, updatedOptions);
@@ -480,15 +480,14 @@ export class SearchIndexClient<T> {
     documents: T[],
     options: MergeDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
-    const actionType = options.uploadIfNotExists ? "mergeOrUpload" : "merge";
     const { span, updatedOptions } = createSpan("SearchIndexClient-mergeDocuments", options);
 
-    const batch = documents.map<IndexAction<T>>((doc) => {
-      return {
-        ...doc,
-        actionType
-      };
-    });
+    const batch = new IndexDocumentsBatch<T>();
+    if (options.uploadIfNotExists) {
+      batch.mergeOrUpload(documents);
+    } else {
+      batch.merge(documents);
+    }
 
     try {
       return await this.indexDocuments(batch, updatedOptions);
@@ -515,12 +514,9 @@ export class SearchIndexClient<T> {
     options: DeleteDocumentsOptions = {}
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteDocuments", options);
-    const batch = keyValues.map<IndexAction<T>>((keyValue) => {
-      return {
-        actionType: "delete",
-        [keyName]: keyValue
-      } as IndexAction<T>;
-    });
+
+    const batch = new IndexDocumentsBatch<T>();
+    batch.delete(keyName, keyValues);
 
     try {
       return await this.indexDocuments(batch, updatedOptions);
