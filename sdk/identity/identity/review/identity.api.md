@@ -138,6 +138,13 @@ export class UsernamePasswordCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
+// @public (undocumented)
+export class VSCodeCredential implements TokenCredential {
+    constructor(options?: TokenCredentialOptions);
+    // (undocumented)
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
 
 // (No @packageDocumentation comment for this package)
 

@@ -24,6 +24,7 @@ export {
 export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
+export { VSCodeCredential } from "./credentials/vscodeCredential";
 export {
   AuthenticationError,
   ErrorResponse,
