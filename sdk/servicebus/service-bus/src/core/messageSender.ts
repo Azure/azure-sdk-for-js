@@ -35,7 +35,7 @@ import { LinkEntity } from "./linkEntity";
 import { getUniqueName } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
-import { CreateBatchOptions } from "../models";
+import { CreateBatchOptions, GetSenderOptions } from "../models";
 
 /**
  * @internal
@@ -247,7 +247,14 @@ export class MessageSender extends LinkEntity {
    * @param sendBatch Boolean indicating whether the encoded message represents a batch of messages or not
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(encodedMessage: Buffer, sendBatch?: boolean): Promise<void> {
+  private _trySend(
+    encodedMessage: Buffer,
+    sendBatch?: boolean,
+    options?: GetSenderOptions
+  ): Promise<void> {
+    if (!options) {
+      options = {};
+    }
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
         log.sender(
@@ -331,7 +338,7 @@ export class MessageSender extends LinkEntity {
       operation: sendEventPromise,
       connectionId: this._context.namespace.connectionId!,
       operationType: RetryOperationType.sendMessage,
-      retryOptions: {
+      retryOptions: options.retryOptions || {
         maxRetries: Constants.defaultMaxRetries,
         retryDelayInMs: Constants.defaultDelayBetweenOperationRetriesInMs
       }
@@ -536,9 +543,10 @@ export class MessageSender extends LinkEntity {
    * @param {ServiceBusMessage} data Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<void>}
    */
-  async send(data: ServiceBusMessage): Promise<void> {
+  async send(data: ServiceBusMessage, options: GetSenderOptions): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
+      // TO DO - move to the internal trySend
       if (!this.isOpen()) {
         log.sender(
           "Acquiring lock %s for initializing the session, sender and " +
@@ -571,7 +579,7 @@ export class MessageSender extends LinkEntity {
         this.name,
         data
       );
-      return await this._trySend(encodedMessage);
+      return await this._trySend(encodedMessage, false, options);
     } catch (err) {
       log.error(
         "[%s] Sender '%s': An error occurred while sending the message: %O\nError: %O",
@@ -600,6 +608,7 @@ export class MessageSender extends LinkEntity {
         inputMessages = [inputMessages];
       }
 
+      // TO DO - move to the internal trySend
       if (!this.isOpen()) {
         log.sender(
           "Acquiring lock %s for initializing the session, sender and " +
@@ -718,12 +727,18 @@ export class MessageSender extends LinkEntity {
     });
   }
 
-  async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
+  async createBatch(
+    options?: CreateBatchOptions,
+    senderOptions?: GetSenderOptions
+  ): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (!options) {
       options = {};
     }
-    let maxMessageSize = await this.getMaxMessageSize({ retryOptions: options.retryOptions });
+    if (!senderOptions) {
+      senderOptions = {};
+    }
+    let maxMessageSize = await this.getMaxMessageSize({ retryOptions: senderOptions.retryOptions });
     if (options.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {
         const error = new Error(
@@ -736,9 +751,13 @@ export class MessageSender extends LinkEntity {
     return new ServiceBusMessageBatchImpl(this._context, maxMessageSize!);
   }
 
-  async sendBatch(batchMessage: ServiceBusMessageBatch): Promise<void> {
+  async sendBatch(
+    batchMessage: ServiceBusMessageBatch,
+    senderOptions?: GetSenderOptions
+  ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
+      // TO DO - move to the internal trySend
       if (!this.isOpen()) {
         log.sender(
           "Acquiring lock %s for initializing the session, sender and " +
@@ -755,7 +774,7 @@ export class MessageSender extends LinkEntity {
         this.name,
         batchMessage
       );
-      return await this._trySend(batchMessage._message!, true);
+      return await this._trySend(batchMessage._message!, true, senderOptions);
     } catch (err) {
       log.error(
         "[%s] Sender '%s': An error occurred while sending the messages: %O\nError: %O",

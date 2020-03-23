@@ -14,7 +14,7 @@ import {
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions } from "./models";
+import { CreateBatchOptions, GetSenderOptions } from "./models";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -144,6 +144,7 @@ export class SenderImpl implements Sender {
    * @property Describes the amqp connection context for the Client.
    */
   private _context: ClientEntityContext;
+  private _senderOptions: GetSenderOptions;
   /**
    * @property Denotes if close() was called on this sender
    */
@@ -154,10 +155,11 @@ export class SenderImpl implements Sender {
    * @internal
    * @throws Error if the underlying connection is closed.
    */
-  constructor(context: ClientEntityContext) {
+  constructor(context: ClientEntityContext, options: GetSenderOptions) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
     this._sender = MessageSender.create(this._context);
+    this._senderOptions = options;
   }
 
   private _throwIfSenderOrConnectionClosed(): void {
@@ -181,7 +183,7 @@ export class SenderImpl implements Sender {
   async send(message: ServiceBusMessage): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
-    return this._sender.send(message);
+    return this._sender.send(message, this._senderOptions);
   }
 
   // sendBatch(<Array of messages>) - Commented
@@ -196,7 +198,7 @@ export class SenderImpl implements Sender {
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
-    return this._sender.createBatch(options);
+    return this._sender.createBatch(options, this._senderOptions);
   }
 
   async sendBatch(messageBatch: ServiceBusMessageBatch): Promise<void> {
@@ -206,7 +208,7 @@ export class SenderImpl implements Sender {
       "messageBatch",
       messageBatch
     );
-    return this._sender.sendBatch(messageBatch);
+    return this._sender.sendBatch(messageBatch, this._senderOptions);
   }
 
   /**
@@ -233,7 +235,8 @@ export class SenderImpl implements Sender {
     const messages = [message];
     const result = await this._context.managementClient!.scheduleMessages(
       scheduledEnqueueTimeUtc,
-      messages
+      messages,
+      this._senderOptions
     );
     return result[0];
   }
@@ -253,7 +256,11 @@ export class SenderImpl implements Sender {
       messages = [messages];
     }
 
-    return this._context.managementClient!.scheduleMessages(scheduledEnqueueTimeUtc, messages);
+    return this._context.managementClient!.scheduleMessages(
+      scheduledEnqueueTimeUtc,
+      messages,
+      this._senderOptions
+    );
   }
 
   async cancelScheduledMessage(sequenceNumber: Long): Promise<void> {
@@ -269,7 +276,10 @@ export class SenderImpl implements Sender {
       sequenceNumber
     );
 
-    return this._context.managementClient!.cancelScheduledMessages([sequenceNumber]);
+    return this._context.managementClient!.cancelScheduledMessages(
+      [sequenceNumber],
+      this._senderOptions
+    );
   }
 
   async cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void> {
@@ -288,9 +298,13 @@ export class SenderImpl implements Sender {
       sequenceNumbers
     );
 
-    return this._context.managementClient!.cancelScheduledMessages(sequenceNumbers);
+    return this._context.managementClient!.cancelScheduledMessages(
+      sequenceNumbers,
+      this._senderOptions
+    );
   }
 
+  // TO DO - No need to retry close() ???
   async close(): Promise<void> {
     try {
       this._isClosed = true;
