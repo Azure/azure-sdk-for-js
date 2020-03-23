@@ -5,8 +5,8 @@
  * Extract Labeled Form from url
  */
 
-//import { FormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
-import { FormRecognizerClient, CognitiveKeyCredential } from "../../../src/index";
+//import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "../../../src/index";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -21,7 +21,7 @@ async function main() {
   const modelId = "e28ad0da-aa55-46dc-ade9-839b0d819189"; // trained with labels
   const url = process.env["URL_OF_DOCUMENT_TO_ANALYZE_WITH_LABELS"] || "<sample invoice url>";
 
-  const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
   const poller = await client.beginExtractLabeledFormsFromUrl(modelId, url,{
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
@@ -42,7 +42,7 @@ async function main() {
   console.log("### Page results:")
   for (const page of response.extractedPages || []) {
     console.log(`Page number: ${page.pageNumber}`);
-    console.log(`cluster Id: ${page.formTypeId}`);
+    console.log(`Form type id: ${page.formTypeId}`);
     console.log("key-value pairs");
     for (const field of page.fields || []) {
       console.log(`\t${field.name.text}: ${field.value.text}`);

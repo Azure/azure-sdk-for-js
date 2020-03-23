@@ -5,8 +5,8 @@
  * Extract Forms
  */
 
-//import { FormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
-import { FormRecognizerClient, CognitiveKeyCredential } from "../../../src/index";
+//import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, FormRecognizerApiKeyCredential } from "../../../src/index";
 import * as fs from "fs";
 
 // Load the .env file if it exists
@@ -27,7 +27,7 @@ async function main() {
 
   const readStream = fs.createReadStream(path);
 
-  const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
   const poller = await client.beginExtractForms(modelId, readStream, "application/pdf", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
@@ -42,7 +42,7 @@ async function main() {
   console.log("### Page results:")
   for (const page of response.extractedPages || []) {
     console.log(`Page number: ${page.pageNumber}`);
-    console.log(`cluster Id: ${page.formTypeId}`);
+    console.log(`Form type id: ${page.formTypeId}`);
     console.log("key-value pairs");
     for (const field of page.fields || []) {
       console.log(`\tkey: ${field.name}, value: ${field.value}`);

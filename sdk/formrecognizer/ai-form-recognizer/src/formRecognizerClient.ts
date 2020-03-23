@@ -27,7 +27,7 @@ import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
 import { FormRecognizerClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel, ContentType } from "./generated/models";
-import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
+import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
 import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
@@ -166,20 +166,20 @@ export class FormRecognizerClient {
    *
    * Example usage:
    * ```ts
-   * import { CustomFormRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
+   * import { CustomFormRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
    *
    * const client = new CustomFormRecognizerClient(
    *    "<service endpoint>",
-   *    new CognitiveKeyCredential("<api key>")
+   *    new FormRecognizerApiKeyCredential("<api key>")
    * );
    * ```
    * @param {string} endpointUrl The URL to the FormRecognizer endpoint
-   * @param {TokenCredential | CognitiveKeyCredential} credential Used to authenticate requests to the service.
+   * @param {TokenCredential | FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the FormRecognizer client.
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential | CognitiveKeyCredential,
+    credential: TokenCredential | FormRecognizerApiKeyCredential,
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;

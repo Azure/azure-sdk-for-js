@@ -21,7 +21,7 @@ import {
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
-import { CognitiveKeyCredential } from "./cognitiveKeyCredential";
+import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
 import { ExtractLayoutResultResponse, FormRecognizerRequestBody } from "./models";
 import { toAnalyzeLayoutResultResponse } from "./transforms";
 import {
@@ -75,20 +75,20 @@ export class LayoutRecognizerClient {
    *
    * Example usage:
    * ```ts
-   * import { LayoutRecognizerClient, CognitiveKeyCredential } from "@azure/ai-form-recognizer";
+   * import { LayoutRecognizerClient, FormRecognizerApiKeyCredential } from "@azure/ai-form-recognizer";
    *
    * const client = new LayoutRecognizerClient(
    *    "<service endpoint>",
-   *    new CognitiveKeyCredential("<api key>")
+   *    new FormRecognizerApiKeyCredential("<api key>")
    * );
    * ```
    * @param {string} endpointUrl The URL to the FormRecognizer endpoint
-   * @param {TokenCredential | CognitiveKeyCredential} credential Used to authenticate requests to the service.
+   * @param {TokenCredential | FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the LayoutRecognizer client.
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential | CognitiveKeyCredential,
+    credential: TokenCredential | FormRecognizerApiKeyCredential,
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;

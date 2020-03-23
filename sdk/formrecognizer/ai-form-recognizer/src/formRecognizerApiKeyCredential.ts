@@ -9,7 +9,7 @@ const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
  * This class is used to authenticate to Form Recognizer using an API Key retrieved
  * from the Azure portal. Sometimes this is referred to as a "Subscription Key".
  */
-export class CognitiveKeyCredential implements ServiceClientCredentials {
+export class FormRecognizerApiKeyCredential implements ServiceClientCredentials {
   /**
    * Used to authenticate to Form Recognizer service
    */

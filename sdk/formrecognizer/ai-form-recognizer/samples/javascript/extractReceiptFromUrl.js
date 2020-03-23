@@ -5,7 +5,7 @@
  * Extract receipt
  */
 
-const { ReceiptRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+const { ReceiptRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -17,7 +17,7 @@ async function main() {
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
 
-  const client = new ReceiptRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new ReceiptRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
   const imageUrl = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
 
   let response;

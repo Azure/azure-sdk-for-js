@@ -159,13 +159,6 @@ export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
 };
 
 // @public
-export class CognitiveKeyCredential implements ServiceClientCredentials {
-    constructor(apiKey: string);
-    signRequest(webResource: WebResource): Promise<WebResource>;
-    updateKey(apiKey: string): void;
-}
-
-// @public
 export interface CommonFieldValue {
     boundingBox?: number[];
     confidence?: number;
@@ -430,13 +423,10 @@ export interface FormFieldsReport {
     fieldName: string;
 }
 
-// @public (undocumented)
+// @public
 export interface FormModel {
-    // (undocumented)
     keys: KeysResult;
-    // (undocumented)
     modelInfo: ModelInfo;
-    // (undocumented)
     trainResult?: FormTrainResult;
 }
 
@@ -452,8 +442,15 @@ export type FormModelResponse = FormModel & {
 export type FormPollerLike = PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>;
 
 // @public
+export class FormRecognizerApiKeyCredential implements ServiceClientCredentials {
+    constructor(apiKey: string);
+    signRequest(webResource: WebResource): Promise<WebResource>;
+    updateKey(apiKey: string): void;
+}
+
+// @public
 export class FormRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
     // (undocumented)
     beginExtractForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractFormsOptions): Promise<FormPollerLike>;
     // (undocumented)
@@ -498,11 +495,9 @@ export interface FormResult {
     version: string;
 }
 
-// @public (undocumented)
+// @public
 export interface FormTrainResult {
-    // (undocumented)
     errors?: ErrorInformation[];
-    // (undocumented)
     trainingDocuments: TrainingDocumentInfo[];
 }
 
@@ -612,7 +607,7 @@ export type LayoutPollerLike = PollerLike<PollOperationState<ExtractLayoutResult
 
 // @public
 export class LayoutRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
     extractLayout(source: FormRecognizerRequestBody, contentType?: ContentType, options?: StartAnalyzeLayoutOptions): Promise<LayoutPollerLike>;
@@ -802,7 +797,7 @@ export type ReceiptPollerLike = PollerLike<PollOperationState<ExtractReceiptResu
 
 // @public
 export class ReceiptRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | CognitiveKeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
     readonly endpointUrl: string;
     // (undocumented)
     extractReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;

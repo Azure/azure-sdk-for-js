@@ -104,7 +104,7 @@ Methods that train models or extract values from forms are modeled as long-runni
 Using the `CustomFormClient`, you can train a machine-learned model on your own form type.  The resulting model will be able to extract values from the types of forms it was trained on.
 
 #### Training without labels
-A model trained without labels uses unsupervised learning to understand the layout and relationships between field names and values in your forms. The learning algorithm clusters the training forms by type and learns what fields and tables are present in each form type. 
+A model trained without labels uses unsupervised learning to understand the layout and relationships between field names and values in your forms. The learning algorithm clusters the training forms by type and learns what fields and tables are present in each form type.
 
 This approach doesn't require manual data labeling or intensive coding and maintenance, and we recommend you try this method first when training custom models.
 
@@ -132,7 +132,7 @@ The following section provides several code snippets illustrating common pattern
 ### Extracting receipt values with a long-running operation
 
 ```javascript
-const { ReceiptRecognizerClient, CognitiveKeyCredential } = require("@azure/ai-form-recognizer");
+const { ReceiptRecognizerClient, FormRecognizerApiKeyCredential } = require("@azure/ai-form-recognizer");
 const fs = require("fs");
 
 require("dotenv").config();
@@ -143,7 +143,7 @@ async function main() {
   const path = "./contoso-allinone.jpg";
   const readStream = fs.createReadStream(path);
 
-  const client = new ReceiptRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new ReceiptRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
   const poller = await client.extractReceipts(readStream, "image/jpeg", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });

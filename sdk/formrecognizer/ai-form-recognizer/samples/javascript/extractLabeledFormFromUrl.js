@@ -5,7 +5,7 @@
  * Extract Custom Form
  */
 
-const { FormRecognizerClient, CognitiveKeyCredential } = require("../../dist");
+const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
 const fs = require("fs");
 
 // Load the .env file if it exists
@@ -21,7 +21,7 @@ async function main() {
   const modelId = "e28ad0da-aa55-46dc-ade9-839b0d819189"; // trained with labels
   const url = process.env["URL_OF_DOCUMENT_TO_ANALYZE_WITH_LABELS"] || "<sample invoice url>";
 
-  const client = new FormRecognizerClient(endpoint, new CognitiveKeyCredential(apiKey));
+  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
   const poller = await client.beginExtractLabeledFormsFromUrl(modelId, url,{
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
@@ -42,7 +42,7 @@ async function main() {
   console.log("### Page results:")
   for (const page of response.extractedPages || []) {
     console.log(`Page number: ${page.pageNumber}`);
-    console.log(`cluster Id: ${page.formTypeId}`);
+    console.log(`Form type id: ${page.formTypeId}`);
     console.log("Fields:");
     for (const field of page.fields || []) {
       console.log(`\t${field.name.text}: ${field.value.text}`);

@@ -21,6 +21,6 @@ export {
   BeginTrainingPollState,
   TrainCustomModelAsyncResponse
 } from "./lro/train/poller";
-export { CognitiveKeyCredential } from "./cognitiveKeyCredential";
+export { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
 
 export * from "./models";
