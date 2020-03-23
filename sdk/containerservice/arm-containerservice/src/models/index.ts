@@ -805,7 +805,7 @@ export interface ManagedClusterServicePrincipalProfile {
  */
 export interface ManagedClusterAgentPoolProfileProperties {
   /**
-   * Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to
+   * Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to
    * 100 (inclusive). The default value is 1. Default value: 1.
    */
   count: number;
@@ -887,6 +887,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   type?: AgentPoolType;
   /**
+   * AgentPoolMode represents mode of an agent pool. Possible values include: 'System', 'User'
+   */
+  mode?: AgentPoolMode;
+  /**
    * Version of orchestrator specified when creating the managed cluster.
    */
   orchestratorVersion?: string;
@@ -950,7 +954,7 @@ export interface ManagedClusterAgentPoolProfile extends ManagedClusterAgentPoolP
  */
 export interface AgentPool extends SubResource {
   /**
-   * Number of agents (VMs) to host docker containers. Allowed values must be in the range of 1 to
+   * Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to
    * 100 (inclusive). The default value is 1. Default value: 1.
    */
   count: number;
@@ -1031,6 +1035,10 @@ export interface AgentPool extends SubResource {
    * 'VirtualMachineScaleSets', 'AvailabilitySet'
    */
   agentPoolType?: AgentPoolType;
+  /**
+   * AgentPoolMode represents mode of an agent pool. Possible values include: 'System', 'User'
+   */
+  mode?: AgentPoolMode;
   /**
    * Version of orchestrator specified when creating the managed cluster.
    */
@@ -1270,13 +1278,21 @@ export interface ManagedClusterAddonProfile {
  */
 export interface ManagedClusterAADProfile {
   /**
+   * Whether to enable managed AAD.
+   */
+  managed?: boolean;
+  /**
+   * AAD group object IDs that will have admin role of the cluster.
+   */
+  adminGroupObjectIDs?: string[];
+  /**
    * The client AAD application ID.
    */
-  clientAppID: string;
+  clientAppID?: string;
   /**
    * The server AAD application ID.
    */
-  serverAppID: string;
+  serverAppID?: string;
   /**
    * The server AAD application secret.
    */
@@ -1292,6 +1308,7 @@ export interface ManagedClusterAADProfile {
  * Parameters to be applied to the cluster-autoscaler when enabled
  */
 export interface ManagedClusterPropertiesAutoScalerProfile {
+  balanceSimilarNodeGroups?: boolean;
   scanInterval?: string;
   scaleDownDelayAfterAdd?: string;
   scaleDownDelayAfterDelete?: string;
@@ -1343,6 +1360,20 @@ export interface ManagedClusterIdentity {
    * service principal will be used instead. Possible values include: 'SystemAssigned', 'None'
    */
   type?: ResourceIdentityType;
+}
+
+/**
+ * An interface representing ManagedClusterSKU.
+ */
+export interface ManagedClusterSKU {
+  /**
+   * Name of a managed cluster SKU. Possible values include: 'Basic'
+   */
+  name?: ManagedClusterSKUName;
+  /**
+   * Tier of a managed cluster SKU. Possible values include: 'Paid', 'Free'
+   */
+  tier?: ManagedClusterSKUTier;
 }
 
 /**
@@ -1438,6 +1469,10 @@ export interface ManagedCluster extends Resource {
    * The identity of the managed cluster, if configured.
    */
   identity?: ManagedClusterIdentity;
+  /**
+   * The managed cluster SKU.
+   */
+  sku?: ManagedClusterSKU;
 }
 
 /**
@@ -1812,6 +1847,14 @@ export type ContainerServiceOrchestratorTypes = 'Kubernetes' | 'Swarm' | 'DCOS' 
 export type AgentPoolType = 'VirtualMachineScaleSets' | 'AvailabilitySet';
 
 /**
+ * Defines values for AgentPoolMode.
+ * Possible values include: 'System', 'User'
+ * @readonly
+ * @enum {string}
+ */
+export type AgentPoolMode = 'System' | 'User';
+
+/**
  * Defines values for ScaleSetPriority.
  * Possible values include: 'Spot', 'Low', 'Regular'
  * @readonly
@@ -1874,6 +1917,22 @@ export type LoadBalancerSku = 'standard' | 'basic';
  * @enum {string}
  */
 export type ResourceIdentityType = 'SystemAssigned' | 'None';
+
+/**
+ * Defines values for ManagedClusterSKUName.
+ * Possible values include: 'Basic'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedClusterSKUName = 'Basic';
+
+/**
+ * Defines values for ManagedClusterSKUTier.
+ * Possible values include: 'Paid', 'Free'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedClusterSKUTier = 'Paid' | 'Free';
 
 /**
  * Contains response data for the list operation.
