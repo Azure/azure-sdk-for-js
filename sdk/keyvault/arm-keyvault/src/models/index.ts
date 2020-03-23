@@ -116,6 +116,55 @@ export interface NetworkRuleSet {
 }
 
 /**
+ * Private endpoint object properties.
+ */
+export interface PrivateEndpoint {
+  /**
+   * Full identifier of the private endpoint resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * An object that represents the approval state of the private link connection.
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * Indicates whether the connection has been approved, rejected or removed by the key vault
+   * owner. Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected'
+   */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /**
+   * The reason for approval or rejection.
+   */
+  description?: string;
+  /**
+   * A message indicating if changes on the service provider require any updates on the consumer.
+   */
+  actionRequired?: string;
+}
+
+/**
+ * Private endpoint connection item.
+ */
+export interface PrivateEndpointConnectionItem {
+  /**
+   * Properties of the private endpoint object.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * Approval state of the private link connection.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * Provisioning state of the private endpoint connection. Possible values include: 'Succeeded',
+   * 'Creating', 'Updating', 'Deleting', 'Failed', 'Disconnected'
+   */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+/**
  * Properties of the vault
  */
 export interface VaultProperties {
@@ -154,10 +203,25 @@ export interface VaultProperties {
    */
   enabledForTemplateDeployment?: boolean;
   /**
-   * Property to specify whether the 'soft delete' functionality is enabled for this key vault. It
-   * does not accept false value.
+   * Property to specify whether the 'soft delete' functionality is enabled for this key vault. If
+   * it's not set to any value(true or false) when creating new key vault, it will be set to true
+   * by default. Once set to true, it cannot be reverted to false. Default value: true.
    */
   enableSoftDelete?: boolean;
+  /**
+   * softDelete data retention days. It accepts >=7 and <=90. Default value: 90.
+   */
+  softDeleteRetentionInDays?: number;
+  /**
+   * Property that controls how data actions are authorized. When true, the key vault will use Role
+   * Based Access Control (RBAC) for authorization of data actions, and the access policies
+   * specified in vault properties will be  ignored (warning: this is a preview feature). When
+   * false, the key vault will use the access policies specified in vault properties, and any
+   * policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault
+   * is created with the default value of false. Note that management actions are always authorized
+   * with RBAC. Default value: false.
+   */
+  enableRbacAuthorization?: boolean;
   /**
    * The vault's create mode to indicate whether the vault need to be recovered or not. Possible
    * values include: 'recover', 'default'
@@ -172,10 +236,14 @@ export interface VaultProperties {
    */
   enablePurgeProtection?: boolean;
   /**
-   * A collection of rules governing the accessibility of the vault from specific network
-   * locations.
+   * Rules governing the accessibility of the key vault from specific network locations.
    */
   networkAcls?: NetworkRuleSet;
+  /**
+   * List of private endpoint connections associated with the key vault.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnectionItem[];
 }
 
 /**
@@ -212,10 +280,23 @@ export interface VaultPatchProperties {
    */
   enabledForTemplateDeployment?: boolean;
   /**
-   * Property to specify whether the 'soft delete' functionality is enabled for this key vault. It
-   * does not accept false value.
+   * Property to specify whether the 'soft delete' functionality is enabled for this key vault.
+   * Once set to true, it cannot be reverted to false.
    */
   enableSoftDelete?: boolean;
+  /**
+   * Property that controls how data actions are authorized. When true, the key vault will use Role
+   * Based Access Control (RBAC) for authorization of data actions, and the access policies
+   * specified in vault properties will be  ignored (warning: this is a preview feature). When
+   * false, the key vault will use the access policies specified in vault properties, and any
+   * policy stored on Azure Resource Manager will be ignored. If null or not specified, the value
+   * of this property will not change.
+   */
+  enableRbacAuthorization?: boolean;
+  /**
+   * softDelete data retention days. It accepts >=7 and <=90.
+   */
+  softDeleteRetentionInDays?: number;
   /**
    * The vault's create mode to indicate whether the vault need to be recovered or not. Possible
    * values include: 'recover', 'default'
@@ -341,38 +422,32 @@ export interface VaultAccessPolicyParameters extends BaseResource {
 }
 
 /**
- * Key Vault resource
+ * Resource information with extended details.
  */
-export interface Resource extends BaseResource {
+export interface Vault extends BaseResource {
   /**
-   * The Azure Resource Manager resource ID for the key vault.
+   * Fully qualified identifier of the key vault resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * The name of the key vault.
+   * Name of the key vault resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * The resource type of the key vault.
+   * Resource type of the key vault resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
   /**
-   * The supported Azure location where the key vault should be created.
+   * Azure location of the key vault resource.
    */
-  location: string;
+  location?: string;
   /**
-   * The tags that will be assigned to the key vault.
+   * Tags assigned to the key vault resource.
    */
   tags?: { [propertyName: string]: string };
-}
-
-/**
- * Resource information with extended details.
- */
-export interface Vault extends Resource {
   /**
    * Properties of the vault
    */
@@ -402,6 +477,37 @@ export interface DeletedVault {
    * Properties of the vault
    */
   properties?: DeletedVaultProperties;
+}
+
+/**
+ * Key Vault resource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified identifier of the key vault resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of the key vault resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type of the key vault resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Azure location of the key vault resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * Tags assigned to the key vault resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -435,6 +541,55 @@ export interface CheckNameAvailabilityResult {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly message?: string;
+}
+
+/**
+ * Private endpoint connection resource.
+ */
+export interface PrivateEndpointConnection extends BaseResource {
+  /**
+   * Properties of the private endpoint object.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * Approval state of the private link connection.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * Provisioning state of the private endpoint connection. Possible values include: 'Succeeded',
+   * 'Creating', 'Updating', 'Deleting', 'Failed', 'Disconnected'
+   */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * Group identifier of private link resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * Required member names of private link resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * Required DNS zone names of the the private link resource.
+   */
+  requiredZoneNames?: string[];
+}
+
+/**
+ * A list of private link resources
+ */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Array of private link resources
+   */
+  value?: PrivateLinkResource[];
 }
 
 /**
@@ -544,6 +699,37 @@ export interface VaultsListOptionalParams extends msRest.RequestOptionsBase {
  */
 export interface KeyVaultManagementClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
+}
+
+/**
+ * Defines headers for Put operation.
+ */
+export interface PrivateEndpointConnectionsPutHeaders {
+  /**
+   * (specified only if operation does not finish synchronously) The recommended number of seconds
+   * to wait before calling the URI specified in Azure-AsyncOperation.
+   */
+  retryAfter: number;
+  /**
+   * (specified only if operation does not finish synchronously) The URI to poll for completion
+   * status. The response of this URI may be synchronous or asynchronous.
+   */
+  azureAsyncOperation: string;
+}
+
+/**
+ * Defines headers for Delete operation.
+ */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /**
+   * The recommended number of seconds to wait before calling the URI specified in the location
+   * header.
+   */
+  retryAfter: number;
+  /**
+   * The URI to poll for completion status.
+   */
+  locationHeader: string;
 }
 
 /**
@@ -662,6 +848,23 @@ export type NetworkRuleBypassOptions = 'AzureServices' | 'None';
  * @enum {string}
  */
 export type NetworkRuleAction = 'Allow' | 'Deny';
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus.
+ * Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected';
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState.
+ * Possible values include: 'Succeeded', 'Creating', 'Updating', 'Deleting', 'Failed',
+ * 'Disconnected'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Updating' | 'Deleting' | 'Failed' | 'Disconnected';
 
 /**
  * Defines values for Reason.
@@ -976,6 +1179,96 @@ export type VaultsListNextResponse = ResourceListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the put operation.
+ */
+export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection & PrivateEndpointConnectionsPutHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PrivateEndpointConnectionsPutHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnection & PrivateEndpointConnectionsDeleteHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PrivateEndpointConnectionsDeleteHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByVault operation.
+ */
+export type PrivateLinkResourcesListByVaultResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
     };
 };
 
