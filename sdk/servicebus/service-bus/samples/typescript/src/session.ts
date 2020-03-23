@@ -85,7 +85,7 @@ async function sendMessage(
 }
 
 async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
-  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
+  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
   const receiver = sbClient.getSessionReceiver(queueName, "peekLock", {
     sessionId: sessionId
   });
