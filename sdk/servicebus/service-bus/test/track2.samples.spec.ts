@@ -1,21 +1,18 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ReceivedMessage, ContextWithSettlement } from "../src/models";
-import { delay, SendableMessageInfo } from "../src";
+import { delay, ServiceBusMessage, ReceivedMessage } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import {
-  createConnectionContext,
-  getEntityNameFromConnectionString
-} from "../src/constructorHelpers";
+import { getEntityNameFromConnectionString } from "../src/constructorHelpers";
 import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
+import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe("Sample scenarios for track 2", () => {
+describe("Sample scenarios for track 2 #RunInBrowser", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   before(async () => {
@@ -56,11 +53,8 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(
-          message: ReceivedMessage,
-          context: ContextWithSettlement
-        ): Promise<void> {
-          await context.complete(message);
+        async processMessage(message: ReceivedMessageWithLock): Promise<void> {
+          await message.complete();
           receivedBodies.push(message.body);
         },
         async processError(err: Error): Promise<void> {
@@ -80,7 +74,7 @@ describe("Sample scenarios for track 2", () => {
 
       const receivedBodies: string[] = [];
 
-      for (const message of (await receiver.receiveBatch(1, 5)).messages) {
+      for (const message of await receiver.receiveBatch(1, { maxWaitTimeSeconds: 5 })) {
         receivedBodies.push(message.body);
       }
 
@@ -101,7 +95,7 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiver.getMessageIterator()) {
+      for await (const message of receiver.getMessageIterator()) {
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
           console.log(`No message arrived within our max wait time`);
@@ -109,11 +103,11 @@ describe("Sample scenarios for track 2", () => {
         }
 
         try {
-          await context.complete(message);
+          await message.complete();
           receivedBodies.push(message.body);
           break;
         } catch (err) {
-          await context.abandon(message);
+          await message.abandon();
           throw err;
         }
       }
@@ -156,9 +150,10 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiver.getMessageIterator()) {
-        assert.notOk((context as any).complete);
-
+      for await (const message of receiver.getMessageIterator()) {
+        // TODO: temporary - ultimately this method should throw an error if they manage
+        // to call it on a receiveAndDelete receiver.
+        // message.complete()
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
           console.log(`No message arrived within our max wait time`);
@@ -217,11 +212,8 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(
-          message: ReceivedMessage,
-          context: ContextWithSettlement
-        ): Promise<void> {
-          await context.complete(message);
+        async processMessage(message: ReceivedMessageWithLock): Promise<void> {
+          await message.complete();
           receivedBodies.push(message.body);
         },
         async processError(err: Error): Promise<void> {
@@ -269,7 +261,7 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiver.getMessageIterator()) {
+      for await (const message of receiver.getMessageIterator()) {
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
           console.log(`No message arrived within our max wait time`);
@@ -277,11 +269,11 @@ describe("Sample scenarios for track 2", () => {
         }
 
         try {
-          await context.complete(message);
+          await message.complete();
           receivedBodies.push(message.body);
           break;
         } catch (err) {
-          await context.abandon(message);
+          await message.abandon();
           throw err;
         }
       }
@@ -307,9 +299,7 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       // TODO: error handling? Does the iterate just terminate?
-      for await (const { message, context } of receiver.getMessageIterator()) {
-        assert.notOk((context as any).complete);
-
+      for await (const message of receiver.getMessageIterator()) {
         if (message == null) {
           // user has the option of handling "no messages arrived by the maximum wait time"
           console.log(`No message arrived within our max wait time`);
@@ -377,7 +367,7 @@ describe("Sample scenarios for track 2", () => {
       );
     });
 
-    it("Queue, peek/lock, sessions", async () => {
+    it("Queue, peek/lock, sessions using an iterator", async () => {
       const sessionId = Date.now().toString();
 
       const receiver = serviceBusClient.test.addToCleanup(
@@ -393,21 +383,18 @@ describe("Sample scenarios for track 2", () => {
       const errors: string[] = [];
       const receivedBodies: string[] = [];
 
-      receiver.subscribe({
-        async processMessage(message: ReceivedMessage): Promise<void> {
-          receivedBodies.push(message.body);
-        },
-        async processError(err: Error): Promise<void> {
-          errors.push(err.message);
-        }
-      });
+      for await (const message of receiver.getMessageIterator()) {
+        receivedBodies.push(message.body);
+        await message.complete();
+        break;
+      }
 
       await waitAndValidate("Queue, peek/lock, sessions", receivedBodies, errors, receiver);
     });
   });
 
   async function sendSampleMessage(senderClient: Sender, body: string, sessionId?: string) {
-    const message: SendableMessageInfo = {
+    const message: ServiceBusMessage = {
       body
     };
 
@@ -425,61 +412,6 @@ describe("ConstructorHelpers for track 2", () => {
 
   const serviceBusConnectionString =
     "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
-
-  const fakeTokenCredential = {
-    getToken: async () => null,
-    sentinel: "test token credential"
-  };
-
-  const badAuths = [
-    // missing required fields
-    { connectionString: serviceBusConnectionString },
-    { topicConnectionString: entityConnectionString },
-    { tokenCredential: fakeTokenCredential } as any,
-
-    // wrong types
-    { connectionString: 4, topicName: "myentity", subscriptionName: "mysubscription" },
-    {
-      connectionString: serviceBusConnectionString,
-      topicName: 4,
-      subscriptionName: "mysubscription"
-    },
-    { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: 4 },
-    { connectionString: "", topicName: "myentity", subscriptionName: "mysubscription" },
-    {
-      connectionString: serviceBusConnectionString,
-      topicName: "",
-      subscriptionName: "mysubscription"
-    },
-    { connectionString: serviceBusConnectionString, topicName: "myentity", subscriptionName: "" },
-    { connectionString: 4, queueName: "myentity" },
-    { connectionString: serviceBusConnectionString, queueName: 4 },
-    { queueConnectionString: 4 },
-    { queueConnectionString: "" },
-    { topicConnectionString: 4, subscriptionName: "mysubscription" },
-    { topicConnectionString: entityConnectionString, subscriptionName: 4 },
-    { topicConnectionString: "", subscriptionName: "mysubscription" },
-    { topicConnectionString: entityConnectionString, subscriptionName: "" },
-
-    // no entity name present for entity connection string types
-    {
-      topicConnectionString:
-        "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=",
-      subscriptionName: "mysubscription"
-    },
-    {
-      queueConnectionString:
-        "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey="
-    }
-  ];
-
-  badAuths.forEach((badAuth) => {
-    it(`createConnectionContext - bad auth ${JSON.stringify(badAuth)}`, () => {
-      assert.throws(() => {
-        createConnectionContext(badAuth, {});
-      });
-    });
-  });
 
   it("getEntityNameFromConnectionString", () => {
     assert.equal("myentity", getEntityNameFromConnectionString(entityConnectionString));

@@ -5,30 +5,19 @@ parameters:
     Linux_Node8:
       OSVmImage: "ubuntu-16.04"
       NodeVersion: "8.x"
-    Linux_Node10:
-      OSVmImage: "ubuntu-16.04"
-      NodeVersion: "10.x"
-    Linux_Node12:
-      OSVmImage: "ubuntu-16.04"
-      NodeVersion: "12.x"
-    macOS_Node8:
-      OSVmImage: "macOS-10.15"
-      NodeVersion: "8.x"
-    macOS_Node10:
-      OSVmImage: "macOS-10.15"
-      NodeVersion: "10.x"
-    macOS_Node12:
-      OSVmImage: "macOS-10.15"
-      NodeVersion: "12.x"
-    Windows_Node8:
-      OSVmImage: "windows-2019"
-      NodeVersion: "8.x"
+      TestType: "node"
     Windows_Node10:
       OSVmImage: "windows-2019"
       NodeVersion: "10.x"
-    Windows_Node12:
-      OSVmImage: "windows-2019"
+      TestType: "node"
+    macOS_Node12:
+      OSVmImage: "macOS-10.15"
       NodeVersion: "12.x"
+      TestType: "node"
+    Browser_Linux_Node12:
+      OSVmImage: "ubuntu-16.04"
+      NodeVersion: "12.x"
+      TestType: "browser"
 
 jobs:
   - job: "Build"
@@ -108,22 +97,9 @@ jobs:
           artifactName: packages
           path: $(Build.ArtifactStagingDirectory)
 
-      - script: |
-          npm i -g typedoc
-        displayName: "Install typedoc"
-
-      - script: |
-          npm install
-        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
-        displayName: "Install tool dependencies"
-
-      - pwsh: |
-          node $(Build.SourcesDirectory)/eng/tools/generate-doc/index.js --dgOp "dg" -i "inc" --inc "${{parameters.ServiceDirectory}}"
-        displayName: "Run Typedoc Docs"
-
-      - pwsh: |
-          $(Build.SourcesDirectory)/eng/tools/compress-subfolders.ps1 "$(Build.SourcesDirectory)/docGen" "$(Build.ArtifactStagingDirectory)/Documentation"
-        displayName: "Generate Typedoc Docs"
+      - template: ../steps/generate-doc.yml
+        parameters:
+          ServiceDirectory: ${{parameters.ServiceDirectory}}
 
       - task: PublishPipelineArtifact@1
         condition: succeededOrFailed()
@@ -247,8 +223,16 @@ jobs:
         # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
         # The default on Windows is "cores - 1" (microsoft/rushstack#436).
         - script: |
-            node eng/tools/rush-runner.js unit-test "${{parameters.ServiceDirectory}}" --verbose -p max
+            node eng/tools/rush-runner.js unit-test:node "${{parameters.ServiceDirectory}}" --verbose -p max
           displayName: "Test libraries"
+          condition: eq(variables['TestType'], 'node')
+        
+        # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+        # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+        - script: |
+            node eng/tools/rush-runner.js unit-test:browser "${{parameters.ServiceDirectory}}" --verbose -p max
+          displayName: "Test libraries"
+          condition: eq(variables['TestType'], 'browser')
 
         # Unlink node_modules folders to significantly improve performance of subsequent tasks
         # which need to walk the directory tree (and are hardcoded to follow symlinks).
@@ -264,7 +248,7 @@ jobs:
             searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
             testResultsFiles: "**/test-results.xml"
             testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
-          condition: always()
+          condition: and(always(),eq(variables['TestType'], 'node'))
           displayName: "Publish NodeJS unit test results"
 
         # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
@@ -274,5 +258,5 @@ jobs:
             searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
             testResultsFiles: "**/test-results.browser.xml"
             testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
-          condition: always()
+          condition: and(always(),eq(variables['TestType'], 'browser'))
           displayName: "Publish browser unit test results"

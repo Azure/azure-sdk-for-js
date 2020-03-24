@@ -3,12 +3,16 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ReceiveMode, ReceivedMessage, ContextWithSettlement } from "../src";
+import { delay, ReceiveMode, ReceivedMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
-import { DispositionType } from "../src/serviceBusMessage";
+import {
+  DispositionType,
+  ServiceBusMessageImpl,
+  ReceivedMessageWithLock
+} from "../src/serviceBusMessage";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
@@ -16,6 +20,7 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
+import { getDeliveryProperty } from "./utils/misc";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -33,8 +38,8 @@ async function processError(err: Error): Promise<void> {
 describe("Streaming", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
-  let receiverClient: Receiver<ContextWithSettlement>;
-  let deadLetterClient: Receiver<ContextWithSettlement>;
+  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let deadLetterClient: Receiver<ReceivedMessageWithLock>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -53,9 +58,7 @@ describe("Streaming", () => {
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getReceiver(receiverClient.getDeadLetterPath(), "peekLock")
-    );
+    deadLetterClient = serviceBusClient.test.getDeadLetterReceiver(entityNames);
 
     errorWasThrown = false;
     unexpectedError = undefined;
@@ -87,7 +90,9 @@ describe("Streaming", () => {
       });
 
       const msgsCheck = await checkWithTimeout(
-        () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+        () =>
+          receivedMsgs.length === 1 &&
+          (receivedMsgs[0] as ServiceBusMessageImpl).delivery.remote_settled === true
       );
 
       should.equal(
@@ -123,7 +128,8 @@ describe("Streaming", () => {
       });
 
       const msgsCheck = await checkWithTimeout(
-        () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+        () =>
+          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true
       );
 
       should.equal(
@@ -171,13 +177,11 @@ describe("Streaming", () => {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
 
-      const receivedMsgs: ReceivedMessage[] = [];
-      let contextToSettle: ContextWithSettlement;
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             receivedMsgs.push(msg);
-            contextToSettle = context;
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
@@ -197,7 +201,7 @@ describe("Streaming", () => {
       await testPeekMsgsLength(receiverClient, 1);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
-      await contextToSettle!.complete(receivedMsgs[0]);
+      await receivedMsgs[0].complete();
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       await testPeekMsgsLength(receiverClient, 0);
@@ -283,17 +287,17 @@ describe("Streaming", () => {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
 
-      const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
               testMessage.messageId,
               "MessageId is different than expected"
             );
-            await context.complete(msg);
+            await msg.complete();
             receivedMsgs.push(msg);
           },
           processError
@@ -370,13 +374,13 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             should.equal(
               msg.deliveryCount,
               checkDeliveryCount,
               "DeliveryCount is different than expected"
             );
-            await context.abandon(msg);
+            await msg.abandon();
             checkDeliveryCount++;
           },
           processError
@@ -393,8 +397,7 @@ describe("Streaming", () => {
 
       await testPeekMsgsLength(receiverClient, 0); // No messages in the queue
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
-      const deadLetterMsgs = deadLetterMsgsBatch.messages;
+      const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -408,7 +411,7 @@ describe("Streaming", () => {
         "MessageId is different than expected"
       );
 
-      await deadLetterMsgsBatch.context.complete(deadLetterMsgs[0]);
+      await deadLetterMsgs[0].complete();
 
       await testPeekMsgsLength(deadLetterClient, 0);
     }
@@ -454,8 +457,8 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-            await context.defer(msg);
+          async processMessage(msg: ReceivedMessageWithLock) {
+            await msg.defer();
             sequenceNum = msg.sequenceNumber;
           },
           processError
@@ -561,8 +564,8 @@ describe("Streaming", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-            await context.deadLetter(msg);
+          async processMessage(msg: ReceivedMessageWithLock) {
+            await msg.deadLetter();
             receivedMsgs.push(msg);
           },
           processError
@@ -577,8 +580,7 @@ describe("Streaming", () => {
 
       await testPeekMsgsLength(receiverClient, 0);
 
-      const deadLetterMsgsBatch = await deadLetterClient.receiveBatch(1);
-      const deadLetterMsgs = deadLetterMsgsBatch.messages;
+      const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -587,7 +589,7 @@ describe("Streaming", () => {
         "MessageId is different than expected"
       );
 
-      await deadLetterMsgsBatch.context.complete(deadLetterMsgs[0]);
+      await deadLetterMsgs[0].complete();
       await testPeekMsgsLength(deadLetterClient, 0);
     }
 
@@ -658,8 +660,8 @@ describe("Streaming", () => {
       const expectedErrorMessage = getAlreadyReceivingErrorMsg(receiverClient.entityPath);
 
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-          await context.complete(msg);
+        async processMessage(msg: ReceivedMessageWithLock) {
+          await msg.complete();
         },
         processError
       });
@@ -719,19 +721,18 @@ describe("Streaming", () => {
     async function testSettlement(operation: DispositionType): Promise<void> {
       const testMessage = TestMessage.getSample();
       await senderClient.send(testMessage);
-      const receivedMsgs: ReceivedMessage[] = [];
-      let contextToSettle: ContextWithSettlement;
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+        async processMessage(msg: ReceivedMessageWithLock) {
           receivedMsgs.push(msg);
-          contextToSettle = context;
           return Promise.resolve();
         },
         processError
       });
 
       const msgsCheck = await checkWithTimeout(
-        () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+        () =>
+          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true
       );
       should.equal(
         msgsCheck,
@@ -758,15 +759,13 @@ describe("Streaming", () => {
       await testPeekMsgsLength(receiverClient, 0);
 
       if (operation === DispositionType.complete) {
-        await contextToSettle!.complete(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receivedMsgs[0].complete().catch((err) => testError(err, operation));
       } else if (operation === DispositionType.abandon) {
-        await contextToSettle!.abandon(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receivedMsgs[0].abandon().catch((err) => testError(err, operation));
       } else if (operation === DispositionType.deadletter) {
-        await contextToSettle!
-          .deadLetter(receivedMsgs[0])
-          .catch((err) => testError(err, operation));
+        await receivedMsgs[0].deadLetter().catch((err) => testError(err, operation));
       } else if (operation === DispositionType.defer) {
-        await contextToSettle!.defer(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receivedMsgs[0].defer().catch((err) => testError(err, operation));
       }
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -828,10 +827,10 @@ describe("Streaming", () => {
       await senderClient.send(TestMessage.getSample());
       const errorMessage = "Will we see this error message?";
 
-      const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-          await context.complete(msg);
+        async processMessage(msg: ReceivedMessageWithLock) {
+          await msg.complete();
           receivedMsgs.push(msg);
           throw new Error(errorMessage);
         },
@@ -947,14 +946,18 @@ describe("Streaming", () => {
 
     async function testConcurrency(maxConcurrentCalls?: number): Promise<void> {
       const testMessages = [TestMessage.getSample(), TestMessage.getSample()];
-      await senderClient.sendBatch(testMessages);
+      const batchMessageToSend = await senderClient.createBatch();
+      testMessages.forEach((message) => {
+        batchMessageToSend.tryAdd(message);
+      });
+      await senderClient.sendBatch(batchMessageToSend);
 
       const settledMsgs: ReceivedMessage[] = [];
       const receivedMsgs: ReceivedMessage[] = [];
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             if (receivedMsgs.length === 1) {
               if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
                 throw new Error(
@@ -971,7 +974,7 @@ describe("Streaming", () => {
 
             receivedMsgs.push(msg);
             await delay(2000);
-            await context.complete(msg);
+            await msg.complete();
             settledMsgs.push(msg);
           },
           processError

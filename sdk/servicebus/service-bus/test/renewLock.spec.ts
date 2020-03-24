@@ -5,17 +5,17 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ReceivedMessage, ContextWithSettlement } from "../src";
 import { delay } from "rhea-promise";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
+import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 describe("renew lock", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let senderClient: Sender;
-  let receiverClient: Receiver<ContextWithSettlement>;
+  let receiverClient: Receiver<ReceivedMessageWithLock>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -268,13 +268,12 @@ describe("renew lock", () => {
    */
   async function testBatchReceiverManualLockRenewalHappyCase(
     senderClient: Sender,
-    receiverClient: Receiver<ContextWithSettlement>
+    receiverClient: Receiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = TestMessage.getSample();
     await senderClient.send(testMessage);
 
-    const batch = await receiverClient.receiveBatch(1);
-    const msgs = batch.messages;
+    const msgs = await receiverClient.receiveBatch(1);
 
     // Compute expected initial lock expiry time
     const expectedLockExpiryTimeUtc = new Date();
@@ -296,7 +295,7 @@ describe("renew lock", () => {
 
     await delay(5000);
     if (msgs[0].lockToken) {
-      await receiverClient.renewMessageLock(msgs[0].lockToken);
+      await msgs[0].renewLock();
     }
 
     // Compute expected lock expiry time after renewing lock after 5 seconds
@@ -309,7 +308,7 @@ describe("renew lock", () => {
       "After renewlock()"
     );
 
-    await batch.context.complete(msgs[0]);
+    await msgs[0].complete();
   }
 
   /**
@@ -317,13 +316,12 @@ describe("renew lock", () => {
    */
   async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     senderClient: Sender,
-    receiverClient: Receiver<ContextWithSettlement>
+    receiverClient: Receiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = TestMessage.getSample();
     await senderClient.send(testMessage);
 
-    const batch = await receiverClient.receiveBatch(1);
-    const msgs = batch.messages;
+    const msgs = await receiverClient.receiveBatch(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Expected message length does not match");
@@ -334,7 +332,7 @@ describe("renew lock", () => {
     await delay(lockDurationInMilliseconds + 1000);
 
     let errorWasThrown: boolean = false;
-    await batch.context.complete(msgs[0]).catch((err) => {
+    await msgs[0].complete().catch((err) => {
       should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
       errorWasThrown = true;
     });
@@ -343,7 +341,7 @@ describe("renew lock", () => {
 
     // Clean up any left over messages
     const unprocessedMsgsBatch = await receiverClient.receiveBatch(1);
-    await unprocessedMsgsBatch.context.complete(unprocessedMsgsBatch.messages[0]);
+    await unprocessedMsgsBatch[0].complete();
   }
 
   /**
@@ -351,16 +349,13 @@ describe("renew lock", () => {
    */
   async function testStreamingReceiverManualLockRenewalHappyCase(
     senderClient: Sender,
-    receiverClient: Receiver<ContextWithSettlement>
+    receiverClient: Receiver<ReceivedMessageWithLock>
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = TestMessage.getSample();
     await senderClient.send(testMessage);
 
-    async function processMessage(
-      brokeredMessage: ReceivedMessage,
-      context: ContextWithSettlement
-    ): Promise<void> {
+    async function processMessage(brokeredMessage: ReceivedMessageWithLock): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -389,7 +384,7 @@ describe("renew lock", () => {
         );
 
         await delay(5000);
-        await receiverClient.renewMessageLock(brokeredMessage);
+        await brokeredMessage.renewLock();
 
         // Compute expected lock expiry time after renewing lock after 5 seconds
         expectedLockExpiryTimeUtc.setSeconds(expectedLockExpiryTimeUtc.getSeconds() + 5);
@@ -401,7 +396,7 @@ describe("renew lock", () => {
           "After renewlock"
         );
 
-        await context.complete(brokeredMessage);
+        await brokeredMessage.complete();
       }
     }
 
@@ -430,7 +425,7 @@ describe("renew lock", () => {
 
   async function testAutoLockRenewalConfigBehavior(
     senderClient: Sender,
-    receiverClient: Receiver<ContextWithSettlement>,
+    receiverClient: Receiver<ReceivedMessageWithLock>,
     options: AutoLockRenewalTestOptions,
     entityType: TestClientType
   ): Promise<void> {
@@ -438,10 +433,7 @@ describe("renew lock", () => {
     const testMessage = TestMessage.getSample();
     await senderClient.send(testMessage);
 
-    async function processMessage(
-      brokeredMessage: ReceivedMessage,
-      context: ContextWithSettlement
-    ): Promise<void> {
+    async function processMessage(brokeredMessage: ReceivedMessageWithLock): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -460,7 +452,7 @@ describe("renew lock", () => {
         await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000);
 
         let errorWasThrown: boolean = false;
-        await context.complete(brokeredMessage).catch((err) => {
+        await brokeredMessage.complete().catch((err) => {
           should.equal(err.code, "MessageLockLostError", "Error code is different than expected");
           errorWasThrown = true;
         });
@@ -493,8 +485,8 @@ describe("renew lock", () => {
       );
 
       const unprocessedMsgsBatch = await receiverClient.receiveBatch(1);
-      if (unprocessedMsgsBatch.messages.length) {
-        await unprocessedMsgsBatch.context.complete(unprocessedMsgsBatch.messages[0]);
+      if (unprocessedMsgsBatch.length) {
+        await unprocessedMsgsBatch[0].complete();
       }
     }
   }

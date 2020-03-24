@@ -3,10 +3,10 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ReceivedMessage, ContextWithSettlement } from "../src";
+import { delay, ReceivedMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
-import { DispositionType } from "../src/serviceBusMessage";
+import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
@@ -15,13 +15,14 @@ import {
   ServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
+import { getDeliveryProperty } from "./utils/misc";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
 describe("Streaming with sessions", () => {
   let senderClient: Sender;
-  let receiverClient: SessionReceiver<ContextWithSettlement>;
-  let deadLetterClient: Receiver<ContextWithSettlement>;
+  let receiverClient: SessionReceiver<ReceivedMessageWithLock>;
+  let deadLetterClient: Receiver<ReceivedMessageWithLock>;
   let errorWasThrown: boolean;
   let unexpectedError: Error | undefined;
   let serviceBusClient: ServiceBusClientForTests;
@@ -50,9 +51,7 @@ describe("Streaming with sessions", () => {
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
     );
 
-    deadLetterClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getReceiver(receiverClient.getDeadLetterPath(), "peekLock")
-    );
+    deadLetterClient = serviceBusClient.test.getDeadLetterReceiver(entityNames);
 
     errorWasThrown = false;
     unexpectedError = undefined;
@@ -89,7 +88,7 @@ describe("Streaming with sessions", () => {
 
       const receivedMsgs: ReceivedMessage[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+        async processMessage(msg: ReceivedMessage) {
           receivedMsgs.push(msg);
           should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
           should.equal(
@@ -104,7 +103,8 @@ describe("Streaming with sessions", () => {
       });
 
       const msgsCheck = await checkWithTimeout(
-        () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+        () =>
+          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true
       );
       should.equal(
         msgsCheck,
@@ -149,12 +149,10 @@ describe("Streaming with sessions", () => {
     async function testManualComplete(): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
       await senderClient.send(testMessage);
-      let contextToSettle: ContextWithSettlement;
-      const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-            contextToSettle = context;
+          async processMessage(msg: ReceivedMessageWithLock) {
             receivedMsgs.push(msg);
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
@@ -174,7 +172,7 @@ describe("Streaming with sessions", () => {
 
       await testPeekMsgsLength(receiverClient, 1);
 
-      await contextToSettle!.complete(receivedMsgs[0]);
+      await receivedMsgs[0].complete();
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
@@ -219,17 +217,17 @@ describe("Streaming with sessions", () => {
       const testMessage = TestMessage.getSessionSample();
       await senderClient.send(testMessage);
 
-      const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,
               testMessage.messageId,
               "MessageId is different than expected"
             );
-            await context.complete(msg);
+            await msg.complete();
             receivedMsgs.push(msg);
           },
           processError
@@ -321,8 +319,8 @@ describe("Streaming with sessions", () => {
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-            return context.abandon(msg).then(() => {
+          async processMessage(msg: ReceivedMessageWithLock) {
+            return msg.abandon().then(() => {
               abandonFlag = 1;
               if (receiverClient.isReceivingMessages()) {
                 return receiverClient.close();
@@ -346,8 +344,7 @@ describe("Streaming with sessions", () => {
 
       await createReceiverForTests(testClientType);
 
-      const batch = await receiverClient.receiveBatch(1);
-      const receivedMsgs = batch.messages;
+      const receivedMsgs = await receiverClient.receiveBatch(1);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
       should.equal(
         receivedMsgs[0].messageId,
@@ -355,7 +352,7 @@ describe("Streaming with sessions", () => {
         "MessageId is different than expected"
       );
       should.equal(receivedMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
-      await batch.context.complete(receivedMsgs[0]);
+      await receivedMsgs[0].complete();
       await testPeekMsgsLength(receiverClient, 0);
     }
     it("Partitioned Queue: abandon() retains message with incremented deliveryCount(with sessions)", async function(): Promise<
@@ -419,8 +416,8 @@ describe("Streaming with sessions", () => {
       let sequenceNum: any = 0;
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-            await context.defer(msg);
+          async processMessage(msg: ReceivedMessageWithLock) {
+            await msg.defer();
             sequenceNum = msg.sequenceNumber;
           },
           processError
@@ -522,7 +519,7 @@ describe("Streaming with sessions", () => {
       let msgCount = 0;
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             await msg.deadLetter();
             msgCount++;
           },
@@ -538,8 +535,7 @@ describe("Streaming with sessions", () => {
       should.equal(msgCount, 1, "Unexpected number of messages");
       await testPeekMsgsLength(receiverClient, 0);
 
-      const batch = await deadLetterClient.receiveBatch(1);
-      const deadLetterMsgs = batch.messages;
+      const deadLetterMsgs = await deadLetterClient.receiveBatch(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -548,7 +544,7 @@ describe("Streaming with sessions", () => {
         "MessageId is different than expected"
       );
 
-      await batch.context.complete(deadLetterMsgs[0]);
+      await deadLetterMsgs[0].complete();
       await testPeekMsgsLength(deadLetterClient, 0);
     }
 
@@ -621,8 +617,8 @@ describe("Streaming with sessions", () => {
         TestMessage.sessionId
       );
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-          return context.complete(msg);
+        async processMessage(msg: ReceivedMessageWithLock) {
+          return msg.complete();
         },
         processError
       });
@@ -683,19 +679,18 @@ describe("Streaming with sessions", () => {
       const testMessage = TestMessage.getSessionSample();
       await senderClient.send(testMessage);
 
-      const receivedMsgs: ReceivedMessage[] = [];
-      let contextToSettle: ContextWithSettlement;
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+        async processMessage(msg: ReceivedMessageWithLock) {
           receivedMsgs.push(msg);
-          contextToSettle = context;
           return Promise.resolve();
         },
         processError
       });
 
       const msgsCheck = await checkWithTimeout(
-        () => receivedMsgs.length === 1 && receivedMsgs[0].delivery.remote_settled === true
+        () =>
+          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true
       );
       should.equal(
         msgsCheck,
@@ -721,15 +716,13 @@ describe("Streaming with sessions", () => {
       await testPeekMsgsLength(receiverClient, 0);
 
       if (operation === DispositionType.complete) {
-        await contextToSettle!.complete(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receivedMsgs[0].complete().catch((err) => testError(err, operation));
       } else if (operation === DispositionType.abandon) {
-        await contextToSettle!.abandon(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receivedMsgs[0].abandon().catch((err) => testError(err, operation));
       } else if (operation === DispositionType.deadletter) {
-        await contextToSettle!
-          .deadLetter(receivedMsgs[0])
-          .catch((err) => testError(err, operation));
+        await receivedMsgs[0].deadLetter().catch((err) => testError(err, operation));
       } else if (operation === DispositionType.defer) {
-        await contextToSettle!.defer(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receivedMsgs[0].defer().catch((err) => testError(err, operation));
       }
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -802,10 +795,10 @@ describe("Streaming with sessions", () => {
       await senderClient.send(testMessage);
       const errorMessage = "Will we see this error message?";
 
-      const receivedMsgs: ReceivedMessage[] = [];
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiverClient.subscribe({
-        async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
-          await context.complete(msg);
+        async processMessage(msg: ReceivedMessageWithLock) {
+          await msg.complete();
           receivedMsgs.push(msg);
           throw new Error(errorMessage);
         },
@@ -849,14 +842,18 @@ describe("Streaming with sessions", () => {
       }
 
       const testMessages = [TestMessage.getSessionSample(), TestMessage.getSessionSample()];
-      await senderClient.sendBatch(testMessages);
+      const batchMessageToSend = await senderClient.createBatch();
+      for (const message of testMessages) {
+        batchMessageToSend.tryAdd(message);
+      }
+      await senderClient.sendBatch(batchMessageToSend);
 
-      const settledMsgs: ReceivedMessage[] = [];
-      const receivedMsgs: ReceivedMessage[] = [];
+      const settledMsgs: ReceivedMessageWithLock[] = [];
+      const receivedMsgs: ReceivedMessageWithLock[] = [];
 
       receiverClient.subscribe(
         {
-          async processMessage(msg: ReceivedMessage, context: ContextWithSettlement) {
+          async processMessage(msg: ReceivedMessageWithLock) {
             if (receivedMsgs.length === 1) {
               if ((!maxConcurrentCalls || maxConcurrentCalls === 1) && settledMsgs.length === 0) {
                 throw new Error(
@@ -873,12 +870,16 @@ describe("Streaming with sessions", () => {
 
             receivedMsgs.push(msg);
             await delay(2000);
-            await context.complete(msg);
+            await msg.complete();
             settledMsgs.push(msg);
           },
           processError
         },
-        maxConcurrentCalls ? { maxConcurrentCalls } : {}
+        maxConcurrentCalls
+          ? {
+              maxConcurrentCalls
+            }
+          : {}
       );
 
       await checkWithTimeout(() => settledMsgs.length === 2);
@@ -1001,7 +1002,7 @@ describe("Streaming with sessions", () => {
 
   //     receiverClient.subscribe(
   //       {
-  //         async processMessage(brokeredMessage: ReceivedMessage, context: ContextWithSettlement) {
+  //         async processMessage(brokeredMessage: ReceivedMessage, context: ReceivedSettleableMessage) {
   //           receivedMsgs.push(brokeredMessage);
   //           await context.complete(brokeredMessage);
   //         },

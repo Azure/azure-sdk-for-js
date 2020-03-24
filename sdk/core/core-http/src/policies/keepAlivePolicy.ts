@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from './requestPolicy';
-import { WebResource } from '../webResource';
-import { HttpOperationResponse } from '../httpOperationResponse';
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
+import { WebResourceLike } from "../webResource";
+import { HttpOperationResponse } from "../httpOperationResponse";
 
 /**
  * Options for how HTTP connections should be maintained for future
@@ -19,7 +19,7 @@ export interface KeepAliveOptions {
 
 export const DefaultKeepAliveOptions: KeepAliveOptions = {
   enable: true
-}
+};
 
 export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions) {
   return {
@@ -51,11 +51,11 @@ export class KeepAlivePolicy extends BaseRequestPolicy {
   /**
    * Sends out request.
    *
-   * @param {WebResource} request
+   * @param {WebResourceLike} request
    * @returns {Promise<HttpOperationResponse>}
    * @memberof KeepAlivePolicy
    */
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     request.keepAlive = this.keepAliveOptions.enable;
     return this._nextPolicy.sendRequest(request);
   }

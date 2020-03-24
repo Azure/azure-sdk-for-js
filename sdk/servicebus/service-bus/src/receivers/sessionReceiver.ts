@@ -4,11 +4,7 @@
 import { ClientEntityContext } from "../clientEntityContext";
 import {
   SessionReceiverOptions,
-  ServiceBusMessage,
   SessionMessageHandlerOptions,
-  RuleDescription,
-  CorrelationFilter,
-  ContextWithSettlement,
   MessageHandlers,
   SubscribeOptions,
   ReceiveBatchOptions,
@@ -28,22 +24,18 @@ import {
 } from "../util/errors";
 import * as log from "../log";
 import { OnMessage, OnError } from "../core/messageReceiver";
-import {
-  getSubscriptionRules,
-  removeSubscriptionRule,
-  addSubscriptionRule,
-  settlementContext,
-  assertValidMessageHandlers
-} from "./shared";
+import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
+import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
  */
-export interface SessionReceiver<ContextT extends ContextWithSettlement | {}>
-  extends Receiver<ContextT> {
+export interface SessionReceiver<
+  ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+> extends Receiver<ReceivedMessageT> {
   /**
    * The session ID.
    * Can be undefined until a AMQP receiver link has been successfully set up for the session
@@ -111,8 +103,12 @@ export interface SessionReceiver<ContextT extends ContextWithSettlement | {}>
   setState(state: any): Promise<void>;
 }
 
-export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
-  implements SessionReceiver<ContextT> {
+/**
+ * @internal
+ * @ignore
+ */
+export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
+  implements SessionReceiver<ReceivedMessageT> {
   public entityPath: string;
   public sessionId: string | undefined;
 
@@ -143,7 +139,6 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    public entityType: "queue" | "subscription",
     private _sessionOptions: SessionReceiverOptions
   ) {
     throwErrorIfConnectionClosed(context.namespace);
@@ -220,10 +215,6 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
     }
-  }
-
-  getDeadLetterPath(): string {
-    return `${this.entityPath}/$DeadLetterQueue`;
   }
 
   /**
@@ -359,7 +350,7 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred message.
    */
-  async receiveDeferredMessage(sequenceNumber: Long): Promise<ServiceBusMessage | undefined> {
+  async receiveDeferredMessage(sequenceNumber: Long): Promise<ReceivedMessageT | undefined> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -378,7 +369,7 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
       convertToInternalReceiveMode(this.receiveMode),
       this.sessionId
     );
-    return messages[0];
+    return (messages[0] as any) as ReceivedMessageT;
   }
 
   /**
@@ -390,7 +381,7 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
-  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ServiceBusMessage[]> {
+  async receiveDeferredMessages(sequenceNumbers: Long[]): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
@@ -407,11 +398,13 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
     );
 
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.receiveDeferredMessages(
+    const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       convertToInternalReceiveMode(this.receiveMode),
       this.sessionId
     );
+
+    return (deferredMessages as any) as ReceivedMessageT[];
   }
 
   /**
@@ -423,9 +416,6 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    * property on the receiver.
    *
    * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
-   * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
-   * - **Default**: `60` seconds.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws Error if the receiver is already in state of receiving messages.
@@ -433,30 +423,26 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    */
   async receiveBatch(
     maxMessageCount: number,
-    maxWaitTimeInSeconds?: number,
-    // TODO: use the options
     options?: ReceiveBatchOptions
-  ): Promise<{ messages: ReceivedMessage[]; context: ContextT }> {
+  ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     await this._createMessageSessionIfDoesntExist();
-    const messages = await this._messageSession!.receiveMessages(
+
+    const receivedMessages = await this._messageSession!.receiveMessages(
       maxMessageCount,
-      maxWaitTimeInSeconds
+      options?.maxWaitTimeSeconds
     );
 
-    return {
-      messages,
-      context: this.getContext()
-    };
+    return (receivedMessages as any) as ReceivedMessageT[];
   }
 
-  subscribe(handlers: MessageHandlers<ContextT>, options?: SubscribeOptions): void {
+  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
     assertValidMessageHandlers(handlers);
 
     this._registerMessageHandler(
-      async (message: ServiceBusMessage) => {
-        return handlers.processMessage(message, this.getContext());
+      async (message: ServiceBusMessageImpl) => {
+        return handlers.processMessage((message as any) as ReceivedMessageT);
       },
       (err: Error) => {
         // TODO: not async internally yet.
@@ -534,47 +520,9 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws MessagingError if the service returns an error while receiving messages.
    */
-  async *getMessageIterator(
-    options?: GetMessageIteratorOptions
-  ): AsyncIterableIterator<{
-    message: ReceivedMessage;
-    context: ContextT;
-  }> {
-    while (true) {
-      const { messages, context } = await this.receiveBatch(1);
-
-      yield {
-        message: messages[0],
-        context
-      };
-    }
+  getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT> {
+    return getMessageIterator(this, options);
   }
-
-  // #region topic-filters
-
-  getRules(): Promise<RuleDescription[]> {
-    return getSubscriptionRules(this._context);
-  }
-
-  removeRule(ruleName: string): Promise<void> {
-    return removeSubscriptionRule(this._context, ruleName);
-  }
-
-  addRule(
-    ruleName: string,
-    filter: boolean | string | CorrelationFilter,
-    sqlRuleActionExpression?: string
-  ): Promise<void> {
-    return addSubscriptionRule(this._context, ruleName, filter, sqlRuleActionExpression);
-  }
-
-  /**
-   * @readonly
-   * @property The name of the default rule on the subscription.
-   */
-  readonly defaultRuleName: string = "$Default";
-
-  // #endregion
 
   /**
    * Closes the underlying AMQP receiver link.
@@ -610,15 +558,5 @@ export class SessionReceiverImpl<ContextT extends ContextWithSettlement | {}>
    */
   isReceivingMessages(): boolean {
     return this._messageSession ? this._messageSession.isReceivingMessages : false;
-  }
-
-  private getContext(): ContextT {
-    return this.receiveMode === "peekLock"
-      ? ((settlementContext as any) as ContextT)
-      : ({} as ContextT);
-  }
-
-  async renewMessageLock(lockTokenOrMessage: string | ReceivedMessage): Promise<Date> {
-    throw new Error("Move to the context");
   }
 }
