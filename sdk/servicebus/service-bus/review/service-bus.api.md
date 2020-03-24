@@ -11,7 +11,6 @@ import { DefaultDataTransformer } from '@azure/amqp-common';
 import { delay } from '@azure/amqp-common';
 import { Delivery } from 'rhea-promise';
 import { DeviceTokenCredentials } from '@azure/ms-rest-nodeauth';
-import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/amqp-common';
 import { MSITokenCredentials } from '@azure/ms-rest-nodeauth';
@@ -49,16 +48,6 @@ export { delay }
 export { Delivery }
 
 // @public
-export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
-}
-
-// @public
-export interface GetSessionReceiverOptions extends OperationOptions {
-    maxSessionAutoRenewLockDurationInSeconds?: number;
-    sessionId?: string;
-}
-
-// @public
 export interface MessageHandlerOptions {
     autoComplete?: boolean;
     maxConcurrentCalls?: number;
@@ -93,11 +82,7 @@ export class QueueClient implements Client {
 }
 
 // @public
-export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {
-}
-
-// @public
-export interface ReceivedMessage extends ServiceBusMessage {
+export interface ReceivedMessageInfo extends SendableMessageInfo {
     readonly _amqpMessage: AmqpMessage;
     readonly deadLetterSource?: string;
     readonly deliveryCount?: number;
@@ -137,7 +122,27 @@ export interface RuleDescription {
 }
 
 // @public
-export interface Sender {
+export interface SendableMessageInfo {
+    body: any;
+    contentType?: string;
+    correlationId?: string | number | Buffer;
+    label?: string;
+    messageId?: string | number | Buffer;
+    partitionKey?: string;
+    replyTo?: string;
+    replyToSessionId?: string;
+    scheduledEnqueueTimeUtc?: Date;
+    sessionId?: string;
+    timeToLive?: number;
+    to?: string;
+    userProperties?: {
+        [key: string]: any;
+    };
+    viaPartitionKey?: string;
+}
+
+// @public
+export class Sender {
     cancelScheduledMessage(sequenceNumber: Long): Promise<void>;
     cancelScheduledMessages(sequenceNumbers: Long[]): Promise<void>;
     close(): Promise<void>;
@@ -242,24 +247,35 @@ export interface SessionReceiverOptions {
 }
 
 // @public
-export interface SubscribeOptions extends OperationOptions, MessageHandlerOptions {
+export class SubscriptionClient implements Client {
+    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
+    close(): Promise<void>;
+    createReceiver(receiveMode: ReceiveMode): Receiver;
+    createReceiver(receiveMode: ReceiveMode, sessionOptions: SessionReceiverOptions): SessionReceiver;
+    readonly defaultRuleName: string;
+    readonly entityPath: string;
+    getRules(): Promise<RuleDescription[]>;
+    readonly id: string;
+    peek(maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessageInfo[]>;
+    removeRule(ruleName: string): Promise<void>;
+    readonly subscriptionName: string;
+    readonly topicName: string;
 }
 
-// @public
-export interface SubscriptionRuleManagement {
-    addRule(ruleName: string, filter: boolean | string | CorrelationFilter, sqlRuleActionExpression?: string): Promise<void>;
-    readonly defaultRuleName: string;
-    getRules(): Promise<RuleDescription[]>;
-    removeRule(ruleName: string): Promise<void>;
-}
+export { TokenInfo }
 
 export { TokenProvider }
 
 export { TokenType }
 
 // @public
-export interface WaitTimeOptions {
-    maxWaitTimeSeconds: number;
+export class TopicClient implements Client {
+    close(): Promise<void>;
+    createSender(): Sender;
+    readonly entityPath: string;
+    static getDeadLetterTopicPath(topicName: string, subscriptionName: string): string;
+    readonly id: string;
 }
 
 export { WebSocketImpl }
