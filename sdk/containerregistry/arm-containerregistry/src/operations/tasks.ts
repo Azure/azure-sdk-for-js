@@ -286,7 +286,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TaskListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorSchema
     }
   },
   serializer
@@ -312,7 +312,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Task
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorSchema
     }
   },
   serializer
@@ -338,7 +338,7 @@ const getDetailsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Task
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorSchema
     }
   },
   serializer
@@ -374,7 +374,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Task
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorSchema
     }
   },
   serializer
@@ -400,7 +400,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorSchema
     }
   },
   serializer
@@ -436,7 +436,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Task
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorSchema
     }
   },
   serializer
@@ -457,7 +457,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TaskListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorSchema
     }
   },
   serializer
