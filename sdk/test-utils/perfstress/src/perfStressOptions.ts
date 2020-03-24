@@ -3,13 +3,42 @@
 
 import { PerfStressTestError } from ".";
 
+/**
+ * Possible values for each PerfStress option
+ */
 export type PerfStressOptionValue = string | number | boolean | undefined;
 
+/**
+ * Details for a PerfStress option
+ */
 export interface PerfStressOption {
+  /**
+   * Wether the option is required or not.
+   */
   required: boolean;
+  /**
+   * The shortName represents a command line argument that is usually short,
+   * and when sent through the command line, it should have a single dash `-` before the shortName specified.
+   * The value of shortName should not contain dashes.
+   * Only alpha-numeric values are accepted.
+   */
   shortName?: string;
+  /**
+   * The longName represents a command line argument that is usually longer than the shortName,
+   * and when sent through the command line, it should have two dashes `--` before the longName specified.
+   * The value of longName should not contain dashes.
+   * Only alpha-numeric values are accepted.
+   */
   longName: string;
+  /**
+   * The default value that is going to be assigned to the option.
+   */
   defaultValue?: PerfStressOptionValue;
+  /**
+   * The value specified by the user from the command line after either the shortName or the longName.
+   * If no value was specified, the defaultValue will be used.
+   * If the shortName or longName was specified, but no value was provided, "true" will be set.
+   */
   value?: PerfStressOptionValue;
   description: string;
 }
