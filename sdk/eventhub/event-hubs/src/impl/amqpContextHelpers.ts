@@ -145,7 +145,7 @@ export async function close(context: ConnectionContext): Promise<void> {
  * @param [getEventHubPropertiesOptions] The set of options to apply to the operation call.
  * @returns A promise that resolves with EventHubProperties.
  * @throws Error if the underlying connection has been closed, create a new EventHubClient.
- * @throws AbortError if the operation is cancelled via the abortSignal3.
+ * @throws AbortError if the operation is cancelled via the abortSignal.
  */
 export async function getProperties(
   context: ConnectionContext,
