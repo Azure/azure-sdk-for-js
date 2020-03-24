@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/policySnippetMappers";
+import * as Mappers from "../models/policyDescriptionMappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClientContext } from "../apiManagementClientContext";
 
-/** Class representing a PolicySnippet. */
-export class PolicySnippet {
+/** Class representing a PolicyDescription. */
+export class PolicyDescription {
   private readonly client: ApiManagementClientContext;
 
   /**
-   * Create a PolicySnippet.
+   * Create a PolicyDescription.
    * @param {ApiManagementClientContext} client Reference to the service client.
    */
   constructor(client: ApiManagementClientContext) {
@@ -27,27 +27,27 @@ export class PolicySnippet {
   }
 
   /**
-   * Lists all policy snippets.
+   * Lists all policy descriptions.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PolicySnippetListByServiceResponse>
+   * @returns Promise<Models.PolicyDescriptionListByServiceResponse>
    */
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicySnippetListByServiceOptionalParams): Promise<Models.PolicySnippetListByServiceResponse>;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicyDescriptionListByServiceOptionalParams): Promise<Models.PolicyDescriptionListByServiceResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.PolicySnippetsCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.PolicyDescriptionCollection>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByService(resourceGroupName: string, serviceName: string, options: Models.PolicySnippetListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.PolicySnippetsCollection>): void;
-  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicySnippetListByServiceOptionalParams | msRest.ServiceCallback<Models.PolicySnippetsCollection>, callback?: msRest.ServiceCallback<Models.PolicySnippetsCollection>): Promise<Models.PolicySnippetListByServiceResponse> {
+  listByService(resourceGroupName: string, serviceName: string, options: Models.PolicyDescriptionListByServiceOptionalParams, callback: msRest.ServiceCallback<Models.PolicyDescriptionCollection>): void;
+  listByService(resourceGroupName: string, serviceName: string, options?: Models.PolicyDescriptionListByServiceOptionalParams | msRest.ServiceCallback<Models.PolicyDescriptionCollection>, callback?: msRest.ServiceCallback<Models.PolicyDescriptionCollection>): Promise<Models.PolicyDescriptionListByServiceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +55,7 @@ export class PolicySnippet {
         options
       },
       listByServiceOperationSpec,
-      callback) as Promise<Models.PolicySnippetListByServiceResponse>;
+      callback) as Promise<Models.PolicyDescriptionListByServiceResponse>;
   }
 }
 
@@ -63,7 +63,7 @@ export class PolicySnippet {
 const serializer = new msRest.Serializer(Mappers);
 const listByServiceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policySnippets",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/policyDescriptions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
@@ -78,7 +78,7 @@ const listByServiceOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PolicySnippetsCollection
+      bodyMapper: Mappers.PolicyDescriptionCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
