@@ -1305,6 +1305,7 @@ export class ManagementClient extends LinkEntity {
           } catch (error) {
             reject(translate(error));
           }
+          // TO DO - Refactor this try-catch block similar to the above acquireLockHelper
           try {
             const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
 
@@ -1314,9 +1315,11 @@ export class ManagementClient extends LinkEntity {
               timeoutInMs: remainingOperationTimeoutInMs
             };
             const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
-            return result.body["session-state"]
-              ? this._context.namespace.dataTransformer.decode(result.body["session-state"])
-              : result.body["session-state"];
+            resolve(
+              result.body["session-state"]
+                ? this._context.namespace.dataTransformer.decode(result.body["session-state"])
+                : result.body["session-state"]
+            );
           } catch (err) {
             err = translate(err);
             const address =
