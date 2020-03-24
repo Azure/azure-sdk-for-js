@@ -7,15 +7,16 @@ import {
   ParsedPerfStressOptions,
   parsePerfStressOption,
   defaultPerfStressOptions,
-  printOptions
+  printOptions,
+  PrintOptionsFilters
 } from "./perfStressOptions";
 
 export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {
   public optionsToParse: PerfStressOption[] = defaultPerfStressOptions;
   public parsedOptions: TOptions = {} as TOptions;
 
-  public printOptions(pick?: "defaultOptions" | "nonDefaultOptions" | "assignedOptions") {
-    printOptions(this.optionsToParse, pick);
+  public printOptions(pick?: PrintOptionsFilters[]) {
+    printOptions(this.parsedOptions, pick);
   }
 
   public parseOptions() {
@@ -36,7 +37,6 @@ export function findPerfStressTest(
   tests: PerfStressTest<ParsedPerfStressOptions>[],
   matches: string[]
 ): PerfStressTest<ParsedPerfStressOptions> {
-  console.log({ matches });
   const testsNames: string[] = tests.map((test) => test.constructor.name);
   const testName = matches.find((arg) => testsNames.includes(arg));
 

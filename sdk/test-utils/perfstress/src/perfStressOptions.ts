@@ -103,26 +103,20 @@ export const defaultPerfStressOptions: PerfStressOption[] = [
   makePerfStressOption(false, "Log frequency in milliseconds", "milliseconds-to-log", "mtl", 1000)
 ];
 
-export function printOptions(
-  options: ParsedPerfStressOptions | PerfStressOption[],
-  pick?: "defaultOptions" | "nonDefaultOptions" | "assignedOptions"
-) {
+export type PrintOptionsFilters = "defaultOptions" | "nonDefaultOptions" | "assignedOptions";
+
+export function printOptions(options: ParsedPerfStressOptions, pick?: PrintOptionsFilters[]) {
   const filteredOptions: PerfStressOption[] = [];
   for (const longName of Object.keys(options)) {
-    const defaultOption = defaultPerfStressOptions.filter((option) => option.longName === longName);
-    if (pick === "nonDefaultOptions" && defaultOption) {
+    const option = options[longName];
+    const defaultOption = defaultPerfStressOptions.find((option) => option.longName === longName);
+    if (pick?.includes("nonDefaultOptions") && defaultOption) {
       continue;
     }
-    if (pick === "defaultOptions" && !defaultOption) {
+    if (pick?.includes("defaultOptions") && !defaultOption) {
       continue;
     }
-    const option =
-      (options as ParsedPerfStressOptions)[longName] ||
-      (options as PerfStressOption[]).filter((option) => option.longName === longName);
-    if (!option) {
-      continue;
-    }
-    if (pick === "assignedOptions" && !option.value) {
+    if (pick?.includes("assignedOptions") && !option.value) {
       continue;
     }
     filteredOptions.push(option);

@@ -29,8 +29,8 @@ export class PerfStressProgram {
     // --help, or -h
     if (this.options.help.value) {
       console.log("=== Help: Default options ===");
-      printOptions(this.options, "defaultOptions");
-      test.printOptions("nonDefaultOptions");
+      printOptions(this.options, ["defaultOptions"]);
+      test.printOptions(["nonDefaultOptions"]);
       return;
     }
 
@@ -133,10 +133,10 @@ export class PerfStressProgram {
 
     const options = this.options;
     console.log("=== Assigned options ===");
-    printOptions(options, "assignedOptions");
+    printOptions(options, ["assignedOptions"]);
 
     console.log(`=== Assigned options for ${this.test.constructor.name} ===`);
-    this.test.printOptions("assignedOptions");
+    this.test.printOptions(["assignedOptions", "nonDefaultOptions"]);
 
     try {
       console.log(`=== Global setup for ${this.test.constructor.name} ===`);
