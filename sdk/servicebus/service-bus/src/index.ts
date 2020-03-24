@@ -36,21 +36,3 @@ export {
   ReceiveMode
 } from "./serviceBusMessage";
 export { Delivery, WebSocketImpl } from "rhea-promise";
-
-export { HttpOperationResponse } from "@azure/core-http";
-
-export { QueueDetails, QueueOptions } from "./serializers/queueResourceSerializer";
-export { TopicDetails, TopicOptions } from "./serializers/topicResourceSerializer";
-export {
-  SubscriptionDetails,
-  SubscriptionOptions
-} from "./serializers/subscriptionResourceSerializer";
-export {
-  RuleDetails,
-  RuleOptions,
-  SqlFilter,
-  SqlParameter,
-  SqlAction
-} from "./serializers/ruleResourceSerializer";
-
-export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
