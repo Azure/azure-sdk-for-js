@@ -1102,21 +1102,18 @@ export class BlobClient extends StorageClient {
   }
 
   /**
-   * Creates a new BlobClient object pointing to a version of this blob.
-   * Provide "" will remove the versionId and return a Client to the base blob.
+   * Get the URL pointing to a version of this blob.
+   * Provide "" will remove the versionId and return the URL to the base blob.
    *
    * @param {string} versionId The versionId.
-   * @returns {BlobClient} A new BlobClient object pointing to the version of this blob.
+   * @returns {string} A URL pointing to the version of this blob.
    * @memberof BlobClient
    */
-  public withVersionId(versionId: string): BlobClient {
-    return new BlobClient(
-      setURLParameter(
-        this.url,
-        URLConstants.Parameters.VERSIONID,
-        versionId.length === 0 ? undefined : versionId
-      ),
-      this.pipeline
+  public getURLWithVersionId(versionId: string): string {
+    return setURLParameter(
+      this.url,
+      URLConstants.Parameters.VERSIONID,
+      versionId.length === 0 ? undefined : versionId
     );
   }
 
