@@ -21,7 +21,7 @@ import { EventHubProducer } from "../sender";
 import { EventHubConsumer } from "../receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "../util/error";
 import { getTracer } from "@azure/core-tracing";
-import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/types";
+import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/api";
 import { getParentSpan } from "../util/operationOptions";
 import { OperationNames, EventHubProducerOptions } from "../models/private";
 import {

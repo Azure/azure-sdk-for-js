@@ -9,7 +9,7 @@ import {
   HttpHeaders,
   RequestPolicyOptions
 } from "../../src/coreHttp";
-import { SpanOptions, SpanContext, TraceFlags } from "@opentelemetry/types";
+import { SpanOptions, SpanContext, TraceFlags } from "@opentelemetry/api";
 import { setTracer, NoOpTracer, NoOpSpan } from "@azure/core-tracing";
 import { tracingPolicy } from "../../src/policies/tracingPolicy";
 

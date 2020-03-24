@@ -3,7 +3,7 @@
 
 import { createProcessingSpan, trace } from "../src/partitionPump";
 import { NoOpSpan, TestTracer, setTracer, TestSpan } from "@azure/core-tracing";
-import { CanonicalCode, SpanOptions, SpanKind } from "@opentelemetry/types";
+import { CanonicalCode, SpanOptions, SpanKind } from "@opentelemetry/api";
 import chai from "chai";
 import { ReceivedEventData } from "../src/eventData";
 import { instrumentEventData } from "../src/diagnostics/instrumentEventData";

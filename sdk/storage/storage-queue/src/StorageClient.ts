@@ -4,7 +4,7 @@
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
 import { getAccountNameFromUrl, getStorageClientContext } from "./utils/utils.common";
-import { SpanOptions } from "@opentelemetry/types";
+import { SpanOptions } from "@opentelemetry/api";
 
 /**
  * An interface for options common to every remote operation.

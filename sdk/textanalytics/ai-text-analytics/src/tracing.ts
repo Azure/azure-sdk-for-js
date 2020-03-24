@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanOptions, SpanKind } from "@opentelemetry/types";
+import { Span, SpanOptions, SpanKind } from "@opentelemetry/api";
 import { OperationOptions } from "@azure/core-http";
 
 type OperationTracingOptions = OperationOptions["tracingOptions"];

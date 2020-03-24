@@ -45,7 +45,7 @@ import {
 } from "./recognizeLinkedEntitiesResultCollection";
 import { TextAnalyticsApiKeyCredential } from "./textAnalyticsApiKeyCredential";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 

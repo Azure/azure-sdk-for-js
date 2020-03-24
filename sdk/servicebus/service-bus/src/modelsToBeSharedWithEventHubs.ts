@@ -4,7 +4,7 @@
 // TODO: this code is a straight-copy from EventHubs. Need to merge.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Span, SpanContext, SpanOptions } from "@opentelemetry/types";
+import { Span, SpanContext, SpanOptions } from "@opentelemetry/api";
 
 /**
  * Options for configuring tracing.
@@ -32,7 +32,6 @@ export interface OperationOptions extends TracingOptions {
    */
   abortSignal?: AbortSignalLike;
 }
-
 
 /**
  * @internal

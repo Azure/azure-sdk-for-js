@@ -4,7 +4,7 @@
 import { Spanner } from "../src/internal/tracingHelpers";
 import { RestError } from "@azure/core-http";
 import { getTracer } from "@azure/core-tracing";
-import { SpanOptions, SpanKind, CanonicalCode } from "@opentelemetry/types";
+import { SpanOptions, SpanKind, CanonicalCode } from "@opentelemetry/api";
 import * as assert from "assert";
 
 interface FakeOptions {

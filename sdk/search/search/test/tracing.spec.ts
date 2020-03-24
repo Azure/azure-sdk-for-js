@@ -5,7 +5,7 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import { createSpan } from "../src/tracing";
 import { setTracer, TestTracer, TestSpan } from "@azure/core-tracing";
-import { SpanKind } from "@opentelemetry/types";
+import { SpanKind } from "@opentelemetry/api";
 import { OperationOptions } from "@azure/core-http";
 
 describe("tracing.createSpan", () => {

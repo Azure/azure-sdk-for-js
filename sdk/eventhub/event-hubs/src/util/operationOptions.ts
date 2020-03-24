@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Span, SpanContext, SpanOptions } from "@opentelemetry/types";
+import { Span, SpanContext, SpanOptions } from "@opentelemetry/api";
 
 /**
  * Options for configuring tracing.

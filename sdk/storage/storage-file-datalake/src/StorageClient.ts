@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { isNode, isTokenCredential, TokenCredential } from "@azure/core-http";
-import { SpanOptions } from "@opentelemetry/types";
+import { SpanOptions } from "@opentelemetry/api";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -9,7 +9,6 @@ import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms";
 import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common";
-
 
 /**
  * An interface for options common to every remote operation.

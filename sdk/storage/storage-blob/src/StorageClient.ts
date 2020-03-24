@@ -7,7 +7,7 @@ import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./ut
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
-import { SpanOptions } from "@opentelemetry/types";
+import { SpanOptions } from "@opentelemetry/api";
 
 /**
  * An interface for options common to every remote operation.

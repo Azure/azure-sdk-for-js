@@ -13,7 +13,7 @@ import {
   bearerTokenAuthenticationPolicy,
   isNode
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
 import { AccessTier } from "./generatedModels";
@@ -330,10 +330,13 @@ export class BlobBatch {
           credential: credential
         },
         async () => {
-          await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
-            tier,
-            { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
-          );
+          await new BlobClient(
+            url,
+            this.batchRequest.createPipeline(credential)
+          ).setAccessTier(tier, {
+            ...options,
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
+          });
         }
       );
     } catch (e) {

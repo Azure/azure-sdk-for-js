@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanKind, SpanOptions } from "@opentelemetry/types";
+import { Span, SpanKind, SpanOptions } from "@opentelemetry/api";
 
 import { OperationTracingOptions } from "../StorageClient";
 

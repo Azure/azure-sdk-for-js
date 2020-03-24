@@ -14,7 +14,7 @@ import { SearchApiKeyCredential } from "./searchApiKeyCredential";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/types";
+import { CanonicalCode } from "@opentelemetry/api";
 import {
   Index,
   ListIndexesOptions,

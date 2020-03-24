@@ -18,7 +18,7 @@ import {
 } from "@azure/core-http";
 
 import { getTracer } from "@azure/core-tracing";
-import { Span } from "@opentelemetry/types";
+import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
 import { PollerLike } from "@azure/core-lro";
 
