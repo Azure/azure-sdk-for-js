@@ -72,7 +72,7 @@ describe("CompressPolicy (browser)", function() {
         throw new Error("Error should have been thrown already.")
       } catch (err) {
         err.should.be.an("Error");
-        (err as Error).message.should.equal("CompressPolicy is not supported in browser environment")
+        (err as Error).message.should.equal("DisableResponseDecompressionPolicy is not supported in browser environment")
       }
     });
   });

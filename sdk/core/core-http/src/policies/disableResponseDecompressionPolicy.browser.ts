@@ -8,7 +8,7 @@ import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from './reques
 import { WebResource } from '../webResource';
 import { HttpOperationResponse } from '../httpOperationResponse';
 
-const compressNotSupportedInBrowser = new Error("CompressPolicy is not supported in browser environment");
+const DisbleResponseDecompressionNotSupportedInBrowser = new Error("DisableResponseDecompressionPolicy is not supported in browser environment");
 
 export interface CompressOptions {
   enable: boolean;
@@ -17,7 +17,7 @@ export interface CompressOptions {
 export function disableResponseDecompressionPolicy(_compressOptions?: CompressOptions) {
   return {
     create: (_nextPolicy: RequestPolicy, _options: RequestPolicyOptions) => {
-      throw compressNotSupportedInBrowser;
+      throw DisbleResponseDecompressionNotSupportedInBrowser;
     }
   };
 }
@@ -28,10 +28,10 @@ export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
     options: RequestPolicyOptions,
   ) {
     super(nextPolicy, options);
-    throw compressNotSupportedInBrowser;
+    throw DisbleResponseDecompressionNotSupportedInBrowser;
   }
 
   public async sendRequest(_request: WebResource): Promise<HttpOperationResponse> {
-    throw compressNotSupportedInBrowser;
+    throw DisbleResponseDecompressionNotSupportedInBrowser;
   }
 }
