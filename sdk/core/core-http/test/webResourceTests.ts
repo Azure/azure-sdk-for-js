@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { WebResource, RequestPrepareOptions } from "../src/webResource";
 
 describe("WebResource", function() {
-  it("supports dash in parameter name", function(done) {
+  it("supports dash in parameter name", function() {
     const options: RequestPrepareOptions = {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
@@ -18,9 +18,8 @@ describe("WebResource", function() {
         "one-friend-name": "jerry"
       }
     };
-    var request = new WebResource();
+    let request = new WebResource();
     request = request.prepare(options);
     assert.equal(request.url, "https://management.azure.com/pet/tom/jerry");
-    done();
   });
 });
