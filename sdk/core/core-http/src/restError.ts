@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpOperationResponse } from "./httpOperationResponse";
-import { WebResource } from "./webResource";
+import { WebResourceLike } from "./webResource";
 import { custom } from "./util/inspect";
 import { Sanitizer } from "./util/sanitizer";
 
@@ -14,14 +14,14 @@ export class RestError extends Error {
 
   code?: string;
   statusCode?: number;
-  request?: WebResource;
+  request?: WebResourceLike;
   response?: HttpOperationResponse;
   details?: unknown;
   constructor(
     message: string,
     code?: string,
     statusCode?: number,
-    request?: WebResource,
+    request?: WebResourceLike,
     response?: HttpOperationResponse
   ) {
     super(message);

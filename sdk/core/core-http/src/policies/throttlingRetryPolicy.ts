@@ -7,13 +7,13 @@ import {
   RequestPolicyOptions,
   RequestPolicyFactory
 } from "./requestPolicy";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { Constants } from "../util/constants";
 import { delay } from "../util/utils";
 
 type ResponseHandler = (
-  httpRequest: WebResource,
+  httpRequest: WebResourceLike,
   response: HttpOperationResponse
 ) => Promise<HttpOperationResponse>;
 const StatusCodes = Constants.HttpConstants.StatusCodes;
@@ -44,7 +44,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
     this._handleResponse = _handleResponse || this._defaultResponseHandler;
   }
 
-  public async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
+  public async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy.sendRequest(httpRequest.clone()).then((response) => {
       if (response.status !== StatusCodes.TooManyRequests) {
         return response;
@@ -55,7 +55,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   }
 
   private async _defaultResponseHandler(
-    httpRequest: WebResource,
+    httpRequest: WebResourceLike,
     httpResponse: HttpOperationResponse
   ): Promise<HttpOperationResponse> {
     const retryAfterHeader: string | undefined = httpResponse.headers.get(

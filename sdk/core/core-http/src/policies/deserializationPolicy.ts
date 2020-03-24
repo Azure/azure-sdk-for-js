@@ -7,7 +7,7 @@ import { OperationSpec, isStreamOperation } from "../operationSpec";
 import { RestError } from "../restError";
 import { MapperType } from "../serializer";
 import { parseXML } from "../util/xml";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -89,7 +89,7 @@ export class DeserializationPolicy extends BaseRequestPolicy {
       (deserializationContentTypes && deserializationContentTypes.xml) || defaultXmlContentTypes;
   }
 
-  public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy
       .sendRequest(request)
       .then((response: HttpOperationResponse) =>
@@ -102,7 +102,7 @@ function getOperationResponse(
   parsedResponse: HttpOperationResponse
 ): undefined | OperationResponse {
   let result: OperationResponse | undefined;
-  const request: WebResource = parsedResponse.request;
+  const request: WebResourceLike = parsedResponse.request;
   const operationSpec: OperationSpec | undefined = request.operationSpec;
   if (operationSpec) {
     const operationResponseGetter:

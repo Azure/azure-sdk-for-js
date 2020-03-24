@@ -28,7 +28,7 @@ export class Domains {
   }
 
   /**
-   * Check if a domain is available for registration.
+   * Description for Check if a domain is available for registration.
    * @summary Check if a domain is available for registration.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsCheckAvailabilityResponse>
@@ -37,13 +37,13 @@ export class Domains {
   /**
    * @param callback The callback
    */
-  checkAvailability(callback: msRest.ServiceCallback<Models.DomainAvailablilityCheckResult>): void;
+  checkAvailability(callback: msRest.ServiceCallback<Models.DomainAvailabilityCheckResult>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkAvailability(options: Models.DomainsCheckAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.DomainAvailablilityCheckResult>): void;
-  checkAvailability(options?: Models.DomainsCheckAvailabilityOptionalParams | msRest.ServiceCallback<Models.DomainAvailablilityCheckResult>, callback?: msRest.ServiceCallback<Models.DomainAvailablilityCheckResult>): Promise<Models.DomainsCheckAvailabilityResponse> {
+  checkAvailability(options: Models.DomainsCheckAvailabilityOptionalParams, callback: msRest.ServiceCallback<Models.DomainAvailabilityCheckResult>): void;
+  checkAvailability(options?: Models.DomainsCheckAvailabilityOptionalParams | msRest.ServiceCallback<Models.DomainAvailabilityCheckResult>, callback?: msRest.ServiceCallback<Models.DomainAvailabilityCheckResult>): Promise<Models.DomainsCheckAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -53,7 +53,7 @@ export class Domains {
   }
 
   /**
-   * Get all domains in a subscription.
+   * Description for Get all domains in a subscription.
    * @summary Get all domains in a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsListResponse>
@@ -78,7 +78,7 @@ export class Domains {
   }
 
   /**
-   * Generate a single sign-on request for the domain management portal.
+   * Description for Generate a single sign-on request for the domain management portal.
    * @summary Generate a single sign-on request for the domain management portal.
    * @param [options] The optional parameters
    * @returns Promise<Models.DomainsGetControlCenterSsoRequestResponse>
@@ -103,7 +103,7 @@ export class Domains {
   }
 
   /**
-   * Get domain name recommendations based on keywords.
+   * Description for Get domain name recommendations based on keywords.
    * @summary Get domain name recommendations based on keywords.
    * @param parameters Search parameters for domain name recommendations.
    * @param [options] The optional parameters
@@ -132,7 +132,7 @@ export class Domains {
   }
 
   /**
-   * Get all domains in a resource group.
+   * Description for Get all domains in a resource group.
    * @summary Get all domains in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param [options] The optional parameters
@@ -161,7 +161,7 @@ export class Domains {
   }
 
   /**
-   * Get a domain.
+   * Description for Get a domain.
    * @summary Get a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
@@ -194,7 +194,7 @@ export class Domains {
   }
 
   /**
-   * Creates or updates a domain.
+   * Description for Creates or updates a domain.
    * @summary Creates or updates a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
@@ -208,7 +208,7 @@ export class Domains {
   }
 
   /**
-   * Delete a domain.
+   * Description for Delete a domain.
    * @summary Delete a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
@@ -241,7 +241,7 @@ export class Domains {
   }
 
   /**
-   * Creates or updates a domain.
+   * Description for Creates or updates a domain.
    * @summary Creates or updates a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
@@ -278,7 +278,7 @@ export class Domains {
   }
 
   /**
-   * Lists domain ownership identifiers.
+   * Description for Lists domain ownership identifiers.
    * @summary Lists domain ownership identifiers.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
@@ -311,7 +311,7 @@ export class Domains {
   }
 
   /**
-   * Get ownership identifier for domain
+   * Description for Get ownership identifier for domain
    * @summary Get ownership identifier for domain
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
@@ -348,8 +348,8 @@ export class Domains {
   }
 
   /**
-   * Creates an ownership identifier for a domain or updates identifier details for an existing
-   * identifer
+   * Description for Creates an ownership identifier for a domain or updates identifier details for
+   * an existing identifer
    * @summary Creates an ownership identifier for a domain or updates identifier details for an
    * existing identifer
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -391,7 +391,7 @@ export class Domains {
   }
 
   /**
-   * Delete ownership identifier for domain
+   * Description for Delete ownership identifier for domain
    * @summary Delete ownership identifier for domain
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
@@ -428,8 +428,8 @@ export class Domains {
   }
 
   /**
-   * Creates an ownership identifier for a domain or updates identifier details for an existing
-   * identifer
+   * Description for Creates an ownership identifier for a domain or updates identifier details for
+   * an existing identifer
    * @summary Creates an ownership identifier for a domain or updates identifier details for an
    * existing identifer
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -471,7 +471,7 @@ export class Domains {
   }
 
   /**
-   * Renew a domain.
+   * Description for Renew a domain.
    * @summary Renew a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
@@ -504,7 +504,7 @@ export class Domains {
   }
 
   /**
-   * Creates or updates a domain.
+   * Description for Creates or updates a domain.
    * @summary Creates or updates a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
@@ -525,7 +525,7 @@ export class Domains {
   }
 
   /**
-   * Get all domains in a subscription.
+   * Description for Get all domains in a subscription.
    * @summary Get all domains in a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -554,7 +554,7 @@ export class Domains {
   }
 
   /**
-   * Get domain name recommendations based on keywords.
+   * Description for Get domain name recommendations based on keywords.
    * @summary Get domain name recommendations based on keywords.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -583,7 +583,7 @@ export class Domains {
   }
 
   /**
-   * Get all domains in a resource group.
+   * Description for Get all domains in a resource group.
    * @summary Get all domains in a resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -612,7 +612,7 @@ export class Domains {
   }
 
   /**
-   * Lists domain ownership identifiers.
+   * Description for Lists domain ownership identifiers.
    * @summary Lists domain ownership identifiers.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -650,7 +650,7 @@ const checkAvailabilityOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -669,7 +669,7 @@ const checkAvailabilityOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.DomainAvailablilityCheckResult
+      bodyMapper: Mappers.DomainAvailabilityCheckResult
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -685,7 +685,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -708,7 +708,7 @@ const getControlCenterSsoRequestOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -731,7 +731,7 @@ const listRecommendationsOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -762,7 +762,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -787,7 +787,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -813,7 +813,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.forceHardDeleteDomain,
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -822,7 +822,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -837,7 +837,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -872,7 +872,7 @@ const listOwnershipIdentifiersOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -898,7 +898,7 @@ const getOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -924,7 +924,7 @@ const createOrUpdateOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -957,7 +957,7 @@ const deleteOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -966,7 +966,7 @@ const deleteOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -982,7 +982,7 @@ const updateOwnershipIdentifierOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1014,7 +1014,7 @@ const renewOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1023,10 +1023,8 @@ const renewOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     204: {},
-    400: {},
-    500: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
   serializer
@@ -1041,7 +1039,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
