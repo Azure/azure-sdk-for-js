@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Message, Dictionary, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
+import { Message, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 
 /**
@@ -90,7 +90,7 @@ export interface EventDataInternal {
   /**
    * @property [properties] The application specific properties.
    */
-  properties?: Dictionary<any>;
+  properties?: { [property: string]: any };
   /**
    * @property [lastSequenceNumber] The last sequence number of the event within the partition stream of the Event Hub.
    */
@@ -110,8 +110,24 @@ export interface EventDataInternal {
   /**
    * @property [systemProperties] The properties set by the service.
    */
-  systemProperties?: Dictionary<any>;
+  systemProperties: { [property: string]: any };
 }
+
+const messagePropertiesMap = {
+  message_id: "messageId",
+  user_id: "userId",
+  to: "to",
+  subject: "subject",
+  reply_to: "replyTo",
+  correlation_id: "correlationId",
+  content_type: "contentType",
+  content_encoding: "contentEncoding",
+  absolute_expiry_time: "absoluteExpiryTime",
+  creation_time: "creationTime",
+  group_id: "groupId",
+  group_sequence: "groupSequence",
+  reply_to_group_id: "replyToGroupId"
+} as const;
 
 /**
  * Converts the AMQP message to an EventData.
@@ -120,7 +136,8 @@ export interface EventDataInternal {
  */
 export function fromAmqpMessage(msg: Message): EventDataInternal {
   const data: EventDataInternal = {
-    body: msg.body
+    body: msg.body,
+    systemProperties: {}
   };
 
   if (msg.message_annotations) {
@@ -139,9 +156,6 @@ export function fromAmqpMessage(msg: Message): EventDataInternal {
           data.offset = msg.message_annotations[annotationKey];
           break;
         default:
-          if (!data.systemProperties) {
-            data.systemProperties = {};
-          }
           data.systemProperties[annotationKey] = msg.message_annotations[annotationKey];
           break;
       }
@@ -157,6 +171,15 @@ export function fromAmqpMessage(msg: Message): EventDataInternal {
     data.retrievalTime = new Date(
       msg.delivery_annotations.runtime_info_retrieval_time_utc as number
     );
+  }
+
+  const messageProperties = Object.keys(messagePropertiesMap) as Array<
+    keyof typeof messagePropertiesMap
+  >;
+  for (const messageProperty of messageProperties) {
+    if (msg[messageProperty] != null) {
+      data.systemProperties[messagePropertiesMap[messageProperty]] = msg[messageProperty];
+    }
   }
 
   return data;
@@ -192,7 +215,7 @@ export function toAmqpMessage(data: EventData, partitionKey?: string): Message {
 /**
  * The interface that describes the data to be sent to Event Hub.
  * Use this as a reference when creating the object to be sent when using the `EventHubProducerClient`.
- * For example, `{ body: "your-data" }` or 
+ * For example, `{ body: "your-data" }` or
  * ```
  * {
  *    body: "your-data",
