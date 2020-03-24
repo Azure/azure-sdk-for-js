@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
+    "target": "ES2015",
+    "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": true,
     "esModuleInterop": true,
+
+    "lib": ["ES6", "ESNext.AsyncIterable"],
 
     "newLine": "LF",
     "strict": true,

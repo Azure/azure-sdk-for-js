@@ -11,13 +11,14 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc",
+    "build:test": "echo skipped",
     "clean": "rimraf dist dist-* *.tgz *.log",
     "extract-api": "echo skipped",
-    "format": "prettier --write \"src/**/*.ts\" \"*.{js,json}\"",
-    "lint": "eslint src --ext .ts -f html -o template-lintReport.html || exit 0",
+    "format": "prettier --write src/**/*.ts test/**/*.ts *.{js,json}",
+    "lint": "eslint src test --ext .ts -f html -o template-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "unit-test": "echo skipped"
+    "unit-test": "mocha --require ts-node/register test/**/*.spec.ts"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "author": "Microsoft Corporation",
@@ -38,14 +39,20 @@
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@types/chai": "^4.1.6",
+    "@types/chai-as-promised": "^7.1.0",
     "@types/chalk": "~2.2.0",
     "@types/fs-extra": "^8.0.0",
     "@types/minimist": "~1.2.0",
+    "@types/mocha": "^5.2.5",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^6.1.0",
-    "rimraf": "^3.0.0",
-    "prettier": "^1.16.4"
+    "mocha": "^6.2.2",
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0"
   }
 }
