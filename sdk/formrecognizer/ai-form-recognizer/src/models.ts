@@ -5,8 +5,6 @@ import * as coreHttp from "@azure/core-http";
 
 import {
   AnalyzeOperationResult as AnalyzeOperationResultModel,
-  DataTable as DataTableModel,
-  DataTableCell as DataTableCellModel,
   ErrorInformation,
   FormFieldsReport,
   KeysResult,
@@ -27,8 +25,6 @@ import {
 
 export {
   AnalyzeOperationResultModel,
-  DataTableModel,
-  DataTableCellModel,
   ErrorInformation,
   FormFieldsReport,
   KeysResult,
@@ -136,24 +132,63 @@ export type ExtractedElement = ExtractedWord | ExtractedLine // | ExtractedCheck
  * Represents a cell in extracted table
  */
 export interface DataTableCell {
-  boundingBox: number[];
-  columnIndex: number;
-  columnSpan: number;
-  confidence: number;
-  elements?: ExtractedElement[];
-  isFooter: boolean;
-  isHeader: boolean;
+  /**
+   * Row index of the cell.
+   */
   rowIndex: number;
-  rowSpan: number;
+  /**
+   * Column index of the cell.
+   */
+  columnIndex: number;
+  /**
+   * Number of rows spanned by this cell.
+   */
+  rowSpan?: number;
+  /**
+   * Number of columns spanned by this cell.
+   */
+  columnSpan?: number;
+  /**
+   * Text content of the cell.
+   */
   text: string;
+  /**
+   * Bounding box of the cell.
+   */
+  boundingBox: number[];
+  /**
+   * Confidence value.
+   */
+  confidence: number;
+  /**
+   * When includeTextDetails is set to true, a list of references to the text elements constituting this table cell.
+   */
+  elements?: ExtractedElement[];
+  /**
+   * Is the current cell a header cell?
+   */
+  isHeader?: boolean;
+  /**
+   * Is the current cell a footer cell?
+   */
+  isFooter?: boolean;
 }
 
 /**
  * Information about the extracted table contained in a page.
  */
 export interface DataTable {
+  /**
+   * Number of rows in the data table
+   */
   rowCount: number;
+  /**
+   * Number of columns in the data table
+   */
   columnCount: number;
+  /**
+   * List of rows in the data table
+   */
   rows: DataTableRow[];
 }
 
@@ -161,17 +196,29 @@ export interface DataTable {
  * Represents a row of data table cells in extracted table.
  */
 export interface DataTableRow {
+  /**
+   * List of data table cells in a {@link DataTableRow}
+   */
   cells: DataTableCell[];
 }
 
 /**
- * Represents extracted text elements in fields of name-value pairs.
- * For example, "Address" is the field name of
- * "Address": "One Microsoft Way, Redmond, WA"
+ * Represents extracted text elements of name-value pairs.
+ * For example, "Address" is the name of
+ * "Address: One Microsoft Way, Redmond, WA"
  */
 export interface ExtractedText {
+  /**
+   * The bounding box of the extracted name or value
+   */
   boundingBox?: number[];
+  /**
+   * When includeTextDetails is set to true, a list of references to the text elements constituting this name or value.
+   */
   elements?: ExtractedElement[];
+  /**
+   * The text content of the extracted name or value
+   */
   text: string;
 }
 
@@ -180,9 +227,21 @@ export interface ExtractedText {
  * For example, "Address": "One Microsoft Way, Redmond, WA"
  */
 export interface ExtractedField {
+  /**
+   * Confidence value.
+   */
   confidence: number;
+  /**
+   * Information about the extracted name in a name/value pair.
+   */
   name: ExtractedText;
+  /**
+   * A user defined label for the name/value pair entry.
+   */
   label?: string;
+  /**
+   * Information about the extracted value in a name/value pair.
+   */
   value: ExtractedText;
 }
 
@@ -190,9 +249,21 @@ export interface ExtractedField {
  * Extracted information from a single page.
  */
 export interface ExtractedPage {
+  /**
+   * Page number
+   */
   pageNumber: number;
+  /**
+   * Id of extracted form type
+   */
   formTypeId?: number;
+  /**
+   * List of name/value pairs extracted from the page
+   */
   fields?: ExtractedField[];
+  /**
+   * List of data tables extracted form the page
+   */
   tables?: DataTable[];
 }
 
@@ -200,7 +271,13 @@ export interface ExtractedPage {
  * Represents a page range
  */
 export interface PageRange {
+  /**
+   * The page number of the first page in the range
+   */
   firstPage: number;
+  /**
+   * The page number of the last page in the range
+   */
   lastPage: number;
 }
 
@@ -458,19 +535,40 @@ export interface RawExtractedPage {
  * Analyze Receipt result.
  */
 export interface ExtractReceiptResult {
+  /**
+   * Version of schema used for this result.
+   */
   version: string;
+  /**
+   * List of raw text line information on extracted pages
+   */
   rawExtractedPages: RawExtractedPage[];
+  /**
+   * List of receipts extracted from input document
+   */
   extractedReceipts?: ExtractedReceipt[];
 }
 
+/**
+ * Results of an extract receipt operation
+ */
 export type ExtractReceiptOperationResult = {
+  /**
+   * Operation status.
+   */
   status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
+  /**
+   * Date and time (UTC) when the analyze operation was submitted.
+   */
   createdOn: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
   lastUpdatedOn: Date;
 } & Partial<ExtractReceiptResult>
 
 /**
- * Contains response data for the getAnalyzeReceiptResult operation.
+ * Contains response data for an extract receipt operation.
  */
 export type ExtractReceiptResultResponse = ExtractReceiptOperationResult & {
   /**
@@ -493,8 +591,17 @@ export type ExtractReceiptResultResponse = ExtractReceiptOperationResult & {
  * Extracted information about the layout of the analyzed document
  */
 export interface ExtractedLayout {
+  /**
+   * Version of schema used for this result.
+   */
   version: string;
+  /**
+   * Raw texts extracted from a page in the input
+   */
   rawExtractedPages: RawExtractedPage[];
+  /**
+   * Form layout extracted from a page in the input
+   */
   extractedLayoutPages?: ExtractedLayoutPage[];
 }
 
@@ -502,8 +609,17 @@ export interface ExtractedLayout {
  * Represents an extracted layout page
  */
 export interface ExtractedLayoutPage {
+  /**
+   * List of name/value pairs extracted from the page
+   */
   fields?: ExtractedField[];
+  /**
+   * Page number
+   */
   pageNumber: number;
+  /**
+   * List of data tables extracted form the page
+   */
   tables?: DataTable[];
 }
 
@@ -511,8 +627,17 @@ export interface ExtractedLayoutPage {
  * Represents the result from an extract layout operation
  */
 export type ExtractLayoutOperationResult = {
-  status: OperationStatus;
+  /**
+   * Operation status.
+   */
+  status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
+  /**
+   * Date and time (UTC) when the analyze operation was submitted.
+   */
   createdOn: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
   lastUpdatedOn: Date;
 } & Partial<ExtractedLayout>
 
@@ -741,7 +866,13 @@ export interface LabeledFormTrainResult {
  * Represents the trained model from supervised training with labels
  */
 export interface LabeledFormModel {
+  /**
+   * Information about the model in supervised training
+   */
   modelInfo: ModelInfo;
+  /**
+   * Results of the supervised training with label files
+   */
   trainResult?: LabeledFormTrainResult;
 }
 

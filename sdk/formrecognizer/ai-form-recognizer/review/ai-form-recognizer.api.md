@@ -81,45 +81,18 @@ export type ContentType = "application/pdf" | "image/jpeg" | "image/png" | "imag
 
 // @public
 export interface DataTable {
-    // (undocumented)
     columnCount: number;
-    // (undocumented)
     rowCount: number;
-    // (undocumented)
     rows: DataTableRow[];
 }
 
 // @public
 export interface DataTableCell {
-    // (undocumented)
-    boundingBox: number[];
-    // (undocumented)
-    columnIndex: number;
-    // (undocumented)
-    columnSpan: number;
-    // (undocumented)
-    confidence: number;
-    // (undocumented)
-    elements?: ExtractedElement[];
-    // (undocumented)
-    isFooter: boolean;
-    // (undocumented)
-    isHeader: boolean;
-    // (undocumented)
-    rowIndex: number;
-    // (undocumented)
-    rowSpan: number;
-    // (undocumented)
-    text: string;
-}
-
-// @public
-export interface DataTableCellModel {
     boundingBox: number[];
     columnIndex: number;
     columnSpan?: number;
     confidence: number;
-    elements?: string[];
+    elements?: ExtractedElement[];
     isFooter?: boolean;
     isHeader?: boolean;
     rowIndex: number;
@@ -128,15 +101,7 @@ export interface DataTableCellModel {
 }
 
 // @public
-export interface DataTableModel {
-    cells: DataTableCellModel[];
-    columns: number;
-    rows: number;
-}
-
-// @public
 export interface DataTableRow {
-    // (undocumented)
     cells: DataTableCell[];
 }
 
@@ -162,13 +127,9 @@ export type ExtractedElement = ExtractedWord | ExtractedLine;
 
 // @public
 export interface ExtractedField {
-    // (undocumented)
     confidence: number;
-    // (undocumented)
     label?: string;
-    // (undocumented)
     name: ExtractedText;
-    // (undocumented)
     value: ExtractedText;
 }
 
@@ -183,21 +144,15 @@ export interface ExtractedForm {
 
 // @public
 export interface ExtractedLayout {
-    // (undocumented)
     extractedLayoutPages?: ExtractedLayoutPage[];
-    // (undocumented)
     rawExtractedPages: RawExtractedPage[];
-    // (undocumented)
     version: string;
 }
 
 // @public
 export interface ExtractedLayoutPage {
-    // (undocumented)
     fields?: ExtractedField[];
-    // (undocumented)
     pageNumber: number;
-    // (undocumented)
     tables?: DataTable[];
 }
 
@@ -212,13 +167,9 @@ export interface ExtractedLine {
 
 // @public
 export interface ExtractedPage {
-    // (undocumented)
     fields?: ExtractedField[];
-    // (undocumented)
     formTypeId?: number;
-    // (undocumented)
     pageNumber: number;
-    // (undocumented)
     tables?: DataTable[];
 }
 
@@ -227,11 +178,8 @@ export type ExtractedReceipt = RawReceiptResult & Receipt;
 
 // @public
 export interface ExtractedText {
-    // (undocumented)
     boundingBox?: number[];
-    // (undocumented)
     elements?: ExtractedElement[];
-    // (undocumented)
     text: string;
 }
 
@@ -283,7 +231,7 @@ export type ExtractLayoutResultResponse = ExtractLayoutOperationResult & {
     };
 };
 
-// @public (undocumented)
+// @public
 export type ExtractReceiptOperationResult = {
     status: OperationStatus;
     createdOn: Date;
@@ -292,11 +240,8 @@ export type ExtractReceiptOperationResult = {
 
 // @public
 export interface ExtractReceiptResult {
-    // (undocumented)
     extractedReceipts?: ExtractedReceipt[];
-    // (undocumented)
     rawExtractedPages: RawExtractedPage[];
-    // (undocumented)
     version: string;
 }
 
@@ -337,7 +282,7 @@ export type FormModelResponse = FormModel & {
     };
 };
 
-// @public (undocumented)
+// @public
 export type FormPollerLike = PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>;
 
 // @public
@@ -350,28 +295,19 @@ export class FormRecognizerApiKeyCredential implements ServiceClientCredentials 
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
-    // (undocumented)
     beginExtractForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractFormsOptions): Promise<FormPollerLike>;
     // (undocumented)
     beginExtractFormsFromUrl(modelId: string, documentUrl: string, options?: BeginExtractFormsOptions): Promise<PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>>;
-    // (undocumented)
     beginExtractLabeledForms(modelId: string, body: FormRecognizerRequestBody, contentType: ContentType, options?: BeginExtractLabeledFormOptions): Promise<LabeledFormPollerLike>;
     // (undocumented)
     beginExtractLabeledFormsFromUrl(modelId: string, documentUrl: string, options?: BeginExtractLabeledFormOptions): Promise<PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>>;
-    // (undocumented)
     beginTraining(source: string, options?: BeginTrainingOptions<FormModelResponse>): Promise<PollerLike<PollOperationState<FormModelResponse>, FormModelResponse>>;
-    // (undocumented)
     beginTrainingWithLabel(source: string, options?: BeginTrainingOptions<LabeledFormModelResponse>): Promise<PollerLike<PollOperationState<LabeledFormModelResponse>, LabeledFormModelResponse>>;
-    // (undocumented)
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
-    // (undocumented)
     getLabeledModel(modelId: string, options?: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
-    // (undocumented)
     getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
-    // (undocumented)
     getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponseModel>;
-    // (undocumented)
     listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponseModel>;
     }
 
@@ -449,9 +385,7 @@ export interface KeyValuePairModel {
 
 // @public
 export interface LabeledFormModel {
-    // (undocumented)
     modelInfo: ModelInfo;
-    // (undocumented)
     trainResult?: LabeledFormTrainResult;
 }
 
@@ -470,7 +404,7 @@ export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
     lastUpdatedOn: Date;
 };
 
-// @public (undocumented)
+// @public
 export type LabeledFormPollerLike = PollerLike<PollOperationState<LabeledFormResultResponse>, LabeledFormResultResponse>;
 
 // @public
@@ -573,9 +507,7 @@ export type OperationStatus = "notStarted" | "running" | "succeeded" | "failed";
 
 // @public
 export interface PageRange {
-    // (undocumented)
     firstPage: number;
-    // (undocumented)
     lastPage: number;
 }
 

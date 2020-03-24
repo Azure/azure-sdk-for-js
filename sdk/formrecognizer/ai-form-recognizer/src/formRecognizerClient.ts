@@ -138,15 +138,25 @@ export type BeginExtractLabeledFormOptions = ExtractFormsOptions & {
   resumeFrom?: string;
 };
 
+/**
+ * Result type of the Extract Form Long-Running-Operation (LRO)
+ */
 export type FormPollerLike = PollerLike<
   PollOperationState<ExtractFormResultResponse>,
   ExtractFormResultResponse
 >;
+
+/**
+ * Result of the Extract Labeled Form Long-Running-Operation (LRO)
+ */
 export type LabeledFormPollerLike = PollerLike<
   PollOperationState<LabeledFormResultResponse>,
   LabeledFormResultResponse
 >;
 
+/**
+ * Options for retrieving result of Extract Form operation
+ */
 type GetExtractedFormsOptions = FormRecognizerOperationOptions;
 
 /**
@@ -217,6 +227,11 @@ export class FormRecognizerClient {
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
   }
 
+  /**
+   * Retrieves summary information about the cognitive service account
+   *
+   * @param {GetSummaryOptions} options Options to GetSummary operation
+   */
   public async getSummary(options?: GetSummaryOptions) {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -242,6 +257,12 @@ export class FormRecognizerClient {
     }
   }
 
+  /**
+   * Mark model for deletion. Model artifacts will be permanently removed within 48 hours.
+   *
+   * @param {string} modelId Id of the model to mark for deletion
+   * @param {DeleteModelOptions} options Options to the Delete Model operation
+   */
   public async deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -265,6 +286,12 @@ export class FormRecognizerClient {
     }
   }
 
+  /**
+   * Get detailed information about a model from unsupervised training.
+   *
+   * @param {string} modelId Id of the model to get information
+   * @param {GetModelOptions} options Options to the Get Model operation
+   */
   public async getModel(
     modelId: string,
     options: GetModelOptions = {}
@@ -297,13 +324,19 @@ export class FormRecognizerClient {
     }
   }
 
+  /**
+   * Get detailed information about a model from supervised training using labels.
+   *
+   * @param {string} modelId Id of the model to get information
+   * @param {GetModelOptions} options Options to the Get Labeled Model operation
+   */
   public async getLabeledModel(
     modelId: string,
     options: GetLabeledModelOptions = {}
   ): Promise<LabeledFormModelResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
-      "CustomRecognizerClient-getModel",
+      "CustomRecognizerClient-getLabeledModel",
       realOptions
     );
 
@@ -354,6 +387,42 @@ export class FormRecognizerClient {
     }
   }
 
+  /**
+   * Returns an async iterable iterator to list information about all models in the cognitive service account.
+   *
+   * .byPage() returns an async iterable iterator to list the blobs in pages.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   * const result = client.listModels();
+   * let i = 1;
+   * for await (const model of result) {
+   *   console.log(`model ${i++}:`);
+   *   console.log(model);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * let iter = client.listModels();
+   * let modelItem = await iter.next();
+   * while (!modelItem.done) {
+   *   console.log(`model ${i++}: ${modelItem.value}`);
+   *   modelItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * ```
+   *
+   * @param {ListModelOptions} options Options to the List Models operation
+   */
   public listModels(
     options: ListModelsOptions = {}
   ): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponseModel> {
@@ -399,6 +468,30 @@ export class FormRecognizerClient {
     }
   }
 
+  /**
+   * Creates and trains a model without using labels (i.e., unsupervised).
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the copy is completed.
+   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   *   const dataSourceUri = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
+   *   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   *
+   *   const poller = await client.beginTraining(dataSourceUri, {
+   *     onProgress: (state) => { console.log(`training status: ${state.status}`); }
+   *   });
+   *   await poller.pollUntilDone();
+   *   const response = poller.getResult();
+   *   console.log(response.modelInfo.modelId);
+   * ```
+   * @summary Creats and trains a model
+   * @param {string} source Accessible Uri to an Azure Storage Blob container storing the training documents
+   * @param {BeginTrainingOptions} [options] Options to the BeginTraining operation
+   */
   public async beginTraining(
     source: string,
     options: BeginTrainingOptions<FormModelResponse> = {}
@@ -425,6 +518,30 @@ export class FormRecognizerClient {
     return poller;
   }
 
+  /**
+   * Creates and trains a model using labels (i.e., supervised).
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the copy is completed.
+   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   *   const dataSourceUri = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
+   *   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   *
+   *   const poller = await client.beginTrainingWithLabel(dataSourceUri, {
+   *     onProgress: (state) => { console.log(`training status: ${state.status}`); }
+   *   });
+   *   await poller.pollUntilDone();
+   *   const response = poller.getResult();
+   *   console.log(response.modelInfo.modelId);
+   * ```
+   * @summary Creats and trains a model
+   * @param {string} source Accessible Uri to an Azure Storage Blob container storing the training documents and label files
+   * @param {BeginTrainingOptions} [options] Options to the BeginTraining operation
+   */
   public async beginTrainingWithLabel(
     source: string,
     options: BeginTrainingOptions<LabeledFormModelResponse> = {}
@@ -452,6 +569,33 @@ export class FormRecognizerClient {
     return poller;
   }
 
+  /**
+   * Extracts name-value pairs and tables from a given document using a model from unsupervised training.
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the copy is completed.
+   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   *   const path = "./Invoice_6.pdf";
+   *   const readStream = fs.createReadStream(path);
+   *
+   *   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   *   const poller = await client.beginExtractForms(modelId, readStream, "application/pdf", {
+   *     onProgress: (state) => { console.log(`status: ${state.status}`); }
+   *   });
+   *   await poller.pollUntilDone();
+   *   const response = poller.getResult();
+   *   console.log(response.status);
+   * ```
+   * @summary Extracts form information from a given document using unlabeled model.
+   * @param {string} modelId Id of the model to use
+   * @param {FormRecognizerRequestBody} body Input document
+   * @param {contentType} Content type of the input
+   * @param {BeginExtractFormsOptions} [options] Options to the BeginExtractForms operation
+   */
   public async beginExtractForms(
     modelId: string,
     body: FormRecognizerRequestBody,
@@ -553,6 +697,33 @@ export class FormRecognizerClient {
     }
   }
 
+  /**
+   * Extracts name-value pairs and tables from a given document using a model from supervised training with labels.
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the copy is completed.
+   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   *   const path = "./Invoice_6.pdf";
+   *   const readStream = fs.createReadStream(path);
+   *
+   *   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   *   const poller = await client.beginExtractLabeledForms(modelId, readStream, "application/pdf", {
+   *     onProgress: (state) => { console.log(`status: ${state.status}`); }
+   *   });
+   *   await poller.pollUntilDone();
+   *   const response = poller.getResult();
+   *   console.log(response.status);
+   * ```
+   * @summary Extracts form information from a given document using labeled model.
+   * @param {string} modelId Id of the model to use
+   * @param {FormRecognizerRequestBody} body Input document
+   * @param {contentType} Content type of the input
+   * @param {BeginExtractLabeledFormsOptions} [options] Options to the BeginExtractLabeledForms operation
+   */
   public async beginExtractLabeledForms(
     modelId: string,
     body: FormRecognizerRequestBody,

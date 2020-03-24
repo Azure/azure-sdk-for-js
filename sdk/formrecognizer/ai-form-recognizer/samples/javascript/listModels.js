@@ -22,9 +22,26 @@ async function main() {
 
   const result = await client.listModels();
   let i = 0;
-  for await (const model of result) {
+  for await (const modelInfo of result) {
     console.log(`model ${i++}:`);
-    console.log(model);
+    console.log(modelInfo);
+  }
+
+  // using `iter.next()`
+  i = 1;
+  let iter = client.listModels();
+  let modelItem = await iter.next();
+  while (!modelItem.done) {
+    console.log(`model ${i++}: ${modelItem.value.modelId}`);
+    modelItem = await iter.next();
+  }
+
+  // using `byPage()`
+  i = 1;
+  for await (const response of client.listModels().byPage()) {
+    for (const modelInfo of response.modelList) {
+      console.log(`model ${i++}: ${modelInfo.modelId}`);
+    }
   }
 }
 
