@@ -58,7 +58,7 @@ export function deserializationPolicy(
   };
 }
 
-export const defaultJsonContentTypes = ["application/json", "text/json", "text/plain"];
+export const defaultJsonContentTypes = ["application/json", "text/json"];
 export const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];
 
 export const DefaultDeserializationOptions: DeserializationOptions = {
