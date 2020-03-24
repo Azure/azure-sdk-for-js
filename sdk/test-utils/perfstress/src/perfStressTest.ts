@@ -31,3 +31,23 @@ export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {
 
   public abstract run(abortSignal?: AbortSignalLike): void | Promise<void>;
 }
+
+export function findPerfStressTest(
+  tests: PerfStressTest<ParsedPerfStressOptions>[],
+  matches: string[]
+): PerfStressTest<ParsedPerfStressOptions> {
+  console.log({ matches });
+  const testsNames: string[] = tests.map((test) => test.constructor.name);
+  const testName = matches.find((arg) => testsNames.includes(arg));
+
+  const testIndex = testsNames.indexOf(testName!);
+  if (testIndex === -1) {
+    throw new Error(
+      `Couldn't find a test named ${testName}. Try with any of the following: ${testsNames.join(
+        ", "
+      )}`
+    );
+  }
+
+  return tests[testIndex];
+}

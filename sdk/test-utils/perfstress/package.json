@@ -6,6 +6,9 @@
   "module": "dist-esm/src/index.js",
   "browser": {},
   "types": "./typings/src/index.d.ts",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p .",
@@ -18,11 +21,11 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.json --fix --fix-type [problem,suggestion]",
     "lint": "eslint -c ../../.eslintrc.json src test --ext .ts -f html -o recorder-lintReport.html || exit 0",
-    "lint:terminal": "eslint package.json tsconfig.json src test --ext .ts",
+    "lint:terminal": "eslint package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "node dist-esm/test/index.spec.js --",
+    "unit-test:node": "node dist-esm/test/index.spec.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build npm run unit-test:browser",
     "test:node": "npm run clean && npm run build && npm run unit-test:node",
@@ -38,7 +41,8 @@
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
-    "azure",
+    "Azure",
+    "cloud",
     "performance",
     "stress",
     "test",
@@ -47,12 +51,12 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engine": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/test-utils/perfstress",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/perfstress/README.md",
   "sideEffects": false,
   "private": true,
   "dependencies": {
