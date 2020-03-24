@@ -117,6 +117,9 @@ export type BeginTrainingWithLabelsOptions = FormRecognizerOperationOptions & {
  * Options for analyzing of forms
  */
 export type ExtractFormsOptions = FormRecognizerOperationOptions & {
+  /**
+   * Specifies whether to include text lines and element references in the result
+   */
   includeTextDetails?: boolean;
 };
 
@@ -124,8 +127,17 @@ export type ExtractFormsOptions = FormRecognizerOperationOptions & {
  * Options for starting analyzing form operation
  */
 export type BeginExtractFormsOptions = ExtractFormsOptions & {
+  /**
+   * Delay to wait until next poll, in milliseconds
+   */
   intervalInMs?: number;
+  /**
+   * Callback to progress events triggered in the Extract Form Long-Running-Operation (LRO)
+   */
   onProgress?: (state: BeginExtractPollState<ExtractFormResultResponse>) => void;
+  /**
+   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
+   */
   resumeFrom?: string;
 };
 
@@ -133,8 +145,17 @@ export type BeginExtractFormsOptions = ExtractFormsOptions & {
  * Options for starting analyzing form operation
  */
 export type BeginExtractLabeledFormOptions = ExtractFormsOptions & {
+  /**
+   * Delay to wait until next poll, in milliseconds
+   */
   intervalInMs?: number;
+  /**
+   * Callback to progress events triggered in the Extract Labeled Form Long-Running-Operation (LRO)
+   */
   onProgress?: (state: BeginExtractPollState<LabeledFormResultResponse>) => void;
+  /**
+   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
+   */
   resumeFrom?: string;
 };
 
@@ -164,7 +185,7 @@ type GetExtractedFormsOptions = FormRecognizerOperationOptions;
  */
 export class FormRecognizerClient {
   /**
-   * The URL to the FormRecognizer endpoint
+   * The URL to Azure Form Recognizer service endpoint
    */
   public readonly endpointUrl: string;
 
@@ -187,7 +208,7 @@ export class FormRecognizerClient {
    *    new FormRecognizerApiKeyCredential("<api key>")
    * );
    * ```
-   * @param {string} endpointUrl The URL to the FormRecognizer endpoint
+   * @param {string} endpointUrl The URL to Azure Form Recognizer service endpoint
    * @param {TokenCredential | FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the FormRecognizer client.
    */
@@ -419,6 +440,12 @@ export class FormRecognizerClient {
    * Example using `byPage()`:
    *
    * ```js
+   *  let i = 1;
+   *  for await (const response of client.listModels().byPage()) {
+   *    for (const modelInfo of response.modelList!) {
+   *      console.log(`model ${i++}: ${modelInfo.modelId}`);
+   *    }
+   *  }
    * ```
    *
    * @param {ListModelOptions} options Options to the List Models operation

@@ -41,25 +41,40 @@ export type ExtractLayoutOptions = FormRecognizerOperationOptions;
 /**
  * Options for the start analyzing layout operation
  */
-export type StartAnalyzeLayoutOptions = ExtractLayoutOptions & {
+export type BeginExtractLayoutOptions = ExtractLayoutOptions & {
+  /**
+   * Delay to wait until next poll, in milliseconds
+   */
   intervalInMs?: number;
+  /**
+   * Callback to progress events triggered in the Extract Layout Long-Running-Operation (LRO)
+   */
   onProgress?: (state: BeginExtractPollState<ExtractLayoutResultResponse>) => void;
+  /**
+   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
+   */
   resumeFrom?: string;
 };
 
+/**
+ * The Long-Running-Operation (LRO) poller that allows you to wait until form layout is extracted.
+ */
 export type LayoutPollerLike = PollerLike<
   PollOperationState<ExtractLayoutResultResponse>,
   ExtractLayoutResultResponse
 >;
 
+/**
+ * Options for retrieving extracted layout data
+ */
 type GetExtractedLayoutResultOptions = FormRecognizerOperationOptions;
 
 /**
- * Client class for interacting with Azure Form Recognizer.
+ * Client class for extracting text and table structure from documents.
  */
 export class LayoutRecognizerClient {
   /**
-   * The URL to the LayoutRecognizer endpoint
+   * The URL to the Azure Form Recognizer service endpoint
    */
   public readonly endpointUrl: string;
 
@@ -82,7 +97,7 @@ export class LayoutRecognizerClient {
    *    new FormRecognizerApiKeyCredential("<api key>")
    * );
    * ```
-   * @param {string} endpointUrl The URL to the FormRecognizer endpoint
+   * @param {string} endpointUrl The URL to Azure Form Recognizer service endpoint
    * @param {TokenCredential | FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the LayoutRecognizer client.
    */
@@ -121,10 +136,41 @@ export class LayoutRecognizerClient {
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
   }
 
-  public async extractLayout(
+  /**
+   * Extracts layout data, including text and table structure from documents.
+   *
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the copy is completed.
+   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   * const path = "./fw4.pdf";
+   * const readStream = fs.createReadStream(path);
+   *
+   * const client = new LayoutRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   * const poller = await client.beginExtractLayout(readStream, "application/pdf", {
+   *   onProgress: (state) => { console.log(`status: ${state.status}`); }
+   * });
+   *
+   * await poller.pollUntilDone();
+   * const response = poller.getResult();
+
+   * console.log(response.status);
+   * console.log(response.rawExtractedPages);
+   * console.log(response.extractedLayoutPages);
+   * ```
+   * @summary Extracts receipt information from a given document
+   * @param {FormRecognizerRequestBody} source Input document
+   * @param {contentType} Content type of the input
+   * @param {BeginExtractLayoutOptions} [options] Options to the Begin Extract Layout operation
+   */
+   public async beginExtractLayout(
     source: FormRecognizerRequestBody,
     contentType?: ContentType,
-    options: StartAnalyzeLayoutOptions = {}
+    options: BeginExtractLayoutOptions = {}
   ): Promise<LayoutPollerLike> {
     const analyzePollerClient: ExtractPollerClient<ExtractLayoutResultResponse> = {
       beginExtract: (...args) => analyzeLayoutInternal(this.client, ...args),
@@ -144,12 +190,15 @@ export class LayoutRecognizerClient {
 
   public async extractLayoutFromUrl(
     documentUrl: string,
-    options: StartAnalyzeLayoutOptions = {}
+    options: BeginExtractLayoutOptions = {}
   ): Promise<LayoutPollerLike> {
 
-    return this.extractLayout(documentUrl, undefined, options);
+    return this.beginExtractLayout(documentUrl, undefined, options);
   }
 
+  /**
+   * @private
+   */
   private async getExtractedLayout(resultId: string, options?: GetExtractedLayoutResultOptions) {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -173,6 +222,9 @@ export class LayoutRecognizerClient {
   }
 }
 
+/**
+ * @internal
+ */
 async function analyzeLayoutInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody,

@@ -5,7 +5,7 @@ import { PipelineOptions, OperationOptions } from "@azure/core-http";
 import { FormRecognizerRequestBody } from './models';
 
 /**
- * Client options used to configure FormRecognizer API requests.
+ * Client options used to configure Form Recognizer API requests.
  */
 export interface FormRecognizerClientOptions extends PipelineOptions {}
 

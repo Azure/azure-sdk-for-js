@@ -33,34 +33,52 @@ import {
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 
 /**
- * Options for analyzing receipts
+ * Options for extract receipt operation
  */
 export type ExtractReceiptsOptions = FormRecognizerOperationOptions & {
+  /**
+   * Specifies whether to include text lines and element references in the result
+   */
   includeTextDetails?: boolean;
 };
 
+/**
+ * Options for retrieving extracted receipt data
+ */
 type GetExtractedReceiptsOptions = FormRecognizerOperationOptions;
 
 /**
- * Options for the start analyzing receipt operation
+ * Options for Begin Analyze Receipt operation
  */
 export type BeginExtractReceiptsOptions = ExtractReceiptsOptions & {
+  /**
+   * Delay to wait until next poll, in milliseconds
+   */
   intervalInMs?: number;
+  /**
+   * Callback to progress events triggered in the Extract Receipt Long-Running-Operation (LRO)
+   */
   onProgress?: (state: BeginExtractPollState<ExtractReceiptResultResponse>) => void;
+  /**
+   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
+   */
   resumeFrom?: string;
 };
 
+/**
+ * The Long-Running-Operation (LRO) poller that allows you to wait until receipt(s) are extracted.
+ */
 export type ReceiptPollerLike = PollerLike<
   PollOperationState<ExtractReceiptResultResponse>,
   ExtractReceiptResultResponse
 >;
 
 /**
- * Client class for interacting with Azure Form Recognizer.
+ * Client class for extracting receipt data from documents.
  */
 export class ReceiptRecognizerClient {
   /**
-   * The URL to the FormRecognizer endpoint
+   * The URL to the Azure Form Recognizer service endpoint
    */
   public readonly endpointUrl: string;
 
@@ -83,7 +101,7 @@ export class ReceiptRecognizerClient {
    *    new FormRecognizerApiKeyCredential("<api key>")
    * );
    * ```
-   * @param {string} endpointUrl The URL to the FormRecognizer endpoint
+   * @param {string} endpointUrl The URL to Azure Form Recognizer service endpoint
    * @param {TokenCredential | FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the ReceiptRecognizer client.
    */
@@ -122,6 +140,45 @@ export class ReceiptRecognizerClient {
     this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
   }
 
+  /**
+   * Extracts data from receipts using pre-built receipt model, enabling you to extract structure data
+   * from receipts such as merchant name, merchant phone number, transaction date, and more.
+   *
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the copy is completed.
+   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   * const path = "./contoso-allinone.jpg";
+   * const readStream = fs.createReadStream(path);
+
+   * const client = new ReceiptRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   * const poller = await client.beginExtractReceipts(readStream, "image/jpeg", {
+       onProgress: (state) => { console.log(`status: ${state.status}`); }
+   * });
+
+   * await poller.pollUntilDone();
+   * const response = poller.getResult();
+
+   * console.log("### First receipt:")
+   * console.log(response.extractedReceipts[0]);
+   * console.log("### Items:")
+   * console.log(`   \t Quantity\tName\tPrice\tTotalPrice`);
+   * let i = 1;
+   * for (const item of response.extractedReceipts[0]?.items) {
+   *   console.log(`${i++})\t ${item.quantity || ""}\t${item.name}\t$${item.totalPrice}`);
+   * }
+   * console.log("### Raw 'MerchantAddress' fields:");
+   * console.log(response.extractedReceipts[0]?.fields["MerchantAddress"])
+   * ```
+   * @summary Extracts receipt information from a given document
+   * @param {FormRecognizerRequestBody} source Input document
+   * @param {contentType} Content type of the input
+   * @param {BeginExtractReceiptsOptions} [options] Options to the Begin Extract Receipts operation
+   */
   public async beginExtractReceipts(
     source: FormRecognizerRequestBody,
     contentType?: ContentType,
@@ -143,6 +200,42 @@ export class ReceiptRecognizerClient {
     return poller;
   }
 
+  /**
+   * Extracts receipt information from a url using pre-built receipt model, enabling you to extract structure data
+   * from receipts such as merchant name, merchant phone number, transaction date, and more.
+   *
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the copy is completed.
+   * You can also cancel a copy before it is completed by calling `cancelOperation` on the poller.
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new ReceiptRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+   * const poller = await client.beginExtractReceiptsFromUrl(
+   *   imageUrl, {
+   *     includeTextDetails: true,
+   *     onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
+   * });
+   * await poller.pollUntilDone();
+   * const response = poller.getResult();
+
+   * console.log("### First receipt:")
+   * console.log(response.extractedReceipts[0]);
+   * console.log("### Items:")
+   * console.log(`   \t Quantity\tName\tPrice\tTotalPrice`);
+   * let i = 1;
+   * for (const item of response.extractedReceipts[0]?.items) {
+   *   console.log(`${i++})\t ${item.quantity || ""}\t${item.name}\t$${item.totalPrice}`);
+   * }
+   * console.log("### Raw 'MerchantAddress' fields:");
+   * console.log(response.extractedReceipts[0]?.fields["MerchantAddress"])
+   * ```
+   * @summary Extracts receipt information from a given accessible url to input document
+   * @param {string} documentUrl url to the input document
+   * @param {BeginExtractReceiptsOptions} [options] Options to the Begin Extract Receipts operation
+   */
   public async beginExtractReceiptsFromUrl(
     documentUrl: string,
     options: BeginExtractReceiptsOptions = {}
@@ -151,6 +244,9 @@ export class ReceiptRecognizerClient {
     return this.beginExtractReceipts(documentUrl, undefined, options);
   }
 
+  /**
+   * @internal
+   */
   private async getExtractedReceipts(
     resultId: string,
     options?: GetExtractedReceiptsOptions
@@ -179,6 +275,9 @@ export class ReceiptRecognizerClient {
   }
 }
 
+/**
+ * @internal
+ */
 async function analyzeReceiptInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody,

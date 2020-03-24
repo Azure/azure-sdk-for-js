@@ -26,7 +26,7 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new LayoutRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-  const poller = await client.extractLayout(readStream, "application/pdf", {
+  const poller = await client.beginExtractLayout(readStream, "application/pdf", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
   await poller.pollUntilDone();
