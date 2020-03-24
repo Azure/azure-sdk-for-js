@@ -4,18 +4,18 @@
 
 ```ts
 
-import { Attributes } from '@opentelemetry/types';
-import { BinaryFormat } from '@opentelemetry/types';
-import { HttpTextFormat } from '@opentelemetry/types';
+import { Attributes } from '@opentelemetry/api';
+import { NoopSpan } from '@opentelemetry/api';
+import { NoopTracer } from '@opentelemetry/api';
 import { Span as OpenCensusSpan } from '@opencensus/web-types';
 import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
-import { Span } from '@opentelemetry/types';
-import { SpanContext } from '@opentelemetry/types';
-import { SpanKind } from '@opentelemetry/types';
-import { SpanOptions } from '@opentelemetry/types';
-import { Status } from '@opentelemetry/types';
-import { TimeInput } from '@opentelemetry/types';
-import { Tracer } from '@opentelemetry/types';
+import { Span } from '@opentelemetry/api';
+import { SpanContext } from '@opentelemetry/api';
+import { SpanKind } from '@opentelemetry/api';
+import { SpanOptions } from '@opentelemetry/api';
+import { Status } from '@opentelemetry/api';
+import { TimeInput } from '@opentelemetry/api';
+import { Tracer } from '@opentelemetry/api';
 import { TracerBase } from '@opencensus/web-types';
 
 // @public
@@ -26,29 +26,6 @@ export function getTraceParentHeader(spanContext: SpanContext): string | undefin
 
 // @public
 export function getTracer(): Tracer;
-
-// @public
-export class NoOpSpan implements Span {
-    addEvent(_name: string, _attributes?: Attributes): this;
-    context(): SpanContext;
-    end(_endTime?: number): void;
-    isRecording(): boolean;
-    setAttribute(_key: string, _value: unknown): this;
-    setAttributes(_attributes: Attributes): this;
-    setStatus(_status: Status): this;
-    updateName(_name: string): this;
-}
-
-// @public
-export class NoOpTracer implements Tracer {
-    bind<T>(target: T, _span?: Span): T;
-    getBinaryFormat(): BinaryFormat;
-    getCurrentSpan(): Span;
-    getHttpTextFormat(): HttpTextFormat;
-    recordSpanData(_span: Span): void;
-    startSpan(_name: string, _options?: SpanOptions): Span;
-    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span, fn: T): ReturnType<T>;
-}
 
 export { OpenCensusSpan }
 
@@ -73,11 +50,8 @@ export { OpenCensusTracer }
 export class OpenCensusTracerWrapper implements Tracer {
     constructor(tracer: TracerBase);
     bind<T>(_target: T, _span?: Span): T;
-    getBinaryFormat(): BinaryFormat;
-    getCurrentSpan(): Span | null;
-    getHttpTextFormat(): HttpTextFormat;
+    getCurrentSpan(): Span | undefined;
     getWrappedTracer(): TracerBase;
-    recordSpanData(_span: Span): void;
     startSpan(name: string, options?: SpanOptions): Span;
     withSpan<T extends (...args: unknown[]) => unknown>(_span: Span, _fn: T): ReturnType<T>;
 }
@@ -97,7 +71,7 @@ export interface SpanGraphNode {
 }
 
 // @public
-export class TestSpan extends NoOpSpan {
+export class TestSpan extends NoopSpan {
     constructor(parentTracer: TestTracer, name: string, context: SpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
     readonly attributes: Attributes;
     context(): SpanContext;
@@ -116,7 +90,7 @@ export class TestSpan extends NoOpSpan {
     }
 
 // @public
-export class TestTracer extends NoOpTracer {
+export class TestTracer extends NoopTracer {
     getActiveSpans(): TestSpan[];
     getKnownSpans(): TestSpan[];
     getRootSpans(): TestSpan[];

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { Tracer } from "@opentelemetry/types";
+import { Tracer } from "@opentelemetry/api";
 import { getGlobalObject } from "./global";
 
 const GLOBAL_TRACER_VERSION = 2;

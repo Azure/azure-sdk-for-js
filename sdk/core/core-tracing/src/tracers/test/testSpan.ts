@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { NoOpSpan } from "../noop/noOpSpan";
 import {
   TimeInput,
   Tracer,
@@ -8,14 +7,15 @@ import {
   Status,
   SpanContext,
   CanonicalCode,
-  Attributes
-} from "@opentelemetry/types";
+  Attributes,
+  NoopSpan
+} from "@opentelemetry/api";
 import { TestTracer } from "./testTracer";
 
 /**
  * A mock span useful for testing.
  */
-export class TestSpan extends NoOpSpan {
+export class TestSpan extends NoopSpan {
   /**
    * The Span's current name
    */

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { SpanContext, TraceFlags } from "@opentelemetry/types";
+import { SpanContext, TraceFlags } from "@opentelemetry/api";
 
 const VERSION = "00";
 
@@ -54,7 +54,7 @@ export function getTraceParentHeader(spanContext: SpanContext): string | undefin
     return;
   }
 
-  const flags = spanContext.traceFlags || TraceFlags.UNSAMPLED;
+  const flags = spanContext.traceFlags || TraceFlags.NONE;
   const hexFlags = flags.toString(16);
   const traceFlags = hexFlags.length === 1 ? `0${hexFlags}` : hexFlags;
 

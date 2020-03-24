@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { NoOpTracer } from "../noop/noOpTracer";
 import { TestSpan } from "./testSpan";
-import { SpanContext, SpanKind, SpanOptions } from "@opentelemetry/types";
+import { SpanContext, SpanKind, SpanOptions, NoopTracer, TraceFlags } from "@opentelemetry/api";
 
 /**
  * Simple representation of a Span that only has name and child relationships.
@@ -33,7 +32,7 @@ export interface SpanGraph {
 /**
  * A mock tracer useful for testing
  */
-export class TestTracer extends NoOpTracer {
+export class TestTracer extends NoopTracer {
   private traceIdCounter = 0;
   private getNextTraceId(): string {
     this.traceIdCounter++;
@@ -130,7 +129,8 @@ export class TestTracer extends NoOpTracer {
 
     const context: SpanContext = {
       traceId,
-      spanId: this.getNextSpanId()
+      spanId: this.getNextSpanId(),
+      traceFlags: TraceFlags.NONE
     };
     const span = new TestSpan(
       this,
