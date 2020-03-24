@@ -288,6 +288,42 @@ export class ManagementClient extends LinkEntity {
       : undefined;
   }
 
+  private async acquireLockHelper(
+    message_id: string | number | Buffer | undefined,
+    timeoutInMs: number
+  ): Promise<number> {
+    const initOperationStartTime = Date.now();
+    if (!this._isMgmtRequestResponseLinkOpen()) {
+      log.mgmt(
+        "[%s] Acquiring lock to get the management req res link.",
+        this._context.namespace.connectionId
+      );
+
+      const actionAfterTimeout = () => {
+        const desc: string = `The request with message_id "${message_id}" timed out. Please try again later.`;
+        const e: Error = {
+          name: "OperationTimeoutError",
+          message: desc
+        };
+
+        throw e;
+      };
+
+      const waitTimer = setTimeout(actionAfterTimeout, timeoutInMs);
+
+      try {
+        await defaultLock.acquire(this.managementLock, () => {
+          return this._init();
+        });
+      } catch (err) {
+        throw err;
+      } finally {
+        clearTimeout(waitTimer);
+      }
+    }
+    // Returns the time taken by the init operation
+    return Date.now() - initOperationStartTime;
+  }
   /**
    * Helper function to retrieve active receiver name, if it exists.
    * @param clientEntityContext The `ClientEntityContext` associated with given Service Bus entity client
@@ -449,36 +485,10 @@ export class ManagementClient extends LinkEntity {
             request.body
           );
 
-          if (!this._isMgmtRequestResponseLinkOpen()) {
-            log.mgmt(
-              "[%s] Acquiring lock to get the management req res link.",
-              this._context.namespace.connectionId
-            );
-
-            const initOperationStartTime = Date.now();
-
-            const actionAfterTimeout = () => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-              const e: Error = {
-                name: "OperationTimeoutError",
-                message: desc
-              };
-
-              return reject(translate(e));
-            };
-
-            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-            try {
-              await defaultLock.acquire(this.managementLock, () => {
-                return this._init();
-              });
-            } catch (err) {
-              return reject(translate(err));
-            } finally {
-              clearTimeout(waitTimer);
-            }
-            timeTakenByInit = Date.now() - initOperationStartTime;
+          try {
+            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+          } catch (error) {
+            reject(translate(error));
           }
           try {
             const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
@@ -683,36 +693,10 @@ export class ManagementClient extends LinkEntity {
             request.body
           );
 
-          if (!this._isMgmtRequestResponseLinkOpen()) {
-            log.mgmt(
-              "[%s] Acquiring lock to get the management req res link.",
-              this._context.namespace.connectionId
-            );
-
-            const initOperationStartTime = Date.now();
-
-            const actionAfterTimeout = () => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-              const e: Error = {
-                name: "OperationTimeoutError",
-                message: desc
-              };
-
-              return reject(translate(e));
-            };
-
-            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-            try {
-              await defaultLock.acquire(this.managementLock, () => {
-                return this._init();
-              });
-            } catch (err) {
-              return reject(translate(err));
-            } finally {
-              clearTimeout(waitTimer);
-            }
-            timeTakenByInit = Date.now() - initOperationStartTime;
+          try {
+            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+          } catch (error) {
+            reject(translate(error));
           }
 
           try {
@@ -824,36 +808,10 @@ export class ManagementClient extends LinkEntity {
         new Promise<void>(async (resolve, reject) => {
           const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
           let timeTakenByInit = 0;
-          if (!this._isMgmtRequestResponseLinkOpen()) {
-            log.mgmt(
-              "[%s] Acquiring lock to get the management req res link.",
-              this._context.namespace.connectionId
-            );
-
-            const initOperationStartTime = Date.now();
-
-            const actionAfterTimeout = () => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-              const e: Error = {
-                name: "OperationTimeoutError",
-                message: desc
-              };
-
-              return reject(translate(e));
-            };
-
-            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-            try {
-              await defaultLock.acquire(this.managementLock, () => {
-                return this._init();
-              });
-            } catch (err) {
-              return reject(translate(err));
-            } finally {
-              clearTimeout(waitTimer);
-            }
-            timeTakenByInit = Date.now() - initOperationStartTime;
+          try {
+            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+          } catch (error) {
+            reject(translate(error));
           }
           try {
             const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
@@ -972,37 +930,10 @@ export class ManagementClient extends LinkEntity {
           const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
           let timeTakenByInit = 0;
 
-          // TO DO - Refactor this if block - move to a common place in managementClient
-          if (!this._isMgmtRequestResponseLinkOpen()) {
-            log.mgmt(
-              "[%s] Acquiring lock to get the management req res link.",
-              this._context.namespace.connectionId
-            );
-
-            const initOperationStartTime = Date.now();
-
-            const actionAfterTimeout = () => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-              const e: Error = {
-                name: "OperationTimeoutError",
-                message: desc
-              };
-
-              return reject(translate(e));
-            };
-
-            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-            try {
-              await defaultLock.acquire(this.managementLock, () => {
-                return this._init();
-              });
-            } catch (err) {
-              return reject(translate(err));
-            } finally {
-              clearTimeout(waitTimer);
-            }
-            timeTakenByInit = Date.now() - initOperationStartTime;
+          try {
+            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+          } catch (error) {
+            reject(translate(error));
           }
           try {
             const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
@@ -1181,38 +1112,12 @@ export class ManagementClient extends LinkEntity {
           const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
           let timeTakenByInit = 0;
 
-          // TO DO - Refactor this if block - move to a common place in managementClient
-          if (!this._isMgmtRequestResponseLinkOpen()) {
-            log.mgmt(
-              "[%s] Acquiring lock to get the management req res link.",
-              this._context.namespace.connectionId
-            );
-
-            const initOperationStartTime = Date.now();
-
-            const actionAfterTimeout = () => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-              const e: Error = {
-                name: "OperationTimeoutError",
-                message: desc
-              };
-
-              return reject(translate(e));
-            };
-
-            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-            try {
-              await defaultLock.acquire(this.managementLock, () => {
-                return this._init();
-              });
-            } catch (err) {
-              return reject(translate(err));
-            } finally {
-              clearTimeout(waitTimer);
-            }
-            timeTakenByInit = Date.now() - initOperationStartTime;
+          try {
+            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+          } catch (error) {
+            reject(translate(error));
           }
+
           try {
             const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
             if (!options) {
@@ -1308,37 +1213,10 @@ export class ManagementClient extends LinkEntity {
           const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
           let timeTakenByInit = 0;
 
-          // TO DO - Refactor this if block - move to a common place in managementClient
-          if (!this._isMgmtRequestResponseLinkOpen()) {
-            log.mgmt(
-              "[%s] Acquiring lock to get the management req res link.",
-              this._context.namespace.connectionId
-            );
-
-            const initOperationStartTime = Date.now();
-
-            const actionAfterTimeout = () => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-              const e: Error = {
-                name: "OperationTimeoutError",
-                message: desc
-              };
-
-              return reject(translate(e));
-            };
-
-            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-            try {
-              await defaultLock.acquire(this.managementLock, () => {
-                return this._init();
-              });
-            } catch (err) {
-              return reject(translate(err));
-            } finally {
-              clearTimeout(waitTimer);
-            }
-            timeTakenByInit = Date.now() - initOperationStartTime;
+          try {
+            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+          } catch (error) {
+            reject(translate(error));
           }
           try {
             const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
@@ -1421,37 +1299,10 @@ export class ManagementClient extends LinkEntity {
           const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
           let timeTakenByInit = 0;
 
-          // TO DO - Refactor this if block - move to a common place in managementClient
-          if (!this._isMgmtRequestResponseLinkOpen()) {
-            log.mgmt(
-              "[%s] Acquiring lock to get the management req res link.",
-              this._context.namespace.connectionId
-            );
-
-            const initOperationStartTime = Date.now();
-
-            const actionAfterTimeout = () => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-              const e: Error = {
-                name: "OperationTimeoutError",
-                message: desc
-              };
-
-              return reject(translate(e));
-            };
-
-            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-            try {
-              await defaultLock.acquire(this.managementLock, () => {
-                return this._init();
-              });
-            } catch (err) {
-              return reject(translate(err));
-            } finally {
-              clearTimeout(waitTimer);
-            }
-            timeTakenByInit = Date.now() - initOperationStartTime;
+          try {
+            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+          } catch (error) {
+            reject(translate(error));
           }
           try {
             const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
