@@ -66,7 +66,9 @@ export class PerfStressProgram {
         await this.test.run(abortController.signal);
       } catch (e) {
         if (!(e instanceof PerfStressTestError)) {
-          throw e;
+          abortController.abort();
+          console.error(e);
+          break;
         }
       } finally {
         // Nothing to do here
