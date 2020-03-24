@@ -2,9 +2,9 @@ FROM node:12
 
 WORKDIR /app
 
-COPY ../package*.json ./
+COPY package*.json ./
 RUN npm ci --only=production
 
-COPY ../. .
+COPY . .
 
 ENTRYPOINT ["node", "test"]
