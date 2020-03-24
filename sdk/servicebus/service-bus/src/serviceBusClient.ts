@@ -161,9 +161,9 @@ export class ServiceBusClient {
     );
 
     if (receiveMode === "peekLock") {
-      return new ReceiverImpl<ReceivedMessageWithLock>(clientEntityContext, receiveMode);
+      return new ReceiverImpl<ReceivedMessageWithLock>(clientEntityContext, receiveMode, options);
     } else {
-      return new ReceiverImpl<ReceivedMessage>(clientEntityContext, receiveMode);
+      return new ReceiverImpl<ReceivedMessage>(clientEntityContext, receiveMode, options);
     }
   }
 

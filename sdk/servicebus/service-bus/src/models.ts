@@ -133,7 +133,7 @@ export interface MessageHandlerOptions {
  * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
  * has sessions enabled.
  */
-export interface GetSessionReceiverOptions extends OperationOptions {
+export interface GetSessionReceiverOptions extends GetReceiverOptions, OperationOptions {
   /**
    * @property The maximum duration in seconds
    * until which, the lock on the session will be renewed automatically by the sdk.

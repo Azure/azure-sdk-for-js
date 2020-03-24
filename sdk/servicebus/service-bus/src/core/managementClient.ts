@@ -50,7 +50,7 @@ import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { getRetryAttemptTimeoutInMs } from "../util/retries";
-import { GetSenderOptions } from "../models";
+import { GetSenderOptions, GetReceiverOptions } from "../models";
 
 /**
  * Represents a Rule on a Subscription that is used to filter the incoming message from the
@@ -346,9 +346,17 @@ export class ManagementClient extends LinkEntity {
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peek(messageCount?: number): Promise<ReceivedMessage[]> {
+  async peek(
+    messageCount?: number,
+    receiverOptions?: GetReceiverOptions
+  ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    return this.peekBySequenceNumber(this._lastPeekedSequenceNumber.add(1), messageCount);
+    return this.peekBySequenceNumber(
+      this._lastPeekedSequenceNumber.add(1),
+      messageCount,
+      undefined,
+      receiverOptions
+    );
   }
 
   /**
@@ -385,8 +393,10 @@ export class ManagementClient extends LinkEntity {
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
     maxMessageCount?: number,
-    sessionId?: string
+    sessionId?: string,
+    receiverOptions?: GetReceiverOptions
   ): Promise<ReceivedMessage[]> {
+    const retryOptions = receiverOptions!.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
     const connId = this._context.namespace.connectionId;
 
@@ -404,66 +414,118 @@ export class ManagementClient extends LinkEntity {
       maxMessageCount = 1;
     }
 
-    const messageList: ReceivedMessage[] = [];
-    try {
-      const messageBody: any = {};
-      messageBody[Constants.fromSequenceNumber] = types.wrap_long(
-        Buffer.from(fromSequenceNumber.toBytesBE())
-      );
-      messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount);
-      if (sessionId != undefined) {
-        messageBody[Constants.sessionIdMapKey] = sessionId;
-      }
-      const request: AmqpMessage = {
-        body: messageBody,
-        message_id: generate_uuid(),
-        reply_to: this.replyTo,
-        application_properties: {
-          operation: Constants.operations.peekMessage
-        }
-      };
-      const associatedLinkName = this._getAssociatedReceiverName(this._context, sessionId);
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
-      }
-      request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
-        "[%s] Peek by sequence number request body: %O.",
-        this._context.namespace.connectionId,
-        request.body
-      );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
-      });
+    const peekBySequenceNumberOperationPromise = () =>
+      new Promise<ReceivedMessage[]>(async (resolve, reject) => {
+        try {
+          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+          let timeTakenByInit = 0;
+          const messageList: ReceivedMessage[] = [];
+          const messageBody: any = {};
+          messageBody[Constants.fromSequenceNumber] = types.wrap_long(
+            Buffer.from(fromSequenceNumber.toBytesBE())
+          );
+          messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount!);
+          if (sessionId != undefined) {
+            messageBody[Constants.sessionIdMapKey] = sessionId;
+          }
+          const request: AmqpMessage = {
+            body: messageBody,
+            message_id: generate_uuid(),
+            reply_to: this.replyTo,
+            application_properties: {
+              operation: Constants.operations.peekMessage
+            }
+          };
+          const associatedLinkName = this._getAssociatedReceiverName(this._context, sessionId);
+          if (associatedLinkName) {
+            request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+          }
+          request.application_properties![Constants.trackingId] = generate_uuid();
+          log.mgmt(
+            "[%s] Peek by sequence number request body: %O.",
+            this._context.namespace.connectionId,
+            request.body
+          );
 
-      const result = await this._mgmtReqResLink!.sendRequest(request);
-      if (result.application_properties!.statusCode !== 204) {
-        const messages = result.body.messages as { message: Buffer }[];
-        for (const msg of messages) {
-          const decodedMessage = RheaMessageUtil.decode(msg.message);
-          const message = fromAmqpMessage(decodedMessage as any);
-          message.body = this._context.namespace.dataTransformer.decode(message.body);
-          messageList.push(message);
-          this._lastPeekedSequenceNumber = message.sequenceNumber!;
+          if (!this._isMgmtRequestResponseLinkOpen()) {
+            log.mgmt(
+              "[%s] Acquiring lock to get the management req res link.",
+              this._context.namespace.connectionId
+            );
+
+            const initOperationStartTime = Date.now();
+
+            const actionAfterTimeout = () => {
+              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+              const e: Error = {
+                name: "OperationTimeoutError",
+                message: desc
+              };
+
+              return reject(translate(e));
+            };
+
+            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
+
+            try {
+              await defaultLock.acquire(this.managementLock, () => {
+                return this._init();
+              });
+            } catch (err) {
+              return reject(translate(err));
+            } finally {
+              clearTimeout(waitTimer);
+            }
+            timeTakenByInit = Date.now() - initOperationStartTime;
+          }
+          try {
+            const result = await this._mgmtReqResLink!.sendRequest(request);
+            if (result.application_properties!.statusCode !== 204) {
+              const messages = result.body.messages as { message: Buffer }[];
+              for (const msg of messages) {
+                const decodedMessage = RheaMessageUtil.decode(msg.message);
+                const message = fromAmqpMessage(decodedMessage as any);
+                message.body = this._context.namespace.dataTransformer.decode(message.body);
+                messageList.push(message);
+                this._lastPeekedSequenceNumber = message.sequenceNumber!;
+              }
+            }
+            resolve(messageList);
+          } catch (err) {
+            err = translate(err);
+            const address =
+              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
+                ? "address"
+                : this._mgmtReqResLink!.sender.address;
+            log.warning(
+              "[%s] An error occurred during send on management request-response link with address " +
+                "'%s': %O",
+              this._context.namespace.connectionId,
+              address,
+              err
+            );
+            reject(err);
+          }
+        } catch (err) {
+          const error = translate(err) as MessagingError;
+          log.error(
+            "An error occurred while sending the request to peek messages to " +
+              "$management endpoint: %O",
+            error
+          );
+          // statusCode == 404 then do not throw
+          if (error.code !== ConditionErrorNameMapper["com.microsoft:message-not-found"]) {
+            throw error;
+          }
         }
-      }
-    } catch (err) {
-      const error = translate(err) as MessagingError;
-      log.error(
-        "An error occurred while sending the request to peek messages to " +
-          "$management endpoint: %O",
-        error
-      );
-      // statusCode == 404 then do not throw
-      if (error.code !== ConditionErrorNameMapper["com.microsoft:message-not-found"]) {
-        throw error;
-      }
-    }
-    return messageList;
+      });
+    const config: RetryConfig<ReceivedMessage[]> = {
+      operation: peekBySequenceNumberOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return await retry<ReceivedMessage[]>(config);
   }
 
   /**
@@ -840,8 +902,10 @@ export class ManagementClient extends LinkEntity {
   async receiveDeferredMessages(
     sequenceNumbers: Long[],
     receiveMode: ReceiveMode,
-    sessionId?: string
+    sessionId?: string,
+    receiverOptions?: GetReceiverOptions
   ): Promise<ServiceBusMessageImpl[]> {
+    const retryOptions = receiverOptions!.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
 
     const messageList: ServiceBusMessageImpl[] = [];
@@ -892,36 +956,98 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
-      });
 
-      const result = await this._mgmtReqResLink!.sendRequest(request);
-      const messages = result.body.messages as {
-        message: Buffer;
-        "lock-token": Buffer;
-      }[];
-      for (const msg of messages) {
-        const decodedMessage = RheaMessageUtil.decode(msg.message);
-        const message = new ServiceBusMessageImpl(
-          this._context,
-          decodedMessage as any,
-          { tag: msg["lock-token"] } as any,
-          false
-        );
-        if (message.lockToken && message.lockedUntilUtc) {
-          this._context.requestResponseLockedMessages.set(
-            message.lockToken,
-            message.lockedUntilUtc
-          );
-        }
-        messageList.push(message);
-      }
-      return messageList;
+      const receiveDeferredMessagesOperationPromise = () =>
+        new Promise<ServiceBusMessageImpl[]>(async (resolve, reject) => {
+          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+          let timeTakenByInit = 0;
+
+          // TO DO - Refactor this if block - move to a common place in managementClient
+          if (!this._isMgmtRequestResponseLinkOpen()) {
+            log.mgmt(
+              "[%s] Acquiring lock to get the management req res link.",
+              this._context.namespace.connectionId
+            );
+
+            const initOperationStartTime = Date.now();
+
+            const actionAfterTimeout = () => {
+              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+              const e: Error = {
+                name: "OperationTimeoutError",
+                message: desc
+              };
+
+              return reject(translate(e));
+            };
+
+            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
+
+            try {
+              await defaultLock.acquire(this.managementLock, () => {
+                return this._init();
+              });
+            } catch (err) {
+              return reject(translate(err));
+            } finally {
+              clearTimeout(waitTimer);
+            }
+            timeTakenByInit = Date.now() - initOperationStartTime;
+          }
+          try {
+            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+
+            const sendRequestOptions: SendRequestOptions = {
+              abortSignal: undefined,
+              requestName: undefined,
+              timeoutInMs: remainingOperationTimeoutInMs
+            };
+            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+            const messages = result.body.messages as {
+              message: Buffer;
+              "lock-token": Buffer;
+            }[];
+            for (const msg of messages) {
+              const decodedMessage = RheaMessageUtil.decode(msg.message);
+              const message = new ServiceBusMessageImpl(
+                this._context,
+                decodedMessage as any,
+                { tag: msg["lock-token"] } as any,
+                false
+              );
+              if (message.lockToken && message.lockedUntilUtc) {
+                this._context.requestResponseLockedMessages.set(
+                  message.lockToken,
+                  message.lockedUntilUtc
+                );
+              }
+              messageList.push(message);
+            }
+            resolve(messageList);
+          } catch (err) {
+            err = translate(err);
+            const address =
+              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
+                ? "address"
+                : this._mgmtReqResLink!.sender.address;
+            log.warning(
+              "[%s] An error occurred during send on management request-response link with address " +
+                "'%s': %O",
+              this._context.namespace.connectionId,
+              address,
+              err
+            );
+            reject(err);
+          }
+        });
+
+      const config: RetryConfig<ServiceBusMessageImpl[]> = {
+        operation: receiveDeferredMessagesOperationPromise,
+        connectionId: this._context.namespace.connectionId,
+        operationType: RetryOperationType.management,
+        retryOptions: retryOptions
+      };
+      return await retry<ServiceBusMessageImpl[]>(config);
     } catch (err) {
       const error = translate(err);
       log.error(

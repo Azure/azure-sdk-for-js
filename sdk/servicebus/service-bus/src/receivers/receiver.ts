@@ -6,7 +6,8 @@ import {
   SubscribeOptions,
   GetMessageIteratorOptions,
   ReceiveBatchOptions,
-  MessageHandlerOptions
+  MessageHandlerOptions,
+  GetReceiverOptions
 } from "../models";
 import { OperationOptions } from "@azure/core-auth";
 import { ReceivedMessage } from "..";
@@ -147,6 +148,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @property Describes the amqp connection context for the QueueClient.
    */
   private _context: ClientEntityContext;
+  private _receiverOptions: GetReceiverOptions;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
@@ -165,7 +167,11 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   /**
    * @throws Error if the underlying connection is closed.
    */
-  constructor(context: ClientEntityContext, public receiveMode: "peekLock" | "receiveAndDelete") {
+  constructor(
+    context: ClientEntityContext,
+    public receiveMode: "peekLock" | "receiveAndDelete",
+    options: GetReceiverOptions
+  ) {
     throwErrorIfConnectionClosed(context.namespace);
     this.entityPath = context.entityPath;
     this._context = context;
@@ -174,6 +180,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       peekBySequenceNumber: (fromSequenceNumber, maxMessageCount) =>
         this._peekBySequenceNumber(fromSequenceNumber, maxMessageCount)
     };
+    this._receiverOptions = options;
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -298,6 +305,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     const receivedMessages = await this._context.batchingReceiver.receive(
       maxMessageCount,
       options?.maxWaitTimeSeconds
+      // this._receiverOptions - No need to pass?
     );
 
     return (receivedMessages as unknown) as ReceivedMessageT[];
@@ -316,7 +324,11 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @throws MessagingError if the service returns an error while receiving messages.
    */
   getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT> {
-    return getMessageIterator(this, options);
+    return getMessageIterator(
+      this,
+      options
+      // this._receiverOptions - No need to pass?
+    );
   }
 
   /**
@@ -343,7 +355,9 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
-      convertToInternalReceiveMode(this.receiveMode)
+      convertToInternalReceiveMode(this.receiveMode),
+      undefined,
+      this._receiverOptions
     );
     return (messages[0] as unknown) as ReceivedMessageT;
   }
@@ -375,7 +389,9 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
-      convertToInternalReceiveMode(this.receiveMode)
+      convertToInternalReceiveMode(this.receiveMode),
+      undefined,
+      this._receiverOptions
     );
 
     return (deferredMessages as any) as ReceivedMessageT[];
@@ -390,7 +406,10 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       this._context.isClosed
     );
 
-    const internalMessages = await this._context.managementClient!.peek(maxMessageCount);
+    const internalMessages = await this._context.managementClient!.peek(
+      maxMessageCount,
+      this._receiverOptions
+    );
     return internalMessages.map((m) => m as ReceivedMessage);
   }
 
@@ -406,7 +425,9 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
-      maxMessageCount
+      maxMessageCount,
+      undefined,
+      this._receiverOptions
     );
     return internalMessages.map((m) => m as ReceivedMessage);
   }
