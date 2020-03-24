@@ -397,7 +397,8 @@ export class ManagementClient extends LinkEntity {
     sessionId?: string,
     receiverOptions?: GetReceiverOptions
   ): Promise<ReceivedMessage[]> {
-    const retryOptions = receiverOptions!.retryOptions || {};
+    if (!receiverOptions) receiverOptions = {};
+    const retryOptions = receiverOptions.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
     const connId = this._context.namespace.connectionId;
 
@@ -913,7 +914,8 @@ export class ManagementClient extends LinkEntity {
     sessionId?: string,
     receiverOptions?: GetReceiverOptions
   ): Promise<ServiceBusMessageImpl[]> {
-    const retryOptions = receiverOptions!.retryOptions || {};
+    if (!receiverOptions) receiverOptions = {};
+    const retryOptions = receiverOptions.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
 
     const messageList: ServiceBusMessageImpl[] = [];
