@@ -110,7 +110,7 @@ export interface EventDataInternal {
   /**
    * @property [systemProperties] The properties set by the service.
    */
-  systemProperties: { [property: string]: any };
+  systemProperties?: { [property: string]: any };
 }
 
 const messagePropertiesMap = {
@@ -136,8 +136,7 @@ const messagePropertiesMap = {
  */
 export function fromAmqpMessage(msg: Message): EventDataInternal {
   const data: EventDataInternal = {
-    body: msg.body,
-    systemProperties: {}
+    body: msg.body
   };
 
   if (msg.message_annotations) {
@@ -156,6 +155,9 @@ export function fromAmqpMessage(msg: Message): EventDataInternal {
           data.offset = msg.message_annotations[annotationKey];
           break;
         default:
+          if (!data.systemProperties) {
+            data.systemProperties = {};
+          }
           data.systemProperties[annotationKey] = msg.message_annotations[annotationKey];
           break;
       }
@@ -177,6 +179,9 @@ export function fromAmqpMessage(msg: Message): EventDataInternal {
     keyof typeof messagePropertiesMap
   >;
   for (const messageProperty of messageProperties) {
+    if (!data.systemProperties) {
+      data.systemProperties = {};
+    }
     if (msg[messageProperty] != null) {
       data.systemProperties[messagePropertiesMap[messageProperty]] = msg[messageProperty];
     }
