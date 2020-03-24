@@ -6,11 +6,11 @@ import path from "path";
 import { resolveProject } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
 import { leafCommand } from "../../framework/command";
-import { describe } from "../../framework/command";
+import { makeCommandInfo } from "../../framework/command";
 
 const log = createPrinter("resolve-package");
 
-export const commandInfo = describe(
+export const commandInfo = makeCommandInfo(
   "resolve",
   "display information about the project that owns a directory",
   {

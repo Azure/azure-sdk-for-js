@@ -7,14 +7,14 @@ import path from "path";
 import { createPrinter } from "../../util/printer";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { resolveProject } from "../../util/resolveProject";
-import { leafCommand } from "../../framework/command";
+import { leafCommand, makeCommandInfo } from "../../framework/command";
 
 const log = createPrinter("prep-samples");
 
-export const commandInfo = {
-  name: "prep",
-  description: "prepare samples for local source-linked execution"
-} as const;
+export const commandInfo = makeCommandInfo(
+  "prep",
+  "prepare samples for local source-linked execution"
+);
 
 /**
  * Replaces package require/import statements with relative paths for CI

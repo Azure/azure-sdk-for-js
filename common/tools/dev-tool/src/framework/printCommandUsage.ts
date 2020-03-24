@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { CommandLoader } from "./commandModule";
-import { CommandInfo, CommandOptions } from "./commandInfo";
+import { CommandLoader } from "./CommandModule";
+import { CommandInfo, CommandOptions } from "./CommandInfo";
 
 /**
  * The stack of subcommands executed so far

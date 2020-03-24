@@ -6,16 +6,16 @@ import path from "path";
 
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
-import { leafCommand } from "../../framework/command";
+import { leafCommand, makeCommandInfo } from "../../framework/command";
 
 const log = createPrinter("run-samples");
 
 const IGNORE = ["node_modules"];
 
-export const commandInfo = {
-  name: "run",
-  description: "execute a sample or all samples within a directory"
-};
+export const commandInfo = makeCommandInfo(
+  "run",
+  "execute a sample or all samples within a directory"
+);
 
 /**
  * Run a single sample file, accumulating any thrown errors into `accumulatedErrors`

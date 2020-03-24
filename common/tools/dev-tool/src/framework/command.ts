@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { CommandLoader } from "./commandModule";
+import { CommandLoader } from "./CommandModule";
 import { createPrinter } from "../util/printer";
 import { printCommandUsage, commandStack } from "./printCommandUsage";
 import { ParsedOptions, parseOptions } from "./parseOptions";
-import { CommandInfo, CommandOptions } from "./commandInfo";
+import { CommandInfo, CommandOptions } from "./CommandInfo";
 
 /**
  * Utility type that makes the type of the "allowMultiple" key in
@@ -51,7 +51,7 @@ export type StrictAllowMultiple<Opts extends CommandOptions> = {
  * @param description a one-line description of this command's functionality
  * @param options the command's command-line options descriptions (see: {@link CommandOptions})
  */
-export function describe<Opts extends CommandOptions>(
+export function makeCommandInfo<Opts extends CommandOptions>(
   name: string,
   description: string,
   options?: Opts
@@ -67,7 +67,7 @@ export function describe<Opts extends CommandOptions>(
  * Create a subcommand handler that will delegate handling
  * to a set of lower-order subcommands.
  *
- * @param name name of this command (used in printed output)
+ * @param info a the CommandInfo object that describes this command
  * @param commands map from subcommand name to module implementing that command
  */
 export function subCommand<Info extends CommandInfo<CommandOptions>>(
@@ -115,6 +115,12 @@ export function subCommand<Info extends CommandInfo<CommandOptions>>(
   };
 }
 
+/**
+ * Construct a command that runs a handler when invoked.
+ *
+ * @param info the CommandInfo object that describes this command
+ * @param handler a function to handle the execution of the command
+ */
 export function leafCommand<Info extends CommandInfo<CommandOptions>>(
   info: Info,
   handler: (options: ParsedOptions<NonNullable<Info["options"]>>) => Promise<boolean>

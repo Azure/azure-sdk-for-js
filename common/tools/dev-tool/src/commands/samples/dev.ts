@@ -6,14 +6,14 @@ import path from "path";
 
 import { resolveProject } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
-import { leafCommand } from "../../framework/command";
+import { leafCommand, makeCommandInfo } from "../../framework/command";
 
 const log = createPrinter("dev-samples");
 
-export const commandInfo = {
-  name: "dev",
-  description: "link samples to local sources for access to IntelliSense during development"
-} as const;
+export const commandInfo = makeCommandInfo(
+  "dev",
+  "link samples to local sources for access to IntelliSense during development"
+);
 
 export default leafCommand(commandInfo, async () => {
   const pkg = await resolveProject(process.cwd());

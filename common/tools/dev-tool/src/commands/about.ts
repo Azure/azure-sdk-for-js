@@ -6,7 +6,7 @@ import chalk from "chalk";
 import { baseCommands, baseCommandInfo } from ".";
 import { resolveProject } from "../util/resolveProject";
 import { createPrinter } from "../util/printer";
-import { leafCommand } from "../framework/command";
+import { leafCommand, makeCommandInfo } from "../framework/command";
 import { printCommandUsage } from "../framework/printCommandUsage";
 
 const log = createPrinter("help");
@@ -21,10 +21,7 @@ const banner = `\
 Developer quality-of-life command for the Azure SDK for JS
 `;
 
-export const commandInfo = {
-  name: "about",
-  description: "display command help and information"
-} as const;
+export const commandInfo = makeCommandInfo("about", "display command help and information");
 
 export default leafCommand(commandInfo, async (options) => {
   console.log(chalk.blueBright(banner));

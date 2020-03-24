@@ -1,12 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-export type StrictAllowMultiple<Opts extends CommandOptions> = {
-  [K in keyof Opts]: boolean extends Opts[K]["allowMultiple"]
-    ? Opts[K] & { allowMultiple?: undefined }
-    : Opts[K];
-};
-
 /**
  * Information about this command
  */

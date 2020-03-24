@@ -4,7 +4,7 @@
 import getArgs from "minimist";
 
 import { createPrinter } from "../util/printer";
-import { CommandOptions, StringOptionDescription, BooleanOptionDescription } from "./commandInfo";
+import { CommandOptions, StringOptionDescription, BooleanOptionDescription } from "./CommandInfo";
 
 const { debug: parseDebug, error: parseError } = createPrinter("parseOptions");
 

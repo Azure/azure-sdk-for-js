@@ -6,11 +6,11 @@ It provides a place to centralize scripts, resources, and processes for developm
 
 ## Installation
 
-`dev-tool` runs using ts-node, so it does not need to be built. It is ready-to-go after a `rush update`. It additionally does not need to be installed to a user's machine in order to be used in `package.json` scripts, since it provdes the `dev-tool` binary to any dependent packages through the `bin` entry in its `package.json`. Simply add `@azure/dev-tool` to the `devDependencies` of a package, and the `dev-tool` binary will become available. If you wish to use `dev-tool` from the CLI manually, you can install it globally on your system by running `npm install -g` from this directory.
+`dev-tool` runs using ts-node, so it does not need to be built. It is ready-to-go after a `rush update`. It additionally does not need to be installed to a user's machine in order to be used in `package.json` scripts, since it provides the `dev-tool` binary to any dependent packages through the `bin` entry in its `package.json`. Simply add `@azure/dev-tool` to the `devDependencies` of a package, and the `dev-tool` binary will become available. If you wish to use `dev-tool` from the CLI manually, you can install it globally on your system by running `npm install -g` from this directory.
 
 ## Usage
 
-`dev-tool` uses a tree-shaped command hierarchy. For example, at the time of writing, the command tree looks like this:
+`dev-tool` uses a command hierarchy. For example, at the time of writing, the command tree looks like this:
 
 `dev-tool`
   - `about` (display command help and information)

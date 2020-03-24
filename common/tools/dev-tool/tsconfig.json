@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "noEmit": true,
-    "lib": ["ES6", "ESNext.AsyncIterable"],
     "esModuleInterop": true,
 
     "newLine": "LF",
