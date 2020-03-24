@@ -153,7 +153,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it.only("should not decompress during downloading", async () => {
+  it("should not decompress during downloading", async () => {
     const body: string = "hello world body string!";
     const deflated = zlib.deflateSync(body);
 

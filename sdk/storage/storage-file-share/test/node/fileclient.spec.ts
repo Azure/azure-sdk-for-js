@@ -220,7 +220,7 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
-  it.only("should not decompress during downloading", async () => {
+  it("should not decompress during downloading", async () => {
     const body: string = "hello world body string!";
     const deflated = zlib.deflateSync(body);
 
