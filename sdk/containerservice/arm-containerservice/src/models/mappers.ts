@@ -1179,7 +1179,7 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
         defaultValue: 1,
         constraints: {
           InclusiveMaximum: 100,
-          InclusiveMinimum: 1
+          InclusiveMinimum: 0
         },
         type: {
           name: "Number"
@@ -1237,6 +1237,12 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
       },
       type: {
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      mode: {
+        serializedName: "mode",
         type: {
           name: "String"
         }
@@ -1362,7 +1368,7 @@ export const AgentPool: msRest.CompositeMapper = {
         defaultValue: 1,
         constraints: {
           InclusiveMaximum: 100,
-          InclusiveMinimum: 1
+          InclusiveMinimum: 0
         },
         type: {
           name: "Number"
@@ -1420,6 +1426,12 @@ export const AgentPool: msRest.CompositeMapper = {
       },
       agentPoolType: {
         serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
+      mode: {
+        serializedName: "properties.mode",
         type: {
           name: "String"
         }
@@ -1856,15 +1868,30 @@ export const ManagedClusterAADProfile: msRest.CompositeMapper = {
     name: "Composite",
     className: "ManagedClusterAADProfile",
     modelProperties: {
+      managed: {
+        serializedName: "managed",
+        type: {
+          name: "Boolean"
+        }
+      },
+      adminGroupObjectIDs: {
+        serializedName: "adminGroupObjectIDs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       clientAppID: {
-        required: true,
         serializedName: "clientAppID",
         type: {
           name: "String"
         }
       },
       serverAppID: {
-        required: true,
         serializedName: "serverAppID",
         type: {
           name: "String"
@@ -1892,6 +1919,12 @@ export const ManagedClusterPropertiesAutoScalerProfile: msRest.CompositeMapper =
     name: "Composite",
     className: "ManagedClusterPropertiesAutoScalerProfile",
     modelProperties: {
+      balanceSimilarNodeGroups: {
+        serializedName: "balance-similar-node-groups",
+        type: {
+          name: "Boolean"
+        }
+      },
       scanInterval: {
         serializedName: "scan-interval",
         type: {
@@ -2010,6 +2043,28 @@ export const ManagedClusterIdentity: msRest.CompositeMapper = {
             "SystemAssigned",
             "None"
           ]
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterSKU: msRest.CompositeMapper = {
+  serializedName: "ManagedClusterSKU",
+  type: {
+    name: "Composite",
+    className: "ManagedClusterSKU",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2177,6 +2232,13 @@ export const ManagedCluster: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterIdentity"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterSKU"
         }
       }
     }
