@@ -227,7 +227,7 @@ export class ManagementClient extends LinkEntity {
             const ehError = translate(context.session!.error!);
             log.error(
               "[%s] An error occurred on the session for request/response links for " +
-                "$management: %O",
+              "$management: %O",
               id,
               ehError
             );
@@ -236,7 +236,7 @@ export class ManagementClient extends LinkEntity {
         const sropt: SenderOptions = { target: { address: this.address } };
         log.mgmt(
           "[%s] Creating sender/receiver links on a session for $management endpoint with " +
-            "srOpts: %o, receiverOpts: %O.",
+          "srOpts: %o, receiverOpts: %O.",
           this._context.namespace.connectionId,
           sropt,
           rxopt
@@ -324,6 +324,32 @@ export class ManagementClient extends LinkEntity {
     }
     // Returns the time taken by the init operation
     return Date.now() - initOperationStartTime;
+  }
+
+
+  // TO DO - Any better name??
+  private async _managementLinkSendRequestHelper(request: AmqpMessage, timeoutInMs: number): Promise<AmqpMessage> {
+    try {
+      return await this._mgmtReqResLink!.sendRequest(request, {
+        abortSignal: undefined,
+        requestName: undefined,
+        timeoutInMs: timeoutInMs
+      });
+    } catch (err) {
+      err = translate(err);
+      const address =
+        this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
+          ? "address"
+          : this._mgmtReqResLink!.sender.address;
+      log.warning(
+        "[%s] An error occurred during send on management request-response link with address " +
+        "'%s': %O",
+        this._context.namespace.connectionId,
+        address,
+        err
+      );
+      throw err;
+    }
   }
   /**
    * Helper function to retrieve active receiver name, if it exists.
@@ -491,46 +517,25 @@ export class ManagementClient extends LinkEntity {
           } catch (error) {
             reject(translate(error));
           }
-          try {
-            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
 
-            const sendRequestOptions: SendRequestOptions = {
-              abortSignal: undefined,
-              requestName: undefined,
-              timeoutInMs: remainingOperationTimeoutInMs
-            };
-            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
-            if (result.application_properties!.statusCode !== 204) {
-              const messages = result.body.messages as { message: Buffer }[];
-              for (const msg of messages) {
-                const decodedMessage = RheaMessageUtil.decode(msg.message);
-                const message = fromAmqpMessage(decodedMessage as any);
-                message.body = this._context.namespace.dataTransformer.decode(message.body);
-                messageList.push(message);
-                this._lastPeekedSequenceNumber = message.sequenceNumber!;
-              }
+          const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+          const result = await this._managementLinkSendRequestHelper(request, remainingOperationTimeoutInMs)
+          if (result.application_properties!.statusCode !== 204) {
+            const messages = result.body.messages as { message: Buffer }[];
+            for (const msg of messages) {
+              const decodedMessage = RheaMessageUtil.decode(msg.message);
+              const message = fromAmqpMessage(decodedMessage as any);
+              message.body = this._context.namespace.dataTransformer.decode(message.body);
+              messageList.push(message);
+              this._lastPeekedSequenceNumber = message.sequenceNumber!;
             }
-            resolve(messageList);
-          } catch (err) {
-            err = translate(err);
-            const address =
-              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
-                ? "address"
-                : this._mgmtReqResLink!.sender.address;
-            log.warning(
-              "[%s] An error occurred during send on management request-response link with address " +
-                "'%s': %O",
-              this._context.namespace.connectionId,
-              address,
-              err
-            );
-            reject(err);
           }
+          resolve(messageList);
         } catch (err) {
           const error = translate(err) as MessagingError;
           log.error(
             "An error occurred while sending the request to peek messages to " +
-              "$management endpoint: %O",
+            "$management endpoint: %O",
             error
           );
           // statusCode == 404 then do not throw
@@ -727,7 +732,7 @@ export class ManagementClient extends LinkEntity {
                 : this._mgmtReqResLink!.sender.address;
             log.warning(
               "[%s] An error occurred during send on management request-response link with address " +
-                "'%s': %O",
+              "'%s': %O",
               this._context.namespace.connectionId,
               address,
               err
@@ -747,7 +752,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to schedule messages to " +
-          "$management endpoint: %O",
+        "$management endpoint: %O",
         error
       );
       throw error;
@@ -772,7 +777,7 @@ export class ManagementClient extends LinkEntity {
         const error = translate(err);
         log.error(
           "An error occurred while encoding the item at position %d in the " +
-            "sequenceNumbers array: %O",
+          "sequenceNumbers array: %O",
           i,
           error
         );
@@ -832,7 +837,7 @@ export class ManagementClient extends LinkEntity {
                 : this._mgmtReqResLink!.sender.address;
             log.warning(
               "[%s] An error occurred during send on management request-response link with address " +
-                "'%s': %O",
+              "'%s': %O",
               this._context.namespace.connectionId,
               address,
               err
@@ -851,7 +856,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to cancel the scheduled message to " +
-          "$management endpoint: %O",
+        "$management endpoint: %O",
         error
       );
       throw error;
@@ -888,7 +893,7 @@ export class ManagementClient extends LinkEntity {
         const error = translate(err);
         log.error(
           "An error occurred while encoding the item at position %d in the " +
-            "sequenceNumbers array: %O",
+          "sequenceNumbers array: %O",
           i,
           error
         );
@@ -974,7 +979,7 @@ export class ManagementClient extends LinkEntity {
                 : this._mgmtReqResLink!.sender.address;
             log.warning(
               "[%s] An error occurred during send on management request-response link with address " +
-                "'%s': %O",
+              "'%s': %O",
               this._context.namespace.connectionId,
               address,
               err
@@ -994,7 +999,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to receive deferred messages to " +
-          "$management endpoint: %O",
+        "$management endpoint: %O",
         error
       );
       throw error;
@@ -1066,7 +1071,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to update disposition status to " +
-          "$management endpoint: %O",
+        "$management endpoint: %O",
         error
       );
       throw error;
@@ -1146,7 +1151,7 @@ export class ManagementClient extends LinkEntity {
                 : this._mgmtReqResLink!.sender.address;
             log.warning(
               "[%s] An error occurred during send on management request-response link with address " +
-                "'%s': %O",
+              "'%s': %O",
               this._context.namespace.connectionId,
               address,
               err
@@ -1239,7 +1244,7 @@ export class ManagementClient extends LinkEntity {
                 : this._mgmtReqResLink!.sender.address;
             log.warning(
               "[%s] An error occurred during send on management request-response link with address " +
-                "'%s': %O",
+              "'%s': %O",
               this._context.namespace.connectionId,
               address,
               err
@@ -1328,7 +1333,7 @@ export class ManagementClient extends LinkEntity {
                 : this._mgmtReqResLink!.sender.address;
             log.warning(
               "[%s] An error occurred during send on management request-response link with address " +
-                "'%s': %O",
+              "'%s': %O",
               this._context.namespace.connectionId,
               address,
               err
