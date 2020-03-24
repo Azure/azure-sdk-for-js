@@ -2,8 +2,7 @@
 
 ## 2.0.0-preview.1 (Unreleased)
 
-- Fixes [bug 7598][https://github.com/azure/azure-sdk-for-js/issues/7958] where the dead letter error and description could be populated
-  incorrectly.
+- Fixes [bug 7598][https://github.com/azure/azure-sdk-for-js/issues/7958] where the dead letter error and description could be populated incorrectly.
 
 ### Breaking Changes
 
