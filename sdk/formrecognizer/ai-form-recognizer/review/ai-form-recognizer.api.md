@@ -539,27 +539,16 @@ export interface RawExtractedPage {
 
 // @public
 export interface RawReceipt {
-    // (undocumented)
     Items: ReceiptItemArrayField;
-    // (undocumented)
     MerchantAddress: StringFieldValue;
-    // (undocumented)
     MerchantName: StringFieldValue;
-    // (undocumented)
     MerchantPhoneNumber: PhoneNumberFieldValue;
-    // (undocumented)
     ReceiptType: StringFieldValue;
-    // (undocumented)
     Subtotal: NumberFieldValue;
-    // (undocumented)
     Tax: NumberFieldValue;
-    // (undocumented)
     Tip: NumberFieldValue;
-    // (undocumented)
     Total: NumberFieldValue;
-    // (undocumented)
     TransactionDate: DateFieldValue;
-    // (undocumented)
     TransactionTime: TimeFieldValue;
 }
 
@@ -574,39 +563,24 @@ export interface RawReceiptResult {
 
 // @public
 export interface Receipt {
-    // (undocumented)
     items: ReceiptItem[];
-    // (undocumented)
     merchantAddress?: string;
-    // (undocumented)
     merchantName?: string;
-    // (undocumented)
     merchantPhoneNumber?: string;
-    // (undocumented)
     receiptType: string;
-    // (undocumented)
     subtotal?: number;
-    // (undocumented)
     tax?: number;
-    // (undocumented)
     tip?: number;
-    // (undocumented)
     total?: number;
-    // (undocumented)
     transactionDate?: string;
-    // (undocumented)
     transactionTime?: string;
 }
 
 // @public
 export interface ReceiptItem {
-    // (undocumented)
     name?: string;
-    // (undocumented)
     price?: number;
-    // (undocumented)
     quantity?: number;
-    // (undocumented)
     totalPrice?: number;
 }
 

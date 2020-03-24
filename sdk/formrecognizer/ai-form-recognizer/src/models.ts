@@ -420,9 +420,21 @@ export type ReceiptItemField = {
  * The values in an extracted receipt item field
  */
 export interface ReceiptItem {
+  /**
+   * Name of the receipt item
+   */
   name?: string;
+  /**
+   * Price of the receipt item
+   */
   price?: number;
+  /**
+   * Quantity of the receipt item
+   */
   quantity?: number;
+  /**
+   * Total price of the receipt item
+   */
   totalPrice?: number;
 }
 
@@ -438,16 +450,49 @@ export interface ReceiptItemArrayField {
  * Represents extracted receipt fields in a receipt
  */
 export interface RawReceipt {
+  /**
+   * Receipt type field
+   */
   ReceiptType: StringFieldValue;
+  /**
+   * Merchant name field
+   */
   MerchantName: StringFieldValue;
+  /**
+   * Merchant phone number field
+   */
   MerchantPhoneNumber: PhoneNumberFieldValue;
+  /**
+   * Merchant address field
+   */
   MerchantAddress: StringFieldValue;
+  /**
+   * Receipt item list field
+   */
   Items: ReceiptItemArrayField;
+  /**
+   * Subtotal field
+   */
   Subtotal: NumberFieldValue;
+  /**
+   * Tax field
+   */
   Tax: NumberFieldValue;
+  /**
+   * Tip field
+   */
   Tip: NumberFieldValue;
+  /**
+   * Total field
+   */
   Total: NumberFieldValue;
+  /**
+   * Transaction date field
+   */
   TransactionDate: DateFieldValue;
+  /**
+   * Transaction time field
+   */
   TransactionTime: TimeFieldValue;
 }
 
@@ -455,16 +500,49 @@ export interface RawReceipt {
  * Represents text values in a receipt
  */
 export interface Receipt {
+  /**
+   * Receipt type, e.g., "Itemized"
+   */
   receiptType: string;
+  /**
+   * Merchant name
+   */
   merchantName?: string;
+  /**
+   * Merchant phone number
+   */
   merchantPhoneNumber?: string;
+  /**
+   * Merchant address
+   */
   merchantAddress?: string;
+  /**
+   * items in the receipt
+   */
   items: ReceiptItem[];
+  /**
+   * Subtotal
+   */
   subtotal?: number;
+  /**
+   * Tax
+   */
   tax?: number;
+  /**
+   * Tip
+   */
   tip?: number;
+  /**
+   * Total
+   */
   total?: number;
+  /**
+   * Transaction date
+   */
   transactionDate?: string;
+  /**
+   * Transaction time
+   */
   transactionTime?: string;
 }
 
