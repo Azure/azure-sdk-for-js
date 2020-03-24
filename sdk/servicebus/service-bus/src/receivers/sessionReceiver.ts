@@ -11,7 +11,7 @@ import {
   ReceivedMessage
 } from "..";
 
-import { GetMessageIteratorOptions } from "../models";
+import { GetMessageIteratorOptions, GetReceiverOptions } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
   throwErrorIfConnectionClosed,
@@ -125,6 +125,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
 
   private _context: ClientEntityContext;
+  private _receiverOptions: GetReceiverOptions;
   private _messageSession: MessageSession | undefined;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
@@ -139,12 +140,13 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    private _sessionOptions: SessionReceiverOptions
+    private _sessionOptions: SessionReceiverOptions,
+    receiverOptions: GetReceiverOptions
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
     this.entityPath = this._context.entityPath;
-
+    this._receiverOptions = receiverOptions;
     this.diagnostics = {
       peek: (maxMessageCount) => this._peek(maxMessageCount),
       peekBySequenceNumber: (fromSequenceNumber, maxMessageCount) =>
@@ -187,6 +189,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   }
 
   private async _createMessageSessionIfDoesntExist(): Promise<void> {
+    // TO DO - retry options for this??
     if (this._messageSession) {
       return;
     }
@@ -260,7 +263,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     await this._createMessageSessionIfDoesntExist();
 
     this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-      this.sessionId!
+      this.sessionId!,
+      this._receiverOptions
     );
     return this._messageSession!.sessionLockedUntilUtc!;
   }
@@ -275,7 +279,11 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   async setState(state: any): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.setSessionState(this.sessionId!, state);
+    return this._context.managementClient!.setSessionState(
+      this.sessionId!,
+      state,
+      this._receiverOptions
+    );
   }
 
   /**
@@ -288,7 +296,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   async getState(): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
     await this._createMessageSessionIfDoesntExist();
-    return this._context.managementClient!.getSessionState(this.sessionId!);
+    return this._context.managementClient!.getSessionState(this.sessionId!, this._receiverOptions);
   }
 
   /**
@@ -309,7 +317,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     await this._createMessageSessionIfDoesntExist();
     const internalMessages = await this._context.managementClient!.peekMessagesBySession(
       this.sessionId!,
-      maxMessageCount
+      maxMessageCount,
+      this._receiverOptions
     );
     return internalMessages.map((m) => m as ReceivedMessage);
   }
@@ -335,7 +344,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
       fromSequenceNumber,
       maxMessageCount,
-      this.sessionId
+      this.sessionId,
+      this._receiverOptions
     );
 
     return internalMessages.map((m) => m as ReceivedMessage);
@@ -367,7 +377,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const messages = await this._context.managementClient!.receiveDeferredMessages(
       [sequenceNumber],
       convertToInternalReceiveMode(this.receiveMode),
-      this.sessionId
+      this.sessionId,
+      this._receiverOptions
     );
     return (messages[0] as any) as ReceivedMessageT;
   }
@@ -401,7 +412,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
       sequenceNumbers,
       convertToInternalReceiveMode(this.receiveMode),
-      this.sessionId
+      this.sessionId,
+      this._receiverOptions
     );
 
     return (deferredMessages as any) as ReceivedMessageT[];
@@ -432,12 +444,14 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const receivedMessages = await this._messageSession!.receiveMessages(
       maxMessageCount,
       options?.maxWaitTimeSeconds
+      // this._receiverOptions - No need to pass?
     );
 
     return (receivedMessages as any) as ReceivedMessageT[];
   }
 
   subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
+    // TO DO - receiverOptions for subscribe??
     assertValidMessageHandlers(handlers);
 
     this._registerMessageHandler(

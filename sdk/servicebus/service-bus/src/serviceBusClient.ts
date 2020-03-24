@@ -243,6 +243,12 @@ export class ServiceBusClient {
       throw new TypeError("Invalid receiveMode provided");
     }
 
+    if (!options) {
+      options = {};
+    }
+    if (!options.retryOptions) {
+      options.retryOptions = this._clientOptions.retryOptions;
+    }
     const clientEntityContext = ClientEntityContext.create(
       entityPath,
       ClientType.ServiceBusReceiverClient,
@@ -251,10 +257,15 @@ export class ServiceBusClient {
     );
 
     // TODO: .NET actually tries to open the session here so we'd need to be async for that.
-    return new SessionReceiverImpl(clientEntityContext, receiveMode, {
-      sessionId: options?.sessionId,
-      maxSessionAutoRenewLockDurationInSeconds: options?.maxSessionAutoRenewLockDurationInSeconds
-    });
+    return new SessionReceiverImpl(
+      clientEntityContext,
+      receiveMode,
+      {
+        sessionId: options?.sessionId,
+        maxSessionAutoRenewLockDurationInSeconds: options?.maxSessionAutoRenewLockDurationInSeconds
+      },
+      options
+    );
   }
 
   /**

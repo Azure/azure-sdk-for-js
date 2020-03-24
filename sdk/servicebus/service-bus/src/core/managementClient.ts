@@ -373,7 +373,8 @@ export class ManagementClient extends LinkEntity {
    */
   async peekMessagesBySession(
     sessionId: string,
-    messageCount?: number
+    messageCount?: number,
+    receiverOptions?: GetReceiverOptions
   ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(
@@ -1144,10 +1145,14 @@ export class ManagementClient extends LinkEntity {
    * @param options Options that can be set while sending the request.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewSessionLock(sessionId: string, options?: SendRequestOptions): Promise<Date> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+  async renewSessionLock(
+    sessionId: string,
+    options?: GetReceiverOptions & SendRequestOptions
+  ): Promise<Date> {
     if (!options) options = {};
-    if (options.timeoutInMs == null) options.timeoutInMs = 5000;
+    const retryOptions = options.retryOptions || {};
+
+    throwErrorIfConnectionClosed(this._context.namespace);
     try {
       const messageBody: any = {};
       messageBody[Constants.sessionIdMapKey] = sessionId;
@@ -1168,22 +1173,87 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
-      });
-      const result = await this._mgmtReqResLink!.sendRequest(request, options);
-      const lockedUntilUtc = new Date(result.body.expiration);
-      log.mgmt(
-        "[%s] Lock for session '%s' will expire at %s.",
-        this._context.namespace.connectionId,
-        sessionId,
-        lockedUntilUtc.toString()
-      );
-      return lockedUntilUtc;
+
+      const renewSessionLockOperationPromise = () =>
+        new Promise<Date>(async (resolve, reject) => {
+          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+          let timeTakenByInit = 0;
+
+          // TO DO - Refactor this if block - move to a common place in managementClient
+          if (!this._isMgmtRequestResponseLinkOpen()) {
+            log.mgmt(
+              "[%s] Acquiring lock to get the management req res link.",
+              this._context.namespace.connectionId
+            );
+
+            const initOperationStartTime = Date.now();
+
+            const actionAfterTimeout = () => {
+              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+              const e: Error = {
+                name: "OperationTimeoutError",
+                message: desc
+              };
+
+              return reject(translate(e));
+            };
+
+            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
+
+            try {
+              await defaultLock.acquire(this.managementLock, () => {
+                return this._init();
+              });
+            } catch (err) {
+              return reject(translate(err));
+            } finally {
+              clearTimeout(waitTimer);
+            }
+            timeTakenByInit = Date.now() - initOperationStartTime;
+          }
+          try {
+            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+            if (!options) {
+              options = {};
+            }
+            const sendRequestOptions: SendRequestOptions = {
+              abortSignal: options?.abortSignal,
+              requestName: options?.requestName,
+              timeoutInMs: remainingOperationTimeoutInMs
+            };
+            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+            const lockedUntilUtc = new Date(result.body.expiration);
+            log.mgmt(
+              "[%s] Lock for session '%s' will expire at %s.",
+              this._context.namespace.connectionId,
+              sessionId,
+              lockedUntilUtc.toString()
+            );
+            resolve(lockedUntilUtc);
+          } catch (err) {
+            err = translate(err);
+            const address =
+              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
+                ? "address"
+                : this._mgmtReqResLink!.sender.address;
+            log.warning(
+              "[%s] An error occurred during send on management request-response link with address " +
+                "'%s': %O",
+              this._context.namespace.connectionId,
+              address,
+              err
+            );
+            reject(err);
+          }
+        });
+
+      const config: RetryConfig<Date> = {
+        operation: renewSessionLockOperationPromise,
+        connectionId: this._context.namespace.connectionId,
+        operationType: RetryOperationType.management,
+        retryOptions: retryOptions
+      };
+      return await retry<Date>(config);
     } catch (err) {
       const error = translate(err);
       log.error(
@@ -1200,7 +1270,13 @@ export class ManagementClient extends LinkEntity {
    * @param state The state that needs to be set.
    * @returns Promise<void>
    */
-  async setSessionState(sessionId: string, state: any): Promise<void> {
+  async setSessionState(
+    sessionId: string,
+    state: any,
+    options?: GetReceiverOptions
+  ): Promise<void> {
+    if (!options) options = {};
+    const retryOptions = options.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
 
     try {
@@ -1224,14 +1300,80 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
-      });
-      await this._mgmtReqResLink!.sendRequest(request);
+
+      const setSessionStateOperationPromise = () =>
+        new Promise<void>(async (resolve, reject) => {
+          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+          let timeTakenByInit = 0;
+
+          // TO DO - Refactor this if block - move to a common place in managementClient
+          if (!this._isMgmtRequestResponseLinkOpen()) {
+            log.mgmt(
+              "[%s] Acquiring lock to get the management req res link.",
+              this._context.namespace.connectionId
+            );
+
+            const initOperationStartTime = Date.now();
+
+            const actionAfterTimeout = () => {
+              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+              const e: Error = {
+                name: "OperationTimeoutError",
+                message: desc
+              };
+
+              return reject(translate(e));
+            };
+
+            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
+
+            try {
+              await defaultLock.acquire(this.managementLock, () => {
+                return this._init();
+              });
+            } catch (err) {
+              return reject(translate(err));
+            } finally {
+              clearTimeout(waitTimer);
+            }
+            timeTakenByInit = Date.now() - initOperationStartTime;
+          }
+          try {
+            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+            if (!options) {
+              options = {};
+            }
+            const sendRequestOptions: SendRequestOptions = {
+              abortSignal: undefined,
+              requestName: undefined,
+              timeoutInMs: remainingOperationTimeoutInMs
+            };
+            await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+            resolve();
+          } catch (err) {
+            err = translate(err);
+            const address =
+              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
+                ? "address"
+                : this._mgmtReqResLink!.sender.address;
+            log.warning(
+              "[%s] An error occurred during send on management request-response link with address " +
+                "'%s': %O",
+              this._context.namespace.connectionId,
+              address,
+              err
+            );
+            reject(err);
+          }
+        });
+
+      const config: RetryConfig<void> = {
+        operation: setSessionStateOperationPromise,
+        connectionId: this._context.namespace.connectionId,
+        operationType: RetryOperationType.management,
+        retryOptions: retryOptions
+      };
+      return await retry<void>(config);
     } catch (err) {
       const error = translate(err);
       log.error(
@@ -1247,7 +1389,9 @@ export class ManagementClient extends LinkEntity {
    * @param sessionId The session for which the state needs to be retrieved.
    * @returns Promise<any> The state of that session
    */
-  async getSessionState(sessionId: string): Promise<any> {
+  async getSessionState(sessionId: string, receiverOptions?: GetReceiverOptions): Promise<any> {
+    if (!receiverOptions) receiverOptions = {};
+    const retryOptions = receiverOptions.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       const messageBody: any = {};
@@ -1269,17 +1413,79 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
-      });
-      const result = await this._mgmtReqResLink!.sendRequest(request);
-      return result.body["session-state"]
-        ? this._context.namespace.dataTransformer.decode(result.body["session-state"])
-        : result.body["session-state"];
+
+      const getSessionStateOperationPromise = () =>
+        new Promise<any>(async (resolve, reject) => {
+          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+          let timeTakenByInit = 0;
+
+          // TO DO - Refactor this if block - move to a common place in managementClient
+          if (!this._isMgmtRequestResponseLinkOpen()) {
+            log.mgmt(
+              "[%s] Acquiring lock to get the management req res link.",
+              this._context.namespace.connectionId
+            );
+
+            const initOperationStartTime = Date.now();
+
+            const actionAfterTimeout = () => {
+              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+              const e: Error = {
+                name: "OperationTimeoutError",
+                message: desc
+              };
+
+              return reject(translate(e));
+            };
+
+            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
+
+            try {
+              await defaultLock.acquire(this.managementLock, () => {
+                return this._init();
+              });
+            } catch (err) {
+              return reject(translate(err));
+            } finally {
+              clearTimeout(waitTimer);
+            }
+            timeTakenByInit = Date.now() - initOperationStartTime;
+          }
+          try {
+            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+
+            const sendRequestOptions: SendRequestOptions = {
+              abortSignal: undefined,
+              requestName: undefined,
+              timeoutInMs: remainingOperationTimeoutInMs
+            };
+            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+            return result.body["session-state"]
+              ? this._context.namespace.dataTransformer.decode(result.body["session-state"])
+              : result.body["session-state"];
+          } catch (err) {
+            err = translate(err);
+            const address =
+              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
+                ? "address"
+                : this._mgmtReqResLink!.sender.address;
+            log.warning(
+              "[%s] An error occurred during send on management request-response link with address " +
+                "'%s': %O",
+              this._context.namespace.connectionId,
+              address,
+              err
+            );
+            reject(err);
+          }
+        });
+      const config: RetryConfig<any> = {
+        operation: getSessionStateOperationPromise,
+        connectionId: this._context.namespace.connectionId,
+        operationType: RetryOperationType.management,
+        retryOptions: retryOptions
+      };
+      return await retry<any>(config);
     } catch (err) {
       const error = translate(err);
       log.error(
