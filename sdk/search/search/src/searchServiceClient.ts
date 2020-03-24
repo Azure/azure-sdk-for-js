@@ -114,11 +114,6 @@ export class SearchServiceClient {
             "Prefer",
             "throttle-reason"
           ]
-        },
-        deserializationOptions: {
-          expectedContentTypes: {
-            json: ["application/json", "text/json"]
-          }
         }
       }
     };
