@@ -10,5 +10,6 @@ export {
   AccessInformationContract,
   ErrorFieldContract,
   ErrorResponse,
-  TenantAccessGitGetHeaders
+  TenantAccessGitGetHeaders,
+  TenantAccessGitListSecretsHeaders
 } from "../models/mappers";
