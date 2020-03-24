@@ -2,6 +2,7 @@ import * as assert from "assert";
 import { Buffer } from "buffer";
 import * as fs from "fs";
 import * as path from "path";
+import * as zlib from "zlib";
 import { Duplex } from "stream";
 
 import { record, Recorder } from "@azure/test-utils-recorder";
@@ -218,4 +219,20 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range1, 512), "a".repeat(512));
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
+
+  it.only("should not decompress during downloading", async () => {
+    const body: string = "hello world body string!";
+    const deflated = zlib.deflateSync(body);
+
+    await fileClient.uploadData(deflated, {
+      fileHttpHeaders: {
+        fileContentEncoding: "deflate",
+        fileContentType: "text/plain",
+      },
+    });
+
+    const downloaded = await fileClient.downloadToBuffer();
+    assert.deepStrictEqual(downloaded, deflated);
+  });
+
 });

@@ -71,7 +71,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "dist-test/index.node.js";
 
     // mark assert as external
-    baseConfig.external.push("assert", "fs", "path");
+    baseConfig.external.push("assert", "fs", "path", "buffer", "zlib");
 
     baseConfig.context = "null";
 
