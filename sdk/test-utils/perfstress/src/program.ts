@@ -9,6 +9,7 @@ import {
   printOptions,
   defaultPerfStressOptions
 } from "./perfStressOptions";
+import { PerfStressTestError } from ".";
 
 export type TestType = "";
 
@@ -63,6 +64,10 @@ export class PerfStressProgram {
       }
       try {
         await this.test.run(abortController.signal);
+      } catch (e) {
+        if (!(e instanceof PerfStressTestError)) {
+          throw e;
+        }
       } finally {
         // Nothing to do here
       }
@@ -145,12 +150,20 @@ export class PerfStressProgram {
         for (let i = 0; i < iterations; i++) {
           await this.runTest(i, Number(options.duration.value), "test");
         }
+      } catch (e) {
+        if (!(e instanceof PerfStressTestError)) {
+          throw e;
+        }
       } finally {
         if (!options["no-cleanups"]) {
           if (this.test.cleanup) {
             await this.test.cleanup();
           }
         }
+      }
+    } catch (e) {
+      if (!(e instanceof PerfStressTestError)) {
+        throw e;
       }
     } finally {
       if (!options["no-cleanups"]) {

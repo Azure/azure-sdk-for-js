@@ -61,12 +61,12 @@
   "private": true,
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
+    "@azure/core-http": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "tslib": "^1.10.0",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
-    "@azure/core-http": "^1.0.0",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",

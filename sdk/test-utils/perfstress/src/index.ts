@@ -3,5 +3,6 @@
 
 export * from "./perfStressTest";
 export * from "./perfStressOptions";
+export * from "./perfStressPolicy";
 export * from "./program";
 export * from "./errors";
