@@ -1,15 +1,15 @@
 /*
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the MIT Licence.
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
 
-This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
-appear on a Service Bus Queue/Subscription at a later time.
+  This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
+  appear on a Service Bus Queue/Subscription at a later time.
 
-See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sequencing#scheduled-messages
-to learn about scheduling messages.
+  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sequencing#scheduled-messages
+  to learn about scheduling messages.
 */
 
-const { delay, ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
+const { delay, ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -17,52 +17,21 @@ require("dotenv").config();
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
-
 const listOfScientists = [
-  {
-    lastName: "Einstein",
-    firstName: "Albert"
-  },
-  {
-    lastName: "Heisenberg",
-    firstName: "Werner"
-  },
-  {
-    lastName: "Curie",
-    firstName: "Marie"
-  },
-  {
-    lastName: "Hawking",
-    firstName: "Steven"
-  },
-  {
-    lastName: "Newton",
-    firstName: "Isaac"
-  },
-  {
-    lastName: "Bohr",
-    firstName: "Niels"
-  },
-  {
-    lastName: "Faraday",
-    firstName: "Michael"
-  },
-  {
-    lastName: "Galilei",
-    firstName: "Galileo"
-  },
-  {
-    lastName: "Kepler",
-    firstName: "Johannes"
-  },
-  {
-    lastName: "Kopernikus",
-    firstName: "Nikolaus"
-  }
+  { lastName: "Einstein", firstName: "Albert" },
+  { lastName: "Heisenberg", firstName: "Werner" },
+  { lastName: "Curie", firstName: "Marie" },
+  { lastName: "Hawking", firstName: "Steven" },
+  { lastName: "Newton", firstName: "Isaac" },
+  { lastName: "Bohr", firstName: "Niels" },
+  { lastName: "Faraday", firstName: "Michael" },
+  { lastName: "Galilei", firstName: "Galileo" },
+  { lastName: "Kepler", firstName: "Johannes" },
+  { lastName: "Kopernikus", firstName: "Nikolaus" }
 ];
 
 async function main() {
-  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = new ServiceBusClient(connectionString);
   try {
     await sendScheduledMessages(sbClient);
 
@@ -74,9 +43,8 @@ async function main() {
 
 // Scheduling messages to be sent after 10 seconds from now
 async function sendScheduledMessages(sbClient) {
-  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
-  const sender = queueClient.createSender();
+  // getSender() handles sending to a queue or a topic
+  const sender = sbClient.getSender(queueName);
 
   const messages = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -94,38 +62,42 @@ async function sendScheduledMessages(sbClient) {
 }
 
 async function receiveMessages(sbClient) {
-  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
+  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  // instead.
+  let queueReceiver = sbClient.getReceiver(queueName, "peekLock");
 
   let numOfMessagesReceived = 0;
-  const onMessageHandler = async (brokeredMessage) => {
+  const processMessage = async (brokeredMessage) => {
     numOfMessagesReceived++;
     console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
     await brokeredMessage.complete();
   };
-  const onErrorHandler = (err) => {
+  const processError = async (err) => {
     console.log("Error occurred: ", err);
   };
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
-
-  let receiver = queueClient.createReceiver(ReceiveMode.peekLock);
-  receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
+  queueReceiver.subscribe({
+    processMessage,
+    processError
+  });
   await delay(5000);
-  await receiver.close();
+  await queueReceiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
 
   await delay(5000);
-  receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
-
-  receiver.registerMessageHandler(onMessageHandler, onErrorHandler);
+  queueReceiver = sbClient.getReceiver(queueName, "peekLock");
+  queueReceiver.subscribe({
+    processMessage,
+    processError
+  });
   await delay(5000);
-  await receiver.close();
+  await queueReceiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
 
-  await queueClient.close();
+  await sbClient.close();
 }
 
 main().catch((err) => {

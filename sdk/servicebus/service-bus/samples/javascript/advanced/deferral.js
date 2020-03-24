@@ -1,17 +1,17 @@
 /*
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the MIT Licence.
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
 
-This sample demonstrates how the defer() function can be used to defer a message for later processing.
+  This sample demonstrates how the defer() function can be used to defer a message for later processing.
 
-In this sample, we have an application that gets cooking instructions out of order. It uses
-message deferral to defer the instruction that is out of order, and then processes it in order.
+  In this sample, we have an application that gets cooking instructions out of order. It uses
+  message deferral to defer the instruction that is out of order, and then processes it in order.
 
-See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-deferral to learn about
-message deferral.
+  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-deferral to learn about
+  message deferral.
 */
 
-const { ServiceBusClient, ReceiveMode, delay } = require("@azure/service-bus");
+const { ServiceBusClient, delay } = require("@azure/service-bus");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -27,32 +27,16 @@ async function main() {
 
 // Shuffle and send messages
 async function sendMessages() {
-  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
-  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
-  const sender = queueClient.createSender();
+  const sbClient = new ServiceBusClient(connectionString);
+  // getSender() can also be used to create a sender for a topic.
+  const sender = sbClient.getSender(queueName);
 
   const data = [
-    {
-      step: 1,
-      title: "Shop"
-    },
-    {
-      step: 2,
-      title: "Unpack"
-    },
-    {
-      step: 3,
-      title: "Prepare"
-    },
-    {
-      step: 4,
-      title: "Cook"
-    },
-    {
-      step: 5,
-      title: "Eat"
-    }
+    { step: 1, title: "Shop" },
+    { step: 2, title: "Unpack" },
+    { step: 3, title: "Prepare" },
+    { step: 4, title: "Cook" },
+    { step: 5, title: "Eat" }
   ];
   const promises = new Array();
   for (let index = 0; index < data.length; index++) {
@@ -75,20 +59,20 @@ async function sendMessages() {
   }
   // wait until all the send tasks are complete
   await Promise.all(promises);
-  await queueClient.close();
+  await sender.close();
   await sbClient.close();
 }
 
 async function receiveMessage() {
-  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = new ServiceBusClient(connectionString);
 
-  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(queueName);
+  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  let receiver = sbClient.getReceiver(queueName, "peekLock");
 
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
   try {
-    const onMessage = async (brokeredMessage) => {
+    const processMessage = async (brokeredMessage) => {
       if (
         brokeredMessage.label === "RecipeStep" &&
         brokeredMessage.contentType === "application/json"
@@ -116,19 +100,20 @@ async function receiveMessage() {
         await brokeredMessage.deadLetter();
       }
     };
-    const onError = (err) => {
+    const processError = async (err) => {
       console.log(">>>>> Error occurred: ", err);
     };
-
-    let receiver = queueClient.createReceiver(ReceiveMode.peekLock);
-    receiver.registerMessageHandler(onMessage, onError, {
-      autoComplete: false
-    }); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
+    receiver.subscribe(
+      { processMessage, processError },
+      {
+        autoComplete: false
+      }
+    ); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
-    receiver = queueClient.createReceiver(ReceiveMode.peekLock);
+    receiver = sbClient.getReceiver(queueName, "peekLock");
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;
@@ -143,7 +128,7 @@ async function receiveMessage() {
       deferredSteps.delete(step);
       lastProcessedRecipeStep++;
     }
-    await queueClient.close();
+    await receiver.close();
   } finally {
     await sbClient.close();
   }

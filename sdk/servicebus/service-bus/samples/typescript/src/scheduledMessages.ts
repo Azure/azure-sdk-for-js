@@ -16,8 +16,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const listOfScientists = [
@@ -49,7 +48,7 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
   // getSender() handles sending to a queue or a topic
   const sender = sbClient.getSender(queueName);
 
-  const messages: ServiceBusMessage[] = listOfScientists.map(scientist => ({
+  const messages: ServiceBusMessage[] = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
     label: "Scientist"
   }));
@@ -70,14 +69,12 @@ async function receiveMessages(sbClient: ServiceBusClient) {
   let queueReceiver = sbClient.getReceiver(queueName, "peekLock");
 
   let numOfMessagesReceived = 0;
-  const processMessage = async brokeredMessage => {
+  const processMessage = async (brokeredMessage) => {
     numOfMessagesReceived++;
-    console.log(
-      `Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`
-    );
+    console.log(`Received message: ${brokeredMessage.body} - ${brokeredMessage.label}`);
     await brokeredMessage.complete();
   };
-  const processError = async err => {
+  const processError = async (err) => {
     console.log("Error occurred: ", err);
   };
 
@@ -90,13 +87,6 @@ async function receiveMessages(sbClient: ServiceBusClient) {
   await delay(5000);
   await queueReceiver.close();
   console.log(`Received ${numOfMessagesReceived} messages.`);
-
-  // TODO: what is this sample trying to illustrate!?
-  // TODO: what is this sample trying to illustrate!?
-  // TODO: what is this sample trying to illustrate!?
-  // TODO: what is this sample trying to illustrate!?
-  // TODO: what is this sample trying to illustrate!?
-  // TODO: what is this sample trying to illustrate!?
 
   await delay(5000);
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
@@ -115,6 +105,6 @@ async function receiveMessages(sbClient: ServiceBusClient) {
   await sbClient.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });
