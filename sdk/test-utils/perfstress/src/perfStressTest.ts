@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   PerfStressOption,
@@ -10,8 +13,6 @@ import {
 export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {
   public optionsToParse: PerfStressOption[] = defaultPerfStressOptions;
   public parsedOptions: TOptions = {} as TOptions;
-
-  constructor() {}
 
   public printOptions(pick?: "defaultOptions" | "nonDefaultOptions" | "assignedOptions") {
     printOptions(this.optionsToParse, pick);

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { PerfStressTestError } from ".";
 
 export type PerfStressOptionValue = string | number | boolean | undefined;
@@ -70,35 +73,6 @@ export function parsePerfStressOption(
   return parsedOptions;
 }
 
-export function printOptions(
-  options: ParsedPerfStressOptions | PerfStressOption[],
-  pick?: "defaultOptions" | "nonDefaultOptions" | "assignedOptions"
-) {
-  const filteredOptions: PerfStressOption[] = [];
-  for (const longName of Object.keys(options)) {
-    const defaultOption = defaultPerfStressOptions.filter((option) => option.longName === longName);
-    if (pick === "nonDefaultOptions" && defaultOption) {
-      continue;
-    }
-    if (pick === "defaultOptions" && !defaultOption) {
-      continue;
-    }
-    const option =
-      (options as ParsedPerfStressOptions)[longName] ||
-      (options as PerfStressOption[]).filter((option) => option.longName === longName);
-    if (!option) {
-      continue;
-    }
-    if (pick === "assignedOptions" && !option.value) {
-      continue;
-    }
-    filteredOptions.push(option);
-  }
-  if (filteredOptions.length) {
-    console.table(filteredOptions);
-  }
-}
-
 export const defaultPerfStressOptions: PerfStressOption[] = [
   makePerfStressOption(false, "Shows all of the available options", "help", "h"),
   makePerfStressOption(false, "Disables all cleanups", "no-cleanups"),
@@ -128,3 +102,32 @@ export const defaultPerfStressOptions: PerfStressOption[] = [
   makePerfStressOption(false, "Size of payload (in bytes)", "size", "s", 10 * 1024),
   makePerfStressOption(false, "Log frequency in milliseconds", "milliseconds-to-log", "mtl", 1000)
 ];
+
+export function printOptions(
+  options: ParsedPerfStressOptions | PerfStressOption[],
+  pick?: "defaultOptions" | "nonDefaultOptions" | "assignedOptions"
+) {
+  const filteredOptions: PerfStressOption[] = [];
+  for (const longName of Object.keys(options)) {
+    const defaultOption = defaultPerfStressOptions.filter((option) => option.longName === longName);
+    if (pick === "nonDefaultOptions" && defaultOption) {
+      continue;
+    }
+    if (pick === "defaultOptions" && !defaultOption) {
+      continue;
+    }
+    const option =
+      (options as ParsedPerfStressOptions)[longName] ||
+      (options as PerfStressOption[]).filter((option) => option.longName === longName);
+    if (!option) {
+      continue;
+    }
+    if (pick === "assignedOptions" && !option.value) {
+      continue;
+    }
+    filteredOptions.push(option);
+  }
+  if (filteredOptions.length) {
+    console.table(filteredOptions);
+  }
+}

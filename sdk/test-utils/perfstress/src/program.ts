@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AbortController } from "@azure/abort-controller";
 import { PerfStressTest } from "./perfStressTest";
 import {
@@ -33,7 +36,7 @@ export class PerfStressProgram {
     this.test.parseOptions();
   }
 
-  private logResults(parallels: PerfStressParallel[]) {
+  private logResults(parallels: PerfStressParallel[]): void {
     const totalOperations = parallels.reduce((sum, i) => sum + i.completedOperations!, 0);
     const operationsPerSecond = parallels.reduce((sum, parallel) => {
       return sum + parallel.completedOperations! / (parallel.lastMillisecondsElapsed! / 1000);
@@ -51,7 +54,7 @@ export class PerfStressProgram {
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
-  ) {
+  ): Promise<void> {
     const startedAt = new Date().getTime();
     while (!abortController.signal.aborted) {
       // The event loop is too busy to listen to the setTimeout...
@@ -61,6 +64,7 @@ export class PerfStressProgram {
       try {
         await this.test.run(abortController.signal);
       } finally {
+        // Nothing to do here
       }
       parallel.completedOperations! += 1;
       parallel.lastMillisecondsElapsed = new Date().getTime() - startedAt!;
@@ -98,7 +102,7 @@ export class PerfStressProgram {
     }, millisecondsToLog);
 
     for (let i = 0; i < parallel; i++) {
-      let parallel: PerfStressParallel = {
+      const parallel: PerfStressParallel = {
         completedOperations: 0
       };
       parallels[i] = parallel;
@@ -114,7 +118,7 @@ export class PerfStressProgram {
     this.logResults(parallels);
   }
 
-  public async run() {
+  public async run(): Promise<void> {
     // There should be no test execution if the help option is passed.
     if (this.options.help.value) {
       return;

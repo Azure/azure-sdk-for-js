@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export class PerfStressTestError extends Error {
   constructor(message?: string) {
     // 'Error' breaks prototype chain here

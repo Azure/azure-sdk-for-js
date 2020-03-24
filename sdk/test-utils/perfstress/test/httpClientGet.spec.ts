@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as https from "https";
 import * as url from "url";
 import {
@@ -36,7 +39,7 @@ export class HTTPSGetTest extends PerfStressTest<ParsedHTTPSRequestOptions> {
     ...defaultPerfStressOptions,
     makePerfStressOption(true, "URL for the HTTP GET Test", "url", "u")
   ];
-  async run() {
+  async run(): Promise<void> {
     await makeHTTPSRequest(this.parsedOptions!.url.value as string);
   }
 }
