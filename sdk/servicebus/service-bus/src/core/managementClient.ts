@@ -479,7 +479,14 @@ export class ManagementClient extends LinkEntity {
             timeTakenByInit = Date.now() - initOperationStartTime;
           }
           try {
-            const result = await this._mgmtReqResLink!.sendRequest(request);
+            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+
+            const sendRequestOptions: SendRequestOptions = {
+              abortSignal: undefined,
+              requestName: undefined,
+              timeoutInMs: remainingOperationTimeoutInMs
+            };
+            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
             if (result.application_properties!.statusCode !== 204) {
               const messages = result.body.messages as { message: Buffer }[];
               for (const msg of messages) {

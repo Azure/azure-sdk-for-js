@@ -51,8 +51,10 @@ export { Delivery }
 export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
 }
 
+// Warning: (ae-forgotten-export) The symbol "GetReceiverOptions" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface GetSessionReceiverOptions extends OperationOptions {
+export interface GetSessionReceiverOptions extends GetReceiverOptions, OperationOptions {
     maxSessionAutoRenewLockDurationInSeconds?: number;
     sessionId?: string;
 }
@@ -156,7 +158,6 @@ export class ServiceBusClient {
     getDeadLetterReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
     getDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
     getDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    // Warning: (ae-forgotten-export) The symbol "GetReceiverOptions" needs to be exported by the entry point index.d.ts
     getReceiver(queueName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
     getReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
     getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
