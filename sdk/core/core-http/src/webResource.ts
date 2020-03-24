@@ -318,7 +318,7 @@ export class WebResource implements WebResourceLike {
         baseUrl +
         (baseUrl.endsWith("/") ? "" : "/") +
         (pathTemplate.startsWith("/") ? pathTemplate.slice(1) : pathTemplate);
-      const segments = url.match(/({\w*\s*\w*})/gi);
+      const segments = url.match(/({[\w\-]*\s*[\w\-]*})/gi);
       if (segments && segments.length) {
         if (!pathParameters) {
           throw new Error(
