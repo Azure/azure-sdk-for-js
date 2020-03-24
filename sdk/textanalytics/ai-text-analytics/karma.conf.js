@@ -4,7 +4,12 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
-const { jsonRecordingFilterFunction, isPlaybackMode, isSoftRecordMode, isRecordMode } = require("@azure/test-utils-recorder");
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode
+} = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -24,7 +29,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-coverage",
+      "karma-remap-istanbul",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
       "karma-json-preprocessor"
@@ -32,7 +37,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: ["dist-test/index.browser.js"].concat(
-      (isPlaybackMode() || isSoftRecordMode()) ? ["recordings/browsers/**/*.json"] : []
+      isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
     ),
 
     // list of files / patterns to exclude
@@ -61,20 +66,22 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "remap-coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit", "json-to-file"],
 
-    coverageReporter: { type: "in-memory" },
-
-    // Coverage report settings
-    remapCoverageReporter: {
-      "text-summary": null, // to show summary in console
-      html: "./coverage-browser",
-      cobertura: "./coverage-browser/cobertura-coverage.xml"
+    coverageReporter: {
+      // specify a common output directory
+      dir: "coverage-browser/",
+      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
     },
 
-    // Exclude coverage calculation for following files
-    remapOptions: {
-      exclude: /node_modules|tests/g
+    remapIstanbulReporter: {
+      src: "coverage-browser/coverage.json",
+      reports: {
+        lcovonly: "coverage-browser/lcov.info",
+        html: "coverage-browser/html/report",
+        "text-summary": null,
+        cobertura: "./coverage-browser/cobertura-coverage.xml"
+      }
     },
 
     junitReporter: {

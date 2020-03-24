@@ -1,6 +1,14 @@
 # Release History
 
-## 4.0.3 (Unreleased)
+## 4.1.0-preview.2 (Unreleased)
+
+
+## 4.1.0-preview.1 (2020-03-10)
+
+- Added the optional `apiVersion` property to the `KeyClient` and `CryptographyClient` optional parameters.
+  It defaults to the latest supported API version, which currently is `7.1-preview`.
+- Added `import` to the list of possible values for `KeyOperation`.
+- Added `recoverableDays` as an optional property to `KeyProperties`.
 
 ## 4.0.2 (2019-12-03)
 

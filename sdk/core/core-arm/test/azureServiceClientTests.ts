@@ -3,10 +3,10 @@
 
 import assert from "assert";
 import { HttpHeaders, HttpOperationResponse, RequestOptionsBase, RestError, WebResource, OperationArguments, OperationSpec, Serializer } from "@azure/core-http";
-import { AzureServiceClient, AzureServiceClientOptions, updateOptionsWithDefaultValues } from "../lib/azureServiceClient";
+import { AzureServiceClient, AzureServiceClientOptions, updateOptionsWithDefaultValues } from "../src/azureServiceClient";
 import * as msAssert from "./msAssert";
-import { LROPoller } from "../lib/lroPoller";
-import { CloudErrorMapper } from "../lib/cloudError";
+import { LROPoller } from "../src/lroPoller";
+import { CloudErrorMapper } from "../src/cloudError";
 import { TestTokenCredential } from "./testTokenCredential";
 
 describe("AzureServiceClient", () => {

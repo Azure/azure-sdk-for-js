@@ -3,8 +3,8 @@
 
 import "chai/register-should";
 
-import { TestClient } from "./data/TestClient/lib/testClient";
-import { Mappers } from "./data/TestClient/lib/models/mappers";
+import { TestClient } from "./data/TestClient/src/testClient";
+import { Mappers } from "./data/TestClient/src/models/mappers";
 
 describe("msrest (node)", function() {
   describe("deserialize", function() {

@@ -34,7 +34,7 @@ export const Path: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "eTag",
         type: {
           name: "String"
@@ -108,7 +108,7 @@ export const FileSystem: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "eTag",
         type: {
           name: "String"
@@ -353,7 +353,7 @@ export const FileSystemCreateHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -405,7 +405,7 @@ export const FileSystemSetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -451,7 +451,7 @@ export const FileSystemGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -543,7 +543,7 @@ export const FileSystemListPathsHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -595,7 +595,7 @@ export const PathCreateHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -653,7 +653,7 @@ export const PathUpdateHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -759,7 +759,7 @@ export const PathLeaseHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -871,7 +871,7 @@ export const PathReadHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1007,7 +1007,7 @@ export const PathGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1147,7 +1147,7 @@ export const PathSetAccessControlHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -1193,7 +1193,7 @@ export const PathFlushDataHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"

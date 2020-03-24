@@ -15,8 +15,7 @@ export {
   AppTemplate,
   AppTemplatesResult,
   BaseResource,
-  ErrorDetails,
-  ErrorResponseBody,
+  CloudError,
   OperationInputs,
   Resource
 } from "../models/mappers";

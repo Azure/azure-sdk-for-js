@@ -3,12 +3,12 @@
 
 import "chai/register-should";
 import { should } from "chai";
-import { ProxySettings } from "../../lib/serviceClient";
-import { RequestPolicyOptions } from "../../lib/policies/requestPolicy";
-import { WebResource } from "../../lib/webResource";
-import { HttpHeaders } from "../../lib/httpHeaders";
-import { proxyPolicy, ProxyPolicy, getDefaultProxySettings } from "../../lib/policies/proxyPolicy";
-import { Constants } from "../../lib/coreHttp";
+import { ProxySettings } from "../../src/serviceClient";
+import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
+import { WebResource } from "../../src/webResource";
+import { HttpHeaders } from "../../src/httpHeaders";
+import { proxyPolicy, ProxyPolicy, getDefaultProxySettings } from "../../src/policies/proxyPolicy";
+import { Constants } from "../../src/coreHttp";
 
 describe("ProxyPolicy (node)", function() {
   const proxySettings: ProxySettings = {

@@ -13,7 +13,7 @@ import {
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
-import { TextAnalyticsClient as GeneratedClient } from "./generated/textAnalyticsClient";
+import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
   LanguageInput as DetectLanguageInput,
@@ -202,8 +202,8 @@ export class TextAnalyticsClient {
    *   the input strings to assist the text analytics model in predicting
    *   the language they are written in.  If unspecified, this value will be
    *   set to the default country hint in `TextAnalyticsClientOptions`.
-   *   If set to an empty string, the service will apply a model where the
-   *   country is explicitly set to "None".
+   *   If set to an empty string, or the string "none", the service will apply a
+   *   model where the country is explicitly unset.
    *   The same country hint is applied to all strings in the input collection.
    * @param options Optional parameters for the operation.
    */
@@ -238,7 +238,11 @@ export class TextAnalyticsClient {
       realInputs = convertToDetectLanguageInput(inputs, countryHint);
       realOptions = options || {};
     } else {
-      realInputs = inputs;
+      // Replace "none" hints with ""
+      realInputs = inputs.map((input) => ({
+        ...input,
+        countryHint: input.countryHint === "none" ? "" : input.countryHint
+      }));
       realOptions = (countryHintOrOptions as DetectLanguageOptions) || {};
     }
 
@@ -686,6 +690,9 @@ function convertToDetectLanguageInput(
   inputs: string[],
   countryHint: string
 ): DetectLanguageInput[] {
+  if (countryHint === "none") {
+    countryHint = "";
+  }
   return inputs.map(
     (text: string, index): DetectLanguageInput => {
       return {

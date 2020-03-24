@@ -122,6 +122,9 @@ export async function bodyToString(
     });
 
     response.readableStreamBody!.on("error", reject);
+    response.readableStreamBody!.on("end", () => {
+      resolve("");
+    });
   });
 }
 
@@ -143,7 +146,7 @@ export async function createRandomLocalFile(
 
     ws.on("open", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) { }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -151,7 +154,7 @@ export async function createRandomLocalFile(
 
     ws.on("drain", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) { }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }

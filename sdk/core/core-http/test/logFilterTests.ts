@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { HttpHeaders, RawHttpHeaders } from "../lib/httpHeaders";
-import { HttpOperationResponse } from "../lib/httpOperationResponse";
-import { LogPolicy, LogPolicyOptions } from "../lib/policies/logPolicy";
-import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
-import { WebResource } from "../lib/webResource";
+import { HttpHeaders, RawHttpHeaders } from "../src/httpHeaders";
+import { HttpOperationResponse } from "../src/httpOperationResponse";
+import { LogPolicy, LogPolicyOptions } from "../src/policies/logPolicy";
+import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";
+import { WebResource } from "../src/webResource";
 import { getLogLevel, setLogLevel, AzureLogLevel, Debugger } from "@azure/logger";
 
 function getNextPolicy(responseHeaders?: RawHttpHeaders): RequestPolicy {

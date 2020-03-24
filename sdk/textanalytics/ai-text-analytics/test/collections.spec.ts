@@ -203,8 +203,8 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
             {
               text: "Microsoft",
               category: "Organization",
-              offset: 10,
-              length: 9,
+              graphemeOffset: 10,
+              graphemeLength: 9,
               score: 0.9989
             }
           ]
@@ -216,8 +216,8 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
               text: "last week",
               category: "DateTime",
               subCategory: "DateRange",
-              offset: 34,
-              length: 9,
+              graphemeOffset: 34,
+              graphemeLength: 9,
               score: 0.8
             }
           ]
@@ -266,8 +266,8 @@ describe("RecognizePiiEntitiesResultCollection", () => {
             {
               text: "(555) 555-5555",
               category: "US Phone Number",
-              offset: 10,
-              length: 9,
+              graphemeOffset: 10,
+              graphemeLength: 9,
               score: 0.9989
             }
           ]
@@ -279,8 +279,8 @@ describe("RecognizePiiEntitiesResultCollection", () => {
               text: "1234 Default Ln.",
               category: "US Address",
               subCategory: "",
-              offset: 34,
-              length: 9,
+              graphemeOffset: 34,
+              graphemeLength: 9,
               score: 0.8
             }
           ]
@@ -331,13 +331,13 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               matches: [
                 {
                   text: "Seattle",
-                  offset: 26,
-                  length: 7,
+                  graphemeOffset: 26,
+                  graphemeLength: 7,
                   score: 0.15046201222847677
                 }
               ],
               language: "en",
-              id: "Seattle",
+              dataSourceEntityId: "Seattle",
               url: "https://en.wikipedia.org/wiki/Seattle",
               dataSource: "Wikipedia"
             }
@@ -351,13 +351,13 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               matches: [
                 {
                   text: "Microsoft",
-                  offset: 10,
-                  length: 9,
+                  graphemeOffset: 10,
+                  graphemeLength: 9,
                   score: 0.1869365971673207
                 }
               ],
               language: "en",
-              id: "Microsoft",
+              dataSourceEntityId: "Microsoft",
               url: "https://en.wikipedia.org/wiki/Microsoft",
               dataSource: "Wikipedia"
             }

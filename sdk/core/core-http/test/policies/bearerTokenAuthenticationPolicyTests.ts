@@ -3,18 +3,18 @@
 
 import { assert } from "chai";
 import { fake } from "sinon";
-import { OperationSpec } from "../../lib/operationSpec";
+import { OperationSpec } from "../../src/operationSpec";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { RequestPolicy, RequestPolicyOptions } from "../../lib/policies/requestPolicy";
-import { Constants } from "../../lib/util/constants";
-import { HttpOperationResponse } from "../../lib/httpOperationResponse";
-import { HttpHeaders } from "../../lib/httpHeaders";
-import { WebResource } from "../../lib/webResource";
-import { BearerTokenAuthenticationPolicy } from "../../lib/policies/bearerTokenAuthenticationPolicy";
+import { RequestPolicy, RequestPolicyOptions } from "../../src/policies/requestPolicy";
+import { Constants } from "../../src/util/constants";
+import { HttpOperationResponse } from "../../src/httpOperationResponse";
+import { HttpHeaders } from "../../src/httpHeaders";
+import { WebResource } from "../../src/webResource";
+import { BearerTokenAuthenticationPolicy } from "../../src/policies/bearerTokenAuthenticationPolicy";
 import {
   ExpiringAccessTokenCache,
   TokenRefreshBufferMs
-} from "../../lib/credentials/accessTokenCache";
+} from "../../src/credentials/accessTokenCache";
 
 describe("BearerTokenAuthenticationPolicy", function() {
   const mockPolicy: RequestPolicy = {

@@ -6,7 +6,7 @@
     "email": "azsdkteam@microsoft.com",
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -27,26 +27,33 @@
     "clientruntime"
   ],
   "main": "./dist/coreHttp.node.js",
-  "module": "./es/lib/coreHttp.js",
-  "types": "./es/lib/coreHttp.d.ts",
+  "module": "./es/src/coreHttp.js",
+  "types": "./types/latest/src/coreHttp.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/src/*": [
+        "types/3.1/src/*"
+      ]
+    }
+  },
   "files": [
     "dist/**/*.node.js",
     "dist/**/*.node.js.map",
-    "es/lib/**/*.js",
-    "es/lib/**/*.js.map",
-    "es/lib/**/*.d.ts",
-    "es/lib/**/*.d.ts.map",
-    "lib/**/*.ts",
-    "LICENSE",
-    "README.md"
+    "dom-shim.d.ts",
+    "es/src/**/*.js",
+    "es/src/**/*.js.map",
+    "types/*/src/**/*.d.ts",
+    "types/*/src/**/*.d.ts.map",
+    "README.md",
+    "LICENSE"
   ],
   "browser": {
-    "./es/lib/policies/msRestUserAgentPolicy.js": "./es/lib/policies/msRestUserAgentPolicy.browser.js",
-    "./es/lib/policies/proxyPolicy.js": "./es/lib/policies/proxyPolicy.browser.js",
-    "./es/lib/util/base64.js": "./es/lib/util/base64.browser.js",
-    "./es/lib/util/xml.js": "./es/lib/util/xml.browser.js",
-    "./es/lib/defaultHttpClient.js": "./es/lib/defaultHttpClient.browser.js",
-    "./es/lib/util/inspect.js": "./es/lib/util/inspect.browser.js"
+    "./es/src/policies/msRestUserAgentPolicy.js": "./es/src/policies/msRestUserAgentPolicy.browser.js",
+    "./es/src/policies/proxyPolicy.js": "./es/src/policies/proxyPolicy.browser.js",
+    "./es/src/util/base64.js": "./es/src/util/base64.browser.js",
+    "./es/src/util/xml.js": "./es/src/util/xml.browser.js",
+    "./es/src/defaultHttpClient.js": "./es/src/defaultHttpClient.browser.js",
+    "./es/src/util/inspect.js": "./es/src/util/inspect.browser.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-http",
@@ -59,21 +66,22 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "run-s build:tsc build:rollup",
+    "build": "run-s build:tsc build:types build:rollup",
     "build:scripts": "tsc -p ./.scripts/",
     "build:test": "run-s build build:test-browser",
     "build:tsc": "tsc -p tsconfig.es.json",
+    "build:types": "downlevel-dts types/latest/ types/3.1/",
     "build:rollup": "rollup -c 2>&1",
     "build:test-browser": "rollup -c rollup.test.config.js 2>&1",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json \"lib/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf ./es ./dist ./dist-test",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf ./es ./dist ./dist-test ./dist-browser ./types ./types3.1",
     "execute:samples": "echo skipped",
-    "format": "prettier --write --config ../../.prettierrc.json \"lib/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json tsconfig.json \"lib/**/*.ts\" \"test/**/*.ts\" --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json tsconfig.json lib test --ext .ts -f html -o core-http-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json tsconfig.json \"src/**/*.ts\" \"test/**/*.ts\" --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json tsconfig.json src test --ext .ts -f html -o core-http-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -81,7 +89,7 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "node ./node_modules/karma/bin/karma start karma.conf.ts --browsers ChromeNoSecurity --single-run",
-    "unit-test:node": "nyc mocha",
+    "unit-test:node": "cross-env TS_NODE_FILES=true nyc mocha",
     "check:packagejsonversion": "ts-node ./.scripts/checkPackageJsonVersion.ts",
     "check:foronlycalls": "ts-node ./.scripts/checkForOnlyCalls.ts",
     "check:everything": "ts-node ./.scripts/checkEverything.ts",
@@ -111,7 +119,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "lib/util/constants.ts",
+        "path": "src/util/constants.ts",
         "prefix": "coreHttpVersion"
       }
     ]
@@ -124,6 +132,7 @@
     "@opentelemetry/types": "^0.2.0",
     "@types/node-fetch": "^2.5.0",
     "@types/tunnel": "^0.0.1",
+    "cross-env": "^6.0.3",
     "form-data": "^3.0.0",
     "node-fetch": "^2.6.0",
     "process": "^0.11.10",
@@ -154,6 +163,7 @@
     "@typescript-eslint/parser": "^2.0.0",
     "babel-runtime": "^6.26.0",
     "chai": "^4.2.0",
+    "downlevel-dts": "~0.4.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-no-null": "^1.0.2",
@@ -170,11 +180,9 @@
     "karma-mocha": "^1.3.0",
     "karma-rollup-preprocessor": "^7.0.0",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-typescript-es6-transform": "^4.0.0",
     "mocha": "^6.2.2",
     "mocha-chrome": "^2.0.0",
     "mocha-junit-reporter": "^1.18.0",
-    "mocha-multi": "^1.1.3",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",

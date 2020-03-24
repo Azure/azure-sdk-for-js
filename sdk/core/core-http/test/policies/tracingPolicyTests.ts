@@ -8,10 +8,10 @@ import {
   HttpOperationResponse,
   HttpHeaders,
   RequestPolicyOptions
-} from "../../lib/coreHttp";
+} from "../../src/coreHttp";
 import { SpanOptions, SpanContext, TraceFlags } from "@opentelemetry/types";
 import { setTracer, NoOpTracer, NoOpSpan } from "@azure/core-tracing";
-import { tracingPolicy } from "../../lib/policies/tracingPolicy";
+import { tracingPolicy } from "../../src/policies/tracingPolicy";
 
 class MockSpan extends NoOpSpan {
   private _endCalled = false;

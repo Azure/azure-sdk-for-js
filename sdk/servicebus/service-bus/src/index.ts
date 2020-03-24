@@ -4,7 +4,7 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
+export { ServiceBusClientOptions } from "./constructorHelpers";
 export {
   TokenType,
   TokenCredential,
@@ -15,42 +15,34 @@ export {
   WebSocketOptions
 } from "@azure/core-amqp";
 
-export { QueueClient } from "./queueClient";
-export { TopicClient } from "./topicClient";
-export { SubscriptionClient } from "./subscriptionClient";
-
-export { Sender } from "./sender";
-export { Receiver, SessionReceiver } from "./receiver";
-
-export { MessageHandlerOptions } from "./core/streamingReceiver";
-export { OnError, OnMessage } from "./core/messageReceiver";
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
 export { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
 export {
+  ReceivedMessage,
   ServiceBusMessage,
-  ReceivedMessageInfo,
-  SendableMessageInfo,
   DeadLetterOptions,
-  ReceiveMode
+  ReceiveMode,
+  ReceivedMessageWithLock
 } from "./serviceBusMessage";
+export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
+
 export { Delivery, WebSocketImpl } from "rhea-promise";
 
-export { HttpOperationResponse } from "@azure/core-http";
-
-export { QueueDetails, QueueOptions } from "./serializers/queueResourceSerializer";
-export { TopicDetails, TopicOptions } from "./serializers/topicResourceSerializer";
 export {
-  SubscriptionDetails,
-  SubscriptionOptions
-} from "./serializers/subscriptionResourceSerializer";
-export {
-  RuleDetails,
-  RuleOptions,
-  SqlFilter,
-  SqlParameter,
-  SqlAction
-} from "./serializers/ruleResourceSerializer";
+  GetMessageIteratorOptions,
+  GetSessionReceiverOptions,
+  MessageHandlerOptions,
+  MessageHandlers,
+  ReceiveBatchOptions,
+  SubscribeOptions,
+  WaitTimeOptions,
+  CreateBatchOptions
+} from "./models";
 
-export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
+export { Receiver } from "./receivers/receiver";
+export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";
+export { SessionReceiver } from "./receivers/sessionReceiver";
+export { Sender } from "./sender";
+export { ServiceBusClient } from "./serviceBusClient";

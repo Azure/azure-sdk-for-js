@@ -21,6 +21,5 @@ export * from "./pipelineRuns";
 export * from "./activityRuns";
 export * from "./triggers";
 export * from "./triggerRuns";
-export * from "./rerunTriggers";
 export * from "./dataFlows";
 export * from "./dataFlowDebugSession";

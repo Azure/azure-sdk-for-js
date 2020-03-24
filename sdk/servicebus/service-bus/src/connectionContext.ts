@@ -14,7 +14,7 @@ import {
   TokenCredential,
   SharedKeyCredential
 } from "@azure/core-amqp";
-import { ServiceBusClientOptions } from "./serviceBusClient";
+import { ServiceBusClientOptions } from "./constructorHelpers";
 import { ClientEntityContext } from "./clientEntityContext";
 import { OnAmqpEvent, EventContext, ConnectionEvents } from "rhea-promise";
 
@@ -193,5 +193,39 @@ export namespace ConnectionContext {
     );
 
     return connectionContext;
+  }
+
+  /**
+   * Closes the AMQP connection created by this ServiceBusClient along with AMQP links for
+   * sender/receivers created by the queue/topic/subscription clients created by this
+   * ServiceBusClient.
+   * Once closed,
+   * - the clients created by this ServiceBusClient cannot be used to send/receive messages anymore.
+   * - this ServiceBusClient cannot be used to create any new queues/topics/subscriptions clients.
+   * @returns {Promise<any>}
+   */
+  export async function close(context: ConnectionContext): Promise<void> {
+    try {
+      if (context.connection.isOpen()) {
+        log.ns("Closing the amqp connection '%s' on the client.", context.connectionId);
+
+        // Close all the clients.
+        for (const id of Object.keys(context.clientContexts)) {
+          const clientContext = context.clientContexts[id];
+          await clientContext.close();
+        }
+        await context.cbsSession.close();
+
+        await context.connection.close();
+        context.wasConnectionCloseCalled = true;
+        log.ns("Closed the amqp connection '%s' on the client.", context.connectionId);
+      }
+    } catch (err) {
+      const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
+      log.error(
+        `An error occurred while closing the connection "${context.connectionId}":\n${errObj}`
+      );
+      throw errObj;
+    }
   }
 }

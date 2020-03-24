@@ -2420,6 +2420,13 @@ export class AppendBlobClient extends BlobClient {
    * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
    * @returns {Promise<AppendBlobCreateResponse>}
    * @memberof AppendBlobClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const appendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * await appendBlobClient.create();
+   * ```
    */
   public async create(options: AppendBlobCreateOptions = {}): Promise<AppendBlobCreateResponse> {
     const { span, spanOptions } = createSpan("AppendBlobClient-create", options.tracingOptions);
@@ -2457,6 +2464,21 @@ export class AppendBlobClient extends BlobClient {
    * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
    * @returns {Promise<AppendBlobAppendBlockResponse>}
    * @memberof AppendBlobClient
+   *
+   * Example usage:
+   *
+   * ```js
+   * const content = "Hello World!";
+   *
+   * // Create a new append blob and append data to the blob.
+   * const newAppendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * await newAppendBlobClient.create();
+   * await newAppendBlobClient.appendBlock(content, content.length);
+   *
+   * // Append data to an existing append blob.
+   * const existingAppendBlobClient = containerClient.getAppendBlobClient("<blob name>");
+   * await existingAppendBlobClient.appendBlock(content, content.length);
+   * ```
    */
   public async appendBlock(
     body: HttpRequestBody,
@@ -6172,6 +6194,10 @@ export class ContainerClient extends StorageClient {
    * When you set permissions for a container, the existing permissions are replaced.
    * If no access or containerAcl provided, the existing container ACL will be
    * removed.
+   *
+   * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
+   * During this interval, a shared access signature that is associated with the stored access policy will
+   * fail with status code 403 (Forbidden), until the access policy becomes active.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
    *
    * @param {PublicAccessType} [access] The level of public access to data in the container.

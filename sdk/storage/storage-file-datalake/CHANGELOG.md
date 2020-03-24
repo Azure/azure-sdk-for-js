@@ -1,7 +1,12 @@
 # Release History
 
-## 12.0.0-preview.9 (Unreleased)
+## 12.0.1 (Unreleased)
 
+
+## 12.0.0 (2020.03)
+
+- Added exists() on `FileSystemClient` and `PathClient`.
+- Added high level upload and download methods to `DataLakeFileClient`.
 
 ## 12.0.0-preview.8 (2020.02)
 

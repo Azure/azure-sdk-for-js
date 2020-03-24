@@ -1,13 +1,18 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
-const { jsonRecordingFilterFunction, isPlaybackMode, isSoftRecordMode, isRecordMode } = require("@azure/test-utils-recorder");
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode
+} = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
-    
+
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ["mocha"],
@@ -30,10 +35,10 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always",
+      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys,Symbol.iterator
+      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always,Symbol.iterator",
       "dist-test/index.browser.js"
-    ].concat((isPlaybackMode() || isSoftRecordMode()) ? ["recordings/browsers/**/*.json"] : []),
+    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -51,7 +56,16 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS", "TEST_MODE", "ACCOUNT_TOKEN", "MD_ACCOUNT_NAME", "MD_ACCOUNT_SAS", "ENCRYPTION_SCOPE_1", "ENCRYPTION_SCOPE_2"],
+    envPreprocessor: [
+      "ACCOUNT_NAME",
+      "ACCOUNT_SAS",
+      "TEST_MODE",
+      "ACCOUNT_TOKEN",
+      "MD_ACCOUNT_NAME",
+      "MD_ACCOUNT_SAS",
+      "ENCRYPTION_SCOPE_1",
+      "ENCRYPTION_SCOPE_2"
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -69,7 +83,8 @@ module.exports = function(config) {
       reports: {
         lcovonly: "coverage-browser/lcov.info",
         html: "coverage-browser/html/report",
-        "text-summary": null
+        "text-summary": null,
+        cobertura: "./coverage-browser/cobertura-coverage.xml"
       }
     },
 
@@ -115,7 +130,7 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: 1,
 
-    browserNoActivityTimeout: 600000,
+    browserNoActivityTimeout: 1200000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {

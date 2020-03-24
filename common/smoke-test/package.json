@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@azure/identity": "dev",
     "@azure/cosmos": "dev",
     "@azure/event-hubs": "dev",
     "@azure/keyvault-secrets": "dev",

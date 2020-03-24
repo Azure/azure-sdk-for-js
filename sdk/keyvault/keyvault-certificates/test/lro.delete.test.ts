@@ -45,9 +45,13 @@ describe("Certificates client - lro - delete", () => {
     // The pending deleted certificate can be obtained this way:
     assert.equal(poller.getOperationState().result!.name, certificateName);
 
-    const deletedCertificate: DeletedCertificate = await poller.pollUntilDone();
+    let deletedCertificate: DeletedCertificate = await poller.pollUntilDone();
     assert.equal(deletedCertificate.name, certificateName);
     assert.ok(poller.getOperationState().isCompleted);
+
+    // Retrieving it without the poller
+    deletedCertificate = await client.getDeletedCertificate(certificateName);
+    assert.equal(deletedCertificate.name, certificateName);
 
     // The final deleted certificate can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, certificateName);
@@ -85,9 +89,13 @@ describe("Certificates client - lro - delete", () => {
     });
 
     assert.ok(resumePoller.getOperationState().isStarted);
-    const deletedCertificate: DeletedCertificate = await resumePoller.pollUntilDone();
+
+    let deletedCertificate: DeletedCertificate = await resumePoller.pollUntilDone();
     assert.equal(deletedCertificate.name, certificateName);
-    assert.ok(resumePoller.getOperationState().isCompleted);
+
+    // Retrieving it without the poller
+    deletedCertificate = await client.getDeletedCertificate(certificateName);
+    assert.equal(deletedCertificate.name, certificateName);
 
     await testClient.purgeCertificate(certificateName);
   });

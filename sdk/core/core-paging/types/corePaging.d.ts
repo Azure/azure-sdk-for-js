@@ -17,7 +17,7 @@ export interface PageSettings {
  * @interface
  * An interface that allows async iterable iteration both to completion and by page.
  */
-export interface PagedAsyncIterableIterator<T, PageT = never, PageSettingsT = PageSettings> {
+export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = PageSettings> {
   /**
    * @member {Promise} [next] The next method, part of the iteration protocol
    */
@@ -32,5 +32,5 @@ export interface PagedAsyncIterableIterator<T, PageT = never, PageSettingsT = Pa
   /**
    * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
    */
-  byPage: (settings?: PageSettingsT) => AsyncIterableIterator<PageT extends never ? T[] : PageT>;
+  byPage: (settings?: PageSettingsT) => AsyncIterableIterator<PageT>;
 }

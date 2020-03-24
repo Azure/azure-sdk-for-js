@@ -1,7 +1,11 @@
 # Release History
 
-## 1.0.3 (Unreleased)
+## 1.1.0-preview.2 (Unreleased)
 
+
+## 1.1.0-preview1 (2020-03-10)
+
+- Extended DefaultAzureCredential with an experimental credential that uses the login credential from Azure CLI
 - Fix tracing to set correct span attributes ([PR #6565](https://github.com/Azure/azure-sdk-for-js/pull/6565)).
 
 ## 1.0.2 (2019-12-03)

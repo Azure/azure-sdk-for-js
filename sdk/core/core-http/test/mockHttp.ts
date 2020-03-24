@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import xhrMock, { proxy } from "xhr-mock";
-import { isNode, HttpMethods } from "../lib/coreHttp";
+import { isNode, HttpMethods } from "../src/coreHttp";
 import fetchMock, * as fetch from "fetch-mock";
 import { Readable } from "stream";
 
