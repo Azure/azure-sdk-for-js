@@ -1,4 +1,5 @@
-// my-reporter.js
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 "use strict";
 
 const Mocha = require("mocha");
@@ -17,7 +18,6 @@ const MochaJUnitReporter = require("mocha-junit-reporter");
  */
 class MultiReporter {
   constructor(runner) {
-    console.log("Azure SDKs are cool, Custom reporter starts now...");
     // Spec reporter is provided as part of mocha library
     // Invoking the spec reporter with the runner
     new Mocha.reporters.Spec(runner);
