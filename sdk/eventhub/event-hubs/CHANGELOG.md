@@ -3,6 +3,7 @@
 ## 5.0.3 (Unreleased)
 
 - Fixes an issue where known properties were not being set on a received event's `systemProperties`.
+  ([PR #7973](https://github.com/Azure/azure-sdk-for-js/pull/7973))
 
 ## 5.0.2 (2020-03-09)
 
