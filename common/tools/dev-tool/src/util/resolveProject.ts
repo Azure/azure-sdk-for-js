@@ -53,7 +53,7 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, Package
   for (const file of files) {
     if (file === "package.json") {
       const fullPath = path.join(directory, file);
-      const packageObject = await import(fullPath);
+      const packageObject = (await import(fullPath)).default;
       if (await isAzureSDKPackage(fullPath)) {
         return [directory, packageObject];
       }

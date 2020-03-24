@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import chalk from "chalk";
+import path from "path";
 
 const printModes = ["info", "warn", "error", "success", "debug"] as const;
 
@@ -25,7 +26,7 @@ function getCaller(): NodeJS.CallSite | undefined {
 
   let caller: NodeJS.CallSite | undefined = undefined;
   try {
-    const error = new Error() as any;
+    const error = new Error() as any as { stack: NodeJS.CallSite[] };
 
     Error.prepareStackTrace = (_, stack) => stack;
 
@@ -59,7 +60,7 @@ const finalLogger: ModeMap<Fn> = {
   debug(...values: string[]) {
     if (process.env.DEBUG) {
       const caller = getCaller();
-      const fileName = caller?.getFileName();
+      const fileName = caller?.getFileName()?.split(path.join("azure-sdk-for-js", "common", "tools", "dev-tool"));
       const callerInfo = `(@ ${fileName ? fileName : "<unknown>"}#${caller?.getFunctionName() ??
         "<unknown>"}:${caller?.getLineNumber()}:${caller?.getColumnNumber()})`;
       console.log(values[0], colors.debug(callerInfo), ...values.slice(1));
