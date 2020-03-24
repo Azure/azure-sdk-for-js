@@ -301,14 +301,6 @@ export interface BlobExistsOptions extends CommonOptions {
    */
   conditions?: BlobRequestConditions;
   /**
-   * An opaque DateTime value that, when present, specifies the blob
-   * snapshot to retrieve.
-   * 
-   * @type {string}
-   * @memberof BlobExistsOptions
-   */
-  snapshot?: string;
-  /**
    * An opaque DateTime value that, when present, specifies the version
    * of the blob to retrieve. It's for service version 2019-10-10 and newer.
    * 
@@ -347,14 +339,6 @@ export interface BlobGetPropertiesOptions extends CommonOptions {
    * @memberof BlobGetPropertiesOptions
    */
   customerProvidedKey?: CpkInfo;
-  /**
-   * An opaque DateTime value that, when present, specifies the blob
-   * snapshot to retrieve.
-   * 
-   * @type {string}
-   * @memberof BlobGetPropertiesOptions
-   */
-  snapshot?: string;
   /**
    * An opaque DateTime value that, when present, specifies the version
    * of the blob to retrieve. It's for service version 2019-10-10 and newer.
@@ -403,13 +387,6 @@ export interface BlobDeleteOptions extends CommonOptions {
    * @memberof BlobDeleteOptions
    */
   customerProvidedKey?: CpkInfo;
-  /**
-   * An opaque DateTime value that, when present, specifies the blob snapshot to delete.
-   * 
-   * @type {string}
-   * @memberof BlobDeleteOptions
-   */
-  snapshot?: string;
   /**
    * An opaque DateTime value that, when present, specifies the version
    * of the blob to delete. It's for service version 2019-10-10 and newer.
@@ -916,13 +893,6 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    */
   customerProvidedKey?: CpkInfo;
   /**
-   * An opaque DateTime string value that, when present, specifies the blob snapshot to retrieve.
-   *
-   * @type {string}
-   * @memberof BlobDownloadToBufferOptions
-   */
-  snapshot?: string;
-  /**
    * An opaque DateTime string value that, when present, specifies the version of the blob
    * to retrieve. It's for service version 2019-10-10 and newer.
    *
@@ -1363,7 +1333,6 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         customerProvidedKey: options.customerProvidedKey,
         versionId: options.versionId,
-        snapshot: options.snapshot,
         conditions: options.conditions,
         tracingOptions: {
           ...options.tracingOptions,
@@ -1415,7 +1384,6 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
-        snapshot: options.snapshot,
         versionId: options.versionId,
         spanOptions
       });
@@ -1450,7 +1418,6 @@ export class BlobClient extends StorageClient {
         deleteSnapshots: options.deleteSnapshots,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        snapshot: options.snapshot,
         versionId: options.versionId,
         spanOptions
       });
@@ -1972,7 +1939,6 @@ export class BlobClient extends StorageClient {
             conditions: options.conditions,
             maxRetryRequests: options.maxRetryRequestsPerBlock,
             customerProvidedKey: options.customerProvidedKey,
-            snapshot: options.snapshot,
             versionId: options.versionId,
             tracingOptions: {
               ...options.tracingOptions,

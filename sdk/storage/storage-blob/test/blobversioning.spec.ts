@@ -138,9 +138,8 @@ describe("Blob versioning", () => {
     const snapshotRes = await blobClient.createSnapshot();
     let exceptionCaught = false;
     try {
-      await blobClient.getProperties({
+      await blobClient.withSnapshot(snapshotRes.snapshot!).getProperties({
         versionId: uploadRes.versionId,
-        snapshot: snapshotRes.snapshot
       });
     } catch (err) {
       assert.equal(err.details.errorCode, "MutuallyExclusiveQueryParameters");
@@ -249,10 +248,9 @@ describe("Blob versioning", () => {
     assert.ok(result.snapshot);
     assert.ok(result.versionId);
 
-    await blobClient.delete({ snapshot: result.snapshot });
-    const snapshotExists = await blobClient.exists({
-      snapshot: result.snapshot,
-    });
+    const snapshotClient = blobClient.withSnapshot(result.snapshot!);
+    await snapshotClient.delete();
+    const snapshotExists = await snapshotClient.exists();
     assert.ok(!snapshotExists);
 
     const rootExists = await blobClient.exists();
@@ -273,9 +271,7 @@ describe("Blob versioning", () => {
     assert.ok(exceptionCaught);
 
     blobClient.delete({ deleteSnapshots: "include" });
-    const snapshotExists = await blobClient.exists({
-      snapshot: result.snapshot,
-    });
+    const snapshotExists = await blobClient.withSnapshot(result.snapshot!).exists();
     assert.ok(!snapshotExists);
     const rootExists = await blobClient.exists();
     assert.ok(!rootExists);
