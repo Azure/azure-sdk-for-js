@@ -289,7 +289,7 @@ export class ManagementClient extends LinkEntity {
   }
 
   // TO DO - Any better name??
-  private async acquireLockHelper(
+  private async _acquireLockHelper(
     message_id: string | number | Buffer | undefined,
     timeoutInMs: number
   ): Promise<number> {
@@ -487,7 +487,7 @@ export class ManagementClient extends LinkEntity {
           );
 
           try {
-            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
           } catch (error) {
             reject(translate(error));
           }
@@ -695,7 +695,7 @@ export class ManagementClient extends LinkEntity {
           );
 
           try {
-            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
           } catch (error) {
             reject(translate(error));
           }
@@ -810,7 +810,7 @@ export class ManagementClient extends LinkEntity {
           const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
           let timeTakenByInit = 0;
           try {
-            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
           } catch (error) {
             reject(translate(error));
           }
@@ -932,7 +932,7 @@ export class ManagementClient extends LinkEntity {
           let timeTakenByInit = 0;
 
           try {
-            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
           } catch (error) {
             reject(translate(error));
           }
@@ -1114,7 +1114,7 @@ export class ManagementClient extends LinkEntity {
           let timeTakenByInit = 0;
 
           try {
-            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
           } catch (error) {
             reject(translate(error));
           }
@@ -1215,7 +1215,7 @@ export class ManagementClient extends LinkEntity {
           let timeTakenByInit = 0;
 
           try {
-            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
           } catch (error) {
             reject(translate(error));
           }
@@ -1301,11 +1301,11 @@ export class ManagementClient extends LinkEntity {
           let timeTakenByInit = 0;
 
           try {
-            timeTakenByInit = await this.acquireLockHelper(request.message_id, retryTimeoutInMs);
+            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
           } catch (error) {
             reject(translate(error));
           }
-          // TO DO - Refactor this try-catch block similar to the above acquireLockHelper
+          // TO DO - Refactor this try-catch block similar to the above _acquireLockHelper
           try {
             const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
 
