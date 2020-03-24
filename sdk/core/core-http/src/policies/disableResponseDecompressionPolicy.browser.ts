@@ -10,11 +10,11 @@ import { HttpOperationResponse } from '../httpOperationResponse';
 
 const DisbleResponseDecompressionNotSupportedInBrowser = new Error("DisableResponseDecompressionPolicy is not supported in browser environment");
 
-export interface CompressOptions {
-  enable: boolean;
-}
-
-export function disableResponseDecompressionPolicy(_compressOptions?: CompressOptions) {
+/**
+ * {@link DisableResponseDecompressionPolicy} is not supported in browser and attempting
+ * to use it will results in error being thrown.
+ */
+export function disableResponseDecompressionPolicy() {
   return {
     create: (_nextPolicy: RequestPolicy, _options: RequestPolicyOptions) => {
       throw DisbleResponseDecompressionNotSupportedInBrowser;

@@ -5,6 +5,10 @@ import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from './reques
 import { WebResource } from '../webResource';
 import { HttpOperationResponse } from '../httpOperationResponse';
 
+/**
+ * Returns a request policy factory that can be used to create an instance of
+ * {@link DisableResponseDecompressionPolicy}.
+ */
 export function disableResponseDecompressionPolicy() {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -19,7 +23,7 @@ export function disableResponseDecompressionPolicy() {
  */
 export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
   /**
-   * Creates an instance of CompressPolicy.
+   * Creates an instance of DisableResponseDecompressionPolicy.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
@@ -36,7 +40,6 @@ export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
    *
    * @param {WebResource} request
    * @returns {Promise<HttpOperationResponse>}
-   * @memberof CompressPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     request.decompressResponse = false;

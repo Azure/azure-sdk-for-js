@@ -8,7 +8,7 @@ import { HttpHeaders } from "../../src/httpHeaders";
 import { disableResponseDecompressionPolicy, DisableResponseDecompressionPolicy } from "../../src/policies/disableResponseDecompressionPolicy";
 import { HttpClient, ServiceClient, Serializer } from '../../src/coreHttp';
 
-describe("CompressPolicy (browser)", function() {
+describe("DisableResponseDecompressionPolicy (browser)", function() {
   const emptyRequestPolicy = {
     sendRequest: (_: WebResource) =>
       Promise.resolve({

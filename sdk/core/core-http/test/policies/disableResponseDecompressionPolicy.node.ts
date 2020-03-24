@@ -8,7 +8,7 @@ import { HttpHeaders } from "../../src/httpHeaders";
 import { disableResponseDecompressionPolicy, DisableResponseDecompressionPolicy } from "../../src/policies/disableResponseDecompressionPolicy";
 import { HttpOperationResponse } from '../../src/coreHttp';
 
-describe("CompressPolicy (node)", function() {
+describe("DisableResponseDecompressionPolicy (node)", function() {
 
   function responseOf(r: WebResource): HttpOperationResponse {
     return {
