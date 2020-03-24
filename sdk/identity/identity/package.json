@@ -14,7 +14,8 @@
     "./dist-esm/src/credentials/clientCertificateCredential.js": "./dist-esm/src/credentials/clientCertificateCredential.browser.js",
     "./dist-esm/src/credentials/deviceCodeCredential.js": "./dist-esm/src/credentials/deviceCodeCredential.browser.js",
     "./dist-esm/src/credentials/authorizationCodeCredential.js": "./dist-esm/src/credentials/authorizationCodeCredential.browser.js",
-    "./dist-esm/src/credentials/interactiveBrowserCredential.js": "./dist-esm/src/credentials/interactiveBrowserCredential.browser.js"
+    "./dist-esm/src/credentials/interactiveBrowserCredential.js": "./dist-esm/src/credentials/interactiveBrowserCredential.browser.js",
+    "./dist-esm/src/credentials/vscodeCredential.js": "./dist-esm/src/credentials/vscodeCredential.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
