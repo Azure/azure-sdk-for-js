@@ -41,7 +41,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start",
-    "unit-test:node": "mocha test-dist/**/*.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "unit-test:node": "mocha test-dist/**/*.js --reporter ../../../common/tools/mocha-multi-reporter.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -115,7 +115,6 @@
     "karma-remap-istanbul": "^0.6.0",
     "mocha": "^6.2.2",
     "mocha-junit-reporter": "^1.18.0",
-    "mocha-multi": "^1.1.3",
     "open": "^7.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^2.0.0",
