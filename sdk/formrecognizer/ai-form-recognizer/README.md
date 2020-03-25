@@ -154,12 +154,32 @@ async function main() {
   if (response) {
     console.log(response.receipts[0]);
   }
+}
+
+main();
 ```
 
-###
+### Training models
 
 
 ```javascript
+const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("@azure/ai-form-recognizer");
+
+async function main() {
+  const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
+  const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
+  const trainingDataSource = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
+
+  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  const poller = await client.beginTraining(trainingDataSource, {
+    onProgress: (state) => { console.log(`training status: ${state.status}`); }
+  });
+  await poller.pollUntilDone();
+  const model = poller.getResult();
+  console.log(model);
+}
+
+main();
 ```
 
 ###

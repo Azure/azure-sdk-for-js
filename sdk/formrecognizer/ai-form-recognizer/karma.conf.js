@@ -56,8 +56,8 @@ module.exports = function(config) {
     envPreprocessor: [
       "TEST_MODE",
       "ENDPOINT",
-      "TEXT_ANALYTICS_API_KEY",
-      "TEXT_ANALYTICS_API_KEY_ALT",
+      "FORM_RECOGNIZER_API_KEY",
+      "FORM_RECOGNIZER_API_KEY_ALT",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID"
