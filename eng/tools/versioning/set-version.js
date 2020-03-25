@@ -66,7 +66,7 @@ async function main(argv) {
     newVersion
   );
 
-  versionUtils.updateChangelog(targetPackagePath, newVersion, false, true);
+  versionUtils.updateChangelog(targetPackagePath, repoRoot, newVersion, false, true);
 }
 
 main(argv);
