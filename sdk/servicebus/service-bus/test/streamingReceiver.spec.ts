@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ReceiveMode, ReceivedMessage } from "../src";
+import { delay, ReceivedMessage } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
@@ -11,7 +11,8 @@ import { StreamingReceiver } from "../src/core/streamingReceiver";
 import {
   DispositionType,
   ServiceBusMessageImpl,
-  ReceivedMessageWithLock
+  ReceivedMessageWithLock,
+  ReceiveMode
 } from "../src/serviceBusMessage";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";

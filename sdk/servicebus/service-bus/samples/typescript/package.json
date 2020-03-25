@@ -28,8 +28,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/ms-rest-nodeauth": "^0.9.2",
-    "@azure/service-bus": "latest",
+    "@azure/identity": "^1.0.2",
+    "@azure/service-bus": "next",
     "dotenv": "^8.2.0",
     "https-proxy-agent": "^4.0.0",
     "ws": "^7.0.0"
