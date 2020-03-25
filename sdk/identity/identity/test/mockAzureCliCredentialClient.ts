@@ -1,6 +1,4 @@
-import {
-  AzureCliCredential
-} from "../src/credentials/azureCliCredential";
+import { AzureCliCredential } from "../src/credentials/azureCliCredential";
 
 interface MockCredentialClient {
   stdout: string;
