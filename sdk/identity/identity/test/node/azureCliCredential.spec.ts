@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import {
-  MockAzureCliCredentialClient
-} from "../mockAzureCliCredentialClient";
+import { MockAzureCliCredentialClient } from "../mockAzureCliCredentialClient";
 
 describe("AzureCliCredential", function() {
   it("get access token without error", async function() {
@@ -26,7 +24,10 @@ describe("AzureCliCredential", function() {
       try {
         await mockCliCredentialClient.getToken("https://service/.default");
       } catch (error) {
-        assert.equal(error.message, "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.");
+        assert.equal(
+          error.message,
+          "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+        );
       }
     } else {
       var mockCliCredentialClient = new MockAzureCliCredentialClient({
@@ -37,7 +38,10 @@ describe("AzureCliCredential", function() {
       try {
         await mockCliCredentialClient.getToken("https://service/.default");
       } catch (error) {
-        assert.equal(error.message, "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.");
+        assert.equal(
+          error.message,
+          "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+        );
       }
     }
   });
@@ -45,12 +49,16 @@ describe("AzureCliCredential", function() {
   it("get access token when azure cli not login in", async () => {
     var mockCliCredentialClient = new MockAzureCliCredentialClient({
       stdout: "",
-      stderr: "Please run 'az login' from a command prompt to authenticate before using this credential."
+      stderr:
+        "Please run 'az login' from a command prompt to authenticate before using this credential."
     });
     try {
       await mockCliCredentialClient.getToken("https://service/.default");
     } catch (error) {
-      assert.equal(error.message, "Please run 'az login' from a command prompt to authenticate before using this credential.");
+      assert.equal(
+        error.message,
+        "Please run 'az login' from a command prompt to authenticate before using this credential."
+      );
     }
   });
 
