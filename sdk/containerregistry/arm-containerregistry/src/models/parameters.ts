@@ -20,13 +20,28 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
+export const agentPoolName: msRest.OperationURLParameter = {
+  parameterPath: "agentPoolName",
+  mapper: {
+    required: true,
+    serializedName: "agentPoolName",
+    constraints: {
+      MaxLength: 20,
+      MinLength: 3,
+      Pattern: /^[a-zA-Z0-9-]*$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2019-05-01',
+    defaultValue: '2019-12-01-preview',
     type: {
       name: "String"
     }
@@ -78,6 +93,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const registryName: msRest.OperationURLParameter = {
   parameterPath: "registryName",
@@ -140,7 +165,7 @@ export const scopeMapName: msRest.OperationURLParameter = {
     constraints: {
       MaxLength: 50,
       MinLength: 5,
-      Pattern: /^[a-zA-Z0-9-]*$/
+      Pattern: /^[a-zA-Z0-9-_]*$/
     },
     type: {
       name: "String"
@@ -167,6 +192,16 @@ export const taskName: msRest.OperationURLParameter = {
       MinLength: 5,
       Pattern: /^[a-zA-Z0-9-_]*$/
     },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const taskRunName: msRest.OperationURLParameter = {
+  parameterPath: "taskRunName",
+  mapper: {
+    required: true,
+    serializedName: "taskRunName",
     type: {
       name: "String"
     }
