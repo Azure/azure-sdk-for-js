@@ -8,7 +8,8 @@
 
 export {
   AliasPathType,
-  AliasType,
+  AliasPatternType1,
+  AliasType1,
   BaseResource,
   BasicDependency,
   CloudError,
@@ -20,6 +21,7 @@ export {
   ErrorResponse,
   ExportTemplateRequest,
   GenericResource,
+  GenericResourceExpanded,
   Identity,
   IdentityUserAssignedIdentitiesValue,
   OnErrorDeploymentExtended,
@@ -33,9 +35,13 @@ export {
   ResourceGroupListResult,
   ResourceGroupPatchable,
   ResourceGroupProperties,
+  ResourceReference,
   Sku,
   SubResource,
   TagCount,
+  TagDetails,
+  Tags,
+  TagsResource,
   TagValue,
   TemplateLink
 } from "../models/mappers";
