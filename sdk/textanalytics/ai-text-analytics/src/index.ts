@@ -27,13 +27,6 @@ export {
 } from "./recognizeCategorizedEntitiesResult";
 export { RecognizeCategorizedEntitiesResultCollection } from "./recognizeCategorizedEntitiesResultCollection";
 export {
-  PiiEntity,
-  RecognizePiiEntitiesResult,
-  RecognizePiiEntitiesErrorResult,
-  RecognizePiiEntitiesSuccessResult
-} from "./recognizePiiEntitiesResult";
-export { RecognizePiiEntitiesResultCollection } from "./recognizePiiEntitiesResultCollection";
-export {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,
   AnalyzeSentimentSuccessResult
