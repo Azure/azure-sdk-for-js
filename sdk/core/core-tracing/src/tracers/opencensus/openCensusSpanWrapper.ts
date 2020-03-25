@@ -55,7 +55,12 @@ export class OpenCensusSpanWrapper implements Span {
       if (options.links) {
         for (const link of options.links) {
           // Since there is no way to set the link relationship, leave it as Unspecified.
-          this._span.addLink(link.spanContext.traceId, link.spanContext.spanId, 0 /* LinkType.UNSPECIFIED */, link.attributes as OpenCensusAttributes);
+          this._span.addLink(
+            link.spanContext.traceId,
+            link.spanContext.spanId,
+            0 /* LinkType.UNSPECIFIED */,
+            link.attributes as OpenCensusAttributes
+          );
         }
       }
     } else {

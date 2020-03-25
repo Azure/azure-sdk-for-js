@@ -12,8 +12,8 @@ export class NoOpBinaryFormat implements BinaryFormat {
     return new ArrayBuffer(0);
   }
 
-  /** 
-   * Deserialize a SpanContext from binary encoding. 
+  /**
+   * Deserialize a SpanContext from binary encoding.
    * Returns null if the buffer does not contain a valid SpanContext.
    */
   fromBytes(_buffer: ArrayBuffer): SpanContext | null {
