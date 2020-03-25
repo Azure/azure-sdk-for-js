@@ -4,6 +4,8 @@
 export { getTracer, setTracer } from "./tracerProxy";
 
 // Tracers and wrappers
+export { NoOpSpan } from "./tracers/noop/noOpSpan";
+export { NoOpTracer } from "./tracers/noop/noOpTracer";
 export { OpenCensusSpanWrapper } from "./tracers/opencensus/openCensusSpanWrapper";
 export { OpenCensusTracerWrapper } from "./tracers/opencensus/openCensusTracerWrapper";
 export { TestTracer, SpanGraph, SpanGraphNode } from "./tracers/test/testTracer";

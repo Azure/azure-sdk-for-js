@@ -147,14 +147,7 @@ export function browserConfig(test = false) {
             "notEqual",
             "strictEqual"
           ],
-          "@opentelemetry/api": [
-            "CanonicalCode",
-            "SpanKind",
-            "TraceFlags",
-            "NOOP_TRACER",
-            "NoopSpan",
-            "NoopTracer"
-          ]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
     ],

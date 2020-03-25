@@ -84,14 +84,7 @@ export function browserConfig(test = false) {
         // https://github.com/rollup/rollup-plugin-commonjs/issues/394
         namedExports: {
           "events/": ["EventEmitter"],
-          "@opentelemetry/api": [
-            "CanonicalCode",
-            "SpanKind",
-            "TraceFlags",
-            "NOOP_TRACER",
-            "NoopSpan",
-            "NoopTracer"
-          ]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })

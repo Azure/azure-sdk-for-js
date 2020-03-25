@@ -8,7 +8,6 @@
   - `Tracer` has removed `recordSpanData`, `getBinaryFormat`, and `getHttpTextFormat`.
   - `Tracer.getCurrentSpan` returns `undefined` instead of `null` when unset.
   - `Link` objects renamed `spanContext` property to `context`.
-- [BREAKING] Removed NoopTracer and NoopSpan implementations since this is provided by `@opentelemetry/api` now.
 
 ## 1.0.0-preview.7 (2019-12-03)
 

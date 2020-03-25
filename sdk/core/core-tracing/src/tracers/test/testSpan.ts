@@ -7,15 +7,15 @@ import {
   Status,
   SpanContext,
   CanonicalCode,
-  Attributes,
-  NoopSpan
+  Attributes
 } from "@opentelemetry/api";
+import { NoOpSpan } from "../noop/noOpSpan";
 import { TestTracer } from "./testTracer";
 
 /**
  * A mock span useful for testing.
  */
-export class TestSpan extends NoopSpan {
+export class TestSpan extends NoOpSpan {
   /**
    * The Span's current name
    */

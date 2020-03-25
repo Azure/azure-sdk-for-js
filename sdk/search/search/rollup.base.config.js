@@ -86,14 +86,7 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           chai: ["assert"],
-          "@opentelemetry/api": [
-            "CanonicalCode",
-            "SpanKind",
-            "TraceFlags",
-            "NOOP_TRACER",
-            "NoopSpan",
-            "NoopTracer"
-          ]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })

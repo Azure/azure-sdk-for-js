@@ -5,8 +5,6 @@
 ```ts
 
 import { Attributes } from '@opentelemetry/api';
-import { NoopSpan } from '@opentelemetry/api';
-import { NoopTracer } from '@opentelemetry/api';
 import { Span as OpenCensusSpan } from '@opencensus/web-types';
 import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
 import { Span } from '@opentelemetry/api';
@@ -26,6 +24,26 @@ export function getTraceParentHeader(spanContext: SpanContext): string | undefin
 
 // @public
 export function getTracer(): Tracer;
+
+// @public
+export class NoOpSpan implements Span {
+    addEvent(_name: string, _attributes?: Attributes): this;
+    context(): SpanContext;
+    end(_endTime?: number): void;
+    isRecording(): boolean;
+    setAttribute(_key: string, _value: unknown): this;
+    setAttributes(_attributes: Attributes): this;
+    setStatus(_status: Status): this;
+    updateName(_name: string): this;
+}
+
+// @public
+export class NoOpTracer implements Tracer {
+    bind<T>(target: T, _span?: Span): T;
+    getCurrentSpan(): Span;
+    startSpan(_name: string, _options?: SpanOptions): Span;
+    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span, fn: T): ReturnType<T>;
+}
 
 export { OpenCensusSpan }
 
@@ -71,7 +89,7 @@ export interface SpanGraphNode {
 }
 
 // @public
-export class TestSpan extends NoopSpan {
+export class TestSpan extends NoOpSpan {
     constructor(parentTracer: TestTracer, name: string, context: SpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
     readonly attributes: Attributes;
     context(): SpanContext;
@@ -90,7 +108,7 @@ export class TestSpan extends NoopSpan {
     }
 
 // @public
-export class TestTracer extends NoopTracer {
+export class TestTracer extends NoOpTracer {
     getActiveSpans(): TestSpan[];
     getKnownSpans(): TestSpan[];
     getRootSpans(): TestSpan[];
