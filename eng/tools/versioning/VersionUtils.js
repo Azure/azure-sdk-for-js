@@ -93,10 +93,11 @@ function buildSemverRegex(prefix) {
   return new RegExp(`(${prefix}.*?)(${semverRegex.toString()})`, "g");
 }
 
-function updateChangelog(targetPackagePath, newVersion, unreleased, replaceVersion) {
+function updateChangelog(targetPackagePath, repoRoot, newVersion, unreleased, replaceVersion) {
   const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
   try {
-    child = spawn("pwsh", ["eng/common/Update-Change-Log.ps1", newVersion, changelogLocation, unreleased, replaceVersion]);
+    const updateChangelogPath = path.resolve(path.join(repoRoot, "eng/common/Update-Change-Log.ps1"));
+    child = spawn("pwsh.exe", [updateChangelogPath, newVersion, changelogLocation, unreleased, replaceVersion]);
     child.stdout.on("data", function (data) {
       console.log("Powershell Data: " + data);
     });
