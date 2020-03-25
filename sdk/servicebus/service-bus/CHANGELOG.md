@@ -2,7 +2,7 @@
 
 ## 1.1.5 (2020-03-24)
 
-- Removed the management api features and interfaces from the API surface that have been accidentally exported in the previous versions.
+- Removed interfaces related to unreleased management api features from the API surface that were accidentally exported in version 1.1.3
   [PR 7992](https://github.com/Azure/azure-sdk-for-js/issues/7992).
 
 ## 1.1.4 (2020-03-17)
