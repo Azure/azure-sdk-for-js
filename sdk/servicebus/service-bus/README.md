@@ -57,8 +57,7 @@ Once you have initialized the [ServiceBusClient](https://docs.microsoft.com/en-u
 class, use the below methods to create client objects for Queues, Topics and Subscriptions
 to interact with existing Service Bus entities.
 
-Please note that the Queues, Topics and Subscriptions should already have been created prior to
-using this library.
+Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
 
 ### Examples
 
