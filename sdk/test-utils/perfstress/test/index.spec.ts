@@ -9,14 +9,12 @@ import { Delay500ms } from "./delay.spec";
 console.log("=== Starting the perfStress tests ===");
 
 const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest(
-    [
-      new SynchronousException(),
-      new AsynchronousException(),
-      new PerfStressPolicyTest(),
-      new Delay500ms()
-    ]
-  )
+  selectPerfStressTest([
+    new SynchronousException(),
+    new AsynchronousException(),
+    new PerfStressPolicyTest(),
+    new Delay500ms()
+  ])
 );
 
 perfStressProgram.run();
