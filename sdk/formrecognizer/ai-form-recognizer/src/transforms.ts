@@ -46,7 +46,7 @@ import {
   ArrayFieldValue
 } from "./models";
 
-function toTextLine(original: TextLineModel, pageNumber: number): ExtractedLine {
+export function toTextLine(original: TextLineModel, pageNumber: number): ExtractedLine {
   const line: ExtractedLine = {
     kind: "line",
     pageNumber: pageNumber,
@@ -81,17 +81,17 @@ export function toRawExtractedPage(original: ReadResultModel): RawExtractedPage 
 }
 
 // Note: might need to support other element types in future, e.g., checkbox
-const textPattern = /#\/readResults\/(\d+)\/lines\/(\d+)\/words\/(\d+)/;
+const textPattern = /#\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
 
-function toExtractedElement(element: string, readResults: RawExtractedPage[]): ExtractedElement {
+export function toExtractedElement(element: string, readResults: RawExtractedPage[]): ExtractedElement {
   const result = textPattern.exec(element);
-  if (!result || result.length < 3) {
+  if (!result || !result[0] || !result[1] || !result[2]) {
     throw new Error(`Unexpected element reference encountered: ${element}`);
   }
 
   const readIndex = Number.parseInt(result[1]);
   const lineIndex = Number.parseInt(result[2]);
-  if (result.length === 4) {
+  if (result[3]) {
     const wordIndex = Number.parseInt(result[3]);
     return readResults[readIndex].lines![lineIndex].words[wordIndex];
   } else {
@@ -99,7 +99,7 @@ function toExtractedElement(element: string, readResults: RawExtractedPage[]): E
   }
 }
 
-function toKeyValueElement(
+export function toKeyValueElement(
   original: KeyValueElementModel,
   readResults?: RawExtractedPage[]
 ): ExtractedText {
@@ -110,7 +110,7 @@ function toKeyValueElement(
   };
 }
 
-function toKeyValuePair(original: KeyValuePairModel, readResults?: RawExtractedPage[]): ExtractedField {
+export function toKeyValuePair(original: KeyValuePairModel, readResults?: RawExtractedPage[]): ExtractedField {
   return {
     label: original.label,
     confidence: original.confidence,
@@ -119,7 +119,7 @@ function toKeyValuePair(original: KeyValuePairModel, readResults?: RawExtractedP
   };
 }
 
-function toTable(original: DataTableModel, readResults?: RawExtractedPage[]): DataTable {
+export function toTable(original: DataTableModel, readResults?: RawExtractedPage[]): DataTable {
   let rows: DataTableRow[] = [];
   for (let i = 0; i < original.rows; i++) {
     rows.push({ cells: [] });
@@ -145,7 +145,7 @@ function toTable(original: DataTableModel, readResults?: RawExtractedPage[]): Da
   };
 }
 
-function toPageResult(original: PageResultModel, readResults?: RawExtractedPage[]): ExtractedPage {
+export function toPageResult(original: PageResultModel, readResults?: RawExtractedPage[]): ExtractedPage {
   return {
     pageNumber: original.pageNumber,
     formTypeId: original.clusterId,
