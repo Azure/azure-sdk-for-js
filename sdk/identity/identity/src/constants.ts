@@ -22,8 +22,8 @@ export const DefaultTenantId = "common";
  * A list of known authority hosts
  */
 export enum KnownAuthorityHosts {
-  AzureChina = "login.chinacloudapi.cn",
-  AzureGermany = "login.microsoftonline.de",
-  AzureGovernment = "login.microsoftonline.us",
-  AzurePublicCloud = "login.microsoftonline.com"  
+  AzureChina = "https://login.chinacloudapi.cn",
+  AzureGermany = "https://login.microsoftonline.de",
+  AzureGovernment = "https://login.microsoftonline.us",
+  AzurePublicCloud = "https://login.microsoftonline.com"  
 }
