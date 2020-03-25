@@ -373,7 +373,6 @@ export class BlobClient extends StorageClient {
     getBlockBlobClient(): BlockBlobClient;
     getPageBlobClient(): PageBlobClient;
     getProperties(options?: BlobGetPropertiesOptions): Promise<BlobGetPropertiesResponse>;
-    getURLWithVersionId(versionId: string): string;
     get name(): string;
     setAccessTier(tier: BlockBlobTier | PremiumPageBlobTier | string, options?: BlobSetTierOptions): Promise<BlobSetTierResponse>;
     setHTTPHeaders(blobHTTPHeaders?: BlobHTTPHeaders, options?: BlobSetHTTPHeadersOptions): Promise<BlobSetHTTPHeadersResponse>;
@@ -381,6 +380,7 @@ export class BlobClient extends StorageClient {
     syncCopyFromURL(copySource: string, options?: BlobSyncCopyFromURLOptions): Promise<BlobCopyFromURLResponse>;
     undelete(options?: BlobUndeleteOptions): Promise<BlobUndeleteResponse>;
     withSnapshot(snapshot: string): BlobClient;
+    withVersionId(versionId: string): BlobClient;
 }
 
 // @public

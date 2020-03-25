@@ -21,9 +21,6 @@ import {
 import {
   setURLParameter,
 } from "../src/utils/utils.common";
-import {
-  URLConstants,
-} from "../src/utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("Blob versioning", () => {
@@ -293,7 +290,10 @@ describe("Blob versioning", () => {
   });
 
   it("promote a version: as the copy source", async () => {
-    const versionURL = setURLParameter(blobClient.url, URLConstants.Parameters.VERSIONID, uploadRes.versionId);
+    const versionBlobClient = blobClient.withVersionId(uploadRes.versionId!);
+    await versionBlobClient.getProperties();
+
+    const versionURL = setURLParameter(blobClient.url, "versionid", uploadRes.versionId);
     const copyRes = await (await blobClient.beginCopyFromURL(versionURL)).pollUntilDone();
     assert.ok(copyRes.copyId);
 

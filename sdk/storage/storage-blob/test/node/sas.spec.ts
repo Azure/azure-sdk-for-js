@@ -884,7 +884,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as StorageSharedKeyCredential
     );
 
-    const sasURL = `${blobClient.getURLWithVersionId(uploadRes.versionId!)}&${blobSAS}`;
+    const sasURL = `${blobClient.withVersionId(uploadRes.versionId!).url}&${blobSAS}`;
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     await blobClientWithSAS.delete({ versionId: uploadRes.versionId });
     assert.ok(!(await blobClientWithSAS.exists({ versionId: uploadRes.versionId })));
@@ -947,7 +947,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       accountName
     );
 
-    const sasURL = `${blobClient.getURLWithVersionId(uploadRes.versionId!)}&${blobSAS}`;
+    const sasURL = `${blobClient.withVersionId(uploadRes.versionId!).url}&${blobSAS}`;
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
     await blobClientWithSAS.delete({ versionId: uploadRes.versionId });
     assert.ok(!(await blobClientWithSAS.exists({ versionId: uploadRes.versionId })));
