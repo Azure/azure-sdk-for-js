@@ -18,7 +18,7 @@ export interface AccessToken {
 // @public
 export class AzureKeyCredential implements KeyCredential {
     constructor(key: string);
-    key: string;
+    get key(): string;
     update(newKey: string): void;
 }
 
@@ -31,7 +31,7 @@ export function isTokenCredential(credential: any): credential is TokenCredentia
 
 // @public
 export interface KeyCredential {
-    key: string;
+    readonly key: string;
 }
 
 // @public
