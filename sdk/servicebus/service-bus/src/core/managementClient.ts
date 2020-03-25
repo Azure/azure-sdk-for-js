@@ -332,11 +332,7 @@ export class ManagementClient extends LinkEntity {
     sendRequestOptions: SendRequestOptions
   ): Promise<AmqpMessage> {
     try {
-      return await this._mgmtReqResLink!.sendRequest(request, {
-        abortSignal: sendRequestOptions.abortSignal,
-        requestName: sendRequestOptions.requestName,
-        timeoutInMs: sendRequestOptions.timeoutInMs
-      });
+      return await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
     } catch (err) {
       err = translate(err);
       const address =
