@@ -257,7 +257,6 @@ export class MessageSender extends LinkEntity {
     }
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
-        // TO DO - move to the internal trySend
         if (!this.isOpen()) {
           log.sender(
             "Acquiring lock %s for initializing the session, sender and " +
