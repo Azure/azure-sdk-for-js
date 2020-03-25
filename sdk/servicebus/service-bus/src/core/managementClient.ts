@@ -227,7 +227,7 @@ export class ManagementClient extends LinkEntity {
             const ehError = translate(context.session!.error!);
             log.error(
               "[%s] An error occurred on the session for request/response links for " +
-              "$management: %O",
+                "$management: %O",
               id,
               ehError
             );
@@ -236,7 +236,7 @@ export class ManagementClient extends LinkEntity {
         const sropt: SenderOptions = { target: { address: this.address } };
         log.mgmt(
           "[%s] Creating sender/receiver links on a session for $management endpoint with " +
-          "srOpts: %o, receiverOpts: %O.",
+            "srOpts: %o, receiverOpts: %O.",
           this._context.namespace.connectionId,
           sropt,
           rxopt
@@ -326,14 +326,16 @@ export class ManagementClient extends LinkEntity {
     return Date.now() - initOperationStartTime;
   }
 
-
   // TO DO - Any better name??
-  private async _managementLinkSendRequestHelper(request: AmqpMessage, timeoutInMs: number): Promise<AmqpMessage> {
+  private async _managementLinkSendRequestHelper(
+    request: AmqpMessage,
+    sendRequestOptions: SendRequestOptions
+  ): Promise<AmqpMessage> {
     try {
       return await this._mgmtReqResLink!.sendRequest(request, {
-        abortSignal: undefined,
-        requestName: undefined,
-        timeoutInMs: timeoutInMs
+        abortSignal: sendRequestOptions.abortSignal,
+        requestName: sendRequestOptions.requestName,
+        timeoutInMs: sendRequestOptions.timeoutInMs
       });
     } catch (err) {
       err = translate(err);
@@ -343,7 +345,7 @@ export class ManagementClient extends LinkEntity {
           : this._mgmtReqResLink!.sender.address;
       log.warning(
         "[%s] An error occurred during send on management request-response link with address " +
-        "'%s': %O",
+          "'%s': %O",
         this._context.namespace.connectionId,
         address,
         err
@@ -351,6 +353,21 @@ export class ManagementClient extends LinkEntity {
       throw err;
     }
   }
+
+  private async _acquireLockAndSendRequest(
+    request: AmqpMessage,
+    retryTimeoutInMs: number,
+    sendRequestOptions: SendRequestOptions
+  ): Promise<AmqpMessage> {
+    const timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
+    const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+    return await this._managementLinkSendRequestHelper(request, {
+      abortSignal: sendRequestOptions.abortSignal,
+      requestName: sendRequestOptions.requestName,
+      timeoutInMs: remainingOperationTimeoutInMs
+    });
+  }
+
   /**
    * Helper function to retrieve active receiver name, if it exists.
    * @param clientEntityContext The `ClientEntityContext` associated with given Service Bus entity client
@@ -483,7 +500,6 @@ export class ManagementClient extends LinkEntity {
       new Promise<ReceivedMessage[]>(async (resolve, reject) => {
         try {
           const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-          let timeTakenByInit = 0;
           const messageList: ReceivedMessage[] = [];
           const messageBody: any = {};
           messageBody[Constants.fromSequenceNumber] = types.wrap_long(
@@ -512,14 +528,10 @@ export class ManagementClient extends LinkEntity {
             request.body
           );
 
-          try {
-            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
-          } catch (error) {
-            reject(translate(error));
-          }
-
-          const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
-          const result = await this._managementLinkSendRequestHelper(request, remainingOperationTimeoutInMs)
+          const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
+            abortSignal: undefined,
+            requestName: undefined
+          });
           if (result.application_properties!.statusCode !== 204) {
             const messages = result.body.messages as { message: Buffer }[];
             for (const msg of messages) {
@@ -535,12 +547,12 @@ export class ManagementClient extends LinkEntity {
           const error = translate(err) as MessagingError;
           log.error(
             "An error occurred while sending the request to peek messages to " +
-            "$management endpoint: %O",
+              "$management endpoint: %O",
             error
           );
           // statusCode == 404 then do not throw
           if (error.code !== ConditionErrorNameMapper["com.microsoft:message-not-found"]) {
-            throw error;
+            reject(error);
           }
         }
       });
@@ -675,11 +687,11 @@ export class ManagementClient extends LinkEntity {
         throw error;
       }
     }
-    try {
-      const scheduleMessageOperationPromise = () =>
-        new Promise<Long.Long[]>(async (resolve, reject) => {
+    const scheduleMessageOperationPromise = () =>
+      new Promise<Long.Long[]>(async (resolve, reject) => {
+        try {
           const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
-          let timeTakenByInit = 0;
+
           const request: AmqpMessage = {
             body: { messages: messageBody },
             reply_to: this.replyTo,
@@ -698,65 +710,38 @@ export class ManagementClient extends LinkEntity {
             this._context.namespace.connectionId,
             request.body
           );
-
-          try {
-            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
-          } catch (error) {
-            reject(translate(error));
-          }
-
-          try {
-            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
-
-            const sendRequestOptions: SendRequestOptions = {
-              abortSignal: undefined,
-              requestName: undefined,
-              timeoutInMs: remainingOperationTimeoutInMs
-            };
-            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
-            const sequenceNumbers = result.body[Constants.sequenceNumbers];
-            const sequenceNumbersAsLong = [];
-            for (let i = 0; i < sequenceNumbers.length; i++) {
-              if (typeof sequenceNumbers[i] === "number") {
-                sequenceNumbersAsLong.push(Long.fromNumber(sequenceNumbers[i]));
-              } else {
-                sequenceNumbersAsLong.push(Long.fromBytesBE(sequenceNumbers[i]));
-              }
+          const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
+            abortSignal: undefined,
+            requestName: undefined
+          });
+          const sequenceNumbers = result.body[Constants.sequenceNumbers];
+          const sequenceNumbersAsLong = [];
+          for (let i = 0; i < sequenceNumbers.length; i++) {
+            if (typeof sequenceNumbers[i] === "number") {
+              sequenceNumbersAsLong.push(Long.fromNumber(sequenceNumbers[i]));
+            } else {
+              sequenceNumbersAsLong.push(Long.fromBytesBE(sequenceNumbers[i]));
             }
-            resolve(sequenceNumbersAsLong);
-          } catch (err) {
-            err = translate(err);
-            const address =
-              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
-                ? "address"
-                : this._mgmtReqResLink!.sender.address;
-            log.warning(
-              "[%s] An error occurred during send on management request-response link with address " +
-              "'%s': %O",
-              this._context.namespace.connectionId,
-              address,
-              err
-            );
-            reject(err);
           }
-        });
+          resolve(sequenceNumbersAsLong);
+        } catch (err) {
+          const error = translate(err);
+          log.error(
+            "An error occurred while sending the request to schedule messages to " +
+              "$management endpoint: %O",
+            error
+          );
+          reject(error);
+        }
+      });
 
-      const config: RetryConfig<Long.Long[]> = {
-        operation: scheduleMessageOperationPromise,
-        connectionId: this._context.namespace.connectionId,
-        operationType: RetryOperationType.management,
-        retryOptions: retryOptions
-      };
-      return await retry<Long.Long[]>(config);
-    } catch (err) {
-      const error = translate(err);
-      log.error(
-        "An error occurred while sending the request to schedule messages to " +
-        "$management endpoint: %O",
-        error
-      );
-      throw error;
-    }
+    const config: RetryConfig<Long.Long[]> = {
+      operation: scheduleMessageOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return await retry<Long.Long[]>(config);
   }
 
   /**
@@ -777,7 +762,7 @@ export class ManagementClient extends LinkEntity {
         const error = translate(err);
         log.error(
           "An error occurred while encoding the item at position %d in the " +
-          "sequenceNumbers array: %O",
+            "sequenceNumbers array: %O",
           i,
           error
         );
@@ -812,37 +797,15 @@ export class ManagementClient extends LinkEntity {
 
       const cancelSchedulesMessagesOperationPromise = () =>
         new Promise<void>(async (resolve, reject) => {
-          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
-          let timeTakenByInit = 0;
           try {
-            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
+            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
+            await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
+              abortSignal: undefined,
+              requestName: undefined
+            });
+            resolve();
           } catch (error) {
             reject(translate(error));
-          }
-          try {
-            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
-
-            const sendRequestOptions: SendRequestOptions = {
-              abortSignal: undefined,
-              requestName: undefined,
-              timeoutInMs: remainingOperationTimeoutInMs
-            };
-            await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
-            resolve();
-          } catch (err) {
-            err = translate(err);
-            const address =
-              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
-                ? "address"
-                : this._mgmtReqResLink!.sender.address;
-            log.warning(
-              "[%s] An error occurred during send on management request-response link with address " +
-              "'%s': %O",
-              this._context.namespace.connectionId,
-              address,
-              err
-            );
-            reject(err);
           }
         });
       const config: RetryConfig<void> = {
@@ -856,7 +819,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to cancel the scheduled message to " +
-        "$management endpoint: %O",
+          "$management endpoint: %O",
         error
       );
       throw error;
@@ -893,7 +856,7 @@ export class ManagementClient extends LinkEntity {
         const error = translate(err);
         log.error(
           "An error occurred while encoding the item at position %d in the " +
-          "sequenceNumbers array: %O",
+            "sequenceNumbers array: %O",
           i,
           error
         );
@@ -933,23 +896,12 @@ export class ManagementClient extends LinkEntity {
 
       const receiveDeferredMessagesOperationPromise = () =>
         new Promise<ServiceBusMessageImpl[]>(async (resolve, reject) => {
-          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-          let timeTakenByInit = 0;
-
           try {
-            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
-          } catch (error) {
-            reject(translate(error));
-          }
-          try {
-            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
-
-            const sendRequestOptions: SendRequestOptions = {
+            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+            const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
               abortSignal: undefined,
-              requestName: undefined,
-              timeoutInMs: remainingOperationTimeoutInMs
-            };
-            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+              requestName: undefined
+            });
             const messages = result.body.messages as {
               message: Buffer;
               "lock-token": Buffer;
@@ -971,20 +923,8 @@ export class ManagementClient extends LinkEntity {
               messageList.push(message);
             }
             resolve(messageList);
-          } catch (err) {
-            err = translate(err);
-            const address =
-              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
-                ? "address"
-                : this._mgmtReqResLink!.sender.address;
-            log.warning(
-              "[%s] An error occurred during send on management request-response link with address " +
-              "'%s': %O",
-              this._context.namespace.connectionId,
-              address,
-              err
-            );
-            reject(err);
+          } catch (error) {
+            reject(translate(error));
           }
         });
 
@@ -999,7 +939,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to receive deferred messages to " +
-        "$management endpoint: %O",
+          "$management endpoint: %O",
         error
       );
       throw error;
@@ -1071,7 +1011,7 @@ export class ManagementClient extends LinkEntity {
       const error = translate(err);
       log.error(
         "An error occurred while sending the request to update disposition status to " +
-        "$management endpoint: %O",
+          "$management endpoint: %O",
         error
       );
       throw error;
@@ -1115,26 +1055,15 @@ export class ManagementClient extends LinkEntity {
 
       const renewSessionLockOperationPromise = () =>
         new Promise<Date>(async (resolve, reject) => {
-          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-          let timeTakenByInit = 0;
-
           try {
-            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
-          } catch (error) {
-            reject(translate(error));
-          }
-
-          try {
-            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
             if (!options) {
               options = {};
             }
-            const sendRequestOptions: SendRequestOptions = {
+            const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
               abortSignal: options?.abortSignal,
-              requestName: options?.requestName,
-              timeoutInMs: remainingOperationTimeoutInMs
-            };
-            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+              requestName: options?.requestName
+            });
             const lockedUntilUtc = new Date(result.body.expiration);
             log.mgmt(
               "[%s] Lock for session '%s' will expire at %s.",
@@ -1143,20 +1072,8 @@ export class ManagementClient extends LinkEntity {
               lockedUntilUtc.toString()
             );
             resolve(lockedUntilUtc);
-          } catch (err) {
-            err = translate(err);
-            const address =
-              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
-                ? "address"
-                : this._mgmtReqResLink!.sender.address;
-            log.warning(
-              "[%s] An error occurred during send on management request-response link with address " +
-              "'%s': %O",
-              this._context.namespace.connectionId,
-              address,
-              err
-            );
-            reject(err);
+          } catch (error) {
+            reject(translate(error));
           }
         });
 
@@ -1216,40 +1133,15 @@ export class ManagementClient extends LinkEntity {
 
       const setSessionStateOperationPromise = () =>
         new Promise<void>(async (resolve, reject) => {
-          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-          let timeTakenByInit = 0;
-
           try {
-            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
+            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+            await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
+              abortSignal: undefined,
+              requestName: undefined
+            });
+            resolve();
           } catch (error) {
             reject(translate(error));
-          }
-          try {
-            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
-            if (!options) {
-              options = {};
-            }
-            const sendRequestOptions: SendRequestOptions = {
-              abortSignal: undefined,
-              requestName: undefined,
-              timeoutInMs: remainingOperationTimeoutInMs
-            };
-            await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
-            resolve();
-          } catch (err) {
-            err = translate(err);
-            const address =
-              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
-                ? "address"
-                : this._mgmtReqResLink!.sender.address;
-            log.warning(
-              "[%s] An error occurred during send on management request-response link with address " +
-              "'%s': %O",
-              this._context.namespace.connectionId,
-              address,
-              err
-            );
-            reject(err);
           }
         });
 
@@ -1302,43 +1194,19 @@ export class ManagementClient extends LinkEntity {
 
       const getSessionStateOperationPromise = () =>
         new Promise<any>(async (resolve, reject) => {
-          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-          let timeTakenByInit = 0;
-
           try {
-            timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
-          } catch (error) {
-            reject(translate(error));
-          }
-          // TO DO - Refactor this try-catch block similar to the above _acquireLockHelper
-          try {
-            const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
-
-            const sendRequestOptions: SendRequestOptions = {
+            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+            const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
               abortSignal: undefined,
-              requestName: undefined,
-              timeoutInMs: remainingOperationTimeoutInMs
-            };
-            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+              requestName: undefined
+            });
             resolve(
               result.body["session-state"]
                 ? this._context.namespace.dataTransformer.decode(result.body["session-state"])
                 : result.body["session-state"]
             );
-          } catch (err) {
-            err = translate(err);
-            const address =
-              this._mgmtReqResLink || this._mgmtReqResLink!.sender.address
-                ? "address"
-                : this._mgmtReqResLink!.sender.address;
-            log.warning(
-              "[%s] An error occurred during send on management request-response link with address " +
-              "'%s': %O",
-              this._context.namespace.connectionId,
-              address,
-              err
-            );
-            reject(err);
+          } catch (error) {
+            reject(translate(error));
           }
         });
       const config: RetryConfig<any> = {
