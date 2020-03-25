@@ -9,7 +9,6 @@ import { makeExtractKeyPhrasesResultCollection } from "../src/extractKeyPhrasesR
 import { makeRecognizeLinkedEntitiesResultCollection } from "../src/recognizeLinkedEntitiesResultCollection";
 import { makeRecognizeCategorizedEntitiesResultCollection } from "../src/recognizeCategorizedEntitiesResultCollection";
 import { LanguageInput, MultiLanguageInput } from "../src/generated/models";
-import { makeRecognizePiiEntitiesResultCollection } from "../src/recognizePiiEntitiesResultCollection";
 
 describe("SentimentResultCollection", () => {
   it("merges items in order", () => {
@@ -216,69 +215,6 @@ describe("RecognizeCategorizedEntitiesResultCollection", () => {
               text: "last week",
               category: "DateTime",
               subCategory: "DateRange",
-              graphemeOffset: 34,
-              graphemeLength: 9,
-              score: 0.8
-            }
-          ]
-        }
-      ],
-      [
-        {
-          id: "B",
-          error: {
-            code: "InternalServerError",
-            message: "test error"
-          }
-        }
-      ],
-      ""
-    );
-
-    const inputOrder = input.map((item) => item.id);
-    const outputOrder = result.map((item) => item.id);
-    assert.deepEqual(inputOrder, outputOrder);
-  });
-});
-
-describe("RecognizePiiEntitiesResultCollection", () => {
-  it("merges items in order", () => {
-    const input: MultiLanguageInput[] = [
-      {
-        id: "A",
-        text: "test"
-      },
-      {
-        id: "B",
-        text: "test2"
-      },
-      {
-        id: "C",
-        text: "test3"
-      }
-    ];
-    const result = makeRecognizePiiEntitiesResultCollection(
-      input,
-      [
-        {
-          id: "A",
-          entities: [
-            {
-              text: "(555) 555-5555",
-              category: "US Phone Number",
-              graphemeOffset: 10,
-              graphemeLength: 9,
-              score: 0.9989
-            }
-          ]
-        },
-        {
-          id: "C",
-          entities: [
-            {
-              text: "1234 Default Ln.",
-              category: "US Address",
-              subCategory: "",
               graphemeOffset: 34,
               graphemeLength: 9,
               score: 0.8
