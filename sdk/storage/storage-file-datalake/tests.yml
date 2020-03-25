@@ -9,6 +9,6 @@ resources:
       name: Azure/azure-sdk-tools
       endpoint: azure
 jobs:
-  - template: ../archetype-sdk-tests-storage.yml
+  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
     parameters:
       PackageName: "@azure/storage-file-datalake"

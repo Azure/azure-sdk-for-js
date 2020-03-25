@@ -10,7 +10,10 @@ The Azure Event Hubs client library allows you to send and receive events in you
 [Product documentation](https://azure.microsoft.com/en-us/services/event-hubs/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples)
 
-**NOTE**: If you are using version 2.1.0 or lower, then please use the below links instead
+**NOTE**: If you are using version 2.1.0 or lower and want to migrate to the latest version
+of this package please look at our [migration guide to move from EventHubs V2 to EventHubs V5](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/migrationguide.md)
+
+Samples for v2 and documentation are still available here:
 
 [Source code for v2.1.0](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs) |
 [Package for v2.1.0 (npm)](https://www.npmjs.com/package/@azure/event-hubs/v/2.1.0) |
@@ -24,7 +27,9 @@ Install the Azure Event Hubs client library using npm
 
 `npm install @azure/event-hubs`
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
+### Prerequisites
+
+You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Event Hubs Namespace](https://docs.microsoft.com/en-us/azure/event-hubs/) to use this package.
 If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
@@ -89,8 +94,6 @@ const consumerClient = new EventHubConsumerClient(
 - This constructor takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. This allows you to authenticate using an Azure Active Directory principal. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`. When using Azure Active Directory, your principal must be assigned a role which allows access to Event Hubs, such as the Azure Event Hubs Data Owner role. For more information about using Azure Active Directory authorization with Event Hubs, please refer to [the associated documentation](https://docs.microsoft.com/en-us/azure/event-hubs/authorize-access-azure-active-directory).
 
 ## Key concepts
-
-- An **Event Hub client** is the primary interface for developers interacting with the Event Hubs client library, allowing for inspection of Event Hub metadata and providing a guided experience towards specific Event Hub operations such as the creation of producers and consumers.
 
 - An **Event Hub producer** is a source of telemetry data, diagnostics information, usage logs, or other log data, as part of an embedded device solution, a mobile device application, a game title running on a console or other device, some client or server based business solution, or a web site.
 
@@ -387,23 +390,14 @@ The Event Hubs library depends on the [rhea-promise](https://github.com/amqp/rhe
 
 ### Enable logs
 
-You can set the `AZURE_LOG_LEVEL` environment variable to one of the following values to enable logging to `stderr`:
+You can set the `AZURE_LOG_LEVEL` environment variable to enable logging to `stderr`:
 
-- verbose
-- info
-- warning
-- error
+```bash
+export AZURE_LOG_LEVEL=verbose
+```
 
-You can also set the log level programatically by importing the
-[@azure/logger](https://www.npmjs.com/package/@azure/logger) package and calling the
-`setLogLevel` function with one of the log level values.
-
-When setting a log level either programatically or via the `AZURE_LOG_LEVEL` environment variable,
-any logs that are written using a log level equal to or less than the one you choose will be emitted.
-For example, when you set the log level to `info`, the logs that are written for levels
-`warning` and `error` are also emitted.
-This SDK follows the Azure SDK for TypeScript [guidelines](https://azure.github.io/azure-sdk/typescript_implementation.html#general-logging)
-when determining which level to log to.
+For more detailed instructions on how to enable logs, you can look at the
+[@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
 You can alternatively set the `DEBUG` environment variable to get logs when using this library.
 This can be useful if you also want to emit logs from the dependencies `rhea-promise` and `rhea` as well.
@@ -435,24 +429,6 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message
 ```bash
 export DEBUG=azure:*:(error|warning),rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
-
-### Logging to a file
-
-- Enable logging as shown above and then run your test script as follows:
-
-  - Logging statements from your test script go to `out.log` and logging statements from the sdk go to `debug.log`.
-    ```bash
-    node your-test-script.js > out.log 2>debug.log
-    ```
-  - Logging statements from your test script and the sdk go to the same file `out.log` by redirecting stderr to stdout (&1), and then redirect stdout to a file:
-    ```bash
-    node your-test-script.js >out.log 2>&1
-    ```
-  - Logging statements from your test script and the sdk go to the same file `out.log`.
-
-    ```bash
-    node your-test-script.js &> out.log
-    ```
 
 ## Next Steps
 

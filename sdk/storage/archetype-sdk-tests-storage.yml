@@ -31,15 +31,15 @@ parameters:
       NodeVersion: "12.x"
       TestType: "node"
     macOS_Node8:
-      OSVmImage: "macOS-10.13"
+      OSVmImage: "macOS-10.15"
       NodeVersion: "8.x"
       TestType: "node"
     macOS_Node10:
-      OSVmImage: "macOS-10.13"
+      OSVmImage: "macOS-10.15"
       NodeVersion: "10.x"
       TestType: "node"
     macOS_Node12:
-      OSVmImage: "macOS-10.13"
+      OSVmImage: "macOS-10.15"
       NodeVersion: "12.x"
       TestType: "node"
     Browser_Linux_Node10:
@@ -51,7 +51,7 @@ parameters:
       NodeVersion: "10.x"
       TestType: "browser"
     Browser_macOS_Node10:
-      OSVmImage: "macOS-10.13"
+      OSVmImage: "macOS-10.15"
       NodeVersion: "10.x"
       TestType: "browser"
     Linux_Sample10:

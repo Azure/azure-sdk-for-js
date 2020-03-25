@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-queue",
   "sdk-type": "client",
-  "version": "12.0.3",
+  "version": "12.0.5",
   "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -12,21 +12,29 @@
     "os": false,
     "process": false
   },
-  "types": "./typings/src/index.d.ts",
+  "types": "./typings/latest/src/index.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "*": [
+        "./typings/3.1/src/index.d.ts"
+      ]
+    }
+  },
   "engines": {
     "node": ">=8.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=12.0.2 --use=@microsoft.azure/autorest.typescript@5.0.1",
-    "build:es6": "tsc -p tsconfig.json",
+    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=12.0.4 --use=@microsoft.azure/autorest.typescript@5.0.1",
+    "build:es6": "tsc -p tsconfig.json && npm run build:types",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "npm run clean && npm run build:es6 && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run build:prep-samples",
     "build:prep-samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
+    "build:types": "downlevel-dts typings/latest typings/3.1",
     "build": "npm run build:es6 && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm dist-test typings temp browser/*.js* browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean": "rimraf dist dist-esm dist-test typings temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "clean:samples": "rimraf samples/javascript/node_modules samples/typescript/node_modules samples/typescript/dist samples/typescript/package-lock.json samples/javascript/package-lock.json",
     "extract-api": "tsc -p . && api-extractor run --local",
     "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
@@ -34,17 +42,17 @@
     "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace -t 120000 dist-esm/test/*.spec.js dist-esm/test/node/*.spec.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-esm/test/*.spec.js dist-esm/test/node/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint -c ../../.eslintrc.json src test samples --ext .ts --fix",
-    "lint": "eslint -c ../../.eslintrc.json src test samples --ext .ts -f html -o storage-queue-lintReport.html || exit 0",
+    "lint:fix": "eslint -c ../../.eslintrc.old.json src test samples --ext .ts --fix",
+    "lint": "eslint -c ../../.eslintrc.old.json src test samples --ext .ts -f html -o storage-queue-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require source-map-support/register --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=- --full-trace -t 120000 dist-test/index.node.js",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node"
   },
@@ -52,10 +60,10 @@
     "BreakingChanges.md",
     "dist/",
     "dist-esm/src/",
-    "LICENSE",
-    "src/",
-    "typings/src",
-    "tsconfig.json"
+    "typings/latest/src",
+    "typings/3.1/src",
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",
@@ -91,15 +99,15 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^1.0.0",
-    "@azure/core-paging": "^1.0.0",
+    "@azure/core-http": "^1.0.3",
+    "@azure/core-paging": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@azure/identity": "^1.0.0",
+    "@azure/identity": "1.1.0-preview1",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",
@@ -113,6 +121,7 @@
     "assert": "^1.4.1",
     "cross-env": "^6.0.3",
     "dotenv": "^8.2.0",
+    "downlevel-dts": "~0.4.0",
     "es6-promise": "^4.2.5",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -136,7 +145,6 @@
     "karma-remap-istanbul": "^0.6.0",
     "mocha": "^6.2.2",
     "mocha-junit-reporter": "^1.18.0",
-    "mocha-multi": "^1.1.3",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^2.0.0",

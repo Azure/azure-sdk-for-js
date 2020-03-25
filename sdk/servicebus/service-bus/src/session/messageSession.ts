@@ -7,7 +7,7 @@ import {
   ErrorNameConditionMapper,
   MessagingError,
   Func
-} from "@azure/amqp-common";
+} from "@azure/core-amqp";
 import {
   Receiver,
   OnAmqpEvent,
@@ -29,7 +29,7 @@ import { LinkEntity } from "../core/linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { convertTicksToDate, calculateRenewAfterDuration } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import { ServiceBusMessage, DispositionType, ReceiveMode } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
 
 /**
  * Enum to denote who is calling the session receiver
@@ -280,9 +280,7 @@ export class MessageSession extends LinkEntity {
           this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
             this.sessionId!,
             {
-              delayInSeconds: 0,
-              timeoutInSeconds: 10,
-              times: 4
+              timeoutInMs: 10000
             }
           );
           log.receiver(
@@ -551,8 +549,8 @@ export class MessageSession extends LinkEntity {
       const connectionId = this._context.namespace.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
-        const sbError = translate(receiverError);
-        if (sbError.name === "SessionLockLostError") {
+        const sbError = translate(receiverError) as MessagingError;
+        if (sbError.code === "SessionLockLostError") {
           this._context.expiredMessageSessions[this.sessionId!] = true;
           sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
@@ -587,8 +585,8 @@ export class MessageSession extends LinkEntity {
       const receiver = this._receiver || context.receiver!;
       let isClosedDueToExpiry = false;
       if (receiverError) {
-        const sbError = translate(receiverError);
-        if (sbError.name === "SessionLockLostError") {
+        const sbError = translate(receiverError) as MessagingError;
+        if (sbError.code === "SessionLockLostError") {
           isClosedDueToExpiry = true;
         }
         log.error(
@@ -812,7 +810,7 @@ export class MessageSession extends LinkEntity {
         }
 
         resetTimerOnNewMessageReceived();
-        const bMessage: ServiceBusMessage = new ServiceBusMessage(
+        const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
           this._context,
           context.message!,
           context.delivery!,
@@ -927,15 +925,15 @@ export class MessageSession extends LinkEntity {
   async receiveMessages(
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number
-  ): Promise<ServiceBusMessage[]> {
+  ): Promise<ServiceBusMessageImpl[]> {
     if (maxWaitTimeInSeconds == null) {
-      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
+      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
     }
 
-    const brokeredMessages: ServiceBusMessage[] = [];
+    const brokeredMessages: ServiceBusMessageImpl[] = [];
     this.isReceivingMessages = true;
 
-    return new Promise<ServiceBusMessage[]>((resolve, reject) => {
+    return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
       let totalWaitTimer: any;
 
       const setnewMessageWaitTimeoutInSeconds = (value?: number): void => {
@@ -976,7 +974,7 @@ export class MessageSession extends LinkEntity {
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
         resetTimerOnNewMessageReceived();
         try {
-          const data: ServiceBusMessage = new ServiceBusMessage(
+          const data: ServiceBusMessageImpl = new ServiceBusMessageImpl(
             this._context,
             context.message!,
             context.delivery!,
@@ -1133,7 +1131,7 @@ export class MessageSession extends LinkEntity {
    * @param options Optional parameters that can be provided while disposing the message.
    */
   async settleMessage(
-    message: ServiceBusMessage,
+    message: ServiceBusMessageImpl,
     operation: DispositionType,
     options?: DispositionOptions
   ): Promise<any> {
@@ -1150,7 +1148,7 @@ export class MessageSession extends LinkEntity {
             "Hence rejecting the promise with timeout error",
           this._context.namespace.connectionId,
           delivery.id,
-          Constants.defaultOperationTimeoutInSeconds * 1000
+          Constants.defaultOperationTimeoutInMs
         );
 
         const e: AmqpError = {
@@ -1160,7 +1158,7 @@ export class MessageSession extends LinkEntity {
             "message may or may not be successful"
         };
         return reject(translate(e));
-      }, Constants.defaultOperationTimeoutInSeconds * 1000);
+      }, Constants.defaultOperationTimeoutInMs);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,

@@ -45,7 +45,6 @@ import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
-import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -407,12 +406,6 @@ export class ShareClient extends StorageClient {
     credentialOrPipelineOrShareName?: Credential | Pipeline | string,
     options?: StoragePipelineOptions
   ) {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrShareName instanceof Pipeline) {
@@ -422,7 +415,7 @@ export class ShareClient extends StorageClient {
     } else if (credentialOrPipelineOrShareName instanceof Credential) {
       // (url: string, credential?: Credential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      pipeline = newPipeline(credentialOrPipelineOrShareName, newOptions);
+      pipeline = newPipeline(credentialOrPipelineOrShareName, options);
     } else if (
       !credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName !== "string"
@@ -430,7 +423,7 @@ export class ShareClient extends StorageClient {
       // (url: string, credential?: Credential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrShareName &&
       typeof credentialOrPipelineOrShareName === "string"
@@ -445,13 +438,13 @@ export class ShareClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, name);
-          pipeline = newPipeline(sharedKeyCredential, newOptions);
+          pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
         url = appendToURLPath(extractedCreds.url, name) + "?" + extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), newOptions);
+        pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
@@ -847,6 +840,10 @@ export class ShareClient extends StorageClient {
    * When you set permissions for a share, the existing permissions are replaced.
    * If no shareAcl provided, the existing share ACL will be
    * removed.
+   *
+   * When you establish a stored access policy on a share, it may take up to 30 seconds to take effect.
+   * During this interval, a shared access signature that is associated with the stored access policy will
+   * fail with status code 403 (Forbidden), until the access policy becomes active.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-share-acl
    *
    * @param {SignedIdentifier[]} [shareAcl] Array of signed identifiers, each having a unique Id and details of access policy.

@@ -70,7 +70,7 @@ export function browserConfig(test = false) {
     input: input,
     external: ["ms-rest-js"],
     output: {
-      file: "browser/logger.js",
+      file: "dist-browser/logger.js",
       format: "umd",
       name: "Azure.Logger",
       sourcemap: true

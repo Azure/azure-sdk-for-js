@@ -72,39 +72,6 @@ export const issuerName: coreHttp.OperationURLParameter = {
     }
   }
 };
-export const keyName0: coreHttp.OperationURLParameter = {
-  parameterPath: "keyName",
-  mapper: {
-    required: true,
-    serializedName: "key-name",
-    constraints: {
-      Pattern: /^[0-9a-zA-Z-]+$/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const keyName1: coreHttp.OperationURLParameter = {
-  parameterPath: "keyName",
-  mapper: {
-    required: true,
-    serializedName: "key-name",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const keyVersion: coreHttp.OperationURLParameter = {
-  parameterPath: "keyVersion",
-  mapper: {
-    required: true,
-    serializedName: "key-version",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const maxresults: coreHttp.OperationQueryParameter = {
   parameterPath: ["options", "maxresults"],
   mapper: {
@@ -115,75 +82,6 @@ export const maxresults: coreHttp.OperationQueryParameter = {
     },
     type: {
       name: "Number"
-    }
-  }
-};
-export const sasDefinitionName: coreHttp.OperationURLParameter = {
-  parameterPath: "sasDefinitionName",
-  mapper: {
-    required: true,
-    serializedName: "sas-definition-name",
-    constraints: {
-      Pattern: /^[0-9a-zA-Z]+$/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const secretName0: coreHttp.OperationURLParameter = {
-  parameterPath: "secretName",
-  mapper: {
-    required: true,
-    serializedName: "secret-name",
-    constraints: {
-      Pattern: /^[0-9a-zA-Z-]+$/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const secretName1: coreHttp.OperationURLParameter = {
-  parameterPath: "secretName",
-  mapper: {
-    required: true,
-    serializedName: "secret-name",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const secretVersion: coreHttp.OperationURLParameter = {
-  parameterPath: "secretVersion",
-  mapper: {
-    required: true,
-    serializedName: "secret-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const storageAccountName0: coreHttp.OperationURLParameter = {
-  parameterPath: "storageAccountName",
-  mapper: {
-    required: true,
-    serializedName: "storage-account-name",
-    constraints: {
-      Pattern: /^[0-9a-zA-Z]+$/
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
-export const storageAccountName1: coreHttp.OperationURLParameter = {
-  parameterPath: "storageAccountName",
-  mapper: {
-    required: true,
-    serializedName: "storage-account-name",
-    type: {
-      name: "String"
     }
   }
 };

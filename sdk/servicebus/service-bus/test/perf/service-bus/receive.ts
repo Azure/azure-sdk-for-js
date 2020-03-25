@@ -11,7 +11,8 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/servi
 5. Example: `ts-node receive.ts 1000000`
  */
 
-import { ServiceBusClient, ReceiveMode, OnError, OnMessage } from "../../../src";
+import { ReceiveMode, OnError, OnMessage } from "../../../src";
+import { ServiceBusClient } from "../../../src/old/serviceBusClient";
 import delay from "delay";
 import moment from "moment";
 
@@ -41,7 +42,7 @@ async function RunTest(
   maxConcurrentCalls: number,
   messages: number
 ): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = new ServiceBusClient(connectionString);
 
   const client = ns.createQueueClient(entityPath);
   const receiver = client.createReceiver(ReceiveMode.receiveAndDelete);

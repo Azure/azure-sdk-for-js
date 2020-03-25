@@ -24,7 +24,7 @@ const env = getEnvVars();
 
 import { EntityNames } from "./utils/testUtils";
 
-import { parseConnectionString } from "@azure/amqp-common";
+import { parseConnectionString } from "@azure/core-amqp";
 import { recreateQueue, recreateTopic, recreateSubscription } from "./utils/managementUtils";
 
 const serviceBusAtomManagementClient: ServiceBusAtomManagementClient = new ServiceBusAtomManagementClient(

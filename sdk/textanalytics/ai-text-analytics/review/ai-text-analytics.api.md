@@ -27,9 +27,9 @@ export interface AnalyzeSentimentResultCollection extends Array<AnalyzeSentiment
 
 // @public
 export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
+    confidenceScores: SentimentConfidenceScores;
     sentences: SentenceSentiment[];
     sentiment: DocumentSentimentLabel;
-    sentimentScores: SentimentScorePerLabel;
 }
 
 // @public
@@ -78,8 +78,8 @@ export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixe
 // @public
 export interface Entity {
     category: string;
-    length: number;
-    offset: number;
+    graphemeLength: number;
+    graphemeOffset: number;
     score: number;
     subCategory?: string;
     text: string;
@@ -117,7 +117,7 @@ export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyF
 // @public
 export interface LinkedEntity {
     dataSource: string;
-    id?: string;
+    dataSourceEntityId?: string;
     language: string;
     matches: Match[];
     name: string;
@@ -126,14 +126,10 @@ export interface LinkedEntity {
 
 // @public
 export interface Match {
-    length: number;
-    offset: number;
+    graphemeLength: number;
+    graphemeOffset: number;
     score: number;
     text: string;
-}
-
-// @public
-export interface PiiEntity extends Entity {
 }
 
 // @public
@@ -177,31 +173,11 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 }
 
 // @public
-export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
-
-// @public
-export type RecognizePiiEntitiesResult = RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
-
-// @public
-export interface RecognizePiiEntitiesResultCollection extends Array<RecognizePiiEntitiesResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
-    readonly entities: PiiEntity[];
-}
-
-// @public
 export interface SentenceSentiment {
-    length: number;
-    offset: number;
+    confidenceScores: SentimentConfidenceScores;
+    graphemeLength: number;
+    graphemeOffset: number;
     sentiment: SentenceSentimentLabel;
-    sentimentScores: SentimentScorePerLabel;
     warnings?: string[];
 }
 
@@ -209,7 +185,7 @@ export interface SentenceSentiment {
 export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
 
 // @public
-export interface SentimentScorePerLabel {
+export interface SentimentConfidenceScores {
     // (undocumented)
     negative: number;
     // (undocumented)
@@ -241,8 +217,6 @@ export class TextAnalyticsClient {
     recognizeEntities(inputs: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultCollection>;
     recognizeLinkedEntities(inputs: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
     recognizeLinkedEntities(inputs: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
-    recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultCollection>;
-    recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultCollection>;
 }
 
 // @public
@@ -297,7 +271,7 @@ export interface TextDocumentInput {
 
 // @public
 export interface TextDocumentStatistics {
-    characterCount: number;
+    graphemeCount: number;
     transactionCount: number;
 }
 

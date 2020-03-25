@@ -90,7 +90,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: "dist-esm/src/index.browser.js",
     output: {
-      file: "browser/azure-storage-file-share.js",
+      file: "dist-browser/azure-storage-file-share.js",
       banner: banner,
       format: "umd",
       name: "azfile",

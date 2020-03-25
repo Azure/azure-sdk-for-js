@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { RestError } from "../lib/restError";
-import { WebResource } from "../lib/webResource";
-import { HttpOperationResponse } from "../lib/httpOperationResponse";
+import { RestError } from "../src/restError";
+import { WebResource } from "../src/webResource";
+import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { inspect } from "util";
-import { HttpHeaders } from "../lib/coreHttp";
+import { HttpHeaders } from "../src/coreHttp";
 
 describe("RestError", function() {
   it("serializes properly in node", function() {

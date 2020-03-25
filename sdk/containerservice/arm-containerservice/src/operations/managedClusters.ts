@@ -222,6 +222,40 @@ export class ManagedClusters {
   }
 
   /**
+   * Gets cluster monitoring user credential of the managed cluster with a specified resource group
+   * and name.
+   * @summary Gets cluster monitoring user credential of a managed cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse>
+   */
+  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param callback The callback
+   */
+  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CredentialResults>): void;
+  listClusterMonitoringUserCredentials(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CredentialResults>, callback?: msRest.ServiceCallback<Models.CredentialResults>): Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        resourceName,
+        options
+      },
+      listClusterMonitoringUserCredentialsOperationSpec,
+      callback) as Promise<Models.ManagedClustersListClusterMonitoringUserCredentialsResponse>;
+  }
+
+  /**
    * Gets the details of the managed cluster with a specified resource group and name.
    * @summary Gets a managed cluster.
    * @param resourceGroupName The name of the resource group.
@@ -322,6 +356,19 @@ export class ManagedClusters {
    */
   resetAADProfile(resourceGroupName: string, resourceName: string, parameters: Models.ManagedClusterAADProfile, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginResetAADProfile(resourceGroupName,resourceName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Rotate certificates of a managed cluster.
+   * @summary Rotate certificates of a managed cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  rotateClusterCertificates(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRotateClusterCertificates(resourceGroupName,resourceName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
@@ -431,6 +478,25 @@ export class ManagedClusters {
   }
 
   /**
+   * Rotate certificates of a managed cluster.
+   * @summary Rotate certificates of a managed cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param resourceName The name of the managed cluster resource.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRotateClusterCertificates(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        resourceName,
+        options
+      },
+      beginRotateClusterCertificatesOperationSpec,
+      options);
+  }
+
+  /**
    * Gets a list of managed clusters in the specified subscription. The operation returns properties
    * of each managed cluster.
    * @summary Gets a list of managed clusters in the specified subscription.
@@ -500,7 +566,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -524,7 +590,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName0
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -549,7 +615,7 @@ const getUpgradeProfileOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -575,7 +641,7 @@ const getAccessProfileOperationSpec: msRest.OperationSpec = {
     Parameters.roleName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -600,7 +666,7 @@ const listClusterAdminCredentialsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -625,7 +691,32 @@ const listClusterUserCredentialsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CredentialResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listClusterMonitoringUserCredentialsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterMonitoringUserCredential",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName0,
+    Parameters.resourceName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -650,7 +741,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -675,7 +766,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -710,7 +801,7 @@ const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -742,7 +833,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -766,7 +857,7 @@ const beginResetServicePrincipalProfileOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -797,7 +888,7 @@ const beginResetAADProfileOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName1
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -812,6 +903,30 @@ const beginResetAADProfileOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRotateClusterCertificatesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName0,
+    Parameters.resourceName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

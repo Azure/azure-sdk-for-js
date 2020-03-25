@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import {
   bodyToString,
   getBSU,
+  getGenericBSU,
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup
 } from "./utils";
@@ -26,7 +27,7 @@ describe("PageBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -37,7 +38,7 @@ describe("PageBlobClient", () => {
     pageBlobClient = blobClient.getPageBlobClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     recorder.stop();
   });
@@ -120,10 +121,10 @@ describe("PageBlobClient", () => {
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
-      onProgress: () => {}
+      onProgress: () => { }
     });
     await pageBlobClient.uploadPages("b".repeat(512), 512, 512, {
-      onProgress: () => {}
+      onProgress: () => { }
     });
 
     const page1 = await pageBlobClient.download(0, 512);
@@ -178,11 +179,49 @@ describe("PageBlobClient", () => {
     await pageBlobClient.clearPages(512, 512);
 
     const rangesDiff = await pageBlobClient.getPageRangesDiff(0, 1024, snapshotResult.snapshot!);
+    assert.equal(rangesDiff.pageRange![0].offset, 0);
+    assert.equal(rangesDiff.pageRange![0].count, 511);
+    assert.equal(rangesDiff.clearRange![0].offset, 512);
+    assert.equal(rangesDiff.clearRange![0].count, 511);
+  });
+
+  it("getPageRangesDiffForManagedDisks", async function () {
+    let mdBlobServiceClient: BlobServiceClient;
+    try {
+      mdBlobServiceClient = getGenericBSU("MD_", "");
+    } catch (err) {
+      // managed disk account is not properly configured
+      return this.skip();
+    }
+    const mdContainerName = recorder.getUniqueName("md-container");
+    const mdContainerClient = mdBlobServiceClient.getContainerClient(mdContainerName);
+    await mdContainerClient.create();
+    const mdBlobName = recorder.getUniqueName("md-blob");
+    const mdBlobClient = mdContainerClient.getBlobClient(mdBlobName);
+    const mdPageBlobClient = mdBlobClient.getPageBlobClient();
+
+    await mdPageBlobClient.create(1024);
+
+    const result = await mdBlobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+    await mdPageBlobClient.uploadPages("b".repeat(1024), 0, 1024);
+
+    const snapshotResult = await mdPageBlobClient.createSnapshot();
+    assert.ok(snapshotResult.snapshot);
+
+    await mdPageBlobClient.uploadPages("a".repeat(512), 0, 512);
+    await mdPageBlobClient.clearPages(512, 512);
+
+    const snapshotUrl = mdPageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
+    const rangesDiff = await mdPageBlobClient.getPageRangesDiffForManagedDisks(0, 1024, snapshotUrl);
 
     assert.equal(rangesDiff.pageRange![0].offset, 0);
     assert.equal(rangesDiff.pageRange![0].count, 511);
     assert.equal(rangesDiff.clearRange![0].offset, 512);
     assert.equal(rangesDiff.clearRange![0].count, 511);
+
+    await mdContainerClient.delete();
   });
 
   it("updateSequenceNumber", async () => {

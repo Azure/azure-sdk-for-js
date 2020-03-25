@@ -122,6 +122,64 @@ export class Clusters {
   }
 
   /**
+   * Returns a list of databases that are owned by this cluster and were followed by another cluster.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ClustersListFollowerDatabasesResponse>
+   */
+  listFollowerDatabases(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListFollowerDatabasesResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param callback The callback
+   */
+  listFollowerDatabases(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.FollowerDatabaseListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listFollowerDatabases(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FollowerDatabaseListResult>): void;
+  listFollowerDatabases(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FollowerDatabaseListResult>, callback?: msRest.ServiceCallback<Models.FollowerDatabaseListResult>): Promise<Models.ClustersListFollowerDatabasesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        options
+      },
+      listFollowerDatabasesOperationSpec,
+      callback) as Promise<Models.ClustersListFollowerDatabasesResponse>;
+  }
+
+  /**
+   * Detaches all followers of a database owned by this cluster.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param followerDatabaseToRemove The follower databases properties to remove.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  detachFollowerDatabases(resourceGroupName: string, clusterName: string, followerDatabaseToRemove: Models.FollowerDatabaseDefinition, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDetachFollowerDatabases(resourceGroupName,clusterName,followerDatabaseToRemove,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Diagnoses network connectivity status for external resources on which the service is dependent
+   * on.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ClustersDiagnoseVirtualNetworkResponse>
+   */
+  diagnoseVirtualNetwork(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersDiagnoseVirtualNetworkResponse> {
+    return this.beginDiagnoseVirtualNetwork(resourceGroupName,clusterName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClustersDiagnoseVirtualNetworkResponse>;
+  }
+
+  /**
    * Lists all Kusto clusters within a resource group.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param [options] The optional parameters
@@ -262,6 +320,64 @@ export class Clusters {
   }
 
   /**
+   * Returns a list of language extensions that can run within KQL queries.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ClustersListLanguageExtensionsResponse>
+   */
+  listLanguageExtensions(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListLanguageExtensionsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param callback The callback
+   */
+  listLanguageExtensions(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.LanguageExtensionsList>): void;
+  /**
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listLanguageExtensions(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LanguageExtensionsList>): void;
+  listLanguageExtensions(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LanguageExtensionsList>, callback?: msRest.ServiceCallback<Models.LanguageExtensionsList>): Promise<Models.ClustersListLanguageExtensionsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        options
+      },
+      listLanguageExtensionsOperationSpec,
+      callback) as Promise<Models.ClustersListLanguageExtensionsResponse>;
+  }
+
+  /**
+   * Add a list of language extensions that can run within KQL queries.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param languageExtensionsToAdd The language extensions to add.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  addLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: Models.LanguageExtensionsList, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginAddLanguageExtensions(resourceGroupName,clusterName,languageExtensionsToAdd,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Remove a list of language extensions that can run within KQL queries.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param languageExtensionsToRemove The language extensions to remove.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  removeLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: Models.LanguageExtensionsList, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginRemoveLanguageExtensions(resourceGroupName,clusterName,languageExtensionsToRemove,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Create or update a Kusto cluster.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -354,6 +470,85 @@ export class Clusters {
       beginStartOperationSpec,
       options);
   }
+
+  /**
+   * Detaches all followers of a database owned by this cluster.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param followerDatabaseToRemove The follower databases properties to remove.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDetachFollowerDatabases(resourceGroupName: string, clusterName: string, followerDatabaseToRemove: Models.FollowerDatabaseDefinition, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        followerDatabaseToRemove,
+        options
+      },
+      beginDetachFollowerDatabasesOperationSpec,
+      options);
+  }
+
+  /**
+   * Diagnoses network connectivity status for external resources on which the service is dependent
+   * on.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDiagnoseVirtualNetwork(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        options
+      },
+      beginDiagnoseVirtualNetworkOperationSpec,
+      options);
+  }
+
+  /**
+   * Add a list of language extensions that can run within KQL queries.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param languageExtensionsToAdd The language extensions to add.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginAddLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToAdd: Models.LanguageExtensionsList, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        languageExtensionsToAdd,
+        options
+      },
+      beginAddLanguageExtensionsOperationSpec,
+      options);
+  }
+
+  /**
+   * Remove a list of language extensions that can run within KQL queries.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param languageExtensionsToRemove The language extensions to remove.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRemoveLanguageExtensions(resourceGroupName: string, clusterName: string, languageExtensionsToRemove: Models.LanguageExtensionsList, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        languageExtensionsToRemove,
+        options
+      },
+      beginRemoveLanguageExtensionsOperationSpec,
+      options);
+  }
 }
 
 // Operation Specifications
@@ -375,6 +570,31 @@ const getOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.Cluster
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listFollowerDatabasesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listFollowerDatabases",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.FollowerDatabaseListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -509,6 +729,31 @@ const listSkusByResourceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listLanguageExtensionsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listLanguageExtensions",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.LanguageExtensionsList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}",
@@ -570,6 +815,9 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Cluster
     },
     201: {
+      bodyMapper: Mappers.Cluster
+    },
+    202: {
       bodyMapper: Mappers.Cluster
     },
     default: {
@@ -642,6 +890,125 @@ const beginStartOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDetachFollowerDatabasesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/detachFollowerDatabases",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "followerDatabaseToRemove",
+    mapper: {
+      ...Mappers.FollowerDatabaseDefinition,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDiagnoseVirtualNetworkOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/diagnoseVirtualNetwork",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnoseVirtualNetworkResult
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginAddLanguageExtensionsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/addLanguageExtensions",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "languageExtensionsToAdd",
+    mapper: {
+      ...Mappers.LanguageExtensionsList,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRemoveLanguageExtensionsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/removeLanguageExtensions",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "languageExtensionsToRemove",
+    mapper: {
+      ...Mappers.LanguageExtensionsList,
+      required: true
+    }
+  },
   responses: {
     200: {},
     202: {},

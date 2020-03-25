@@ -2,18 +2,18 @@ import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
 
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { ShareServiceClient } from "../../src/ShareServiceClient";
-import { newPipeline } from "../../src/Pipeline";
-import { getUniqueName } from "./testutils.common";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import {
   AccountSASPermissions,
-  SASProtocol,
   AccountSASResourceTypes,
   AccountSASServices,
-  generateAccountSASQueryParameters
+  generateAccountSASQueryParameters,
+  SASProtocol,
 } from "../../src";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
+import { newPipeline } from "../../src/Pipeline";
+import { ShareServiceClient } from "../../src/ShareServiceClient";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { getUniqueName } from "./testutils.common";
 
 export * from "./testutils.common";
 
@@ -88,6 +88,10 @@ export async function bodyToString(
     });
 
     response.readableStreamBody!.on("error", reject);
+
+    response.readableStreamBody!.on("end", () => {
+      resolve("");
+    });
   });
 }
 

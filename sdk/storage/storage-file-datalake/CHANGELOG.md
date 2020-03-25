@@ -1,5 +1,18 @@
 # Release History
 
+## 12.0.1 (Unreleased)
+
+
+## 12.0.0 (2020.03)
+
+- Added exists() on `FileSystemClient` and `PathClient`.
+- Added high level upload and download methods to `DataLakeFileClient`.
+
+## 12.0.0-preview.8 (2020.02)
+
+- Updated Azure Storage Service API version to 2019-07-07.
+- Fixed a bug where the package didn't work as expected when bundling web applications. [PR #7298](https://github.com/Azure/azure-sdk-for-js/pull/7298)
+
 ## 12.0.0-preview.7 (2020.01)
 
 - Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6753](https://github.com/Azure/azure-sdk-for-js/pull/6753)

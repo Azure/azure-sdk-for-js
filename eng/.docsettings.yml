@@ -4,6 +4,7 @@ omitted_paths:
   - sdk/*/arm-*
   - sdk/cognitiveservices/*
   - sdk/identity/identity/test/manual/*
+  - sdk/identity/identity/test/manual-integration/*
   - sdk/keyvault/*/test/**
   - sdk/**/samples/*
   - sdk/**/swagger/*
@@ -83,6 +84,7 @@ known_content_issues:
   - ["sdk/storage/storage-file-datalake/test/README.md", "#1583"]
   - ["sdk/storage/storage-file-share/test/README.md", "#1583"]
   - ["sdk/storage/storage-queue/test/README.md", "#1583"]
+  - ["sdk/synapse/synapse/README.md", "#1583"]
   - ["sdk/template/template/README.md", "#1583"]
   - ["sdk/test-utils/recorder/README.md", "#1583"]
 

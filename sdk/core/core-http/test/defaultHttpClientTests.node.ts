@@ -6,11 +6,11 @@ import "chai/register-should";
 import * as http from "http";
 import { createReadStream } from "fs";
 
-import { DefaultHttpClient } from "../lib/defaultHttpClient";
-import { WebResource, TransferProgressEvent } from "../lib/webResource";
+import { DefaultHttpClient } from "../src/defaultHttpClient";
+import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
 import { PassThrough } from "stream";
-import { ReportTransform } from "../lib/fetchHttpClient";
+import { ReportTransform } from "../src/fetchHttpClient";
 
 describe("defaultHttpClient (node)", function() {
   let httpMock: HttpMockFacade;

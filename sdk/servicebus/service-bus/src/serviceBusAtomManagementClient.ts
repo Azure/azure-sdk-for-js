@@ -16,7 +16,7 @@ import {
   RestError
 } from "@azure/core-http";
 
-import { SasTokenProvider, parseConnectionString } from "@azure/amqp-common";
+import { parseConnectionString, SharedKeyCredential } from "@azure/core-amqp";
 
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 
@@ -404,7 +404,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   /**
    * SAS token provider used to generate tokens as required for the various operations.
    */
-  private sasTokenProvider: SasTokenProvider;
+  private sasTokenProvider: SharedKeyCredential;
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
@@ -441,8 +441,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     this.endpoint = (connectionString.match("Endpoint=sb://(.*)/;") || "")[1];
     this.endpointWithProtocol = connectionStringObj.Endpoint;
 
-    this.sasTokenProvider = new SasTokenProvider(
-      connectionStringObj.Endpoint,
+    this.sasTokenProvider = new SharedKeyCredential(
       connectionStringObj.SharedAccessKeyName,
       connectionStringObj.SharedAccessKey
     );

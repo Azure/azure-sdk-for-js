@@ -3,10 +3,10 @@
 
 import "chai/register-should";
 
-import { HttpOperationResponse } from "../lib/httpOperationResponse";
-import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
-import { WebResource } from "../lib/webResource";
-import { userAgentPolicy } from "../lib/policies/userAgentPolicy";
+import { HttpOperationResponse } from "../src/httpOperationResponse";
+import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";
+import { WebResource } from "../src/webResource";
+import { userAgentPolicy } from "../src/policies/userAgentPolicy";
 
 describe("MsRestUserAgentPolicy (browser)", () => {
   describe("for browser", function() {

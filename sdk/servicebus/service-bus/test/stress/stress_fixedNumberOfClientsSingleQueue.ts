@@ -11,7 +11,10 @@ For running this test, connection string of the Service Bus namespace and queue 
 must be supplied.
 */
 
-import { ServiceBusClient, SendableMessageInfo, ReceiveMode, Sender, Receiver } from "../../src";
+import { SendableMessageInfo, ReceiveMode } from "../../src";
+import { Sender } from "../../src/sender";
+import { InternalReceiver } from "../../src/internalReceivers";
+import { ServiceBusClient } from "../../src/old/serviceBusClient";
 
 const connectionString = "";
 const queueName = "";
@@ -36,7 +39,7 @@ async function main(): Promise<void> {
 }
 
 async function sendReceiveMessages(): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = new ServiceBusClient(connectionString);
 
   const clients = [];
   const senders = [];
@@ -65,7 +68,7 @@ async function sendReceiveMessages(): Promise<void> {
   }
 }
 
-async function sendReceiveMessagesPerClient(sender: Sender, receiver: Receiver): Promise<void> {
+async function sendReceiveMessagesPerClient(sender: Sender, receiver: InternalReceiver): Promise<void> {
   while (!isJobDone) {
     const message: SendableMessageInfo = {
       messageId: msgId,

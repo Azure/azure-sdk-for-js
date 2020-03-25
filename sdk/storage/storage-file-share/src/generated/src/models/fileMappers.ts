@@ -8,6 +8,9 @@
 
 export {
   FileAbortCopyHeaders,
+  FileAcquireLeaseHeaders,
+  FileBreakLeaseHeaders,
+  FileChangeLeaseHeaders,
   FileCreateHeaders,
   FileDeleteHeaders,
   FileDownloadHeaders,
@@ -15,6 +18,7 @@ export {
   FileGetPropertiesHeaders,
   FileGetRangeListHeaders,
   FileListHandlesHeaders,
+  FileReleaseLeaseHeaders,
   FileSetHTTPHeadersHeaders,
   FileSetMetadataHeaders,
   FileStartCopyHeaders,

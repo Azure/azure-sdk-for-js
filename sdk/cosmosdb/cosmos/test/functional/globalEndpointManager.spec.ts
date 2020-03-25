@@ -71,5 +71,30 @@ describe("GlobalEndpointManager", function() {
         "https://test-eastus2.documents.azure.com:443/"
       );
     });
+    it("should allow you to pass a normalized preferred location", async function() {
+      const gem = new GlobalEndpointManager(
+        {
+          endpoint: "https://test.documents.azure.com:443/",
+          key: masterKey,
+          connectionPolicy: {
+            enableEndpointDiscovery: true,
+            preferredLocations: ["eastus2", "West US 2"]
+          }
+        },
+        async (opts: RequestOptions) => {
+          const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
+            new DatabaseAccount(databaseAccountBody, headers),
+            headers,
+            200
+          );
+          return response;
+        }
+      );
+
+      assert.equal(
+        await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read),
+        "https://test-eastus2.documents.azure.com:443/"
+      );
+    });
   });
 });

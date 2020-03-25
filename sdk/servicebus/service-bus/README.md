@@ -9,6 +9,12 @@ Use the client library for Azure Service Bus in your Node.js application to
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
 
+**NOTE**: If you are using version 1.1.x or lower, then please use the below links instead
+
+[Source code for v1.1.3](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.3/sdk/servicebus/service-bus) |
+[Package for v1.1.3 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.3) |
+[Samples for v1.1.3](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.3/sdk/servicebus/service-bus/samples)
+
 ## Getting Started
 
 ### Install the package
@@ -212,13 +218,13 @@ export DEBUG=azure*,rhea*
 - If you are **not interested in viewing the message transformation** (which consumes lot of console/disk space) then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer
+export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:core-amqp:datatransformer
 ```
 
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure:service-bus:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:service-bus:error,azure-core-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 ### Logging to a file

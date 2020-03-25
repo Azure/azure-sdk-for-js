@@ -282,6 +282,9 @@ export class Container {
 export interface ContainerDefinition {
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
+    geospatialConfig?: {
+        type: GeospatialType;
+    };
     id?: string;
     indexingPolicy?: IndexingPolicy;
     partitionKey?: PartitionKeyDefinition;
@@ -522,6 +525,10 @@ export interface IndexingPolicy {
     excludedPaths?: IndexedPath[];
     includedPaths?: IndexedPath[];
     indexingMode?: keyof typeof IndexingMode;
+    // Warning: (ae-forgotten-export) The symbol "SpatialIndex" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    spatialIndexes?: SpatialIndex[];
 }
 
 // @public
@@ -959,7 +966,7 @@ export interface Resource {
 
 // @public (undocumented)
 export class ResourceResponse<TResource> {
-    constructor(resource: TResource, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
+    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
     // (undocumented)
     get activityId(): string;
     // (undocumented)
@@ -969,7 +976,7 @@ export class ResourceResponse<TResource> {
     // (undocumented)
     get requestCharge(): number;
     // (undocumented)
-    readonly resource: TResource;
+    readonly resource: TResource | undefined;
     // Warning: (ae-forgotten-export) The symbol "StatusCode" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -1304,6 +1311,10 @@ export class Users {
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
 
+
+// Warnings were encountered during analysis:
+//
+// src/client/Container/ContainerDefinition.ts:23:5 - (ae-forgotten-export) The symbol "GeospatialType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

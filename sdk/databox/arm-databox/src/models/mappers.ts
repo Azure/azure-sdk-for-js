@@ -87,6 +87,17 @@ export const AccountCredentialDetails: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      dataDestinationType: {
+        readOnly: true,
+        serializedName: "dataDestinationType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "StorageAccount",
+            "ManagedDisk"
+          ]
+        }
+      },
       accountConnectionString: {
         readOnly: true,
         serializedName: "accountConnectionString",
@@ -195,6 +206,21 @@ export const AddressValidationOutput: msRest.CompositeMapper = {
     name: "Composite",
     className: "AddressValidationOutput",
     modelProperties: {
+      error: {
+        readOnly: true,
+        serializedName: "properties.error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      },
+      validationType: {
+        required: true,
+        serializedName: "properties.validationType",
+        type: {
+          name: "String"
+        }
+      },
       validationStatus: {
         readOnly: true,
         serializedName: "properties.validationStatus",
@@ -678,6 +704,17 @@ export const CopyProgress: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      dataDestinationType: {
+        readOnly: true,
+        serializedName: "dataDestinationType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "StorageAccount",
+            "ManagedDisk"
+          ]
+        }
+      },
       accountId: {
         readOnly: true,
         serializedName: "accountId",
@@ -711,6 +748,136 @@ export const CopyProgress: msRest.CompositeMapper = {
         serializedName: "totalFilesToProcess",
         type: {
           name: "Number"
+        }
+      },
+      invalidFilesProcessed: {
+        readOnly: true,
+        serializedName: "invalidFilesProcessed",
+        type: {
+          name: "Number"
+        }
+      },
+      invalidFileBytesUploaded: {
+        readOnly: true,
+        serializedName: "invalidFileBytesUploaded",
+        type: {
+          name: "Number"
+        }
+      },
+      renamedContainerCount: {
+        readOnly: true,
+        serializedName: "renamedContainerCount",
+        type: {
+          name: "Number"
+        }
+      },
+      filesErroredOut: {
+        readOnly: true,
+        serializedName: "filesErroredOut",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ValidationInputRequest: msRest.CompositeMapper = {
+  serializedName: "ValidationInputRequest",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "validationType",
+      clientName: "validationType"
+    },
+    uberParent: "ValidationInputRequest",
+    className: "ValidationInputRequest",
+    modelProperties: {
+      validationType: {
+        required: true,
+        serializedName: "validationType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CreateOrderLimitForSubscriptionValidationRequest: msRest.CompositeMapper = {
+  serializedName: "ValidateCreateOrderLimit",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationInputRequest.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputRequest",
+    className: "CreateOrderLimitForSubscriptionValidationRequest",
+    modelProperties: {
+      ...ValidationInputRequest.type.modelProperties,
+      deviceType: {
+        required: true,
+        serializedName: "deviceType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "DataBox",
+            "DataBoxDisk",
+            "DataBoxHeavy"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const ValidationInputResponse: msRest.CompositeMapper = {
+  serializedName: "ValidationInputResponse",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "validationType",
+      clientName: "validationType"
+    },
+    uberParent: "ValidationInputResponse",
+    className: "ValidationInputResponse",
+    modelProperties: {
+      error: {
+        readOnly: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      },
+      validationType: {
+        required: true,
+        serializedName: "validationType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CreateOrderLimitForSubscriptionValidationResponseProperties: msRest.CompositeMapper = {
+  serializedName: "ValidateCreateOrderLimit",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationInputResponse.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputResponse",
+    className: "CreateOrderLimitForSubscriptionValidationResponseProperties",
+    modelProperties: {
+      ...ValidationInputResponse.type.modelProperties,
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Valid",
+            "Invalid",
+            "Skipped"
+          ]
         }
       }
     }
@@ -816,7 +983,12 @@ export const DataBoxDiskCopyProgress: msRest.CompositeMapper = {
             "Completed",
             "CompletedWithErrors",
             "Failed",
-            "NotReturned"
+            "NotReturned",
+            "HardwareError",
+            "DeviceFormatted",
+            "DeviceMetadataModified",
+            "StorageAccountNotAccessible",
+            "UnsupportedData"
           ]
         }
       }
@@ -835,8 +1007,8 @@ export const JobDetails: msRest.CompositeMapper = {
     uberParent: "JobDetails",
     className: "JobDetails",
     modelProperties: {
-      expectedDataSizeInTeraBytes: {
-        serializedName: "expectedDataSizeInTeraBytes",
+      expectedDataSizeInTerabytes: {
+        serializedName: "expectedDataSizeInTerabytes",
         type: {
           name: "Number"
         }
@@ -1047,6 +1219,13 @@ export const JobSecrets: msRest.CompositeMapper = {
     uberParent: "JobSecrets",
     className: "JobSecrets",
     modelProperties: {
+      dcAccessSecurityCode: {
+        serializedName: "dcAccessSecurityCode",
+        type: {
+          name: "Composite",
+          className: "DcAccessSecurityCode"
+        }
+      },
       jobSecretsType: {
         required: true,
         serializedName: "jobSecretsType",
@@ -1150,6 +1329,12 @@ export const DataBoxHeavyJobDetails: msRest.CompositeMapper = {
               className: "CopyProgress"
             }
           }
+        }
+      },
+      devicePassword: {
+        serializedName: "devicePassword",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1260,6 +1445,12 @@ export const DataBoxJobDetails: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      devicePassword: {
+        serializedName: "devicePassword",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1347,6 +1538,48 @@ export const DataboxJobSecrets: msRest.CompositeMapper = {
   }
 };
 
+export const ScheduleAvailabilityRequest: msRest.CompositeMapper = {
+  serializedName: "ScheduleAvailabilityRequest",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "skuName",
+      clientName: "skuName"
+    },
+    uberParent: "ScheduleAvailabilityRequest",
+    className: "ScheduleAvailabilityRequest",
+    modelProperties: {
+      storageLocation: {
+        required: true,
+        serializedName: "storageLocation",
+        type: {
+          name: "String"
+        }
+      },
+      skuName: {
+        required: true,
+        serializedName: "skuName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataBoxScheduleAvailabilityRequest: msRest.CompositeMapper = {
+  serializedName: "DataBox",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ScheduleAvailabilityRequest.type.polymorphicDiscriminator,
+    uberParent: "ScheduleAvailabilityRequest",
+    className: "DataBoxScheduleAvailabilityRequest",
+    modelProperties: {
+      ...ScheduleAvailabilityRequest.type.modelProperties
+    }
+  }
+};
+
 export const DestinationAccountDetails: msRest.CompositeMapper = {
   serializedName: "DestinationAccountDetails",
   type: {
@@ -1364,9 +1597,95 @@ export const DestinationAccountDetails: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      sharePassword: {
+        serializedName: "sharePassword",
+        type: {
+          name: "String"
+        }
+      },
       dataDestinationType: {
         required: true,
         serializedName: "dataDestinationType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataDestinationDetailsValidationRequest: msRest.CompositeMapper = {
+  serializedName: "ValidateDataDestinationDetails",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationInputRequest.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputRequest",
+    className: "DataDestinationDetailsValidationRequest",
+    modelProperties: {
+      ...ValidationInputRequest.type.modelProperties,
+      destinationAccountDetails: {
+        required: true,
+        serializedName: "destinationAccountDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DestinationAccountDetails"
+            }
+          }
+        }
+      },
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataDestinationDetailsValidationResponseProperties: msRest.CompositeMapper = {
+  serializedName: "ValidateDataDestinationDetails",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationInputResponse.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputResponse",
+    className: "DataDestinationDetailsValidationResponseProperties",
+    modelProperties: {
+      ...ValidationInputResponse.type.modelProperties,
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Valid",
+            "Invalid",
+            "Skipped"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const DcAccessSecurityCode: msRest.CompositeMapper = {
+  serializedName: "DcAccessSecurityCode",
+  type: {
+    name: "Composite",
+    className: "DcAccessSecurityCode",
+    modelProperties: {
+      forwardDcAccessCode: {
+        serializedName: "forwardDcAccessCode",
+        type: {
+          name: "String"
+        }
+      },
+      reverseDcAccessCode: {
+        serializedName: "reverseDcAccessCode",
         type: {
           name: "String"
         }
@@ -1422,6 +1741,26 @@ export const DestinationStorageAccountDetails: msRest.CompositeMapper = {
   }
 };
 
+export const DiskScheduleAvailabilityRequest: msRest.CompositeMapper = {
+  serializedName: "DataBoxDisk",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ScheduleAvailabilityRequest.type.polymorphicDiscriminator,
+    uberParent: "ScheduleAvailabilityRequest",
+    className: "DiskScheduleAvailabilityRequest",
+    modelProperties: {
+      ...ScheduleAvailabilityRequest.type.modelProperties,
+      expectedDataSizeInTerabytes: {
+        required: true,
+        serializedName: "expectedDataSizeInTerabytes",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ErrorModel: msRest.CompositeMapper = {
   serializedName: "Error",
   type: {
@@ -1440,6 +1779,35 @@ export const ErrorModel: msRest.CompositeMapper = {
         serializedName: "message",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HeavyScheduleAvailabilityRequest: msRest.CompositeMapper = {
+  serializedName: "DataBoxHeavy",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ScheduleAvailabilityRequest.type.polymorphicDiscriminator,
+    uberParent: "ScheduleAvailabilityRequest",
+    className: "HeavyScheduleAvailabilityRequest",
+    modelProperties: {
+      ...ScheduleAvailabilityRequest.type.modelProperties
+    }
+  }
+};
+
+export const JobDeliveryInfo: msRest.CompositeMapper = {
+  serializedName: "JobDeliveryInfo",
+  type: {
+    name: "Composite",
+    className: "JobDeliveryInfo",
+    modelProperties: {
+      scheduledDateTime: {
+        serializedName: "scheduledDateTime",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -1508,7 +1876,10 @@ export const JobStages: msRest.CompositeMapper = {
             "Cancelled",
             "Failed_IssueReportedAtCustomer",
             "Failed_IssueDetectedAtAzureDC",
-            "Aborted"
+            "Aborted",
+            "CompletedWithWarnings",
+            "ReadyToDispatchFromAzureDC",
+            "ReadyToReceiveAtAzureDC"
           ]
         }
       },
@@ -1597,6 +1968,27 @@ export const PackageShippingDetails: msRest.CompositeMapper = {
   }
 };
 
+export const TransportPreferences: msRest.CompositeMapper = {
+  serializedName: "TransportPreferences",
+  type: {
+    name: "Composite",
+    className: "TransportPreferences",
+    modelProperties: {
+      preferredShipmentType: {
+        required: true,
+        serializedName: "preferredShipmentType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "CustomerManaged",
+            "MicrosoftManaged"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const Preferences: msRest.CompositeMapper = {
   serializedName: "Preferences",
   type: {
@@ -1612,6 +2004,13 @@ export const Preferences: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      transportPreferences: {
+        serializedName: "transportPreferences",
+        type: {
+          name: "Composite",
+          className: "TransportPreferences"
         }
       }
     }
@@ -1700,7 +2099,10 @@ export const JobResource: msRest.CompositeMapper = {
             "Cancelled",
             "Failed_IssueReportedAtCustomer",
             "Failed_IssueDetectedAtAzureDC",
-            "Aborted"
+            "Aborted",
+            "CompletedWithWarnings",
+            "ReadyToDispatchFromAzureDC",
+            "ReadyToReceiveAtAzureDC"
           ]
         }
       },
@@ -1731,6 +2133,30 @@ export const JobResource: msRest.CompositeMapper = {
         serializedName: "properties.cancellationReason",
         type: {
           name: "String"
+        }
+      },
+      deliveryType: {
+        serializedName: "properties.deliveryType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "NonScheduled",
+            "Scheduled"
+          ]
+        }
+      },
+      deliveryInfo: {
+        serializedName: "properties.deliveryInfo",
+        type: {
+          name: "Composite",
+          className: "JobDeliveryInfo"
+        }
+      },
+      isCancellableWithoutFee: {
+        readOnly: true,
+        serializedName: "properties.isCancellableWithoutFee",
+        type: {
+          name: "Boolean"
         }
       },
       name: {
@@ -1895,6 +2321,200 @@ export const Operation: msRest.CompositeMapper = {
   }
 };
 
+export const PreferencesValidationRequest: msRest.CompositeMapper = {
+  serializedName: "ValidatePreferences",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationInputRequest.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputRequest",
+    className: "PreferencesValidationRequest",
+    modelProperties: {
+      ...ValidationInputRequest.type.modelProperties,
+      preference: {
+        serializedName: "preference",
+        type: {
+          name: "Composite",
+          className: "Preferences"
+        }
+      },
+      deviceType: {
+        required: true,
+        serializedName: "deviceType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "DataBox",
+            "DataBoxDisk",
+            "DataBoxHeavy"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const PreferencesValidationResponseProperties: msRest.CompositeMapper = {
+  serializedName: "ValidatePreferences",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationInputResponse.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputResponse",
+    className: "PreferencesValidationResponseProperties",
+    modelProperties: {
+      ...ValidationInputResponse.type.modelProperties,
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Valid",
+            "Invalid",
+            "Skipped"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const TransportAvailabilityRequest: msRest.CompositeMapper = {
+  serializedName: "TransportAvailabilityRequest",
+  type: {
+    name: "Composite",
+    className: "TransportAvailabilityRequest",
+    modelProperties: {
+      skuName: {
+        serializedName: "skuName",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "DataBox",
+            "DataBoxDisk",
+            "DataBoxHeavy"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const RegionConfigurationRequest: msRest.CompositeMapper = {
+  serializedName: "RegionConfigurationRequest",
+  type: {
+    name: "Composite",
+    className: "RegionConfigurationRequest",
+    modelProperties: {
+      scheduleAvailabilityRequest: {
+        serializedName: "scheduleAvailabilityRequest",
+        type: {
+          name: "Composite",
+          className: "ScheduleAvailabilityRequest"
+        }
+      },
+      transportAvailabilityRequest: {
+        serializedName: "transportAvailabilityRequest",
+        type: {
+          name: "Composite",
+          className: "TransportAvailabilityRequest"
+        }
+      }
+    }
+  }
+};
+
+export const ScheduleAvailabilityResponse: msRest.CompositeMapper = {
+  serializedName: "ScheduleAvailabilityResponse",
+  type: {
+    name: "Composite",
+    className: "ScheduleAvailabilityResponse",
+    modelProperties: {
+      availableDates: {
+        readOnly: true,
+        serializedName: "availableDates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "DateTime"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TransportAvailabilityDetails: msRest.CompositeMapper = {
+  serializedName: "TransportAvailabilityDetails",
+  type: {
+    name: "Composite",
+    className: "TransportAvailabilityDetails",
+    modelProperties: {
+      shipmentType: {
+        readOnly: true,
+        serializedName: "shipmentType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "CustomerManaged",
+            "MicrosoftManaged"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const TransportAvailabilityResponse: msRest.CompositeMapper = {
+  serializedName: "TransportAvailabilityResponse",
+  type: {
+    name: "Composite",
+    className: "TransportAvailabilityResponse",
+    modelProperties: {
+      transportAvailabilityDetails: {
+        readOnly: true,
+        serializedName: "transportAvailabilityDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TransportAvailabilityDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RegionConfigurationResponse: msRest.CompositeMapper = {
+  serializedName: "RegionConfigurationResponse",
+  type: {
+    name: "Composite",
+    className: "RegionConfigurationResponse",
+    modelProperties: {
+      scheduleAvailabilityResponse: {
+        readOnly: true,
+        serializedName: "scheduleAvailabilityResponse",
+        type: {
+          name: "Composite",
+          className: "ScheduleAvailabilityResponse"
+        }
+      },
+      transportAvailabilityResponse: {
+        readOnly: true,
+        serializedName: "transportAvailabilityResponse",
+        type: {
+          name: "Composite",
+          className: "TransportAvailabilityResponse"
+        }
+      }
+    }
+  }
+};
+
 export const ShipmentPickUpRequest: msRest.CompositeMapper = {
   serializedName: "ShipmentPickUpRequest",
   type: {
@@ -1950,6 +2570,117 @@ export const ShipmentPickUpResponse: msRest.CompositeMapper = {
   }
 };
 
+export const SkuAvailabilityValidationRequest: msRest.CompositeMapper = {
+  serializedName: "ValidateSkuAvailability",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationInputRequest.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputRequest",
+    className: "SkuAvailabilityValidationRequest",
+    modelProperties: {
+      ...ValidationInputRequest.type.modelProperties,
+      deviceType: {
+        required: true,
+        serializedName: "deviceType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "DataBox",
+            "DataBoxDisk",
+            "DataBoxHeavy"
+          ]
+        }
+      },
+      transferType: {
+        required: true,
+        isConstant: true,
+        serializedName: "transferType",
+        defaultValue: 'ImportToAzure',
+        type: {
+          name: "String"
+        }
+      },
+      country: {
+        required: true,
+        serializedName: "country",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SkuAvailabilityValidationResponseProperties: msRest.CompositeMapper = {
+  serializedName: "ValidateSkuAvailability",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationInputResponse.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputResponse",
+    className: "SkuAvailabilityValidationResponseProperties",
+    modelProperties: {
+      ...ValidationInputResponse.type.modelProperties,
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Valid",
+            "Invalid",
+            "Skipped"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const SubscriptionIsAllowedToCreateJobValidationRequest: msRest.CompositeMapper = {
+  serializedName: "ValidateSubscriptionIsAllowedToCreateJob",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationInputRequest.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputRequest",
+    className: "SubscriptionIsAllowedToCreateJobValidationRequest",
+    modelProperties: {
+      ...ValidationInputRequest.type.modelProperties
+    }
+  }
+};
+
+export const SubscriptionIsAllowedToCreateJobValidationResponseProperties: msRest.CompositeMapper = {
+  serializedName: "ValidateSubscriptionIsAllowedToCreateJob",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationInputResponse.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputResponse",
+    className: "SubscriptionIsAllowedToCreateJobValidationResponseProperties",
+    modelProperties: {
+      ...ValidationInputResponse.type.modelProperties,
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Valid",
+            "Invalid",
+            "Skipped"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const UnencryptedCredentials: msRest.CompositeMapper = {
   serializedName: "UnencryptedCredentials",
   type: {
@@ -1979,8 +2710,11 @@ export const ValidateAddress: msRest.CompositeMapper = {
   serializedName: "ValidateAddress",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: ValidationInputRequest.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputRequest",
     className: "ValidateAddress",
     modelProperties: {
+      ...ValidationInputRequest.type.modelProperties,
       shippingAddress: {
         required: true,
         serializedName: "shippingAddress",
@@ -1999,6 +2733,96 @@ export const ValidateAddress: msRest.CompositeMapper = {
             "DataBoxDisk",
             "DataBoxHeavy"
           ]
+        }
+      },
+      transportPreferences: {
+        serializedName: "transportPreferences",
+        type: {
+          name: "Composite",
+          className: "TransportPreferences"
+        }
+      }
+    }
+  }
+};
+
+export const ValidationRequest: msRest.CompositeMapper = {
+  serializedName: "ValidationRequest",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "validationCategory",
+      clientName: "validationCategory"
+    },
+    uberParent: "ValidationRequest",
+    className: "ValidationRequest",
+    modelProperties: {
+      individualRequestDetails: {
+        required: true,
+        serializedName: "individualRequestDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ValidationInputRequest"
+            }
+          }
+        }
+      },
+      validationCategory: {
+        required: true,
+        serializedName: "validationCategory",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CreateJobValidations: msRest.CompositeMapper = {
+  serializedName: "JobCreationValidation",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationRequest.type.polymorphicDiscriminator,
+    uberParent: "ValidationRequest",
+    className: "CreateJobValidations",
+    modelProperties: {
+      ...ValidationRequest.type.modelProperties
+    }
+  }
+};
+
+export const ValidationResponse: msRest.CompositeMapper = {
+  serializedName: "ValidationResponse",
+  type: {
+    name: "Composite",
+    className: "ValidationResponse",
+    modelProperties: {
+      status: {
+        readOnly: true,
+        serializedName: "properties.status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "AllValidToProceed",
+            "InputsRevisitRequired",
+            "CertainInputValidationsSkipped"
+          ]
+        }
+      },
+      individualResponseDetails: {
+        readOnly: true,
+        serializedName: "properties.individualResponseDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ValidationInputResponse"
+            }
+          }
         }
       }
     }
@@ -2115,6 +2939,8 @@ export const AvailableSkusResult: msRest.CompositeMapper = {
 
 export const discriminators = {
   'CopyLogDetails' : CopyLogDetails,
+  'ValidationInputRequest.ValidateCreateOrderLimit' : CreateOrderLimitForSubscriptionValidationRequest,
+  'ValidationInputResponse.ValidateCreateOrderLimit' : CreateOrderLimitForSubscriptionValidationResponseProperties,
   'CopyLogDetails.DataBox' : DataBoxAccountCopyLogDetails,
   'CopyLogDetails.DataBoxDisk' : DataBoxDiskCopyLogDetails,
   'JobDetails.DataBoxDisk' : DataBoxDiskJobDetails,
@@ -2124,10 +2950,27 @@ export const discriminators = {
   'JobSecrets.DataBoxHeavy' : DataBoxHeavyJobSecrets,
   'JobDetails.DataBox' : DataBoxJobDetails,
   'JobSecrets.DataBox' : DataboxJobSecrets,
+  'ScheduleAvailabilityRequest.DataBox' : DataBoxScheduleAvailabilityRequest,
   'DestinationAccountDetails' : DestinationAccountDetails,
+  'ValidationInputRequest.ValidateDataDestinationDetails' : DataDestinationDetailsValidationRequest,
+  'ValidationInputResponse.ValidateDataDestinationDetails' : DataDestinationDetailsValidationResponseProperties,
   'DestinationAccountDetails.ManagedDisk' : DestinationManagedDiskDetails,
   'DestinationAccountDetails.StorageAccount' : DestinationStorageAccountDetails,
+  'ScheduleAvailabilityRequest.DataBoxDisk' : DiskScheduleAvailabilityRequest,
+  'ScheduleAvailabilityRequest.DataBoxHeavy' : HeavyScheduleAvailabilityRequest,
   'JobDetails' : JobDetails,
-  'JobSecrets' : JobSecrets
+  'JobSecrets' : JobSecrets,
+  'ValidationInputRequest.ValidatePreferences' : PreferencesValidationRequest,
+  'ValidationInputResponse.ValidatePreferences' : PreferencesValidationResponseProperties,
+  'ScheduleAvailabilityRequest' : ScheduleAvailabilityRequest,
+  'ValidationInputRequest.ValidateSkuAvailability' : SkuAvailabilityValidationRequest,
+  'ValidationInputResponse.ValidateSkuAvailability' : SkuAvailabilityValidationResponseProperties,
+  'ValidationInputRequest.ValidateSubscriptionIsAllowedToCreateJob' : SubscriptionIsAllowedToCreateJobValidationRequest,
+  'ValidationInputResponse.ValidateSubscriptionIsAllowedToCreateJob' : SubscriptionIsAllowedToCreateJobValidationResponseProperties,
+  'ValidationInputRequest.ValidateAddress' : ValidateAddress,
+  'ValidationInputRequest' : ValidationInputRequest,
+  'ValidationInputResponse' : ValidationInputResponse,
+  'ValidationRequest' : ValidationRequest,
+  'ValidationRequest.JobCreationValidation' : CreateJobValidations
 
 };

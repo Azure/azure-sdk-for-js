@@ -13,7 +13,7 @@ import {
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { SDK_VERSION } from "./constants";
-import { TextAnalyticsClient as GeneratedClient } from "./generated/textAnalyticsClient";
+import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
   LanguageInput as DetectLanguageInput,
@@ -27,10 +27,6 @@ import {
   RecognizeCategorizedEntitiesResultCollection,
   makeRecognizeCategorizedEntitiesResultCollection
 } from "./recognizeCategorizedEntitiesResultCollection";
-import {
-  RecognizePiiEntitiesResultCollection,
-  makeRecognizePiiEntitiesResultCollection
-} from "./recognizePiiEntitiesResultCollection";
 import {
   AnalyzeSentimentResultCollection,
   makeAnalyzeSentimentResultCollection
@@ -105,11 +101,6 @@ export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
  * Options for the recognize linked entities operation.
  */
 export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
-
-/**
- * Options for the recognize PII entities operation.
- */
-export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
 
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -202,8 +193,8 @@ export class TextAnalyticsClient {
    *   the input strings to assist the text analytics model in predicting
    *   the language they are written in.  If unspecified, this value will be
    *   set to the default country hint in `TextAnalyticsClientOptions`.
-   *   If set to an empty string, the service will apply a model where the
-   *   country is explicitly set to "None".
+   *   If set to an empty string, or the string "none", the service will apply a
+   *   model where the country is explicitly unset.
    *   The same country hint is applied to all strings in the input collection.
    * @param options Optional parameters for the operation.
    */
@@ -238,7 +229,11 @@ export class TextAnalyticsClient {
       realInputs = convertToDetectLanguageInput(inputs, countryHint);
       realOptions = options || {};
     } else {
-      realInputs = inputs;
+      // Replace "none" hints with ""
+      realInputs = inputs.map((input) => ({
+        ...input,
+        countryHint: input.countryHint === "none" ? "" : input.countryHint
+      }));
       realOptions = (countryHintOrOptions as DetectLanguageOptions) || {};
     }
 
@@ -516,88 +511,6 @@ export class TextAnalyticsClient {
   }
 
   /**
-   * Runs a predictive model to identify a collection of entities containing
-   * personally identifiable information found in the passed-in input strings,
-   * and categorize those entities into types such as US social security
-   * number, drivers license number, or credit card number.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input strings to analyze.
-   * @param language The language that all the input strings are
-        written in. If unspecified, this value will be set to the default
-        language in `TextAnalyticsClientOptions`.  
-        If set to an empty string, the service will apply a model
-        where the lanuage is explicitly set to "None".
-   * @param options Optional parameters for the operation.
-   */
-  public async recognizePiiEntities(
-    inputs: string[],
-    language?: string,
-    options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizePiiEntitiesResultCollection>;
-  /**
-   * Runs a predictive model to identify a collection of entities containing
-   * personally identifiable information found in the passed-in input documents,
-   * and categorize those entities into types such as US social security
-   * number, drivers license number, or credit card number.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input documents to analyze.
-   * @param options Optional parameters for the operation.
-   */
-  public async recognizePiiEntities(
-    inputs: TextDocumentInput[],
-    options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizePiiEntitiesResultCollection>;
-  public async recognizePiiEntities(
-    inputs: string[] | TextDocumentInput[],
-    languageOrOptions?: string | RecognizePiiEntitiesOptions,
-    options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizePiiEntitiesResultCollection> {
-    let realOptions: RecognizePiiEntitiesOptions;
-    let realInputs: TextDocumentInput[];
-
-    if (isStringArray(inputs)) {
-      const language = (languageOrOptions as string) || this.defaultLanguage;
-      realInputs = convertToTextDocumentInput(inputs, language);
-      realOptions = options || {};
-    } else {
-      realInputs = inputs;
-      realOptions = (languageOrOptions as RecognizePiiEntitiesOptions) || {};
-    }
-
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "TextAnalyticsClient-recognizePiiEntities",
-      realOptions
-    );
-
-    try {
-      const result = await this.client.entitiesRecognitionPii(
-        {
-          documents: realInputs
-        },
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-
-      return makeRecognizePiiEntitiesResultCollection(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
    * Runs a predictive model to identify a collection of entities
    * found in the passed-in input strings, and include information linking the
    * entities to their corresponding entries in a well-known knowledge base.
@@ -686,6 +599,9 @@ function convertToDetectLanguageInput(
   inputs: string[],
   countryHint: string
 ): DetectLanguageInput[] {
+  if (countryHint === "none") {
+    countryHint = "";
+  }
   return inputs.map(
     (text: string, index): DetectLanguageInput => {
       return {

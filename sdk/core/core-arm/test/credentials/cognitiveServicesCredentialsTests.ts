@@ -3,7 +3,7 @@
 
 import assert from "assert";
 import { WebResource } from "@azure/core-http";
-import { CognitiveServicesCredentials } from "../../lib/credentials/cognitiveServicesCredentials";
+import { CognitiveServicesCredentials } from "../../src/credentials/cognitiveServicesCredentials";
 import * as msAssert from "../msAssert";
 
 describe("CognitiveServicesCredentials", () => {

@@ -7,6 +7,7 @@ export const testPollerProperties = {
 };
 
 const mockAccountName = "fakestorageaccount";
+const mockMDAccountName = "md-fakestorageaccount";
 const mockAccountKey = "aaaaa";
 export const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -19,7 +20,11 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
-    ACCOUNT_TOKEN: `${mockAccountKey}`
+    ACCOUNT_TOKEN: `${mockAccountKey}`,
+    MD_ACCOUNT_NAME: `${mockMDAccountName}`,
+    MD_ACCOUNT_KEY: `${mockAccountKey}`,
+    MD_ACCOUNT_SAS: `${mockAccountKey}`,
+    MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
   },
   customizationsOnRecordings: [
     // Used in record mode

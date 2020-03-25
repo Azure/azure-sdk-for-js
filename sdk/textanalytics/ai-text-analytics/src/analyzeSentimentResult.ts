@@ -12,7 +12,7 @@ import {
   TextAnalyticsError,
   DocumentSentimentLabel,
   SentenceSentiment,
-  SentimentScorePerLabel
+  SentimentConfidenceScores
 } from "./generated/models";
 
 /**
@@ -33,7 +33,7 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
   /**
    * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
    */
-  sentimentScores: SentimentScorePerLabel;
+  confidenceScores: SentimentConfidenceScores;
   /**
    * The predicted sentiment for each sentence in the corresponding document.
    */
@@ -48,14 +48,14 @@ export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 export function makeAnalyzeSentimentResult(
   id: string,
   sentiment: DocumentSentimentLabel,
-  sentimentScores: SentimentScorePerLabel,
+  confidenceScores: SentimentConfidenceScores,
   sentences: SentenceSentiment[],
   statistics?: TextDocumentStatistics
 ): AnalyzeSentimentSuccessResult {
   return {
     ...makeTextAnalyticsSuccessResult(id, statistics),
     sentiment,
-    sentimentScores,
+    confidenceScores,
     sentences
   };
 }

@@ -3,11 +3,11 @@
 
 import "chai/register-should";
 
-import { HttpOperationResponse } from "../lib/httpOperationResponse";
-import { RequestPolicy, RequestPolicyOptions } from "../lib/policies/requestPolicy";
-import { Constants } from "../lib/util/constants";
-import { WebResource } from "../lib/webResource";
-import { userAgentPolicy } from "../lib/policies/userAgentPolicy";
+import { HttpOperationResponse } from "../src/httpOperationResponse";
+import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";
+import { Constants } from "../src/util/constants";
+import { WebResource } from "../src/webResource";
+import { userAgentPolicy } from "../src/policies/userAgentPolicy";
 
 const userAgentHeaderKey = Constants.HeaderConstants.USER_AGENT;
 

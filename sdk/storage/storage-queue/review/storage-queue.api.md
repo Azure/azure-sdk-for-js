@@ -28,9 +28,9 @@ import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AccessPolicy {
-    expiresOn: string;
-    permissions: string;
-    startsOn: string;
+    expiresOn?: string;
+    permissions?: string;
+    startsOn?: string;
 }
 
 // @public
@@ -779,9 +779,9 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
 // @public
 export interface SignedIdentifier {
     accessPolicy: {
-        startsOn: Date;
-        expiresOn: Date;
-        permissions: string;
+        startsOn?: Date;
+        expiresOn?: Date;
+        permissions?: string;
     };
     id: string;
 }

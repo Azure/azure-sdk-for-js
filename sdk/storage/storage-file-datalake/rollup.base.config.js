@@ -105,7 +105,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: "dist-esm/src/index.browser.js",
     output: {
-      file: "browser/azure-storage-file-datalake.js",
+      file: "dist-browser/azure-storage-file-datalake.js",
       banner: banner,
       format: "umd",
       name: "azdatalake",

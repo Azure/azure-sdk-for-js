@@ -134,7 +134,6 @@ dist
 dist-*
 test-dist
 test-dist*
-browser
 test-browser
 typings
 typedoc
@@ -147,6 +146,3 @@ sdk/cosmosdb/cosmos/lib
 
 # autorest generated files
 swagger/*.json
-
-# library-specific ignores
-sdk/keyvault/*/src/**/*.js

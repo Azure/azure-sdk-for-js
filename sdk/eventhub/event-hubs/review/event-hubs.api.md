@@ -12,6 +12,7 @@ import { SpanContext } from '@opentelemetry/types';
 import { SpanOptions } from '@opentelemetry/types';
 import { TokenCredential } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
+import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
 export interface Checkpoint {
@@ -266,11 +267,7 @@ export interface TryAddOptions {
 
 export { WebSocketImpl }
 
-// @public
-export interface WebSocketOptions {
-    webSocket?: WebSocketImpl;
-    webSocketConstructorOptions?: any;
-}
+export { WebSocketOptions }
 
 
 // (No @packageDocumentation comment for this package)

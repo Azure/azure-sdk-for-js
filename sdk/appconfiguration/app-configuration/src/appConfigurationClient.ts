@@ -67,7 +67,7 @@ const packageName = "azsdk-js-app-configuration";
  * @internal
  * @ignore
  */
-export const packageVersion = "1.0.1";
+export const packageVersion = "1.0.2";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {

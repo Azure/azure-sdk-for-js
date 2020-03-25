@@ -22,12 +22,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let queueServiceClient: QueueServiceClient;
   let recorder: Recorder;
 
-  beforeEach(function() {
+  beforeEach(function () {
     recorder = record(this, recorderEnvSetup);
     queueServiceClient = getQSU();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     recorder.stop();
   });
 
@@ -275,7 +275,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await queueClient.setAccessPolicy([
       {
         accessPolicy: {
-          expiresOn: tmr,
           permissions: QueueSASPermissions.parse("raup").toString(),
           startsOn: now
         },
@@ -285,6 +284,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const queueSAS = generateQueueSASQueryParameters(
       {
+        expiresOn: tmr,
         queueName: queueClient.name,
         identifier: id
       },

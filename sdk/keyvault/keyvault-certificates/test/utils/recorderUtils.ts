@@ -5,7 +5,7 @@ import * as path from "path";
 import { isPlaybackMode } from "@azure/test-utils-recorder";
 
 if (isNode) {
-  dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
+  dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 }
 
 export async function retry<T>(

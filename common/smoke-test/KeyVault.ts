@@ -2,7 +2,7 @@
 // Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 // ------------------------------------
-import { EnvironmentCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 import { SecretClient } from "@azure/keyvault-secrets";
 
 const uuidv1 = require("uuid/v1");
@@ -23,11 +23,17 @@ export class KeyVaultSecrets {
         3) Delete that secret (Clean up the resource)
         `);
 
-    // EnvironmentCredential expects the following three environment variables:
+    const authorityHost =
+      process.env["AZURE_AUTHORITY_HOST"] ||
+      "https://login.microsoftonline.com";
+
+    // DefaultAzureCredential expects the following three environment variables:
     // * AZURE_TENANT_ID: The tenant ID in Azure Active Directory
     // * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
     // * AZURE_CLIENT_SECRET: The client secret for the registered application
-    const credential = new EnvironmentCredential();
+    const credential = new DefaultAzureCredential({
+      authorityHost: authorityHost
+    });
     const url = process.env["AZURE_PROJECT_URL"] || "<YourProjectURL>";
 
     KeyVaultSecrets.client = new SecretClient(url, credential);

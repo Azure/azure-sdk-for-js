@@ -7,16 +7,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { getProcessorCount } from "../util/utils";
 import * as log from "../log";
 import { Semaphore } from "../util/semaphore";
-import { delay, ConditionErrorNameMapper, Constants } from "@azure/amqp-common";
-
-/**
- * @internal
- * Enum to denote the entity type calling the session manager
- */
-export enum SessionEntityType {
-  queue = "Queue",
-  subscription = "Subscription"
-}
+import { delay, ConditionErrorNameMapper, Constants, MessagingError } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -151,7 +142,10 @@ export class SessionManager {
             error
           );
           await closeMessageSession(messageSession);
-          if (error.name !== ConditionErrorNameMapper["com.microsoft:message-wait-timeout"]) {
+          if (
+            (error as MessagingError).code !==
+            ConditionErrorNameMapper["com.microsoft:message-wait-timeout"]
+          ) {
             // notify the user about the error.
             onError(error);
           }
@@ -178,9 +172,9 @@ export class SessionManager {
         // the Promise is rejected. The "microsoft.timeout" error occurs when timeout happens on
         // the server side and ServiceBus sends a detach frame due to which the Promise is rejected.
         if (
-          err.name === ConditionErrorNameMapper["amqp:operation-timeout"] ||
-          err.name === ConditionErrorNameMapper["com.microsoft:timeout"] ||
-          err.name === ConditionErrorNameMapper["com.microsoft:session-cannot-be-locked"]
+          err.code === "OperationTimeoutError" ||
+          err.code === ConditionErrorNameMapper["com.microsoft:timeout"] ||
+          err.code === ConditionErrorNameMapper["com.microsoft:session-cannot-be-locked"]
         ) {
           // No point in delaying if cancel has been requested.
           if (!this._isCancelRequested) {
@@ -220,15 +214,14 @@ export class SessionManager {
    * @throws MessagingError if any error occurs while receiving messages from the service.
    */
   async manageMessageSessions(
-    entityType: SessionEntityType,
     onMessage: OnMessage,
     onError: OnError,
     options?: SessionManagerOptions
   ): Promise<void> {
     if (this._isManagingSessions) {
       throw new Error(
-        `${entityType}Client for "${this._context.namespace.config.entityPath}" ` +
-          `is already receiving messages from sessions. Please close this ${entityType}Client or ` +
+        `Receiver for "${this._context.namespace.config.entityPath}" ` +
+          `is already receiving messages from sessions. Please close this receiver or ` +
           `create a new one and receiveMessages from Sessions.`
       );
     }
@@ -239,7 +232,7 @@ export class SessionManager {
     // We are explicitly configuring the messageSession to timeout in 60 seconds (if not provided
     // by the user) when no new messages are received.
     if (!options.newMessageWaitTimeoutInSeconds) {
-      options.newMessageWaitTimeoutInSeconds = Constants.defaultOperationTimeoutInSeconds;
+      options.newMessageWaitTimeoutInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
     }
     this._maxConcurrentSessionsSemaphore = new Semaphore(this.maxConcurrenSessions);
     this._maxPendingAcceptSessionsSemaphore = new Semaphore(

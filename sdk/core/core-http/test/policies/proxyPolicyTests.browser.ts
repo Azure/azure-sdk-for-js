@@ -3,11 +3,11 @@
 
 import "chai/register-should";
 import { should } from "chai";
-import { ProxySettings } from "../../lib/serviceClient";
-import { RequestPolicyOptions } from "../../lib/policies/requestPolicy";
-import { WebResource } from "../../lib/webResource";
-import { HttpHeaders } from "../../lib/httpHeaders";
-import { ProxyPolicy, getDefaultProxySettings } from "../../lib/policies/proxyPolicy";
+import { ProxySettings } from "../../src/serviceClient";
+import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
+import { WebResource } from "../../src/webResource";
+import { HttpHeaders } from "../../src/httpHeaders";
+import { ProxyPolicy, getDefaultProxySettings } from "../../src/policies/proxyPolicy";
 
 describe("ProxyPolicy (browser)", function() {
   const proxySettings: ProxySettings = {

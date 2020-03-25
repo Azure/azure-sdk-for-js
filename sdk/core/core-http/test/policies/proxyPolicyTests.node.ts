@@ -3,12 +3,12 @@
 
 import "chai/register-should";
 import { should } from "chai";
-import { ProxySettings } from "../../lib/serviceClient";
-import { RequestPolicyOptions } from "../../lib/policies/requestPolicy";
-import { WebResource } from "../../lib/webResource";
-import { HttpHeaders } from "../../lib/httpHeaders";
-import { proxyPolicy, ProxyPolicy, getDefaultProxySettings } from "../../lib/policies/proxyPolicy";
-import { Constants } from "../../lib/coreHttp";
+import { ProxySettings } from "../../src/serviceClient";
+import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
+import { WebResource } from "../../src/webResource";
+import { HttpHeaders } from "../../src/httpHeaders";
+import { proxyPolicy, ProxyPolicy, getDefaultProxySettings } from "../../src/policies/proxyPolicy";
+import { Constants } from "../../src/coreHttp";
 
 describe("ProxyPolicy (node)", function() {
   const proxySettings: ProxySettings = {
@@ -88,6 +88,26 @@ describe("getDefaultProxySettings", () => {
       const proxySettings: ProxySettings = getDefaultProxySettings(proxyUrlWithPort)!;
       proxySettings.host.should.equal(proxyUrl);
       proxySettings.port.should.equal(port);
+    });
+
+    [
+      { proxyUrl: "prot://user:pass@proxy.microsoft.com", proxyUrlWithoutAuth: "prot://proxy.microsoft.com", username: "user", password: "pass" },
+      { proxyUrl: "prot://user@proxy.microsoft.com", proxyUrlWithoutAuth: "prot://proxy.microsoft.com", username: "user", password: undefined },
+      { proxyUrl: "prot://:pass@proxy.microsoft.com", proxyUrlWithoutAuth: "prot://proxy.microsoft.com", username: undefined, password: "pass" },
+      { proxyUrl: "prot://proxy.microsoft.com", proxyUrlWithoutAuth: "prot://proxy.microsoft.com", username: undefined, password: undefined },
+      { proxyUrl: "user:pass@proxy.microsoft.com", proxyUrlWithoutAuth: "proxy.microsoft.com", username: "user", password: "pass" },
+      { proxyUrl: "proxy.microsoft.com", proxyUrlWithoutAuth: "proxy.microsoft.com", username: undefined, password: undefined }
+    ].forEach((testCase) => {
+      it(`should return settings with passed proxyUrl : ${testCase.proxyUrl}`, () => {
+        const proxySettings: ProxySettings = getDefaultProxySettings(testCase.proxyUrl)!;
+        proxySettings.host.should.equal(testCase.proxyUrlWithoutAuth);
+        if (testCase.username) {
+          proxySettings.username!.should.equal(testCase.username);
+        }
+        if (testCase.password) {
+          proxySettings.password!.should.equal(testCase.password);
+        }
+      })
     });
 
     describe("with loadEnvironmentProxyValue", () => {

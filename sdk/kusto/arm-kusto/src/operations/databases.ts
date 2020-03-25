@@ -31,32 +31,32 @@ export class Databases {
    * Checks that the database name is valid and is not already in use.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database.
+   * @param resourceName The name of the resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: Models.DatabaseCheckNameRequest, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesCheckNameAvailabilityResponse>;
+  checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: Models.CheckNameRequest, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesCheckNameAvailabilityResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database.
+   * @param resourceName The name of the resource.
    * @param callback The callback
    */
-  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: Models.DatabaseCheckNameRequest, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
+  checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: Models.CheckNameRequest, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database.
+   * @param resourceName The name of the resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: Models.DatabaseCheckNameRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
-  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: Models.DatabaseCheckNameRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>, callback?: msRest.ServiceCallback<Models.CheckNameResult>): Promise<Models.DatabasesCheckNameAvailabilityResponse> {
+  checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: Models.CheckNameRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
+  checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: Models.CheckNameRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>, callback?: msRest.ServiceCallback<Models.CheckNameResult>): Promise<Models.DatabasesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
-        databaseName,
+        resourceName,
         options
       },
       checkNameAvailabilityOperationSpec,
@@ -110,7 +110,7 @@ export class Databases {
    * @param databaseName The name of the database in the Kusto cluster.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, databaseName: string, callback: msRest.ServiceCallback<Models.Database>): void;
+  get(resourceGroupName: string, clusterName: string, databaseName: string, callback: msRest.ServiceCallback<Models.DatabaseUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -118,8 +118,8 @@ export class Databases {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Database>): void;
-  get(resourceGroupName: string, clusterName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Database>, callback?: msRest.ServiceCallback<Models.Database>): Promise<Models.DatabasesGetResponse> {
+  get(resourceGroupName: string, clusterName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DatabaseUnion>): void;
+  get(resourceGroupName: string, clusterName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DatabaseUnion>, callback?: msRest.ServiceCallback<Models.DatabaseUnion>): Promise<Models.DatabasesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -140,7 +140,7 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.Database, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DatabaseUnion, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,clusterName,databaseName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabasesCreateOrUpdateResponse>;
   }
@@ -154,7 +154,7 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabasesUpdateResponse>
    */
-  update(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DatabaseUpdate, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesUpdateResponse> {
+  update(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DatabaseUnion, options?: msRest.RequestOptionsBase): Promise<Models.DatabasesUpdateResponse> {
     return this.beginUpdate(resourceGroupName,clusterName,databaseName,parameters,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DatabasesUpdateResponse>;
   }
@@ -297,7 +297,7 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.Database, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DatabaseUnion, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -319,7 +319,7 @@ export class Databases {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DatabaseUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: Models.DatabaseUnion, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -370,9 +370,9 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "databaseName",
+    parameterPath: "resourceName",
     mapper: {
-      ...Mappers.DatabaseCheckNameRequest,
+      ...Mappers.CheckNameRequest,
       required: true
     }
   },
@@ -559,7 +559,9 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.Database
     },
-    202: {},
+    202: {
+      bodyMapper: Mappers.Database
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -585,7 +587,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.DatabaseUpdate,
+      ...Mappers.Database,
       required: true
     }
   },
@@ -596,7 +598,9 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.Database
     },
-    202: {},
+    202: {
+      bodyMapper: Mappers.Database
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
