@@ -7,7 +7,7 @@ Use the client library for Azure Service Bus in your Node.js application to
 - Send messages to a Queue or Topic
 - Receive messages from a Queue or Subscription
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 
 **NOTE**: If you are using version 1.1.x or lower, then please use the below links instead
 
@@ -51,7 +51,7 @@ this class using one of the 3 static methods on it
   - This method takes the host name of your Service Bus instance and a credentials object that you need
     to generate using the [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth)
     library. The host name is of the format `name-of-service-bus-instance.servicebus.windows.net`.
-  - Refer to the samples that use an [Azure account](https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.0.0/sdk/servicebus/service-bus/samples/javascript/gettingStarted/loginWithAzureAccount.js), [interactive login](https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/interactiveLogin.js) or [service principal](https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/servicePrincipalLogin.js)
+  - Refer to the samples that use an [Azure account](https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.0.0/sdk/servicebus/service-bus/samples/javascript/gettingStarted/loginWithAzureAccount.js), [interactive login](https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.0.0/sdk/servicebus/service-bus/samples/javascript/gettingStarted/interactiveLogin.js) or [service principal](https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.0.0/sdk/servicebus/service-bus/samples/javascript/gettingStarted/servicePrincipalLogin.js)
 
 ### Key concepts
 
@@ -146,7 +146,7 @@ receiver.registerMessageHandler(myMessageHandler, myErrorHandler);
 Use the [getMessageIterator](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/receiver#getmessageiterator--) to get an async iterator over messages
 
 ```javascript
-for await (let message of receiver.getMessageIterator()) {
+for await (let message of receiver.getMessageIterator()){
   // your code here
 }
 ```
@@ -195,8 +195,7 @@ You can use this receiver in one of 3 ways to receive messages
 
 ## Troubleshooting
 
-## AMQP Dependencies
-
+## AMQP Dependencies ##
 The Service Bus library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
 ### Enable logs
@@ -245,7 +244,7 @@ export DEBUG=azure:service-bus:error,azure-core-amqp:error,rhea-promise:error,rh
 
 ## Next Steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 directory for detailed examples on how to use this library to send and receive messages to/from
 [Service Bus Queues, Topics and Subscriptions](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview).
 
