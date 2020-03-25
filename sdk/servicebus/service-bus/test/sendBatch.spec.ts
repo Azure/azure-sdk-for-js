@@ -181,6 +181,7 @@ describe("Send Batch", () => {
       await testSendBatch(true);
     });
     */
+
     it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
       await testSendBatch(true);
