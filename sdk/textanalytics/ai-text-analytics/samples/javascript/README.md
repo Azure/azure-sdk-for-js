@@ -15,7 +15,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | **File Name**                                         | **Description**                                                                       |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | [analyzeSentiment.js][analyzesentiment]               | analyzes the sentiment of a piece of text                                             |
-| [recognizePii.js][recognizepii]                       | detects personally-identifiable information                                           |
 | [detectLanguage.js][detectlanguages]                 | detects the language of a piece of text                                               |
 | [extractKeyPhrases.js][extractkeyphrases]             | extracts key phrases from a piece of text                                             |
 | [recognizeLinkedEntities.js][recognizelinkedentities] | detects entities that have links to more information on the web                       |
@@ -51,7 +50,7 @@ node recognizePii.js
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" TEXT_ANALYTICS_API_KEY="<api key>" node recognizePii.js
+npx cross-env ENDPOINT="<endpoint>" TEXT_ANALYTICS_API_KEY="<api key>" node analyzeSentiment.js
 ```
 
 ## Next Steps
@@ -59,7 +58,6 @@ npx cross-env ENDPOINT="<endpoint>" TEXT_ANALYTICS_API_KEY="<api key>" node reco
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [analyzesentiment]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/analyzeSentiment.js
-[recognizepii]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizePii.js
 [detectlanguages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/detectLanguage.js
 [extractkeyphrases]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/extractKeyPhrases.js
 [recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeLinkedEntities.js
