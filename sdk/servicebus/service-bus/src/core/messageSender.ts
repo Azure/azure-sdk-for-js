@@ -257,6 +257,17 @@ export class MessageSender extends LinkEntity {
     }
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
+        // TO DO - move to the internal trySend
+        if (!this.isOpen()) {
+          log.sender(
+            "Acquiring lock %s for initializing the session, sender and " +
+              "possibly the connection.",
+            this.senderLock
+          );
+          await defaultLock.acquire(this.senderLock, () => {
+            return this._init();
+          });
+        }
         log.sender(
           "[%s] Sender '%s', credit: %d available: %d",
           this._context.namespace.connectionId,
@@ -546,17 +557,6 @@ export class MessageSender extends LinkEntity {
   async send(data: ServiceBusMessage, options: GetSenderOptions): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
-      // TO DO - move to the internal trySend
-      if (!this.isOpen()) {
-        log.sender(
-          "Acquiring lock %s for initializing the session, sender and " +
-            "possibly the connection.",
-          this.senderLock
-        );
-        await defaultLock.acquire(this.senderLock, () => {
-          return this._init();
-        });
-      }
       const amqpMessage = toAmqpMessage(data);
       amqpMessage.body = this._context.namespace.dataTransformer.encode(data.body);
 
@@ -606,18 +606,6 @@ export class MessageSender extends LinkEntity {
     try {
       if (!Array.isArray(inputMessages)) {
         inputMessages = [inputMessages];
-      }
-
-      // TO DO - move to the internal trySend
-      if (!this.isOpen()) {
-        log.sender(
-          "Acquiring lock %s for initializing the session, sender and " +
-            "possibly the connection.",
-          this.senderLock
-        );
-        await defaultLock.acquire(this.senderLock, () => {
-          return this._init();
-        });
       }
       log.sender(
         "[%s] Sender '%s', trying to send Message[]: %O",
@@ -757,17 +745,6 @@ export class MessageSender extends LinkEntity {
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
-      // TO DO - move to the internal trySend
-      if (!this.isOpen()) {
-        log.sender(
-          "Acquiring lock %s for initializing the session, sender and " +
-            "possibly the connection.",
-          this.senderLock
-        );
-        await defaultLock.acquire(this.senderLock, () => {
-          return this._init();
-        });
-      }
       log.sender(
         "[%s]Sender '%s', sending encoded batch message.",
         this._context.namespace.connectionId,
