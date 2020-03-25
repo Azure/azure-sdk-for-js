@@ -66,7 +66,7 @@ import {
   FILE_UPLOAD_MAX_CHUNK_SIZE,
   FILE_MAX_SIZE_BYTES,
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
-  BLOCK_BLOB_MAX_BLOCKS,
+  BLOCK_BLOB_MAX_BLOCKS
 } from "./utils/constants";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Batch } from "./utils/Batch";
@@ -257,7 +257,10 @@ export class DataLakePathClient extends StorageClient {
   public async exists(options: PathExistsOptions = {}): Promise<boolean> {
     const { span, spanOptions } = createSpan("DataLakeFileClient-exists", options.tracingOptions);
     try {
-      return await this.blobClient.exists({ ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } });
+      return await this.blobClient.exists({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1049,7 +1052,6 @@ export class DataLakeFileClient extends DataLakePathClient {
     }
   }
 
-
   // high level functions
 
   /**
@@ -1066,16 +1068,20 @@ export class DataLakeFileClient extends DataLakePathClient {
     filePath: string,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
-    const { span, spanOptions } = createSpan("DataLakeFileClient-uploadFile", options.tracingOptions);
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-uploadFile",
+      options.tracingOptions
+    );
     try {
       const size = (await fsStat(filePath)).size;
       return await this.uploadData(
         (offset: number, size: number) => {
-          return () => fs.createReadStream(filePath, {
-            autoClose: true,
-            end: offset + size - 1,
-            start: offset
-          });
+          return () =>
+            fs.createReadStream(filePath, {
+              autoClose: true,
+              end: offset + size - 1,
+              start: offset
+            });
         },
         size,
         { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
@@ -1108,7 +1114,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (isNode && data instanceof Buffer) {
         return this.uploadData(
           (offset: number, size: number): Buffer => {
-            return data.slice(offset, offset + size)
+            return data.slice(offset, offset + size);
           },
           data.length,
           { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
@@ -1135,11 +1141,17 @@ export class DataLakeFileClient extends DataLakePathClient {
   }
 
   private async uploadData(
-    contentFactory: ((offset: number, size: number) => Buffer) | ((offset: number, size: number) => Blob) | ((offset: number, size: number) => (() => NodeJS.ReadableStream)),
+    contentFactory:
+      | ((offset: number, size: number) => Buffer)
+      | ((offset: number, size: number) => Blob)
+      | ((offset: number, size: number) => () => NodeJS.ReadableStream),
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
-    const { span, spanOptions } = createSpan("DataLakeFileClient-uploadData", options.tracingOptions);
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-uploadData",
+      options.tracingOptions
+    );
     try {
       if (size > FILE_MAX_SIZE_BYTES) {
         throw new RangeError(`size must be <= ${FILE_MAX_SIZE_BYTES}.`);
@@ -1172,9 +1184,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         }
       }
       if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
-        throw new RangeError(
-          `chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`
-        );
+        throw new RangeError(`chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`);
       }
 
       if (!options.maxConcurrency) {
@@ -1187,7 +1197,10 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (!options.singleUploadThreshold) {
         options.singleUploadThreshold = FILE_MAX_SINGLE_UPLOAD_THRESHOLD;
       }
-      if (options.singleUploadThreshold < 1 || options.singleUploadThreshold > FILE_MAX_SINGLE_UPLOAD_THRESHOLD) {
+      if (
+        options.singleUploadThreshold < 1 ||
+        options.singleUploadThreshold > FILE_MAX_SINGLE_UPLOAD_THRESHOLD
+      ) {
         throw new RangeError(
           `singleUploadThreshold option must be >= 1 and <= ${FILE_MAX_SINGLE_UPLOAD_THRESHOLD}`
         );
@@ -1208,14 +1221,14 @@ export class DataLakeFileClient extends DataLakePathClient {
           close: options.close,
           pathHttpHeaders: options.pathHttpHeaders,
           tracingOptions: { ...options!.tracingOptions, spanOptions }
-        })
+        });
       }
 
       const numBlocks: number = Math.floor((size - 1) / options.chunkSize) + 1;
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The data's size is too big or the chunkSize is too small;` +
-          `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+            `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
@@ -1280,9 +1293,12 @@ export class DataLakeFileClient extends DataLakePathClient {
    */
   public async uploadStream(
     stream: Readable,
-    options: FileParallelUploadOptions = {},
+    options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
-    const { span, spanOptions } = createSpan("DataLakeFileClient-uploadStream", options.tracingOptions);
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-uploadStream",
+      options.tracingOptions
+    );
     try {
       // Create the file
       await this.create({
@@ -1302,9 +1318,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         options.chunkSize = FILE_UPLOAD_DEFAULT_CHUNK_SIZE;
       }
       if (options.chunkSize < 1 || options.chunkSize > FILE_UPLOAD_MAX_CHUNK_SIZE) {
-        throw new RangeError(
-          `chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`
-        );
+        throw new RangeError(`chunkSize option must be >= 1 and <= ${FILE_UPLOAD_MAX_CHUNK_SIZE}`);
       }
       if (!options.maxConcurrency) {
         options.maxConcurrency = DEFAULT_HIGH_LEVEL_CONCURRENCY;
@@ -1422,31 +1436,25 @@ export class DataLakeFileClient extends DataLakePathClient {
       count = typeof offsetOrCount === "number" ? offsetOrCount : 0;
       options = (countOrOptions as FileReadToBufferOptions) || {};
     }
-    const { span, spanOptions } = createSpan("DataLakeFileClient-readToBuffer", options.tracingOptions);
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-readToBuffer",
+      options.tracingOptions
+    );
     try {
       if (buffer) {
-        return await this.blobClientInternal.downloadToBuffer(
-          buffer,
-          offset,
-          count,
-          {
-            ...options,
-            maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
-            blockSize: options.chunkSize,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
-          }
-        );
+        return await this.blobClientInternal.downloadToBuffer(buffer, offset, count, {
+          ...options,
+          maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
+          blockSize: options.chunkSize,
+          tracingOptions: { ...options!.tracingOptions, spanOptions }
+        });
       } else {
-        return await this.blobClientInternal.downloadToBuffer(
-          offset,
-          count,
-          {
-            ...options,
-            maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
-            blockSize: options.chunkSize,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
-          }
-        );
+        return await this.blobClientInternal.downloadToBuffer(offset, count, {
+          ...options,
+          maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
+          blockSize: options.chunkSize,
+          tracingOptions: { ...options!.tracingOptions, spanOptions }
+        });
       }
     } catch (e) {
       span.setStatus({
@@ -1482,14 +1490,15 @@ export class DataLakeFileClient extends DataLakePathClient {
     count?: number,
     options: FileReadOptions = {}
   ): Promise<FileReadResponse> {
-    const { span, spanOptions } = createSpan("DataLakeFileClient-readToFile", options.tracingOptions);
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-readToFile",
+      options.tracingOptions
+    );
     try {
-      return await this.blobClientInternal.downloadToFile(
-        filePath,
-        offset,
-        count,
-        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
-      );
+      return await this.blobClientInternal.downloadToFile(filePath, offset, count, {
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
