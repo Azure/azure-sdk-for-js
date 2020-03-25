@@ -138,7 +138,8 @@ export function browserConfig(test = false) {
             "TraceFlags",
             "NOOP_TRACER",
             "NoopSpan",
-            "NoopTracer"
+            "NoopTracer",
+            "NOOP_SPAN"
           ]
         }
       }),
