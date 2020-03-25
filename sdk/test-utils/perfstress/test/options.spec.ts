@@ -28,12 +28,27 @@ export class OptionsTest extends PerfStressTest<OptionNames> {
   }
 
   compare(longName: OptionNames) {
-    if (this.options[longName] !== this.minimistResult[longName]) {
+    if (!(this.options[longName] && this.minimistResult[longName])) {
+      return;
+    }
+    if (this.options[longName].required && !this.options[longName].value) {
+      throw new Error(`The option ${longName} is required. It should have a value.`);
+    }
+    if (this.options[longName].defaultValue && !this.options[longName].value) {
       throw new Error(
-        `The option ${longName} should be equal in both the inner options object, and the values obtained from minimist.`
+        `The option ${longName} says it has a default value. It should therefore have a value.`
+      );
+    }
+    if (
+      this.options[longName] !==
+      (this.minimistResult[longName] || this.options[longName].defaultValue)
+    ) {
+      throw new Error(
+        `The option ${longName} should be equal in both the inner options object, and the values obtained from minimist, or at least equal to its default value.`
       );
     }
   }
+
   async run(): Promise<void> {
     for (const key in this.options) {
       this.compare(key as OptionNames);

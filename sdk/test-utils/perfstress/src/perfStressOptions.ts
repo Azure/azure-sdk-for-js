@@ -99,9 +99,9 @@ export type PerfStressOptionDictionary<TNames extends string> = {
 export function parsePerfStressOption(
   options: PerfStressOptionDictionary<string>,
   skipRequired?: boolean
-): PerfStressOptionDictionary<DefaultPerfStressOptionNames> {
+): PerfStressOptionDictionary<string> {
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
-  const result: PerfStressOptionDictionary<DefaultPerfStressOptionNames> = defaultPerfStressOptions;
+  const result: PerfStressOptionDictionary<string> = {};
 
   for (const longName of Object.keys(options)) {
     const option = (options as any)[longName];
@@ -125,12 +125,12 @@ export function parsePerfStressOption(
 export type PrintOptionsFilters = "defaultOptions" | "nonDefaultOptions" | "assignedOptions";
 
 export function printOptions(
-  options: PerfStressOptionDictionary<DefaultPerfStressOptionNames>,
+  options: PerfStressOptionDictionary<string>,
   pick?: PrintOptionsFilters[]
 ) {
   const filteredOptions: PerfStressOption[] = [];
   for (const longName of Object.keys(options)) {
-    const option = (options as any)[longName];
+    const option = options[longName];
     const defaultOption = (defaultPerfStressOptions as any)[longName];
     if (pick?.includes("nonDefaultOptions") && defaultOption) {
       continue;

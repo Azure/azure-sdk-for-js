@@ -7,8 +7,7 @@ import {
   PerfStressOptionDictionary,
   parsePerfStressOption,
   printOptions,
-  PrintOptionsFilters,
-  DefaultPerfStressOptionNames
+  PrintOptionsFilters
 } from "./perfStressOptions";
 
 export interface PerfStressTestInterface<TOptionsNames extends string> {
@@ -23,7 +22,7 @@ export abstract class PerfStressTest<TOptionsNames extends string> {
   }
 
   public printOptions(pick?: PrintOptionsFilters[]) {
-    printOptions(this.options as PerfStressOptionDictionary<DefaultPerfStressOptionNames>, pick);
+    printOptions(this.options, pick);
   }
 
   // Before and after running a bunch of the same test.

@@ -42,7 +42,7 @@ export class PerfStressProgram {
   private testName: string;
   private options: PerfStressOptionDictionary<DefaultPerfStressOptionNames>;
   private parallelNumber: number;
-  private tests: PerfStressTest<DefaultPerfStressOptionNames>[];
+  private tests: PerfStressTest<string>[];
 
   /**
    * Receives a test class to instantiate and execute.
@@ -50,12 +50,12 @@ export class PerfStressProgram {
    *
    * @param testClass The testClass to be instantiated.
    */
-  constructor(testClass: PerfStressTestInterface<DefaultPerfStressOptionNames>) {
+  constructor(testClass: PerfStressTestInterface<string>) {
     this.testName = testClass.name;
     this.options = parsePerfStressOption(defaultPerfStressOptions);
     this.parallelNumber = Number(this.options.parallel.value);
     console.log(`=== Creating ${this.parallelNumber} instance(s) of ${this.testName} ===`);
-    this.tests = new Array<PerfStressTest<DefaultPerfStressOptionNames>>(this.parallelNumber);
+    this.tests = new Array<PerfStressTest<string>>(this.parallelNumber);
 
     for (let i = 0; i < this.parallelNumber; i++) {
       const test = new testClass();
@@ -95,7 +95,7 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private async runLoop(
-    test: PerfStressTest<DefaultPerfStressOptionNames>,
+    test: PerfStressTest<string>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
@@ -155,7 +155,8 @@ export class PerfStressProgram {
     // of operations running.
     const millisecondsToLog = Number(this.options["milliseconds-to-log"].value!);
     console.log(
-      `\n=== ${title}, iteration ${iterationIndex}: Logs every ${millisecondsToLog / 1000}s ===`
+      `\n=== ${title} mode, iteration ${iterationIndex}. Logs every ${millisecondsToLog /
+        1000}s ===`
     );
     console.log(`Since Last Log\t\tTotal`);
     let lastInIteration = 0;
@@ -188,7 +189,7 @@ export class PerfStressProgram {
     clearInterval(logInterval);
 
     // Finally, we show the results.
-    console.log(`=== ${title}, iteration ${iterationIndex}: Results ===`);
+    console.log(`=== ${title} mode, results of iteration ${iterationIndex + 1} ===`);
     this.logResults(parallels);
   }
 
