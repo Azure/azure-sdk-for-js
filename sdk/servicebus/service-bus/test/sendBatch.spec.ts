@@ -125,7 +125,7 @@ describe("Send Batch", () => {
     });
   });
 
-  describe.only("Send multiple homogeneous messages - Multiple Sessions - size > max_batch_size_allowed", function(): void {
+  describe("Send multiple homogeneous messages - Multiple Sessions - size > max_batch_size_allowed", function(): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -181,23 +181,15 @@ describe("Send Batch", () => {
       await testSendBatch(true);
     });
     */
-    for (let iter = 0; iter < 100; iter++) {
-      it(`Iteration #${iter} - Unpartitioned Queue with Sessions: SendBatch`, async function(): Promise<
-        void
-      > {
-        await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-        await testSendBatch(true);
-      });
-    }
+    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+      await testSendBatch(true);
+    });
 
-    for (let iter = 0; iter < 100; iter++) {
-      it(`Iteration #${iter} - Unpartitioned Topic with Sessions: SendBatch`, async function(): Promise<
-        void
-      > {
-        await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-        await testSendBatch(true);
-      });
-    }
+    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+      await testSendBatch(true);
+    });
   });
 
   describe("Send multiple homogeneous messages - size < max_batch_size_allowed", function(): void {
