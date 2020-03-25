@@ -13,6 +13,7 @@ export * from "./availabilitySets";
 export * from "./proximityPlacementGroups";
 export * from "./dedicatedHostGroups";
 export * from "./dedicatedHosts";
+export * from "./sshPublicKeys";
 export * from "./virtualMachineExtensionImages";
 export * from "./virtualMachineExtensions";
 export * from "./virtualMachineImages";
