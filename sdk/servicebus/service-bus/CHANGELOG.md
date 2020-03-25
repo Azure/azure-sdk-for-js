@@ -1,10 +1,15 @@
 # Release History
 
+## 1.1.5 (2020-03-24)
+
+- Removed interfaces related to unreleased management api features from the API surface that were accidentally exported in version 1.1.3
+  [PR 7992](https://github.com/Azure/azure-sdk-for-js/issues/7992).
+
 ## 1.1.4 (2020-03-17)
 
 - Updated to use the latest version of `@azure/amqp-common` where the timeout for authorization requests sent to the service is increased from 10s to 60s to reduce the frequency of timeout errors.
   [PR 7823](https://github.com/Azure/azure-sdk-for-js/issues/7823).
-  
+
 ## 1.1.3 (2020-02-11)
 
 - Fixes issue where the promise returned by `receiveMessages` would sometimes fail to settle when the underlying connection
