@@ -1,6 +1,9 @@
 # Release History
 
-## 12.1.1 (Unreleased)
+## 12.1.2 (Unreleased)
+
+
+## 12.1.1 (2020-03-10)
 
 - Fixed unexpected hang issue when uploading empty body. Fixed bug [6904](https://github.com/Azure/azure-sdk-for-js/issues/6904).
 

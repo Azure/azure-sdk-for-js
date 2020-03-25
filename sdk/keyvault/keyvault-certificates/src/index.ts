@@ -14,8 +14,7 @@ import {
   signingPolicy,
   RequestOptionsBase,
   PipelineOptions,
-  createPipelineFromOptions,
-  isNode
+  createPipelineFromOptions
 } from "@azure/core-http";
 
 import { getTracer } from "@azure/core-tracing";
@@ -152,6 +151,7 @@ import { CertificateOperationState } from "./lro/operation/operation";
 import { DeleteCertificateState } from "./lro/delete/operation";
 import { CreateCertificateState } from "./lro/create/operation";
 import { RecoverDeletedCertificateState } from "./lro/recover/operation";
+import { parseCertificateBytes } from "./utils";
 
 export {
   CertificateClientOptions,
@@ -1283,11 +1283,19 @@ export class CertificateClient {
    * // See: @azure/keyvault-secrets
    * const certificateSecret = await secretClient.getSecret("MyCertificate");
    * const base64EncodedCertificate = certificateSecret.value!;
-   * await client.importCertificate("MyCertificate", base64EncodedCertificate);
+   * let buffer: Uint8Array;
+   *
+   * if (isNode) {
+   *   buffer = Buffer.from(base64EncodedCertificate, "base64");
+   * } else {
+   *   buffer = Uint8Array.from(atob(base64EncodedCertificate), (c) => c.charCodeAt(0));
+   * }
+   *
+   * await client.importCertificate("MyCertificate", buffer);
    * ```
    * @summary Imports a certificate from a certificate's secret value
    * @param certificateName The name of the certificate
-   * @param base64EncodedCertificate The base64 encoded certificate to import
+   * @param certificateBytes The PFX or ASCII PEM formatted value of the certificate containing both the X.509 certificates and the private key
    * @param {ImportCertificateOptions} [options] The optional parameters
    */
   public async importCertificate(
@@ -1299,14 +1307,10 @@ export class CertificateClient {
 
     const span = this.createSpan("importCertificate", requestOptions);
 
-    let base64EncodedCertificate: string;
-    if (isNode) {
-      base64EncodedCertificate = Buffer.from(certificateBytes).toString("base64");
-    } else {
-      base64EncodedCertificate = btoa(
-        String.fromCharCode.apply(null, (certificateBytes as any) as number[])
-      );
-    }
+    const base64EncodedCertificate = parseCertificateBytes(
+      certificateBytes,
+      options.policy?.contentType
+    );
 
     let result: ImportCertificateResponse;
 

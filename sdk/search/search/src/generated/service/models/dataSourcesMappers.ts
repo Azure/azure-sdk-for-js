@@ -15,6 +15,7 @@ export {
   DataSourceCredentials,
   HighWaterMarkChangeDetectionPolicy,
   ListDataSourcesResult,
+  SearchError,
   SoftDeleteColumnDeletionDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy
 } from "../models/mappers";

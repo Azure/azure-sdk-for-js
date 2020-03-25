@@ -9,35 +9,28 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import * as Models from "./models";
 
 const packageName = "@azure/search";
-const packageVersion = "1.0.0-preview.1";
+const packageVersion = "11.0.0-preview.2";
 
 export class SearchServiceClientContext extends coreHttp.ServiceClient {
   apiVersion: string;
-  searchServiceName: string;
-  searchDnsSuffix?: string;
+  endpoint: string;
   credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the SearchServiceClientContext class.
    * @param apiVersion Client Api Version.
-   * @param searchServiceName The name of the search service.
+   * @param endpoint The endpoint URL of the search service.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    apiVersion: string,
-    searchServiceName: string,
-    options?: Models.SearchServiceClientOptions
-  ) {
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, endpoint: string, options?: coreHttp.ServiceClientOptions) {
     if (apiVersion == undefined) {
       throw new Error("'apiVersion' cannot be null.");
     }
-    if (searchServiceName == undefined) {
-      throw new Error("'searchServiceName' cannot be null.");
+    if (endpoint == undefined) {
+      throw new Error("'endpoint' cannot be null.");
     }
     if (credentials == undefined) {
       throw new Error("'credentials' cannot be null.");
@@ -54,14 +47,10 @@ export class SearchServiceClientContext extends coreHttp.ServiceClient {
 
     super(credentials, options);
 
-    this.searchDnsSuffix = "search.windows.net";
-    this.baseUri = "https://{searchServiceName}.{searchDnsSuffix}";
+    this.baseUri = "{endpoint}";
     this.requestContentType = "application/json; charset=utf-8";
     this.apiVersion = apiVersion;
-    this.searchServiceName = searchServiceName;
+    this.endpoint = endpoint;
     this.credentials = credentials;
-    if (options.searchDnsSuffix !== null && options.searchDnsSuffix !== undefined) {
-      this.searchDnsSuffix = options.searchDnsSuffix;
-    }
   }
 }

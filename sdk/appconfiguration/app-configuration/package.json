@@ -33,10 +33,8 @@
     "dist-esm/**/*.d.ts",
     "dist-esm/**/*.d.ts.map",
     "types/app-configuration.d.ts",
-    "src/**/*.ts",
     "README.md",
-    "rollup.config.js",
-    "tsconfig.json"
+    "LICENSE"
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -45,7 +43,7 @@
     "build:samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc",
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
-    "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter ../../../common/tools/mocha-multi-reporter.js",
     "execute:samples": "npm run build:samples && echo Skipped.",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -54,7 +52,7 @@
     "prebuild": "npm run clean",
     "pack": "npm pack 2>&1",
     "swagger": "autorest --typescript swagger/swagger.md",
-    "test": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter mocha-multi --reporter-options spec=-,mocha-junit-reporter=-",
+    "test": "npm run build:test && mocha -t 1200000 test-dist/index.node.js --reporter ../../../common/tools/mocha-multi-reporter.js",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "npm run test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
@@ -77,11 +75,11 @@
     "@azure/core-http": "^1.0.0",
     "@azure/core-paging": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.7",
-    "@azure/identity": "^1.0.0",
     "@opentelemetry/types": "^0.2.0",
     "tslib": "^1.10.0"
   },
   "devDependencies": {
+    "@azure/identity": "1.1.0-preview1",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",
     "@rollup/plugin-multi-entry": "^3.0.0",
@@ -101,7 +99,6 @@
     "eslint-plugin-promise": "^4.1.1",
     "mocha": "^6.2.2",
     "mocha-junit-reporter": "^1.18.0",
-    "mocha-multi": "^1.1.3",
     "nock": "^11.7.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",

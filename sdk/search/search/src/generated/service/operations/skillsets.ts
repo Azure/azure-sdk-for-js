@@ -95,7 +95,7 @@ export class Skillsets {
    * @param [options] The optional parameters
    * @returns Promise<Models.SkillsetsGetResponse>
    */
-  get(skillsetName: string, options?: Models.SkillsetsGetOptionalParams): Promise<Models.SkillsetsGetResponse>;
+  get(skillsetName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.SkillsetsGetResponse>;
   /**
    * @param skillsetName The name of the skillset to retrieve.
    * @param callback The callback
@@ -106,8 +106,8 @@ export class Skillsets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(skillsetName: string, options: Models.SkillsetsGetOptionalParams, callback: coreHttp.ServiceCallback<Models.Skillset>): void;
-  get(skillsetName: string, options?: Models.SkillsetsGetOptionalParams | coreHttp.ServiceCallback<Models.Skillset>, callback?: coreHttp.ServiceCallback<Models.Skillset>): Promise<Models.SkillsetsGetResponse> {
+  get(skillsetName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Skillset>): void;
+  get(skillsetName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Skillset>, callback?: coreHttp.ServiceCallback<Models.Skillset>): Promise<Models.SkillsetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         skillsetName,
@@ -147,7 +147,7 @@ export class Skillsets {
    * @param [options] The optional parameters
    * @returns Promise<Models.SkillsetsCreateResponse>
    */
-  create(skillset: Models.Skillset, options?: Models.SkillsetsCreateOptionalParams): Promise<Models.SkillsetsCreateResponse>;
+  create(skillset: Models.Skillset, options?: coreHttp.RequestOptionsBase): Promise<Models.SkillsetsCreateResponse>;
   /**
    * @param skillset The skillset containing one or more skills to create in a search service.
    * @param callback The callback
@@ -158,8 +158,8 @@ export class Skillsets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(skillset: Models.Skillset, options: Models.SkillsetsCreateOptionalParams, callback: coreHttp.ServiceCallback<Models.Skillset>): void;
-  create(skillset: Models.Skillset, options?: Models.SkillsetsCreateOptionalParams | coreHttp.ServiceCallback<Models.Skillset>, callback?: coreHttp.ServiceCallback<Models.Skillset>): Promise<Models.SkillsetsCreateResponse> {
+  create(skillset: Models.Skillset, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Skillset>): void;
+  create(skillset: Models.Skillset, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Skillset>, callback?: coreHttp.ServiceCallback<Models.Skillset>): Promise<Models.SkillsetsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         skillset,
@@ -176,8 +176,7 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "skillsets('{skillsetName}')",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.skillsetName
   ],
   queryParameters: [
@@ -185,7 +184,6 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   ],
   headerParameters: [
     Parameters.prefer,
-    Parameters.clientRequestId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
@@ -203,7 +201,9 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     201: {
       bodyMapper: Mappers.Skillset
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -212,22 +212,22 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "skillsets('{skillsetName}')",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.skillsetName
   ],
   queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.clientRequestId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
   responses: {
     204: {},
     404: {},
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -236,21 +236,19 @@ const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "skillsets('{skillsetName}')",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.skillsetName
   ],
   queryParameters: [
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.clientRequestId
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.Skillset
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -259,21 +257,19 @@ const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "skillsets",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix
+    Parameters.endpoint
   ],
   queryParameters: [
     Parameters.select,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.clientRequestId
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.ListSkillsetsResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -282,14 +278,10 @@ const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "skillsets",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix
+    Parameters.endpoint
   ],
   queryParameters: [
     Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.clientRequestId
   ],
   requestBody: {
     parameterPath: "skillset",
@@ -302,7 +294,9 @@ const createOperationSpec: coreHttp.OperationSpec = {
     201: {
       bodyMapper: Mappers.Skillset
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };

@@ -19,7 +19,7 @@ export interface Path {
    */
   isDirectory?: boolean;
   lastModified?: Date;
-  eTag?: string;
+  etag?: string;
   contentLength?: number;
   owner?: string;
   group?: string;
@@ -39,7 +39,7 @@ export interface PathList {
 export interface FileSystem {
   name?: string;
   lastModified?: Date;
-  eTag?: string;
+  etag?: string;
 }
 
 /**
@@ -884,7 +884,7 @@ export interface FileSystemCreateHeaders {
   /**
    * An HTTP entity tag associated with the FileSystem.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the filesystem was last modified.  Operations on files and directories do
    * not affect the last modified time.
@@ -919,7 +919,7 @@ export interface FileSystemSetPropertiesHeaders {
    * An HTTP entity tag associated with the filesystem.  Changes to filesystem properties affect
    * the entity tag, but operations on files and directories do not.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the filesystem was last modified.  Changes to filesystem properties update
    * the last modified time, but operations on files and directories do not.
@@ -949,7 +949,7 @@ export interface FileSystemGetPropertiesHeaders {
    * An HTTP entity tag associated with the filesystem.  Changes to filesystem properties affect
    * the entity tag, but operations on files and directories do not.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the filesystem was last modified.  Changes to filesystem properties update
    * the last modified time, but operations on files and directories do not.
@@ -1011,7 +1011,7 @@ export interface FileSystemListPathsHeaders {
    * An HTTP entity tag associated with the filesystem.  Changes to filesystem properties affect
    * the entity tag, but operations on files and directories do not.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the filesystem was last modified.  Changes to filesystem properties update
    * the last modified time, but operations on files and directories do not.
@@ -1047,7 +1047,7 @@ export interface PathCreateHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified.  Write operations on the file or
    * directory update the last modified time.
@@ -1088,7 +1088,7 @@ export interface PathUpdateHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified.  Write operations on the file or
    * directory update the last modified time.
@@ -1169,7 +1169,7 @@ export interface PathLeaseHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified.  Write operations on the file or
    * directory update the last modified time.
@@ -1250,7 +1250,7 @@ export interface PathReadHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified.  Write operations on the file or
    * directory update the last modified time.
@@ -1355,7 +1355,7 @@ export interface PathGetPropertiesHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified.  Write operations on the file or
    * directory update the last modified time.
@@ -1456,7 +1456,7 @@ export interface PathSetAccessControlHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified. Write operations on the file or
    * directory update the last modified time.
@@ -1489,7 +1489,7 @@ export interface PathFlushDataHeaders {
   /**
    * An HTTP entity tag associated with the file or directory.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The data and time the file or directory was last modified.  Write operations on the file or
    * directory update the last modified time.

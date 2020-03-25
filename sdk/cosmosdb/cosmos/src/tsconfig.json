@@ -13,6 +13,7 @@
     "removeComments": false,
     "target": "es6",
     "sourceMap": true,
+    "inlineSources": true,
     "newLine": "LF",
     "resolveJsonModule": true,
     "composite": true,

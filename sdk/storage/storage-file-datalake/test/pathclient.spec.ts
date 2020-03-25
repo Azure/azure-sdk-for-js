@@ -20,7 +20,7 @@ describe("DataLakePathClient", () => {
 
   let recorder: any;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -33,7 +33,7 @@ describe("DataLakePathClient", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await fileSystemClient.delete();
     recorder.stop();
   });
@@ -314,5 +314,20 @@ describe("DataLakePathClient", () => {
     assert.deepStrictEqual(properties.metadata, metadata);
 
     await tempFileClient.delete();
+  });
+
+  it("exists returns true on an existing file", async () => {
+    const result = await fileClient.exists();
+    assert.ok(result, "exists() should return true for an existing file");
+  });
+
+  it("exists returns false on non-existing file or directory", async () => {
+    const newFileClient = fileSystemClient.getFileClient(recorder.getUniqueName("newFile"));
+    const result = await newFileClient.exists();
+    assert.ok(result === false, "exists() should return false for a non-existing file");
+
+    const newDirectoryClient = fileSystemClient.getDirectoryClient(recorder.getUniqueName("newDirectory"));
+    const dirResult = await newDirectoryClient.exists();
+    assert.ok(dirResult === false, "exists() should return false for a non-existing directory");
   });
 });

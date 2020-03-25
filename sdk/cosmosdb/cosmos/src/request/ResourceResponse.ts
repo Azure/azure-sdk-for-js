@@ -6,11 +6,11 @@ import { StatusCode, SubStatusCode } from "./StatusCodes";
 
 export class ResourceResponse<TResource> {
   constructor(
-    public readonly resource: TResource,
+    public readonly resource: TResource | undefined,
     public readonly headers: CosmosHeaders,
     public readonly statusCode: StatusCode,
     public readonly substatus?: SubStatusCode
-  ) {}
+  ) { }
   public get requestCharge(): number {
     return Number(this.headers[Constants.HttpHeaders.RequestCharge]) || 0;
   }

@@ -26,12 +26,12 @@ class SearchServiceClient extends SearchServiceClientContext {
   /**
    * Initializes a new instance of the SearchServiceClient class.
    * @param apiVersion Client Api Version.
-   * @param searchServiceName The name of the search service.
+   * @param endpoint The endpoint URL of the search service.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, searchServiceName: string, options?: Models.SearchServiceClientOptions) {
-    super(credentials, apiVersion, searchServiceName, options);
+  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, endpoint: string, options?: coreHttp.ServiceClientOptions) {
+    super(credentials, apiVersion, endpoint, options);
     this.dataSources = new operations.DataSources(this);
     this.indexers = new operations.Indexers(this);
     this.skillsets = new operations.Skillsets(this);
@@ -44,7 +44,7 @@ class SearchServiceClient extends SearchServiceClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetServiceStatisticsResponse>
    */
-  getServiceStatistics(options?: Models.SearchServiceClientGetServiceStatisticsOptionalParams): Promise<Models.GetServiceStatisticsResponse>;
+  getServiceStatistics(options?: coreHttp.RequestOptionsBase): Promise<Models.GetServiceStatisticsResponse>;
   /**
    * @param callback The callback
    */
@@ -53,8 +53,8 @@ class SearchServiceClient extends SearchServiceClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getServiceStatistics(options: Models.SearchServiceClientGetServiceStatisticsOptionalParams, callback: coreHttp.ServiceCallback<Models.ServiceStatistics>): void;
-  getServiceStatistics(options?: Models.SearchServiceClientGetServiceStatisticsOptionalParams | coreHttp.ServiceCallback<Models.ServiceStatistics>, callback?: coreHttp.ServiceCallback<Models.ServiceStatistics>): Promise<Models.GetServiceStatisticsResponse> {
+  getServiceStatistics(options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.ServiceStatistics>): void;
+  getServiceStatistics(options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.ServiceStatistics>, callback?: coreHttp.ServiceCallback<Models.ServiceStatistics>): Promise<Models.GetServiceStatisticsResponse> {
     return this.sendOperationRequest(
       {
         options
@@ -70,20 +70,18 @@ const getServiceStatisticsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "servicestats",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix
+    Parameters.endpoint
   ],
   queryParameters: [
     Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.clientRequestId
   ],
   responses: {
     200: {
       bodyMapper: Mappers.ServiceStatistics
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };

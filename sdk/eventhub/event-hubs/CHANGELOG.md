@@ -1,5 +1,8 @@
 # Release History
 
+## 5.0.3 (Unreleased)
+
+
 ## 5.0.2 (2020-03-09)
 
 - Fixes an issue that caused the `getPartitionIds`, `getEventHubProperties`,

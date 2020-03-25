@@ -92,7 +92,7 @@ export class DataSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataSourcesGetResponse>
    */
-  get(dataSourceName: string, options?: Models.DataSourcesGetOptionalParams): Promise<Models.DataSourcesGetResponse>;
+  get(dataSourceName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.DataSourcesGetResponse>;
   /**
    * @param dataSourceName The name of the datasource to retrieve.
    * @param callback The callback
@@ -103,8 +103,8 @@ export class DataSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(dataSourceName: string, options: Models.DataSourcesGetOptionalParams, callback: coreHttp.ServiceCallback<Models.DataSource>): void;
-  get(dataSourceName: string, options?: Models.DataSourcesGetOptionalParams | coreHttp.ServiceCallback<Models.DataSource>, callback?: coreHttp.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesGetResponse> {
+  get(dataSourceName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DataSource>): void;
+  get(dataSourceName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DataSource>, callback?: coreHttp.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         dataSourceName,
@@ -144,7 +144,7 @@ export class DataSources {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataSourcesCreateResponse>
    */
-  create(dataSource: Models.DataSource, options?: Models.DataSourcesCreateOptionalParams): Promise<Models.DataSourcesCreateResponse>;
+  create(dataSource: Models.DataSource, options?: coreHttp.RequestOptionsBase): Promise<Models.DataSourcesCreateResponse>;
   /**
    * @param dataSource The definition of the datasource to create.
    * @param callback The callback
@@ -155,8 +155,8 @@ export class DataSources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(dataSource: Models.DataSource, options: Models.DataSourcesCreateOptionalParams, callback: coreHttp.ServiceCallback<Models.DataSource>): void;
-  create(dataSource: Models.DataSource, options?: Models.DataSourcesCreateOptionalParams | coreHttp.ServiceCallback<Models.DataSource>, callback?: coreHttp.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesCreateResponse> {
+  create(dataSource: Models.DataSource, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DataSource>): void;
+  create(dataSource: Models.DataSource, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DataSource>, callback?: coreHttp.ServiceCallback<Models.DataSource>): Promise<Models.DataSourcesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         dataSource,
@@ -173,8 +173,7 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "datasources('{dataSourceName}')",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.dataSourceName
   ],
   queryParameters: [
@@ -182,7 +181,6 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   ],
   headerParameters: [
     Parameters.prefer,
-    Parameters.clientRequestId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
@@ -200,7 +198,9 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     201: {
       bodyMapper: Mappers.DataSource
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -209,22 +209,22 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "datasources('{dataSourceName}')",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.dataSourceName
   ],
   queryParameters: [
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.clientRequestId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
   responses: {
     204: {},
     404: {},
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -233,21 +233,19 @@ const getOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "datasources('{dataSourceName}')",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix,
+    Parameters.endpoint,
     Parameters.dataSourceName
   ],
   queryParameters: [
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.clientRequestId
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.DataSource
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -256,21 +254,19 @@ const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "datasources",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix
+    Parameters.endpoint
   ],
   queryParameters: [
     Parameters.select,
     Parameters.apiVersion
   ],
-  headerParameters: [
-    Parameters.clientRequestId
-  ],
   responses: {
     200: {
       bodyMapper: Mappers.ListDataSourcesResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };
@@ -279,14 +275,10 @@ const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "datasources",
   urlParameters: [
-    Parameters.searchServiceName,
-    Parameters.searchDnsSuffix
+    Parameters.endpoint
   ],
   queryParameters: [
     Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.clientRequestId
   ],
   requestBody: {
     parameterPath: "dataSource",
@@ -299,7 +291,9 @@ const createOperationSpec: coreHttp.OperationSpec = {
     201: {
       bodyMapper: Mappers.DataSource
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.SearchError
+    }
   },
   serializer
 };

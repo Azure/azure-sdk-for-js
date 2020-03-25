@@ -449,7 +449,9 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.DataConnection
     },
-    202: {},
+    202: {
+      bodyMapper: Mappers.DataConnection
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -487,7 +489,9 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.DataConnection
     },
-    202: {},
+    202: {
+      bodyMapper: Mappers.DataConnection
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

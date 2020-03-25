@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -29,7 +29,7 @@ export class GenerateClientRequestIdPolicy extends BaseRequestPolicy {
     super(nextPolicy, options);
   }
 
-  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     if (!request.headers.contains(this._requestIdHeaderName)) {
       request.headers.set(this._requestIdHeaderName, request.requestId);
     }
