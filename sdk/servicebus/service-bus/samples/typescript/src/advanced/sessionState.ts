@@ -28,7 +28,8 @@ dotenv.config();
 // Define connection string and related Service Bus entity names here
 const connectionString =
   process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
-const userEventsQueueName = process.env.QUEUE_NAME || "<queue name>";
+const userEventsQueueName =
+  process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
 
 export async function main() {

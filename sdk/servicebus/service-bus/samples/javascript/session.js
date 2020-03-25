@@ -17,8 +17,9 @@ require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
-const queueName = process.env.QUEUE_NAME || "<queue name>";
+const connectionString =
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 
 const listOfScientists = [
   { lastName: "Einstein", firstName: "Albert" },
@@ -77,10 +78,10 @@ async function receiveMessages(sbClient, sessionId) {
     sessionId: sessionId
   });
 
-  const processMessage = async (message) => {
+  const processMessage = async message => {
     console.log(`Received: ${message.sessionId} - ${message.body} `);
   };
-  const processError = async (err) => {
+  const processError = async err => {
     console.log(">>>>> Error occurred: ", err);
   };
 
@@ -94,6 +95,6 @@ async function receiveMessages(sbClient, sessionId) {
   await receiver.close();
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });

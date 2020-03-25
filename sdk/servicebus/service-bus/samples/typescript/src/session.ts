@@ -11,12 +11,7 @@
   sessions in Service Bus.
 */
 
-import {
-  delay,
-  ServiceBusClient,
-  ReceiveMode,
-  ServiceBusMessage
-} from "@azure/service-bus";
+import { delay, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -26,7 +21,7 @@ dotenv.config();
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
 const connectionString =
   process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
-const queueName = process.env.QUEUE_NAME || "<queue name>";
+const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 
 const listOfScientists = [
   { lastName: "Einstein", firstName: "Albert" },

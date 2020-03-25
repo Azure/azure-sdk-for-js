@@ -23,8 +23,10 @@ const { ServiceBusClient } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
-const userEventsQueueName = process.env.QUEUE_NAME || "<queue name>";
+const connectionString =
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const userEventsQueueName =
+  process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
 async function main() {
   try {
@@ -69,9 +71,13 @@ async function runScenario() {
 }
 async function getSessionState(sessionId) {
   // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const sessionReceiver = sbClient.getSessionReceiver(userEventsQueueName, "peekLock", {
-    sessionId: sessionId
-  });
+  const sessionReceiver = sbClient.getSessionReceiver(
+    userEventsQueueName,
+    "peekLock",
+    {
+      sessionId: sessionId
+    }
+  );
   const sessionState = await sessionReceiver.getState();
   if (sessionState) {
     // Get list of items
@@ -96,9 +102,13 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
 }
 async function processMessageFromSession(sessionId) {
   // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const sessionReceiver = sbClient.getSessionReceiver(userEventsQueueName, "peekLock", {
-    sessionId
-  });
+  const sessionReceiver = sbClient.getSessionReceiver(
+    userEventsQueueName,
+    "peekLock",
+    {
+      sessionId
+    }
+  );
 
   const messages = await sessionReceiver.receiveBatch(1, {
     maxWaitTimeSeconds: 10
@@ -130,6 +140,6 @@ async function processMessageFromSession(sessionId) {
 
   await sessionReceiver.close();
 }
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });
