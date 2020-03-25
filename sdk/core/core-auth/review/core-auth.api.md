@@ -5,7 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { SpanOptions } from '@opentelemetry/types';
+import { SpanOptions } from '@opentelemetry/api';
 
 export { AbortSignalLike }
 

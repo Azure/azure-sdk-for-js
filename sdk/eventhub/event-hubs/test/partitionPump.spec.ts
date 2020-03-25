@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { createProcessingSpan, trace } from "../src/partitionPump";
-import { NoOpSpan, TestTracer, setTracer, TestSpan } from "@azure/core-tracing";
-import { CanonicalCode, SpanOptions, SpanKind } from "@opentelemetry/api";
+import { TestTracer, setTracer, TestSpan } from "@azure/core-tracing";
+import { CanonicalCode, SpanOptions, SpanKind, NOOP_SPAN } from "@opentelemetry/api";
 import chai from "chai";
 import { ReceivedEventData } from "../src/eventData";
 import { instrumentEventData } from "../src/diagnostics/instrumentEventData";
@@ -33,7 +33,7 @@ describe("PartitionPump", () => {
     }
 
     it("basic span properties are set", async () => {
-      const fakeParentSpan = new NoOpSpan();
+      const fakeParentSpan = NOOP_SPAN;
       const tracer = new TestTracer2();
       setTracer(tracer);
 
@@ -90,8 +90,8 @@ describe("PartitionPump", () => {
       tracer.spanOptions!.links!.length.should.equal(3 - 1);
       // the test tracer just hands out a string integer that just gets
       // incremented
-      tracer.spanOptions!.links![0]!.spanContext.traceId.should.equal(firstEvent.context().traceId);
-      tracer.spanOptions!.links![1]!.spanContext.traceId.should.equal(thirdEvent.context().traceId);
+      tracer.spanOptions!.links![0]!.context.traceId.should.equal(firstEvent.context().traceId);
+      tracer.spanOptions!.links![1]!.context.traceId.should.equal(thirdEvent.context().traceId);
     });
 
     it("trace - normal", async () => {

@@ -7,9 +7,9 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { MessagingError } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
-import { Span } from '@opentelemetry/types';
-import { SpanContext } from '@opentelemetry/types';
-import { SpanOptions } from '@opentelemetry/types';
+import { Span } from '@opentelemetry/api';
+import { SpanContext } from '@opentelemetry/api';
+import { SpanOptions } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';

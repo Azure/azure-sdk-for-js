@@ -249,9 +249,9 @@ export class EventHubProducer {
     parentSpan?: Span | SpanContext,
     spanContextsToLink: SpanContext[] = []
   ): Span {
-    const links: Link[] = spanContextsToLink.map((spanContext) => {
+    const links: Link[] = spanContextsToLink.map((context) => {
       return {
-        spanContext
+        context
       };
     });
     const tracer = getTracer();

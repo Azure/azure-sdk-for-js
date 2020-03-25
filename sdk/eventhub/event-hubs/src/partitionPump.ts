@@ -181,7 +181,7 @@ export function createProcessingSpan(
     }
 
     links.push({
-      spanContext
+      context: spanContext
     });
   }
 

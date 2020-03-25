@@ -9,11 +9,18 @@ import {
   HttpHeaders,
   RequestPolicyOptions
 } from "../../src/coreHttp";
-import { SpanOptions, SpanContext, TraceFlags } from "@opentelemetry/api";
-import { setTracer, NoOpTracer, NoOpSpan } from "@azure/core-tracing";
+import {
+  SpanOptions,
+  SpanContext,
+  TraceFlags,
+  NoopSpan,
+  NoopTracer,
+  NOOP_TRACER
+} from "@opentelemetry/api";
+import { setTracer } from "@azure/core-tracing";
 import { tracingPolicy } from "../../src/policies/tracingPolicy";
 
-class MockSpan extends NoOpSpan {
+class MockSpan extends NoopSpan {
   private _endCalled = false;
 
   constructor(
@@ -53,14 +60,14 @@ class MockSpan extends NoOpSpan {
   }
 }
 
-class MockTracer extends NoOpTracer {
+class MockTracer extends NoopTracer {
   private spans: MockSpan[] = [];
   private _startSpanCalled = false;
 
   constructor(
     private traceId = "",
     private spanId = "",
-    private flags = TraceFlags.UNSAMPLED,
+    private flags = TraceFlags.NONE,
     private state = ""
   ) {
     super();
@@ -230,7 +237,7 @@ describe("tracingPolicy", function() {
   });
 
   it("will not set headers if span is a NoOpSpan", async () => {
-    setTracer(new NoOpTracer());
+    setTracer(NOOP_TRACER);
     const request = new WebResource();
     request.spanOptions = {
       parent: ROOT_SPAN

@@ -40,10 +40,6 @@ export interface OperationOptions extends TracingOptions {
 export function getParentSpan(
   options: Pick<OperationOptions, "tracingOptions">
 ): Span | SpanContext | undefined {
-  return (
-    options &&
-    options.tracingOptions &&
-    options.tracingOptions.spanOptions &&
-    options.tracingOptions.spanOptions.parent
-  );
+  const parent = options.tracingOptions?.spanOptions?.parent;
+  return parent || undefined;
 }

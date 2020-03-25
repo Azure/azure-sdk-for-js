@@ -132,7 +132,14 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": [
+            "CanonicalCode",
+            "SpanKind",
+            "TraceFlags",
+            "NOOP_TRACER",
+            "NoopSpan",
+            "NoopTracer"
+          ]
         }
       }),
 

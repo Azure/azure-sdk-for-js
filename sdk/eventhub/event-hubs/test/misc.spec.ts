@@ -355,7 +355,7 @@ describe("Misc tests #RunnableInBrowser", function(): void {
       should.equal(spanContext!.spanId, spanId, "Extracted spanId does not match expectation.");
       should.equal(
         spanContext!.traceFlags,
-        TraceFlags.UNSAMPLED,
+        TraceFlags.NONE,
         "Extracted traceFlags do not match expectations."
       );
     });

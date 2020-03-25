@@ -87,7 +87,14 @@ export function browserConfig(test = false, production = false) {
         namedExports: {
           chai: ["assert", "AssertionError", "should", "expect"],
           events: ["EventEmitter"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": [
+            "CanonicalCode",
+            "SpanKind",
+            "TraceFlags",
+            "NoopSpan",
+            "NoopTracer",
+            "NOOP_TRACER"
+          ]
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
