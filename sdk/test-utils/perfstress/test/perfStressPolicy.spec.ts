@@ -6,8 +6,6 @@ import {
   PerfStressTest,
   ParsedPerfStressOptions,
   PerfStressOption,
-  defaultPerfStressOptions,
-  makePerfStressOption,
   PerfStressPolicy
 } from "../src";
 import {
@@ -28,10 +26,12 @@ const defaultResponse = {
 };
 
 export class PerfStressPolicyTest extends PerfStressTest<ParsedHTTPSRequestOptions> {
-  public optionsToParse: PerfStressOption[] = [
-    ...defaultPerfStressOptions,
-    makePerfStressOption(true, "URL for the HTTP GET Test", "url", "u")
-  ];
+  public customOptions: PerfStressOption[] = [{
+    required: true,
+    description: "URL that will replace any request's original targeted URL",
+    longName: "url",
+    shortName: "u",
+  }];
   async run(): Promise<void> {
     const targetUrl = url.parse(this.parsedOptions.url.value! as string);
     const differentUrl = url.parse(this.parsedOptions.url.value! as string);

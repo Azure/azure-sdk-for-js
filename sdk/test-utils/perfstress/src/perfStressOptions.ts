@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTestError } from ".";
+import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
 
 /**
  * Possible values for each PerfStress option
@@ -63,37 +63,21 @@ export interface ParsedPerfStressOptions {
   [longName: string]: PerfStressOption;
 }
 
-// TODO:
-// Use a third party library?
-// We want this to run on browsers too though, and to tighten the control over the dependencies...
-
 export function parsePerfStressOption(
   options: PerfStressOption[],
   skipRequired?: boolean
 ): ParsedPerfStressOptions {
-  const argv = process.argv;
   const parsedOptions: ParsedPerfStressOptions = {};
+  const minimistResult: MinimistParsedArgs = minimist(process.argv);
 
   for (const option of options) {
-    let value: PerfStressOptionValue = option.defaultValue;
-    let index = 0;
-    for (; index < argv.length; index += 1) {
-      const element = argv[index];
-      if (element === `-${option.shortName}` || element === `--${option.longName}`) {
-        // Sets true by default.
-        value = true;
-        // Picks the next element if it doesn't begin with `--`
-        const next = argv[index + 1];
-        if (next && next[0] !== "-") {
-          value = next;
-        }
-        break;
-      }
+    const { longName, shortName, defaultValue, required } = option;
+    const value =
+      minimistResult[longName] || (shortName && minimistResult[shortName]) || defaultValue;
+    if (!skipRequired && required && !value) {
+      throw new Error(`Option ${longName} is required`);
     }
-    if (!skipRequired && option.required && value === undefined) {
-      throw new PerfStressTestError(`Option ${option.longName} is required`);
-    }
-    parsedOptions[option.longName] = {
+    parsedOptions[longName] = {
       ...option,
       value
     };

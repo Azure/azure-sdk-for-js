@@ -5,9 +5,7 @@ import { AbortController } from "@azure/abort-controller";
 import { PerfStressTest } from "./perfStressTest";
 import {
   ParsedPerfStressOptions,
-  parsePerfStressOption,
   printOptions,
-  defaultPerfStressOptions
 } from "./perfStressOptions";
 import { PerfStressTestError } from ".";
 
@@ -18,23 +16,42 @@ export interface PerfStressParallel {
   lastMillisecondsElapsed?: number;
 }
 
+/**
+ * PerfStressProgram
+ * receives a PerfStressTest with specific command line parameters,
+ * then gets the test ready for a performance/stress test run.
+ *
+ * Use it like:
+ * 
+ * ```ts
+ * export class Delay500ms extends PerfStressTest<ParsedPerfStressOptions> {
+ *   async run(): Promise<void> {
+ *     await delay(500);
+ *   }
+ * }
+ * 
+ * const perfStressProgram = new PerfStressProgram(new Delay500ms());
+ * 
+ * perfStressProgram.run();
+ * ```
+ */
 export class PerfStressProgram {
   private test: PerfStressTest<ParsedPerfStressOptions>;
-  public options: ParsedPerfStressOptions = {} as ParsedPerfStressOptions;
+  private testName: string;
+  private options: ParsedPerfStressOptions;
 
   constructor(test: PerfStressTest<ParsedPerfStressOptions>) {
-    this.options = parsePerfStressOption(defaultPerfStressOptions, true);
     this.test = test;
+    this.testName = this.test.constructor.name;
+    this.test.parseOptions();
+    this.options = this.test.parsedOptions;
 
     // --help, or -h
     if (this.options.help.value) {
-      console.log("=== Help: Default options ===");
-      printOptions(this.options, ["defaultOptions"]);
-      test.printOptions(["nonDefaultOptions"]);
+      console.log(`=== Help: ${this.testName}'s options ===`);
+      test.printOptions();
       return;
     }
-
-    this.test.parseOptions();
   }
 
   private logResults(parallels: PerfStressParallel[]): void {
@@ -135,11 +152,11 @@ export class PerfStressProgram {
     console.log("=== Assigned options ===");
     printOptions(options, ["assignedOptions"]);
 
-    console.log(`=== Assigned options for ${this.test.constructor.name} ===`);
+    console.log(`=== Assigned options for ${this.testName} ===`);
     this.test.printOptions(["assignedOptions", "nonDefaultOptions"]);
 
     try {
-      console.log(`=== Global setup for ${this.test.constructor.name} ===`);
+      console.log(`=== Global setup for ${this.testName} ===`);
       if (this.test.globalSetup) {
         await this.test.globalSetup();
       }
