@@ -12,19 +12,23 @@ import {
   PrintOptionsFilters
 } from "./perfStressOptions";
 
+export interface PerfStressTestInterface<TOptions extends ParsedPerfStressOptions> {
+  new (): PerfStressTest<TOptions>;
+}
+
 export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {
   public customOptions: PerfStressOption[] = defaultPerfStressOptions;
   public parsedOptions: TOptions = {} as TOptions;
-
-  public printOptions(pick?: PrintOptionsFilters[]) {
-    printOptions(this.parsedOptions, pick);
-  }
 
   public parseOptions() {
     this.parsedOptions = parsePerfStressOption([
       ...defaultPerfStressOptions,
       ...this.customOptions
     ]) as TOptions;
+  }
+
+  public printOptions(pick?: PrintOptionsFilters[]) {
+    printOptions(this.parsedOptions, pick);
   }
 
   // Before and after running a bunch of the same test.
@@ -38,9 +42,9 @@ export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {
 }
 
 export function selectPerfStressTest(
-  tests: PerfStressTest<ParsedPerfStressOptions>[]
-): PerfStressTest<ParsedPerfStressOptions> {
-  const testsNames: string[] = tests.map((test) => test.constructor.name);
+  tests: PerfStressTestInterface<ParsedPerfStressOptions>[]
+): PerfStressTestInterface<ParsedPerfStressOptions> {
+  const testsNames: string[] = tests.map((test) => test.name);
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
   const testName = minimistResult._[minimistResult._.length - 1];
 

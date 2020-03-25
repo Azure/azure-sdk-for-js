@@ -2,8 +2,13 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { PerfStressTest } from "./perfStressTest";
-import { ParsedPerfStressOptions, printOptions } from "./perfStressOptions";
+import { PerfStressTest, PerfStressTestInterface } from "./perfStressTest";
+import {
+  ParsedPerfStressOptions,
+  printOptions,
+  parsePerfStressOption,
+  defaultPerfStressOptions
+} from "./perfStressOptions";
 import { PerfStressTestError } from ".";
 
 export type TestType = "";
@@ -33,21 +38,29 @@ export interface PerfStressParallel {
  * ```
  */
 export class PerfStressProgram {
-  private test: PerfStressTest<ParsedPerfStressOptions>;
   private testName: string;
   private options: ParsedPerfStressOptions;
+  private parallelNumber: number;
+  private tests: PerfStressTest<ParsedPerfStressOptions>[];
 
   /**
-   * Receives a test to execute.
+   * Receives a test class to instantiate and execute.
    * Parses the test's options and creates some shortcuts.
    *
-   * @param test The test to be executed.
+   * @param testClass The testClass to be instantiated.
    */
-  constructor(test: PerfStressTest<ParsedPerfStressOptions>) {
-    this.test = test;
-    this.testName = this.test.constructor.name;
-    this.test.parseOptions();
-    this.options = this.test.parsedOptions;
+  constructor(testClass: PerfStressTestInterface<ParsedPerfStressOptions>) {
+    this.testName = testClass.name;
+    this.options = parsePerfStressOption(defaultPerfStressOptions);
+    this.parallelNumber = Number(this.options.parallel.value);
+    console.log(`=== Creating ${this.parallelNumber} instance(s) of ${this.testName} ===`);
+    this.tests = new Array<PerfStressTest<ParsedPerfStressOptions>>(this.parallelNumber);
+
+    for (let i = 0; i < this.parallelNumber; i++) {
+      const test = new testClass();
+      test.parseOptions();
+      this.tests[i] = test;
+    }
   }
 
   /**
@@ -81,6 +94,7 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private async runLoop(
+    test: PerfStressTest<ParsedPerfStressOptions>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
@@ -100,7 +114,7 @@ export class PerfStressProgram {
       }
 
       try {
-        await this.test.run(abortController.signal);
+        await test.run(abortController.signal);
       } catch (e) {
         if (!(e instanceof PerfStressTestError)) {
           abortController.abort();
@@ -123,9 +137,8 @@ export class PerfStressProgram {
     durationSeconds: number,
     title: string
   ): Promise<void> {
-    const parallelNumber = Number(this.options.parallel.value);
-    const parallels: PerfStressParallel[] = new Array<PerfStressParallel>(parallelNumber);
-    const parallelTestPromises: Promise<void>[] = new Array<Promise<void>>(parallelNumber);
+    const parallels: PerfStressParallel[] = new Array<PerfStressParallel>(this.parallelNumber);
+    const parallelTestPromises: Promise<void>[] = new Array<Promise<void>>(this.parallelNumber);
 
     const abortController = new AbortController();
     const durationMilliseconds = durationSeconds * 1000;
@@ -163,7 +176,8 @@ export class PerfStressProgram {
         completedOperations: 0
       };
       parallels[i] = parallel;
-      parallelTestPromises[i] = this.runLoop(parallel, durationMilliseconds, abortController);
+      const test = this.tests[i];
+      parallelTestPromises[i] = this.runLoop(test, parallel, durationMilliseconds, abortController);
     }
     for (const promise of parallelTestPromises) {
       await promise;
@@ -182,13 +196,15 @@ export class PerfStressProgram {
    * under the conditions provided by the command line options.
    * If the command line option for help (--help or -h) is passed in, the program will output
    * the information available of all of the options and close, with no test executions.
+   *
+   *
    */
   public async run(): Promise<void> {
     // There should be no test execution if the help option is passed.
     // --help, or -h
     if (this.options.help.value) {
       console.log(`=== Help: Options that can be sent to ${this.testName} ===`);
-      this.test.printOptions();
+      this.tests[0].printOptions();
       return;
     }
 
@@ -197,9 +213,19 @@ export class PerfStressProgram {
     printOptions(options, ["assignedOptions"]);
 
     try {
-      console.log(`=== Global setup for ${this.testName} ===`);
-      if (this.test.globalSetup) {
-        await this.test.globalSetup();
+      if (this.tests[0].globalSetup) {
+        console.log(
+          `=== Calling globalSetup() once for (all) the instance(s) of ${this.testName} ===`
+        );
+        await this.tests[0].globalSetup();
+      }
+      if (this.tests[0].setup) {
+        console.log(
+          `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
+        );
+        for (const test of this.tests) {
+          await test.setup!();
+        }
       }
       try {
         if (Number(options.warmup.value) > 0) {
@@ -215,9 +241,12 @@ export class PerfStressProgram {
           throw e;
         }
       } finally {
-        if (!options["no-cleanups"]) {
-          if (this.test.cleanup) {
-            await this.test.cleanup();
+        if (this.tests[0].cleanup) {
+          console.log(
+            `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
+          );
+          for (const test of this.tests) {
+            await test.cleanup!();
           }
         }
       }
@@ -227,8 +256,11 @@ export class PerfStressProgram {
       }
     } finally {
       if (!options["no-cleanups"]) {
-        if (this.test.globalCleanup) {
-          await this.test.globalCleanup();
+        if (this.tests[0].globalCleanup) {
+          console.log(
+            `=== Calling globalCleanup() once for (all) the instance(s) of ${this.testName} ===`
+          );
+          await this.tests[0].globalCleanup();
         }
       }
     }
