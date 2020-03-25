@@ -73,8 +73,9 @@ The following sections provide code snippets that cover some of the common tasks
 
 Once you have created an instance of a `ServiceBusClient` class, you can get a `Sender`
 using the [getSender](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#getsender-string-)
-function. This gives you a sender which you can use to [send](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender#send-servicebusmessage-)
-messages.
+function.
+
+This gives you a sender which you can use to [send](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender#send-servicebusmessage-) messages.
 
 You can also use the [sendBatch](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender#sendbatch-servicebusmessagebatch-)
 method to send multiple messages using a single call.
