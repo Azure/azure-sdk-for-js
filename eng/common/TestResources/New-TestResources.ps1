@@ -134,6 +134,8 @@ if (!$Location) {
 
     if ($defaultLocations.ContainsKey($Environment)) {
         $Location = $defaultLocations[$Environment]
+    } else {
+        Write-Error "Location cannot be empty and there is no default location for Environment: '$Environment'"
     }
 
     Write-Verbose "Location was not set. Using default location for environment: '$Location'"
