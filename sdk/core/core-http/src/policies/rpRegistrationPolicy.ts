@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -27,7 +27,7 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
     super(nextPolicy, options);
   }
 
-  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy
       .sendRequest(request.clone())
       .then((response) => registerIfNeeded(this, request, response));
@@ -36,7 +36,7 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
 
 function registerIfNeeded(
   policy: RPRegistrationPolicy,
-  request: WebResource,
+  request: WebResourceLike,
   response: HttpOperationResponse
 ): Promise<HttpOperationResponse> {
   if (response.status === 409) {
@@ -67,12 +67,15 @@ function registerIfNeeded(
 
 /**
  * Reuses the headers of the original request and url (if specified).
- * @param {WebResource} originalRequest The original request
+ * @param {WebResourceLike} originalRequest The original request
  * @param {boolean} reuseUrlToo Should the url from the original request be reused as well. Default false.
  * @returns {object} A new request object with desired headers.
  */
-function getRequestEssentials(originalRequest: WebResource, reuseUrlToo = false): WebResource {
-  const reqOptions: WebResource = originalRequest.clone();
+function getRequestEssentials(
+  originalRequest: WebResourceLike,
+  reuseUrlToo = false
+): WebResourceLike {
+  const reqOptions: WebResourceLike = originalRequest.clone();
   if (reuseUrlToo) {
     reqOptions.url = originalRequest.url;
   }
@@ -139,7 +142,7 @@ function extractSubscriptionUrl(url: string): string {
  * @param {RPRegistrationPolicy} policy The RPRegistrationPolicy this function is being called against.
  * @param {string} urlPrefix https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/
  * @param {string} provider The provider name to be registered.
- * @param {WebResource} originalRequest The original request sent by the user that returned a 409 response
+ * @param {WebResourceLike} originalRequest The original request sent by the user that returned a 409 response
  * with a message that the provider is not registered.
  * @param {registrationCallback} callback The callback that handles the RP registration
  */
@@ -147,7 +150,7 @@ function registerRP(
   policy: RPRegistrationPolicy,
   urlPrefix: string,
   provider: string,
-  originalRequest: WebResource
+  originalRequest: WebResourceLike
 ): Promise<boolean> {
   const postUrl = `${urlPrefix}providers/${provider}/register?api-version=2016-02-01`;
   const getUrl = `${urlPrefix}providers/${provider}?api-version=2016-02-01`;
@@ -168,14 +171,14 @@ function registerRP(
  * Polling will happen till the registrationState property of the response body is "Registered".
  * @param {RPRegistrationPolicy} policy The RPRegistrationPolicy this function is being called against.
  * @param {string} url The request url for polling
- * @param {WebResource} originalRequest The original request sent by the user that returned a 409 response
+ * @param {WebResourceLike} originalRequest The original request sent by the user that returned a 409 response
  * with a message that the provider is not registered.
  * @returns {Promise<boolean>} True if RP Registration is successful.
  */
 function getRegistrationStatus(
   policy: RPRegistrationPolicy,
   url: string,
-  originalRequest: WebResource
+  originalRequest: WebResourceLike
 ): Promise<boolean> {
   const reqOptions: any = getRequestEssentials(originalRequest);
   reqOptions.url = url;

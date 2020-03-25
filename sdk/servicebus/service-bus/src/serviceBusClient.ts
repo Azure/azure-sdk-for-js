@@ -122,16 +122,13 @@ export class ServiceBusClient {
   ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
-    let entityType: "queue" | "subscription";
 
     if (isReceiveMode(receiveMode3)) {
-      entityType = "subscription";
       const topic = queueOrTopicName1;
       const subscription = receiveModeOrSubscriptionName2;
       entityPath = `${topic}/Subscriptions/${subscription}`;
       receiveMode = receiveMode3;
     } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
-      entityType = "queue";
       entityPath = queueOrTopicName1;
       receiveMode = receiveModeOrSubscriptionName2;
     } else {
@@ -146,13 +143,9 @@ export class ServiceBusClient {
     );
 
     if (receiveMode === "peekLock") {
-      return new ReceiverImpl<ReceivedMessageWithLock>(
-        clientEntityContext,
-        receiveMode,
-        entityType
-      );
+      return new ReceiverImpl<ReceivedMessageWithLock>(clientEntityContext, receiveMode);
     } else {
-      return new ReceiverImpl<ReceivedMessage>(clientEntityContext, receiveMode, entityType);
+      return new ReceiverImpl<ReceivedMessage>(clientEntityContext, receiveMode);
     }
   }
 
@@ -220,18 +213,15 @@ export class ServiceBusClient {
     | SessionReceiver<ReceivedMessageWithLock> {
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
-    let entityType: "queue" | "subscription";
     let options: GetSessionReceiverOptions | undefined;
 
     if (isReceiveMode(receiveModeOrOptions3)) {
-      entityType = "subscription";
       const topic = queueOrTopicName1;
       const subscription = receiveModeOrSubscriptionName2;
       entityPath = `${topic}/Subscriptions/${subscription}`;
       receiveMode = receiveModeOrOptions3;
       options = options4;
     } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
-      entityType = "queue";
       entityPath = queueOrTopicName1;
       receiveMode = receiveModeOrSubscriptionName2;
       options = receiveModeOrOptions3 as GetSessionReceiverOptions | undefined;
@@ -247,7 +237,7 @@ export class ServiceBusClient {
     );
 
     // TODO: .NET actually tries to open the session here so we'd need to be async for that.
-    return new SessionReceiverImpl(clientEntityContext, receiveMode, entityType, {
+    return new SessionReceiverImpl(clientEntityContext, receiveMode, {
       sessionId: options?.sessionId,
       maxSessionAutoRenewLockDurationInSeconds: options?.maxSessionAutoRenewLockDurationInSeconds
     });

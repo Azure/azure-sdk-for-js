@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpHeaders } from "./httpHeaders";
+import { HttpHeaders, HttpHeadersLike, isHttpHeadersLike } from "./httpHeaders";
 import { OperationSpec } from "./operationSpec";
 import { Mapper, Serializer } from "./serializer";
 import { generateUuid } from "./util/utils";
@@ -37,6 +37,129 @@ export type TransferProgressEvent = {
   loadedBytes: number;
 };
 
+export interface WebResourceLike {
+  /**
+   * The URL being accessed by the request.
+   */
+  url: string;
+  /**
+   * The HTTP method to use when making the request.
+   */
+  method: HttpMethods;
+  /**
+   * The HTTP body contents of the request.
+   */
+  body?: any;
+  /**
+   * The HTTP headers to use when making the request.
+   */
+  headers: HttpHeadersLike;
+  /**
+   * Whether or not the body of the HttpOperationResponse should be treated as a stream.
+   */
+  streamResponseBody?: boolean;
+  /**
+   * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
+   * HttpOperationResponse should be deserialized.
+   */
+  shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
+  /**
+   * A function that returns the proper OperationResponse for the given OperationSpec and
+   * HttpOperationResponse combination. If this is undefined, then a simple status code lookup will
+   * be used.
+   */
+  operationResponseGetter?: (
+    operationSpec: OperationSpec,
+    response: HttpOperationResponse
+  ) => undefined | OperationResponse;
+  formData?: any;
+  /**
+   * A query string represented as an object.
+   */
+  query?: { [key: string]: any };
+  /**
+   * Used to parse the response.
+   */
+  operationSpec?: OperationSpec;
+  /**
+   * If credentials (cookies) should be sent along during an XHR.
+   */
+  withCredentials: boolean;
+  /**
+   * The number of milliseconds a request can take before automatically being terminated.
+   * If the request is terminated, an `AbortError` is thrown.
+   */
+  timeout: number;
+  /**
+   * Proxy configuration.
+   */
+  proxySettings?: ProxySettings;
+  /**
+   * If the connection should be reused.
+   */
+  keepAlive?: boolean;
+  /**
+   * Whether or not to decompress response according to Accept-Encoding header (node-fetch only)
+   */
+  decompressResponse?: boolean;
+  /**
+   * A unique identifier for the request. Used for logging and tracing.
+   */
+  requestId: string;
+
+  /**
+   * Used to abort the request later.
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Callback which fires upon upload progress.
+   */
+  onUploadProgress?: (progress: TransferProgressEvent) => void;
+
+  /** Callback which fires upon download progress. */
+  onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Options used to create a span when tracing is enabled.
+   */
+  spanOptions?: SpanOptions;
+
+  /**
+   * Validates that the required properties such as method, url, headers["Content-Type"],
+   * headers["accept-language"] are defined. It will throw an error if one of the above
+   * mentioned properties are not defined.
+   */
+  validateRequestProperties(): void;
+
+  /**
+   * Sets options on the request.
+   */
+  prepare(options: RequestPrepareOptions): WebResourceLike;
+  /**
+   * Clone this request object.
+   */
+  clone(): WebResourceLike;
+}
+
+export function isWebResourceLike(object: any): object is WebResourceLike {
+  if (typeof object !== "object") {
+    return false;
+  }
+  if (
+    typeof object.url === "string" &&
+    typeof object.method === "string" &&
+    typeof object.headers === "object" &&
+    isHttpHeadersLike(object.headers) &&
+    typeof object.validateRequestProperties === "function" &&
+    typeof object.prepare === "function" &&
+    typeof object.clone === "function"
+  ) {
+    return true;
+  }
+  return false;
+}
+
 /**
  * Creates a new WebResource object.
  *
@@ -45,11 +168,11 @@ export type TransferProgressEvent = {
  *
  * @constructor
  */
-export class WebResource {
+export class WebResource implements WebResourceLike {
   url: string;
   method: HttpMethods;
   body?: any;
-  headers: HttpHeaders;
+  headers: HttpHeadersLike;
   /**
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
    */
@@ -75,6 +198,10 @@ export class WebResource {
   timeout: number;
   proxySettings?: ProxySettings;
   keepAlive?: boolean;
+  /**
+   * Whether or not to decompress response according to Accept-Encoding header (node-fetch only)
+   */
+  decompressResponse?: boolean;
   requestId: string;
 
   abortSignal?: AbortSignalLike;
@@ -95,7 +222,7 @@ export class WebResource {
     method?: HttpMethods,
     body?: any,
     query?: { [key: string]: any },
-    headers?: { [key: string]: any } | HttpHeaders,
+    headers?: { [key: string]: any } | HttpHeadersLike,
     streamResponseBody?: boolean,
     withCredentials?: boolean,
     abortSignal?: AbortSignalLike,
@@ -103,12 +230,13 @@ export class WebResource {
     onUploadProgress?: (progress: TransferProgressEvent) => void,
     onDownloadProgress?: (progress: TransferProgressEvent) => void,
     proxySettings?: ProxySettings,
-    keepAlive?: boolean
+    keepAlive?: boolean,
+    decompressResponse?: boolean
   ) {
     this.streamResponseBody = streamResponseBody;
     this.url = url || "";
     this.method = method || "GET";
-    this.headers = headers instanceof HttpHeaders ? headers : new HttpHeaders(headers);
+    this.headers = isHttpHeadersLike(headers) ? headers : new HttpHeaders(headers);
     this.body = body;
     this.query = query;
     this.formData = undefined;
@@ -119,6 +247,7 @@ export class WebResource {
     this.onDownloadProgress = onDownloadProgress;
     this.proxySettings = proxySettings;
     this.keepAlive = keepAlive;
+    this.decompressResponse = decompressResponse;
     this.requestId = this.headers.get("x-ms-client-request-id") || generateUuid();
   }
 
@@ -199,7 +328,7 @@ export class WebResource {
         baseUrl +
         (baseUrl.endsWith("/") ? "" : "/") +
         (pathTemplate.startsWith("/") ? pathTemplate.slice(1) : pathTemplate);
-      const segments = url.match(/({\w*\s*\w*})/gi);
+      const segments = url.match(/({[\w\-]*\s*[\w\-]*})/gi);
       if (segments && segments.length) {
         if (!pathParameters) {
           throw new Error(
@@ -363,7 +492,8 @@ export class WebResource {
       this.onUploadProgress,
       this.onDownloadProgress,
       this.proxySettings,
-      this.keepAlive
+      this.keepAlive,
+      this.decompressResponse
     );
 
     if (this.formData) {

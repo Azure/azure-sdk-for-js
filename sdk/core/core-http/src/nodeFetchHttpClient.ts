@@ -8,7 +8,7 @@ import "node-fetch";
 
 import { FetchHttpClient, CommonRequestInfo } from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
-import { WebResource } from "./webResource";
+import { WebResourceLike } from "./webResource";
 import { createProxyAgent, ProxyAgent, isUrlHttps } from "./proxyAgent";
 
 interface GlobalWithFetch extends NodeJS.Global {
@@ -39,7 +39,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
 
   private readonly cookieJar = new tough.CookieJar(undefined, { looseMode: true });
 
-  private getOrCreateAgent(httpRequest: WebResource): http.Agent | https.Agent {
+  private getOrCreateAgent(httpRequest: WebResourceLike): http.Agent | https.Agent {
     const isHttps = isUrlHttps(httpRequest.url);
 
     // At the moment, proxy settings and keepAlive are mutually
@@ -91,8 +91,8 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     return fetch(input, init);
   }
 
-  async prepareRequest(httpRequest: WebResource): Promise<Partial<RequestInit>> {
-    const requestInit: Partial<RequestInit & { agent?: any }> = {};
+  async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
+    const requestInit: Partial<RequestInit & { agent?: any, compress?: boolean }> = {};
 
     if (this.cookieJar && !httpRequest.headers.get("Cookie")) {
       const cookieString = await new Promise<string>((resolve, reject) => {
@@ -110,6 +110,8 @@ export class NodeFetchHttpClient extends FetchHttpClient {
 
     // Set the http(s) agent
     requestInit.agent = this.getOrCreateAgent(httpRequest);
+
+    requestInit.compress = httpRequest.decompressResponse;
 
     return requestInit;
   }

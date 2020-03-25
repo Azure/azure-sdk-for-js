@@ -191,9 +191,9 @@ export class ServiceBusTestHelpers {
         await receiverClient.close();
       }
     }
-    should.equal(
-      sentMessages.length,
+    should.equal(         
       receivedMsgs!.length,
+      sentMessages.length,
       "Unexpected number of messages received."
     );
     receivedMsgs!.forEach((receivedMessage) => {

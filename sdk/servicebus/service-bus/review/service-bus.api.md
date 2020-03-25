@@ -41,7 +41,7 @@ export { DataTransformer }
 // @public
 export interface DeadLetterOptions {
     deadLetterErrorDescription: string;
-    deadletterReason: string;
+    deadLetterReason: string;
 }
 
 export { delay }
@@ -96,7 +96,9 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
         [key: string]: any;
     }): Promise<void>;
     complete(): Promise<void>;
-    deadLetter(options?: DeadLetterOptions): Promise<void>;
+    deadLetter(options?: DeadLetterOptions & {
+        [key: string]: any;
+    }): Promise<void>;
     defer(propertiesToModify?: {
         [key: string]: any;
     }): Promise<void>;
@@ -117,7 +119,6 @@ export interface Receiver<ReceivedMessageT> {
         peekBySequenceNumber(fromSequenceNumber: Long, maxMessageCount?: number): Promise<ReceivedMessage[]>;
     };
     entityPath: string;
-    entityType: "queue" | "subscription";
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isReceivingMessages(): boolean;
     receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;

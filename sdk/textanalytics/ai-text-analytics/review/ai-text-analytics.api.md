@@ -135,10 +135,6 @@ export interface Match {
 }
 
 // @public
-export interface PiiEntity extends Entity {
-}
-
-// @public
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
@@ -179,26 +175,6 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 }
 
 // @public
-export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
-
-// @public
-export type RecognizePiiEntitiesResult = RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
-
-// @public
-export interface RecognizePiiEntitiesResultCollection extends Array<RecognizePiiEntitiesResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
-    readonly entities: PiiEntity[];
-}
-
-// @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
     graphemeLength: number;
@@ -236,8 +212,6 @@ export class TextAnalyticsClient {
     recognizeEntities(inputs: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultCollection>;
     recognizeLinkedEntities(inputs: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
     recognizeLinkedEntities(inputs: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultCollection>;
-    recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultCollection>;
-    recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultCollection>;
 }
 
 // @public
