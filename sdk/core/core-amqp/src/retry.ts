@@ -7,7 +7,8 @@ import { logger } from "./log";
 import {
   defaultMaxRetries,
   defaultDelayBetweenOperationRetriesInMs,
-  defaultMaxDelayForExponentialRetryInMs
+  defaultMaxDelayForExponentialRetryInMs,
+  defaultOperationTimeoutInMs
 } from "./util/constants";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkNetworkConnection } from "./util/checkNetworkConnection";
@@ -255,4 +256,15 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   } else {
     throw lastError;
   }
+}
+
+export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
+  const timeoutInMs =
+    retryOptions == undefined ||
+    typeof retryOptions.timeoutInMs !== "number" ||
+    !isFinite(retryOptions.timeoutInMs) ||
+    retryOptions.timeoutInMs < defaultOperationTimeoutInMs
+      ? defaultOperationTimeoutInMs
+      : retryOptions.timeoutInMs;
+  return timeoutInMs;
 }
