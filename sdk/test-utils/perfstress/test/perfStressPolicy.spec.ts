@@ -2,12 +2,7 @@
 // Licensed under the MIT license.
 
 import * as url from "url";
-import {
-  PerfStressTest,
-  ParsedPerfStressOptions,
-  PerfStressOption,
-  PerfStressPolicy
-} from "../src";
+import { PerfStressTest, PerfStressOptionDictionary, PerfStressPolicy } from "../src";
 import {
   WebResource,
   HttpOperationResponse,
@@ -15,9 +10,7 @@ import {
   RequestPolicyOptions
 } from "@azure/core-http";
 
-interface ParsedHTTPSRequestOptions extends ParsedPerfStressOptions {
-  url: PerfStressOption;
-}
+type OptionNames = "url";
 
 const defaultResponse = {
   status: 200,
@@ -25,18 +18,18 @@ const defaultResponse = {
   headers: new HttpHeaders()
 };
 
-export class PerfStressPolicyTest extends PerfStressTest<ParsedHTTPSRequestOptions> {
-  public customOptions: PerfStressOption[] = [
-    {
+export class PerfStressPolicyTest extends PerfStressTest<OptionNames> {
+  public options: PerfStressOptionDictionary<OptionNames> = {
+    url: {
       required: true,
       description: "URL that will replace any request's original targeted URL",
       longName: "url",
       shortName: "u"
     }
-  ];
+  };
   async run(): Promise<void> {
-    const targetUrl = url.parse(this.parsedOptions.url.value! as string);
-    const differentUrl = url.parse(this.parsedOptions.url.value! as string);
+    const targetUrl = url.parse(this.options.url.value! as string);
+    const differentUrl = url.parse(this.options.url.value! as string);
     differentUrl.host = `not-${differentUrl.host}`;
 
     const request = new WebResource(url.format(differentUrl));

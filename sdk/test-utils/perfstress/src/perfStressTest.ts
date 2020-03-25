@@ -4,31 +4,26 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
 import {
-  PerfStressOption,
-  ParsedPerfStressOptions,
+  PerfStressOptionDictionary,
   parsePerfStressOption,
-  defaultPerfStressOptions,
   printOptions,
-  PrintOptionsFilters
+  PrintOptionsFilters,
+  DefaultPerfStressOptionNames
 } from "./perfStressOptions";
 
-export interface PerfStressTestInterface<TOptions extends ParsedPerfStressOptions> {
-  new (): PerfStressTest<TOptions>;
+export interface PerfStressTestInterface<TOptionsNames extends string> {
+  new (): PerfStressTest<TOptionsNames>;
 }
 
-export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {
-  public customOptions: PerfStressOption[] = defaultPerfStressOptions;
-  public parsedOptions: TOptions = {} as TOptions;
+export abstract class PerfStressTest<TOptionsNames extends string> {
+  public abstract options: PerfStressOptionDictionary<TOptionsNames>;
 
   public parseOptions() {
-    this.parsedOptions = parsePerfStressOption([
-      ...defaultPerfStressOptions,
-      ...this.customOptions
-    ]) as TOptions;
+    this.options = parsePerfStressOption(this.options) as PerfStressOptionDictionary<TOptionsNames>;
   }
 
   public printOptions(pick?: PrintOptionsFilters[]) {
-    printOptions(this.parsedOptions, pick);
+    printOptions(this.options as PerfStressOptionDictionary<DefaultPerfStressOptionNames>, pick);
   }
 
   // Before and after running a bunch of the same test.
@@ -42,8 +37,8 @@ export abstract class PerfStressTest<TOptions extends ParsedPerfStressOptions> {
 }
 
 export function selectPerfStressTest(
-  tests: PerfStressTestInterface<ParsedPerfStressOptions>[]
-): PerfStressTestInterface<ParsedPerfStressOptions> {
+  tests: PerfStressTestInterface<string>[]
+): PerfStressTestInterface<string> {
   const testsNames: string[] = tests.map((test) => test.name);
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
   const testName = minimistResult._[minimistResult._.length - 1];

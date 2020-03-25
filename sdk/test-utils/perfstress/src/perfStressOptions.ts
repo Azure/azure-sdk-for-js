@@ -15,7 +15,7 @@ export interface PerfStressOption {
   /**
    * Wether the option is required or not.
    */
-  required: boolean;
+  required?: boolean;
   /**
    * The shortName represents a command line argument that is usually short,
    * and when sent through the command line, it should have a single dash `-` before the shortName specified.
@@ -28,8 +28,9 @@ export interface PerfStressOption {
    * and when sent through the command line, it should have two dashes `--` before the longName specified.
    * The value of longName should not contain dashes.
    * Only alpha-numeric values are accepted.
+   * Options don't need to define longName, it can be derived from the properties PerfStressOptionDictionary.
    */
-  longName: string;
+  longName?: string;
   /**
    * The default value that is going to be assigned to the option.
    */
@@ -43,86 +44,94 @@ export interface PerfStressOption {
   description: string;
 }
 
-export function makePerfStressOption(
-  required: boolean,
-  description: string,
-  longName: string,
-  shortName?: string,
-  defaultValue?: PerfStressOptionValue
-): PerfStressOption {
-  return {
-    required,
-    shortName,
-    longName,
-    defaultValue,
-    description
-  };
-}
+export type DefaultPerfStressOptionNames =
+  | "help"
+  | "no-cleanups"
+  | "parallel"
+  | "duration"
+  | "warmup"
+  | "iterations"
+  | "no-cleanup"
+  | "milliseconds-to-log";
 
-export interface ParsedPerfStressOptions {
-  [longName: string]: PerfStressOption;
-}
+export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStressOptionNames> = {
+  help: {
+    description: "Shows all of the available options",
+    shortName: "h"
+  },
+  "no-cleanups": {
+    description: "Disables all cleanups"
+  },
+  parallel: {
+    description: "How many of the same test to call at the same time",
+    shortName: "p",
+    defaultValue: 1
+  },
+  duration: {
+    description: "When to stop calling tests at all",
+    shortName: "d",
+    defaultValue: 10
+  },
+  warmup: {
+    description: "Duration of warmup in seconds",
+    shortName: "w",
+    defaultValue: 0
+  },
+  iterations: {
+    description: "Times to repeat the whole process, after warmup",
+    shortName: "i",
+    defaultValue: 1
+  },
+  "no-cleanup": {
+    description: "Disables test cleanup"
+  },
+  "milliseconds-to-log": {
+    description: "Log frequency in milliseconds",
+    shortName: "mtl",
+    defaultValue: 1000
+  }
+};
+
+export type PerfStressOptionDictionary<TNames extends string> = {
+  [longName in TNames]: PerfStressOption;
+};
 
 export function parsePerfStressOption(
-  options: PerfStressOption[],
+  options: PerfStressOptionDictionary<string>,
   skipRequired?: boolean
-): ParsedPerfStressOptions {
-  const parsedOptions: ParsedPerfStressOptions = {};
+): PerfStressOptionDictionary<DefaultPerfStressOptionNames> {
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
+  const result: PerfStressOptionDictionary<DefaultPerfStressOptionNames> = defaultPerfStressOptions;
 
-  for (const option of options) {
-    const { longName, shortName, defaultValue, required } = option;
+  for (const longName of Object.keys(options)) {
+    const option = (options as any)[longName];
+    const { shortName, defaultValue, required } = option;
     const value =
       minimistResult[longName] || (shortName && minimistResult[shortName]) || defaultValue;
     if (!skipRequired && required && !value) {
       throw new Error(`Option ${longName} is required`);
     }
-    parsedOptions[longName] = {
+    // Options don't need to define longName, it can be derived from the properties PerfStressOptionDictionary.
+    (result as any)[longName] = {
+      longName,
       ...option,
       value
     };
   }
 
-  return parsedOptions;
+  return result;
 }
-
-export const defaultPerfStressOptions: PerfStressOption[] = [
-  makePerfStressOption(false, "Shows all of the available options", "help", "h"),
-  makePerfStressOption(false, "Disables all cleanups", "no-cleanups"),
-  makePerfStressOption(
-    false,
-    "How many of the same test to call at the same time",
-    "parallel",
-    "p",
-    1
-  ),
-  makePerfStressOption(false, "When to stop calling tests at all", "duration", "d", 10),
-  makePerfStressOption(false, "Duration of warmup in seconds", "warmup", "w", 0),
-  makePerfStressOption(
-    false,
-    "Times to repeat the whole process, after warmup",
-    "iterations",
-    "i",
-    1
-  ),
-  makePerfStressOption(false, "Host to redirect HTTP requests", "host"),
-  makePerfStressOption(false, "Allow non-trusted SSL certs", "insecure"),
-  makePerfStressOption(false, "Print job statistics (used by automation)", "job-statistics"),
-  makePerfStressOption(false, "Disables test cleanup", "no-cleanup"),
-  makePerfStressOption(false, "Port to redirect HTTP requests", "port"),
-  makePerfStressOption(false, "Runs sync version of test", "sync"),
-  makePerfStressOption(false, "Number of items", "count", "c", 10),
-  makePerfStressOption(false, "Size of payload (in bytes)", "size", "s", 10 * 1024),
-  makePerfStressOption(false, "Log frequency in milliseconds", "milliseconds-to-log", "mtl", 1000)
-];
 
 export type PrintOptionsFilters = "defaultOptions" | "nonDefaultOptions" | "assignedOptions";
 
-export function printOptions(options: ParsedPerfStressOptions, pick?: PrintOptionsFilters[]) {
+export function printOptions(
+  options: PerfStressOptionDictionary<DefaultPerfStressOptionNames>,
+  pick?: PrintOptionsFilters[]
+) {
   const filteredOptions: PerfStressOption[] = [];
   for (const longName of Object.keys(options)) {
-    const option = options[longName];
-    const defaultOption = defaultPerfStressOptions.find((option) => option.longName === longName);
+    const option = (options as any)[longName];
+    const defaultOption = (defaultPerfStressOptions as any)[longName];
     if (pick?.includes("nonDefaultOptions") && defaultOption) {
       continue;
     }

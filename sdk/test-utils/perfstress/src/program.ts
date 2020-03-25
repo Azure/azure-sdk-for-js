@@ -4,10 +4,11 @@
 import { AbortController } from "@azure/abort-controller";
 import { PerfStressTest, PerfStressTestInterface } from "./perfStressTest";
 import {
-  ParsedPerfStressOptions,
+  PerfStressOptionDictionary,
   printOptions,
   parsePerfStressOption,
-  defaultPerfStressOptions
+  defaultPerfStressOptions,
+  DefaultPerfStressOptionNames
 } from "./perfStressOptions";
 import { PerfStressTestError } from ".";
 
@@ -39,9 +40,9 @@ export interface PerfStressParallel {
  */
 export class PerfStressProgram {
   private testName: string;
-  private options: ParsedPerfStressOptions;
+  private options: PerfStressOptionDictionary<DefaultPerfStressOptionNames>;
   private parallelNumber: number;
-  private tests: PerfStressTest<ParsedPerfStressOptions>[];
+  private tests: PerfStressTest<DefaultPerfStressOptionNames>[];
 
   /**
    * Receives a test class to instantiate and execute.
@@ -49,12 +50,12 @@ export class PerfStressProgram {
    *
    * @param testClass The testClass to be instantiated.
    */
-  constructor(testClass: PerfStressTestInterface<ParsedPerfStressOptions>) {
+  constructor(testClass: PerfStressTestInterface<DefaultPerfStressOptionNames>) {
     this.testName = testClass.name;
     this.options = parsePerfStressOption(defaultPerfStressOptions);
     this.parallelNumber = Number(this.options.parallel.value);
     console.log(`=== Creating ${this.parallelNumber} instance(s) of ${this.testName} ===`);
-    this.tests = new Array<PerfStressTest<ParsedPerfStressOptions>>(this.parallelNumber);
+    this.tests = new Array<PerfStressTest<DefaultPerfStressOptionNames>>(this.parallelNumber);
 
     for (let i = 0; i < this.parallelNumber; i++) {
       const test = new testClass();
@@ -94,7 +95,7 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private async runLoop(
-    test: PerfStressTest<ParsedPerfStressOptions>,
+    test: PerfStressTest<DefaultPerfStressOptionNames>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
@@ -241,7 +242,7 @@ export class PerfStressProgram {
           throw e;
         }
       } finally {
-        if (this.tests[0].cleanup) {
+        if (!options["no-cleanup"].value && this.tests[0].cleanup) {
           console.log(
             `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
           );
@@ -255,7 +256,7 @@ export class PerfStressProgram {
         throw e;
       }
     } finally {
-      if (!options["no-cleanups"]) {
+      if (!options["no-cleanup"].value) {
         if (this.tests[0].globalCleanup) {
           console.log(
             `=== Calling globalCleanup() once for (all) the instance(s) of ${this.testName} ===`
