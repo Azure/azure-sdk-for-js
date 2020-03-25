@@ -1,0 +1,54 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import {
+  PerfStressTest,
+  PerfStressOptionDictionary,
+  DefaultPerfStressOptionNames,
+  defaultPerfStressOptions
+} from "../src";
+
+export class SetupCleanupTest extends PerfStressTest<DefaultPerfStressOptionNames> {
+  public options: PerfStressOptionDictionary<
+    DefaultPerfStressOptionNames
+  > = defaultPerfStressOptions;
+
+  public state = {
+    globalSetup: 0,
+    globalCleanup: 0,
+    setup: 0,
+    cleanup: 0
+  };
+
+  public globalSetup() {
+    this.state.globalSetup++;
+  }
+
+  public setup() {
+    this.state.setup++;
+  }
+  public cleanup() {
+    this.state.cleanup++;
+  }
+
+  public globalCleanup() {
+    if (this.state.globalCleanup > 0) {
+      throw new Error("globalCleanup() shouldn't be called more than once.");
+    }
+    if (this.state.globalSetup !== 1) {
+      throw new Error("globalCleanup() should be called exactly once.");
+    }
+    if (this.state.setup !== this.options.parallel.value) {
+      throw new Error(
+        "setup() should be called exactly as many times as the parallel paramter says."
+      );
+    }
+    if (this.state.cleanup !== this.options.parallel.value) {
+      throw new Error(
+        "cleanup() should be called exactly as many times as the parallel paramter says."
+      );
+    }
+  }
+
+  async run(): Promise<void> {}
+}
