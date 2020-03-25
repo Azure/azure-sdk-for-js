@@ -49,7 +49,7 @@ import {
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
-import { getRetryAttemptTimeoutInMs } from "../util/retries";
+import { getRetryAttemptTimeoutInMs } from "@azure/core-amqp";
 import { GetSenderOptions, GetReceiverOptions } from "../models";
 
 /**
