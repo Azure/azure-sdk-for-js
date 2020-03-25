@@ -181,7 +181,7 @@ describe("Send Batch", () => {
       await testSendBatch(true);
     });
     */
-    for (let iter = 0; iter < 1000; iter++) {
+    for (let iter = 0; iter < 100; iter++) {
       it(`Iteration #${iter} - Unpartitioned Queue with Sessions: SendBatch`, async function(): Promise<
         void
       > {
@@ -190,7 +190,7 @@ describe("Send Batch", () => {
       });
     }
 
-    for (let iter = 0; iter < 1000; iter++) {
+    for (let iter = 0; iter < 100; iter++) {
       it(`Iteration #${iter} - Unpartitioned Topic with Sessions: SendBatch`, async function(): Promise<
         void
       > {
