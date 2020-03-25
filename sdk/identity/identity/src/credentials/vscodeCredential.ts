@@ -7,9 +7,15 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { TokenCredentialOptions, IdentityClient } from '../client/identityClient';
 import * as keytar from 'keytar';
 
-const commonTenantId = 'common';
-const clientId = 'aebc6443-996d-45c2-90f0-388ff96faa56'; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
+const CommonTenantId = 'common';
+const AzureAccountClientId = 'aebc6443-996d-45c2-90f0-388ff96faa56'; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
+const VSCodeUserName = 'VS Code Azure';
 
+/**
+ * Connect to Azure using the credential provided by the VSCode extension 'Azure Account'.
+ * Once the user has logged in via the extension, this credential can share the same refresh token
+ * that is cached by the extension.
+ */
 export class VSCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
 
@@ -26,12 +32,18 @@ export class VSCodeCredential implements TokenCredential {
     let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
     if (scopeString.indexOf("offline_access") < 0) {
       scopeString += " offline_access";
-    }    
-    let refreshToken = await keytar.findPassword("VS Code Azure");
+    }
+
+    // Check to make sure the scope we get back is a valid scope
+    if (!scopeString.match(/^[0-9a-zA-Z-.:/]+$/)) {
+      throw new Error("Invalid scope was specified by the user or calling client")
+    }
+
+    let refreshToken = await keytar.findPassword(VSCodeUserName);
     if (refreshToken) {
       let tokenResponse = await this.identityClient.refreshAccessToken(
-          commonTenantId,
-          clientId,
+          CommonTenantId,
+          AzureAccountClientId,
           scopeString,
           refreshToken,
           undefined
