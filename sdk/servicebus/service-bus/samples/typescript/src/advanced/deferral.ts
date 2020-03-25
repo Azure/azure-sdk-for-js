@@ -68,7 +68,7 @@ async function sendMessages() {
 async function receiveMessage() {
   const sbClient = new ServiceBusClient(connectionString);
 
-  // If receiving from a subscription you can use the getReceiver(topic, subscription) overload
+  // If receiving from a subscription, you can use the getReceiver(topic, subscription) overload
   let receiver = sbClient.getReceiver(queueName, "peekLock");
 
   const deferredSteps = new Map();

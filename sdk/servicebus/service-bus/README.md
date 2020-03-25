@@ -54,7 +54,7 @@ You can instantiate this class using its constructors:
 ### Key concepts
 
 Once you have initialized the [ServiceBusClient](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient)
-class, use the below methods to create client objects for Queues, Topics and Subscriptions
+class, create a sender or receiver based on whether you want to send or receive messages.
 to interact with existing Service Bus entities.
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
@@ -72,13 +72,13 @@ The following sections provide code snippets that cover some of the common tasks
 ### Send messages
 
 Once you have created an instance of a `ServiceBusClient` class, you can get a `Sender`
-using the [getSender](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#getsender-string-)
-function.
+using the [getSender](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#getsender-string-) method.
 
-This gives you a sender which you can use to [send](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender#send-servicebusmessage-) messages.
+This gives you a sender which you can use to [send](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender#send-servicebusmessage-)
+messages.
 
 You can also use the [sendBatch](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender#sendbatch-servicebusmessagebatch-)
-method to send multiple messages using a single call.
+method to efficiently send multiple messages in a single send.
 
 ```javascript
 const sender = serviceBusClient.getSender("my-queue");
@@ -119,7 +119,7 @@ const myMessages = await receiver.receiveBatch(10);
 
 #### Subscribe using a message handler
 
-Use the [subscribe](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/receiver#subscribe-messagehandlers--subscribeoptions-)
+Use the [subscribe](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/receiver#subscribe-messagehandlers--subscribeoptions-) method
 to set up message handlers and have it running as long as you need.
 
 When you are done, call `receiver.close()` to stop receiving any more messages.
