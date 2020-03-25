@@ -77,7 +77,7 @@ function. This gives you a sender which you can use to [send](https://docs.micro
 messages.
 
 You can also use the [sendBatch](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender#sendbatch-servicebusmessagebatch-)
-method to send multiple messages using a single call.
+method to efficiently send multiple messages in a single send.
 
 ```javascript
 const sender = serviceBusClient.getSender("my-queue");
