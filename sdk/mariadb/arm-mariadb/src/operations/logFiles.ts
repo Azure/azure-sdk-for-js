@@ -28,23 +28,20 @@ export class LogFiles {
 
   /**
    * List all the log files in a given server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<Models.LogFilesListByServerResponse>
    */
   listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.LogFilesListByServerResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param callback The callback
    */
   listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.LogFileListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param options The optional parameters
    * @param callback The callback
