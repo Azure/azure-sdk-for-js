@@ -118,7 +118,7 @@ const myMessages = await receiver.receiveBatch(10);
 
 #### Subscribe using a message handler
 
-Use the [subscribe](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/receiver#subscribe-messagehandlers--subscribeoptions-)
+Use the [subscribe](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/receiver#subscribe-messagehandlers--subscribeoptions-) method
 to set up message handlers and have it running as long as you need.
 
 When you are done, call `receiver.close()` to stop receiving any more messages.
