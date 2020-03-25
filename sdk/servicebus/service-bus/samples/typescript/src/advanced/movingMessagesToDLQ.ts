@@ -9,7 +9,7 @@
   Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
 */
 
-import { ServiceBusClient, ReceiveMode } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

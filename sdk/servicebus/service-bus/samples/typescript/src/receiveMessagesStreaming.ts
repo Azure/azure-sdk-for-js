@@ -8,7 +8,7 @@
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-import { delay, ServiceBusClient, ReceiveMode } from "@azure/service-bus";
+import { delay, ServiceBusClient } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

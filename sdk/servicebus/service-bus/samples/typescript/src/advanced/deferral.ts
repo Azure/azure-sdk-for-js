@@ -11,7 +11,7 @@
   message deferral.
 */
 
-import { ServiceBusClient, ReceiveMode, delay } from "@azure/service-bus";
+import { ServiceBusClient, delay } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
