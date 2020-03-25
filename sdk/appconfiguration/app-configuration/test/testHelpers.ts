@@ -10,16 +10,16 @@ import * as assert from "assert";
 // in the environment
 import * as dotenv from "dotenv";
 import { RestError } from "@azure/core-http";
-import { DefaultAzureCredential, TokenCredential } from '@azure/identity';
-import { InternalAppConfigurationClientOptions } from '../src/appConfigurationClient';
+import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { InternalAppConfigurationClientOptions } from "../src/appConfigurationClient";
 dotenv.config();
 
 let connectionStringNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
 
 export interface CredsAndEndpoint {
-  credential: TokenCredential
-  endpoint: string 
+  credential: TokenCredential;
+  endpoint: string;
 }
 
 export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined {
@@ -28,7 +28,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
     "AZURE_CLIENT_ID",
     "AZURE_TENANT_ID",
     "AZURE_CLIENT_SECRET"
-  ];  
+  ];
 
   for (const name of requiredEnvironmentVariables) {
     const value = process.env[name];
@@ -38,9 +38,9 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
         tokenCredentialsNotPresentWarning = true;
         console.log("Functional tests not running - set client identity variables to activate");
       }
-  
+
       return undefined;
-    }    
+    }
   }
 
   return {
@@ -49,8 +49,9 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
   };
 }
 
-
-export function createAppConfigurationClientForTests(options?: InternalAppConfigurationClientOptions): AppConfigurationClient | undefined {
+export function createAppConfigurationClientForTests(
+  options?: InternalAppConfigurationClientOptions
+): AppConfigurationClient | undefined {
   const connectionString = process.env["AZ_CONFIG_CONNECTION"];
 
   if (connectionString == null) {
@@ -84,7 +85,7 @@ export async function toSortedArray(
   pagedIterator: PagedAsyncIterableIterator<
     ConfigurationSetting,
     ListConfigurationSettingPage | ListRevisionsPage
-    >,
+  >,
   compareFn?: (a: ConfigurationSetting, b: ConfigurationSetting) => number
 ): Promise<ConfigurationSetting[]> {
   const settings: ConfigurationSetting[] = [];
@@ -102,9 +103,10 @@ export async function toSortedArray(
   // just a sanity-check
   assert.deepEqual(settings, settingsViaPageIterator);
 
-  settings.sort((a, b) => compareFn
-    ? compareFn(a, b)
-    : `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`)
+  settings.sort((a, b) =>
+    compareFn
+      ? compareFn(a, b)
+      : `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`)
   );
 
   return settings;

@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestPolicy, RequestPolicyOptions, BaseRequestPolicy, WebResource, HttpOperationResponse, RequestPolicyFactory } from "@azure/core-http";
+import {
+  RequestPolicy,
+  RequestPolicyOptions,
+  BaseRequestPolicy,
+  WebResource,
+  HttpOperationResponse,
+  RequestPolicyFactory
+} from "@azure/core-http";
 
 /**
  * The sync token header, as described here:
@@ -13,11 +20,11 @@ export const SyncTokenHeaderName = "sync-token";
 
 /**
  * A policy factory for injecting sync tokens properly into outgoing requests.
- * @param syncTokens 
+ * @param syncTokens
  * @internal
  * @ignore
  */
-export function syncTokenPolicy(syncTokens: SyncTokens) : RequestPolicyFactory {
+export function syncTokenPolicy(syncTokens: SyncTokens): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new SyncTokenPolicy(nextPolicy, options, syncTokens);
@@ -26,12 +33,14 @@ export function syncTokenPolicy(syncTokens: SyncTokens) : RequestPolicyFactory {
 }
 
 class SyncTokenPolicy extends BaseRequestPolicy {
-  constructor(nextPolicy: RequestPolicy,
+  constructor(
+    nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    private _syncTokens: SyncTokens) {
+    private _syncTokens: SyncTokens
+  ) {
     super(nextPolicy, options);
   }
-  
+
   public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
     const syncTokenHeaderValue = this._syncTokens.getSyncTokenHeaderValue();
 
@@ -46,28 +55,27 @@ class SyncTokenPolicy extends BaseRequestPolicy {
 }
 
 /**
- * Sync token tracker (allows for real-time consistency, even in the face of 
+ * Sync token tracker (allows for real-time consistency, even in the face of
  * caching and load balancing within App Configuration).
  *
  * (protocol and format described here)
  * https://github.com/Azure/AppConfiguration/blob/master/docs/REST/consistency.md
- * 
+ *
  * @internal
  * @ignore
  */
 export class SyncTokens {
   private _currentSyncTokens = new Map<string, SyncToken>();
 
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * Takes the value from the header named after the constant `SyncTokenHeaderName`
    * and adds it to our list of accumulated sync tokens.
-   * 
+   *
    * If given an empty value (or undefined) it clears the current list of sync tokens.
    * (indicates the service has properly absorbed values into the cluster).
-   * 
+   *
    * @param syncTokenHeaderValue The full value of the sync token header.
    */
   addSyncTokenFromHeaderValue(syncTokenHeaderValue: string | undefined) {
@@ -78,9 +86,8 @@ export class SyncTokens {
       return;
     }
 
-    const newTokens = syncTokenHeaderValue.split(',')
-      .map(parseSyncToken);
-    
+    const newTokens = syncTokenHeaderValue.split(",").map(parseSyncToken);
+
     for (const newToken of newTokens) {
       const existingToken = this._currentSyncTokens.get(newToken.id);
 
@@ -89,12 +96,12 @@ export class SyncTokens {
         continue;
       }
     }
-  }  
+  }
 
   /**
    * Gets a properly formatted SyncToken header value.
    */
-  getSyncTokenHeaderValue() : string | undefined {
+  getSyncTokenHeaderValue(): string | undefined {
     if (this._currentSyncTokens.size === 0) {
       return undefined;
     }
@@ -129,17 +136,19 @@ interface SyncToken {
 
 /**
  * Parses a single sync token into it's constituent parts.
- * 
+ *
  * @param syncToken A single sync token.
- * 
+ *
  * @internal
  * @ignore
  */
-export function parseSyncToken(syncToken: string) : SyncToken {
+export function parseSyncToken(syncToken: string): SyncToken {
   const matches = syncToken.match(syncTokenRegex);
 
   if (matches == null) {
-    throw new Error(`Failed to parse sync token '${syncToken}' with regex ${syncTokenRegex.source}`);
+    throw new Error(
+      `Failed to parse sync token '${syncToken}' with regex ${syncTokenRegex.source}`
+    );
   }
 
   const sequenceNumber = parseInt(matches[3], 10);
