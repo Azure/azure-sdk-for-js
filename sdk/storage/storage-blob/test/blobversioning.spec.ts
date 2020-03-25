@@ -21,6 +21,7 @@ import {
 import {
   setURLParameter,
 } from "../src/utils/utils.common";
+import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config({ path: "../.env" });
 
 describe("Blob versioning", () => {
@@ -192,7 +193,7 @@ describe("Blob versioning", () => {
       assert.equal(resp.subResponses[i].status, 202);
       assert.ok(resp.subResponses[i].statusMessage != "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
-      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].withVersion(versions[i]!).url);
     }
 
     // Verify blob versions deleted.
@@ -258,6 +259,31 @@ describe("Blob versioning", () => {
     assert.ok(!snapshotExists);
     const rootExists = await blobClient.exists();
     assert.ok(!rootExists);
+  });
+
+  it("deleting a blob with both deleteSnapshots and versionId option should fail", async () => {
+    const result = await blobClient.createSnapshot();
+    assert.ok(result.snapshot);
+
+    let exceptionCaught: boolean = false;
+    const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
+    try {
+      await blobVersionClient.delete({ deleteSnapshots: "include" });
+    } catch (err) {
+      assert.equal(err.details.errorCode, "InvalidQueryParameterValue");
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    let exceptionCaught2 = false;
+    const blobVersionClient2 = blobClient.withVersion(uploadRes2.versionId!);
+    try {
+      await blobVersionClient2.delete({ deleteSnapshots: "only" });
+    } catch (err) {
+      assert.equal(err.details.errorCode, "InvalidQueryParameterValue");
+      exceptionCaught2 = true;
+    }
+    assert.ok(exceptionCaught2);
   });
 
   it("deleting a versioned blob without extra parameters should succeed", async () => {
@@ -353,5 +379,52 @@ describe("Blob versioning", () => {
 
     await blobClient.undelete();
     assert.ok(await blobVersionClient.exists());
+  });
+
+  it("downloadToBuffer with CPK", async () => {
+    const CPKblobName = recorder.getUniqueName("blobCPK");
+    const CPKblobClient = containerClient.getBlobClient(CPKblobName);
+    const CPKblockBlobClient = CPKblobClient.getBlockBlobClient();
+    await CPKblockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    if (isNode) {
+      const downloadToBufferRes = await CPKblockBlobClient.downloadToBuffer(undefined, undefined, {
+        customerProvidedKey: Test_CPK_INFO,
+      });
+      assert.ok(downloadToBufferRes.equals(Buffer.from(content)));
+
+      let exceptionCaught = false;
+      try {
+        await CPKblobClient.downloadToBuffer();
+      } catch (err) {
+        assert.equal(err.details.errorCode, "BlobUsesCustomerSpecifiedEncryption");
+        exceptionCaught = true;
+      }
+      assert.ok(exceptionCaught);
+    }
+  });
+
+  it("exists with condition", async () => {
+    const leaseResp = await blobClient.getBlobLeaseClient().acquireLease(30);
+    assert.ok(leaseResp.leaseId);
+
+    assert.ok(await blobClient.exists({ conditions: { leaseId: leaseResp.leaseId! } }));
+
+    let exceptionCaught = false;
+    try {
+      let guid = "ca761232ed4211cebacd00aa0057b223";
+      if (guid === leaseResp.leaseId) {
+        guid = "ca761232ed4211cebacd00aa0057b224";
+      }
+
+      const existsRes = await blobClient.exists({ conditions: { leaseId: guid } });
+      console.log(existsRes);
+    } catch (err) {
+      assert.equal(err.details.errorCode, "LeaseIdMismatchWithBlobOperation");
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
   });
 });
