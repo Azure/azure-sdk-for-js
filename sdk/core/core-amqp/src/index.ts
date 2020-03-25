@@ -4,7 +4,14 @@
 /// <reference lib="es2015" />
 
 export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink";
-export { retry, RetryOptions, RetryConfig, RetryOperationType, RetryMode } from "./retry";
+export {
+  retry,
+  RetryOptions,
+  RetryConfig,
+  RetryOperationType,
+  RetryMode,
+  getRetryAttemptTimeoutInMs
+} from "./retry";
 export { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 export { TokenType } from "./auth/token";
 export { AccessToken, TokenCredential, isTokenCredential } from "@azure/core-auth";
