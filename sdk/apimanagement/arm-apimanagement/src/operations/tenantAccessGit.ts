@@ -27,7 +27,7 @@ export class TenantAccessGit {
   }
 
   /**
-   * Gets the Git access configuration for the tenant.
+   * Gets the Git access configuration for the tenant. Without secrets.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param [options] The optional parameters
@@ -121,6 +121,38 @@ export class TenantAccessGit {
       regenerateSecondaryKeyOperationSpec,
       callback);
   }
+
+  /**
+   * Gets the Git access configuration for the tenant.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TenantAccessGitListSecretsResponse>
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase): Promise<Models.TenantAccessGitListSecretsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param callback The callback
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, callback: msRest.ServiceCallback<Models.AccessInformationContract>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSecrets(resourceGroupName: string, serviceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessInformationContract>): void;
+  listSecrets(resourceGroupName: string, serviceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessInformationContract>, callback?: msRest.ServiceCallback<Models.AccessInformationContract>): Promise<Models.TenantAccessGitListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serviceName,
+        options
+      },
+      listSecretsOperationSpec,
+      callback) as Promise<Models.TenantAccessGitListSecretsResponse>;
+  }
 }
 
 // Operation Specifications
@@ -193,6 +225,33 @@ const regenerateSecondaryKeyOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listSecretsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/tenant/{accessName}/git/listSecrets",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId,
+    Parameters.accessName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessInformationContract,
+      headersMapper: Mappers.TenantAccessGitListSecretsHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

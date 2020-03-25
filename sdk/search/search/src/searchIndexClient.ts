@@ -42,7 +42,7 @@ import {
   MergeDocumentsOptions,
   DeleteDocumentsOptions,
   SearchDocumentsPageResult
-} from "./models";
+} from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 
 /**
@@ -59,7 +59,7 @@ export class SearchIndexClient<T> {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2019-05-06";
+  public readonly apiVersion: string = "2019-05-06-Preview";
 
   /**
    * The endpoint of the search service
@@ -79,7 +79,7 @@ export class SearchIndexClient<T> {
   private readonly client: GeneratedClient;
 
   /**
-   * Creates an instance of SearchClient.
+   * Creates an instance of SearchIndexClient.
    *
    * Example usage:
    * ```ts
@@ -129,11 +129,6 @@ export class SearchIndexClient<T> {
             "Prefer",
             "throttle-reason"
           ]
-        },
-        deserializationOptions: {
-          expectedContentTypes: {
-            json: ["application/json", "text/json"]
-          }
         }
       }
     };

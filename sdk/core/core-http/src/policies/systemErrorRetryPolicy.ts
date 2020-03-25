@@ -3,7 +3,7 @@
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
-import { WebResource } from "../webResource";
+import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -85,7 +85,7 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
         : this.DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
   }
 
-  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy
       .sendRequest(request.clone())
       .then((response) => retry(this, request, response));
@@ -155,7 +155,7 @@ function updateRetryData(
 
 function retry(
   policy: SystemErrorRetryPolicy,
-  request: WebResource,
+  request: WebResourceLike,
   operationResponse: HttpOperationResponse,
   retryData?: RetryData,
   err?: RetryError

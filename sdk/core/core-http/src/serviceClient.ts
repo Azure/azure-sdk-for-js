@@ -41,7 +41,13 @@ import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } fro
 import { URLBuilder } from "./url";
 import * as utils from "./util/utils";
 import { stringifyXML } from "./util/xml";
-import { RequestOptionsBase, RequestPrepareOptions, WebResource } from "./webResource";
+import {
+  RequestOptionsBase,
+  RequestPrepareOptions,
+  WebResource,
+  WebResourceLike,
+  isWebResourceLike
+} from "./webResource";
 import { OperationResponse } from "./operationResponse";
 import { ServiceCallback, isNode } from "./util/utils";
 import { proxyPolicy } from "./policies/proxyPolicy";
@@ -52,6 +58,7 @@ import { logger } from "./log";
 import { InternalPipelineOptions } from "./pipelineOptions";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
+import { disableResponseDecompressionPolicy } from './policies/disableResponseDecompressionPolicy';
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -247,14 +254,14 @@ export class ServiceClient {
   /**
    * Send the provided httpRequest.
    */
-  sendRequest(options: RequestPrepareOptions | WebResource): Promise<HttpOperationResponse> {
+  sendRequest(options: RequestPrepareOptions | WebResourceLike): Promise<HttpOperationResponse> {
     if (options === null || options === undefined || typeof options !== "object") {
       throw new Error("options cannot be null or undefined and it must be of type object.");
     }
 
-    let httpRequest: WebResource;
+    let httpRequest: WebResourceLike;
     try {
-      if (options instanceof WebResource) {
+      if (isWebResourceLike(options)) {
         options.validateRequestProperties();
         httpRequest = options;
       } else {
@@ -293,7 +300,7 @@ export class ServiceClient {
       operationArguments.options = undefined;
     }
 
-    const httpRequest = new WebResource();
+    const httpRequest: WebResourceLike = new WebResource();
 
     let result: Promise<RestResponse>;
     try {
@@ -491,7 +498,7 @@ export class ServiceClient {
 
 export function serializeRequestBody(
   serviceClient: ServiceClient,
-  httpRequest: WebResource,
+  httpRequest: WebResourceLike,
   operationArguments: OperationArguments,
   operationSpec: OperationSpec
 ): void {
@@ -700,6 +707,10 @@ export function createPipelineFromOptions(
   }
 
   requestPolicyFactories.push(logPolicy(loggingOptions));
+
+  if (isNode && pipelineOptions.decompressResponse === false) {
+    requestPolicyFactories.push(disableResponseDecompressionPolicy());
+  }
 
   return {
     httpClient: pipelineOptions.httpClient,

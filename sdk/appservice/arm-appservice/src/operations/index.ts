@@ -19,6 +19,7 @@ export * from "./diagnostics";
 export * from "./provider";
 export * from "./recommendations";
 export * from "./webApps";
+export * from "./staticSites";
 export * from "./appServiceEnvironments";
 export * from "./appServicePlans";
 export * from "./resourceHealthMetadataOperations";

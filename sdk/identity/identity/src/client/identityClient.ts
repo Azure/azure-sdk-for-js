@@ -39,7 +39,17 @@ export class IdentityClient extends ServiceClient {
 
   constructor(options?: TokenCredentialOptions) {
     options = options || IdentityClient.getDefaultOptions();
-    super(undefined, createPipelineFromOptions(options));
+    super(
+      undefined,
+      createPipelineFromOptions({
+        ...options,
+        deserializationOptions: {
+          expectedContentTypes: {
+            json: ["application/json", "text/json", "text/plain"]
+          }
+        }
+      })
+    );
 
     this.baseUri = this.authorityHost = options.authorityHost || DefaultAuthorityHost;
 
