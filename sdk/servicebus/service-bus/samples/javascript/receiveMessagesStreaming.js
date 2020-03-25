@@ -1,4 +1,3 @@
-"use strict";
 /*
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
@@ -14,7 +13,8 @@ const { delay, ServiceBusClient } = require("@azure/service-bus");
 // Load the .env file if it exists
 require("dotenv").config();
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString =
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 async function main() {
   const sbClient = new ServiceBusClient(connectionString);
@@ -23,12 +23,12 @@ async function main() {
   // - See session.ts for how to receive using sessions.
   const receiver = sbClient.getReceiver(queueName, "peekLock");
 
-  const processMessage = async (brokeredMessage) => {
+  const processMessage = async brokeredMessage => {
     console.log(`Received message: ${brokeredMessage.body}`);
     await brokeredMessage.complete();
   };
 
-  const processError = async (err) => {
+  const processError = async err => {
     console.log("Error occurred: ", err);
   };
 
@@ -52,6 +52,6 @@ async function main() {
   }
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });
