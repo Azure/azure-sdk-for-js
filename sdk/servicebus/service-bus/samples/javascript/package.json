@@ -1,5 +1,5 @@
 {
-  "name": "azure-service-bus-samples-ts",
+  "name": "azure-service-bus-samples-js",
   "private": true,
   "version": "0.1.0",
   "description": "Azure Service Bus client library samples for JavaScript",
