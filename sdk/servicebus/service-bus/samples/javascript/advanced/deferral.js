@@ -2,6 +2,9 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
+  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+
   This sample demonstrates how the defer() function can be used to defer a message for later processing.
 
   In this sample, we have an application that gets cooking instructions out of order. It uses
@@ -17,7 +20,8 @@ const { ServiceBusClient, delay } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString =
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 async function main() {
@@ -72,7 +76,7 @@ async function receiveMessage() {
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
   try {
-    const processMessage = async (brokeredMessage) => {
+    const processMessage = async brokeredMessage => {
       if (
         brokeredMessage.label === "RecipeStep" &&
         brokeredMessage.contentType === "application/json"
@@ -100,7 +104,7 @@ async function receiveMessage() {
         await brokeredMessage.deadLetter();
       }
     };
-    const processError = async (err) => {
+    const processError = async err => {
       console.log(">>>>> Error occurred: ", err);
     };
     receiver.subscribe(
@@ -134,6 +138,6 @@ async function receiveMessage() {
   }
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });

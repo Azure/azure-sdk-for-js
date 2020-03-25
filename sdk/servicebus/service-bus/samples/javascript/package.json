@@ -25,7 +25,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/identity": "^1.0.2",
-    "@azure/service-bus": "dev",
+    "@azure/service-bus": "5.0.0-preview.1",
     "dotenv": "^8.2.0",
     "https-proxy-agent": "^4.0.0",
     "ws": "^7.0.0"

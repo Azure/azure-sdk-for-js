@@ -2,6 +2,9 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
+  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  
   This sample demonstrates usage of SessionState.
 
   We take for example the context of an online shopping app and see how we can use Session State
