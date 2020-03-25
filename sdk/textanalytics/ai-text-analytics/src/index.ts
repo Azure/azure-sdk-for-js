@@ -8,7 +8,6 @@ export {
   RecognizeCategorizedEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
-  RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
   TextAnalyticsOperationOptions
 } from "./textAnalyticsClient";

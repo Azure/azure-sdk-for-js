@@ -173,9 +173,6 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 }
 
 // @public
-export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
-
-// @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
     graphemeLength: number;

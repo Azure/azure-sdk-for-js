@@ -103,11 +103,6 @@ export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
 export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
 
 /**
- * Options for the recognize PII entities operation.
- */
-export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
-
-/**
  * Client class for interacting with Azure Text Analytics.
  */
 export class TextAnalyticsClient {
