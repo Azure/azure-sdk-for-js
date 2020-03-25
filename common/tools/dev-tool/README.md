@@ -29,12 +29,12 @@ The source hierarchy matches the command hierarchy. Every sub-command has its ow
 
 ### Command Interface
 
-Every command file's exports must implement the `CommandModule` interface defined in `src/util/commandModule.ts`. The interface requires that every command export a constant `commandInfo` that implements the `CommandInfo` interface defined in the same file. The `CommandInfo` interface specifies the name, description, and options (command-line arguments) of the command. The command module must also export an async handler function as its default export. Two helper functions, `leafCommand` and `subCommand` are provided to assist with development and to provide strong type-checking when
+Every command file's exports must implement the `CommandModule` interface defined in `src/util/commandModule.ts`. The interface requires that every command export a constant `commandInfo` that implements the `CommandInfo` interface defined in the same file. A helper command `makeCommandInfo` is provided to assist with the creation of this interface while providing strong type-checking of command-line options. The `CommandInfo` interface specifies the name, description, and options (command-line arguments) of the command. The command module must also export an async handler function as its default export. Two helper functions, `leafCommand` and `subCommand` are provided to assist with development and to provide strong type-checking when
 extending dev-tool.
 
 ### Creating a new leaf command
 
-To create a new leaf command in one of the existing sub-command, create a new TypeScript file for that command. Make sure that your module exports the required `commandInfo` and default handler function. When creating a command, use the `leafCommand` helper to get a strongly-typed `options` parameter for your handler.
+To create a new leaf command in one of the existing sub-command, create a new TypeScript file for that command. Make sure that your module exports the required `commandInfo` and default handler function. When creating the `commandInfo` object, use the `makeCommandInfo` helper function. When creating a command, use the `leafCommand` helper to get a strongly-typed `options` parameter for your handler.
 
 As an example, we can create a new `hello-world` command under the `dev-tool package` sub-command. The command will print out a string using the many different logging functions. It will accept an argument `--echo <string here>` that specifies the string to be printed.
 
@@ -44,51 +44,38 @@ As an example, we can create a new `hello-world` command under the `dev-tool pac
 // Licensed under the MIT license
 
 import { createPrinter } from "../../util/printer";
-import { leafCommand } from "../../util/commandBuilder";
+import { leafCommand, makeCommandInfo } from "../../framework/command";
 
 const log = createPrinter("hello-world");
 
-export const commandInfo = {
-  name: "hello-world",
-  description:
-    "print a lovely message",
-  options: {
-      echo: {
-          kind: "string",
-          description: "override the message to be printed",
-          default: "Hello world!"
-      }
+export const commandInfo = makeCommandInfo("hello-world", "print a lovely message", {
+  echo: {
+    kind: "string",
+    description: "override the message to be printed",
+    default: "Hello world!"
   }
-} as const;
+});
 
 export default leafCommand(commandInfo, async (options) => {
-    // Demonstrate the colorized command output.
-    log("Normal:", options.echo);
-    log.success("Success:", options.echo);
-    log.info("Info:", options.echo);
-    log.warn("Warn:", options.echo);
-    log.error("Error:", options.echo);
-    log.debug("Debug:", options.echo);
+  // Demonstrate the colorized command output.
+  log("Normal:", options.echo);
+  log.success("Success:", options.echo);
+  log.info("Info:", options.echo);
+  log.warn("Warn:", options.echo);
+  log.error("Error:", options.echo);
+  log.debug("Debug:", options.echo);
 
-    return true;
+  return true;
 });
 ```
 
-(__Note__: the `as const` after the definition of `commandInfo` is important for the type of `options` in the handler to be inferred as tightly as possible.)
+(__Note__: using the `makeCommandInfo` function is required to have strong type-checking on the `options` parameter of the handler. The `options` field of `commandInfo` must have a very strong type, and `makeCommandInfo` takes care of ensuring that the type is as strongly specified as possible.)
 
 As a last step, add a mapping for the `"hello-world"` command to the sub-command map in `src/commands/package/index.ts`. This will allow the command to resolve:
 
 `src/commands/package/index.ts`
 ```typescript
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
-
-import { subCommand } from "../../util/commandBuilder";
-
-export const commandInfo = {
-  name: "package",
-  description: "manage SDK packages in the monorepo"
-};
+// ...
 
 export default subCommand(commandInfo, {
   "hello-world": () => import("./hello-world"),
@@ -117,19 +104,16 @@ Instead of creating a single file `hello-world.ts`, we will instead create a fol
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { subCommand } from "../../util/commandBuilder";
+import { subCommand, makeCommandInfo } from "../../framework/command";
 
-export const commandInfo = {
-  name: "hello",
-  description: "commands for printing some lovely messages"
-};
+export const commandInfo = makeCommandInfo("hello", "commands for printing some lovely messages");
 
 export default subCommand(commandInfo, {
   world: () => import("./world")
 });
 ```
 
-(__Note__: Since we don't have any arguments or options to add to the sub-command, the `options` field of `commandInfo` is omitted (since the sub-command just delegates to its child commands, we wouldn't be able to use any options in this parent command anyway).)
+(__Note__: Since we don't have any arguments or options to add to the sub-command, the `options` argument to `makeCommandInfo` is omitted (since the sub-command just delegates to its child commands, we wouldn't be able to use any options in this parent command anyway).)
 
 This simple file establishes the mapping from the command name `"world"` to our new command module `src/commands/hello/world.ts`. The contents of `world.ts` are very similar to the previous `hello-world.ts` module, but we will change the `name` field of `commandInfo` and the argument to `createPrinter`:
 
@@ -139,22 +123,16 @@ This simple file establishes the mapping from the command name `"world"` to our 
 // Licensed under the MIT license
 
 import { createPrinter } from "../../util/printer";
-import { leafCommand } from "../../util/commandBuilder";
+import { leafCommand, makeCommandInfo } from "../../framework/command";
 
 const log = createPrinter("world");
 
-export const commandInfo = {
-  name: "world",
-  description:
-    "print a lovely message",
-  options: {
-      echo: {
-          kind: "string",
-          description: "override the message to be printed",
-          default: "Hello world!"
-      }
-  }
-} as const;
+export const commandInfo = makeCommandInfo("world", "print a lovely message", {
+  echo: {
+      kind: "string",
+      description: "override the message to be printed",
+      default: "Hello world!"
+  }});
 
 export default leafCommand(commandInfo, async (options) => {
     // Demonstrate the colorized command output.
