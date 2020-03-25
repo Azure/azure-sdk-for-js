@@ -380,7 +380,7 @@ export class BlobClient extends StorageClient {
     syncCopyFromURL(copySource: string, options?: BlobSyncCopyFromURLOptions): Promise<BlobCopyFromURLResponse>;
     undelete(options?: BlobUndeleteOptions): Promise<BlobUndeleteResponse>;
     withSnapshot(snapshot: string): BlobClient;
-    withVersionId(versionId: string): BlobClient;
+    withVersion(versionId: string): BlobClient;
 }
 
 // @public
@@ -454,7 +454,6 @@ export interface BlobDeleteOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     deleteSnapshots?: DeleteSnapshotsOptionType;
-    versionId?: string;
 }
 
 // @public
@@ -538,7 +537,6 @@ export interface BlobDownloadOptions extends CommonOptions {
     rangeGetContentCrc64?: boolean;
     rangeGetContentMD5?: boolean;
     snapshot?: string;
-    versionId?: string;
 }
 
 // @public
@@ -559,7 +557,6 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
     maxRetryRequestsPerBlock?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
-    versionId?: string;
 }
 
 // @public
@@ -567,7 +564,6 @@ export interface BlobExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
-    versionId?: string;
 }
 
 // @public
@@ -637,7 +633,6 @@ export interface BlobGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
-    versionId?: string;
 }
 
 // @public
@@ -1342,7 +1337,7 @@ export class ContainerClient extends StorageClient {
     get containerName(): string;
     create(options?: ContainerCreateOptions): Promise<ContainerCreateResponse>;
     delete(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
-    deleteBlob(blobName: string, options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
+    deleteBlob(blobName: string, options?: ContainerDeleteBlobOptions): Promise<BlobDeleteResponse>;
     exists(options?: ContainerExistsOptions): Promise<boolean>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
@@ -1391,6 +1386,11 @@ export type ContainerCreateResponse = ContainerCreateHeaders & {
         parsedHeaders: ContainerCreateHeaders;
     };
 };
+
+// @public
+export interface ContainerDeleteBlobOptions extends BlobDeleteOptions {
+    versionId?: string;
+}
 
 // @public
 export interface ContainerDeleteHeaders {

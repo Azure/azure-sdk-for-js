@@ -204,14 +204,6 @@ export interface BlobDownloadOptions extends CommonOptions {
    */
   snapshot?: string;
   /**
-   * An opaque DateTime string value that, when present, specifies the version of the blob
-   * to retrieve. It's for service version 2019-10-10 and newer.
-   *
-   * @type {string}
-   * @memberof BlobDownloadOptions
-   */
-  versionId?: string;
-  /**
    * When this is set to true and download range of blob, the service returns the MD5 hash for the range,
    * as long as the range is less than or equal to 4 MB in size.
    *
@@ -300,14 +292,6 @@ export interface BlobExistsOptions extends CommonOptions {
    * @memberof BlobExistsOptions
    */
   conditions?: BlobRequestConditions;
-  /**
-   * An opaque DateTime value that, when present, specifies the version
-   * of the blob to retrieve. It's for service version 2019-10-10 and newer.
-   * 
-   * @type {string}
-   * @memberof BlobExistsOptions
-   */
-  versionId?: string;
 }
 
 /**
@@ -339,14 +323,6 @@ export interface BlobGetPropertiesOptions extends CommonOptions {
    * @memberof BlobGetPropertiesOptions
    */
   customerProvidedKey?: CpkInfo;
-  /**
-   * An opaque DateTime value that, when present, specifies the version
-   * of the blob to retrieve. It's for service version 2019-10-10 and newer.
-   * 
-   * @type {string}
-   * @memberof BlobGetPropertiesOptions
-   */
-  versionId?: string;
 }
 
 /**
@@ -387,14 +363,6 @@ export interface BlobDeleteOptions extends CommonOptions {
    * @memberof BlobDeleteOptions
    */
   customerProvidedKey?: CpkInfo;
-  /**
-   * An opaque DateTime value that, when present, specifies the version
-   * of the blob to delete. It's for service version 2019-10-10 and newer.
-   * 
-   * @type {string}
-   * @memberof BlobDeleteOptions
-   */
-  versionId?: string;
 }
 
 /**
@@ -892,14 +860,6 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    * @memberof BlobDownloadToBufferOptions
    */
   customerProvidedKey?: CpkInfo;
-  /**
-   * An opaque DateTime string value that, when present, specifies the version of the blob
-   * to retrieve. It's for service version 2019-10-10 and newer.
-   *
-   * @type {string}
-   * @memberof BlobDownloadToBufferOptions
-   */
-  versionId?: string;
 }
 
 /**
@@ -1109,7 +1069,7 @@ export class BlobClient extends StorageClient {
    * @returns {BlobClient} A new BlobClient object pointing to the version of this blob.
    * @memberof BlobClient
    */
-  public withVersionId(versionId: string): BlobClient {
+  public withVersion(versionId: string): BlobClient {
     return new BlobClient(
       setURLParameter(
         this.url,
@@ -1231,7 +1191,6 @@ export class BlobClient extends StorageClient {
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
         snapshot: options.snapshot,
-        versionId: options.versionId,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -1277,7 +1236,6 @@ export class BlobClient extends StorageClient {
             rangeGetContentMD5: options.rangeGetContentMD5,
             rangeGetContentCRC64: options.rangeGetContentCrc64,
             snapshot: options.snapshot,
-            versionId: options.versionId,
             cpkInfo: options.customerProvidedKey
           };
 
@@ -1332,7 +1290,6 @@ export class BlobClient extends StorageClient {
       await this.getProperties({
         abortSignal: options.abortSignal,
         customerProvidedKey: options.customerProvidedKey,
-        versionId: options.versionId,
         conditions: options.conditions,
         tracingOptions: {
           ...options.tracingOptions,
@@ -1384,7 +1341,6 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
-        versionId: options.versionId,
         spanOptions
       });
     } catch (e) {
@@ -1418,7 +1374,6 @@ export class BlobClient extends StorageClient {
         deleteSnapshots: options.deleteSnapshots,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        versionId: options.versionId,
         spanOptions
       });
     } catch (e) {
@@ -1939,7 +1894,6 @@ export class BlobClient extends StorageClient {
             conditions: options.conditions,
             maxRetryRequests: options.maxRetryRequestsPerBlock,
             customerProvidedKey: options.customerProvidedKey,
-            versionId: options.versionId,
             tracingOptions: {
               ...options.tracingOptions,
               spanOptions
@@ -5921,6 +5875,23 @@ export interface ContainerChangeLeaseOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure the {@link ContainerClient.deleteBlob} operation.
+ *
+ * @export
+ * @interface ContainerDeleteBlobOptions
+ */
+export interface ContainerDeleteBlobOptions extends BlobDeleteOptions {
+  /**
+   * An opaque DateTime value that, when present, specifies the version
+   * of the blob to delete. It's for service version 2019-10-10 and newer.
+   * 
+   * @type {string}
+   * @memberof ContainerDeleteBlobOptions
+   */
+  versionId?: string;
+}
+
+/**
  * Options to configure Container - List Segment operations.
  *
  * See:
@@ -6663,17 +6634,20 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
    * @param {string} blobName
-   * @param {BlobDeleteOptions} [options] Options to Blob Delete operation.
+   * @param {ContainerDeleteBlobOptions} [options] Options to Blob Delete operation.
    * @returns {Promise<BlobDeleteResponse>} Block blob deletion response data.
    * @memberof ContainerClient
    */
   public async deleteBlob(
     blobName: string,
-    options: BlobDeleteOptions = {}
+    options: ContainerDeleteBlobOptions = {}
   ): Promise<BlobDeleteResponse> {
     const { span, spanOptions } = createSpan("ContainerClient-deleteBlob", options.tracingOptions);
     try {
-      const blobClient = this.getBlobClient(blobName);
+      let blobClient = this.getBlobClient(blobName);
+      if (options.versionId) {
+        blobClient = blobClient.withVersion(options.versionId);
+      }
       return await blobClient.delete({
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }

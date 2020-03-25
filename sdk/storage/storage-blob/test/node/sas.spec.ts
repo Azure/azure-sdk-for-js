@@ -884,10 +884,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sharedKeyCredential as StorageSharedKeyCredential
     );
 
-    const sasURL = `${blobClient.withVersionId(uploadRes.versionId!).url}&${blobSAS}`;
+    const sasURL = `${blobClient.withVersion(uploadRes.versionId!).url}&${blobSAS}`;
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
-    await blobClientWithSAS.delete({ versionId: uploadRes.versionId });
-    assert.ok(!(await blobClientWithSAS.exists({ versionId: uploadRes.versionId })));
+    await blobClientWithSAS.delete();
+    assert.ok(!(await blobClientWithSAS.exists()));
 
     await containerClient.delete();
   });
@@ -947,10 +947,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       accountName
     );
 
-    const sasURL = `${blobClient.withVersionId(uploadRes.versionId!).url}&${blobSAS}`;
+    const sasURL = `${blobClient.withVersion(uploadRes.versionId!).url}&${blobSAS}`;
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
-    await blobClientWithSAS.delete({ versionId: uploadRes.versionId });
-    assert.ok(!(await blobClientWithSAS.exists({ versionId: uploadRes.versionId })));
+    await blobClientWithSAS.delete();
+    assert.ok(!(await blobClientWithSAS.exists()));
 
     await containerClient.delete();
   });
