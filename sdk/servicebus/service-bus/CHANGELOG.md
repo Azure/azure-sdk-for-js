@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.6 (Unreleased)
+
+
 ## 1.1.5 (2020-03-24)
 
 - Removed interfaces related to unreleased management api features from the API surface that were accidentally exported in version 1.1.3
