@@ -687,61 +687,65 @@ export class ManagementClient extends LinkEntity {
         throw error;
       }
     }
-    const scheduleMessageOperationPromise = () =>
-      new Promise<Long.Long[]>(async (resolve, reject) => {
-        try {
-          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
+    try {
+      const scheduleMessageOperationPromise = () =>
+        new Promise<Long.Long[]>(async (resolve, reject) => {
+          try {
+            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
 
-          const request: AmqpMessage = {
-            body: { messages: messageBody },
-            reply_to: this.replyTo,
-            application_properties: {
-              operation: Constants.operations.scheduleMessage
+            const request: AmqpMessage = {
+              body: { messages: messageBody },
+              reply_to: this.replyTo,
+              application_properties: {
+                operation: Constants.operations.scheduleMessage
+              }
+            };
+            if (this._context.sender) {
+              request.application_properties![
+                Constants.associatedLinkName
+              ] = this._context.sender!.name;
             }
-          };
-          if (this._context.sender) {
-            request.application_properties![
-              Constants.associatedLinkName
-            ] = this._context.sender!.name;
-          }
-          request.application_properties![Constants.trackingId] = generate_uuid();
-          log.mgmt(
-            "[%s] Schedule messages request body: %O.",
-            this._context.namespace.connectionId,
-            request.body
-          );
-          const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
-            abortSignal: undefined,
-            requestName: undefined
-          });
-          const sequenceNumbers = result.body[Constants.sequenceNumbers];
-          const sequenceNumbersAsLong = [];
-          for (let i = 0; i < sequenceNumbers.length; i++) {
-            if (typeof sequenceNumbers[i] === "number") {
-              sequenceNumbersAsLong.push(Long.fromNumber(sequenceNumbers[i]));
-            } else {
-              sequenceNumbersAsLong.push(Long.fromBytesBE(sequenceNumbers[i]));
+            request.application_properties![Constants.trackingId] = generate_uuid();
+            log.mgmt(
+              "[%s] Schedule messages request body: %O.",
+              this._context.namespace.connectionId,
+              request.body
+            );
+            const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
+              abortSignal: undefined,
+              requestName: undefined
+            });
+            const sequenceNumbers = result.body[Constants.sequenceNumbers];
+            const sequenceNumbersAsLong = [];
+            for (let i = 0; i < sequenceNumbers.length; i++) {
+              if (typeof sequenceNumbers[i] === "number") {
+                sequenceNumbersAsLong.push(Long.fromNumber(sequenceNumbers[i]));
+              } else {
+                sequenceNumbersAsLong.push(Long.fromBytesBE(sequenceNumbers[i]));
+              }
             }
+            resolve(sequenceNumbersAsLong);
+          } catch (error) {
+            reject(translate(error));
           }
-          resolve(sequenceNumbersAsLong);
-        } catch (err) {
-          const error = translate(err);
-          log.error(
-            "An error occurred while sending the request to schedule messages to " +
-              "$management endpoint: %O",
-            error
-          );
-          reject(error);
-        }
-      });
+        });
 
-    const config: RetryConfig<Long.Long[]> = {
-      operation: scheduleMessageOperationPromise,
-      connectionId: this._context.namespace.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: retryOptions
-    };
-    return await retry<Long.Long[]>(config);
+      const config: RetryConfig<Long.Long[]> = {
+        operation: scheduleMessageOperationPromise,
+        connectionId: this._context.namespace.connectionId,
+        operationType: RetryOperationType.management,
+        retryOptions: retryOptions
+      };
+      return await retry<Long.Long[]>(config);
+    } catch (err) {
+      const error = translate(err);
+      log.error(
+        "An error occurred while sending the request to schedule messages to " +
+          "$management endpoint: %O",
+        error
+      );
+      throw error;
+    }
   }
 
   /**
