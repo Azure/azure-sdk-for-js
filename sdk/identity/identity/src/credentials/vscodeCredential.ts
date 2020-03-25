@@ -30,13 +30,14 @@ export class VSCodeCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
-    if (scopeString.indexOf("offline_access") < 0) {
-      scopeString += " offline_access";
-    }
 
     // Check to make sure the scope we get back is a valid scope
     if (!scopeString.match(/^[0-9a-zA-Z-.:/]+$/)) {
       throw new Error("Invalid scope was specified by the user or calling client")
+    }
+
+    if (scopeString.indexOf("offline_access") < 0) {
+      scopeString += " offline_access";
     }
 
     let refreshToken = await keytar.findPassword(VSCodeUserName);
