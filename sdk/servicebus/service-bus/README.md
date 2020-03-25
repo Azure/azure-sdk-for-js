@@ -54,7 +54,7 @@ You can instantiate this class using its constructors:
 ### Key concepts
 
 Once you have initialized the [ServiceBusClient](https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient)
-class, use the below methods to create client objects for Queues, Topics and Subscriptions
+class, create a sender or receiver based on whether you want to send or receive messages.
 to interact with existing Service Bus entities.
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
