@@ -18,6 +18,8 @@ import { logger } from "../util/logging";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
+const envauthorityHost = process.env.AZURE_AUTHORITY_HOST
+
 /**
  * An internal type used to communicate details of a token request's
  * response that should not be sent back as part of the access token.
@@ -41,7 +43,8 @@ export class IdentityClient extends ServiceClient {
     options = options || IdentityClient.getDefaultOptions();
     super(undefined, createPipelineFromOptions(options));
 
-    this.baseUri = this.authorityHost = options.authorityHost || DefaultAuthorityHost;
+    const authorityHost = envauthorityHost || DefaultAuthorityHost;
+    this.baseUri = this.authorityHost = options.authorityHost || authorityHost;
 
     if (!this.baseUri.startsWith("https:")) {
       throw new Error("The authorityHost address must use the 'https' protocol.");
@@ -171,7 +174,7 @@ export class IdentityClient extends ServiceClient {
 
   static getDefaultOptions(): TokenCredentialOptions {
     return {
-      authorityHost: DefaultAuthorityHost
+      authorityHost: envauthorityHost || DefaultAuthorityHost
     };
   }
 }
