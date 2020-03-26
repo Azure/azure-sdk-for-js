@@ -43,8 +43,7 @@ export class IdentityClient extends ServiceClient {
     options = options || IdentityClient.getDefaultOptions();
     super(undefined, createPipelineFromOptions(options));
 
-    const authorityHost = envauthorityHost || DefaultAuthorityHost;
-    this.baseUri = this.authorityHost = options.authorityHost || authorityHost;
+    this.baseUri = this.authorityHost = options.authorityHost ||  envauthorityHost || DefaultAuthorityHost;
 
     if (!this.baseUri.startsWith("https:")) {
       throw new Error("The authorityHost address must use the 'https' protocol.");
