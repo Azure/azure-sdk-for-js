@@ -23,7 +23,6 @@ export class PerfStressPolicyTest extends PerfStressTest<OptionNames> {
     url: {
       required: true,
       description: "URL that will replace any request's original targeted URL",
-      longName: "url",
       shortName: "u"
     }
   };

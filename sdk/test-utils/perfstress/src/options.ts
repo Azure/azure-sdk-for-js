@@ -48,6 +48,9 @@ export interface PerfStressOption {
 /**
  * A group of options is called PerfStressOptionDictionary,
  * and is shaped as a plain object to make it easier to access them.
+ * 
+ * TNames defines the names of the options. This is necessary to allow TypeScript to suggest the appropriate names
+ * for the options.
  */
 export type PerfStressOptionDictionary<TNames extends string> = {
   [longName in TNames]: PerfStressOption;
