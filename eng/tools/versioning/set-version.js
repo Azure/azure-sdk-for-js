@@ -66,7 +66,10 @@ async function main(argv) {
     newVersion
   );
 
-  versionUtils.updateChangelog(targetPackagePath, repoRoot, newVersion, false, true);
+  const updateStatus = versionUtils.updateChangelog(targetPackagePath, repoRoot, newVersion, false, true);
+  if (!updateStatus) {
+    process.exit(1);
+  }
 }
 
 main(argv);
