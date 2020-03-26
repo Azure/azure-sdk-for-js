@@ -5,12 +5,9 @@ import {
   createPipelineFromOptions,
   signingPolicy,
   InternalPipelineOptions,
-  isTokenCredential,
-  bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
-import { LIB_INFO, DEFAULT_COGNITIVE_SCOPE } from "./constants";
+import { LIB_INFO } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import {
@@ -98,12 +95,12 @@ export class LayoutRecognizerClient {
    * );
    * ```
    * @param {string} endpointUrl The URL to Azure Form Recognizer service endpoint
-   * @param {TokenCredential | FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
+   * @param {FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the LayoutRecognizer client.
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential | FormRecognizerApiKeyCredential,
+    credential: FormRecognizerApiKeyCredential,
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -118,9 +115,7 @@ export class LayoutRecognizerClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
-      : signingPolicy(credential);
+    const authPolicy = signingPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,

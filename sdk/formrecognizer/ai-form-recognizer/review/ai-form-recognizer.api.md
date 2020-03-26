@@ -13,7 +13,6 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { RestResponse } from '@azure/core-http';
 import { ServiceClientCredentials } from '@azure/core-http';
-import { TokenCredential } from '@azure/identity';
 import { WebResource } from '@azure/core-http';
 
 // @public
@@ -301,7 +300,7 @@ export class FormRecognizerApiKeyCredential implements ServiceClientCredentials 
 
 // @public
 export class FormRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
     beginExtractForms(modelId: string, body: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractFormsOptions): Promise<FormPollerLike>;
     // (undocumented)
     beginExtractFormsFromUrl(modelId: string, documentUrl: string, options?: BeginExtractFormsOptions): Promise<PollerLike<PollOperationState<ExtractFormResultResponse>, ExtractFormResultResponse>>;
@@ -439,7 +438,7 @@ export type LayoutPollerLike = PollerLike<PollOperationState<ExtractLayoutResult
 
 // @public
 export class LayoutRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
     beginExtractLayout(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractLayoutOptions): Promise<LayoutPollerLike>;
     readonly endpointUrl: string;
     // (undocumented)
@@ -608,7 +607,7 @@ export type ReceiptPollerLike = PollerLike<PollOperationState<ExtractReceiptResu
 
 // @public
 export class ReceiptRecognizerClient {
-    constructor(endpointUrl: string, credential: TokenCredential | FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
+    constructor(endpointUrl: string, credential: FormRecognizerApiKeyCredential, options?: FormRecognizerClientOptions);
     beginExtractReceipts(source: FormRecognizerRequestBody, contentType?: ContentType, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     beginExtractReceiptsFromUrl(documentUrl: string, options?: BeginExtractReceiptsOptions): Promise<ReceiptPollerLike>;
     readonly endpointUrl: string;
@@ -656,8 +655,8 @@ export type TrainStatus = "succeeded" | "partiallySucceeded" | "failed";
 
 // Warnings were encountered during analysis:
 //
-// src/formRecognizerClient.ts:104:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
-// src/formRecognizerClient.ts:137:3 - (ae-forgotten-export) The symbol "BeginExtractPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:101:3 - (ae-forgotten-export) The symbol "BeginTrainingPollState" needs to be exported by the entry point index.d.ts
+// src/formRecognizerClient.ts:134:3 - (ae-forgotten-export) The symbol "BeginExtractPollState" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

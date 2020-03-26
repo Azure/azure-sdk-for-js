@@ -7,15 +7,12 @@ import {
   createPipelineFromOptions,
   signingPolicy,
   InternalPipelineOptions,
-  isTokenCredential,
-  bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
   AbortSignalLike,
   RestResponse
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { SDK_VERSION, DEFAULT_COGNITIVE_SCOPE } from "./constants";
+import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import {
@@ -209,12 +206,12 @@ export class FormRecognizerClient {
    * );
    * ```
    * @param {string} endpointUrl The URL to Azure Form Recognizer service endpoint
-   * @param {TokenCredential | FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
+   * @param {FormRecognizerApiKeyCredential} credential Used to authenticate requests to the service.
    * @param {FormRecognizerClientOptions} [options] Used to configure the FormRecognizer client.
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential | FormRecognizerApiKeyCredential,
+    credential: FormRecognizerApiKeyCredential,
     options: FormRecognizerClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -230,9 +227,7 @@ export class FormRecognizerClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
-      : signingPolicy(credential);
+    const authPolicy = signingPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
