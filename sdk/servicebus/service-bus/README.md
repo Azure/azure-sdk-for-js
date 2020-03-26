@@ -21,7 +21,7 @@ Use the client library for Azure Service Bus in your Node.js application to
 
 Install the Azure Service Bus client library using npm
 
-`npm install @azure/service-bus@dev`
+`npm install @azure/service-bus@next`
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Service Bus Namespace](https://docs.microsoft.com/en-us/azure/service-bus-messaging/) to use this package.
