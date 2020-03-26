@@ -83,7 +83,7 @@ TODO
 
 Check the [source](./src/) folder and the [test folder](./test/).
 
-
+Also check the PerfStress EPIC, here: https://github.com/Azure/azure-sdk-for-js/issues/8057
 
 ## Contributing
 
