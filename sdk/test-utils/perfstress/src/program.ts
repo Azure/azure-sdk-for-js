@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { PerfStressTest, PerfStressTestInterface } from "./tests";
+import { PerfStressTest, PerfStressTestConstructor } from "./tests";
 import {
   PerfStressOptionDictionary,
   parsePerfStressOption,
@@ -16,19 +16,20 @@ export type TestType = "";
 
 /**
  * PerfStressProgram
- * receives a PerfStressTest with specific command line parameters,
+ * receives a class extending PerfStressTest with specific command line parameter names (or just "string"),
  * then gets the test ready for a performance/stress test run.
  *
  * Use it like:
  *
  * ```ts
- * export class Delay500ms extends PerfStressTest<ParsedPerfStressOptions> {
+ * export class Delay500ms extends PerfStressTest<string> {
+ *   public options = {};
  *   async run(): Promise<void> {
  *     await delay(500);
  *   }
  * }
  *
- * const perfStressProgram = new PerfStressProgram(new Delay500ms());
+ * const perfStressProgram = new PerfStressProgram(Delay500ms);
  *
  * perfStressProgram.run();
  * ```
@@ -42,13 +43,16 @@ export class PerfStressProgram {
   /**
    * Receives a test class to instantiate and execute.
    * Parses the test's options and creates some shortcuts.
+   * It will instantiate the same test class as many times as the "parallel" command line parameter specifies,
+   * which defaults to 1.
    *
    * @param testClass The testClass to be instantiated.
    */
-  constructor(testClass: PerfStressTestInterface<string>) {
+  constructor(testClass: PerfStressTestConstructor<string>) {
     this.testName = testClass.name;
     this.options = parsePerfStressOption(defaultPerfStressOptions);
     this.parallelNumber = Number(this.options.parallel.value);
+
     console.log(`=== Creating ${this.parallelNumber} instance(s) of ${this.testName} ===`);
     this.tests = new Array<PerfStressTest<string>>(this.parallelNumber);
 
@@ -62,6 +66,20 @@ export class PerfStressProgram {
   /**
    * Does some calculations based on the parallel executions provided,
    * then logs them in a friendly way.
+   *
+   * In languages supporting threads, "parallels" mean new threads created in which we run
+   * as many functions as possible. Keep in mind that we currently don't support multiple threads in NodeJS.
+   * We might be using workers eventually, but for now, "parallel" executions are
+   * promises that are executed one after the other without waiting for the previous one to finish.
+   * We wait for all of the promises to resolve to consider the "parallel" execution finished.
+   *
+   * The information logged consists of:
+   *
+   * - The total operations executed on that parallel run.
+   * - The operations per second, which is made through adding up each one of the parallel's
+   *   completed operations, divided by the seconds elapsed.
+   * - Seconds per operation, which is 1 / operationsPerSecond.
+   * - An average of the total operations by the operations per second, which we call weighted-average.
    *
    * @param parallels Parallel executions
    */
@@ -195,7 +213,18 @@ export class PerfStressProgram {
    * If the command line option for help (--help or -h) is passed in, the program will output
    * the information available of all of the options and close, with no test executions.
    *
+   * This method will invoke the test class's "globalSetup" and "globalCleanup" exactly once,
+   * and the "setup" and "cleanup" as many times as tests were instantiated
+   * (up to the "parallel" command line parameter, which defaults to 1).
    *
+   * If the "warmup" command line parameter is defined, the tests will be called
+   * until as many seconds as the "warmup" parameter says. This is to adjust
+   * to any possible real-time optimizations that the JavaScript runtime might
+   * do while executing something repeatedly. This is also a requirement to align with the
+   * PerfStress framework in other languages.
+   *
+   * If any exception is encountered, the whole process will stop, unless
+   * these exceptions are instances of the class PerfStressTestError, which defines expected errors.
    */
   public async run(): Promise<void> {
     // There should be no test execution if the help option is passed.

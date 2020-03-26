@@ -4,8 +4,17 @@
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
 import { PerfStressTest, PerfStressOptionDictionary } from "../src";
 
-type OptionNames = "non-req" | "non-req-short" | "non-req-default";
+type OptionNames =
+  | "non-req"
+  | "non-req-short"
+  | "non-req-default"
+  | "req"
+  | "req-short"
+  | "req-default";
 
+/**
+ * Showcases and verifies some of the expected behaviors of the PerfStress options
+ */
 export class OptionsTest extends PerfStressTest<OptionNames> {
   public options: PerfStressOptionDictionary<OptionNames> = {
     "non-req": {
@@ -17,6 +26,18 @@ export class OptionsTest extends PerfStressTest<OptionNames> {
     },
     "non-req-default": {
       description: "Non-required option with default value",
+      defaultValue: 10
+    },
+    req: {
+      required: true,
+      description: "Required option"
+    },
+    "req-short": {
+      description: "Required option with short name",
+      shortName: "ro"
+    },
+    "req-default": {
+      description: "Required option with default value",
       defaultValue: 10
     }
   };
@@ -40,7 +61,7 @@ export class OptionsTest extends PerfStressTest<OptionNames> {
       );
     }
     if (
-      this.options[longName] !==
+      this.options[longName].value !==
       (this.minimistResult[longName] || this.options[longName].defaultValue)
     ) {
       throw new Error(

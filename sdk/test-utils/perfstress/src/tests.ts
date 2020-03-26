@@ -5,10 +5,22 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
 import { PerfStressOptionDictionary, parsePerfStressOption } from "./options";
 
-export interface PerfStressTestInterface<TOptionsNames extends string> {
+/**
+ * Defines the behavior of the PerfStressTest constructor, so that we can pass classes extending PerfStressTest as values.
+ */
+export interface PerfStressTestConstructor<TOptionsNames extends string> {
   new (): PerfStressTest<TOptionsNames>;
 }
 
+/**
+ * Conveys the structure of any PerfStress test.
+ * It allows developers to define the optional parameters to receive
+ * in a way that aids them to auto-complete these options while adding code inside of each method.
+ * It provides methods to parse the assigned options, as well as to set up and tear down any resources
+ * at a global level (only one setup and teardown for the whole execution of a PerfStress test),
+ * and at a local level, which happens once for each initialization of the test class
+ * (initializations are as many as the "parallel" command line parameter specifies).
+ */
 export abstract class PerfStressTest<TOptionsNames extends string> {
   public abstract options: PerfStressOptionDictionary<TOptionsNames>;
 
@@ -26,9 +38,14 @@ export abstract class PerfStressTest<TOptionsNames extends string> {
   public abstract run(abortSignal?: AbortSignalLike): void | Promise<void>;
 }
 
+/**
+ * Picks a specific test case by comparing the first command line paramter to the names of the
+ * given classes, all of which must extend PerfStressTest.
+ * @param tests An array of classes that extend PerfStressTest
+ */
 export function selectPerfStressTest(
-  tests: PerfStressTestInterface<string>[]
-): PerfStressTestInterface<string> {
+  tests: PerfStressTestConstructor<string>[]
+): PerfStressTestConstructor<string> {
   const testsNames: string[] = tests.map((test) => test.name);
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
   const testName = minimistResult._[minimistResult._.length - 1];

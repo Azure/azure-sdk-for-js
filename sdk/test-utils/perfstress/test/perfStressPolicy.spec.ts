@@ -18,6 +18,10 @@ const defaultResponse = {
   headers: new HttpHeaders()
 };
 
+/**
+ * Tests the behavior of the PerfStressPolicy.
+ * Similar to the tests available in the core-http package of the default policies provided.
+ */
 export class PerfStressPolicyTest extends PerfStressTest<OptionNames> {
   public options: PerfStressOptionDictionary<OptionNames> = {
     url: {

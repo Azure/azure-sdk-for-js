@@ -8,6 +8,10 @@ import {
   defaultPerfStressOptions
 } from "../src";
 
+/**
+ * Showcases and verifies some of the expected behaviors of the setup, globalSetup, cleanup and globalCleanup methods
+ * of the PerfStressTest class.
+ */
 export class SetupCleanupTest extends PerfStressTest<DefaultPerfStressOptionNames> {
   public options: PerfStressOptionDictionary<
     DefaultPerfStressOptionNames
