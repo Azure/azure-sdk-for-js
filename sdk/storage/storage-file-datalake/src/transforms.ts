@@ -14,7 +14,7 @@ import {
   PublicAccessType,
   RolePermissions,
   ServiceListContainersSegmentResponse,
-  ServiceListFileSystemsSegmentResponse,
+  ServiceListFileSystemsSegmentResponse
 } from "./models";
 import { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 import { base64encode } from "./utils/utils.common";

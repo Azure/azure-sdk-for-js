@@ -7,7 +7,7 @@ import {
   AccountSASResourceTypes,
   AccountSASServices,
   generateAccountSASQueryParameters,
-  SASProtocol,
+  SASProtocol
 } from "../../src";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { newPipeline } from "../../src/Pipeline";

@@ -22,12 +22,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let queueServiceClient: QueueServiceClient;
   let recorder: Recorder;
 
-  beforeEach(function () {
+  beforeEach(function() {
     recorder = record(this, recorderEnvSetup);
     queueServiceClient = getQSU();
   });
 
-  afterEach(function () {
+  afterEach(function() {
     recorder.stop();
   });
 
