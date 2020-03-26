@@ -37,7 +37,9 @@ describe("Send Batch", () => {
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
     );
     receiverClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getReceiver(entityNames.queue ?? entityNames.topic!, "peekLock", {})
+      serviceBusClient.getReceiver(entityNames.queue ?? entityNames.topic!, "peekLock", {
+        retryOptions: { timeoutInMs: 5000, maxRetries: 2 }
+      })
     );
   }
 
@@ -88,6 +90,7 @@ describe("Send Batch", () => {
         request;
         retryTimeoutInMs;
         sendRequestOptions;
+        console.log("what's going on");
         throw new MessagingError("Hello there, I'm an error");
       };
       await receiverClient.receiveDeferredMessage(new Long(0));
@@ -102,7 +105,7 @@ describe("Send Batch", () => {
     it.only("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await testSendBatch(false);
-    });
+    }).timeout(200000);
 
     it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
