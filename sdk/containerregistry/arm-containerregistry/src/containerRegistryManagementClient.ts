@@ -19,9 +19,12 @@ class ContainerRegistryManagementClient extends ContainerRegistryManagementClien
   // Operation groups
   registries: operations.Registries;
   operations: operations.Operations;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
   replications: operations.Replications;
   webhooks: operations.Webhooks;
+  agentPools: operations.AgentPools;
   runs: operations.Runs;
+  taskRuns: operations.TaskRuns;
   tasks: operations.Tasks;
   scopeMaps: operations.ScopeMaps;
   tokens: operations.Tokens;
@@ -36,9 +39,12 @@ class ContainerRegistryManagementClient extends ContainerRegistryManagementClien
     super(credentials, subscriptionId, options);
     this.registries = new operations.Registries(this);
     this.operations = new operations.Operations(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.replications = new operations.Replications(this);
     this.webhooks = new operations.Webhooks(this);
+    this.agentPools = new operations.AgentPools(this);
     this.runs = new operations.Runs(this);
+    this.taskRuns = new operations.TaskRuns(this);
     this.tasks = new operations.Tasks(this);
     this.scopeMaps = new operations.ScopeMaps(this);
     this.tokens = new operations.Tokens(this);
