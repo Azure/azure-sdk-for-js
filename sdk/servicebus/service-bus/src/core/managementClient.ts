@@ -356,12 +356,9 @@ export class ManagementClient extends LinkEntity {
     sendRequestOptions: SendRequestOptions
   ): Promise<AmqpMessage> {
     const timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
-    const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
-    return await this._managementLinkSendRequestHelper(request, {
-      abortSignal: sendRequestOptions.abortSignal,
-      requestName: sendRequestOptions.requestName,
-      timeoutInMs: remainingOperationTimeoutInMs
-    });
+    // Left over time - remainingOperationTimeoutInMs
+    sendRequestOptions.timeoutInMs = retryTimeoutInMs - timeTakenByInit;
+    return this._managementLinkSendRequestHelper(request, sendRequestOptions);
   }
 
   /**
