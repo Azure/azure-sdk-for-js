@@ -33,7 +33,6 @@ export interface OperationOptions extends TracingOptions {
   abortSignal?: AbortSignalLike;
 }
 
-
 /**
  * @internal
  * @ignore
