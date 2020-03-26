@@ -719,14 +719,10 @@ export class MessageSender extends LinkEntity {
     senderOptions?: GetSenderOptions
   ): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (!options) {
-      options = {};
-    }
-    if (!senderOptions) {
-      senderOptions = {};
-    }
-    let maxMessageSize = await this.getMaxMessageSize({ retryOptions: senderOptions.retryOptions });
-    if (options.maxSizeInBytes) {
+    let maxMessageSize = await this.getMaxMessageSize({
+      retryOptions: senderOptions?.retryOptions
+    });
+    if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {
         const error = new Error(
           `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
