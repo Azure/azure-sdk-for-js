@@ -36,8 +36,8 @@ const commitChanges = async (rushPackages, package) => {
     );
     console.info(
       "File " +
-        rushPackages[package].src +
-        " created successfully with Node.js v10 fs/promises!"
+      rushPackages[package].src +
+      " created successfully with Node.js v10 fs/promises!"
     );
   } catch (e) {
     console.error(e);
@@ -50,8 +50,8 @@ const updatePackageVersion = (rushPackages, package, buildId) => {
   rushPackages[package].newVer = `${parsedVersion.major}.${parsedVersion.minor}.${parsedVersion.patch}-dev.${buildId}`;
   console.log(`version updated for ${package}`);
   for (const pkg of Object.keys(rushPackages)) {
-    rushPackages = updateOtherProjectDependencySections(rushPackages, pkg,package);
-   }
+    rushPackages = updateOtherProjectDependencySections(rushPackages, pkg, package);
+  }
   return rushPackages;
 };
 
@@ -82,7 +82,7 @@ const updateDependencySection = (rushPackages, dependencySection, buildId) => {
         parsedDepMinVersion.minor == parsedPackageVersion.minor &&
         parsedDepMinVersion.patch == parsedPackageVersion.patch
       ) {
-          rushPackages = updatePackageVersion(rushPackages,depName,buildId);
+        rushPackages = updatePackageVersion(rushPackages, depName, buildId);
       }
     }
   }
@@ -152,54 +152,61 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
   return rushPackages;
 };
 
-const updateOtherProjectDependencySections = (rushPackages, package,depName) => {
+const updateOtherProjectDependencySections = (rushPackages, package, depName) => {
   console.log("updateOtherProjectDependencySections");
-  console.log("package = "+ package);
-  console.log("depName="+depName);
+  console.log("package = " + package);
+  console.log("depName=" + depName);
   console.log("checking dependencies ..");
 
-  rushPackages = makeDependencySectionConsistentForPackage(rushPackages, rushPackages[package].json.dependencies,depName);
+  rushPackages = makeDependencySectionConsistentForPackage(rushPackages, rushPackages[package].json.dependencies, depName);
 
   console.log("checking devDependencies ..");
-  rushPackages = makeDependencySectionConsistentForPackage(rushPackages, rushPackages[package].json.devDependencies,depName);
+  rushPackages = makeDependencySectionConsistentForPackage(rushPackages, rushPackages[package].json.devDependencies, depName);
 
   console.log("checking peerDependencies ..");
-  rushPackages = makeDependencySectionConsistentForPackage(rushPackages, rushPackages[package].json.peerDependencies,depName);
+  rushPackages = makeDependencySectionConsistentForPackage(rushPackages, rushPackages[package].json.peerDependencies, depName);
   return rushPackages;
 };
 
 async function main(argv) {
-  const buildId = argv["build-id"];
-  const repoRoot = argv["repo-root"];
-  const service = argv["service"];
+  try {
 
-  var rushPackages = await versionUtils.getRushPackageJsons(repoRoot);
 
-  let targetPackages = [];
-  for (const package of Object.keys(rushPackages)) {
-    if (
-      ["client", "core"].includes(rushPackages[package].versionPolicy) &&
-      rushPackages[package].projectFolder.startsWith(`sdk/${service}`)
-    ) {
-      targetPackages.push(package);
+    const buildId = argv["build-id"];
+    const repoRoot = argv["repo-root"];
+    const service = argv["service"];
+
+    var rushPackages = await versionUtils.getRushPackageJsons(repoRoot);
+
+    let targetPackages = [];
+    for (const package of Object.keys(rushPackages)) {
+      if (
+        ["client", "core"].includes(rushPackages[package].versionPolicy) &&
+        rushPackages[package].projectFolder.startsWith(`sdk/${service}`)
+      ) {
+        targetPackages.push(package);
+      }
+    }
+    if (targetPackages.length === 0) {
+      console.error(`Empty array targetPackages! There is no package that qualifies for dev versioning in the given service folder ${service}`);
+      process.exit(1);
+    }
+    // Set all the new versions & update any references to internal projects with the new versions
+    console.log(`Updating packages with build ID ${buildId}`);
+    for (const package of targetPackages) {
+      console.log("package updated = ");
+      console.log(package);
+      rushPackages = updatePackageVersion(rushPackages, package, buildId);
+      rushPackages = updateInternalDependencyVersions(rushPackages, package, buildId);
+      console.log(rushPackages[package].newVer);
+    }
+
+    for (const package of Object.keys(rushPackages)) {
+      await commitChanges(rushPackages, package);
     }
   }
-if(targetPackages.length === 0){
-  console.error(`Empty array targetPackages! There is no package that qualifies for dev versioning in the given service folder ${service}`);
-  process.exit(1);
-}
-  // Set all the new versions & update any references to internal projects with the new versions
-  console.log(`Updating packages with build ID ${buildId}`);
-  for (const package of targetPackages) {
-    console.log("package updated = ");
-    console.log(package);
-    rushPackages = updatePackageVersion(rushPackages, package, buildId);
-    rushPackages = updateInternalDependencyVersions(rushPackages,package,buildId);
-    console.log(rushPackages[package].newVer);
-  }
-
-  for (const package of Object.keys(rushPackages)) {
-    await commitChanges(rushPackages, package);
+  catch (ex) {
+    console.error(ex);
   }
 }
 
