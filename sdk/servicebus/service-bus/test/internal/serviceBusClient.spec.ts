@@ -19,13 +19,17 @@ describe("serviceBusClient unit tests", () => {
   };
 
   describe("extractReceiverArguments", () => {
-    // valid cases
-
     // basically, getReceiver/getDeadLetterReceiver which don't currently have
     // any options
     allLockModes.forEach((lockMode) => {
       it(`queue, no options, ${lockMode}`, () => {
-        const result = extractReceiverArguments("queue", lockMode, undefined, undefined);
+        const result = extractReceiverArguments(
+          undefined, // simulate a connection string without an EntityPath in it
+          "queue",
+          lockMode,
+          undefined,
+          undefined
+        );
         assert.deepEqual(result, {
           entityPath: "queue",
           receiveMode: lockMode,
@@ -34,9 +38,12 @@ describe("serviceBusClient unit tests", () => {
       });
     });
 
+    // basically, getReceiver/getDeadLetterReceiver which don't currently have
+    // any options
     allLockModes.forEach((lockMode) => {
       it(`queue, with options, ${lockMode}`, () => {
         const result = extractReceiverArguments(
+          "queue", // simulate a connection string with an EntityPath in it
           "queue",
           lockMode,
           sessionReceiverOptions,
@@ -50,10 +57,16 @@ describe("serviceBusClient unit tests", () => {
       });
     });
 
-    // basically, getSessionReceiver which does take options (although this method just returns them verbatim with no interpretation)
+    // basically, simulating getSessionReceiver which does take options (although this method just returns them verbatim with no interpretation)
     allLockModes.forEach((lockMode) => {
       it(`topic and subscription, no options, ${lockMode}`, () => {
-        const result = extractReceiverArguments("topic", "subscription", lockMode, undefined);
+        const result = extractReceiverArguments(
+          undefined, // simulate a connection string without an EntityPath in it
+          "topic",
+          "subscription",
+          lockMode,
+          undefined
+        );
 
         assert.deepEqual(result, {
           entityPath: "topic/Subscriptions/subscription",
@@ -63,9 +76,11 @@ describe("serviceBusClient unit tests", () => {
       });
     });
 
+    // basically, simulating getSessionReceiver which does take options (although this method just returns them verbatim with no interpretation)
     allLockModes.forEach((lockMode) => {
       it(`topic and subscription, with options, ${lockMode}`, () => {
         const result = extractReceiverArguments(
+          "topic", // simulate a connection string with an EntityPath in it
           "topic",
           "subscription",
           lockMode,
@@ -78,6 +93,44 @@ describe("serviceBusClient unit tests", () => {
           options: sessionReceiverOptions
         });
       });
+    });
+
+    it("failures", () => {
+      assert.throws(
+        () =>
+          extractReceiverArguments(
+            "totally non-matching topic",
+            "topic",
+            "subscription",
+            "receiveAndDelete",
+            sessionReceiverOptions
+          ),
+        /The connection string this client had an EntityPath of totally non-matching topic which doesn't match the name of the topic for this receiver \(topic\)/
+      );
+
+      assert.throws(
+        () =>
+          extractReceiverArguments(
+            "totally non-matching queue",
+            "queue",
+            "peekLock",
+            sessionReceiverOptions,
+            undefined
+          ),
+        /The connection string this client had an EntityPath of totally non-matching queue which doesn't match the name of the queue for this receiver \(queue\)/
+      );
+
+      assert.throws(
+        () =>
+          extractReceiverArguments(
+            undefined,
+            "topic",
+            "subscription",
+            "WOW THIS ISN'T A RECEIVE MODE" as "peekLock",
+            sessionReceiverOptions
+          ),
+        /Invalid receiveMode provided/
+      );
     });
   });
 });

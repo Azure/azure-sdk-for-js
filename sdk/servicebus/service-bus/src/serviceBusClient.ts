@@ -123,6 +123,7 @@ export class ServiceBusClient {
     // NOTE: we don't currently have any options for this kind of receiver but
     // when we do make sure you pass them in and extract them.
     const { entityPath, receiveMode } = extractReceiverArguments(
+      this._connectionContext.config.entityPath,
       queueOrTopicName1,
       receiveModeOrSubscriptionName2,
       receiveMode3,
@@ -202,6 +203,7 @@ export class ServiceBusClient {
     options4?: GetSessionReceiverOptions
   ): SessionReceiver<ReceivedMessage> | SessionReceiver<ReceivedMessageWithLock> {
     const { entityPath, receiveMode, options } = extractReceiverArguments(
+      this._connectionContext.config.entityPath,
       queueOrTopicName1,
       receiveModeOrSubscriptionName2,
       receiveModeOrOptions3,
@@ -311,6 +313,7 @@ export class ServiceBusClient {
     // NOTE: we don't currently have any options for this kind of receiver but
     // when we do make sure you pass them in and extract them.
     const { entityPath, receiveMode } = extractReceiverArguments(
+      this._connectionContext.config.entityPath,
       queueOrTopicName1,
       receiveModeOrSubscriptionName2,
       receiveMode3,
@@ -351,6 +354,7 @@ function isReceiveMode(mode: any): mode is "peekLock" | "receiveAndDelete" {
  * @ignore
  */
 export function extractReceiverArguments<OptionsT>(
+  connectionStringEntityName: string | undefined,
   queueOrTopicName1: string,
   receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
   receiveModeOrOptions3: "peekLock" | "receiveAndDelete" | OptionsT,
@@ -364,12 +368,24 @@ export function extractReceiverArguments<OptionsT>(
     const topic = queueOrTopicName1;
     const subscription = receiveModeOrSubscriptionName2;
 
+    if (connectionStringEntityName && topic !== connectionStringEntityName) {
+      throw new Error(
+        `The connection string this client had an EntityPath of ${connectionStringEntityName} which doesn't match the name of the topic for this receiver (${topic})`
+      );
+    }
+
     return {
       entityPath: `${topic}/Subscriptions/${subscription}`,
       receiveMode: receiveModeOrOptions3,
       options: definitelyOptions4
     };
   } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
+    if (connectionStringEntityName && queueOrTopicName1 !== connectionStringEntityName) {
+      throw new Error(
+        `The connection string this client had an EntityPath of ${connectionStringEntityName} which doesn't match the name of the queue for this receiver (${queueOrTopicName1})`
+      );
+    }
+
     return {
       entityPath: queueOrTopicName1,
       receiveMode: receiveModeOrSubscriptionName2,
