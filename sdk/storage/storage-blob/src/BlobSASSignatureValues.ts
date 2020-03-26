@@ -92,7 +92,7 @@ export interface BlobSASSignatureValues {
    * Optional. Snapshot timestamp string the SAS user may access. Only supported from API version 2018-11-09.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   snapshotTime?: string;
 
@@ -100,7 +100,7 @@ export interface BlobSASSignatureValues {
    * Optional. VersionId of the blob version the SAS user may access. Only supported from API version 2019-10-10.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof BlobSASSignatureValues
    */
   versionId?: string;
 
