@@ -288,7 +288,7 @@ export class ManagementClient extends LinkEntity {
       : undefined;
   }
 
-  // TO DO - Any better name??
+  // TODO - Any better name??
   private async _acquireLockHelper(
     message_id: string | number | Buffer | undefined,
     timeoutInMs: number
@@ -326,7 +326,7 @@ export class ManagementClient extends LinkEntity {
     return Date.now() - initOperationStartTime;
   }
 
-  // TO DO - Any better name??
+  // TODO - Any better name??
   private async _managementLinkSendRequestHelper(
     request: AmqpMessage,
     sendRequestOptions: SendRequestOptions

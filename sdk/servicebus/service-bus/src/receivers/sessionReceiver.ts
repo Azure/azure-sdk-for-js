@@ -189,7 +189,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   }
 
   private async _createMessageSessionIfDoesntExist(): Promise<void> {
-    // TO DO - retry options for this??
+    // TODO - retry options for this??
     if (this._messageSession) {
       return;
     }
@@ -451,7 +451,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   }
 
   subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
-    // TO DO - receiverOptions for subscribe??
+    // TODO - receiverOptions for subscribe??
     assertValidMessageHandlers(handlers);
 
     this._registerMessageHandler(
