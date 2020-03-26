@@ -110,7 +110,7 @@ const listAvailableServiceSkusOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ResourceSkuResults
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -131,7 +131,7 @@ const listAvailableServiceSkusNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ResourceSkuResults
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

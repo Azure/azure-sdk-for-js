@@ -111,7 +111,9 @@ export function formatWildcards(
  * @internal
  * @ignore
  */
-export function formatAcceptDateTime(newOptions: { acceptDateTime?: Date }): { acceptDatetime?: string; }{
+export function formatAcceptDateTime(newOptions: {
+  acceptDateTime?: Date;
+}): { acceptDatetime?: string } {
   return {
     acceptDatetime: newOptions.acceptDateTime && newOptions.acceptDateTime.toISOString()
   };
@@ -144,7 +146,7 @@ export function extractAfterTokenFromNextLink(nextLink: string) {
 export function makeConfigurationSettingEmpty(
   configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>
 ) {
-  const names: (Exclude<keyof ConfigurationSetting, "key">)[] = [
+  const names: Exclude<keyof ConfigurationSetting, "key">[] = [
     "contentType",
     "etag",
     "label",

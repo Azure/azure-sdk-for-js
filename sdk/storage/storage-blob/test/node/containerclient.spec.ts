@@ -19,7 +19,7 @@ describe("ContainerClient Node.js only", () => {
   let recorder: any;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -27,7 +27,7 @@ describe("ContainerClient Node.js only", () => {
     await containerClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await containerClient.delete();
     recorder.stop();
   });

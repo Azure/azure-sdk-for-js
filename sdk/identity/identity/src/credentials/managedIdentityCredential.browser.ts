@@ -12,8 +12,11 @@ const BrowserNotSupportedError = new Error(
 
 export class ManagedIdentityCredential implements TokenCredential {
   constructor(clientId: string, options?: TokenCredentialOptions);
-  constructor(options?: TokenCredentialOptions);  
-  constructor(clientIdOrOptions: string | TokenCredentialOptions | undefined, options?: TokenCredentialOptions) {
+  constructor(options?: TokenCredentialOptions);
+  constructor(
+    clientIdOrOptions: string | TokenCredentialOptions | undefined,
+    options?: TokenCredentialOptions
+  ) {
     throw BrowserNotSupportedError;
   }
 

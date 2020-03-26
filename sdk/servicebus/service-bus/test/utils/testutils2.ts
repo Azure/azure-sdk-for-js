@@ -192,8 +192,8 @@ export class ServiceBusTestHelpers {
       }
     }
     should.equal(
-      sentMessages.length,
       receivedMsgs!.length,
+      sentMessages.length,
       "Unexpected number of messages received."
     );
     receivedMsgs!.forEach((receivedMessage) => {

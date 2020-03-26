@@ -540,8 +540,8 @@ export function getGeneratedClientOptions(
       tracingPolicy({ userAgent }),
       syncTokenPolicy(syncTokens),
       ...retryPolicies,
-      ...defaults,
-    ],    
+      ...defaults
+    ],
     generateClientRequestIdHeader: true,
     userAgentHeaderName: getUserAgentHeaderName(internalAppConfigOptions.isNodeOverride),
     userAgent

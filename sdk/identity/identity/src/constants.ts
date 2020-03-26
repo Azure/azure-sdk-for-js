@@ -17,3 +17,13 @@ export const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
  * @ignore
  */
 export const DefaultTenantId = "common";
+
+/**
+ * A list of known authority hosts
+ */
+export enum KnownAuthorityHosts {
+  AzureChina = "https://login.chinacloudapi.cn",
+  AzureGermany = "https://login.microsoftonline.de",
+  AzureGovernment = "https://login.microsoftonline.us",
+  AzurePublicCloud = "https://login.microsoftonline.com"  
+}

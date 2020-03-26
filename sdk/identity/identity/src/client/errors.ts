@@ -95,7 +95,7 @@ export class AuthenticationError extends Error {
     } else if (typeof errorBody === "string") {
       try {
         // Most error responses will contain JSON-formatted error details
-        // in the response body        
+        // in the response body
         const oauthErrorResponse: OAuthErrorResponse = JSON.parse(errorBody);
         errorResponse = convertOAuthErrorResponseToErrorResponse(oauthErrorResponse);
       } catch (e) {
@@ -160,7 +160,7 @@ export class AggregateAuthenticationError extends Error {
   }
 }
 
-function convertOAuthErrorResponseToErrorResponse(errorBody: OAuthErrorResponse) : ErrorResponse {
+function convertOAuthErrorResponseToErrorResponse(errorBody: OAuthErrorResponse): ErrorResponse {
   return {
     error: errorBody.error,
     errorDescription: errorBody.error_description,
