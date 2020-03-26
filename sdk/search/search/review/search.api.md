@@ -294,16 +294,26 @@ export interface Index {
 }
 
 // @public
-export type IndexAction<T> = {
-    actionType: IndexActionType;
-} & Partial<T>;
-
-// @public
 export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
 
 // @public
 export interface IndexDocuments extends OperationOptions {
     throwOnAnyFailure?: boolean;
+}
+
+// @public
+export type IndexDocumentsAction<T> = {
+    __actionType: IndexActionType;
+} & Partial<T>;
+
+// @public (undocumented)
+export class IndexDocumentsBatch<T> {
+    constructor(actions?: IndexDocumentsAction<T>[]);
+    readonly actions: IndexDocumentsAction<T>[];
+    delete(keyName: keyof T, keyValues: string[]): void;
+    merge(documents: T[]): void;
+    mergeOrUpload(documents: T[]): void;
+    upload(documents: T[]): void;
 }
 
 // @public
@@ -557,9 +567,10 @@ export interface MappingCharFilter {
 }
 
 // @public
-export interface MergeDocumentsOptions extends IndexDocuments {
-    uploadIfNotExists?: boolean;
-}
+export type MergeDocumentsOptions = IndexDocuments;
+
+// @public
+export type MergeOrUploadDocumentsOptions = IndexDocuments;
 
 // @public
 export interface MicrosoftLanguageStemmingTokenizer {
@@ -759,9 +770,10 @@ export class SearchIndexClient<T> {
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
-    indexDocuments(batch: IndexAction<T>[], options?: IndexDocuments): Promise<IndexDocumentsResult>;
+    indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocuments): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
+    mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
     suggest<Fields extends keyof T = never>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1029,9 +1041,7 @@ export interface UniqueTokenFilter {
 }
 
 // @public
-export interface UploadDocumentsOptions extends IndexDocuments {
-    mergeIfExists?: boolean;
-}
+export type UploadDocumentsOptions = IndexDocuments;
 
 // @public
 export interface WordDelimiterTokenFilter {

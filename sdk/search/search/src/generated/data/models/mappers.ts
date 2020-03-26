@@ -348,7 +348,8 @@ export const IndexAction: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "IndexAction",
     modelProperties: {
-      actionType: {
+      __actionType: {
+        required: true,
         nullable: false,
         serializedName: "@search\\.action",
         type: {

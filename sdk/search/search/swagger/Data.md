@@ -46,3 +46,14 @@ directive:
       }
       $.parameters = newParameters;
 ```
+
+### Give a less-common name for actionType
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.IndexAction
+    transform: >
+      $.properties['@search.action']['x-ms-client-name'] = '__actionType';
+      $.required = ['@search.action'];
+```
