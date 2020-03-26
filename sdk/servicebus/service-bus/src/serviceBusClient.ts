@@ -279,13 +279,10 @@ export class ServiceBusClient {
       this._connectionContext,
       `${queueOrTopicName}/${generate_uuid()}`
     );
-    if (!options) {
-      options = {};
-    }
-    if (!options.retryOptions) {
-      options.retryOptions = this._clientOptions.retryOptions;
-    }
-    return new SenderImpl(clientEntityContext, options);
+    return new SenderImpl(clientEntityContext, {
+      ...options,
+      retryOptions: options?.retryOptions ?? this._clientOptions.retryOptions
+    });
   }
 
   /**
