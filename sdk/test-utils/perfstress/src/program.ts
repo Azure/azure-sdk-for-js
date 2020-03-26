@@ -2,22 +2,18 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { PerfStressTest, PerfStressTestInterface } from "./perfStressTest";
+import { PerfStressTest, PerfStressTestInterface } from "./tests";
 import {
   PerfStressOptionDictionary,
   printOptions,
   parsePerfStressOption,
   defaultPerfStressOptions,
   DefaultPerfStressOptionNames
-} from "./perfStressOptions";
-import { PerfStressTestError } from ".";
+} from "./options";
+import { PerfStressTestError } from "./errors";
+import { PerfStressParallel } from "./parallel";
 
 export type TestType = "";
-
-export interface PerfStressParallel {
-  completedOperations?: number;
-  lastMillisecondsElapsed?: number;
-}
 
 /**
  * PerfStressProgram
@@ -71,9 +67,9 @@ export class PerfStressProgram {
    * @param parallels Parallel executions
    */
   private logResults(parallels: PerfStressParallel[]): void {
-    const totalOperations = parallels.reduce((sum, i) => sum + i.completedOperations!, 0);
+    const totalOperations = parallels.reduce((sum, i) => sum + i.completedOperations, 0);
     const operationsPerSecond = parallels.reduce((sum, parallel) => {
-      return sum + parallel.completedOperations! / (parallel.lastMillisecondsElapsed! / 1000);
+      return sum + parallel.completedOperations / (parallel.lastMillisecondsElapsed / 1000);
     }, 0);
     const secondsPerOperation = 1 / operationsPerSecond;
     const weightedAverage = totalOperations / operationsPerSecond;
@@ -126,8 +122,8 @@ export class PerfStressProgram {
         // Nothing to do here
       }
 
-      parallel.completedOperations! += 1;
-      parallel.lastMillisecondsElapsed = new Date().getTime() - startedAt!;
+      parallel.completedOperations += 1;
+      parallel.lastMillisecondsElapsed = new Date().getTime() - startedAt;
     }
   }
 
@@ -148,12 +144,12 @@ export class PerfStressProgram {
     // For this reason, we also check if the time has passed inside of runLoop.
     setTimeout(() => abortController.abort(), durationMilliseconds);
 
-    const parallel = Number(this.options.parallel.value!);
+    const parallel = Number(this.options.parallel.value);
 
     // This is how we customize how frequently we log how many completed operations have been executed.
     // We don't enforce this inside of runLoop, so it might never be executed, depending on the number
     // of operations running.
-    const millisecondsToLog = Number(this.options["milliseconds-to-log"].value!);
+    const millisecondsToLog = Number(this.options["milliseconds-to-log"].value);
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex}. Logs every ${millisecondsToLog /
         1000}s ===`
@@ -161,7 +157,7 @@ export class PerfStressProgram {
     console.log(`Since Last Log\t\tTotal`);
     let lastInIteration = 0;
     const logInterval = setInterval(() => {
-      const inTotal = parallels.reduce((sum, i) => sum + i.completedOperations!, 0);
+      const inTotal = parallels.reduce((sum, i) => sum + i.completedOperations, 0);
       const sinceLastLog = inTotal - lastInIteration;
       console.log(sinceLastLog + "\t\t\t" + inTotal);
       lastInIteration = inTotal;
@@ -175,7 +171,8 @@ export class PerfStressProgram {
     // This should allow for the event loop to decide when to process each test call.
     for (let i = 0; i < parallel; i++) {
       const parallel: PerfStressParallel = {
-        completedOperations: 0
+        completedOperations: 0,
+        lastMillisecondsElapsed: 0
       };
       parallels[i] = parallel;
       const test = this.tests[i];
@@ -234,7 +231,7 @@ export class PerfStressProgram {
           await this.runTest(0, Number(options.warmup.value), "warmup");
         }
 
-        const iterations = Number(this.options.iterations.value!);
+        const iterations = Number(this.options.iterations.value);
         for (let i = 0; i < iterations; i++) {
           await this.runTest(i, Number(options.duration.value), "test");
         }

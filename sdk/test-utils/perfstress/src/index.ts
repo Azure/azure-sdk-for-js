@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./perfStressTest";
-export * from "./perfStressOptions";
-export * from "./perfStressPolicy";
+export * from "./tests";
+export * from "./options";
+export * from "./policy";
+export * from "./parallel";
 export * from "./program";
 export * from "./errors";
