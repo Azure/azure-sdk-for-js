@@ -30,6 +30,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const asyncOperationId: msRest.OperationURLParameter = {
+  parameterPath: "asyncOperationId",
+  mapper: {
+    required: true,
+    serializedName: "asyncOperationId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const dataSourceName: msRest.OperationURLParameter = {
   parameterPath: "dataSourceName",
   mapper: {
@@ -45,6 +55,16 @@ export const filter: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const groupName: msRest.OperationURLParameter = {
+  parameterPath: "groupName",
+  mapper: {
+    required: true,
+    serializedName: "groupName",
     type: {
       name: "String"
     }
@@ -70,6 +90,16 @@ export const linkedServiceName: msRest.OperationURLParameter = {
     }
   }
 };
+export const location: msRest.OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    required: true,
+    serializedName: "location",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -80,6 +110,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const resourceGroupName0: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",

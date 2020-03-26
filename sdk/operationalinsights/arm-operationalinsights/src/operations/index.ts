@@ -12,3 +12,5 @@ export * from "./linkedServices";
 export * from "./dataSources";
 export * from "./workspaces";
 export * from "./operations";
+export * from "./privateLinkResources";
+export * from "./privateEndpointConnections";

@@ -7,15 +7,8 @@
  */
 
 export {
-  BaseResource,
   CloudError,
-  DataSource,
-  LinkedService,
-  LinkedServiceListResult,
-  PrivateEndpointConnection,
-  PrivateEndpointProperty,
-  PrivateLinkServiceConnectionStateProperty,
-  Resource,
-  Sku,
-  Workspace
+  PrivateLinkResource,
+  PrivateLinkResourceListResult,
+  ProxyResource
 } from "../models/mappers";
