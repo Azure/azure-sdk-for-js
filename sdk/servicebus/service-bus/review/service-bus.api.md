@@ -51,8 +51,14 @@ export { Delivery }
 export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
 }
 
-// Warning: (ae-forgotten-export) The symbol "GetReceiverOptions" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface GetReceiverOptions extends OptionsBag {
+}
+
+// @public
+export interface GetSenderOptions extends OptionsBag {
+}
+
 // @public
 export interface GetSessionReceiverOptions extends GetReceiverOptions, OperationOptions {
     maxSessionAutoRenewLockDurationInSeconds?: number;
@@ -73,6 +79,11 @@ export interface MessageHandlers<ReceivedMessageT> {
 }
 
 export { MessagingError }
+
+// @public
+export interface OptionsBag {
+    retryOptions?: RetryOptions;
+}
 
 // @public
 export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {
@@ -162,7 +173,6 @@ export class ServiceBusClient {
     getReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
     getReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetReceiverOptions): Receiver<ReceivedMessageWithLock>;
     getReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetReceiverOptions): Receiver<ReceivedMessage>;
-    // Warning: (ae-forgotten-export) The symbol "GetSenderOptions" needs to be exported by the entry point index.d.ts
     getSender(queueOrTopicName: string, options?: GetSenderOptions): Sender;
     getSessionReceiver(queueName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
     getSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
@@ -171,8 +181,6 @@ export class ServiceBusClient {
     getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager;
 }
 
-// Warning: (ae-forgotten-export) The symbol "OptionsBag" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface ServiceBusClientOptions extends OptionsBag {
     dataTransformer?: DataTransformer;
