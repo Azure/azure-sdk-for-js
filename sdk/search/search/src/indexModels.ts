@@ -443,7 +443,7 @@ export type IndexDocumentAction<T> = {
    * The operation to perform on a document in an indexing batch. Possible values include:
    * 'upload', 'merge', 'mergeOrUpload', 'delete'
    */
-  actionType: IndexActionType;
+  __actionType: IndexActionType;
 } & Partial<T>;
 
 // END manually modified generated interfaces
