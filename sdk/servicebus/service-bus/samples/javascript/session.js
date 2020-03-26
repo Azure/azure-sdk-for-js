@@ -1,43 +1,71 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
-  
-  This sample demonstrates how to send/receive messages to/from session enabled queues/subscriptions
-  in Service Bus.
+This sample demonstrates how to send/receive messages to/from session enabled queues/subscriptions
+in Service Bus.
 
-  Setup: To run this sample, you would need session enabled Queue/Subscription.
+Setup: To run this sample, you would need session enabled Queue/Subscription.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions to learn about
-  sessions in Service Bus.
+See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions to learn about
+sessions in Service Bus.
 */
-const { ServiceBusClient, delay } = require("@azure/service-bus");
+
+const { delay, ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
-const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const listOfScientists = [
-  { lastName: "Einstein", firstName: "Albert" },
-  { lastName: "Heisenberg", firstName: "Werner" },
-  { lastName: "Curie", firstName: "Marie" },
-  { lastName: "Hawking", firstName: "Steven" },
-  { lastName: "Newton", firstName: "Isaac" },
-  { lastName: "Bohr", firstName: "Niels" },
-  { lastName: "Faraday", firstName: "Michael" },
-  { lastName: "Galilei", firstName: "Galileo" },
-  { lastName: "Kepler", firstName: "Johannes" },
-  { lastName: "Kopernikus", firstName: "Nikolaus" }
+  {
+    lastName: "Einstein",
+    firstName: "Albert"
+  },
+  {
+    lastName: "Heisenberg",
+    firstName: "Werner"
+  },
+  {
+    lastName: "Curie",
+    firstName: "Marie"
+  },
+  {
+    lastName: "Hawking",
+    firstName: "Steven"
+  },
+  {
+    lastName: "Newton",
+    firstName: "Isaac"
+  },
+  {
+    lastName: "Bohr",
+    firstName: "Niels"
+  },
+  {
+    lastName: "Faraday",
+    firstName: "Michael"
+  },
+  {
+    lastName: "Galilei",
+    firstName: "Galileo"
+  },
+  {
+    lastName: "Kepler",
+    firstName: "Johannes"
+  },
+  {
+    lastName: "Kopernikus",
+    firstName: "Nikolaus"
+  }
 ];
+
 async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
   try {
     await sendMessage(sbClient, listOfScientists[0], "session-1");
@@ -60,8 +88,9 @@ async function main() {
 }
 
 async function sendMessage(sbClient, scientist, sessionId) {
-  // getSender() also works with topics
-  const sender = sbClient.getSender(queueName);
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
+  const client = sbClient.createQueueClient(queueName);
+  const sender = client.createSender();
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -72,32 +101,28 @@ async function sendMessage(sbClient, scientist, sessionId) {
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
   await sender.send(message);
 
-  await sender.close();
+  await client.close();
 }
 
-async function receiveMessages(sbClient, sessionId) {
-  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const receiver = sbClient.getSessionReceiver(queueName, "peekLock", {
+async function receiveMessages(ns, sessionId) {
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
+  const queueClient = ns.createQueueClient(queueName);
+  const receiver = queueClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: sessionId
   });
 
-  const processMessage = async message => {
-    console.log(`Received: ${message.sessionId} - ${message.body} `);
+  const onMessage = async (brokeredMessage) => {
+    console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);
   };
-  const processError = async err => {
+  const onError = (err) => {
     console.log(">>>>> Error occurred: ", err);
   };
-
-  receiver.subscribe({
-    processMessage,
-    processError
-  });
-
+  receiver.registerMessageHandler(onMessage, onError);
   await delay(5000);
 
-  await receiver.close();
+  await queueClient.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

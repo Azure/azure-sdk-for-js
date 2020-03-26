@@ -2,9 +2,6 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
-  
   This sample demonstrates usage of SessionState.
 
   We take for example the context of an online shopping app and see how we can use Session State
@@ -22,18 +19,16 @@
   to learn about session state.
 */
 
-import { ServiceBusClient } from "@azure/service-bus";
+import { ServiceBusClient, ReceiveMode } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
-const userEventsQueueName =
-  process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
-const sbClient = new ServiceBusClient(connectionString);
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const queueName = process.env.QUEUE_NAME || "<queue name>";
+const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
 export async function main() {
   try {
@@ -84,14 +79,12 @@ async function runScenario() {
 }
 
 async function getSessionState(sessionId: string) {
-  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const sessionReceiver = sbClient.getSessionReceiver(
-    userEventsQueueName,
-    "peekLock",
-    {
-      sessionId: sessionId
-    }
-  );
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
+  const queueClient = sbClient.createQueueClient(userEventsQueueName);
+
+  const sessionReceiver = queueClient.createReceiver(ReceiveMode.peekLock, {
+    sessionId: sessionId
+  });
 
   const sessionState = await sessionReceiver.getState();
   if (sessionState) {
@@ -102,14 +95,13 @@ async function getSessionState(sessionId: string) {
   }
 
   await sessionReceiver.close();
+  await queueClient.close();
 }
 
-async function sendMessagesForSession(
-  shoppingEvents: any[],
-  sessionId: string
-) {
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(userEventsQueueName);
+async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) {
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
+  const queueClient = sbClient.createQueueClient(userEventsQueueName);
+  const sender = queueClient.createSender();
 
   for (let index = 0; index < shoppingEvents.length; index++) {
     const message = {
@@ -119,22 +111,18 @@ async function sendMessagesForSession(
     };
     await sender.send(message);
   }
-  await sender.close();
+  await queueClient.close();
 }
 
 async function processMessageFromSession(sessionId: string) {
-  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
-  const sessionReceiver = sbClient.getSessionReceiver(
-    userEventsQueueName,
-    "peekLock",
-    {
-      sessionId
-    }
-  );
+  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
+  const queueClient = sbClient.createQueueClient(userEventsQueueName);
 
-  const messages = await sessionReceiver.receiveBatch(1, {
-    maxWaitTimeSeconds: 10
+  const sessionReceiver = queueClient.createReceiver(ReceiveMode.peekLock, {
+    sessionId: sessionId
   });
+
+  const messages = await sessionReceiver.receiveMessages(1, 10);
 
   // Custom logic for processing the messages
   if (messages.length > 0) {
@@ -162,8 +150,9 @@ async function processMessageFromSession(sessionId: string) {
   }
 
   await sessionReceiver.close();
+  await queueClient.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

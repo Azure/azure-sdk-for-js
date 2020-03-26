@@ -2,9 +2,6 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
-  
   This sample demonstrates how the send() function can be used to send messages to Service Bus
   Queue/Topic.
 
@@ -12,15 +9,14 @@
   to learn about Queues, Topics and Subscriptions.
 */
 
-import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient, SendableMessageInfo } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const listOfScientists = [
@@ -37,15 +33,16 @@ const listOfScientists = [
 ];
 
 export async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
 
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(queueName);
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {
       const scientist = listOfScientists[index];
-      const message: ServiceBusMessage = {
+      const message: SendableMessageInfo = {
         body: `${scientist.firstName} ${scientist.name}`,
         label: "Scientist"
       };
@@ -54,12 +51,12 @@ export async function main() {
       await sender.send(message);
     }
 
-    await sender.close();
+    await queueClient.close();
   } finally {
     await sbClient.close();
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

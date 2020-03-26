@@ -1,7 +1,5 @@
 # Getting started with samples
 
-**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
-
 ## Install the library
 
 There are three ways to work with the samples.
@@ -24,6 +22,6 @@ Before running any of the samples, update it with the connection string and the 
 
 # Running the Samples
 
-See the instructions in [`samples/javascript/README.md`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/javascript/) or [`samples/typescript/README.md`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/) for instructions on running the JavaScript samples or the TypeScript samples respectively.
+See the instructions in [`samples/javascript/README.md`](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/javascript/) or [`samples/typescript/README.md`](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples/typescript/) for instructions on running the JavaScript samples or the TypeScript samples respectively.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2Fsamples%2FREADME.png)
