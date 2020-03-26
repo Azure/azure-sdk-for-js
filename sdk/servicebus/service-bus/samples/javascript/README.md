@@ -1,6 +1,14 @@
-# Azure Service Bus client library samples for JavaScript
+---
+page_type: sample
+languages:
+  - javascript
+products:
+  - azure
+  - azure-service-bus
+urlFragment: service-bus-javascript
+---
 
-**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+# Azure Service Bus client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Service Bus in some common scenarios.
 
@@ -12,7 +20,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [scheduledMessages.js][scheduledmessages]                           | uses the scheduleMessage() function to schedule messages to appear on a Service Bus Queue/Subscription at a later time  |
 | [session.js][session]                                               | sends/receives messages to/from session enabled queues/subscriptions in Service Bus                                     |
 | [browseMessages.js][browsemessages]                                 | uses the peek() function to browse a Service Bus                                                                        |
-| [usingAadAuth.js][usingaadauth]                                     | creates a ServiceBusClient that authenticates using AAD credentials                                                     |
+| [serviceprincipallogin.js][serviceprincipallogin]                   | creates a namespace using aad token credentials obtained from using service principal secrets                           |
+| [interactivelogin.js][interactivelogin]                             | creates a namespace using aad token credentials obtained from interactive login                                         |
 | [useProxy.js][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                           |
 | [advanced/movingMessagesToDLQ.js][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                     |
 | [advanced/deferral.js][advanced-deferral]                           | uses the defer() function to defer a message for later processing                                                       |
@@ -74,3 +83,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [azsvcbus]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-create-namespace-portal
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/README.md
+

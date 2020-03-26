@@ -1,15 +1,12 @@
 /*
-  Copyright (c) Microsoft Corporation. All rights reserved.
-  Licensed under the MIT Licence.
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
-  
-  This sample demonstrates how the send() function can be used to send messages to Service Bus
-  Queue/Topic.
+This sample demonstrates how the send() function can be used to send messages to Service Bus
+Queue/Topic.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
-  to learn about Queues, Topics and Subscriptions.
+See https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
+to learn about Queues, Topics and Subscriptions.
 */
 
 const { ServiceBusClient } = require("@azure/service-bus");
@@ -18,27 +15,58 @@ const { ServiceBusClient } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const listOfScientists = [
-  { name: "Einstein", firstName: "Albert" },
-  { name: "Heisenberg", firstName: "Werner" },
-  { name: "Curie", firstName: "Marie" },
-  { name: "Hawking", firstName: "Steven" },
-  { name: "Newton", firstName: "Isaac" },
-  { name: "Bohr", firstName: "Niels" },
-  { name: "Faraday", firstName: "Michael" },
-  { name: "Galilei", firstName: "Galileo" },
-  { name: "Kepler", firstName: "Johannes" },
-  { name: "Kopernikus", firstName: "Nikolaus" }
+  {
+    name: "Einstein",
+    firstName: "Albert"
+  },
+  {
+    name: "Heisenberg",
+    firstName: "Werner"
+  },
+  {
+    name: "Curie",
+    firstName: "Marie"
+  },
+  {
+    name: "Hawking",
+    firstName: "Steven"
+  },
+  {
+    name: "Newton",
+    firstName: "Isaac"
+  },
+  {
+    name: "Bohr",
+    firstName: "Niels"
+  },
+  {
+    name: "Faraday",
+    firstName: "Michael"
+  },
+  {
+    name: "Galilei",
+    firstName: "Galileo"
+  },
+  {
+    name: "Kepler",
+    firstName: "Johannes"
+  },
+  {
+    name: "Kopernikus",
+    firstName: "Nikolaus"
+  }
 ];
-async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
 
-  // getSender() can also be used to create a sender for a topic.
-  const sender = sbClient.getSender(queueName);
+async function main() {
+  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
+
+  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
+  const queueClient = sbClient.createQueueClient(queueName);
+  const sender = queueClient.createSender();
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {
@@ -52,12 +80,12 @@ async function main() {
       await sender.send(message);
     }
 
-    await sender.close();
+    await queueClient.close();
   } finally {
     await sbClient.close();
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

@@ -1,6 +1,14 @@
-# Azure Service Bus client library samples for TypeScript
+---
+page_type: sample
+languages:
+  - typescript
+products:
+  - azure
+  - azure-service-bus
+urlFragment: service-bus-typescript
+---
 
-**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+# Azure Service Bus client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Service Bus in some common scenarios.
 
@@ -12,7 +20,8 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [scheduledMessages.ts][scheduledmessages]                           | uses the scheduleMessage() function to schedule messages to appear on a Service Bus Queue/Subscription at a later time  |
 | [session.ts][session]                                               | sends/receives messages to/from session enabled queues/subscriptions in Service Bus                                     |
 | [browseMessages.ts][browsemessages]                                 | uses the peek() function to browse a Service Bus                                                                        |
-| [usingAadAuth.ts][usingaadauth]                                     | creates a ServiceBusClient that authenticates using AAD credentials                                                     |
+| [serviceprincipallogin.ts][serviceprincipallogin]                   | creates a namespace using aad token credentials obtained from using service principal secrets                           |
+| [interactivelogin.ts][interactivelogin]                             | creates a namespace using aad token credentials obtained from interactive login                                         |
 | [useProxy.ts][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                           |
 | [advanced/movingMessagesToDLQ.ts][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                     |
 | [advanced/deferral.ts][advanced-deferral]                           | uses the defer() function to defer a message for later processing                                                       |
