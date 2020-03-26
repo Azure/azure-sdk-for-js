@@ -558,7 +558,7 @@ export class ManagementClient extends LinkEntity {
       operationType: RetryOperationType.management,
       retryOptions: retryOptions
     };
-    return await retry<ReceivedMessage[]>(config);
+    return retry<ReceivedMessage[]>(config);
   }
 
   /**
