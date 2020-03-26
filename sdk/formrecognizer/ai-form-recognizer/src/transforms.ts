@@ -195,7 +195,7 @@ export function toCustomFormResultResponse(
       };
 }
 
-function toFieldValue(original: FieldValueModel, readResults: RawExtractedPage[]): FieldValue {
+export function toFieldValue(original: FieldValueModel, readResults: RawExtractedPage[]): FieldValue {
   const result =
     original.type === "object" || original.type === "array"
       ? {}
