@@ -41,7 +41,7 @@ export {
   CreateBatchOptions,
   GetReceiverOptions,
   GetSenderOptions,
-  OptionsBag
+  BaseClientOptions
 } from "./models";
 
 export { Receiver } from "./receivers/receiver";

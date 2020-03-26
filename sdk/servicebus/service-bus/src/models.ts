@@ -56,14 +56,14 @@ export interface CreateBatchOptions extends OperationOptions {
  * The set of options to configure the behavior of the underlying operations.
  *
  * @export
- * @interface OptionsBag
+ * @interface BaseClientOptions
  */
-export interface OptionsBag {
+export interface BaseClientOptions {
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    *
    * @type {RetryOptions}
-   * @memberof OptionsBag
+   * @memberof BaseClientOptions
    */
   retryOptions?: RetryOptions;
 }
@@ -74,7 +74,7 @@ export interface OptionsBag {
  * @export
  * @interface GetSenderOptions
  */
-export interface GetSenderOptions extends OptionsBag {}
+export interface GetSenderOptions extends BaseClientOptions {}
 
 /**
  * The set of options to configure the behavior of the receiver.
@@ -82,7 +82,7 @@ export interface GetSenderOptions extends OptionsBag {}
  * @export
  * @interface GetReceiverOptions
  */
-export interface GetReceiverOptions extends OptionsBag {}
+export interface GetReceiverOptions extends BaseClientOptions {}
 
 /**
  * Options when receiving a batch of messages from Service Bus.
