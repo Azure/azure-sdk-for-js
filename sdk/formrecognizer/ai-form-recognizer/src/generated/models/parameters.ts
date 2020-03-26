@@ -26,17 +26,6 @@ export const endpoint: coreHttp.OperationURLParameter = {
   skipEncoding: true
 };
 
-export const op: coreHttp.OperationQueryParameter = {
-  parameterPath: ["options", "op"],
-  mapper: {
-    defaultValue: "full",
-    serializedName: "op",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const modelId: coreHttp.OperationURLParameter = {
   parameterPath: "modelId",
   mapper: {
@@ -106,6 +95,30 @@ export const resultId: coreHttp.OperationURLParameter = {
     required: true,
     type: {
       name: "Uuid"
+    }
+  }
+};
+
+export const op: coreHttp.OperationQueryParameter = {
+  parameterPath: "op",
+  mapper: {
+    defaultValue: "full",
+    serializedName: "op",
+    isConstant: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const op1: coreHttp.OperationQueryParameter = {
+  parameterPath: "op",
+  mapper: {
+    defaultValue: "summary",
+    serializedName: "op",
+    isConstant: true,
+    type: {
+      name: "String"
     }
   }
 };

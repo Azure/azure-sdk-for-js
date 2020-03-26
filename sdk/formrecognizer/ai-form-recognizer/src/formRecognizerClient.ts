@@ -29,7 +29,7 @@ import { FormRecognizerClient as GeneratedClient } from "./generated/formRecogni
 import {
   FormRecognizerClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   ContentType,
-  FormRecognizerClientGetCustomModelsResponse as GetCustomModelsResponseModel,
+  FormRecognizerClientGetCustomModelsResponse as ListModelsResponseModel,
   Model,
   ModelInfo
 } from "./generated/models";
@@ -53,7 +53,7 @@ import { toCustomFormResultResponse, toLabeledFormResultResponse } from "./trans
 
 export {
   ContentType,
-  GetCustomModelsResponseModel,
+  ListModelsResponseModel,
   Model,
   ModelInfo,
   RestResponse
@@ -262,8 +262,7 @@ export class FormRecognizerClient {
 
     try {
       const result = await this.client.getCustomModels({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        op: "summary"
+        ...operationOptionsToRequestOptionsBase(finalOptions)
       });
 
       return result;
@@ -388,13 +387,12 @@ export class FormRecognizerClient {
   private async *listModelsPage(
     _settings: PageSettings,
     options: ListModelsOptions = {}
-  ): AsyncIterableIterator<GetCustomModelsResponseModel> {
+  ): AsyncIterableIterator<ListModelsResponseModel> {
     let result = await this.list(options);
     yield result;
 
-    // we should use nextLink, however, it's not supported by the generated code.
     while (result.nextLink) {
-      result = await this.list(options);
+      result = await this.listNextPage(result.nextLink, options);
       yield result;
     }
   }
@@ -452,7 +450,7 @@ export class FormRecognizerClient {
    */
   public listModels(
     options: ListModelsOptions = {}
-  ): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponseModel> {
+  ): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel> {
     const iter = this.listModelsAll({}, options);
 
     return {
@@ -470,7 +468,7 @@ export class FormRecognizerClient {
     };
   }
 
-  private async list(options?: ListModelsOptions): Promise<GetCustomModelsResponseModel> {
+  private async list(options?: ListModelsOptions): Promise<ListModelsResponseModel> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-list",
@@ -478,9 +476,32 @@ export class FormRecognizerClient {
     );
 
     try {
-      const result = await this.client.getCustomModels({
-        ...operationOptionsToRequestOptionsBase(finalOptions),
-        op: "full"
+      const result = await this.client.listCustomModels({
+        ...operationOptionsToRequestOptionsBase(finalOptions)
+      });
+
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async listNextPage(nextLink: string, options?: ListModelsOptions): Promise<ListModelsResponseModel> {
+    const realOptions: ListModelsOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "CustomRecognizerClient-listNextPage",
+      realOptions
+    );
+
+    try {
+      const result = await this.client.listCustomModelsNext(nextLink, {
+        ...operationOptionsToRequestOptionsBase(finalOptions)
       });
 
       return result;

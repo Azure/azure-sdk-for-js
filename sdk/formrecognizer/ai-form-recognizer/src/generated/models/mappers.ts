@@ -85,48 +85,23 @@ export const ErrorInformation: coreHttp.CompositeMapper = {
   }
 };
 
-export const Models: coreHttp.CompositeMapper = {
-  serializedName: "Models",
+export const Model: coreHttp.CompositeMapper = {
+  serializedName: "Model",
   type: {
     name: "Composite",
-    className: "Models",
+    className: "Model",
     modelProperties: {
-      summary: {
-        serializedName: "summary",
-        type: { name: "Composite", className: "ModelsSummary" }
+      modelInfo: {
+        serializedName: "modelInfo",
+        type: { name: "Composite", className: "ModelInfo" }
       },
-      modelList: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "ModelInfo" } }
-        },
-        serializedName: "modelList"
+      keys: {
+        serializedName: "keys",
+        type: { name: "Composite", className: "KeysResult" }
       },
-      nextLink: { type: { name: "String" }, serializedName: "nextLink" }
-    }
-  }
-};
-
-export const ModelsSummary: coreHttp.CompositeMapper = {
-  serializedName: "ModelsSummary",
-  type: {
-    name: "Composite",
-    className: "ModelsSummary",
-    modelProperties: {
-      count: {
-        type: { name: "Number" },
-        serializedName: "count",
-        required: true
-      },
-      limit: {
-        type: { name: "Number" },
-        serializedName: "limit",
-        required: true
-      },
-      lastUpdatedOn: {
-        type: { name: "DateTime" },
-        serializedName: "lastUpdatedDateTime",
-        required: true
+      trainResult: {
+        serializedName: "trainResult",
+        type: { name: "Composite", className: "TrainResult" }
       }
     }
   }
@@ -157,28 +132,6 @@ export const ModelInfo: coreHttp.CompositeMapper = {
         type: { name: "DateTime" },
         serializedName: "lastUpdatedDateTime",
         required: true
-      }
-    }
-  }
-};
-
-export const Model: coreHttp.CompositeMapper = {
-  serializedName: "Model",
-  type: {
-    name: "Composite",
-    className: "Model",
-    modelProperties: {
-      modelInfo: {
-        serializedName: "modelInfo",
-        type: { name: "Composite", className: "ModelInfo" }
-      },
-      keys: {
-        serializedName: "keys",
-        type: { name: "Composite", className: "KeysResult" }
-      },
-      trainResult: {
-        serializedName: "trainResult",
-        type: { name: "Composite", className: "TrainResult" }
       }
     }
   }
@@ -775,7 +728,7 @@ export const FieldValue: coreHttp.CompositeMapper = {
         required: true
       },
       valueString: { type: { name: "String" }, serializedName: "valueString" },
-      valueDate: { type: { name: "String" }, serializedName: "valueDate" },
+      valueDate: { type: { name: "Date" }, serializedName: "valueDate" },
       valueTime: { type: { name: "String" }, serializedName: "valueTime" },
       valuePhoneNumber: {
         type: { name: "String" },
@@ -831,6 +784,53 @@ export const FieldValue: coreHttp.CompositeMapper = {
         type: { name: "Number" },
         serializedName: "page",
         constraints: { InclusiveMinimum: 1 }
+      }
+    }
+  }
+};
+
+export const Models: coreHttp.CompositeMapper = {
+  serializedName: "Models",
+  type: {
+    name: "Composite",
+    className: "Models",
+    modelProperties: {
+      summary: {
+        serializedName: "summary",
+        type: { name: "Composite", className: "ModelsSummary" }
+      },
+      modelList: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "ModelInfo" } }
+        },
+        serializedName: "modelList"
+      },
+      nextLink: { type: { name: "String" }, serializedName: "nextLink" }
+    }
+  }
+};
+
+export const ModelsSummary: coreHttp.CompositeMapper = {
+  serializedName: "ModelsSummary",
+  type: {
+    name: "Composite",
+    className: "ModelsSummary",
+    modelProperties: {
+      count: {
+        type: { name: "Number" },
+        serializedName: "count",
+        required: true
+      },
+      limit: {
+        type: { name: "Number" },
+        serializedName: "limit",
+        required: true
+      },
+      lastUpdatedOn: {
+        type: { name: "DateTime" },
+        serializedName: "lastUpdatedDateTime",
+        required: true
       }
     }
   }

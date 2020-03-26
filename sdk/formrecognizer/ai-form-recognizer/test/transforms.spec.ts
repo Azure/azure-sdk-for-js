@@ -187,7 +187,7 @@ describe("Transforms", () => {
     it("converts field value of date", () => {
       const original: FieldValueModel = {
         type: "date",
-        valueDate: "date value",
+        valueDate: new Date(1999, 9, 9),
         ...commonProperties
       };
 
@@ -256,15 +256,15 @@ describe("Transforms", () => {
 
     it("converts field value of array", () => {
       const originalDate: FieldValueModel = {
-            type: "date",
-            valueDate: "date value",
-            ...commonProperties
-        };
+        type: "date",
+        valueDate: new Date(1999, 9, 9),
+        ...commonProperties
+      };
       const originalInteger: FieldValueModel = {
-            type: "integer",
-            valueInteger: 1,
-            ...commonProperties
-        };
+        type: "integer",
+        valueInteger: 1,
+        ...commonProperties
+      };
       const original: FieldValueModel = {
         type: "array",
         valueArray: [
@@ -291,7 +291,7 @@ describe("Transforms", () => {
     it("converts field value of object", () => {
       const originalDate: FieldValueModel = {
         type: "date",
-        valueDate: "date value",
+        valueDate: new Date(1999, 9, 9),
         ...commonProperties
       };
       const originalInteger: FieldValueModel = {
@@ -318,7 +318,7 @@ describe("Transforms", () => {
     });
   });
 
-  it("toTable()", () => {
+  it("toTable() converts original data table", () => {
     const originalTable: DataTableModel = {
       rows: 3,
       columns: 2,

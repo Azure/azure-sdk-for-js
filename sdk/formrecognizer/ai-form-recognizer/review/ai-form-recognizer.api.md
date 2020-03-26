@@ -115,7 +115,7 @@ export interface DataTableRow {
 // @public
 export type DateFieldValue = {
     type: "date";
-    value?: string;
+    value?: Date;
 } & CommonFieldValue;
 
 // @public
@@ -314,8 +314,8 @@ export class FormRecognizerClient {
     readonly endpointUrl: string;
     getLabeledModel(modelId: string, options?: GetLabeledModelOptions): Promise<LabeledFormModelResponse>;
     getModel(modelId: string, options?: GetModelOptions): Promise<FormModelResponse>;
-    getSummary(options?: GetSummaryOptions): Promise<GetCustomModelsResponseModel>;
-    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, GetCustomModelsResponseModel>;
+    getSummary(options?: GetSummaryOptions): Promise<ListModelsResponseModel>;
+    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelInfo, ListModelsResponseModel>;
     }
 
 // @public
@@ -342,14 +342,6 @@ export interface FormTrainResult {
     errors?: ErrorInformation[];
     trainingDocuments: TrainingDocumentInfo[];
 }
-
-// @public
-export type GetCustomModelsResponseModel = Models & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: Models;
-    };
-};
 
 // @public
 export type GetLabeledModelOptions = FormRecognizerOperationOptions & {
@@ -459,6 +451,14 @@ export type LengthUnit = "pixel" | "inch";
 
 // @public
 export type ListModelsOptions = FormRecognizerOperationOptions;
+
+// @public
+export type ListModelsResponseModel = Models & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: Models;
+    };
+};
 
 // @public
 export interface Model {
@@ -572,7 +572,7 @@ export interface Receipt {
     tax?: number;
     tip?: number;
     total?: number;
-    transactionDate?: string;
+    transactionDate?: Date;
     transactionTime?: string;
 }
 

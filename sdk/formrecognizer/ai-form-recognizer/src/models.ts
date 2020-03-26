@@ -339,7 +339,7 @@ export type StringFieldValue = {
  */
 export type DateFieldValue = {
   type: "date";
-  value?: string;
+  value?: Date;
 } & CommonFieldValue;
 
 /**
@@ -539,7 +539,7 @@ export interface Receipt {
   /**
    * Transaction date
    */
-  transactionDate?: string;
+  transactionDate?: Date;
   /**
    * Transaction time
    */

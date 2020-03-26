@@ -51,19 +51,6 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   }
 
   /**
-   * Get information about all custom models
-   * @param options The options parameters.
-   */
-  getCustomModels(
-    options?: Models.FormRecognizerClientGetCustomModelsOptionalParams
-  ): Promise<Models.FormRecognizerClientGetCustomModelsResponse> {
-    return this.sendOperationRequest(
-      { options },
-      getCustomModelsOperationSpec
-    ) as Promise<Models.FormRecognizerClientGetCustomModelsResponse>;
-  }
-
-  /**
    * Get detailed information about a custom model.
    * @param modelId Model identifier.
    * @param options The options parameters.
@@ -225,18 +212,44 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   }
 
   /**
-   * GetCustomModelsNext
-   * @param nextLink The nextLink from the previous successful call to the GetCustomModels method.
+   * Get information about all custom models
    * @param options The options parameters.
    */
-  getCustomModelsNext(
+  listCustomModels(
+    options?: coreHttp.OperationOptions
+  ): Promise<Models.FormRecognizerClientListCustomModelsResponse> {
+    return this.sendOperationRequest(
+      { options },
+      listCustomModelsOperationSpec
+    ) as Promise<Models.FormRecognizerClientListCustomModelsResponse>;
+  }
+
+  /**
+   * Get information about all custom models
+   * @param options The options parameters.
+   */
+  getCustomModels(
+    options?: coreHttp.OperationOptions
+  ): Promise<Models.FormRecognizerClientGetCustomModelsResponse> {
+    return this.sendOperationRequest(
+      { options },
+      getCustomModelsOperationSpec
+    ) as Promise<Models.FormRecognizerClientGetCustomModelsResponse>;
+  }
+
+  /**
+   * ListCustomModelsNext
+   * @param nextLink The nextLink from the previous successful call to the ListCustomModels method.
+   * @param options The options parameters.
+   */
+  listCustomModelsNext(
     nextLink: string,
-    options?: Models.FormRecognizerClientGetCustomModelsNextOptionalParams
-  ): Promise<Models.FormRecognizerClientGetCustomModelsNextResponse> {
+    options?: coreHttp.OperationOptions
+  ): Promise<Models.FormRecognizerClientListCustomModelsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
-      getCustomModelsNextOperationSpec
-    ) as Promise<Models.FormRecognizerClientGetCustomModelsNextResponse>;
+      listCustomModelsNextOperationSpec
+    ) as Promise<Models.FormRecognizerClientListCustomModelsNextResponse>;
   }
 }
 // Operation Specifications
@@ -255,21 +268,6 @@ const trainCustomModelAsyncOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.trainRequest,
-  urlParameters: [Parameters.endpoint],
-  serializer
-};
-const getCustomModelsOperationSpec: coreHttp.OperationSpec = {
-  path: "/custom/models",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Models
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.op],
   urlParameters: [Parameters.endpoint],
   serializer
 };
@@ -439,7 +437,37 @@ const getAnalyzeLayoutResultOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.resultId],
   serializer
 };
-const getCustomModelsNextOperationSpec: coreHttp.OperationSpec = {
+const listCustomModelsOperationSpec: coreHttp.OperationSpec = {
+  path: "/custom/models",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Models
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.op],
+  urlParameters: [Parameters.endpoint],
+  serializer
+};
+const getCustomModelsOperationSpec: coreHttp.OperationSpec = {
+  path: "/custom/models",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Models
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.op1],
+  urlParameters: [Parameters.endpoint],
+  serializer
+};
+const listCustomModelsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

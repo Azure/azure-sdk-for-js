@@ -50,39 +50,21 @@ export interface ErrorInformation {
 }
 
 /**
- * Response to the list custom models operation.
+ * Response to the get custom model operation.
  */
-export interface Models {
+export interface Model {
   /**
-   * Summary of all trained custom models.
+   * Basic custom model information.
    */
-  summary?: ModelsSummary;
+  modelInfo: ModelInfo;
   /**
-   * Collection of trained custom models.
+   * Keys extracted by the custom model.
    */
-  modelList?: ModelInfo[];
+  keys?: KeysResult;
   /**
-   * Link to the next page of custom models.
+   * Custom model training result.
    */
-  nextLink?: string;
-}
-
-/**
- * Summary of all trained custom models.
- */
-export interface ModelsSummary {
-  /**
-   * Current count of trained custom models.
-   */
-  count: number;
-  /**
-   * Max number of models that can be trained for this subscription.
-   */
-  limit: number;
-  /**
-   * Date and time (UTC) when the summary was last updated.
-   */
-  lastUpdatedOn: Date;
+  trainResult?: TrainResult;
 }
 
 /**
@@ -105,24 +87,6 @@ export interface ModelInfo {
    * Date and time (UTC) when the status was last updated.
    */
   lastUpdatedOn: Date;
-}
-
-/**
- * Response to the get custom model operation.
- */
-export interface Model {
-  /**
-   * Basic custom model information.
-   */
-  modelInfo: ModelInfo;
-  /**
-   * Keys extracted by the custom model.
-   */
-  keys?: KeysResult;
-  /**
-   * Custom model training result.
-   */
-  trainResult?: TrainResult;
 }
 
 /**
@@ -484,7 +448,7 @@ export interface FieldValue {
   /**
    * Date value.
    */
-  valueDate?: string;
+  valueDate?: Date;
   /**
    * Time value.
    */
@@ -532,6 +496,42 @@ export interface FieldValue {
 }
 
 /**
+ * Response to the list custom models operation.
+ */
+export interface Models {
+  /**
+   * Summary of all trained custom models.
+   */
+  summary?: ModelsSummary;
+  /**
+   * Collection of trained custom models.
+   */
+  modelList?: ModelInfo[];
+  /**
+   * Link to the next page of custom models.
+   */
+  nextLink?: string;
+}
+
+/**
+ * Summary of all trained custom models.
+ */
+export interface ModelsSummary {
+  /**
+   * Current count of trained custom models.
+   */
+  count: number;
+  /**
+   * Max number of models that can be trained for this account.
+   */
+  limit: number;
+  /**
+   * Date and time (UTC) when the summary was last updated.
+   */
+  lastUpdatedOn: Date;
+}
+
+/**
  * Defines headers for formRecognizerClient_trainCustomModelAsync operation.
  */
 export interface FormRecognizerClientTrainCustomModelAsyncHeaders {
@@ -559,10 +559,6 @@ export interface FormRecognizerClientAnalyzeLayoutAsyncHeaders {
   operationLocation?: string;
 }
 
-/**
- * Defines values for Enum0.
- */
-export type Enum0 = "full" | "summary";
 /**
  * Defines values for Language.
  */
@@ -616,37 +612,6 @@ export type FormRecognizerClientTrainCustomModelAsyncResponse = FormRecognizerCl
      * The parsed HTTP response headers.
      */
     parsedHeaders: FormRecognizerClientTrainCustomModelAsyncHeaders;
-  };
-};
-
-/**
- * Optional parameters.
- */
-export interface FormRecognizerClientGetCustomModelsOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Specify whether to return summary or full list of models.
-   */
-  op?: Enum0;
-}
-
-/**
- * Contains response data for the getCustomModels operation.
- */
-export type FormRecognizerClientGetCustomModelsResponse = Models & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Models;
   };
 };
 
@@ -886,20 +851,49 @@ export type FormRecognizerClientGetAnalyzeLayoutResultResponse = AnalyzeOperatio
 };
 
 /**
- * Optional parameters.
+ * Contains response data for the listCustomModels operation.
  */
-export interface FormRecognizerClientGetCustomModelsNextOptionalParams
-  extends coreHttp.OperationOptions {
+export type FormRecognizerClientListCustomModelsResponse = Models & {
   /**
-   * Specify whether to return summary or full list of models.
+   * The underlying HTTP response.
    */
-  op?: Enum0;
-}
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models;
+  };
+};
 
 /**
- * Contains response data for the getCustomModelsNext operation.
+ * Contains response data for the getCustomModels operation.
  */
-export type FormRecognizerClientGetCustomModelsNextResponse = Models & {
+export type FormRecognizerClientGetCustomModelsResponse = Models & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Models;
+  };
+};
+
+/**
+ * Contains response data for the listCustomModelsNext operation.
+ */
+export type FormRecognizerClientListCustomModelsNextResponse = Models & {
   /**
    * The underlying HTTP response.
    */
