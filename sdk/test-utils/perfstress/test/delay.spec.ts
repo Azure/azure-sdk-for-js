@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, DefaultPerfStressOptionNames, defaultPerfStressOptions } from "../src";
+import { PerfStressTest } from "../src";
 import { delay } from "@azure/core-http";
 
 /**
@@ -32,9 +32,15 @@ import { delay } from "@azure/core-http";
  * Completed 8 operations in a weighted-average of 4.00s (2.00 ops/s 0.501 s/op)
  * ```
  */
-export class Delay500ms extends PerfStressTest<DefaultPerfStressOptionNames> {
-  public options = defaultPerfStressOptions;
+export class Delay500ms extends PerfStressTest<string> {
+  /**
+   * This test doesn't receive command line parameters.
+   */
+  public options = {};
 
+  /**
+   * Waits 500 milliseconds.
+   */
   async run(): Promise<void> {
     await delay(500);
   }

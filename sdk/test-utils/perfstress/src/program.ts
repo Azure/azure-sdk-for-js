@@ -5,7 +5,6 @@ import { AbortController } from "@azure/abort-controller";
 import { PerfStressTest, PerfStressTestInterface } from "./tests";
 import {
   PerfStressOptionDictionary,
-  printOptions,
   parsePerfStressOption,
   defaultPerfStressOptions,
   DefaultPerfStressOptionNames
@@ -203,13 +202,13 @@ export class PerfStressProgram {
     // --help, or -h
     if (this.options.help.value) {
       console.log(`=== Help: Options that can be sent to ${this.testName} ===`);
-      this.tests[0].printOptions();
+      console.table(this.tests[0].options);
       return;
     }
 
     const options = this.options;
     console.log("=== Assigned options ===");
-    printOptions(options, ["assignedOptions"]);
+    console.table(options);
 
     try {
       if (this.tests[0].globalSetup) {
