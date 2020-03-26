@@ -2,6 +2,9 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
+  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  
   This sample demonstrates how to send/receive messages to/from session enabled queues/subscriptions
   in Service Bus.
 
@@ -11,13 +14,7 @@
   sessions in Service Bus.
 */
 
-import {
-  OnError,
-  delay,
-  ServiceBusClient,
-  ReceiveMode,
-  ServiceBusMessage
-} from "@azure/service-bus";
+import { delay, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -25,8 +22,9 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
-const queueName = process.env.QUEUE_NAME || "<queue name>";
+const connectionString =
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 
 const listOfScientists = [
   { lastName: "Einstein", firstName: "Albert" },
@@ -42,7 +40,7 @@ const listOfScientists = [
 ];
 
 export async function main() {
-  const sbClient = ServiceBusClient.createFromConnectionString(connectionString);
+  const sbClient = new ServiceBusClient(connectionString);
 
   try {
     await sendMessage(sbClient, listOfScientists[0], "session-1");
@@ -64,10 +62,13 @@ export async function main() {
   }
 }
 
-async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId: string) {
-  // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const client = sbClient.createQueueClient(queueName);
-  const sender = client.createSender();
+async function sendMessage(
+  sbClient: ServiceBusClient,
+  scientist: any,
+  sessionId: string
+) {
+  // getSender() also works with topics
+  const sender = sbClient.getSender(queueName);
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -78,26 +79,31 @@ async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
   await sender.send(message);
 
-  await client.close();
+  await sender.close();
 }
 
-async function receiveMessages(ns: ServiceBusClient, sessionId: string) {
-  // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const queueClient = ns.createQueueClient(queueName);
-  const receiver = queueClient.createReceiver(ReceiveMode.peekLock, { sessionId: sessionId });
+async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
+  // If receiving from a subscription you can use the getSessionReceiver(topic, subscription) overload
+  const receiver = sbClient.getSessionReceiver(queueName, "peekLock", {
+    sessionId: sessionId
+  });
 
-  const onMessage = async (brokeredMessage: ServiceBusMessage) => {
-    console.log(`Received: ${brokeredMessage.sessionId} - ${brokeredMessage.body} `);
+  const processMessage = async (message: ServiceBusMessage) => {
+    console.log(`Received: ${message.sessionId} - ${message.body} `);
   };
-  const onError: OnError = (err): void => {
+  const processError = async err => {
     console.log(">>>>> Error occurred: ", err);
   };
-  receiver.registerMessageHandler(onMessage, onError);
+  receiver.subscribe({
+    processMessage,
+    processError
+  });
+
   await delay(5000);
 
-  await queueClient.close();
+  await receiver.close();
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });
