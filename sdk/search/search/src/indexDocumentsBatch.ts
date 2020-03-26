@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { IndexAction } from "./indexModels";
+import { IndexDocumentAction } from "./indexModels";
 
 export class IndexDocumentsBatch<T> {
   /**
    * The set of actions taken in this batch.
    */
-  public readonly actions: IndexAction<T>[];
+  public readonly actions: IndexDocumentAction<T>[];
 
-  constructor(actions: IndexAction<T>[] = []) {
+  constructor(actions: IndexDocumentAction<T>[] = []) {
     this.actions = actions;
   }
 
@@ -18,7 +18,7 @@ export class IndexDocumentsBatch<T> {
    * @param documents The documents to upload.
    */
   public upload(documents: T[]): void {
-    const batch = documents.map<IndexAction<T>>((doc) => {
+    const batch = documents.map<IndexDocumentAction<T>>((doc) => {
       return {
         actionType: "upload",
         ...doc
@@ -34,7 +34,7 @@ export class IndexDocumentsBatch<T> {
    * @param documents The updated documents.
    */
   public merge(documents: T[]): void {
-    const batch = documents.map<IndexAction<T>>((doc) => {
+    const batch = documents.map<IndexDocumentAction<T>>((doc) => {
       return {
         actionType: "merge",
         ...doc
@@ -50,7 +50,7 @@ export class IndexDocumentsBatch<T> {
    * @param documents The new/updated documents.
    */
   public mergeOrUpload(documents: T[]): void {
-    const batch = documents.map<IndexAction<T>>((doc) => {
+    const batch = documents.map<IndexDocumentAction<T>>((doc) => {
       return {
         actionType: "mergeOrUpload",
         ...doc
@@ -66,11 +66,11 @@ export class IndexDocumentsBatch<T> {
    * @param keyValues The primary key values of documents to delete.
    */
   public delete(keyName: keyof T, keyValues: string[]): void {
-    const batch = keyValues.map<IndexAction<T>>((keyValue) => {
+    const batch = keyValues.map<IndexDocumentAction<T>>((keyValue) => {
       return {
         actionType: "delete",
         [keyName]: keyValue
-      } as IndexAction<T>;
+      } as IndexDocumentAction<T>;
     });
 
     this.actions.push(...batch);

@@ -8,7 +8,7 @@ export {
   CountDocumentsOptions,
   DeleteDocumentsOptions,
   GetDocumentOptions,
-  IndexAction,
+  IndexDocumentAction,
   ListSearchResultsPageSettings,
   IndexDocuments,
   SearchDocumentsResultBase,
@@ -23,6 +23,7 @@ export {
   SuggestResult,
   SuggestOptions,
   MergeDocumentsOptions,
+  MergeOrUploadDocumentsOptions,
   UploadDocumentsOptions
 } from "./indexModels";
 export { SearchServiceClient, SearchServiceClientOptions } from "./searchServiceClient";

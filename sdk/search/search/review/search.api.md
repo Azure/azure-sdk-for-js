@@ -294,12 +294,12 @@ export interface Index {
 }
 
 // @public
-export type IndexAction<T> = {
-    actionType: IndexActionType;
-} & Partial<T>;
+export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
 
 // @public
-export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
+export type IndexDocumentAction<T> = {
+    actionType: IndexActionType;
+} & Partial<T>;
 
 // @public
 export interface IndexDocuments extends OperationOptions {
@@ -308,8 +308,8 @@ export interface IndexDocuments extends OperationOptions {
 
 // @public (undocumented)
 export class IndexDocumentsBatch<T> {
-    constructor(actions?: IndexAction<T>[]);
-    readonly actions: IndexAction<T>[];
+    constructor(actions?: IndexDocumentAction<T>[]);
+    readonly actions: IndexDocumentAction<T>[];
     delete(keyName: keyof T, keyValues: string[]): void;
     merge(documents: T[]): void;
     mergeOrUpload(documents: T[]): void;
@@ -567,9 +567,10 @@ export interface MappingCharFilter {
 }
 
 // @public
-export interface MergeDocumentsOptions extends IndexDocuments {
-    uploadIfNotExists?: boolean;
-}
+export type MergeDocumentsOptions = IndexDocuments;
+
+// @public
+export type MergeOrUploadDocumentsOptions = IndexDocuments;
 
 // @public
 export interface MicrosoftLanguageStemmingTokenizer {
@@ -772,6 +773,7 @@ export class SearchIndexClient<T> {
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocuments): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
+    mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
     suggest<Fields extends keyof T = never>(options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1039,9 +1041,7 @@ export interface UniqueTokenFilter {
 }
 
 // @public
-export interface UploadDocumentsOptions extends IndexDocuments {
-    mergeIfExists?: boolean;
-}
+export type UploadDocumentsOptions = IndexDocuments;
 
 // @public
 export interface WordDelimiterTokenFilter {

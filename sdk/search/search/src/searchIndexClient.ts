@@ -40,7 +40,8 @@ import {
   UploadDocumentsOptions,
   MergeDocumentsOptions,
   DeleteDocumentsOptions,
-  SearchDocumentsPageResult
+  SearchDocumentsPageResult,
+  MergeOrUploadDocumentsOptions
 } from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -451,11 +452,7 @@ export class SearchIndexClient<T> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-uploadDocuments", options);
 
     const batch = new IndexDocumentsBatch<T>();
-    if (options.mergeIfExists) {
-      batch.mergeOrUpload(documents);
-    } else {
-      batch.upload(documents);
-    }
+    batch.upload(documents);
 
     try {
       return await this.indexDocuments(batch, updatedOptions);
@@ -483,11 +480,35 @@ export class SearchIndexClient<T> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-mergeDocuments", options);
 
     const batch = new IndexDocumentsBatch<T>();
-    if (options.uploadIfNotExists) {
-      batch.mergeOrUpload(documents);
-    } else {
-      batch.merge(documents);
+    batch.merge(documents);
+
+    try {
+      return await this.indexDocuments(batch, updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
+  }
+
+  /**
+   * Update a set of documents in the index or upload them if they don't exist.
+   * For more details about how merging works, see https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
+   * @param documents The updated documents.
+   * @param options Additional options.
+   */
+  public async mergeOrUploadDocuments(
+    documents: T[],
+    options: MergeOrUploadDocumentsOptions = {}
+  ): Promise<IndexDocumentsResult> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-mergeDocuments", options);
+
+    const batch = new IndexDocumentsBatch<T>();
+    batch.mergeOrUpload(documents);
 
     try {
       return await this.indexDocuments(batch, updatedOptions);
