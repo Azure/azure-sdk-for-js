@@ -17,7 +17,7 @@ import {
   OnError,
   delay,
   ReceiveMode,
-  ServiceBusMessage,
+  ServiceBusMessage
 } from "../../src";
 import { InternalSessionReceiver } from "../../src/internalReceivers";
 import { ServiceBusClient } from "../../src/old/serviceBusClient";

@@ -130,11 +130,6 @@ export class SearchIndexClient<T> {
             "Prefer",
             "throttle-reason"
           ]
-        },
-        deserializationOptions: {
-          expectedContentTypes: {
-            json: ["application/json", "text/json"]
-          }
         }
       }
     };

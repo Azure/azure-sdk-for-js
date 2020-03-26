@@ -59,6 +59,8 @@ import {
 import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
 
 /**
+ * @internal
+ * @ignore
  * Options to use with ServiceBusAtomManagementClient creation
  */
 export interface ServiceBusAtomManagementClientOptions {
@@ -69,6 +71,8 @@ export interface ServiceBusAtomManagementClientOptions {
 }
 
 /**
+ * @internal
+ * @ignore
  * Request options for list<entity-type>() operations
  */
 export interface ListRequestOptions {
@@ -84,6 +88,8 @@ export interface ListRequestOptions {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of create, get, update and delete operations on queue.
  */
 export interface QueueResponse extends QueueDetails {
@@ -94,6 +100,8 @@ export interface QueueResponse extends QueueDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Create Queue response
  */
 export interface CreateQueueResponse extends QueueDetails {
@@ -104,6 +112,8 @@ export interface CreateQueueResponse extends QueueDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Get Queue response
  */
 export interface GetQueueResponse extends QueueDetails {
@@ -114,6 +124,8 @@ export interface GetQueueResponse extends QueueDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Update Queue response
  */
 export interface UpdateQueueResponse extends QueueDetails {
@@ -124,6 +136,8 @@ export interface UpdateQueueResponse extends QueueDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Delete Queue response
  */
 export interface DeleteQueueResponse {
@@ -134,6 +148,8 @@ export interface DeleteQueueResponse {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of list operation on queues.
  */
 export interface ListQueuesResponse extends Array<QueueDetails> {
@@ -144,6 +160,8 @@ export interface ListQueuesResponse extends Array<QueueDetails> {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of create, get, update and delete operations on topic.
  */
 export interface TopicResponse extends TopicDetails {
@@ -154,6 +172,8 @@ export interface TopicResponse extends TopicDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Create Topic response
  */
 export interface CreateTopicResponse extends TopicDetails {
@@ -164,6 +184,8 @@ export interface CreateTopicResponse extends TopicDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Get Topic response
  */
 export interface GetTopicResponse extends TopicDetails {
@@ -174,6 +196,8 @@ export interface GetTopicResponse extends TopicDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Update Topic response
  */
 export interface UpdateTopicResponse extends TopicDetails {
@@ -184,6 +208,8 @@ export interface UpdateTopicResponse extends TopicDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Delete Topic response
  */
 export interface DeleteTopicResponse {
@@ -194,6 +220,8 @@ export interface DeleteTopicResponse {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of list operation on topics.
  */
 export interface ListTopicsResponse extends Array<TopicDetails> {
@@ -204,6 +232,8 @@ export interface ListTopicsResponse extends Array<TopicDetails> {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of create, get, update and delete operations on subscription.
  */
 export interface SubscriptionResponse extends SubscriptionDetails {
@@ -214,6 +244,8 @@ export interface SubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Create Subscription response
  */
 export interface CreateSubscriptionResponse extends SubscriptionDetails {
@@ -224,6 +256,8 @@ export interface CreateSubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Get Subscription response
  */
 export interface GetSubscriptionResponse extends SubscriptionDetails {
@@ -234,6 +268,8 @@ export interface GetSubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Update Subscription response
  */
 export interface UpdateSubscriptionResponse extends SubscriptionDetails {
@@ -244,6 +280,8 @@ export interface UpdateSubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Delete Subscription response
  */
 export interface DeleteSubscriptionResponse {
@@ -254,6 +292,8 @@ export interface DeleteSubscriptionResponse {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of list operation on subscriptions.
  */
 export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
@@ -264,6 +304,8 @@ export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of create, get, update and delete operations on rule.
  */
 export interface RuleResponse extends RuleDetails {
@@ -274,6 +316,8 @@ export interface RuleResponse extends RuleDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Create Rule response
  */
 export interface CreateRuleResponse extends RuleDetails {
@@ -284,6 +328,8 @@ export interface CreateRuleResponse extends RuleDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Get Rule response
  */
 export interface GetRuleResponse extends RuleDetails {
@@ -294,6 +340,8 @@ export interface GetRuleResponse extends RuleDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Update Rule response
  */
 export interface UpdateRuleResponse extends RuleDetails {
@@ -304,6 +352,8 @@ export interface UpdateRuleResponse extends RuleDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Delete Rule response
  */
 export interface DeleteRuleResponse {
@@ -314,6 +364,8 @@ export interface DeleteRuleResponse {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of list operation on rules.
  */
 export interface ListRulesResponse extends Array<RuleDetails> {
@@ -324,6 +376,8 @@ export interface ListRulesResponse extends Array<RuleDetails> {
 }
 
 /**
+ * @internal
+ * @ignore
  * All operations return promises that resolve to an object that has the relevant output.
  * These objects also have a property called `_response` that you can use if you want to
  * access the direct response from the service.

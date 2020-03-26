@@ -10,7 +10,6 @@ import { Pipeline } from "./Pipeline";
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms";
 import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common";
 
-
 /**
  * An interface for options common to every remote operation.
  */

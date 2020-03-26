@@ -33,7 +33,7 @@ describe("Utility Helpers Node.js only", () => {
   }
 
   beforeEach(async function() {
-    recorder = record(this,recorderEnvSetup);
+    recorder = record(this, recorderEnvSetup);
   });
 
   afterEach(async function() {

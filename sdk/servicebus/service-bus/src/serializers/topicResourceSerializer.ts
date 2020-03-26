@@ -24,6 +24,7 @@ import {
 } from "../util/utils";
 
 /**
+ * @internal
  * @ignore
  * Builds the topic options object from the user provided options.
  * Handles the differences in casing for the property names,
@@ -47,6 +48,7 @@ export function buildTopicOptions(topicOptions: TopicOptions): InternalTopicOpti
 }
 
 /**
+ * @internal
  * @ignore
  * Builds the topic object from the raw json object gotten after deserializing the
  * response from the service
@@ -107,6 +109,8 @@ export function buildTopic(rawTopic: any): TopicDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents settable options on a topic
  */
 export interface TopicOptions {
@@ -186,6 +190,7 @@ export interface TopicOptions {
 }
 
 /**
+ * @internal
  * @ignore
  * Internal representation of settable options on a topic
  */
@@ -267,6 +272,8 @@ export interface InternalTopicOptions {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents all attributes of a topic entity
  */
 export interface TopicDetails {
@@ -425,6 +432,7 @@ export interface TopicDetails {
 }
 
 /**
+ * @internal
  * @ignore TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {

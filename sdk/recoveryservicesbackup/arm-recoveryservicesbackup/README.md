@@ -15,7 +15,7 @@ npm install @azure/arm-recoveryservicesbackup
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get backupResourceVaultConfigs as an example written in TypeScript.
+#### nodejs - Authentication, client creation and get privateEndpointConnection as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -37,7 +37,8 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new RecoveryServicesBackupClient(creds, subscriptionId);
   const vaultName = "testvaultName";
   const resourceGroupName = "testresourceGroupName";
-  client.backupResourceVaultConfigs.get(vaultName, resourceGroupName).then((result) => {
+  const privateEndpointConnectionName = "testprivateEndpointConnectionName";
+  client.privateEndpointConnection.get(vaultName, resourceGroupName, privateEndpointConnectionName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -46,7 +47,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get backupResourceVaultConfigs as an example written in JavaScript.
+#### browser - Authentication, client creation and get privateEndpointConnection as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -82,7 +83,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmRecoveryservicesbackup.RecoveryServicesBackupClient(res.creds, subscriptionId);
         const vaultName = "testvaultName";
         const resourceGroupName = "testresourceGroupName";
-        client.backupResourceVaultConfigs.get(vaultName, resourceGroupName).then((result) => {
+        const privateEndpointConnectionName = "testprivateEndpointConnectionName";
+        client.privateEndpointConnection.get(vaultName, resourceGroupName, privateEndpointConnectionName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

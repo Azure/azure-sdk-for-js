@@ -77,6 +77,49 @@ export interface NetworkRuleSet {
 }
 
 /**
+ * Properties to configure keyVault Properties
+ */
+export interface KeyVaultProperties {
+  /**
+   * Name of the Key from KeyVault
+   */
+  keyName?: string;
+  /**
+   * Version of the Key from KeyVault
+   */
+  keyVersion?: string;
+  /**
+   * Uri of KeyVault
+   */
+  keyVaultUri?: string;
+}
+
+/**
+ * Properties to configure Encryption
+ */
+export interface Encryption {
+  /**
+   * Properties of KeyVault
+   */
+  keyVaultProperties?: KeyVaultProperties;
+  /**
+   * Enumerates the possible value of keySource for Encryption. Possible values include:
+   * 'Microsoft.CognitiveServices', 'Microsoft.KeyVault'. Default value: 'Microsoft.KeyVault'.
+   */
+  keySource?: KeySource;
+}
+
+/**
+ * The user owned storage for Cognitive Services account.
+ */
+export interface UserOwnedStorage {
+  /**
+   * Full resource id of a Microsoft.Storage resource.
+   */
+  resourceId?: string;
+}
+
+/**
  * The api properties for special APIs.
  */
 export interface CognitiveServicesAccountApiProperties {
@@ -128,9 +171,58 @@ export interface CognitiveServicesAccountProperties {
    */
   networkAcls?: NetworkRuleSet;
   /**
+   * The encryption properties for this resource.
+   */
+  encryption?: Encryption;
+  /**
+   * The storage accounts for this resource.
+   */
+  userOwnedStorage?: UserOwnedStorage[];
+  /**
    * The api properties for special APIs.
    */
   apiProperties?: CognitiveServicesAccountApiProperties;
+}
+
+/**
+ * User-assigned managed identity.
+ */
+export interface UserAssignedIdentity {
+  /**
+   * Azure Active Directory principal ID associated with this Identity.
+   */
+  principalId?: string;
+  /**
+   * Client App Id associated with this identity.
+   */
+  clientId?: string;
+}
+
+/**
+ * Managed service identity.
+ */
+export interface Identity {
+  /**
+   * Type of managed service identity. Possible values include: 'None', 'SystemAssigned',
+   * 'UserAssigned'
+   */
+  type?: IdentityType;
+  /**
+   * Tenant of managed service identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * Principal Id of managed service identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The list of user assigned identities associated with the resource. The user identity
+   * dictionary key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
 /**
@@ -181,6 +273,10 @@ export interface CognitiveServicesAccount extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
+  /**
+   * The identity of Cognitive Services account.
+   */
+  identity?: Identity;
 }
 
 /**
@@ -619,6 +715,22 @@ export type ProvisioningState = 'Creating' | 'ResolvingDNS' | 'Moving' | 'Deleti
  * @enum {string}
  */
 export type NetworkRuleAction = 'Allow' | 'Deny';
+
+/**
+ * Defines values for KeySource.
+ * Possible values include: 'Microsoft.CognitiveServices', 'Microsoft.KeyVault'
+ * @readonly
+ * @enum {string}
+ */
+export type KeySource = 'Microsoft.CognitiveServices' | 'Microsoft.KeyVault';
+
+/**
+ * Defines values for IdentityType.
+ * Possible values include: 'None', 'SystemAssigned', 'UserAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned';
 
 /**
  * Defines values for KeyName.

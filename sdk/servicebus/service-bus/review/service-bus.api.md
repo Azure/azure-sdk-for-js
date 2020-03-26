@@ -41,7 +41,7 @@ export { DataTransformer }
 // @public
 export interface DeadLetterOptions {
     deadLetterErrorDescription: string;
-    deadletterReason: string;
+    deadLetterReason: string;
 }
 
 export { delay }
@@ -96,17 +96,13 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
         [key: string]: any;
     }): Promise<void>;
     complete(): Promise<void>;
-    deadLetter(options?: DeadLetterOptions): Promise<void>;
+    deadLetter(options?: DeadLetterOptions & {
+        [key: string]: any;
+    }): Promise<void>;
     defer(propertiesToModify?: {
         [key: string]: any;
     }): Promise<void>;
     renewLock(): Promise<Date>;
-}
-
-// @public
-export enum ReceiveMode {
-    peekLock = 1,
-    receiveAndDelete = 2
 }
 
 // @public

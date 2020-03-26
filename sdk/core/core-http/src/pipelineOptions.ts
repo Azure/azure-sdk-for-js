@@ -62,4 +62,9 @@ export interface InternalPipelineOptions extends PipelineOptions {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
+
+  /**
+   * Configure whether to decompress response according to Accept-Encoding header (node-fetch only)
+   */
+  decompressResponse?: boolean;
 }

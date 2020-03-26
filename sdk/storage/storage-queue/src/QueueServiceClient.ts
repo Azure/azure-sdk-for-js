@@ -459,7 +459,7 @@ export class QueueServiceClient extends StorageClient {
    * let i = 1;
    * let iterator = queueServiceClient.listQueues().byPage({ maxPageSize: 2 });
    * let item = (await iterator.next()).value;
-   * 
+   *
    * // Prints 2 queue names
    * if (item.queueItems) {
    *   for (const queueItem of item.queueItems) {
@@ -469,7 +469,7 @@ export class QueueServiceClient extends StorageClient {
    * }
    * // Gets next marker
    * let marker = item.continuationToken;
-   * 
+   *
    * // Passing next marker as continuationToken
    * iterator = queueServiceClient.listQueues().byPage({ continuationToken: marker, maxPageSize: 10 });
    * item = (await iterator.next()).value;

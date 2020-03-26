@@ -1,7 +1,8 @@
 # Release History
 
 ## 1.0.0-preview.4 (Unreleased)
-
+- Renamed the first parameter of all operation methods from `inputs` to `documents`
+- [Breaking] Removed PII entity detection methods from `TextAnalyticsClient` as well as all associated samples and documentation
 
 ## 1.0.0-preview.3 (2020-03-10)
 - [Breaking] Renamed `id` to `dataSourceEntityId` in the `LinkedEntity` type.

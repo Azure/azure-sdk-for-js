@@ -8,7 +8,6 @@ export {
   RecognizeCategorizedEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
-  RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
   TextAnalyticsOperationOptions
 } from "./textAnalyticsClient";
@@ -26,13 +25,6 @@ export {
   RecognizeCategorizedEntitiesSuccessResult
 } from "./recognizeCategorizedEntitiesResult";
 export { RecognizeCategorizedEntitiesResultCollection } from "./recognizeCategorizedEntitiesResultCollection";
-export {
-  PiiEntity,
-  RecognizePiiEntitiesResult,
-  RecognizePiiEntitiesErrorResult,
-  RecognizePiiEntitiesSuccessResult
-} from "./recognizePiiEntitiesResult";
-export { RecognizePiiEntitiesResultCollection } from "./recognizePiiEntitiesResultCollection";
 export {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,

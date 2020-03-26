@@ -12,7 +12,7 @@ import {
   DetectLanguageInput,
   DetectLanguageSuccessResult
 } from "../src/index";
-import { isSuccess, assertAllSuccess } from "./utils/resultHelper";
+import { assertAllSuccess } from "./utils/resultHelper";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -290,74 +290,6 @@ describe("[AAD] TextAnalyticsClient", function() {
       const results = await client.extractKeyPhrases(allInputs);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
       assertAllSuccess(results);
-    });
-  });
-
-  describe("#recognizePiiEntities", () => {
-    it("client throws on empty list", async () => {
-      return assert.isRejected(client.recognizePiiEntities([]));
-    });
-
-    it("client accepts string[] with no language", async () => {
-      const results = await client.recognizePiiEntities(testDataEn);
-      assert.equal(results.length, testDataEn.length);
-      assertAllSuccess(results);
-    });
-
-    it("client accepts string[] with a language specified", async () => {
-      const results = await client.recognizePiiEntities(testDataEn, "en");
-      assert.equal(results.length, testDataEn.length);
-      assertAllSuccess(results);
-    });
-
-    it("client correctly reports recognition of PII-like pattern", async () => {
-      // 078-05-1120 is an invalid social security number due to its use in advertising
-      // throughout the late 1930s
-      const fakeSSNDocument = "Your Social Security Number is 078-05-1120.";
-      const [result] = await client.recognizePiiEntities([fakeSSNDocument], "en");
-      assert.ok(isSuccess(result));
-      if (!result.error) {
-        assert.equal(result.entities.length, 1);
-      } else {
-        assert.fail("Service returned an error.");
-      }
-    });
-
-    it("service errors on unsupported language", async () => {
-      const [result] = await client.recognizePiiEntities(
-        ["This is some text, but it doesn't matter."],
-        "notalanguage"
-      );
-
-      if (result.error === undefined) {
-        assert.fail("Expected an error from the service");
-        return;
-      }
-
-      assert.equal(result.error.code, "UnsupportedLanguageCode");
-    });
-
-    it("client accepts mixed-language TextDocumentInput[]", async () => {
-      const enInputs = testDataEn.map(
-        (text): TextDocumentInput => ({
-          id: getId(),
-          text,
-          language: "en"
-        })
-      );
-      const esInputs = testDataEs.map(
-        (text): TextDocumentInput => ({
-          id: getId(),
-          text,
-          language: "es"
-        })
-      );
-      const allInputs = enInputs.concat(esInputs);
-
-      const results = await client.recognizePiiEntities(allInputs);
-      assert.equal(results.length, testDataEn.length + testDataEs.length);
-      // TA NER public preview currently supports only english
-      assert.ok(results.slice(0, enInputs.length).every(isSuccess));
     });
   });
 
