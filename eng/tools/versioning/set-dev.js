@@ -169,44 +169,37 @@ const updateOtherProjectDependencySections = (rushPackages, package, depName) =>
 };
 
 async function main(argv) {
-  try {
+  const buildId = argv["build-id"];
+  const repoRoot = argv["repo-root"];
+  const service = argv["service"];
 
+  var rushPackages = await versionUtils.getRushPackageJsons(repoRoot);
 
-    const buildId = argv["build-id"];
-    const repoRoot = argv["repo-root"];
-    const service = argv["service"];
-
-    var rushPackages = await versionUtils.getRushPackageJsons(repoRoot);
-
-    let targetPackages = [];
-    for (const package of Object.keys(rushPackages)) {
-      if (
-        ["client", "core"].includes(rushPackages[package].versionPolicy) &&
-        rushPackages[package].projectFolder.startsWith(`sdk/${service}`)
-      ) {
-        targetPackages.push(package);
-      }
-    }
-    if (targetPackages.length === 0) {
-      console.error(`Empty array targetPackages! There is no package that qualifies for dev versioning in the given service folder ${service}`);
-      process.exit(1);
-    }
-    // Set all the new versions & update any references to internal projects with the new versions
-    console.log(`Updating packages with build ID ${buildId}`);
-    for (const package of targetPackages) {
-      console.log("package updated = ");
-      console.log(package);
-      rushPackages = updatePackageVersion(rushPackages, package, buildId);
-      rushPackages = updateInternalDependencyVersions(rushPackages, package, buildId);
-      console.log(rushPackages[package].newVer);
-    }
-
-    for (const package of Object.keys(rushPackages)) {
-      await commitChanges(rushPackages, package);
+  let targetPackages = [];
+  for (const package of Object.keys(rushPackages)) {
+    if (
+      ["client", "core"].includes(rushPackages[package].versionPolicy) &&
+      rushPackages[package].projectFolder.startsWith(`sdk/${service}`)
+    ) {
+      targetPackages.push(package);
     }
   }
-  catch (ex) {
-    console.error(ex);
+  if (targetPackages.length === 0) {
+    console.error(`Empty array targetPackages! There is no package that qualifies for dev versioning in the given service folder ${service}`);
+    process.exit(1);
+  }
+  // Set all the new versions & update any references to internal projects with the new versions
+  console.log(`Updating packages with build ID ${buildId}`);
+  for (const package of targetPackages) {
+    console.log("package updated = ");
+    console.log(package);
+    rushPackages = updatePackageVersion(rushPackages, package, buildId);
+    rushPackages = updateInternalDependencyVersions(rushPackages, package, buildId);
+    console.log(rushPackages[package].newVer);
+  }
+
+  for (const package of Object.keys(rushPackages)) {
+    await commitChanges(rushPackages, package);
   }
 }
 

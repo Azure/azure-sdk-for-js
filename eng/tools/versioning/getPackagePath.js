@@ -18,22 +18,17 @@ let argv = require("yargs")
 const versionUtils = require("./VersionUtils");
 const path = require("path");
 async function main(argv) {
-  try {
-    const packageName = argv["package-name"];
-    const repoRoot = argv["repo-root"];
-    const rushSpec = await versionUtils.getRushSpec(repoRoot);
+  const packageName = argv["package-name"];
+  const repoRoot = argv["repo-root"];
+  const rushSpec = await versionUtils.getRushSpec(repoRoot);
 
-    const targetPackage = rushSpec.projects.find(
-      packageSpec => packageSpec.packageName == packageName
-    );
+  const targetPackage = rushSpec.projects.find(
+    packageSpec => packageSpec.packageName == packageName
+  );
 
-    const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
-    console.log(`##vso[task.setvariable variable=PackagePath]${targetPackagePath}`);
-    //log(`Emitted variable "PackagePath" with content: ${targetPackagePath}`);
-  }
-  catch (ex) {
-    console.error(ex);
-  }
+  const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
+  console.log(`##vso[task.setvariable variable=PackagePath]${targetPackagePath}`);
+  //log(`Emitted variable "PackagePath" with content: ${targetPackagePath}`);
 }
 
 main(argv);

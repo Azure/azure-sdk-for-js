@@ -94,25 +94,20 @@ function buildSemverRegex(prefix) {
 }
 
 function updateChangelog(targetPackagePath, repoRoot, newVersion, unreleased, replaceVersion) {
-  try {
-    const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
-    const updateChangelogPath = path.resolve(path.join(repoRoot, "eng/common/Update-Change-Log.ps1"));
-    child = spawn("pwsh", [updateChangelogPath, newVersion, changelogLocation, unreleased, replaceVersion]);
-    child.stdout.on("data", function (data) {
-      console.log("Powershell Data: " + data);
-    });
+  const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
+  const updateChangelogPath = path.resolve(path.join(repoRoot, "eng/common/Update-Change-Log.ps1"));
+  child = spawn("pwsh", [updateChangelogPath, newVersion, changelogLocation, unreleased, replaceVersion]);
+  child.stdout.on("data", function (data) {
+    console.log("Powershell Data: " + data);
+  });
 
-    child.stderr.on("error", function (error) {
-      console.log("Powershell Errors: " + error);
-    });
-    child.on("exit", function () {
-      console.log("Powershell Script finished");
-    });
-    child.stdin.end();
-  }
-  catch (ex) {
-    console.error(ex);
-  }
+  child.stderr.on("error", function (error) {
+    console.log("Powershell Errors: " + error);
+  });
+  child.on("exit", function () {
+    console.log("Powershell Script finished");
+  });
+  child.stdin.end();
 }
 
 // This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
