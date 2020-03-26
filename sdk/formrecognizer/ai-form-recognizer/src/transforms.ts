@@ -172,27 +172,29 @@ export function toCustomFormResultResponse(
     original.analyzeResult?.readResults,
     original.analyzeResult?.pageResults
   );
-  return original.status === "succeeded"
+  const common = {
+    status: original.status,
+    createdOn: original.createdOn,
+    lastUpdatedOn: original.createdOn,
+    _response: original._response
+  };
+
+  if (original.status !== "succeeded") {
+    return common;
+  }
+
+  const additional = original.analyzeResult
     ? {
-        status: original.status,
-        createdOn: original.createdOn,
-        lastUpdatedOn: original.createdOn,
-        _response: original._response,
-        ...(original.analyzeResult
-          ? {
-              version: original.analyzeResult.version,
-              rawExtractedPages,
-              extractedPages,
-              errors: original.analyzeResult.errors
-            }
-          : undefined)
-      }
-    : {
-        status: original.status,
-        createdOn: original.createdOn,
-        lastUpdatedOn: original.createdOn,
-        _response: original._response
-      };
+      version: original.analyzeResult.version,
+      rawExtractedPages,
+      extractedPages,
+      errors: original.analyzeResult.errors
+    }
+    : undefined;
+  return {
+    ...common,
+    ...additional
+  };
 }
 
 export function toFieldValue(original: FieldValueModel, readResults: RawExtractedPage[]): FieldValue {
@@ -275,36 +277,35 @@ function toDocumentResult(
 export function toLabeledFormResultResponse(
   original: GetAnalyzeFormResultResponse
 ): LabeledFormResultResponse {
-  if (original.status === "succeeded") {
-    const { rawExtractedPages, extractedPages} = transformResults(
-      original.analyzeResult?.readResults,
-      original.analyzeResult?.pageResults
-    );
-    return {
-      status: original.status,
-      createdOn: original.createdOn,
-      lastUpdatedOn: original.createdOn,
-      _response: original._response,
-      ...(original.analyzeResult
-        ? {
-            version: original.analyzeResult.version,
-            extractedForms: original.analyzeResult.documentResults?.map((d) =>
-              toDocumentResult(d, rawExtractedPages)
-            ),
-            rawExtractedPages,
-            extractedPages,
-            errors: original.analyzeResult.errors
-          }
-        : undefined)
-    };
-  } else {
-    return {
-      status: original.status,
-      createdOn: original.createdOn,
-      lastUpdatedOn: original.createdOn,
-      _response: original._response
-    };
+  const common = {
+    status: original.status,
+    createdOn: original.createdOn,
+    lastUpdatedOn: original.createdOn,
+    _response: original._response
+  };
+  if (original.status !== "succeeded")
+  {
+    return common;
   }
+  const { rawExtractedPages, extractedPages} = transformResults(
+    original.analyzeResult?.readResults,
+    original.analyzeResult?.pageResults
+  );
+  const additional = original.analyzeResult
+    ? {
+      version: original.analyzeResult.version,
+      extractedForms: original.analyzeResult.documentResults?.map((d) =>
+        toDocumentResult(d, rawExtractedPages)
+                                                                 ),
+      rawExtractedPages,
+      extractedPages,
+      errors: original.analyzeResult.errors
+    }
+    : undefined;
+  return {
+    ...common,
+    ...additional
+  };
 }
 
 export function toAnalyzeLayoutResultResponse(
@@ -322,21 +323,19 @@ export function toAnalyzeLayoutResultResponse(
     };
   }
 
+  const common = {
+    status: original.status,
+    createdOn: original.createdOn,
+    lastUpdatedOn: original.lastUpdatedOn,
+    _response: original._response
+  };
   if (original.status === "succeeded") {
     return {
-      status: original.status,
-      createdOn: original.createdOn,
-      lastUpdatedOn: original.lastUpdatedOn,
+      ...common,
       ...toAnalyzeLayoutResult(original.analyzeResult),
-      _response: original._response
     };
   } else {
-    return {
-      status: original.status,
-      createdOn: original.createdOn,
-      lastUpdatedOn: original.lastUpdatedOn,
-      _response: original._response
-    };
+    return common;
   }
 }
 
@@ -370,24 +369,22 @@ function toReceiptResult(result: DocumentResultModel, readResults: RawExtractedP
 export function toReceiptResultResponse(
   result: GetAnalyzeReceiptResultResponse
 ): ExtractReceiptResultResponse {
-  if (result.status === "succeeded") {
-    const readResults = result.analyzeResult!.readResults.map(toRawExtractedPage);
-    return {
-      status: result.status,
-      createdOn: result.createdOn,
-      lastUpdatedOn: result.lastUpdatedOn,
-      _response: result._response,
-      version: result.analyzeResult!.version,
-      rawExtractedPages: readResults,
-      extractedReceipts: result.analyzeResult!.documentResults!.map((d) =>
-        toReceiptResult(d, readResults))
-    };
-  } else {
-    return {
-      status: result.status,
-      createdOn: result.createdOn,
-      lastUpdatedOn: result.lastUpdatedOn,
-      _response: result._response
-    };
+  const common = {
+    status: result.status,
+    createdOn: result.createdOn,
+    lastUpdatedOn: result.lastUpdatedOn,
+    _response: result._response
+  };
+  if (result.status !== "succeeded") {
+    return common;
   }
+
+  const readResults = result.analyzeResult!.readResults.map(toRawExtractedPage);
+  return {
+    ...common,
+    version: result.analyzeResult!.version,
+    rawExtractedPages: readResults,
+    extractedReceipts: result.analyzeResult!.documentResults!.map((d) =>
+      toReceiptResult(d, readResults))
+  };
 }

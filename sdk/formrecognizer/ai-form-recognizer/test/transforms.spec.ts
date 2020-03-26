@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { toTextLine, toRawExtractedPage, toExtractedElement, toKeyValueElement, toKeyValuePair, toFieldValue } from "../src/transforms"
-import { ReadResult as ReadResultModel, FieldValue as FieldValueModel } from "../src/generated/models"
+import { toTextLine, toRawExtractedPage, toExtractedElement, toKeyValueElement, toKeyValuePair, toFieldValue, toTable } from "../src/transforms"
+import { ReadResult as ReadResultModel, FieldValue as FieldValueModel, DataTable as DataTableModel } from "../src/generated/models"
 import { StringFieldValue, DateFieldValue, TimeFieldValue, PhoneNumberFieldValue, NumberFieldValue, IntegerFieldValue, ArrayFieldValue, ObjectFieldValue } from '../src/models';
 
 describe("Transforms", () => {
@@ -316,5 +316,68 @@ describe("Transforms", () => {
       assert.equal(obj.value!["dateProperty"].value, originalDate.valueDate);
       assert.equal(obj.value!["integerProperty"].value, originalInteger.valueInteger);
     });
+  });
+
+  it("toTable()", () => {
+    const originalTable: DataTableModel = {
+      rows: 3,
+      columns: 2,
+      cells: [
+        {
+          text: "r0c0",
+          columnIndex: 0,
+          confidence: 0.1,
+          rowIndex: 0,
+          boundingBox: [1, 2, 3, 4, 5, 6, 7, 8],
+          isHeader: true
+        },
+        {
+          text: "r0c1",
+          columnIndex: 1,
+          confidence: 0.2,
+          rowIndex: 0,
+          boundingBox: [1, 2, 3, 4, 5, 6, 7, 8]
+        },
+        {
+          text: "r1c0",
+          columnIndex: 0,
+          confidence: 0.3,
+          rowIndex: 1,
+          boundingBox: [1, 2, 3, 4, 5, 6, 7, 8]
+        },
+        {
+          text: "r1c1",
+          columnIndex: 1,
+          confidence: 0.4,
+          rowIndex: 1,
+          boundingBox: [1, 2, 3, 4, 5, 6, 7, 8]
+        },
+        {
+          text: "r2c0",
+          columnIndex: 0,
+          confidence: 0.3,
+          rowIndex: 2,
+          boundingBox: [1, 2, 3, 4, 5, 6, 7, 8],
+          columnSpan: 2,
+          isFooter: true
+        },
+      ]
+    };
+
+    const transformed = toTable(originalTable, rawExtractedPages);
+
+    assert.equal(transformed.rows.length, originalTable.rows);
+    assert.equal(transformed.rows[0].cells[0].text, originalTable.cells[0].text);
+    assert.equal(transformed.rows[1].cells[1].confidence, originalTable.cells[3].confidence);
+
+    assert.equal(transformed.rows[0].cells[0].isHeader, true);
+    assert.equal(transformed.rows[0].cells[0].isFooter, false);
+    assert.equal(transformed.rows[0].cells[0].rowSpan, 1);
+    assert.equal(transformed.rows[0].cells[0].columnSpan, 1);
+
+    assert.equal(transformed.rows[2].cells[0].isHeader, false);
+    assert.equal(transformed.rows[2].cells[0].isFooter, true);
+    assert.equal(transformed.rows[2].cells[0].rowSpan, 1);
+    assert.equal(transformed.rows[2].cells[0].columnSpan, 2);
   });
 });

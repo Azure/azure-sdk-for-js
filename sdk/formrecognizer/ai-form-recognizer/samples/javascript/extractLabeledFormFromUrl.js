@@ -50,9 +50,11 @@ async function main() {
     console.log("Tables");
     for (const table of page.tables || []) {
       for (const row of table.rows) {
+        let line = "|";
         for (const cell of row.cells) {
-          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
+          line += `(${cell.rowIndex},${cell.columnIndex}) ${cell.text.padEnd(15)}\t|`;
         }
+        console.log(line);
       }
     }
   }
