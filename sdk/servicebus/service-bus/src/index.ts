@@ -38,7 +38,10 @@ export {
   ReceiveBatchOptions,
   SubscribeOptions,
   WaitTimeOptions,
-  CreateBatchOptions
+  CreateBatchOptions,
+  GetReceiverOptions,
+  GetSenderOptions,
+  OptionsBag
 } from "./models";
 
 export { Receiver } from "./receivers/receiver";
