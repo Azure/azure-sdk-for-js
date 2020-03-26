@@ -297,19 +297,19 @@ export interface Index {
 export type IndexActionType = 'upload' | 'merge' | 'mergeOrUpload' | 'delete';
 
 // @public
-export type IndexDocumentAction<T> = {
-    actionType: IndexActionType;
-} & Partial<T>;
-
-// @public
 export interface IndexDocuments extends OperationOptions {
     throwOnAnyFailure?: boolean;
 }
 
+// @public
+export type IndexDocumentsAction<T> = {
+    __actionType: IndexActionType;
+} & Partial<T>;
+
 // @public (undocumented)
 export class IndexDocumentsBatch<T> {
-    constructor(actions?: IndexDocumentAction<T>[]);
-    readonly actions: IndexDocumentAction<T>[];
+    constructor(actions?: IndexDocumentsAction<T>[]);
+    readonly actions: IndexDocumentsAction<T>[];
     delete(keyName: keyof T, keyValues: string[]): void;
     merge(documents: T[]): void;
     mergeOrUpload(documents: T[]): void;

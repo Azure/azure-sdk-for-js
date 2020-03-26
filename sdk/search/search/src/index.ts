@@ -8,7 +8,7 @@ export {
   CountDocumentsOptions,
   DeleteDocumentsOptions,
   GetDocumentOptions,
-  IndexDocumentAction,
+  IndexDocumentsAction,
   ListSearchResultsPageSettings,
   IndexDocuments,
   SearchDocumentsResultBase,

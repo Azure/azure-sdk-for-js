@@ -438,7 +438,7 @@ export interface AutocompleteRequest<Fields> {
 /**
  * Represents an index action that operates on a document.
  */
-export type IndexDocumentAction<T> = {
+export type IndexDocumentsAction<T> = {
   /**
    * The operation to perform on a document in an indexing batch. Possible values include:
    * 'upload', 'merge', 'mergeOrUpload', 'delete'

@@ -5,7 +5,7 @@
 - Support for index management operations using the `SearchServiceClient`.
 - [Breaking] `indexDocuments` on `SearchIndexClient` now takes an `IndexDocumentsBatch` object instead of a raw action array. This new type helps compose an array of actions to be performed on the index.
 - [Breaking] In `SearchIndexClient`, removed options `mergeIfExists` and `uploadIfNotExists` on `uploadDocuments` and `mergeDocuments` and replaced them with new helper `mergeOrUploadDocuments`.
-- The type `IndexAction` was renamed to `IndexDocumentAction`.
+- The type `IndexAction` was renamed to `IndexDocumentsAction`.
 
 ## 11.0.0-preview.1 (2020-03-09)
 

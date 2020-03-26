@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { IndexDocumentAction } from "./indexModels";
+import { IndexDocumentsAction } from "./indexModels";
 
 export class IndexDocumentsBatch<T> {
   /**
    * The set of actions taken in this batch.
    */
-  public readonly actions: IndexDocumentAction<T>[];
+  public readonly actions: IndexDocumentsAction<T>[];
 
-  constructor(actions: IndexDocumentAction<T>[] = []) {
+  constructor(actions: IndexDocumentsAction<T>[] = []) {
     this.actions = actions;
   }
 
@@ -18,7 +18,7 @@ export class IndexDocumentsBatch<T> {
    * @param documents The documents to upload.
    */
   public upload(documents: T[]): void {
-    const batch = documents.map<IndexDocumentAction<T>>((doc) => {
+    const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
       return {
         ...doc,
         __actionType: "upload"
@@ -34,7 +34,7 @@ export class IndexDocumentsBatch<T> {
    * @param documents The updated documents.
    */
   public merge(documents: T[]): void {
-    const batch = documents.map<IndexDocumentAction<T>>((doc) => {
+    const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
       return {
         ...doc,
         __actionType: "merge"
@@ -50,7 +50,7 @@ export class IndexDocumentsBatch<T> {
    * @param documents The new/updated documents.
    */
   public mergeOrUpload(documents: T[]): void {
-    const batch = documents.map<IndexDocumentAction<T>>((doc) => {
+    const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
       return {
         ...doc,
         __actionType: "mergeOrUpload"
@@ -66,11 +66,11 @@ export class IndexDocumentsBatch<T> {
    * @param keyValues The primary key values of documents to delete.
    */
   public delete(keyName: keyof T, keyValues: string[]): void {
-    const batch = keyValues.map<IndexDocumentAction<T>>((keyValue) => {
+    const batch = keyValues.map<IndexDocumentsAction<T>>((keyValue) => {
       return {
         __actionType: "delete",
         [keyName]: keyValue
-      } as IndexDocumentAction<T>;
+      } as IndexDocumentsAction<T>;
     });
 
     this.actions.push(...batch);
