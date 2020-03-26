@@ -30,6 +30,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const asyncOperationId: msRest.OperationURLParameter = {
+  parameterPath: "asyncOperationId",
+  mapper: {
+    required: true,
+    serializedName: "asyncOperationId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const dataSourceName: msRest.OperationURLParameter = {
   parameterPath: "dataSourceName",
   mapper: {
@@ -65,6 +75,16 @@ export const linkedServiceName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "linkedServiceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const location: msRest.OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    required: true,
+    serializedName: "location",
     type: {
       name: "String"
     }

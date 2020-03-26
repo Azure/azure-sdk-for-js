@@ -11,6 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { OperationalInsightsManagementClientContext } from "./operationalInsightsManagementClientContext";
 
@@ -36,9 +37,66 @@ class OperationalInsightsManagementClient extends OperationalInsightsManagementC
     this.workspaces = new operations.Workspaces(this);
     this.operations = new operations.Operations(this);
   }
+
+  /**
+   * Get the status of an azure asynchronous operation.
+   * @param location The region name of operation.
+   * @param asyncOperationId The operation Id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetAsyncOperationsStatusResponse>
+   */
+  getAsyncOperationsStatus(location: string, asyncOperationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetAsyncOperationsStatusResponse>;
+  /**
+   * @param location The region name of operation.
+   * @param asyncOperationId The operation Id.
+   * @param callback The callback
+   */
+  getAsyncOperationsStatus(location: string, asyncOperationId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param location The region name of operation.
+   * @param asyncOperationId The operation Id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAsyncOperationsStatus(location: string, asyncOperationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  getAsyncOperationsStatus(location: string, asyncOperationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.GetAsyncOperationsStatusResponse> {
+    return this.sendOperationRequest(
+      {
+        location,
+        asyncOperationId,
+        options
+      },
+      getAsyncOperationsStatusOperationSpec,
+      callback) as Promise<Models.GetAsyncOperationsStatusResponse>;
+  }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const getAsyncOperationsStatusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/locations/{location}/operationStatuses/{asyncOperationId}",
+  urlParameters: [
+    Parameters.location,
+    Parameters.asyncOperationId,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
 
 export {
   OperationalInsightsManagementClient,
