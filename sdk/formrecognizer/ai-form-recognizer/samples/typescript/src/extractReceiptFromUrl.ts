@@ -52,11 +52,10 @@ async function main() {
   console.log("### First receipt:")
   console.log(response.extractedReceipts[0]);
   console.log("### Items:")
-  console.log(`   \t Quantity\tName\tPrice\tTotalPrice`);
-  let i = 1;
-  for (const item of response.extractedReceipts[0]?.items) {
-    console.log(`${i++})\t ${item.quantity || ""}\t${item.name}\t$${item.totalPrice}`);
-  }
+  console.log("### First receipt:")
+  console.log(response.extractedReceipts[0]);
+  console.log("### Items:")
+  console.table(response.extractedReceipts?[0].items, ["name", "quantity", "price", "totalPrice"]);
   console.log("### Raw 'MerchantAddress' fields:");
   console.log(response.extractedReceipts[0]?.fields["MerchantAddress"])
 }

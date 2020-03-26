@@ -127,7 +127,7 @@ Using the `CustomFormClient`, you can get, list, and delete the custom models yo
 
 
 ## Examples
-The following section provides several code snippets illustrating common patterns used in the Form Recognizer API.
+The following section provides several code snippets illustrating common patterns used in the Form Recognizer client libraries.
 
 ### Extracting receipt values with a long-running operation
 
@@ -144,16 +144,23 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new ReceiptRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
-  const poller = await client.extractReceipts(readStream, "image/jpeg", {
-    onProgress: (state) => { console.log(`status: ${state.status}`); }
+  // start a long-running operation (LRO) to extract receipt data
+  const poller = await client.beginExtractReceipts(readStream, {
+    includeTextDetails: true,
+    onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
   });
-
   await poller.pollUntilDone();
-  const response = poller.getResult();
+  response = poller.getResult();
 
-  if (response) {
-    console.log(response.receipts[0]);
-  }
+  console.log("### First receipt:")
+  console.log(response.extractedReceipts[0]);
+  console.log("### Items:")
+  console.log("### First receipt:")
+  console.log(response.extractedReceipts[0]);
+  console.log("### Items:")
+  console.table(response.extractedReceipts[0].items, ["name", "quantity", "price", "totalPrice"]);
+  console.log("### Raw 'MerchantAddress' fields:");
+  console.log(response.extractedReceipts[0].fields["MerchantAddress"])
 }
 
 main();
@@ -161,16 +168,16 @@ main();
 
 ### Training models
 
-
 ```javascript
 const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("@azure/ai-form-recognizer");
 
 async function main() {
   const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
-  const trainingDataSource = process.env["DOCUMENT_SOURCE"] || "<url/path to the training documents>";
+  const trainingDataSource = process.env["DOCUMENT_SOURCE"] || "<url to Azure blob container storing the training documents>";
 
   const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+  // start a long-running operation (LRO) to train the model
   const poller = await client.beginTraining(trainingDataSource, {
     onProgress: (state) => { console.log(`training status: ${state.status}`); }
   });
@@ -182,10 +189,43 @@ async function main() {
 main();
 ```
 
-###
-
+### Listing all models in the current cognitive service account
 
 ```javascript
+const { FormRecognizerClient, FormRecognizerApiKeyCredential } = require("../../dist");
+
+async function main() {
+  const endpoint = process.env["COGNITIVE_SERVICE_ENDPOINT"] || "<cognitive services endpoint>";
+  const apiKey = process.env["COGNITIVE_SERVICE_API_KEY"] || "<api key>";
+  const client = new FormRecognizerClient(endpoint, new FormRecognizerApiKeyCredential(apiKey));
+
+  // returns an async iteratable iterator that supports paging
+  const result = await client.listModels();
+  let i = 0;
+  for await (const modelInfo of result) {
+    console.log(`model ${i++}:`);
+    console.log(modelInfo);
+  }
+
+  // using `iter.next()`
+  i = 1;
+  let iter = client.listModels();
+  let modelItem = await iter.next();
+  while (!modelItem.done) {
+    console.log(`model ${i++}: ${modelItem.value.modelId}`);
+    modelItem = await iter.next();
+  }
+
+  // using `byPage()`
+  i = 1;
+  for await (const response of client.listModels().byPage()) {
+    for (const modelInfo of response.modelList) {
+      console.log(`model ${i++}: ${modelInfo.modelId}`);
+    }
+  }
+}
+
+main();
 ```
 
 ## Troubleshooting
