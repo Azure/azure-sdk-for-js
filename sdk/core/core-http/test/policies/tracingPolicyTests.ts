@@ -114,7 +114,7 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -141,7 +141,7 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -168,7 +168,7 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
@@ -195,7 +195,7 @@ describe("tracingPolicy", function() {
     setTracer(mockTracer);
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(
       {
@@ -233,7 +233,7 @@ describe("tracingPolicy", function() {
     setTracer(new NoOpTracer());
     const request = new WebResource();
     request.spanOptions = {
-      parent: ROOT_SPAN
+      parent: ROOT_SPAN.context()
     };
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);

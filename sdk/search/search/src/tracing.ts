@@ -32,7 +32,7 @@ export function createSpan<T extends OperationOptions>(
   if (span.isRecording()) {
     newSpanOptions = {
       ...tracingOptions.spanOptions,
-      parent: span,
+      parent: span.context(),
       attributes: {
         ...spanOptions.attributes,
         "az.namespace": "Microsoft.Search"

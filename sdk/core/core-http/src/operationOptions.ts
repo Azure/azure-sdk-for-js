@@ -1,5 +1,5 @@
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "@opentelemetry/api";
+import { SpanOptions } from "@azure/core-tracing";
 import { TransferProgressEvent, RequestOptionsBase } from "./webResource";
 
 /**

@@ -90,7 +90,7 @@ export class Spanner<TClient> {
       ...options,
       spanOptions: {
         ...spanOptions,
-        parent: span,
+        parent: span.context(),
         attributes: {
           ...spanOptions.attributes,
           "az.namespace": "Microsoft.AppConfiguration"

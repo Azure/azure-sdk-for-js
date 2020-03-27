@@ -2235,7 +2235,7 @@ export class CertificateClient {
         ...options,
         spanOptions: {
           ...spanOptions,
-          parent: span,
+          parent: span.context(),
           attributes: {
             ...spanOptions.attributes,
             "az.namespace": "Microsoft.KeyVault"

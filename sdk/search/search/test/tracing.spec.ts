@@ -38,7 +38,7 @@ describe("tracing.createSpan", () => {
     const expected: OperationOptions = {
       tracingOptions: {
         spanOptions: {
-          parent: span,
+          parent: span.context(),
           attributes: {
             "az.namespace": "Microsoft.Search"
           }
@@ -63,7 +63,7 @@ describe("tracing.createSpan", () => {
     const expected: OperationOptions = {
       tracingOptions: {
         spanOptions: {
-          parent: span,
+          parent: span.context(),
           attributes: {
             "az.namespace": "Microsoft.Search",
             foo: "bar"

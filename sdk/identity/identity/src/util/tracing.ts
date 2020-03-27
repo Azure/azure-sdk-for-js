@@ -44,7 +44,7 @@ export function createSpan(
         ...tracingOptions,
         spanOptions: {
           ...tracingOptions.spanOptions,
-          parent: span,
+          parent: span.context(),
           attributes: {
             ...spanOptions.attributes,
             "az.namespace": "Microsoft.AAD"

@@ -116,6 +116,18 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
 }
 
 // @public
+export enum KnownAuthorityHosts {
+    // (undocumented)
+    AzureChina = "https://login.chinacloudapi.cn",
+    // (undocumented)
+    AzureGermany = "https://login.microsoftonline.de",
+    // (undocumented)
+    AzureGovernment = "https://login.microsoftonline.us",
+    // (undocumented)
+    AzurePublicCloud = "https://login.microsoftonline.com"
+}
+
+// @public
 export const logger: import("@azure/logger").AzureLogger;
 
 // @public

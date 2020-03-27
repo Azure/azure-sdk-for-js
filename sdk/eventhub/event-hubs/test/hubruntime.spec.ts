@@ -84,7 +84,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
     const ids = await client.getPartitionIds({
       tracingOptions: {
         spanOptions: {
-          parent: rootSpan
+          parent: rootSpan.context()
         }
       }
     });
@@ -158,7 +158,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       const hubRuntimeInfo = await client.getProperties({
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });
@@ -270,7 +270,7 @@ describe("RuntimeInformation #RunnableInBrowser", function(): void {
       const partitionRuntimeInfo = await client.getPartitionProperties("0", {
         tracingOptions: {
           spanOptions: {
-            parent: rootSpan
+            parent: rootSpan.context()
           }
         }
       });

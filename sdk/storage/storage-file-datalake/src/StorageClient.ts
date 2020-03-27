@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { isNode, isTokenCredential, TokenCredential } from "@azure/core-http";
-import { SpanOptions } from "@opentelemetry/api";
+import { SpanOptions } from "@azure/core-tracing";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";

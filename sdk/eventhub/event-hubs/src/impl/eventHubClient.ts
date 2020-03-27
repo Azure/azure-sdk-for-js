@@ -214,7 +214,7 @@ export class EventHubClient {
 
   private _createClientSpan(
     operationName: OperationNames,
-    parentSpan?: Span | SpanContext,
+    parentSpan?: Span | SpanContext | null,
     internal: boolean = false
   ): Span {
     const tracer = getTracer();
@@ -397,7 +397,7 @@ export class EventHubClient {
         ...options,
         tracingOptions: {
           spanOptions: {
-            parent: clientSpan
+            parent: clientSpan.context()
           }
         }
       });

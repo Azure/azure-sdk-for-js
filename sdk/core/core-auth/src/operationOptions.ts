@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "@opentelemetry/api";
+import { SpanOptions } from "@azure/core-tracing";
 
 /**
  * The base options type for all operations.

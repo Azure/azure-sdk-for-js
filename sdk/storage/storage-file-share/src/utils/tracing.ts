@@ -27,7 +27,7 @@ export function createSpan(
   if (span.isRecording()) {
     newOptions = {
       ...tracingOptions.spanOptions,
-      parent: span,
+      parent: span.context(),
       attributes: {
         ...spanOptions.attributes,
         "az.namespace": "Microsoft.Storage"
