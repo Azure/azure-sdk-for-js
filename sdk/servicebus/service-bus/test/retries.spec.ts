@@ -18,7 +18,7 @@ import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { RetryOptions } from "@azure/core-http";
 
-describe.only("Retries", () => {
+describe("Retries", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
@@ -43,11 +43,11 @@ describe.only("Retries", () => {
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
     );
     receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames, {
-      // retryOptions: retryOptions || {
-      //   timeoutInMs: 10000,
-      //   maxRetries: defaultMaxRetries,
-      //   retryDelayInMs: 0
-      // }
+      retryOptions: retryOptions || {
+        timeoutInMs: 10000,
+        maxRetries: defaultMaxRetries,
+        retryDelayInMs: 0
+      }
     });
     subscriptionRuleManager = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
@@ -98,82 +98,69 @@ describe.only("Retries", () => {
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
-      mockManagementClientAndVerifyRetries(async () => {
+      await mockManagementClientAndVerifyRetries(async () => {
         await receiverClient.receiveDeferredMessage(new Long(0));
       });
     });
 
-    it.only("Unpartitioned Queue with Sessions: receiveDeferredMessage", async function(): Promise<
+    it("Unpartitioned Queue with Sessions: receiveDeferredMessage", async function(): Promise<
       void
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-
-      mockManagementClientAndVerifyRetries(async () => {
+      await mockManagementClientAndVerifyRetries(async () => {
         await receiverClient.receiveDeferredMessage(new Long(0));
       });
     });
 
     it("Unpartitioned Queue: peek #RunInBrowser", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
-      mockManagementClientAndVerifyRetries(async () => {
+      await mockManagementClientAndVerifyRetries(async () => {
         await receiverClient.diagnostics.peek(1);
       });
     });
 
     it("Unpartitioned Queue with Sessions: peek", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      mockManagementClientAndVerifyRetries(async () => {
+      await mockManagementClientAndVerifyRetries(async () => {
         await receiverClient.diagnostics.peek(1);
       });
     });
 
     it("Unpartitioned Queue: peekBySequenceNumber #RunInBrowser", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
-      mockManagementClientAndVerifyRetries(async () => {
+      await mockManagementClientAndVerifyRetries(async () => {
         await receiverClient.diagnostics.peekBySequenceNumber(new Long(0));
       });
     });
 
     it("Unpartitioned Queue with Sessions: peekBySequenceNumber", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      mockManagementClientAndVerifyRetries(async () => {
-        await receiverClient.diagnostics.peekBySequenceNumber(new Long(0));
-      });
-    });
-
-    it("Unpartitioned Queue: peekBySequenceNumber #RunInBrowser", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      mockManagementClientAndVerifyRetries(async () => {
-        await receiverClient.diagnostics.peekBySequenceNumber(new Long(0));
-      });
-    });
-
-    it("Unpartitioned Queue with Sessions: peek", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      mockManagementClientAndVerifyRetries(async () => {
+      await mockManagementClientAndVerifyRetries(async () => {
         await receiverClient.diagnostics.peekBySequenceNumber(new Long(0));
       });
     });
 
     describe("Session exclusive methods", () => {
-      const sessionReceiver = receiverClient as SessionReceiver<ReceivedMessageWithLock>;
-      it("Unpartitioned Queue with Sessions: renewSessionLock", async function(): Promise<void> {
+      let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
+      beforeEach(async () => {
         await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-        mockManagementClientAndVerifyRetries(async () => {
+        sessionReceiver = receiverClient as SessionReceiver<ReceivedMessageWithLock>;
+      });
+
+      it("Unpartitioned Queue with Sessions: renewSessionLock", async function(): Promise<void> {
+        await mockManagementClientAndVerifyRetries(async () => {
           await sessionReceiver.renewSessionLock();
         });
       });
 
       it("Unpartitioned Queue with Sessions: setState", async function(): Promise<void> {
-        await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-        mockManagementClientAndVerifyRetries(async () => {
+        await mockManagementClientAndVerifyRetries(async () => {
           await sessionReceiver.setState("random-state");
         });
       });
 
       it("Unpartitioned Queue with Sessions: getState", async function(): Promise<void> {
-        await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-        mockManagementClientAndVerifyRetries(async () => {
+        await mockManagementClientAndVerifyRetries(async () => {
           await sessionReceiver.getState();
         });
       });
