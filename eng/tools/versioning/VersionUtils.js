@@ -5,7 +5,7 @@ const { promisify } = require("util");
 
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
-var spawn = require("child_process").spawn, child;
+var spawnSync = require("child_process").spawnSync, child;
 
 async function readFile(filename) {
   return await readFileAsync(filename, { encoding: "utf-8" });
@@ -95,24 +95,20 @@ function buildSemverRegex(prefix) {
 
 function updateChangelog(targetPackagePath, repoRoot, newVersion, unreleased, replaceVersion) {
   const changelogLocation = path.join(targetPackagePath, "CHANGELOG.md");
-  try {
-    const updateChangelogPath = path.resolve(path.join(repoRoot, "eng/common/Update-Change-Log.ps1"));
-    child = spawn("pwsh.exe", [updateChangelogPath, newVersion, changelogLocation, unreleased, replaceVersion]);
-    child.stdout.on("data", function (data) {
-      console.log("Powershell Data: " + data);
-    });
+  const updateChangelogPath = path.resolve(path.join(repoRoot, "eng/common/Update-Change-Log.ps1"));
+  child = spawnSync("pwsh", [updateChangelogPath, newVersion, changelogLocation, unreleased, replaceVersion]);
+  console.log("Powershell Data: " + child.stdout);
+  console.log("Powershell Errors: " + child.stderr);
 
-    child.stderr.on("error", function (error) {
-      console.log("Powershell Errors: " + error);
-    });
-    child.on("exit", function () {
-      console.log("Powershell Script finished");
-    });
-    child.stdin.end();
+  if (child.error) {
+    console.error("Child process failed - ", child.error);
+    return false;
   }
-  catch (ex) {
-    console.error(ex);
+  console.log("Powershell script finished with exit code - ", child.status);
+  if (child.status === 0) {
+    return true;
   }
+  return false;
 }
 
 // This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
