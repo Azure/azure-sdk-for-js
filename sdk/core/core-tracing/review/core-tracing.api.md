@@ -7,10 +7,10 @@
 import { Attributes } from '@opentelemetry/api';
 import { Span as OpenCensusSpan } from '@opencensus/web-types';
 import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
+import { SpanContext as OTSpanContext } from '@opentelemetry/api';
+import { SpanOptions as OTSpanOptions } from '@opentelemetry/api';
 import { Span } from '@opentelemetry/api';
-import { SpanContext } from '@opentelemetry/api';
 import { SpanKind } from '@opentelemetry/api';
-import { SpanOptions } from '@opentelemetry/api';
 import { Status } from '@opentelemetry/api';
 import { TimeInput } from '@opentelemetry/api';
 import { Tracer } from '@opentelemetry/api';
@@ -28,7 +28,7 @@ export function getTracer(): Tracer;
 // @public
 export class NoOpSpan implements Span {
     addEvent(_name: string, _attributes?: Attributes): this;
-    context(): SpanContext;
+    context(): OTSpanContext;
     end(_endTime?: number): void;
     isRecording(): boolean;
     setAttribute(_key: string, _value: unknown): this;
@@ -41,7 +41,7 @@ export class NoOpSpan implements Span {
 export class NoOpTracer implements Tracer {
     bind<T>(target: T, _span?: Span): T;
     getCurrentSpan(): Span;
-    startSpan(_name: string, _options?: SpanOptions): Span;
+    startSpan(_name: string, _options?: OTSpanOptions): Span;
     withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span, fn: T): ReturnType<T>;
 }
 
@@ -50,9 +50,9 @@ export { OpenCensusSpan }
 // @public
 export class OpenCensusSpanWrapper implements Span {
     constructor(span: OpenCensusSpan);
-    constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions);
+    constructor(tracer: OpenCensusTracerWrapper, name: string, options?: OTSpanOptions);
     addEvent(_name: string, _attributes?: Attributes): this;
-    context(): SpanContext;
+    context(): OTSpanContext;
     end(_endTime?: number): void;
     getWrappedSpan(): OpenCensusSpan;
     isRecording(): boolean;
@@ -70,12 +70,23 @@ export class OpenCensusTracerWrapper implements Tracer {
     bind<T>(_target: T, _span?: Span): T;
     getCurrentSpan(): Span | undefined;
     getWrappedTracer(): TracerBase;
-    startSpan(name: string, options?: SpanOptions): Span;
+    startSpan(name: string, options?: OTSpanOptions): Span;
     withSpan<T extends (...args: unknown[]) => unknown>(_span: Span, _fn: T): ReturnType<T>;
 }
 
+export { OTSpanContext }
+
+export { OTSpanOptions }
+
 // @public
 export function setTracer(tracer: Tracer): void;
+
+// @public
+export interface SpanContext {
+    spanId: string;
+    traceFlags: number;
+    traceId: string;
+}
 
 // @public
 export interface SpanGraph {
@@ -89,10 +100,18 @@ export interface SpanGraphNode {
 }
 
 // @public
+export interface SpanOptions {
+    attributes?: {
+        [key: string]: unknown;
+    };
+    parent?: SpanContext | null;
+}
+
+// @public
 export class TestSpan extends NoOpSpan {
-    constructor(parentTracer: TestTracer, name: string, context: SpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
+    constructor(parentTracer: TestTracer, name: string, context: OTSpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
     readonly attributes: Attributes;
-    context(): SpanContext;
+    context(): OTSpanContext;
     end(_endTime?: number): void;
     endCalled: boolean;
     isRecording(): boolean;
@@ -113,8 +132,14 @@ export class TestTracer extends NoOpTracer {
     getKnownSpans(): TestSpan[];
     getRootSpans(): TestSpan[];
     getSpanGraph(traceId: string): SpanGraph;
-    startSpan(name: string, options?: SpanOptions): TestSpan;
+    startSpan(name: string, options?: OTSpanOptions): TestSpan;
     }
+
+// @public
+export const enum TraceFlags {
+    NONE = 0,
+    SAMPLED = 1
+}
 
 
 // (No @packageDocumentation comment for this package)
