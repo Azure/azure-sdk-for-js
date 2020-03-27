@@ -7,7 +7,7 @@
 
 import {
   TextAnalyticsClient,
-  TextAnalyticsApiKeyCredential
+  AzureKeyCredential
 } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
@@ -21,7 +21,7 @@ export async function main() {
   const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
-  const client = new TextAnalyticsClient(endpoint, new TextAnalyticsApiKeyCredential(apiKey));
+  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
   const [result] = await client.recognizeLinkedEntities(["I love living in Seattle."]);
 

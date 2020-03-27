@@ -4,14 +4,14 @@
 import {
   PipelineOptions,
   createPipelineFromOptions,
-  signingPolicy,
   InternalPipelineOptions,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  OperationOptions
+  OperationOptions,
+  ServiceClientCredentials
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
@@ -39,9 +39,9 @@ import {
   RecognizeLinkedEntitiesResultCollection,
   makeRecognizeLinkedEntitiesResultCollection
 } from "./recognizeLinkedEntitiesResultCollection";
-import { TextAnalyticsApiKeyCredential } from "./textAnalyticsApiKeyCredential";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/types";
+import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -133,20 +133,20 @@ export class TextAnalyticsClient {
    *
    * Example usage:
    * ```ts
-   * import { TextAnalyticsClient, TextAnalyticsApiKeyCredential } from "@azure/ai-text-analytics";
+   * import { TextAnalyticsClient, KeyCredential } from "@azure/ai-text-analytics";
    *
    * const client = new TextAnalyticsClient(
    *    "<service endpoint>",
-   *    new TextAnalyticsApiKeyCredential("<api key>")
+   *    new KeyCredential("<api key>")
    * );
    * ```
    * @param {string} endpointUrl The URL to the TextAnalytics endpoint
-   * @param {TokenCredential | TextAnalyticsApiKeyCredential} credential Used to authenticate requests to the service.
+   * @param {TokenCredential | KeyCredential} credential Used to authenticate requests to the service.
    * @param {TextAnalyticsClientOptions} [options] Used to configure the TextAnalytics client.
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential | TextAnalyticsApiKeyCredential,
+    credential: TokenCredential | KeyCredential,
     options: TextAnalyticsClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -166,7 +166,7 @@ export class TextAnalyticsClient {
 
     const authPolicy = isTokenCredential(credential)
       ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
-      : signingPolicy(credential);
+      : createTextAnalyticsAzureKeyCredentialPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
@@ -179,7 +179,19 @@ export class TextAnalyticsClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new GeneratedClient(credential, this.endpointUrl, pipeline);
+
+    // The contract with the generated client requires a credential, even though it is never used
+    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
+    // throw an error if the client ever attempts to use it.
+    const dummyCredential: ServiceClientCredentials = {
+      signRequest() {
+        throw new Error(
+          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
+        );
+      }
+    };
+
+    this.client = new GeneratedClient(dummyCredential, this.endpointUrl, pipeline);
   }
 
   /**
