@@ -63,7 +63,6 @@ describe("Retries", () => {
   function mockManagementClientToThrowError() {
     (receiverClient as any)._context.managementClient._acquireLockAndSendRequest = async function() {
       numberOfTimesManagementClientInvoked++;
-      console.log(numberOfTimesManagementClientInvoked);
       throw new MessagingError("Hello there, I'm an error");
     };
   }
@@ -75,7 +74,6 @@ describe("Retries", () => {
       await func();
     } catch (error) {
       errorThrown = true;
-      console.log(error.message);
       should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
       should.equal(
         numberOfTimesManagementClientInvoked,
