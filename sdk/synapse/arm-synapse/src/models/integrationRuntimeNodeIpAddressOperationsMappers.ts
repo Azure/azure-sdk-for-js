@@ -9,6 +9,5 @@
 export {
   discriminators,
   CloudError,
-  SqlPoolUsage,
-  SqlPoolUsageListResult
+  IntegrationRuntimeNodeIpAddress
 } from "../models/mappers";
