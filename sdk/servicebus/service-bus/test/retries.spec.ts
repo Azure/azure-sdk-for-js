@@ -4,23 +4,26 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, Receiver, ReceivedMessageWithLock } from "../src";
-import { TestClientType } from "./utils/testUtils";
+const should = chai.should();
 import {
-  ServiceBusClientForTests,
-  createServiceBusClientForTests,
-  EntityName
-} from "./utils/testutils2";
+  Receiver,
+  ReceivedMessageWithLock,
+  SubscriptionRuleManager,
+  SessionReceiver
+} from "../src";
+import { TestClientType } from "./utils/testUtils";
+import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
-import { AmqpMessage, SendRequestOptions, MessagingError } from "@azure/core-amqp";
+import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
+import { RetryOptions } from "@azure/core-http";
 
-describe("Send Batch", () => {
+describe.only("Retries", () => {
   let senderClient: Sender;
-  let receiverClient: Receiver<ReceivedMessageWithLock>;
+  let receiverClient: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
-
-  let entityNames: EntityName;
+  let subscriptionRuleManager: SubscriptionRuleManager;
+  let defaultMaxRetries = 2;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -30,86 +33,150 @@ describe("Send Batch", () => {
     return serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    entityNames = await serviceBusClient.test.createTestEntities(entityType);
+  async function beforeEachTest(
+    entityType: TestClientType,
+    retryOptions?: RetryOptions
+  ): Promise<void> {
+    const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
       serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiverClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getReceiver(entityNames.queue ?? entityNames.topic!, "peekLock", {
-        retryOptions: { timeoutInMs: 5000, maxRetries: 2 }
-      })
+    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames, {
+      // retryOptions: retryOptions || {
+      //   timeoutInMs: 10000,
+      //   maxRetries: defaultMaxRetries,
+      //   retryDelayInMs: 0
+      // }
+    });
+    subscriptionRuleManager = serviceBusClient.test.addToCleanup(
+      serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
     );
+    subscriptionRuleManager;
   }
 
   async function afterEachTest(): Promise<void> {
     await senderClient.close();
   }
 
-  describe("Send single message - size < max_batch_size_allowed", function(): void {
+  describe("Receiver - test retries", function(): void {
+    let numberOfTimesManagementClientInvoked: number;
+
+    beforeEach(async () => {
+      numberOfTimesManagementClientInvoked = 0;
+    });
+
     afterEach(async () => {
       await afterEachTest();
     });
 
-    function prepareMessages(useSessions: boolean): ServiceBusMessage[] {
-      const messagesToSend: ServiceBusMessage[] = [];
-      messagesToSend.push({
-        body: Buffer.alloc(20000),
-        messageId: `random-message-id`,
-        sessionId: useSessions ? `someSession` : undefined
-      });
-      return messagesToSend;
-    }
-
-    async function testSendBatch(
-      useSessions: boolean,
-      // Max batch size
-      maxSizeInBytes?: number
-    ): Promise<void> {
-      // Prepare messages to send
-      const messagesToSend = prepareMessages(useSessions);
-      const sentMessages: ServiceBusMessage[] = [];
-      const batchMessage = await senderClient.createBatch({ maxSizeInBytes });
-
-      for (const messageToSend of messagesToSend) {
-        const batchHasCapacity = batchMessage.tryAdd(messageToSend);
-        if (!batchHasCapacity) {
-          break;
-        } else {
-          sentMessages.push(messageToSend);
-        }
-      }
-      await senderClient.sendBatch(batchMessage);
-
-      (receiverClient as any)._context.managementClient._acquireLockAndSendRequest = async function(
-        request: AmqpMessage,
-        retryTimeoutInMs: number,
-        sendRequestOptions: SendRequestOptions
-      ) {
-        request;
-        retryTimeoutInMs;
-        sendRequestOptions;
-        console.log("what's going on");
+    function mockManagementClientToThrowError() {
+      (receiverClient as any)._context.managementClient._acquireLockAndSendRequest = async function() {
+        numberOfTimesManagementClientInvoked++;
         throw new MessagingError("Hello there, I'm an error");
       };
-      await receiverClient.receiveDeferredMessage(new Long(0));
-      // receive all the messages in receive and delete mode
-      await serviceBusClient.test.verifyAndDeleteAllSentMessages(
-        entityNames,
-        useSessions,
-        sentMessages
-      );
     }
 
-    it.only("Unpartitioned Queue: SendBatch #RunInBrowser", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(false);
-    }).timeout(200000);
+    async function mockManagementClientAndVerifyRetries(func: Function) {
+      mockManagementClientToThrowError();
+      let errorThrown = false;
+      try {
+        await func();
+      } catch (error) {
+        errorThrown = true;
+        should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
+        should.equal(
+          numberOfTimesManagementClientInvoked,
+          defaultMaxRetries + 1,
+          "Unexpected number of retries"
+        );
+      }
+      should.equal(errorThrown, true, "Error was not thrown");
+    }
 
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
+    it("Unpartitioned Queue: receiveDeferredMessage #RunInBrowser", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      mockManagementClientAndVerifyRetries(async () => {
+        await receiverClient.receiveDeferredMessage(new Long(0));
+      });
+    });
+
+    it.only("Unpartitioned Queue with Sessions: receiveDeferredMessage", async function(): Promise<
+      void
+    > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true);
+
+      mockManagementClientAndVerifyRetries(async () => {
+        await receiverClient.receiveDeferredMessage(new Long(0));
+      });
+    });
+
+    it("Unpartitioned Queue: peek #RunInBrowser", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      mockManagementClientAndVerifyRetries(async () => {
+        await receiverClient.diagnostics.peek(1);
+      });
+    });
+
+    it("Unpartitioned Queue with Sessions: peek", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+      mockManagementClientAndVerifyRetries(async () => {
+        await receiverClient.diagnostics.peek(1);
+      });
+    });
+
+    it("Unpartitioned Queue: peekBySequenceNumber #RunInBrowser", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      mockManagementClientAndVerifyRetries(async () => {
+        await receiverClient.diagnostics.peekBySequenceNumber(new Long(0));
+      });
+    });
+
+    it("Unpartitioned Queue with Sessions: peekBySequenceNumber", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+      mockManagementClientAndVerifyRetries(async () => {
+        await receiverClient.diagnostics.peekBySequenceNumber(new Long(0));
+      });
+    });
+
+    it("Unpartitioned Queue: peekBySequenceNumber #RunInBrowser", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      mockManagementClientAndVerifyRetries(async () => {
+        await receiverClient.diagnostics.peekBySequenceNumber(new Long(0));
+      });
+    });
+
+    it("Unpartitioned Queue with Sessions: peek", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+      mockManagementClientAndVerifyRetries(async () => {
+        await receiverClient.diagnostics.peekBySequenceNumber(new Long(0));
+      });
+    });
+
+    describe("Session exclusive methods", () => {
+      const sessionReceiver = receiverClient as SessionReceiver<ReceivedMessageWithLock>;
+      it("Unpartitioned Queue with Sessions: renewSessionLock", async function(): Promise<void> {
+        await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+        mockManagementClientAndVerifyRetries(async () => {
+          await sessionReceiver.renewSessionLock();
+        });
+      });
+
+      it("Unpartitioned Queue with Sessions: setState", async function(): Promise<void> {
+        await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+        mockManagementClientAndVerifyRetries(async () => {
+          await sessionReceiver.setState("random-state");
+        });
+      });
+
+      it("Unpartitioned Queue with Sessions: getState", async function(): Promise<void> {
+        await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+        mockManagementClientAndVerifyRetries(async () => {
+          await sessionReceiver.getState();
+        });
+      });
     });
   });
 });
