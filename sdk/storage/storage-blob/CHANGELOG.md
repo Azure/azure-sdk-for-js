@@ -1,6 +1,6 @@
 # Release History
 
-## 12.2.0 (2020.06)
+## 12.2.0-preview.1 (2020.06)
 
 - Supported quick query. Added a new API `BlockBlobClient.query()`.
 - Added support for blob versioning.
