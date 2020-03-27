@@ -24,7 +24,7 @@ describe("serviceBusClient unit tests", () => {
     allLockModes.forEach((lockMode) => {
       it(`queue, no options, ${lockMode}`, () => {
         const result = extractReceiverArguments(
-          undefined, // simulate a connection string without an EntityPath in it
+          "", // simulate a connection string without an EntityPath in it
           "queue",
           lockMode,
           undefined,

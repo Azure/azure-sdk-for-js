@@ -399,7 +399,11 @@ export function validateEntityNamesMatch(
   queueOrTopicName: string,
   senderOrReceiverType: "receiver-topic" | "receiver-queue" | "sender"
 ) {
-  if (connectionStringEntityName && queueOrTopicName !== connectionStringEntityName) {
+  if (!connectionStringEntityName) {
+    return;
+  }
+
+  if (queueOrTopicName !== connectionStringEntityName) {
     let entityType;
     let senderOrReceiver;
 
