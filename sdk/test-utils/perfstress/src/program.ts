@@ -217,6 +217,11 @@ export class PerfStressProgram {
     const isAsync = !this.options.sync.value;
     const runLoop = isAsync ? this.runLoopAsync : this.runLoopSync;
 
+    // Unhandled exceptions should stop the whole PerfStress process.
+    process.on("unhandledRejection", (error) => {
+      throw error;
+    });
+
     // We begin running the test in scope as many times as possible in sequence,
     // but we trigger these sequences as many times as the parallels option specifies.
     //
@@ -230,7 +235,12 @@ export class PerfStressProgram {
       };
       parallels[i] = parallel;
       const test = this.tests[i];
-      parallelTestResults[i] = runLoop(test, parallel, durationMilliseconds, abortController);
+      parallelTestResults[i] = runLoop.bind(this)(
+        test,
+        parallel,
+        durationMilliseconds,
+        abortController
+      );
     }
 
     if (isAsync) {

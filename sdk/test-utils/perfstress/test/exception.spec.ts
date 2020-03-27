@@ -12,7 +12,7 @@ export class SynchronousException extends PerfStressTest<string> {
   run(): void {
     try {
       throw new Error();
-    } finally {
+    } catch (e) {
       // Nothing to do here
     }
   }
@@ -27,7 +27,7 @@ export class AsynchronousException extends PerfStressTest<string> {
   async runAsync(): Promise<void> {
     try {
       throw new Error();
-    } finally {
+    } catch (e) {
       // Nothing to do here
     }
   }
