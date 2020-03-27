@@ -9,7 +9,7 @@
   - [Chai](#chai)
   - [Rollup](#rollup)
   - [Karma](#karma)
-  - [The SDK's own test utilities](#the-sdk-s-own-test-utilities)
+  - [Recorder](#recorder)
 - [Structure of tests](#structure-of-tests)
 - [Individual tests](#individual-tests)
 
@@ -149,18 +149,19 @@ Another important learning resource for Chai is: Chai Assertions for Promises <h
 
 #### Our recommended Chai assertion style
 
-The Azure SDK for JavaScript (and TypeScript) prefers Chai's BDD style with the `expect` interface. For example:
+The Azure SDK for JavaScript (and TypeScript) prefers Chai's Assert style. For example:
 
 ```ts
-import * as chai from "chai";
+import { assert } from "chai";
 
 let foo = "bar";
 let beverages = { tea: [ 'chai', 'matcha', 'oolong' ] };
 
-expect(foo).to.be.a('string');
-expect(foo).to.equal('bar');
-expect(foo).to.have.lengthOf(3);
-expect(beverages).to.have.property('tea').with.lengthOf(3);
+assert.typeOf(foo, "string");
+assert.typeOf(foo, "string", "foo is a string");
+assert.equal(foo, "bar", "foo equals to `bar`");
+assert.lengthOf(foo, 3, 'foo`s value has a length of 3');
+assert.lengthOf(beverages.tea, 3, 'beverages has 3 types of tea');
 ```
 
 #### Chai in our dependencies
