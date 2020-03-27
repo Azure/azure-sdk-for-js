@@ -3,7 +3,13 @@
 
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
-import { ServiceBusClient, SessionReceiver, Receiver, GetSessionReceiverOptions } from "../../src";
+import {
+  ServiceBusClient,
+  SessionReceiver,
+  Receiver,
+  GetSessionReceiverOptions,
+  GetReceiverOptions
+} from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
 import { getEnvVars, EnvVarNames } from "./envVarUtils";
@@ -251,16 +257,16 @@ export class ServiceBusTestHelpers {
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
   getPeekLockReceiver(
-    entityNames: ReturnType<typeof getEntityNames>
+    entityNames: ReturnType<typeof getEntityNames>,
+    options?: GetReceiverOptions | GetSessionReceiverOptions
   ): Receiver<ReceivedMessageWithLock> {
     try {
       // if you're creating a receiver this way then you'll just use the default
       // session ID for your receiver.
       // if you want to get more specific use the `getPeekLockSessionReceiver` method
       // instead.
-      return this.getSessionPeekLockReceiver(entityNames, {
-        sessionId: TestMessage.sessionId
-      });
+      (options as GetSessionReceiverOptions).sessionId = TestMessage.sessionId;
+      return this.getSessionPeekLockReceiver(entityNames, options);
     } catch (err) {
       if (!(err instanceof TypeError)) {
         throw err;
@@ -269,11 +275,12 @@ export class ServiceBusTestHelpers {
 
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.getReceiver(entityNames.queue, "peekLock")
+        ? this._serviceBusClient.getReceiver(entityNames.queue, "peekLock", options)
         : this._serviceBusClient.getReceiver(
             entityNames.topic!,
             entityNames.subscription!,
-            "peekLock"
+            "peekLock",
+            options
           )
     );
   }
