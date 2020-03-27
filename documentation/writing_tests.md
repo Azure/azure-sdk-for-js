@@ -3,13 +3,13 @@
 ## Index
 
 - [Introduction](#introduction)
-- [Engineering setup](#engineering-setup)
 - [Recommended tools](#recommended-tools)
   - [Mocha](#mocha)
   - [Chai](#chai)
   - [Rollup](#rollup)
   - [Karma](#karma)
   - [Recorder](#recorder)
+- [Engineering setup](#engineering-setup)
 - [Test folder structure](#test-folder-structure)
   - [Testing cloud resources](#testing-cloud-resources).
   - [Public or internal tests](#public-or-internal-tests).
@@ -18,8 +18,6 @@
 - [Individual tests](#individual-tests)
 
 ## Introduction
-
-## Engineering setup
 
 ## Recommended tools
 
@@ -421,6 +419,11 @@ rush add --dev -p @azure/test-utils-recorder
 ```
 
 You can read more about the recorder in its readme: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder
+
+## Engineering setup
+
+- ci.yml for ci
+- tests.yml for nightly
 
 ## Test folder structure
 
