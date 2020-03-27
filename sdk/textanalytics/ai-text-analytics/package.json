@@ -73,6 +73,7 @@
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
+    "@azure/core-auth": "^1.1.0",
     "@azure/core-http": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
