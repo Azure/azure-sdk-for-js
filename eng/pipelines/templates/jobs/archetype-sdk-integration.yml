@@ -33,6 +33,26 @@ jobs:
     strategy:
       maxParallel: ${{ parameters.MaxParallel }}
       matrix:
+        MaxVersion_Node:
+          OSVmImage: "ubuntu-18.04"
+          TestType: "node"
+          DependencyVersion: max
+          TestResultsFiles: "**/test-results.xml"
+        MaxVersion_Browser:
+          OSVmImage: "ubuntu-18.04"
+          TestType: "browser"
+          DependencyVersion: max
+          TestResultsFiles: "**/test-results.browser.xml"
+        MinVersion_Node:
+          OSVmImage: "ubuntu-18.04"
+          TestType: "node"
+          DependencyVersion: min
+          TestResultsFiles: "**/test-results.xml"
+        MinVersion_Browser:
+          OSVmImage: "ubuntu-18.04"
+          TestType: "browser"
+          DependencyVersion: min
+          TestResultsFiles: "**/test-results.browser.xml"
         ${{ each matrixEntry in parameters.Matrix }}:
           ${{ matrixEntry.key }}:
             # If no CloudType, use "AzureCloud"
@@ -43,9 +63,11 @@ jobs:
               TestResultsFiles: "**/test-results.browser.xml"
             ${{ if eq(matrixEntry.value.TestType, 'node') }}:
               TestResultsFiles: "**/test-results.xml"
-
             # Remaining entries from the matrix object
             ${{ insert }}: ${{ matrixEntry.value }}
+            # Include these entries in all test matrices. Note that TestResultsFile
+            # is specified because the template logic above is not running in this
+            # context.
 
         # Add matrix entry for browser testing
         ${{ if eq(parameters.TestBrowser, 'true') }}:
@@ -81,6 +103,13 @@ jobs:
           node common/scripts/install-run-rush.js install
         displayName: "Install dependencies"
 
+      - task: DeleteFiles@1
+        inputs:
+          SourceFolder: $(Build.SourcesDirectory)
+          Contents: 'node_modules/**' 
+        condition: succeededOrFailed()
+        displayName: "Delete node_modules from source directory"
+
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
@@ -92,6 +121,21 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build test assets"
+        condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
+
+      - pwsh: |
+          npm install
+          node index.js --artifact-name "${{parameters.PackageName}}" --version-type $(DependencyVersion) --source-dir "$(Build.SourcesDirectory)"
+        displayName: "Convert tests to run against package references"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/dependency-testing
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
+
+      - pwsh: |
+          npm install
+          npm run build
+        displayName: "Install test dependencies"
+        workingDirectory: $(PackageTestPath)
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
@@ -108,10 +152,20 @@ jobs:
           node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
         displayName: "Integration test libraries"
         workingDirectory: $(PackagePath)
+        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'))
+        
+
+      - script: |
+          npm run integration-test:$(TestType)
+        displayName: "Integration test libraries"
+        workingDirectory: $(PackageTestPath)
+        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
+        env:
+          TEST_MODE: "live"
+          ${{ insert }}: ${{ parameters.EnvVars }}
 
       - ${{if ne(parameters.PostIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PostIntegrationSteps}}.yml
@@ -128,6 +182,13 @@ jobs:
         - template: /eng/common/TestResources/remove-test-resources.yml
           parameters:
             ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
+         
+      - script: |
+          npm install
+          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
+        displayName: "Get package path"
+        condition: and(succeededOrFailed(),eq(variables['PublishCodeCoverage'], true))
 
       - task: PublishCodeCoverageResults@1
         displayName: "Publish NodeJs Code Coverage to DevOps"
