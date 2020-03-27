@@ -23,15 +23,9 @@ describe("AppConfigurationClient", () => {
   });
 
   after("cleanup", async () => {
-    const deletePromises = [];
-
     for (const setting of settings) {
-      deletePromises.push(
-        client.deleteConfigurationSetting({ key: setting.key, label: setting.label })
-      );
+      await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
     }
-
-    await Promise.all(deletePromises);
   });
 
   describe("simple usages", () => {
