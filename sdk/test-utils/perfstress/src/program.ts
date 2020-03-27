@@ -2,14 +2,18 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { PerfStressTest, PerfStressTestConstructor } from "./tests";
+import {
+  PerfStressTestAsync,
+  PerfStressTestSync,
+  PerfStressTestSyncConstructor,
+  PerfStressTestAsyncConstructor
+} from "./tests";
 import {
   PerfStressOptionDictionary,
   parsePerfStressOption,
   defaultPerfStressOptions,
   DefaultPerfStressOptionNames
 } from "./options";
-import { PerfStressTestError } from "./errors";
 import { PerfStressParallel } from "./parallel";
 
 export type TestType = "";
@@ -38,7 +42,7 @@ export class PerfStressProgram {
   private testName: string;
   private options: PerfStressOptionDictionary<DefaultPerfStressOptionNames>;
   private parallelNumber: number;
-  private tests: PerfStressTest<string>[];
+  private tests: PerfStressTestSync<string>[] | PerfStressTestAsync<string>[];
 
   /**
    * Receives a test class to instantiate and execute.
@@ -48,13 +52,17 @@ export class PerfStressProgram {
    *
    * @param testClass The testClass to be instantiated.
    */
-  constructor(testClass: PerfStressTestConstructor<string>) {
+  constructor(
+    testClass: PerfStressTestSyncConstructor<string> | PerfStressTestAsyncConstructor<string>
+  ) {
     this.testName = testClass.name;
     this.options = parsePerfStressOption(defaultPerfStressOptions);
     this.parallelNumber = Number(this.options.parallel.value);
 
     console.log(`=== Creating ${this.parallelNumber} instance(s) of ${this.testName} ===`);
-    this.tests = new Array<PerfStressTest<string>>(this.parallelNumber);
+    this.tests = new Array<PerfStressTestSync<string> | PerfStressTestAsync<string>>(
+      this.parallelNumber
+    );
 
     for (let i = 0; i < this.parallelNumber; i++) {
       const test = new testClass();
@@ -98,7 +106,8 @@ export class PerfStressProgram {
   }
 
   /**
-   * Runs the test in scope repeatedly, as many times as possible until durationMilliseconds is reached.
+   * Runs the test in scope repeatedly, without waiting for any promises to finish,
+   * as many times as possible until durationMilliseconds is reached.
    * For each test run, it will report one more completedOperations on the PerfStressParallel given,
    * as well as the lastMillisecondsElapsed that reports the last test execution's elapsed time in comparison
    * to the beginning of the execution of runLoop.
@@ -107,40 +116,68 @@ export class PerfStressProgram {
    * @param durationMilliseconds When to abort any execution.
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
-  private async runLoop(
-    test: PerfStressTest<string>,
+  private runLoopSync(
+    test: PerfStressTestSync<string>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
-  ): Promise<void> {
-    const startedAt = new Date().getTime();
+  ): void {
+    const start = process.hrtime();
     while (!abortController.signal.aborted) {
+      test.run(abortController.signal);
+
+      const elapsed = process.hrtime(start);
+      const elapsedMilliseconds = elapsed[0] * 1000 + elapsed[1] / 1000000;
+
+      parallel.completedOperations += 1;
+      parallel.lastMillisecondsElapsed = elapsedMilliseconds;
+
       // In runTest we create a setTimeout that is intended to abort the abortSignal
       // once the durationMilliseconds have elapsed. That setTimeout might not get queued
       // on time through the event loop, depending on the number of operations we might be executing.
       // For this reason, we're also manually checking the elapsed time here.
-      if (
-        abortController.signal.aborted ||
-        new Date().getTime() - startedAt >= durationMilliseconds
-      ) {
+      if (abortController.signal.aborted || elapsedMilliseconds > durationMilliseconds) {
         abortController.abort();
         break;
       }
+    }
+  }
 
-      try {
-        await test.run(abortController.signal);
-      } catch (e) {
-        if (!(e instanceof PerfStressTestError)) {
-          abortController.abort();
-          console.error(e);
-          break;
-        }
-      } finally {
-        // Nothing to do here
-      }
+  /**
+   * Runs the test in scope repeatedly, without waiting for any promises to finish,
+   * as many times as possible until durationMilliseconds is reached.
+   * For each test run, it will report one more completedOperations on the PerfStressParallel given,
+   * as well as the lastMillisecondsElapsed that reports the last test execution's elapsed time in comparison
+   * to the beginning of the execution of runLoop.
+   *
+   * @param parallel Object where to log the results from each execution.
+   * @param durationMilliseconds When to abort any execution.
+   * @param abortController Allows us to send through a signal determining when to abort any execution.
+   */
+  private async runLoopAsync(
+    test: PerfStressTestAsync<string>,
+    parallel: PerfStressParallel,
+    durationMilliseconds: number,
+    abortController: AbortController
+  ): Promise<void> {
+    const start = process.hrtime();
+    while (!abortController.signal.aborted) {
+      await test.run(abortController.signal);
+
+      const elapsed = process.hrtime(start);
+      const elapsedMilliseconds = elapsed[0] * 1000 + elapsed[1] / 1000000;
 
       parallel.completedOperations += 1;
-      parallel.lastMillisecondsElapsed = new Date().getTime() - startedAt;
+      parallel.lastMillisecondsElapsed = elapsedMilliseconds;
+
+      // In runTest we create a setTimeout that is intended to abort the abortSignal
+      // once the durationMilliseconds have elapsed. That setTimeout might not get queued
+      // on time through the event loop, depending on the number of operations we might be executing.
+      // For this reason, we're also manually checking the elapsed time here.
+      if (abortController.signal.aborted || elapsedMilliseconds > durationMilliseconds) {
+        abortController.abort();
+        break;
+      }
     }
   }
 
@@ -152,7 +189,7 @@ export class PerfStressProgram {
     title: string
   ): Promise<void> {
     const parallels: PerfStressParallel[] = new Array<PerfStressParallel>(this.parallelNumber);
-    const parallelTestPromises: Promise<void>[] = new Array<Promise<void>>(this.parallelNumber);
+    const parallelTestResults: Promise<void>[] | void[] = new Array<void>(this.parallelNumber);
 
     const abortController = new AbortController();
     const durationMilliseconds = durationSeconds * 1000;
@@ -180,6 +217,9 @@ export class PerfStressProgram {
       lastInIteration = inTotal;
     }, millisecondsToLog);
 
+    const isAsync = this.tests[0] instanceof PerfStressTestAsync;
+    const runLoop = isAsync ? this.runLoopAsync : this.runLoopSync;
+
     // We begin running the test in scope as many times as possible in sequence,
     // but we trigger these sequences as many times as the parallels option specifies.
     //
@@ -193,10 +233,13 @@ export class PerfStressProgram {
       };
       parallels[i] = parallel;
       const test = this.tests[i];
-      parallelTestPromises[i] = this.runLoop(test, parallel, durationMilliseconds, abortController);
+      parallelTestResults[i] = runLoop(test, parallel, durationMilliseconds, abortController);
     }
-    for (const promise of parallelTestPromises) {
-      await promise;
+
+    if (isAsync) {
+      for (const promise of parallelTestResults) {
+        await promise;
+      }
     }
 
     // Once we finish, we clear the log interval.
@@ -239,56 +282,45 @@ export class PerfStressProgram {
     console.log("=== Assigned options ===");
     console.table(options);
 
-    try {
-      if (this.tests[0].globalSetup) {
-        console.log(
-          `=== Calling globalSetup() once for (all) the instance(s) of ${this.testName} ===`
-        );
-        await this.tests[0].globalSetup();
+    if (this.tests[0].globalSetup) {
+      console.log(
+        `=== Calling globalSetup() once for (all) the instance(s) of ${this.testName} ===`
+      );
+      await this.tests[0].globalSetup();
+    }
+    if (this.tests[0].setup) {
+      console.log(
+        `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
+      );
+      for (const test of this.tests) {
+        await test.setup!();
       }
-      if (this.tests[0].setup) {
-        console.log(
-          `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
-        );
-        for (const test of this.tests) {
-          await test.setup!();
-        }
-      }
-      try {
-        if (Number(options.warmup.value) > 0) {
-          await this.runTest(0, Number(options.warmup.value), "warmup");
-        }
+    }
 
-        const iterations = Number(this.options.iterations.value);
-        for (let i = 0; i < iterations; i++) {
-          await this.runTest(i, Number(options.duration.value), "test");
-        }
-      } catch (e) {
-        if (!(e instanceof PerfStressTestError)) {
-          throw e;
-        }
-      } finally {
-        if (!options["no-cleanup"].value && this.tests[0].cleanup) {
-          console.log(
-            `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
-          );
-          for (const test of this.tests) {
-            await test.cleanup!();
-          }
-        }
+    if (Number(options.warmup.value) > 0) {
+      await this.runTest(0, Number(options.warmup.value), "warmup");
+    }
+
+    const iterations = Number(this.options.iterations.value);
+    for (let i = 0; i < iterations; i++) {
+      await this.runTest(i, Number(options.duration.value), "test");
+    }
+
+    if (!options["no-cleanup"].value && this.tests[0].cleanup) {
+      console.log(
+        `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
+      );
+      for (const test of this.tests) {
+        await test.cleanup!();
       }
-    } catch (e) {
-      if (!(e instanceof PerfStressTestError)) {
-        throw e;
-      }
-    } finally {
-      if (!options["no-cleanup"].value) {
-        if (this.tests[0].globalCleanup) {
-          console.log(
-            `=== Calling globalCleanup() once for (all) the instance(s) of ${this.testName} ===`
-          );
-          await this.tests[0].globalCleanup();
-        }
+    }
+
+    if (!options["no-cleanup"].value) {
+      if (this.tests[0].globalCleanup) {
+        console.log(
+          `=== Calling globalCleanup() once for (all) the instance(s) of ${this.testName} ===`
+        );
+        await this.tests[0].globalCleanup();
       }
     }
   }

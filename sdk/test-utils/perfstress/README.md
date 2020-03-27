@@ -15,12 +15,12 @@ with a name similar to `myTest.spec.ts`, with something similar to the following
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfStressTestSync } from "@azure/test-utils-perfstress";
 
-export class MyTest extends PerfStressTest<string> {
+export class MyTest extends PerfStressTestSync<string> {
   public options = {};
 
-  async run(): Promise<void> {
+  run(): Promise<void> {
   }
 }
 ```
@@ -63,8 +63,8 @@ npm run perfstress-test:node -- MyTest --warmup 2 --duration 4 --iterations 2
 
 ## KeyConcepts
 
-- A **PerfStress** is a test that will be executed repeatedly to show both the performance of the program, and how it behaves under stress.
-- The **PerfStressTestError** class specifies expected errors on PerfStress tests.
+- A **PerfStress** test is a test that will be executed repeatedly to show both the performance of the program, and how it behaves under stress.
+- PerfStress tests can be either synchronous (`PerfStressTestSync`), which are tests that should return `void`, or asynchronous (`PerfStressTestAsync`), which should return `Promise<void>`.
 - A **PerfStressOption** is a command line parameter. We use `minimist` to parse them appropriately, and then to consolidate them in a dictionary of options that is called `PerfStressOptionDictionary<string>`. The dictionary class accepts a union type of strings that defines the options that are allowed by each test.
 - Some default options are parsed by the PerfStress program. Their longer names are: `help`, `no-cleanups`, `parallel`, `duration`, `warmup`, `iterations`, `no-cleanup` and `milliseconds-to-log`.
 - PerfStress tests are executed as many times as possible until the `duration` parameter is specified. This process may repeat as many `iterations` are given. Before each iteration, tests might be called for a period of time up to `warmup`, to adjust to possible runtime optimizations. In each iteration, as many as `parallel` instances of the same test are called without waiting for each other, letting the event loop decide which one is prioritized (it's not true parallelism, but it's an approximation that aligns with the design in other languages, we might improve it over time).

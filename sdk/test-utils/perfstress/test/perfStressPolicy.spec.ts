@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as url from "url";
-import { PerfStressTest, PerfStressOptionDictionary, PerfStressPolicy } from "../src";
+import { PerfStressTestAsync, PerfStressOptionDictionary, PerfStressPolicy } from "../src";
 import {
   WebResource,
   HttpOperationResponse,
@@ -22,7 +22,7 @@ const defaultResponse = {
  * Tests the behavior of the PerfStressPolicy.
  * Similar to the tests available in the core-http package of the default policies provided.
  */
-export class PerfStressPolicyTest extends PerfStressTest<OptionNames> {
+export class PerfStressPolicyTest extends PerfStressTestAsync<OptionNames> {
   public options: PerfStressOptionDictionary<OptionNames> = {
     url: {
       required: true,

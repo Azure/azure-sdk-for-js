@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest } from "../src";
+import { PerfStressTestAsync } from "../src";
 import { delay } from "@azure/core-http";
 
 /**
@@ -32,7 +32,7 @@ import { delay } from "@azure/core-http";
  * Completed 8 operations in a weighted-average of 4.00s (2.00 ops/s 0.501 s/op)
  * ```
  */
-export class Delay500ms extends PerfStressTest<string> {
+export class Delay500ms extends PerfStressTestAsync<string> {
   /**
    * This test doesn't receive command line parameters.
    */

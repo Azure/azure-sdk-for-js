@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  PerfStressTest,
+  PerfStressTestSync,
   PerfStressOptionDictionary,
   DefaultPerfStressOptionNames,
   defaultPerfStressOptions
@@ -12,7 +12,7 @@ import {
  * Showcases and verifies some of the expected behaviors of the setup, globalSetup, cleanup and globalCleanup methods
  * of the PerfStressTest class.
  */
-export class SetupCleanupTest extends PerfStressTest<DefaultPerfStressOptionNames> {
+export class SetupCleanupTest extends PerfStressTestSync<DefaultPerfStressOptionNames> {
   public options: PerfStressOptionDictionary<
     DefaultPerfStressOptionNames
   > = defaultPerfStressOptions;
@@ -54,5 +54,5 @@ export class SetupCleanupTest extends PerfStressTest<DefaultPerfStressOptionName
     }
   }
 
-  async run(): Promise<void> {}
+  run(): void {}
 }
