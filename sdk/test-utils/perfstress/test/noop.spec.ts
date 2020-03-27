@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTestSync, PerfStressTestAsync } from "../src";
+import { PerfStressTest } from "../src";
 
 /**
  * Should test the raw performance impact of the PerfStress framework for synchronous tests.
  */
-export class NoOpSync extends PerfStressTestSync<string> {
+export class NoOpSync extends PerfStressTest<string> {
   public options = {};
   run(): void {}
 }
@@ -14,7 +14,7 @@ export class NoOpSync extends PerfStressTestSync<string> {
 /**
  * Should test the raw performance impact of the PerfStress framework for asynchronous tests.
  */
-export class NoOpAsync extends PerfStressTestAsync<string> {
+export class NoOpAsync extends PerfStressTest<string> {
   public options = {};
-  async run(): Promise<void> {}
+  async runAsync(): Promise<void> {}
 }

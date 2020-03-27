@@ -6,17 +6,10 @@ import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist"
 import { PerfStressOptionDictionary, parsePerfStressOption } from "./options";
 
 /**
- * Defines the behavior of the PerfStressSyncTest constructor, to use the class as a value.
+ * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
  */
-export interface PerfStressTestSyncConstructor<TOptionsNames extends string> {
-  new (): PerfStressTestSync<TOptionsNames>;
-}
-
-/**
- * Defines the behavior of the PerfStressAsyncTest constructor, to use the class as a value.
- */
-export interface PerfStressTestAsyncConstructor<TOptionsNames extends string> {
-  new (): PerfStressTestAsync<TOptionsNames>;
+export interface PerfStressTestConstructor<TOptionsNames extends string> {
+  new (): PerfStressTest<TOptionsNames>;
 }
 
 /**
@@ -28,9 +21,8 @@ export interface PerfStressTestAsyncConstructor<TOptionsNames extends string> {
  * and at a local level, which happens once for each initialization of the test class
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
-export abstract class PerfStressTestBase<TOptionsNames extends string> {
+export abstract class PerfStressTest<TOptionsNames extends string> {
   public abstract options: PerfStressOptionDictionary<TOptionsNames>;
-  public abstract run(abortSignal?: AbortSignalLike): void | Promise<void>;
 
   public parseOptions() {
     this.options = parsePerfStressOption(this.options) as PerfStressOptionDictionary<TOptionsNames>;
@@ -42,24 +34,9 @@ export abstract class PerfStressTestBase<TOptionsNames extends string> {
 
   public setup?(): void | Promise<void>;
   public cleanup?(): void | Promise<void>;
-}
 
-/**
- * Conveys the structure of a synchronous PerfStress test.
- */
-export abstract class PerfStressTestSync<TOptionsNames extends string> extends PerfStressTestBase<
-  TOptionsNames
-> {
-  public abstract run(abortSignal?: AbortSignalLike): void;
-}
-
-/**
- * Conveys the structure of an asynchronous PerfStress test.
- */
-export abstract class PerfStressTestAsync<TOptionsNames extends string> extends PerfStressTestBase<
-  TOptionsNames
-> {
-  public abstract run(abortSignal?: AbortSignalLike): Promise<void>;
+  public run?(abortSignal?: AbortSignalLike): void;
+  public async runAsync?(abortSignal?: AbortSignalLike): Promise<void>;
 }
 
 /**
@@ -68,8 +45,8 @@ export abstract class PerfStressTestAsync<TOptionsNames extends string> extends 
  * @param tests An array of classes that extend PerfStressTest
  */
 export function selectPerfStressTest(
-  tests: (PerfStressTestSyncConstructor<string> | PerfStressTestAsyncConstructor<string>)[]
-): PerfStressTestSyncConstructor<string> | PerfStressTestAsyncConstructor<string> {
+  tests: PerfStressTestConstructor<string>[]
+): PerfStressTestConstructor<string> {
   const testsNames: string[] = tests.map((test) => test.name);
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
   const testName = minimistResult._[minimistResult._.length - 1];

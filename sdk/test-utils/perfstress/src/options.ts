@@ -67,7 +67,8 @@ export type DefaultPerfStressOptionNames =
   | "warmup"
   | "iterations"
   | "no-cleanup"
-  | "milliseconds-to-log";
+  | "milliseconds-to-log"
+  | "sync";
 
 /**
  * These are the default options in full.
@@ -99,6 +100,10 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
     description: "Times to repeat the whole process, after warmup",
     shortName: "i",
     defaultValue: 1
+  },
+  sync: {
+    description: "Only runs the 'run' method instead of the 'runAsync' method",
+    defaultValue: false
   },
   "no-cleanup": {
     description: "Disables test cleanup"

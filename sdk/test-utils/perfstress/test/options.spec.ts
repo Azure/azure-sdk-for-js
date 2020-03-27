@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
-import { PerfStressTestSync, PerfStressOptionDictionary } from "../src";
+import { PerfStressTest, PerfStressOptionDictionary } from "../src";
 
 type OptionNames =
   | "non-req"
@@ -15,7 +15,7 @@ type OptionNames =
 /**
  * Showcases and verifies some of the expected behaviors of the PerfStress options
  */
-export class OptionsTest extends PerfStressTestSync<OptionNames> {
+export class OptionsTest extends PerfStressTest<OptionNames> {
   public options: PerfStressOptionDictionary<OptionNames> = {
     "non-req": {
       description: "Non-required option"

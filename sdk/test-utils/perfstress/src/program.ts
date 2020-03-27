@@ -2,12 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import {
-  PerfStressTestAsync,
-  PerfStressTestSync,
-  PerfStressTestSyncConstructor,
-  PerfStressTestAsyncConstructor
-} from "./tests";
+import { PerfStressTest, PerfStressTestConstructor } from "./tests";
 import {
   PerfStressOptionDictionary,
   parsePerfStressOption,
@@ -42,7 +37,7 @@ export class PerfStressProgram {
   private testName: string;
   private options: PerfStressOptionDictionary<DefaultPerfStressOptionNames>;
   private parallelNumber: number;
-  private tests: PerfStressTestSync<string>[] | PerfStressTestAsync<string>[];
+  private tests: PerfStressTest<string>[];
 
   /**
    * Receives a test class to instantiate and execute.
@@ -52,17 +47,13 @@ export class PerfStressProgram {
    *
    * @param testClass The testClass to be instantiated.
    */
-  constructor(
-    testClass: PerfStressTestSyncConstructor<string> | PerfStressTestAsyncConstructor<string>
-  ) {
+  constructor(testClass: PerfStressTestConstructor<string>) {
     this.testName = testClass.name;
     this.options = parsePerfStressOption(defaultPerfStressOptions);
     this.parallelNumber = Number(this.options.parallel.value);
 
     console.log(`=== Creating ${this.parallelNumber} instance(s) of ${this.testName} ===`);
-    this.tests = new Array<PerfStressTestSync<string> | PerfStressTestAsync<string>>(
-      this.parallelNumber
-    );
+    this.tests = new Array<PerfStressTest<string>>(this.parallelNumber);
 
     for (let i = 0; i < this.parallelNumber; i++) {
       const test = new testClass();
@@ -117,11 +108,14 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private runLoopSync(
-    test: PerfStressTestSync<string>,
+    test: PerfStressTest<string>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
   ): void {
+    if (!test.run) {
+      throw new Error(`The "run" method is missing in the test ${this.testName}`);
+    }
     const start = process.hrtime();
     while (!abortController.signal.aborted) {
       test.run(abortController.signal);
@@ -155,14 +149,17 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private async runLoopAsync(
-    test: PerfStressTestAsync<string>,
+    test: PerfStressTest<string>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
   ): Promise<void> {
+    if (!test.runAsync) {
+      throw new Error(`The "runAsync" method is missing in the test ${this.testName}`);
+    }
     const start = process.hrtime();
     while (!abortController.signal.aborted) {
-      await test.run(abortController.signal);
+      await test.runAsync(abortController.signal);
 
       const elapsed = process.hrtime(start);
       const elapsedMilliseconds = elapsed[0] * 1000 + elapsed[1] / 1000000;
@@ -217,7 +214,7 @@ export class PerfStressProgram {
       lastInIteration = inTotal;
     }, millisecondsToLog);
 
-    const isAsync = this.tests[0] instanceof PerfStressTestAsync;
+    const isAsync = !this.options.sync.value;
     const runLoop = isAsync ? this.runLoopAsync : this.runLoopSync;
 
     // We begin running the test in scope as many times as possible in sequence,

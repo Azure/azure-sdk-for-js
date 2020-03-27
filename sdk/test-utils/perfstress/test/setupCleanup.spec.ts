@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  PerfStressTestSync,
+  PerfStressTest,
   PerfStressOptionDictionary,
   DefaultPerfStressOptionNames,
   defaultPerfStressOptions
@@ -12,7 +12,7 @@ import {
  * Showcases and verifies some of the expected behaviors of the setup, globalSetup, cleanup and globalCleanup methods
  * of the PerfStressTest class.
  */
-export class SetupCleanupTest extends PerfStressTestSync<DefaultPerfStressOptionNames> {
+export class SetupCleanupTest extends PerfStressTest<DefaultPerfStressOptionNames> {
   public options: PerfStressOptionDictionary<
     DefaultPerfStressOptionNames
   > = defaultPerfStressOptions;
