@@ -9,7 +9,7 @@ import { MessagingError } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
-import { SpanOptions } from '@opentelemetry/api';
+import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-amqp';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';

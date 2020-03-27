@@ -14,7 +14,7 @@ export interface TracingOptions {
    */
   tracingOptions?: {
     /**
-     * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
+     * OpenTelemetry  used to create a span when tracing is enabled.
      */
     spanOptions?: SpanOptions;
   };

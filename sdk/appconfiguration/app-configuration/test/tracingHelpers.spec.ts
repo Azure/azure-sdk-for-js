@@ -4,7 +4,9 @@
 import { Spanner } from "../src/internal/tracingHelpers";
 import { RestError } from "@azure/core-http";
 import { getTracer } from "@azure/core-tracing";
-import { SpanOptions, SpanKind, CanonicalCode } from "@opentelemetry/api";
+import { SpanKind, CanonicalCode } from "@opentelemetry/api";
+import { SpanOptions } from "@azure/core-tracing";
+
 import * as assert from "assert";
 
 interface FakeOptions {
@@ -17,7 +19,6 @@ describe("tracingHelpers", () => {
     const fakeOptions: FakeOptions = {
       name: "fakeName",
       spanOptions: {
-        kind: SpanKind.PRODUCER,
         attributes: {
           testAttribute: "testAttributeValue"
         }
@@ -32,7 +33,6 @@ describe("tracingHelpers", () => {
 
     assert.equal("fakeName", newOptions.name);
     assert.equal(parentSpan, newOptions.spanOptions.parent);
-    assert.equal(SpanKind.PRODUCER, newOptions.spanOptions.kind);
     assert.ok(newOptions.spanOptions.attributes, "Should have attributes set");
     if (newOptions.spanOptions.attributes) {
       assert.equal("Microsoft.AppConfiguration", newOptions.spanOptions.attributes["az.namespace"]);

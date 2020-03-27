@@ -3,7 +3,8 @@
 
 import { GetTokenOptions } from "@azure/core-http";
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanKind, SpanOptions } from "@opentelemetry/api";
+import { Span, SpanKind, SpanOptions as OTSpanOptions } from "@opentelemetry/api";
+import { SpanOptions } from "@azure/core-tracing";
 
 interface OperationTracingOptions {
   /**
@@ -28,7 +29,7 @@ export function createSpan(
     ...options.tracingOptions
   };
 
-  const spanOptions: SpanOptions = {
+  const spanOptions: OTSpanOptions = {
     ...tracingOptions.spanOptions,
     kind: SpanKind.INTERNAL
   };

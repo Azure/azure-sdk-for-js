@@ -30,7 +30,7 @@ import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
-import { SpanOptions } from '@opentelemetry/api';
+import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-http';
 import { TransferProgressEvent } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';

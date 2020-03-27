@@ -246,7 +246,7 @@ export class EventHubProducer {
   }
 
   private _createSendSpan(
-    parentSpan?: Span | SpanContext,
+    parentSpan?: Span | SpanContext | null,
     spanContextsToLink: SpanContext[] = []
   ): Span {
     const links: Link[] = spanContextsToLink.map((context) => {

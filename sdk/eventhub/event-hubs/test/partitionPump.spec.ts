@@ -40,7 +40,7 @@ describe("PartitionPump", () => {
       await createProcessingSpan([], eventHubProperties, {
         tracingOptions: {
           spanOptions: {
-            parent: fakeParentSpan
+            parent: fakeParentSpan.context()
           }
         }
       });

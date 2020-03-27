@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanOptions, SpanKind } from "@opentelemetry/api";
+import { Span, SpanOptions as OTSpanOptions, SpanKind } from "@opentelemetry/api";
+import { SpanOptions } from "@azure/core-tracing";
 import { OperationTracingOptions } from "../StorageClient";
 
 /**
@@ -15,7 +16,7 @@ export function createSpan(
   tracingOptions: OperationTracingOptions = {}
 ): { span: Span; spanOptions: SpanOptions } {
   const tracer = getTracer();
-  const spanOptions: SpanOptions = {
+  const spanOptions: OTSpanOptions = {
     ...tracingOptions.spanOptions,
     kind: SpanKind.INTERNAL
   };

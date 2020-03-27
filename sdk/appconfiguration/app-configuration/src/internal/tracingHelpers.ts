@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanOptions, SpanKind, CanonicalCode } from "@opentelemetry/api";
+import { Span, SpanKind, CanonicalCode } from "@opentelemetry/api";
+import { SpanOptions } from "@azure/core-tracing";
 
 import { RestError } from "@azure/core-http";
 
