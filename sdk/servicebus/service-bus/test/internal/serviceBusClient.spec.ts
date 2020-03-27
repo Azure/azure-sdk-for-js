@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { extractReceiverArguments } from "../../src/serviceBusClient";
+import { extractReceiverArguments, validateEntityNamesMatch } from "../../src/serviceBusClient";
 import chai from "chai";
 import { GetSessionReceiverOptions } from "../../src/models";
 const assert = chai.assert;
@@ -105,7 +105,7 @@ describe("serviceBusClient unit tests", () => {
             "receiveAndDelete",
             sessionReceiverOptions
           ),
-        /The connection string this client had an EntityPath of totally non-matching topic which doesn't match the name of the topic for this receiver \(topic\)/
+        /The connection string for this ServiceBusClient had an EntityPath of 'totally non-matching topic' which doesn't match the name of the topic for this Receiver \('topic'\)/
       );
 
       assert.throws(
@@ -117,7 +117,7 @@ describe("serviceBusClient unit tests", () => {
             sessionReceiverOptions,
             undefined
           ),
-        /The connection string this client had an EntityPath of totally non-matching queue which doesn't match the name of the queue for this receiver \(queue\)/
+        /The connection string for this ServiceBusClient had an EntityPath of 'totally non-matching queue' which doesn't match the name of the queue for this Receiver \('queue'\)/
       );
 
       assert.throws(
@@ -130,6 +130,16 @@ describe("serviceBusClient unit tests", () => {
             sessionReceiverOptions
           ),
         /Invalid receiveMode provided/
+      );
+    });
+  });
+
+  describe("validateEntityNamesMatch", () => {
+    // the receiver cases are all covered above in `extractReceiverArguments`. So this is just covering the way the getSender() call uses it.
+    it("failures", () => {
+      assert.throws(
+        () => validateEntityNamesMatch("the queue", "but I specified a different thing", "sender"),
+        /The connection string for this ServiceBusClient had an EntityPath of 'the queue' which doesn't match the name of the queue\/topic for this Sender/
       );
     });
   });

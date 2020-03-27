@@ -229,6 +229,8 @@ export class ServiceBusClient {
    * and cancel such scheduled messages.
    */
   getSender(queueOrTopicName: string): Sender {
+    validateEntityNamesMatch(this._connectionContext.config.entityPath, queueOrTopicName, "sender");
+
     const clientEntityContext = ClientEntityContext.create(
       queueOrTopicName,
       ClientType.ServiceBusReceiverClient,
@@ -368,11 +370,7 @@ export function extractReceiverArguments<OptionsT>(
     const topic = queueOrTopicName1;
     const subscription = receiveModeOrSubscriptionName2;
 
-    if (connectionStringEntityName && topic !== connectionStringEntityName) {
-      throw new Error(
-        `The connection string this client had an EntityPath of ${connectionStringEntityName} which doesn't match the name of the topic for this receiver (${topic})`
-      );
-    }
+    validateEntityNamesMatch(connectionStringEntityName, topic, "receiver-topic");
 
     return {
       entityPath: `${topic}/Subscriptions/${subscription}`,
@@ -380,11 +378,7 @@ export function extractReceiverArguments<OptionsT>(
       options: definitelyOptions4
     };
   } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
-    if (connectionStringEntityName && queueOrTopicName1 !== connectionStringEntityName) {
-      throw new Error(
-        `The connection string this client had an EntityPath of ${connectionStringEntityName} which doesn't match the name of the queue for this receiver (${queueOrTopicName1})`
-      );
-    }
+    validateEntityNamesMatch(connectionStringEntityName, queueOrTopicName1, "receiver-queue");
 
     return {
       entityPath: queueOrTopicName1,
@@ -393,5 +387,39 @@ export function extractReceiverArguments<OptionsT>(
     };
   } else {
     throw new TypeError("Invalid receiveMode provided");
+  }
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function validateEntityNamesMatch(
+  connectionStringEntityName: string | undefined,
+  queueOrTopicName: string,
+  senderOrReceiverType: "receiver-topic" | "receiver-queue" | "sender"
+) {
+  if (connectionStringEntityName && queueOrTopicName !== connectionStringEntityName) {
+    let entityType;
+    let senderOrReceiver;
+
+    switch (senderOrReceiverType) {
+      case "receiver-queue":
+        entityType = "queue";
+        senderOrReceiver = "Receiver";
+        break;
+      case "receiver-topic":
+        entityType = "topic";
+        senderOrReceiver = "Receiver";
+        break;
+      case "sender":
+        entityType = "queue/topic";
+        senderOrReceiver = "Sender";
+        break;
+    }
+
+    throw new Error(
+      `The connection string for this ServiceBusClient had an EntityPath of '${connectionStringEntityName}' which doesn't match the name of the ${entityType} for this ${senderOrReceiver} ('${queueOrTopicName}')`
+    );
   }
 }
