@@ -2,6 +2,9 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
+  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  
   This sample demonstrates how to create a namespace using AAD token credentials
   obtained from using Service Principal Secrets.
 
@@ -19,7 +22,7 @@
 */
 
 import { ServiceBusClient } from "@azure/service-bus";
-import { loginWithServicePrincipalSecret } from "@azure/ms-rest-nodeauth";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -27,7 +30,8 @@ dotenv.config();
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint =
-  process.env.SERVICE_BUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
+  process.env.SERVICE_BUS_ENDPOINT ||
+  "<your-servicebus-namespace>.servicebus.windows.net";
 
 // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
 const clientId = process.env.AZURE_TENANT_ID || "<azure tenant id>";
@@ -35,11 +39,9 @@ const clientSecret = process.env.AZURE_CLIENT_SECRET || "<azure client secret>";
 const tenantId = process.env.AZURE_CLIENT_ID || "<azure client id>";
 
 export async function main() {
-  const tokenCreds = await loginWithServicePrincipalSecret(clientId, clientSecret, tenantId, {
-    tokenAudience: "https://servicebus.azure.net/"
-  });
+  const tokenCreds = new DefaultAzureCredential();
 
-  const sbClient = ServiceBusClient.createFromAadTokenCredentials(serviceBusEndpoint, tokenCreds);
+  const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
   /*
    Refer to other samples, and place your code here
    to create queue clients, and send/receive messages
@@ -47,6 +49,6 @@ export async function main() {
   await sbClient.close();
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.log("Error occurred: ", err);
 });

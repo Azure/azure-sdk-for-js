@@ -8,7 +8,7 @@ export {
   CountDocumentsOptions,
   DeleteDocumentsOptions,
   GetDocumentOptions,
-  IndexAction,
+  IndexDocumentsAction,
   ListSearchResultsPageSettings,
   IndexDocuments,
   SearchDocumentsResultBase,
@@ -23,6 +23,7 @@ export {
   SuggestResult,
   SuggestOptions,
   MergeDocumentsOptions,
+  MergeOrUploadDocumentsOptions,
   UploadDocumentsOptions
 } from "./indexModels";
 export { SearchServiceClient, SearchServiceClientOptions } from "./searchServiceClient";
@@ -57,6 +58,7 @@ export {
 export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
+export { IndexDocumentsBatch } from "./indexDocumentsBatch";
 export {
   AutocompleteResult,
   AutocompleteMode,
