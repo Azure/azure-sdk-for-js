@@ -18,7 +18,7 @@ import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { RetryOptions } from "@azure/core-http";
 
-describe("Retries", () => {
+describe("Retries - ManagementClient", () => {
   let senderClient: Sender;
   let receiverClient: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
@@ -58,6 +58,7 @@ describe("Retries", () => {
 
   async function afterEachTest(): Promise<void> {
     await senderClient.close();
+    await receiverClient.close();
   }
 
   function mockManagementClientToThrowError() {
@@ -122,16 +123,19 @@ describe("Retries", () => {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
       sessionReceiver = receiverClient as SessionReceiver<ReceivedMessageWithLock>;
     });
+    afterEach(async () => {
+      await afterEachTest();
+    });
 
     it("Unpartitioned Queue with Sessions: peek", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiverClient.diagnostics.peek(1);
+        await sessionReceiver.diagnostics.peek(1);
       });
     });
 
     it("Unpartitioned Queue with Sessions: peekBySequenceNumber", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiverClient.diagnostics.peekBySequenceNumber(new Long(0));
+        await sessionReceiver.diagnostics.peekBySequenceNumber(new Long(0));
       });
     });
 
@@ -139,7 +143,7 @@ describe("Retries", () => {
       void
     > {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiverClient.receiveDeferredMessage(new Long(0));
+        await sessionReceiver.receiveDeferredMessage(new Long(0));
       });
     });
 
