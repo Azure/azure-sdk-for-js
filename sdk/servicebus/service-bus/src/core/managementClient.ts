@@ -468,10 +468,8 @@ export class ManagementClient extends LinkEntity {
     fromSequenceNumber: Long,
     maxMessageCount?: number,
     sessionId?: string,
-    receiverOptions?: GetReceiverOptions
+    timeoutInMs?: number
   ): Promise<ReceivedMessage[]> {
-    if (!receiverOptions) receiverOptions = {};
-    const retryOptions = receiverOptions.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
     const connId = this._context.namespace.connectionId;
 
@@ -489,73 +487,62 @@ export class ManagementClient extends LinkEntity {
       maxMessageCount = 1;
     }
 
-    const peekBySequenceNumberOperationPromise = () =>
-      new Promise<ReceivedMessage[]>(async (resolve, reject) => {
-        try {
-          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-          const messageList: ReceivedMessage[] = [];
-          const messageBody: any = {};
-          messageBody[Constants.fromSequenceNumber] = types.wrap_long(
-            Buffer.from(fromSequenceNumber.toBytesBE())
-          );
-          messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount!);
-          if (sessionId != undefined) {
-            messageBody[Constants.sessionIdMapKey] = sessionId;
-          }
-          const request: AmqpMessage = {
-            body: messageBody,
-            message_id: generate_uuid(),
-            reply_to: this.replyTo,
-            application_properties: {
-              operation: Constants.operations.peekMessage
-            }
-          };
-          const associatedLinkName = this._getAssociatedReceiverName(this._context, sessionId);
-          if (associatedLinkName) {
-            request.application_properties![Constants.associatedLinkName] = associatedLinkName;
-          }
-          request.application_properties![Constants.trackingId] = generate_uuid();
-          log.mgmt(
-            "[%s] Peek by sequence number request body: %O.",
-            this._context.namespace.connectionId,
-            request.body
-          );
-
-          const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
-            abortSignal: undefined,
-            requestName: undefined
-          });
-          if (result.application_properties!.statusCode !== 204) {
-            const messages = result.body.messages as { message: Buffer }[];
-            for (const msg of messages) {
-              const decodedMessage = RheaMessageUtil.decode(msg.message);
-              const message = fromAmqpMessage(decodedMessage as any);
-              message.body = this._context.namespace.dataTransformer.decode(message.body);
-              messageList.push(message);
-              this._lastPeekedSequenceNumber = message.sequenceNumber!;
-            }
-          }
-          resolve(messageList);
-        } catch (err) {
-          const error = translate(err) as MessagingError;
-          log.error(
-            "An error occurred while sending the request to peek messages to " +
-              "$management endpoint: %O",
-            error
-          );
-          // statusCode == 404 then do not throw
-          if (error.code !== ConditionErrorNameMapper["com.microsoft:message-not-found"]) {
-            reject(error);
-          }
+    const messageList: ReceivedMessage[] = [];
+    try {
+      const messageBody: any = {};
+      messageBody[Constants.fromSequenceNumber] = types.wrap_long(
+        Buffer.from(fromSequenceNumber.toBytesBE())
+      );
+      messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount!);
+      if (sessionId != undefined) {
+        messageBody[Constants.sessionIdMapKey] = sessionId;
+      }
+      const request: AmqpMessage = {
+        body: messageBody,
+        message_id: generate_uuid(),
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.peekMessage
         }
+      };
+      const associatedLinkName = this._getAssociatedReceiverName(this._context, sessionId);
+      if (associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      }
+      request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt(
+        "[%s] Peek by sequence number request body: %O.",
+        this._context.namespace.connectionId,
+        request.body
+      );
+
+      const result = await this._acquireLockAndSendRequest(request, timeoutInMs!, {
+        abortSignal: undefined,
+        requestName: undefined
       });
-    const config: RetryConfig<ReceivedMessage[]> = {
-      operation: peekBySequenceNumberOperationPromise,
-      connectionId: this._context.namespace.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: retryOptions
-    };
-    return retry<ReceivedMessage[]>(config);
+      if (result.application_properties!.statusCode !== 204) {
+        const messages = result.body.messages as { message: Buffer }[];
+        for (const msg of messages) {
+          const decodedMessage = RheaMessageUtil.decode(msg.message);
+          const message = fromAmqpMessage(decodedMessage as any);
+          message.body = this._context.namespace.dataTransformer.decode(message.body);
+          messageList.push(message);
+          this._lastPeekedSequenceNumber = message.sequenceNumber!;
+        }
+      }
+    } catch (err) {
+      const error = translate(err) as MessagingError;
+      log.error(
+        "An error occurred while sending the request to peek messages to " +
+          "$management endpoint: %O",
+        error
+      );
+      // statusCode == 404 then do not throw
+      if (error.code !== ConditionErrorNameMapper["com.microsoft:message-not-found"]) {
+        throw error;
+      }
+    }
+    return messageList;
   }
 
   /**
