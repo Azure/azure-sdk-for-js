@@ -50,7 +50,6 @@ import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { getRetryAttemptTimeoutInMs } from "@azure/core-amqp";
-import { GetSenderOptions, GetReceiverOptions } from "../models";
 
 /**
  * Represents a Rule on a Subscription that is used to filter the incoming message from the
@@ -617,9 +616,8 @@ export class ManagementClient extends LinkEntity {
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage[],
-    options: GetSenderOptions
+    timeoutInMs: number
   ): Promise<Long[]> {
-    const retryOptions = options.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any[] = [];
     for (let i = 0; i < messages.length; i++) {
@@ -666,55 +664,36 @@ export class ManagementClient extends LinkEntity {
       }
     }
     try {
-      const scheduleMessageOperationPromise = () =>
-        new Promise<Long.Long[]>(async (resolve, reject) => {
-          try {
-            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
-
-            const request: AmqpMessage = {
-              body: { messages: messageBody },
-              reply_to: this.replyTo,
-              application_properties: {
-                operation: Constants.operations.scheduleMessage
-              }
-            };
-            if (this._context.sender) {
-              request.application_properties![
-                Constants.associatedLinkName
-              ] = this._context.sender!.name;
-            }
-            request.application_properties![Constants.trackingId] = generate_uuid();
-            log.mgmt(
-              "[%s] Schedule messages request body: %O.",
-              this._context.namespace.connectionId,
-              request.body
-            );
-            const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
-              abortSignal: undefined,
-              requestName: undefined
-            });
-            const sequenceNumbers = result.body[Constants.sequenceNumbers];
-            const sequenceNumbersAsLong = [];
-            for (let i = 0; i < sequenceNumbers.length; i++) {
-              if (typeof sequenceNumbers[i] === "number") {
-                sequenceNumbersAsLong.push(Long.fromNumber(sequenceNumbers[i]));
-              } else {
-                sequenceNumbersAsLong.push(Long.fromBytesBE(sequenceNumbers[i]));
-              }
-            }
-            resolve(sequenceNumbersAsLong);
-          } catch (error) {
-            reject(translate(error));
-          }
-        });
-
-      const config: RetryConfig<Long.Long[]> = {
-        operation: scheduleMessageOperationPromise,
-        connectionId: this._context.namespace.connectionId,
-        operationType: RetryOperationType.management,
-        retryOptions: retryOptions
+      const request: AmqpMessage = {
+        body: { messages: messageBody },
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.scheduleMessage
+        }
       };
-      return await retry<Long.Long[]>(config);
+      if (this._context.sender) {
+        request.application_properties![Constants.associatedLinkName] = this._context.sender!.name;
+      }
+      request.application_properties![Constants.trackingId] = generate_uuid();
+      log.mgmt(
+        "[%s] Schedule messages request body: %O.",
+        this._context.namespace.connectionId,
+        request.body
+      );
+      const result = await this._acquireLockAndSendRequest(request, timeoutInMs, {
+        abortSignal: undefined,
+        requestName: undefined
+      });
+      const sequenceNumbers = result.body[Constants.sequenceNumbers];
+      const sequenceNumbersAsLong = [];
+      for (let i = 0; i < sequenceNumbers.length; i++) {
+        if (typeof sequenceNumbers[i] === "number") {
+          sequenceNumbersAsLong.push(Long.fromNumber(sequenceNumbers[i]));
+        } else {
+          sequenceNumbersAsLong.push(Long.fromBytesBE(sequenceNumbers[i]));
+        }
+      }
+      return sequenceNumbersAsLong;
     } catch (err) {
       const error = translate(err);
       log.error(
@@ -731,8 +710,7 @@ export class ManagementClient extends LinkEntity {
    * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
    * @returns Promise<void>
    */
-  async cancelScheduledMessages(sequenceNumbers: Long[], options: GetSenderOptions): Promise<void> {
-    const retryOptions = options.retryOptions || {};
+  async cancelScheduledMessages(sequenceNumbers: Long[], timeoutInMs: number): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any = {};
     messageBody[Constants.sequenceNumbers] = [];
@@ -777,26 +755,11 @@ export class ManagementClient extends LinkEntity {
         request.body
       );
 
-      const cancelSchedulesMessagesOperationPromise = () =>
-        new Promise<void>(async (resolve, reject) => {
-          try {
-            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
-            await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
-              abortSignal: undefined,
-              requestName: undefined
-            });
-            resolve();
-          } catch (error) {
-            reject(translate(error));
-          }
-        });
-      const config: RetryConfig<void> = {
-        operation: cancelSchedulesMessagesOperationPromise,
-        connectionId: this._context.namespace.connectionId,
-        operationType: RetryOperationType.management,
-        retryOptions: retryOptions
-      };
-      return await retry<void>(config);
+      await this._acquireLockAndSendRequest(request, timeoutInMs, {
+        abortSignal: undefined,
+        requestName: undefined
+      });
+      return;
     } catch (err) {
       const error = translate(err);
       log.error(
@@ -821,7 +784,7 @@ export class ManagementClient extends LinkEntity {
     sequenceNumbers: Long[],
     receiveMode: ReceiveMode,
     sessionId?: string,
-    receiverOptions?: GetReceiverOptions
+    timeoutInMs?: number
   ): Promise<ServiceBusMessageImpl[]> {
     if (!receiverOptions) receiverOptions = {};
     const retryOptions = receiverOptions.retryOptions || {};
@@ -1008,7 +971,8 @@ export class ManagementClient extends LinkEntity {
    */
   async renewSessionLock(
     sessionId: string,
-    options?: GetReceiverOptions & SendRequestOptions
+    options?: SendRequestOptions,
+    timeoutInMs?: number
   ): Promise<Date> {
     if (!options) options = {};
     const retryOptions = options.retryOptions || {};
@@ -1082,11 +1046,7 @@ export class ManagementClient extends LinkEntity {
    * @param state The state that needs to be set.
    * @returns Promise<void>
    */
-  async setSessionState(
-    sessionId: string,
-    state: any,
-    options?: GetReceiverOptions
-  ): Promise<void> {
+  async setSessionState(sessionId: string, state: any, timeoutInMs?: number): Promise<void> {
     if (!options) options = {};
     const retryOptions = options.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
@@ -1149,7 +1109,7 @@ export class ManagementClient extends LinkEntity {
    * @param sessionId The session for which the state needs to be retrieved.
    * @returns Promise<any> The state of that session
    */
-  async getSessionState(sessionId: string, receiverOptions?: GetReceiverOptions): Promise<any> {
+  async getSessionState(sessionId: string, timeoutInMs: number): Promise<any> {
     if (!receiverOptions) receiverOptions = {};
     const retryOptions = receiverOptions.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
