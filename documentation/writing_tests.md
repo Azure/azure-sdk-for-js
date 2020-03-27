@@ -629,7 +629,7 @@ describe("some group of functionalities", function() {
     });
 
     const result = await client.A();
-    expect(result.value).to.be(true);
+    assert.ok(result.value);
   });
 
   it("should test B with a proper setup", function() {
@@ -641,7 +641,7 @@ describe("some group of functionalities", function() {
     });
 
     const result = await client.B();
-    expect(result.value).to.be(true);
+    assert.ok(result.value);
   });
 });
 ```
@@ -668,13 +668,13 @@ describe("some group of functionalities", function() {
   it("should test A with a proper setup", function() {
     defaultPrepareClient(client);
     const result = await client.A();
-    expect(result.value).to.be(true);
+    assert.ok(result.value);
   });
 
   it("should test B with a proper setup", function() {
     defaultPrepareClient(client);
     const result = await client.B();
-    expect(result.value).to.be(true);
+    assert.ok(result.value);
   });
 });
 ```
@@ -750,18 +750,18 @@ describe("testing the client's basic methods", function() {
 
   it("the initialized client should expose an expected public property", function() {
     const client = new Client();
-    expect(client.expectedPublicProperty).to.be(true);
+    assert.ok(client.expectedPublicProperty);
   });
 
   it("should test A", function() {
     const result = await client.A();
-    expect(result.value).to.be(true);
+    assert.ok(result.value);
   });
 
   it("should test AB", function() {
     const resultA = await client.A();
     const resultAB = await client.AB(resultA.value);
-    expect(resultAB.value).to.be(true);
+    assert.ok(resultAB.value);
   });
 });
 ```
@@ -781,7 +781,7 @@ describe("testing some of the client's public properties", function() {
   });
 
   it("should have a valid version", function() {
-    expect(client.version).to.equal(version)
+    assert.equal(client.version, version)
   });
 });
 ```
@@ -798,9 +798,9 @@ describe("testing the client's basic methods", function() {
 
   it("should test A", function() {
     const result = await client.A();
-    expect(result.value).to.be(true);
-    expect(result.createdAt instanceof Date).to.be(true);
-    expect(result.updatedAt instanceof Date).to.be(true);
+    assert.ok(result.value);
+    assert.ok(result.createdAt instanceof Date);
+    assert.ok(result.updatedAt instanceof Date);
     // And other properties...
   });
 });
