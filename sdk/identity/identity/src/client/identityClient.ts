@@ -18,7 +18,7 @@ import { logger } from "../util/logging";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
-const envAuthorityHost = process.env.AZURE_AUTHORITY_HOST
+const EnvAuthorityHost = process.env.AZURE_AUTHORITY_HOST
 
 /**
  * An internal type used to communicate details of a token request's
@@ -43,7 +43,7 @@ export class IdentityClient extends ServiceClient {
     options = options || IdentityClient.getEnvironmentOptions() || IdentityClient.getDefaultOptions();
     super(undefined, createPipelineFromOptions(options));
 
-    this.baseUri = this.authorityHost = options.authorityHost ||  envAuthorityHost || DefaultAuthorityHost;
+    this.baseUri = this.authorityHost = options.authorityHost ||  EnvAuthorityHost || DefaultAuthorityHost;
 
     if (!this.baseUri.startsWith("https:")) {
       throw new Error("The authorityHost address must use the 'https' protocol.");
@@ -179,7 +179,7 @@ export class IdentityClient extends ServiceClient {
 
   static getEnvironmentOptions(): TokenCredentialOptions {
     return {
-      authorityHost: envAuthorityHost
+      authorityHost: EnvAuthorityHost
     };
   }
 }
