@@ -124,7 +124,7 @@ export interface DeadLetterOptions {
   /**
    * @property The reason for deadlettering the message.
    */
-  deadletterReason: string;
+  deadLetterReason: string;
   /**
    * @property The error description for deadlettering the message.
    */
@@ -301,7 +301,7 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
 
 /**
  * @internal
- * Converts given SendableMessageInfo to AmqpMessage
+ * Converts given ServiceBusMessage to AmqpMessage
  */
 export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
   const amqpMsg: AmqpMessage = {
@@ -558,7 +558,7 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
    *
    * @returns Promise<void>
    */
-  deadLetter(options?: DeadLetterOptions): Promise<void>;
+  deadLetter(options?: DeadLetterOptions & { [key: string]: any }): Promise<void>;
 
   /**
    * Renews the lock on the message for the duration as specified during the Queue/Subscription
@@ -983,14 +983,19 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   /**
    * See ReceivedMessageWithLock.deadLetter().
    */
-  async deadLetter(options?: DeadLetterOptions): Promise<void> {
+  async deadLetter(propertiesToModify?: DeadLetterOptions & { [key: string]: any }): Promise<void> {
     const error: AmqpError = {
       condition: Constants.deadLetterName
     };
-    if (options) {
+
+    if (
+      propertiesToModify &&
+      (propertiesToModify.deadLetterReason != null ||
+        propertiesToModify.deadLetterErrorDescription != null)
+    ) {
       error.info = {
-        DeadLetterReason: options.deadletterReason,
-        DeadLetterErrorDescription: options.deadLetterErrorDescription
+        DeadLetterReason: propertiesToModify.deadLetterReason,
+        DeadLetterErrorDescription: propertiesToModify.deadLetterErrorDescription
       };
     }
     log.message(
@@ -998,13 +1003,25 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       this._context.namespace.connectionId,
       this.messageId
     );
+
+    const actualPropertiesToModify: Partial<DeadLetterOptions> = {
+      ...propertiesToModify
+    };
+
+    // these two fields are handled specially and don't need to be in here.
+    delete actualPropertiesToModify.deadLetterErrorDescription;
+    delete actualPropertiesToModify.deadLetterReason;
+
+    // this handles deferred messages that have been received via the management link
+    // and thus need to be settled there.
     if (this._context.requestResponseLockedMessages.has(this.lockToken!)) {
       await this._context.managementClient!.updateDispositionStatus(
         this.lockToken!,
         DispositionStatus.suspended,
         {
-          deadLetterReason: error.condition,
-          deadLetterDescription: error.description,
+          propertiesToModify: actualPropertiesToModify,
+          deadLetterReason: propertiesToModify?.deadLetterReason,
+          deadLetterDescription: propertiesToModify?.deadLetterErrorDescription,
           sessionId: this.sessionId
         }
       );
@@ -1017,6 +1034,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     this.throwIfMessageCannotBeSettled(receiver, DispositionType.deadletter);
 
     return receiver!.settleMessage(this, DispositionType.deadletter, {
+      propertiesToModify: actualPropertiesToModify,
       error: error
     });
   }
@@ -1043,7 +1061,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * @returns ServiceBusMessage
    */
   clone(): ServiceBusMessage {
-    // We are returning a SendableMessageInfo object because that object can then be sent to Service Bus
+    // We are returning a ServiceBusMessage object because that object can then be sent to Service Bus
     const clone: ServiceBusMessage = {
       body: this.body,
       contentType: this.contentType,

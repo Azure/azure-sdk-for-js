@@ -23,28 +23,11 @@ export {
   ReceivedMessage,
   ServiceBusMessage,
   DeadLetterOptions,
-  ReceiveMode,
   ReceivedMessageWithLock
 } from "./serviceBusMessage";
+export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
+
 export { Delivery, WebSocketImpl } from "rhea-promise";
-
-export { HttpOperationResponse } from "@azure/core-http";
-
-export { QueueDetails, QueueOptions } from "./serializers/queueResourceSerializer";
-export { TopicDetails, TopicOptions } from "./serializers/topicResourceSerializer";
-export {
-  SubscriptionDetails,
-  SubscriptionOptions
-} from "./serializers/subscriptionResourceSerializer";
-export {
-  RuleDetails,
-  RuleOptions,
-  SqlFilter,
-  SqlParameter,
-  SqlAction
-} from "./serializers/ruleResourceSerializer";
-
-export { MessageCountDetails, AuthorizationRule, EntityStatus } from "./util/utils";
 
 export {
   GetMessageIteratorOptions,
@@ -53,10 +36,12 @@ export {
   MessageHandlers,
   ReceiveBatchOptions,
   SubscribeOptions,
-  WaitTimeOptions
+  WaitTimeOptions,
+  CreateBatchOptions
 } from "./models";
 
-export { Receiver, SubscriptionRuleManagement } from "./receivers/receiver";
+export { Receiver } from "./receivers/receiver";
+export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { ServiceBusClient } from "./serviceBusClient";

@@ -6,7 +6,6 @@
 - Sentiment Analysis
 - Key Phrase Extraction
 - Named Entity Recognition
-- Recognition of Personally Identifiable Information
 - Linked Entity Recognition
 
 Use the client library to:
@@ -225,41 +224,6 @@ async function main() {
   for (const result of results) {
     if (result.error === undefined) {
       console.log(" -- Recognized entities for input", result.id, "--");
-      for (const entity of result.entities) {
-        console.log(entity.text, ":", entity.category, "(Score:", entity.score, ")");
-      }
-    } else {
-      console.error("Encountered an error:", result.error);
-    }
-  }
-}
-
-main();
-```
-
-### Recognize PII Entities
-
-There is a separate endpoint and operation for recognizing Personally Identifiable Information (PII) in text such as Social Security Numbers, bank account information, credit card numbers, etc. Its usage is very similar to the standard entity recognition above:
-
-```javascript
-const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
-
-const client = new TextAnalyticsClient(
-  "<endpoint>",
-  new TextAnalyticsApiKeyCredential("<API key>")
-);
-
-const documents = [
-  "The employee's SSN is 555-55-5555.",
-  "The employee's phone number is (555) 555-5555."
-];
-
-async function main() {
-  const results = await client.recognizePiiEntities(documents, "en");
-
-  for (const result of results) {
-    if (result.error === undefined) {
-      console.log(" -- Recognized PII entities for input", result.id, "--");
       for (const entity of result.entities) {
         console.log(entity.text, ":", entity.category, "(Score:", entity.score, ")");
       }

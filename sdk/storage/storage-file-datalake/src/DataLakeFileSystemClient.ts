@@ -215,11 +215,15 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @memberof DataLakeFileSystemClient
    */
   public async exists(options: FileSystemExistsOptions = {}): Promise<boolean> {
-    const { span, spanOptions } = createSpan("DataLakeFileSystemClient-exists", options.tracingOptions);
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileSystemClient-exists",
+      options.tracingOptions
+    );
     try {
-      return await this.blobContainerClient.exists(
-        { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
-      );
+      return await this.blobContainerClient.exists({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

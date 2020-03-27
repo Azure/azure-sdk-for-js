@@ -4,7 +4,7 @@
 import { AbortError } from "@azure/abort-controller";
 import { HttpClient } from "./httpClient";
 import { HttpHeaders } from "./httpHeaders";
-import { WebResource, TransferProgressEvent } from "./webResource";
+import { WebResourceLike, TransferProgressEvent } from "./webResource";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { RestError } from "./restError";
 
@@ -12,7 +12,7 @@ import { RestError } from "./restError";
  * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.
  */
 export class XhrHttpClient implements HttpClient {
-  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     const xhr = new XMLHttpRequest();
 
     if (request.proxySettings) {
@@ -147,7 +147,7 @@ export function parseHeaders(xhr: XMLHttpRequest) {
 }
 
 function rejectOnTerminalEvent(
-  request: WebResource,
+  request: WebResourceLike,
   xhr: XMLHttpRequest,
   reject: (err: any) => void
 ) {

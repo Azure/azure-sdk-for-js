@@ -13,7 +13,7 @@ import {
   toProperties,
   toPublicAccessType,
   toRolePermissions,
-  toRolePermissionsString,
+  toRolePermissionsString
 } from "../src/transforms";
 
 describe("transforms", () => {

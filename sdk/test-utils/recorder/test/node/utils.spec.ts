@@ -23,12 +23,18 @@ describe("NodeJS utils", () => {
         "../../../rush.json": ""
       });
 
+      const path = require("path");
+      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
+
+      // If rollup bundle is used to execute the tests - `dist-test/index.node.js`, `recordings` folder is present one level above.
       mockRequire("../recordings/recording.json", {
         property: "value"
       });
 
-      const path = require("path");
-      const testAbsolutePath = path.resolve("test/myTest.spec.ts");
+      // If the dist-esm files are used to execute the tests - `dist-esm/test/node/utils.spec.js`, `recordings` folder is present three levels above.
+      mockRequire("../../../recordings/recording.json", {
+        property: "value"
+      });
 
       expect(nodeRequireRecordingIfExists("recording.json", testAbsolutePath).property).to.equal(
         "value"
@@ -150,7 +156,14 @@ describe("NodeJS utils", () => {
         "../../../rush.json": ""
       });
 
+      // If rollup bundle is used to execute the tests - `dist-test/index.node.js`, `recordings` folder is present one level above.
       mockRequire(`../recordings/${filePath}`, {
+        // We won't be testing whether MD5 works or not.
+        hash: "same old hash"
+      });
+
+      // If the dist-esm files are used to execute the tests - `dist-esm/test/node/utils.spec.js`, `recordings` folder is present three levels above.
+      mockRequire(`../../../recordings/${filePath}`, {
         // We won't be testing whether MD5 works or not.
         hash: "same old hash"
       });

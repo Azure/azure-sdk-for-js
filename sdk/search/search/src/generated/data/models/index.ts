@@ -233,7 +233,7 @@ export interface IndexAction {
    * The operation to perform on a document in an indexing batch. Possible values include:
    * 'upload', 'merge', 'mergeOrUpload', 'delete'
    */
-  actionType?: IndexActionType;
+  __actionType: IndexActionType;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
