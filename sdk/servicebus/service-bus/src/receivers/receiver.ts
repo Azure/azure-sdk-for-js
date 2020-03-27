@@ -29,6 +29,12 @@ import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
+import {
+  RetryConfig,
+  RetryOperationType,
+  retry,
+  getRetryAttemptTimeoutInMs
+} from "@azure/core-amqp";
 
 /**
  * A receiver that does not handle sessions.
@@ -405,12 +411,28 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       this._context.entityPath,
       this._context.isClosed
     );
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const internalMessages = await this._context.managementClient!.peek(
-      maxMessageCount,
-      this._receiverOptions
-    );
-    return internalMessages.map((m) => m as ReceivedMessage);
+    const peekOperationPromise = () =>
+      new Promise<ReceivedMessage[]>(async (resolve, reject) => {
+        try {
+          const internalMessages = await this._context.managementClient!.peek(
+            maxMessageCount,
+            retryOptions.timeoutInMs
+          );
+          resolve(internalMessages.map((m) => m as ReceivedMessage));
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<ReceivedMessage[]> = {
+      operation: peekOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<ReceivedMessage[]>(config);
   }
 
   private async _peekBySequenceNumber(
@@ -422,14 +444,30 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       this._context.entityPath,
       this._context.isClosed
     );
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
-      fromSequenceNumber,
-      maxMessageCount,
-      undefined,
-      this._receiverOptions
-    );
-    return internalMessages.map((m) => m as ReceivedMessage);
+    const peekBySequenceNumberOperationPromise = () =>
+      new Promise<ReceivedMessage[]>(async (resolve, reject) => {
+        try {
+          const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
+            fromSequenceNumber,
+            maxMessageCount,
+            undefined,
+            retryOptions.timeoutInMs
+          );
+          resolve(internalMessages.map((m) => m as ReceivedMessage));
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<ReceivedMessage[]> = {
+      operation: peekBySequenceNumberOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<ReceivedMessage[]>(config);
   }
 
   subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {

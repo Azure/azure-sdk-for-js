@@ -345,14 +345,33 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   private async _peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    await this._createMessageSessionIfDoesntExist(this._receiverOptions.retryOptions?.timeoutInMs!);
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const internalMessages = await this._context.managementClient!.peekMessagesBySession(
-      this.sessionId!,
-      maxMessageCount,
-      this._receiverOptions
-    );
-    return internalMessages.map((m) => m as ReceivedMessage);
+    const peekOperationPromise = () =>
+      new Promise<ReceivedMessage[]>(async (resolve, reject) => {
+        try {
+          const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
+            retryOptions.timeoutInMs!
+          );
+
+          const internalMessages = await this._context.managementClient!.peekMessagesBySession(
+            this.sessionId!,
+            maxMessageCount,
+            retryOptions.timeoutInMs! - timeTakenByCreateSession
+          );
+          resolve(internalMessages.map((m) => m as ReceivedMessage));
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<ReceivedMessage[]> = {
+      operation: peekOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<ReceivedMessage[]>(config);
   }
 
   /**

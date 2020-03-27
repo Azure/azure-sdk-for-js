@@ -419,16 +419,13 @@ export class ManagementClient extends LinkEntity {
    * @param {number} [messageCount] The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
-  async peek(
-    messageCount?: number,
-    receiverOptions?: GetReceiverOptions
-  ): Promise<ReceivedMessage[]> {
+  async peek(messageCount?: number, timeoutInMs?: number): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
       undefined,
-      receiverOptions
+      timeoutInMs
     );
   }
 
@@ -447,13 +444,14 @@ export class ManagementClient extends LinkEntity {
   async peekMessagesBySession(
     sessionId: string,
     messageCount?: number,
-    receiverOptions?: GetReceiverOptions
+    timeoutInMs?: number
   ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
-      sessionId
+      sessionId,
+      timeoutInMs
     );
   }
 
