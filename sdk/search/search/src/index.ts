@@ -55,7 +55,6 @@ export {
   SimpleDataType,
   ComplexDataType
 } from "./serviceModels";
-export { SearchApiKeyCredential } from "./searchApiKeyCredential";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
 export { IndexDocumentsBatch } from "./indexDocumentsBatch";
