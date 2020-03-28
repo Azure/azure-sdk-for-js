@@ -1,17 +1,20 @@
-# Azure Service Bus client library for Javascript
+# Azure Service Bus client library for Javascript (Preview)
 
-Azure Service Bus is a highly-reliable cloud messaging service from Microsoft
+[Azure Service Bus](https://azure.microsoft.com/en-us/services/service-bus/) is a highly-reliable cloud messaging service from Microsoft.
 
-Use the client library for Azure Service Bus in your Node.js application to
+Use the client library `@azure/service-bus` in your application to
 
-- Send messages to a Queue or Topic
-- Receive messages from a Queue or Subscription
+- Send messages to an Azure Service Bus Queue or Topic
+- Receive messages from an Azure Service Bus Queue or Subscription
+
+Resources for the v5.0.0-preview.1 of `@azure/service-bus`:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) | [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) | [API Reference Documentation](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/5.0.0-preview.1/index.html) | [Product documentation](https://azure.microsoft.com/en-us/services/service-bus/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 
-**NOTE**: If you are using version 1.1.x or lower, then please use the below links instead
+> **NOTE**: This document has instructions, links and code snippets for the **preview** of the next version of the `@azure/service-bus` package
+which has different APIs than the stable version. To use the stable version of the library use the below resources.
 
-[Source code for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus) |
+[Source code or Readme for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus) |
 [Package for v1.1.5 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.5) |
 [API Reference Documentation for v1.1.5](https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/1.1.5/index.html) |
 [Samples for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
@@ -20,7 +23,7 @@ Use the client library for Azure Service Bus in your Node.js application to
 
 ### Install the package
 
-Install the Azure Service Bus client library using npm
+Install the preview version for the Azure Service Bus client library using npm
 
 `npm install @azure/service-bus@next`
 
