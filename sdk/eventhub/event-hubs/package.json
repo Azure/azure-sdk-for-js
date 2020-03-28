@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "^1.1.0",
+    "@azure/core-amqp": "^1.1.1",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
