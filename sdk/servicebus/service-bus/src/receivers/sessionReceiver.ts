@@ -289,13 +289,33 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async renewSessionLock(): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    await this._createMessageSessionIfDoesntExist(this._receiverOptions.retryOptions?.timeoutInMs!);
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-      this.sessionId!,
-      this._receiverOptions
-    );
-    return this._messageSession!.sessionLockedUntilUtc!;
+    const renewSessionLockOperationPromise = () =>
+      new Promise<Date>(async (resolve, reject) => {
+        try {
+          const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
+            this._receiverOptions.retryOptions?.timeoutInMs!
+          );
+
+          this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
+            this.sessionId!,
+            undefined,
+            retryOptions.timeoutInMs! - timeTakenByCreateSession
+          );
+          resolve(this._messageSession!.sessionLockedUntilUtc!);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<Date> = {
+      operation: renewSessionLockOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return await retry<Date>(config);
   }
 
   /**
@@ -307,13 +327,33 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async setState(state: any): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
-    await this._createMessageSessionIfDoesntExist(this._receiverOptions.retryOptions?.timeoutInMs!);
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    return this._context.managementClient!.setSessionState(
-      this.sessionId!,
-      state,
-      this._receiverOptions
-    );
+    const setSessionStateOperationPromise = () =>
+      new Promise<void>(async (resolve, reject) => {
+        try {
+          const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
+            this._receiverOptions.retryOptions?.timeoutInMs!
+          );
+          await this._context.managementClient!.setSessionState(
+            this.sessionId!,
+            state,
+            retryOptions.timeoutInMs! - timeTakenByCreateSession
+          );
+          resolve();
+        } catch (error) {
+          reject(error);
+        }
+      });
+
+    const config: RetryConfig<void> = {
+      operation: setSessionStateOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return await retry<void>(config);
   }
 
   /**
@@ -325,9 +365,32 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async getState(): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
-    await this._createMessageSessionIfDoesntExist(this._receiverOptions.retryOptions?.timeoutInMs!);
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    return this._context.managementClient!.getSessionState(this.sessionId!, this._receiverOptions);
+    const getSessionStateOperationPromise = () =>
+      new Promise<any>(async (resolve, reject) => {
+        try {
+          const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
+            this._receiverOptions.retryOptions?.timeoutInMs!
+          );
+          resolve(
+            await this._context.managementClient!.getSessionState(
+              this.sessionId!,
+              retryOptions.timeoutInMs! - timeTakenByCreateSession
+            )
+          );
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<any> = {
+      operation: getSessionStateOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return await retry<any>(config);
   }
 
   /**
@@ -443,15 +506,33 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       sequenceNumber
     );
 
-    await this._createMessageSessionIfDoesntExist(this._receiverOptions.retryOptions?.timeoutInMs!);
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const messages = await this._context.managementClient!.receiveDeferredMessages(
-      [sequenceNumber],
-      convertToInternalReceiveMode(this.receiveMode),
-      this.sessionId,
-      this._receiverOptions
-    );
-    return (messages[0] as any) as ReceivedMessageT;
+    const receiveDeferredMessagesOperationPromise = () =>
+      new Promise<ReceivedMessageT | undefined>(async (resolve, reject) => {
+        try {
+          const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
+            retryOptions.timeoutInMs!
+          );
+          const messages = await this._context.managementClient!.receiveDeferredMessages(
+            [sequenceNumber],
+            convertToInternalReceiveMode(this.receiveMode),
+            this.sessionId,
+            retryOptions.timeoutInMs! - timeTakenByCreateSession
+          );
+          resolve((messages[0] as unknown) as ReceivedMessageT);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<ReceivedMessageT | undefined> = {
+      operation: receiveDeferredMessagesOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return await retry<ReceivedMessageT | undefined>(config);
   }
 
   /**
@@ -479,16 +560,34 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       sequenceNumbers
     );
 
-    await this._createMessageSessionIfDoesntExist(this._receiverOptions.retryOptions?.timeoutInMs!);
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
-      sequenceNumbers,
-      convertToInternalReceiveMode(this.receiveMode),
-      this.sessionId,
-      this._receiverOptions
-    );
+    const receiveDeferredMessagesOperationPromise = () =>
+      new Promise<ReceivedMessageT[]>(async (resolve, reject) => {
+        try {
+          const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
+            retryOptions.timeoutInMs!
+          );
+          const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
+            sequenceNumbers,
+            convertToInternalReceiveMode(this.receiveMode),
+            this.sessionId,
+            retryOptions.timeoutInMs! - timeTakenByCreateSession
+          );
 
-    return (deferredMessages as any) as ReceivedMessageT[];
+          resolve((deferredMessages as any) as ReceivedMessageT[]);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<ReceivedMessageT[]> = {
+      operation: receiveDeferredMessagesOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return await retry<ReceivedMessageT[]>(config);
   }
 
   /**

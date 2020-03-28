@@ -21,10 +21,7 @@ import {
   ConditionErrorNameMapper,
   AmqpMessage,
   SendRequestOptions,
-  MessagingError,
-  RetryConfig,
-  RetryOperationType,
-  retry
+  MessagingError
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
@@ -49,7 +46,6 @@ import {
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
-import { getRetryAttemptTimeoutInMs } from "@azure/core-amqp";
 
 /**
  * Represents a Rule on a Subscription that is used to filter the incoming message from the
@@ -786,8 +782,6 @@ export class ManagementClient extends LinkEntity {
     sessionId?: string,
     timeoutInMs?: number
   ): Promise<ServiceBusMessageImpl[]> {
-    if (!receiverOptions) receiverOptions = {};
-    const retryOptions = receiverOptions.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
 
     const messageList: ServiceBusMessageImpl[] = [];
@@ -839,47 +833,31 @@ export class ManagementClient extends LinkEntity {
         request.body
       );
 
-      const receiveDeferredMessagesOperationPromise = () =>
-        new Promise<ServiceBusMessageImpl[]>(async (resolve, reject) => {
-          try {
-            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-            const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
-              abortSignal: undefined,
-              requestName: undefined
-            });
-            const messages = result.body.messages as {
-              message: Buffer;
-              "lock-token": Buffer;
-            }[];
-            for (const msg of messages) {
-              const decodedMessage = RheaMessageUtil.decode(msg.message);
-              const message = new ServiceBusMessageImpl(
-                this._context,
-                decodedMessage as any,
-                { tag: msg["lock-token"] } as any,
-                false
-              );
-              if (message.lockToken && message.lockedUntilUtc) {
-                this._context.requestResponseLockedMessages.set(
-                  message.lockToken,
-                  message.lockedUntilUtc
-                );
-              }
-              messageList.push(message);
-            }
-            resolve(messageList);
-          } catch (error) {
-            reject(translate(error));
-          }
-        });
-
-      const config: RetryConfig<ServiceBusMessageImpl[]> = {
-        operation: receiveDeferredMessagesOperationPromise,
-        connectionId: this._context.namespace.connectionId,
-        operationType: RetryOperationType.management,
-        retryOptions: retryOptions
-      };
-      return await retry<ServiceBusMessageImpl[]>(config);
+      const result = await this._acquireLockAndSendRequest(request, timeoutInMs!, {
+        abortSignal: undefined,
+        requestName: undefined
+      });
+      const messages = result.body.messages as {
+        message: Buffer;
+        "lock-token": Buffer;
+      }[];
+      for (const msg of messages) {
+        const decodedMessage = RheaMessageUtil.decode(msg.message);
+        const message = new ServiceBusMessageImpl(
+          this._context,
+          decodedMessage as any,
+          { tag: msg["lock-token"] } as any,
+          false
+        );
+        if (message.lockToken && message.lockedUntilUtc) {
+          this._context.requestResponseLockedMessages.set(
+            message.lockToken,
+            message.lockedUntilUtc
+          );
+        }
+        messageList.push(message);
+      }
+      return messageList;
     } catch (err) {
       const error = translate(err);
       log.error(
@@ -974,9 +952,6 @@ export class ManagementClient extends LinkEntity {
     options?: SendRequestOptions,
     timeoutInMs?: number
   ): Promise<Date> {
-    if (!options) options = {};
-    const retryOptions = options.retryOptions || {};
-
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       const messageBody: any = {};
@@ -998,38 +973,15 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-
-      const renewSessionLockOperationPromise = () =>
-        new Promise<Date>(async (resolve, reject) => {
-          try {
-            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-            if (!options) {
-              options = {};
-            }
-            const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
-              abortSignal: options?.abortSignal,
-              requestName: options?.requestName
-            });
-            const lockedUntilUtc = new Date(result.body.expiration);
-            log.mgmt(
-              "[%s] Lock for session '%s' will expire at %s.",
-              this._context.namespace.connectionId,
-              sessionId,
-              lockedUntilUtc.toString()
-            );
-            resolve(lockedUntilUtc);
-          } catch (error) {
-            reject(translate(error));
-          }
-        });
-
-      const config: RetryConfig<Date> = {
-        operation: renewSessionLockOperationPromise,
-        connectionId: this._context.namespace.connectionId,
-        operationType: RetryOperationType.management,
-        retryOptions: retryOptions
-      };
-      return await retry<Date>(config);
+      const result = await this._acquireLockAndSendRequest(request, timeoutInMs!, options || {});
+      const lockedUntilUtc = new Date(result.body.expiration);
+      log.mgmt(
+        "[%s] Lock for session '%s' will expire at %s.",
+        this._context.namespace.connectionId,
+        sessionId,
+        lockedUntilUtc.toString()
+      );
+      return lockedUntilUtc;
     } catch (err) {
       const error = translate(err);
       log.error(
@@ -1047,8 +999,6 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<void>
    */
   async setSessionState(sessionId: string, state: any, timeoutInMs?: number): Promise<void> {
-    if (!options) options = {};
-    const retryOptions = options.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
 
     try {
@@ -1072,28 +1022,10 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-
-      const setSessionStateOperationPromise = () =>
-        new Promise<void>(async (resolve, reject) => {
-          try {
-            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-            await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
-              abortSignal: undefined,
-              requestName: undefined
-            });
-            resolve();
-          } catch (error) {
-            reject(translate(error));
-          }
-        });
-
-      const config: RetryConfig<void> = {
-        operation: setSessionStateOperationPromise,
-        connectionId: this._context.namespace.connectionId,
-        operationType: RetryOperationType.management,
-        retryOptions: retryOptions
-      };
-      return await retry<void>(config);
+      await this._acquireLockAndSendRequest(request, timeoutInMs!, {
+        abortSignal: undefined,
+        requestName: undefined
+      });
     } catch (err) {
       const error = translate(err);
       log.error(
@@ -1110,8 +1042,6 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<any> The state of that session
    */
   async getSessionState(sessionId: string, timeoutInMs: number): Promise<any> {
-    if (!receiverOptions) receiverOptions = {};
-    const retryOptions = receiverOptions.retryOptions || {};
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       const messageBody: any = {};
@@ -1133,31 +1063,13 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-
-      const getSessionStateOperationPromise = () =>
-        new Promise<any>(async (resolve, reject) => {
-          try {
-            const retryTimeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
-            const result = await this._acquireLockAndSendRequest(request, retryTimeoutInMs, {
-              abortSignal: undefined,
-              requestName: undefined
-            });
-            resolve(
-              result.body["session-state"]
-                ? this._context.namespace.dataTransformer.decode(result.body["session-state"])
-                : result.body["session-state"]
-            );
-          } catch (error) {
-            reject(translate(error));
-          }
-        });
-      const config: RetryConfig<any> = {
-        operation: getSessionStateOperationPromise,
-        connectionId: this._context.namespace.connectionId,
-        operationType: RetryOperationType.management,
-        retryOptions: retryOptions
-      };
-      return await retry<any>(config);
+      const result = await this._acquireLockAndSendRequest(request, timeoutInMs, {
+        abortSignal: undefined,
+        requestName: undefined
+      });
+      return result.body["session-state"]
+        ? this._context.namespace.dataTransformer.decode(result.body["session-state"])
+        : result.body["session-state"];
     } catch (err) {
       const error = translate(err);
       log.error(

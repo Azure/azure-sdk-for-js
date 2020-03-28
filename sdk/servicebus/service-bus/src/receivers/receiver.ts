@@ -359,13 +359,30 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       sequenceNumber
     );
 
-    const messages = await this._context.managementClient!.receiveDeferredMessages(
-      [sequenceNumber],
-      convertToInternalReceiveMode(this.receiveMode),
-      undefined,
-      this._receiverOptions
-    );
-    return (messages[0] as unknown) as ReceivedMessageT;
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+
+    const receiveDeferredMessagesOperationPromise = () =>
+      new Promise<ReceivedMessageT | undefined>(async (resolve, reject) => {
+        try {
+          const messages = await this._context.managementClient!.receiveDeferredMessages(
+            [sequenceNumber],
+            convertToInternalReceiveMode(this.receiveMode),
+            undefined,
+            retryOptions.timeoutInMs
+          );
+          resolve((messages[0] as unknown) as ReceivedMessageT);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<ReceivedMessageT | undefined> = {
+      operation: receiveDeferredMessagesOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return await retry<ReceivedMessageT | undefined>(config);
   }
 
   /**
@@ -393,14 +410,31 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       sequenceNumbers
     );
 
-    const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
-      sequenceNumbers,
-      convertToInternalReceiveMode(this.receiveMode),
-      undefined,
-      this._receiverOptions
-    );
+    const retryOptions = this._receiverOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    return (deferredMessages as any) as ReceivedMessageT[];
+    const receiveDeferredMessagesOperationPromise = () =>
+      new Promise<ReceivedMessageT[]>(async (resolve, reject) => {
+        try {
+          const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
+            sequenceNumbers,
+            convertToInternalReceiveMode(this.receiveMode),
+            undefined,
+            retryOptions.timeoutInMs
+          );
+
+          resolve((deferredMessages as any) as ReceivedMessageT[]);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<ReceivedMessageT[]> = {
+      operation: receiveDeferredMessagesOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return await retry<ReceivedMessageT[]>(config);
   }
 
   // ManagementClient methods # Begin
