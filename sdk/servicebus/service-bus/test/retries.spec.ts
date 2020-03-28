@@ -11,7 +11,7 @@ import {
   SubscriptionRuleManager,
   SessionReceiver
 } from "../src";
-import { TestClientType } from "./utils/testUtils";
+import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { MessagingError } from "@azure/core-amqp";
@@ -41,7 +41,13 @@ describe("Retries - ManagementClient", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!, {
+        retryOptions: retryOptions || {
+          timeoutInMs: 10000,
+          maxRetries: defaultMaxRetries,
+          retryDelayInMs: 0
+        }
+      })
     );
     receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames, {
       retryOptions: retryOptions || {
@@ -62,10 +68,12 @@ describe("Retries - ManagementClient", () => {
   }
 
   function mockManagementClientToThrowError() {
-    (receiverClient as any)._context.managementClient._acquireLockAndSendRequest = async function() {
+    const fakeFunction = async function() {
       numberOfTimesManagementClientInvoked++;
       throw new MessagingError("Hello there, I'm an error");
     };
+    (senderClient as any)._context.managementClient._acquireLockAndSendRequest = fakeFunction;
+    (receiverClient as any)._context.managementClient._acquireLockAndSendRequest = fakeFunction;
   }
 
   async function mockManagementClientAndVerifyRetries(func: Function) {
@@ -84,6 +92,46 @@ describe("Retries - ManagementClient", () => {
     }
     should.equal(errorThrown, true, "Error was not thrown");
   }
+
+  describe("Sender Retries", function(): void {
+    beforeEach(async () => {
+      numberOfTimesManagementClientInvoked = 0;
+    });
+
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
+    it("Unpartitioned Queue: scheduleMessage #RunInBrowser", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      await mockManagementClientAndVerifyRetries(async () => {
+        await senderClient.scheduleMessage(new Date(), TestMessage.getSample());
+      });
+    });
+
+    it("Unpartitioned Queue: scheduleMessages", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      await mockManagementClientAndVerifyRetries(async () => {
+        await senderClient.scheduleMessages(new Date(), [TestMessage.getSample()]);
+      });
+    });
+
+    it("Unpartitioned Queue with Sessions: scheduleMessage #RunInBrowser", async function(): Promise<
+      void
+    > {
+      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+      await mockManagementClientAndVerifyRetries(async () => {
+        await senderClient.cancelScheduledMessage(new Long(0));
+      });
+    });
+
+    it("Unpartitioned Queue with Sessions: scheduleMessages", async function(): Promise<void> {
+      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+      await mockManagementClientAndVerifyRetries(async () => {
+        await senderClient.cancelScheduledMessages([new Long(0)]);
+      });
+    });
+  });
 
   describe("Receiver Retries", function(): void {
     beforeEach(async () => {
