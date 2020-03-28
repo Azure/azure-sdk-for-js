@@ -17,7 +17,11 @@
 - [Shared and reusable code](#shared-and-reusable-code)
 - [Individual tests](#individual-tests)
 
+
+
 ## Introduction
+
+
 
 ## Recommended tools
 
@@ -420,10 +424,76 @@ rush add --dev -p @azure/test-utils-recorder
 
 You can read more about the recorder in its readme: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder
 
+
+
 ## Engineering setup
 
-- ci.yml for ci
-- tests.yml for nightly
+While writing tests for the Azure SDK works both as a way to verify that our code is correct, and a way to share how to use our code with our customers, we must keep in mind that tests also triggered by automatic systems that generate nighly builds of our packages, that verify that our commits are correct, and that help us have a better level of confidence before releasing anything to the public. 
+
+For our Egineering Systems to pick up our tests appropriately, our packages must be configured according to their guidelines, and our tests must be thought to address their needs. In this section we will go through some of these concepts, and provide links that expand them in detail. We will be covering:
+
+- [Engineering goals](#engineering-goals).
+- [CI configuration files](#ci-configuration-files).
+- [Activating the pipeline](#activating-the-pipeline).
+- [Delivering live tests to our users](#delivering-live-tests-to-our-users).
+
+### Engineering goals
+
+Though the tests for the Azure SDK for JavaScript and TypeScript must target live resources, we should make sure they only do so when necessary. For this purpose, we must keep in mind the following guidelines:
+
+- Tests should not be flaky. Tests should pass regardless of who's executing it, when it is running, and how many times does it run.
+- While writing tests, use static resources for your tests when possible to avoid repeatedly incurring delays for setting up and tearing down resources. Once tests are pushed into the repository, the pipelines will create these resources for us. We'll examine how to set this up in the following sections.
+- Avoid calling to timed delays (like `setTimeout`) to assert that a change happened in the live resources. Also avoid locking the main thread until the resource responds.
+- The resources created in the tests should be unique. Running the same test in parallel, multiple times, should not break them.
+
+You can read more recomendations through the following link: [Best Practices for writing tests that target live resources](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/51/Testing-Guidelines).
+
+### CI configuration files
+
+To ensure that our tests are executed in the test [Azure DevOps pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) that have been previously configured by our team, some configuration files are necessary:
+
+- A file named `ci.yml` will be automatically generated at the common parent of the clients of a specific service (let's say, at the `keyvault/` level of `keyvault/keyvault-keys`).
+- A `test-resources.json` file, also at the common parent of the clients of a service, which will contain an [ARM template](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview) of the resources needed to run all of the tests of these clients.
+- And a `tests.yml` file located at the folder of each one of the clients, which is in charge of specifying what package to run, what environments to use to run the tests, and how to run the tests.
+
+To explore how to write these files, we recommend going through the guide: [Creating live tests](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/48/Create-a-new-Live-Test-pipeline?anchor=creating-live-tests).
+
+### Activating the pipeline
+
+When adding a new client to our repository, you must report to the _Engineering Systems_ team what client are you adding. They will make sure that the pipelines are running for your project, though you can take more time to finish up your live test setup. After following up with them, once you've merged your tests' code and the configuration files needed, the pipelines will be almost ready to run these test. The next step is to adjust them to send the correct information to your tests.
+
+Go to https://dev.azure.com/azure-sdk/ and look for the `internal` builds that have been configured to target your project, then:
+
+- Click the pipeline you want to test on PR.
+- Press the "Edit" button at the top right corner.
+- Press the three dot menu at the top right corner. A menu will drop down. Press the "Triggers" option from that menu.
+- A page will load with an horizontal menu near the top-center with the following options: "YAML", "Variables", "Triggers" and "History".
+- Click the Variables option of that menu.
+- Click on "Variable Groups".
+- See if in the "Variable Groups" page there's a group called "Release Secrets for GitHub". If so, you're done.
+- If that group is not visible in that page, add it: A bit below the groups, you'll see a button "🔗 Link variable group". Click it, then use the "🔍 search" input and type "release secrets", and then link the group called "Release Secrets for GitHub".
+
+It should end up looking something like this:
+
+![image](https://user-images.githubusercontent.com/417016/72285413-f8e54700-363a-11ea-959e-cb1bc4c074ba.png)
+
+### Delivering live tests to our users
+
+The `test-resources.json` can be used by our users to set up their own test resources. We go through how it's being used with our PowerShell scripts in our [README](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#integration-testing-with-live-services), though we recommend using the same ARM template to expose a "Deploy Button" in the `README.md` of your project. The button will look like this one for KeyVault-Keys:
+
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json)
+
+Which contains the following code:
+
+```md
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json)
+```
+
+You'll see that the way this works is that there's an azure endpoint with this structure `https://portal.azure.com/#create/Microsoft.Template/uri/` that has an encoded URL at the end of it. In that case, this one: `https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json`.
+
+One clicked, the deploy button will load a form at Azure that should ask some basic information, and then allow anyone to deploy the same set of resources, already properly configured, to their accounts. This form is automatically generated from the ARM template, so to help our users go through it in detail, and also to inform them of the resources they will be creating, we recommend writing these details in a new file in your projct's folder, called `TEST_RESOURCES_README.md` and linking it from your `README.md`. Here's an example that applies to all of our KeyVault clients: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/TEST_RESOURCES_README.md
+
+
 
 ## Test folder structure
 
@@ -497,6 +567,8 @@ project/
         other_aspect_of_public_functionality.spec.ts
       public_method.spec.ts
 ```
+
+
 
 ## Shared and reusable code
 
@@ -721,6 +793,8 @@ export async function retry<T>(
 ```
 
 This code is clearly not specifically related to any of our projects. Moving it out into a common project will help it's discoverability, not only for other developers to find it, but also to avoid having to upload this code at all, if there happens to be an already existing tool that can be used for the same purpose.
+
+
 
 ## Writing test cases
 
