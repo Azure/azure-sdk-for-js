@@ -120,20 +120,15 @@ export class ServiceBusClient {
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveMode3?: "peekLock" | "receiveAndDelete"
   ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
-    let entityPath: string;
-    let receiveMode: "peekLock" | "receiveAndDelete";
-
-    if (isReceiveMode(receiveMode3)) {
-      const topic = queueOrTopicName1;
-      const subscription = receiveModeOrSubscriptionName2;
-      entityPath = `${topic}/Subscriptions/${subscription}`;
-      receiveMode = receiveMode3;
-    } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
-      entityPath = queueOrTopicName1;
-      receiveMode = receiveModeOrSubscriptionName2;
-    } else {
-      throw new TypeError("Invalid receiveMode provided");
-    }
+    // NOTE: we don't currently have any options for this kind of receiver but
+    // when we do make sure you pass them in and extract them.
+    const { entityPath, receiveMode } = extractReceiverArguments(
+      this._connectionContext.config.entityPath,
+      queueOrTopicName1,
+      receiveModeOrSubscriptionName2,
+      receiveMode3,
+      undefined
+    );
 
     const clientEntityContext = ClientEntityContext.create(
       entityPath,
@@ -206,28 +201,14 @@ export class ServiceBusClient {
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetSessionReceiverOptions,
     options4?: GetSessionReceiverOptions
-  ):
-    | SessionReceiver<ReceivedMessageWithLock>
-    | SessionReceiver<ReceivedMessage>
-    | SessionReceiver<ReceivedMessage>
-    | SessionReceiver<ReceivedMessageWithLock> {
-    let entityPath: string;
-    let receiveMode: "peekLock" | "receiveAndDelete";
-    let options: GetSessionReceiverOptions | undefined;
-
-    if (isReceiveMode(receiveModeOrOptions3)) {
-      const topic = queueOrTopicName1;
-      const subscription = receiveModeOrSubscriptionName2;
-      entityPath = `${topic}/Subscriptions/${subscription}`;
-      receiveMode = receiveModeOrOptions3;
-      options = options4;
-    } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
-      entityPath = queueOrTopicName1;
-      receiveMode = receiveModeOrSubscriptionName2;
-      options = receiveModeOrOptions3 as GetSessionReceiverOptions | undefined;
-    } else {
-      throw new TypeError("Invalid receiveMode provided");
-    }
+  ): SessionReceiver<ReceivedMessage> | SessionReceiver<ReceivedMessageWithLock> {
+    const { entityPath, receiveMode, options } = extractReceiverArguments(
+      this._connectionContext.config.entityPath,
+      queueOrTopicName1,
+      receiveModeOrSubscriptionName2,
+      receiveModeOrOptions3,
+      options4
+    );
 
     const clientEntityContext = ClientEntityContext.create(
       entityPath,
@@ -248,6 +229,8 @@ export class ServiceBusClient {
    * and cancel such scheduled messages.
    */
   getSender(queueOrTopicName: string): Sender {
+    validateEntityNamesMatch(this._connectionContext.config.entityPath, queueOrTopicName, "sender");
+
     const clientEntityContext = ClientEntityContext.create(
       queueOrTopicName,
       ClientType.ServiceBusReceiverClient,
@@ -329,20 +312,15 @@ export class ServiceBusClient {
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
     receiveMode3?: "peekLock" | "receiveAndDelete"
   ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
-    let entityPath;
-    let receiveMode: "peekLock" | "receiveAndDelete";
-
-    if (isReceiveMode(receiveMode3)) {
-      const topic = queueOrTopicName1;
-      const subscription = receiveModeOrSubscriptionName2;
-      receiveMode = receiveMode3;
-      entityPath = `${topic}/Subscriptions/${subscription}`;
-    } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
-      entityPath = queueOrTopicName1;
-      receiveMode = receiveModeOrSubscriptionName2;
-    } else {
-      throw new TypeError("Invalid receiveMode provided");
-    }
+    // NOTE: we don't currently have any options for this kind of receiver but
+    // when we do make sure you pass them in and extract them.
+    const { entityPath, receiveMode } = extractReceiverArguments(
+      this._connectionContext.config.entityPath,
+      queueOrTopicName1,
+      receiveModeOrSubscriptionName2,
+      receiveMode3,
+      undefined
+    );
 
     const deadLetterEntityPath = `${entityPath}/$DeadLetterQueue`;
 
@@ -365,4 +343,87 @@ export class ServiceBusClient {
 
 function isReceiveMode(mode: any): mode is "peekLock" | "receiveAndDelete" {
   return mode && typeof mode === "string" && (mode === "peekLock" || mode === "receiveAndDelete");
+}
+
+/**
+ * Helper to validate and extract the common arguments from both the get*Receiver() overloads that
+ * have this pattern:
+ *
+ * queue, lockmode, options
+ * topic, subscription, lockmode, options
+ *
+ * @internal
+ * @ignore
+ */
+export function extractReceiverArguments<OptionsT>(
+  connectionStringEntityName: string | undefined,
+  queueOrTopicName1: string,
+  receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
+  receiveModeOrOptions3: "peekLock" | "receiveAndDelete" | OptionsT,
+  definitelyOptions4: OptionsT
+): {
+  entityPath: string;
+  receiveMode: "peekLock" | "receiveAndDelete";
+  options?: OptionsT;
+} {
+  if (isReceiveMode(receiveModeOrOptions3)) {
+    const topic = queueOrTopicName1;
+    const subscription = receiveModeOrSubscriptionName2;
+
+    validateEntityNamesMatch(connectionStringEntityName, topic, "receiver-topic");
+
+    return {
+      entityPath: `${topic}/Subscriptions/${subscription}`,
+      receiveMode: receiveModeOrOptions3,
+      options: definitelyOptions4
+    };
+  } else if (isReceiveMode(receiveModeOrSubscriptionName2)) {
+    validateEntityNamesMatch(connectionStringEntityName, queueOrTopicName1, "receiver-queue");
+
+    return {
+      entityPath: queueOrTopicName1,
+      receiveMode: receiveModeOrSubscriptionName2,
+      options: receiveModeOrOptions3
+    };
+  } else {
+    throw new TypeError("Invalid receiveMode provided");
+  }
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function validateEntityNamesMatch(
+  connectionStringEntityName: string | undefined,
+  queueOrTopicName: string,
+  senderOrReceiverType: "receiver-topic" | "receiver-queue" | "sender"
+) {
+  if (!connectionStringEntityName) {
+    return;
+  }
+
+  if (queueOrTopicName !== connectionStringEntityName) {
+    let entityType;
+    let senderOrReceiver;
+
+    switch (senderOrReceiverType) {
+      case "receiver-queue":
+        entityType = "queue";
+        senderOrReceiver = "Receiver";
+        break;
+      case "receiver-topic":
+        entityType = "topic";
+        senderOrReceiver = "Receiver";
+        break;
+      case "sender":
+        entityType = "queue/topic";
+        senderOrReceiver = "Sender";
+        break;
+    }
+
+    throw new Error(
+      `The connection string for this ServiceBusClient had an EntityPath of '${connectionStringEntityName}' which doesn't match the name of the ${entityType} for this ${senderOrReceiver} ('${queueOrTopicName}')`
+    );
+  }
 }
