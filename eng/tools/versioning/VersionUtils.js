@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const parse = require("../../../common/lib/jju/parse").parse;
+const parse = require("jju/parse").parse;
 const { promisify } = require("util");
 
 const readFileAsync = promisify(fs.readFile);
