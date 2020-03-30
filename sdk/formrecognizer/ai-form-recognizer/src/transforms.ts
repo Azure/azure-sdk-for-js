@@ -340,6 +340,10 @@ export function toAnalyzeLayoutResultResponse(
 }
 
 function toReceiptResult(result: DocumentResultModel, readResults: RawExtractedPage[]): ExtractedReceipt {
+  if (result.docType !== "prebuilt:receipt") {
+    throw new RangeError("The document type is not 'prebuilt:receipt'");
+  }
+
   const transformedFields = toFields(result.fields, readResults);
   const rawReceiptFields = (transformedFields as unknown) as RawReceipt;
   return {
