@@ -167,7 +167,6 @@ export class ServiceBusClient {
 
 // @public
 export interface ServiceBusClientOptions {
-    dataTransformer?: DataTransformer;
     webSocketOptions?: WebSocketOptions;
 }
 
