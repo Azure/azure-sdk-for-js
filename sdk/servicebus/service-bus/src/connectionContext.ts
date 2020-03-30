@@ -53,7 +53,8 @@ export namespace ConnectionContext {
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
       tokenCredential: tokenCredential,
-      dataTransformer: options.dataTransformer,
+      // re-enabling this will be a post-GA discussion similar to event-hubs.
+      // dataTransformer: options.dataTransformer,
       isEntityPathRequired: false,
       connectionProperties: {
         product: "MSJSClient",
