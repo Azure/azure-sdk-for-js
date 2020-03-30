@@ -308,7 +308,8 @@ export class ServiceBusClient {
    */
   getDeadLetterReceiver(
     queueName: string,
-    receiveMode: "peekLock"
+    receiveMode: "peekLock",
+    options: GetReceiverOptions
   ): Receiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus queue's dead letter queue.
@@ -319,7 +320,8 @@ export class ServiceBusClient {
    */
   getDeadLetterReceiver(
     queueName: string,
-    receiveMode: "receiveAndDelete"
+    receiveMode: "receiveAndDelete",
+    options: GetReceiverOptions
   ): Receiver<ReceivedMessage>;
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue.
@@ -332,7 +334,8 @@ export class ServiceBusClient {
   getDeadLetterReceiver(
     topicName: string,
     subscriptionName: string,
-    receiveMode: "peekLock"
+    receiveMode: "peekLock",
+    options: GetReceiverOptions
   ): Receiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue.
@@ -345,29 +348,31 @@ export class ServiceBusClient {
   getDeadLetterReceiver(
     topicName: string,
     subscriptionName: string,
-    receiveMode: "receiveAndDelete"
+    receiveMode: "receiveAndDelete",
+    options: GetReceiverOptions
   ): Receiver<ReceivedMessage>;
   getDeadLetterReceiver(
     queueOrTopicName1: string,
     receiveModeOrSubscriptionName2: "peekLock" | "receiveAndDelete" | string,
-    receiveMode3?: "peekLock" | "receiveAndDelete"
+    receiveModeOrOptions3?: "peekLock" | "receiveAndDelete" | GetReceiverOptions,
+    options4?: GetReceiverOptions
   ): Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage> {
     // NOTE: we don't currently have any options for this kind of receiver but
     // when we do make sure you pass them in and extract them.
-    const { entityPath, receiveMode } = extractReceiverArguments(
+    const { entityPath, receiveMode, options } = extractReceiverArguments(
       this._connectionContext.config.entityPath,
       queueOrTopicName1,
       receiveModeOrSubscriptionName2,
-      receiveMode3,
-      undefined
+      receiveModeOrOptions3,
+      options4
     );
 
     const deadLetterEntityPath = `${entityPath}/$DeadLetterQueue`;
 
     if (receiveMode === "peekLock") {
-      return this.getReceiver(deadLetterEntityPath, receiveMode);
+      return this.getReceiver(deadLetterEntityPath, receiveMode, options);
     } else {
-      return this.getReceiver(deadLetterEntityPath, receiveMode);
+      return this.getReceiver(deadLetterEntityPath, receiveMode, options);
     }
   }
 
