@@ -32,7 +32,7 @@ describe("tracingHelpers", () => {
     const newOptions = Spanner["addParentToOptions"](fakeOptions, parentSpan);
 
     assert.equal("fakeName", newOptions.name);
-    assert.equal(parentSpan, newOptions.spanOptions.parent);
+    assert.deepEqual(parentSpan.context(), newOptions.spanOptions.parent);
     assert.ok(newOptions.spanOptions.attributes, "Should have attributes set");
     if (newOptions.spanOptions.attributes) {
       assert.equal("Microsoft.AppConfiguration", newOptions.spanOptions.attributes["az.namespace"]);
