@@ -37,7 +37,8 @@ import {
   Field,
   isComplexField,
   ComplexField,
-  SimpleField
+  SimpleField,
+  GetSkillSetOptions
 } from "./serviceModels";
 import {
   AnalyzeResult,
@@ -189,6 +190,33 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return this.generatedIndexToPublicIndex(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves information about an Skillset.
+   * @param indexName The name of the Skillset.
+   * @param options Additional optional arguments.
+   */
+  public async getSkillset(
+    skillsetName: string,
+    options: GetSkillSetOptions = {}
+  ): Promise<Skillset> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-getSkillset", options);
+    try {
+      const result = await this.client.skillsets.get(
+        skillsetName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return this.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

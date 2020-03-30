@@ -833,6 +833,8 @@ export class SearchServiceClient {
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
+    // Warning: (ae-forgotten-export) The symbol "GetSkillSetOptions" needs to be exported by the entry point index.d.ts
+    getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
     listIndexes(options?: ListIndexesOptions): Promise<Index[]>;
     // Warning: (ae-forgotten-export) The symbol "ListSkillsetsOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "Skillset" needs to be exported by the entry point index.d.ts

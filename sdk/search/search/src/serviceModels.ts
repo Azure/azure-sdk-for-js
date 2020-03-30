@@ -98,6 +98,8 @@ export interface ListIndexesOptions extends OperationOptions {
 
 export type GetIndexOptions = OperationOptions;
 
+export type GetSkillSetOptions = OperationOptions;
+
 export type GetIndexStatisticsOptions = OperationOptions;
 
 export type CreateIndexOptions = OperationOptions;
