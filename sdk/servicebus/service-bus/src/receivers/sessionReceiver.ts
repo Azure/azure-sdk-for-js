@@ -287,7 +287,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     const renewSessionLockOperationPromise = async () => {
       const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
-        this._sessionReceiverOptions.retryOptions?.timeoutInMs!
+        retryOptions.timeoutInMs!
       );
 
       this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
