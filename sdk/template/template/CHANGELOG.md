@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.7 (Unreleased)
+
+
 ## 1.0.6 (2020-03-26)
 - Test Release Pipeline
 
