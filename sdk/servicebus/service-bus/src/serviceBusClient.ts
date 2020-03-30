@@ -309,7 +309,7 @@ export class ServiceBusClient {
   getDeadLetterReceiver(
     queueName: string,
     receiveMode: "peekLock",
-    options: GetReceiverOptions
+    options?: GetReceiverOptions
   ): Receiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus queue's dead letter queue.
@@ -321,7 +321,7 @@ export class ServiceBusClient {
   getDeadLetterReceiver(
     queueName: string,
     receiveMode: "receiveAndDelete",
-    options: GetReceiverOptions
+    options?: GetReceiverOptions
   ): Receiver<ReceivedMessage>;
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue.
@@ -335,7 +335,7 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "peekLock",
-    options: GetReceiverOptions
+    options?: GetReceiverOptions
   ): Receiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue.
@@ -349,7 +349,7 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     receiveMode: "receiveAndDelete",
-    options: GetReceiverOptions
+    options?: GetReceiverOptions
   ): Receiver<ReceivedMessage>;
   getDeadLetterReceiver(
     queueOrTopicName1: string,
