@@ -3,6 +3,7 @@
 
 import { OperationOptions } from "@azure/core-auth";
 import { RetryOptions } from "@azure/core-amqp";
+import { SessionReceiverOptions } from "./session/messageSession";
 
 /**
  * The general message handler interface (used for streamMessages).
@@ -146,18 +147,4 @@ export interface MessageHandlerOptions {
  * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
  * has sessions enabled.
  */
-export interface GetSessionReceiverOptions extends GetReceiverOptions, OperationOptions {
-  /**
-   * @property The maximum duration in seconds
-   * until which, the lock on the session will be renewed automatically by the sdk.
-   * - **Default**: `300` seconds (5 minutes).
-   * - **To disable autolock renewal**, set this to `0`.
-   */
-  maxSessionAutoRenewLockDurationInSeconds?: number;
-
-  /**
-   * The session ID to open. If `undefined` we will connect to the next available
-   * unlocked session.
-   */
-  sessionId?: string;
-}
+export interface GetSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}

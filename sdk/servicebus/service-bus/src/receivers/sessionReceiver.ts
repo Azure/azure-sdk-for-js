@@ -3,7 +3,6 @@
 
 import { ClientEntityContext } from "../clientEntityContext";
 import {
-  SessionReceiverOptions,
   SessionMessageHandlerOptions,
   MessageHandlers,
   SubscribeOptions,
@@ -11,7 +10,7 @@ import {
   ReceivedMessage
 } from "..";
 
-import { GetMessageIteratorOptions, GetReceiverOptions } from "../models";
+import { GetMessageIteratorOptions, GetSessionReceiverOptions } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
   throwErrorIfConnectionClosed,
@@ -127,7 +126,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
 
   private _context: ClientEntityContext;
-  private _receiverOptions: GetReceiverOptions;
+  private _sessionReceiverOptions: GetSessionReceiverOptions;
   private _messageSession: MessageSession | undefined;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
@@ -142,13 +141,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   constructor(
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    private _sessionOptions: SessionReceiverOptions,
-    receiverOptions: GetReceiverOptions
+    private _sessionOptions: GetSessionReceiverOptions
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
     this.entityPath = this._context.entityPath;
-    this._receiverOptions = receiverOptions;
+    this._sessionReceiverOptions = _sessionOptions;
     this.diagnostics = {
       peek: (maxMessageCount) => this._peek(maxMessageCount),
       peekBySequenceNumber: (fromSequenceNumber, maxMessageCount) =>
@@ -284,12 +282,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async renewSessionLock(): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._receiverOptions.retryOptions || {};
+    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const renewSessionLockOperationPromise = async () => {
       const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
-        this._receiverOptions.retryOptions?.timeoutInMs!
+        this._sessionReceiverOptions.retryOptions?.timeoutInMs!
       );
 
       this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
@@ -317,12 +315,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async setState(state: any): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._receiverOptions.retryOptions || {};
+    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const setSessionStateOperationPromise = async () => {
       const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
-        this._receiverOptions.retryOptions?.timeoutInMs!
+        this._sessionReceiverOptions.retryOptions?.timeoutInMs!
       );
       await this._context.managementClient!.setSessionState(
         this.sessionId!,
@@ -349,12 +347,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async getState(): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._receiverOptions.retryOptions || {};
+    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const getSessionStateOperationPromise = async () => {
       const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
-        this._receiverOptions.retryOptions?.timeoutInMs!
+        this._sessionReceiverOptions.retryOptions?.timeoutInMs!
       );
       return this._context.managementClient!.getSessionState(
         this.sessionId!,
@@ -385,7 +383,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   private async _peek(maxMessageCount?: number): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._receiverOptions.retryOptions || {};
+    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const peekOperationPromise = async () => {
@@ -426,7 +424,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     maxMessageCount?: number
   ): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
-    const retryOptions = this._receiverOptions.retryOptions || {};
+    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const peekBySequenceNumberOperationPromise = async () => {
@@ -473,7 +471,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       sequenceNumber
     );
 
-    const retryOptions = this._receiverOptions.retryOptions || {};
+    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const receiveDeferredMessagesOperationPromise = async () => {
@@ -522,7 +520,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       sequenceNumbers
     );
 
-    const retryOptions = this._receiverOptions.retryOptions || {};
+    const retryOptions = this._sessionReceiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const receiveDeferredMessagesOperationPromise = async () => {
@@ -568,13 +566,13 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._throwIfAlreadyReceiving();
 
     await this._createMessageSessionIfDoesntExist(
-      getRetryAttemptTimeoutInMs(this._receiverOptions.retryOptions)
+      getRetryAttemptTimeoutInMs(this._sessionReceiverOptions.retryOptions)
     );
 
     const receivedMessages = await this._messageSession!.receiveMessages(
       maxMessageCount,
       options?.maxWaitTimeSeconds
-      // this._receiverOptions - No need to pass?
+      // this._sessionReceiverOptions - No need to pass?
     );
 
     return (receivedMessages as any) as ReceivedMessageT[];
