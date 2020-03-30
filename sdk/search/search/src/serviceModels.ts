@@ -115,6 +115,8 @@ export type CreateIndexOptions = OperationOptions;
 
 export type CreateSkillsetOptions = OperationOptions;
 
+export type CreateSynonymMapOptions = OperationOptions;
+
 export interface ETagOperationOptions {
   /**
    * ETag parameters
