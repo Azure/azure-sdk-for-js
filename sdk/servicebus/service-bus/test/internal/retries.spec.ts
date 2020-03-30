@@ -27,43 +27,29 @@ describe("Retries - ManagementClient", () => {
   let numberOfTimesManagementClientInvoked: number;
 
   before(() => {
-    serviceBusClient = createServiceBusClientForTests();
+    serviceBusClient = createServiceBusClientForTests({
+      retryOptions: {
+        // Defaults
+        timeoutInMs: 10000,
+        maxRetries: defaultMaxRetries,
+        retryDelayInMs: 0
+      }
+    });
   });
 
   after(() => {
     return serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(
-    entityType: TestClientType,
-    retryOptions?: RetryOptions
-  ): Promise<void> {
+  async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     senderClient = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!, {
-        retryOptions: retryOptions || {
-          timeoutInMs: 10000,
-          maxRetries: defaultMaxRetries,
-          retryDelayInMs: 0
-        }
-      })
+      serviceBusClient.getSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames, {
-      retryOptions: retryOptions || {
-        timeoutInMs: 10000,
-        maxRetries: defaultMaxRetries,
-        retryDelayInMs: 0
-      }
-    });
+    receiverClient = serviceBusClient.test.getPeekLockReceiver(entityNames);
     subscriptionRuleManager = serviceBusClient.test.addToCleanup(
-      serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!, {
-        retryOptions: retryOptions || {
-          timeoutInMs: 10000,
-          maxRetries: defaultMaxRetries,
-          retryDelayInMs: 0
-        }
-      })
+      serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
     );
   }
 
