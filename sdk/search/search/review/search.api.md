@@ -4,11 +4,11 @@
 
 ```ts
 
+import { AzureKeyCredential } from '@azure/core-auth';
+import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
-import { ServiceClientCredentials } from '@azure/core-http';
-import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AccessCondition {
@@ -80,6 +80,8 @@ export interface AzureActiveDirectoryApplicationCredentials {
     applicationId: string;
     applicationSecret?: string;
 }
+
+export { AzureKeyCredential }
 
 // @public
 export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;
@@ -733,13 +735,6 @@ export interface ScoringProfile {
     textWeights?: TextWeights;
 }
 
-// @public
-export class SearchApiKeyCredential implements ServiceClientCredentials {
-    constructor(apiKey: string);
-    signRequest(webResource: WebResource): Promise<WebResource>;
-    updateKey(apiKey: string): void;
-}
-
 // @public (undocumented)
 export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
     readonly nextLink?: string;
@@ -763,7 +758,7 @@ export interface SearchDocumentsResultBase {
 
 // @public
 export class SearchIndexClient<T> {
-    constructor(endpoint: string, indexName: string, credential: SearchApiKeyCredential, options?: SearchIndexClientOptions);
+    constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchIndexClientOptions);
     readonly apiVersion: string;
     autocomplete<Fields extends keyof T>(options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     countDocuments(options?: CountDocumentsOptions): Promise<number>;
@@ -822,7 +817,7 @@ export type SearchResult<T> = {
 
 // @public (undocumented)
 export class SearchServiceClient {
-    constructor(endpoint: string, credential: SearchApiKeyCredential, options?: SearchServiceClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: SearchServiceClientOptions);
     analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
     createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
