@@ -143,3 +143,4 @@ export {
   TokenInfo,
   AccessCondition
 } from "./generated/service/models";
+export { AzureKeyCredential } from "@azure/core-auth";

@@ -4,8 +4,7 @@
 /**
  * Performs a query over a public dataset
  */
-import { AzureKeyCredential } from "@azure/core-auth";
-import { SearchIndexClient, odata, GeographyPoint } from "@azure/search";
+import { SearchIndexClient, AzureKeyCredential, odata, GeographyPoint } from "@azure/search";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

@@ -5,8 +5,7 @@
  * Performs a query over a public dataset
  */
 
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { SearchIndexClient, odata } = require("@azure/search");
+const { SearchIndexClient, AzureKeyCredential, odata } = require("@azure/search");
 
 // Load the .env file if it exists
 require("dotenv").config();

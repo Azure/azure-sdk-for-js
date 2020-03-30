@@ -4,6 +4,7 @@
 
 ```ts
 
+import { AzureKeyCredential } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -79,6 +80,8 @@ export interface AzureActiveDirectoryApplicationCredentials {
     applicationId: string;
     applicationSecret?: string;
 }
+
+export { AzureKeyCredential }
 
 // @public
 export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;

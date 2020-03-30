@@ -73,8 +73,7 @@ export class SearchServiceClient {
    *
    * Example usage:
    * ```ts
-   * const { AzureKeyCredential } = require("@azure/core-auth");
-   * const { SearchServiceClient } = require("@azure/search");
+   * const { SearchServiceClient, AzureKeyCredential } = require("@azure/search");
    *
    * const client = new SearchServiceClient(
    *   "<endpoint>",
