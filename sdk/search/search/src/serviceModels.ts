@@ -55,8 +55,34 @@ import {
   TagScoringFunction,
   TextWeights,
   ScoringFunctionAggregation,
-  RegexFlags
+  RegexFlags,
+  ConditionalSkill,
+  KeyPhraseExtractionSkill,
+  OcrSkill,
+  ImageAnalysisSkill,
+  LanguageDetectionSkill,
+  ShaperSkill,
+  MergeSkill,
+  EntityRecognitionSkill,
+  SentimentSkill,
+  SplitSkill,
+  TextTranslationSkill,
+  WebApiSkill,
+  DefaultCognitiveServicesAccount,
+  CognitiveServicesAccountKey
 } from "./generated/service/models";
+
+/**
+ * Options for a list skillsets operation.
+ */
+export interface ListSkillsetsOptions extends OperationOptions {
+  /**
+   * Selects which top-level properties of the skillsets to retrieve. Specified as a
+   * comma-separated list of JSON property names, or '*' for all properties. The default is all
+   * properties.
+   */
+  select?: string;
+}
 
 /**
  * Options for a list indexes operation.
@@ -143,6 +169,29 @@ export interface PatternAnalyzer {
  */
 export type Analyzer = CustomAnalyzer | PatternAnalyzer | StandardAnalyzer | StopAnalyzer;
 
+/**
+ * Contains the possible cases for Skill.
+ */
+export type Skill =
+  | ConditionalSkill
+  | KeyPhraseExtractionSkill
+  | OcrSkill
+  | ImageAnalysisSkill
+  | LanguageDetectionSkill
+  | ShaperSkill
+  | MergeSkill
+  | EntityRecognitionSkill
+  | SentimentSkill
+  | SplitSkill
+  | TextTranslationSkill
+  | WebApiSkill;
+
+/**
+ * Contains the possible cases for CognitiveServicesAccount.
+ */
+export type CognitiveServicesAccount =
+  | DefaultCognitiveServicesAccount
+  | CognitiveServicesAccountKey;
 /**
  * Tokenizer that uses regex pattern matching to construct distinct tokens. This tokenizer is
  * implemented using Apache Lucene.
@@ -464,6 +513,32 @@ export interface Index {
   encryptionKey?: EncryptionKey;
   /**
    * The ETag of the index.
+   */
+  etag?: string;
+}
+
+/**
+ * A list of skills.
+ */
+export interface Skillset {
+  /**
+   * The name of the skillset.
+   */
+  name: string;
+  /**
+   * The description of the skillset.
+   */
+  description: string;
+  /**
+   * A list of skills in the skillset.
+   */
+  skills: Skill[];
+  /**
+   * Details about cognitive services to be used when running skills.
+   */
+  cognitiveServicesAccount?: CognitiveServicesAccount;
+  /**
+   * The ETag of the skillset.
    */
   etag?: string;
 }

@@ -18,6 +18,10 @@ import { CanonicalCode } from "@opentelemetry/types";
 import {
   Index,
   ListIndexesOptions,
+  ListSkillsetsOptions,
+  Skill,
+  Skillset,
+  CognitiveServicesAccount,
   GetIndexOptions,
   CreateIndexOptions,
   CreateOrUpdateIndexOptions,
@@ -41,7 +45,12 @@ import {
   AnalyzerUnion,
   TokenizerUnion,
   RegexFlags,
-  Field as GeneratedField
+  Field as GeneratedField,
+  Skillset as GeneratedSkillset,
+  CognitiveServicesAccountUnion,
+  CognitiveServicesAccountKey,
+  DefaultCognitiveServicesAccount,
+  SkillUnion
 } from "./generated/service/models";
 
 /**
@@ -133,6 +142,28 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result.indexes.map(this.generatedIndexToPublicIndex);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a list of existing Skillsets in the service.
+   * @param options Options to the list Skillsets operation.
+   */
+  public async listSkillsets(options: ListSkillsetsOptions = {}): Promise<Skillset[]> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-listSkillsets", options);
+    try {
+      const result = await this.client.skillsets.list(
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result.skillsets.map(this.generatedSkillsetToPublicSkillset);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -472,5 +503,54 @@ export class SearchServiceClient {
       }
       return result;
     });
+  }
+
+  private generatedSkillsetToPublicSkillset(generatedSkillset: GeneratedSkillset): Skillset {
+    return {
+      name: generatedSkillset.name,
+      description: generatedSkillset.description,
+      skills: this.convertSkillsToPublic(generatedSkillset.skills),
+      cognitiveServicesAccount: this.convertCognitiveServicesAccountToPublic(
+        generatedSkillset.cognitiveServicesAccount
+      ),
+      etag: generatedSkillset.etag
+    };
+  }
+
+  private convertCognitiveServicesAccountToPublic(
+    cognitiveServicesAccount?: CognitiveServicesAccountUnion
+  ): CognitiveServicesAccount | undefined {
+    if (!cognitiveServicesAccount) {
+      return cognitiveServicesAccount;
+    }
+
+    if (cognitiveServicesAccount.odatatype === "#Microsoft.Azure.Search.DefaultCognitiveServices") {
+      return cognitiveServicesAccount as DefaultCognitiveServicesAccount;
+    } else {
+      return cognitiveServicesAccount as CognitiveServicesAccountKey;
+    }
+  }
+
+  private convertSkillsToPublic(skills: SkillUnion[]): Skill[] {
+    const result: Skill[] = [];
+    for (const skill of skills) {
+      switch (skill.odatatype) {
+        case "#Microsoft.Skills.Util.ConditionalSkill":
+        case "#Microsoft.Skills.Text.KeyPhraseExtractionSkill":
+        case "#Microsoft.Skills.Vision.OcrSkill":
+        case "#Microsoft.Skills.Vision.ImageAnalysisSkill":
+        case "#Microsoft.Skills.Text.LanguageDetectionSkill":
+        case "#Microsoft.Skills.Util.ShaperSkill":
+        case "#Microsoft.Skills.Text.MergeSkill":
+        case "#Microsoft.Skills.Text.EntityRecognitionSkill":
+        case "#Microsoft.Skills.Text.SentimentSkill":
+        case "#Microsoft.Skills.Text.SplitSkill":
+        case "#Microsoft.Skills.Text.TranslationSkill":
+        case "#Microsoft.Skills.Custom.WebApiSkill":
+          result.push(skill);
+          break;
+      }
+    }
+    return result;
   }
 }
