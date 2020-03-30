@@ -41,6 +41,7 @@
     "clean": "rimraf dist/",
     "format": "prettier --write \"./**/*.{ts,json,md}\"",
     "format:check": "prettier --check \"./**/*.{ts,json,md}\"",
+    "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "lint": "eslint src tests --ext .ts",
     "pack": "npm pack 2>&1",
