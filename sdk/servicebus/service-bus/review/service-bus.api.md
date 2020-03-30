@@ -5,7 +5,6 @@
 ```ts
 
 import { AmqpMessage } from '@azure/core-amqp';
-import { DataTransformer } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import Long from 'long';
@@ -35,8 +34,6 @@ export interface CreateBatchOptions extends OperationOptions {
     maxSizeInBytes?: number;
     retryOptions?: RetryOptions;
 }
-
-export { DataTransformer }
 
 // @public
 export interface DeadLetterOptions {
