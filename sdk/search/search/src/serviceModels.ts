@@ -84,6 +84,15 @@ export interface ListSkillsetsOptions extends OperationOptions {
   select?: string;
 }
 
+export interface ListSynonymMapsOptions extends OperationOptions {
+  /**
+   * Selects which top-level properties of the synonym maps to retrieve. Specified as a
+   * comma-separated list of JSON property names, or '*' for all properties. The default is all
+   * properties.
+   */
+  select?: string;
+}
+
 /**
  * Options for a list indexes operation.
  */

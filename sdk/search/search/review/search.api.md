@@ -843,6 +843,9 @@ export class SearchServiceClient {
     // Warning: (ae-forgotten-export) The symbol "ListSkillsetsOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "Skillset" needs to be exported by the entry point index.d.ts
     listSkillsets(options?: ListSkillsetsOptions): Promise<Skillset[]>;
+    // Warning: (ae-forgotten-export) The symbol "ListSynonymMapsOptions" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "SynonymMap" needs to be exported by the entry point index.d.ts
+    listSynonymMaps(options?: ListSynonymMapsOptions): Promise<SynonymMap[]>;
     }
 
 // @public

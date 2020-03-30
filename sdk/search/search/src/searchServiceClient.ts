@@ -40,7 +40,8 @@ import {
   SimpleField,
   GetSkillSetOptions,
   DeleteSkillsetOptions,
-  CreateOrUpdateSkillsetOptions
+  CreateOrUpdateSkillsetOptions,
+  ListSynonymMapsOptions
 } from "./serviceModels";
 import {
   AnalyzeResult,
@@ -54,7 +55,8 @@ import {
   CognitiveServicesAccountUnion,
   CognitiveServicesAccountKey,
   DefaultCognitiveServicesAccount,
-  SkillUnion
+  SkillUnion,
+  SynonymMap
 } from "./generated/service/models";
 
 /**
@@ -168,6 +170,28 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result.skillsets.map(this.generatedSkillsetToPublicSkillset);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a list of existing SynonymMaps in the service.
+   * @param options Options to the list SynonymMaps operation.
+   */
+  public async listSynonymMaps(options: ListSynonymMapsOptions = {}): Promise<SynonymMap[]> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-listSynonymMaps", options);
+    try {
+      const result = await this.client.synonymMaps.list(
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result.synonymMaps;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
