@@ -6,7 +6,6 @@ import {
   TokenCredential,
   ConnectionConfig,
   SharedKeyCredential,
-  DataTransformer,
   WebSocketOptions,
   RetryOptions
 } from "@azure/core-amqp";
@@ -23,13 +22,6 @@ export interface ServiceBusClientOptions {
    * @type {RetryOptions}
    */
   retryOptions?: RetryOptions;
-  /**
-   * @property The data transformer that will be used to encode
-   * and decode the sent and received messages respectively. If not provided then we will use the
-   * DefaultDataTransformer. The default transformer should handle majority of the cases. This
-   * option needs to be used only for specialized scenarios.
-   */
-  dataTransformer?: DataTransformer;
   /**
    * @property
    * Options to configure the channelling of the AMQP connection over Web Sockets.

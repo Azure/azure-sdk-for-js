@@ -8,7 +8,6 @@ export { ServiceBusClientOptions } from "./constructorHelpers";
 export {
   TokenType,
   TokenCredential,
-  DataTransformer,
   delay,
   MessagingError,
   RetryOptions,
