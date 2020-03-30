@@ -16,7 +16,7 @@ import { ServiceBusClientForTests, createServiceBusClientForTests } from "./util
 import { Sender } from "../src/sender";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
-import { RetryOptions } from "@azure/core-http";
+import { RetryOptions } from "@azure/core-amqp";
 
 describe("Retries - ManagementClient", () => {
   let senderClient: Sender;
