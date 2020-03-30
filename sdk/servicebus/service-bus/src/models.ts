@@ -85,6 +85,14 @@ export interface GetSenderOptions extends BaseClientOptions {}
 export interface GetReceiverOptions extends BaseClientOptions {}
 
 /**
+ * The set of options to configure the behavior of the subscriptionRuleManager.
+ *
+ * @export
+ * @interface GetSubscriptionRuleManagerOptions
+ */
+export interface GetSubscriptionRuleManagerOptions extends BaseClientOptions {}
+
+/**
  * Options when receiving a batch of messages from Service Bus.
  */
 export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {}

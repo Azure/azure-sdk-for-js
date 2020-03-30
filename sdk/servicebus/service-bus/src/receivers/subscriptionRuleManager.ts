@@ -4,6 +4,13 @@
 import { RuleDescription, CorrelationFilter } from "../core/managementClient";
 import { throwErrorIfClientOrConnectionClosed } from "../util/errors";
 import { ClientEntityContext } from "../clientEntityContext";
+import { GetSubscriptionRuleManagerOptions } from "../models";
+import {
+  retry,
+  RetryOperationType,
+  RetryConfig,
+  getRetryAttemptTimeoutInMs
+} from "@azure/core-amqp";
 
 /**
  * Manages rules for subscriptions.
@@ -65,7 +72,10 @@ export interface SubscriptionRuleManager {
  * @ignore
  */
 export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
-  constructor(private _context: ClientEntityContext) {}
+  private _ruleManagerOptions: GetSubscriptionRuleManagerOptions;
+  constructor(private _context: ClientEntityContext, options: GetSubscriptionRuleManagerOptions) {
+    this._ruleManagerOptions = options;
+  }
 
   // #region topic-filters
   getRules(): Promise<RuleDescription[]> {
@@ -74,7 +84,25 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
       this._context.entityPath,
       this._context.isClosed
     );
-    return this._context.managementClient!.getRules();
+
+    const retryOptions = this._ruleManagerOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+
+    const getRulesOperationPromise = () =>
+      new Promise<RuleDescription[]>(async (resolve, reject) => {
+        try {
+          resolve(this._context.managementClient!.getRules(retryOptions.timeoutInMs!));
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<RuleDescription[]> = {
+      operation: getRulesOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<RuleDescription[]>(config);
   }
 
   removeRule(ruleName: string): Promise<void> {
@@ -83,7 +111,25 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
       this._context.entityPath,
       this._context.isClosed
     );
-    return this._context.managementClient!.removeRule(ruleName);
+
+    const retryOptions = this._ruleManagerOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+
+    const removeRuleOperationPromise = () =>
+      new Promise<void>(async (resolve, reject) => {
+        try {
+          resolve(this._context.managementClient!.removeRule(ruleName, retryOptions.timeoutInMs!));
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<void> = {
+      operation: removeRuleOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<void>(config);
   }
 
   addRule(
@@ -96,7 +142,26 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
       this._context.entityPath,
       this._context.isClosed
     );
-    return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
+    const retryOptions = this._ruleManagerOptions.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
+
+    const addRuleOperationPromise = () =>
+      new Promise<void>(async (resolve, reject) => {
+        try {
+          resolve(
+            this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression)
+          );
+        } catch (error) {
+          reject(error);
+        }
+      });
+    const config: RetryConfig<void> = {
+      operation: addRuleOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: retryOptions
+    };
+    return retry<void>(config);
   }
 
   close(): Promise<void> {

@@ -12,7 +12,12 @@ import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
 import { ClientType } from "./client";
 import { SenderImpl, Sender } from "./sender";
-import { GetSessionReceiverOptions, GetReceiverOptions, GetSenderOptions } from "./models";
+import {
+  GetSessionReceiverOptions,
+  GetReceiverOptions,
+  GetSenderOptions,
+  GetSubscriptionRuleManagerOptions
+} from "./models";
 import { Receiver, ReceiverImpl } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 import { ReceivedMessageWithLock, ReceivedMessage } from "./serviceBusMessage";
@@ -291,7 +296,11 @@ export class ServiceBusClient {
    * @param topic The topic for the subscription.
    * @param subscription The subscription.
    */
-  getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager {
+  getSubscriptionRuleManager(
+    topic: string,
+    subscription: string,
+    options?: GetSubscriptionRuleManagerOptions
+  ): SubscriptionRuleManager {
     const entityPath = `${topic}/Subscriptions/${subscription}`;
     const clientEntityContext = ClientEntityContext.create(
       entityPath,
@@ -300,7 +309,10 @@ export class ServiceBusClient {
       `${entityPath}/${generate_uuid()}`
     );
 
-    return new SubscriptionRuleManagerImpl(clientEntityContext);
+    return new SubscriptionRuleManagerImpl(clientEntityContext, {
+      ...options,
+      retryOptions: options?.retryOptions ?? this._clientOptions.retryOptions
+    });
   }
 
   /**
