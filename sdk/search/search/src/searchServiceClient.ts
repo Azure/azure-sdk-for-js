@@ -42,7 +42,8 @@ import {
   DeleteSkillsetOptions,
   CreateOrUpdateSkillsetOptions,
   ListSynonymMapsOptions,
-  CreateSynonymMapOptions
+  CreateSynonymMapOptions,
+  GetSynonymMapsOptions
 } from "./serviceModels";
 import {
   AnalyzeResult,
@@ -244,6 +245,33 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return this.generatedSkillsetToPublicSkillset(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves information about an SynonymMap.
+   * @param indexName The name of the Skillset.
+   * @param options Additional optional arguments.
+   */
+  public async getSynonymMap(
+    synonymMapName: string,
+    options: GetSynonymMapsOptions = {}
+  ): Promise<SynonymMap> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-getSynonymMaps", options);
+    try {
+      const result = await this.client.synonymMaps.get(
+        synonymMapName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

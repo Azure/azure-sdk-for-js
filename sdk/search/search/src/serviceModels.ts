@@ -109,6 +109,8 @@ export type GetIndexOptions = OperationOptions;
 
 export type GetSkillSetOptions = OperationOptions;
 
+export type GetSynonymMapsOptions = OperationOptions;
+
 export type GetIndexStatisticsOptions = OperationOptions;
 
 export type CreateIndexOptions = OperationOptions;

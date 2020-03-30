@@ -843,6 +843,8 @@ export class SearchServiceClient {
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
     // Warning: (ae-forgotten-export) The symbol "GetSkillSetOptions" needs to be exported by the entry point index.d.ts
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
+    // Warning: (ae-forgotten-export) The symbol "GetSynonymMapsOptions" needs to be exported by the entry point index.d.ts
+    getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
     listIndexes(options?: ListIndexesOptions): Promise<Index[]>;
     // Warning: (ae-forgotten-export) The symbol "ListSkillsetsOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "Skillset" needs to be exported by the entry point index.d.ts
