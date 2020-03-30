@@ -1144,7 +1144,7 @@ export class ManagementClient extends LinkEntity {
    * Get all the rules on the Subscription.
    * @returns Promise<RuleDescription[]> A list of rules.
    */
-  async getRules(): Promise<RuleDescription[]> {
+  async getRules(timeoutInMs: number): Promise<RuleDescription[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       const request: AmqpMessage = {
@@ -1164,15 +1164,10 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
+      const response = await this._acquireLockAndSendRequest(request, timeoutInMs, {
+        abortSignal: undefined,
+        requestName: undefined
       });
-
-      const response = await this._mgmtReqResLink!.sendRequest(request);
       if (
         response.application_properties!.statusCode === 204 ||
         !response.body ||
@@ -1260,7 +1255,7 @@ export class ManagementClient extends LinkEntity {
    * Removes the rule on the Subscription identified by the given rule name.
    * @param ruleName
    */
-  async removeRule(ruleName: string): Promise<void> {
+  async removeRule(ruleName: string, timeoutInMs: number): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
     ruleName = String(ruleName);
@@ -1287,15 +1282,10 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
+      await this._acquireLockAndSendRequest(request, timeoutInMs, {
+        abortSignal: undefined,
+        requestName: undefined
       });
-
-      await this._mgmtReqResLink!.sendRequest(request);
     } catch (err) {
       const error = translate(err);
       log.error(
@@ -1315,7 +1305,8 @@ export class ManagementClient extends LinkEntity {
   async addRule(
     ruleName: string,
     filter: boolean | string | CorrelationFilter,
-    sqlRuleActionExpression?: string
+    sqlRuleActionExpression?: string,
+    timeoutInMs?: number
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
@@ -1388,15 +1379,10 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
+      await this._acquireLockAndSendRequest(request, timeoutInMs!, {
+        abortSignal: undefined,
+        requestName: undefined
       });
-
-      await this._mgmtReqResLink!.sendRequest(request);
     } catch (err) {
       const error = translate(err);
       log.error(
