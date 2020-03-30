@@ -262,16 +262,14 @@ export class ServiceBusTestHelpers {
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
   getPeekLockReceiver(
-    entityNames: ReturnType<typeof getEntityNames>,
-    options?: GetReceiverOptions | GetSessionReceiverOptions
+    entityNames: ReturnType<typeof getEntityNames>
   ): Receiver<ReceivedMessageWithLock> {
     try {
       // if you're creating a receiver this way then you'll just use the default
       // session ID for your receiver.
       // if you want to get more specific use the `getPeekLockSessionReceiver` method
       // instead.
-      (options as GetSessionReceiverOptions).sessionId = TestMessage.sessionId;
-      return this.getSessionPeekLockReceiver(entityNames, options);
+      return this.getSessionPeekLockReceiver(entityNames, { sessionId: TestMessage.sessionId });
     } catch (err) {
       if (!(err instanceof TypeError)) {
         throw err;
@@ -280,12 +278,11 @@ export class ServiceBusTestHelpers {
 
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.getReceiver(entityNames.queue, "peekLock", options)
+        ? this._serviceBusClient.getReceiver(entityNames.queue, "peekLock")
         : this._serviceBusClient.getReceiver(
             entityNames.topic!,
             entityNames.subscription!,
-            "peekLock",
-            options
+            "peekLock"
           )
     );
   }
