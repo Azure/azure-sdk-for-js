@@ -85,7 +85,7 @@ export class BeginExtractPoller<T extends { status: OperationStatus }> extends P
       client,
       source,
       contentType,
-      intervalInMs = 1000,
+      intervalInMs = 5000,
       resultId,
       modelId,
       onProgress,
