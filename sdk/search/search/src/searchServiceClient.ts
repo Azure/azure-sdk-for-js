@@ -335,7 +335,7 @@ export class SearchServiceClient {
     }
   }
 
-  public async createSynonymMaps(
+  public async createSynonymMap(
     synonymMap: SynonymMap,
     options: CreateSynonymMapOptions = {}
   ): Promise<SynonymMap> {

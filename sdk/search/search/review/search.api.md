@@ -834,7 +834,7 @@ export class SearchServiceClient {
     // Warning: (ae-forgotten-export) The symbol "CreateSynonymMapOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    createSynonymMaps(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
+    createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
     deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "DeleteSkillsetOptions" needs to be exported by the entry point index.d.ts
     deleteSkillset(skillsetName: string, options?: DeleteSkillsetOptions): Promise<void>;
