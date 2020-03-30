@@ -10,10 +10,10 @@ import {
   ReceivedMessageWithLock,
   SubscriptionRuleManager,
   SessionReceiver
-} from "../../src";
-import { TestClientType, TestMessage } from "../utils/testUtils";
-import { ServiceBusClientForTests, createServiceBusClientForTests } from "../utils/testutils2";
-import { Sender } from "../../src/sender";
+} from "../src";
+import { TestClientType, TestMessage } from "./utils/testUtils";
+import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
+import { Sender } from "../src/sender";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { RetryOptions } from "@azure/core-amqp";
