@@ -356,7 +356,6 @@ export class SenderImpl implements Sender {
     return retry<void>(config);
   }
 
-  // TODO - No need to retry close() ???
   async close(): Promise<void> {
     try {
       this._isClosed = true;
