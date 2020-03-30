@@ -99,6 +99,10 @@ export interface WebResourceLike {
    */
   keepAlive?: boolean;
   /**
+   * Whether or not to decompress response according to Accept-Encoding header (node-fetch only)
+   */
+  decompressResponse?: boolean;
+  /**
    * A unique identifier for the request. Used for logging and tracing.
    */
   requestId: string;
@@ -194,6 +198,10 @@ export class WebResource implements WebResourceLike {
   timeout: number;
   proxySettings?: ProxySettings;
   keepAlive?: boolean;
+  /**
+   * Whether or not to decompress response according to Accept-Encoding header (node-fetch only)
+   */
+  decompressResponse?: boolean;
   requestId: string;
 
   abortSignal?: AbortSignalLike;
@@ -222,7 +230,8 @@ export class WebResource implements WebResourceLike {
     onUploadProgress?: (progress: TransferProgressEvent) => void,
     onDownloadProgress?: (progress: TransferProgressEvent) => void,
     proxySettings?: ProxySettings,
-    keepAlive?: boolean
+    keepAlive?: boolean,
+    decompressResponse?: boolean
   ) {
     this.streamResponseBody = streamResponseBody;
     this.url = url || "";
@@ -238,6 +247,7 @@ export class WebResource implements WebResourceLike {
     this.onDownloadProgress = onDownloadProgress;
     this.proxySettings = proxySettings;
     this.keepAlive = keepAlive;
+    this.decompressResponse = decompressResponse;
     this.requestId = this.headers.get("x-ms-client-request-id") || generateUuid();
   }
 
@@ -318,7 +328,7 @@ export class WebResource implements WebResourceLike {
         baseUrl +
         (baseUrl.endsWith("/") ? "" : "/") +
         (pathTemplate.startsWith("/") ? pathTemplate.slice(1) : pathTemplate);
-      const segments = url.match(/({\w*\s*\w*})/gi);
+      const segments = url.match(/({[\w\-]*\s*[\w\-]*})/gi);
       if (segments && segments.length) {
         if (!pathParameters) {
           throw new Error(
@@ -482,7 +492,8 @@ export class WebResource implements WebResourceLike {
       this.onUploadProgress,
       this.onDownloadProgress,
       this.proxySettings,
-      this.keepAlive
+      this.keepAlive,
+      this.decompressResponse
     );
 
     if (this.formData) {

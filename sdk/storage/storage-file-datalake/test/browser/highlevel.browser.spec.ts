@@ -3,7 +3,14 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
 import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
-import { blobToString, bodyToString, getBrowserFile, isIE, blobToArrayBuffer, arrayBufferEqual } from "../utils/index.browser";
+import {
+  blobToString,
+  bodyToString,
+  getBrowserFile,
+  isIE,
+  blobToArrayBuffer,
+  arrayBufferEqual
+} from "../utils/index.browser";
 import { MB } from "../../src/utils/constants";
 import { AbortController } from "@azure/abort-controller";
 
@@ -20,7 +27,7 @@ describe("Highlevel browser only", () => {
   const tempFileSmallLength: number = 1 * MB - 1;
   let recorder: any;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -30,19 +37,19 @@ describe("Highlevel browser only", () => {
     fileClient = fileSystemClient.getFileClient(fileName);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await fileSystemClient.delete();
     recorder.stop();
   });
 
-  before(async function () {
+  before(async function() {
     recorder = record(this, recorderEnvSetup);
     tempFileLarge = getBrowserFile(recorder.getUniqueName("browserfilesmall"), tempFileLargeLength);
     tempFileSmall = getBrowserFile(recorder.getUniqueName("browserfilelarge"), tempFileSmallLength);
     recorder.stop();
   });
 
-  after(async () => { });
+  after(async () => {});
 
   it("upload should succeed with a single upload", async () => {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
@@ -54,7 +61,7 @@ describe("Highlevel browser only", () => {
     assert.equal(uploadedString, readString);
   });
 
-  it("upload should work for large data", async function () {
+  it("upload should work for large data", async function() {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     if (isIE()) {
       assert.ok(
@@ -77,7 +84,7 @@ describe("Highlevel browser only", () => {
     try {
       await fileClient.upload(tempFileLarge, {
         abortSignal: aborter,
-        singleUploadThreshold: 8 * MB,
+        singleUploadThreshold: 8 * MB
       });
       assert.fail();
     } catch (err) {
@@ -86,7 +93,10 @@ describe("Highlevel browser only", () => {
   });
 
   it("upload can update progress with single-shot upload", async () => {
-    recorder.skip("browser", "Abort - Recorder does not record a request if it's aborted in a 'progress' callback");
+    recorder.skip(
+      "browser",
+      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
+    );
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -98,7 +108,7 @@ describe("Highlevel browser only", () => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
-        },
+        }
       });
     } catch (err) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
@@ -107,7 +117,10 @@ describe("Highlevel browser only", () => {
   });
 
   it("upload can update progress with parallel upload", async () => {
-    recorder.skip("browser", "Abort - Recorder does not record a request if it's aborted in a 'progress' callback");
+    recorder.skip(
+      "browser",
+      "Abort - Recorder does not record a request if it's aborted in a 'progress' callback"
+    );
     let eventTriggered = false;
     const aborter = new AbortController();
 
@@ -133,5 +146,5 @@ describe("Highlevel browser only", () => {
     await fileClient.upload(tempFileEmpty);
     const response = await fileClient.read();
     assert.deepStrictEqual(await bodyToString(response), "");
-  })
+  });
 });

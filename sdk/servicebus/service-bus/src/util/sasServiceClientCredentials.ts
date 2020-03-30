@@ -4,6 +4,12 @@
 import { HttpHeaders, WebResource, ServiceClientCredentials } from "@azure/core-http";
 import { generateKey } from "./crypto";
 
+/**
+ * @internal
+ * @ignore
+ * @class SasServiceClientCredentials
+ * @implements {ServiceClientCredentials}
+ */
 export class SasServiceClientCredentials implements ServiceClientCredentials {
   keyName: string;
   keyValue: string;

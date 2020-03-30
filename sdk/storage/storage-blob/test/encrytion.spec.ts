@@ -1,21 +1,13 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import {
-  getBSU,
-  recorderEnvSetup,
-} from "./utils";
+import { getBSU, recorderEnvSetup } from "./utils";
 import { record } from "@azure/test-utils-recorder";
-import {
-  BlobServiceClient,
-  BlobClient,
-  BlockBlobClient,
-  ContainerClient
-} from "../src";
+import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { isNode } from "@azure/core-http";
 dotenv.config({ path: "../.env" });
 
-describe("Encryption Scope", function () {
+describe("Encryption Scope", function() {
   let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
@@ -39,13 +31,13 @@ describe("Encryption Scope", function () {
 
   let recorder: any;
 
-  before(function () {
+  before(function() {
     if (!encryptionScopeName1 || !encryptionScopeName2) {
       this.skip();
     }
   });
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -55,7 +47,7 @@ describe("Encryption Scope", function () {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await containerClient.delete();
     recorder.stop();
   });
@@ -64,7 +56,7 @@ describe("Encryption Scope", function () {
     await containerClient.create();
     let containerChecked = false;
     for await (const container of blobServiceClient.listContainers({
-      includeMetadata: true,
+      includeMetadata: true
     })) {
       if (container.name === containerName) {
         assert.strictEqual(container.properties.defaultEncryptionScope, accountEncryptionKey);
@@ -81,11 +73,16 @@ describe("Encryption Scope", function () {
   });
 
   it("create container preventEncryptionScopeOverride", async () => {
-    await containerClient.create({ containerEncryptionScope: { defaultEncryptionScope: encryptionScopeName1, preventEncryptionScopeOverride: true } });
+    await containerClient.create({
+      containerEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName1,
+        preventEncryptionScopeOverride: true
+      }
+    });
 
     let containerChecked = false;
     for await (const container of blobServiceClient.listContainers({
-      includeMetadata: true,
+      includeMetadata: true
     })) {
       if (container.name === containerName) {
         assert.strictEqual(container.properties.defaultEncryptionScope, encryptionScopeName1);
@@ -149,6 +146,6 @@ describe("Encryption Scope", function () {
       operationFailed = true;
       assert.strictEqual(err.details.errorCode, "BlobCustomerSpecifiedEncryptionMismatch");
     }
-    assert.ok(operationFailed, "Create snapshot with unmatching encryption scope should fail.")
+    assert.ok(operationFailed, "Create snapshot with unmatching encryption scope should fail.");
   });
-})
+});

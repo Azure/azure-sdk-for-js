@@ -24,6 +24,7 @@ import {
 } from "../util/utils";
 
 /**
+ * @internal
  * @ignore
  * Builds the queue options object from the user provided options.
  * Handles the differences in casing for the property names,
@@ -54,6 +55,7 @@ export function buildQueueOptions(queueOptions: QueueOptions): InternalQueueOpti
 }
 
 /**
+ * @internal
  * @ignore
  * Builds the queue object from the raw json object gotten after deserializing the
  * response from the service
@@ -119,6 +121,8 @@ export function buildQueue(rawQueue: any): QueueDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents settable options on a queue
  */
 export interface QueueOptions {
@@ -236,6 +240,7 @@ export interface QueueOptions {
 }
 
 /**
+ * @internal
  * @ignore
  * Internal representation of settable options on a queue
  */
@@ -355,6 +360,8 @@ export interface InternalQueueOptions {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents all attributes of a queue entity
  */
 export interface QueueDetails {
@@ -530,6 +537,7 @@ export interface QueueDetails {
 }
 
 /**
+ * @internal
  * @ignore
  * Atom XML Serializer for Queues.
  */

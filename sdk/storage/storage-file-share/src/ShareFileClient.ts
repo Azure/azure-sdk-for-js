@@ -96,7 +96,7 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
   metadata?: Metadata;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileCreateOptions
    */
@@ -121,14 +121,14 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
   fileHttpHeaders?: FileHttpHeaders;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileProperties
    */
   leaseAccessConditions?: LeaseAccessConditions;
 }
 
-export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse { }
+export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {}
 
 /**
  * Options to configure the {@link ShareFileClient.delete} operation.
@@ -147,7 +147,7 @@ export interface FileDeleteOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileDeleteOptions
    */
@@ -208,7 +208,7 @@ export interface FileDownloadOptions extends CommonOptions {
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileDownloadOptions
    */
@@ -251,7 +251,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileUploadRangeOptions
    */
@@ -289,7 +289,7 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
   sourceConditions?: SourceModifiedAccessConditions;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileUploadRangeFromURLOptions
    */
@@ -343,7 +343,7 @@ export interface FileGetRangeListOptions extends CommonOptions {
   range?: Range;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileGetRangeListOptions
    */
@@ -367,7 +367,7 @@ export interface FileGetPropertiesOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileGetPropertiesOptions
    */
@@ -428,7 +428,7 @@ export interface FileStartCopyOptions extends CommonOptions {
   metadata?: Metadata;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileStartCopyOptions
    */
@@ -439,7 +439,7 @@ export interface FileStartCopyOptions extends CommonOptions {
    * used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and
    * dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be
    * specified.
-   * 
+   *
    * @type {string}
    * @memberof FileStartCopyOptions
    */
@@ -447,14 +447,14 @@ export interface FileStartCopyOptions extends CommonOptions {
   /**
    * Key of the permission to be set for the directory/file. Note: Only one of the
    * x-ms-file-permission or x-ms-file-permission-key should be specified.
-   * 
+   *
    * @type {string}
    * @memberof FileStartCopyOptions
    */
   filePermissionKey?: string;
   /**
    * SMB info.
-   * 
+   *
    * @type {CopyFileSmbInfo}
    * @memberof FileStartCopyOptions
    */
@@ -478,7 +478,7 @@ export interface FileSetMetadataOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileSetMetadataOptions
    */
@@ -493,7 +493,7 @@ export interface FileSetMetadataOptions extends CommonOptions {
  */
 export interface FileSetHttpHeadersOptions
   extends FileAndDirectorySetPropertiesCommonOptions,
-  CommonOptions {
+    CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -504,7 +504,7 @@ export interface FileSetHttpHeadersOptions
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileSetHttpHeadersOptions
    */
@@ -528,7 +528,7 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileAbortCopyFromURLOptions
    */
@@ -543,7 +543,7 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
  */
 export interface FileResizeOptions
   extends FileAndDirectorySetPropertiesCommonOptions,
-  CommonOptions {
+    CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -554,7 +554,7 @@ export interface FileResizeOptions
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileResizeOptions
    */
@@ -578,7 +578,7 @@ export interface FileClearRangeOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileClearRangeOptions
    */
@@ -728,7 +728,7 @@ export interface FileUploadStreamOptions extends CommonOptions {
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileUploadStreamOptions
    */
@@ -796,7 +796,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
   concurrency?: number;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileParallelUploadOptions
    */
@@ -864,7 +864,7 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
   concurrency?: number;
   /**
    * Lease access conditions.
-   * 
+   *
    * @type {LeaseAccessConditions}
    * @memberof FileDownloadToBufferOptions
    */
@@ -2183,8 +2183,8 @@ export class ShareFileClient extends StorageClient {
         } catch (error) {
           throw new Error(
             `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
-            'the "downloadToBuffer method or try using other moethods like "download" or "downloadToFile".' +
-            `\t ${error.message}`
+              'the "downloadToBuffer method or try using other moethods like "download" or "downloadToFile".' +
+              `\t ${error.message}`
           );
         }
       }
@@ -2298,7 +2298,7 @@ export class ShareFileClient extends StorageClient {
           if (transferProgress + buffer.length > size) {
             throw new RangeError(
               `Stream size is larger than file size ${size} bytes, uploading failed. ` +
-              `Please make sure stream length is less or equal than file size.`
+                `Please make sure stream length is less or equal than file size.`
             );
           }
 
@@ -2593,7 +2593,7 @@ export class ShareFileClient extends StorageClient {
 
       return {
         closedHandlesCount: handlesClosed,
-        closeFailureCount: numberOfHandlesFailedToClose,
+        closeFailureCount: numberOfHandlesFailedToClose
       };
     } catch (e) {
       span.setStatus({
@@ -2833,7 +2833,10 @@ export class ShareLeaseClient {
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, spanOptions } = createSpan("ShareLeaseClient-changeLease", options.tracingOptions);
+    const { span, spanOptions } = createSpan(
+      "ShareLeaseClient-changeLease",
+      options.tracingOptions
+    );
     try {
       const response = await this._file.changeLease(this._leaseId, {
         proposedLeaseId,

@@ -385,14 +385,13 @@ const client = new SearchIndexClient(
   new SearchApiKeyCredential("<Admin Key>")
 );
 
+// use mergeOrUploadDocuments if the document might not be upload
 const updateResult = await client.mergeDocuments([
   // JSON objects matching the shape of the client's index
   { ... },
   { ... },
   { ... }
 ], {
-  // update existing document if primary key exists
-  mergeIfExists: true,
   // throw if updating any document in this batch fails
   throwOnAnyFailure: true
 });

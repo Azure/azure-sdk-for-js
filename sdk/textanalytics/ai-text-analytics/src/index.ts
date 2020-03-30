@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export { AzureKeyCredential } from "@azure/core-auth";
+
 export {
   TextAnalyticsClient,
   TextAnalyticsClientOptions,
@@ -8,11 +10,9 @@ export {
   RecognizeCategorizedEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
-  RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
   TextAnalyticsOperationOptions
 } from "./textAnalyticsClient";
-export { TextAnalyticsApiKeyCredential } from "./textAnalyticsApiKeyCredential";
 export {
   DetectLanguageResult,
   DetectLanguageErrorResult,
@@ -26,13 +26,6 @@ export {
   RecognizeCategorizedEntitiesSuccessResult
 } from "./recognizeCategorizedEntitiesResult";
 export { RecognizeCategorizedEntitiesResultCollection } from "./recognizeCategorizedEntitiesResultCollection";
-export {
-  PiiEntity,
-  RecognizePiiEntitiesResult,
-  RecognizePiiEntitiesErrorResult,
-  RecognizePiiEntitiesSuccessResult
-} from "./recognizePiiEntitiesResult";
-export { RecognizePiiEntitiesResultCollection } from "./recognizePiiEntitiesResultCollection";
 export {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,

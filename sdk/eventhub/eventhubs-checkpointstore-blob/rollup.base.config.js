@@ -20,9 +20,10 @@ const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["events", "util", "os"];
+  const additionalExternals = ["keytar"];
   const baseConfig = {
     input: input,
-    external: depNames.concat(externalNodeBuiltins),
+    external: depNames.concat(externalNodeBuiltins, additionalExternals),
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
     plugins: [

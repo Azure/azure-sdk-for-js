@@ -48,8 +48,17 @@ export function createConnectionContextForConnectionString(
   config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
 
   const credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
-  ConnectionConfig.validate(config);
+  validate(config);
   return ConnectionContext.create(config, credential, options);
+}
+
+function validate(config: ConnectionConfig) {
+  // TODO: workaround - core-amqp's validate string-izes "undefined"
+  // the timing of this particular call happens in a spot where we might not have an
+  // entity path so it's perfectly legitimate for it to be empty.
+  config.entityPath = config.entityPath ?? "";
+
+  ConnectionConfig.validate(config);
 }
 
 /**

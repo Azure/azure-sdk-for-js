@@ -38,7 +38,6 @@ async function main(argv) {
 
   const packageName = artifactName.replace("azure-", "@azure/");
   const rushSpec = await versionUtils.getRushSpec(repoRoot);
-
   const targetPackage = rushSpec.projects.find(
     packageSpec => packageSpec.packageName == packageName
   );
@@ -70,7 +69,9 @@ async function main(argv) {
     packageJsonContents,
     newVersion
   );
-  versionUtils.updateChangelog(targetPackagePath, newVersion, true, false);
+  const updateStatus = versionUtils.updateChangelog(targetPackagePath, repoRoot, newVersion, true, false);
+  if (!updateStatus) {
+    process.exit(1);
+  }
 }
-
 main(argv);

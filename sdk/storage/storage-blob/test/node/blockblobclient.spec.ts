@@ -1,4 +1,5 @@
 import * as assert from "assert";
+import * as zlib from "zlib";
 
 import {
   bodyToString,
@@ -150,5 +151,20 @@ describe("BlockBlobClient Node.js only", () => {
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
+  });
+
+  it("should not decompress during downloading", async () => {
+    const body: string = "hello world body string!";
+    const deflated = zlib.deflateSync(body);
+
+    await blockBlobClient.upload(deflated, deflated.byteLength, {
+      blobHTTPHeaders: {
+        blobContentEncoding: "deflate",
+        blobContentType: "text/plain",
+      },
+    });
+
+    const downloaded = await blockBlobClient.downloadToBuffer();
+    assert.deepStrictEqual(downloaded, deflated);
   });
 });

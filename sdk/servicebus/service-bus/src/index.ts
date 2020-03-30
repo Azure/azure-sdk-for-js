@@ -23,7 +23,6 @@ export {
   ReceivedMessage,
   ServiceBusMessage,
   DeadLetterOptions,
-  ReceiveMode,
   ReceivedMessageWithLock
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";

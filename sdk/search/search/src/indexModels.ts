@@ -54,24 +54,17 @@ export interface IndexDocuments extends OperationOptions {
 /**
  * Options for the upload documents operation.
  */
-export interface UploadDocumentsOptions extends IndexDocuments {
-  /**
-   * If true, any documents in this batch will merge with existing documents
-   * which have the same primary key.
-   */
-  mergeIfExists?: boolean;
-}
+export type UploadDocumentsOptions = IndexDocuments;
 
 /**
- * Options for the update documents operation.
+ * Options for the merge documents operation.
  */
-export interface MergeDocumentsOptions extends IndexDocuments {
-  /**
-   * If true, any documents in this batch that do not exist on the server
-   * will be treated as an upload instead of an update.
-   */
-  uploadIfNotExists?: boolean;
-}
+export type MergeDocumentsOptions = IndexDocuments;
+
+/**
+ * Options for the merge or upload documents operation.
+ */
+export type MergeOrUploadDocumentsOptions = IndexDocuments;
 
 /**
  * Options for the delete documents operation.
@@ -445,12 +438,12 @@ export interface AutocompleteRequest<Fields> {
 /**
  * Represents an index action that operates on a document.
  */
-export type IndexAction<T> = {
+export type IndexDocumentsAction<T> = {
   /**
    * The operation to perform on a document in an indexing batch. Possible values include:
    * 'upload', 'merge', 'mergeOrUpload', 'delete'
    */
-  actionType: IndexActionType;
+  __actionType: IndexActionType;
 } & Partial<T>;
 
 // END manually modified generated interfaces

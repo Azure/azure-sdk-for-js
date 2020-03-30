@@ -2,6 +2,7 @@
 
 ## 1.1.0-preview.2 (Unreleased)
 
+- Make KnownAuthorityHosts constants available
 
 ## 1.1.0-preview1 (2020-03-10)
 
