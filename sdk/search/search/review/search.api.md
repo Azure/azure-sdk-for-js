@@ -829,6 +829,8 @@ export class SearchServiceClient {
     createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
     // Warning: (ae-forgotten-export) The symbol "CreateOrUpdateSkillsetOptions" needs to be exported by the entry point index.d.ts
     createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
+    // Warning: (ae-forgotten-export) The symbol "CreateOrUpdateSynonymMapOptions" needs to be exported by the entry point index.d.ts
+    createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
     // Warning: (ae-forgotten-export) The symbol "CreateSkillsetOptions" needs to be exported by the entry point index.d.ts
     createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
     // Warning: (ae-forgotten-export) The symbol "CreateSynonymMapOptions" needs to be exported by the entry point index.d.ts

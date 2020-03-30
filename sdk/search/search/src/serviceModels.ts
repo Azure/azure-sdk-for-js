@@ -138,6 +138,8 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperat
 
 export type CreateOrUpdateSkillsetOptions = OperationOptions & ETagOperationOptions;
 
+export type CreateOrUpdateSynonymMapOptions = OperationOptions & ETagOperationOptions;
+
 export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
 
 export type DeleteSkillsetOptions = OperationOptions & ETagOperationOptions;
