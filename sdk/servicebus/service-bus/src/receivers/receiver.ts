@@ -358,27 +358,22 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     const retryOptions = this._receiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const receiveDeferredMessagesOperationPromise = () =>
-      new Promise<ReceivedMessageT | undefined>(async (resolve, reject) => {
-        try {
-          const messages = await this._context.managementClient!.receiveDeferredMessages(
-            [sequenceNumber],
-            convertToInternalReceiveMode(this.receiveMode),
-            undefined,
-            retryOptions.timeoutInMs
-          );
-          resolve((messages[0] as unknown) as ReceivedMessageT);
-        } catch (error) {
-          reject(error);
-        }
-      });
+    const receiveDeferredMessagesOperationPromise = async () => {
+      const messages = await this._context.managementClient!.receiveDeferredMessages(
+        [sequenceNumber],
+        convertToInternalReceiveMode(this.receiveMode),
+        undefined,
+        retryOptions.timeoutInMs
+      );
+      return (messages[0] as unknown) as ReceivedMessageT;
+    };
     const config: RetryConfig<ReceivedMessageT | undefined> = {
       operation: receiveDeferredMessagesOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: retryOptions
     };
-    return await retry<ReceivedMessageT | undefined>(config);
+    return retry<ReceivedMessageT | undefined>(config);
   }
 
   /**
@@ -409,28 +404,22 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     const retryOptions = this._receiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const receiveDeferredMessagesOperationPromise = () =>
-      new Promise<ReceivedMessageT[]>(async (resolve, reject) => {
-        try {
-          const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
-            sequenceNumbers,
-            convertToInternalReceiveMode(this.receiveMode),
-            undefined,
-            retryOptions.timeoutInMs
-          );
-
-          resolve((deferredMessages as any) as ReceivedMessageT[]);
-        } catch (error) {
-          reject(error);
-        }
-      });
+    const receiveDeferredMessagesOperationPromise = async () => {
+      const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
+        sequenceNumbers,
+        convertToInternalReceiveMode(this.receiveMode),
+        undefined,
+        retryOptions.timeoutInMs
+      );
+      return (deferredMessages as any) as ReceivedMessageT[];
+    };
     const config: RetryConfig<ReceivedMessageT[]> = {
       operation: receiveDeferredMessagesOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: retryOptions
     };
-    return await retry<ReceivedMessageT[]>(config);
+    return retry<ReceivedMessageT[]>(config);
   }
 
   // ManagementClient methods # Begin
@@ -444,18 +433,13 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     const retryOptions = this._receiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const peekOperationPromise = () =>
-      new Promise<ReceivedMessage[]>(async (resolve, reject) => {
-        try {
-          const internalMessages = await this._context.managementClient!.peek(
-            maxMessageCount,
-            retryOptions.timeoutInMs
-          );
-          resolve(internalMessages.map((m) => m as ReceivedMessage));
-        } catch (error) {
-          reject(error);
-        }
-      });
+    const peekOperationPromise = async () => {
+      const internalMessages = await this._context.managementClient!.peek(
+        maxMessageCount,
+        retryOptions.timeoutInMs
+      );
+      return internalMessages.map((m) => m as ReceivedMessage);
+    };
     const config: RetryConfig<ReceivedMessage[]> = {
       operation: peekOperationPromise,
       connectionId: this._context.namespace.connectionId,
@@ -477,20 +461,15 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     const retryOptions = this._receiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const peekBySequenceNumberOperationPromise = () =>
-      new Promise<ReceivedMessage[]>(async (resolve, reject) => {
-        try {
-          const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
-            fromSequenceNumber,
-            maxMessageCount,
-            undefined,
-            retryOptions.timeoutInMs
-          );
-          resolve(internalMessages.map((m) => m as ReceivedMessage));
-        } catch (error) {
-          reject(error);
-        }
-      });
+    const peekBySequenceNumberOperationPromise = async () => {
+      const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
+        fromSequenceNumber,
+        maxMessageCount,
+        undefined,
+        retryOptions.timeoutInMs
+      );
+      return internalMessages.map((m) => m as ReceivedMessage);
+    };
     const config: RetryConfig<ReceivedMessage[]> = {
       operation: peekBySequenceNumberOperationPromise,
       connectionId: this._context.namespace.connectionId,

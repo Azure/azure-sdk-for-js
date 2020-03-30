@@ -84,14 +84,9 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
     const retryOptions = this._ruleManagerOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const getRulesOperationPromise = () =>
-      new Promise<RuleDescription[]>(async (resolve, reject) => {
-        try {
-          resolve(this._context.managementClient!.getRules(retryOptions.timeoutInMs!));
-        } catch (error) {
-          reject(error);
-        }
-      });
+    const getRulesOperationPromise = async () => {
+      return this._context.managementClient!.getRules(retryOptions.timeoutInMs!);
+    };
     const config: RetryConfig<RuleDescription[]> = {
       operation: getRulesOperationPromise,
       connectionId: this._context.namespace.connectionId,
@@ -111,14 +106,9 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
     const retryOptions = this._ruleManagerOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const removeRuleOperationPromise = () =>
-      new Promise<void>(async (resolve, reject) => {
-        try {
-          resolve(this._context.managementClient!.removeRule(ruleName, retryOptions.timeoutInMs!));
-        } catch (error) {
-          reject(error);
-        }
-      });
+    const removeRuleOperationPromise = () => {
+      return this._context.managementClient!.removeRule(ruleName, retryOptions.timeoutInMs!);
+    };
     const config: RetryConfig<void> = {
       operation: removeRuleOperationPromise,
       connectionId: this._context.namespace.connectionId,
@@ -141,16 +131,9 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
     const retryOptions = this._ruleManagerOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const addRuleOperationPromise = () =>
-      new Promise<void>(async (resolve, reject) => {
-        try {
-          resolve(
-            this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression)
-          );
-        } catch (error) {
-          reject(error);
-        }
-      });
+    const addRuleOperationPromise = async () => {
+      return this._context.managementClient!.addRule(ruleName, filter, sqlRuleActionExpression);
+    };
     const config: RetryConfig<void> = {
       operation: addRuleOperationPromise,
       connectionId: this._context.namespace.connectionId,
