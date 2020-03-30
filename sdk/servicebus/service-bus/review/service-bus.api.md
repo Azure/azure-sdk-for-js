@@ -59,9 +59,7 @@ export interface GetSenderOptions {
 }
 
 // @public
-export interface GetSessionReceiverOptions extends GetReceiverOptions, OperationOptions {
-    maxSessionAutoRenewLockDurationInSeconds?: number;
-    sessionId?: string;
+export interface GetSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
 }
 
 // @public
@@ -232,6 +230,7 @@ export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | Rece
 // @public
 export interface SessionReceiverOptions {
     maxSessionAutoRenewLockDurationInSeconds?: number;
+    retryOptions?: RetryOptions;
     sessionId: string | undefined;
 }
 
