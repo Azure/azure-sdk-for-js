@@ -5,7 +5,7 @@
  * detects entites in a piece of text and prints them along with the entity type
  */
 
-const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
+const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -17,7 +17,7 @@ async function main() {
   const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
-  const client = new TextAnalyticsClient(endpoint, new TextAnalyticsApiKeyCredential(apiKey));
+  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
   const [result] = await client.recognizeEntities(["I love living in Seattle."]);
 

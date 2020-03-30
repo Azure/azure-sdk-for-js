@@ -71,6 +71,7 @@
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
+    "@azure/core-auth": "^1.1.0",
     "@azure/core-http": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.7",
     "@azure/logger": "^1.0.0",
@@ -78,8 +79,8 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@azure/identity": "1.1.0-preview1",
     "@azure/dev-tool": "^1.0.0",
+    "@azure/identity": "1.1.0-preview.2",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.5.4",
     "@rollup/plugin-commonjs": "^11.0.1",
