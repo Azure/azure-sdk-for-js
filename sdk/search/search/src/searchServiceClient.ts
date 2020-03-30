@@ -39,7 +39,8 @@ import {
   ComplexField,
   SimpleField,
   GetSkillSetOptions,
-  DeleteSkillsetOptions
+  DeleteSkillsetOptions,
+  CreateOrUpdateSkillsetOptions
 } from "./serviceModels";
 import {
   AnalyzeResult,
@@ -297,6 +298,37 @@ export class SearchServiceClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return this.generatedIndexToPublicIndex(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new Skillset or modifies an existing one.
+   * @param index The information describing the index to be created.
+   * @param options Additional optional arguments.
+   */
+  public async createOrUpdateSkillset(
+    skillset: Skillset,
+    options: CreateOrUpdateSkillsetOptions = {}
+  ): Promise<Skillset> {
+    const { span, updatedOptions } = createSpan(
+      "SearchServiceClient-createOrUpdateSkillset",
+      options
+    );
+    try {
+      const result = await this.client.skillsets.createOrUpdate(
+        skillset.name,
+        this.publicSkillsetToGeneratedSkillset(skillset),
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return this.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

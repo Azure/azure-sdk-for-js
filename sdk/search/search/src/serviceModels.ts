@@ -123,6 +123,8 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperat
   allowIndexDowntime?: boolean;
 }
 
+export interface CreateOrUpdateSkillsetOptions extends OperationOptions, ETagOperationOptions {}
+
 export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
 
 export type DeleteSkillsetOptions = OperationOptions & ETagOperationOptions;
