@@ -108,7 +108,6 @@ stages:
               displayName: "Update Package Version"
               condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
               environment: github
-              dependsOn: PublishPackage
 
               pool:
                 vmImage: ubuntu-16.04
