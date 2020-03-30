@@ -263,9 +263,20 @@ export class MessageSender extends LinkEntity {
               "possibly the connection.",
             this.senderLock
           );
-          await defaultLock.acquire(this.senderLock, () => {
-            return this._init();
-          });
+          try {
+            await defaultLock.acquire(this.senderLock, () => {
+              return this._init();
+            });
+          } catch (err) {
+            err = translate(err);
+            log.warning(
+              "[%s] An error occurred while creating the sender %s",
+              this._context.namespace.connectionId,
+              this.name,
+              err
+            );
+            return reject(err);
+          }
         }
         log.sender(
           "[%s] Sender '%s', credit: %d available: %d",
