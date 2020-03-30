@@ -566,7 +566,10 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    await this._createMessageSessionIfDoesntExist(this._receiverOptions.retryOptions?.timeoutInMs!);
+
+    await this._createMessageSessionIfDoesntExist(
+      getRetryAttemptTimeoutInMs(this._receiverOptions.retryOptions)
+    );
 
     const receivedMessages = await this._messageSession!.receiveMessages(
       maxMessageCount,
