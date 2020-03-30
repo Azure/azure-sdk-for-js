@@ -29,13 +29,8 @@ import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import {
-  getRetryAttemptTimeoutInMs,
-  RetryConfig,
-  RetryOperationType,
-  retry,
-  Constants
-} from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, retry, Constants } from "@azure/core-amqp";
+import { getRetryAttemptTimeoutInMs } from "../util/utils";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.

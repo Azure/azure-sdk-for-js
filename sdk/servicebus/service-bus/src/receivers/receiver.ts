@@ -29,12 +29,8 @@ import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import {
-  RetryConfig,
-  RetryOperationType,
-  retry,
-  getRetryAttemptTimeoutInMs
-} from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, retry } from "@azure/core-amqp";
+import { getRetryAttemptTimeoutInMs } from "../util/utils";
 
 /**
  * A receiver that does not handle sessions.

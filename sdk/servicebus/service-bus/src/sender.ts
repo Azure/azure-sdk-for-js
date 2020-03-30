@@ -15,12 +15,8 @@ import {
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 import { CreateBatchOptions, GetSenderOptions } from "./models";
-import {
-  getRetryAttemptTimeoutInMs,
-  retry,
-  RetryOperationType,
-  RetryConfig
-} from "@azure/core-amqp";
+import { retry, RetryOperationType, RetryConfig } from "@azure/core-amqp";
+import { getRetryAttemptTimeoutInMs } from "./util/utils";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
