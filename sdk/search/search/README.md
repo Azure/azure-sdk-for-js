@@ -141,7 +141,7 @@ for await (const result of searchResults.results) {
 In TypeScript `SearchIndexClient` takes a generic parameter that is the model shape of your index documents. This allows you to perform strongly typed lookup of fields returned in results. TypeScript is also able to check for fields returned when specifying a `select` parameter.
 
 ```ts
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
+import { SearchIndexClient, AzureKeyCredential } from "@azure/search";
 
 // An example schema for documents in the index
 interface Hotel {
