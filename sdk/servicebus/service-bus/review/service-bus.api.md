@@ -71,6 +71,10 @@ export interface GetSessionReceiverOptions extends GetReceiverOptions, Operation
 }
 
 // @public
+export interface GetSubscriptionRuleManagerOptions extends BaseClientOptions {
+}
+
+// @public
 export interface MessageHandlerOptions {
     autoComplete?: boolean;
     maxConcurrentCalls?: number;
@@ -174,7 +178,7 @@ export class ServiceBusClient {
     getSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
     getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessageWithLock>;
     getSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: GetSessionReceiverOptions): SessionReceiver<ReceivedMessage>;
-    getSubscriptionRuleManager(topic: string, subscription: string): SubscriptionRuleManager;
+    getSubscriptionRuleManager(topic: string, subscription: string, options?: GetSubscriptionRuleManagerOptions): SubscriptionRuleManager;
 }
 
 // @public
