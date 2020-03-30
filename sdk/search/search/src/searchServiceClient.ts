@@ -24,6 +24,7 @@ import {
   CognitiveServicesAccount,
   GetIndexOptions,
   CreateIndexOptions,
+  CreateSkillsetOptions,
   CreateOrUpdateIndexOptions,
   DeleteIndexOptions,
   AnalyzeTextOptions,
@@ -224,6 +225,33 @@ export class SearchServiceClient {
   }
 
   /**
+   * Creates a new skillset in a search service.
+   * @param skillset The skillset containing one or more skills to create in a search service.
+   * @param options Additional optional arguments.
+   */
+  public async createSkillset(
+    skillset: Skillset,
+    options: CreateSkillsetOptions = {}
+  ): Promise<Skillset> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-createSkillset", options);
+    try {
+      const result = await this.client.skillsets.create(
+        this.publicSkillsetToGeneratedSkillset(skillset),
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return this.generatedSkillsetToPublicSkillset(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Creates a new index or modifies an existing one.
    * @param index The information describing the index to be created.
    * @param options Additional optional arguments.
@@ -367,6 +395,18 @@ export class SearchServiceClient {
     };
   }
 
+  private publicSkillsetToGeneratedSkillset(skillset: Skillset): GeneratedSkillset {
+    return {
+      name: skillset.name,
+      description: skillset.description,
+      etag: skillset.etag,
+      skills: this.convertSkillsToGenerated(skillset.skills),
+      cognitiveServicesAccount: this.convertCognitiveServicesAccountToGenerated(
+        skillset.cognitiveServicesAccount
+      )
+    };
+  }
+
   private generatedIndexToPublicIndex(generatedIndex: GeneratedIndex): Index {
     return {
       name: generatedIndex.name,
@@ -382,6 +422,39 @@ export class SearchServiceClient {
       scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
       fields: this.convertFieldsToPublic(generatedIndex.fields)
     };
+  }
+
+  private convertCognitiveServicesAccountToGenerated(
+    cognitiveServicesAccount?: CognitiveServicesAccount
+  ): CognitiveServicesAccountUnion | undefined {
+    if (!cognitiveServicesAccount) {
+      return cognitiveServicesAccount;
+    }
+
+    return cognitiveServicesAccount as CognitiveServicesAccountUnion;
+  }
+
+  private convertSkillsToGenerated(skills: Skill[]): SkillUnion[] {
+    const result: SkillUnion[] = [];
+    for (const skill of skills) {
+      switch (skill.odatatype) {
+        case "#Microsoft.Skills.Util.ConditionalSkill":
+        case "#Microsoft.Skills.Text.KeyPhraseExtractionSkill":
+        case "#Microsoft.Skills.Vision.OcrSkill":
+        case "#Microsoft.Skills.Vision.ImageAnalysisSkill":
+        case "#Microsoft.Skills.Text.LanguageDetectionSkill":
+        case "#Microsoft.Skills.Util.ShaperSkill":
+        case "#Microsoft.Skills.Text.MergeSkill":
+        case "#Microsoft.Skills.Text.EntityRecognitionSkill":
+        case "#Microsoft.Skills.Text.SentimentSkill":
+        case "#Microsoft.Skills.Text.SplitSkill":
+        case "#Microsoft.Skills.Text.TranslationSkill":
+        case "#Microsoft.Skills.Custom.WebApiSkill":
+          result.push(skill);
+          break;
+      }
+    }
+    return result;
   }
 
   private convertAnalyzersToPublic(analyzers?: AnalyzerUnion[]): Analyzer[] | undefined {

@@ -102,6 +102,8 @@ export type GetIndexStatisticsOptions = OperationOptions;
 
 export type CreateIndexOptions = OperationOptions;
 
+export type CreateSkillsetOptions = OperationOptions;
+
 export interface ETagOperationOptions {
   /**
    * ETag parameters

@@ -827,6 +827,8 @@ export class SearchServiceClient {
     readonly apiVersion: string;
     createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
     createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
+    // Warning: (ae-forgotten-export) The symbol "CreateSkillsetOptions" needs to be exported by the entry point index.d.ts
+    createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
     deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
