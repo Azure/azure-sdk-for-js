@@ -40,8 +40,7 @@ export {
   CreateBatchOptions,
   GetReceiverOptions,
   GetSenderOptions,
-  GetSubscriptionRuleManagerOptions,
-  BaseClientOptions
+  GetSubscriptionRuleManagerOptions
 } from "./models";
 
 export { Receiver } from "./receivers/receiver";

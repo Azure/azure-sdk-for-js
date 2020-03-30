@@ -53,28 +53,19 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 /**
- * The set of options to configure the behavior of the underlying operations.
- *
- * @export
- * @interface BaseClientOptions
- */
-export interface BaseClientOptions {
-  /**
-   * Retry policy options that determine the mode, number of retries, retry interval etc.
-   *
-   * @type {RetryOptions}
-   * @memberof BaseClientOptions
-   */
-  retryOptions?: RetryOptions;
-}
-
-/**
  * The set of options to configure the behavior of the sender.
  *
  * @export
  * @interface GetSenderOptions
  */
-export interface GetSenderOptions extends BaseClientOptions {}
+export interface GetSenderOptions {
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
+   */
+  retryOptions?: RetryOptions;
+}
 
 /**
  * The set of options to configure the behavior of the receiver.
@@ -82,7 +73,14 @@ export interface GetSenderOptions extends BaseClientOptions {}
  * @export
  * @interface GetReceiverOptions
  */
-export interface GetReceiverOptions extends BaseClientOptions {}
+export interface GetReceiverOptions {
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
+   */
+  retryOptions?: RetryOptions;
+}
 
 /**
  * The set of options to configure the behavior of the subscriptionRuleManager.
@@ -90,7 +88,14 @@ export interface GetReceiverOptions extends BaseClientOptions {}
  * @export
  * @interface GetSubscriptionRuleManagerOptions
  */
-export interface GetSubscriptionRuleManagerOptions extends BaseClientOptions {}
+export interface GetSubscriptionRuleManagerOptions {
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
+   */
+  retryOptions?: RetryOptions;
+}
 
 /**
  * Options when receiving a batch of messages from Service Bus.

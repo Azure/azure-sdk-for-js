@@ -18,11 +18,6 @@ import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
-export interface BaseClientOptions {
-    retryOptions?: RetryOptions;
-}
-
-// @public
 export interface CorrelationFilter {
     contentType?: string;
     correlationId?: string;
@@ -57,11 +52,13 @@ export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOpt
 }
 
 // @public
-export interface GetReceiverOptions extends BaseClientOptions {
+export interface GetReceiverOptions {
+    retryOptions?: RetryOptions;
 }
 
 // @public
-export interface GetSenderOptions extends BaseClientOptions {
+export interface GetSenderOptions {
+    retryOptions?: RetryOptions;
 }
 
 // @public
@@ -71,7 +68,8 @@ export interface GetSessionReceiverOptions extends GetReceiverOptions, Operation
 }
 
 // @public
-export interface GetSubscriptionRuleManagerOptions extends BaseClientOptions {
+export interface GetSubscriptionRuleManagerOptions {
+    retryOptions?: RetryOptions;
 }
 
 // @public
@@ -182,8 +180,9 @@ export class ServiceBusClient {
 }
 
 // @public
-export interface ServiceBusClientOptions extends BaseClientOptions {
+export interface ServiceBusClientOptions {
     dataTransformer?: DataTransformer;
+    retryOptions?: RetryOptions;
     webSocketOptions?: WebSocketOptions;
 }
 

@@ -5,12 +5,8 @@ import { RuleDescription, CorrelationFilter } from "../core/managementClient";
 import { throwErrorIfClientOrConnectionClosed } from "../util/errors";
 import { ClientEntityContext } from "../clientEntityContext";
 import { GetSubscriptionRuleManagerOptions } from "../models";
-import {
-  retry,
-  RetryOperationType,
-  RetryConfig,
-  getRetryAttemptTimeoutInMs
-} from "@azure/core-amqp";
+import { retry, RetryOperationType, RetryConfig } from "@azure/core-amqp";
+import { getRetryAttemptTimeoutInMs } from "../util/utils";
 
 /**
  * Manages rules for subscriptions.

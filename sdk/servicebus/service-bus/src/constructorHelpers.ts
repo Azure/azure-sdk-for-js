@@ -7,16 +7,22 @@ import {
   ConnectionConfig,
   SharedKeyCredential,
   DataTransformer,
-  WebSocketOptions
+  WebSocketOptions,
+  RetryOptions
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
-import { BaseClientOptions } from "./models";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
  * @interface ServiceBusClientOptions
  */
-export interface ServiceBusClientOptions extends BaseClientOptions {
+export interface ServiceBusClientOptions {
+  /**
+   * Retry policy options that determine the mode, number of retries, retry interval etc.
+   *
+   * @type {RetryOptions}
+   */
+  retryOptions?: RetryOptions;
   /**
    * @property The data transformer that will be used to encode
    * and decode the sent and received messages respectively. If not provided then we will use the
