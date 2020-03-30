@@ -830,6 +830,8 @@ export class SearchServiceClient {
     // Warning: (ae-forgotten-export) The symbol "CreateSkillsetOptions" needs to be exported by the entry point index.d.ts
     createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
     deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "DeleteSkillsetOptions" needs to be exported by the entry point index.d.ts
+    deleteSkillset(skillsetName: string, options?: DeleteSkillsetOptions): Promise<void>;
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;

@@ -38,7 +38,8 @@ import {
   isComplexField,
   ComplexField,
   SimpleField,
-  GetSkillSetOptions
+  GetSkillSetOptions,
+  DeleteSkillsetOptions
 } from "./serviceModels";
 import {
   AnalyzeResult,
@@ -317,6 +318,32 @@ export class SearchServiceClient {
     try {
       await this.client.indexes.deleteMethod(
         indexName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes an existing Skillset.
+   * @param skillsetName The name of the Skillset to delete.
+   * @param options Additional optional arguments.
+   */
+  public async deleteSkillset(
+    skillsetName: string,
+    options: DeleteSkillsetOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-deleteSkillset", options);
+    try {
+      await this.client.skillsets.deleteMethod(
+        skillsetName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {

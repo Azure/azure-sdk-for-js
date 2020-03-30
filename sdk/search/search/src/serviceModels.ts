@@ -125,6 +125,8 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperat
 
 export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
 
+export type DeleteSkillsetOptions = OperationOptions & ETagOperationOptions;
+
 export type AnalyzeTextOptions = OperationOptions & AnalyzeRequest;
 
 // BEGIN manually modified generated interfaces
