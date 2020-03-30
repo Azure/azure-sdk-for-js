@@ -43,7 +43,8 @@ import {
   CreateOrUpdateSkillsetOptions,
   ListSynonymMapsOptions,
   CreateSynonymMapOptions,
-  GetSynonymMapsOptions
+  GetSynonymMapsOptions,
+  DeleteSynonymMapOptions
 } from "./serviceModels";
 import {
   AnalyzeResult,
@@ -451,6 +452,32 @@ export class SearchServiceClient {
     try {
       await this.client.skillsets.deleteMethod(
         skillsetName,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes an existing SynonymMap.
+   * @param synonymMapName The name of the synonymMap to delete.
+   * @param options Additional optional arguments.
+   */
+  public async deleteSynonymMap(
+    synonymMapName: string,
+    options: DeleteSynonymMapOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchServiceClient-deleteSynonymMap", options);
+    try {
+      await this.client.synonymMaps.deleteMethod(
+        synonymMapName,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
