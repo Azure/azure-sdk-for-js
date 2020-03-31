@@ -588,7 +588,7 @@ export class MessageSender extends LinkEntity {
         this.name,
         data
       );
-      return await this._trySend(encodedMessage, false);
+      return await this._trySend(encodedMessage);
     } catch (err) {
       log.error(
         "[%s] Sender '%s': An error occurred while sending the message: %O\nError: %O",
