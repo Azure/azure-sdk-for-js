@@ -268,9 +268,9 @@ export class MessageSender extends LinkEntity {
           return reject(translate(e));
         };
 
-        const waitTimer = setTimeout(actionAfterTimeout, retryOptions.timeoutInMs);
         let timeTakenByInit = 0;
         if (!this.isOpen()) {
+          const waitTimer = setTimeout(actionAfterTimeout, retryOptions.timeoutInMs);
           log.sender(
             "Acquiring lock %s for initializing the session, sender and " +
               "possibly the connection.",
