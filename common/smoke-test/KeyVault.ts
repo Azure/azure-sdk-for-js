@@ -31,7 +31,7 @@ export class KeyVaultSecrets {
         `);
 
     const authorityHost = this.getAuthorityHost(
-      process.env["AZURE_AUTHORITY_HOST_ALIAS"] || "",
+      process.env["AZURE_CLOUD"] || "",
       KnownAuthorityHosts.AzurePublicCloud
     );
 
