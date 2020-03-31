@@ -40,8 +40,10 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      recorder.stop();
+    }
   });
 
   it("upload with Readable stream body and default parameters", async () => {
@@ -160,8 +162,8 @@ describe("BlockBlobClient Node.js only", () => {
     await blockBlobClient.upload(deflated, deflated.byteLength, {
       blobHTTPHeaders: {
         blobContentEncoding: "deflate",
-        blobContentType: "text/plain",
-      },
+        blobContentType: "text/plain"
+      }
     });
 
     const downloaded = await blockBlobClient.downloadToBuffer();
