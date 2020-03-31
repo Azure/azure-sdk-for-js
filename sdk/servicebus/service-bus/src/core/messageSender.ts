@@ -355,15 +355,11 @@ export class MessageSender extends LinkEntity {
         }
       });
 
-    const retryOptions = options.retryOptions || {};
-    retryOptions.maxRetries = retryOptions.maxRetries ?? Constants.defaultMaxRetries;
-    retryOptions.retryDelayInMs =
-      retryOptions.retryDelayInMs ?? Constants.defaultDelayBetweenOperationRetriesInMs;
     const config: RetryConfig<void> = {
       operation: sendEventPromise,
       connectionId: this._context.namespace.connectionId!,
       operationType: RetryOperationType.sendMessage,
-      retryOptions: retryOptions
+      retryOptions: options.retryOptions
     };
 
     return retry<void>(config);
