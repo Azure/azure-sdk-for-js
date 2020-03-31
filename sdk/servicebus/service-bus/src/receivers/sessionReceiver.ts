@@ -28,7 +28,7 @@ import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
 import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import { RetryConfig, RetryOperationType, retry, Constants } from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, retry } from "@azure/core-amqp";
 import { getRetryAttemptTimeoutInMs } from "../util/utils";
 
 /**
@@ -188,49 +188,28 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     }
   }
 
-  private async _createMessageSessionIfDoesntExist(timeoutInMs: number): Promise<number> {
-    const createSessionOperationStartTime = Date.now();
-
-    const actionAfterTimeout = () => {
-      const desc: string = `Unable to create the message session in time. Please try again later.`;
-      const e: Error = {
-        name: "OperationTimeoutError",
-        message: desc
-      };
-
-      throw e;
-    };
-
-    const waitTimer = setTimeout(actionAfterTimeout, timeoutInMs);
-
-    try {
-      if (this._messageSession) {
-        // Returns the time taken by the createSession operation
-        return Date.now() - createSessionOperationStartTime;
-      }
-      this._context.isSessionEnabled = true;
-      this._messageSession = await MessageSession.create(this._context, {
-        sessionId: this._sessionOptions.sessionId,
-        maxSessionAutoRenewLockDurationInSeconds: this._sessionOptions
-          .maxSessionAutoRenewLockDurationInSeconds,
-        receiveMode: convertToInternalReceiveMode(this.receiveMode)
-      });
-      // By this point, we should have a valid sessionId on the messageSession
-      // If not, the receiver cannot be used, so throw error.
-      if (this._messageSession.sessionId == null) {
-        const error = new Error("Something went wrong. Cannot lock a session.");
-        log.error(`[${this._context.namespace.connectionId}] %O`, error);
-        throw error;
-      }
-      this.sessionId = this._messageSession.sessionId;
-      delete this._context.expiredMessageSessions[this._messageSession.sessionId];
-    } catch (err) {
-      throw err;
-    } finally {
-      clearTimeout(waitTimer);
+  private async _createMessageSessionIfDoesntExist(): Promise<void> {
+    // TODO - pass timeout for MessageSession creation
+    if (this._messageSession) {
+      return;
     }
-    // Returns the time taken by the createSession operation
-    return Date.now() - createSessionOperationStartTime;
+    this._context.isSessionEnabled = true;
+    this._messageSession = await MessageSession.create(this._context, {
+      sessionId: this._sessionOptions.sessionId,
+      maxSessionAutoRenewLockDurationInSeconds: this._sessionOptions
+        .maxSessionAutoRenewLockDurationInSeconds,
+      receiveMode: convertToInternalReceiveMode(this.receiveMode)
+    });
+    // By this point, we should have a valid sessionId on the messageSession
+    // If not, the receiver cannot be used, so throw error.
+    if (this._messageSession.sessionId == null) {
+      const error = new Error("Something went wrong. Cannot lock a session.");
+      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      throw error;
+    }
+    this.sessionId = this._messageSession.sessionId;
+    delete this._context.expiredMessageSessions[this._messageSession.sessionId];
+    return;
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -286,14 +265,11 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const renewSessionLockOperationPromise = async () => {
-      const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
-        retryOptions.timeoutInMs!
-      );
-
+      await this._createMessageSessionIfDoesntExist();
       this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
         this.sessionId!,
         undefined,
-        retryOptions.timeoutInMs! - timeTakenByCreateSession
+        retryOptions.timeoutInMs!
       );
       return this._messageSession!.sessionLockedUntilUtc!;
     };
@@ -319,13 +295,11 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const setSessionStateOperationPromise = async () => {
-      const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
-        this._sessionReceiverOptions.retryOptions?.timeoutInMs!
-      );
+      await this._createMessageSessionIfDoesntExist();
       await this._context.managementClient!.setSessionState(
         this.sessionId!,
         state,
-        retryOptions.timeoutInMs! - timeTakenByCreateSession
+        retryOptions.timeoutInMs!
       );
       return;
     };
@@ -351,12 +325,10 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const getSessionStateOperationPromise = async () => {
-      const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
-        this._sessionReceiverOptions.retryOptions?.timeoutInMs!
-      );
+      await this._createMessageSessionIfDoesntExist();
       return this._context.managementClient!.getSessionState(
         this.sessionId!,
-        retryOptions.timeoutInMs! - timeTakenByCreateSession
+        retryOptions.timeoutInMs!
       );
     };
     const config: RetryConfig<any> = {
@@ -387,14 +359,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const peekOperationPromise = async () => {
-      const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
-        retryOptions.timeoutInMs!
-      );
+      await this._createMessageSessionIfDoesntExist();
 
       const internalMessages = await this._context.managementClient!.peekMessagesBySession(
         this.sessionId!,
         maxMessageCount,
-        retryOptions.timeoutInMs! - timeTakenByCreateSession
+        retryOptions.timeoutInMs!
       );
       return internalMessages.map((m) => m as ReceivedMessage);
     };
@@ -428,15 +398,13 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const peekBySequenceNumberOperationPromise = async () => {
-      const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
-        retryOptions.timeoutInMs!
-      );
+      await this._createMessageSessionIfDoesntExist();
 
       const internalMessages = await this._context.managementClient!.peekBySequenceNumber(
         fromSequenceNumber,
         maxMessageCount,
         this.sessionId,
-        retryOptions.timeoutInMs! - timeTakenByCreateSession
+        retryOptions.timeoutInMs!
       );
       return internalMessages.map((m) => m as ReceivedMessage);
     };
@@ -475,14 +443,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const receiveDeferredMessageOperationPromise = async () => {
-      const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
-        retryOptions.timeoutInMs!
-      );
+      await this._createMessageSessionIfDoesntExist();
       const messages = await this._context.managementClient!.receiveDeferredMessages(
         [sequenceNumber],
         convertToInternalReceiveMode(this.receiveMode),
         this.sessionId,
-        retryOptions.timeoutInMs! - timeTakenByCreateSession
+        retryOptions.timeoutInMs!
       );
       return (messages[0] as unknown) as ReceivedMessageT;
     };
@@ -524,14 +490,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
     const receiveDeferredMessagesOperationPromise = async () => {
-      const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
-        retryOptions.timeoutInMs!
-      );
+      await this._createMessageSessionIfDoesntExist();
       const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
         sequenceNumbers,
         convertToInternalReceiveMode(this.receiveMode),
         this.sessionId,
-        retryOptions.timeoutInMs! - timeTakenByCreateSession
+        retryOptions.timeoutInMs!
       );
       return (deferredMessages as any) as ReceivedMessageT[];
     };
@@ -565,9 +529,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
-    await this._createMessageSessionIfDoesntExist(
-      getRetryAttemptTimeoutInMs(this._sessionReceiverOptions.retryOptions)
-    );
+    await this._createMessageSessionIfDoesntExist();
 
     const receivedMessages = await this._messageSession!.receiveMessages(
       maxMessageCount,
@@ -633,7 +595,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    this._createMessageSessionIfDoesntExist(Constants.defaultOperationTimeoutInMs)
+    this._createMessageSessionIfDoesntExist()
       .then(async () => {
         if (!this._messageSession) {
           return;
