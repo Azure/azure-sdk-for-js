@@ -132,7 +132,7 @@ export class ServiceBusClient {
 
     const clientEntityContext = ClientEntityContext.create(
       entityPath,
-      ClientType.ServiceBusReceiverClient,
+      ClientType.ServiceBusReceiver,
       this._connectionContext,
       `${entityPath}/${generate_uuid()}`
     );
@@ -212,7 +212,7 @@ export class ServiceBusClient {
 
     const clientEntityContext = ClientEntityContext.create(
       entityPath,
-      ClientType.ServiceBusReceiverClient,
+      ClientType.ServiceBusReceiver,
       this._connectionContext,
       `${entityPath}/${generate_uuid()}`
     );
@@ -233,7 +233,7 @@ export class ServiceBusClient {
 
     const clientEntityContext = ClientEntityContext.create(
       queueOrTopicName,
-      ClientType.ServiceBusReceiverClient,
+      ClientType.ServiceBusReceiver,
       this._connectionContext,
       `${queueOrTopicName}/${generate_uuid()}`
     );
@@ -251,7 +251,7 @@ export class ServiceBusClient {
     const entityPath = `${topic}/Subscriptions/${subscription}`;
     const clientEntityContext = ClientEntityContext.create(
       entityPath,
-      ClientType.ServiceBusReceiverClient, // TODO:what are these names for? We can make one for management client...
+      ClientType.ServiceBusReceiver, // TODO:what are these names for? We can make one for management client...
       this._connectionContext,
       `${entityPath}/${generate_uuid()}`
     );
