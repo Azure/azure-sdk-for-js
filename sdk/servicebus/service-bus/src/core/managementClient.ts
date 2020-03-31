@@ -283,11 +283,11 @@ export class ManagementClient extends LinkEntity {
       : undefined;
   }
 
-  // TODO - Any better name??
-  private async _acquireLockHelper(
-    message_id: string | number | Buffer | undefined,
-    timeoutInMs: number
-  ): Promise<number> {
+  private async _makeManagementRequest(
+    request: AmqpMessage,
+    retryTimeoutInMs: number,
+    sendRequestOptions: SendRequestOptions
+  ): Promise<AmqpMessage> {
     const initOperationStartTime = Date.now();
     if (!this._isMgmtRequestResponseLinkOpen()) {
       log.mgmt(
@@ -296,7 +296,7 @@ export class ManagementClient extends LinkEntity {
       );
 
       const actionAfterTimeout = () => {
-        const desc: string = `The request with message_id "${message_id}" timed out. Please try again later.`;
+        const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
         const e: Error = {
           name: "OperationTimeoutError",
           message: desc
@@ -305,7 +305,7 @@ export class ManagementClient extends LinkEntity {
         throw e;
       };
 
-      const waitTimer = setTimeout(actionAfterTimeout, timeoutInMs);
+      const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
 
       try {
         await defaultLock.acquire(this.managementLock, () => {
@@ -317,15 +317,11 @@ export class ManagementClient extends LinkEntity {
         clearTimeout(waitTimer);
       }
     }
-    // Returns the time taken by the init operation
-    return Date.now() - initOperationStartTime;
-  }
+    // time taken by the init operation
+    const timeTakenByInit = Date.now() - initOperationStartTime;
+    // Left over time
+    sendRequestOptions.timeoutInMs = retryTimeoutInMs - timeTakenByInit;
 
-  // TODO - Any better name??
-  private async _managementLinkSendRequestHelper(
-    request: AmqpMessage,
-    sendRequestOptions: SendRequestOptions
-  ): Promise<AmqpMessage> {
     try {
       return await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
     } catch (err) {
@@ -343,17 +339,6 @@ export class ManagementClient extends LinkEntity {
       );
       throw err;
     }
-  }
-
-  private async _acquireLockAndSendRequest(
-    request: AmqpMessage,
-    retryTimeoutInMs: number,
-    sendRequestOptions: SendRequestOptions
-  ): Promise<AmqpMessage> {
-    const timeTakenByInit = await this._acquireLockHelper(request.message_id, retryTimeoutInMs);
-    // Left over time - remainingOperationTimeoutInMs
-    sendRequestOptions.timeoutInMs = retryTimeoutInMs - timeTakenByInit;
-    return this._managementLinkSendRequestHelper(request, sendRequestOptions);
   }
 
   /**
@@ -509,7 +494,7 @@ export class ManagementClient extends LinkEntity {
         request.body
       );
 
-      const result = await this._acquireLockAndSendRequest(request, timeoutInMs!, {
+      const result = await this._makeManagementRequest(request, timeoutInMs!, {
         abortSignal: undefined,
         requestName: undefined
       });
@@ -582,7 +567,7 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request
       );
-      const result = await this._acquireLockAndSendRequest(
+      const result = await this._makeManagementRequest(
         request,
         Constants.defaultOperationTimeoutInMs,
         {
@@ -676,7 +661,7 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      const result = await this._acquireLockAndSendRequest(request, timeoutInMs, {
+      const result = await this._makeManagementRequest(request, timeoutInMs, {
         abortSignal: undefined,
         requestName: undefined
       });
@@ -751,7 +736,7 @@ export class ManagementClient extends LinkEntity {
         request.body
       );
 
-      await this._acquireLockAndSendRequest(request, timeoutInMs, {
+      await this._makeManagementRequest(request, timeoutInMs, {
         abortSignal: undefined,
         requestName: undefined
       });
@@ -833,7 +818,7 @@ export class ManagementClient extends LinkEntity {
         request.body
       );
 
-      const result = await this._acquireLockAndSendRequest(request, timeoutInMs!, {
+      const result = await this._makeManagementRequest(request, timeoutInMs!, {
         abortSignal: undefined,
         requestName: undefined
       });
@@ -922,7 +907,7 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      await this._acquireLockAndSendRequest(request, Constants.defaultOperationTimeoutInMs, {
+      await this._makeManagementRequest(request, Constants.defaultOperationTimeoutInMs, {
         abortSignal: undefined,
         requestName: undefined
       });
@@ -969,7 +954,7 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      const result = await this._acquireLockAndSendRequest(request, timeoutInMs!, options || {});
+      const result = await this._makeManagementRequest(request, timeoutInMs!, options || {});
       const lockedUntilUtc = new Date(result.body.expiration);
       log.mgmt(
         "[%s] Lock for session '%s' will expire at %s.",
@@ -1018,7 +1003,7 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      await this._acquireLockAndSendRequest(request, timeoutInMs!, {
+      await this._makeManagementRequest(request, timeoutInMs!, {
         abortSignal: undefined,
         requestName: undefined
       });
@@ -1059,7 +1044,7 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      const result = await this._acquireLockAndSendRequest(request, timeoutInMs, {
+      const result = await this._makeManagementRequest(request, timeoutInMs, {
         abortSignal: undefined,
         requestName: undefined
       });
@@ -1121,7 +1106,7 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      const response = await this._acquireLockAndSendRequest(request, timeoutInMs!, {
+      const response = await this._makeManagementRequest(request, timeoutInMs!, {
         abortSignal: undefined,
         requestName: undefined
       });
@@ -1161,7 +1146,7 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      const response = await this._acquireLockAndSendRequest(request, timeoutInMs, {
+      const response = await this._makeManagementRequest(request, timeoutInMs, {
         abortSignal: undefined,
         requestName: undefined
       });
@@ -1279,7 +1264,7 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      await this._acquireLockAndSendRequest(request, timeoutInMs, {
+      await this._makeManagementRequest(request, timeoutInMs, {
         abortSignal: undefined,
         requestName: undefined
       });
@@ -1376,7 +1361,7 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      await this._acquireLockAndSendRequest(request, timeoutInMs!, {
+      await this._makeManagementRequest(request, timeoutInMs!, {
         abortSignal: undefined,
         requestName: undefined
       });
