@@ -4,8 +4,7 @@
 /**
  * Performs a query over a public dataset
  */
-
-import { SearchIndexClient, SearchApiKeyCredential, odata, GeographyPoint } from "@azure/search";
+import { SearchIndexClient, AzureKeyCredential, odata, GeographyPoint } from "@azure/search";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -49,7 +48,7 @@ export async function main() {
   const apiKey = "EA4510A6219E14888741FCFC19BFBB82";
   const indexName = "hotels";
 
-  const credential = new SearchApiKeyCredential(apiKey);
+  const credential = new AzureKeyCredential(apiKey);
   const client = new SearchIndexClient<Hotel>(endpoint, indexName, credential);
 
   const count = await client.countDocuments();

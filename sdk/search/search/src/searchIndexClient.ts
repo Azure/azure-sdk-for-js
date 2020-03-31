@@ -5,14 +5,15 @@
 
 import {
   PipelineOptions,
-  signingPolicy,
   InternalPipelineOptions,
   createPipelineFromOptions,
   OperationOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
+  ServiceClientCredentials
 } from "@azure/core-http";
 import { SearchIndexClient as GeneratedClient } from "./generated/data/searchIndexClient";
-import { SearchApiKeyCredential } from "./searchApiKeyCredential";
+import { KeyCredential } from "@azure/core-auth";
+import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import {
@@ -84,24 +85,23 @@ export class SearchIndexClient<T> {
    *
    * Example usage:
    * ```ts
-   * const { SearchIndexClient, SearchApiKeyCredential } = require("@azure/search");
+   * const { SearchIndexClient, AzureKeyCredential } = require("@azure/search");
    *
    * const client = new SearchIndexClient(
    *   "<endpoint>",
    *   "<indexName>",
-   *   new SearchApiKeyCredential("<Admin Key>");
+   *   new AzureKeyCredential("<Admin Key>");
    * );
    * ```
    * @param {string} endpoint The endpoint of the search service
    * @param {string} indexName The name of the index
-   * @param {SearchApiKeyCredential} credential Used to authenticate requests to the service.
+   * @param {KeyCredential} credential Used to authenticate requests to the service.
    * @param {SearchClientOptions} [options] Used to configure the Search client.
    */
   constructor(
     endpoint: string,
     indexName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-    credential: SearchApiKeyCredential,
+    credential: KeyCredential,
     options: SearchIndexClientOptions = {}
   ) {
     this.endpoint = endpoint;
@@ -134,12 +134,27 @@ export class SearchIndexClient<T> {
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, signingPolicy(credential));
+    const pipeline = createPipelineFromOptions(
+      internalPipelineOptions,
+      createSearchApiKeyCredentialPolicy(credential)
+    );
     if (Array.isArray(pipeline.requestPolicyFactories)) {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy());
     }
+
+    // The contract with the generated client requires a credential, even though it is never used
+    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
+    // throw an error if the client ever attempts to use it.
+    const dummyCredential: ServiceClientCredentials = {
+      signRequest() {
+        throw new Error(
+          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
+        );
+      }
+    };
+
     this.client = new GeneratedClient(
-      credential,
+      dummyCredential,
       this.apiVersion,
       this.endpoint,
       this.indexName,
