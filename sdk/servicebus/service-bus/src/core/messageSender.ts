@@ -32,7 +32,7 @@ import {
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName } from "../util/utils";
+import { getUniqueName, getRetryAttemptTimeoutInMs } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 import { CreateBatchOptions, GetSenderOptions } from "../models";
@@ -257,6 +257,23 @@ export class MessageSender extends LinkEntity {
     }
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
+        const actionAfterTimeout = () => {
+          const desc: string =
+            `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
+            `with address "${this.address}", was not able to send the message right now, due ` +
+            `to operation timeout.`;
+          log.error(desc);
+          const e: AmqpError = {
+            condition: ErrorNameConditionMapper.ServiceUnavailableError,
+            description: desc
+          };
+          return reject(translate(e));
+        };
+
+        const waitTimer = setTimeout(
+          actionAfterTimeout,
+          getRetryAttemptTimeoutInMs(options?.retryOptions)
+        );
         if (!this.isOpen()) {
           log.sender(
             "Acquiring lock %s for initializing the session, sender and " +
@@ -303,20 +320,6 @@ export class MessageSender extends LinkEntity {
           );
         }
         if (this._sender!.sendable()) {
-          const actionAfterTimeout = () => {
-            const desc: string =
-              `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
-              `with address "${this.address}", was not able to send the message right now, due ` +
-              `to operation timeout.`;
-            log.error(desc);
-            const e: AmqpError = {
-              condition: ErrorNameConditionMapper.ServiceUnavailableError,
-              description: desc
-            };
-            return reject(translate(e));
-          };
-
-          const waitTimer = setTimeout(actionAfterTimeout, Constants.defaultOperationTimeoutInMs);
           try {
             const delivery = await this._sender!.send(
               encodedMessage,
