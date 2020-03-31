@@ -268,7 +268,7 @@ export class MessageSender extends LinkEntity {
           return reject(translate(e));
         };
 
-        let timeTakenByInit = 0;
+        const initStartTime = Date.now();
         if (!this.isOpen()) {
           const waitTimer = setTimeout(actionAfterTimeout, retryOptions.timeoutInMs);
           log.sender(
@@ -277,11 +277,9 @@ export class MessageSender extends LinkEntity {
             this.senderLock
           );
           try {
-            const initStart = Date.now();
             await defaultLock.acquire(this.senderLock, () => {
               return this._init();
             });
-            timeTakenByInit = Date.now() - initStart;
           } catch (err) {
             err = translate(err);
             log.warning(
@@ -295,6 +293,7 @@ export class MessageSender extends LinkEntity {
             clearTimeout(waitTimer);
           }
         }
+        const timeTakenByInit = Date.now() - initStartTime;
         log.sender(
           "[%s] Sender '%s', credit: %d available: %d",
           this._context.namespace.connectionId,
