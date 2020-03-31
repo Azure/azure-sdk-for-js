@@ -582,14 +582,14 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request
       );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
+      const result = await this._acquireLockAndSendRequest(
+        request,
+        Constants.defaultOperationTimeoutInMs,
+        {
+          abortSignal: undefined,
+          requestName: undefined
+        }
       );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
-      });
-      const result = await this._mgmtReqResLink!.sendRequest(request, options);
       const lockedUntilUtc = new Date(result.body.expirations[0]);
       return lockedUntilUtc;
     } catch (err) {
@@ -922,14 +922,10 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
+      await this._acquireLockAndSendRequest(request, Constants.defaultOperationTimeoutInMs, {
+        abortSignal: undefined,
+        requestName: undefined
       });
-      await this._mgmtReqResLink!.sendRequest(request);
     } catch (err) {
       const error = translate(err);
       log.error(
@@ -1087,7 +1083,12 @@ export class ManagementClient extends LinkEntity {
    * @param top Maximum numer of sessions.
    * @returns Promise<string[]> A list of session ids.
    */
-  async listMessageSessions(skip: number, top: number, lastUpdatedTime?: Date): Promise<string[]> {
+  async listMessageSessions(
+    skip: number,
+    top: number,
+    lastUpdatedTime?: Date,
+    timeoutInMs?: number
+  ): Promise<string[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const defaultLastUpdatedTimeForListingSessions: number = 259200000; // 3 * 24 * 3600 * 1000
     if (typeof skip !== "number") {
@@ -1120,14 +1121,10 @@ export class ManagementClient extends LinkEntity {
         this._context.namespace.connectionId,
         request.body
       );
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.namespace.connectionId
-      );
-      await defaultLock.acquire(this.managementLock, () => {
-        return this._init();
+      const response = await this._acquireLockAndSendRequest(request, timeoutInMs!, {
+        abortSignal: undefined,
+        requestName: undefined
       });
-      const response = await this._mgmtReqResLink!.sendRequest(request);
 
       return (response && response.body && response.body["sessions-ids"]) || [];
     } catch (err) {
