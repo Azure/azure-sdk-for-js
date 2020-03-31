@@ -277,8 +277,11 @@ export class MessageSender extends LinkEntity {
             this.senderLock
           );
           try {
+            const senderOptions = this._createSenderOptions(
+              getRetryAttemptTimeoutInMs(this._getSenderOptions?.retryOptions)
+            );
             await defaultLock.acquire(this.senderLock, () => {
-              return this._init();
+              return this._init(senderOptions);
             });
           } catch (err) {
             err = translate(err);
