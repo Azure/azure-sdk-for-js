@@ -35,6 +35,9 @@ export const apiVersion: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "api-version",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
@@ -213,6 +216,11 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+      Pattern: /^[-\w\._\(\)]+$/
+    },
     type: {
       name: "String"
     }
@@ -278,6 +286,9 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
