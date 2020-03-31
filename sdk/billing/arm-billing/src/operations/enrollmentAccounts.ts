@@ -27,93 +27,80 @@ export class EnrollmentAccounts {
   }
 
   /**
-   * Lists the enrollment accounts the caller has access to.
+   * Lists the enrollment accounts for a billing account. The operation is supported only for billing
+   * accounts with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param [options] The optional parameters
-   * @returns Promise<Models.EnrollmentAccountsListResponse>
+   * @returns Promise<Models.EnrollmentAccountsListByBillingAccountNameResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.EnrollmentAccountsListResponse>;
+  listByBillingAccountName(billingAccountName: string, options?: Models.EnrollmentAccountsListByBillingAccountNameOptionalParams): Promise<Models.EnrollmentAccountsListByBillingAccountNameResponse>;
   /**
+   * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): void;
+  listByBillingAccountName(billingAccountName: string, callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): void;
   /**
+   * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccountListResult>, callback?: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): Promise<Models.EnrollmentAccountsListResponse> {
+  listByBillingAccountName(billingAccountName: string, options: Models.EnrollmentAccountsListByBillingAccountNameOptionalParams, callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): void;
+  listByBillingAccountName(billingAccountName: string, options?: Models.EnrollmentAccountsListByBillingAccountNameOptionalParams | msRest.ServiceCallback<Models.EnrollmentAccountListResult>, callback?: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): Promise<Models.EnrollmentAccountsListByBillingAccountNameResponse> {
     return this.client.sendOperationRequest(
       {
+        billingAccountName,
         options
       },
-      listOperationSpec,
-      callback) as Promise<Models.EnrollmentAccountsListResponse>;
+      listByBillingAccountNameOperationSpec,
+      callback) as Promise<Models.EnrollmentAccountsListByBillingAccountNameResponse>;
   }
 
   /**
-   * Gets a enrollment account by name.
-   * @param name Enrollment Account name.
+   * Gets an enrollment account by ID. The operation is supported only for billing accounts with
+   * agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The ID that uniquely identifies an enrollment account.
    * @param [options] The optional parameters
-   * @returns Promise<Models.EnrollmentAccountsGetResponse>
+   * @returns Promise<Models.EnrollmentAccountsGetByEnrollmentAccountIdResponse>
    */
-  get(name: string, options?: msRest.RequestOptionsBase): Promise<Models.EnrollmentAccountsGetResponse>;
+  getByEnrollmentAccountId(billingAccountName: string, enrollmentAccountName: string, options?: Models.EnrollmentAccountsGetByEnrollmentAccountIdOptionalParams): Promise<Models.EnrollmentAccountsGetByEnrollmentAccountIdResponse>;
   /**
-   * @param name Enrollment Account name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The ID that uniquely identifies an enrollment account.
    * @param callback The callback
    */
-  get(name: string, callback: msRest.ServiceCallback<Models.EnrollmentAccount>): void;
+  getByEnrollmentAccountId(billingAccountName: string, enrollmentAccountName: string, callback: msRest.ServiceCallback<Models.EnrollmentAccount>): void;
   /**
-   * @param name Enrollment Account name.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The ID that uniquely identifies an enrollment account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnrollmentAccount>): void;
-  get(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccount>, callback?: msRest.ServiceCallback<Models.EnrollmentAccount>): Promise<Models.EnrollmentAccountsGetResponse> {
+  getByEnrollmentAccountId(billingAccountName: string, enrollmentAccountName: string, options: Models.EnrollmentAccountsGetByEnrollmentAccountIdOptionalParams, callback: msRest.ServiceCallback<Models.EnrollmentAccount>): void;
+  getByEnrollmentAccountId(billingAccountName: string, enrollmentAccountName: string, options?: Models.EnrollmentAccountsGetByEnrollmentAccountIdOptionalParams | msRest.ServiceCallback<Models.EnrollmentAccount>, callback?: msRest.ServiceCallback<Models.EnrollmentAccount>): Promise<Models.EnrollmentAccountsGetByEnrollmentAccountIdResponse> {
     return this.client.sendOperationRequest(
       {
-        name,
+        billingAccountName,
+        enrollmentAccountName,
         options
       },
-      getOperationSpec,
-      callback) as Promise<Models.EnrollmentAccountsGetResponse>;
-  }
-
-  /**
-   * Lists the enrollment accounts the caller has access to.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.EnrollmentAccountsListNextResponse>
-   */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.EnrollmentAccountsListNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccountListResult>, callback?: msRest.ServiceCallback<Models.EnrollmentAccountListResult>): Promise<Models.EnrollmentAccountsListNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listNextOperationSpec,
-      callback) as Promise<Models.EnrollmentAccountsListNextResponse>;
+      getByEnrollmentAccountIdOperationSpec,
+      callback) as Promise<Models.EnrollmentAccountsGetByEnrollmentAccountIdResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const listByBillingAccountNameOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/enrollmentAccounts",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts",
+  urlParameters: [
+    Parameters.billingAccountName
+  ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.expand,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -129,14 +116,17 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
+const getByEnrollmentAccountIdOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Billing/enrollmentAccounts/{name}",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}",
   urlParameters: [
-    Parameters.name
+    Parameters.billingAccountName,
+    Parameters.enrollmentAccountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.expand,
+    Parameters.filter
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -144,27 +134,6 @@ const getOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.EnrollmentAccount
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const listNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.EnrollmentAccountListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

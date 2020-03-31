@@ -27,57 +27,127 @@ export class Invoices {
   }
 
   /**
-   * Lists the available invoices for a subscription in reverse chronological order beginning with
-   * the most recent invoice. In preview, invoices are available via this API only for invoice
-   * periods which end December 1, 2016 or later.  This is only supported for Azure Web-Direct
-   * subscriptions. Other subscription types which were not purchased directly through the Azure web
-   * portal are not supported through this preview API.
+   * Lists the invoices for a billing account for a given start date and end date. The operation is
+   * supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft
+   * Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
    * @param [options] The optional parameters
-   * @returns Promise<Models.InvoicesListResponse>
+   * @returns Promise<Models.InvoicesListByBillingAccountResponse>
    */
-  list(options?: Models.InvoicesListOptionalParams): Promise<Models.InvoicesListResponse>;
+  listByBillingAccount(billingAccountName: string, periodStartDate: string, periodEndDate: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicesListByBillingAccountResponse>;
   /**
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.InvoicesListResult>): void;
+  listByBillingAccount(billingAccountName: string, periodStartDate: string, periodEndDate: string, callback: msRest.ServiceCallback<Models.InvoiceListResult>): void;
   /**
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.InvoicesListOptionalParams, callback: msRest.ServiceCallback<Models.InvoicesListResult>): void;
-  list(options?: Models.InvoicesListOptionalParams | msRest.ServiceCallback<Models.InvoicesListResult>, callback?: msRest.ServiceCallback<Models.InvoicesListResult>): Promise<Models.InvoicesListResponse> {
+  listByBillingAccount(billingAccountName: string, periodStartDate: string, periodEndDate: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InvoiceListResult>): void;
+  listByBillingAccount(billingAccountName: string, periodStartDate: string, periodEndDate: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InvoiceListResult>, callback?: msRest.ServiceCallback<Models.InvoiceListResult>): Promise<Models.InvoicesListByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       {
+        billingAccountName,
+        periodStartDate,
+        periodEndDate,
         options
       },
-      listOperationSpec,
-      callback) as Promise<Models.InvoicesListResponse>;
+      listByBillingAccountOperationSpec,
+      callback) as Promise<Models.InvoicesListByBillingAccountResponse>;
   }
 
   /**
-   * Gets a named invoice resource. When getting a single invoice, the downloadUrl property is
-   * expanded automatically.  This is only supported for Azure Web-Direct subscriptions. Other
-   * subscription types which were not purchased directly through the Azure web portal are not
-   * supported through this preview API.
-   * @param invoiceName The name of an invoice resource.
+   * Lists the invoices for a billing profile for a given start date and end date. The operation is
+   * supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft
+   * Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
    * @param [options] The optional parameters
-   * @returns Promise<Models.InvoicesGetResponse>
+   * @returns Promise<Models.InvoicesListByBillingProfileResponse>
    */
-  get(invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicesGetResponse>;
+  listByBillingProfile(billingAccountName: string, billingProfileName: string, periodStartDate: string, periodEndDate: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicesListByBillingProfileResponse>;
   /**
-   * @param invoiceName The name of an invoice resource.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
    * @param callback The callback
    */
-  get(invoiceName: string, callback: msRest.ServiceCallback<Models.Invoice>): void;
+  listByBillingProfile(billingAccountName: string, billingProfileName: string, periodStartDate: string, periodEndDate: string, callback: msRest.ServiceCallback<Models.InvoiceListResult>): void;
   /**
-   * @param invoiceName The name of an invoice resource.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param periodStartDate The start date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
+   * @param periodEndDate The end date to fetch the invoices. The date should be specified in
+   * MM-DD-YYYY format.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(invoiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Invoice>): void;
-  get(invoiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Invoice>, callback?: msRest.ServiceCallback<Models.Invoice>): Promise<Models.InvoicesGetResponse> {
+  listByBillingProfile(billingAccountName: string, billingProfileName: string, periodStartDate: string, periodEndDate: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InvoiceListResult>): void;
+  listByBillingProfile(billingAccountName: string, billingProfileName: string, periodStartDate: string, periodEndDate: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InvoiceListResult>, callback?: msRest.ServiceCallback<Models.InvoiceListResult>): Promise<Models.InvoicesListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       {
+        billingAccountName,
+        billingProfileName,
+        periodStartDate,
+        periodEndDate,
+        options
+      },
+      listByBillingProfileOperationSpec,
+      callback) as Promise<Models.InvoicesListByBillingProfileResponse>;
+  }
+
+  /**
+   * Gets an invoice by ID. The operation is supported for billing accounts with agreement type
+   * Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.InvoicesGetResponse>
+   */
+  get(billingAccountName: string, billingProfileName: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicesGetResponse>;
+  /**
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param callback The callback
+   */
+  get(billingAccountName: string, billingProfileName: string, invoiceName: string, callback: msRest.ServiceCallback<Models.Invoice>): void;
+  /**
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  get(billingAccountName: string, billingProfileName: string, invoiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Invoice>): void;
+  get(billingAccountName: string, billingProfileName: string, invoiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Invoice>, callback?: msRest.ServiceCallback<Models.Invoice>): Promise<Models.InvoicesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
         invoiceName,
         options
       },
@@ -86,86 +156,155 @@ export class Invoices {
   }
 
   /**
-   * Gets the most recent invoice. When getting a single invoice, the downloadUrl property is
-   * expanded automatically.  This is only supported for Azure Web-Direct subscriptions. Other
-   * subscription types which were not purchased directly through the Azure web portal are not
-   * supported through this preview API.
+   * Lists the invoices for a subscription.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param periodStartDate Invoice period start date.
+   * @param periodEndDate Invoice period end date.
    * @param [options] The optional parameters
-   * @returns Promise<Models.InvoicesGetLatestResponse>
+   * @returns Promise<Models.InvoicesListByBillingSubscriptionResponse>
    */
-  getLatest(options?: msRest.RequestOptionsBase): Promise<Models.InvoicesGetLatestResponse>;
+  listByBillingSubscription(billingAccountName: string, billingSubscriptionName: string, periodStartDate: string, periodEndDate: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicesListByBillingSubscriptionResponse>;
   /**
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param periodStartDate Invoice period start date.
+   * @param periodEndDate Invoice period end date.
    * @param callback The callback
    */
-  getLatest(callback: msRest.ServiceCallback<Models.Invoice>): void;
+  listByBillingSubscription(billingAccountName: string, billingSubscriptionName: string, periodStartDate: string, periodEndDate: string, callback: msRest.ServiceCallback<Models.InvoiceListResult>): void;
   /**
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param periodStartDate Invoice period start date.
+   * @param periodEndDate Invoice period end date.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getLatest(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Invoice>): void;
-  getLatest(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Invoice>, callback?: msRest.ServiceCallback<Models.Invoice>): Promise<Models.InvoicesGetLatestResponse> {
+  listByBillingSubscription(billingAccountName: string, billingSubscriptionName: string, periodStartDate: string, periodEndDate: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InvoiceListResult>): void;
+  listByBillingSubscription(billingAccountName: string, billingSubscriptionName: string, periodStartDate: string, periodEndDate: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InvoiceListResult>, callback?: msRest.ServiceCallback<Models.InvoiceListResult>): Promise<Models.InvoicesListByBillingSubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
+        billingAccountName,
+        billingSubscriptionName,
+        periodStartDate,
+        periodEndDate,
         options
       },
-      getLatestOperationSpec,
-      callback) as Promise<Models.InvoicesGetLatestResponse>;
+      listByBillingSubscriptionOperationSpec,
+      callback) as Promise<Models.InvoicesListByBillingSubscriptionResponse>;
   }
 
   /**
-   * Lists the available invoices for a subscription in reverse chronological order beginning with
-   * the most recent invoice. In preview, invoices are available via this API only for invoice
-   * periods which end December 1, 2016 or later.  This is only supported for Azure Web-Direct
-   * subscriptions. Other subscription types which were not purchased directly through the Azure web
-   * portal are not supported through this preview API.
+   * Gets an invoice by ID.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.InvoicesGetByIdResponse>
+   */
+  getById(billingAccountName: string, billingSubscriptionName: string, invoiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicesGetByIdResponse>;
+  /**
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param callback The callback
+   */
+  getById(billingAccountName: string, billingSubscriptionName: string, invoiceName: string, callback: msRest.ServiceCallback<Models.Invoice>): void;
+  /**
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param invoiceName The ID that uniquely identifies an invoice.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getById(billingAccountName: string, billingSubscriptionName: string, invoiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Invoice>): void;
+  getById(billingAccountName: string, billingSubscriptionName: string, invoiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Invoice>, callback?: msRest.ServiceCallback<Models.Invoice>): Promise<Models.InvoicesGetByIdResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingSubscriptionName,
+        invoiceName,
+        options
+      },
+      getByIdOperationSpec,
+      callback) as Promise<Models.InvoicesGetByIdResponse>;
+  }
+
+  /**
+   * Lists the invoices for a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.InvoicesListNextResponse>
+   * @returns Promise<Models.InvoicesListByBillingSubscriptionNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicesListNextResponse>;
+  listByBillingSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.InvoicesListByBillingSubscriptionNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.InvoicesListResult>): void;
+  listByBillingSubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.InvoiceListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InvoicesListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InvoicesListResult>, callback?: msRest.ServiceCallback<Models.InvoicesListResult>): Promise<Models.InvoicesListNextResponse> {
+  listByBillingSubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.InvoiceListResult>): void;
+  listByBillingSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.InvoiceListResult>, callback?: msRest.ServiceCallback<Models.InvoiceListResult>): Promise<Models.InvoicesListByBillingSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listNextOperationSpec,
-      callback) as Promise<Models.InvoicesListNextResponse>;
+      listByBillingSubscriptionNextOperationSpec,
+      callback) as Promise<Models.InvoicesListByBillingSubscriptionNextResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const listByBillingAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices",
   urlParameters: [
-    Parameters.subscriptionId
+    Parameters.billingAccountName
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand,
-    Parameters.filter,
-    Parameters.skiptoken,
-    Parameters.top
+    Parameters.periodStartDate,
+    Parameters.periodEndDate
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.InvoicesListResult
+      bodyMapper: Mappers.InvoiceListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listByBillingProfileOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices",
+  urlParameters: [
+    Parameters.billingAccountName,
+    Parameters.billingProfileName
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.periodStartDate,
+    Parameters.periodEndDate
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.InvoiceListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -176,9 +315,10 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices/{invoiceName}",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices/{invoiceName}",
   urlParameters: [
-    Parameters.subscriptionId,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
     Parameters.invoiceName
   ],
   queryParameters: [
@@ -198,11 +338,39 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getLatestOperationSpec: msRest.OperationSpec = {
+const listByBillingSubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Billing/invoices/latest",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/invoices",
   urlParameters: [
-    Parameters.subscriptionId
+    Parameters.billingAccountName,
+    Parameters.billingSubscriptionName
+  ],
+  queryParameters: [
+    Parameters.periodStartDate,
+    Parameters.periodEndDate,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.InvoiceListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getByIdOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/invoices/{invoiceName}",
+  urlParameters: [
+    Parameters.billingAccountName,
+    Parameters.billingSubscriptionName,
+    Parameters.invoiceName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -221,7 +389,7 @@ const getLatestOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const listByBillingSubscriptionNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -233,7 +401,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.InvoicesListResult
+      bodyMapper: Mappers.InvoiceListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
