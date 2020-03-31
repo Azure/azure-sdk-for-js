@@ -19,6 +19,6 @@
   "dependencies": {
     "semver": "^6.3.0",
     "yargs": "^14.2.0",
-    "jju": "^1.4.0"
+    "eng-package-utils": "file:../eng-package-utils"
   }
 }
