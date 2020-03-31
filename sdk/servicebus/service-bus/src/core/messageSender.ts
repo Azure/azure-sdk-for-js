@@ -78,17 +78,20 @@ export class MessageSender extends LinkEntity {
    * @private
    */
   private _sender?: AwaitableSender;
+  private _getSenderOptions?: GetSenderOptions;
 
   /**
    * Creates a new MessageSender instance.
    * @constructor
    * @param {ClientEntityContext} context The client entity context.
    */
-  constructor(context: ClientEntityContext) {
+  constructor(context: ClientEntityContext, options: GetSenderOptions) {
     super(context.entityPath, context, {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
+    this._getSenderOptions = options || {};
+
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
       if (senderError) {
@@ -247,14 +250,7 @@ export class MessageSender extends LinkEntity {
    * @param sendBatch Boolean indicating whether the encoded message represents a batch of messages or not
    * @return {Promise<Delivery>} Promise<Delivery>
    */
-  private _trySend(
-    encodedMessage: Buffer,
-    sendBatch?: boolean,
-    options?: GetSenderOptions
-  ): Promise<void> {
-    if (!options) {
-      options = {};
-    }
+  private _trySend(encodedMessage: Buffer, sendBatch?: boolean): Promise<void> {
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
         const actionAfterTimeout = () => {
@@ -272,7 +268,7 @@ export class MessageSender extends LinkEntity {
 
         const waitTimer = setTimeout(
           actionAfterTimeout,
-          getRetryAttemptTimeoutInMs(options?.retryOptions)
+          getRetryAttemptTimeoutInMs(this._getSenderOptions?.retryOptions)
         );
         if (!this.isOpen()) {
           log.sender(
@@ -362,7 +358,7 @@ export class MessageSender extends LinkEntity {
       operation: sendEventPromise,
       connectionId: this._context.namespace.connectionId!,
       operationType: RetryOperationType.sendMessage,
-      retryOptions: options.retryOptions
+      retryOptions: this._getSenderOptions?.retryOptions
     };
 
     return retry<void>(config);
@@ -564,7 +560,7 @@ export class MessageSender extends LinkEntity {
    * @param {ServiceBusMessage} data Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<void>}
    */
-  async send(data: ServiceBusMessage, options: GetSenderOptions): Promise<void> {
+  async send(data: ServiceBusMessage): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       const amqpMessage = toAmqpMessage(data);
@@ -589,7 +585,7 @@ export class MessageSender extends LinkEntity {
         this.name,
         data
       );
-      return await this._trySend(encodedMessage, false, options);
+      return await this._trySend(encodedMessage, false);
     } catch (err) {
       log.error(
         "[%s] Sender '%s': An error occurred while sending the message: %O\nError: %O",
@@ -725,13 +721,10 @@ export class MessageSender extends LinkEntity {
     });
   }
 
-  async createBatch(
-    options?: CreateBatchOptions,
-    senderOptions?: GetSenderOptions
-  ): Promise<ServiceBusMessageBatch> {
+  async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     throwErrorIfConnectionClosed(this._context.namespace);
     let maxMessageSize = await this.getMaxMessageSize({
-      retryOptions: senderOptions?.retryOptions
+      retryOptions: this._getSenderOptions?.retryOptions
     });
     if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {
@@ -745,10 +738,7 @@ export class MessageSender extends LinkEntity {
     return new ServiceBusMessageBatchImpl(this._context, maxMessageSize!);
   }
 
-  async sendBatch(
-    batchMessage: ServiceBusMessageBatch,
-    senderOptions?: GetSenderOptions
-  ): Promise<void> {
+  async sendBatch(batchMessage: ServiceBusMessageBatch): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       log.sender(
@@ -757,7 +747,7 @@ export class MessageSender extends LinkEntity {
         this.name,
         batchMessage
       );
-      return await this._trySend(batchMessage._message!, true, senderOptions);
+      return await this._trySend(batchMessage._message!, true);
     } catch (err) {
       log.error(
         "[%s] Sender '%s': An error occurred while sending the messages: %O\nError: %O",
@@ -776,10 +766,10 @@ export class MessageSender extends LinkEntity {
    * @static
    * @returns {Promise<MessageSender>}
    */
-  static create(context: ClientEntityContext): MessageSender {
+  static create(context: ClientEntityContext, options: GetSenderOptions): MessageSender {
     throwErrorIfConnectionClosed(context.namespace);
     if (!context.sender) {
-      context.sender = new MessageSender(context);
+      context.sender = new MessageSender(context, options);
     }
     return context.sender;
   }

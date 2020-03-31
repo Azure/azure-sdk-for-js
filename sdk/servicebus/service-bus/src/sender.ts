@@ -160,7 +160,7 @@ export class SenderImpl implements Sender {
   constructor(context: ClientEntityContext, options: GetSenderOptions) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
-    this._sender = MessageSender.create(this._context);
+    this._sender = MessageSender.create(this._context, options);
     this._senderOptions = options;
   }
 
@@ -185,7 +185,7 @@ export class SenderImpl implements Sender {
   async send(message: ServiceBusMessage): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
-    return this._sender.send(message, this._senderOptions);
+    return this._sender.send(message);
   }
 
   // sendBatch(<Array of messages>) - Commented
@@ -200,7 +200,7 @@ export class SenderImpl implements Sender {
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
-    return this._sender.createBatch(options, this._senderOptions);
+    return this._sender.createBatch(options);
   }
 
   async sendBatch(messageBatch: ServiceBusMessageBatch): Promise<void> {
@@ -210,7 +210,7 @@ export class SenderImpl implements Sender {
       "messageBatch",
       messageBatch
     );
-    return this._sender.sendBatch(messageBatch, this._senderOptions);
+    return this._sender.sendBatch(messageBatch);
   }
 
   /**
