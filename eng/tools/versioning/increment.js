@@ -38,7 +38,7 @@ async function main(argv) {
   const dryRun = argv["dry-run"];
 
   const packageName = artifactName.replace("azure-", "@azure/");
-  const rushSpec = await versionUtils.getRushSpec(repoRoot);
+  const rushSpec = await packageUtils.getRushSpec(repoRoot);
   const targetPackage = rushSpec.projects.find(
     packageSpec => packageSpec.packageName == packageName
   );
@@ -46,7 +46,7 @@ async function main(argv) {
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
-  const packageJsonContents = await versionUtils.readFileJson(
+  const packageJsonContents = await packageUtils.readFileJson(
     packageJsonLocation
   );
 
@@ -63,7 +63,7 @@ async function main(argv) {
     ...packageJsonContents,
     version: newVersion
   };
-  await versionUtils.writePackageJson(packageJsonLocation, updatedPackageJson);
+  await packageUtils.writePackageJson(packageJsonLocation, updatedPackageJson);
 
   await versionUtils.updatePackageConstants(
     targetPackagePath,
