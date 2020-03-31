@@ -64,8 +64,8 @@ describe("Retries - ManagementClient", () => {
       numberOfTimesManagementClientInvoked++;
       throw new MessagingError("Hello there, I'm an error");
     };
-    (senderClient as any)._context.managementClient._acquireLockAndSendRequest = fakeFunction;
-    (receiverClient as any)._context.managementClient._acquireLockAndSendRequest = fakeFunction;
+    (senderClient as any)._context.managementClient._makeManagementRequest = fakeFunction;
+    (receiverClient as any)._context.managementClient._makeManagementRequest = fakeFunction;
   }
 
   async function mockManagementClientAndVerifyRetries(func: Function) {
