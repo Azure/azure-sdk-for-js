@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.2 (Unreleased)
+
+
 ## 1.1.1 (2020-03-31)
 
 - Removes direct dependency on `@azure/identity` as it is not used directly by this package.
