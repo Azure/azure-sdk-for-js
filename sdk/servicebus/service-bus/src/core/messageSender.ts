@@ -251,6 +251,8 @@ export class MessageSender extends LinkEntity {
    * @return {Promise<Delivery>} Promise<Delivery>
    */
   private _trySend(encodedMessage: Buffer, sendBatch?: boolean): Promise<void> {
+    const retryOptions = this._getSenderOptions?.retryOptions || {};
+    retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
     const sendEventPromise = () =>
       new Promise<void>(async (resolve, reject) => {
         const actionAfterTimeout = () => {
@@ -266,10 +268,8 @@ export class MessageSender extends LinkEntity {
           return reject(translate(e));
         };
 
-        const waitTimer = setTimeout(
-          actionAfterTimeout,
-          getRetryAttemptTimeoutInMs(this._getSenderOptions?.retryOptions)
-        );
+        const waitTimer = setTimeout(actionAfterTimeout, retryOptions.timeoutInMs);
+        let timeTakenByInit = 0;
         if (!this.isOpen()) {
           log.sender(
             "Acquiring lock %s for initializing the session, sender and " +
@@ -277,12 +277,11 @@ export class MessageSender extends LinkEntity {
             this.senderLock
           );
           try {
-            const senderOptions = this._createSenderOptions(
-              getRetryAttemptTimeoutInMs(this._getSenderOptions?.retryOptions)
-            );
+            const initStart = Date.now();
             await defaultLock.acquire(this.senderLock, () => {
-              return this._init(senderOptions);
+              return this._init();
             });
+            timeTakenByInit = Date.now() - initStart;
           } catch (err) {
             err = translate(err);
             log.warning(
@@ -320,6 +319,7 @@ export class MessageSender extends LinkEntity {
         }
         if (this._sender!.sendable()) {
           try {
+            this._sender!.sendTimeoutInSeconds = retryOptions.timeoutInMs! - timeTakenByInit;
             const delivery = await this._sender!.send(
               encodedMessage,
               undefined,
@@ -706,15 +706,13 @@ export class MessageSender extends LinkEntity {
     }
     return new Promise<number>(async (resolve, reject) => {
       try {
-        const senderOptions = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
         await defaultLock.acquire(this.senderLock, () => {
           const config: RetryConfig<void> = {
-            operation: () => this._init(senderOptions),
+            operation: () => this._init(),
             connectionId: this._context.namespace.connectionId,
             operationType: RetryOperationType.senderLink,
             retryOptions: retryOptions
           };
-
           return retry<void>(config);
         });
         resolve(this._sender!.maxMessageSize);
