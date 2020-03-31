@@ -361,7 +361,7 @@ export class MessageSender extends LinkEntity {
       operation: sendEventPromise,
       connectionId: this._context.namespace.connectionId!,
       operationType: RetryOperationType.sendMessage,
-      retryOptions: this._getSenderOptions?.retryOptions
+      retryOptions: retryOptions
     };
 
     return retry<void>(config);
