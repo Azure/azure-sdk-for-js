@@ -358,7 +358,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     const retryOptions = this._receiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const receiveDeferredMessagesOperationPromise = async () => {
+    const receiveDeferredMessageOperationPromise = async () => {
       const messages = await this._context.managementClient!.receiveDeferredMessages(
         [sequenceNumber],
         convertToInternalReceiveMode(this.receiveMode),
@@ -368,7 +368,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       return (messages[0] as unknown) as ReceivedMessageT;
     };
     const config: RetryConfig<ReceivedMessageT | undefined> = {
-      operation: receiveDeferredMessagesOperationPromise,
+      operation: receiveDeferredMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: retryOptions

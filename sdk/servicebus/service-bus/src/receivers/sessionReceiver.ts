@@ -474,7 +474,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const retryOptions = this._sessionReceiverOptions.retryOptions || {};
     retryOptions.timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
 
-    const receiveDeferredMessagesOperationPromise = async () => {
+    const receiveDeferredMessageOperationPromise = async () => {
       const timeTakenByCreateSession = await this._createMessageSessionIfDoesntExist(
         retryOptions.timeoutInMs!
       );
@@ -487,7 +487,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       return (messages[0] as unknown) as ReceivedMessageT;
     };
     const config: RetryConfig<ReceivedMessageT | undefined> = {
-      operation: receiveDeferredMessagesOperationPromise,
+      operation: receiveDeferredMessageOperationPromise,
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: retryOptions
