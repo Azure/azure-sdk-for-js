@@ -3,7 +3,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
+import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/types";
 import { logger } from "../util/logging";
 
@@ -86,15 +86,15 @@ export class AzureCliCredential implements TokenCredential {
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
             if (isNotInstallError) {
-              throw new Error(
+              throw new CredentialUnavailable(
                 "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
               );
             } else if (isLoginError) {
-              throw new Error(
+              throw new CredentialUnavailable(
                 "Please run 'az login' from a command prompt to authenticate before using this credential."
               );
             }
-            throw new Error(obj.stderr);
+            throw new CredentialUnavailable(obj.stderr);
           } else {
             responseData = obj.stdout;
             const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);

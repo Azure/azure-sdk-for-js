@@ -6,6 +6,7 @@
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from '../client/identityClient';
 import * as keytar from 'keytar';
+import { CredentialUnavailable } from "../client/errors";
 
 const CommonTenantId = 'common';
 const AzureAccountClientId = 'aebc6443-996d-45c2-90f0-388ff96faa56'; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
@@ -53,10 +54,10 @@ export class VSCodeCredential implements TokenCredential {
       if (tokenResponse) {
         return tokenResponse.accessToken;
       } else {
-        return null;
+        throw new CredentialUnavailable("Could not retrieve the token associated with VSCode. Have you connected using the 'Azure Account' extension recently?");
       }
     } else {
-      return null;
+      throw new CredentialUnavailable("Could not retrieve the token associated with VSCode. Did you connect using the 'Azure Account' extension?");
     }
   }
 }
