@@ -1,8 +1,10 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.1.0 (2020-03-31)
 
 - A new interface `WebResourceLike` was introduced to avoid a direct dependency on the class `WebResource` in public interfaces. `HttpHeadersLike` was also added to replace references to `HttpHeaders`. This should improve cross-version compatibility for core-http. [PR #7873](https://github.com/Azure/azure-sdk-for-js/pull/7873)
+
+- Add support to disable response decompression in `node-fetch` Http client. [PR #7878](https://github.com/Azure/azure-sdk-for-js/pull/7878)
 
 ## 1.0.4 (2020-03-03)
 
