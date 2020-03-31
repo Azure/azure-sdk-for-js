@@ -291,6 +291,8 @@ export class MessageSender extends LinkEntity {
               err
             );
             return reject(err);
+          } finally {
+            clearTimeout(waitTimer);
           }
         }
         log.sender(
@@ -340,8 +342,6 @@ export class MessageSender extends LinkEntity {
               error
             );
             return reject(error);
-          } finally {
-            clearTimeout(waitTimer);
           }
         } else {
           // let us retry to send the message after some time.
