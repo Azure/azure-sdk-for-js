@@ -931,8 +931,7 @@ export class MessageSession extends LinkEntity {
    */
   async receiveMessages(
     maxMessageCount: number,
-    maxWaitTimeInSeconds?: number,
-    retryOptions?: RetryOptions
+    maxWaitTimeInSeconds?: number
   ): Promise<ServiceBusMessageImpl[]> {
     if (maxWaitTimeInSeconds == null) {
       maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
@@ -940,6 +939,7 @@ export class MessageSession extends LinkEntity {
 
     const brokeredMessages: ServiceBusMessageImpl[] = [];
     this.isReceivingMessages = true;
+
     return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
       let totalWaitTimer: any;
 
