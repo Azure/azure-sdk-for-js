@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.1 (2020-03-31)
+## 1.1.1 (2020-04-01)
 
 - Provided down-leveled type declaration files for users of older TypeScript versions between 3.1 and 3.6.
 
