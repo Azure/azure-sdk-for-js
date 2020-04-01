@@ -637,7 +637,7 @@ export class FormRecognizerClient {
    * @summary Extracts form information from a given document using unlabeled model.
    * @param {string} modelId Id of the model to use
    * @param {FormRecognizerRequestBody} body Input document
-   * @param {contentType} Content type of the input
+   * @param {contentType} Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginExtractFormsOptions} [options] Options to the BeginExtractForms operation
    */
   public async beginExtractForms(
@@ -765,7 +765,7 @@ export class FormRecognizerClient {
    * @summary Extracts form information from a given document using labeled model.
    * @param {string} modelId Id of the model to use
    * @param {FormRecognizerRequestBody} body Input document
-   * @param {contentType} Content type of the input
+   * @param {contentType} Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginExtractLabeledFormsOptions} [options] Options to the BeginExtractLabeledForms operation
    */
   public async beginExtractLabeledForms(

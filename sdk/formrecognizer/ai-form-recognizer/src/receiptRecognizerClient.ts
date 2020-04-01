@@ -175,7 +175,7 @@ export class ReceiptRecognizerClient {
    * ```
    * @summary Extracts receipt information from a given document
    * @param {FormRecognizerRequestBody} source Input document
-   * @param {contentType} Content type of the input
+   * @param {contentType} Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginExtractReceiptsOptions} [options] Options to the Begin Extract Receipts operation
    */
   public async beginExtractReceipts(
