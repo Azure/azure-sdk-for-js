@@ -1,4 +1,4 @@
-import { retry, testPollerProperties } from "./recorderUtils";
+import { testPollerProperties } from "./recorderUtils";
 import { KeyClient } from "../../src";
 
 export default class TestClient {
@@ -10,15 +10,7 @@ export default class TestClient {
     return name.replace(/[^0-9a-zA-Z-]/g, "");
   }
   public async purgeKey(keyName: string): Promise<void> {
-    const that = this;
-    await retry(async () => {
-      try {
-        await that.client.purgeDeletedKey(keyName);
-      } catch (e) {
-        if (["Key is currently being deleted."].includes(e.message)) throw e;
-        else return;
-      }
-    });
+    await this.client.purgeDeletedKey(keyName);
   }
   public async flushKey(keyName: string): Promise<void> {
     const that = this;

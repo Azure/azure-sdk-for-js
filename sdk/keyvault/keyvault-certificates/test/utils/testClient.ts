@@ -1,4 +1,3 @@
-import { retry } from "./recorderUtils";
 import { CertificateClient } from "../../src";
 
 export default class TestClient {
@@ -10,15 +9,7 @@ export default class TestClient {
     return name.replace(/[^0-9a-zA-Z-]/g, "");
   }
   public async purgeCertificate(certificateName: string): Promise<void> {
-    const that = this;
-    await retry(async () => {
-      try {
-        await that.client.purgeDeletedCertificate(certificateName);
-      } catch (e) {
-        if (["Certificate is currently being deleted."].includes(e.message)) throw e;
-        else return;
-      }
-    });
+    await this.client.purgeDeletedCertificate(certificateName);
   }
   public async flushCertificate(certificateName: string): Promise<void> {
     const that = this;
