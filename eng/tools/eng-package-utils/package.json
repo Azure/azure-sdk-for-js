@@ -16,5 +16,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
-  "dependencies": {}
+  "dependencies": {
+    "yargs": "^14.2.0"
+  }
 }
