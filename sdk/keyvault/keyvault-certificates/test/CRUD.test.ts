@@ -329,6 +329,8 @@ describe("Certificates client - create, read, update and delete", () => {
         throw e;
       }
     }
+
+    await poller.pollUntilDone();
     await testClient.purgeCertificate(certificateName);
   });
 
