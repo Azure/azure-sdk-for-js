@@ -18,7 +18,7 @@ import { logger } from "../util/logging";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 
-const EnvAuthorityHost = process.env.AZURE_AUTHORITY_HOST
+const EnvAuthorityHost = process.env.AZURE_AUTHORITY_HOST;
 
 /**
  * An internal type used to communicate details of a token request's
