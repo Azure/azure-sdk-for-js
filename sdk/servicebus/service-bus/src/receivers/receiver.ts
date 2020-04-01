@@ -325,7 +325,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   /**
    * Gets an async iterator over messages from the receiver.
    *
-   * `timeout` provided in the `retryOptions` is not applicable while receiving the messages with getMessageIterator.
+   * The `maxWaitTimeSeconds` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
    * Throws an error if there is another receive operation in progress on the same receiver. If you
    * are not sure whether there is another receive operation running, check the `isReceivingMessages`
    * property on the receiver.
