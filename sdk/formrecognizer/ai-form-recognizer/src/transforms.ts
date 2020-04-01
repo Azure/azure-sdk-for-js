@@ -83,7 +83,10 @@ export function toRawExtractedPage(original: ReadResultModel): RawExtractedPage 
 // Note: might need to support other element types in future, e.g., checkbox
 const textPattern = /#\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
 
-export function toExtractedElement(element: string, readResults: RawExtractedPage[]): ExtractedElement {
+export function toExtractedElement(
+  element: string,
+  readResults: RawExtractedPage[]
+): ExtractedElement {
   const result = textPattern.exec(element);
   if (!result || !result[0] || !result[1] || !result[2]) {
     throw new Error(`Unexpected element reference encountered: ${element}`);
@@ -110,7 +113,10 @@ export function toKeyValueElement(
   };
 }
 
-export function toKeyValuePair(original: KeyValuePairModel, readResults?: RawExtractedPage[]): ExtractedField {
+export function toKeyValuePair(
+  original: KeyValuePairModel,
+  readResults?: RawExtractedPage[]
+): ExtractedField {
   return {
     label: original.label,
     confidence: original.confidence,
@@ -145,7 +151,10 @@ export function toTable(original: DataTableModel, readResults?: RawExtractedPage
   };
 }
 
-export function toPageResult(original: PageResultModel, readResults?: RawExtractedPage[]): ExtractedPage {
+export function toPageResult(
+  original: PageResultModel,
+  readResults?: RawExtractedPage[]
+): ExtractedPage {
   return {
     pageNumber: original.pageNumber,
     formTypeId: original.clusterId,
@@ -168,7 +177,7 @@ export function transformResults(
 export function toCustomFormResultResponse(
   original: GetAnalyzeFormResultResponse
 ): ExtractFormResultResponse {
-  const { rawExtractedPages, extractedPages} = transformResults(
+  const { rawExtractedPages, extractedPages } = transformResults(
     original.analyzeResult?.readResults,
     original.analyzeResult?.pageResults
   );
@@ -185,11 +194,11 @@ export function toCustomFormResultResponse(
 
   const additional = original.analyzeResult
     ? {
-      version: original.analyzeResult.version,
-      rawExtractedPages,
-      extractedPages,
-      errors: original.analyzeResult.errors
-    }
+        version: original.analyzeResult.version,
+        rawExtractedPages,
+        extractedPages,
+        errors: original.analyzeResult.errors
+      }
     : undefined;
   return {
     ...common,
@@ -197,7 +206,10 @@ export function toCustomFormResultResponse(
   };
 }
 
-export function toFieldValue(original: FieldValueModel, readResults: RawExtractedPage[]): FieldValue {
+export function toFieldValue(
+  original: FieldValueModel,
+  readResults: RawExtractedPage[]
+): FieldValue {
   const result =
     original.type === "object" || original.type === "array"
       ? {}
@@ -235,7 +247,9 @@ export function toFieldValue(original: FieldValueModel, readResults: RawExtracte
       break;
     case "array":
       (result as ArrayFieldValue).type = "array";
-      (result as ArrayFieldValue).value = original.valueArray?.map((a) => toFieldValue(a, readResults));
+      (result as ArrayFieldValue).value = original.valueArray?.map((a) =>
+        toFieldValue(a, readResults)
+      );
       break;
     case "object":
       (result as ObjectFieldValue).type = "object";
@@ -283,24 +297,23 @@ export function toLabeledFormResultResponse(
     lastUpdatedOn: original.createdOn,
     _response: original._response
   };
-  if (original.status !== "succeeded")
-  {
+  if (original.status !== "succeeded") {
     return common;
   }
-  const { rawExtractedPages, extractedPages} = transformResults(
+  const { rawExtractedPages, extractedPages } = transformResults(
     original.analyzeResult?.readResults,
     original.analyzeResult?.pageResults
   );
   const additional = original.analyzeResult
     ? {
-      version: original.analyzeResult.version,
-      extractedForms: original.analyzeResult.documentResults?.map((d) =>
-        toDocumentResult(d, rawExtractedPages)
-                                                                 ),
-      rawExtractedPages,
-      extractedPages,
-      errors: original.analyzeResult.errors
-    }
+        version: original.analyzeResult.version,
+        extractedForms: original.analyzeResult.documentResults?.map((d) =>
+          toDocumentResult(d, rawExtractedPages)
+        ),
+        rawExtractedPages,
+        extractedPages,
+        errors: original.analyzeResult.errors
+      }
     : undefined;
   return {
     ...common,
@@ -315,7 +328,10 @@ export function toAnalyzeLayoutResultResponse(
     if (!model) {
       return undefined;
     }
-    const { rawExtractedPages, extractedPages} = transformResults(model.readResults, model.pageResults);
+    const { rawExtractedPages, extractedPages } = transformResults(
+      model.readResults,
+      model.pageResults
+    );
     return {
       version: model.version,
       rawExtractedPages,
@@ -332,14 +348,17 @@ export function toAnalyzeLayoutResultResponse(
   if (original.status === "succeeded") {
     return {
       ...common,
-      ...toAnalyzeLayoutResult(original.analyzeResult),
+      ...toAnalyzeLayoutResult(original.analyzeResult)
     };
   } else {
     return common;
   }
 }
 
-function toReceiptResult(result: DocumentResultModel, readResults: RawExtractedPage[]): ExtractedReceipt {
+function toReceiptResult(
+  result: DocumentResultModel,
+  readResults: RawExtractedPage[]
+): ExtractedReceipt {
   if (result.docType !== "prebuilt:receipt") {
     throw new RangeError("The document type is not 'prebuilt:receipt'");
   }
@@ -389,6 +408,7 @@ export function toReceiptResultResponse(
     version: result.analyzeResult!.version,
     rawExtractedPages: readResults,
     extractedReceipts: result.analyzeResult!.documentResults!.map((d) =>
-      toReceiptResult(d, readResults))
+      toReceiptResult(d, readResults)
+    )
   };
 }

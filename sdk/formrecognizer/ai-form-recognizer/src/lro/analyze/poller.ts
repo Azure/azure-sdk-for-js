@@ -146,7 +146,12 @@ function makeBeginExtractPollOperation<T extends { status: OperationStatus }>(
         }
 
         state.isStarted = true;
-        const result = await client.beginExtract(source, contentType, analyzeOptions || {}, modelId);
+        const result = await client.beginExtract(
+          source,
+          contentType,
+          analyzeOptions || {},
+          modelId
+        );
         if (!result.operationLocation) {
           throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
         }

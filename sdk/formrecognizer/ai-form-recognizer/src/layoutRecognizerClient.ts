@@ -13,7 +13,8 @@ import { createSpan } from "./tracing";
 import {
   FormRecognizerClientOptions,
   FormRecognizerOperationOptions,
-  toRequestBody
+  toRequestBody,
+  getContentType
 } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -28,7 +29,10 @@ import {
 } from "./lro/analyze/poller";
 import { PollerLike, PollOperationState } from ".";
 
-import { FormRecognizerClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel, ContentType } from "./generated/models";
+import {
+  FormRecognizerClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
+  ContentType
+} from "./generated/models";
 
 /**
  * Options for analyzing layout
@@ -162,7 +166,7 @@ export class LayoutRecognizerClient {
    * @param {contentType} Content type of the input
    * @param {BeginExtractLayoutOptions} [options] Options to the Begin Extract Layout operation
    */
-   public async beginExtractLayout(
+  public async beginExtractLayout(
     source: FormRecognizerRequestBody,
     contentType?: ContentType,
     options: BeginExtractLayoutOptions = {}
@@ -187,7 +191,6 @@ export class LayoutRecognizerClient {
     documentUrl: string,
     options: BeginExtractLayoutOptions = {}
   ): Promise<LayoutPollerLike> {
-
     return this.beginExtractLayout(documentUrl, undefined, options);
   }
 
@@ -229,12 +232,14 @@ async function analyzeLayoutInternal(
 ): Promise<AnalyzeLayoutAsyncResponseModel> {
   const realOptions = options || {};
   const { span, updatedOptions: finalOptions } = createSpan("analyzeLayoutInternal", realOptions);
+  const requestContentType = contentType !== undefined ? contentType : await getContentType(body);
+
   try {
     return await client.analyzeLayoutAsync({
-      contentType: contentType,
+      contentType: requestContentType,
       fileStream: toRequestBody(body),
-      ...operationOptionsToRequestOptionsBase(finalOptions),
-    })
+      ...operationOptionsToRequestOptionsBase(finalOptions)
+    });
   } catch (e) {
     span.setStatus({
       code: CanonicalCode.UNKNOWN,

@@ -15,12 +15,16 @@ import { createSpan } from "./tracing";
 import {
   FormRecognizerClientOptions,
   FormRecognizerOperationOptions,
-  toRequestBody
+  toRequestBody,
+  getContentType
 } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
 import { FormRecognizerClient as GeneratedClient } from "./generated/formRecognizerClient";
-import { FormRecognizerClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel, ContentType } from "./generated/models";
+import {
+  FormRecognizerClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
+  ContentType
+} from "./generated/models";
 import { FormRecognizerApiKeyCredential } from "./formRecognizerApiKeyCredential";
 import {
   ExtractPollerClient,
@@ -235,7 +239,6 @@ export class ReceiptRecognizerClient {
     documentUrl: string,
     options: BeginExtractReceiptsOptions = {}
   ): Promise<ReceiptPollerLike> {
-
     return this.beginExtractReceipts(documentUrl, undefined, options);
   }
 
@@ -282,11 +285,13 @@ async function analyzeReceiptInternal(
 ): Promise<AnalyzeReceiptAsyncResponseModel> {
   const realOptions = options || { includeTextDetails: false };
   const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", realOptions);
+  const requestContentType = contentType !== undefined ? contentType : await getContentType(body);
+
   try {
     return await client.analyzeReceiptAsync({
-      contentType: contentType,
+      contentType: requestContentType,
       fileStream: toRequestBody(body),
-      ...operationOptionsToRequestOptionsBase(finalOptions),
+      ...operationOptionsToRequestOptionsBase(finalOptions)
     });
   } catch (e) {
     span.setStatus({

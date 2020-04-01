@@ -19,6 +19,7 @@ import {
   FormRecognizerClientOptions,
   FormRecognizerOperationOptions,
   toRequestBody,
+  getContentType
 } from "./common";
 import { CanonicalCode } from "@opentelemetry/types";
 
@@ -48,13 +49,7 @@ import {
 } from "./models";
 import { toCustomFormResultResponse, toLabeledFormResultResponse } from "./transforms";
 
-export {
-  ContentType,
-  ListModelsResponseModel,
-  Model,
-  ModelInfo,
-  RestResponse
-};
+export { ContentType, ListModelsResponseModel, Model, ModelInfo, RestResponse };
 
 export { PollOperationState, PollerLike };
 
@@ -323,7 +318,10 @@ export class FormRecognizerClient {
         // Include keys is always set to true -- the service does not have a use case for includeKeys: false.
         includeKeys: true
       });
-      if (respnose.modelInfo.status === "ready" && (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields)) {
+      if (
+        respnose.modelInfo.status === "ready" &&
+        (respnose.trainResult?.averageModelAccuracy || respnose.trainResult?.fields)
+      ) {
         throw new Error(`The model ${modelId} is trained with labels.`);
       } else {
         return (respnose as unknown) as FormModelResponse;
@@ -487,7 +485,10 @@ export class FormRecognizerClient {
     }
   }
 
-  private async listNextPage(nextLink: string, options?: ListModelsOptions): Promise<ListModelsResponseModel> {
+  private async listNextPage(
+    nextLink: string,
+    options?: ListModelsOptions
+  ): Promise<ListModelsResponseModel> {
     const realOptions: ListModelsOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "CustomRecognizerClient-listNextPage",
@@ -854,13 +855,12 @@ async function analyzeCustomFormInternal(
   options: ExtractFormsOptions = {},
   modelId?: string
 ): Promise<AnalyzeWithCustomModelResponseModel> {
-  const { span, updatedOptions: finalOptions } = createSpan(
-    "analyzeCustomFormInternal",
-    options
-  );
+  const { span, updatedOptions: finalOptions } = createSpan("analyzeCustomFormInternal", options);
+  const requestContentType = contentType !== undefined ? contentType : await getContentType(body);
+
   try {
     return await client.analyzeWithCustomModel(modelId!, {
-      contentType: contentType,
+      contentType: requestContentType,
       fileStream: toRequestBody(body),
       ...operationOptionsToRequestOptionsBase(finalOptions)
     });

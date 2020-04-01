@@ -126,7 +126,7 @@ export interface ExtractedLine {
  * Information about an extracted element in the form. Examples include
  * words, lines, checkbox, etc.
  */
-export type ExtractedElement = ExtractedWord | ExtractedLine // | ExtractedCheckBox;
+export type ExtractedElement = ExtractedWord | ExtractedLine; // | ExtractedCheckBox;
 
 /**
  * Represents a cell in extracted table
@@ -380,7 +380,7 @@ export type IntegerFieldValue = {
 export interface ArrayFieldValue {
   type: "array";
   value?: FieldValue[];
-};
+}
 
 /**
  * Represents a special field that contains other fields as its properties
@@ -388,7 +388,7 @@ export interface ArrayFieldValue {
 export interface ObjectFieldValue {
   type: "object";
   value?: { [propertyName: string]: FieldValue };
-};
+}
 
 /**
  * Union type of all field types
@@ -643,7 +643,7 @@ export type ExtractReceiptOperationResult = {
    * Date and time (UTC) when the status was last updated.
    */
   lastUpdatedOn: Date;
-} & Partial<ExtractReceiptResult>
+} & Partial<ExtractReceiptResult>;
 
 /**
  * Contains response data for an extract receipt operation.
@@ -717,7 +717,7 @@ export type ExtractLayoutOperationResult = {
    * Date and time (UTC) when the status was last updated.
    */
   lastUpdatedOn: Date;
-} & Partial<ExtractedLayout>
+} & Partial<ExtractedLayout>;
 
 /**
  * Contains response data for the extract layout operation.
@@ -777,7 +777,7 @@ export type ExtractFormOperationResult = Partial<FormResult> & {
    * Date and time (UTC) when the status was last updated.
    */
   lastUpdatedOn: Date;
-}
+};
 
 /**
  * Represents an extracted form using a model from supervised training with labels
@@ -824,7 +824,7 @@ export type LabeledFormOperationResult = Partial<LabeledFormResult> & {
    * Date and time (UTC) when the status was last updated.
    */
   lastUpdatedOn: Date;
-}
+};
 
 /**
  * Contains the response data for extract form (unsupervised) operation
@@ -979,7 +979,6 @@ export type LabeledFormModelResponse = LabeledFormModel & {
  */
 export type FormRecognizerRequestBody =
   | Blob
-  | string
   | ArrayBuffer
   | ArrayBufferView
   | NodeJS.ReadableStream;

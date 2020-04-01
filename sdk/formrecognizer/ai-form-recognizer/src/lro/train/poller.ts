@@ -5,7 +5,10 @@ import { delay } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { TrainModelOptions, GetModelOptions } from "../../formRecognizerClient";
 
-import { ModelStatus, FormRecognizerClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse } from "../../generated/models";
+import {
+  ModelStatus,
+  FormRecognizerClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse
+} from "../../generated/models";
 export { ModelStatus, TrainCustomModelAsyncResponse };
 
 /**

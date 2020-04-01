@@ -13,3 +13,17 @@ interface RequestInfo {}
 interface Response {}
 
 interface Headers {}
+
+interface FileReader {
+  onloadend: ((this: FileReader, ev: any) => any) | null;
+  readonly result: string | ArrayBuffer | null;
+  readAsArrayBuffer(blob: Blob): void;
+}
+
+declare var FileReader: {
+  prototype: FileReader;
+  new (): FileReader;
+  readonly DONE: number;
+  readonly EMPTY: number;
+  readonly LOADING: number;
+};

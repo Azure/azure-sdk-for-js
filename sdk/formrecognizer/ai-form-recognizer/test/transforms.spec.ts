@@ -2,9 +2,30 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { toTextLine, toRawExtractedPage, toExtractedElement, toKeyValueElement, toKeyValuePair, toFieldValue, toTable } from "../src/transforms"
-import { ReadResult as ReadResultModel, FieldValue as FieldValueModel, DataTable as DataTableModel } from "../src/generated/models"
-import { StringFieldValue, DateFieldValue, TimeFieldValue, PhoneNumberFieldValue, NumberFieldValue, IntegerFieldValue, ArrayFieldValue, ObjectFieldValue } from '../src/models';
+import {
+  toTextLine,
+  toRawExtractedPage,
+  toExtractedElement,
+  toKeyValueElement,
+  toKeyValuePair,
+  toFieldValue,
+  toTable
+} from "../src/transforms";
+import {
+  ReadResult as ReadResultModel,
+  FieldValue as FieldValueModel,
+  DataTable as DataTableModel
+} from "../src/generated/models";
+import {
+  StringFieldValue,
+  DateFieldValue,
+  TimeFieldValue,
+  PhoneNumberFieldValue,
+  NumberFieldValue,
+  IntegerFieldValue,
+  ArrayFieldValue,
+  ObjectFieldValue
+} from "../src/models";
 
 describe("Transforms", () => {
   const originalLine1 = {
@@ -14,13 +35,13 @@ describe("Transforms", () => {
       {
         text: "word text 1",
         boundingBox: [2, 3, 4, 5, 6, 7, 8, 9],
-        confidence: 0.9,
+        confidence: 0.9
       },
       {
         text: "word text 2",
         boundingBox: [3, 4, 5, 6, 7, 8, 9, 10],
-        confidence: 0.99,
-      },
+        confidence: 0.99
+      }
     ]
   };
 
@@ -54,13 +75,13 @@ describe("Transforms", () => {
       {
         text: "word text 1",
         boundingBox: [2, 3, 4, 5, 6, 7, 8, 9],
-        confidence: 0.9,
+        confidence: 0.9
       },
       {
         text: "word text 2",
         boundingBox: [3, 4, 5, 6, 7, 8, 9, 10],
-        confidence: 0.99,
-      },
+        confidence: 0.99
+      }
     ]
   };
 
@@ -70,13 +91,10 @@ describe("Transforms", () => {
     width: 100,
     height: 200,
     unit: "pixel",
-    lines: [
-      originalLine1
-    ]
+    lines: [originalLine1]
   };
 
   it("toRawExtractedPage() converts original ReadResultModel", () => {
-
     const transformed = toRawExtractedPage(originalReadResult1);
 
     assert.equal(transformed.pageNumber, originalReadResult1.pageNumber);
@@ -92,28 +110,19 @@ describe("Transforms", () => {
     width: 100,
     height: 200,
     unit: "pixel",
-    lines: [
-      originalLine1,
-      originalLine2
-    ]
+    lines: [originalLine1, originalLine2]
   };
 
   it("toExtractedElement() converts word string reference to extracted word", () => {
     const stringRef = "#/readResults/0/lines/0/words/0";
-    const readResults = [
-      originalReadResult1,
-      originalReadResult2
-    ].map(toRawExtractedPage);
+    const readResults = [originalReadResult1, originalReadResult2].map(toRawExtractedPage);
 
     const transformed = toExtractedElement(stringRef, readResults);
 
     assert.deepStrictEqual(transformed, readResults[0].lines![0].words[0]);
   });
 
-  const rawExtractedPages = [
-    originalReadResult1,
-    originalReadResult2
-  ].map(toRawExtractedPage);
+  const rawExtractedPages = [originalReadResult1, originalReadResult2].map(toRawExtractedPage);
 
   it("toExtractedElement() converts line string reference to extracted line", () => {
     const stringRef = "#/readResults/1/lines/1";
@@ -125,11 +134,8 @@ describe("Transforms", () => {
 
   const originalKeyValueElement1 = {
     text: "keyvalue element text",
-    boundingBox: [1,2,3,4,5,6,7,8],
-    elements: [
-      "#/readResults/0/lines/0/words/0",
-      "#/readResults/0/lines/0/words/1"
-    ]
+    boundingBox: [1, 2, 3, 4, 5, 6, 7, 8],
+    elements: ["#/readResults/0/lines/0/words/0", "#/readResults/0/lines/0/words/1"]
   };
 
   it("toKeyValueElement() converts original KeyValueElementModel", () => {
@@ -137,8 +143,8 @@ describe("Transforms", () => {
 
     assert.equal(transformed.text, originalKeyValueElement1.text);
     assert.deepStrictEqual(transformed.boundingBox, originalKeyValueElement1.boundingBox);
-    assert.deepStrictEqual(transformed.elements![0], rawExtractedPages[0].lines![0].words[0])
-    assert.deepStrictEqual(transformed.elements![1], rawExtractedPages[0].lines![0].words[1])
+    assert.deepStrictEqual(transformed.elements![0], rawExtractedPages[0].lines![0].words[0]);
+    assert.deepStrictEqual(transformed.elements![1], rawExtractedPages[0].lines![0].words[1]);
   });
 
   it("toKeyValuePair() converts original key value pair", () => {
@@ -164,11 +170,8 @@ describe("Transforms", () => {
       text: "field value text",
       boudningBox: [1, 2, 3, 4, 5, 6, 7, 8],
       confidence: 0.9999,
-      elements: [
-        "#/readResults/0/lines/0/words/0",
-        "#/readResults/0/lines/0/words/1"
-      ]
-    }
+      elements: ["#/readResults/0/lines/0/words/0", "#/readResults/0/lines/0/words/1"]
+    };
 
     it("converts field value of string", () => {
       const original: FieldValueModel = {
@@ -267,10 +270,8 @@ describe("Transforms", () => {
       };
       const original: FieldValueModel = {
         type: "array",
-        valueArray: [
-          originalDate,
-          originalInteger
-        ]};
+        valueArray: [originalDate, originalInteger]
+      };
 
       const transformed = toFieldValue(original, rawExtractedPages);
 
@@ -282,7 +283,8 @@ describe("Transforms", () => {
       assert.equal((array![0] as DateFieldValue).text, originalDate.text);
       assert.deepStrictEqual(
         (array![0] as DateFieldValue).elements![0],
-        rawExtractedPages[0].lines![0].words[0]);
+        rawExtractedPages[0].lines![0].words[0]
+      );
       assert.equal(array![1].type, "integer");
       assert.equal(array![1].value, originalInteger.valueInteger);
       assert.equal((array![1] as DateFieldValue).text, originalDate.text);
@@ -311,7 +313,7 @@ describe("Transforms", () => {
 
       assert.equal(transformed.type, "object");
 
-      const obj = (transformed as ObjectFieldValue);
+      const obj = transformed as ObjectFieldValue;
       assert.equal(obj.type, "object");
       assert.equal(obj.value!["dateProperty"].value, originalDate.valueDate);
       assert.equal(obj.value!["integerProperty"].value, originalInteger.valueInteger);
@@ -360,7 +362,7 @@ describe("Transforms", () => {
           boundingBox: [1, 2, 3, 4, 5, 6, 7, 8],
           columnSpan: 2,
           isFooter: true
-        },
+        }
       ]
     };
 
