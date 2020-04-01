@@ -512,6 +512,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * Returns a promise that resolves to an array of messages based on given count and timeout over
    * an AMQP receiver link from a Queue/Subscription.
    *
+   * The `maxWaitTimeSeconds` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
    * Throws an error if there is another receive operation in progress on the same receiver. If you
    * are not sure whether there is another receive operation running, check the `isReceivingMessages`
    * property on the receiver.
@@ -529,15 +530,23 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
-    await this._createMessageSessionIfDoesntExist();
+    const receiveBatchOperationPromise = async () => {
+      await this._createMessageSessionIfDoesntExist();
 
-    const receivedMessages = await this._messageSession!.receiveMessages(
-      maxMessageCount,
-      options?.maxWaitTimeSeconds,
-      this._sessionReceiverOptions.retryOptions
-    );
+      const receivedMessages = await this._messageSession!.receiveMessages(
+        maxMessageCount,
+        options?.maxWaitTimeSeconds
+      );
 
-    return (receivedMessages as any) as ReceivedMessageT[];
+      return (receivedMessages as any) as ReceivedMessageT[];
+    };
+    const config: RetryConfig<ReceivedMessageT[]> = {
+      operation: receiveBatchOperationPromise,
+      connectionId: this._context.namespace.connectionId,
+      operationType: RetryOperationType.receiveMessage,
+      retryOptions: this._sessionReceiverOptions.retryOptions
+    };
+    return retry<ReceivedMessageT[]>(config);
   }
 
   subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
@@ -615,6 +624,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   /**
    * Gets an async iterator over messages from the receiver.
    *
+   * The `maxWaitTimeSeconds` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
    * Throws an error if there is another receive operation in progress on the same receiver. If you
    * are not sure whether there is another receive operation running, check the `isReceivingMessages`
    * property on the receiver.
