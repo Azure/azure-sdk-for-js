@@ -12,7 +12,7 @@
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
+- [Node.js](https://nodejs.org/) version 8.x.x or higher
 
 ### Prerequisites
 
@@ -62,26 +62,6 @@ const client = new CustomFormClient(
   "<endpoint>",
   new ApiKeyCredential("<API key>")
 );
-```
-
-#### Using an Azure Active Directory Credential
-
-Client API key authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below,
-or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
-
-```bash
-npm install @azure/identity
-```
-
-You will also need to [register a new AAD application][register_aad_app] and grant access to Form Recognizer by assigning the `"Cognitive Services User"` role to your service principal.
-
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
-
-```js
-const { CustomFormClient } = require("@azure/ai-form-recognizer");
-const { DefaultAzureCredential } = require("@azure/identity");
-
-const client = new CustomFormClient("<endpoint>", new DefaultAzureCredential());
 ```
 
 ## Key concepts
@@ -239,6 +219,8 @@ You can set the following environment variable to see debug logs when using this
 ```bash
 export DEBUG=azure*
 ```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
 ## Next steps
 
