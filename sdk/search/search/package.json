@@ -41,6 +41,9 @@
     "README.md",
     "LICENSE"
   ],
+  "browser": {
+    "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js"
+  },
   "//metadata": {
     "constantPaths": [
       {
