@@ -13,6 +13,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 
 import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
+import { RetryOptions, RetryOperationType, RetryConfig, retry } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -74,13 +75,25 @@ export class StreamingReceiver extends MessageReceiver {
    */
   static async create(
     context: ClientEntityContext,
-    options?: ReceiveOptions
+    options?: ReceiveOptions,
+    retryOptions?: RetryOptions
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(context.namespace);
     if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
+
     const sReceiver = new StreamingReceiver(context, options);
-    await sReceiver._init();
+
+    const config: RetryConfig<void> = {
+      operation: async () => {
+        await sReceiver._init();
+      },
+      connectionId: context.namespace.connectionId,
+      operationType: RetryOperationType.senderLink,
+      retryOptions: retryOptions
+    };
+    await retry<void>(config);
+
     context.streamingReceiver = sReceiver;
     return sReceiver;
   }
