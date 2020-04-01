@@ -1314,6 +1314,10 @@ export interface SiteConfig {
    */
   nodeVersion?: string;
   /**
+   * Version of PowerShell.
+   */
+  powerShellVersion?: string;
+  /**
    * Linux App Framework and version
    */
   linuxFxVersion?: string;
@@ -6056,6 +6060,10 @@ export interface SiteConfigResource extends ProxyOnlyResource {
    * Version of Node.js.
    */
   nodeVersion?: string;
+  /**
+   * Version of PowerShell.
+   */
+  powerShellVersion?: string;
   /**
    * Linux App Framework and version
    */

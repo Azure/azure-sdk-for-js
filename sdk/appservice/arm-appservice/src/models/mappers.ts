@@ -2114,6 +2114,12 @@ export const SiteConfig: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      powerShellVersion: {
+        serializedName: "powerShellVersion",
+        type: {
+          name: "String"
+        }
+      },
       linuxFxVersion: {
         serializedName: "linuxFxVersion",
         type: {
@@ -10675,6 +10681,12 @@ export const SiteConfigResource: msRest.CompositeMapper = {
       },
       nodeVersion: {
         serializedName: "properties.nodeVersion",
+        type: {
+          name: "String"
+        }
+      },
+      powerShellVersion: {
+        serializedName: "properties.powerShellVersion",
         type: {
           name: "String"
         }
