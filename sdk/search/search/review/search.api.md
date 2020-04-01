@@ -541,8 +541,7 @@ export interface ListIndexesOptions extends OperationOptions {
 
 // @public
 export interface ListSearchResultsPageSettings {
-    nextLink?: string;
-    nextPageParameters?: RawSearchRequest;
+    continuationToken?: string;
 }
 
 // @public
@@ -737,8 +736,7 @@ export interface ScoringProfile {
 
 // @public (undocumented)
 export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
-    readonly nextLink?: string;
-    readonly nextPageParameters?: RawSearchRequest;
+    continuationToken?: string;
     readonly results: SearchResult<T>[];
 }
 

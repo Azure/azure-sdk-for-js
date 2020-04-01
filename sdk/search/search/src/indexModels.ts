@@ -8,7 +8,7 @@ import {
   FacetResult,
   AutocompleteMode,
   IndexActionType,
-  SearchRequest as RawSearchRequest
+  SearchDocumentsResult as GeneratedSearchResult
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -76,13 +76,10 @@ export type DeleteDocumentsOptions = IndexDocuments;
  */
 export interface ListSearchResultsPageSettings {
   /**
-   * When server pagination occurs, this is the URL to the next result page.
+   * A token used for retrieving the next page of results when the server
+   * enforces pagination.
    */
-  nextLink?: string;
-  /**
-   * When server pagination occurs, this is the set of parameters to include in the POST body.
-   */
-  nextPageParameters?: RawSearchRequest;
+  continuationToken?: string;
 }
 
 /**
@@ -95,6 +92,20 @@ export type SearchIterator<Fields> = PagedAsyncIterableIterator<
   SearchDocumentsPageResult<Fields>,
   ListSearchResultsPageSettings
 >;
+
+/**
+ * An intermediate type for encoding the continuation token.
+ */
+export type ContinuableSearchResult = Omit<
+  GeneratedSearchResult,
+  "nextPageParameters" | "nextLink"
+> & {
+  /**
+   * A token used for retrieving the next page of results when the server
+   * enforces pagination.
+   */
+  continuationToken?: string;
+};
 
 // BEGIN manually modified generated interfaces
 //
@@ -261,20 +272,10 @@ export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase 
    */
   readonly results: SearchResult<T>[];
   /**
-   * Continuation JSON payload returned when Azure Cognitive Search can't return all the requested
-   * results in a single Search response. You can use this JSON along with @odata.nextLink to
-   * formulate another POST Search request to get the next part of the search response.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * A token used for retrieving the next page of results when the server
+   * enforces pagination.
    */
-  readonly nextPageParameters?: RawSearchRequest;
-  /**
-   * Continuation URL returned when Azure Cognitive Search can't return all the requested results
-   * in a single Search response. You can use this URL to formulate another GET or POST Search
-   * request to get the next part of the search response. Make sure to use the same verb (GET or
-   * POST) as the request that produced this response.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
+  continuationToken?: string;
 }
 
 /**
