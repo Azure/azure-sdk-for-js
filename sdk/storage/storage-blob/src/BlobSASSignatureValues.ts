@@ -347,7 +347,7 @@ function generateBlobSASQueryParameters20150405(
 ): SASQueryParameters {
   if (
     !blobSASSignatureValues.identifier &&
-    (!blobSASSignatureValues.permissions && !blobSASSignatureValues.expiresOn)
+    !blobSASSignatureValues.permissions && !blobSASSignatureValues.expiresOn
   ) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided."
@@ -362,13 +362,16 @@ function generateBlobSASQueryParameters20150405(
     throw RangeError("'version' must be >= '2018-11-09' when provided 'snapshotTime'.");
   }
 
+  if (blobSASSignatureValues.blobName) {
+    resource = "b";
+  }
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
         blobSASSignatureValues.permissions.toString()
       ).toString();
-      resource = "b";
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
         blobSASSignatureValues.permissions.toString()
@@ -446,7 +449,7 @@ function generateBlobSASQueryParameters20181109(
 ): SASQueryParameters {
   if (
     !blobSASSignatureValues.identifier &&
-    (!blobSASSignatureValues.permissions && !blobSASSignatureValues.expiresOn)
+    !blobSASSignatureValues.permissions && !blobSASSignatureValues.expiresOn
   ) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided."
@@ -461,16 +464,19 @@ function generateBlobSASQueryParameters20181109(
     throw RangeError("Must provide 'blobName' when provided 'snapshotTime'.");
   }
 
+  if (blobSASSignatureValues.blobName) {
+    resource = "b";
+    if (blobSASSignatureValues.snapshotTime) {
+      resource = "bs";
+    }
+  }
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
         blobSASSignatureValues.permissions.toString()
       ).toString();
-      resource = "b";
-      if (blobSASSignatureValues.snapshotTime) {
-        resource = "bs";
-      }
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
         blobSASSignatureValues.permissions.toString()
@@ -560,16 +566,19 @@ function generateBlobSASQueryParametersUDK20181109(
     throw RangeError("Must provide 'blobName' when provided 'snapshotTime'.");
   }
 
+  if (blobSASSignatureValues.blobName) {
+    resource = "b";
+    if (blobSASSignatureValues.snapshotTime) {
+      resource = "bs";
+    }
+  }
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
         blobSASSignatureValues.permissions.toString()
       ).toString();
-      resource = "b";
-      if (blobSASSignatureValues.snapshotTime) {
-        resource = "bs";
-      }
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
         blobSASSignatureValues.permissions.toString()

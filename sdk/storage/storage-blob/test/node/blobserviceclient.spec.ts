@@ -2,16 +2,15 @@ import * as assert from "assert";
 
 import * as dotenv from "dotenv";
 import { BlobServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment, setupEnvironment } from "../utils";
-import { record } from "@azure/test-utils-recorder";
+import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
+import { record, Recorder } from "@azure/test-utils-recorder";
 dotenv.config({ path: "../.env" });
 
 describe("BlobServiceClient Node.js only", () => {
-  setupEnvironment();
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
   });
 
   afterEach(async function() {

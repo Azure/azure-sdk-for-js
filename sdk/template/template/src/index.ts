@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // This node built-in must be shimmed for the browser.
 import EventEmitter from "events";
 // This is a node dependency that needs to be replaced with a
@@ -12,7 +15,7 @@ import { isNode } from "@azure/core-http";
 // exporting some value from a dependency
 export { URLBuilder } from "@azure/core-http";
 
-export function createEventEmitter() {
+export function createEventEmitter(): EventEmitter {
   // use event emitter
   const e = new EventEmitter();
 

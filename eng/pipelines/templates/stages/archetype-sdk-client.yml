@@ -1,6 +1,7 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
+  IncludeRelease: true
 
 stages:
 - stage: Build
@@ -11,9 +12,10 @@ stages:
       RunUnitTests: ${{parameters.RunUnitTests}}
 
 # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
-- ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'))}}:
-  - template: pipelines/stages/archetype-js-release.yml@azure-sdk-build-tools
+- ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
+  - template: archetype-js-release.yml
     parameters:
       DependsOn: Build
+      ServiceDirectory: ${{parameters.ServiceDirectory}}
       Artifacts: ${{parameters.Artifacts}}
       ArtifactName: packages

@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { CertificateClient } from "@azure/keyvault-certificates";
@@ -21,7 +21,9 @@ export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
 
   const client = new CertificateClient(url, credential);
-  const certificateName = "MyCertificateOperationsTS";
+
+  const uniqueString = new Date().getTime();
+  const certificateName = `cert${uniqueString}`;
 
   // Certificates' operations will be pending for some time right after they're created.
   const createPoller = await client.beginCreateCertificate(certificateName, {

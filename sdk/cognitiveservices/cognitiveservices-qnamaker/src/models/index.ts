@@ -93,6 +93,16 @@ export interface UpdateKbOperationDTO {
    * An instance of UpdateKbContentsDTO for Update Operation
    */
   update?: UpdateKbOperationDTOUpdate;
+  /**
+   * Enable hierarchical extraction of Q-A from files and urls. The value set during KB creation
+   * will be used if this field is not present.
+   */
+  enableHierarchicalExtraction?: boolean;
+  /**
+   * Text string to be used as the answer in any Q-A which has no extracted answer from the
+   * document but has a hierarchy. Required when EnableHierarchicalExtraction field is set to True.
+   */
+  defaultAnswerUsedForExtraction?: string;
 }
 
 /**
@@ -332,6 +342,20 @@ export interface CreateKbDTO {
    * List of files from which to Extract Q-A.
    */
   files?: FileDTO[];
+  /**
+   * Enable hierarchical extraction of Q-A from files and urls. Value to be considered False if
+   * this field is not present.
+   */
+  enableHierarchicalExtraction?: boolean;
+  /**
+   * Text string to be used as the answer in any Q-A which has no extracted answer from the
+   * document but has a hierarchy. Required when EnableHierarchicalExtraction field is set to True.
+   */
+  defaultAnswerUsedForExtraction?: string;
+  /**
+   * Language of the knowledgebase.
+   */
+  language?: string;
 }
 
 /**
@@ -495,6 +519,32 @@ export interface KnowledgebasesDTO {
 }
 
 /**
+ * Active Learning settings of the endpoint.
+ */
+export interface ActiveLearningSettingsDTO {
+  /**
+   * True/False string providing Active Learning
+   */
+  enable?: string;
+}
+
+/**
+ * Active Learning settings of the endpoint.
+ */
+export interface EndpointSettingsDTOActiveLearning extends ActiveLearningSettingsDTO {
+}
+
+/**
+ * Endpoint settings.
+ */
+export interface EndpointSettingsDTO {
+  /**
+   * Active Learning settings of the endpoint.
+   */
+  activeLearning?: EndpointSettingsDTOActiveLearning;
+}
+
+/**
  * Collection of words that are synonyms.
  */
 export interface AlterationsDTO {
@@ -534,6 +584,10 @@ export interface EndpointKeysDTO {
    * Latest version of runtime.
    */
   lastStableVersion?: string;
+  /**
+   * Language setting of runtime.
+   */
+  language?: string;
 }
 
 /**
@@ -557,14 +611,6 @@ export interface KnowledgebaseUpdateHeaders {
    */
   location: string;
 }
-
-/**
- * Defines values for KnowledgebaseEnvironmentType.
- * Possible values include: 'Prod', 'Test'
- * @readonly
- * @enum {string}
- */
-export type KnowledgebaseEnvironmentType = 'Prod' | 'Test';
 
 /**
  * Defines values for ErrorCodeType.
@@ -591,6 +637,51 @@ export type OperationStateType = 'Failed' | 'NotStarted' | 'Running' | 'Succeede
  * @enum {string}
  */
 export type EnvironmentType = 'Prod' | 'Test';
+
+/**
+ * Contains response data for the getSettings operation.
+ */
+export type EndpointSettingsGetSettingsResponse = EndpointSettingsDTO & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EndpointSettingsDTO;
+    };
+};
+
+/**
+ * Contains response data for the updateSettings operation.
+ */
+export type EndpointSettingsUpdateSettingsResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
+    };
+};
 
 /**
  * Contains response data for the getKeys operation.

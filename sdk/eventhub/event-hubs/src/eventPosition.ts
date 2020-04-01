@@ -118,9 +118,6 @@ export function validateEventPositions(
     return;
   }
 
-  const offsetPresent = position.offset != undefined;
-  const sequenceNumberPresent = position.sequenceNumber != undefined;
-  const enqueuedOnPresent = position.enqueuedOn != undefined;
   const keys = Object.keys(position);
 
   if (!keys.length) {
@@ -129,7 +126,7 @@ export function validateEventPositions(
     );
   }
 
-  if (offsetPresent || sequenceNumberPresent || enqueuedOnPresent || !keys.length) {
+  if (isEventPosition(position)) {
     validateEventPosition(position);
     return;
   }
@@ -140,6 +137,33 @@ export function validateEventPositions(
       validateEventPosition(positions[keys[i]]);
     }
   }
+}
+
+/**
+ * Determines whether a position is an EventPosition.
+ * Does not validate that the position is allowed.
+ * @param position
+ * @ignore
+ * @internal
+ */
+export function isEventPosition(position: any): position is EventPosition {
+  if (!position) {
+    return false;
+  }
+
+  if (position.offset != undefined) {
+    return true;
+  }
+
+  if (position.sequenceNumber != undefined) {
+    return true;
+  }
+
+  if (position.enqueuedOn != undefined) {
+    return true;
+  }
+
+  return false;
 }
 
 function validateEventPosition(position: EventPosition) {

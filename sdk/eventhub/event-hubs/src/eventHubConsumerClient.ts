@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { EventHubClient } from "./impl/eventHubClient";
 import {
   EventHubClientOptions,
-  EventHubClient,
   GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions
-} from "./impl/eventHubClient";
+} from "./models/public";
 import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
 import { EventProcessor, CheckpointStore, FullEventProcessorOptions } from "./eventProcessor";
 import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
@@ -372,7 +372,7 @@ export class EventHubConsumerClient {
   /**
    * Subscribe to events from a single partition.
    * Call close() on the returned object to stop receiving events.
-   * 
+   *
    * @param partitionId The id of the partition to subscribe to.
    * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
    *                 of the partition, receiving events, handling errors and the closing

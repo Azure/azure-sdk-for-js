@@ -29,13 +29,13 @@ const queueProperties = [
   Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
   Constants.MAX_DELIVERY_COUNT,
   Constants.ENABLE_BATCHED_OPERATIONS,
-  Constants.SIZE_IN_BYTES,
-  Constants.MESSAGE_COUNT,
   Constants.AUTHORIZATION_RULES,
+  Constants.STATUS,
+  Constants.FORWARD_TO,
+  Constants.USER_METADATA,
   Constants.AUTO_DELETE_ON_IDLE,
   Constants.ENABLE_PARTITIONING,
-  Constants.FORWARD_DEADLETTERED_MESSAGES_TO,
-  Constants.USER_METADATA
+  Constants.FORWARD_DEADLETTERED_MESSAGES_TO
 ];
 
 const topicProperties = [
@@ -44,21 +44,10 @@ const topicProperties = [
   Constants.REQUIRES_DUPLICATE_DETECTION,
   Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW,
   Constants.ENABLE_BATCHED_OPERATIONS,
-  Constants.SIZE_IN_BYTES,
-  Constants.AUTO_DELETE_ON_IDLE,
   Constants.AUTHORIZATION_RULES,
+  Constants.STATUS,
   Constants.SUPPORT_ORDERING,
-  Constants.MAX_SUBSCRIPTIONS_PER_TOPIC,
-  Constants.MAX_SQL_FILTERS_PER_TOPIC,
-  Constants.MAX_CORRELATION_FILTERS_PER_TOPIC,
-  Constants.ENABLE_EXPRESS,
-  Constants.IS_EXPRESS,
-  Constants.ENABLE_SUBSCRIPTION_PARTITIONING,
-  Constants.FILTER_MESSAGES_BEFORE_PUBLISHING,
-  Constants.ENABLE_PARTITIONING,
-  Constants.MESSAGE_COUNT,
-  Constants.SUBSCRIPTION_COUNT,
-  Constants.MAX_DELIVERY_COUNT
+  Constants.ENABLE_PARTITIONING
 ];
 
 const subscriptionProperties = [
@@ -67,7 +56,6 @@ const subscriptionProperties = [
   Constants.DEFAULT_MESSAGE_TIME_TO_LIVE,
   Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION,
   Constants.DEAD_LETTERING_ON_FILTER_EVALUATION_EXCEPTIONS,
-  Constants.DEFAULT_RULE_DESCRIPTION,
   Constants.MAX_DELIVERY_COUNT,
   Constants.ENABLE_BATCHED_OPERATIONS,
   Constants.SIZE_IN_BYTES,
@@ -102,7 +90,7 @@ describe("atomSerializationPolicy #RunInBrowser", function() {
         request,
         new MockSerializer()
       );
-      assert.equal(true, false, "Error must be thrown");
+      assert.fail("Error must be thrown");
     } catch (err) {
       assert.equal(
         err.message.startsWith(
@@ -162,12 +150,12 @@ describe("deserializeAtomXmlResponse #RunInBrowser", function() {
 
     try {
       await deserializeAtomXmlResponse(["QueueName"], _response);
-      assert.equal(true, false, "Error must be thrown");
+      assert.fail("Error must be thrown");
     } catch (err) {
       assert.equal(
         err.message,
         "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements.",
-        `"${err.message}" was expected to begin with "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements." `
+        `Unexpected error message found.`
       );
       assert.equal(err.code, "PARSE_ERROR");
     }
@@ -184,18 +172,14 @@ describe("deserializeAtomXmlResponse #RunInBrowser", function() {
     };
     try {
       await deserializeAtomXmlResponse(["QueueName"], _response);
-      assert.equal(true, false, "Error must be thrown");
+      assert.fail("Error must be thrown");
     } catch (err) {
       assert.equal(
         err.message,
-        "Service returned an error response.",
-        `Message expected to be "Service returned an error response." but received ${err.message}`
+        "Service returned an error response with an unrecognized HTTP status code - 666",
+        `Unexpected error message found.`
       );
-      assert.equal(
-        err.code,
-        "UnrecognizedHttpResponseStatus: 666",
-        `Code expected to be "UnrecognizedHttpResponseStatus: 666" but received ${err.code}`
-      );
+      assert.equal(err.code, "ServiceError", `Unexpected error code found.`);
     }
   });
 });
@@ -557,12 +541,12 @@ class MockSerializer implements AtomXmlSerializer {
           request,
           new RuleResourceSerializer()
         );
-        assert.equal(true, false, "Error must be thrown");
+        assert.fail("Error must be thrown");
       } catch (err) {
         assert.equal(
           err.message,
           testCase.output.testErrorMessage,
-          `Expected error message to be "${testCase.output.testErrorMessage}", but received "${err.message}"`
+          `Unexpected error message found.`
         );
 
         assert.equal(
@@ -609,12 +593,12 @@ class MockSerializer implements AtomXmlSerializer {
       };
       try {
         await mockServiceBusAtomManagementClient.createQueue("test", testCase.input as any);
-        assert.equal(true, false, "Error must be thrown");
+        assert.fail("Error must be thrown");
       } catch (err) {
         assert.equal(
           err.message,
           testCase.output.testErrorMessage,
-          `Expected error message to be "${testCase.output.testErrorMessage}", but received "${err.message}"`
+          `Unexpected error message found.`
         );
 
         assert.equal(
@@ -624,5 +608,370 @@ class MockSerializer implements AtomXmlSerializer {
         );
       }
     });
+  });
+});
+
+[
+  {
+    testCaseTitle: `Receives error code "UnauthorizedRequestError" when response status is "401"`,
+    input: {
+      responseStatus: 401,
+      body: ""
+    },
+    output: {
+      errorCode: "UnauthorizedRequestError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "MessageEntityNotFoundError" when response status is "404"`,
+    input: {
+      responseStatus: 404,
+      body: ""
+    },
+    output: {
+      errorCode: "MessageEntityNotFoundError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "ServiceError" when response status is "409" and method is "DELETE`,
+    input: {
+      responseStatus: 409,
+      body: "",
+      requestMethod: "DELETE"
+    },
+    output: {
+      errorCode: "ServiceError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "ServiceError" when response status is "409" and method is "PUT" with "If-Match" headers set`,
+    input: {
+      responseStatus: 409,
+      body: "",
+      requestMethod: "PUT",
+      requestHeaders: { "If-Match": "*" }
+    },
+    output: {
+      errorCode: "ServiceError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "ServiceError" when response status is "409" and error message has subcode 40901 in it`,
+    input: {
+      responseStatus: 409,
+      body: { Error: { Detail: " ... SubCode=40901  ..." } }
+    },
+    output: {
+      errorCode: "ServiceError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "MessageEntityAlreadyExistsError" when response status is "409" and no other special conditions are required`,
+    input: {
+      responseStatus: 409,
+      body: "",
+      requestMethod: "GET"
+    },
+    output: {
+      errorCode: "MessageEntityAlreadyExistsError"
+    }
+  },
+  {
+    input: {
+      testCaseTitle: `Receives error code "InvalidOperationError" when response status is "403" and error message has subcode 40301 in it`,
+      responseStatus: 403,
+      body: { Error: { Detail: " ... SubCode=40301  ..." } }
+    },
+    output: {
+      errorCode: "InvalidOperationError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "InvalidOperationError" when response status is "403" and error message does NOT have subcode 40301 in it`,
+    input: {
+      responseStatus: 403,
+      body: ""
+    },
+    output: {
+      errorCode: "QuotaExceededError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "ServiceError" when response status is "400"`,
+    input: {
+      responseStatus: 400,
+      body: ""
+    },
+    output: {
+      errorCode: "ServiceError"
+    }
+  },
+  {
+    testCaseTitle: `Receives error code "ServerBusyError" when response status is "503"`,
+    input: {
+      responseStatus: 503,
+      body: ""
+    },
+    output: {
+      errorCode: "ServerBusyError"
+    }
+  },
+  {
+    testCaseTitle: `Receives useful error message when service returned information doesn't have the 'Detail' property defined`,
+    input: {
+      responseStatus: 400,
+      body: { Error: { NoDetails: "no Detail property available" } }
+    },
+    output: {
+      errorCode: "ServiceError",
+      errorMessage:
+        "Detailed error message information not available. Look at the 'code' property on error for more information."
+    }
+  }
+].forEach((testCase) => {
+  describe(`Verify error codes and messages get constructed correctly for different scenarios #RunInBrowser`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      mockServiceBusAtomManagementClient.sendRequest = async () => {
+        const response = {
+          request: new WebResource("", testCase.input.requestMethod as "DELETE" | "GET" | "PUT"),
+          status: testCase.input.responseStatus,
+          headers: new HttpHeaders(),
+          parsedBody: testCase.input.body
+        };
+
+        if (testCase.input.requestHeaders) {
+          Object.keys(testCase.input.requestHeaders).forEach((key) => {
+            const value = (testCase.input.requestHeaders as any)[key];
+            response.request.headers.set(key, value);
+          });
+        }
+        return response;
+      };
+      try {
+        await mockServiceBusAtomManagementClient.createQueue("test", testCase.input as any);
+        assert.fail("Error must be thrown");
+      } catch (err) {
+        assert.equal(err.code, testCase.output.errorCode, `Unexpected error code found.`);
+
+        if (testCase.output.errorMessage) {
+          assert.equal(
+            err.message,
+            testCase.output.errorMessage,
+            `Unexpected error message found.`
+          );
+        }
+      }
+    });
+  });
+});
+
+[
+  {
+    responseStatus: 100,
+    errorCode: "Continue"
+  },
+  {
+    responseStatus: 101,
+    errorCode: "SwitchingProtocols"
+  },
+  {
+    responseStatus: 300,
+    errorCode: "MultipleChoices"
+  },
+  {
+    responseStatus: 301,
+    errorCode: "Moved"
+  },
+  {
+    responseStatus: 302,
+    errorCode: "Redirect"
+  },
+  {
+    responseStatus: 303,
+    errorCode: "RedirectMethod"
+  },
+  {
+    responseStatus: 304,
+    errorCode: "NotModified"
+  },
+  {
+    responseStatus: 305,
+    errorCode: "UseProxy"
+  },
+  {
+    responseStatus: 306,
+    errorCode: "Unused"
+  },
+  {
+    responseStatus: 402,
+    errorCode: "PaymentRequired"
+  },
+  {
+    responseStatus: 405,
+    errorCode: "MethodNotAllowed"
+  },
+  {
+    responseStatus: 406,
+    errorCode: "NotAcceptable"
+  },
+  {
+    responseStatus: 407,
+    errorCode: "ProxyAuthenticationRequired"
+  },
+  {
+    responseStatus: 410,
+    errorCode: "Gone"
+  },
+  {
+    responseStatus: 411,
+    errorCode: "LengthRequired"
+  },
+  {
+    responseStatus: 412,
+    errorCode: "PreconditionFailed"
+  },
+  {
+    responseStatus: 413,
+    errorCode: "RequestEntityTooLarge"
+  },
+  {
+    responseStatus: 414,
+    errorCode: "RequestUriTooLong"
+  },
+  {
+    responseStatus: 415,
+    errorCode: "UnsupportedMediaType"
+  },
+  {
+    responseStatus: 416,
+    errorCode: "RequestRangeNotSatisfiable"
+  },
+  {
+    responseStatus: 417,
+    errorCode: "ExpectationFailed"
+  },
+  {
+    responseStatus: 426,
+    errorCode: "UpgradeRequired"
+  },
+  {
+    responseStatus: 500,
+    errorCode: "InternalServerError"
+  },
+  {
+    responseStatus: 501,
+    errorCode: "NotImplemented"
+  },
+  {
+    responseStatus: 502,
+    errorCode: "BadGateway"
+  },
+  {
+    responseStatus: 504,
+    errorCode: "GatewayTimeout"
+  },
+  {
+    responseStatus: 505,
+    errorCode: "HttpVersionNotSupported"
+  }
+].forEach((testCase) => {
+  describe(`Verify error code mapping for non-specialized failed HTTP status codes #RunInBrowser`, function(): void {
+    it(`Verify mapping for response status code "${testCase.responseStatus}" to result in "${testCase.errorCode}" error code.`, async () => {
+      mockServiceBusAtomManagementClient.sendRequest = async () => {
+        return {
+          request: new WebResource(),
+          status: testCase.responseStatus,
+          headers: new HttpHeaders()
+        };
+      };
+
+      try {
+        await mockServiceBusAtomManagementClient.createQueue("test", testCase as any);
+        assert.fail("Error must be thrown");
+      } catch (err) {
+        assert.equal(err.code, testCase.errorCode, `Unexpected error code found.`);
+      }
+    });
+  });
+});
+
+describe(`Parse empty response for list() requests to return as empty array #RunInBrowser`, function(): void {
+  function assertEmptyArray(result: any) {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+    assert.equal(Array.isArray(result), true, "Result must be an array");
+    assert.equal(result.length, 0, "Result must be an empty array");
+  }
+
+  beforeEach(async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+  });
+
+  it(`List on empty list of queues gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+    const result = await mockServiceBusAtomManagementClient.listQueues();
+    assertEmptyArray(result);
+  });
+
+  it(`List on empty list of topics gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+    const result = await mockServiceBusAtomManagementClient.listTopics();
+    assertEmptyArray(result);
+  });
+
+  it(`List on empty list of subscriptions gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+    const result = await mockServiceBusAtomManagementClient.listSubscriptions("testTopic");
+    assertEmptyArray(result);
+  });
+
+  it(`List on empty list of rules gives an empty array`, async () => {
+    mockServiceBusAtomManagementClient.sendRequest = async () => {
+      return {
+        request: new WebResource(),
+        bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
+        status: 200,
+        headers: new HttpHeaders({})
+      };
+    };
+    const result = await mockServiceBusAtomManagementClient.listRules(
+      "testTopic",
+      "testSubscription"
+    );
+    assertEmptyArray(result);
   });
 });

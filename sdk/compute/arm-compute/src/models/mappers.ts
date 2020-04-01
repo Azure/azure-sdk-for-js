@@ -347,6 +347,24 @@ export const AvailabilitySetUpdate: msRest.CompositeMapper = {
   }
 };
 
+export const SubResourceWithColocationStatus: msRest.CompositeMapper = {
+  serializedName: "SubResourceWithColocationStatus",
+  type: {
+    name: "Composite",
+    className: "SubResourceWithColocationStatus",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      colocationStatus: {
+        serializedName: "colocationStatus",
+        type: {
+          name: "Composite",
+          className: "InstanceViewStatus"
+        }
+      }
+    }
+  }
+};
+
 export const ProximityPlacementGroup: msRest.CompositeMapper = {
   serializedName: "ProximityPlacementGroup",
   type: {
@@ -368,7 +386,7 @@ export const ProximityPlacementGroup: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SubResource"
+              className: "SubResourceWithColocationStatus"
             }
           }
         }
@@ -381,7 +399,7 @@ export const ProximityPlacementGroup: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SubResource"
+              className: "SubResourceWithColocationStatus"
             }
           }
         }
@@ -394,9 +412,16 @@ export const ProximityPlacementGroup: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SubResource"
+              className: "SubResourceWithColocationStatus"
             }
           }
+        }
+      },
+      colocationStatus: {
+        serializedName: "properties.colocationStatus",
+        type: {
+          name: "Composite",
+          className: "InstanceViewStatus"
         }
       }
     }
@@ -1461,6 +1486,13 @@ export const ImageReference: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      exactVersion: {
+        readOnly: true,
+        serializedName: "exactVersion",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2201,12 +2233,6 @@ export const AutomaticRepairsPolicy: msRest.CompositeMapper = {
         serializedName: "gracePeriod",
         type: {
           name: "String"
-        }
-      },
-      maxInstanceRepairsPercent: {
-        serializedName: "maxInstanceRepairsPercent",
-        type: {
-          name: "Number"
         }
       }
     }
@@ -4377,6 +4403,13 @@ export const VirtualMachineScaleSetExtension: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
       forceUpdateTag: {
         serializedName: "properties.forceUpdateTag",
         type: {
@@ -4389,7 +4422,92 @@ export const VirtualMachineScaleSetExtension: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      type1: {
+        serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
+      typeHandlerVersion: {
+        serializedName: "properties.typeHandlerVersion",
+        type: {
+          name: "String"
+        }
+      },
+      autoUpgradeMinorVersion: {
+        serializedName: "properties.autoUpgradeMinorVersion",
+        type: {
+          name: "Boolean"
+        }
+      },
+      settings: {
+        serializedName: "properties.settings",
+        type: {
+          name: "Object"
+        }
+      },
+      protectedSettings: {
+        serializedName: "properties.protectedSettings",
+        type: {
+          name: "Object"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      provisionAfterExtensions: {
+        serializedName: "properties.provisionAfterExtensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineScaleSetExtensionUpdate: msRest.CompositeMapper = {
+  serializedName: "VirtualMachineScaleSetExtensionUpdate",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetExtensionUpdate",
+    modelProperties: {
+      ...SubResourceReadOnly.type.modelProperties,
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
       type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      forceUpdateTag: {
+        serializedName: "properties.forceUpdateTag",
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "properties.publisher",
+        type: {
+          name: "String"
+        }
+      },
+      type1: {
         serializedName: "properties.type",
         type: {
           name: "String"
@@ -4878,6 +4996,13 @@ export const VirtualMachineScaleSetUpdate: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ScaleInPolicy"
+        }
+      },
+      proximityPlacementGroup: {
+        serializedName: "properties.proximityPlacementGroup",
+        type: {
+          name: "Composite",
+          className: "SubResource"
         }
       },
       identity: {
@@ -6677,6 +6802,13 @@ export const CreationData: msRest.CompositeMapper = {
           className: "ImageDiskReference"
         }
       },
+      galleryImageReference: {
+        serializedName: "galleryImageReference",
+        type: {
+          name: "Composite",
+          className: "ImageDiskReference"
+        }
+      },
       sourceUri: {
         serializedName: "sourceUri",
         type: {
@@ -6844,8 +6976,24 @@ export const Encryption: msRest.CompositeMapper = {
         }
       },
       type: {
-        required: true,
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ShareInfoElement: msRest.CompositeMapper = {
+  serializedName: "ShareInfoElement",
+  type: {
+    name: "Composite",
+    className: "ShareInfoElement",
+    modelProperties: {
+      vmUri: {
+        readOnly: true,
+        serializedName: "vmUri",
         type: {
           name: "String"
         }
@@ -6866,6 +7014,18 @@ export const Disk: msRest.CompositeMapper = {
         serializedName: "managedBy",
         type: {
           name: "String"
+        }
+      },
+      managedByExtended: {
+        readOnly: true,
+        serializedName: "managedByExtended",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       sku: {
@@ -6963,6 +7123,18 @@ export const Disk: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      diskIOPSReadOnly: {
+        serializedName: "properties.diskIOPSReadOnly",
+        type: {
+          name: "Number"
+        }
+      },
+      diskMBpsReadOnly: {
+        serializedName: "properties.diskMBpsReadOnly",
+        type: {
+          name: "Number"
+        }
+      },
       diskState: {
         readOnly: true,
         serializedName: "properties.diskState",
@@ -6975,6 +7147,25 @@ export const Disk: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Encryption"
+        }
+      },
+      maxShares: {
+        serializedName: "properties.maxShares",
+        type: {
+          name: "Number"
+        }
+      },
+      shareInfo: {
+        readOnly: true,
+        serializedName: "properties.shareInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ShareInfoElement"
+            }
+          }
         }
       }
     }
@@ -7020,6 +7211,31 @@ export const DiskUpdate: msRest.CompositeMapper = {
         serializedName: "properties.diskMBpsReadWrite",
         type: {
           name: "Number"
+        }
+      },
+      diskIOPSReadOnly: {
+        serializedName: "properties.diskIOPSReadOnly",
+        type: {
+          name: "Number"
+        }
+      },
+      diskMBpsReadOnly: {
+        serializedName: "properties.diskMBpsReadOnly",
+        type: {
+          name: "Number"
+        }
+      },
+      maxShares: {
+        serializedName: "properties.maxShares",
+        type: {
+          name: "Number"
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "Encryption"
         }
       },
       tags: {
@@ -7240,6 +7456,13 @@ export const SnapshotUpdate: msRest.CompositeMapper = {
           className: "EncryptionSettingsCollection"
         }
       },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "Encryption"
+        }
+      },
       tags: {
         serializedName: "tags",
         type: {
@@ -7413,6 +7636,79 @@ export const Gallery: msRest.CompositeMapper = {
   }
 };
 
+export const UpdateResourceDefinition: msRest.CompositeMapper = {
+  serializedName: "UpdateResourceDefinition",
+  type: {
+    name: "Composite",
+    className: "UpdateResourceDefinition",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const GalleryUpdate: msRest.CompositeMapper = {
+  serializedName: "GalleryUpdate",
+  type: {
+    name: "Composite",
+    className: "GalleryUpdate",
+    modelProperties: {
+      ...UpdateResourceDefinition.type.modelProperties,
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      identifier: {
+        serializedName: "properties.identifier",
+        type: {
+          name: "Composite",
+          className: "GalleryIdentifier"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const GalleryApplication: msRest.CompositeMapper = {
   serializedName: "GalleryApplication",
   type: {
@@ -7420,6 +7716,58 @@ export const GalleryApplication: msRest.CompositeMapper = {
     className: "GalleryApplication",
     modelProperties: {
       ...Resource.type.modelProperties,
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      eula: {
+        serializedName: "properties.eula",
+        type: {
+          name: "String"
+        }
+      },
+      privacyStatementUri: {
+        serializedName: "properties.privacyStatementUri",
+        type: {
+          name: "String"
+        }
+      },
+      releaseNoteUri: {
+        serializedName: "properties.releaseNoteUri",
+        type: {
+          name: "String"
+        }
+      },
+      endOfLifeDate: {
+        serializedName: "properties.endOfLifeDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      supportedOSType: {
+        required: true,
+        serializedName: "properties.supportedOSType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Windows",
+            "Linux"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const GalleryApplicationUpdate: msRest.CompositeMapper = {
+  serializedName: "GalleryApplicationUpdate",
+  type: {
+    name: "Composite",
+    className: "GalleryApplicationUpdate",
+    modelProperties: {
+      ...UpdateResourceDefinition.type.modelProperties,
       description: {
         serializedName: "properties.description",
         type: {
@@ -7675,6 +8023,40 @@ export const GalleryApplicationVersion: msRest.CompositeMapper = {
   }
 };
 
+export const GalleryApplicationVersionUpdate: msRest.CompositeMapper = {
+  serializedName: "GalleryApplicationVersionUpdate",
+  type: {
+    name: "Composite",
+    className: "GalleryApplicationVersionUpdate",
+    modelProperties: {
+      ...UpdateResourceDefinition.type.modelProperties,
+      publishingProfile: {
+        required: true,
+        serializedName: "properties.publishingProfile",
+        type: {
+          name: "Composite",
+          className: "GalleryApplicationVersionPublishingProfile"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      replicationStatus: {
+        readOnly: true,
+        serializedName: "properties.replicationStatus",
+        type: {
+          name: "Composite",
+          className: "ReplicationStatus"
+        }
+      }
+    }
+  }
+};
+
 export const GalleryImageIdentifier: msRest.CompositeMapper = {
   serializedName: "GalleryImageIdentifier",
   type: {
@@ -7808,6 +8190,111 @@ export const GalleryImage: msRest.CompositeMapper = {
     className: "GalleryImage",
     modelProperties: {
       ...Resource.type.modelProperties,
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      eula: {
+        serializedName: "properties.eula",
+        type: {
+          name: "String"
+        }
+      },
+      privacyStatementUri: {
+        serializedName: "properties.privacyStatementUri",
+        type: {
+          name: "String"
+        }
+      },
+      releaseNoteUri: {
+        serializedName: "properties.releaseNoteUri",
+        type: {
+          name: "String"
+        }
+      },
+      osType: {
+        required: true,
+        serializedName: "properties.osType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Windows",
+            "Linux"
+          ]
+        }
+      },
+      osState: {
+        required: true,
+        serializedName: "properties.osState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Generalized",
+            "Specialized"
+          ]
+        }
+      },
+      hyperVGeneration: {
+        serializedName: "properties.hyperVGeneration",
+        type: {
+          name: "String"
+        }
+      },
+      endOfLifeDate: {
+        serializedName: "properties.endOfLifeDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      identifier: {
+        required: true,
+        serializedName: "properties.identifier",
+        type: {
+          name: "Composite",
+          className: "GalleryImageIdentifier"
+        }
+      },
+      recommended: {
+        serializedName: "properties.recommended",
+        type: {
+          name: "Composite",
+          className: "RecommendedMachineConfiguration"
+        }
+      },
+      disallowed: {
+        serializedName: "properties.disallowed",
+        type: {
+          name: "Composite",
+          className: "Disallowed"
+        }
+      },
+      purchasePlan: {
+        serializedName: "properties.purchasePlan",
+        type: {
+          name: "Composite",
+          className: "ImagePurchasePlan"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GalleryImageUpdate: msRest.CompositeMapper = {
+  serializedName: "GalleryImageUpdate",
+  type: {
+    name: "Composite",
+    className: "GalleryImageUpdate",
+    modelProperties: {
+      ...UpdateResourceDefinition.type.modelProperties,
       description: {
         serializedName: "properties.description",
         type: {
@@ -8075,6 +8562,121 @@ export const GalleryImageVersion: msRest.CompositeMapper = {
   }
 };
 
+export const GalleryImageVersionUpdate: msRest.CompositeMapper = {
+  serializedName: "GalleryImageVersionUpdate",
+  type: {
+    name: "Composite",
+    className: "GalleryImageVersionUpdate",
+    modelProperties: {
+      ...UpdateResourceDefinition.type.modelProperties,
+      publishingProfile: {
+        serializedName: "properties.publishingProfile",
+        type: {
+          name: "Composite",
+          className: "GalleryImageVersionPublishingProfile"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      storageProfile: {
+        required: true,
+        serializedName: "properties.storageProfile",
+        type: {
+          name: "Composite",
+          className: "GalleryImageVersionStorageProfile"
+        }
+      },
+      replicationStatus: {
+        readOnly: true,
+        serializedName: "properties.replicationStatus",
+        type: {
+          name: "Composite",
+          className: "ReplicationStatus"
+        }
+      }
+    }
+  }
+};
+
+export const DiskImageEncryption: msRest.CompositeMapper = {
+  serializedName: "DiskImageEncryption",
+  type: {
+    name: "Composite",
+    className: "DiskImageEncryption",
+    modelProperties: {
+      diskEncryptionSetId: {
+        serializedName: "diskEncryptionSetId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OSDiskImageEncryption: msRest.CompositeMapper = {
+  serializedName: "OSDiskImageEncryption",
+  type: {
+    name: "Composite",
+    className: "OSDiskImageEncryption",
+    modelProperties: {
+      ...DiskImageEncryption.type.modelProperties
+    }
+  }
+};
+
+export const DataDiskImageEncryption: msRest.CompositeMapper = {
+  serializedName: "DataDiskImageEncryption",
+  type: {
+    name: "Composite",
+    className: "DataDiskImageEncryption",
+    modelProperties: {
+      ...DiskImageEncryption.type.modelProperties,
+      lun: {
+        required: true,
+        serializedName: "lun",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionImages: msRest.CompositeMapper = {
+  serializedName: "EncryptionImages",
+  type: {
+    name: "Composite",
+    className: "EncryptionImages",
+    modelProperties: {
+      osDiskImage: {
+        serializedName: "osDiskImage",
+        type: {
+          name: "Composite",
+          className: "OSDiskImageEncryption"
+        }
+      },
+      dataDiskImages: {
+        serializedName: "dataDiskImages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataDiskImageEncryption"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const TargetRegion: msRest.CompositeMapper = {
   serializedName: "TargetRegion",
   type: {
@@ -8098,6 +8700,13 @@ export const TargetRegion: msRest.CompositeMapper = {
         serializedName: "storageAccountType",
         type: {
           name: "String"
+        }
+      },
+      encryption: {
+        serializedName: "encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionImages"
         }
       }
     }

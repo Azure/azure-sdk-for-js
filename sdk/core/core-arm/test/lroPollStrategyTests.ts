@@ -3,8 +3,8 @@
 
 import assert from "assert";
 import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-http";
-import { AzureServiceClient } from "../lib/azureServiceClient";
-import { getDelayInSeconds, isFinished } from "../lib/lroPollStrategy";
+import { AzureServiceClient } from "../src/azureServiceClient";
+import { getDelayInSeconds, isFinished } from "../src/lroPollStrategy";
 import { TestTokenCredential } from "./testTokenCredential";
 
 describe("LROPollStrategy", function () {

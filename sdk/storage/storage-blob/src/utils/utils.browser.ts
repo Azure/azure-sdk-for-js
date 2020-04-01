@@ -36,3 +36,11 @@ export async function blobToString(blob: Blob): Promise<string> {
     fileReader.readAsText(blob);
   });
 }
+
+export function streamToBuffer() {}
+
+export function streamToBuffer2() {}
+
+export function readStreamToLocalFile() {}
+
+export const fsStat = function stat() {};

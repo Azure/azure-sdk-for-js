@@ -14,7 +14,7 @@ dotenv.config({ path: "../.env" });
 // Expected environment variable to run this test-suite
 // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true
 describe("Emulator Tests", () => {
-  const blobServiceClient = getBSU();
+  let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let blobName: string;
   let containerClient: ContainerClient;
@@ -26,6 +26,7 @@ describe("Emulator Tests", () => {
     if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
       this.skip();
     }
+    blobServiceClient = getBSU();
     containerName = getUniqueName("container");
     blobName = getUniqueName("blob");
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -36,7 +37,9 @@ describe("Emulator Tests", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+    }
   });
 
   it("BlobClient can be created with a connection string", async () => {

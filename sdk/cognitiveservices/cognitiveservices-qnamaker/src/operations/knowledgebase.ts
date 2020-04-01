@@ -374,7 +374,8 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.KnowledgebaseUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.KnowledgebaseUpdateHeaders
     }
   },
   serializer

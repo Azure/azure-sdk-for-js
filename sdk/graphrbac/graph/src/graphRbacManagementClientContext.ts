@@ -47,7 +47,14 @@ export class GraphRbacManagementClientContext extends msRestAzure.AzureServiceCl
     this.apiVersion = '1.6';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
-    this.baseUri = options.baseUri || this.baseUri || "https://graph.windows.net";
+
+    // This is a manual patch to mitigate a bug in autorest.typescript
+    // https://github.com/Azure/autorest.typescript/issues/545
+    //
+    // If you are regenerating this package, and you have seen a diff that removes
+    // this comment or changes the following line. Please check to see if the bug
+    // above has been fixed. If not, please keep this change.
+    this.baseUri = options.baseUri || "https://graph.windows.net";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.tenantID = tenantID;

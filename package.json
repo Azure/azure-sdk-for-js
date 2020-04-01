@@ -54,14 +54,15 @@
     "plugin-error": "^1.0.1",
     "prettier": "^1.16.4",
     "ts-node": "^7.0.1",
+    "tslib": "^1.10.0",
     "typescript": "^3.2.2",
-    "webpack": "^4.26.1",
     "yargs": "^11.0.0"
   },
   "engines": {
     "node": ">=10.10.0"
   },
   "dependencies": {
-    "generate-static-index": "file:eng/tools/generate-static-index"
+    "generate-static-index": "file:eng/tools/generate-static-index",
+    "versioning": "file:eng/tools/versioning"
   }
 }

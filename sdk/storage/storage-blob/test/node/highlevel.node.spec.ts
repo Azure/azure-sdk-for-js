@@ -4,16 +4,14 @@ import * as path from "path";
 import { PassThrough } from "stream";
 
 import { AbortController } from "@azure/abort-controller";
-import { createRandomLocalFile, getBSU, setupEnvironment } from "../utils";
+import { createRandomLocalFile, getBSU, recorderEnvSetup } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient } from "../../src";
-import { readStreamToLocalFile } from "../../src/utils/utils.node";
+import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -24,11 +22,14 @@ describe("Highlevel", () => {
   let tempFileLarge: string;
   let tempFileLargeLength: number;
   const tempFolderPath = "temp";
+  const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
   let recorder: Recorder;
 
+  let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -38,12 +39,14 @@ describe("Highlevel", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      recorder.stop();
+    }
   });
 
   before(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
@@ -55,7 +58,7 @@ describe("Highlevel", () => {
   });
 
   after(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
     recorder.stop();
@@ -70,14 +73,14 @@ describe("Highlevel", () => {
 
     const downloadResponse = await blockBlobClient.download(0);
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileLarge);
 
     fs.unlinkSync(downloadedFile);
     assert.ok(downloadedData.equals(uploadedData));
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -88,7 +91,7 @@ describe("Highlevel", () => {
 
     const downloadResponse = await blockBlobClient.download(0);
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -105,7 +108,7 @@ describe("Highlevel", () => {
 
     const downloadResponse = await blockBlobClient.download(0);
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -198,14 +201,14 @@ describe("Highlevel", () => {
     const downloadResponse = await blockBlobClient.download(0);
 
     const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
     assert.ok(uploadedBuffer.equals(downloadedBuffer));
 
     fs.unlinkSync(downloadFilePath);
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("uploadStream should success for tiny buffers", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -218,7 +221,7 @@ describe("Highlevel", () => {
     const downloadResponse = await blockBlobClient.download(0);
 
     const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadFilePath);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
     assert.ok(buf.equals(downloadedBuffer));
@@ -253,7 +256,7 @@ describe("Highlevel", () => {
       }
     });
     assert.ok(eventTriggered);
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("downloadToBuffer should success - without passing the buffer", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -268,7 +271,7 @@ describe("Highlevel", () => {
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("downloadToBuffer should throw error if the count(size provided in bytes) is too large", async () => {
     let error;
@@ -297,7 +300,7 @@ describe("Highlevel", () => {
 
     const localFileContent = fs.readFileSync(tempFileLarge);
     assert.ok(localFileContent.equals(buf));
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("downloadBlobToBuffer should success when downloading a range inside blob", async () => {
     await blockBlobClient.upload("aaaabbbb", 8);
@@ -349,7 +352,7 @@ describe("Highlevel", () => {
     } catch (err) {
       assert.equal(err.name, "AbortError");
     }
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("downloadToBuffer should update progress event", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -397,7 +400,7 @@ describe("Highlevel", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -430,7 +433,7 @@ describe("Highlevel", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -465,7 +468,7 @@ describe("Highlevel", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
-    await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
     const uploadedData = await fs.readFileSync(tempFileSmall);
@@ -500,7 +503,7 @@ describe("Highlevel", () => {
         }
       });
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
-      await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
     } catch (error) {
       expectedError = true;
     }
@@ -541,7 +544,7 @@ describe("Highlevel", () => {
         }
       });
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
-      await readStreamToLocalFile(downloadResponse.readableStreamBody!, downloadedFile);
+      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
     } catch (error) {
       expectedError = true;
     }
@@ -573,5 +576,18 @@ describe("Highlevel", () => {
     assert.ok(localFileContent.equals(downloadedFileContent));
 
     fs.unlinkSync(downloadedFilePath);
+  });
+
+  it("downloadToFile should fail when saving to directory", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const rs = fs.createReadStream(tempFileSmall);
+    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
+
+    try {
+      await blobClient.downloadToFile(__dirname);
+      throw new Error("Test failure.");
+    } catch (err) {
+      assert.notEqual(err.message, "Test failure.");
+    }
   });
 });

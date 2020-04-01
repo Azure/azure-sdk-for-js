@@ -424,7 +424,9 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.metadata,
     Parameters.access,
     Parameters.version,
-    Parameters.requestId
+    Parameters.requestId,
+    Parameters.defaultEncryptionScope,
+    Parameters.preventEncryptionScopeOverride
   ],
   responses: {
     201: {

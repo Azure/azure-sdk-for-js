@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import * as log from "../log";
-import { Constants, translate, MessagingError } from "@azure/amqp-common";
+import { Constants, translate, MessagingError } from "@azure/core-amqp";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
-import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, ReceiveMode } from "../serviceBusMessage";
 import {
   MessageReceiver,
   ReceiveOptions,
@@ -36,6 +36,8 @@ export class BatchingReceiver extends MessageReceiver {
    */
   private detachedError: AmqpError | Error | undefined = undefined;
 
+  private _finalActionHandler: (() => void) | undefined = undefined;
+
   /**
    * Instantiate a new BatchingReceiver.
    *
@@ -57,6 +59,9 @@ export class BatchingReceiver extends MessageReceiver {
     // Clears the token renewal timer. Closes the link and its session if they are open.
     await this._closeLink(this._receiver);
     this.detachedError = receiverError;
+    if (this.isReceivingMessages && typeof this._finalActionHandler === "function") {
+      this._finalActionHandler();
+    }
   }
 
   /**
@@ -66,19 +71,22 @@ export class BatchingReceiver extends MessageReceiver {
    * @param maxWaitTimeInSeconds The total wait time in seconds until which the receiver will attempt to receive specified number of messages.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * - **Default**: `60` seconds.
-   * @returns {Promise<ServiceBusMessage[]>} A promise that resolves with an array of Message objects.
+   * @returns {Promise<ServiceBusMessageImpl[]>} A promise that resolves with an array of Message objects.
    */
-  receive(maxMessageCount: number, maxWaitTimeInSeconds?: number): Promise<ServiceBusMessage[]> {
+  receive(
+    maxMessageCount: number,
+    maxWaitTimeInSeconds?: number
+  ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
     if (maxWaitTimeInSeconds == null) {
-      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInSeconds;
+      maxWaitTimeInSeconds = Constants.defaultOperationTimeoutInMs / 1000;
     }
 
-    const brokeredMessages: ServiceBusMessage[] = [];
+    const brokeredMessages: ServiceBusMessageImpl[] = [];
 
     this.isReceivingMessages = true;
-    return new Promise<ServiceBusMessage[]>((resolve, reject) => {
+    return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
       let totalWaitTimer: NodeJS.Timer | undefined;
 
       const onSessionError: OnAmqpEvent = (context: EventContext) => {
@@ -90,7 +98,7 @@ export class BatchingReceiver extends MessageReceiver {
         receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
 
         const sessionError = context.session && context.session.error;
-        let error = new MessagingError("An error occurred while receiving messages.");
+        let error: Error | MessagingError;
         if (sessionError) {
           error = translate(sessionError);
           log.error(
@@ -99,6 +107,8 @@ export class BatchingReceiver extends MessageReceiver {
             this.name,
             error
           );
+        } else {
+          error = new MessagingError("An error occurred while receiving messages.");
         }
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);
@@ -110,7 +120,9 @@ export class BatchingReceiver extends MessageReceiver {
       };
 
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = (): void => {
+      const finalAction = (this._finalActionHandler = (): void => {
+        // clear finalActionHandler so that it can't be called multiple times.
+        this._finalActionHandler = undefined;
         if (this._newMessageReceivedTimer) {
           clearTimeout(this._newMessageReceivedTimer);
         }
@@ -125,7 +137,14 @@ export class BatchingReceiver extends MessageReceiver {
           this._receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
         }
 
-        if (this.detachedError) {
+        // When receiveMode is in receiveAndDelete mode, we should return those messages to the user
+        // because they have already been removed from service bus and are safe to handle.
+        // If there haven't been any received messages, then it's safe to reject the promise
+        // so that the user knows there was an underlying issue that prevented receiving messages.
+        if (
+          this.detachedError &&
+          (this.receiveMode !== ReceiveMode.receiveAndDelete || brokeredMessages.length === 0)
+        ) {
           if (this._receiver) {
             this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
           }
@@ -134,7 +153,8 @@ export class BatchingReceiver extends MessageReceiver {
           return reject(err);
         }
 
-        if (this._receiver && this._receiver.credit > 0) {
+        // If the receiver has been detached, there is no need to drain.
+        if (this._receiver && this._receiver.credit > 0 && !this.detachedError) {
           log.batching(
             "[%s] Receiver '%s': Draining leftover credits(%d).",
             this._context.namespace.connectionId,
@@ -159,13 +179,13 @@ export class BatchingReceiver extends MessageReceiver {
           );
           resolve(brokeredMessages);
         }
-      };
+      });
 
       // Action to be performed on the "message" event.
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
         this.resetTimerOnNewMessageReceived();
         try {
-          const data: ServiceBusMessage = new ServiceBusMessage(
+          const data: ServiceBusMessageImpl = new ServiceBusMessageImpl(
             this._context,
             context.message!,
             context.delivery!,
@@ -261,7 +281,7 @@ export class BatchingReceiver extends MessageReceiver {
         receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
 
         const receiverError = context.receiver && context.receiver.error;
-        let error = new MessagingError("An error occurred while receiving messages.");
+        let error: Error | MessagingError;
         if (receiverError) {
           error = translate(receiverError);
           log.error(
@@ -270,6 +290,8 @@ export class BatchingReceiver extends MessageReceiver {
             this.name,
             error
           );
+        } else {
+          error = new MessagingError("An error occurred while receiving messages.");
         }
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);
@@ -386,6 +408,8 @@ export class BatchingReceiver extends MessageReceiver {
       };
 
       if (!this.isOpen()) {
+        // clear detachedError since we are reconnecting.
+        this.detachedError = undefined;
         log.batching(
           "[%s] Receiver '%s', setting max concurrent calls to 0.",
           this._context.namespace.connectionId,

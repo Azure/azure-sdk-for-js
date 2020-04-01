@@ -41,90 +41,6 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
-export const CognitiveServicesAccountCreateParameters: msRest.CompositeMapper = {
-  serializedName: "CognitiveServicesAccountCreateParameters",
-  type: {
-    name: "Composite",
-    className: "CognitiveServicesAccountCreateParameters",
-    modelProperties: {
-      sku: {
-        required: true,
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
-      },
-      kind: {
-        required: true,
-        serializedName: "kind",
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        required: true,
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      properties: {
-        required: true,
-        serializedName: "properties",
-        type: {
-          name: "Object"
-        }
-      }
-    }
-  }
-};
-
-export const CognitiveServicesAccountUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "CognitiveServicesAccountUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "CognitiveServicesAccountUpdateParameters",
-    modelProperties: {
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Object"
-        }
-      }
-    }
-  }
-};
-
 export const IpRule: msRest.CompositeMapper = {
   serializedName: "IpRule",
   type: {
@@ -177,12 +93,6 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
     name: "Composite",
     className: "NetworkRuleSet",
     modelProperties: {
-      bypass: {
-        serializedName: "bypass",
-        type: {
-          name: "String"
-        }
-      },
       defaultAction: {
         serializedName: "defaultAction",
         type: {
@@ -217,6 +127,255 @@ export const NetworkRuleSet: msRest.CompositeMapper = {
   }
 };
 
+export const KeyVaultProperties: msRest.CompositeMapper = {
+  serializedName: "KeyVaultProperties",
+  type: {
+    name: "Composite",
+    className: "KeyVaultProperties",
+    modelProperties: {
+      keyName: {
+        serializedName: "keyName",
+        type: {
+          name: "String"
+        }
+      },
+      keyVersion: {
+        serializedName: "keyVersion",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultUri: {
+        serializedName: "keyVaultUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Encryption: msRest.CompositeMapper = {
+  serializedName: "Encryption",
+  type: {
+    name: "Composite",
+    className: "Encryption",
+    modelProperties: {
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Composite",
+          className: "KeyVaultProperties"
+        }
+      },
+      keySource: {
+        serializedName: "keySource",
+        defaultValue: 'Microsoft.KeyVault',
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UserOwnedStorage: msRest.CompositeMapper = {
+  serializedName: "UserOwnedStorage",
+  type: {
+    name: "Composite",
+    className: "UserOwnedStorage",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CognitiveServicesAccountApiProperties: msRest.CompositeMapper = {
+  serializedName: "CognitiveServicesAccountApiProperties",
+  type: {
+    name: "Composite",
+    className: "CognitiveServicesAccountApiProperties",
+    modelProperties: {
+      qnaRuntimeEndpoint: {
+        serializedName: "qnaRuntimeEndpoint",
+        type: {
+          name: "String"
+        }
+      },
+      statisticsEnabled: {
+        serializedName: "statisticsEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      eventHubConnectionString: {
+        serializedName: "eventHubConnectionString",
+        constraints: {
+          MaxLength: 1000,
+          Pattern: /^( *)Endpoint=sb:\/\/(.*);( *)SharedAccessKeyName=(.*);( *)SharedAccessKey=(.*)$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      storageAccountConnectionString: {
+        serializedName: "storageAccountConnectionString",
+        constraints: {
+          MaxLength: 1000,
+          Pattern: /^(( *)DefaultEndpointsProtocol=(http|https)( *);( *))?AccountName=(.*)AccountKey=(.*)EndpointSuffix=(.*)$/
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CognitiveServicesAccountProperties: msRest.CompositeMapper = {
+  serializedName: "CognitiveServicesAccountProperties",
+  type: {
+    name: "Composite",
+    className: "CognitiveServicesAccountProperties",
+    modelProperties: {
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      endpoint: {
+        readOnly: true,
+        serializedName: "endpoint",
+        type: {
+          name: "String"
+        }
+      },
+      internalId: {
+        readOnly: true,
+        serializedName: "internalId",
+        type: {
+          name: "String"
+        }
+      },
+      customSubDomainName: {
+        serializedName: "customSubDomainName",
+        type: {
+          name: "String"
+        }
+      },
+      networkAcls: {
+        serializedName: "networkAcls",
+        type: {
+          name: "Composite",
+          className: "NetworkRuleSet"
+        }
+      },
+      encryption: {
+        serializedName: "encryption",
+        type: {
+          name: "Composite",
+          className: "Encryption"
+        }
+      },
+      userOwnedStorage: {
+        serializedName: "userOwnedStorage",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserOwnedStorage"
+            }
+          }
+        }
+      },
+      apiProperties: {
+        serializedName: "apiProperties",
+        type: {
+          name: "Composite",
+          className: "CognitiveServicesAccountApiProperties"
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: msRest.CompositeMapper = {
+  serializedName: "UserAssignedIdentity",
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Identity: msRest.CompositeMapper = {
+  serializedName: "Identity",
+  type: {
+    name: "Composite",
+    className: "Identity",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "SystemAssigned",
+            "UserAssigned"
+          ]
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "UserAssignedIdentity"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const CognitiveServicesAccount: msRest.CompositeMapper = {
   serializedName: "CognitiveServicesAccount",
   type: {
@@ -224,6 +383,7 @@ export const CognitiveServicesAccount: msRest.CompositeMapper = {
     className: "CognitiveServicesAccount",
     modelProperties: {
       etag: {
+        readOnly: true,
         serializedName: "etag",
         type: {
           name: "String"
@@ -255,36 +415,11 @@ export const CognitiveServicesAccount: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      endpoint: {
-        serializedName: "properties.endpoint",
-        type: {
-          name: "String"
-        }
-      },
-      internalId: {
-        serializedName: "properties.internalId",
-        type: {
-          name: "String"
-        }
-      },
-      customSubDomainName: {
-        serializedName: "properties.customSubDomainName",
-        type: {
-          name: "String"
-        }
-      },
-      networkAcls: {
-        serializedName: "properties.networkAcls",
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "NetworkRuleSet"
+          className: "CognitiveServicesAccountProperties"
         }
       },
       sku: {
@@ -310,6 +445,13 @@ export const CognitiveServicesAccount: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity"
         }
       }
     }

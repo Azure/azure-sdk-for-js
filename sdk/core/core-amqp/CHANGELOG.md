@@ -1,5 +1,22 @@
 # Release History
 
+## 1.1.2 (Unreleased)
+
+
+## 1.1.1 (2020-03-31)
+
+- Removes direct dependency on `@azure/identity` as it is not used directly by this package.
+  [PR 7669](https://github.com/Azure/azure-sdk-for-js/pull/7669)
+
+## 1.1.0 (2020-02-28)
+
+- Exports `WebSocketOptions` interface to configure the channelling of the AMQP connection over Web Sockets. [PR 7368](https://github.com/Azure/azure-sdk-for-js/pull/7368)
+
+## 1.0.1 (2020-02-06)
+
+- Updated to use the latest version of the `rhea` package.
+  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
+
 ## 1.0.0 (2019-01-08)
 
 - This release marks the general availability of the `@azure/core-amqp` package.
@@ -13,8 +30,6 @@
     The name property henceforth will always be "MessagingError" on this error class.
 
 ## 1.0.0-preview.6 (2019-12-03)
-
-- Treat ETIMEOUT error from dns.resolve as network disconnected.
 
 - Treat ETIMEOUT error from dns.resolve as network disconnected.
 

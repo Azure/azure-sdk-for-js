@@ -45,7 +45,6 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { Metadata } from "./models";
-import { getCachedDefaultHttpClient } from "./utils/cache";
 
 /**
  * Options to configure {@link QueueClient.create} operation
@@ -175,16 +174,16 @@ export interface SignedIdentifier {
     /**
      * @member {Date} startsOn the date-time the policy is active.
      */
-    startsOn: Date;
+    startsOn?: Date;
     /**
      * @member {string} expiresOn the date-time the policy expires.
      */
-    expiresOn: Date;
+    expiresOn?: Date;
     /**
      * @member {string} permission the permissions for the acl policy
      * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
      */
-    permissions: string;
+    permissions?: string;
   };
 }
 
@@ -497,12 +496,7 @@ export class QueueClient extends StorageClient {
       | string,
     options?: StoragePipelineOptions
   ) {
-    // when options.httpClient is not specified, passing in a DefaultHttpClient instance to
-    // avoid each client creating its own http client.
-    const newOptions: StoragePipelineOptions = {
-      httpClient: getCachedDefaultHttpClient(),
-      ...options
-    };
+    options = options || {};
     let pipeline: Pipeline;
     let url: string;
     if (credentialOrPipelineOrQueueName instanceof Pipeline) {
@@ -516,7 +510,7 @@ export class QueueClient extends StorageClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      pipeline = newPipeline(credentialOrPipelineOrQueueName, newOptions);
+      pipeline = newPipeline(credentialOrPipelineOrQueueName, options);
     } else if (
       !credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName !== "string"
@@ -524,7 +518,7 @@ export class QueueClient extends StorageClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second paramter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
-      pipeline = newPipeline(new AnonymousCredential(), newOptions);
+      pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrQueueName &&
       typeof credentialOrPipelineOrQueueName === "string"
@@ -539,15 +533,15 @@ export class QueueClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, queueName);
-          newOptions.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
-          pipeline = newPipeline(sharedKeyCredential, newOptions);
+          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
         }
       } else if (extractedCreds.kind === "SASConnString") {
         const queueName = credentialOrPipelineOrQueueName;
         url = appendToURLPath(extractedCreds.url, queueName) + "?" + extractedCreds.accountSas;
-        pipeline = newPipeline(new AnonymousCredential(), newOptions);
+        pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
           "Connection string must be either an Account connection string or a SAS connection string"
@@ -750,12 +744,23 @@ export class QueueClient extends StorageClient {
       };
 
       for (const identifier of response) {
+        let accessPolicy: any = undefined;
+        if (identifier.accessPolicy) {
+          accessPolicy = {
+            permissions: identifier.accessPolicy.permissions
+          };
+
+          if (identifier.accessPolicy.expiresOn) {
+            accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+          }
+
+          if (identifier.accessPolicy.startsOn) {
+            accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+          }
+        }
+
         res.signedIdentifiers.push({
-          accessPolicy: {
-            expiresOn: new Date(identifier.accessPolicy.expiresOn),
-            permissions: identifier.accessPolicy.permissions,
-            startsOn: new Date(identifier.accessPolicy.startsOn)
-          },
+          accessPolicy,
           id: identifier.id
         });
       }
@@ -791,9 +796,13 @@ export class QueueClient extends StorageClient {
       for (const identifier of queueAcl || []) {
         acl.push({
           accessPolicy: {
-            expiresOn: truncatedISO8061Date(identifier.accessPolicy.expiresOn),
+            expiresOn: identifier.accessPolicy.expiresOn
+              ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
+              : undefined,
             permissions: identifier.accessPolicy.permissions,
-            startsOn: truncatedISO8061Date(identifier.accessPolicy.startsOn)
+            startsOn: identifier.accessPolicy.startsOn
+              ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
+              : undefined
           },
           id: identifier.id
         });

@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
-import { CertificateClient, CertificateOperation, DefaultCertificatePolicy, KeyVaultCertificateWithPolicy } from "../src";
+import {
+  CertificateClient,
+  CertificateOperation,
+  DefaultCertificatePolicy,
+  KeyVaultCertificateWithPolicy
+} from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 
@@ -13,11 +18,11 @@ describe("Certificates client - LRO - certificate operation", () => {
   let certificateSuffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
-  let recorder: any;
-  
+  let recorder: Recorder;
+
   beforeEach(async function() {
     const authentication = await authenticate(this);
-    certificateSuffix = authentication.certificateSuffix;
+    certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
@@ -30,7 +35,9 @@ describe("Certificates client - LRO - certificate operation", () => {
   // The tests follow
 
   it("can wait until a certificate is created by getting the poller from getCertificateOperation", async function() {
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
@@ -57,7 +64,9 @@ describe("Certificates client - LRO - certificate operation", () => {
   });
 
   it("can resume from a stopped poller", async function() {
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,

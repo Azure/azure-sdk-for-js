@@ -16,7 +16,10 @@ import * as Constants from "./constants";
 import * as log from "../log";
 import { Buffer } from "buffer";
 
+import { parseURL } from "./parseUrl";
+
 /**
+ * @internal
  * @ignore
  * Represents the internal ATOM XML serializer interface
  */
@@ -27,6 +30,7 @@ export interface AtomXmlSerializer {
 }
 
 /**
+ * @internal
  * @ignore
  * Utility to execute Atom XML operations as HTTP requests
  * @param webResource
@@ -74,6 +78,8 @@ export async function executeAtomXmlOperation(
 }
 
 /**
+ * @internal
+ * @ignore
  * Serializes input information to construct the Atom XML request
  * @param resourceName Name of the resource to be serialized like `QueueDescription`
  * @param resource The entity details
@@ -110,6 +116,8 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: any): 
 }
 
 /**
+ * @internal
+ * @ignore
  * Transforms response to contain the parsed data.
  * @param nameProperties The set of 'name' properties to be constructed on the
  * resultant object e.g., QueueName, TopicName, etc.
@@ -120,26 +128,9 @@ export async function deserializeAtomXmlResponse(
   nameProperties: string[],
   response: HttpOperationResponse
 ): Promise<HttpOperationResponse> {
-  let errorBody: any;
-
   // If received data is a non-valid HTTP response, the body is expected to contain error information
   if (response.status < 200 || response.status >= 300) {
-    errorBody = response.parsedBody;
-    if (errorBody == undefined) {
-      const HttpResponseCodes: any = Constants.HttpResponseCodes;
-      const statusCode = response.status;
-      throw new RestError(
-        "Service returned an error response.",
-        isKnownResponseCode(statusCode)
-          ? HttpResponseCodes[statusCode]
-          : `UnrecognizedHttpResponseStatus: ${statusCode}`,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
-      );
-    } else {
-      throw buildError(errorBody, response);
-    }
+    throw buildError(response);
   }
 
   parseAtomResult(response, nameProperties);
@@ -148,6 +139,7 @@ export async function deserializeAtomXmlResponse(
 }
 
 /**
+ * @internal
  * @ignore
  * Utility to deserialize the given JSON content in response body based on
  * if it's a single `entry` or `feed` and updates the `response.parsedBody` to hold the evaluated output.
@@ -196,6 +188,7 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
 }
 
 /**
+ * @internal
  * @ignore
  * Utility to help parse given `entry` result
  * @param entry
@@ -244,6 +237,7 @@ function parseEntryResult(entry: any): object | undefined {
 }
 
 /**
+ * @internal
  * @ignore
  * Utility to help parse given `feed` result
  * @param feed
@@ -275,6 +269,7 @@ function isKnownResponseCode(
 }
 
 /**
+ * @internal
  * @ignore
  * Extracts the applicable entity name(s) from the URL based on the known structure
  * and instantiates the corresponding name properties to the deserialized response
@@ -303,7 +298,7 @@ function setName(entry: any, nameProperties: any): any {
       rawUrl = "https://" + rawUrl.substring(5);
     }
 
-    const parsedUrl = new URL(rawUrl);
+    const parsedUrl = parseURL(rawUrl);
     const pathname: string = parsedUrl.pathname;
 
     const firstIndexOfDelimiter = pathname.indexOf("/");
@@ -334,29 +329,97 @@ function setName(entry: any, nameProperties: any): any {
 }
 
 /**
- *
- * Utility to help construct the normalized `RestError` object based on given `errorBody`
- * data and other data present in the received `response` object.
- *
- * @param errorBody
+ * @internal
+ * @ignore
+ * Utility to help construct the normalized `RestError` object based on given error
+ * information and other data present in the received `response` object.
  * @param response
  */
-export function buildError(errorBody: any, response: HttpOperationResponse): RestError {
-  const errorProperties = errorBody.Error || errorBody.error || errorBody;
-  let errorMessage;
+export function buildError(response: HttpOperationResponse): RestError {
+  if (!isKnownResponseCode(response.status)) {
+    throw new RestError(
+      `Service returned an error response with an unrecognized HTTP status code - ${response.status}`,
+      "ServiceError",
+      response.status,
+      stripRequest(response.request),
+      stripResponse(response)
+    );
+  }
 
+  const errorBody = response.parsedBody;
+  let errorMessage;
   if (typeof errorBody === "string") {
     errorMessage = errorBody;
   } else {
-    errorMessage = errorProperties.Detail || errorProperties.detail;
+    if (
+      errorBody == undefined ||
+      errorBody.Error == undefined ||
+      errorBody.Error.Detail == undefined
+    ) {
+      errorMessage =
+        "Detailed error message information not available. Look at the 'code' property on error for more information.";
+    } else {
+      errorMessage = errorBody.Error.Detail;
+    }
   }
+
+  const errorCode = getErrorCode(response, errorMessage);
 
   const error: RestError = new RestError(
     errorMessage,
-    errorProperties.Code || errorProperties.code,
+    errorCode,
     response.status,
     stripRequest(response.request),
     stripResponse(response)
   );
   return error;
+}
+
+/**
+ * @internal
+ * @ignore
+ * Helper utility to construct user friendly error codes based on based on given error
+ * information and other data present in the received `response` object.
+ * @param response
+ * @param errorMessage
+ */
+function getErrorCode(response: HttpOperationResponse, errorMessage: string): string {
+  if (response.status == 401) {
+    return "UnauthorizedRequestError";
+  }
+  if (response.status == 404) {
+    return "MessageEntityNotFoundError";
+  }
+  if (response.status == 409) {
+    if (response.request.method == "DELETE") {
+      return "ServiceError";
+    }
+
+    if (response.request.method == "PUT" && response.request.headers.get("If-Match") == "*") {
+      return "ServiceError";
+    }
+
+    if (errorMessage && errorMessage.toLowerCase().includes("subcode=40901")) {
+      return "ServiceError";
+    }
+
+    return "MessageEntityAlreadyExistsError";
+  }
+
+  if (response.status == 403) {
+    if (errorMessage && errorMessage.toLowerCase().includes("subcode=40301")) {
+      return "InvalidOperationError";
+    }
+    return "QuotaExceededError";
+  }
+
+  if (response.status == 400) {
+    return "ServiceError";
+  }
+
+  if (response.status == 503) {
+    return "ServerBusyError";
+  }
+
+  return (Constants.HttpResponseCodes as { [statusCode: number]: string })[response.status];
 }

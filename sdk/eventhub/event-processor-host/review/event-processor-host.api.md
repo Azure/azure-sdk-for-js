@@ -106,7 +106,7 @@ export { EventPosition }
 // @public
 export class EventProcessorHost {
     constructor(hostName: string, options?: EventProcessorHostOptions);
-    readonly consumerGroup: string;
+    get consumerGroup(): string;
     static createFromAadTokenCredentials(hostName: string, storageConnectionString: string, storageContainerName: string, namespace: string, eventHubPath: string, credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, options?: FromTokenProviderOptions): EventProcessorHost;
     static createFromAadTokenCredentialsWithCustomCheckpointAndLeaseManager(hostName: string, namespace: string, eventHubPath: string, credentials: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials | MSITokenCredentials, checkpointManager: CheckpointManager, leaseManager: LeaseManager, options?: FromTokenProviderOptions): EventProcessorHost;
     static createFromConnectionString(hostName: string, storageConnectionString: string, storageContainerName: string, eventHubConnectionString: string, options?: FromConnectionStringOptions): EventProcessorHost;
@@ -120,8 +120,8 @@ export class EventProcessorHost {
     getHubRuntimeInformation(): Promise<EventHubRuntimeInformation>;
     getPartitionIds(): Promise<string[]>;
     getPartitionInformation(partitionId: string | number): Promise<EventHubPartitionRuntimeInformation>;
-    readonly hostName: string;
-    readonly receivingFromPartitions: string[];
+    get hostName(): string;
+    get receivingFromPartitions(): string[];
     start(onMessage: OnReceivedMessage, onError: OnReceivedError): Promise<void>;
     stop(): Promise<void>;
 }
@@ -190,12 +190,12 @@ export class PartitionContext {
     constructor(context: HostContextWithCheckpointLeaseManager, partitionId: string, lease: CompleteLease);
     checkpoint(): Promise<void>;
     checkpointFromEventData(eventData: EventData): Promise<void>;
-    readonly consumerGroup: string;
-    readonly eventhubPath: string;
+    get consumerGroup(): string;
+    get eventhubPath(): string;
     // (undocumented)
     getInitialOffset(): Promise<EventPosition>;
     lease: CompleteLease;
-    readonly owner: string;
+    get owner(): string;
     readonly partitionId: string;
     setOffsetAndSequenceNumber(eventData: EventData): void;
 }

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { logger, logErrorStackTrace } from "../log";
-import { WebSocketImpl } from "rhea-promise";
 import {
   TokenCredential,
   EventHubConnectionConfig,
@@ -23,134 +22,14 @@ import { EventHubConsumer } from "../receiver";
 import { throwTypeErrorIfParameterMissing, throwErrorIfConnectionClosed } from "../util/error";
 import { getTracer } from "@azure/core-tracing";
 import { SpanContext, Span, SpanKind, CanonicalCode } from "@opentelemetry/types";
-import { getParentSpan, OperationOptions } from "../util/operationOptions";
-
-type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties";
-
-/**
- * @internal
- * @ignore
- */
-export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
-  const timeoutInMs =
-    retryOptions == undefined ||
-    typeof retryOptions.timeoutInMs !== "number" ||
-    !isFinite(retryOptions.timeoutInMs) ||
-    retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs
-      ? Constants.defaultOperationTimeoutInMs
-      : retryOptions.timeoutInMs;
-  return timeoutInMs;
-}
-
-/**
- * The set of options to configure the behavior of `getEventHubProperties`.
- * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
- * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
- */
-export interface GetEventHubPropertiesOptions extends OperationOptions {}
-
-/**
- * The set of options to configure the behavior of `getPartitionProperties`.
- * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
- * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
- */
-export interface GetPartitionPropertiesOptions extends OperationOptions {}
-
-/**
- * The set of options to configure the behavior of `getPartitionIds`.
- * - `abortSignal`  : An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
- * - `parentSpan` : The `Span` or `SpanContext` to use as the `parent` of the span created while calling this operation.
- */
-export interface GetPartitionIdsOptions extends OperationOptions {}
-
-/**
- * The set of options to configure the behavior of an `EventHubProducer`.
- * These can be specified when creating the producer via the `createProducer` method.
- * - `partitionId`  : The string identifier of the partition that the producer can be bound to.
- * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
- * A simple usage can be `{ "maxRetries": 4 }`.
- * @ignore
- * @internal
- */
-export interface EventHubProducerOptions {
-  /**
-   * @property
-   * The identifier of the partition that the producer will be bound to.
-   * If a value is provided, all events sent using the producer will reach the same partition.
-   * If no value is provided, the service will determine the partition to which the event will be sent.
-   */
-  partitionId?: string;
-  /**
-   * @property
-   * The retry options used to govern retry attempts when an issue is encountered while sending events.
-   * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
-   */
-  retryOptions?: RetryOptions;
-}
-
-/**
- * Options to configure the `sendBatch` method on the `EventHubProducerClient`.
- * - `abortSignal`  : A signal used to cancel the send operation.
- */
-export interface SendBatchOptions extends OperationOptions {}
-
-/**
- * The set of options to configure the `send` operation on the `EventHubProducer`.
- * - `partitionKey` : A value that is hashed to produce a partition assignment.
- * - `abortSignal`  : A signal used to cancel the send operation.
- *
- * Example usage:
- * ```js
- * {
- *     partitionKey: 'foo'
- * }
- * ```
- *
- * @internal
- * @ignore
- */
-export interface SendOptions extends SendBatchOptions {
-  /**
-   * @property
-   * A value that is hashed to produce a partition assignment.
-   * It guarantees that messages with the same partitionKey end up in the same partition.
-   * Specifying this will throw an error if the producer was created using a `paritionId`.
-   */
-  partitionKey?: string | null;
-}
-
-/**
- * Options to configure the `createBatch` method on the `EventHubProducerClient`.
- * - `partitionKey`  : A value that is hashed to produce a partition assignment.
- * - `maxSizeInBytes`: The upper limit for the size of batch.
- * - `abortSignal`   : A signal the request to cancel the send operation.
- *
- * Example usage:
- * ```js
- * {
- *     partitionKey: 'foo',
- *     maxSizeInBytes: 1024 * 1024 // 1 MB
- * }
- * ```
- */
-export interface CreateBatchOptions extends OperationOptions {
-  /**
-   * A value that is hashed to produce a partition assignment. It guarantees that messages
-   * with the same partitionKey end up in the same partition.
-   * If this value is set then partitionId can not be set.
-   */
-  partitionKey?: string;
-  /**
-   * The partition this batch will be sent to.
-   * If this value is set then partitionKey can not be set.
-   */
-  partitionId?: string;
-  /**
-   * @property
-   * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
-   */
-  maxSizeInBytes?: number;
-}
+import { getParentSpan } from "../util/operationOptions";
+import { OperationNames, EventHubProducerOptions } from "../models/private";
+import {
+  GetEventHubPropertiesOptions,
+  GetPartitionIdsOptions,
+  GetPartitionPropertiesOptions,
+  EventHubClientOptions
+} from "../models/public";
 
 /**
  * The set of options to configure the behavior of an `EventHubConsumer`.
@@ -200,70 +79,6 @@ export interface EventHubConsumerOptions {
    * against periodically making requests for partition properties using the Event Hub client.
    */
   trackLastEnqueuedEventProperties?: boolean;
-}
-
-/**
- * Describes the options that can be provided while creating the EventHubClient.
- * - `dataTransformer`: A set of `encode`/`decode` methods to be used to encode an event before sending to service
- * and to decode the event received from the service
- * - `userAgent`      : A string to append to the built in user agent string that is passed as a connection property
- * to the service.
- * - `websocket`      : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
- * over a WebSocket.
- * - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
- * over a WebSocket.
- * - `retryOptions`   : The retry options for all the operations on the client/producer/consumer.
- * A simple usage can be `{ "maxRetries": 4 }`.
- *
- * Example usage:
- * ```js
- * {
- *     retryOptions: {
- *         maxRetries: 4
- *     }
- * }
- * ```
- * @interface ClientOptions
- */
-export interface EventHubClientOptions {
-  /**
-   * @property
-   * Options to configure the retry policy for all the operations on the client.
-   * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
-   */
-  retryOptions?: RetryOptions;
-  /**
-   * @property
-   * Options to configure the channelling of the AMQP connection over Web Sockets.
-   */
-  webSocketOptions?: WebSocketOptions;
-  /**
-   * @property
-   * Value that is appended to the built in user agent string that is passed to the Event Hubs service.
-   */
-  userAgent?: string;
-}
-
-/**
- * Options to configure the channelling of the AMQP connection over Web Sockets.
- */
-export interface WebSocketOptions {
-  /**
-   * @property
-   * The WebSocket constructor used to create an AMQP connection over a WebSocket.
-   * This option should be provided in the below scenarios:
-   * - The TCP port 5671 which is that is used by the AMQP connection to Event Hubs is blocked in your environment.
-   * - Your application needs to be run behind a proxy server
-   * - Your application needs to run in the browser and you want to provide your own choice of Websocket implementation
-   *   instead of the built-in WebSocket in the browser.
-   */
-  webSocket?: WebSocketImpl;
-  /**
-   * @property
-   * Options to be passed to the WebSocket constructor when the underlying `rhea` library instantiates
-   * the WebSocket.
-   */
-  webSocketConstructorOptions?: any;
 }
 
 /**
@@ -408,6 +223,7 @@ export class EventHubClient {
       parent: parentSpan
     });
 
+    span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this.eventHubName);
     span.setAttribute("peer.address", this.endpoint);
 

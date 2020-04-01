@@ -1,0 +1,32 @@
+{
+  "name": "azure-ai-text-analytics-samples-js",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Cognitive Services Text Analytics client library samples for JavaScript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Cognitive Services",
+    "Text Analytics",
+    "Node.js",
+    "JavaScript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/ai-text-analytics": "latest",
+    "@azure/identity": "latest",
+    "dotenv": "^8.2.0"
+  }
+}

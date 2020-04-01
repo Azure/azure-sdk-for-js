@@ -4,34 +4,46 @@
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable" />
 
-export { ServiceBusClient, ServiceBusClientOptions } from "./serviceBusClient";
+export { ServiceBusClientOptions } from "./constructorHelpers";
 export {
-  TokenInfo,
   TokenType,
-  TokenProvider,
-  DataTransformer,
+  TokenCredential,
   delay,
-  MessagingError
-} from "@azure/amqp-common";
+  MessagingError,
+  RetryOptions,
+  WebSocketOptions
+} from "@azure/core-amqp";
 
-export { QueueClient } from "./queueClient";
-export { TopicClient } from "./topicClient";
-export { SubscriptionClient } from "./subscriptionClient";
-
-export { Sender } from "./sender";
-export { Receiver, SessionReceiver } from "./receiver";
-
-export { MessageHandlerOptions } from "./core/streamingReceiver";
-export { OnError, OnMessage } from "./core/messageReceiver";
 export { SessionReceiverOptions, SessionMessageHandlerOptions } from "./session/messageSession";
 
 export { CorrelationFilter, RuleDescription } from "./core/managementClient";
 
 export {
+  ReceivedMessage,
   ServiceBusMessage,
-  ReceivedMessageInfo,
-  SendableMessageInfo,
   DeadLetterOptions,
-  ReceiveMode
+  ReceivedMessageWithLock
 } from "./serviceBusMessage";
+export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
+
 export { Delivery, WebSocketImpl } from "rhea-promise";
+
+export {
+  GetMessageIteratorOptions,
+  GetSessionReceiverOptions,
+  MessageHandlerOptions,
+  MessageHandlers,
+  ReceiveBatchOptions,
+  SubscribeOptions,
+  WaitTimeOptions,
+  CreateBatchOptions,
+  GetReceiverOptions,
+  GetSenderOptions,
+  GetSubscriptionRuleManagerOptions
+} from "./models";
+
+export { Receiver } from "./receivers/receiver";
+export { SubscriptionRuleManager } from "./receivers/subscriptionRuleManager";
+export { SessionReceiver } from "./receivers/sessionReceiver";
+export { Sender } from "./sender";
+export { ServiceBusClient } from "./serviceBusClient";

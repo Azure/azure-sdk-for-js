@@ -9,12 +9,12 @@ describe("Emulator Tests", () => {
   const messageContent = "Hello World";
   let queueName: string;
   let queueClient: QueueClient;
-  let queueServiceClient = getQSU();
   const env = isBrowser() ? (window as any).__env__ : process.env;
   beforeEach(async function() {
     if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
       this.skip();
     }
+    let queueServiceClient = getQSU();
     queueName = getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();

@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 const { SecretClient } = require("@azure/keyvault-secrets");
@@ -20,7 +20,8 @@ async function main() {
   const client = new SecretClient(url, credential);
 
   // Create a secret
-  const secretName = "secretHelloWorldJS";
+  const uniqueString = new Date().getTime();
+  const secretName = `secret${uniqueString}`;
   const result = await client.setSecret(secretName, "MySecretValue");
   console.log("result: ", result);
 

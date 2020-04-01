@@ -596,5 +596,94 @@ describe("EventHubConsumerClient", () => {
       }
       logTester.assert();
     });
+
+    it("Stops receiving events if close is immediately called, single partition. #RunnableInBrowser", async function(): Promise<
+      void
+    > {
+      const partitionId = "0";
+      const client = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );
+
+      clients.push(client);
+
+      let initializeCalled = 0;
+      let closeCalled = 0;
+
+      const subscription = client.subscribe(partitionId, {
+        async processError() {},
+        async processEvents() {},
+        async processClose() {
+          closeCalled++;
+        },
+        async processInitialize() {
+          initializeCalled++;
+        }
+      });
+
+      await subscription.close();
+
+      await loopUntil({
+        maxTimes: 10,
+        name: "Wait for the subscription to stop running.",
+        timeBetweenRunsMs: 100,
+        async until() {
+          return !subscription.isRunning;
+        }
+      });
+
+      // If `processInitialize` is called, then `processClose` should be called as well.
+      // Otherwise, we shouldn't see either called.
+      initializeCalled.should.equal(
+        closeCalled,
+        "processClose was not called the same number of times as processInitialize."
+      );
+    });
+
+    it("Stops receiving events if close is immediately called, multiple partitions. #RunnableInBrowser", async function(): Promise<
+      void
+    > {
+      const client = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );
+
+      clients.push(client);
+
+      let initializeCalled = 0;
+      let closeCalled = 0;
+
+      const subscription = client.subscribe({
+        async processError() {},
+        async processEvents() {},
+        async processClose() {
+          closeCalled++;
+        },
+        async processInitialize() {
+          initializeCalled++;
+        }
+      });
+
+      await subscription.close();
+
+      await loopUntil({
+        maxTimes: 10,
+        name: "Wait for the subscription to stop running.",
+        timeBetweenRunsMs: 100,
+        async until() {
+          return !subscription.isRunning;
+        }
+      });
+
+      // If `processInitialize` is called, then `processClose` should be called as well.
+      // Otherwise, we shouldn't see either called.
+      initializeCalled.should.equal(
+        closeCalled,
+        "processClose was not called the same number of times as processInitialize."
+      );
+    });
   });
 });

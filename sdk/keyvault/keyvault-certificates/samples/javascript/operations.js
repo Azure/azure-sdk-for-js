@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 const { CertificateClient } = require("@azure/keyvault-certificates");
@@ -20,7 +20,9 @@ async function main() {
   const credential = new DefaultAzureCredential();
 
   const client = new CertificateClient(url, credential);
-  const certificateName = "MyCertificateOperationJS";
+
+  const uniqueString = new Date().getTime();
+  const certificateName = `cert${uniqueString}`;
 
   // Certificates' operations will be pending for some time right after they're created.
   const createPoller = await client.beginCreateCertificate(certificateName, {

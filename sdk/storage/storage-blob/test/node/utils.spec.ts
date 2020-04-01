@@ -1,13 +1,14 @@
 import * as assert from "assert";
+import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
+import * as fs from "fs";
+import * as path from "path";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { record, Recorder } from "@azure/test-utils-recorder";
-import { setupEnvironment } from "../utils";
+import { Readable, ReadableOptions, PassThrough } from "stream";
+import { readStreamToLocalFile, streamToBuffer2 } from "../../src/utils/utils.node";
 dotenv.config({ path: "../.env" });
 
 describe("Utility Helpers Node.js only", () => {
-  setupEnvironment();
-  let recorder: Recorder;
   const protocol = "https";
   const endpointSuffix = "core.windows.net";
   const accountName = "myaccount";
@@ -32,14 +33,6 @@ describe("Utility Helpers Node.js only", () => {
       "extractConnectionStringParts().accountName is different than expected."
     );
   }
-
-  beforeEach(function() {
-    recorder = record(this);
-  });
-
-  afterEach(function() {
-    recorder.stop();
-  });
 
   it("extractConnectionStringParts throws error when passed an invalid protocol in the connection string", async () => {
     try {
@@ -160,5 +153,230 @@ describe("Utility Helpers Node.js only", () => {
         AccountKey=${accountKey};
         EndpointSuffix=${endpointSuffix};`
     );
+  });
+
+  describe("readStreamToLocalFile", () => {
+    class TestReadableStream extends Readable {
+      private numBytesSent = 0;
+      constructor(
+        private sizeInBytes: number,
+        private errorInMiddle: boolean = false,
+        options?: ReadableOptions
+      ) {
+        super(options);
+      }
+
+      _read() {
+        // check if we're at least halfway through with this change, then throw.
+        if (this.errorInMiddle && this.numBytesSent / this.sizeInBytes >= 0.5) {
+          this.destroy(new Error("Expected error."));
+        } else if (this.numBytesSent === this.sizeInBytes) {
+          this.push(null);
+        } else {
+          this.numBytesSent++;
+          this.push(Buffer.from("1"));
+        }
+      }
+    }
+
+    const validFilePath = path.join(__dirname, "read_stream_to_local_file_test.txt");
+
+    afterEach("remove temporary file", () => {
+      if (fs.existsSync(validFilePath)) {
+        fs.unlinkSync(validFilePath);
+      }
+    });
+
+    it("writes a readable stream into a file", async () => {
+      const numBytes = 100;
+      const emittingErrorInMiddle = false;
+      const readStream = new TestReadableStream(numBytes, emittingErrorInMiddle);
+      await readStreamToLocalFile(readStream, validFilePath);
+
+      const file = fs.readFileSync(validFilePath);
+      assert.equal(
+        file.length,
+        numBytes,
+        "Local file from readStreamToLocalFile is not the expected length."
+      );
+    });
+
+    it("rejects when the readStream emits an error", async () => {
+      const numBytes = 100;
+      const shouldEmitError = true;
+      const readStream = new TestReadableStream(numBytes, shouldEmitError);
+
+      try {
+        await readStreamToLocalFile(readStream, validFilePath);
+        throw new Error("Test failure");
+      } catch (err) {
+        assert.equal(
+          err.message,
+          "Expected error.",
+          "readStreamToLocalFile should have rejected on readStream error"
+        );
+      }
+    });
+
+    it("rejects when the filepath is a directory", async () => {
+      const numBytes = 100;
+      const emittingErrorInMiddle = false;
+      const readStream = new TestReadableStream(numBytes, emittingErrorInMiddle);
+
+      try {
+        await readStreamToLocalFile(readStream, __dirname);
+        throw new Error("Test failure");
+      } catch (err) {
+        assert.notEqual(err.message, "Test failure");
+      }
+    });
+  });
+
+  describe("streamToBuffer2", () => {
+    class TestReadableStream extends Readable {
+      private readonly _buffer: Buffer;
+      private readonly _bytesPerRead: number;
+
+      private _numBytesSent = 0;
+
+      constructor(buffer: Buffer, bytesPerRead: number, opts?: ReadableOptions) {
+        super(opts);
+        this._buffer = buffer;
+        this._bytesPerRead = bytesPerRead;
+      }
+
+      _read() {
+        if (this._numBytesSent < this._buffer.length) {
+          const bytesToSend = Math.min(
+            this._bytesPerRead,
+            this._buffer.length - this._numBytesSent
+          );
+          this.push(this._buffer.slice(this._numBytesSent, this._numBytesSent + bytesToSend));
+          this._numBytesSent += bytesToSend;
+        } else {
+          this.push(null);
+        }
+      }
+    }
+
+    const len = 1024;
+    const tests = [
+      {
+        title:
+          "should success when streamType == test, buffer.length == stream.length, and bytesPerRead == stream.length",
+        streamType: "test",
+        streamLength: len,
+        bufferLength: len,
+        bytesPerRead: len,
+        expectedSuccess: true
+      },
+      {
+        title:
+          "should success when streamType == test, buffer.length > stream.length and bytesPerRead == stream.length",
+        streamType: "test",
+        streamLength: len,
+        bufferLength: len + 1,
+        bytesPerRead: len,
+        expectedSuccess: true
+      },
+      {
+        title:
+          "should reject when streamType == test, buffer.length < stream.length and bytesPerRead == stream.length",
+        streamType: "test",
+        streamLength: len,
+        bufferLength: len - 1,
+        bytesPerRead: len,
+        expectedSuccess: false
+      },
+      {
+        title:
+          "should success when streamType == test, buffer.length == stream.length and bytesPerRead < stream.length",
+        streamType: "test",
+        streamLength: len,
+        bufferLength: len,
+        bytesPerRead: 100,
+        expectedSuccess: true
+      },
+      {
+        title:
+          "should success when streamType == test, buffer.length > stream.length and bytesPerRead < stream.length",
+        streamType: "test",
+        streamLength: len,
+        bufferLength: len + 1,
+        bytesPerRead: 100,
+        expectedSuccess: true
+      },
+      {
+        title:
+          "should reject when streamType == test, buffer.length < stream.length and bytesPerRead < stream.length",
+        streamType: "test",
+        streamLength: len,
+        bufferLength: len - 1,
+        bytesPerRead: 100,
+        expectedSuccess: false
+      },
+      {
+        title:
+          "should success when streamType == passthrough, buffer.length == stream.length and bytesPerRead < stream.length",
+        streamType: "passthrough",
+        streamLength: len,
+        bufferLength: len,
+        expectedSuccess: true
+      },
+      {
+        title:
+          "should success when streamType == passthrough, buffer.length > stream.length and bytesPerRead < stream.length",
+        streamType: "passthrough",
+        streamLength: len,
+        bufferLength: len + 1,
+        expectedSuccess: true
+      },
+      {
+        title:
+          "should reject when streamType == passthrough, buffer.length < stream.length and bytesPerRead < stream.length",
+        streamType: "passthrough",
+        streamLength: len,
+        bufferLength: len - 1,
+        expectedSuccess: false
+      }
+    ];
+
+    tests.forEach(function(test) {
+      it(test.title, async () => {
+        const inputBuffer = randomBytes(test.streamLength);
+
+        // TestReadableStream and PassThrough seem to have slightly different behavior at the end of the stream.
+        // With TestReadableStream, the last call to read() will return null.  However, with PassThrough
+        // the last call to read() returns the last bytes, and there is never a call which returns null.
+        // I'm not sure why this behavior is different, but streamToBuffer2() should support both.
+        let readStream: Readable;
+        if (test.streamType == "test") {
+          readStream = new TestReadableStream(inputBuffer, test.bytesPerRead!);
+        } else if (test.streamType == "passthrough") {
+          const passthrough = new PassThrough();
+          passthrough.end(inputBuffer);
+          readStream = passthrough;
+        } else {
+          throw new Error(`Invalid value for test.streamType: ${test.streamType}`);
+        }
+
+        const outputBuffer = Buffer.alloc(test.bufferLength);
+
+        try {
+          await streamToBuffer2(readStream, outputBuffer);
+          if (test.expectedSuccess) {
+            assert.deepEqual(outputBuffer.slice(0, inputBuffer.length), inputBuffer);
+          } else {
+            throw new Error("Test failure");
+          }
+        } catch (err) {
+          if (test.expectedSuccess) {
+            throw err;
+          } else {
+            assert.notEqual(err.message, "Test failure");
+          }
+        }
+      });
+    });
   });
 });

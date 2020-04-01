@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import { CertificateClient, KeyVaultCertificate, DefaultCertificatePolicy } from "../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { env } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure/test-utils-recorder";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
@@ -14,11 +14,11 @@ describe("Certificates client - LRO - create", () => {
   let certificateSuffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
-  let recorder: any;
-  
+  let recorder: Recorder;
+
   beforeEach(async function() {
     const authentication = await authenticate(this);
-    certificateSuffix = authentication.certificateSuffix;
+    certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
@@ -31,7 +31,9 @@ describe("Certificates client - LRO - create", () => {
   // The tests follow
 
   it("can wait until a certificate is created", async function() {
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     const poller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
@@ -53,7 +55,9 @@ describe("Certificates client - LRO - create", () => {
   });
 
   it("can resume from a stopped poller", async function() {
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     const poller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
@@ -73,10 +77,14 @@ describe("Certificates client - LRO - create", () => {
 
     const serialized = poller.toString();
 
-    const resumePoller = await client.beginCreateCertificate(certificateName, DefaultCertificatePolicy, {
-      resumeFrom: serialized,
-      ...testPollerProperties
-    });
+    const resumePoller = await client.beginCreateCertificate(
+      certificateName,
+      DefaultCertificatePolicy,
+      {
+        resumeFrom: serialized,
+        ...testPollerProperties
+      }
+    );
 
     assert.ok(resumePoller.getOperationState().isStarted);
     const createdCertificate: KeyVaultCertificate = await resumePoller.pollUntilDone();

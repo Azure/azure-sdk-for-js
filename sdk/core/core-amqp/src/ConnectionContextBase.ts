@@ -9,7 +9,7 @@ import { ConnectionConfig } from "./connectionConfig/connectionConfig";
 import { SharedKeyCredential } from "./auth/sas";
 
 import * as Constants from "./util/constants";
-import * as os from "os";
+import { getPlatformInfo, getFrameworkInfo } from "./util/runtimeInfo";
 import { isNode } from "./util/utils";
 
 /**
@@ -153,8 +153,8 @@ export module ConnectionContextBase {
         product: parameters.connectionProperties.product,
         version: parameters.connectionProperties.version,
         "user-agent": userAgent,
-        platform: `(${os.arch()}-${os.type()}-${os.release()})`,
-        framework: `Node/${process.version}`
+        platform: getPlatformInfo(),
+        framework: getFrameworkInfo()
       },
       idle_time_out: Constants.defaultConnectionIdleTimeoutInMs,
       operationTimeoutInSeconds: parameters.operationTimeoutInMs

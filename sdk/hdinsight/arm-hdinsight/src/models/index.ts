@@ -449,6 +449,10 @@ export interface ClusterCreateProperties {
    * The disk encryption properties.
    */
   diskEncryptionProperties?: DiskEncryptionProperties;
+  /**
+   * The minimal supported tls version.
+   */
+  minSupportedTlsVersion?: string;
 }
 
 /**
@@ -636,6 +640,10 @@ export interface ClusterGetProperties {
    * The disk encryption properties.
    */
   diskEncryptionProperties?: DiskEncryptionProperties;
+  /**
+   * The minimal supported tls version.
+   */
+  minSupportedTlsVersion?: string;
 }
 
 /**

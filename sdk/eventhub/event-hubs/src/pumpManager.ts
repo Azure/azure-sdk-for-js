@@ -3,10 +3,12 @@
 
 import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
-import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
+import { CommonEventProcessorOptions } from "./models/private";
+import { CloseReason } from "./models/public";
 import { PartitionProcessor } from "./partitionProcessor";
 import { PartitionPump } from "./partitionPump";
 import { logger, logErrorStackTrace } from "./log";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * The PumpManager handles the creation and removal of PartitionPumps.
@@ -27,7 +29,8 @@ export interface PumpManager {
   createPump(
     startPosition: EventPosition,
     eventHubClient: EventHubClient,
-    partitionProcessor: PartitionProcessor
+    partitionProcessor: PartitionProcessor,
+    abortSignal: AbortSignalLike
   ): Promise<void>;
 
   /**
@@ -55,7 +58,7 @@ export interface PumpManager {
  */
 export class PumpManagerImpl implements PumpManager {
   private readonly _eventProcessorName: string;
-  private readonly _options: FullEventProcessorOptions;
+  private readonly _options: CommonEventProcessorOptions;
   private _partitionIdToPumps: {
     [partitionId: string]: PartitionPump | undefined;
   } = {};
@@ -63,7 +66,7 @@ export class PumpManagerImpl implements PumpManager {
   /**
    * @ignore
    */
-  constructor(eventProcessorName: string, eventProcessorOptions: FullEventProcessorOptions) {
+  constructor(eventProcessorName: string, eventProcessorOptions: CommonEventProcessorOptions) {
     this._eventProcessorName = eventProcessorName;
     this._options = eventProcessorOptions;
   }
@@ -100,9 +103,16 @@ export class PumpManagerImpl implements PumpManager {
   public async createPump(
     startPosition: EventPosition,
     eventHubClient: EventHubClient,
-    partitionProcessor: PartitionProcessor
+    partitionProcessor: PartitionProcessor,
+    abortSignal: AbortSignalLike
   ): Promise<void> {
     const partitionId = partitionProcessor.partitionId;
+    if (abortSignal.aborted) {
+      logger.verbose(
+        `${this._eventProcessorName}] The subscription was closed before creating the pump for partition ${partitionId}.`
+      );
+      return;
+    }
     // attempt to get an existing pump
     const existingPump = this._partitionIdToPumps[partitionId];
     if (existingPump) {

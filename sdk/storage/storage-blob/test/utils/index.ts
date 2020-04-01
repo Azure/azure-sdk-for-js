@@ -46,7 +46,10 @@ export function getGenericBSU(
   accountType: string,
   accountNameSuffix: string = ""
 ): BlobServiceClient {
-  if (env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
+  if (
+    env.STORAGE_CONNECTION_STRING &&
+    env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")
+  ) {
     return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
   } else {
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
@@ -136,6 +139,9 @@ export async function bodyToString(
     });
 
     response.readableStreamBody!.on("error", reject);
+    response.readableStreamBody!.on("end", () => {
+      resolve("");
+    });
   });
 }
 

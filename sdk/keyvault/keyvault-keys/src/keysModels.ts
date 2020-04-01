@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel } from "./core/models";
@@ -22,11 +22,18 @@ export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 /**
  * Defines values for KeyOperation.
- * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey'
+ * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey', 'import'
  * @readonly
  * @enum {string}
  */
-export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey";
+export type KeyOperation =
+  | "encrypt"
+  | "decrypt"
+  | "sign"
+  | "verify"
+  | "wrapKey"
+  | "unwrapKey"
+  | "import";
 
 /**
  * Defines values for KeyType.
@@ -63,6 +70,26 @@ export interface KeyClientInterface {
    */
   getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
 }
+
+/**
+ * The latest supported KeyVault service API version
+ */
+export const LATEST_API_VERSION = "7.1-preview";
+
+/**
+ * The optional parameters accepted by the KeyVault's KeyClient
+ */
+export interface KeyClientOptions extends coreHttp.PipelineOptions {
+  /**
+   * The accepted versions of the KeyVault's service API.
+   */
+  apiVersion?: "7.0" | "7.1-preview";
+}
+
+/**
+ * The optional parameters accepted by the KeyVault's CryptographyClient
+ */
+export interface CryptographyClientOptions extends KeyClientOptions {}
 
 /**
  * As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
@@ -229,6 +256,12 @@ export interface KeyProperties {
    * the server.**
    */
   readonly recoveryLevel?: DeletionRecoveryLevel;
+  /**
+   * The retention dates of the softDelete data.
+   * The value should be >=7 and <=90 when softDelete enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  recoverableDays?: number;
 }
 
 /**

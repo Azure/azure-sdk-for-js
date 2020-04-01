@@ -52,5 +52,10 @@ export {
   SignedIdentifier as SignedIdentifierModel,
   SourceModifiedAccessConditions,
   FileForceCloseHandlesHeaders,
-  DirectoryForceCloseHandlesHeaders
+  DirectoryForceCloseHandlesHeaders,
+  LeaseAccessConditions,
+  LeaseDurationType,
+  LeaseStateType,
+  LeaseStatusType,
+  CopyFileSmbInfo
 } from "./generated/src/models";

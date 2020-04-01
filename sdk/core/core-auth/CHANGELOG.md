@@ -1,6 +1,11 @@
 # Release History
 
-## 1.0.3 (Unreleased)
+## 1.1.1 (Unreleased)
+
+
+## 1.1.0 (2020-03-31)
+
+- Added an `AzureKeyCredential` class that supports credential rotation and a corresponding `KeyCredential` interface to support the use of static string-based keys in Azure clients.
 
 ## 1.0.2 (2019-12-03)
 

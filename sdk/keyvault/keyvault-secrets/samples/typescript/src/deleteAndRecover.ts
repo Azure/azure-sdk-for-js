@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { SecretClient } from "@azure/keyvault-secrets";
@@ -23,8 +23,9 @@ export async function main(): Promise<void> {
   const url = `https://${vaultName}.vault.azure.net`;
   const client = new SecretClient(url, credential);
 
-  const bankAccountSecretName = "secretDeleteAndRecoverTS1";
-  const storageAccountSecretName = "secretDeleteAndRecoverTS2";
+  const uniqueString = new Date().getTime();
+  const bankAccountSecretName = `bankSecret${uniqueString}`;
+  const storageAccountSecretName = `storageSecret${uniqueString}`;
 
   // Create our secrets
   console.log("Creating our secrets");

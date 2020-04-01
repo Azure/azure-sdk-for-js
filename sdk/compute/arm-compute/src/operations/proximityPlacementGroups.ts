@@ -137,7 +137,7 @@ export class ProximityPlacementGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProximityPlacementGroupsGetResponse>
    */
-  get(resourceGroupName: string, proximityPlacementGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ProximityPlacementGroupsGetResponse>;
+  get(resourceGroupName: string, proximityPlacementGroupName: string, options?: Models.ProximityPlacementGroupsGetOptionalParams): Promise<Models.ProximityPlacementGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param proximityPlacementGroupName The name of the proximity placement group.
@@ -150,8 +150,8 @@ export class ProximityPlacementGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, proximityPlacementGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>): void;
-  get(resourceGroupName: string, proximityPlacementGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProximityPlacementGroup>, callback?: msRest.ServiceCallback<Models.ProximityPlacementGroup>): Promise<Models.ProximityPlacementGroupsGetResponse> {
+  get(resourceGroupName: string, proximityPlacementGroupName: string, options: Models.ProximityPlacementGroupsGetOptionalParams, callback: msRest.ServiceCallback<Models.ProximityPlacementGroup>): void;
+  get(resourceGroupName: string, proximityPlacementGroupName: string, options?: Models.ProximityPlacementGroupsGetOptionalParams | msRest.ServiceCallback<Models.ProximityPlacementGroup>, callback?: msRest.ServiceCallback<Models.ProximityPlacementGroup>): Promise<Models.ProximityPlacementGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -372,6 +372,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.includeColocationStatus,
     Parameters.apiVersion0
   ],
   headerParameters: [

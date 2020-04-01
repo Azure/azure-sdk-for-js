@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel } from "./core/models";
@@ -31,6 +31,21 @@ export interface SecretClientInterface {
    * This operation requires the secrets/get permission.
    */
   getDeletedSecret(secretName: string, options?: DeleteSecretOptions): Promise<DeletedSecret>;
+}
+
+/**
+ * The latest supported KeyVault service API version
+ */
+export const LATEST_API_VERSION = "7.1-preview";
+
+/**
+ * The optional parameters accepted by the KeyVault's KeyClient
+ */
+export interface SecretClientOptions extends coreHttp.PipelineOptions {
+  /**
+   * The accepted versions of the KeyVault's service API.
+   */
+  apiVersion?: "7.0" | "7.1-preview";
 }
 
 /**
@@ -131,6 +146,12 @@ export interface SecretProperties {
    * the server.**
    */
   readonly recoveryLevel?: DeletionRecoveryLevel;
+  /**
+   * The retention dates of the softDelete data.
+   * The value should be >=7 and <=90 when softDelete enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  recoverableDays?: number;
 }
 
 /**

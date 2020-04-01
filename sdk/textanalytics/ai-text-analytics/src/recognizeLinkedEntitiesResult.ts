@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalysisResult,
+  makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalysisErrorResult
+  makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import { TextDocumentStatistics, TextAnalyticsError, LinkedEntity } from "./generated/models";
 
@@ -30,7 +30,7 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 /**
  * An error result from the recognize linked entities operation on a single document.
  */
-export interface RecognizeLinkedEntitiesErrorResult extends TextAnalyticsErrorResult {}
+export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult
 
 export function makeRecognizeLinkedEntitiesResult(
   id: string,
@@ -38,7 +38,7 @@ export function makeRecognizeLinkedEntitiesResult(
   statistics?: TextDocumentStatistics
 ): RecognizeLinkedEntitiesSuccessResult {
   return {
-    ...makeTextAnalysisResult(id, statistics),
+    ...makeTextAnalyticsSuccessResult(id, statistics),
     entities
   };
 }
@@ -47,5 +47,5 @@ export function makeRecognizeLinkedEntitiesErrorResult(
   id: string,
   error: TextAnalyticsError
 ): RecognizeLinkedEntitiesErrorResult {
-  return makeTextAnalysisErrorResult(id, error);
+  return makeTextAnalyticsErrorResult(id, error);
 }

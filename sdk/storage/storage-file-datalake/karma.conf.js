@@ -1,7 +1,12 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
-const jsonRecordingFilter = require("@azure/test-utils-recorder").jsonRecordingFilterFunction;
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode
+} = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -30,10 +35,10 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // polyfill service supporting IE11 missing features
-      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys
-      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always",
+      // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys,Symbol.iterator
+      "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always,Symbol.iterator",
       "dist-test/index.browser.js"
-    ].concat(process.env.TEST_MODE === "playback" ? ["recordings/browsers/**/*.json"] : []),
+    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -69,7 +74,8 @@ module.exports = function(config) {
       reports: {
         lcovonly: "coverage-browser/lcov.info",
         html: "coverage-browser/html/report",
-        "text-summary": null
+        "text-summary": null,
+        cobertura: "./coverage-browser/cobertura-coverage.xml"
       }
     },
 
@@ -84,7 +90,7 @@ module.exports = function(config) {
     },
 
     jsonToFileReporter: {
-      filter: jsonRecordingFilter,
+      filter: jsonRecordingFilterFunction,
       outputPath: "."
     },
 
@@ -118,15 +124,14 @@ module.exports = function(config) {
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
-      terminal: process.env.TEST_MODE !== "record"
+      terminal: !isRecordMode()
     },
 
     client: {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000",
-        retries: 2
+        timeout: "600000"
       }
     }
   });

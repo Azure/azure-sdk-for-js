@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  makeTextAnalysisResult,
+  makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalysisErrorResult
+  makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import { DetectedLanguage, TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
 
@@ -20,10 +20,6 @@ export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageE
  */
 export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
   /**
-   * All detected languages in the document.
-   */
-  readonly detectedLanguages: DetectedLanguage[];
-  /**
    * The top detected language by confidence score.
    */
   readonly primaryLanguage: DetectedLanguage;
@@ -32,7 +28,7 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 /**
  * An error result from the detect languge operation on a single document.
  */
-export interface DetectLanguageErrorResult extends TextAnalyticsErrorResult {}
+export type DetectLanguageErrorResult = TextAnalyticsErrorResult;
 
 export function makeDetectLanguageResult(
   id: string,
@@ -40,8 +36,7 @@ export function makeDetectLanguageResult(
   statistics?: TextDocumentStatistics
 ): DetectLanguageSuccessResult {
   return {
-    ...makeTextAnalysisResult(id, statistics),
-    detectedLanguages,
+    ...makeTextAnalyticsSuccessResult(id, statistics),
     primaryLanguage: primaryLanguage(detectedLanguages)
   };
 }
@@ -50,18 +45,12 @@ export function makeDetectLanguageErrorResult(
   id: string,
   error: TextAnalyticsError
 ): DetectLanguageErrorResult {
-  return makeTextAnalysisErrorResult(id, error);
+  return makeTextAnalyticsErrorResult(id, error);
 }
 
 function primaryLanguage(languages: DetectedLanguage[]): DetectedLanguage {
   const sorted = languages.slice(0).sort((a, b) => {
-    if (a.score === undefined) {
-      return -1;
-    } else if (b.score === undefined) {
-      return 1;
-    } else {
-      return a.score - b.score;
-    }
+    return a.score - b.score;
   });
   return sorted[0];
 }

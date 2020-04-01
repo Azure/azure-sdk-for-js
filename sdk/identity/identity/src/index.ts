@@ -35,6 +35,8 @@ export {
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 export { logger } from "./util/logging";
 
+export { KnownAuthorityHosts } from "./constants";
+
 /**
  * Returns a new instance of the {@link DefaultAzureCredential}.
  */

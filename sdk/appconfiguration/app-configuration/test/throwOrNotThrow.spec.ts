@@ -31,8 +31,10 @@ describe("Various error cases", () => {
       nonExistentKey = "non-existent key " + addedSetting.key;
     });
 
-    afterEach(async () => {
-      await deleteKeyCompletely([addedSetting.key], client);
+    afterEach(async function() {
+      if (!this.currentTest?.isPending()) {
+        await deleteKeyCompletely([addedSetting.key], client);
+      }
     });
 
     it("get: Non-existent key throws 404", async () => {
@@ -90,8 +92,10 @@ describe("Various error cases", () => {
       nonExistentKey = "bogus key " + addedSetting.key;
     });
 
-    afterEach(async () => {
-      await deleteKeyCompletely([addedSetting.key], client);
+    afterEach(async function() {
+      if (!this.currentTest?.isPending()) {
+        await deleteKeyCompletely([addedSetting.key], client);
+      }
     });
 
     it("get: value is unchanged from etag (304) using ifNoneMatch, sets all properties to undefined", async () => {

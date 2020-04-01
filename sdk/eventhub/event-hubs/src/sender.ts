@@ -3,7 +3,8 @@
 
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
-import { EventHubProducerOptions, SendOptions, CreateBatchOptions } from "./impl/eventHubClient";
+import { EventHubProducerOptions } from "../src/models/private";
+import { SendOptions, CreateBatchOptions } from "../src/models/public";
 import { ConnectionContext } from "./connectionContext";
 import { logger, logErrorStackTrace } from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
@@ -260,6 +261,7 @@ export class EventHubProducer {
       links
     });
 
+    span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this._eventHubName);
     span.setAttribute("peer.address", this._endpoint);
 

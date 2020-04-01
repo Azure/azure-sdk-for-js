@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { logger, logErrorStackTrace } from "./log";
-import { FullEventProcessorOptions, CloseReason } from "./eventProcessor";
+import { CommonEventProcessorOptions } from "./models/private";
+import { CloseReason } from "./models/public";
 import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
@@ -22,7 +23,7 @@ import { ReceivedEventData } from "./eventData";
 export class PartitionPump {
   private _eventHubClient: EventHubClient;
   private _partitionProcessor: PartitionProcessor;
-  private _processorOptions: FullEventProcessorOptions;
+  private _processorOptions: CommonEventProcessorOptions;
   private _receiver: EventHubConsumer | undefined;
   private _isReceiving: boolean = false;
   private _isStopped: boolean = false;
@@ -32,7 +33,7 @@ export class PartitionPump {
     eventHubClient: EventHubClient,
     partitionProcessor: PartitionProcessor,
     private readonly _startPosition: EventPosition,
-    options: FullEventProcessorOptions
+    options: CommonEventProcessorOptions
   ) {
     this._eventHubClient = eventHubClient;
     this._partitionProcessor = partitionProcessor;
@@ -191,7 +192,7 @@ export function createProcessingSpan(
   });
 
   span.setAttributes({
-    component: "eventhubs",
+    "az.namespace": "Microsoft.EventHub",
     "message_bus.destination": eventHubProperties.eventHubName,
     "peer.address": eventHubProperties.endpoint
   });

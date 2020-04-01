@@ -1,0 +1,49 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache, no-store",
+    "content-length": "1417",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 05 Feb 2020 23:15:45 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.9987.14 - SAN ProdSlices",
+    "x-ms-request-id": "f3f0fd64-5c10-4c7c-a895-0c1ffc421c00"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.0-preview.1/sentiment",
+   "query": {},
+   "requestBody": "{\"documents\":[]}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"InvalidRequest\",\"innerError\":{\"code\":\"MissingInputRecords\",\"message\":\"Missing input records.\"},\"message\":\"Invalid Request.\"}}",
+   "responseHeaders": {
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "Operation-Location",
+    "apim-request-id": "e1146d09-05c1-48f6-a8cd-cc3b705e58b5",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 05 Feb 2020 23:15:45 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "4"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ }
+}

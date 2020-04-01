@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+
 import { makeAnalyzeSentimentResultCollection } from "../src/analyzeSentimentResultCollection";
 import { makeDetectLanguageResultCollection } from "../src/detectLanguageResultCollection";
 import { makeExtractKeyPhrasesResultCollection } from "../src/extractKeyPhrasesResultCollection";
 import { makeRecognizeLinkedEntitiesResultCollection } from "../src/recognizeLinkedEntitiesResultCollection";
-import { makeRecognizeEntitiesResultCollection } from "../src/recognizeEntitiesResultCollection";
+import { makeRecognizeCategorizedEntitiesResultCollection } from "../src/recognizeCategorizedEntitiesResultCollection";
 import { LanguageInput, MultiLanguageInput } from "../src/generated/models";
 
 describe("SentimentResultCollection", () => {
@@ -53,7 +54,7 @@ describe("SentimentResultCollection", () => {
         {
           id: "B",
           error: {
-            code: "internalServerError",
+            code: "InternalServerError",
             message: "test error"
           }
         }
@@ -116,7 +117,7 @@ describe("DetectLanguageResultCollection", () => {
         {
           id: "B",
           error: {
-            code: "internalServerError",
+            code: "InternalServerError",
             message: "test error"
           }
         }
@@ -162,7 +163,7 @@ describe("ExtractKeyPhrasesResultCollection", () => {
         {
           id: "B",
           error: {
-            code: "internalServerError",
+            code: "InternalServerError",
             message: "test error"
           }
         }
@@ -176,7 +177,7 @@ describe("ExtractKeyPhrasesResultCollection", () => {
   });
 });
 
-describe("RecognizeEntitiesResultCollection", () => {
+describe("RecognizeCategorizedEntitiesResultCollection", () => {
   it("merges items in order", () => {
     const input: MultiLanguageInput[] = [
       {
@@ -192,7 +193,7 @@ describe("RecognizeEntitiesResultCollection", () => {
         text: "test3"
       }
     ];
-    const result = makeRecognizeEntitiesResultCollection(
+    const result = makeRecognizeCategorizedEntitiesResultCollection(
       input,
       [
         {
@@ -200,9 +201,9 @@ describe("RecognizeEntitiesResultCollection", () => {
           entities: [
             {
               text: "Microsoft",
-              type: "Organization",
-              offset: 10,
-              length: 9,
+              category: "Organization",
+              graphemeOffset: 10,
+              graphemeLength: 9,
               score: 0.9989
             }
           ]
@@ -212,10 +213,10 @@ describe("RecognizeEntitiesResultCollection", () => {
           entities: [
             {
               text: "last week",
-              type: "DateTime",
-              subtype: "DateRange",
-              offset: 34,
-              length: 9,
+              category: "DateTime",
+              subCategory: "DateRange",
+              graphemeOffset: 34,
+              graphemeLength: 9,
               score: 0.8
             }
           ]
@@ -225,7 +226,7 @@ describe("RecognizeEntitiesResultCollection", () => {
         {
           id: "B",
           error: {
-            code: "internalServerError",
+            code: "InternalServerError",
             message: "test error"
           }
         }
@@ -266,13 +267,13 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               matches: [
                 {
                   text: "Seattle",
-                  offset: 26,
-                  length: 7,
+                  graphemeOffset: 26,
+                  graphemeLength: 7,
                   score: 0.15046201222847677
                 }
               ],
               language: "en",
-              id: "Seattle",
+              dataSourceEntityId: "Seattle",
               url: "https://en.wikipedia.org/wiki/Seattle",
               dataSource: "Wikipedia"
             }
@@ -286,13 +287,13 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
               matches: [
                 {
                   text: "Microsoft",
-                  offset: 10,
-                  length: 9,
+                  graphemeOffset: 10,
+                  graphemeLength: 9,
                   score: 0.1869365971673207
                 }
               ],
               language: "en",
-              id: "Microsoft",
+              dataSourceEntityId: "Microsoft",
               url: "https://en.wikipedia.org/wiki/Microsoft",
               dataSource: "Wikipedia"
             }
@@ -303,7 +304,7 @@ describe("RecognizeLinkedEntitiesResultCollection", () => {
         {
           id: "B",
           error: {
-            code: "internalServerError",
+            code: "InternalServerError",
             message: "test error"
           }
         }

@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 const crypto = require("crypto");
@@ -22,7 +22,8 @@ async function main() {
   // Connection to Azure Key Vault
   const client = new KeyClient(url, credential);
 
-  let keyName = "localWorkKey11241";
+  const uniqueString = new Date().getTime();
+  const keyName = `key${uniqueString}`;
 
   // Connection to Azure Key Vault Cryptography functionality
   let myWorkKey = await client.createKey(keyName, "RSA");

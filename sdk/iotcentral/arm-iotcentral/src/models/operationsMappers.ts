@@ -7,8 +7,7 @@
  */
 
 export {
-  ErrorDetails,
-  ErrorResponseBody,
+  CloudError,
   Operation,
   OperationDisplay,
   OperationListResult

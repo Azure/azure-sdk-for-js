@@ -9,7 +9,7 @@ and other secrets.
 
 Use the client library for Azure Key Vault Secrets in your Node.js application to
 
-- Get, set and delete a secret.
+- Get, set and delete secrets.
 - Update a secret and it's attributes.
 - Backup and restore a secret.
 - Get, purge or recover a deleted secret.
@@ -17,7 +17,7 @@ Use the client library for Azure Key Vault Secrets in your Node.js application t
 - Get all secrets.
 - Get all deleted secrets.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
 ## Getting started
 
@@ -25,9 +25,13 @@ Use the client library for Azure Key Vault Secrets in your Node.js application t
 [Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
 If you are using this package in a Node.js application, then use Node.js 6.x or higher.
 
-To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
+You can deploy our sample template for Key Vault resources in Azure by clicking here:
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-secrets%2Ftests-resources.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
+
+Deploying these resources constitutes a purchase of Azure services that will be billed to your active account.
+
+To read more information about how this form works, and how to fill it, please read our [TEST_RESOURCES_README.md guide](../TEST_RESOURCES_README.md).
 
 ### Install the package
 
@@ -200,8 +204,8 @@ const secretName = "MySecretName";
 async function main() {
   const latestSecret = await client.getSecret(secretName);
   console.log(`Latest version of the secret ${secretName}: `, latestSecret);
-  const specificSecret = await client.getSecret(secretName, { version: latestSecret.version! });
-  console.log(`The secret ${secretName} at the version ${latestSecret.version!}: `, specificSecret);
+  const specificSecret = await client.getSecret(secretName, { version: latestSecret.properties.version! });
+  console.log(`The secret ${secretName} at the version ${latestSecret.properties.version!}: `, specificSecret);
 }
 
 main();
@@ -264,7 +268,7 @@ const secretName = "MySecretName";
 
 async function main() {
   const result = await client.getSecret(secretName);
-  await client.updateSecretProperties(secretName, result.parameters.version, { enabled: false });
+  await client.updateSecretProperties(secretName, result.properties.version, { enabled: false });
 }
 
 main();
@@ -330,7 +334,7 @@ async function main() {
 
   // recoverDeletedSecret returns a poller, just like beginDeleteSecret.
   const recoverPoller = await client.beginRecoverDeletedSecret(secretName);
-  const recoverPoller.pollUntilDone();
+  await recoverPoller.pollUntilDone();
 
   // And then, to purge the deleted secret:
   await client.purgeDeletedSecret(secretName);
@@ -488,21 +492,21 @@ main();
 
 ## Troubleshooting
 
-### Enable logs
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-You can set the following environment variable to get the debug logs when using this library.
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-- Getting debug logs from the Key Vault Secrets SDK
-
-```bash
-export DEBUG=azure*
+setLogLevel("info");
 ```
 
 ## Next steps
 
-Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
-directory for detailed examples on how to use this library.
+You can find more code samples through the following links:
+
+- [KeyVault Secrets Samples (JavaScript)](./samples/javascript)
+- [KeyVault Secrets Samples (TypeScript)](./samples/typescript)
+- [KeyVault Secrets Test Cases](./test/)
 
 ## Contributing
 

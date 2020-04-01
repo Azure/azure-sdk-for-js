@@ -69,7 +69,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = "dist-esm/test/*.spec.js";
+    baseConfig.input = "dist-esm/test/**/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -102,7 +102,7 @@ export function browserConfig(test = false) {
     input: input,
     external: [],
     output: {
-      file: "browser/service-bus.js",
+      file: "dist-browser/service-bus.js",
       format: "umd",
       name: "Azure.Messaging.ServiceBus",
       sourcemap: true
@@ -136,7 +136,8 @@ export function browserConfig(test = false) {
           export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
         `,
         path: `export default {}`,
-        dns: `export function resolve() { }`
+        dns: `export function resolve() { }`,
+        glob: `export default {}`
       }),
 
       nodeResolve({
@@ -168,7 +169,7 @@ export function browserConfig(test = false) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = "dist-esm/test/*.spec.js";
+    baseConfig.input = "dist-esm/test/**/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
 

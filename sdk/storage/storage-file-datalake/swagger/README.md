@@ -83,3 +83,24 @@ directive:
     $.Path.properties.lastModified.format = "date-time-rfc1123";
 ```
 
+### Update service version to "2019-07-07"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2019-07-07" ];
+```
+
+### Rename eTag -> etag
+``` yaml
+directive:
+- from: swagger-document
+  where: $["x-ms-paths"]..responses..headers["ETag"]
+  transform: >
+    $["x-ms-client-name"] = "etag";
+- from: swagger-document
+  where: $["definitions"]..["eTag"]
+  transform: >
+    $["x-ms-client-name"] = "etag";
+```

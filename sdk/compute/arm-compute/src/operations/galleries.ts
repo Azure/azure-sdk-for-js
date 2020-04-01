@@ -42,6 +42,20 @@ export class Galleries {
   }
 
   /**
+   * Update a Shared Image Gallery.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets
+   * and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+   * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GalleriesUpdateResponse>
+   */
+  update(resourceGroupName: string, galleryName: string, gallery: Models.GalleryUpdate, options?: msRest.RequestOptionsBase): Promise<Models.GalleriesUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,galleryName,gallery,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.GalleriesUpdateResponse>;
+  }
+
+  /**
    * Retrieves information about a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery.
@@ -159,6 +173,27 @@ export class Galleries {
   }
 
   /**
+   * Update a Shared Image Gallery.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets
+   * and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+   * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, galleryName: string, gallery: Models.GalleryUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        galleryName,
+        gallery,
+        options
+      },
+      beginUpdateOperationSpec,
+      options);
+  }
+
+  /**
    * Delete a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery to be deleted.
@@ -244,7 +279,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.galleryName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -268,7 +303,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -291,7 +326,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -316,7 +351,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.galleryName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -345,6 +380,38 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName
+  ],
+  queryParameters: [
+    Parameters.apiVersion3
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "gallery",
+    mapper: {
+      ...Mappers.GalleryUpdate,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Gallery
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
@@ -354,7 +421,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.galleryName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion3
   ],
   headerParameters: [
     Parameters.acceptLanguage

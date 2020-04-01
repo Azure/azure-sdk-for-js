@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.0-preview.1/entities/linking",
+   "query": {},
+   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"the Roman god Mars\",\"language\":\"en\"}]}",
+   "status": 200,
+   "response": "{\"documents\":[{\"id\":\"0\",\"entities\":[{\"name\":\"Roman mythology\",\"matches\":[{\"text\":\"Roman god\",\"offset\":4,\"length\":9,\"score\":0.14383482284582527}],\"language\":\"en\",\"id\":\"Roman mythology\",\"url\":\"https://en.wikipedia.org/wiki/Roman_mythology\",\"dataSource\":\"Wikipedia\"}]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
+   "responseHeaders": {
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "Operation-Location,Location",
+    "apim-request-id": "8e7cabbe-d7cb-4e82-91b2-ebf329b7b59d",
+    "content-type": "application/json; charset=utf-8",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
+    "date": "Wed, 05 Feb 2020 23:15:45 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "9"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ }
+}

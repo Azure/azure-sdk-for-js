@@ -14,10 +14,10 @@ export interface PageSettings {
   maxPageSize?: number;
 }
 /**
-* @interface
-* An interface that allows async iterable iteration both to completion and by page.
-*/
-export interface PagedAsyncIterableIterator<T, PageT = never> {
+ * @interface
+ * An interface that allows async iterable iteration both to completion and by page.
+ */
+export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = PageSettings> {
   /**
    * @member {Promise} [next] The next method, part of the iteration protocol
    */
@@ -28,9 +28,9 @@ export interface PagedAsyncIterableIterator<T, PageT = never> {
   /**
    * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
    */
-  [Symbol.asyncIterator](): PagedAsyncIterableIterator<T, PageT>;
+  [Symbol.asyncIterator](): PagedAsyncIterableIterator<T, PageT, PageSettingsT>;
   /**
    * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
    */
-  byPage: (settings?: PageSettings) => AsyncIterableIterator<PageT extends never ? T[] : PageT>;
+  byPage: (settings?: PageSettingsT) => AsyncIterableIterator<PageT>;
 }

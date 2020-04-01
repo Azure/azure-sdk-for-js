@@ -7,7 +7,7 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  setupEnvironment
+  recorderEnvSetup
 } from "./utils";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
@@ -15,8 +15,6 @@ import { BlockBlobTier } from "../src";
 dotenv.config({ path: "../.env" });
 
 describe("BlockBlobClient", () => {
-  setupEnvironment();
-  const blobServiceClient = getBSU();
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -26,7 +24,8 @@ describe("BlockBlobClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -36,8 +35,10 @@ describe("BlockBlobClient", () => {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
-    recorder.stop();
+    if (!this.currentTest?.isPending()) {
+      await containerClient.delete();
+      recorder.stop();
+    }
   });
 
   it("upload with string body and default parameters", async () => {

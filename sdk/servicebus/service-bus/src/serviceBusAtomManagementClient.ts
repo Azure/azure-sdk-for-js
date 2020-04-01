@@ -16,7 +16,7 @@ import {
   RestError
 } from "@azure/core-http";
 
-import { parseConnectionString } from "@azure/amqp-common";
+import { parseConnectionString, SharedKeyCredential } from "@azure/core-amqp";
 
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 
@@ -53,12 +53,14 @@ import {
   InternalRuleOptions,
   RuleOptions,
   buildRuleOptions,
-  Rule,
+  RuleDetails,
   buildRule
 } from "./serializers/ruleResourceSerializer";
-import { isJSONLikeObject } from "./util/utils";
+import { isJSONLikeObject, isAbsoluteUrl } from "./util/utils";
 
 /**
+ * @internal
+ * @ignore
  * Options to use with ServiceBusAtomManagementClient creation
  */
 export interface ServiceBusAtomManagementClientOptions {
@@ -69,6 +71,8 @@ export interface ServiceBusAtomManagementClientOptions {
 }
 
 /**
+ * @internal
+ * @ignore
  * Request options for list<entity-type>() operations
  */
 export interface ListRequestOptions {
@@ -84,6 +88,8 @@ export interface ListRequestOptions {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of create, get, update and delete operations on queue.
  */
 export interface QueueResponse extends QueueDetails {
@@ -94,6 +100,8 @@ export interface QueueResponse extends QueueDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Create Queue response
  */
 export interface CreateQueueResponse extends QueueDetails {
@@ -104,6 +112,8 @@ export interface CreateQueueResponse extends QueueDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Get Queue response
  */
 export interface GetQueueResponse extends QueueDetails {
@@ -114,6 +124,8 @@ export interface GetQueueResponse extends QueueDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Update Queue response
  */
 export interface UpdateQueueResponse extends QueueDetails {
@@ -124,6 +136,8 @@ export interface UpdateQueueResponse extends QueueDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Delete Queue response
  */
 export interface DeleteQueueResponse {
@@ -134,6 +148,8 @@ export interface DeleteQueueResponse {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of list operation on queues.
  */
 export interface ListQueuesResponse extends Array<QueueDetails> {
@@ -144,6 +160,8 @@ export interface ListQueuesResponse extends Array<QueueDetails> {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of create, get, update and delete operations on topic.
  */
 export interface TopicResponse extends TopicDetails {
@@ -154,6 +172,8 @@ export interface TopicResponse extends TopicDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Create Topic response
  */
 export interface CreateTopicResponse extends TopicDetails {
@@ -164,6 +184,8 @@ export interface CreateTopicResponse extends TopicDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Get Topic response
  */
 export interface GetTopicResponse extends TopicDetails {
@@ -174,6 +196,8 @@ export interface GetTopicResponse extends TopicDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Update Topic response
  */
 export interface UpdateTopicResponse extends TopicDetails {
@@ -184,6 +208,8 @@ export interface UpdateTopicResponse extends TopicDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Delete Topic response
  */
 export interface DeleteTopicResponse {
@@ -194,6 +220,8 @@ export interface DeleteTopicResponse {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of list operation on topics.
  */
 export interface ListTopicsResponse extends Array<TopicDetails> {
@@ -204,6 +232,8 @@ export interface ListTopicsResponse extends Array<TopicDetails> {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of create, get, update and delete operations on subscription.
  */
 export interface SubscriptionResponse extends SubscriptionDetails {
@@ -214,6 +244,8 @@ export interface SubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Create Subscription response
  */
 export interface CreateSubscriptionResponse extends SubscriptionDetails {
@@ -224,6 +256,8 @@ export interface CreateSubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Get Subscription response
  */
 export interface GetSubscriptionResponse extends SubscriptionDetails {
@@ -234,6 +268,8 @@ export interface GetSubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Update Subscription response
  */
 export interface UpdateSubscriptionResponse extends SubscriptionDetails {
@@ -244,6 +280,8 @@ export interface UpdateSubscriptionResponse extends SubscriptionDetails {
 }
 
 /**
+ * @internal
+ * @ignore
  * Delete Subscription response
  */
 export interface DeleteSubscriptionResponse {
@@ -254,6 +292,8 @@ export interface DeleteSubscriptionResponse {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of list operation on subscriptions.
  */
 export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
@@ -264,9 +304,11 @@ export interface ListSubscriptionsResponse extends Array<SubscriptionDetails> {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of create, get, update and delete operations on rule.
  */
-export interface RuleResponse extends Rule {
+export interface RuleResponse extends RuleDetails {
   /**
    * The underlying HTTP response.
    */
@@ -274,9 +316,11 @@ export interface RuleResponse extends Rule {
 }
 
 /**
+ * @internal
+ * @ignore
  * Create Rule response
  */
-export interface CreateRuleResponse extends Rule {
+export interface CreateRuleResponse extends RuleDetails {
   /**
    * The underlying HTTP response.
    */
@@ -284,9 +328,11 @@ export interface CreateRuleResponse extends Rule {
 }
 
 /**
+ * @internal
+ * @ignore
  * Get Rule response
  */
-export interface GetRuleResponse extends Rule {
+export interface GetRuleResponse extends RuleDetails {
   /**
    * The underlying HTTP response.
    */
@@ -294,9 +340,11 @@ export interface GetRuleResponse extends Rule {
 }
 
 /**
+ * @internal
+ * @ignore
  * Update Rule response
  */
-export interface UpdateRuleResponse extends Rule {
+export interface UpdateRuleResponse extends RuleDetails {
   /**
    * The underlying HTTP response.
    */
@@ -304,6 +352,8 @@ export interface UpdateRuleResponse extends Rule {
 }
 
 /**
+ * @internal
+ * @ignore
  * Delete Rule response
  */
 export interface DeleteRuleResponse {
@@ -314,9 +364,11 @@ export interface DeleteRuleResponse {
 }
 
 /**
+ * @internal
+ * @ignore
  * Represents result of list operation on rules.
  */
-export interface ListRulesResponse extends Array<Rule> {
+export interface ListRulesResponse extends Array<RuleDetails> {
   /**
    * The underlying HTTP response.
    */
@@ -324,17 +376,35 @@ export interface ListRulesResponse extends Array<Rule> {
 }
 
 /**
+ * @internal
+ * @ignore
  * All operations return promises that resolve to an object that has the relevant output.
  * These objects also have a property called `_response` that you can use if you want to
  * access the direct response from the service.
  */
 export class ServiceBusAtomManagementClient extends ServiceClient {
+  /**
+   * Reference to the endpoint as extracted from input connection string.
+   */
   private endpoint: string;
 
+  /**
+   * Reference to the endpoint with protocol prefix as extracted from input connection string.
+   */
+  private endpointWithProtocol: string;
+
+  /**
+   * Singleton instances of serializers used across the various operations.
+   */
   private queueResourceSerializer: AtomXmlSerializer;
   private topicResourceSerializer: AtomXmlSerializer;
   private subscriptionResourceSerializer: AtomXmlSerializer;
   private ruleResourceSerializer: AtomXmlSerializer;
+
+  /**
+   * SAS token provider used to generate tokens as required for the various operations.
+   */
+  private sasTokenProvider: SharedKeyCredential;
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
@@ -369,13 +439,30 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     this.subscriptionResourceSerializer = new SubscriptionResourceSerializer();
     this.ruleResourceSerializer = new RuleResourceSerializer();
     this.endpoint = (connectionString.match("Endpoint=sb://(.*)/;") || "")[1];
+    this.endpointWithProtocol = connectionStringObj.Endpoint;
+
+    this.sasTokenProvider = new SharedKeyCredential(
+      connectionStringObj.SharedAccessKeyName,
+      connectionStringObj.SharedAccessKey
+    );
   }
 
   /**
    * Creates a queue with given name, configured using the given options
    * @param queueName
    * @param queueOptions Options to configure the Queue being created.
-   * For example, you can configure a queue to support partitions or sessions
+   * For example, you can configure a queue to support partitions or sessions.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createQueue(queueName: string, queueOptions?: QueueOptions): Promise<CreateQueueResponse> {
     log.httpAtomXml(
@@ -394,6 +481,16 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   /**
    * Returns an object representing the Queue with the given name along with all its properties
    * @param queueName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getQueueDetails(queueName: string): Promise<GetQueueResponse> {
     log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
@@ -408,6 +505,15 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   /**
    * Lists existing queues.
    * @param listRequestOptions
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async listQueues(listRequestOptions?: ListRequestOptions): Promise<ListQueuesResponse> {
     log.httpAtomXml(
@@ -426,7 +532,17 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Updates properties on the Queue by the given name based on the given options
    * @param queueName
    * @param queueOptions Options to configure the Queue being updated.
-   * For example, you can configure a queue to support partitions or sessions
+   * For example, you can configure a queue to support partitions or sessions.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateQueue(queueName: string, queueOptions: QueueOptions): Promise<UpdateQueueResponse> {
     log.httpAtomXml(
@@ -456,6 +572,16 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   /**
    * Deletes a queue.
    * @param queueName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteQueue(queueName: string): Promise<DeleteQueueResponse> {
     log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
@@ -471,7 +597,18 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Creates a topic with given name, configured using the given options
    * @param topicName
    * @param topicOptions Options to configure the Topic being created.
-   * For example, you can configure a topic to support partitions or sessions
+   * For example, you can configure a topic to support partitions or sessions.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createTopic(topicName: string, topicOptions?: TopicOptions): Promise<CreateTopicResponse> {
     log.httpAtomXml(
@@ -490,6 +627,16 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   /**
    * Returns an object representing the Topic with the given name along with all its properties
    * @param topicName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getTopicDetails(topicName: string): Promise<GetTopicResponse> {
     log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
@@ -504,6 +651,15 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   /**
    * Lists existing topics.
    * @param listRequestOptions
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async listTopics(listRequestOptions?: ListRequestOptions): Promise<ListTopicsResponse> {
     log.httpAtomXml(
@@ -522,7 +678,17 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Updates properties on the Topic by the given name based on the given options
    * @param topicName
    * @param topicOptions Options to configure the Topic being updated.
-   * For example, you can configure a topic to support partitions or sessions
+   * For example, you can configure a topic to support partitions or sessions.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateTopic(topicName: string, topicOptions: TopicOptions): Promise<UpdateTopicResponse> {
     log.httpAtomXml(
@@ -552,6 +718,16 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   /**
    * Deletes a topic.
    * @param topicName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteTopic(topicName: string): Promise<DeleteTopicResponse> {
     log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
@@ -568,7 +744,18 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    * @param subscriptionOptions Options to configure the Subscription being created.
-   * For example, you can configure a Subscription to support partitions or sessions
+   * For example, you can configure a Subscription to support partitions or sessions.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createSubscription(
     topicName: string,
@@ -593,6 +780,16 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Returns an object representing the Subscription with the given name along with all its properties
    * @param topicName
    * @param subscriptionName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getSubscriptionDetails(
     topicName: string,
@@ -614,6 +811,15 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Lists existing subscriptions.
    * @param topicName
    * @param listRequestOptions
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async listSubscriptions(
     topicName: string,
@@ -636,7 +842,17 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    * @param subscriptionOptions Options to configure the Subscription being updated.
-   * For example, you can configure a Subscription to support partitions or sessions
+   * For example, you can configure a Subscription to support partitions or sessions.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateSubscription(
     topicName: string,
@@ -673,6 +889,16 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * Deletes a subscription.
    * @param topicName
    * @param subscriptionName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteSubscription(
     topicName: string,
@@ -691,11 +917,22 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Creates a rule with given name, configured using the given options
+   * Creates a rule with given name, configured using the given options.
    * @param topicName
    * @param subscriptionName
    * @param ruleName
    * @param ruleOptions
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createRule(
     topicName: string,
@@ -717,12 +954,22 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Returns an object representing the Rule with the given name along with all its properties
+   * Returns an object representing the Rule with the given name along with all its properties.
    * @param topicName
    * @param subscriptioName
    * @param ruleName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getRule(
+  async getRuleDetails(
     topicName: string,
     subscriptioName: string,
     ruleName: string
@@ -742,6 +989,15 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    * @param listRequestOptions
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async listRules(
     topicName: string,
@@ -762,12 +1018,22 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   }
 
   /**
-   * Updates properties on the Rule by the given name based on the given options
+   * Updates properties on the Rule by the given name based on the given options.
    * @param topicName
    * @param subscriptionName
    * @param ruleName
    * @param ruleOptions Options to configure the Rule being updated.
-   * For example, you can configure the filter to apply on associated Topic/Subscription
+   * For example, you can configure the filter to apply on associated Topic/Subscription.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateRule(
     topicName: string,
@@ -801,6 +1067,16 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    * @param ruleName
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityNotFoundError` when requested messaging entity does not exist,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteRule(
     topicName: string,
@@ -839,6 +1115,33 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     if (isUpdate) {
       webResource.headers.set("If-Match", "*");
     }
+
+    const queueOrSubscriptionFields = entityFields as
+      | InternalQueueOptions
+      | InternalSubscriptionOptions;
+    if (
+      queueOrSubscriptionFields.ForwardTo ||
+      queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+    ) {
+      const token = (await this.sasTokenProvider.getToken(this.endpoint)).token;
+      if (queueOrSubscriptionFields.ForwardTo) {
+        webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
+        if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
+          queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
+            queueOrSubscriptionFields.ForwardTo
+          );
+        }
+      }
+      if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
+        webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
+        if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
+          queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
+            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+          );
+        }
+      }
+    }
+
     webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
 
     return executeAtomXmlOperation(this, webResource, serializer);
@@ -862,7 +1165,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
     ) {
       const err = new RestError(
         `The messaging entity "${name}" being requested cannot be found.`,
-        "404",
+        "MessageEntityNotFoundError",
         404,
         stripRequest(webResource),
         stripResponse(response)
@@ -947,7 +1250,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: ListQueuesResponse = Object.assign(queues, { _response: response });
+      const listQueuesResponse: ListQueuesResponse = Object.assign(queues, {
+        _response: response
+      });
       return listQueuesResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -964,7 +1269,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   private buildQueueResponse(response: HttpOperationResponse): QueueResponse {
     try {
       const queue = buildQueue(response.parsedBody);
-      const queueResponse: QueueResponse = Object.assign(queue || {}, { _response: response });
+      const queueResponse: QueueResponse = Object.assign(queue || {}, {
+        _response: response
+      });
       return queueResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -991,7 +1298,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: ListTopicsResponse = Object.assign(topics, { _response: response });
+      const listTopicsResponse: ListTopicsResponse = Object.assign(topics, {
+        _response: response
+      });
       return listTopicsResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1008,7 +1317,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
   private buildTopicResponse(response: HttpOperationResponse): TopicResponse {
     try {
       const topic = buildTopic(response.parsedBody);
-      const topicResponse: TopicResponse = Object.assign(topic || {}, { _response: response });
+      const topicResponse: TopicResponse = Object.assign(topic || {}, {
+        _response: response
+      });
       return topicResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1074,7 +1385,7 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
 
   private buildListRulesResponse(response: HttpOperationResponse): ListRulesResponse {
     try {
-      const rules: Rule[] = [];
+      const rules: RuleDetails[] = [];
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1085,7 +1396,9 @@ export class ServiceBusAtomManagementClient extends ServiceClient {
           rules.push(rule);
         }
       }
-      const listRulesResponse: ListRulesResponse = Object.assign(rules, { _response: response });
+      const listRulesResponse: ListRulesResponse = Object.assign(rules, {
+        _response: response
+      });
       return listRulesResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);

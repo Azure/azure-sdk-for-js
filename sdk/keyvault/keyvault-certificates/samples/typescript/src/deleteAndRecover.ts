@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { CertificateClient } from "@azure/keyvault-certificates";
@@ -23,7 +23,8 @@ export async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
-  const certificateName = "MyCertificateDeleteAndRecoverTS";
+  const uniqueString = new Date().getTime();
+  const certificateName = `cert${uniqueString}`;
 
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(certificateName, {

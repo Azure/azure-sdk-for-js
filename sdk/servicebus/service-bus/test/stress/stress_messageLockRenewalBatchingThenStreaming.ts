@@ -13,7 +13,6 @@ must be supplied.
 */
 
 import {
-  ServiceBusClient,
   SendableMessageInfo,
   OnMessage,
   OnError,
@@ -21,6 +20,7 @@ import {
   ReceiveMode,
   ServiceBusMessage
 } from "../../src";
+import { ServiceBusClient } from "../../src/old/serviceBusClient";
 
 const connectionString = "";
 const queueName = "";
@@ -38,7 +38,7 @@ async function main(): Promise<void> {
 }
 
 async function sendMessage(messageId: string): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = new ServiceBusClient(connectionString);
   const client = ns.createQueueClient(queueName);
   try {
     const sender = client.createSender();
@@ -57,7 +57,7 @@ async function sendMessage(messageId: string): Promise<void> {
 }
 
 async function receiveMessages(): Promise<void> {
-  const ns = ServiceBusClient.createFromConnectionString(connectionString);
+  const ns = new ServiceBusClient(connectionString);
   const client = ns.createQueueClient(queueName);
 
   try {

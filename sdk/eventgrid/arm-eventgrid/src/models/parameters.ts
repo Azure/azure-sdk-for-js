@@ -50,6 +50,16 @@ export const domainTopicName: msRest.OperationURLParameter = {
     }
   }
 };
+export const eventChannelName: msRest.OperationURLParameter = {
+  parameterPath: "eventChannelName",
+  mapper: {
+    required: true,
+    serializedName: "eventChannelName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const eventSubscriptionName: msRest.OperationURLParameter = {
   parameterPath: "eventSubscriptionName",
   mapper: {
@@ -93,6 +103,76 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const parentName: msRest.OperationURLParameter = {
+  parameterPath: "parentName",
+  mapper: {
+    required: true,
+    serializedName: "parentName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const parentType: msRest.OperationURLParameter = {
+  parameterPath: "parentType",
+  mapper: {
+    required: true,
+    serializedName: "parentType",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const partnerNamespaceName: msRest.OperationURLParameter = {
+  parameterPath: "partnerNamespaceName",
+  mapper: {
+    required: true,
+    serializedName: "partnerNamespaceName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const partnerRegistrationName: msRest.OperationURLParameter = {
+  parameterPath: "partnerRegistrationName",
+  mapper: {
+    required: true,
+    serializedName: "partnerRegistrationName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const partnerTopicName: msRest.OperationURLParameter = {
+  parameterPath: "partnerTopicName",
+  mapper: {
+    required: true,
+    serializedName: "partnerTopicName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateLinkResourceName: msRest.OperationURLParameter = {
+  parameterPath: "privateLinkResourceName",
+  mapper: {
+    required: true,
+    serializedName: "privateLinkResourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const providerNamespace: msRest.OperationURLParameter = {
   parameterPath: "providerNamespace",
   mapper: {
@@ -133,7 +213,7 @@ export const resourceTypeName: msRest.OperationURLParameter = {
     }
   }
 };
-export const scope: msRest.OperationURLParameter = {
+export const scope0: msRest.OperationURLParameter = {
   parameterPath: "scope",
   mapper: {
     required: true,
@@ -144,11 +224,31 @@ export const scope: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const scope1: msRest.OperationURLParameter = {
+  parameterPath: "scope",
+  mapper: {
+    required: true,
+    serializedName: "scope",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const systemTopicName: msRest.OperationURLParameter = {
+  parameterPath: "systemTopicName",
+  mapper: {
+    required: true,
+    serializedName: "systemTopicName",
     type: {
       name: "String"
     }

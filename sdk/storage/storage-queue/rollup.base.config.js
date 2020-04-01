@@ -56,8 +56,12 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
-    baseConfig.plugins.unshift(multiEntry({ exports: false }));
+    baseConfig.input = [
+      "dist-esm/test/*.spec.js",
+      "dist-esm/test/node/*.spec.js",
+      "dist-esm/src/index.js"
+    ];
+    baseConfig.plugins.unshift(multiEntry());
 
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
@@ -82,7 +86,7 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: "dist-esm/src/index.browser.js",
     output: {
-      file: "browser/azure-storage-queue.js",
+      file: "dist-browser/azure-storage-queue.js",
       banner: banner,
       format: "umd",
       name: "azqueue",

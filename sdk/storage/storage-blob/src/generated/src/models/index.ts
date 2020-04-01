@@ -101,17 +101,17 @@ export interface AccessPolicy {
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  startsOn: string;
+  startsOn?: string;
   /**
    * the date-time the policy expires
    * **NOTE: This entity will be treated as a string instead of a Date because the API can
    * potentially deal with a higher precision value than what is supported by JavaScript.**
    */
-  expiresOn: string;
+  expiresOn?: string;
   /**
    * the permissions for the acl policy
    */
-  permissions: string;
+  permissions?: string;
 }
 
 /**
@@ -173,6 +173,10 @@ export interface BlobProperties {
    */
   archiveStatus?: ArchiveStatus;
   customerProvidedKeySha256?: string;
+  /**
+   * The name of the encryption scope under which the blob is encrypted.
+   */
+  encryptionScope?: string;
   accessTierChangedOn?: Date;
 }
 
@@ -291,6 +295,8 @@ export interface ContainerProperties {
   publicAccess?: PublicAccessType;
   hasImmutabilityPolicy?: boolean;
   hasLegalHold?: boolean;
+  defaultEncryptionScope?: string;
+  preventEncryptionScopeOverride?: boolean;
 }
 
 /**
@@ -500,6 +506,22 @@ export interface BlobServiceProperties {
  */
 export interface BlobServiceStatistics {
   geoReplication?: GeoReplication;
+}
+
+/**
+ * Additional parameters for create operation.
+ */
+export interface ContainerEncryptionScope {
+  /**
+   * Optional.  Version 2019-07-07 and later.  Specifies the default encryption scope to set on the
+   * container and use for all future writes.
+   */
+  defaultEncryptionScope?: string;
+  /**
+   * Optional.  Version 2019-07-07 and newer.  If true, prevents any request from specifying a
+   * different encryption scope than the scope set on the container.
+   */
+  preventEncryptionScopeOverride?: boolean;
 }
 
 /**
@@ -847,6 +869,10 @@ export interface ContainerCreateOptionalParams extends coreHttp.RequestOptionsBa
    * analytics logs when storage analytics logging is enabled.
    */
   requestId?: string;
+  /**
+   * Additional parameters for the operation
+   */
+  containerEncryptionScope?: ContainerEncryptionScope;
 }
 
 /**
@@ -1765,6 +1791,13 @@ export interface BlobSetMetadataOptionalParams extends coreHttp.RequestOptionsBa
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -1931,6 +1964,13 @@ export interface BlobCreateSnapshotOptionalParams extends coreHttp.RequestOption
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2029,6 +2069,10 @@ export interface BlobCopyFromURLOptionalParams extends coreHttp.RequestOptionsBa
    */
   requestId?: string;
   /**
+   * Specify the md5 calculated for the range of bytes that must be read from the copy source.
+   */
+  sourceContentMD5?: Uint8Array;
+  /**
    * Additional parameters for the operation
    */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
@@ -2115,6 +2159,13 @@ export interface PageBlobCreateOptionalParams extends coreHttp.RequestOptionsBas
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Set for page blobs only. The sequence number is a user-controlled value that you can use to
    * track requests. The value of the sequence number must be between 0 and 2^63 - 1. Default
    * value: 0.
@@ -2166,6 +2217,13 @@ export interface PageBlobUploadPagesOptionalParams extends coreHttp.RequestOptio
    */
   range?: string;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2202,6 +2260,13 @@ export interface PageBlobClearPagesOptionalParams extends coreHttp.RequestOption
    * Return only the bytes of the blob in the specified range.
    */
   range?: string;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2243,6 +2308,13 @@ export interface PageBlobUploadPagesFromURLOptionalParams extends coreHttp.Reque
    * Timeouts for Blob Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2333,6 +2405,12 @@ export interface PageBlobGetPageRangesDiffOptionalParams extends coreHttp.Reques
    */
   prevsnapshot?: string;
   /**
+   * Optional. This header is only supported in service versions 2019-04-19 and after and specifies
+   * the URL of a previous snapshot of the target blob. The response will only contain pages that
+   * were changed between the target blob and its previous snapshot.
+   */
+  prevSnapshotUrl?: string;
+  /**
    * Return only the bytes of the blob in the specified range.
    */
   range?: string;
@@ -2361,6 +2439,13 @@ export interface PageBlobResizeOptionalParams extends coreHttp.RequestOptionsBas
    * Timeouts for Blob Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2453,6 +2538,13 @@ export interface AppendBlobCreateOptionalParams extends coreHttp.RequestOptionsB
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2493,6 +2585,13 @@ export interface AppendBlobAppendBlockOptionalParams extends coreHttp.RequestOpt
    * Specify the transactional crc64 for the body, to be validated by the service.
    */
   transactionalContentCrc64?: Uint8Array;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2542,6 +2641,13 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams extends coreHttp.Req
    * Specify the transactional md5 for the body, to be validated by the service.
    */
   transactionalContentMD5?: Uint8Array;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2594,6 +2700,13 @@ export interface BlockBlobUploadOptionalParams extends coreHttp.RequestOptionsBa
    */
   metadata?: { [propertyName: string]: string };
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
    * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
    */
@@ -2640,6 +2753,13 @@ export interface BlockBlobStageBlockOptionalParams extends coreHttp.RequestOptio
    */
   timeoutInSeconds?: number;
   /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
    */
@@ -2676,6 +2796,13 @@ export interface BlockBlobStageBlockFromURLOptionalParams extends coreHttp.Reque
    * Timeouts for Blob Service Operations.</a>
    */
   timeoutInSeconds?: number;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -2723,6 +2850,13 @@ export interface BlockBlobCommitBlockListOptionalParams extends coreHttp.Request
    * information.
    */
   metadata?: { [propertyName: string]: string };
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   */
+  encryptionScope?: string;
   /**
    * Optional. Indicates the tier to be set on the blob. Possible values include: 'P4', 'P6',
    * 'P10', 'P15', 'P20', 'P30', 'P40', 'P50', 'P60', 'P70', 'P80', 'Hot', 'Cool', 'Archive'
@@ -3063,6 +3197,14 @@ export interface ContainerGetPropertiesHeaders {
    * Indicates whether the container has a legal hold.
    */
   hasLegalHold?: boolean;
+  /**
+   * The default encryption scope for the container.
+   */
+  defaultEncryptionScope?: string;
+  /**
+   * Indicates whether the container's default encryption scope can be overriden.
+   */
+  denyEncryptionScopeOverride?: boolean;
   errorCode?: string;
 }
 
@@ -3877,6 +4019,12 @@ export interface BlobDownloadHeaders {
    */
   encryptionKeySha256?: string;
   /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
+  /**
    * If the blob has a MD5 hash, and if request contains range header (Range or x-ms-range), this
    * response header is returned with the value of the whole blob's MD5 value. This value may or
    * may not be equal to the value returned in Content-MD5 header, with the latter calculated from
@@ -4063,6 +4211,12 @@ export interface BlobGetPropertiesHeaders {
    * returned when the metadata was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   /**
    * The tier of page blob on a premium storage account or tier of block blob on blob storage LRS
    * accounts. For a list of allowed premium page blob tiers, see
@@ -4291,6 +4445,12 @@ export interface PageBlobCreateHeaders {
    * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   errorCode?: string;
 }
 
@@ -4344,6 +4504,12 @@ export interface AppendBlobCreateHeaders {
    * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   errorCode?: string;
 }
 
@@ -4397,6 +4563,12 @@ export interface BlockBlobUploadHeaders {
    * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   errorCode?: string;
 }
 
@@ -4515,6 +4687,12 @@ export interface BlobSetMetadataHeaders {
    * returned when the metadata was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   errorCode?: string;
 }
 
@@ -4864,6 +5042,16 @@ export interface BlobCopyFromURLHeaders {
    * State of the copy operation identified by x-ms-copy-id. Possible values include: 'success'
    */
   copyStatus?: SyncCopyStatusType;
+  /**
+   * This response header is returned so that the client can check for the integrity of the copied
+   * content. This header is only returned if the source content MD5 was specified.
+   */
+  contentMD5?: Uint8Array;
+  /**
+   * This response header is returned so that the client can check for the integrity of the copied
+   * content.
+   */
+  xMsContentCrc64?: Uint8Array;
   errorCode?: string;
 }
 
@@ -4998,6 +5186,12 @@ export interface BlockBlobStageBlockHeaders {
    * when the block was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   errorCode?: string;
 }
 
@@ -5047,6 +5241,12 @@ export interface BlockBlobStageBlockFromURLHeaders {
    * when the block was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   errorCode?: string;
 }
 
@@ -5107,6 +5307,12 @@ export interface BlockBlobCommitBlockListHeaders {
    * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   errorCode?: string;
 }
 
@@ -5216,6 +5422,12 @@ export interface PageBlobUploadPagesHeaders {
    * when the pages were encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   errorCode?: string;
 }
 
@@ -5327,6 +5539,12 @@ export interface PageBlobUploadPagesFromURLHeaders {
    * when the blob was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   errorCode?: string;
 }
 
@@ -5614,6 +5832,12 @@ export interface AppendBlobAppendBlockHeaders {
    * when the block was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   errorCode?: string;
 }
 
@@ -5673,6 +5897,12 @@ export interface AppendBlobAppendBlockFromUrlHeaders {
    * when the block was encrypted with a customer-provided key.
    */
   encryptionKeySha256?: string;
+  /**
+   * Returns the name of the encryption scope used to encrypt the blob contents and application
+   * metadata.  Note that the absence of this header implies use of the default account encryption
+   * scope.
+   */
+  encryptionScope?: string;
   /**
    * The value of this header is set to true if the contents of the request are successfully
    * encrypted using the specified algorithm, and false otherwise.
@@ -5774,7 +6004,7 @@ export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
  * 'LeaseIsBreakingAndCannotBeAcquired', 'LeaseIsBreakingAndCannotBeChanged',
  * 'LeaseIsBrokenAndCannotBeRenewed', 'LeaseLost', 'LeaseNotPresentWithBlobOperation',
  * 'LeaseNotPresentWithContainerOperation', 'LeaseNotPresentWithLeaseOperation',
- * 'MaxBlobSizeConditionNotMet', 'NoPendingCopyOperation',
+ * 'MaxBlobSizeConditionNotMet', 'NoAuthenticationInformation', 'NoPendingCopyOperation',
  * 'OperationNotAllowedOnIncrementalCopyBlob', 'PendingCopyOperation',
  * 'PreviousSnapshotCannotBeNewer', 'PreviousSnapshotNotFound',
  * 'PreviousSnapshotOperationNotSupported', 'SequenceNumberConditionNotMet',
@@ -5787,7 +6017,7 @@ export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
  * @readonly
  * @enum {string}
  */
-export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived' | 'AuthorizationSourceIPMismatch' | 'AuthorizationProtocolMismatch' | 'AuthorizationPermissionMismatch' | 'AuthorizationServiceMismatch' | 'AuthorizationResourceTypeMismatch';
+export type StorageErrorCode = 'AccountAlreadyExists' | 'AccountBeingCreated' | 'AccountIsDisabled' | 'AuthenticationFailed' | 'AuthorizationFailure' | 'ConditionHeadersNotSupported' | 'ConditionNotMet' | 'EmptyMetadataKey' | 'InsufficientAccountPermissions' | 'InternalError' | 'InvalidAuthenticationInfo' | 'InvalidHeaderValue' | 'InvalidHttpVerb' | 'InvalidInput' | 'InvalidMd5' | 'InvalidMetadata' | 'InvalidQueryParameterValue' | 'InvalidRange' | 'InvalidResourceName' | 'InvalidUri' | 'InvalidXmlDocument' | 'InvalidXmlNodeValue' | 'Md5Mismatch' | 'MetadataTooLarge' | 'MissingContentLengthHeader' | 'MissingRequiredQueryParameter' | 'MissingRequiredHeader' | 'MissingRequiredXmlNode' | 'MultipleConditionHeadersNotSupported' | 'OperationTimedOut' | 'OutOfRangeInput' | 'OutOfRangeQueryParameterValue' | 'RequestBodyTooLarge' | 'ResourceTypeMismatch' | 'RequestUrlFailedToParse' | 'ResourceAlreadyExists' | 'ResourceNotFound' | 'ServerBusy' | 'UnsupportedHeader' | 'UnsupportedXmlNode' | 'UnsupportedQueryParameter' | 'UnsupportedHttpVerb' | 'AppendPositionConditionNotMet' | 'BlobAlreadyExists' | 'BlobNotFound' | 'BlobOverwritten' | 'BlobTierInadequateForContentLength' | 'BlockCountExceedsLimit' | 'BlockListTooLong' | 'CannotChangeToLowerTier' | 'CannotVerifyCopySource' | 'ContainerAlreadyExists' | 'ContainerBeingDeleted' | 'ContainerDisabled' | 'ContainerNotFound' | 'ContentLengthLargerThanTierLimit' | 'CopyAcrossAccountsNotSupported' | 'CopyIdMismatch' | 'FeatureVersionMismatch' | 'IncrementalCopyBlobMismatch' | 'IncrementalCopyOfEralierVersionSnapshotNotAllowed' | 'IncrementalCopySourceMustBeSnapshot' | 'InfiniteLeaseDurationRequired' | 'InvalidBlobOrBlock' | 'InvalidBlobTier' | 'InvalidBlobType' | 'InvalidBlockId' | 'InvalidBlockList' | 'InvalidOperation' | 'InvalidPageRange' | 'InvalidSourceBlobType' | 'InvalidSourceBlobUrl' | 'InvalidVersionForPageBlobOperation' | 'LeaseAlreadyPresent' | 'LeaseAlreadyBroken' | 'LeaseIdMismatchWithBlobOperation' | 'LeaseIdMismatchWithContainerOperation' | 'LeaseIdMismatchWithLeaseOperation' | 'LeaseIdMissing' | 'LeaseIsBreakingAndCannotBeAcquired' | 'LeaseIsBreakingAndCannotBeChanged' | 'LeaseIsBrokenAndCannotBeRenewed' | 'LeaseLost' | 'LeaseNotPresentWithBlobOperation' | 'LeaseNotPresentWithContainerOperation' | 'LeaseNotPresentWithLeaseOperation' | 'MaxBlobSizeConditionNotMet' | 'NoAuthenticationInformation' | 'NoPendingCopyOperation' | 'OperationNotAllowedOnIncrementalCopyBlob' | 'PendingCopyOperation' | 'PreviousSnapshotCannotBeNewer' | 'PreviousSnapshotNotFound' | 'PreviousSnapshotOperationNotSupported' | 'SequenceNumberConditionNotMet' | 'SequenceNumberIncrementTooLarge' | 'SnapshotCountExceeded' | 'SnaphotOperationRateExceeded' | 'SnapshotsPresent' | 'SourceConditionNotMet' | 'SystemInUse' | 'TargetConditionNotMet' | 'UnauthorizedBlobOverwrite' | 'BlobBeingRehydrated' | 'BlobArchived' | 'BlobNotArchived' | 'AuthorizationSourceIPMismatch' | 'AuthorizationProtocolMismatch' | 'AuthorizationPermissionMismatch' | 'AuthorizationServiceMismatch' | 'AuthorizationResourceTypeMismatch';
 
 /**
  * Defines values for GeoReplicationStatusType.

@@ -1,23 +1,23 @@
 import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { QueueClient } from "../src";
+import { QueueClient, QueueServiceClient } from "../src";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-import { setupEnvironment } from "./utils/testutils.common";
-import { URLBuilder } from "@azure/core-http";
+import { URLBuilder, RestError } from "@azure/core-http";
+import { Recorder, record } from "@azure/test-utils-recorder";
+import { recorderEnvSetup } from "./utils/testutils.common";
 dotenv.config({ path: "../.env" });
 
 describe("QueueClient", () => {
-  setupEnvironment();
-  const queueServiceClient = getQSU();
+  let queueServiceClient: QueueServiceClient;
   let queueName: string;
   let queueClient: QueueClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();
@@ -52,18 +52,18 @@ describe("QueueClient", () => {
   it("getProperties negative", async () => {
     const queueName2 = recorder.getUniqueName("queue", "queue2");
     const queueClient2 = queueServiceClient.getQueueClient(queueName2);
-    let error;
+    let error: RestError | undefined;
     try {
       await queueClient2.getProperties();
     } catch (err) {
       error = err;
     }
     assert.ok(error);
-    assert.ok(error.statusCode);
-    assert.deepEqual(error.statusCode, 404);
-    assert.ok(error.response);
-    assert.ok(error.response.body);
-    assert.ok(error.response.body.includes("QueueNotFound"));
+    assert.ok(error!.statusCode);
+    assert.deepEqual(error!.statusCode, 404);
+    assert.ok(error!.response);
+    assert.ok(error!.response!.bodyAsText);
+    assert.ok(error!.response!.bodyAsText!.includes("QueueNotFound"));
   });
 
   it("create with default parameters", (done) => {

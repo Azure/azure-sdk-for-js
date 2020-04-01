@@ -3,20 +3,19 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { DataLakeFileClient, DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src";
-import { getDataLakeServiceClient, setupEnvironment } from "./utils";
+import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
 dotenv.config({ path: "../.env" });
 
 describe("LeaseClient from FileSystem", () => {
-  setupEnvironment();
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
 
   let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
@@ -140,7 +139,6 @@ describe("LeaseClient from FileSystem", () => {
 });
 
 describe("LeaseClient from File", () => {
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
   let fileName: string;
@@ -148,7 +146,8 @@ describe("LeaseClient from File", () => {
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
@@ -263,7 +262,6 @@ describe("LeaseClient from File", () => {
 });
 
 describe("LeaseClient from Directory", () => {
-  const serviceClient = getDataLakeServiceClient();
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
   let directoryName: string;
@@ -271,7 +269,8 @@ describe("LeaseClient from Directory", () => {
   let recorder: any;
 
   beforeEach(async function() {
-    recorder = record(this);
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();

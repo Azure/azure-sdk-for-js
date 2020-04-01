@@ -923,6 +923,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   ],
   headerParameters: [
     Parameters.metadata,
+    Parameters.encryptionScope,
     Parameters.version,
     Parameters.requestId,
     Parameters.leaseId0,
@@ -1126,6 +1127,7 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
   ],
   headerParameters: [
     Parameters.metadata,
+    Parameters.encryptionScope,
     Parameters.version,
     Parameters.requestId,
     Parameters.encryptionKey,
@@ -1204,6 +1206,7 @@ const copyFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.copySource,
     Parameters.version,
     Parameters.requestId,
+    Parameters.sourceContentMD5,
     Parameters.xMsRequiresSync,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,

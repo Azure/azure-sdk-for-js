@@ -29,9 +29,7 @@ function getEnvVarValue(name: string): string | undefined {
 
 export function getEnvVars(): { [key in EnvVarKeys]: any } {
   return {
-    [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(
-      EnvVarKeys.EVENTHUB_CONNECTION_STRING
-    ),
+    [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING),
     [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
     [EnvVarKeys.IOTHUB_EH_COMPATIBLE_CONNECTION_STRING]: getEnvVarValue(
       EnvVarKeys.IOTHUB_EH_COMPATIBLE_CONNECTION_STRING
@@ -47,6 +45,7 @@ export async function loopUntil(args: {
   timeBetweenRunsMs: number;
   maxTimes: number;
   until: () => Promise<boolean>;
+  errorMessageFn?: () => string;
 }): Promise<void> {
   for (let i = 0; i < args.maxTimes + 1; ++i) {
     const finished = await args.until();
@@ -59,5 +58,7 @@ export async function loopUntil(args: {
     await delay(args.timeBetweenRunsMs);
   }
 
-  throw new Error(`Waited way too long for ${args.name}`);
+  throw new Error(
+    `Waited way too long for ${args.name}: ${args.errorMessageFn ? args.errorMessageFn() : ""}`
+  );
 }
