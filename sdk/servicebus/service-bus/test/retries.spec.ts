@@ -37,7 +37,6 @@ describe("Retries - ManagementClient", () => {
         retryDelayInMs: 0
       }
     });
-    1;
   });
 
   after(() => {
