@@ -148,10 +148,11 @@ export class SearchServiceClient {
   public async listIndexes(options: ListIndexesOptions = {}): Promise<Index[]> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listIndexes", options);
     try {
-      const result = await this.client.indexes.list(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return result.indexes.map(this.generatedIndexToPublicIndex);
+      const result = await this.client.indexes.list({
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        select: updatedOptions.select?.join(",")
+      });
+      return result.indexes.map(this.generatedIndexToPublicIndex.bind(this));
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -170,10 +171,11 @@ export class SearchServiceClient {
   public async listSkillsets(options: ListSkillsetsOptions = {}): Promise<Skillset[]> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listSkillsets", options);
     try {
-      const result = await this.client.skillsets.list(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return result.skillsets.map(this.generatedSkillsetToPublicSkillset);
+      const result = await this.client.skillsets.list({
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        select: updatedOptions.select?.join(",")
+      });
+      return result.skillsets.map(this.generatedSkillsetToPublicSkillset.bind(this));
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -192,9 +194,10 @@ export class SearchServiceClient {
   public async listSynonymMaps(options: ListSynonymMapsOptions = {}): Promise<SynonymMap[]> {
     const { span, updatedOptions } = createSpan("SearchServiceClient-listSynonymMaps", options);
     try {
-      const result = await this.client.synonymMaps.list(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.synonymMaps.list({
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        select: updatedOptions.select?.join(",")
+      });
       return result.synonymMaps;
     } catch (e) {
       span.setStatus({
@@ -336,6 +339,11 @@ export class SearchServiceClient {
     }
   }
 
+  /**
+   * Creates a new SynonymMap in a search service.
+   * @param synonymMap The synonymMap definition to create in a search service.
+   * @param options Additional optional arguments.
+   */
   public async createSynonymMap(
     synonymMap: SynonymMap,
     options: CreateSynonymMapOptions = {}
@@ -621,7 +629,7 @@ export class SearchServiceClient {
       name: skillset.name,
       description: skillset.description,
       etag: skillset.etag,
-      skills: this.convertSkillsToGenerated(skillset.skills),
+      skills: skillset.skills,
       cognitiveServicesAccount: this.convertCognitiveServicesAccountToGenerated(
         skillset.cognitiveServicesAccount
       )
@@ -653,29 +661,6 @@ export class SearchServiceClient {
     }
 
     return cognitiveServicesAccount as CognitiveServicesAccountUnion;
-  }
-
-  private convertSkillsToGenerated(skills: Skill[]): SkillUnion[] {
-    const result: SkillUnion[] = [];
-    for (const skill of skills) {
-      switch (skill.odatatype) {
-        case "#Microsoft.Skills.Util.ConditionalSkill":
-        case "#Microsoft.Skills.Text.KeyPhraseExtractionSkill":
-        case "#Microsoft.Skills.Vision.OcrSkill":
-        case "#Microsoft.Skills.Vision.ImageAnalysisSkill":
-        case "#Microsoft.Skills.Text.LanguageDetectionSkill":
-        case "#Microsoft.Skills.Util.ShaperSkill":
-        case "#Microsoft.Skills.Text.MergeSkill":
-        case "#Microsoft.Skills.Text.EntityRecognitionSkill":
-        case "#Microsoft.Skills.Text.SentimentSkill":
-        case "#Microsoft.Skills.Text.SplitSkill":
-        case "#Microsoft.Skills.Text.TranslationSkill":
-        case "#Microsoft.Skills.Custom.WebApiSkill":
-          result.push(skill);
-          break;
-      }
-    }
-    return result;
   }
 
   private convertAnalyzersToPublic(analyzers?: AnalyzerUnion[]): Analyzer[] | undefined {
@@ -828,21 +813,8 @@ export class SearchServiceClient {
   private convertSkillsToPublic(skills: SkillUnion[]): Skill[] {
     const result: Skill[] = [];
     for (const skill of skills) {
-      switch (skill.odatatype) {
-        case "#Microsoft.Skills.Util.ConditionalSkill":
-        case "#Microsoft.Skills.Text.KeyPhraseExtractionSkill":
-        case "#Microsoft.Skills.Vision.OcrSkill":
-        case "#Microsoft.Skills.Vision.ImageAnalysisSkill":
-        case "#Microsoft.Skills.Text.LanguageDetectionSkill":
-        case "#Microsoft.Skills.Util.ShaperSkill":
-        case "#Microsoft.Skills.Text.MergeSkill":
-        case "#Microsoft.Skills.Text.EntityRecognitionSkill":
-        case "#Microsoft.Skills.Text.SentimentSkill":
-        case "#Microsoft.Skills.Text.SplitSkill":
-        case "#Microsoft.Skills.Text.TranslationSkill":
-        case "#Microsoft.Skills.Custom.WebApiSkill":
-          result.push(skill);
-          break;
+      if (skill.odatatype !== "Skill") {
+        result.push(skill);
       }
     }
     return result;

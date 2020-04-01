@@ -81,16 +81,19 @@ export interface ListSkillsetsOptions extends OperationOptions {
    * comma-separated list of JSON property names, or '*' for all properties. The default is all
    * properties.
    */
-  select?: string;
+  select?: string[];
 }
 
+/**
+ * Options for a list synonymMaps operation.
+ */
 export interface ListSynonymMapsOptions extends OperationOptions {
   /**
    * Selects which top-level properties of the synonym maps to retrieve. Specified as a
    * comma-separated list of JSON property names, or '*' for all properties. The default is all
    * properties.
    */
-  select?: string;
+  select?: string[];
 }
 
 /**
@@ -102,7 +105,7 @@ export interface ListIndexesOptions extends OperationOptions {
    * comma-separated list of JSON property names, or '*' for all properties. The default is all
    * properties.
    */
-  select?: string;
+  select?: string[];
 }
 
 export type GetIndexOptions = OperationOptions;

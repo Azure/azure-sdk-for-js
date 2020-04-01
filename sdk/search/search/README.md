@@ -400,6 +400,121 @@ for (const result of updateResult.results) {
 }
 ```
 
+### 3. Create and authenticate a `SearchServiceClient`
+
+You could use the following code to create and authenticate a `SearchServiceClient`. 
+
+```js
+import { SearchServiceClient, SearchApiKeyCredential }  from "@azure/search";
+
+const endPoint: string = "<endpoint>";
+const apiKey: string = "<apikey>";
+
+const credential: SearchApiKeyCredential = new SearchApiKeyCredential(apiKey);
+const client: SearchServiceClient = new SearchServiceClient(
+  endPoint,
+  credential
+);
+```
+
+#### Examples
+
+#### Get a list of existing indexes in the service
+
+```js
+let indexes:Index[] = [];
+indexes = await client.listIndexes();
+indexes.forEach(idx => {
+  console.log(idx.name);
+  idx.fields.forEach(idxField => {
+    console.log(idxField.name);
+  });
+});
+```
+
+#### Get a list of existing skillsets in the service
+```js
+let skillsets:Skillset[] = [];
+skillsets = await client.listSkillsets();
+skillsets.forEach(set => {
+  console.log(`Name: ${set.name}`);
+  console.log(`Desc: ${set.description}`);
+  console.log(`Skills`);
+  set.skills.forEach(skill => {
+    console.log(`  odatatype: ${skill.odatatype}`)
+    console.log(`  Name: ${skill.name}`)
+    console.log(`  Description: ${skill.description}`)
+  });
+});
+```
+
+#### Get a list of existing synonymMaps in the service
+```js
+let sms:SynonymMap[] = [];
+sms = await client.listSynonymMaps();
+sms.forEach(elem => {
+  console.log(elem.name);
+});
+```
+
+#### Create an Index
+```js
+const idxCreated:Index = await client.createIndex({
+  analyzers: [],
+  charFilters: [],
+  defaultScoringProfile: "",
+  scoringProfiles: [],
+  suggesters: [],
+  tokenFilters: [],
+  tokenizers: [],
+  name: `azureblob-index998`,
+  fields: [{
+    name: "content",
+    type: "Edm.String",
+    key: true
+  }],
+});
+```
+
+#### Create a Skillset
+```js
+// Create SkillSets
+const skillSet:Skillset = await client.createSkillset({
+  name: `azureblob-skillset-2`,
+  description: `Dummy Description`,
+  skills: [
+    {
+      odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+      inputs: [{
+        name: "text",
+        source: "/document/merged_content"
+      },{
+        name: "languageCode",
+        source: "/document/language"
+      }],
+      outputs: [{
+        name: "persons",
+        targetName: "people"
+      },{
+        name: "organizations",
+        targetName: "organizations"
+      },{
+        name: "locations",
+        targetName: "locations"
+      }]
+    }
+  ]
+});
+```
+
+### Create a SynonymMap
+```js
+const smMap:SynonymMap = await client.createSynonymMap({
+  name: `samplename`,
+  synonyms: "United States, United States of America, USA Washington, Wash. => WA"
+});
+```
+
 ## Troubleshooting
 
 ### Enable logs

@@ -138,6 +138,18 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions, ETagOperat
     allowIndexDowntime?: boolean;
 }
 
+// @public (undocumented)
+export type CreateOrUpdateSkillsetOptions = OperationOptions & ETagOperationOptions;
+
+// @public (undocumented)
+export type CreateOrUpdateSynonymMapOptions = OperationOptions & ETagOperationOptions;
+
+// @public (undocumented)
+export type CreateSkillsetOptions = OperationOptions;
+
+// @public (undocumented)
+export type CreateSynonymMapOptions = OperationOptions;
+
 // @public
 export interface CustomAnalyzer {
     charFilters?: string[];
@@ -152,6 +164,12 @@ export type DeleteDocumentsOptions = IndexDocuments;
 
 // @public (undocumented)
 export type DeleteIndexOptions = OperationOptions & ETagOperationOptions;
+
+// @public (undocumented)
+export type DeleteSkillsetOptions = OperationOptions & ETagOperationOptions;
+
+// @public (undocumented)
+export type DeleteSynonymMapOptions = OperationOptions & ETagOperationOptions;
 
 // @public
 export interface DictionaryDecompounderTokenFilter {
@@ -276,6 +294,12 @@ export interface GetIndexStatisticsResult {
     readonly documentCount: number;
     readonly storageSize: number;
 }
+
+// @public (undocumented)
+export type GetSkillSetOptions = OperationOptions;
+
+// @public (undocumented)
+export type GetSynonymMapsOptions = OperationOptions;
 
 // @public
 export interface Index {
@@ -534,13 +558,23 @@ export interface LimitTokenFilter {
 
 // @public
 export interface ListIndexesOptions extends OperationOptions {
-    select?: string;
+    select?: string[];
 }
 
 // @public
 export interface ListSearchResultsPageSettings {
     nextLink?: string;
     nextPageParameters?: RawSearchRequest;
+}
+
+// @public
+export interface ListSkillsetsOptions extends OperationOptions {
+    select?: string[];
+}
+
+// @public
+export interface ListSynonymMapsOptions extends OperationOptions {
+    select?: string[];
 }
 
 // @public
@@ -827,34 +861,20 @@ export class SearchServiceClient {
     readonly apiVersion: string;
     createIndex(index: Index, options?: CreateIndexOptions): Promise<Index>;
     createOrUpdateIndex(index: Index, options?: CreateOrUpdateIndexOptions): Promise<Index>;
-    // Warning: (ae-forgotten-export) The symbol "CreateOrUpdateSkillsetOptions" needs to be exported by the entry point index.d.ts
     createOrUpdateSkillset(skillset: Skillset, options?: CreateOrUpdateSkillsetOptions): Promise<Skillset>;
-    // Warning: (ae-forgotten-export) The symbol "CreateOrUpdateSynonymMapOptions" needs to be exported by the entry point index.d.ts
     createOrUpdateSynonymMap(synonymMap: SynonymMap, options?: CreateOrUpdateSynonymMapOptions): Promise<SynonymMap>;
-    // Warning: (ae-forgotten-export) The symbol "CreateSkillsetOptions" needs to be exported by the entry point index.d.ts
     createSkillset(skillset: Skillset, options?: CreateSkillsetOptions): Promise<Skillset>;
-    // Warning: (ae-forgotten-export) The symbol "CreateSynonymMapOptions" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     createSynonymMap(synonymMap: SynonymMap, options?: CreateSynonymMapOptions): Promise<SynonymMap>;
     deleteIndex(indexName: string, options?: DeleteIndexOptions): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "DeleteSkillsetOptions" needs to be exported by the entry point index.d.ts
     deleteSkillset(skillsetName: string, options?: DeleteSkillsetOptions): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "DeleteSynonymMapOptions" needs to be exported by the entry point index.d.ts
     deleteSynonymMap(synonymMapName: string, options?: DeleteSynonymMapOptions): Promise<void>;
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<Index>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<GetIndexStatisticsResult>;
-    // Warning: (ae-forgotten-export) The symbol "GetSkillSetOptions" needs to be exported by the entry point index.d.ts
     getSkillset(skillsetName: string, options?: GetSkillSetOptions): Promise<Skillset>;
-    // Warning: (ae-forgotten-export) The symbol "GetSynonymMapsOptions" needs to be exported by the entry point index.d.ts
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
     listIndexes(options?: ListIndexesOptions): Promise<Index[]>;
-    // Warning: (ae-forgotten-export) The symbol "ListSkillsetsOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "Skillset" needs to be exported by the entry point index.d.ts
     listSkillsets(options?: ListSkillsetsOptions): Promise<Skillset[]>;
-    // Warning: (ae-forgotten-export) The symbol "ListSynonymMapsOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "SynonymMap" needs to be exported by the entry point index.d.ts
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<SynonymMap[]>;
     }
 
@@ -890,6 +910,17 @@ export interface SimpleField {
     sortable?: boolean;
     synonymMaps?: string[];
     type: SimpleDataType;
+}
+
+// @public
+export interface Skillset {
+    // Warning: (ae-forgotten-export) The symbol "CognitiveServicesAccount" needs to be exported by the entry point index.d.ts
+    cognitiveServicesAccount?: CognitiveServicesAccount;
+    description: string;
+    etag?: string;
+    name: string;
+    // Warning: (ae-forgotten-export) The symbol "Skill" needs to be exported by the entry point index.d.ts
+    skills: Skill[];
 }
 
 // @public
@@ -995,6 +1026,14 @@ export interface SuggestRequest<Fields> {
 export type SuggestResult<T> = {
     readonly text: string;
 } & T;
+
+// @public
+export interface SynonymMap {
+    encryptionKey?: EncryptionKey;
+    etag?: string;
+    name: string;
+    synonyms: string;
+}
 
 // @public
 export interface SynonymTokenFilter {

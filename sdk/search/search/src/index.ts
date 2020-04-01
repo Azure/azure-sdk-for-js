@@ -36,6 +36,17 @@ export {
   ListIndexesOptions,
   CreateIndexOptions,
   CreateOrUpdateIndexOptions,
+  CreateOrUpdateSkillsetOptions,
+  CreateOrUpdateSynonymMapOptions,
+  CreateSkillsetOptions,
+  CreateSynonymMapOptions,
+  DeleteSkillsetOptions,
+  DeleteSynonymMapOptions,
+  GetSkillSetOptions,
+  GetSynonymMapsOptions,
+  ListSkillsetsOptions,
+  Skillset,
+  ListSynonymMapsOptions,
   DeleteIndexOptions,
   ETagOperationOptions,
   AnalyzeTextOptions,
@@ -142,5 +153,6 @@ export {
   AnalyzeRequest,
   GetIndexStatisticsResult,
   TokenInfo,
-  AccessCondition
+  AccessCondition,
+  SynonymMap
 } from "./generated/service/models";
