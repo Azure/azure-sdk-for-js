@@ -15,7 +15,7 @@ let argv = require("yargs")
   })
   .help().argv;
 
-const { getRushSpec } = require("index");
+const { getRushSpec } = require("./index");
 const path = require("path");
 async function main(argv) {
   const packageName = argv["package-name"];
