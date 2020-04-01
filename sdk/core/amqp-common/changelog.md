@@ -2,6 +2,7 @@
 
 - Removes the `@azure/ms-rest-nodeauth` dependency.
   This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/amqp-common` without TypeScript compilation errors.
+  Fixes [bug 8401](https://github.com/Azure/azure-sdk-for-js/issues/8041).
 
 ### 2020-03-16 1.0.0-preview.11
 
