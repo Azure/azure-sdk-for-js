@@ -10,7 +10,7 @@ parameters:
       OSVmImage: "vs2017-win2016"
       TestType: "node"
     Mac_Node10X:
-      OSVmImage: "macOS-10.13"
+      OSVmImage: "macOS-10.15"
       TestType: "node"
     Browser_Linux_Node10X:
       OSVmImage: "ubuntu-16.04"
@@ -19,7 +19,7 @@ parameters:
       OSVmImage: "vs2017-win2016"
       TestType: "browser"
     Browser_Mac_Node10X:
-      OSVmImage: "macOS-10.13"
+      OSVmImage: "macOS-10.15"
       TestType: "browser"
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
               OSName: "Linux"
             ${{ if eq(matrixEntry.value.OSVmImage, 'vs2017-win2016') }}:
               OSName: "Windows"
-            ${{ if eq(matrixEntry.value.OSVmImage, 'macOS-10.13') }}:
+            ${{ if eq(matrixEntry.value.OSVmImage, 'macOS-10.15') }}:
               OSName: "MacOS"
 
             # Remaining entries from the matrix object
